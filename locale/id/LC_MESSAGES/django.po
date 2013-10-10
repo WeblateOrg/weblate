@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-04 01:31+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <http://l10n.cihar.com/projects/weblate/master/id/"
@@ -19,43 +19,61 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
+#: accounts/forms.py:75
+msgid "At least five characters long."
+msgstr "Setidaknya panjang lima karakter."
+
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "Nama pengguna"
+
+#: accounts/forms.py:79
+msgid ""
+"This value may contain only letters, numbers and following characters: @ . + "
+"- _"
+msgstr "Nilai ini hanya mengandung huruf, angka dan karakter berikut: @.+-_"
+
+#: accounts/forms.py:99
+msgid "This username is already taken. Please choose another."
+msgstr "Nama pengguna ini sudah digunakan. Silakan pilih lain."
+
+#: accounts/forms.py:205 accounts/forms.py:274
 msgid "E-mail"
 msgstr "Surel"
 
-#: accounts/forms.py:158
+#: accounts/forms.py:207
 msgid "You can add another emails on Authentication tab."
 msgstr ""
 
-#: accounts/forms.py:186 accounts/forms.py:271
+#: accounts/forms.py:236 accounts/forms.py:311
 msgid "First name"
 msgstr "Nama depan"
 
-#: accounts/forms.py:187 accounts/forms.py:272
+#: accounts/forms.py:237 accounts/forms.py:312
 msgid "Last name"
 msgstr "Nama belakang"
 
-#: accounts/forms.py:195
+#: accounts/forms.py:246
 msgid "Subject"
 msgstr "Subjek"
 
-#: accounts/forms.py:196
+#: accounts/forms.py:247
 msgid "Your name"
 msgstr "Nama anda"
 
-#: accounts/forms.py:197
+#: accounts/forms.py:248
 msgid "Your email"
 msgstr "Surel anda"
 
-#: accounts/forms.py:199
+#: accounts/forms.py:250
 msgid "Message"
 msgstr "Pesan"
 
-#: accounts/forms.py:224
+#: accounts/forms.py:275
 msgid "Activation email will be sent here."
 msgstr "Surel aktivasi akan dikirim ke sini."
 
-#: accounts/forms.py:237
+#: accounts/forms.py:288
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
@@ -63,67 +81,55 @@ msgstr ""
 "Alamat surel ini sudah digunakan. Silahkan menggunakan alamat surel yang "
 "berbeda."
 
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "Nama pengguna"
-
-#: accounts/forms.py:263
-msgid "At least five characters long."
-msgstr "Setidaknya panjang lima karakter."
-
-#: accounts/forms.py:266
-msgid ""
-"This value may contain only letters, numbers and following characters: @ . + "
-"- _"
-msgstr "Nilai ini hanya mengandung huruf, angka dan karakter berikut: @.+-_"
-
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "Nama pengguna harus memiliki setidaknya lima karakter."
-
-#: accounts/forms.py:290
-msgid "This username is already taken. Please choose another."
-msgstr "Nama pengguna ini sudah digunakan. Silakan pilih lain."
-
-#: accounts/forms.py:312
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Sandilewat baru"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Setidaknya panjang enam karakter."
 
-#: accounts/forms.py:317
+#: accounts/forms.py:335
 #, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
 msgstr "Sandilewat (lagi)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Ulangi sandilewat sehingga kami dapat memverifikasi Anda mengetik dengan "
 "benar."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Sandilewat harus memiliki setidaknya enam karakter."
 
-#: accounts/forms.py:348
+#: accounts/forms.py:366
 #, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
 msgstr "Anda harus mengetik sandilewat yang sama setiap kali"
 
-#: accounts/forms.py:360
+#: accounts/forms.py:378
 #, fuzzy
 #| msgid "New password"
 msgid "Current password"
 msgstr "Sandilewat baru"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "Nama pengguna"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Sandilewat"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -169,56 +175,56 @@ msgstr "Pemberitahuan pada penggabungan gagal"
 msgid "Notification on new language request"
 msgstr "Pemberitahuan atas permintaan bahasa baru"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Pendaftaran pengguna"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Profil anda telah dimutakhirkan."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Profil pengguna"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "Pesan sudah dikirim ke administrator."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Kontak"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Log masuk"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "Terima kasih untuk menggunakan Weblate!"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "Daftar"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
+#: accounts/views.py:374
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "Sandilewat anda sudah berubah."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Ubah sandilewat"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Tata ulang sandilewat"
 
@@ -3877,7 +3883,7 @@ msgstr ""
 msgid "Password log in"
 msgstr "Sandilewat (lagi)"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3886,14 +3892,14 @@ msgstr ""
 "Anda belum memiliki akun? Anda dapat <a href=\"%(register_url)s\">mendaftar</"
 "a>."
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Lupa sandilewat anda? Anda dapat <a href=\"%(reset_url)s\">mengatur "
 "ulangnya</a>."
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -4522,8 +4528,8 @@ msgstr ""
 msgid "changes"
 msgstr "perubahan"
 
-#~ msgid "Password"
-#~ msgstr "Sandilewat"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "Nama pengguna harus memiliki setidaknya lima karakter."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

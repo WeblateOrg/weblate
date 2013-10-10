@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-08-24 15:31+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <http://l10n.cihar.com/projects/weblate/master/sv/>\n"
@@ -18,57 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
-msgid "E-mail"
-msgstr "E-post"
-
-#: accounts/forms.py:158
-msgid "You can add another emails on Authentication tab."
-msgstr ""
-
-#: accounts/forms.py:186 accounts/forms.py:271
-msgid "First name"
-msgstr "Förnamn"
-
-#: accounts/forms.py:187 accounts/forms.py:272
-msgid "Last name"
-msgstr "Efternamn"
-
-#: accounts/forms.py:195
-msgid "Subject"
-msgstr "Ämne"
-
-#: accounts/forms.py:196
-msgid "Your name"
-msgstr "Ditt namn"
-
-#: accounts/forms.py:197
-msgid "Your email"
-msgstr "Din e-postadress"
-
-#: accounts/forms.py:199
-msgid "Message"
-msgstr "Meddelande"
-
-#: accounts/forms.py:224
-msgid "Activation email will be sent here."
-msgstr "Aktiveringsmeddelande skickas hit."
-
-#: accounts/forms.py:237
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "E-postadressen används redan. Ange en annan e-postadress."
-
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "Användarnamn"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:75
 msgid "At least five characters long."
 msgstr "Minst fem tecken långt."
 
-#: accounts/forms.py:266
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "Användarnamn"
+
+#: accounts/forms.py:79
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -76,51 +34,99 @@ msgstr ""
 "Detta värde får endast innehålla bokstäver, siffror och följande tecken: @ . "
 "+ - _"
 
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "Användarnamnet måste innehålla minst fem tecken."
-
-#: accounts/forms.py:290
+#: accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
 msgstr "Användarnamnet är upptaget. Välj ett annat användarnamn."
 
-#: accounts/forms.py:312
+#: accounts/forms.py:205 accounts/forms.py:274
+msgid "E-mail"
+msgstr "E-post"
+
+#: accounts/forms.py:207
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:236 accounts/forms.py:311
+msgid "First name"
+msgstr "Förnamn"
+
+#: accounts/forms.py:237 accounts/forms.py:312
+msgid "Last name"
+msgstr "Efternamn"
+
+#: accounts/forms.py:246
+msgid "Subject"
+msgstr "Ämne"
+
+#: accounts/forms.py:247
+msgid "Your name"
+msgstr "Ditt namn"
+
+#: accounts/forms.py:248
+msgid "Your email"
+msgstr "Din e-postadress"
+
+#: accounts/forms.py:250
+msgid "Message"
+msgstr "Meddelande"
+
+#: accounts/forms.py:275
+msgid "Activation email will be sent here."
+msgstr "Aktiveringsmeddelande skickas hit."
+
+#: accounts/forms.py:288
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "E-postadressen används redan. Ange en annan e-postadress."
+
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Nytt lösenord"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Minst sex tecken långt."
 
-#: accounts/forms.py:317
+#: accounts/forms.py:335
 #, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
 msgstr "Lösenord (igen)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Upprepa lösenordet så att vi kan verifiera att du angav det korrekt."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Lösenordet måste innehålla minst sex tecken."
 
-#: accounts/forms.py:348
+#: accounts/forms.py:366
 #, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
 msgstr "Du måste ange samma lösenord varje gång"
 
-#: accounts/forms.py:360
+#: accounts/forms.py:378
 #, fuzzy
 #| msgid "New password"
 msgid "Current password"
 msgstr "Nytt lösenord"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "Användarnamn"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Lösenord"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -168,56 +174,56 @@ msgstr "Anmälan på felkoppling"
 msgid "Notification on new language request"
 msgstr "Meddelande vid nytt förslag"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Användarregistrering"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Din profil har uppdaterats."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Användarprofil"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "Meddelandet har skickats till administratören."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Kontakt"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Logga in"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "Tack för att du använder Weblate!"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "Registrera"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
+#: accounts/views.py:374
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "Ditt lösenord ändrades."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Byt lösenord"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Nollställ lösenord"
 
@@ -3943,7 +3949,7 @@ msgstr ""
 msgid "Password log in"
 msgstr "Lösenord (igen)"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3952,13 +3958,13 @@ msgstr ""
 "Har du inte ett konto än? Du kan <a href=\"%(register_url)s\">registrera "
 "dig</a>."
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Glömt ditt lösenord? Du kan <a href=\"%(reset_url)s\">nollställa det</a>."
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -4579,8 +4585,8 @@ msgstr "Mer information om Weblate kan ses på http://weblate.org/"
 msgid "changes"
 msgstr "ändringar"
 
-#~ msgid "Password"
-#~ msgstr "Lösenord"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "Användarnamnet måste innehålla minst fem tecken."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

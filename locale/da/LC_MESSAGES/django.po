@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-09 16:15+0200\n"
 "Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -18,105 +18,108 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.7\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
-msgid "E-mail"
-msgstr "E-mail"
-
-#: accounts/forms.py:158
-msgid "You can add another emails on Authentication tab."
-msgstr "Du kan tilføje en anden e-mail under fanen godkendelse."
-
-#: accounts/forms.py:186 accounts/forms.py:271
-msgid "First name"
-msgstr "Fornavn"
-
-#: accounts/forms.py:187 accounts/forms.py:272
-msgid "Last name"
-msgstr "Efternavn"
-
-#: accounts/forms.py:195
-msgid "Subject"
-msgstr "Emne"
-
-#: accounts/forms.py:196
-msgid "Your name"
-msgstr "Dit navn"
-
-#: accounts/forms.py:197
-msgid "Your email"
-msgstr "Din e-mail"
-
-#: accounts/forms.py:199
-msgid "Message"
-msgstr "Besked"
-
-#: accounts/forms.py:224
-msgid "Activation email will be sent here."
-msgstr "Aktiverings-e-mail bliver sendt hertil."
-
-#: accounts/forms.py:237
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "E-mailadressen er allerede i brug. Angiv en anden e-mailadresse."
-
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "Brugernavn"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:75
 msgid "At least five characters long."
 msgstr "Mindste længde er fem tegn."
 
-#: accounts/forms.py:266
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "Brugernavn"
+
+#: accounts/forms.py:79
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
 msgstr "Må kun indeholde bogstaver, tal og følgende tegn: @.+-_"
 
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "Brugernavnet skal mindst indeholde fem tegn."
-
-#: accounts/forms.py:290
+#: accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
 msgstr "Brugernavnet er allerede i brug. Vælg et andet."
 
-#: accounts/forms.py:312
+#: accounts/forms.py:205 accounts/forms.py:274
+msgid "E-mail"
+msgstr "E-mail"
+
+#: accounts/forms.py:207
+msgid "You can add another emails on Authentication tab."
+msgstr "Du kan tilføje en anden e-mail under fanen godkendelse."
+
+#: accounts/forms.py:236 accounts/forms.py:311
+msgid "First name"
+msgstr "Fornavn"
+
+#: accounts/forms.py:237 accounts/forms.py:312
+msgid "Last name"
+msgstr "Efternavn"
+
+#: accounts/forms.py:246
+msgid "Subject"
+msgstr "Emne"
+
+#: accounts/forms.py:247
+msgid "Your name"
+msgstr "Dit navn"
+
+#: accounts/forms.py:248
+msgid "Your email"
+msgstr "Din e-mail"
+
+#: accounts/forms.py:250
+msgid "Message"
+msgstr "Besked"
+
+#: accounts/forms.py:275
+msgid "Activation email will be sent here."
+msgstr "Aktiverings-e-mail bliver sendt hertil."
+
+#: accounts/forms.py:288
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "E-mailadressen er allerede i brug. Angiv en anden e-mailadresse."
+
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Ny adgangskode"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Mindste længde er seks tegn."
 
-#: accounts/forms.py:317
-#| msgid "Password (again)"
+#: accounts/forms.py:335
 msgid "New password (again)"
 msgstr "Ny adgangskode (igen)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Gentag adgangskoden, så vi kan verificere at du indtastede det korrekt."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Adgangskoden skal indeholde mindst seks tegn."
 
-#: accounts/forms.py:348
-#| msgid "You must type the same password each time"
+#: accounts/forms.py:366
 msgid "You must type the same password each time."
 msgstr "Du skal indtaste den samme adgangskode hver gang."
 
-#: accounts/forms.py:360
-#| msgid "New password"
+#: accounts/forms.py:378
 msgid "Current password"
 msgstr "Nuværende adgangskode"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr "Bruger med denne e-mail adresse blev ikke fundet."
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "Brugernavn"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Adgangskode"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -162,54 +165,52 @@ msgstr "Meddelelse ved flettefejl"
 msgid "Notification on new language request"
 msgstr "Meddelelse ved anmodning om nye sprog"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Brugerregistrering"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Din profil er blevet opdateret."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Brugerprofil"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "Besked er sendt til administrator."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Kontakt"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Log ind"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "Tak fordi du bruger Weblate!"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
-#| msgid "Register"
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 msgid "Register email"
 msgstr "Registrer e-mail"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr "Du har indtastet ugyldig adgangskode."
 
-#: accounts/views.py:372
-#| msgid "Your password was changed."
+#: accounts/views.py:374
 msgid "Your password has been changed."
 msgstr "Din adgangskode er ændret."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Skift adgangskode"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Nulstilling af adgangskode"
 
@@ -3866,7 +3867,7 @@ msgstr "Kombinationen af brugernavn/adgangskode blev ikke fundet. Prøv igen."
 msgid "Password log in"
 msgstr "Adgangskode log ind"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3875,13 +3876,13 @@ msgstr ""
 "Har du endnu ikke en konto? Du kan <a href=\"%(register_url)s\">tilmelde "
 "dig</a>."
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Glemt din adgangskode? Du kan <a href=\"%(reset_url)s\">nulstille den</a>."
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr "Tredjeparts log ind"
 
@@ -3934,7 +3935,6 @@ msgid "Your name and email will appear as author on Git commits."
 msgstr "Dit navn og din e-mail vil fremgå som forfatter i Git-indsendelser."
 
 #: weblate/html/accounts/profile.html:49
-#| msgid "New password"
 msgid "Set password"
 msgstr "Angiv adgangskode"
 
@@ -3983,12 +3983,10 @@ msgid "Avatars are provided using libravatar."
 msgstr "Avatarer er til rådighed ved hjælp af libravator."
 
 #: weblate/html/accounts/register.html:9
-#| msgid "Registered users"
 msgid "Register using email"
 msgstr "Registrer ved hjælp af e-mail"
 
 #: weblate/html/accounts/register.html:34
-#| msgid "Third party log in"
 msgid "Third party registration"
 msgstr "Tredjeparts registrering"
 
@@ -4496,8 +4494,8 @@ msgstr "Mere information om Weblate fås på http://weblate.org/"
 msgid "changes"
 msgstr "ændringer"
 
-#~ msgid "Password"
-#~ msgstr "Adgangskode"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "Brugernavnet skal mindst indeholde fem tegn."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

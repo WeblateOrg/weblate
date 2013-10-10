@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-09 20:33+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -18,59 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 1.7\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
-msgid "E-mail"
-msgstr "E-mail"
-
-#: accounts/forms.py:158
-msgid "You can add another emails on Authentication tab."
-msgstr ""
-
-#: accounts/forms.py:186 accounts/forms.py:271
-msgid "First name"
-msgstr "Voornaam"
-
-#: accounts/forms.py:187 accounts/forms.py:272
-msgid "Last name"
-msgstr "Achternaam"
-
-#: accounts/forms.py:195
-msgid "Subject"
-msgstr "Onderwerp"
-
-#: accounts/forms.py:196
-msgid "Your name"
-msgstr "Uw naam"
-
-#: accounts/forms.py:197
-msgid "Your email"
-msgstr "Uw e-mail"
-
-#: accounts/forms.py:199
-msgid "Message"
-msgstr "Bericht"
-
-#: accounts/forms.py:224
-msgid "Activation email will be sent here."
-msgstr "De activeringsmail wordt hiernaar verzonden."
-
-#: accounts/forms.py:237
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"Dit e-mailadres is reeds in gebruik. Gelieve een ander e-mailadres in te "
-"geven."
-
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "Gebruikersnaam"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:75
 msgid "At least five characters long."
 msgstr "Ten minste 5 tekens lang."
 
-#: accounts/forms.py:266
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: accounts/forms.py:79
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -78,50 +34,97 @@ msgstr ""
 "Deze waarde mag enkel lettertekens, nummers en de volgende tekens bevatten : "
 "@ . + - _"
 
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
-
-#: accounts/forms.py:290
+#: accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
 msgstr "Deze gebruikersnaam bestaat reeds. Gelieve een andere te kiezen."
 
-#: accounts/forms.py:312
+#: accounts/forms.py:205 accounts/forms.py:274
+msgid "E-mail"
+msgstr "E-mail"
+
+#: accounts/forms.py:207
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:236 accounts/forms.py:311
+msgid "First name"
+msgstr "Voornaam"
+
+#: accounts/forms.py:237 accounts/forms.py:312
+msgid "Last name"
+msgstr "Achternaam"
+
+#: accounts/forms.py:246
+msgid "Subject"
+msgstr "Onderwerp"
+
+#: accounts/forms.py:247
+msgid "Your name"
+msgstr "Uw naam"
+
+#: accounts/forms.py:248
+msgid "Your email"
+msgstr "Uw e-mail"
+
+#: accounts/forms.py:250
+msgid "Message"
+msgstr "Bericht"
+
+#: accounts/forms.py:275
+msgid "Activation email will be sent here."
+msgstr "De activeringsmail wordt hiernaar verzonden."
+
+#: accounts/forms.py:288
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Dit e-mailadres is reeds in gebruik. Gelieve een ander e-mailadres in te "
+"geven."
+
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Nieuw wachtwoord"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Ten minste zes tekens lang."
 
-#: accounts/forms.py:317
-#| msgid "Password (again)"
+#: accounts/forms.py:335
 msgid "New password (again)"
 msgstr "Nieuw wachtwoord (opnieuw)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Herhaal het wachtwoord zodat er gecontroleerd kan worden of u het correct "
 "getypt heeft."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Wachtwoorden moeten minstens zes tekens lang zijn."
 
-#: accounts/forms.py:348
-#| msgid "You must type the same password each time"
+#: accounts/forms.py:366
 msgid "You must type the same password each time."
 msgstr "U moet iedere keer hetzelfde wachtwoord ingeven."
 
-#: accounts/forms.py:360
-#| msgid "New password"
+#: accounts/forms.py:378
 msgid "Current password"
 msgstr "Huidig wachtwoord"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "Gebruikersnaam"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Wachtwoord"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -167,54 +170,52 @@ msgstr "Melding bij een samenvoegfout"
 msgid "Notification on new language request"
 msgstr "Melding bij verzoek nieuwe taal"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Gebruikersregistratie"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Uw profiel werd bijgewerkt."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Gebruikersprofiel"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "De boodschap werd naar de beheerder gestuurd."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Contact"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Aanmelden"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "Bedankt voor het gebruiken van Weblate!"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
-#| msgid "Register"
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 msgid "Register email"
 msgstr "E-mail registreren"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
-#| msgid "Your password was changed."
+#: accounts/views.py:374
 msgid "Your password has been changed."
 msgstr "Uw wachtwoord werd gewijzigd."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Wachtwoord wijzigen"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Wachtwoord opnieuw instellen"
 
@@ -3892,7 +3893,7 @@ msgstr ""
 msgid "Password log in"
 msgstr "loginwachtwoord"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3900,14 +3901,14 @@ msgid ""
 msgstr ""
 "U heeft nog geen account? U kan <a href=\"%(register_url)s\">registreren</a>."
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Wachtwoord vergeten? U kan <a href=\"%(reset_url)s\">dit opnieuw instellen</"
 "a>."
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -3961,7 +3962,6 @@ msgstr ""
 "Uw naam en e-mailadres zullen getoond worden als auteur van Git commits."
 
 #: weblate/html/accounts/profile.html:49
-#| msgid "New password"
 msgid "Set password"
 msgstr "Wachtwoord instellen"
 
@@ -4009,12 +4009,10 @@ msgid "Avatars are provided using libravatar."
 msgstr "Avatars worden aangeboden door libravatar."
 
 #: weblate/html/accounts/register.html:9
-#| msgid "Registered users"
 msgid "Register using email"
 msgstr "Registreren met E-mail"
 
 #: weblate/html/accounts/register.html:34
-#| msgid "User registration"
 msgid "Third party registration"
 msgstr "Registratie via derden"
 
@@ -4533,8 +4531,8 @@ msgstr ""
 msgid "changes"
 msgstr "wijzigingen"
 
-#~ msgid "Password"
-#~ msgstr "Wachtwoord"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "De gebruikersnaam moet minstens vijf tekens lang zijn."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

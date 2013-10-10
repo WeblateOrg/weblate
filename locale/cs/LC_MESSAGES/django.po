@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-03 11:08+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -19,57 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
-msgid "E-mail"
-msgstr "E-mail"
-
-#: accounts/forms.py:158
-msgid "You can add another emails on Authentication tab."
-msgstr ""
-
-#: accounts/forms.py:186 accounts/forms.py:271
-msgid "First name"
-msgstr "Křestní jméno"
-
-#: accounts/forms.py:187 accounts/forms.py:272
-msgid "Last name"
-msgstr "Příjmení"
-
-#: accounts/forms.py:195
-msgid "Subject"
-msgstr "Předmět"
-
-#: accounts/forms.py:196
-msgid "Your name"
-msgstr "Vaše jméno"
-
-#: accounts/forms.py:197
-msgid "Your email"
-msgstr "Váš email"
-
-#: accounts/forms.py:199
-msgid "Message"
-msgstr "Zpráva"
-
-#: accounts/forms.py:224
-msgid "Activation email will be sent here."
-msgstr "Na tuto adresu vám přijde aktivační email."
-
-#: accounts/forms.py:237
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "Tuto adresu již někdo používá. Prosím zadejte jinou."
-
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "Uživatelské jméno"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:75
 msgid "At least five characters long."
 msgstr "Alespoň pět znaků dlouhé."
 
-#: accounts/forms.py:266
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+#: accounts/forms.py:79
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -77,51 +35,99 @@ msgstr ""
 "Tato hodnota může obsahovat pouze písmena, číslice a následující znaky: @ . "
 "+ - _"
 
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
-
-#: accounts/forms.py:290
+#: accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
 msgstr "Toto uživatelské jméno je již zabrané. Prosím zvolte si jiné."
 
-#: accounts/forms.py:312
+#: accounts/forms.py:205 accounts/forms.py:274
+msgid "E-mail"
+msgstr "E-mail"
+
+#: accounts/forms.py:207
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:236 accounts/forms.py:311
+msgid "First name"
+msgstr "Křestní jméno"
+
+#: accounts/forms.py:237 accounts/forms.py:312
+msgid "Last name"
+msgstr "Příjmení"
+
+#: accounts/forms.py:246
+msgid "Subject"
+msgstr "Předmět"
+
+#: accounts/forms.py:247
+msgid "Your name"
+msgstr "Vaše jméno"
+
+#: accounts/forms.py:248
+msgid "Your email"
+msgstr "Váš email"
+
+#: accounts/forms.py:250
+msgid "Message"
+msgstr "Zpráva"
+
+#: accounts/forms.py:275
+msgid "Activation email will be sent here."
+msgstr "Na tuto adresu vám přijde aktivační email."
+
+#: accounts/forms.py:288
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "Tuto adresu již někdo používá. Prosím zadejte jinou."
+
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Nové heslo"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Alespoň šest znaků dlouhé."
 
-#: accounts/forms.py:317
+#: accounts/forms.py:335
 #, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
 msgstr "Heslo (znovu)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Zopakujte heslo, ať můžeme ověřit, že bylo zadáno správně."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Heslo musí být alespoň šest znaků dlouhé."
 
-#: accounts/forms.py:348
+#: accounts/forms.py:366
 #, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
 msgstr "Obě zadaná hesla se musí shodovat"
 
-#: accounts/forms.py:360
+#: accounts/forms.py:378
 #, fuzzy
 #| msgid "New password"
 msgid "Current password"
 msgstr "Nové heslo"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "Uživatelské jméno"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Heslo"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -167,56 +173,56 @@ msgstr "Upozornění na chybu při sloučení"
 msgid "Notification on new language request"
 msgstr "Upozornění na požadavky o nový překlad"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Registrace uživatele"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Váš profil byl aktualizován."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Uživatelský profil"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "Zpráva byla odeslána správci serveru."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Kontakt"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Přihlásit"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "Děkujeme za použití Weblate!"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "Registrace"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
+#: accounts/views.py:374
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "Vaše heslo bylo změněno."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Změna hesla"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
@@ -3888,7 +3894,7 @@ msgstr ""
 msgid "Password log in"
 msgstr "Heslo (znovu)"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3896,13 +3902,13 @@ msgid ""
 msgstr ""
 "Nemáte ještě účet? Můžete se <a href=\"%(register_url)s\">zaregistrovat</a>."
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Zapomněli jste heslo? Můžete si <a href=\"%(reset_url)s\">ho obnovit</a>."
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -4518,8 +4524,8 @@ msgstr "Více informací o Weblate naleznete na http://weblate.org/"
 msgid "changes"
 msgstr "změny"
 
-#~ msgid "Password"
-#~ msgstr "Heslo"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "Uživatelské jméno musí být alespoň pět znaků dlouhé."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

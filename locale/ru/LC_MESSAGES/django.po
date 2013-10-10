@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-09 09:14+0200\n"
 "Last-Translator: Sergey Korobitsin <undertaker@arta.kz>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
@@ -19,43 +19,62 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 1.7\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
+#: accounts/forms.py:75
+msgid "At least five characters long."
+msgstr "Минимум пять символов."
+
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "имя пользователя"
+
+#: accounts/forms.py:79
+msgid ""
+"This value may contain only letters, numbers and following characters: @ . + "
+"- _"
+msgstr ""
+"Это поле может содержать только буквы, цифры и следующие символы: @ . + - _"
+
+#: accounts/forms.py:99
+msgid "This username is already taken. Please choose another."
+msgstr "Это имя пользователя уже занято, пожалуйста, выберите другое."
+
+#: accounts/forms.py:205 accounts/forms.py:274
 msgid "E-mail"
 msgstr "E-mail"
 
-#: accounts/forms.py:158
+#: accounts/forms.py:207
 msgid "You can add another emails on Authentication tab."
 msgstr ""
 
-#: accounts/forms.py:186 accounts/forms.py:271
+#: accounts/forms.py:236 accounts/forms.py:311
 msgid "First name"
 msgstr "Имя"
 
-#: accounts/forms.py:187 accounts/forms.py:272
+#: accounts/forms.py:237 accounts/forms.py:312
 msgid "Last name"
 msgstr "Фамилия"
 
-#: accounts/forms.py:195
+#: accounts/forms.py:246
 msgid "Subject"
 msgstr "Тема"
 
-#: accounts/forms.py:196
+#: accounts/forms.py:247
 msgid "Your name"
 msgstr "Ваше имя"
 
-#: accounts/forms.py:197
+#: accounts/forms.py:248
 msgid "Your email"
 msgstr "Ваш E-mail"
 
-#: accounts/forms.py:199
+#: accounts/forms.py:250
 msgid "Message"
 msgstr "Сообщение"
 
-#: accounts/forms.py:224
+#: accounts/forms.py:275
 msgid "Activation email will be sent here."
 msgstr "Письмо для активации отправлено."
 
-#: accounts/forms.py:237
+#: accounts/forms.py:288
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
@@ -63,65 +82,52 @@ msgstr ""
 "Этот адрес электронной почты уже используется. Укажите другой адрес "
 "электронной почты."
 
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "имя пользователя"
-
-#: accounts/forms.py:263
-msgid "At least five characters long."
-msgstr "Минимум пять символов."
-
-#: accounts/forms.py:266
-msgid ""
-"This value may contain only letters, numbers and following characters: @ . + "
-"- _"
-msgstr ""
-"Это поле может содержать только буквы, цифры и следующие символы: @ . + - _"
-
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "Имя пользователя должно иметь как минимум пять символов."
-
-#: accounts/forms.py:290
-msgid "This username is already taken. Please choose another."
-msgstr "Это имя пользователя уже занято, пожалуйста, выберите другое."
-
-#: accounts/forms.py:312
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Новый пароль"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Минимум шесть символов."
 
-#: accounts/forms.py:317
+#: accounts/forms.py:335
 #, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
 msgstr "Пароль (еще раз)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr ""
 "Повторите пароль, чтобы мы могли проверить, что вы ввели его правильно."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Пароль должен иметь как минимум шесть символов."
 
-#: accounts/forms.py:348
+#: accounts/forms.py:366
 msgid "You must type the same password each time."
 msgstr ""
 
-#: accounts/forms.py:360
+#: accounts/forms.py:378
 #, fuzzy
 #| msgid "New password"
 msgid "Current password"
 msgstr "Новый пароль"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "имя пользователя"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Пароль"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -167,56 +173,56 @@ msgstr "Уведомление об ошибке при слиянии"
 msgid "Notification on new language request"
 msgstr "Уведомление о заявке о новом языке"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Регистрация пользователя"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Ваш профиль был обновлен."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Профиль пользователя"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "Сообщение было отправлено администратору."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Контактная информация"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Логин"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr ""
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Committer email"
 msgid "Register email"
 msgstr "E-mail коммитера"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
+#: accounts/views.py:374
 #, fuzzy
 #| msgid "Your profile has been updated."
 msgid "Your password has been changed."
 msgstr "Ваш профиль был обновлен."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Сброс пароля"
 
@@ -3773,19 +3779,19 @@ msgstr ""
 msgid "Password log in"
 msgstr "Пароль (еще раз)"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr ""
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -4377,8 +4383,8 @@ msgstr ""
 msgid "changes"
 msgstr "Изменения"
 
-#~ msgid "Password"
-#~ msgstr "Пароль"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "Имя пользователя должно иметь как минимум пять символов."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

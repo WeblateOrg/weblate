@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-03 17:33+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -18,59 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
-msgid "E-mail"
-msgstr "Courriel"
-
-#: accounts/forms.py:158
-msgid "You can add another emails on Authentication tab."
-msgstr ""
-
-#: accounts/forms.py:186 accounts/forms.py:271
-msgid "First name"
-msgstr "Prénom"
-
-#: accounts/forms.py:187 accounts/forms.py:272
-msgid "Last name"
-msgstr "Nom"
-
-#: accounts/forms.py:195
-msgid "Subject"
-msgstr "Sujet"
-
-#: accounts/forms.py:196
-msgid "Your name"
-msgstr "Votre nom"
-
-#: accounts/forms.py:197
-msgid "Your email"
-msgstr "Votre adresse courriel"
-
-#: accounts/forms.py:199
-msgid "Message"
-msgstr "Message"
-
-#: accounts/forms.py:224
-msgid "Activation email will be sent here."
-msgstr "Le courriel de confirmation sera envoyé ici."
-
-#: accounts/forms.py:237
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr ""
-"Cette adresse courriel est déjà utilisée. Veuillez en fournir une adresse "
-"courriel différente."
-
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:75
 msgid "At least five characters long."
 msgstr "Au moins cinq caractères."
 
-#: accounts/forms.py:266
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: accounts/forms.py:79
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -78,51 +34,101 @@ msgstr ""
 "Cette valeur peut contenir uniquement des lettres, des chiffres et des "
 "caractères suivants: @ . + - _"
 
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "Le nom d'utilisateur doit comporter au moins cinq caractères."
-
-#: accounts/forms.py:290
+#: accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
 msgstr "Ce nom d'utilisateur existe déjà. Veuillez en choisir un autre."
 
-#: accounts/forms.py:312
+#: accounts/forms.py:205 accounts/forms.py:274
+msgid "E-mail"
+msgstr "Courriel"
+
+#: accounts/forms.py:207
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:236 accounts/forms.py:311
+msgid "First name"
+msgstr "Prénom"
+
+#: accounts/forms.py:237 accounts/forms.py:312
+msgid "Last name"
+msgstr "Nom"
+
+#: accounts/forms.py:246
+msgid "Subject"
+msgstr "Sujet"
+
+#: accounts/forms.py:247
+msgid "Your name"
+msgstr "Votre nom"
+
+#: accounts/forms.py:248
+msgid "Your email"
+msgstr "Votre adresse courriel"
+
+#: accounts/forms.py:250
+msgid "Message"
+msgstr "Message"
+
+#: accounts/forms.py:275
+msgid "Activation email will be sent here."
+msgstr "Le courriel de confirmation sera envoyé ici."
+
+#: accounts/forms.py:288
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr ""
+"Cette adresse courriel est déjà utilisée. Veuillez en fournir une adresse "
+"courriel différente."
+
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "Au moins six caractères."
 
-#: accounts/forms.py:317
+#: accounts/forms.py:335
 #, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
 msgstr "Répéter le mot de passe"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Répétez le mot de passe aux fins de vérifications."
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "Le mot de passe doit comporter au moins six caractères."
 
-#: accounts/forms.py:348
+#: accounts/forms.py:366
 #, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
 msgstr "Vous devez saisir le même mot de passe à chaque fois"
 
-#: accounts/forms.py:360
+#: accounts/forms.py:378
 #, fuzzy
 #| msgid "New password"
 msgid "Current password"
 msgstr "Nouveau mot de passe"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "Nom d'utilisateur"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "Mot de passe"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -168,56 +174,56 @@ msgstr "Aviser lors de l'échec d'une fusion"
 msgid "Notification on new language request"
 msgstr "Avis à propos d'une requête de nouvelle langue"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "Enregistrement utilisateur"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "Votre profil a été mis à jour."
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "Profil d'utilisateur"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "Le message a été envoyé à l'administrateur."
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "Contact"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "Connexion"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "Merci d'utiliser Weblate !"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "Enregistrement"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
+#: accounts/views.py:374
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "Votre mot de passe a été modifié."
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Modifier le mot de passe"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Mot de passe réinitialisé"
 
@@ -3937,7 +3943,7 @@ msgstr ""
 msgid "Password log in"
 msgstr "Répéter le mot de passe"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3946,14 +3952,14 @@ msgstr ""
 "Vous n'avez pas encore de compte ? Vous pouvez <a href=\"%(register_url)s"
 "\">vous enregistrer</a>."
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Mot de passe oublié ? Vous pouvez le <a href=\"%(reset_url)s"
 "\">réinitialiser</a>."
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -4584,8 +4590,8 @@ msgstr "Plus d'informations sur Weblate sont disponibles à http://weblate.org/"
 msgid "changes"
 msgstr "changements"
 
-#~ msgid "Password"
-#~ msgstr "Mot de passe"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "Le nom d'utilisateur doit comporter au moins cinq caractères."
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."

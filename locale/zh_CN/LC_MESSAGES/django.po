@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-09 15:40+0200\n"
+"POT-Creation-Date: 2013-10-10 08:45+0200\n"
 "PO-Revision-Date: 2013-10-04 15:08+0200\n"
 "Last-Translator: Jeffrey Shao <shaojf2001@qq.com>\n"
 "Language-Team: Simplified Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -19,107 +19,113 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 1.7-dev\n"
 
-#: accounts/forms.py:156 accounts/forms.py:223
-msgid "E-mail"
-msgstr "电子邮箱"
-
-#: accounts/forms.py:158
-msgid "You can add another emails on Authentication tab."
-msgstr ""
-
-#: accounts/forms.py:186 accounts/forms.py:271
-msgid "First name"
-msgstr "名字"
-
-#: accounts/forms.py:187 accounts/forms.py:272
-msgid "Last name"
-msgstr "姓氏"
-
-#: accounts/forms.py:195
-msgid "Subject"
-msgstr "主题"
-
-#: accounts/forms.py:196
-msgid "Your name"
-msgstr "您的姓名"
-
-#: accounts/forms.py:197
-msgid "Your email"
-msgstr "您的邮箱"
-
-#: accounts/forms.py:199
-msgid "Message"
-msgstr "信息"
-
-#: accounts/forms.py:224
-msgid "Activation email will be sent here."
-msgstr "激活邮件将发送到这里。"
-
-#: accounts/forms.py:237
-msgid ""
-"This email address is already in use. Please supply a different email "
-"address."
-msgstr "此电子邮件地址已被使用。请提供一个新的电子邮件地址。"
-
-#: accounts/forms.py:262
-msgid "Username"
-msgstr "用户名"
-
-#: accounts/forms.py:263
+#: accounts/forms.py:75
 msgid "At least five characters long."
 msgstr "至少 5 个字符。"
 
-#: accounts/forms.py:266
+#: accounts/forms.py:76
+msgid "Username"
+msgstr "用户名"
+
+#: accounts/forms.py:79
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
 msgstr "只能使用字母、数字以及 @ . + - _ 这些字符"
 
-#: accounts/forms.py:281
-msgid "Username needs to have at least five characters."
-msgstr "用户名至少要 5 个字符。"
-
-#: accounts/forms.py:290
+#: accounts/forms.py:99
 msgid "This username is already taken. Please choose another."
 msgstr "此用户名已被占用。请选择另一个。"
 
-#: accounts/forms.py:312
+#: accounts/forms.py:205 accounts/forms.py:274
+msgid "E-mail"
+msgstr "电子邮箱"
+
+#: accounts/forms.py:207
+msgid "You can add another emails on Authentication tab."
+msgstr ""
+
+#: accounts/forms.py:236 accounts/forms.py:311
+msgid "First name"
+msgstr "名字"
+
+#: accounts/forms.py:237 accounts/forms.py:312
+msgid "Last name"
+msgstr "姓氏"
+
+#: accounts/forms.py:246
+msgid "Subject"
+msgstr "主题"
+
+#: accounts/forms.py:247
+msgid "Your name"
+msgstr "您的姓名"
+
+#: accounts/forms.py:248
+msgid "Your email"
+msgstr "您的邮箱"
+
+#: accounts/forms.py:250
+msgid "Message"
+msgstr "信息"
+
+#: accounts/forms.py:275
+msgid "Activation email will be sent here."
+msgstr "激活邮件将发送到这里。"
+
+#: accounts/forms.py:288
+msgid ""
+"This email address is already in use. Please supply a different email "
+"address."
+msgstr "此电子邮件地址已被使用。请提供一个新的电子邮件地址。"
+
+#: accounts/forms.py:330
 msgid "New password"
 msgstr "新密码"
 
-#: accounts/forms.py:313
+#: accounts/forms.py:331
 msgid "At least six characters long."
 msgstr "至少 6 个字符。"
 
-#: accounts/forms.py:317
+#: accounts/forms.py:335
 #, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
 msgstr "密码 (再输入一次)"
 
-#: accounts/forms.py:319
+#: accounts/forms.py:337
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "再次输入密码能让我们确定您是否正确输入了您想要设置的密码。"
 
-#: accounts/forms.py:330
+#: accounts/forms.py:348
 msgid "Password needs to have at least six characters."
 msgstr "密码至少要 6 个字符。"
 
-#: accounts/forms.py:348
+#: accounts/forms.py:366
 #, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
 msgstr "您两次输入的密码必须相同"
 
-#: accounts/forms.py:360
+#: accounts/forms.py:378
 #, fuzzy
 #| msgid "New password"
 msgid "Current password"
 msgstr "新密码"
 
-#: accounts/forms.py:370
+#: accounts/forms.py:388
 msgid "User with this email address was not found."
 msgstr ""
+
+#: accounts/forms.py:398
+#, fuzzy
+#| msgid "Username"
+msgid "Username or email"
+msgstr "用户名"
+
+#: accounts/forms.py:399
+msgid "Password"
+msgstr "密码"
 
 #: accounts/models.py:330
 msgid "Interface Language"
@@ -165,56 +171,56 @@ msgstr "在合并失败时通知"
 msgid "Notification on new language request"
 msgstr "在有新语言请求时通知"
 
-#: accounts/views.py:60 accounts/views.py:301
+#: accounts/views.py:61 accounts/views.py:303
 msgid "User registration"
 msgstr "注册用户"
 
-#: accounts/views.py:122
+#: accounts/views.py:123
 msgid "Your profile has been updated."
 msgstr "您的资料已更新。"
 
-#: accounts/views.py:152
+#: accounts/views.py:153
 msgid "User profile"
 msgstr "用户资料"
 
-#: accounts/views.py:181
+#: accounts/views.py:182
 msgid "Message has been sent to administrator."
 msgstr "信息已经发送给了管理员。"
 
-#: accounts/views.py:199
+#: accounts/views.py:200
 msgid "Contact"
 msgstr "联系"
 
-#: accounts/views.py:264 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:32
+#: accounts/views.py:266 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:25
 msgid "Login"
 msgstr "登录"
 
-#: accounts/views.py:274
+#: accounts/views.py:276
 msgid "Thanks for using Weblate!"
 msgstr "感谢您使用 Weblate！"
 
-#: accounts/views.py:325 weblate/html/accounts/email.html:7
+#: accounts/views.py:327 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "注册"
 
-#: accounts/views.py:350
+#: accounts/views.py:352
 msgid "You have entered invalid password."
 msgstr ""
 
-#: accounts/views.py:372
+#: accounts/views.py:374
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "您的密码已修改。"
 
-#: accounts/views.py:383 weblate/html/accounts/profile.html:49
+#: accounts/views.py:385 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "修改密码"
 
-#: accounts/views.py:411 weblate/html/accounts/reset.html:7
+#: accounts/views.py:412 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -3760,19 +3766,19 @@ msgstr "未找到相应的用户名/密码组合。请重试。"
 msgid "Password log in"
 msgstr "密码 (再输入一次)"
 
-#: weblate/html/accounts/login.html:39
+#: weblate/html/accounts/login.html:32
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr "还没有帐号？您可以<a href=\"%(register_url)s\">注册</a>。"
 
-#: weblate/html/accounts/login.html:45
+#: weblate/html/accounts/login.html:38
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr "忘记您的密码了？您可以 <a href=\"%(reset_url)s\">重设密码</a>。"
 
-#: weblate/html/accounts/login.html:50
+#: weblate/html/accounts/login.html:43
 msgid "Third party log in"
 msgstr ""
 
@@ -4380,8 +4386,8 @@ msgstr "关于Weblate的更多信息可以在 http://weblate.org/ 找到"
 msgid "changes"
 msgstr "修改"
 
-#~ msgid "Password"
-#~ msgstr "密码"
+#~ msgid "Username needs to have at least five characters."
+#~ msgstr "用户名至少要 5 个字符。"
 
 #~ msgid ""
 #~ "Your profile has been migrated, you might want to adjust preferences."
