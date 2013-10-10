@@ -81,8 +81,7 @@ class RegistrationTemplateView(TemplateView):
         return context
 
 
-def mail_admins_sender(subject, message, sender, fail_silently=False,
-                       connection=None, html_message=None):
+def mail_admins_contact(subject, message, context, sender):
     '''
     Sends a message to the admins, as defined by the ADMINS setting.
     '''
@@ -90,17 +89,13 @@ def mail_admins_sender(subject, message, sender, fail_silently=False,
         return
 
     mail = EmailMultiAlternatives(
-        u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject),
-        message,
+        u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        message % context,
         to=[a[1] for a in settings.ADMINS],
         headers={'Reply-To': sender},
-        connection=connection
     )
 
-    if html_message:
-        mail.attach_alternative(html_message, 'text/html')
-
-    mail.send(fail_silently=fail_silently)
+    mail.send(fail_silently=False)
 
 
 @login_required
@@ -189,9 +184,10 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            mail_admins_sender(
-                form.cleaned_data['subject'],
-                CONTACT_TEMPLATE % form.cleaned_data,
+            mail_admins_contact(
+                '%(subject)s',
+                CONTACT_TEMPLATE,
+                form.cleaned_data,
                 form.cleaned_data['email'],
             )
             messages.info(
@@ -230,9 +226,10 @@ def hosting(request):
     if request.method == 'POST':
         form = HostingForm(request.POST)
         if form.is_valid():
-            mail_admins_sender(
-                'Hosting request for %(project)s' % form.cleaned_data,
-                HOSTING_TEMPLATE % form.cleaned_data,
+            mail_admins_contact(
+                'Hosting request for %(project)s',
+                HOSTING_TEMPLATE,
+                form.cleaned_data,
                 form.cleaned_data['email'],
             )
             messages.info(
