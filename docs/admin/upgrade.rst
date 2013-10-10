@@ -141,6 +141,9 @@ checks as they might have been wrongly linked to units in previous versions.
 Upgrade from 1.7 to 1.8
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+The migration of database structure to 1.8 might take quite long, it is
+recommended to put your site offline, while the migration is going on.
+
 Authentication setup has been changed and some internal modules have changed
 name, please adjust your :file:`settings.py` to match that (consult
 :file:`settings_example.py` for correct values).
