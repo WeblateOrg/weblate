@@ -7,6 +7,7 @@ Administrators guide
     install
     upgrade
     auth
+    projects
     checks
     machine
     admin
