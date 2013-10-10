@@ -113,6 +113,9 @@ def home(request):
 
 
 def search(request):
+    '''
+    Performs sitewide search on units.
+    '''
     search_form = SearchForm(request.GET)
     context = {}
     if search_form.is_valid():
