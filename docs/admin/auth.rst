@@ -1,0 +1,108 @@
+Authentication
+==============
+
+User registration
+-----------------
+
+The default setup for Weblate is to use python-social-auth for handling new
+users. This allows them to register using form on the website and after
+confirming their email they can contribute. 
+
+You can also completely disable registration using :setting:`REGISTRATION_OPEN`.
+
+.. _privileges:
+
+Access control
+--------------
+
+Weblate uses privileges system based on Django. It defines following extra privileges:
+
+Can upload translation [Users, Managers]
+    Uploading of translation files.
+Can overwrite with translation upload [Users, Managers]
+    Overwriting existing translations by uploading translation file.
+Can define author of translation upload [Managers]
+    Allows to define custom authorship when uploading translation file.
+Can force committing of translation [Managers]
+    Can force Git commit in the web interface.
+Can see git repository URL [Users, Managers, Guests]
+    Can see Git repository URL inside Weblate
+Can update translation from git [Managers]
+    Can force Git pull in the web interface.
+Can push translations to remote git [Managers]
+    Can force Git push in the web interface.
+Can do automatic translation using other project strings [Managers]
+    Can do automatic translation based on strings from other subprojects.
+Can lock whole translation project [Managers]
+    Can lock translation for updates, useful while doing some major changes 
+    in the project.
+Can reset translations to match remote git [Managers]
+    Can reset Git repository to match remote git.
+Can save translation [Users, Managers]
+    Can save translation (might be disabled with :ref:`voting`).
+Can accept suggestion [Users, Managers]
+    Can accept suggestion (might be disabled with :ref:`voting`).
+Can delete suggestion [Users, Managers]
+    Can delete suggestion (might be disabled with :ref:`voting`).
+Can vote for suggestion [Users, Managers]
+    Can vote for suggestion (see :ref:`voting`).
+Can override suggestion state [Managers]
+    Can save translation, accept or delete suggestion when automatic accepting
+    by voting for suggestions is enabled (see :ref:`voting`).
+Can import dictionary [Users, Managers]
+    Can import dictionary from translation file.
+Can add dictionary [Users, Managers]
+    Can add dictionary entries.
+Can change dictionary [Users, Managers]
+    Can change dictionary entries.
+Can delete dictionary [Users, Managers]
+    Can delete dictionary entries.
+Can lock translation for translating [Users, Managers]
+    Can lock translation while translating (see :ref:`locking`).
+Can add suggestion [Users, Managers, Guests]
+    Can add new suggestions.
+Can use machine translation [Users, Managers]
+    Can use machine translations (see :ref:`machine-translation-setup`).
+
+The default setup (after you run :djadmin:`setupgroups`) consists of three
+groups `Guests`, `Users` and `Managers` which have privileges as described
+above.  All new users are automatically added to `Users` group. The `Guests`
+groups is used for not logged in users.
+
+Basically `Users` are meant as regular translators and `Managers` for
+developers who need more control over the translation - they can force
+committing changes to git, push changes upstream (if Weblate is configured to do
+so) or disable translation (eg. when there are some major changes happening
+upstream). 
+
+To customize this setup, it is recommended to remove privileges from `Users`
+group and create additional groups with finer privileges (eg. `Translators`
+group, which will be allowed to save translations and manage suggestions) and
+add selected users to this group. You can do all this from Django admin
+interface.
+
+To completely lock down your Weblate installation you can use
+:setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
+:setting:`REGISTRATION_OPEN` for disallowing new registrations.
+
+Per project access control
+++++++++++++++++++++++++++
+
+.. versionadded:: 1.4
+    This feature is available since Weblate 1.4.
+
+.. note::
+
+    By enabling ACL, all users are prohibited to access anything within given
+    project unless you add them the permission to do that.
+
+Additionally you can limit users access to individual projects. This feature is
+enabled by :guilabel:`Enable ACL` at Project configuration. Once you enable
+this, users without specific privilege 
+(:guilabel:`trans | project | Can access project NAME`) can not access this
+project.
+
+To allow access to this project, you have to add the privilege to do so either
+directly to given user or group of users in Django admin interface.
+
+.. seealso:: https://docs.djangoproject.com/en/1.4/topics/auth/default/#auth-admin

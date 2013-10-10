@@ -6,6 +6,7 @@ Administrators guide
     quick
     install
     upgrade
+    auth
     admin
     config
     management
