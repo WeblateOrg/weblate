@@ -31,7 +31,7 @@ from django.db.models.signals import post_syncdb
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives, mail_admins
+from django.core.mail import EmailMultiAlternatives
 
 from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
@@ -223,28 +223,26 @@ def send_notification_email(language, email, notification,
         if user is not None:
             headers['Reply-To'] = user.email
 
+        # List of recipients
         if email == 'ADMINS':
-            # Special handling for ADMINS
-            mail_admins(
-                subject,
-                body,
-                html_message=html_body
-            )
+            emails = [a[1] for a in settings.ADMINS],
         else:
-            # Create message
-            email = EmailMultiAlternatives(
-                settings.EMAIL_SUBJECT_PREFIX + subject,
-                body,
-                to=[email],
-                headers=headers,
-            )
-            email.attach_alternative(
-                html_body,
-                'text/html'
-            )
+            emails = [email]
 
-            # Send it out
-            email.send(fail_silently=False)
+        # Create message
+        email = EmailMultiAlternatives(
+            settings.EMAIL_SUBJECT_PREFIX + subject,
+            body,
+            to=emails,
+            headers=headers,
+        )
+        email.attach_alternative(
+            html_body,
+            'text/html'
+        )
+
+        # Send it out
+        email.send(fail_silently=False)
     finally:
         django_translation.activate(cur_language)
 
