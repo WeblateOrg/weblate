@@ -4,13 +4,13 @@
 
 {% block form_top %}
 {% if opts.module_name == 'project' or opts.module_name == 'subproject' %}
-{% doc_url 'admin' opts.module_name as url %}
+{% doc_url 'admin/projects' opts.module_name as url %}
 <p>{% blocktrans %}Required fields are marked as bold, you can find more information in the <a href="{{ url }}">documentation</a>.{% endblocktrans %}</p>
 {% else %}
 <p class="errornote">{% blocktrans %}Do not change this object here, please use Weblate interface instead.{% endblocktrans %}</p>
 {% endif %}
 {% if add and opts.module_name == 'subproject' %}
-{% doc_url 'admin' 'import-speed' as url %}
+{% doc_url 'admin/projects' 'import-speed' as url %}
 <p>{% blocktrans %}Importing a new translation can take some time, please check <a href="{{ url }}">our documentation</a> for information on how to improve this.{% endblocktrans %}</p>
 {% endif %}
 {% endblock %}

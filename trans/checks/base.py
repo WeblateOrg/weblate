@@ -94,7 +94,7 @@ class Check(object):
         '''
         Returns link to documentation.
         '''
-        return weblate.get_doc_url('usage', self.doc_id)
+        return weblate.get_doc_url('user/checks', self.doc_id)
 
     def get_cache_key(self, unit, cache_slot=0):
         '''
