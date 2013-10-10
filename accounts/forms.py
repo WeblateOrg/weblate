@@ -79,6 +79,7 @@ class UsernameField(forms.RegexField):
                 'numbers and following characters: @ . + - _'
             )
         }
+        kwargs['required'] = True
         self.valid = None
 
         super(UsernameField, self).__init__(*args, **kwargs)
@@ -87,16 +88,17 @@ class UsernameField(forms.RegexField):
         '''
         Username validation, requires length of five chars and unique.
         '''
-        existing = User.objects.filter(
-            username__iexact=value
-        )
-        if existing.exists() and value != self.valid:
-            raise forms.ValidationError(
-                _(
-                    'This username is already taken. '
-                    'Please choose another.'
-                )
+        if value is not None:
+            existing = User.objects.filter(
+                username__iexact=value
             )
+            if existing.exists() and value != self.valid:
+                raise forms.ValidationError(
+                    _(
+                        'This username is already taken. '
+                        'Please choose another.'
+                    )
+                )
 
         return super(UsernameField, self).clean(value)
 
