@@ -144,7 +144,8 @@ def search(request):
             # If page is not an integer, deliver first page.
             units = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
+            # If page is out of range (e.g. 9999), deliver last page of
+            # results.
             units = paginator.page(paginator.num_pages)
 
         context['units'] = units
