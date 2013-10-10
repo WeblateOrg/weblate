@@ -225,7 +225,7 @@ def send_notification_email(language, email, notification,
 
         # List of recipients
         if email == 'ADMINS':
-            emails = [a[1] for a in settings.ADMINS],
+            emails = [a[1] for a in settings.ADMINS]
         else:
             emails = [email]
 
