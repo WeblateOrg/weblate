@@ -134,11 +134,7 @@ def search(translation, request):
     elif search_form.is_valid():
         # Apply search conditions
         allunits = translation.unit_set.search(
-            search_form.cleaned_data['search'],
-            search_form.cleaned_data['q'],
-            search_form.cleaned_data['src'],
-            search_form.cleaned_data['ctx'],
-            search_form.cleaned_data['tgt'],
+            search_form.cleaned_data,
         )
 
         search_query = search_form.cleaned_data['q']

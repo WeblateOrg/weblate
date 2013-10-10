@@ -123,11 +123,7 @@ def search(request):
 
     if search_form.is_valid():
         units = Unit.objects.search(
-            search_form.cleaned_data['search'],
-            search_form.cleaned_data['q'],
-            search_form.cleaned_data['src'],
-            search_form.cleaned_data['ctx'],
-            search_form.cleaned_data['tgt'],
+            search_form.cleaned_data,
         ).select_related(
             'translation',
         )

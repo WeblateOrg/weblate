@@ -191,30 +191,29 @@ class UnitManager(models.Manager):
         ).exclude(user=user)
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
-    def search(self, search_type, search_query,
-               search_source=True, search_context=True, search_target=True):
+    def search(self, params):
         '''
         High level wrapper for searching.
         '''
 
-        if search_type in ('exact', 'substring'):
+        if params['search'] in ('exact', 'substring'):
             queries = []
 
-            if search_type == 'exact':
+            if params['search'] == 'exact':
                 modifier = ''
             else:
                 modifier = '__icontains'
 
-            if search_source:
+            if params['src']:
                 queries.append('source')
-            if search_target:
+            if params['tgt']:
                 queries.append('target')
-            if search_context:
+            if params['ctx']:
                 queries.append('context')
 
             query = reduce(
                 lambda q, value:
-                q | Q(**{'%s%s' % (value, modifier): search_query}),
+                q | Q(**{'%s%s' % (value, modifier): params['q']}),
                 queries,
                 Q()
             )
@@ -222,10 +221,10 @@ class UnitManager(models.Manager):
             return self.filter(query)
         else:
             return self.fulltext(
-                search_query,
-                search_source,
-                search_context,
-                search_target
+                params['q'],
+                params['src'],
+                params['ctx'],
+                params['tgt']
             )
 
     def fulltext(self, query, source=True, context=True, translation=True,
