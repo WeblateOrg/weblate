@@ -11,6 +11,8 @@ Released on ? 2013.
 * Better visible options for sharing.
 * More control over anonymous users privileges.
 * Supports login using third party services, check manual for more details.
+* Users can login by email instead of username.
+* Documentation improvements.
 
 weblate 1.7
 -----------
