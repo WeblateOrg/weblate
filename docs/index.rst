@@ -12,10 +12,11 @@ Contents:
     :maxdepth: 2
 
     about
-    usage
+    user/index
+    devel/index
+    admin/index
     faq
     formats
-    admin/index
     api
     changes
     contributing
