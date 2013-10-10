@@ -202,7 +202,7 @@ SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'accounts.pipeline.send_validation'
 SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX
 SOCIAL_AUTH_LOGIN_ERROR_URL = '%s/accounts/login/' % URL_PREFIX
 SOCIAL_AUTH_EMAIL_FORM_URL = '%s/accounts/email/' % URL_PREFIX
-
+SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)
 
 # Middleware
 MIDDLEWARE_CLASSES = (
@@ -316,6 +316,7 @@ LOGGING = {
             'address': '/dev/log',
             'facility': SysLogHandler.LOG_LOCAL2,
         },
+        # Logging to a file
         #'logfile': {
         #    'level':'DEBUG',
         #    'class':'logging.handlers.RotatingFileHandler',
@@ -331,6 +332,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        # Logging database queries
+        #'django.db.backends': {
+        #    'handlers': [DEFAULT_LOG],
+        #    'level': 'DEBUG',
+        #},
         'weblate': {
             'handlers': [DEFAULT_LOG],
             'level': 'DEBUG',
