@@ -118,7 +118,7 @@ def search(request):
     '''
     search_form = SearchForm(request.GET)
     context = {
-        'form': search_form,
+        'search_form': search_form,
     }
 
     if search_form.is_valid():
