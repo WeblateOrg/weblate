@@ -301,8 +301,8 @@ environment), for example setup for MySQL:
 Enable caching
 ++++++++++++++
 
-If possible, use memcache from Django by adjusting ``CACHES`` config variable,
-for example:
+If possible, use memcache from Django by adjusting ``CACHES`` configuration
+variable, for example:
 
 .. code-block:: python
 
@@ -364,8 +364,8 @@ you install `pyLibavatar`_, you will get proper support for federated avatars.
 PyICU library
 +++++++++++++
 
-`PyICU`_ library is optionally used by Weblate to sort unicode strings. This
-way language names are properly sorted even in non-ascii languages like
+`PyICU`_ library is optionally used by Weblate to sort Unicode strings. This
+way language names are properly sorted even in non-ASCII languages like
 Japanese, Chinese or Arabic or for languages with accented letters.
 
 .. _PyICU: https://pypi.python.org/pypi/PyICU
@@ -387,7 +387,7 @@ Admin static files
 
 If you see purely designed admin interface, the CSS files required for it are
 not loaded. This is usually if you are running in non-debug mode and have not
-configured your webserver to serve them. Recommended setup is described in the
+configured your web server to serve them. Recommended setup is described in the
 :ref:`server` chapter.
 
 .. seealso:: :ref:`server`
@@ -452,9 +452,9 @@ mod_wsgi (available as :file:`examples/apache.conf`):
 Running Weblate under path
 ++++++++++++++++++++++++++
 
-Minimalistic configuration to serve Weblate under /weblate (you will need to
-include portions of above full configuration to allow access to the files). Again
-using mod_wsgi (also available as :file:`examples/apache-path.conf`):
+Minimalistic configuration to serve Weblate under ``/weblate`` (you will need
+to include portions of above full configuration to allow access to the files).
+Again using mod_wsgi (also available as :file:`examples/apache-path.conf`):
 
 .. literalinclude:: ../../examples/apache-path.conf
 
@@ -466,12 +466,14 @@ Additionally you will have to adjust :file:`weblate/settings.py`::
 
 .. _appliance:
 
-Prebuilt appliance
-------------------
+Appliance
+---------
 
-Prebuilt appliance provides preconfigured Weblate running with MySQL database
-as backend and Apache as web server. However it comes with standard set of
-passwords you will want to change:
+Weblate appliance provides preconfigured Weblate running with MySQL database as
+backend and Apache as web server. It is provided in many formats suitable for
+any form of virtualization, cloud or hardware installation.
+
+It comes with standard set of passwords you will want to change:
 
 ======== ======== ======= ==================================================
 Username Password Scope   Description
@@ -489,4 +491,3 @@ You should also adjust some settings to match your environment, namely:
 * :ref:`production-debug`
 * :ref:`production-site`
 * :ref:`production-email`
-
