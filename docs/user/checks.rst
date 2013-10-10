@@ -15,8 +15,8 @@ silent corruption as well.
 
 .. _checks:
 
-Checks
-------
+Quality checks
+--------------
 
 Weblate does wide range of quality checks on messages. The following section
 describes them in more detail. The checks take account also special rules for
