@@ -127,7 +127,7 @@ recommended to put your site offline, while the migration is going on.
     If you have update in same directory, stale :file:`*.pyc` files might be
     left around and cause various import errors. To recover from this, delete
     all of them in Weblate's directory, for example by 
-    ``find . -name '*.pyc' - delete``.
+    ``find . -name '*.pyc' -delete``.
 
 Upgrade from 1.6 to 1.7
 ~~~~~~~~~~~~~~~~~~~~~~~
