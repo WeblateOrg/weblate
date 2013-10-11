@@ -265,7 +265,7 @@ class ContactForm(forms.Form):
 
 class EmailForm(forms.Form):
     '''
-    Registration form.
+    Email change form.
     '''
     required_css_class = "required"
     error_css_class = "error"
