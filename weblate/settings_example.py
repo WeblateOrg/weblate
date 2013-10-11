@@ -171,7 +171,8 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.email.EmailAuth',
     #'social.backends.github.GithubOAuth2',
     #'social.backends.suse.OpenSUSEOpenId',
-    'social.apps.django_app.utils.BackendWrapper',
+    # Needed for Django 1.6:
+    #'social.apps.django_app.utils.BackendWrapper',
     'accounts.auth.WeblateUserBackend',
 )
 

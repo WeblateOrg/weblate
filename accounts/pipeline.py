@@ -27,6 +27,7 @@ from social.exceptions import AuthForbidden
 from accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
 
+
 def get_backend_name(strategy):
     '''
     Wrapper to provide compatibility with different versions
