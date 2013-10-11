@@ -40,7 +40,6 @@ import __builtin__
 
 FILE_FORMATS = {}
 FLAGS_RE = re.compile(r'\b[-\w]+\b')
-MSGINIT_FOUND = None
 
 
 def register_fileformat(fileformat):
@@ -508,8 +507,8 @@ class FileFormat(object):
 
         return True
 
-    @staticmethod
-    def supports_new_language():
+    @classmethod
+    def supports_new_language(cls):
         '''
         Whether it supports creating new translation.
         '''
@@ -549,6 +548,7 @@ class PoFormat(FileFormat):
     format_id = 'po'
     loader = ('po', 'pofile')
     monolingual = False
+    msginit_found = None
 
     def get_language_pack(self):
         '''
@@ -582,23 +582,22 @@ class PoFormat(FileFormat):
             'application/x-gettext-catalog'
         )
 
-    @staticmethod
-    def supports_new_language():
+    @classmethod
+    def supports_new_language(cls):
         '''
         Checks whether we can create new language file.
         '''
-        global MSGINIT_FOUND
-        if MSGINIT_FOUND is None:
+        if cls.msginit_found is None:
             try:
                 ret = subprocess.check_call(
                     ['msginit', '--help'],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                 )
-                MSGINIT_FOUND = (ret == 0)
+                cls.msginit_found = (ret == 0)
             except:
-                MSGINIT_FOUND = False
-        return MSGINIT_FOUND
+                cls.msginit_found = False
+        return cls.msginit_found
 
     @staticmethod
     def is_valid_base_for_new(base):
@@ -707,8 +706,8 @@ class AndroidFormat(FileFormat):
     # Whitespace is ignored in this format
     check_flags = ('ignore-begin-space', 'ignore-end-space')
 
-    @staticmethod
-    def supports_new_language():
+    @classmethod
+    def supports_new_language(cls):
         '''
         Checks whether we can create new language file.
         '''
