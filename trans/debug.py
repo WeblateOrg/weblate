@@ -34,7 +34,7 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
             request
         )
 
-        if 'django_language' in request.session:
+        if hasattr(request, 'session') and 'django_language' in request.session:
             lang = request.session['django_language']
         else:
             lang = None

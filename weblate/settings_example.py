@@ -261,7 +261,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # Custom exception reporter to include some details
 DEFAULT_EXCEPTION_REPORTER_FILTER = \
-    'weblate.debug.WeblateExceptionReporterFilter'
+    'trans.debug.WeblateExceptionReporterFilter'
 
 # Default logging of Weblate messages
 # - to syslog in production (if available)
