@@ -171,6 +171,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.email.EmailAuth',
     #'social.backends.github.GithubOAuth2',
     #'social.backends.suse.OpenSUSEOpenId',
+    'social.apps.django_app.utils.BackendWrapper',
     'accounts.auth.WeblateUserBackend',
 )
 
