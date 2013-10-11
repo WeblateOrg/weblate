@@ -42,15 +42,17 @@ class MathCaptcha(object):
         '''
         Generates random question.
         '''
+        operator = choice(self.operators)
         first = randint(self.interval[0], self.interval[1])
         second = randint(self.interval[0], self.interval[1])
 
         # We don't want negative answers
-        if second > first:
-            first, second = second, first
+        if operator == '-':
+            first += self.interval[1]
+
         return '%d %s %d' % (
             first,
-            choice(self.operators),
+            operator,
             second
         )
 
