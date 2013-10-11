@@ -258,7 +258,7 @@ class ViewTest(TestCase):
                 'url': 'http://example.net',
                 'repo': 'git://github.com/nijel/weblate.git',
                 'mask': 'po/*.po',
-                'message': 'Hi\n\nThis app looks really cool I want to use it!',
+                'message': 'Hi\n\nI want to use it!',
             }
         )
         self.assertRedirects(response, reverse('home'))
