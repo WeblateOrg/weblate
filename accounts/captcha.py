@@ -30,6 +30,11 @@ class MathCaptcha(object):
     Simple match captcha object.
     '''
     operators = ('+', '-', '*')
+    operators_display = {
+        '+': u'＋',
+        '-': u'－',
+        '*': u'×',
+    }
     interval = (1, 10)
 
     def __init__(self, question=None):
@@ -83,6 +88,18 @@ class MathCaptcha(object):
         Returns result.
         '''
         return eval(self.question)
+
+    @property
+    def display(self):
+        '''
+        Gets unicode for display.
+        '''
+        parts = self.question.split()
+        return u'%s %s %s' % (
+            parts[0],
+            self.operators_display[parts[1]],
+            parts[2],
+        )
 
 
 def checksum_question(question):

@@ -348,7 +348,7 @@ class CaptchaRegistrationForm(RegistrationForm):
                 self.tampering = True
 
         # Set correct label
-        self.fields['captcha'].label = _('What is %s') % self.captcha.question
+        self.fields['captcha'].label = _('What is %s') % self.captcha.display
         self.fields['captcha_id'].initial = self.captcha.hashed
 
     def clean_captcha(self):
