@@ -423,6 +423,33 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+    def test_check_flags(self):
+        '''
+        Check flags validation.
+        '''
+        project = self.create_subproject()
+        project.full_clean()
+
+        project.check_flags = 'ignore-inconsistent'
+        project.full_clean()
+
+        project.check_flags = 'rst-text,ignore-inconsistent'
+        project.full_clean()
+
+        project.check_flags = 'nonsense'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Invalid check flag: "nonsense"',
+            project.full_clean
+        )
+
+        project.check_flags = 'rst-text,ignore-nonsense'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Invalid check flag: "ignore-nonsense"',
+            project.full_clean
+        )
+
     def test_validation(self):
         project = self.create_subproject()
         # Correct project
