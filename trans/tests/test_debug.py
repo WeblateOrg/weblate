@@ -49,4 +49,3 @@ class ReportFilterTest(TestCase):
             'testlang',
             result
         )
-

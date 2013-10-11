@@ -34,12 +34,14 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
             request
         )
 
-        if hasattr(request, 'session') and 'django_language' in request.session:
+        if (hasattr(request, 'session')
+                and 'django_language' in request.session):
             lang = request.session['django_language']
         else:
             lang = None
 
-        if hasattr(request, 'user') and request.user.is_authenticated():
+        if (hasattr(request, 'user')
+                and request.user.is_authenticated()):
             user = request.user.username
         else:
             user = None
