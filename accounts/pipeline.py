@@ -37,7 +37,8 @@ def require_email(strategy, details, user=None, is_new=False,
     if user and user.email:
 
         # Force validation of new email address
-        if strategy.backend_name == 'email':
+        if (hasattr(strategy, 'backend_name')
+                and strategy.backend_name == 'email'):
             return {'is_new': True}
 
         return
