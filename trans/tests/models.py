@@ -403,10 +403,31 @@ class SubProjectTest(RepoTestCase):
         project = self.create_link()
         self.verify_subproject(project, 3, 'cs', 4)
 
+    def test_extra_file(self):
+        '''
+        Extra commit file validation.
+        '''
+        project = self.create_subproject()
+        project.full_clean()
+
+        project.extra_commit_file = 'locale/list.txt'
+        project.full_clean()
+
+        project.extra_commit_file = 'locale/%(language)s.txt'
+        project.full_clean()
+
+        project.extra_commit_file = 'locale/%(bar)s.txt'
+        self.assertRaisesMessage(
+            ValidationError,
+            "Bad format string ('bar')",
+            project.full_clean
+        )
+
     def test_validation(self):
         project = self.create_subproject()
         # Correct project
         project.full_clean()
+
         # Invalid mask
         project.filemask = 'foo/x.po'
         self.assertRaisesMessage(
