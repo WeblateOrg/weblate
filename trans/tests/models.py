@@ -408,6 +408,13 @@ class SubProjectTest(RepoTestCase):
         # Correct project
         project.full_clean()
         # Invalid mask
+        project.filemask = 'foo/x.po'
+        self.assertRaisesMessage(
+            ValidationError,
+            'File mask does not contain * as a language placeholder!',
+            project.full_clean
+        )
+        # Not matching mask
         project.filemask = 'foo/*.po'
         self.assertRaisesMessage(
             ValidationError,
