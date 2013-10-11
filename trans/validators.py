@@ -19,9 +19,14 @@
 #
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+from trans.checks import CHECKS
 
 VALID_FLAGS = (
     'rst-text',
+    'python-format',
+    'c-format',
+    'php-format',
+    'python-brace-format',
 )
 
 
@@ -110,5 +115,8 @@ def validate_check_flags(val):
     Validates check influencing flags.
     '''
     for flag in val.split(','):
-        if flag not in VALID_FLAGS:
-            raise ValidationError(_('Invalid check flag: "%s"') % flag)
+        if flag in VALID_FLAGS:
+            continue
+        if flag.startswith('ignore-') and flag[7:] in CHECKS:
+            continue
+        raise ValidationError(_('Invalid check flag: "%s"') % flag)
