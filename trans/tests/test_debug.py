@@ -19,7 +19,7 @@
 #
 
 from unittest import TestCase
-from django.http.request import HttpRequest
+from django.http import HttpRequest
 from trans.debug import WeblateExceptionReporterFilter
 
 
