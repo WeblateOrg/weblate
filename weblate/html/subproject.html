@@ -18,9 +18,7 @@
 
 <h2>{% trans "Translations" %}</h2>
 
-{% with object.translation_set.enabled as translations and 1 as show_language %}
 {% include "list-translations.html" %}
-{% endwith %}
 
 {% url 'contact' as contact_url %}
 

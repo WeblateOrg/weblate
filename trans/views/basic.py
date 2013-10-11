@@ -240,6 +240,8 @@ def show_subproject(request, project, subproject):
 
     return render_to_response('subproject.html', RequestContext(request, {
         'object': obj,
+        'translations': obj.translation_set.enabled(),
+        'show_language': 1,
         'last_changes': last_changes,
         'last_changes_rss': reverse(
             'rss-subproject',
