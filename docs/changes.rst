@@ -16,6 +16,7 @@ Released on ? 2013.
 * Improved source strings review.
 * Searching across all units.
 * Better tracking of source strings.
+* Captcha protection for registration.
 
 weblate 1.7
 -----------

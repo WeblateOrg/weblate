@@ -22,6 +22,7 @@
 Tests for user handling.
 """
 
+from unittest import TestCase as UnitTestCase
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
@@ -38,6 +39,7 @@ from accounts.models import (
     notify_new_contributor,
     notify_new_language,
 )
+from accounts.captcha import hash_question, unhash_question, MathCaptcha
 
 from trans.tests.views import ViewTestCase
 from trans.tests.util import get_test_file
@@ -50,6 +52,8 @@ REGISTRATION_DATA = {
     'email': 'noreply@weblate.org',
     'first_name': 'First',
     'last_name': 'Last',
+    'captcha_id': '00',
+    'captcha': '9999'
 }
 
 
@@ -75,7 +79,20 @@ class RegistrationTest(TestCase):
             reverse('password')
         )
 
+    def test_register_captcha(self):
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA
+        )
+        self.assertContains(
+            response,
+            'Please check your math and try again.'
+        )
+
     def test_register(self):
+        # Disable captcha
+        appsettings.REGISTRATION_CAPTCHA = False
+
         response = self.client.post(
             reverse('register'),
             REGISTRATION_DATA
@@ -106,6 +123,9 @@ class RegistrationTest(TestCase):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First')
         self.assertEqual(user.last_name, 'Last')
+
+        # Restore settings
+        appsettings.REGISTRATION_CAPTCHA = True
 
     def test_reset(self):
         '''
@@ -498,4 +518,48 @@ class NotificationTest(ViewTestCase):
         self.assertEqual(
             mail.outbox[1].subject,
             '[Weblate] New comment in Test/Test'
+        )
+
+
+class CaptchaTest(UnitTestCase):
+    def test_decode(self):
+        question = '1 + 1'
+        hashed = hash_question(question)
+        self.assertEquals(
+            question,
+            unhash_question(hashed)
+        )
+
+    def test_tamper(self):
+        hashed = hash_question('') + '00'
+        self.assertRaises(
+            ValueError,
+            unhash_question,
+            hashed
+        )
+
+    def test_invalid(self):
+        self.assertRaises(
+            ValueError,
+            unhash_question,
+            ''
+        )
+
+    def test_object(self):
+        captcha = MathCaptcha('1 * 2')
+        self.assertFalse(
+            captcha.validate(1)
+        )
+        self.assertTrue(
+            captcha.validate(2)
+        )
+        restored = MathCaptcha.from_hash(captcha.hashed)
+        self.assertEquals(
+            captcha.question,
+            restored.question
+        )
+        self.assertRaises(
+            ValueError,
+            MathCaptcha.from_hash,
+            captcha.hashed[:40]
         )

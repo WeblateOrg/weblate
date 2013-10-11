@@ -149,3 +149,6 @@ ANONYMOUS_USER_NAME = get('ANONYMOUS_USER_NAME', 'anonymous')
 
 # Enable registrations
 REGISTRATION_OPEN = get('REGISTRATION_OPEN', True)
+
+# Captcha for registrations
+REGISTRATION_CAPTCHA = get('REGISTRATION_CAPTCHA', True)

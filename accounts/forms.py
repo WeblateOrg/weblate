@@ -23,6 +23,7 @@ from django.utils.translation import ugettext_lazy as _, get_language
 from django.contrib.auth.forms import AuthenticationForm
 
 from accounts.models import Profile, VerifiedEmail
+from accounts.captcha import MathCaptcha
 from lang.models import Language
 from trans.models import Project
 from django.contrib.auth.models import User
@@ -319,6 +320,46 @@ class RegistrationForm(EmailForm):
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
+
+
+class CaptchaRegistrationForm(RegistrationForm):
+    '''
+    Registration form with captcha protection.
+    '''
+    captcha = forms.IntegerField(required=True)
+    captcha_id = forms.CharField(widget=forms.HiddenInput)
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(CaptchaRegistrationForm, self).__init__(
+            data,
+            *args,
+            **kwargs
+        )
+
+        # Load data
+        self.tampering = False
+        if data is None or 'captcha_id' not in data:
+            self.captcha = MathCaptcha()
+        else:
+            try:
+                self.captcha = MathCaptcha.from_hash(data['captcha_id'])
+            except ValueError:
+                self.captcha = MathCaptcha()
+                self.tampering = True
+
+        # Set correct label
+        self.fields['captcha'].label = _('What is %s') % self.captcha.question
+        self.fields['captcha_id'].initial = self.captcha.hashed
+
+    def clean_captcha(self):
+        '''
+        Validation for captcha.
+        '''
+        if (self.tampering
+                or not self.captcha.validate(self.cleaned_data['captcha'])):
+            raise forms.ValidationError(
+                _('Please check your math and try again.')
+            )
 
 
 class PasswordForm(forms.Form):

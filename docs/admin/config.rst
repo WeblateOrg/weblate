@@ -320,6 +320,15 @@ For example you can allow script which does some cleanup:
 
 .. seealso:: :ref:`processing`
 
+.. setting:: REGISTRATION_CAPTCHA
+
+REGISTRATION_CAPTCHA
+--------------------
+
+A boolean (either ``True`` or ``False``) indicating whether registration of new
+accounts is protected by captcha. This setting is optional, and a default of
+True will be assumed if it is not supplied.
+
 .. setting:: REGISTRATION_OPEN
 
 REGISTRATION_OPEN
