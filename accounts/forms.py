@@ -416,7 +416,7 @@ class HostingForm(forms.Form):
         required=True
     )
     mask = forms.CharField(
-        label=_('Mask of translatable files'),
+        label=_('File mask'),
         help_text=_(
             'Path of files to translate, use * instead of language code, '
             'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
