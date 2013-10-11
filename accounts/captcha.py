@@ -77,7 +77,7 @@ class MathCaptcha(object):
         '''
         return self.result == answer
 
-    @propery
+    @property
     def result(self):
         '''
         Returns result.
