@@ -587,7 +587,11 @@ class PoFormat(FileFormat):
         Checks whether we can create new language file.
         '''
         try:
-            ret = subprocess.check_call(['msginit', '--help'])
+            ret = subprocess.check_call(
+                ['msginit', '--help'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+            )
             return ret == 0
         except:
             return False
@@ -608,13 +612,17 @@ class PoFormat(FileFormat):
         '''
         Adds new language file.
         '''
-        subprocess.check_call([
-            'msginit',
-            '-i', base,
-            '-o', filename,
-            '--no-translator',
-            '-l', code
-        ])
+        subprocess.check_call(
+            [
+                'msginit',
+                '-i', base,
+                '-o', filename,
+                '--no-translator',
+                '-l', code
+            ],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+        )
 
 register_fileformat(PoFormat)
 
