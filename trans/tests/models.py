@@ -429,6 +429,14 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+        # Repoweb
+        project.repoweb = 'http://%(foo)s/%(bar)s/%72'
+        self.assertRaisesMessage(
+            ValidationError,
+            "Bad format string ('foo')",
+            project.full_clean
+        )
+
         # Bad link
         project.repo = 'weblate://foo'
         project.push = ''
