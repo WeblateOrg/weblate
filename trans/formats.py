@@ -40,6 +40,7 @@ import __builtin__
 
 FILE_FORMATS = {}
 FLAGS_RE = re.compile(r'\b[-\w]+\b')
+MSGINIT_FOUND = None
 
 
 def register_fileformat(fileformat):
@@ -586,15 +587,18 @@ class PoFormat(FileFormat):
         '''
         Checks whether we can create new language file.
         '''
-        try:
-            ret = subprocess.check_call(
-                ['msginit', '--help'],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-            )
-            return ret == 0
-        except:
-            return False
+        global MSGINIT_FOUND
+        if MSGINIT_FOUND is None:
+            try:
+                ret = subprocess.check_call(
+                    ['msginit', '--help'],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                )
+                MSGINIT_FOUND = (ret == 0)
+            except:
+                MSGINIT_FOUND = False
+        return MSGINIT_FOUND
 
     @staticmethod
     def is_valid_base_for_new(base):
