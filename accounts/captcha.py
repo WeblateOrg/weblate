@@ -38,22 +38,20 @@ class MathCaptcha(object):
         else:
             self.question = question
 
-        pass
-
     def generate_question(self):
         '''
         Generates random question.
         '''
-        x = randint(self.interval[0], self.interval[1])
-        y = randint(self.interval[0], self.interval[1])
+        first = randint(self.interval[0], self.interval[1])
+        second = randint(self.interval[0], self.interval[1])
 
         # We don't want negative answers
-        if y > x:
-            x, y = y, x
+        if second > first:
+            first, second = second, first
         return '%d %s %d' % (
-            x,
+            first,
             choice(self.operators),
-            y
+            second
         )
 
     @staticmethod
