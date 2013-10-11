@@ -15,6 +15,10 @@
 
 <h2>{% trans "Project Information" %}</h2>
 
+<a class="menu-float" href="{{ object.get_widgets_url }}">
+<img src="{% url 'widget-image-lang' project=object.subproject.project.slug widget='status' color='badge' lang=object.language.code  %}" />
+</a>
+
 <table class="info">
 {% include "translation_info.html" %}
 </table>
