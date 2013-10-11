@@ -43,6 +43,7 @@ from trans.tests.views import ViewTestCase
 from trans.tests.util import get_test_file
 from trans.models.unitdata import Suggestion, Comment
 from lang.models import Language
+from weblate import appsettings
 
 REGISTRATION_DATA = {
     'username': 'username',
@@ -228,6 +229,45 @@ class ViewTest(TestCase):
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Message from dark side'
+        )
+
+    def test_hosting(self):
+        '''
+        Test for contact form.
+        '''
+        # Hack to allow sending of mails
+        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
+
+        # Disabled hosting
+        appsettings.OFFER_HOSTING = False
+        response = self.client.get(reverse('hosting'))
+        self.assertRedirects(response, reverse('home'))
+
+        # Enabled
+        appsettings.OFFER_HOSTING = True
+        response = self.client.get(reverse('hosting'))
+        self.assertContains(response, 'class="contact-table"')
+
+        # Sending message
+        response = self.client.post(
+            reverse('hosting'),
+            {
+                'name': 'Test',
+                'email': 'noreply@weblate.org',
+                'project': 'HOST',
+                'url': 'http://example.net',
+                'repo': 'git://github.com/nijel/weblate.git',
+                'mask': 'po/*.po',
+                'message': 'Hi\n\nThis app looks really cool I want to use it!',
+            }
+        )
+        self.assertRedirects(response, reverse('home'))
+
+        # Verify message
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Hosting request for HOST'
         )
 
     def test_contact_subject(self):
