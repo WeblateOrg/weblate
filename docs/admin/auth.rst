@@ -60,8 +60,8 @@ For example, enabling authentication against GitHub:
     )
 
     # Social auth backends setup
-    SOCIAL_AUTH_GITHUB_KEY = 'gihub api key'
-    SOCIAL_AUTH_GITHUB_SECRET = 'github api secret'
+    SOCIAL_AUTH_GITHUB_KEY = 'GitHub Client ID'
+    SOCIAL_AUTH_GITHUB_SECRET = 'GitHub Client Secret'
     SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 
 .. seealso:: http://psa.matiasaguirre.net/docs/backends/index.html
