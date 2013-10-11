@@ -22,6 +22,7 @@
 from django.conf import settings
 
 import hashlib
+import binascii
 from random import randint, choice
 
 
@@ -117,7 +118,7 @@ def hash_question(question):
     hexsha = checksum_question(question)
     return '%s%s' % (
         hexsha,
-        question.encode('hex')
+        question.encode('base64')
     )
 
 
@@ -128,7 +129,10 @@ def unhash_question(question):
     if len(question) < 40:
         raise ValueError('Invalid data')
     hexsha = question[:40]
-    question = question[40:].decode('hex')
+    try:
+        question = question[40:].decode('base64')
+    except binascii.Error:
+        raise ValueError('Invalid encoding')
     if hexsha != checksum_question(question):
         raise ValueError('Tampered question!')
     return question
