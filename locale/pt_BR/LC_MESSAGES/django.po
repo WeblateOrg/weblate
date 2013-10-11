@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-11 13:53+0200\n"
-"PO-Revision-Date: 2013-10-11 14:14+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2013-10-11 21:56+0200\n"
+"Last-Translator: Rodrigo Souza <rodrigo.chrome@outlook.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -32,8 +32,8 @@ msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
 msgstr ""
-"Este valor pode conter somente letras, números e os seguintes caracteres: @."
-"+-_"
+"Este valor pode conter somente letras, números e os seguintes caracteres: @ "
+". + - _"
 
 #: accounts/forms.py:100
 msgid "This username is already taken. Please choose another."
@@ -45,7 +45,7 @@ msgstr "E-mail"
 
 #: accounts/forms.py:208
 msgid "You can add another emails on Authentication tab."
-msgstr ""
+msgstr "Você pode adicionar outro email na aba Autenticação."
 
 #: accounts/forms.py:237 accounts/forms.py:312
 msgid "First name"
@@ -84,11 +84,11 @@ msgstr "Este e-mail já está em uso. Por favor, forneça um e-mail diferente."
 #: accounts/forms.py:351
 #, python-format
 msgid "What is %s"
-msgstr ""
+msgstr "O que é %s"
 
 #: accounts/forms.py:361
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "Favor cheque suas contas e tente novamente."
 
 #: accounts/forms.py:371
 msgid "New password"
@@ -99,10 +99,9 @@ msgid "At least six characters long."
 msgstr "Pelo menos 6 caracteres de comprimento."
 
 #: accounts/forms.py:376
-#, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
-msgstr "Senha (novamente)"
+msgstr "Nova senha (novamente)"
 
 #: accounts/forms.py:378
 msgid "Repeat the password so we can verify you typed it in correctly."
@@ -113,26 +112,23 @@ msgid "Password needs to have at least six characters."
 msgstr "A senha precisa ter pelo menos 6 caracteres."
 
 #: accounts/forms.py:407
-#, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
-msgstr "Você precisa escrever a mesma senha cada vez"
+msgstr "Você precisa escrever a mesma senha cada vez."
 
 #: accounts/forms.py:419
-#, fuzzy
 #| msgid "New password"
 msgid "Current password"
-msgstr "Nova senha"
+msgstr "Senha atual"
 
 #: accounts/forms.py:429
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "O usuário com este endereço de email não foi encontrado."
 
 #: accounts/forms.py:439
-#, fuzzy
 #| msgid "Username"
 msgid "Username or email"
-msgstr "Usuário"
+msgstr "Usuário ou email"
 
 #: accounts/forms.py:440
 msgid "Password"
@@ -140,7 +136,7 @@ msgstr "Senha"
 
 #: accounts/forms.py:449 trans/models/project.py:78
 msgid "Project name"
-msgstr "Nome do Projeto"
+msgstr "Nome do projeto"
 
 #: accounts/forms.py:450 trans/models/project.py:89
 msgid "Project website"
@@ -171,10 +167,9 @@ msgstr ""
 "por exemplo: po/*.po ou locale/*/LC_MESSAGES/django.po."
 
 #: accounts/forms.py:469
-#, fuzzy
 #| msgid "Additional commit file"
 msgid "Additional message"
-msgstr "Arquivo adicional de entrega"
+msgstr "Mensagem adicional"
 
 #: accounts/models.py:328
 msgid "Interface Language"
@@ -214,7 +209,7 @@ msgstr "Notificar sobre novo comentário"
 
 #: accounts/models.py:372
 msgid "Notification on merge failure"
-msgstr "Notificar sobre falhas na mesclagem"
+msgstr "Notificar sobre falhas no merge"
 
 #: accounts/models.py:376
 msgid "Notification on new language request"
@@ -255,20 +250,18 @@ msgid "Thanks for using Weblate!"
 msgstr "Obrigado por usar o Weblate!"
 
 #: accounts/views.py:385 weblate/html/accounts/email.html:7
-#, fuzzy
 #| msgid "Register"
 msgid "Register email"
-msgstr "Registro"
+msgstr "Registrar email"
 
 #: accounts/views.py:410
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "Você inseriu uma senha inválida."
 
 #: accounts/views.py:432
-#, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
-msgstr "Sua senha foi trocada."
+msgstr "Sua senha foi alterada."
 
 #: accounts/views.py:443 weblate/html/accounts/profile.html:49
 msgid "Change password"
@@ -283,7 +276,7 @@ msgstr "Resetar senha"
 #: lang/models.py:334
 msgctxt "Plural form description"
 msgid "One"
-msgstr "Singular"
+msgstr "Um"
 
 #: lang/models.py:290 lang/models.py:295 lang/models.py:303 lang/models.py:308
 #: lang/models.py:314 lang/models.py:320 lang/models.py:324 lang/models.py:331
@@ -840,7 +833,7 @@ msgstr "Formato C"
 
 #: trans/checks/format.py:254
 msgid "Python brace format"
-msgstr "Formato Python brace"
+msgstr "Formato de chaves Python"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -884,18 +877,17 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "A string usa três pontos (...) ao invés do caractere reticências (...)"
 
 #: trans/checks/source.py:65
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Multiple failing checks"
-msgstr "Verificações com falha"
+msgstr "Múltipas verificações com falha"
 
 #: trans/checks/source.py:67
 msgid "Translation in several languages have failing checks"
-msgstr ""
+msgstr "Traduções em várias línguas tem verificações com falha"
 
 #: trans/models/changes.py:150
 msgid "Resource update"
-msgstr "Atualização de Recurso"
+msgstr "Atualização de recurso"
 
 #: trans/models/changes.py:151
 msgid "Translation completed"
@@ -946,10 +938,9 @@ msgid "Glossary uploaded"
 msgstr "Glossário enviado"
 
 #: trans/models/changes.py:163
-#, fuzzy
 #| msgid "Source string:"
 msgid "New source string"
-msgstr "String fonte:"
+msgstr "Nova string fonte"
 
 #: trans/models/changes.py:185
 #, python-format
@@ -976,7 +967,7 @@ msgstr "Sem adição de idioma"
 
 #: trans/models/project.py:50
 msgid "Merge"
-msgstr "Mesclar"
+msgstr "Merge"
 
 #: trans/models/project.py:51
 msgid "Rebase"
@@ -1008,7 +999,7 @@ msgstr "Lista de discussão para tradutores."
 
 #: trans/models/project.py:98
 msgid "Translation instructions"
-msgstr "Instruções da Tradução"
+msgstr "Instruções de tradução"
 
 #: trans/models/project.py:100
 msgid "URL with instructions for translators."
@@ -1024,7 +1015,7 @@ msgstr "Sumário curto opcional da licença usada para traduções."
 
 #: trans/models/project.py:111
 msgid "License URL"
-msgstr "URL da Licença"
+msgstr "URL da licença"
 
 #: trans/models/project.py:113
 msgid "Optional URL with license details."
@@ -1052,7 +1043,7 @@ msgstr ""
 
 #: trans/models/project.py:137
 msgid "Commit message"
-msgstr "Mensagem de envio"
+msgstr "Mensagem de commit"
 
 #: trans/models/project.py:139
 msgid ""
@@ -1068,15 +1059,15 @@ msgstr "Nome do contribuinte"
 
 #: trans/models/project.py:151
 msgid "Committer email"
-msgstr "Email do remetente"
+msgstr "Email do contribuinte"
 
 #: trans/models/project.py:156
 msgid "Push on commit"
-msgstr "Atualizar a cada envio"
+msgstr "Atualizar a cada commit"
 
 #: trans/models/project.py:159
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Define se o repositório deve ser atualizado a cada publicação."
+msgstr "Define se o repositório deve ser atualizado a cada commit."
 
 #: trans/models/project.py:164
 msgid "Set Translation-Team header"
@@ -1111,8 +1102,8 @@ msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
-"Por favor, preencha a URL de instrução ou use uma opção diferente para "
-"adicionar um novo idioma."
+"Favor preencha a URL de instruções ou use uma opção diferente para adicionar "
+"um novo idioma."
 
 #: trans/models/project.py:226
 msgid "License URL can not be used without license summary."
@@ -1185,7 +1176,7 @@ msgstr "Branch do Git"
 
 #: trans/models/subproject.py:127
 msgid "Git branch to translate"
-msgstr "Ramo Git para traduzir"
+msgstr "Branch do Git para traduzir"
 
 #: trans/models/subproject.py:140
 msgid "Monolingual base language file"
@@ -1218,30 +1209,31 @@ msgstr "Formato de arquivo"
 #: trans/models/subproject.py:164
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
-"Detecção automática pode falhar para alguns formatos e pode ser mais lenta."
+"A detecção automática pode falhar para alguns formatos e pode ser mais "
+"lenta."
 
 #: trans/models/subproject.py:169
 msgid "Additional commit file"
-msgstr "Arquivo adicional de entrega"
+msgstr "Arquivo adicional de commit"
 
 #: trans/models/subproject.py:175
 msgid ""
 "Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
-"Arquivo adicional a incluir nas entregas; favor olhar a documentação para "
+"Arquivo adicional a incluir nos commits; favor olhar a documentação para "
 "mais detalhes."
 
 #: trans/models/subproject.py:180
 msgid "Pre-commit script"
-msgstr "Script de pré-entrega"
+msgstr "Script de pré-commit"
 
 #: trans/models/subproject.py:186
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
-"Script para ser executado antes da publicação da tradução, revise a "
+"Script a ser executado antes do commit da tradução, favor olhar a "
 "documentação para mais detalhes."
 
 #: trans/models/subproject.py:192
@@ -1319,39 +1311,39 @@ msgstr "Falha ao importar do repositório Git: %s"
 #: trans/models/subproject.py:569
 #, python-format
 msgid "Push is disabled for %s."
-msgstr "Envio está desativado para %s."
+msgstr "Push está desativado para %s."
 
 #: trans/models/subproject.py:618
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr "Falha ao enviar para o ramo remoto em %s."
+msgstr "Falha ao enviar para o branch remoto em %s."
 
 #: trans/models/subproject.py:654
 #, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr "Falha ao resetar para o ramo remoto em %s."
+msgstr "Falha ao resetar para o branch remoto em %s."
 
 #: trans/models/subproject.py:706
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr "Falhou em realocar nosso ramo no ramo remoto %s."
+msgstr "Falhou em realocar nosso branch no branch remoto %s."
 
 #: trans/models/subproject.py:709
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr "Falhou em mesclar o ramo remoto em %s."
+msgstr "Falhou em mesclar o branch remoto em %s."
 
 #: trans/models/subproject.py:830
 msgid "Push URL is not used when repository is linked!"
-msgstr "Não é utilizado URL \"Push\" quando o repositório está associado!"
+msgstr "URL de push não é usada quando o repositório está associado!"
 
 #: trans/models/subproject.py:834
 msgid "Export URL is not used when repository is linked!"
-msgstr "Não é utilizado URL de exportação quando o repositório está associado!"
+msgstr "URL de exportação não é usada quando o repositório está associado!"
 
 #: trans/models/subproject.py:844
 msgid "Template file not found!"
-msgstr "Não foi encontrado o modelo de arquivo!"
+msgstr "Template de arquivo não encontrado!"
 
 #: trans/models/subproject.py:850
 msgid "Format of translation base file could not be recognized."
@@ -1706,22 +1698,23 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
+"Você ativou sua conta, agora você deve definir a senha para poder entrar da "
+"próxima vez."
 
 #: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
 msgstr "Por favor, defina seu nome completo no perfil."
 
 #: trans/views/basic.py:147
-#, fuzzy, python-format
+#, python-format
 #| msgid "Avatar for %s"
 msgid "Search for %s"
-msgstr "Avatar para %s"
+msgstr "Pesquisar por %s"
 
 #: trans/views/basic.py:153
-#, fuzzy
 #| msgid "Invalid search string!"
 msgid "Invalid search query!"
-msgstr "Busca de string inválida!"
+msgstr "String de query inválida!"
 
 #: trans/views/basic.py:183
 #, python-format
@@ -2265,10 +2258,9 @@ msgstr ""
 "para mais informações."
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
-#, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "Notificar sobre novo comentário"
+msgstr "Ganchos de notificação"
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
@@ -2277,6 +2269,9 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Com ganchos de notificação, o Weblate irá automaticamente importar mudanças "
+"feitas pelos seus desenvolvedores e irá permitir tradução contínua. Mais "
+"informações estão disponíveis na <a href=\"%(hooks_docs)s\">documentação</a>."
 
 #: weblate/html/data.html:48
 msgid ""
@@ -2303,12 +2298,13 @@ msgstr "Baixar"
 
 #: weblate/html/data.html:93 weblate/html/data.html.py:99
 msgid "Hook"
-msgstr ""
+msgstr "Gancho"
 
 #: weblate/html/data.html:105
 msgid ""
 "Weblate also support direct notification from several code hosting sites:"
 msgstr ""
+"O Weblate também suporta notificação direta de vários sites de hospedagem:"
 
 #: weblate/html/data.html:110
 msgid "Hosting site"
@@ -2321,6 +2317,7 @@ msgstr "Nota"
 #: weblate/html/data.html:119
 msgid "Enable Weblate service hook in repository settings."
 msgstr ""
+"Ativar o serviço de ganchos do Weblate nas configurações de repositório."
 
 #: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
 msgid "glossaries"
@@ -2816,10 +2813,9 @@ msgid "Latvian"
 msgstr "Letano"
 
 #: weblate/html/i18n.html:90
-#, fuzzy
 #| msgid "Luxembourgish"
 msgid "Limburgish"
-msgstr "Luxemburguês"
+msgstr "Limburgo"
 
 #: weblate/html/i18n.html:91
 msgid "Lingala"
@@ -3027,7 +3023,7 @@ msgstr "Tadjique"
 
 #: weblate/html/i18n.html:142
 msgid "Tagalog"
-msgstr ""
+msgstr "Tagalog"
 
 #: weblate/html/i18n.html:143
 msgid "Tamil"
@@ -3358,22 +3354,19 @@ msgid "Translation license:"
 msgstr "Licença de tradução:"
 
 #: weblate/html/search.html:7
-#, fuzzy
 #| msgid "Search"
 msgid "search"
-msgstr "Procurar"
+msgstr "procurar"
 
 #: weblate/html/search.html:42
-#, fuzzy
 #| msgid "No matching source strings found!"
 msgid "No matching strings found!"
-msgstr "Não foram encontradas strings na fonte!"
+msgstr "Não foram encontradas strings correspondentes!"
 
 #: weblate/html/share.html:7
-#, fuzzy
 #| msgid "Your translations"
 msgid "Share your translation"
-msgstr "Suas traduções"
+msgstr "Compartilhe sua tradução"
 
 #: weblate/html/share.html:10
 msgid "Share on Facebook!"
@@ -3570,10 +3563,9 @@ msgid "Suggest"
 msgstr "Sugerir"
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "No privileges for adding suggestions!"
-msgstr "Você não tem permissões para aceitar sugestões!"
+msgstr "Sem permissão para adicionar sugestões!"
 
 #: weblate/html/translate.html:172
 msgid "Additional text to include in the commit message."
@@ -3790,26 +3782,25 @@ msgid "Failing check"
 msgstr "Verificação de falha"
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid "Source (%(count)s)"
 msgid "Strings (%(count)s):"
-msgstr "(%(count)s) fonte(s)"
+msgstr "Strings (%(count)s):"
 
 #: weblate/html/translation_info.html:15
-#, fuzzy, python-format
+#, python-format
 #| msgid "Source (%(count)s)"
 msgid "Words (%(count)s):"
-msgstr "(%(count)s) fonte(s)"
+msgstr "Palavras (%(count)s):"
 
 #: weblate/html/unit-details.html:5
 msgid "Used in"
 msgstr "Utilizado em"
 
 #: weblate/html/unit-details.html:18
-#, fuzzy
 #| msgid "First name"
 msgid "First seen"
-msgstr "Primeiro nome"
+msgstr "Primeira visualização"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
@@ -3961,16 +3952,16 @@ msgstr ""
 "traduzido."
 
 #: weblate/html/accounts/hosting.html:6
-#, fuzzy
 #| msgid "Hosting site"
 msgid "hosting"
-msgstr "Site de hospedagem"
+msgstr "hospedagem"
 
 #: weblate/html/accounts/hosting.html:11
 msgid ""
 "Please check whether your project is eligible of project hosting on this "
 "site in advance."
 msgstr ""
+"Favor verifique primeiro se a hospedagem do seu projeto é aceita neste site."
 
 #: weblate/html/accounts/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -3982,7 +3973,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Password (again)"
 msgid "Password log in"
-msgstr "Senha (novamente)"
+msgstr "Senha"
 
 #: weblate/html/accounts/login.html:32
 #, python-format
@@ -3999,7 +3990,7 @@ msgstr "Esqueceu a senha? Você pode <a href=\"%(reset_url)s\">resetá-la</a>."
 
 #: weblate/html/accounts/login.html:43
 msgid "Third party log in"
-msgstr ""
+msgstr "Login de terceiros"
 
 #: weblate/html/accounts/password.html:6
 msgid ""
@@ -4026,10 +4017,9 @@ msgid "Account"
 msgstr "Conta"
 
 #: weblate/html/accounts/profile.html:25
-#, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
-msgstr "Documentação"
+msgstr "Autenticação"
 
 #: weblate/html/accounts/profile.html:26
 msgid "Information"
@@ -4054,39 +4044,38 @@ msgid "Your name and email will appear as author on Git commits."
 msgstr "Seu nome e e-mail aparecerão como autor de suas publicações no Git."
 
 #: weblate/html/accounts/profile.html:49
-#, fuzzy
 #| msgid "New password"
 msgid "Set password"
-msgstr "Nova senha"
+msgstr "Definir senha"
 
 #: weblate/html/accounts/profile.html:51
 msgid ""
 "You can manage third party identities which are associated to this account."
 msgstr ""
+"Você pode gerenciar identidades de terceiros que estão associadas a esta "
+"conta."
 
 #: weblate/html/accounts/profile.html:52
 msgid "Currently associated:"
-msgstr ""
+msgstr "Atualmente associados:"
 
 #: weblate/html/accounts/profile.html:56
 msgid "Identity"
-msgstr ""
+msgstr "Identidade"
 
 #: weblate/html/accounts/profile.html:57
-#, fuzzy
 #| msgid "User"
 msgid "User ID"
-msgstr "Usuário"
+msgstr "ID de Usuário"
 
 #: weblate/html/accounts/profile.html:67
 msgid "Disconnect"
-msgstr ""
+msgstr "Desconectar"
 
 #: weblate/html/accounts/profile.html:76
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
-msgstr "Adicionar como tradução"
+msgstr "Adicionar nova associação:"
 
 #: weblate/html/accounts/profile.html:89
 msgid "Your public profile:"
@@ -4105,16 +4094,14 @@ msgid "Avatars are provided using libravatar."
 msgstr "Os avatares são fornecidos pelo libravatar."
 
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "Registered users"
 msgid "Register using email"
-msgstr "Usuários registrados"
+msgstr "Registrar usando email"
 
 #: weblate/html/accounts/register.html:34
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
-msgstr "Registro de usuário"
+msgstr "Registro de terceiros"
 
 #: weblate/html/accounts/register.html:46
 #, python-format
