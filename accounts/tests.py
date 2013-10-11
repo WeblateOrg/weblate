@@ -52,6 +52,8 @@ REGISTRATION_DATA = {
     'email': 'noreply@weblate.org',
     'first_name': 'First',
     'last_name': 'Last',
+    'captcha_id': '00',
+    'captcha': '9999'
 }
 
 
@@ -77,7 +79,20 @@ class RegistrationTest(TestCase):
             reverse('password')
         )
 
+    def test_register_captcha(self):
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA
+        )
+        self.assertContains(
+            response,
+            'Please check your math and try again.'
+        )
+
     def test_register(self):
+        # Disable captcha
+        appsettings.REGISTRATION_CAPTCHA = False
+
         response = self.client.post(
             reverse('register'),
             REGISTRATION_DATA
@@ -108,6 +123,9 @@ class RegistrationTest(TestCase):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First')
         self.assertEqual(user.last_name, 'Last')
+
+        # Restore settings
+        appsettings.REGISTRATION_CAPTCHA = True
 
     def test_reset(self):
         '''

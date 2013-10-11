@@ -33,7 +33,7 @@ from urllib import urlencode
 
 from accounts.forms import (
     RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
-    LoginForm, HostingForm
+    LoginForm, HostingForm, CaptchaRegistrationForm
 )
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
@@ -338,12 +338,17 @@ def register(request):
     '''
     Registration form.
     '''
+    if appsettings.REGISTRATION_CAPTCHA:
+        form_class = CaptchaRegistrationForm
+    else:
+        form_class = RegistrationForm
+
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = form_class(request.POST)
         if form.is_valid() and appsettings.REGISTRATION_OPEN:
             return complete(request, 'email')
     else:
-        form = RegistrationForm()
+        form = form_class()
 
     return render_to_response(
         'accounts/register.html',
