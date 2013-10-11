@@ -449,10 +449,6 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
-        # Translation validation
-        translation = project.translation_set.get(language_code='cs')
-        translation.full_clean()
-
     def test_validation_mono(self):
         project = self.create_po_mono()
         # Correct project
@@ -533,3 +529,11 @@ class TranslationTest(RepoTestCase):
             None, 'TEST <test@example.net>', timezone.now(),
             force_commit=True
         )
+
+    def test_validation(self):
+        '''
+        Translation validation
+        '''
+        project = self.create_subproject()
+        translation = project.translation_set.get(language_code='cs')
+        translation.full_clean()
