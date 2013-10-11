@@ -27,6 +27,16 @@ from social.exceptions import AuthForbidden
 from accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
 
+def get_backend_name(strategy):
+    '''
+    Wrapper to provide compatibility with different versions
+    of python-social-auth.
+    '''
+    if hasattr(strategy, 'backend_name'):
+        return strategy.backend_name
+    else:
+        return strategy.backend.name
+
 
 @partial
 def require_email(strategy, details, user=None, is_new=False,
@@ -35,10 +45,8 @@ def require_email(strategy, details, user=None, is_new=False,
     Forces entering email for backends which don't provide it.
     '''
     if user and user.email:
-
         # Force validation of new email address
-        if (hasattr(strategy, 'backend_name')
-                and strategy.backend_name == 'email'):
+        if get_backend_name(strategy) == 'email':
             return {'is_new': True}
 
         return
@@ -56,7 +64,7 @@ def send_validation(strategy, code):
     Sends verification email.
     '''
     url = '%s?verification_code=%s' % (
-        reverse('social:complete', args=(strategy.backend_name,)),
+        reverse('social:complete', args=(get_backend_name(strategy),)),
         code.code
     )
 
