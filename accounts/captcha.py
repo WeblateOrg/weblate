@@ -38,8 +38,6 @@ class MathCaptcha(object):
         else:
             self.question = question
 
-        pass
-
     def generate_question(self):
         '''
         Generates random question.
