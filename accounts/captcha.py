@@ -30,7 +30,7 @@ class MathCaptcha(object):
     Simple match captcha object.
     '''
     operators = ('+', '-', '*')
-    interval = (0, 10)
+    interval = (1, 10)
 
     def __init__(self, question=None):
         if question is None:
@@ -42,15 +42,17 @@ class MathCaptcha(object):
         '''
         Generates random question.
         '''
+        operator = choice(self.operators)
         first = randint(self.interval[0], self.interval[1])
         second = randint(self.interval[0], self.interval[1])
 
         # We don't want negative answers
-        if second > first:
-            first, second = second, first
+        if operator == '-':
+            first += self.interval[1]
+
         return '%d %s %d' % (
             first,
-            choice(self.operators),
+            operator,
             second
         )
 
@@ -73,8 +75,14 @@ class MathCaptcha(object):
         '''
         Validates answer.
         '''
-        result = eval(self.question)
-        return result == answer
+        return self.result == answer
+
+    @propery
+    def result(self):
+        '''
+        Returns result.
+        '''
+        return eval(self.question)
 
 
 def checksum_question(question):
