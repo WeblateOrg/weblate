@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-11 13:53+0200\n"
-"PO-Revision-Date: 2013-10-11 13:59+0200\n"
+"PO-Revision-Date: 2013-10-15 12:03+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -45,6 +45,8 @@ msgstr "Courriel"
 #: accounts/forms.py:208
 msgid "You can add another emails on Authentication tab."
 msgstr ""
+"Vous pouvez ajouter une autre adresse de courriel sur l'onglet "
+"Authentification."
 
 #: accounts/forms.py:237 accounts/forms.py:312
 msgid "First name"
@@ -85,11 +87,11 @@ msgstr ""
 #: accounts/forms.py:351
 #, python-format
 msgid "What is %s"
-msgstr ""
+msgstr "Ce qu'est %s"
 
 #: accounts/forms.py:361
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "Veuillez vérifier votre calcul et essayer à nouveau."
 
 #: accounts/forms.py:371
 msgid "New password"
@@ -121,7 +123,7 @@ msgstr "Mot de passe actuel"
 
 #: accounts/forms.py:429
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "Aucun utilisateur avec cette adresse de courriel n'a été trouvé."
 
 #: accounts/forms.py:439
 msgid "Username or email"
@@ -252,7 +254,7 @@ msgstr "Enregistrement de l'adresse courriel"
 
 #: accounts/views.py:410
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "Vous avez saisi un mot de passe non valide."
 
 #: accounts/views.py:432
 msgid "Your password has been changed."
@@ -634,6 +636,8 @@ msgstr "Impossible d'établir un lien vers un référenciel lié !"
 #: trans/validators.py:96
 msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgstr ""
+"Lien non valide vers le projet Weblate, utiliser "
+"weblate://project/subproject."
 
 #: trans/validators.py:108
 msgid ""
@@ -1716,6 +1720,8 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
+"Vous avez activé votre compte, maintenant, vous devez définir le mot de "
+"passe pour pouvoir vous identifier la prochaine fois."
 
 #: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
@@ -2288,10 +2294,9 @@ msgstr ""
 "suivant pour plus d'informations."
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
-#, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "Avis lors d'un nouveau commentaire"
+msgstr "Points d'ancrage pour les avis"
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
@@ -2300,6 +2305,10 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Grâce aux points d'ancrage pour les avis, Weblate importera automatiquement "
+"les changements effectués par vos développeurs et permettra une traduction "
+"en continu. Plus de détails sont disponibles dans <a href=\"%"
+"(hooks_docs)s\">la documentation</a>."
 
 #: weblate/html/data.html:48
 msgid ""
@@ -3391,10 +3400,9 @@ msgid "No matching strings found!"
 msgstr "Aucune chaîne correspondante n'a été trouvée !"
 
 #: weblate/html/share.html:7
-#, fuzzy
 #| msgid "Your translations"
 msgid "Share your translation"
-msgstr "Vos traductions"
+msgstr "Partager votre traduction"
 
 #: weblate/html/share.html:10
 msgid "Share on Facebook!"
@@ -3591,10 +3599,9 @@ msgid "Suggest"
 msgstr "Suggérer"
 
 #: weblate/html/translate.html:167
-#, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "No privileges for adding suggestions!"
-msgstr "Vous n'avez pas l'autorisation d'accepter les suggestions !"
+msgstr "Vous n'avez pas l'autorisation d'ajouter des suggestions !"
 
 #: weblate/html/translate.html:172
 msgid "Additional text to include in the commit message."
@@ -3815,26 +3822,25 @@ msgid "Failing check"
 msgstr "Vérification en échec"
 
 #: weblate/html/translation_info.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid "Source (%(count)s)"
 msgid "Strings (%(count)s):"
-msgstr "Source (%(count)s)"
+msgstr "Chaînes (%(count)s) :"
 
 #: weblate/html/translation_info.html:15
-#, fuzzy, python-format
+#, python-format
 #| msgid "Source (%(count)s)"
 msgid "Words (%(count)s):"
-msgstr "Source (%(count)s)"
+msgstr "Mots (%(count)s) :"
 
 #: weblate/html/unit-details.html:5
 msgid "Used in"
 msgstr "Utilisé dans"
 
 #: weblate/html/unit-details.html:18
-#, fuzzy
 #| msgid "First name"
 msgid "First seen"
-msgstr "Prénom"
+msgstr "Première alerte"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
@@ -3986,10 +3992,9 @@ msgstr ""
 "même licence que celle utilisée par chacun des projets."
 
 #: weblate/html/accounts/hosting.html:6
-#, fuzzy
 #| msgid "Hostname"
 msgid "hosting"
-msgstr "Nom d'hôte"
+msgstr "hébergement"
 
 #: weblate/html/accounts/hosting.html:11
 msgid ""
@@ -4004,10 +4009,9 @@ msgstr ""
 "nouveau."
 
 #: weblate/html/accounts/login.html:17
-#, fuzzy
 #| msgid "Password (again)"
 msgid "Password log in"
-msgstr "Répéter le mot de passe"
+msgstr "Se connecter par mot de passe"
 
 #: weblate/html/accounts/login.html:32
 #, python-format
@@ -4054,10 +4058,9 @@ msgid "Account"
 msgstr "Compte"
 
 #: weblate/html/accounts/profile.html:25
-#, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
-msgstr "Documentation"
+msgstr "Authentification"
 
 #: weblate/html/accounts/profile.html:26
 msgid "Information"
@@ -4081,10 +4084,9 @@ msgid "Your name and email will appear as author on Git commits."
 msgstr "Vos nom et adresse courriel apparaîtront en tant qu'auteur dans Git."
 
 #: weblate/html/accounts/profile.html:49
-#, fuzzy
 #| msgid "New password"
 msgid "Set password"
-msgstr "Nouveau mot de passe"
+msgstr "Définir le mot de passe"
 
 #: weblate/html/accounts/profile.html:51
 msgid ""
@@ -4100,20 +4102,18 @@ msgid "Identity"
 msgstr ""
 
 #: weblate/html/accounts/profile.html:57
-#, fuzzy
 #| msgid "User"
 msgid "User ID"
-msgstr "Utilisateur"
+msgstr "Identifiant de l'utilisateur"
 
 #: weblate/html/accounts/profile.html:67
 msgid "Disconnect"
 msgstr ""
 
 #: weblate/html/accounts/profile.html:76
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
-msgstr "Ajouter comme traduction"
+msgstr "Ajouter une association :"
 
 #: weblate/html/accounts/profile.html:89
 msgid "Your public profile:"
@@ -4132,16 +4132,14 @@ msgid "Avatars are provided using libravatar."
 msgstr "Les avatars sont fournis par libravatar."
 
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "Registered users"
 msgid "Register using email"
-msgstr "Utilisateurs enregistrés"
+msgstr "S'inscrire en utilisant le courriel"
 
 #: weblate/html/accounts/register.html:34
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
-msgstr "Enregistrement utilisateur"
+msgstr "Enregistrement de tiers"
 
 #: weblate/html/accounts/register.html:46
 #, python-format
