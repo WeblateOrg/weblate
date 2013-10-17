@@ -117,7 +117,7 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         args = {
             'text': text[:5000].encode('utf-8'),
-            'from': 'en',
+            'from': appsettings.SOURCE_LANGUAGE,
             'to': language,
             'contentType': 'text/plain',
             'category': 'general',

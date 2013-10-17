@@ -67,7 +67,7 @@ class GoogleTranslation(MachineTranslation):
             'https://www.googleapis.com/language/translate/v2/',
             key=appsettings.MT_GOOGLE_KEY,
             q=text.encode('utf-8'),
-            source='en',
+            source=appsettings.SOURCE_LANGUAGE,
             target=language,
         )
 
@@ -99,7 +99,7 @@ class GoogleWebTranslation(MachineTranslation):
             'http://translate.google.com/translate_a/t',
             client='t',
             text=text.encode('utf-8'),
-            sl='en',
+            sl=appsettings.SOURCE_LANGUAGE,
             tl=language,
             ie='UTF-8',
             oe='UTF-8'

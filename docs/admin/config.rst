@@ -345,6 +345,14 @@ SITE_TITLE
 
 Site title to be used in website and emails as well.
 
+.. setting:: SOURCE_LANGUAGE
+
+SOURCE_LANGUAGE
+---------------
+
+Source language used for translation. This is mostly useful for machine
+translation services.
+
 .. setting:: TTF_PATH
 
 TTF_PATH

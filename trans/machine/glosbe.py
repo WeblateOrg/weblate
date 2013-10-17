@@ -19,6 +19,7 @@
 #
 
 from trans.machine.base import MachineTranslation
+from weblate import appsettings
 
 
 class GlosbeTranslation(MachineTranslation):
@@ -44,7 +45,7 @@ class GlosbeTranslation(MachineTranslation):
         Downloads list of possible translations from a service.
         '''
         params = {
-            'from': 'en',
+            'from': appsettings.SOURCE_LANGUAGE,
             'dest': language,
             'format': 'json',
             'phrase': text.strip(',.:?! ').encode('utf-8')

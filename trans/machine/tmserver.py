@@ -20,8 +20,9 @@
 
 from trans.machine.base import MachineTranslation
 from django.core.exceptions import ImproperlyConfigured
-from weblate.appsettings import MT_TMSERVER
 import urllib
+
+from weblate import appsettings
 
 
 class TMServerTranslation(MachineTranslation):
@@ -41,12 +42,12 @@ class TMServerTranslation(MachineTranslation):
         '''
         Returns URL of a server.
         '''
-        if MT_TMSERVER is None:
+        if appsettings.MT_TMSERVER is None:
             raise ImproperlyConfigured(
                 'Not configured tmserver URL'
             )
 
-        return MT_TMSERVER.rstrip('/')
+        return appsettings.MT_TMSERVER.rstrip('/')
 
     def convert_language(self, language):
         '''
@@ -64,8 +65,9 @@ class TMServerTranslation(MachineTranslation):
         '''
         Downloads list of possible translations from a service.
         '''
-        url = '%s/tmserver/en/%s/unit/%s' % (
+        url = '%s/tmserver/%s/%s/unit/%s' % (
             self.url,
+            urllib.quote(appsettings.SOURCE_LANGUAGE),
             urllib.quote(language),
             urllib.quote(text.encode('utf-8')),
         )

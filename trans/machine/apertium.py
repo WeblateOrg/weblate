@@ -41,14 +41,14 @@ class ApertiumTranslation(MachineTranslation):
         data = self.json_status_req('http://api.apertium.org/json/listPairs')
         return [item['targetLanguage']
                 for item in data['responseData']
-                if item['sourceLanguage'] == 'en']
+                if item['sourceLanguage'] == appsettings.SOURCE_LANGUAGE]
 
     def download_translations(self, language, text, unit, user):
         '''
         Downloads list of possible translations from Apertium.
         '''
         args = {
-            'langpair': 'en|%s' % language,
+            'langpair': '%s|%s' % (appsettings.SOURCE_LANGUAGE, language),
             'q': text.encode('utf-8'),
         }
         if appsettings.MT_APERTIUM_KEY is not None:

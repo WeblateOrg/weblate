@@ -152,3 +152,6 @@ REGISTRATION_OPEN = get('REGISTRATION_OPEN', True)
 
 # Captcha for registrations
 REGISTRATION_CAPTCHA = get('REGISTRATION_CAPTCHA', True)
+
+# Source language
+SOURCE_LANGUAGE = get('SOURCE_LANGUAGE', 'en')

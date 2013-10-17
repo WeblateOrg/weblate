@@ -11,6 +11,9 @@ up to administrator to enable them. The services have different terms of use, so
 please check whether you are allowed to use them before enabling in Weblate.
 The individual services are enabled using :setting:`MACHINE_TRANSLATION_SERVICES`.
 
+The source langauge can be configured by :setting:`SOURCE_LANGUAGE` and is
+shared for all translations within Weblate.
+
 Amagama
 +++++++
 

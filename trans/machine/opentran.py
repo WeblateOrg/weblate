@@ -21,6 +21,8 @@
 from trans.machine.base import MachineTranslation
 import urllib
 
+from weblate import appsettings
+
 
 class OpenTranTranslation(MachineTranslation):
     '''
@@ -56,8 +58,8 @@ class OpenTranTranslation(MachineTranslation):
         Downloads list of possible translations from a service.
         '''
         response = self.json_req(
-            'http://en.%s.open-tran.eu/json/suggest/%s' % (
-                language, urllib.quote(text.encode('utf-8'))
+            'http://%s.%s.open-tran.eu/json/suggest/%s' % (
+                appsettings.SOURCE_LANGUAGE, language, urllib.quote(text.encode('utf-8'))
             )
         )
 
