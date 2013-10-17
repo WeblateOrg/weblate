@@ -64,7 +64,7 @@ class MultipleFailingCheck(SourceCheck):
     check_id = 'multiple_failures'
     name = _('Multiple failing checks')
     description = _(
-        'Translation in several languages have failing checks'
+        'The translations in several languages have failing checks'
     )
 
     def check_source(self, source, unit):
