@@ -233,3 +233,10 @@ def get_distinct_translations(units):
         targets[unit.target] = 1
         result.append(unit)
     return result
+
+
+def translation_percent(translated, total):
+    '''
+    Returns translation percentage.
+    '''
+    return (1000 * translated / total) / 10.0

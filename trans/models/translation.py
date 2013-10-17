@@ -39,7 +39,9 @@ from trans.formats import AutoFormat
 from trans.checks import CHECKS
 from trans.models.subproject import SubProject
 from trans.models.project import Project
-from trans.util import get_user_display, get_site_url, sleep_while_git_locked
+from trans.util import (
+    get_user_display, get_site_url, sleep_while_git_locked, translation_percent
+)
 from trans.mixins import URLMixin, PercentMixin
 from trans.boolean_sum import BooleanSum
 
@@ -112,7 +114,7 @@ class TranslationManager(models.Manager):
             translations['failing_checks__sum'],
         ]
         # Calculate percent
-        return tuple([round(value * 100.0 / total, 1) for value in result])
+        return tuple([translation_percent(value, total) for value in result])
 
 
 class Translation(models.Model, URLMixin, PercentMixin):
@@ -213,15 +215,15 @@ class Translation(models.Model, URLMixin, PercentMixin):
             return (0, 0, 0)
 
         return (
-            round(self.translated * 100.0 / self.total, 1),
-            round(self.fuzzy * 100.0 / self.total, 1),
-            round(self.failing_checks * 100.0 / self.total, 1),
+            translation_percent(self.translated,  self.total),
+            translation_percent(self.fuzzy, self.total),
+            translation_percent(self.failing_checks, self.total),
         )
 
     def get_words_percent(self):
         if self.total_words == 0:
             return 0
-        return round(self.translated_words * 100.0 / self.total_words, 1)
+        return translation_percent(self.translated_words, self.total_words)
 
     @property
     def untranslated_words(self):
