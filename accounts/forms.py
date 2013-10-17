@@ -67,6 +67,14 @@ def sort_choices(choices):
             cmp=collator.compare
         )
 
+class NoStripEmailField(forms.EmailField):
+    '''
+    Email field which does no stripping.
+    '''
+    def clean(self, value):
+        value = self.to_python(value)
+        return super(forms.EmailField, self).clean(value)
+
 
 class UsernameField(forms.RegexField):
     def __init__(self, *args, **kwargs):
@@ -270,7 +278,7 @@ class EmailForm(forms.Form):
     required_css_class = "required"
     error_css_class = "error"
 
-    email = forms.EmailField(
+    email = NoStripEmailField(
         max_length=75,
         label=_("E-mail"),
         help_text=_('Activation email will be sent here.'),
