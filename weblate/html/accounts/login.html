@@ -16,6 +16,10 @@
 
 <h2>{% trans "Password log in" %}</h2>
 
+{% if demo_server %}
+<p>{% trans "To test Weblate, you can login as <code>demo</code> user with password <code>demo</code>." %}</p>
+{% endif %}
+
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>

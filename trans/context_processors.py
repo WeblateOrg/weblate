@@ -41,6 +41,7 @@ def weblate_context(request):
         'site_url': get_site_url(),
 
         'offer_hosting': appsettings.OFFER_HOSTING,
+        'demo_server': appsettings.DEMO_SERVER,
 
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),
