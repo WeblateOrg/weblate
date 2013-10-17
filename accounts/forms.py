@@ -67,6 +67,7 @@ def sort_choices(choices):
             cmp=collator.compare
         )
 
+
 class NoStripEmailField(forms.EmailField):
     '''
     Email field which does no stripping.
