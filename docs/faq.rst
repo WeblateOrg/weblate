@@ -21,6 +21,8 @@ without interaction unless some merge conflict occurs.
    Weblate push changes to your repository whenever they are committed at Weblate.
 4. Optionally setup cron job for :djadmin:`commit_pending`.
 
+.. seealso:: :ref:`continuous-translation`
+
 How to access repositories over SSH?
 ------------------------------------
 

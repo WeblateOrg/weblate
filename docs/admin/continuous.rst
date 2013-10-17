@@ -1,3 +1,5 @@
+.. _continuous-translation:
+
 Continuous translation
 ======================
 
