@@ -524,14 +524,15 @@ class NotificationTest(ViewTestCase):
 class CaptchaTest(UnitTestCase):
     def test_decode(self):
         question = '1 + 1'
-        hashed = hash_question(question)
+        timestamp = 1000
+        hashed = hash_question(question, timestamp)
         self.assertEquals(
-            question,
+            (question, timestamp),
             unhash_question(hashed)
         )
 
     def test_tamper(self):
-        hashed = hash_question('') + '00'
+        hashed = hash_question('', 0) + '00'
         self.assertRaises(
             ValueError,
             unhash_question,
