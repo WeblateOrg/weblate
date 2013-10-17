@@ -59,7 +59,9 @@ class OpenTranTranslation(MachineTranslation):
         '''
         response = self.json_req(
             'http://%s.%s.open-tran.eu/json/suggest/%s' % (
-                appsettings.SOURCE_LANGUAGE, language, urllib.quote(text.encode('utf-8'))
+                appsettings.SOURCE_LANGUAGE,
+                language,
+                urllib.quote(text.encode('utf-8'))
             )
         )
 
