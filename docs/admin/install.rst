@@ -178,10 +178,8 @@ options:
 
 ``SECRET_KEY``
 
-    Key used by Django to sign some information in cookies. If you don't
-    change this, the cookies can be spoofed by anyone.
-
-    .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
+    Key used by Django to sign some information in cookies, see
+    :ref:`production-secret` for more information.
 
 ``SERVER_EMAIL``
 
@@ -373,6 +371,9 @@ Django secret key
 
 The ``SECRET_KEY`` setting is used by Django to sign cookies and you should
 really use own value rather than using the one coming from example setup.
+
+You can generate new key using :file:`examples/generate-secret-key` shipped
+with Weblate.
 
     .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
 
