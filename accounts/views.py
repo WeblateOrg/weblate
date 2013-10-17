@@ -119,6 +119,7 @@ def user_profile(request):
         )
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
             messages.warning(
+                request,
                 _('You can not change demo profile on demo server.')
             )
             return redirect('profile')
