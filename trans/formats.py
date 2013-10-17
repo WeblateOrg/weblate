@@ -426,6 +426,14 @@ class FileFormat(object):
             return
 
         kwargs['x_generator'] = 'Weblate %s' % weblate.VERSION
+
+        # Adjust Content-Type header if needed
+        header = self.store.parseheader()
+        if (not 'Content-Type' in header
+                or 'charset=CHARSET' in header['Content-Type']
+                or 'charset=ASCII' in header['Content-Type']):
+            kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
+
         self.store.updateheader(**kwargs)
 
     def save(self):
