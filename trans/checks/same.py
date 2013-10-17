@@ -50,6 +50,7 @@ SAME_BLACKLIST = frozenset((
     'applet',
     'appliance',
     'appliances',
+    'aptitude',
     'attribute',
     'attribution',
     'atom',
