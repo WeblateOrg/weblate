@@ -117,6 +117,12 @@ def user_profile(request):
             request.POST,
             instance=request.user
         )
+        if appsettings.DEMO_SERVER and request.user.username == 'demo':
+            messages.warning(
+                _('You can not change demo profile on demo server.')
+            )
+            return redirect('profile')
+
         if (form.is_valid()
                 and userform.is_valid()
                 and subscriptionform.is_valid()):

@@ -66,6 +66,9 @@ SITE_TITLE = get('SITE_TITLE', 'Weblate')
 # Whether to offer hosting
 OFFER_HOSTING = get('OFFER_HOSTING', False)
 
+# Demo server tweaks
+DEMO_SERVER = get('DEMO_SERVER', False)
+
 # Enable remote hooks
 ENABLE_HOOKS = get('ENABLE_HOOKS', True)
 
