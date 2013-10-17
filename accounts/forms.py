@@ -74,6 +74,8 @@ class NoStripEmailField(forms.EmailField):
     '''
     def clean(self, value):
         value = self.to_python(value)
+        # We call super-super method to skip default EmailField behavior
+        # pylint: disable=E1003
         return super(forms.EmailField, self).clean(value)
 
 
