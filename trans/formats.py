@@ -30,6 +30,7 @@ from translate.storage import mo
 from translate.storage import factory
 from trans.util import get_string
 from translate.misc import quote
+import weblate
 import subprocess
 import os.path
 import re
@@ -423,6 +424,8 @@ class FileFormat(object):
         '''
         if not hasattr(self.store, 'updateheader'):
             return
+
+        kwargs['x_generator'] = 'Weblate %s' % weblate.VERSION
         self.store.updateheader(**kwargs)
 
     def save(self):

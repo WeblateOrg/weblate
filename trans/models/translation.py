@@ -33,7 +33,6 @@ import traceback
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
-import weblate
 from weblate import appsettings
 from lang.models import Language
 from trans.formats import AutoFormat
@@ -971,7 +970,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'plural_forms': self.language.get_plural_form(),
                 'language': self.language_code,
                 'PO_Revision_Date': po_revision_date,
-                'x_generator': 'Weblate %s' % weblate.VERSION
             }
 
             # Optionally store language team with link to website
