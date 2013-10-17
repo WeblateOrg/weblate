@@ -216,7 +216,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
             return (0, 0, 0)
 
         return (
-            translation_percent(self.translated,  self.total),
+            translation_percent(self.translated, self.total),
             translation_percent(self.fuzzy, self.total),
             translation_percent(self.failing_checks, self.total),
         )
