@@ -23,7 +23,10 @@ from django.conf import settings
 
 import hashlib
 import binascii
+import time
 from random import randint, choice
+
+TIMEDELTA = 600
 
 
 class MathCaptcha(object):
@@ -38,11 +41,15 @@ class MathCaptcha(object):
     }
     interval = (1, 10)
 
-    def __init__(self, question=None):
+    def __init__(self, question=None, timestamp=None):
         if question is None:
             self.question = self.generate_question()
         else:
             self.question = question
+        if timestamp is None:
+            self.timestamp = time.time()
+        else:
+            self.timestamp = timestamp
 
     def generate_question(self):
         '''
@@ -67,21 +74,24 @@ class MathCaptcha(object):
         '''
         Creates object from hash.
         '''
-        question = unhash_question(hashed)
-        return MathCaptcha(question)
+        question, timestamp = unhash_question(hashed)
+        return MathCaptcha(question, timestamp)
 
     @property
     def hashed(self):
         '''
         Returns hashed question.
         '''
-        return hash_question(self.question)
+        return hash_question(self.question, self.timestamp)
 
     def validate(self, answer):
         '''
         Validates answer.
         '''
-        return self.result == answer
+        return (
+            self.result == answer
+            and self.timestamp + TIMEDELTA > time.time()
+        )
 
     @property
     def result(self):
@@ -103,21 +113,30 @@ class MathCaptcha(object):
         )
 
 
-def checksum_question(question):
+def format_timestamp(timestamp):
+    '''
+    Formats timestamp in a form usable in captcha.
+    '''
+    return '{:>010x}'.format(int(timestamp))
+
+
+def checksum_question(question, timestamp):
     '''
     Returns checksum for a question.
     '''
-    sha = hashlib.sha1(settings.SECRET_KEY + question)
+    sha = hashlib.sha1(settings.SECRET_KEY + question + timestamp)
     return sha.hexdigest()
 
 
-def hash_question(question):
+def hash_question(question, timestamp):
     '''
     Hashes question so that it can be later verified.
     '''
-    hexsha = checksum_question(question)
-    return '%s%s' % (
+    timestamp = format_timestamp(timestamp)
+    hexsha = checksum_question(question, timestamp)
+    return '%s%s%s' % (
         hexsha,
+        timestamp,
         question.encode('base64')
     )
 
@@ -129,10 +148,11 @@ def unhash_question(question):
     if len(question) < 40:
         raise ValueError('Invalid data')
     hexsha = question[:40]
+    timestamp = question[40:50]
     try:
-        question = question[40:].decode('base64')
+        question = question[50:].decode('base64')
     except binascii.Error:
         raise ValueError('Invalid encoding')
-    if hexsha != checksum_question(question):
+    if hexsha != checksum_question(question, timestamp):
         raise ValueError('Tampered question!')
-    return question
+    return question, int(timestamp, 16)
