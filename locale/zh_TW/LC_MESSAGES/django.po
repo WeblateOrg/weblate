@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-17 14:11+0200\n"
+"POT-Creation-Date: 2013-10-17 16:49+0200\n"
 "PO-Revision-Date: 2013-10-16 13:35+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
 "Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -167,7 +167,7 @@ msgstr "附加訊息"
 msgid "Interface Language"
 msgstr "界面語言"
 
-#: accounts/models.py:334 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:334 lang/views.py:32 weblate/html/index.html:26
 msgid "Languages"
 msgstr "語言"
 
@@ -207,56 +207,60 @@ msgstr "在合併失敗時通知"
 msgid "Notification on new language request"
 msgstr "有新的語言要求時通知"
 
-#: accounts/views.py:80 accounts/views.py:361
+#: accounts/views.py:80 accounts/views.py:368
 msgid "User registration"
 msgstr "使用者註冊"
 
-#: accounts/views.py:139
+#: accounts/views.py:123
+msgid "You can not change demo profile on the demo server."
+msgstr ""
+
+#: accounts/views.py:146
 msgid "Your profile has been updated."
 msgstr "您的個人資料已經更新。"
 
-#: accounts/views.py:169
+#: accounts/views.py:176
 msgid "User profile"
 msgstr "使用者設定檔"
 
-#: accounts/views.py:195 accounts/views.py:237
+#: accounts/views.py:202 accounts/views.py:244
 msgid "Message has been sent to administrator."
 msgstr "訊息已發送給管理者。"
 
-#: accounts/views.py:213
+#: accounts/views.py:220
 msgid "Contact"
 msgstr "連絡人"
 
-#: accounts/views.py:253
+#: accounts/views.py:260
 msgid "Hosting"
 msgstr "主機"
 
-#: accounts/views.py:319 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:25
+#: accounts/views.py:326 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:29
 msgid "Login"
 msgstr "登入"
 
-#: accounts/views.py:329
+#: accounts/views.py:336
 msgid "Thanks for using Weblate!"
 msgstr "感謝您使用 Weblate！"
 
-#: accounts/views.py:385 weblate/html/accounts/email.html:7
+#: accounts/views.py:392 weblate/html/accounts/email.html:7
 msgid "Register email"
 msgstr "註冊電子郵件"
 
-#: accounts/views.py:410
+#: accounts/views.py:417
 msgid "You have entered an invalid password."
 msgstr "您輸入的密碼無效。"
 
-#: accounts/views.py:432
+#: accounts/views.py:439
 msgid "Your password has been changed."
 msgstr "您的密碼已變更。"
 
-#: accounts/views.py:443 weblate/html/accounts/profile.html:49
+#: accounts/views.py:450 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "變更密碼"
 
-#: accounts/views.py:470 weblate/html/accounts/reset.html:7
+#: accounts/views.py:477 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "重設密碼"
 
@@ -827,11 +831,11 @@ msgstr "XML 標籤不一致"
 msgid "XML tags in translation do not match source"
 msgstr "在翻譯中的 XML 標籤與來源不一致"
 
-#: trans/checks/same.py:659
+#: trans/checks/same.py:660
 msgid "Not translated"
 msgstr "尚未翻譯"
 
-#: trans/checks/same.py:660
+#: trans/checks/same.py:661
 msgid "Source and translated strings are same"
 msgstr "來源和翻譯的字串均相同"
 
@@ -1082,7 +1086,7 @@ msgstr "子專案名稱"
 #: trans/models/subproject.py:80 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
 #: weblate/html/data.html.py:59 weblate/html/data.html:85
-#: weblate/html/index.html:37 weblate/html/list-translations.html:6
+#: weblate/html/index.html:42 weblate/html/list-translations.html:6
 #: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "專案"
@@ -1971,7 +1975,7 @@ msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr "此 Weblate 實例主機給各種的自由軟體專案翻譯。"
 
-#: weblate/html/about.html:22 weblate/html/index.html:55
+#: weblate/html/about.html:22 weblate/html/index.html:60
 #, python-format
 msgid ""
 "We can host your project as well, if you are interested, please <a href="
@@ -2089,7 +2093,7 @@ msgid "data"
 msgstr "資料"
 
 #: weblate/html/data-root.html:11 weblate/html/data.html:12
-#: weblate/html/index.html:125 weblate/html/share.html:30
+#: weblate/html/index.html:130 weblate/html/share.html:30
 msgid "Data export"
 msgstr "資料匯出"
 
@@ -2270,7 +2274,7 @@ msgstr "匯入詞彙表"
 msgid "Export glossary"
 msgstr "匯出詞彙表"
 
-#: weblate/html/dictionary.html:79 weblate/html/index.html:65
+#: weblate/html/dictionary.html:79 weblate/html/index.html:70
 #: weblate/html/language.html:23 weblate/html/project.html:46
 #: weblate/html/subproject.html:34 weblate/html/translate.html:199
 #: weblate/html/translation.html:41 weblate/html/translation.html.py:94
@@ -2988,87 +2992,104 @@ msgstr "Èdè Yorùbá"
 msgid "Zulu"
 msgstr "isiZulu"
 
-#: weblate/html/index.html:9
-#, python-format
+#: weblate/html/index.html:10
+#, fuzzy, python-format
+#| msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgid "This site runs <a href=\"%(weblate_url)s\">Weblate</a> demo server."
+msgstr "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+
+#: weblate/html/index.html:12
+#, fuzzy, python-format
+#| msgid ""
+#| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
+#| "the software projects listed below. You need to be logged in for "
+#| "translating, otherwise you can only make suggestions."
 msgid ""
 "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
-"software projects listed below. You need to be logged in for translating, "
-"otherwise you can only make suggestions."
+"software projects listed below."
 msgstr ""
 "此網站運作於 <a href=\"%(weblate_url)s\"> Weblate</a>，為下方列出的軟體專案翻"
 "譯。您需要登入翻譯，否則您只能提出建議。"
 
-#: weblate/html/index.html:13 weblate/html/subproject.html:23
+#: weblate/html/index.html:14
+#, fuzzy
+#| msgid "You need to log in to be able to manage suggestions!"
+msgid ""
+"You need to be logged in for translating, otherwise you can only make "
+"suggestions."
+msgstr "您需要登錄，才能夠管理建議！"
+
+#: weblate/html/index.html:18 weblate/html/subproject.html:23
 #: weblate/html/translate.html:85
 msgid "Translations"
 msgstr "翻譯"
 
-#: weblate/html/index.html:18
+#: weblate/html/index.html:23
 msgid "Your translations"
 msgstr "您的翻譯"
 
-#: weblate/html/index.html:20 weblate/html/language.html:12
+#: weblate/html/index.html:25 weblate/html/language.html:12
 #: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "專案"
 
-#: weblate/html/index.html:22 weblate/html/js/detail.html:10
+#: weblate/html/index.html:27 weblate/html/js/detail.html:10
 msgid "Checks"
 msgstr "查核"
 
-#: weblate/html/index.html:38 weblate/html/index.html.py:89
+#: weblate/html/index.html:43 weblate/html/index.html.py:94
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:8
 #: weblate/html/project.html:27 weblate/html/translation.html:161
 msgid "Translated"
 msgstr "已翻譯"
 
-#: weblate/html/index.html:60
+#: weblate/html/index.html:65
 msgid "Summaries"
 msgstr "概要"
 
-#: weblate/html/index.html:66 weblate/html/index.html.py:80
+#: weblate/html/index.html:71 weblate/html/index.html.py:85
 #: weblate/html/search.html:45 weblate/html/search.html.py:48
 #: weblate/html/translate.html:207 weblate/html/translate.html.py:302
 #: weblate/html/translation.html:42 weblate/html/translation.html.py:59
 msgid "Search"
 msgstr "搜尋"
 
-#: weblate/html/index.html:67
+#: weblate/html/index.html:72
 msgid "Most active translators"
 msgstr "最活躍的翻譯者"
 
-#: weblate/html/index.html:68
+#: weblate/html/index.html:73
 msgid "Most active suggesters"
 msgstr "最活躍的建議者"
 
-#: weblate/html/index.html:69 weblate/html/language.html:25
+#: weblate/html/index.html:74 weblate/html/language.html:25
 #: weblate/html/project.html:52 weblate/html/subproject.html:43
 #: weblate/html/translation.html:53 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr "活動情形"
 
-#: weblate/html/index.html:70
+#: weblate/html/index.html:75
 msgid "Others"
 msgstr "其它"
 
-#: weblate/html/index.html:88 weblate/html/index.html.py:107
+#: weblate/html/index.html:93 weblate/html/index.html.py:112
 #: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "使用者"
 
-#: weblate/html/index.html:108
+#: weblate/html/index.html:113
 msgid "Suggested"
 msgstr "建議"
 
-#: weblate/html/index.html:123
+#: weblate/html/index.html:128
 msgid "Languages summary"
 msgstr "語言概要"
 
-#: weblate/html/index.html:124
+#: weblate/html/index.html:129
 msgid "Checks overview"
 msgstr "查核概觀"
 
-#: weblate/html/index.html:126 weblate/html/share.html:14
+#: weblate/html/index.html:131 weblate/html/share.html:14
 msgid "Widgets"
 msgstr "小工具"
 
@@ -3793,19 +3814,25 @@ msgstr "找不到此組使用者名稱/密碼。請再試一次。"
 msgid "Password log in"
 msgstr "登入密碼"
 
-#: weblate/html/accounts/login.html:32
+#: weblate/html/accounts/login.html:20
+msgid ""
+"To test Weblate, you can login as <code>demo</code> user with password "
+"<code>demo</code>."
+msgstr ""
+
+#: weblate/html/accounts/login.html:36
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr "還沒有帳號嗎？您可以 <a href=\"%(register_url)s\">註冊</a>。"
 
-#: weblate/html/accounts/login.html:38
+#: weblate/html/accounts/login.html:42
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr "忘記了您的密碼嗎？您可以 <a href=\"%(reset_url)s\">重設</a>。"
 
-#: weblate/html/accounts/login.html:43
+#: weblate/html/accounts/login.html:47
 msgid "Third party log in"
 msgstr ""
 
@@ -4499,9 +4526,6 @@ msgstr "變更"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "您需要先登入，然後才能儲存翻譯！"
-
-#~ msgid "You need to log in to be able to manage suggestions!"
-#~ msgstr "您需要登錄，才能夠管理建議！"
 
 #~ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 #~ msgstr "您可以在<a href=\"%(pw_url)s\">分頁</a>上更改密碼。"

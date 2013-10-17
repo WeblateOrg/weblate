@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-17 14:11+0200\n"
+"POT-Creation-Date: 2013-10-17 16:49+0200\n"
 "PO-Revision-Date: 2013-10-11 14:14+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
@@ -179,7 +179,7 @@ msgstr "Ďalší súbor do commitu"
 msgid "Interface Language"
 msgstr "Jazyk rozhrania"
 
-#: accounts/models.py:334 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:334 lang/views.py:32 weblate/html/index.html:26
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -219,60 +219,64 @@ msgstr "Upozornenie na chybu pri zlúčení"
 msgid "Notification on new language request"
 msgstr "Upozornenie na požidavky o nový preklad"
 
-#: accounts/views.py:80 accounts/views.py:361
+#: accounts/views.py:80 accounts/views.py:368
 msgid "User registration"
 msgstr "Registrácia užívateľa"
 
-#: accounts/views.py:139
+#: accounts/views.py:123
+msgid "You can not change demo profile on the demo server."
+msgstr ""
+
+#: accounts/views.py:146
 msgid "Your profile has been updated."
 msgstr "Váš profil bol aktualizovaný."
 
-#: accounts/views.py:169
+#: accounts/views.py:176
 msgid "User profile"
 msgstr "Užívateľský profil"
 
-#: accounts/views.py:195 accounts/views.py:237
+#: accounts/views.py:202 accounts/views.py:244
 msgid "Message has been sent to administrator."
 msgstr "Správa bola odoslaná správcovi servera."
 
-#: accounts/views.py:213
+#: accounts/views.py:220
 msgid "Contact"
 msgstr "Kontakt"
 
-#: accounts/views.py:253
+#: accounts/views.py:260
 msgid "Hosting"
 msgstr "Hosťovanie"
 
-#: accounts/views.py:319 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:25
+#: accounts/views.py:326 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:29
 msgid "Login"
 msgstr "Prihlásiť"
 
-#: accounts/views.py:329
+#: accounts/views.py:336
 msgid "Thanks for using Weblate!"
 msgstr "Ďakujeme za použitie Weblate!"
 
-#: accounts/views.py:385 weblate/html/accounts/email.html:7
+#: accounts/views.py:392 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "Registrácia"
 
-#: accounts/views.py:410
+#: accounts/views.py:417
 msgid "You have entered an invalid password."
 msgstr ""
 
-#: accounts/views.py:432
+#: accounts/views.py:439
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "Vaše heslo bolo zmenené."
 
-#: accounts/views.py:443 weblate/html/accounts/profile.html:49
+#: accounts/views.py:450 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Zmena hesla"
 
-#: accounts/views.py:470 weblate/html/accounts/reset.html:7
+#: accounts/views.py:477 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Obnovenie hesla"
 
@@ -853,11 +857,11 @@ msgstr "Nezodpovedajúce XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v preklade nezodpovedajú zdroju"
 
-#: trans/checks/same.py:659
+#: trans/checks/same.py:660
 msgid "Not translated"
 msgstr "Nepreložené"
 
-#: trans/checks/same.py:660
+#: trans/checks/same.py:661
 msgid "Source and translated strings are same"
 msgstr "Preložený reťazec je rovnaký ako zdroj"
 
@@ -1119,7 +1123,7 @@ msgstr "Názov podprojektu"
 #: trans/models/subproject.py:80 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
 #: weblate/html/data.html.py:59 weblate/html/data.html:85
-#: weblate/html/index.html:37 weblate/html/list-translations.html:6
+#: weblate/html/index.html:42 weblate/html/list-translations.html:6
 #: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "Projekt"
@@ -2086,7 +2090,7 @@ msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr "Táto inštalácia Weblate Vám umožní prekladať váš slobodný softvér."
 
-#: weblate/html/about.html:22 weblate/html/index.html:55
+#: weblate/html/about.html:22 weblate/html/index.html:60
 #, python-format
 msgid ""
 "We can host your project as well, if you are interested, please <a href="
@@ -2208,7 +2212,7 @@ msgid "data"
 msgstr "dáta"
 
 #: weblate/html/data-root.html:11 weblate/html/data.html:12
-#: weblate/html/index.html:125 weblate/html/share.html:30
+#: weblate/html/index.html:130 weblate/html/share.html:30
 msgid "Data export"
 msgstr "Export dát"
 
@@ -2400,7 +2404,7 @@ msgstr "Importovať glosár"
 msgid "Export glossary"
 msgstr "Exportovať glosár"
 
-#: weblate/html/dictionary.html:79 weblate/html/index.html:65
+#: weblate/html/dictionary.html:79 weblate/html/index.html:70
 #: weblate/html/language.html:23 weblate/html/project.html:46
 #: weblate/html/subproject.html:34 weblate/html/translate.html:199
 #: weblate/html/translation.html:41 weblate/html/translation.html.py:94
@@ -3127,88 +3131,105 @@ msgstr "Jorubština"
 msgid "Zulu"
 msgstr "Zulština"
 
-#: weblate/html/index.html:9
-#, python-format
+#: weblate/html/index.html:10
+#, fuzzy, python-format
+#| msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgid "This site runs <a href=\"%(weblate_url)s\">Weblate</a> demo server."
+msgstr "Prevádzkované na <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+
+#: weblate/html/index.html:12
+#, fuzzy, python-format
+#| msgid ""
+#| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
+#| "the software projects listed below. You need to be logged in for "
+#| "translating, otherwise you can only make suggestions."
 msgid ""
 "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
-"software projects listed below. You need to be logged in for translating, "
-"otherwise you can only make suggestions."
+"software projects listed below."
 msgstr ""
 "Tieto stránky bežia na <a href=\"%(weblate_url)s\">Weblate</a>a slúžia na "
 "preklad nižšie uvedených projektov. Na prekladanie musíte byť prihlásený, "
 "inak môžete len podávať návrhy."
 
-#: weblate/html/index.html:13 weblate/html/subproject.html:23
+#: weblate/html/index.html:14
+#, fuzzy
+#| msgid "You need to log in to be able to manage suggestions!"
+msgid ""
+"You need to be logged in for translating, otherwise you can only make "
+"suggestions."
+msgstr "Na prácu s návrhmi musíte byť prihlásený!"
+
+#: weblate/html/index.html:18 weblate/html/subproject.html:23
 #: weblate/html/translate.html:85
 msgid "Translations"
 msgstr "Preklady"
 
-#: weblate/html/index.html:18
+#: weblate/html/index.html:23
 msgid "Your translations"
 msgstr "Vaše preklady"
 
-#: weblate/html/index.html:20 weblate/html/language.html:12
+#: weblate/html/index.html:25 weblate/html/language.html:12
 #: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "Projekty"
 
-#: weblate/html/index.html:22 weblate/html/js/detail.html:10
+#: weblate/html/index.html:27 weblate/html/js/detail.html:10
 msgid "Checks"
 msgstr "Kontroly"
 
-#: weblate/html/index.html:38 weblate/html/index.html.py:89
+#: weblate/html/index.html:43 weblate/html/index.html.py:94
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:8
 #: weblate/html/project.html:27 weblate/html/translation.html:161
 msgid "Translated"
 msgstr "Preložené"
 
-#: weblate/html/index.html:60
+#: weblate/html/index.html:65
 msgid "Summaries"
 msgstr "Súhrny"
 
-#: weblate/html/index.html:66 weblate/html/index.html.py:80
+#: weblate/html/index.html:71 weblate/html/index.html.py:85
 #: weblate/html/search.html:45 weblate/html/search.html.py:48
 #: weblate/html/translate.html:207 weblate/html/translate.html.py:302
 #: weblate/html/translation.html:42 weblate/html/translation.html.py:59
 msgid "Search"
 msgstr "Hľadať"
 
-#: weblate/html/index.html:67
+#: weblate/html/index.html:72
 msgid "Most active translators"
 msgstr "Najaktívnejší prekladatelia"
 
-#: weblate/html/index.html:68
+#: weblate/html/index.html:73
 msgid "Most active suggesters"
 msgstr "Najaktívnejší navrhovatelia"
 
-#: weblate/html/index.html:69 weblate/html/language.html:25
+#: weblate/html/index.html:74 weblate/html/language.html:25
 #: weblate/html/project.html:52 weblate/html/subproject.html:43
 #: weblate/html/translation.html:53 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr "Aktivita"
 
-#: weblate/html/index.html:70
+#: weblate/html/index.html:75
 msgid "Others"
 msgstr "Ďalšie"
 
-#: weblate/html/index.html:88 weblate/html/index.html.py:107
+#: weblate/html/index.html:93 weblate/html/index.html.py:112
 #: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "Užívateľ"
 
-#: weblate/html/index.html:108
+#: weblate/html/index.html:113
 msgid "Suggested"
 msgstr "Navrhnuté"
 
-#: weblate/html/index.html:123
+#: weblate/html/index.html:128
 msgid "Languages summary"
 msgstr "Prehľad jazykov"
 
-#: weblate/html/index.html:124
+#: weblate/html/index.html:129
 msgid "Checks overview"
 msgstr "Súhrn kontrol"
 
-#: weblate/html/index.html:126 weblate/html/share.html:14
+#: weblate/html/index.html:131 weblate/html/share.html:14
 msgid "Widgets"
 msgstr "Widgety"
 
@@ -3984,7 +4005,13 @@ msgstr "Toto užívateľské meno a heslo neboli nájdené. Prosím, skúste to 
 msgid "Password log in"
 msgstr "Heslo (znovu)"
 
-#: weblate/html/accounts/login.html:32
+#: weblate/html/accounts/login.html:20
+msgid ""
+"To test Weblate, you can login as <code>demo</code> user with password "
+"<code>demo</code>."
+msgstr ""
+
+#: weblate/html/accounts/login.html:36
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -3992,12 +4019,12 @@ msgid ""
 msgstr ""
 "Ešte nemáte účet? Môžete sa <a href=\"%(register_url)s\">zaregistrovať</a>."
 
-#: weblate/html/accounts/login.html:38
+#: weblate/html/accounts/login.html:42
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr "Zabudli ste heslo? Môžete si ho <a href=\"%(reset_url)s\">obnoviť</a>."
 
-#: weblate/html/accounts/login.html:43
+#: weblate/html/accounts/login.html:47
 msgid "Third party log in"
 msgstr ""
 
@@ -4735,9 +4762,6 @@ msgstr "zmeny"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "Na ukladanie prekladov musíte byť prihlásený!"
-
-#~ msgid "You need to log in to be able to manage suggestions!"
-#~ msgstr "Na prácu s návrhmi musíte byť prihlásený!"
 
 #~ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 #~ msgstr ""

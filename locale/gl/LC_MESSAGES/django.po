@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-10-17 14:11+0200\n"
+"POT-Creation-Date: 2013-10-17 16:49+0200\n"
 "PO-Revision-Date: 2013-05-06 05:57+0200\n"
 "Last-Translator: Chris Oelmueller <chris.oelmueller@gmail.com>\n"
 "Language-Team: Galician <http://l10n.cihar.com/projects/weblate/master/gl/>\n"
@@ -187,7 +187,7 @@ msgstr "correctores"
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: accounts/models.py:334 lang/views.py:32 weblate/html/index.html:21
+#: accounts/models.py:334 lang/views.py:32 weblate/html/index.html:26
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -231,62 +231,66 @@ msgstr "Notificación sobre novo colaborador"
 msgid "Notification on new language request"
 msgstr "Notificación sobre novas suxestións"
 
-#: accounts/views.py:80 accounts/views.py:361
+#: accounts/views.py:80 accounts/views.py:368
 msgid "User registration"
 msgstr "Rexistro do usuario"
 
-#: accounts/views.py:139
+#: accounts/views.py:123
+msgid "You can not change demo profile on the demo server."
+msgstr ""
+
+#: accounts/views.py:146
 msgid "Your profile has been updated."
 msgstr "Actualizouse o seu perfil."
 
-#: accounts/views.py:169
+#: accounts/views.py:176
 msgid "User profile"
 msgstr "Perfil do usuario"
 
-#: accounts/views.py:195 accounts/views.py:237
+#: accounts/views.py:202 accounts/views.py:244
 msgid "Message has been sent to administrator."
 msgstr "Envióuselle unha mensaxe ao administrador."
 
-#: accounts/views.py:213
+#: accounts/views.py:220
 msgid "Contact"
 msgstr "Contacto"
 
-#: accounts/views.py:253
+#: accounts/views.py:260
 #, fuzzy
 #| msgid "Last name"
 msgid "Hosting"
 msgstr "Segundo apelido"
 
-#: accounts/views.py:319 weblate/html/base.html:46
-#: weblate/html/accounts/login.html:25
+#: accounts/views.py:326 weblate/html/base.html:46
+#: weblate/html/accounts/login.html:29
 msgid "Login"
 msgstr "Acceder"
 
-#: accounts/views.py:329
+#: accounts/views.py:336
 msgid "Thanks for using Weblate!"
 msgstr "Grazas por usar Weblate!"
 
-#: accounts/views.py:385 weblate/html/accounts/email.html:7
+#: accounts/views.py:392 weblate/html/accounts/email.html:7
 #, fuzzy
 #| msgid "Register"
 msgid "Register email"
 msgstr "Rexistro"
 
-#: accounts/views.py:410
+#: accounts/views.py:417
 msgid "You have entered an invalid password."
 msgstr ""
 
-#: accounts/views.py:432
+#: accounts/views.py:439
 #, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
 msgstr "O seu contrasinal cambiou."
 
-#: accounts/views.py:443 weblate/html/accounts/profile.html:49
+#: accounts/views.py:450 weblate/html/accounts/profile.html:49
 msgid "Change password"
 msgstr "Cambiar o contrasinal"
 
-#: accounts/views.py:470 weblate/html/accounts/reset.html:7
+#: accounts/views.py:477 weblate/html/accounts/reset.html:7
 msgid "Password reset"
 msgstr "Restabelecer o contrasinal"
 
@@ -898,11 +902,11 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: trans/checks/same.py:659
+#: trans/checks/same.py:660
 msgid "Not translated"
 msgstr "Non traducida"
 
-#: trans/checks/same.py:660
+#: trans/checks/same.py:661
 msgid "Source and translated strings are same"
 msgstr "As cadeas de orixe e as traducidas son as mesmas"
 
@@ -1191,7 +1195,7 @@ msgstr "Subproxecto"
 #: trans/models/subproject.py:80 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
 #: weblate/html/data.html.py:59 weblate/html/data.html:85
-#: weblate/html/index.html:37 weblate/html/list-translations.html:6
+#: weblate/html/index.html:42 weblate/html/list-translations.html:6
 #: weblate/html/js/other.html:6
 msgid "Project"
 msgstr "Proxecto"
@@ -2224,7 +2228,7 @@ msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
 
-#: weblate/html/about.html:22 weblate/html/index.html:55
+#: weblate/html/about.html:22 weblate/html/index.html:60
 #, fuzzy, python-format
 #| msgid ""
 #| "Should your language be missing, please <a href=\"%(contact_url)s?"
@@ -2353,7 +2357,7 @@ msgid "data"
 msgstr "datos"
 
 #: weblate/html/data-root.html:11 weblate/html/data.html:12
-#: weblate/html/index.html:125 weblate/html/share.html:30
+#: weblate/html/index.html:130 weblate/html/share.html:30
 msgid "Data export"
 msgstr "Exportar datos"
 
@@ -2539,7 +2543,7 @@ msgstr "Importar o corrector"
 msgid "Export glossary"
 msgstr "Importar o corrector"
 
-#: weblate/html/dictionary.html:79 weblate/html/index.html:65
+#: weblate/html/dictionary.html:79 weblate/html/index.html:70
 #: weblate/html/language.html:23 weblate/html/project.html:46
 #: weblate/html/subproject.html:34 weblate/html/translate.html:199
 #: weblate/html/translation.html:41 weblate/html/translation.html.py:94
@@ -3278,88 +3282,105 @@ msgstr "Ioruba"
 msgid "Zulu"
 msgstr "Zulú"
 
-#: weblate/html/index.html:9
-#, python-format
+#: weblate/html/index.html:10
+#, fuzzy, python-format
+#| msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgid "This site runs <a href=\"%(weblate_url)s\">Weblate</a> demo server."
+msgstr "Feito con <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+
+#: weblate/html/index.html:12
+#, fuzzy, python-format
+#| msgid ""
+#| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
+#| "the software projects listed below. You need to be logged in for "
+#| "translating, otherwise you can only make suggestions."
 msgid ""
 "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
-"software projects listed below. You need to be logged in for translating, "
-"otherwise you can only make suggestions."
+"software projects listed below."
 msgstr ""
 "Este sitio web usa <a href=\"%(weblate_url)s\">Weblate</a> para a tradución "
 "dos proxectos de software que se listan a seguir. Cómpre que acceda para "
 "realizar traducións ou soamente poderá facer suxestión."
 
-#: weblate/html/index.html:13 weblate/html/subproject.html:23
+#: weblate/html/index.html:14
+#, fuzzy
+#| msgid "You need to log in to be able to manage suggestions!"
+msgid ""
+"You need to be logged in for translating, otherwise you can only make "
+"suggestions."
+msgstr "Cómpre acceder para xestionar as suxestións!"
+
+#: weblate/html/index.html:18 weblate/html/subproject.html:23
 #: weblate/html/translate.html:85
 msgid "Translations"
 msgstr "Traducións"
 
-#: weblate/html/index.html:18
+#: weblate/html/index.html:23
 msgid "Your translations"
 msgstr "As súas traducións"
 
-#: weblate/html/index.html:20 weblate/html/language.html:12
+#: weblate/html/index.html:25 weblate/html/language.html:12
 #: weblate/html/accounts/user.html:19
 msgid "Projects"
 msgstr "Proxectos"
 
-#: weblate/html/index.html:22 weblate/html/js/detail.html:10
+#: weblate/html/index.html:27 weblate/html/js/detail.html:10
 msgid "Checks"
 msgstr "Comprobacións"
 
-#: weblate/html/index.html:38 weblate/html/index.html.py:89
+#: weblate/html/index.html:43 weblate/html/index.html.py:94
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:8
 #: weblate/html/project.html:27 weblate/html/translation.html:161
 msgid "Translated"
 msgstr "Traducido"
 
-#: weblate/html/index.html:60
+#: weblate/html/index.html:65
 msgid "Summaries"
 msgstr "Resumos"
 
-#: weblate/html/index.html:66 weblate/html/index.html.py:80
+#: weblate/html/index.html:71 weblate/html/index.html.py:85
 #: weblate/html/search.html:45 weblate/html/search.html.py:48
 #: weblate/html/translate.html:207 weblate/html/translate.html.py:302
 #: weblate/html/translation.html:42 weblate/html/translation.html.py:59
 msgid "Search"
 msgstr "Buscar"
 
-#: weblate/html/index.html:67
+#: weblate/html/index.html:72
 msgid "Most active translators"
 msgstr "Tradutores máis activos"
 
-#: weblate/html/index.html:68
+#: weblate/html/index.html:73
 msgid "Most active suggesters"
 msgstr "Usuarios con máis suxestións"
 
-#: weblate/html/index.html:69 weblate/html/language.html:25
+#: weblate/html/index.html:74 weblate/html/language.html:25
 #: weblate/html/project.html:52 weblate/html/subproject.html:43
 #: weblate/html/translation.html:53 weblate/html/accounts/user.html:28
 msgid "Activity"
 msgstr ""
 
-#: weblate/html/index.html:70
+#: weblate/html/index.html:75
 msgid "Others"
 msgstr "Outros"
 
-#: weblate/html/index.html:88 weblate/html/index.html.py:107
+#: weblate/html/index.html:93 weblate/html/index.html.py:112
 #: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "Usuario"
 
-#: weblate/html/index.html:108
+#: weblate/html/index.html:113
 msgid "Suggested"
 msgstr "Suxerido"
 
-#: weblate/html/index.html:123
+#: weblate/html/index.html:128
 msgid "Languages summary"
 msgstr "Resumo de idiomas"
 
-#: weblate/html/index.html:124
+#: weblate/html/index.html:129
 msgid "Checks overview"
 msgstr "Vista xeral de comprobacións"
 
-#: weblate/html/index.html:126 weblate/html/share.html:14
+#: weblate/html/index.html:131 weblate/html/share.html:14
 msgid "Widgets"
 msgstr "Trebellos"
 
@@ -4176,7 +4197,13 @@ msgstr ""
 msgid "Password log in"
 msgstr "Contrasinal (outra vez)"
 
-#: weblate/html/accounts/login.html:32
+#: weblate/html/accounts/login.html:20
+msgid ""
+"To test Weblate, you can login as <code>demo</code> user with password "
+"<code>demo</code>."
+msgstr ""
+
+#: weblate/html/accounts/login.html:36
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -4184,13 +4211,13 @@ msgid ""
 msgstr ""
 "Aínda non ten conta? Pode <a href=\"%(register_url)s\">rexistrarse</a>."
 
-#: weblate/html/accounts/login.html:38
+#: weblate/html/accounts/login.html:42
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 "Esqueceu o contrasinal? Pode <a href=\"%(reset_url)s\">restabelecelo</a>."
 
-#: weblate/html/accounts/login.html:43
+#: weblate/html/accounts/login.html:47
 msgid "Third party log in"
 msgstr ""
 
@@ -5023,9 +5050,6 @@ msgstr "Cambios recentes"
 
 #~ msgid "You need to log in to be able to save translations!"
 #~ msgstr "Cómpre acceder para poder gardar as traducións!"
-
-#~ msgid "You need to log in to be able to manage suggestions!"
-#~ msgstr "Cómpre acceder para xestionar as suxestións!"
 
 #~ msgid "You can change password on <a href=\"%(pw_url)s\">separate page</a>."
 #~ msgstr ""
