@@ -108,8 +108,7 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         Downloads list of supported languages from a service.
         '''
-        data = self.json_req(LIST_URL)
-        return data
+        return self.json_req(LIST_URL)
 
     def download_translations(self, language, text, unit, user):
         '''
