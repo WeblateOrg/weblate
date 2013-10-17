@@ -63,7 +63,7 @@ class MathCaptcha(object):
         if operator == '-':
             first += self.interval[1]
 
-        return '{d} {s} {d}'.format(
+        return '{} {} {}'.format(
             first,
             operator,
             second
