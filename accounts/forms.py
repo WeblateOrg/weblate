@@ -30,6 +30,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
 import unicodedata
+import weblate
 
 try:
     import icu
@@ -371,6 +372,12 @@ class CaptchaRegistrationForm(RegistrationForm):
             raise forms.ValidationError(
                 _('Please check your math and try again.')
             )
+        self.logger(
+            'Passed captcha for %s (%s = %s)',
+            self.cleaned_data['email'],
+            self.captcha.question,
+            self.cleaned_data['captcha']
+        )
 
 
 class PasswordForm(forms.Form):
