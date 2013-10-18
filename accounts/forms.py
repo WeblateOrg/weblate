@@ -383,7 +383,7 @@ class CaptchaRegistrationForm(RegistrationForm):
             raise forms.ValidationError(
                 _('Please check your math and try again.')
             )
-        weblate.logger(
+        weblate.logger.info(
             'Passed captcha for %s (%s = %s)',
             self.cleaned_data['email'],
             self.captcha.question,
