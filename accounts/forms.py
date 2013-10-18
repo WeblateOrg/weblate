@@ -333,6 +333,17 @@ class RegistrationForm(EmailForm):
             raise forms.ValidationError('Invalid value')
         return ''
 
+    def clean(self):
+        '''
+        Check for valid names.
+        '''
+        if self.cleaned_data['first_name'] == self.cleaned_data['last_name']:
+            raise forms.ValidationError(
+                _('First and last name should not be same!')
+            )
+
+        return self.cleaned_data
+
 
 class CaptchaRegistrationForm(RegistrationForm):
     '''
