@@ -49,7 +49,7 @@ class WeblateUserAdmin(UserAdmin):
     Custom UserAdmin to add listing of group membership and whether user is
     active.
     '''
-    list_display = UserAdmin.list_display + ('is_active', 'user_groups')
+    list_display = UserAdmin.list_display + ('is_active', 'user_groups', 'id')
     list_filter = UserAdmin.list_filter + ('groups',)
 
     def user_groups(self, obj):
