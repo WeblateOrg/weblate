@@ -383,9 +383,15 @@ class CaptchaRegistrationForm(RegistrationForm):
             raise forms.ValidationError(
                 _('Please check your math and try again.')
             )
+
+        if 'email' in self.cleaned_data:
+            mail = self.cleaned_data['email']
+        else:
+            mail = 'NONE'
+
         weblate.logger.info(
             'Passed captcha for %s (%s = %s)',
-            self.cleaned_data['email'],
+            mail,
             self.captcha.question,
             self.cleaned_data['captcha']
         )
