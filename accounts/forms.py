@@ -337,7 +337,9 @@ class RegistrationForm(EmailForm):
         '''
         Check for valid names.
         '''
-        if self.cleaned_data['first_name'] == self.cleaned_data['last_name']:
+        first = self.cleaned_data.get('first_name')
+        last = self.cleaned_data.get('last_name')
+        if first == last:
             raise forms.ValidationError(
                 _('First and last name should not be same!')
             )
