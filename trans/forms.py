@@ -275,7 +275,7 @@ class SearchForm(forms.Form):
         Encodes query string to be used in URL.
         '''
         query = {
-            'q': self.cleaned_data['q'],
+            'q': self.cleaned_data['q'].encode('utf-8'),
             'search': self.cleaned_data['search'],
         }
         if self.cleaned_data['src']:
