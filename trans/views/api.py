@@ -51,6 +51,16 @@ GITHUB_REPOS = (
 )
 
 
+def perform_update(obj):
+    '''
+    Triggers update of given object.
+    '''
+    if appsettings.BACKGROUND_HOOKS:
+        thread = threading.Thread(target=obj.do_update)
+        thread.start()
+    else:
+        obj.do_update()
+
 @csrf_exempt
 def update_subproject(request, project, subproject):
     '''
@@ -59,11 +69,7 @@ def update_subproject(request, project, subproject):
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_subproject(request, project, subproject, True)
-    if appsettings.BACKGROUND_HOOKS:
-        thread = threading.Thread(target=obj.do_update)
-        thread.start()
-    else:
-        obj.do_update()
+    perform_update(obj)
     return HttpResponse('update triggered')
 
 
@@ -75,11 +81,7 @@ def update_project(request, project):
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_project(request, project, True)
-    if appsettings.BACKGROUND_HOOKS:
-        thread = threading.Thread(target=obj.do_update)
-        thread.start()
-    else:
-        obj.do_update()
+    perform_update(obj)
     return HttpResponse('update triggered')
 
 
@@ -144,11 +146,7 @@ def git_service_hook(request, service):
             service_long_name,
             obj
         )
-        if appsettings.BACKGROUND_HOOKS:
-            thread = threading.Thread(target=obj.do_update)
-            thread.start()
-        else:
-            obj.do_update()
+        perform_update(obj)
 
     return HttpResponse('update triggered')
 
