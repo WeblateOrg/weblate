@@ -86,6 +86,40 @@ class AdminTest(ViewTestCase):
             response, 'Importing a new translation can take some time'
         )
 
+    def test_subproject(self):
+        '''
+        Test for custom subproject actions.
+        '''
+        self.assertCustomAdmin(
+            reverse('admin:trans_subproject_changelist')
+        )
+
+    def test_project(self):
+        '''
+        Test for custom project actions.
+        '''
+        self.assertCustomAdmin(
+            reverse('admin:trans_project_changelist')
+        )
+
+    def assertCustomAdmin(self, url):
+        '''
+        Test for (sub)project custom admin.
+        '''
+        response = self.client.get(url)
+        self.assertContains(
+            response, 'Update from git'
+        )
+        for action in 'force_commit', 'update_checks', 'update_from_git':
+            response = self.client.post(
+                url,
+                {
+                    '_selected_action': '1',
+                    'action': action,
+                }
+            )
+            self.assertRedirects(response, url)
+
 
 class SSHKeysTest(TestCase):
     def test_parse(self):
