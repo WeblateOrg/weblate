@@ -159,8 +159,9 @@ def user_profile(request):
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
+    all_backends = set(load_backends(BACKENDS).keys())
     new_backends = [
-        x for x in load_backends(BACKENDS).keys()
+        x for x in all_backends
         if x == 'email' or x not in social_names
     ]
 
