@@ -4,7 +4,15 @@
 
 {% block content %}
 
+
 {% if registration_open %}
+<h2>{% trans "Registration" %}</h2>
+
+<p>
+{% trans "By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project." %}
+</p>
+
+{% if registration_email %}
 
 <h2>{% trans "Register using email" %}</h2>
 
@@ -23,11 +31,10 @@
 <table>
 {{ form.as_table }}
 </table>
-<p>
-{% trans "By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project." %}
-</p>
 <p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
 </form>
+
+{% endif %}
 
 {% if registration_backends %}
 

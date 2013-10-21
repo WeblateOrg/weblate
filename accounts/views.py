@@ -357,14 +357,15 @@ def register(request):
     else:
         form = form_class()
 
+    backends = set(load_backends(BACKENDS).keys())
+
     return render_to_response(
         'accounts/register.html',
         RequestContext(
             request,
             {
-                'registration_backends': [
-                    x for x in load_backends(BACKENDS).keys() if x != 'email'
-                ],
+                'registration_email': 'email' in backends,
+                'registration_backends': backends - set(['email']),
                 'title': _('User registration'),
                 'form': form,
             }
