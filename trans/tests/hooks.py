@@ -154,6 +154,7 @@ BITBUCKET_PAYLOAD_HG = '''
 class HooksViewTest(ViewTestCase):
     def test_view_hook_project(self):
         appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
         response = self.client.get(
             reverse('hook-project', kwargs={
                 'project': self.subproject.project.slug
@@ -163,6 +164,7 @@ class HooksViewTest(ViewTestCase):
 
     def test_view_hook_subproject(self):
         appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
         response = self.client.get(
             reverse('hook-subproject', kwargs={
                 'project': self.subproject.project.slug,
@@ -173,6 +175,7 @@ class HooksViewTest(ViewTestCase):
 
     def test_view_hook_github(self):
         appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -181,6 +184,7 @@ class HooksViewTest(ViewTestCase):
 
     def test_view_hook_bitbucket_git(self):
         appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
@@ -189,8 +193,38 @@ class HooksViewTest(ViewTestCase):
 
     def test_view_hook_bitbucket_hg(self):
         appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG}
         )
         self.assertContains(response, 'update triggered')
+
+    def test_disabled(self):
+        '''
+        Test for hooks disabling.
+        '''
+        appsettings.ENABLE_HOOKS = False
+        response = self.client.get(
+            reverse('hook-project', kwargs={
+                'project': self.subproject.project.slug
+            })
+        )
+        self.assertEquals(response.status_code, 405)
+        response = self.client.get(
+            reverse('hook-subproject', kwargs={
+                'project': self.subproject.project.slug,
+                'subproject': self.subproject.slug,
+            })
+        )
+        self.assertEquals(response.status_code, 405)
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': GITHUB_PAYLOAD}
+        )
+        self.assertEquals(response.status_code, 405)
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD_GIT}
+        )
+        self.assertEquals(response.status_code, 405)
