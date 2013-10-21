@@ -73,6 +73,7 @@ class EndSpaceCheckTest(CheckTestCase):
 
     def test_french(self):
         self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
+        self.do_test(True, ('Text', u'Texte ', ''), 'fr')
 
 
 class EndStopCheckTest(CheckTestCase):
@@ -86,6 +87,11 @@ class EndStopCheckTest(CheckTestCase):
 
     def test_japanese(self):
         self.do_test(False, ('Text:', u'Text。', ''), 'ja')
+        self.do_test(True, ('Text:', u'Text', ''), 'ja')
+
+    def test_hindi(self):
+        self.do_test(False, ('Text.', u'Text।', ''), 'hi')
+        self.do_test(True, ('Text.', u'Text', ''), 'hi')
 
 
 class EndColonCheckTest(CheckTestCase):
@@ -95,6 +101,11 @@ class EndColonCheckTest(CheckTestCase):
         self.test_good_matching = ('string:', 'string:', '')
         self.test_failure_1 = ('string:', 'string', '')
         self.test_failure_2 = ('string', 'string:', '')
+
+    def test_hy(self):
+        self.do_test(False, ('Text:', u'Texte՝', ''), 'hy')
+        self.do_test(True, ('Text:', u'Texte', ''), 'hy')
+        self.do_test(False, ('Text', u'Texte:', ''), 'hy')
 
     def test_japanese(self):
         self.do_test(False, ('Text:', u'Texte。', ''), 'ja')
@@ -123,6 +134,11 @@ class EndQuestionCheckTest(CheckTestCase):
         self.test_failure_1 = ('string?', 'string', '')
         self.test_failure_2 = ('string', 'string?', '')
 
+    def test_hy(self):
+        self.do_test(False, ('Text?', u'Texte՞', ''), 'hy')
+        self.do_test(True, ('Text?', u'Texte', ''), 'hy')
+        self.do_test(False, ('Text', u'Texte?', ''), 'hy')
+
     def test_french(self):
         self.do_test(False, ('Text?', u'Texte ?', ''), 'fr')
 
@@ -149,6 +165,14 @@ class EndExclamationCheckTest(CheckTestCase):
         self.test_good_matching = ('string!', 'string!', '')
         self.test_failure_1 = ('string!', 'string', '')
         self.test_failure_2 = ('string', 'string!', '')
+
+    def test_hy(self):
+        self.do_test(False, ('Text!', u'Texte՜', ''), 'hy')
+        self.do_test(True, ('Text!', u'Texte', ''), 'hy')
+        self.do_test(False, ('Text', u'Texte!', ''), 'hy')
+
+    def test_eu(self):
+        self.do_test(False, ('Text!', u'¡Texte!', ''), 'eu')
 
     def test_french(self):
         self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
