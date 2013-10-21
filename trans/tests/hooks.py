@@ -228,3 +228,25 @@ class HooksViewTest(ViewTestCase):
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
         self.assertEquals(response.status_code, 405)
+
+    def test_wrong_payload(self):
+        '''
+        Tests for invalid payloads.
+        '''
+        # missing
+        response = self.client.post(
+            reverse('hook-github'),
+        )
+        self.assertContains(response, 'missing payload', status_code=400)
+        # wrong
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': 'XX'},
+        )
+        self.assertContains(response, 'could not parse', status_code=400)
+        # missing data
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': '{}'},
+        )
+        self.assertContains(response, 'invalid data', status_code=400)
