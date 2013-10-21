@@ -61,6 +61,7 @@ def perform_update(obj):
     else:
         obj.do_update()
 
+
 @csrf_exempt
 def update_subproject(request, project, subproject):
     '''
