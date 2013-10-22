@@ -312,7 +312,7 @@ class ViewTest(TestCase):
         self.assertContains(response, 'Weblate test message')
 
     def test_contact_user(self):
-        user = self.get_user()
+        self.get_user()
         # Login
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(
