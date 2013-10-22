@@ -222,6 +222,19 @@ class ViewTest(TestCase):
     '''
     Test for views.
     '''
+
+    def get_user(self):
+        user = User.objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+        user.first_name = 'First'
+        user.last_name = 'Second'
+        user.email = 'noreply@weblate.org'
+        user.save()
+        Profile.objects.get_or_create(user=user)
+        return user
+
     def test_contact(self):
         '''
         Test for contact form.
@@ -299,15 +312,7 @@ class ViewTest(TestCase):
         self.assertContains(response, 'Weblate test message')
 
     def test_contact_user(self):
-        user = User.objects.create_user(
-            username='testuser',
-            password='testpassword',
-        )
-        user.first_name = 'First'
-        user.last_name = 'Second'
-        user.email = 'noreply@weblate.org'
-        user.save()
-        Profile.objects.get_or_create(user=user)
+        user = self.get_user()
         # Login
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(
@@ -321,11 +326,7 @@ class ViewTest(TestCase):
         Test user pages.
         '''
         # Setup user
-        user = User.objects.create_user(
-            username='testuser',
-            password='testpassword'
-        )
-        Profile.objects.get_or_create(user=user)
+        user = self.get_user()
 
         # Login as user
         self.client.login(username='testuser', password='testpassword')
@@ -335,6 +336,24 @@ class ViewTest(TestCase):
             reverse('user_page', kwargs={'user': user.username})
         )
         self.assertContains(response, 'src="/activity')
+
+    def test_login(self):
+        self.get_user()
+
+        # Login
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'testuser', 'password': 'testpassword'}
+        )
+        self.assertRedirects(response, reverse('home'))
+
+        # Login redirect
+        response = self.client.get(reverse('login'))
+        self.assertRedirects(response, reverse('profile'))
+
+        # Logout
+        response = self.client.get(reverse('logout'))
+        self.assertRedirects(response, reverse('login'))
 
 
 class ProfileTest(ViewTestCase):
