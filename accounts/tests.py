@@ -25,10 +25,12 @@ Tests for user handling.
 from unittest import TestCase as UnitTestCase
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import AnonymousUser, User, Group
 from django.core import mail
 from django.conf import settings
 from django.core.management import call_command
+from django.http import HttpRequest, HttpResponseRedirect
+
 from accounts.models import (
     Profile,
     notify_merge_failure,
@@ -40,6 +42,7 @@ from accounts.models import (
     notify_new_language,
 )
 from accounts.captcha import hash_question, unhash_question, MathCaptcha
+from accounts.middleware import RequireLoginMiddleware
 
 from trans.tests.views import ViewTestCase
 from trans.tests.util import get_test_file
@@ -582,4 +585,46 @@ class CaptchaTest(UnitTestCase):
             ValueError,
             MathCaptcha.from_hash,
             captcha.hashed[:40]
+        )
+
+
+class MiddlewareTest(TestCase):
+    def view_method(self):
+        return 'VIEW'
+
+    def test_disabled(self):
+        middleware = RequireLoginMiddleware()
+        request = HttpRequest()
+        self.assertIsNone(
+            middleware.process_view(request, self.view_method, (), {})
+        )
+
+    def test_protect_project(self):
+        settings.LOGIN_REQUIRED_URLS = (
+            r'/project/(.*)$',
+        )
+        middleware = RequireLoginMiddleware()
+        request = HttpRequest()
+        request.user = User()
+        request.META['SERVER_NAME'] = 'server'
+        request.META['SERVER_PORT'] = '80'
+        # No protection for not protected path
+        self.assertIsNone(
+            middleware.process_view(request, self.view_method, (), {})
+        )
+        request.path = '/project/foo/'
+        # No protection for protected path and logged in user
+        self.assertIsNone(
+            middleware.process_view(request, self.view_method, (), {})
+        )
+        # Protection for protected path and not logged in user
+        request.user = AnonymousUser()
+        self.assertIsInstance(
+            middleware.process_view(request, self.view_method, (), {}),
+            HttpResponseRedirect
+        )
+        # No protection for login and not logged in user
+        request.path = '/accounts/login/'
+        self.assertIsNone(
+            middleware.process_view(request, self.view_method, (), {})
         )
