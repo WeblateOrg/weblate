@@ -188,6 +188,17 @@ def user_profile(request):
     return response
 
 
+def get_initial_contact(request):
+    '''
+    Fills in initial contact form fields from request.
+    '''
+    initial = {}
+    if request.user.is_authenticated():
+        initial['name'] = request.user.get_full_name()
+        initial['email'] = request.user.email
+    return initial
+
+
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -204,10 +215,7 @@ def contact(request):
             )
             return redirect('home')
     else:
-        initial = {}
-        if request.user.is_authenticated():
-            initial['name'] = request.user.get_full_name()
-            initial['email'] = request.user.email
+        initial = get_initial_contact(request)
         if 'subject' in request.GET:
             initial['subject'] = request.GET['subject']
         form = ContactForm(initial=initial)
@@ -246,10 +254,7 @@ def hosting(request):
             )
             return redirect('home')
     else:
-        initial = {}
-        if request.user.is_authenticated():
-            initial['name'] = request.user.get_full_name()
-            initial['email'] = request.user.email
+        initial = get_initial_contact(request)
         form = HostingForm(initial=initial)
 
     return render_to_response(
