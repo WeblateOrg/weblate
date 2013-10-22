@@ -43,7 +43,7 @@
 </td>
 <td class="translatetext expander">{{ source.source|fmttranslation }}</td>
 <td>
-{% show_checks source.active_source_checks %}
+{% show_checks source.active_source_checks user %}
 {% if comments %}
 <span class="check">{% trans "Comment" %}</span>
 {% endif %}

@@ -99,7 +99,7 @@
 <tr>
 <th class="labelscolumn">{% trans "Failing checks" %}</th>
 <td>
-{% show_checks checks %}
+{% show_checks checks user %}
 </td>
 </tr>
 {% endif %}
@@ -268,7 +268,7 @@
     {% with unit.active_source_checks as checks %}
     {% if checks %}
     <h4>{% trans "Failing checks" %}</h4>
-    {% show_checks checks %}
+    {% show_checks checks user %}
     {% endif %}
     {% endwith %}
 
