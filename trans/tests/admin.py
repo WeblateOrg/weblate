@@ -68,6 +68,30 @@ class AdminTest(ViewTestCase):
             trans.admin_views.RSA_KEY_FILE = backup
             shutil.rmtree(tempdir)
 
+    def test_ssh_add(self):
+        tempdir = tempfile.mkdtemp()
+        hostsfile = os.path.join(tempdir, 'known_hosts')
+        try:
+            backup = trans.admin_views.KNOWN_HOSTS_FILE
+            trans.admin_views.KNOWN_HOSTS_FILE = hostsfile
+
+            # Verify there is button for adding
+            response = self.client.get(reverse('admin-ssh'))
+            self.assertContains(response, 'Add host key')
+
+            # Add the key
+            response = self.client.post(
+                reverse('admin-ssh'),
+                {'action': 'add-host', 'host': 'github.com'}
+            )
+            self.assertContains(response, 'Added host key for github.com')
+
+            # Check the file contains it
+            self.assertIn('github.com', file(hostsfile).read())
+        finally:
+            trans.admin_views.KNOWN_HOSTS_FILE = backup
+            shutil.rmtree(tempdir)
+
     def test_performace(self):
         response = self.client.get(reverse('admin-performance'))
         self.assertContains(response, 'Django caching')
