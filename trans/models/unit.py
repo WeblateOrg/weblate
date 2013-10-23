@@ -299,9 +299,8 @@ class UnitManager(models.Manager):
         Returns unit based on checksum.
         '''
         try:
-            return Unit.objects.filter(
+            return translation.unit_set.filter(
                 checksum=checksum,
-                translation=translation
             )[0]
         except Unit.DoesNotExist:
             weblate.logger.error('message %s disappeared!', checksum)
