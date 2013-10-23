@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-23 15:24+0200\n"
-"PO-Revision-Date: 2013-10-11 14:14+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2013-10-23 18:15+0200\n"
+"Last-Translator: Dmitri GOULIAEV <dmitri+weblate@gouliaev.info>\n"
 "Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 1.7\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 1.8-dev\n"
 
 #: accounts/forms.py:88
 msgid "At least five characters long."
@@ -45,6 +45,7 @@ msgstr "E-mail"
 #: accounts/forms.py:220
 msgid "You can add another emails on Authentication tab."
 msgstr ""
+"Вы можете добавить другой адрес электронной почты на вкладке Идентификация."
 
 #: accounts/forms.py:249 accounts/forms.py:324
 msgid "First name"
@@ -84,16 +85,16 @@ msgstr ""
 
 #: accounts/forms.py:344
 msgid "First and last name should be different!"
-msgstr ""
+msgstr "Имя и фамилия должны быть разными!"
 
 #: accounts/forms.py:376
 #, python-format
 msgid "What is %s"
-msgstr ""
+msgstr "Сколько будет %s"
 
 #: accounts/forms.py:386
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "Пожалуйста, проверьте вычисления и повторите попытку."
 
 #: accounts/forms.py:408
 msgid "New password"
@@ -104,10 +105,9 @@ msgid "At least six characters long."
 msgstr "Минимум шесть символов."
 
 #: accounts/forms.py:413
-#, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
-msgstr "Пароль (еще раз)"
+msgstr "Новый пароль (еще раз)"
 
 #: accounts/forms.py:415
 msgid "Repeat the password so we can verify you typed it in correctly."
@@ -120,23 +120,21 @@ msgstr "Пароль должен иметь как минимум шесть с
 
 #: accounts/forms.py:444
 msgid "You must type the same password each time."
-msgstr ""
+msgstr "Необходимо каждый раз вводить тот же пароль."
 
 #: accounts/forms.py:456
-#, fuzzy
 #| msgid "New password"
 msgid "Current password"
-msgstr "Новый пароль"
+msgstr "Текущий пароль"
 
 #: accounts/forms.py:466
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "Не найден пользователь с таким адресом эл. почты."
 
 #: accounts/forms.py:476
-#, fuzzy
 #| msgid "Username"
 msgid "Username or email"
-msgstr "имя пользователя"
+msgstr "имя пользователя или адрес эл. почты"
 
 #: accounts/forms.py:477
 msgid "Password"
@@ -169,12 +167,13 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
+"Путь к файлам для перевода, используйте * вместо кода языка, например: "
+"po/*.po или locale/*/LC_MESSAGES/django.po."
 
 #: accounts/forms.py:506
-#, fuzzy
 #| msgid "Commit message"
 msgid "Additional message"
-msgstr "Сообщение транзакции"
+msgstr "Дополнительное сообщение"
 
 #: accounts/models.py:328
 msgid "Interface Language"
@@ -226,7 +225,7 @@ msgstr "Регистрация пользователя"
 
 #: accounts/views.py:123
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "Вы не можете изменить профиль демо демо-сервере."
 
 #: accounts/views.py:146
 msgid "Your profile has been updated."
@@ -255,23 +254,21 @@ msgstr "Логин"
 
 #: accounts/views.py:342
 msgid "Thanks for using Weblate!"
-msgstr ""
+msgstr "Спасибо за использование Weblate!"
 
 #: accounts/views.py:399 weblate/html/accounts/email.html:7
-#, fuzzy
 #| msgid "Committer email"
 msgid "Register email"
-msgstr "E-mail коммитера"
+msgstr "Регистрация адреса эл. почты"
 
 #: accounts/views.py:424
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "Вы ввели неверный пароль."
 
 #: accounts/views.py:446
-#, fuzzy
 #| msgid "Your profile has been updated."
 msgid "Your password has been changed."
-msgstr "Ваш профиль был обновлен."
+msgstr "Ваш пароль был изменён."
 
 #: accounts/views.py:457 weblate/html/accounts/profile.html:49
 msgid "Change password"
@@ -354,7 +351,7 @@ msgstr "Администратор сайта"
 #. Translators: Indexing is postponed to cron job
 #: trans/admin_views.py:91
 msgid "Indexing offloading"
-msgstr ""
+msgstr "Разгрузка индексации"
 
 #: trans/admin_views.py:107
 msgid "Django caching"
@@ -479,7 +476,7 @@ msgstr "Уравнение для множественного числа"
 
 #: trans/forms.py:173
 msgid "Message you wanted to translate is no longer available!"
-msgstr ""
+msgstr "Сообщение, которое вы хотели переводить, уже недоступно!"
 
 #: trans/forms.py:183
 msgctxt "Checkbox for marking translation fuzzy"
@@ -895,10 +892,9 @@ msgstr ""
 "В этой строке используется три точки (...) вместо символа многоточия (…)"
 
 #: trans/checks/source.py:65
-#, fuzzy
 #| msgid "Trailing space"
 msgid "Multiple failing checks"
-msgstr "Пробелы в конце"
+msgstr "Множественные проверки"
 
 #: trans/checks/source.py:67
 msgid "The translations in several languages have failing checks"
@@ -957,10 +953,9 @@ msgid "Glossary uploaded"
 msgstr "Словарь загружен"
 
 #: trans/models/changes.py:163
-#, fuzzy
 #| msgid "Search in source strings"
 msgid "New source string"
-msgstr "Поиск в строках исходника"
+msgstr "Новая строка-исходник"
 
 #: trans/models/changes.py:185
 #, python-format
@@ -1687,10 +1682,10 @@ msgid "Please set your full name in your profile."
 msgstr ""
 
 #: trans/views/basic.py:147
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search for exact string \"%s\""
 msgid "Search for %s"
-msgstr "Поиск точного совпадения с \"%s\""
+msgstr "Поиск %s"
 
 #: trans/views/basic.py:153
 msgid "Invalid search query!"
@@ -1742,10 +1737,9 @@ msgid ""
 msgstr "Запрос на новый перевод отправлен сопровождающему проекта."
 
 #: trans/views/basic.py:464
-#, fuzzy
 #| msgid "Failed to parse translation template: %s"
 msgid "Failed to process new translation request!"
-msgstr "Не удалось разобрать шаблон перевода: %s"
+msgstr "Не удалось обработать новый запрос на перевод!"
 
 #: trans/views/changes.py:55 weblate/html/edit_dictionary.html:25
 #: weblate/html/trans/change_list.html:12
@@ -2206,10 +2200,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
-#, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "Уведомление \"крюком\""
+msgstr "Хуки уведомлений"
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
@@ -2247,10 +2240,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/data.html:110
-#, fuzzy
 #| msgid "Hostname"
 msgid "Hosting site"
-msgstr "Имя хоста"
+msgstr "Сайт хостинга"
 
 #: weblate/html/data.html:112
 msgid "Note"
@@ -3287,10 +3279,9 @@ msgid "Instructions for translators:"
 msgstr ""
 
 #: weblate/html/project_info.html:23
-#, fuzzy
 #| msgid "Translation context"
 msgid "Translation license:"
-msgstr "Контекст перевода"
+msgstr "Лицензия перевода:"
 
 #: weblate/html/search.html:7
 msgid "search"
@@ -3301,10 +3292,9 @@ msgid "No matching strings found!"
 msgstr ""
 
 #: weblate/html/share.html:7
-#, fuzzy
 #| msgid "New translation"
 msgid "Share your translation"
-msgstr "Новый перевод"
+msgstr "Поделитесь своим переводом"
 
 #: weblate/html/share.html:10
 msgid "Share on Facebook!"
@@ -3373,10 +3363,9 @@ msgid "Please choose language into which you would like to translate."
 msgstr ""
 
 #: weblate/html/subproject.html:59
-#, fuzzy
 #| msgid "New translation"
 msgid "Start new translation"
-msgstr "Новый перевод"
+msgstr "Начните новый перевод"
 
 #: weblate/html/subproject.html:65
 #, python-format
@@ -3502,10 +3491,9 @@ msgid "Additional text to include in the commit message."
 msgstr ""
 
 #: weblate/html/translate.html:173
-#, fuzzy
 #| msgid "Error message"
 msgid "Commit message:"
-msgstr "Сообщение об ошибке"
+msgstr "Commit-сообщение:"
 
 #: weblate/html/translate.html:181
 msgid "Translation context"
@@ -3684,27 +3672,24 @@ msgid "Percent"
 msgstr ""
 
 #: weblate/html/translation.html:151
-#, fuzzy
 #| msgid "Substring"
 msgid "Strings"
-msgstr "Подстрока"
+msgstr "Строки"
 
 #: weblate/html/translation.html:155
 msgid "Total"
 msgstr ""
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "Нечётко"
 
 #: weblate/html/translation.html:173
-#, fuzzy
 #| msgid "Trailing space"
 msgid "Failing check"
-msgstr "Пробелы в конце"
+msgstr "Неудачная проверка"
 
 #: weblate/html/translation_info.html:10
 #, python-format
@@ -3721,10 +3706,9 @@ msgid "Used in"
 msgstr ""
 
 #: weblate/html/unit-details.html:18
-#, fuzzy
 #| msgid "First name"
 msgid "First seen"
-msgstr "Имя"
+msgstr "Первое упоминание"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
@@ -3856,10 +3840,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/accounts/hosting.html:6
-#, fuzzy
 #| msgid "Hostname"
 msgid "hosting"
-msgstr "Имя хоста"
+msgstr "хостинг"
 
 #: weblate/html/accounts/hosting.html:11
 msgid ""
@@ -3872,10 +3855,9 @@ msgid "This username/password combination was not found. Please try again."
 msgstr ""
 
 #: weblate/html/accounts/login.html:17
-#, fuzzy
 #| msgid "Password (again)"
 msgid "Password login"
-msgstr "Пароль (еще раз)"
+msgstr "Пароль для входа"
 
 #: weblate/html/accounts/login.html:20
 msgid ""
@@ -3896,10 +3878,9 @@ msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
 msgstr ""
 
 #: weblate/html/accounts/login.html:47
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party login"
-msgstr "Регистрация пользователя"
+msgstr "Вход с помощью третьей стороны"
 
 #: weblate/html/accounts/password.html:6
 msgid ""
@@ -3924,10 +3905,9 @@ msgid "Account"
 msgstr "Учетная запись"
 
 #: weblate/html/accounts/profile.html:25
-#, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
-msgstr "Документация"
+msgstr "Идентификация"
 
 #: weblate/html/accounts/profile.html:26
 msgid "Information"
@@ -3952,10 +3932,9 @@ msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 
 #: weblate/html/accounts/profile.html:49
-#, fuzzy
 #| msgid "New password"
 msgid "Set password"
-msgstr "Новый пароль"
+msgstr "Установить пароль"
 
 #: weblate/html/accounts/profile.html:51
 msgid ""
@@ -3979,10 +3958,9 @@ msgid "Disconnect"
 msgstr ""
 
 #: weblate/html/accounts/profile.html:76
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
-msgstr "Добавить перевод"
+msgstr "Добавить новую ассоциацию:"
 
 #: weblate/html/accounts/profile.html:89
 msgid "Your public profile:"
@@ -3999,20 +3977,18 @@ msgid "Avatars are provided using libravatar."
 msgstr ""
 
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "User registration"
 msgid "Registration"
-msgstr "Регистрация пользователя"
+msgstr "Регистрация"
 
 #: weblate/html/accounts/register.html:17
 msgid "Register using email"
 msgstr ""
 
 #: weblate/html/accounts/register.html:41
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
-msgstr "Регистрация пользователя"
+msgstr "Регистрация третьей стороны"
 
 #: weblate/html/accounts/register.html:53
 #, python-format
@@ -4168,10 +4144,9 @@ msgid "No related strings found in dictionary."
 msgstr ""
 
 #: weblate/html/js/dictionary.html:31
-#, fuzzy
 #| msgid "Glossary"
 msgid "Manage glossary"
-msgstr "Глоссарий"
+msgstr "Управление глоссарием"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"
@@ -4428,16 +4403,15 @@ msgid ""
 msgstr ""
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
-#, fuzzy
 #| msgid "New language"
 msgid "Requested language:"
-msgstr "Новый язык"
+msgstr "Требуемый язык:"
 
 #: weblate/html/mail/new_language_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 #| msgid "Overwrite existing translations"
 msgid "New language request in %(translation)s"
-msgstr "Заменить существующие переводы"
+msgstr "Новый запрос языка для %(translation)s"
 
 #: weblate/html/mail/new_string.html:12 weblate/html/mail/new_string.txt:3
 #, python-format
