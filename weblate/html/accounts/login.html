@@ -14,7 +14,7 @@
 </div>
 {% endif %}
 
-<h2>{% trans "Password log in" %}</h2>
+<h2>{% trans "Password login" %}</h2>
 
 {% if demo_server %}
 <p>{% trans "To test Weblate, you can login as <code>demo</code> user with password <code>demo</code>." %}</p>
@@ -44,7 +44,7 @@
 
 {% if login_backends %}
 
-<h2>{% trans "Third party log in" %}</h2>
+<h2>{% trans "Third party login" %}</h2>
 
 {% for name in login_backends %}
   <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
