@@ -691,13 +691,19 @@ def zen(request, project, subproject, lang):
     if isinstance(search_result, HttpResponse):
         return search_result
 
+    units = translation.unit_set.filter(pk__in=search_result['ids'])
+    unitdata = [
+        (unit, TranslationForm(translation, unit=unit))
+        for unit in units
+    ]
+
     return render_to_response(
         'zen.html',
         RequestContext(
             request,
             {
                 'translation': translation,
-                'units': translation.unit_set.filter(pk__in=search_result['ids']),
+                'unitdata': unitdata,
                 'search_query': search_result['query'],
                 'filter_name': search_result['name'],
                 'filter_count': len(search_result['ids']),

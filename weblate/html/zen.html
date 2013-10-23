@@ -30,9 +30,18 @@
 {% endif %}
 
 <table class="zen">
-{% for unit in units %}
+{% for unit in unitdata %}
 <tr>
-<td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
+<td class="translatetext">{{ unit.0.source|fmtsearchmatch:search_query }}</td>
+<td class="translator">
+<form action="js-store" method="post">
+{% csrf_token %}
+{{ unit.1.checksum }}
+{{ unit.1.target }}
+<br />
+{{ unit.1.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
+</form>
+</td>
 </tr>
 {% endfor %}
 </table>
