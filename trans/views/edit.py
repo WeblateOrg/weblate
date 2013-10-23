@@ -670,3 +670,37 @@ def comment(request, pk):
         messages.error(request, _('Failed to add comment!'))
 
     return redirect(request.POST.get('next', translation))
+
+
+def zen(request, project, subproject, lang):
+    '''
+    Generic entry point for translating, suggesting and searching.
+    '''
+    translation = get_translation(request, project, subproject, lang)
+
+    # Check locks
+    project_locked, user_locked, own_lock = translation.is_locked(
+        request, True
+    )
+    locked = project_locked or user_locked
+
+    # Search results
+    search_result = search(translation, request)
+
+    # Handle redirects
+    if isinstance(search_result, HttpResponse):
+        return search_result
+
+    return render_to_response(
+        'zen.html',
+        RequestContext(
+            request,
+            {
+                'translation': translation,
+                'units': translation.unit_set.filter(pk__in=search_result['ids']),
+                'search_query': search_result['query'],
+                'filter_name': search_result['name'],
+                'filter_count': len(search_result['ids']),
+            }
+        )
+    )

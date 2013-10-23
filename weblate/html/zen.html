@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load static %}
+{% load translations %}
+
+{% block extra_meta %}
+<link rel="canonical" href="{{ unit.get_absolute_url }}" />
+{% endblock %}
+
+{% block breadcrumbs %}
+<li><a href="{{ translation.subproject.project.get_absolute_url }}">{{ translation.subproject.project }}</a></li>
+<li><a href="{{ translation.subproject.get_absolute_url }}">{{ translation.subproject.name }}</a></li>
+<li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
+<li><a href="{{ translation.get_translate_url }}">{% trans "zen" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% with translation as object %}
+{% include "show-lock.html" %}
+{% endwith %}
+
+<h2>{% trans "Translate" %}</h2>
+
+{% if filter_name %}
+<span class="navi-toolbar ui-widget-header ui-corner-all">
+{% blocktrans %}Current filter: {{ filter_name }} ({{ filter_count }}){% endblocktrans %}
+</span>
+{% endif %}
+
+<table class="zen">
+{% for unit in units %}
+<tr>
+<td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
