@@ -243,21 +243,14 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
         # Silently redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
-    form = TranslationForm(request.POST)
-    if not form.is_valid():
-        return
-
     # Check whether translation is not outdated
     obj.check_sync()
 
-    try:
-        unit = Unit.objects.get_checksum(
-            request,
-            obj,
-            form.cleaned_data['checksum'],
-        )
-    except (Unit.DoesNotExist, IndexError):
+    form = TranslationForm(request, obj, request.POST)
+    if not form.is_valid():
         return
+
+    unit = form.cleaned_data['unit']
 
     if 'suggest' in request.POST:
         return handle_translate_suggest(
@@ -336,14 +329,7 @@ def handle_merge(obj, request, next_unit_url):
     if not mergeform.is_valid():
         return
 
-    try:
-        unit = Unit.objects.get_checksum(
-            request,
-            obj,
-            mergeform.cleaned_data['checksum'],
-        )
-    except Unit.DoesNotExist:
-        return
+    unit = mergeform.cleaned_data['unit']
 
     merged = Unit.objects.get(
         pk=mergeform.cleaned_data['merge']
@@ -381,14 +367,7 @@ def handle_revert(obj, request, next_unit_url):
     if not revertform.is_valid():
         return
 
-    try:
-        unit = Unit.objects.get_checksum(
-            request,
-            obj,
-            revertform.cleaned_data['checksum'],
-        )
-    except Unit.DoesNotExist:
-        return
+    unit = revertform.cleaned_data['unit']
 
     change = Change.objects.get(
         pk=revertform.cleaned_data['revert']
@@ -558,11 +537,7 @@ def translate(request, project, subproject, lang):
     antispam = AntispamForm()
 
     # Prepare form
-    form = TranslationForm(initial={
-        'checksum': unit.checksum,
-        'target': (unit.translation.language, unit.get_target_plurals()),
-        'fuzzy': unit.fuzzy,
-    })
+    form = TranslationForm(request, obj, unit=unit)
 
     return render_to_response(
         'translate.html',
