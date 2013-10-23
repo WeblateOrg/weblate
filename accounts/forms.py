@@ -341,7 +341,7 @@ class RegistrationForm(EmailForm):
         last = self.cleaned_data.get('last_name')
         if first == last:
             raise forms.ValidationError(
-                _('First and last name should not be same!')
+                _('First and last name should be different!')
             )
 
         return self.cleaned_data
