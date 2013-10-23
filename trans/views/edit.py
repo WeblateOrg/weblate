@@ -246,7 +246,7 @@ def handle_translate(obj, request, user_locked, this_unit_url, next_unit_url):
     # Check whether translation is not outdated
     obj.check_sync()
 
-    form = TranslationForm(request, obj, request.POST)
+    form = TranslationForm(obj, request.POST)
     if not form.is_valid():
         return
 
@@ -537,7 +537,7 @@ def translate(request, project, subproject, lang):
     antispam = AntispamForm()
 
     # Prepare form
-    form = TranslationForm(request, obj, unit=unit)
+    form = TranslationForm(obj, unit=unit)
 
     return render_to_response(
         'translate.html',
