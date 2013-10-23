@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-23 15:24+0200\n"
-"PO-Revision-Date: 2013-10-17 18:25+0200\n"
+"PO-Revision-Date: 2013-10-23 18:27+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 1.7\n"
+"X-Generator: Weblate 1.8-dev\n"
 
 #: accounts/forms.py:88
 msgid "At least five characters long."
@@ -86,7 +86,7 @@ msgstr ""
 
 #: accounts/forms.py:344
 msgid "First and last name should be different!"
-msgstr ""
+msgstr "Le prénom et le nom doivent être différents !"
 
 #: accounts/forms.py:376
 #, python-format
@@ -223,7 +223,7 @@ msgstr "Enregistrement utilisateur"
 
 #: accounts/views.py:123
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "Vous ne pouvez pas modifier le profil de démo sur le serveur de démo."
 
 #: accounts/views.py:146
 msgid "Your profile has been updated."
@@ -4009,6 +4009,8 @@ msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
 msgstr ""
+"Veuillez vérifier au préalable si votre projet est admissible pour un "
+"hébergement sur ce site."
 
 #: weblate/html/accounts/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -4017,16 +4019,17 @@ msgstr ""
 "nouveau."
 
 #: weblate/html/accounts/login.html:17
-#, fuzzy
 #| msgid "Password log in"
 msgid "Password login"
-msgstr "Se connecter par mot de passe"
+msgstr "Connexion par mot de passe"
 
 #: weblate/html/accounts/login.html:20
 msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
+"Pour tester Weblate, vous pouvez vous connecter en tant qu'utilisateur "
+"<code>demo</code> avec le mot de passe <code>demo</code>."
 
 #: weblate/html/accounts/login.html:36
 #, python-format
@@ -4045,10 +4048,9 @@ msgstr ""
 "\">réinitialiser</a>."
 
 #: weblate/html/accounts/login.html:47
-#, fuzzy
 #| msgid "Third party registration"
 msgid "Third party login"
-msgstr "Enregistrement de tiers"
+msgstr "Connexion par mécanisme tiers"
 
 #: weblate/html/accounts/password.html:6
 msgid ""
@@ -4107,14 +4109,15 @@ msgstr "Définir le mot de passe"
 msgid ""
 "You can manage third party identities which are associated to this account."
 msgstr ""
+"Vous pouvez gérer les identités de tiers qui sont associées à ce compte."
 
 #: weblate/html/accounts/profile.html:52
 msgid "Currently associated:"
-msgstr ""
+msgstr "Actuellement associé :"
 
 #: weblate/html/accounts/profile.html:56
 msgid "Identity"
-msgstr ""
+msgstr "Identité"
 
 #: weblate/html/accounts/profile.html:57
 msgid "User ID"
@@ -4122,7 +4125,7 @@ msgstr "Identifiant de l'utilisateur"
 
 #: weblate/html/accounts/profile.html:67
 msgid "Disconnect"
-msgstr ""
+msgstr "Se déconnecter"
 
 #: weblate/html/accounts/profile.html:76
 msgid "Add new association:"
@@ -4145,10 +4148,9 @@ msgid "Avatars are provided using libravatar."
 msgstr "Les avatars sont fournis par libravatar."
 
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "Registration date"
 msgid "Registration"
-msgstr "Date d'enregistrement"
+msgstr "Enregistrement"
 
 #: weblate/html/accounts/register.html:17
 msgid "Register using email"
