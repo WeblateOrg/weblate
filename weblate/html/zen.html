@@ -33,7 +33,11 @@
 {% for unit in unitdata %}
 <tr>
 <td>{{ unit.0.position }}</td>
-<td>{{ unit.0.get_location_links }}</td>
+<td>
+{{ unit.0.get_location_links }}
+
+{{ unit.0.context|fmtsearchmatch:search_query }}
+</td>
 <td>
 <img src="{% get_media_prefix %}loading.gif" id="loading-{{ unit.0.checksum }}" style="display: none" />
 <a href="{{ unit.0.get_absolute_url }}" class="menu-float small-button button" title="{% trans "Open in full editor" %}">{% trans "Edit" %}</a>
