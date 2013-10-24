@@ -587,6 +587,15 @@ class CaptchaTest(UnitTestCase):
             captcha.hashed[:40]
         )
 
+    def test_generate(self):
+        '''
+        Test generating of captcha for every operator.
+        '''
+        captcha = MathCaptcha()
+        for operator in MathCaptcha.operators:
+            captcha.operators = (operator,)
+            self.assertIn(operator, captcha.generate_question())
+
 
 class MiddlewareTest(TestCase):
     def view_method(self):
