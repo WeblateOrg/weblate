@@ -22,7 +22,6 @@ import httpretty
 from django.test import TestCase
 from trans.tests.views import ViewTestCase
 from trans.models.unit import Unit
-from django.utils.unittest import skipUnless
 from trans.machine.base import MachineTranslationError
 from trans.machine.dummy import DummyTranslation
 from trans.machine.glosbe import GlosbeTranslation
