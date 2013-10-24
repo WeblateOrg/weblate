@@ -31,11 +31,11 @@ class SeleniumTests(LiveServerTestCase):
         connection = httplib.HTTPConnection("saucelabs.com")
         connection.request(
             'PUT',
-            '/rest/v1/%s/jobs/%s' % (
+            '/rest/v1/{}/jobs/{}'.format(
                 self.username, self.driver.session_id
             ),
             body_content,
-            headers={"Authorization": "Basic %s" % self.sauce_auth}
+            headers={"Authorization": "Basic {}".format(self.sauce_auth)}
         )
         result = connection.getresponse()
         return result.status == 200
@@ -62,8 +62,8 @@ class SeleniumTests(LiveServerTestCase):
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
                 cls.caps['build'] = os.environ['TRAVIS_BUILD_NUMBER']
                 cls.caps['tags'] = [
-                    'python-%s' % os.environ['TRAVIS_PYTHON_VERSION'],
-                    'django-%s' % os.environ['DJANGO_VERSION'],
+                    'python-{}'.format(os.environ['TRAVIS_PYTHON_VERSION']),
+                    'django-{}'.format(os.environ['DJANGO_VERSION']),
                     os.environ['TRAVIS_DATABASE'],
                     'CI'
                 ]
@@ -72,15 +72,15 @@ class SeleniumTests(LiveServerTestCase):
             cls.username = os.environ['SAUCE_USERNAME']
             cls.key = os.environ['SAUCE_ACCESS_KEY']
             cls.sauce_auth = base64.encodestring(
-                '%s:%s' % (cls.username, cls.key)
+                '{}:{}'.format(cls.username, cls.key)
             )[:-1]
-            hub_url = "%s:%s@localhost:4445" % (cls.username, cls.key)
+            hub_url = "{}:{}@localhost:4445".format(cls.username, cls.key)
             cls.driver = webdriver.Remote(
                 desired_capabilities=cls.caps,
-                command_executor="http://%s/wd/hub" % hub_url
+                command_executor="http://{}/wd/hub".format(hub_url)
             )
             jobid = cls.driver.session_id
-            print "Sauce Labs job: https://saucelabs.com/jobs/%s" % jobid
+            print 'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
@@ -95,7 +95,7 @@ class SeleniumTests(LiveServerTestCase):
             cls.driver.quit()
 
     def test_login(self):
-        self.driver.get('%s%s' % (self.live_server_url, reverse('login')))
+        self.driver.get('{}{}'.format(self.live_server_url, reverse('login')))
 
         username_input = self.driver.find_element_by_id('id_username')
         username_input.send_keys("myuser")
@@ -139,9 +139,9 @@ def create_extra_classes():
     classes = {}
     for platform in EXTRA_PLATFORMS:
         classdict = dict(SeleniumTests.__dict__)
-        name = '%s_%s' % (
+        name = '{}_{}'.format(
+            platform,
             SeleniumTests.__name__,
-            platform
         )
         classdict.update({
             'caps': EXTRA_PLATFORMS[platform],
