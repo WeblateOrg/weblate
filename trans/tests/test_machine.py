@@ -208,7 +208,8 @@ class MachineTranslationTest(TestCase):
         )
         httpretty.register_uri(
             httpretty.GET,
-            'http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguagesForTranslate',
+            'http://api.microsofttranslator.com/V2/Ajax.svc/'
+            'GetLanguagesForTranslate',
             body='["en","cs"]'
         )
         httpretty.register_uri(
