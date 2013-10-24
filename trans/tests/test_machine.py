@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import httpretty
 from django.test import TestCase
 from trans.tests.views import ViewTestCase
 from trans.models.unit import Unit
@@ -29,13 +30,97 @@ from trans.machine.mymemory import MyMemoryTranslation
 from trans.machine.opentran import OpenTranTranslation
 from trans.machine.apertium import ApertiumTranslation
 from trans.machine.tmserver import AmagamaTranslation
-from trans.machine.microsoft import (
-    MicrosoftTranslation, microsoft_translation_supported
-)
+from trans.machine.microsoft import MicrosoftTranslation
 from trans.machine.google import GoogleWebTranslation
 from trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
+
+GLOSBE_JSON = u'''
+{
+    "result":"ok",
+    "authors":{
+        "1":{"U":"http://en.wiktionary.org","id":1,"N":"en.wiktionary.org"}
+    },
+    "dest":"ces",
+    "phrase":"world",
+    "tuc":[
+        {
+            "authors":[1],
+            "meaningId":-311020347498476098,
+            "meanings":[
+                {
+                    "text":"geographic terms (above country level)",
+                    "language":"eng"
+                }
+            ],
+            "phrase":{"text":"svět","language":"ces"}}],
+    "from":"eng"
+}
+'''.encode('utf-8')
+MYMEMORY_JSON = u'''
+{"responseData":{"translatedText":"svět"},"responseDetails":"",
+"responseStatus":200,
+"matches":[
+{"id":"428492143","segment":"world","translation":"svět","quality":"",
+"reference":"http:\/\/aims.fao.org\/standards\/agrovoc",
+"usage-count":15,"subject":"Agriculture_and_Farming",
+"created-by":"MyMemoryLoader",
+"last-updated-by":"MyMemoryLoader","create-date":"2013-06-12 17:02:07",
+"last-update-date":"2013-06-12 17:02:07","match":1},
+{"id":"424273685","segment":"World view","translation":"Světový názor",
+"quality":"80",
+"reference":"\/\/cs.wikipedia.org\/wiki\/Sv%C4%9Btov%C3%BD_n%C3%A1zor",
+"usage-count":1,"subject":"All","created-by":"","last-updated-by":"Wikipedia",
+"create-date":"2012-02-22 13:23:31","last-update-date":"2012-02-22 13:23:31",
+"match":0.85},
+{"id":"428493395","segment":"World Bank","translation":"IBRD","quality":"",
+"reference":"http:\/\/aims.fao.org\/standards\/agrovoc",
+"usage-count":1,"subject":"Agriculture_and_Farming",
+"created-by":"MyMemoryLoader","last-updated-by":"MyMemoryLoader",
+"create-date":"2013-06-12 17:02:07",
+"last-update-date":"2013-06-12 17:02:07","match":0.84}
+]}
+'''.encode('utf-8')
+AMAGAMA_JSON = u'''
+[{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
+'''.encode('utf-8')
+GOOGLE_JSON = u'''
+[
+    [["svět","world","",""]],
+    [[
+        "noun",["svět","země","společnost","lidstvo"],
+        [
+            ["svět",["world","earth"],null,0.465043187],
+            ["země",["country","land","ground","nation","soil","world"]
+            ,null,0.000656803953],
+            ["lidstvo",["humanity","mankind","humankind","people","world"]
+            ,null,0.000148860636]
+        ],
+        "world",1
+    ]],
+    "en",null,
+    [["svět",[4],1,0,1000,0,1,0]],
+    [[
+        "world",4,[["svět",1000,1,0],
+        ["World",0,1,0],
+        ["Světová",0,1,0],
+        ["světě",0,1,0],
+        ["světa",0,1,0]],
+        [[0,5]],"world"]],
+    null,null,[],2
+]
+'''.encode('utf-8')
+OPENTRAN_JSON = u'''
+[{
+    "count":4,
+    "projects":[{
+        "count":4,"flags":0,"name":"KDE","orig_phrase":"World",
+        "path":"K/step_qt"
+    }],
+    "text":"Svět","value":1
+}]
+'''.encode('utf-8')
 
 
 class MachineTranslationTest(TestCase):
@@ -69,32 +154,89 @@ class MachineTranslationTest(TestCase):
         except (MachineTranslationError, IOError) as exc:
             self.skipTest(str(exc))
 
+    @httpretty.activate
     def test_glosbe(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://glosbe.com/gapi/translate',
+            body=GLOSBE_JSON
+        )
         machine = GlosbeTranslation()
         self.assertTranslate(machine)
 
+    @httpretty.activate
     def test_mymemory(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://mymemory.translated.net/api/get',
+            body=MYMEMORY_JSON
+        )
         machine = MyMemoryTranslation()
         self.assertTranslate(machine)
 
+    @httpretty.activate
     def test_opentran(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://open-tran.eu/json/supported',
+            body='["en","cs"]'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://en.cs.open-tran.eu/json/suggest/world',
+            body=OPENTRAN_JSON
+        )
         machine = OpenTranTranslation()
         self.assertTranslate(machine)
 
+    @httpretty.activate
     def test_apertium(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.apertium.org/json/listPairs',
+            body=''
+        )
         machine = ApertiumTranslation()
         self.assertTranslate(machine, 'es')
 
-    @skipUnless(microsoft_translation_supported(), 'missing credentials')
+    @httpretty.activate
     def test_microsoft(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
+            body='{"access_token":"TOKEN"}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.microsofttranslator.com/V2/Ajax.svc/GetLanguagesForTranslate',
+            body='["en","cs"]'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
+            body=u'"svět"'.encode('utf-8')
+        )
+
         machine = MicrosoftTranslation()
         self.assertTranslate(machine)
 
+    @httpretty.activate
     def test_google(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://translate.google.com/translate_a/t',
+            body=GOOGLE_JSON
+        )
         machine = GoogleWebTranslation()
         self.assertTranslate(machine)
 
+    @httpretty.activate
     def test_amagama(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://amagama.locamotion.org/tmserver/en/cs/unit/world',
+            body=AMAGAMA_JSON
+        )
         machine = AmagamaTranslation()
         self.assertTranslate(machine)
 

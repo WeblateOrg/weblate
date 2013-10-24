@@ -30,10 +30,9 @@ GIT_ROOT = '%s/test-repos/' % WEB_ROOT
 # Avoid migrating during testsuite
 SOUTH_TESTS_MIGRATE = False
 
-# Test access to Microsoft Translator
-# Do not use in production!
-MT_MICROSOFT_ID = 'weblate'
-MT_MICROSOFT_SECRET = 'Hc7KBi75sBa/2FPntp8o8m2WxhW9oDQTuQUCr02Y044='
+# Fake access to Microsoft Translator
+MT_MICROSOFT_ID = 'ID'
+MT_MICROSOFT_SECRET = 'SECRET'
 
 # To get higher limit for testing
 MT_MYMEMORY_EMAIL = 'test@weblate.org'
