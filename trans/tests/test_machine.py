@@ -146,12 +146,11 @@ class MachineTranslationTest(TestCase):
             2
         )
 
-    def assertTranslate(self, machine, lang='cs', word='world'):
-        try:
-            translation = machine.translate(lang, word, None, None)
-            self.assertIsInstance(translation, list)
-        except (MachineTranslationError, IOError) as exc:
-            self.skipTest(str(exc))
+    def assertTranslate(self, machine, lang='cs', word='world', empty=False):
+        translation = machine.translate(lang, word, None, None)
+        self.assertIsInstance(translation, list)
+        if not empty:
+            self.assertTrue(len(translation) > 0)
 
     @httpretty.activate
     def test_glosbe(self):
@@ -189,11 +188,23 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     @httpretty.activate
-    def test_opentran_wrong(self):
+    def test_opentran_wrong_lang(self):
         httpretty.register_uri(
             httpretty.GET,
             'http://open-tran.eu/json/supported',
             body='["en","cs"'
+        )
+        machine = OpenTranTranslation()
+        # Prevent cache issues
+        machine.mtid += 'wrong_lang'
+        self.assertTranslate(machine, empty=True)
+
+    @httpretty.activate
+    def test_opentran_wrong(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://open-tran.eu/json/supported',
+            body='["en","cs"]'
         )
         httpretty.register_uri(
             httpretty.GET,
@@ -201,7 +212,13 @@ class MachineTranslationTest(TestCase):
             body='['
         )
         machine = OpenTranTranslation()
-        self.assertTranslate(machine)
+        # Prevent cache issues
+        machine.mtid += 'wrong'
+        self.assertRaises(
+            MachineTranslationError,
+            self.assertTranslate,
+            machine
+        )
 
     @httpretty.activate
     def test_apertium(self):
