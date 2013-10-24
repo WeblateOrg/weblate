@@ -108,6 +108,7 @@ class RepoTestCase(TestCase):
             template=template,
             file_format=file_format,
             repoweb=REPOWEB_URL,
+            save_history=True,
             new_base=new_base,
         )
 
