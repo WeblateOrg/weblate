@@ -607,12 +607,15 @@ class Unit(models.Model):
         '''
         from trans.models.changes import Change
 
+        # Action type to store
         if change_action is not None:
             action = change_action
         elif oldunit.translated:
             action = Change.ACTION_CHANGE
         else:
             action = Change.ACTION_NEW
+
+        # Should we store history of edits?
         if self.translation.subproject.save_history:
             history_target = self.target
         else:
