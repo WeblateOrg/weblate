@@ -91,6 +91,7 @@ def upload_translation(request, project, subproject, lang):
         return redirect(obj)
 
     # Create author name
+    author = None
     if (request.user.has_perm('trans.author_translation')
             and form.cleaned_data['author_name'] != ''
             and form.cleaned_data['author_email'] != ''):
@@ -98,14 +99,11 @@ def upload_translation(request, project, subproject, lang):
             form.cleaned_data['author_name'],
             form.cleaned_data['author_email']
         )
-    else:
-        author = None
 
     # Check for overwriting
+    overwrite = False
     if request.user.has_perm('trans.overwrite_translation'):
         overwrite = form.cleaned_data['overwrite']
-    else:
-        overwrite = False
 
     # Do actual import
     try:
