@@ -194,7 +194,14 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'http://api.apertium.org/json/listPairs',
-            body=''
+            body='{"responseStatus": 200, "responseData":'
+            '[{"sourceLanguage": "en","targetLanguage": "es"}]}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.apertium.org/json/translate',
+            body='{"responseData":{"translatedText":"Mundial"},'
+            '"responseDetails":null,"responseStatus":200}'
         )
         machine = ApertiumTranslation()
         self.assertTranslate(machine, 'es')
