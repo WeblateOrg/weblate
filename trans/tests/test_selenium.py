@@ -9,14 +9,10 @@ import json
 import httplib
 import base64
 
-IN_TRAVIS = 'TRAVIS_JOB_ID' in os.environ
-DO_SELENIUM = 'TRAVIS_SELENIUM' in os.environ
-
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
     'SAUCE_USERNAME' in os.environ
     and 'SAUCE_ACCESS_KEY' in os.environ
-    and (not IN_TRAVIS or (IN_TRAVIS and DO_SELENIUM))
 )
 
 
