@@ -45,13 +45,14 @@ class SeleniumTests(LiveServerTestCase):
         if result is None:
             result = self.defaultTestResult()
 
-        errors = result.errors
-        failures = result.failures
+        errors = len(result.errors)
+        failures = len(result.failures)
         super(SeleniumTests, self).run(result)
 
         if DO_SELENIUM:
             self.set_test_status(
-                (errors == result.errors and failures == result.failures)
+                errors == len(result.errors)
+                and failures == len(result.failures)
             )
 
     @classmethod
