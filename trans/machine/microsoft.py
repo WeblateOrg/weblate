@@ -59,26 +59,26 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         Obtains and caches access token.
         '''
-        if self._access_token is not None:
-            return self._access_token
-
-        data = self.json_req(
-            'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
-            skip_auth=True,
-            http_post=True,
-            client_id=appsettings.MT_MICROSOFT_ID,
-            client_secret=appsettings.MT_MICROSOFT_SECRET,
-            scope='http://api.microsofttranslator.com',
-            grant_type='client_credentials',
-        )
-
-        if 'error' in data:
-            raise MachineTranslationError(
-                data.get('error', 'Unknown Error') +
-                data.get('error_description', 'No Error Description')
+        if self._access_token is None:
+            data = self.json_req(
+                'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
+                skip_auth=True,
+                http_post=True,
+                client_id=appsettings.MT_MICROSOFT_ID,
+                client_secret=appsettings.MT_MICROSOFT_SECRET,
+                scope='http://api.microsofttranslator.com',
+                grant_type='client_credentials',
             )
 
-        return data['access_token']
+            if 'error' in data:
+                raise MachineTranslationError(
+                    data.get('error', 'Unknown Error') +
+                    data.get('error_description', 'No Error Description')
+                )
+
+            self._access_token = data['access_token']
+
+        return self._access_token
 
     def authenticate(self, request):
         '''
