@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-24 14:38+0200\n"
-"PO-Revision-Date: 2013-10-15 17:48+0200\n"
+"PO-Revision-Date: 2013-10-24 20:28+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
 "Language: nl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.7\n"
+"X-Generator: Weblate 1.8-dev\n"
 
 #: accounts/forms.py:88
 msgid "At least five characters long."
@@ -84,7 +84,7 @@ msgstr ""
 
 #: accounts/forms.py:344
 msgid "First and last name should be different!"
-msgstr ""
+msgstr "Voor- en achternaam moeten verschillend zijn!"
 
 #: accounts/forms.py:376
 #, python-format
@@ -223,7 +223,7 @@ msgstr "Gebruikersregistratie"
 
 #: accounts/views.py:123
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "Het demoprofiel kan niet gewijzigd worden op de demoserver."
 
 #: accounts/views.py:146
 msgid "Your profile has been updated."
@@ -2276,6 +2276,9 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Met kennisgevingshaken kan Weblate automatisch wijzigingen importeren die "
+"gedaan werden door ontwikkelaars en maakt continue vertaling mogelijk. Meer "
+"informatie is beschikbaar in <a href=\"%(hooks_docs)s\">de documentatie</a>."
 
 #: weblate/html/data.html:48
 msgid ""
@@ -2302,12 +2305,14 @@ msgstr "Downloaden"
 
 #: weblate/html/data.html:93 weblate/html/data.html.py:99
 msgid "Hook"
-msgstr ""
+msgstr "Haak"
 
 #: weblate/html/data.html:105
 msgid ""
 "Weblate also support direct notification from several code hosting sites:"
 msgstr ""
+"Weblate ondersteunt ook onmiddellijke kennisgeving van verschillende code "
+"hosting sites:"
 
 #: weblate/html/data.html:110
 msgid "Hosting site"
@@ -2319,7 +2324,7 @@ msgstr "Opmerking"
 
 #: weblate/html/data.html:119
 msgid "Enable Weblate service hook in repository settings."
-msgstr ""
+msgstr "Schakel Weblate diensthaak in via repository instellingen."
 
 #: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
 msgid "glossaries"
@@ -3122,13 +3127,13 @@ msgid "Zulu"
 msgstr "Zulu"
 
 #: weblate/html/index.html:10
-#, fuzzy, python-format
+#, python-format
 #| msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgid "This site runs <a href=\"%(weblate_url)s\">Weblate</a> demo server."
-msgstr "Aangedreven door <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
+msgstr "Deze site gebruikt <a href=\"%(weblate_url)s\">Weblate</a> demo server."
 
 #: weblate/html/index.html:12
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
 #| "the software projects listed below. You need to be logged in for "
@@ -3137,17 +3142,17 @@ msgid ""
 "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
 "software projects listed below."
 msgstr ""
-"Deze website wordt aangedreven door <a href=\"%(weblate_url)s\">Weblate</a> "
-"om de hieronder vermeldde projecten te vertalen. U moet aangemeld zijn om te "
-"kunnen vertalen, anders kan u enkel suggesties doen."
+"Deze website wordt aangedreven door <a href=\"%(weblate_url)s\">Weblate</a> om "
+"de hieronder vermeldde projecten te vertalen."
 
 #: weblate/html/index.html:14
-#, fuzzy
 #| msgid "You need to log in to be able to manage suggestions!"
 msgid ""
 "You need to be logged in for translating, otherwise you can only make "
 "suggestions."
-msgstr "U moet zich aanmelden om suggesties te kunnen beheren!"
+msgstr ""
+"U moet zich aanmelden om te kunnen vertalen, anders kan u enkel suggesties "
+"doen."
 
 #: weblate/html/index.html:18 weblate/html/subproject.html:23
 #: weblate/html/translate.html:85
@@ -3972,6 +3977,8 @@ msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
 msgstr ""
+"Gelieve op voorhand na te kijken of je project in aanmerking komt om gehost "
+"te worden op deze site."
 
 #: weblate/html/accounts/login.html:11
 msgid "This username/password combination was not found. Please try again."
@@ -3980,7 +3987,6 @@ msgstr ""
 "opnieuw te proberen."
 
 #: weblate/html/accounts/login.html:17
-#, fuzzy
 #| msgid "Password log in"
 msgid "Password login"
 msgstr "loginwachtwoord"
@@ -3990,6 +3996,8 @@ msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
+"Om Weblate uit te testen, kan je inloggen met de <code>demo</code> gebruiker "
+"met wachtwoord <code>demo</code>."
 
 #: weblate/html/accounts/login.html:36
 #, python-format
@@ -4007,10 +4015,9 @@ msgstr ""
 "a>."
 
 #: weblate/html/accounts/login.html:47
-#, fuzzy
 #| msgid "Third party registration"
 msgid "Third party login"
-msgstr "Registratie via derden"
+msgstr "Inloggen via derden"
 
 #: weblate/html/accounts/password.html:6
 msgid ""
@@ -4069,10 +4076,11 @@ msgstr "Wachtwoord instellen"
 msgid ""
 "You can manage third party identities which are associated to this account."
 msgstr ""
+"Je kan indentiteiten van derden beheren die gekoppeld zijn met deze account."
 
 #: weblate/html/accounts/profile.html:52
 msgid "Currently associated:"
-msgstr ""
+msgstr "Gekoppeld op dit moment:"
 
 #: weblate/html/accounts/profile.html:56
 msgid "Identity"
@@ -4107,10 +4115,9 @@ msgid "Avatars are provided using libravatar."
 msgstr "Avatars worden aangeboden door libravatar."
 
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "Registration date"
 msgid "Registration"
-msgstr "Registratiedatum"
+msgstr "Registratie"
 
 #: weblate/html/accounts/register.html:17
 msgid "Register using email"
