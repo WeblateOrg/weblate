@@ -2,6 +2,7 @@ from django.test import LiveServerTestCase
 from django.utils.unittest import SkipTest
 from selenium import webdriver
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 import os
 import new
 import json
@@ -95,7 +96,11 @@ class SeleniumTests(LiveServerTestCase):
             cls.driver.quit()
 
     def test_login(self):
-        self.driver.get('{}{}'.format(self.live_server_url, reverse('login')))
+        # open home page
+        self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
+
+        # login page
+        self.driver.find_element_by_id('login-button').click()
 
         username_input = self.driver.find_element_by_id('id_username')
         username_input.send_keys("myuser")
@@ -105,6 +110,27 @@ class SeleniumTests(LiveServerTestCase):
 
         # We should end up on login page as user was invalid
         self.driver.find_element_by_name('username')
+
+        # Do proper login with new user
+        user = User.objects.create_user(
+            'testuser',
+            'noreply@weblate.org',
+            'testpassword'
+        )
+        username_input = self.driver.find_element_by_id('id_username')
+        username_input.send_keys('testuser')
+        password_input = self.driver.find_element_by_id('id_password')
+        password_input.send_keys('testpassword')
+        self.driver.find_element_by_xpath('//input[@value="Login"]').click()
+
+        # Load profile
+        self.driver.find_element_by_id('profile-button').click()
+
+        # Finally logout
+        self.driver.find_element_by_id('logout-button').click()
+
+        # We should be back on login page
+        self.driver.find_element_by_id('id_username')
 
 
 # What other platforms we want to test
