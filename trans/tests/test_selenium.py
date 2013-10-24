@@ -103,9 +103,9 @@ class SeleniumTests(LiveServerTestCase):
         self.driver.find_element_by_id('login-button').click()
 
         username_input = self.driver.find_element_by_id('id_username')
-        username_input.send_keys("myuser")
+        username_input.send_keys('testuser')
         password_input = self.driver.find_element_by_id('id_password')
-        password_input.send_keys("secret")
+        password_input.send_keys('secret')
         self.driver.find_element_by_xpath('//input[@value="Login"]').click()
 
         # We should end up on login page as user was invalid
@@ -117,8 +117,6 @@ class SeleniumTests(LiveServerTestCase):
             'noreply@weblate.org',
             'testpassword'
         )
-        username_input = self.driver.find_element_by_id('id_username')
-        username_input.send_keys('testuser')
         password_input = self.driver.find_element_by_id('id_password')
         password_input.send_keys('testpassword')
         self.driver.find_element_by_xpath('//input[@value="Login"]').click()
