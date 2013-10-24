@@ -147,6 +147,8 @@ class ChecksumForm(forms.Form):
     '''
     Form for handling checksum ids for translation.
     '''
+    checksum = forms.CharField(widget=forms.HiddenInput)
+
     def __init__(self, translation, *args, **kwargs):
         self.translation = translation
         super(ChecksumForm, self).__init__(*args, **kwargs)
@@ -184,10 +186,10 @@ class TranslationForm(ChecksumForm):
         required=False
     )
 
-    def __init__(self, translation, unit=None, initial=None,
+    def __init__(self, translation, unit,
                  *args, **kwargs):
-        if unit is not None and initial is None:
-            initial = {
+        if unit is not None:
+            kwargs['initial'] = {
                 'checksum': unit.checksum,
                 'target': (
                     unit.translation.language, unit.get_target_plurals()
@@ -195,7 +197,7 @@ class TranslationForm(ChecksumForm):
                 'fuzzy': unit.fuzzy,
             }
         super(TranslationForm, self).__init__(
-            translation, *args, initial=initial, **kwargs
+            translation, *args, **kwargs
         )
 
 
