@@ -423,7 +423,7 @@ class EditTest(ViewTestCase):
             target_2
         )
         unit = self.get_unit()
-        changes = Change.objects.filter(unit=unit)
+        changes = Change.objects.content().filter(unit=unit)
         self.assertEqual(changes[1].target, target)
         self.assertEqual(changes[0].target, target_2)
         self.assertBackend(1)
