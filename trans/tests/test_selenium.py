@@ -104,44 +104,50 @@ class SeleniumTests(LiveServerTestCase):
         self.driver.find_element_by_xpath('//input[@value="Login"]').click()
 
         # We should end up on login page as user was invalid
-        # This is currently broken with Sauce labs, see:
-        # http://support.saucelabs.com/entries/20629691
-        #self.driver.find_element_by_name('username')
+        self.driver.find_element_by_name('username')
 
 
+# What other platforms we want to test
 EXTRA_PLATFORMS = {
     'Chrome': {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'Opera': {
-        'browserName': 'opera',
-        'platform': 'WIN7',
-    },
-    'MSIE10': {
-        'browserName': 'internet explorer',
-        'version': '10',
-        'platform': 'WIN8',
-    },
-    'MSIE9': {
-        'browserName': 'internet explorer',
-        'version': '9',
-        'platform': 'VISTA',
-    },
+    # Following browsers do not work correctly store cookies with Sauce labs:
+    # http://support.saucelabs.com/entries/20629691
+    #'Opera': {
+    #    'browserName': 'opera',
+    #    'platform': 'WIN7',
+    #},
+    #'MSIE10': {
+    #    'browserName': 'internet explorer',
+    #    'version': '10',
+    #    'platform': 'WIN8',
+    #},
+    #'MSIE9': {
+    #    'browserName': 'internet explorer',
+    #    'version': '9',
+    #    'platform': 'VISTA',
+    #},
 }
 
 
-if DO_SELENIUM:
+def create_extra_classes():
+    '''
+    Create classes for testing with other browsers
+    '''
     classes = {}
     for platform in EXTRA_PLATFORMS:
-        d = dict(SeleniumTests.__dict__)
+        classdict = dict(SeleniumTests.__dict__)
         name = '%s_%s' % (
             SeleniumTests.__name__,
             platform
         )
-        d.update({
+        classdict.update({
             'caps': EXTRA_PLATFORMS[platform],
         })
-        classes[name] = new.classobj(name, (SeleniumTests,), d)
+        classes[name] = new.classobj(name, (SeleniumTests,), classdict)
 
     globals().update(classes)
+
+create_extra_classes()
