@@ -189,6 +189,21 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     @httpretty.activate
+    def test_opentran_wrong(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://open-tran.eu/json/supported',
+            body='["en","cs"'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://en.cs.open-tran.eu/json/suggest/world',
+            body='['
+        )
+        machine = OpenTranTranslation()
+        self.assertTranslate(machine)
+
+    @httpretty.activate
     def test_apertium(self):
         httpretty.register_uri(
             httpretty.GET,
