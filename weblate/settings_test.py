@@ -34,6 +34,9 @@ SOUTH_TESTS_MIGRATE = False
 MT_MICROSOFT_ID = 'ID'
 MT_MICROSOFT_SECRET = 'SECRET'
 
+# Fake Google translate API key
+MT_GOOGLE_KEY = 'KEY'
+
 # To get higher limit for testing
 MT_MYMEMORY_EMAIL = 'test@weblate.org'
 

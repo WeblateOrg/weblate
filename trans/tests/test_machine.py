@@ -31,7 +31,7 @@ from trans.machine.opentran import OpenTranTranslation
 from trans.machine.apertium import ApertiumTranslation
 from trans.machine.tmserver import AmagamaTranslation
 from trans.machine.microsoft import MicrosoftTranslation
-from trans.machine.google import GoogleWebTranslation
+from trans.machine.google import GoogleWebTranslation, GoogleTranslation
 from trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
@@ -221,13 +221,28 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     @httpretty.activate
-    def test_google(self):
+    def test_googleweb(self):
         httpretty.register_uri(
             httpretty.GET,
             'http://translate.google.com/translate_a/t',
             body=GOOGLE_JSON
         )
         machine = GoogleWebTranslation()
+        self.assertTranslate(machine)
+
+    @httpretty.activate
+    def test_google(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://www.googleapis.com/language/translate/v2/languages',
+            body='{"data": {"languages": [ { "language": "cs" }]}}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://www.googleapis.com/language/translate/v2/',
+            body='{"data":{"translations":[{"translatedText":"svet"}]}}'
+        )
+        machine = GoogleTranslation()
         self.assertTranslate(machine)
 
     @httpretty.activate
