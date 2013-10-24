@@ -217,4 +217,7 @@ class MachineTranslation(object):
                 self.request_url,
                 self.request_params,
             )
-            raise
+            raise MachineTranslationError('{}: {}'.format(
+                exc.__class__.__name__,
+                str(exc)
+            ))
