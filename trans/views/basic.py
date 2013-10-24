@@ -36,7 +36,7 @@ from trans.models import (
 from trans.requirements import get_versions, get_optional_versions
 from lang.models import Language
 from trans.forms import (
-    UploadForm, SimpleUploadForm, ExtraUploadForm, SearchForm,
+    get_upload_form, SearchForm,
     AutoForm, ReviewForm, NewLanguageForm,
 )
 from accounts.models import Profile, notify_new_language
@@ -325,13 +325,8 @@ def show_translation(request, project, subproject, lang):
     # Check locks
     obj.is_locked(request)
 
-    # How much is user allowed to configure upload?
-    if request.user.has_perm('trans.author_translation'):
-        form = ExtraUploadForm()
-    elif request.user.has_perm('trans.overwrite_translation'):
-        form = UploadForm()
-    else:
-        form = SimpleUploadForm()
+    # Get form
+    form = get_upload_form(request)()
 
     # Is user allowed to do automatic translation?
     if request.user.has_perm('trans.automatic_translation'):

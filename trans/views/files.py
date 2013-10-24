@@ -25,7 +25,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import Http404
 
-from trans.forms import UploadForm, SimpleUploadForm, ExtraUploadForm
+from trans.forms import get_upload_form
 from trans.views.helper import get_translation
 
 
@@ -83,12 +83,7 @@ def upload_translation(request, project, subproject, lang):
         return redirect(obj)
 
     # Get correct form handler based on permissions
-    if request.user.has_perm('trans.author_translation'):
-        form = ExtraUploadForm(request.POST, request.FILES)
-    elif request.user.has_perm('trans.overwrite_translation'):
-        form = UploadForm(request.POST, request.FILES)
-    else:
-        form = SimpleUploadForm(request.POST, request.FILES)
+    form = get_upload_form(request)(request.POST, request.FILES)
 
     # Check form validity
     if not form.is_valid():

@@ -264,6 +264,18 @@ class ExtraUploadForm(UploadForm):
     )
 
 
+def get_upload_form(request):
+    '''
+    Returns correct upload form based on user permissions.
+    '''
+    if request.user.has_perm('trans.author_translation'):
+        return ExtraUploadForm
+    elif request.user.has_perm('trans.overwrite_translation'):
+        return UploadForm
+    else:
+        return SimpleUploadForm
+
+
 class SearchForm(forms.Form):
     '''
     Text searching form.
