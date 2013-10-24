@@ -112,7 +112,7 @@ class SeleniumTests(LiveServerTestCase):
         self.driver.find_element_by_name('username')
 
         # Do proper login with new user
-        user = User.objects.create_user(
+        User.objects.create_user(
             'testuser',
             'noreply@weblate.org',
             'testpassword'
