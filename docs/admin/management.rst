@@ -106,6 +106,12 @@ importusers <file.json>
 
 Imports users from JSON dump of Django auth_users database.
 
+You can dump users from existing Django installation using:
+
+.. code-block:: bash
+
+    ./manage.py ./manage.py dumpdata > users.json
+
 list_ignored_checks
 -------------------
 
