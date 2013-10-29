@@ -47,7 +47,7 @@ from accounts.forms import (
 from weblate import appsettings
 
 CONTACT_TEMPLATE = '''
-'Message from %(name)s <%(email)s>:
+Message from %(name)s <%(email)s>:
 
 %(message)s
 '''
