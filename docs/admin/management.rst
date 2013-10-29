@@ -110,7 +110,7 @@ You can dump users from existing Django installation using:
 
 .. code-block:: bash
 
-    ./manage.py ./manage.py dumpdata > users.json
+    ./manage.py dumpdata auth.User > users.json
 
 list_ignored_checks
 -------------------
