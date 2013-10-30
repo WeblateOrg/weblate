@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from datetime import datetime, timedelta
 from trans.machine.base import MachineTranslation, MachineTranslationError
 from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
@@ -25,6 +26,7 @@ from weblate import appsettings
 BASE_URL = 'http://api.microsofttranslator.com/V2/Ajax.svc/'
 TRANSLATE_URL = BASE_URL + 'Translate'
 LIST_URL = BASE_URL + 'GetLanguagesForTranslate'
+TOKEN_EXPIRY = timedelta(minutes=9)
 
 
 def microsoft_translation_supported():
@@ -49,17 +51,24 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         super(MicrosoftTranslation, self).__init__()
         self._access_token = None
+        self._token_expiry = None
         if not microsoft_translation_supported():
             raise ImproperlyConfigured(
                 'Microsoft Translator requires credentials'
             )
+
+    def is_token_expired(self):
+        '''
+        Checks whether token is about to expire.
+        '''
+        return self._token_expiry <= datetime.now()
 
     @property
     def access_token(self):
         '''
         Obtains and caches access token.
         '''
-        if self._access_token is None:
+        if self._access_token is None or self.is_token_expired():
             data = self.json_req(
                 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
                 skip_auth=True,
@@ -77,6 +86,7 @@ class MicrosoftTranslation(MachineTranslation):
                 )
 
             self._access_token = data['access_token']
+            self._token_expiry = datetime.now() + TOKEN_EXPIRY
 
         return self._access_token
 
