@@ -140,7 +140,7 @@ def get_versions():
             name,
             url,
             mod.Git().version().replace('git version ', ''),
-            '1.0',
+            '1.7.2',
         ))
     except TypeError:
         # Happens with too old GitPython
