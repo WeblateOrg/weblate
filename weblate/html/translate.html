@@ -52,16 +52,16 @@
 </tr>
 {% endfor %}
 {% endif %}
-<tr>
-<th class="source labelscolumn">{% trans "Source" %}</th>
-<td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
-</tr>
 {% if unit.previous_source and unit.fuzzy %}
 <tr>
 <th class="labelscolumn">{% trans "Source change" %}</th>
 <td>{{ unit.previous_source|fmtsourcediff:unit }}</td>
 </tr>
 {% endif %}
+<tr>
+<th class="source labelscolumn">{% trans "Source" %}</th>
+<td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
+</tr>
 {% if unit.context %}
 <tr>
 <th class="labelscolumn">{% trans "Context" %}</th>
