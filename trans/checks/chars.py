@@ -61,9 +61,16 @@ class BeginSpaceCheck(TargetCheck):
         if len(source) <= 1 and len(target) <= 1:
             return False
 
+        stripped_target = target.lstrip(' ')
+        stripped_source = source.lstrip(' ')
+
+        # String translated to spaces only
+        if len(stripped_target) == 0:
+            return False
+
         # Count space chars in source and target
-        source_space = len(source) - len(source.lstrip(' '))
-        target_space = len(target) - len(target.lstrip(' '))
+        source_space = len(source) - len(stripped_source)
+        target_space = len(target) - len(stripped_target)
 
         # Compare numbers
         return (source_space != target_space)
@@ -87,9 +94,16 @@ class EndSpaceCheck(TargetCheck):
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
                 return False
 
+        stripped_target = target.rstrip(' ')
+        stripped_source = source.rstrip(' ')
+
+        # String translated to spaces only
+        if len(stripped_target) == 0:
+            return False
+
         # Count space chars in source and target
-        source_space = len(source) - len(source.rstrip(' '))
-        target_space = len(target) - len(target.rstrip(' '))
+        source_space = len(source) - len(stripped_source)
+        target_space = len(target) - len(stripped_target)
 
         # Compare numbers
         return (source_space != target_space)

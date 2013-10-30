@@ -58,6 +58,7 @@ class BeginSpaceCheckTest(CheckTestCase):
         self.check = BeginSpaceCheck()
         self.test_good_matching = ('   string', '   string', '')
         self.test_good_ignore = ('.', ' ', '')
+        self.test_good_none = (' The ', '  ', '')
         self.test_failure_1 = ('  string', '    string', '')
         self.test_failure_2 = ('    string', '  string', '')
 
@@ -68,6 +69,7 @@ class EndSpaceCheckTest(CheckTestCase):
         self.check = EndSpaceCheck()
         self.test_good_matching = ('string  ', 'string  ', '')
         self.test_good_ignore = ('.', ' ', '')
+        self.test_good_none = (' The ', '  ', '')
         self.test_failure_1 = ('string  ', 'string', '')
         self.test_failure_2 = ('string', 'string ', '')
 
