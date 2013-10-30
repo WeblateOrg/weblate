@@ -166,7 +166,7 @@ class ChecksumForm(forms.Form):
             self.cleaned_data['unit'] = unit_set.filter(
                 checksum=self.cleaned_data['checksum'],
             )[0]
-        except Unit.DoesNotExist:
+        except (Unit.DoesNotExist, IndexError):
             weblate.logger.error(
                 'message %s disappeared!',
                 self.cleaned_data['checksum']
