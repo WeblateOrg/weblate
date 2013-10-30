@@ -920,6 +920,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.project_id is None:
             return
 
+        # Check if we should rename
+        if self.id:
+            old = SubProject.objects.get(pk=self.id)
+            self.check_rename(old)
+
         # Validate git repo
         try:
             self.sync_git_repo(True)
