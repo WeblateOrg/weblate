@@ -338,3 +338,21 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_lists(self):
+        self.do_test(
+            False,
+            (
+                'a.,b.,c.,d.',
+                'a.,b.,c.,d.',
+                ''
+            )
+        )
+        self.do_test(
+            False,
+            (
+                'i.,ii.,iii.,iv.',
+                'i.,ii.,iii.,iv.',
+                ''
+            )
+        )

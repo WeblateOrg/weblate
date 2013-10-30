@@ -487,6 +487,12 @@ SAME_BLACKLIST = frozenset((
     'sa',
     'su',
 
+    # Roman numbers
+    'ii',
+    'iii',
+    'iv',
+    'vi',
+
     # Architectures
     'alpha',
     'amd',
@@ -744,6 +750,11 @@ class SameCheck(TargetCheck):
 
         # Cleanup trailing/leading chars
         stripped = self.strip_chars(stripped)
+
+        # Replace punctation by whitespace for splitting
+        stripped = stripped.replace(
+            ',', ' '
+        )
 
         return stripped
 
