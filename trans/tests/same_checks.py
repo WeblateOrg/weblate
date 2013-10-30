@@ -141,6 +141,15 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
+                '%s %s %s %s %s%s:%s %s ',
+                '%s %s %s %s %s%s:%s %s ',
+                'c-format'
+            )
+        )
+
+        self.do_test(
+            False,
+            (
                 '%s%s, %s%s (',
                 '%s%s, %s%s (',
                 'c-format',
