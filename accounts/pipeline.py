@@ -64,7 +64,7 @@ def send_validation(strategy, code):
     '''
     Sends verification email.
     '''
-    url = '%s?verification_code=%s' % (
+    url = '{}?verification_code={}'.format(
         reverse('social:complete', args=(get_backend_name(strategy),)),
         code.code
     )
