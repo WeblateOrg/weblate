@@ -408,9 +408,9 @@ class FileFormat(object):
             else:
                 # Fallback to manual find for value based files
                 for ttkit_unit in self.store.units:
-                    ttkit_unit = FileUnit(ttkit_unit)
                     if ttkit_unit.isobsolete():
                         continue
+                    ttkit_unit = FileUnit(ttkit_unit)
                     if ttkit_unit.get_source() == source:
                         return (ttkit_unit, False)
 
