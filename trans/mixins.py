@@ -149,7 +149,8 @@ class PathMixin(object):
             # Invalidate cache
             self._dir_path = None
             new_path = self.get_path()
-            os.rename(old_path, new_path)
+            if os.path.exists(old_path) and not os.path.exists(new_path):
+                os.rename(old_path, new_path)
 
     def create_path(self):
         '''
