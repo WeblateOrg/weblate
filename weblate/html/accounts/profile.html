@@ -64,7 +64,7 @@
 <th>{{ assoc.provider }}</th>
 <td>{{ assoc.uid }}</th>
 <td>
-<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}" class="disconnect button">{% trans "Disconnect" %}</a>
+<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}" class="disconnect button">{% trans "Disconnect" %}</a>
 </td>
 
 </tr>
