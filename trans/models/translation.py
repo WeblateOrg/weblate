@@ -935,7 +935,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
             pounit, add = self.store.find_unit(unit.context, src)
 
             # Bail out if we have not found anything
-            if pounit is None:
+            if pounit is None or pounit.is_obsolete():
                 return False, None
 
             # Check for changes

@@ -259,6 +259,12 @@ class FileUnit(object):
             return False
         return self.unit.isfuzzy()
 
+    def is_obsolete(self):
+        '''
+        Checks whether unit is marked as obsolete in backend.
+        '''
+        return self.mainunit.isobsolete()
+
     def is_translatable(self):
         '''
         Checks whether unit is translatable.
@@ -385,12 +391,8 @@ class FileFormat(object):
                     raise Exception(
                         'Could not find template unit for new unit!'
                     )
-                if template_ttkit_unit.isobsolete():
-                    return (None, False)
                 add = True
             else:
-                if ttkit_unit.isobsolete():
-                    return (None, False)
                 add = False
 
             return (FileUnit(ttkit_unit, template_ttkit_unit), add)
@@ -400,16 +402,12 @@ class FileFormat(object):
             # Find is broken for propfile, ignore results
             if len(found_units) > 0 and not isinstance(self.store, propfile):
                 for ttkit_unit in found_units:
-                    if ttkit_unit.isobsolete():
-                        continue
                     # Does context match?
                     if ttkit_unit.getcontext() == context:
                         return (FileUnit(ttkit_unit), False)
             else:
                 # Fallback to manual find for value based files
                 for ttkit_unit in self.store.units:
-                    if ttkit_unit.isobsolete():
-                        continue
                     ttkit_unit = FileUnit(ttkit_unit)
                     if ttkit_unit.get_source() == source:
                         return (ttkit_unit, False)
