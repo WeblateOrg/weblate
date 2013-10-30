@@ -645,6 +645,9 @@ SAME_BLACKLIST = frozenset((
     'yakut',
     'yoruba',
     'zulu',
+
+    # whole alphabet
+    'abcdefghijklmnopqrstuvwxyz',
 ))
 
 URL_RE = re.compile(
