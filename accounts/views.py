@@ -302,7 +302,9 @@ def user_page(request, user):
                 'page_profile': profile,
                 'page_user': user,
                 'last_changes': last_changes,
-                'last_changes_url': urlencode({'user': user.username}),
+                'last_changes_url': urlencode(
+                    {'user': user.username.encode('utf-8')}
+                ),
                 'user_projects': user_projects,
             }
         )
