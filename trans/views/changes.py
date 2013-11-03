@@ -70,7 +70,7 @@ class ChangesView(ListView):
             url['lang'] = self.language.code
 
         if self.user is not None:
-            url['user'] = self.user.username
+            url['user'] = self.user.username.encode('utf-8')
 
         if self.glossary:
             url['glossary'] = 1
