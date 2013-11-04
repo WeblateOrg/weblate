@@ -447,6 +447,7 @@ The configuration for Lighttpd web server might look like following (available
 as :file:`examples/lighttpd.conf`):
 
 .. literalinclude:: ../../examples/lighttpd.conf
+    :language: lighttpd
 
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
@@ -455,6 +456,7 @@ Following configuration runs Weblate as WSGI, you need to have enabled
 mod_wsgi (available as :file:`examples/apache.conf`):
 
 .. literalinclude:: ../../examples/apache.conf
+    :language: apache
 
 Sample configuration for nginx
 ++++++++++++++++++++++++++++++
@@ -464,10 +466,12 @@ Following configuration runs Weblate as uwsgi under nginx webserver.
 Configuration for nginx (also available as :file:`examples/weblate.nginx.conf`):
 
 .. literalinclude:: ../../examples/weblate.nginx.conf
+    :language: nginx
 
 Configuration for uwsgi (also available as :file:`examples/weblate.uwsgi.ini`):
 
 .. literalinclude:: ../../examples/weblate.uwsgi.ini
+    :language: ini
 
 Running Weblate under path
 ++++++++++++++++++++++++++
@@ -477,8 +481,11 @@ to include portions of above full configuration to allow access to the files).
 Again using mod_wsgi (also available as :file:`examples/apache-path.conf`):
 
 .. literalinclude:: ../../examples/apache-path.conf
+    :language: apache
 
-Additionally you will have to adjust :file:`weblate/settings.py`::
+Additionally you will have to adjust :file:`weblate/settings.py`:
+
+.. code-block:: python
 
     URL_PREFIX = '/weblate'
 
