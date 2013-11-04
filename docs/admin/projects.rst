@@ -212,10 +212,14 @@ it's just a matter of running :djadmin:`import_project`.
 
 .. seealso:: :ref:`manage`
 
+
+Accessing repositories
+----------------------
+
 .. _private:
 
-Accessing private repositories
-------------------------------
+Private repositories
+++++++++++++++++++++
 
 In case you want Weblate to access private repository it needs to get to it
 somehow. Most frequently used method here is based on SSH. To have access to
@@ -231,6 +235,29 @@ interface (follow :guilabel:`SSH keys` link on main admin page).
 
     The keys need to be without password to make it work, so be sure they are
     well protected against malicious usage.
+
+Using proxy
++++++++++++
+
+If you need to access http/https Git repositories using a proxy server, you
+need to configure Git to use it.
+
+This can be configured using the ``http_proxy``, ``https_proxy``, and
+``all_proxy`` environment variables (check cURL documentation for more details)
+or by enforcing it in Git configuration, for example:
+
+.. code-block:: sh
+
+    git config --global http.proxy http://user:password@proxy.example.com:80
+
+.. note::
+
+    The proxy setting needs to be done in context which is used to execute
+    Weblate. For the environment it should be set for both server and cron
+    jobs. The Git configuration has to be set for the user which is running
+    Weblate.
+
+.. seealso:: http://curl.haxx.se/docs/manpage.html, http://git-scm.com/docs/git-config
 
 .. _fulltext:
 
