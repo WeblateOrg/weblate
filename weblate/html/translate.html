@@ -252,6 +252,7 @@
     {% if perms.trans.add_comment %}
     <form method="post" action="{% url 'comment' pk=unit.id %}">
     {% csrf_token %}
+    <input type="hidden" name="next" value="{{ this_unit_url }}" />
     {{ comment_form.comment }}
     <br />
     <input class="button" type="submit" value="{% trans "Add" %}" />
@@ -285,6 +286,7 @@
     <form method="post" action="{% url 'comment' pk=unit.id %}">
     {% csrf_token %}
     <input type="hidden" name="type" value="source" />
+    <input type="hidden" name="next" value="{{ this_unit_url }}" />
     {{ comment_form.comment }}
     <br />
     <input class="button" type="submit" value="{% trans "Add" %}" />

@@ -670,4 +670,4 @@ def comment(request, pk):
     else:
         messages.error(request, _('Failed to add comment!'))
 
-    return redirect(translation)
+    return redirect(request.POST.get('next', translation))
