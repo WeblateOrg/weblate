@@ -36,17 +36,27 @@ Database backend
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
 
-On Debian or Ubuntu, all requirements are already packaged, to install them you can use apt-get:
+On Debian or Ubuntu, most of requirements are already packaged, to install them
+you can use apt-get:
 
 .. code-block:: sh
 
-    apt-get install python-django translate-toolkit python-git python-social-auth \
+    apt-get install python-django translate-toolkit python-git \
         python-whoosh python-pil python-django-south python-libravatar python-pyicu
 
     # Optional for database backend
 
     apt-get install python-mysqldb   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
+
+
+There is one library not available in Debian so far, so it is recommended to
+install it using pip:
+
+.. code-block:: sh
+
+    pip install python-social-auth
+
 
 Requirements on openSUSE
 ++++++++++++++++++++++++
