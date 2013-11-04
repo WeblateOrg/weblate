@@ -456,6 +456,19 @@ mod_wsgi (available as :file:`examples/apache.conf`):
 
 .. literalinclude:: ../../examples/apache.conf
 
+Sample configuration for nginx
+++++++++++++++++++++++++++++++
+
+Following configuration runs Weblate as uwsgi under nginx webserver.
+
+Configuration for nginx (also available as :file:`examples/weblate.nginx.conf`):
+
+.. literalinclude:: ../../examples/weblate.nginx.conf
+
+Configuration for uwsgi (also available as :file:`examples/weblate.uwsgi.ini`):
+
+.. literalinclude:: ../../examples/weblate.uwsgi.ini
+
 Running Weblate under path
 ++++++++++++++++++++++++++
 
