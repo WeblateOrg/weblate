@@ -135,13 +135,21 @@ def git_service_hook(request, service):
     service_long_name = service_data['service_long_name']
     repos = service_data['repos']
     branch = service_data['branch']
-    weblate.logger.info(
-        'received %s notification on repository %s, branch %s',
-        service_long_name, repos[0], branch
-    )
+    if branch is None:
+        weblate.logger.info(
+            'received %s notification on repository %s, branch %s',
+            service_long_name, repos[0], branch
+        )
+        subprojects = SubProject.objects.filter(repo__in=repos, branch=branch)
+    else:
+        weblate.logger.info(
+            'received %s notification on repository %s',
+            service_long_name, repos[0]
+        )
+        subprojects = SubProject.objects.filter(repo__in=repos)
 
     # Trigger updates
-    for obj in SubProject.objects.filter(repo__in=repos, branch=branch):
+    for obj in subprojects:
         weblate.logger.info(
             '%s notification will update %s',
             service_long_name,
