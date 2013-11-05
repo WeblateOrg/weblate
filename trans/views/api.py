@@ -168,7 +168,10 @@ def bitbucket_hook_helper(data):
     # Parse owner, branch and repository name
     owner = data['repository']['owner']
     slug = data['repository']['slug']
-    branch = data['commits'][-1]['branch']
+    if data['commits']:
+        branch = data['commits'][-1]['branch']
+    else:
+        branch = None
     params = {'owner': owner, 'slug': slug}
 
     # Construct possible repository URLs

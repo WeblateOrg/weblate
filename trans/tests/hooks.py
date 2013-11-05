@@ -151,6 +151,25 @@ BITBUCKET_PAYLOAD_HG = '''
 '''
 
 
+BITBUCKET_PAYLOAD_HG_NO_COMMIT = '''
+{
+    "canon_url": "https://bitbucket.org",
+    "commits": [],
+    "repository": {
+        "absolute_url": "/marcus/project-x/",
+        "fork": false,
+        "is_private": true,
+        "name": "Project X",
+        "owner": "marcus",
+        "scm": "hg",
+        "slug": "project-x",
+        "website": ""
+    },
+    "user": "marcus"
+}
+'''
+
+
 class HooksViewTest(ViewTestCase):
     def test_view_hook_project(self):
         appsettings.BACKGROUND_HOOKS = False
@@ -197,6 +216,15 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG}
+        )
+        self.assertContains(response, 'update triggered')
+
+    def test_view_hook_bitbucket_hg_no_commit(self):
+        appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
         )
         self.assertContains(response, 'update triggered')
 
