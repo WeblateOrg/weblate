@@ -104,6 +104,8 @@ class Command(BaseCommand):
                     )
                     if units.exists():
                         sug.delete()
+                        for unit in units:
+                            unit.update_has_suggestion()
 
                     # Remove duplicate suggestions
                     sugs = Suggestion.objects.filter(
