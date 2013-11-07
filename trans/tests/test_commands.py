@@ -23,7 +23,7 @@ Tests for management commands.
 """
 
 from django.test import TestCase
-from trans.tests.models import RepoTestCase
+from trans.tests.test_models import RepoTestCase
 from django.core.management import call_command
 from django.core.management.base import CommandError
 import django

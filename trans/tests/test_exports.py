@@ -24,7 +24,7 @@ Tests for data exports.
 
 from django.core.urlresolvers import reverse
 import json
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 
 
 class ExportsViewTest(ViewTestCase):

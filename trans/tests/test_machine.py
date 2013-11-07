@@ -20,7 +20,7 @@
 
 import httpretty
 from django.test import TestCase
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 from trans.models.unit import Unit
 from trans.machine.base import MachineTranslationError
 from trans.machine.dummy import DummyTranslation

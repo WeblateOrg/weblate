@@ -22,7 +22,7 @@
 Tests for charts and widgets.
 """
 
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
 
 

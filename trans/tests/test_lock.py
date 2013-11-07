@@ -22,7 +22,7 @@
 Tests for locking.
 """
 
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 from trans.models.subproject import SubProject
 from django.core.urlresolvers import reverse
 

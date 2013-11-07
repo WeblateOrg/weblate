@@ -32,7 +32,7 @@ import os
 import git
 from trans.models import Project, SubProject
 from weblate import appsettings
-from trans.tests.util import get_test_file
+from trans.tests.test_util import get_test_file
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'

@@ -26,7 +26,7 @@ from unittest import TestCase
 from trans.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
 )
-from trans.tests.checks import MockUnit
+from trans.tests.test_checks import MockUnit
 
 
 class PythonFormatCheckTest(TestCase):

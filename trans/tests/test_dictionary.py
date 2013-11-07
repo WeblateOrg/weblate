@@ -22,10 +22,10 @@
 Tests for dictionary manipulations.
 """
 
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 from trans.models import Dictionary
 from django.core.urlresolvers import reverse
-from trans.tests.util import get_test_file
+from trans.tests.test_util import get_test_file
 
 TEST_TBX = get_test_file('terms.tbx')
 TEST_CSV = get_test_file('terms.csv')

@@ -25,7 +25,7 @@ Tests for quality checks.
 from trans.checks.same import (
     SameCheck,
 )
-from trans.tests.checks import MockUnit, CheckTestCase
+from trans.tests.test_checks import MockUnit, CheckTestCase
 
 
 class SameCheckTest(CheckTestCase):

@@ -22,7 +22,7 @@
 Tests for widgets.
 """
 
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 from trans.views.widgets import WIDGETS
 from django.core.urlresolvers import reverse
 

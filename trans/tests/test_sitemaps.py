@@ -22,7 +22,7 @@
 Tests for sitemaps.
 """
 
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 from xml.etree import cElementTree as ElementTree
 
 

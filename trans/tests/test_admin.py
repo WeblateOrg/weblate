@@ -18,11 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from trans.tests.views import ViewTestCase
+from trans.tests.test_views import ViewTestCase
 import trans.admin_views
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from trans.tests.util import get_test_file
+from trans.tests.test_util import get_test_file
 import tempfile
 import shutil
 import os

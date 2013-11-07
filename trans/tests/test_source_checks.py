@@ -27,7 +27,7 @@ from trans.checks.source import (
     OptionalPluralCheck,
     EllipsisCheck,
 )
-from trans.tests.checks import MockUnit
+from trans.tests.test_checks import MockUnit
 
 
 class OptionalPluralCheckTest(TestCase):

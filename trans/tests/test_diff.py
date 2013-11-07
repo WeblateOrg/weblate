@@ -21,7 +21,7 @@
 from unittest import TestCase
 from trans.simplediff import html_diff
 from trans.templatetags.translations import fmtsourcediff, fmtsearchmatch
-from trans.tests.checks import MockUnit
+from trans.tests.test_checks import MockUnit
 
 
 class DiffTest(TestCase):

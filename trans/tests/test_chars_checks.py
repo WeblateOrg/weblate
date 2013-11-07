@@ -31,7 +31,7 @@ from trans.checks.chars import (
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
 )
-from trans.tests.checks import CheckTestCase
+from trans.tests.test_checks import CheckTestCase
 
 
 class BeginNewlineCheckTest(CheckTestCase):

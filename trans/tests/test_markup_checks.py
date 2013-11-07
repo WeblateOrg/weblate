@@ -26,7 +26,7 @@ from trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
 )
-from trans.tests.checks import CheckTestCase
+from trans.tests.test_checks import CheckTestCase
 
 
 class BBCodeCheckTest(CheckTestCase):

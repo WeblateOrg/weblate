@@ -21,8 +21,8 @@
 Tests for changes done in remote repository.
 '''
 from trans.models import SubProject
-from trans.tests.models import REPOWEB_URL
-from trans.tests.views import ViewTestCase
+from trans.tests.test_models import REPOWEB_URL
+from trans.tests.test_views import ViewTestCase
 from django.utils import timezone
 
 EXTRA_PO = '''
