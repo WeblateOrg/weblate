@@ -11,7 +11,7 @@ Activity reports
 
 You can check activity reports for translations, project or individual users.
 
-.. image:: ../_static/activity.png
+.. image:: ../images/activity.png
 
 .. _promotion:
 
@@ -27,26 +27,26 @@ for Weblate itself are show below.
 
 Small badge often used to quickly see status of a project:
 
-.. image:: ../_static/weblate-status-badge.png
+.. image:: ../images/weblate-status-badge.png
     :alt: Translation status
     :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 Big badge with status details useful for inclusion on a web page:
 
-.. image:: ../_static/weblate-287x66-white.png
+.. image:: ../images/weblate-287x66-white.png
     :alt: Translation status
     :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 Small badge with status useful for inclusion on a web page:
 
-.. image:: ../_static/weblate-88x31-grey.png
+.. image:: ../images/weblate-88x31-grey.png
     :alt: Translation status
     :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 All these badges come with links to simple page which explains users how to
 translate using Weblate:
 
-.. image:: ../_static/engage.png
+.. image:: ../images/engage.png
 
 Reviewing source strings
 ------------------------

@@ -26,7 +26,7 @@ Languages
 Choose here which languages you prefer to translate. These will be offered to
 you on main page to have easier access to translations.
 
-.. image:: ../_static/your-translations.png
+.. image:: ../images/your-translations.png
 
 Secondary languages
 +++++++++++++++++++
@@ -35,7 +35,7 @@ You can define secondary languages, which will be shown you while translating
 together with source language. Example can be seen on following image, where
 Czech language is shown as secondary:
 
-.. image:: ../_static/secondary-language.png
+.. image:: ../images/secondary-language.png
 
 
 .. _subscriptions:
@@ -47,7 +47,7 @@ You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
 You will receive notifications for selected events on chosen projects for
 languages you have indicated for translation (see above).
 
-.. image:: ../_static/profile-subscriptions.png
+.. image:: ../images/profile-subscriptions.png
 
 Authentication
 ++++++++++++++
@@ -57,4 +57,4 @@ you can use to login into Weblate. List of services depends on Weblate
 configuration, but can include popular sites such as Google, Facebook, GitHub
 or Bitbucket.
 
-.. image:: ../_static/authentication.png
+.. image:: ../images/authentication.png

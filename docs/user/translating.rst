@@ -10,7 +10,7 @@ strings. Should no other checks fire, there will be still link to all
 translations. Alternatively you can use search field to find translation you
 need to fix.
 
-.. image:: ../_static/strings-to-check.png
+.. image:: ../images/strings-to-check.png
 
 Suggestions
 -----------
@@ -108,7 +108,7 @@ Add as fuzzy translation
 Additionally, when adding as a translation, you can choose whether to overwrite
 already translated strings or not.
 
-.. image:: ../_static/export-import.png
+.. image:: ../images/export-import.png
 
 Glossary
 --------
@@ -124,13 +124,13 @@ On project page, on :guilabel:`Glossaries` tab, you can find link
 :guilabel:`Manage all glossaries`, where you can start new glossaries or edit
 existing ones. Once glossary is existing, it will also show up on this tab.
 
-.. image:: ../_static/project-glossaries.png
+.. image:: ../images/project-glossaries.png
 
 On further page, you can choose which glossary to manage (all languages used in
 current project are shown). Following this language link will lead you to page,
 which can be used to edit, import or export the glossary:
 
-.. image:: ../_static/glossary-edit.png
+.. image:: ../images/glossary-edit.png
 
 .. _machine-translation:
 
