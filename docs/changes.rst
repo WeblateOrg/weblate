@@ -1,6 +1,11 @@
 Changes
 =======
 
+weblate 1.9
+-----------
+
+Released on ? 2013.
+
 weblate 1.8
 -----------
 
