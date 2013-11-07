@@ -568,9 +568,8 @@ class Unit(models.Model):
         notify_new_translation(self, oldunit, request.user)
 
         # Update user stats
-        profile = user.get_profile()
-        profile.translated += 1
-        profile.save()
+        user.profile.translated += 1
+        user.profile.save()
 
         # Notify about new contributor
         user_changes = Change.objects.filter(

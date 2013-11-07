@@ -91,9 +91,8 @@ class SuggestionManager(models.Manager):
 
         # Update suggestion stats
         if user is not None:
-            profile = user.get_profile()
-            profile.suggested += 1
-            profile.save()
+            user.profile.suggested += 1
+            user.profile.save()
 
         # Update unit flags
         for relunit in suggestion.get_related_units():

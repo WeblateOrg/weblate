@@ -84,10 +84,8 @@ def home(request):
     # Load user translations if user is authenticated
     usertranslations = None
     if request.user.is_authenticated():
-        profile = request.user.get_profile()
-
         usertranslations = Translation.objects.filter(
-            language__in=profile.languages.all()
+            language__in=request.user.profile.languages.all()
         ).order_by(
             'subproject__project__name', 'subproject__name'
         ).select_related()

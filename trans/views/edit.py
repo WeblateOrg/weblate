@@ -348,9 +348,8 @@ def handle_merge(translation, request, next_unit_url):
         saved = unit.save_backend(request)
         # Update stats if there was change
         if saved:
-            profile = request.user.get_profile()
-            profile.translated += 1
-            profile.save()
+            request.user.profile.translated += 1
+            request.user.profile.save()
         # Redirect to next entry
         return HttpResponseRedirect(next_unit_url)
 
@@ -539,7 +538,7 @@ def translate(request, project, subproject, lang):
 
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
-        secondary = request.user.get_profile().get_secondary_units(unit)
+        secondary = request.user.profile.get_secondary_units(unit)
     else:
         secondary = None
 

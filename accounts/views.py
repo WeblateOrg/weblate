@@ -101,7 +101,7 @@ def mail_admins_contact(subject, message, context, sender):
 @login_required
 def user_profile(request):
 
-    profile = request.user.get_profile()
+    profile = request.user.profile
 
     if request.method == 'POST':
         # Read params
