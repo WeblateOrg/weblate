@@ -89,7 +89,7 @@ def get_versions():
         name,
         url,
         mod.get_version(),
-        '1.4',
+        '1.5',
     ))
 
     name = 'python-social-auth'

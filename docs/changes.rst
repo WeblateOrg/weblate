@@ -7,6 +7,7 @@ weblate 1.9
 Released on ? 2013.
 
 * Django 1.6 compatibility.
+* No longer maintained compatibility with Django 1.4.
 
 weblate 1.8
 -----------
