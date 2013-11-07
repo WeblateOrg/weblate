@@ -24,9 +24,7 @@ from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import (
-    Group, User, Permission, UNUSABLE_PASSWORD
-)
+from django.contrib.auth.models import Group, User, Permission
 from django.db.models.signals import post_syncdb
 from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
@@ -647,10 +645,10 @@ def create_groups(update):
     try:
         anon_user, created = User.objects.get_or_create(
             username=ANONYMOUS_USER_NAME,
-            password=UNUSABLE_PASSWORD,
             is_active=False,
         )
         if created or update:
+            anon_user.set_unusable_password()
             anon_user.groups.clear()
             anon_user.groups.add(guest_group)
     except IntegrityError as error:
