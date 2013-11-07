@@ -4,7 +4,7 @@ Changes
 weblate 1.8
 -----------
 
-Released on ? 2013.
+Released on November 7th 2013.
 
 * Please check manual for upgrade instructions.
 * Nicer listing of project summary.
