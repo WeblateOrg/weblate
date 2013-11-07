@@ -391,9 +391,6 @@ LOGOUT_URL = '%s/accounts/logout/' % URL_PREFIX
 # Default location for login
 LOGIN_REDIRECT_URL = '%s/' % URL_PREFIX
 
-# Profile module
-AUTH_PROFILE_MODULE = 'accounts.Profile'
-
 # Anonymous user name
 ANONYMOUS_USER_NAME = 'anonymous'
 
