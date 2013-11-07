@@ -20,7 +20,7 @@
 
 from weblate.appsettings import ANONYMOUS_USER_NAME
 
-from django.contrib.auth.models import User, UNUSABLE_PASSWORD
+from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
 
@@ -82,5 +82,5 @@ def disable_anon_user_password_save(sender, **kwargs):
     '''
     instance = kwargs['instance']
     if (instance.username == ANONYMOUS_USER_NAME
-            and instance.password != UNUSABLE_PASSWORD):
+            and instance.user.has_usable_password()):
         raise ValueError('Anonymous user can not have usable password!')
