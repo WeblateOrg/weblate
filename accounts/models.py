@@ -321,7 +321,7 @@ class Profile(models.Model):
     '''
     User profiles storage.
     '''
-    user = models.ForeignKey(User, unique=True, editable=False)
+    user = models.OneToOneField(User, unique=True, editable=False)
     language = models.CharField(
         verbose_name=_(u"Interface Language"),
         max_length=10,
