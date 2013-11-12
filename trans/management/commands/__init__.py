@@ -52,7 +52,7 @@ class WeblateCommand(BaseCommand):
         '''
         Returns list of translations matching parameters.
         '''
-        return self.get_subprojects().translation_set.all()
+        return self.get_subprojects(*args, **options).translation_set.all()
 
     def get_subprojects(self, *args, **options):
         '''
