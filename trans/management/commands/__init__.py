@@ -23,7 +23,7 @@ Helper classes for management commands.
 
 from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
-from trans.models import Unit, SubProject
+from trans.models import Unit, SubProject, Translation
 
 
 class WeblateCommand(BaseCommand):
@@ -52,7 +52,9 @@ class WeblateCommand(BaseCommand):
         '''
         Returns list of translations matching parameters.
         '''
-        return self.get_subprojects(*args, **options).translation_set.all()
+        return Translation.objects.filter(
+            subproject__in=self.get_subprojects(*args, **options)
+        )
 
     def get_subprojects(self, *args, **options):
         '''
