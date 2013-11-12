@@ -45,12 +45,18 @@ class WeblateCommand(BaseCommand):
         '''
         Returns list of units matching parameters.
         '''
-        subprojects = self.get_subprojects(*args, **options)
-        return Unit.objects.filter(translation__subproject__in=subprojects)
+        translations = self.get_translations(*args, **options)
+        return Unit.objects.filter(translation__in=translations)
+
+    def get_translations(self, *args, **options):
+        '''
+        Returns list of translations matching parameters.
+        '''
+        return self.get_subprojects.translation_set.all()
 
     def get_subprojects(self, *args, **options):
         '''
-        Returns list of units matching parameters.
+        Returns list of subprojects matching parameters.
         '''
         if options['all']:
             # all subprojects
@@ -109,6 +115,20 @@ class WeblateLangCommand(WeblateCommand):
             help='Limit only to given languages (comma separated list)'
         ),
     )
+
+    def get_translations(self, *args, **options):
+        '''
+        Returns list of translations matching parameters.
+        '''
+        result = super(WeblateLangCommand, self).get_translations(
+            *args, **options
+        )
+
+        if options['lang'] is not None:
+            langs = options['lang'].split(',')
+            result = result.filter(language_code__in=langs)
+
+        return result
 
     def handle(self, *args, **options):
         """

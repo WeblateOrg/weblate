@@ -18,15 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from trans.management.commands import WeblateLangCommand
+from trans.management.commands import WeblateCommand
 
 
-class Command(WeblateLangCommand):
-    help = 'updates checks for units'
+class Command(WeblateCommand):
+    help = 'unlocks subproject for editing'
 
     def handle(self, *args, **options):
-        units = self.get_units(*args, **options)
-
-        # Invoke check for every unit
-        for unit in units.iterator():
-            unit.check()
+        for subproject in self.get_subprojects(*args, **options):
+            if subproject.locked:
+                subproject.locked = False
+                subproject.save()

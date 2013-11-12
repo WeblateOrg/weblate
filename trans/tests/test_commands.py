@@ -288,3 +288,11 @@ class RebuildIndexTest(CheckGitTest):
             all=True,
             clean=True,
         )
+
+
+class LockTranslationTest(CheckGitTest):
+    command_name = 'lock_translation'
+
+
+class UnLockTranslationTest(CheckGitTest):
+    command_name = 'unlock_translation'
