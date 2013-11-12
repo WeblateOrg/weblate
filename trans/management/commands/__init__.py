@@ -45,12 +45,18 @@ class WeblateCommand(BaseCommand):
         '''
         Returns list of units matching parameters.
         '''
-        subprojects = self.get_subprojects(*args, **options)
-        return Unit.objects.filter(translation__subproject__in=subprojects)
+        translations = self.get_translations(*args, **options)
+        return Unit.objects.filter(translation__in=translations)
+
+    def get_translations(self, *args, **options):
+        '''
+        Returns list of translations matching parameters.
+        '''
+        return self.get_subprojects.translation_set.all()
 
     def get_subprojects(self, *args, **options):
         '''
-        Returns list of units matching parameters.
+        Returns list of subprojects matching parameters.
         '''
         if options['all']:
             # all subprojects
