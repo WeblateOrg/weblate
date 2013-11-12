@@ -18,10 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from trans.management.commands import WeblateCommand
+from trans.management.commands import WeblateLangCommand
 
 
-class Command(WeblateCommand):
+class Command(WeblateLangCommand):
     help = 'updates checks for units'
 
     def handle(self, *args, **options):
