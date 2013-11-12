@@ -141,6 +141,19 @@ to date. Additionally you can limit languages to process with ``--lang``.
 You can either define which project or subproject to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing subprojects.
 
+lock_translation <project|project/subproject>
+---------------------------------------------
+
+.. django-admin:: lock_translation
+
+Locks given subproject for translating. This is useful in case you want to do
+some maintenance on underlaying repository.
+
+You can either define which project or subproject to update (eg.
+``weblate/master``) or use ``--all`` to update all existing subprojects.
+
+.. seealso:: :djadmin:`unlock_translation`
+
 pushgit <project|project/subproject>
 ------------------------------------
 
@@ -175,6 +188,19 @@ It is recommended to run this frequently (eg. every 5 minutes) to have index
 uptodate.
 
 .. seealso:: :ref:`fulltext`
+
+unlock_translation <project|project/subproject>
+-----------------------------------------------
+
+.. django-admin:: unlock_translation
+
+Unnocks given subproject for translating. This is useful in case you want to do
+some maintenance on underlaying repository.
+
+You can either define which project or subproject to update (eg.
+``weblate/master``) or use ``--all`` to update all existing subprojects.
+
+.. seealso:: :djadmin:`lock_translation`
 
 setupgroups
 -----------
