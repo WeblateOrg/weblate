@@ -116,6 +116,20 @@ class WeblateLangCommand(WeblateCommand):
         ),
     )
 
+    def get_translations(self, *args, **options):
+        '''
+        Returns list of translations matching parameters.
+        '''
+        result = super(WeblateLangCommand, self).get_translations(
+            *args, **options
+        )
+
+        if options['lang'] is not None:
+            langs = options['lang'].split(',')
+            result = result.filter(language_code__in=langs)
+
+        return result
+
     def handle(self, *args, **options):
         """
         The actual logic of the command. Subclasses must implement
