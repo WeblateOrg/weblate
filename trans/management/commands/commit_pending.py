@@ -41,28 +41,16 @@ class Command(WeblateLangCommand):
 
         age = timezone.now() - timedelta(hours=options['age'])
 
-        langs = None
-        if options['lang'] is not None:
-            langs = options['lang'].split(',')
+        for translation in self.get_translations(*args, **options):
+            if not translation.git_needs_commit():
+                continue
 
-        for subproject in self.get_subprojects(*args, **options):
-            if langs is None:
-                translations = subproject.translation_set.all()
-            else:
-                translations = subproject.translation_set.filter(
-                    language_code__in=langs
-                )
+            last_change = translation.get_last_change()
+            if last_change is None:
+                continue
+            if last_change > age:
+                continue
 
-            for translation in translations:
-                if not translation.git_needs_commit():
-                    continue
-
-                last_change = translation.get_last_change()
-                if last_change is None:
-                    continue
-                if last_change > age:
-                    continue
-
-                if int(options['verbosity']) >= 1:
-                    print 'Committing %s' % translation
-                translation.commit_pending(None)
+            if int(options['verbosity']) >= 1:
+                print 'Committing %s' % translation
+            translation.commit_pending(None)
