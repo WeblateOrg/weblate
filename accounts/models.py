@@ -80,7 +80,7 @@ def notify_new_string(translation):
 
 def notify_new_language(subproject, language, user):
     '''
-    Notify subscribed users about new translation
+    Notify subscribed users about new language requests
     '''
     subscriptions = Profile.objects.subscribed_new_language(
         subproject.project,
@@ -88,6 +88,17 @@ def notify_new_language(subproject, language, user):
     )
     for subscription in subscriptions:
         subscription.notify_new_language(subproject, language, user)
+
+    # Notify admins
+    send_notification_email(
+        'en',
+        'ADMINS',
+        'new_language',
+        subproject,
+        {
+            'language': language,
+        }
+    )
 
 
 def notify_new_translation(unit, oldunit, user):
