@@ -194,6 +194,7 @@ class SubscriptionForm(forms.ModelForm):
             'subscribe_new_suggestion',
             'subscribe_new_contributor',
             'subscribe_new_comment',
+            'subscribe_new_language',
             'subscribe_merge_failure',
         )
         widgets = {
