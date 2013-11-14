@@ -242,8 +242,6 @@ class ViewTest(TestCase):
         '''
         Test for contact form.
         '''
-        # Hack to allow sending of mails
-        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
         # Basic get
         response = self.client.get(reverse('contact'))
         self.assertContains(response, 'class="contact-table"')
@@ -271,9 +269,6 @@ class ViewTest(TestCase):
         '''
         Test for contact form.
         '''
-        # Hack to allow sending of mails
-        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
-
         # Disabled hosting
         appsettings.OFFER_HOSTING = False
         response = self.client.get(reverse('hosting'))
@@ -413,8 +408,8 @@ class NotificationTest(ViewTestCase):
             'Error\nstatus'
         )
 
-        # Check mail
-        self.assertEqual(len(mail.outbox), 1)
+        # Check mail (second one is for admin)
+        self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] Merge failure in Test/Test'
@@ -455,8 +450,8 @@ class NotificationTest(ViewTestCase):
             self.second_user()
         )
 
-        # Check mail
-        self.assertEqual(len(mail.outbox), 1)
+        # Check mail (second one is for admin)
+        self.assertEqual(len(mail.outbox), 2)
         self.assertEqual(
             mail.outbox[0].subject,
             '[Weblate] New language request in Test/Test'

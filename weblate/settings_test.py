@@ -24,6 +24,9 @@
 
 from weblate.settings_example import *
 
+# Configure admins
+ADMINS = (('Weblate test', 'noreply@weblate.org'), )
+
 # Different root for test repos
 GIT_ROOT = '%s/test-repos/' % WEB_ROOT
 

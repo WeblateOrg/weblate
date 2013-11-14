@@ -27,7 +27,6 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
-from django.conf import settings
 from trans.models.changes import Change
 from trans.models.unitdata import Suggestion
 from trans.tests.test_models import RepoTestCase
@@ -202,9 +201,6 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
-        # Hack to allow sending of mails
-        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
-
         self.project.new_lang = 'contact'
         self.project.save()
 
