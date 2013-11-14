@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-24 14:38+0200\n"
-"PO-Revision-Date: 2013-11-13 12:36+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2013-11-14 02:40+0200\n"
+"Last-Translator: Luz Paz <david.yoga@gmail.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.8\n"
+"X-Generator: Weblate 1.9-dev\n"
 
 #: accounts/forms.py:88
 msgid "At least five characters long."
@@ -85,11 +85,12 @@ msgstr "שם פרטי ושם המשפחה צריכים להיות שונים."
 #: accounts/forms.py:376
 #, python-format
 msgid "What is %s"
-msgstr ""
+msgstr "מהו s%"
 
 #: accounts/forms.py:386
+#, fuzzy
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "אנא בדוק את המתמטיקה שלך ונסה שוב."
 
 #: accounts/forms.py:408
 msgid "New password"
@@ -100,10 +101,9 @@ msgid "At least six characters long."
 msgstr "באורך של 6 תווים לפחות."
 
 #: accounts/forms.py:413
-#, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
-msgstr "ססמה (שוב)"
+msgstr "הסיסמה החדשה (שוב)"
 
 #: accounts/forms.py:415
 msgid "Repeat the password so we can verify you typed it in correctly."
@@ -127,7 +127,7 @@ msgstr "ססמה חדשה"
 
 #: accounts/forms.py:466
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "משתמש בעל כתובת דוא״ל זו לא נמצאה."
 
 #: accounts/forms.py:476
 #, fuzzy
@@ -140,10 +140,9 @@ msgid "Password"
 msgstr "ססמה"
 
 #: accounts/forms.py:486 trans/models/project.py:78
-#, fuzzy
 #| msgid "Project"
 msgid "Project name"
-msgstr "מיזם"
+msgstr "שם הפרויקט"
 
 #: accounts/forms.py:487 trans/models/project.py:89
 msgid "Project website"
@@ -178,10 +177,9 @@ msgstr ""
 "*/LC_MESSAGES/django.po."
 
 #: accounts/forms.py:506
-#, fuzzy
 #| msgid "Traditional Chinese"
 msgid "Additional message"
-msgstr "סינית מסורתית"
+msgstr "הודעה נוספת"
 
 #: accounts/models.py:328
 msgid "Interface Language"
@@ -224,18 +222,18 @@ msgid "Notification on merge failure"
 msgstr "הודעה על שגיאת מיזוג"
 
 #: accounts/models.py:376
-#, fuzzy
 #| msgid "Notification on new suggestion"
 msgid "Notification on new language request"
-msgstr "הודעה כשיש הצעה חדשה"
+msgstr "התראה כאשר יש בקשה לשפה חדשה"
 
 #: accounts/views.py:80 accounts/views.py:375
 msgid "User registration"
 msgstr "רישום משתמש"
 
 #: accounts/views.py:123
+#, fuzzy
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "לא ניתן לשנות פרופיל הדגמה בשרת ההדגמה"
 
 #: accounts/views.py:146
 msgid "Your profile has been updated."
@@ -266,23 +264,21 @@ msgstr "כניסה"
 
 #: accounts/views.py:342
 msgid "Thanks for using Weblate!"
-msgstr ""
+msgstr "תודה על השימוש ב-Weblate"
 
 #: accounts/views.py:399 weblate/html/accounts/email.html:7
-#, fuzzy
 #| msgid "Register"
 msgid "Register email"
-msgstr "רישום"
+msgstr "הרשמה דוא\"ל"
 
 #: accounts/views.py:424
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "סיפקת סיסמה לא חוקית"
 
 #: accounts/views.py:446
-#, fuzzy
 #| msgid "Your profile has been updated."
 msgid "Your password has been changed."
-msgstr "הפרופיל שלך עודכן."
+msgstr "סיסמתך שונתה."
 
 #: accounts/views.py:457 weblate/html/accounts/profile.html:49
 msgid "Change password"
@@ -385,7 +381,7 @@ msgstr "ספריית PyICU"
 
 #: trans/admin_views.py:139
 msgid "Secret key"
-msgstr ""
+msgstr "מפתח סודי"
 
 #: trans/admin_views.py:146
 msgid "Allowed hosts"
@@ -393,11 +389,11 @@ msgstr "מארחים מורשים"
 
 #: trans/admin_views.py:153
 msgid "Home directory"
-msgstr ""
+msgstr "תיקיית בית"
 
 #: trans/admin_views.py:161
 msgid "Admin static files"
-msgstr ""
+msgstr "מנהל קבצים סטטיים"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:188
@@ -660,18 +656,18 @@ msgstr "לא ניתן לקשר למאגר מקושר!"
 
 #: trans/validators.py:96
 msgid "Invalid link to Weblate project, use weblate://project/subproject."
-msgstr ""
+msgstr "קישור לא חוקי לפרוייקט Weblate, נסה weblate://project/subproject."
 
 #: trans/validators.py:108
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
-msgstr ""
+msgstr "ערך של 1 אינו מותר עבור autoaccept כי כל משתמש מצביעה עבור ההצעה שלו."
 
 #: trans/validators.py:122
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "דגל סימון לא חוקי: \"%s\""
 
 #: trans/widgets.py:261
 #, python-format
@@ -712,10 +708,9 @@ msgstr ""
 "%(percent)d%% הושלמו"
 
 #: trans/widgets.py:315
-#, fuzzy
 #| msgid "translate"
 msgid "translated"
-msgstr "תרגום"
+msgstr "מתורגם"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -901,14 +896,14 @@ msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr "המחרוזת משתמשת בשלוש נקודות (...) במקום תו של שלוש נקודות (…)"
 
 #: trans/checks/source.py:65
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Multiple failing checks"
-msgstr "בדיקות שנכשלו"
+msgstr "מספר בדיקות נכשלו"
 
 #: trans/checks/source.py:67
+#, fuzzy
 msgid "The translations in several languages have failing checks"
-msgstr ""
+msgstr "תקלות בדיקה נמצאו במספר תרגומי שפות"
 
 #: trans/models/changes.py:150
 msgid "Resource update"
@@ -954,25 +949,23 @@ msgstr "התרגום הועלה"
 #, fuzzy
 #| msgid "Glossary"
 msgid "Glossary added"
-msgstr "מונחון"
+msgstr "מילון מונחים הוסף"
 
 #: trans/models/changes.py:161
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary updated"
-msgstr "מונחון"
+msgstr "מילון מונחים עודכן"
 
 #: trans/models/changes.py:162
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary uploaded"
-msgstr "מונחון"
+msgstr "מונחוןמילון מונחים הועלה"
 
 #: trans/models/changes.py:163
 #, fuzzy
 #| msgid "Search in source strings"
 msgid "New source string"
-msgstr "חיפוש במחרוזות המקור"
+msgstr "מחרוזת מקור (source) חדש"
 
 #: trans/models/changes.py:185
 #, python-format
@@ -989,7 +982,7 @@ msgstr "הצבעה לכתובת הנחיות לתרגום"
 
 #: trans/models/project.py:46
 msgid "Automatically add language file"
-msgstr ""
+msgstr "הוסף באופן אוטומטי את קובץ השפה"
 
 #: trans/models/project.py:47
 msgid "No adding of language"
@@ -1008,18 +1001,18 @@ msgid "Name to display"
 msgstr "שם להצגה"
 
 #: trans/models/project.py:84 trans/models/subproject.py:74
+#, fuzzy
 msgid "URL slug"
-msgstr ""
+msgstr "כתובת Slug"
 
 #: trans/models/project.py:86 trans/models/subproject.py:76
-#, fuzzy
 #| msgid "Name used in URLs"
 msgid "Name used in URLs and file names."
-msgstr "השם המשמש בכתובות"
+msgstr "השם המשמש ב- Url ושמות קבצים"
 
 #: trans/models/project.py:90
 msgid "Main website of translated project."
-msgstr ""
+msgstr "אתר הראשי של פרויקט המתורגם."
 
 #: trans/models/project.py:93
 #| msgid "Trailing stop"
@@ -1027,28 +1020,25 @@ msgid "Mailing list"
 msgstr "רשימת תפוצה"
 
 #: trans/models/project.py:95
-#, fuzzy
 #| msgid "Mailing list for translators:"
 msgid "Mailing list for translators."
-msgstr "רשימת התפוצה למתרגמים:"
+msgstr "רשימת התפוצה למתרגמים."
 
 #: trans/models/project.py:98
 #, fuzzy
 #| msgid "Point to translation instructions URL"
 msgid "Translation instructions"
-msgstr "הצבעה לכתובת הנחיות לתרגום"
+msgstr "הנחיות לתרגום"
 
 #: trans/models/project.py:100
-#, fuzzy
 #| msgid "URL with instructions for translators"
 msgid "URL with instructions for translators."
 msgstr "כתובת עם הנחיות למתרגמים"
 
 #: trans/models/project.py:103
-#, fuzzy
 #| msgid "Translation license:"
 msgid "Translation license"
-msgstr "רישיון התרגום:"
+msgstr "רישיון התרגום"
 
 #: trans/models/project.py:107
 msgid "Optional short summary of license used for translations."
@@ -1081,10 +1071,9 @@ msgid ""
 msgstr "להגדיר האם Weblate אמור למזג אל מיזם המקור או לבסס את השינויים עליו."
 
 #: trans/models/project.py:137
-#, fuzzy
 #| msgid "Commit %(hash)s"
 msgid "Commit message"
-msgstr "הגשה %(hash)s"
+msgstr ""
 
 #: trans/models/project.py:139
 msgid ""
@@ -1129,7 +1118,7 @@ msgstr ""
 
 #: trans/models/project.py:173
 msgid "Enable ACL"
-msgstr ""
+msgstr "הפעל ACL"
 
 #: trans/models/project.py:176
 msgid ""
@@ -1156,13 +1145,12 @@ msgstr "לא ניתן להשתמש בכתובת רישיון ללא תקציר �
 #: trans/models/project.py:232
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr ""
+msgstr "לא ניתן היה ליצור את תיקיית הפרוייקט: s%"
 
 #: trans/models/subproject.py:69
-#, fuzzy
 #| msgid "Subproject"
 msgid "Subproject name"
-msgstr "תת־מיזם"
+msgstr "שם התת פרוייקט"
 
 #: trans/models/subproject.py:80 weblate/html/check.html:26
 #: weblate/html/check_project.html:26 weblate/html/data.html:28
@@ -1173,8 +1161,9 @@ msgid "Project"
 msgstr "מיזם"
 
 #: trans/models/subproject.py:92
+#, fuzzy
 msgid "Git push URL"
-msgstr ""
+msgstr "כתובת מאגר ה־Git לדחיפה"
 
 #: trans/models/subproject.py:95
 #, fuzzy
@@ -1183,8 +1172,9 @@ msgid "URL of push Git repository, pushing is disabled if empty."
 msgstr "כתובת מאגר ה־Git לדחיפה"
 
 #: trans/models/subproject.py:100
+#, fuzzy
 msgid "Repository browser"
-msgstr ""
+msgstr "סייר המאגרים"
 
 #: trans/models/subproject.py:102
 #, python-format
