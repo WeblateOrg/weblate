@@ -242,8 +242,6 @@ class ViewTest(TestCase):
         '''
         Test for contact form.
         '''
-        # Hack to allow sending of mails
-        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
         # Basic get
         response = self.client.get(reverse('contact'))
         self.assertContains(response, 'class="contact-table"')
@@ -271,9 +269,6 @@ class ViewTest(TestCase):
         '''
         Test for contact form.
         '''
-        # Hack to allow sending of mails
-        settings.ADMINS = (('Weblate test', 'noreply@weblate.org'), )
-
         # Disabled hosting
         appsettings.OFFER_HOSTING = False
         response = self.client.get(reverse('hosting'))
