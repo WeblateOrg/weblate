@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-24 14:38+0200\n"
-"PO-Revision-Date: 2013-10-11 14:13+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2013-11-15 12:28+0200\n"
+"Last-Translator: Henry Heinänen <h.heinanen@gmail.com>\n"
 "Language-Team: Finnish <http://l10n.cihar.com/projects/weblate/master/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 1.7\n"
+"X-Generator: Weblate 1.9-dev\n"
 
 #: accounts/forms.py:88
 msgid "At least five characters long."
@@ -46,6 +46,8 @@ msgstr "Sähköposti"
 #: accounts/forms.py:220
 msgid "You can add another emails on Authentication tab."
 msgstr ""
+"Voit lisätä toisen sähköpostiosoitteen Todennus(Authentication) "
+"välilehdellä."
 
 #: accounts/forms.py:249 accounts/forms.py:324
 msgid "First name"
@@ -84,16 +86,16 @@ msgstr ""
 
 #: accounts/forms.py:344
 msgid "First and last name should be different!"
-msgstr ""
+msgstr "Etu- ja sukunimen pitää olla erilaisia!"
 
 #: accounts/forms.py:376
 #, python-format
 msgid "What is %s"
-msgstr ""
+msgstr "Mitä on %s"
 
 #: accounts/forms.py:386
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "Tarkista oikeinkirjoitus ja yritä uudelleen."
 
 #: accounts/forms.py:408
 msgid "New password"
@@ -104,10 +106,9 @@ msgid "At least six characters long."
 msgstr "Vähintään kuusi merkkiä pitkä."
 
 #: accounts/forms.py:413
-#, fuzzy
 #| msgid "Password (again)"
 msgid "New password (again)"
-msgstr "Salasana (uudelleen)"
+msgstr "Uusi salasana (uudelleen)"
 
 #: accounts/forms.py:415
 msgid "Repeat the password so we can verify you typed it in correctly."
@@ -118,26 +119,23 @@ msgid "Password needs to have at least six characters."
 msgstr "Salasanassa täytyy olla vähintään kuusi merkkiä."
 
 #: accounts/forms.py:444
-#, fuzzy
 #| msgid "You must type the same password each time"
 msgid "You must type the same password each time."
-msgstr "Salasanan täytyy olla sama molemmilla kerroilla"
+msgstr "Salasanan täytyy olla sama molemmilla kerroilla."
 
 #: accounts/forms.py:456
-#, fuzzy
 #| msgid "New password"
 msgid "Current password"
-msgstr "Uusi salasana"
+msgstr "Nykyinen salasana"
 
 #: accounts/forms.py:466
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "Käyttäjä, jolla on tämä sähköpostiosoite ei löytynyt."
 
 #: accounts/forms.py:476
-#, fuzzy
 #| msgid "Username"
 msgid "Username or email"
-msgstr "Käyttäjänimi"
+msgstr "Käyttäjänimi tai sähköpostiosoite"
 
 #: accounts/forms.py:477
 msgid "Password"
@@ -176,10 +174,9 @@ msgstr ""
 "tai locale/*/LC_MESSAGES/django.po."
 
 #: accounts/forms.py:506
-#, fuzzy
 #| msgid "Additional commit file"
 msgid "Additional message"
-msgstr "Lisäksi commit tiedosto"
+msgstr "Ylimääräinen viesti"
 
 #: accounts/models.py:328
 msgid "Interface Language"
@@ -231,7 +228,7 @@ msgstr "Käyttäjän rekisteröinti"
 
 #: accounts/views.py:123
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "Et voi vaihtaa demo profiilia, demo serverillä."
 
 #: accounts/views.py:146
 msgid "Your profile has been updated."
@@ -263,20 +260,18 @@ msgid "Thanks for using Weblate!"
 msgstr "Kiitos Weblaten käyttämisestä!"
 
 #: accounts/views.py:399 weblate/html/accounts/email.html:7
-#, fuzzy
 #| msgid "Register"
 msgid "Register email"
-msgstr "Rekisteröidy"
+msgstr "Rekisteröi sähköposti"
 
 #: accounts/views.py:424
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "Kirjoittamasi salasana ei kelpaa."
 
 #: accounts/views.py:446
-#, fuzzy
 #| msgid "Your password was changed."
 msgid "Your password has been changed."
-msgstr "Salasanasi vaihdettiin."
+msgstr "Salasanasi on vaihdettu."
 
 #: accounts/views.py:457 weblate/html/accounts/profile.html:49
 msgid "Change password"
@@ -379,7 +374,7 @@ msgstr "PyICU kirjasto"
 
 #: trans/admin_views.py:139
 msgid "Secret key"
-msgstr ""
+msgstr "Salainen avain"
 
 #: trans/admin_views.py:146
 msgid "Allowed hosts"
@@ -387,11 +382,11 @@ msgstr "Sallitut isännät"
 
 #: trans/admin_views.py:153
 msgid "Home directory"
-msgstr ""
+msgstr "Kotihakemisto"
 
 #: trans/admin_views.py:161
 msgid "Admin static files"
-msgstr ""
+msgstr "Ylläpitäjän staattiset tiedostot"
 
 #. Translators: placeholder SSH hashed hostname
 #: trans/admin_views.py:188
@@ -656,6 +651,7 @@ msgstr "Ei voi linkittää tietolähteeseen!"
 #: trans/validators.py:96
 msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgstr ""
+"Virheellinen linkki Weblate projektiin, käytä weblate://project/subproject."
 
 #: trans/validators.py:108
 msgid ""
@@ -709,10 +705,9 @@ msgstr ""
 "%(percent)d%% tehty"
 
 #: trans/widgets.py:315
-#, fuzzy
 #| msgid "translate"
 msgid "translated"
-msgstr "käännä"
+msgstr "käännetty"
 
 #: trans/autofixes/chars.py:30 trans/checks/chars.py:266
 msgid "Trailing ellipsis"
@@ -895,14 +890,13 @@ msgstr ""
 "\"ellipsis\" (...)"
 
 #: trans/checks/source.py:65
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Multiple failing checks"
-msgstr "Epäonnistuvat tarkistukset"
+msgstr "Useita epäonnistuneita tarkistuksia"
 
 #: trans/checks/source.py:67
 msgid "The translations in several languages have failing checks"
-msgstr ""
+msgstr "Monilla eri kielisillä käännöksillä on epäonnistuneita tarkistuksia"
 
 #: trans/models/changes.py:150
 msgid "Resource update"
@@ -945,28 +939,24 @@ msgid "Translation uploaded"
 msgstr "Käännös ladattu"
 
 #: trans/models/changes.py:160
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary added"
-msgstr "Sanasto"
+msgstr "Sanasto lisätty"
 
 #: trans/models/changes.py:161
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary updated"
-msgstr "Sanasto"
+msgstr "Sanasto päivitetty"
 
 #: trans/models/changes.py:162
-#, fuzzy
 #| msgid "Glossary"
 msgid "Glossary uploaded"
-msgstr "Sanasto"
+msgstr "Sanasto lähetetty"
 
 #: trans/models/changes.py:163
-#, fuzzy
 #| msgid "Source string:"
 msgid "New source string"
-msgstr "Lähdemerkkijono:"
+msgstr "Uusi lähdemerkkijono"
 
 #: trans/models/changes.py:185
 #, python-format
@@ -1296,14 +1286,13 @@ msgid "Autoaccept suggestions"
 msgstr "Automaattisesti hyväksyttyjä ehdotuksia"
 
 #: trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Automatically accept suggestions with this amount of votes, use 0 to "
 #| "disable."
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
-"Automaattisesti hyväksytyt ehdotukset saivat tämän määrän ääniä, 0 poistaa "
+"Automaattisesti hyväksytyt ehdotukset saivat tämän määrän ääniä, \"0\" poistaa "
 "käytöstä."
 
 #: trans/models/subproject.py:230
@@ -1311,7 +1300,6 @@ msgid "Quality checks flags"
 msgstr "Laatutarkastus liput"
 
 #: trans/models/subproject.py:233
-#, fuzzy
 #| msgid ""
 #| "Additional comma separate flags to influence quality checks, check "
 #| "documentation for possible values."
@@ -1319,7 +1307,7 @@ msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Lisää pilkku, eri liput vaikuttaa laadunvalvontaan tarkista käyttöoppaasta "
+"Pilkulla erotetut liput vaikuttavat laadunvalvontaan tarkista käyttöoppaasta "
 "mahdolliset arvot."
 
 #: trans/models/subproject.py:461
@@ -1341,9 +1329,9 @@ msgid "Push is disabled for %s."
 msgstr "Lähetys ei ole mahdollista tekstille %s."
 
 #: trans/models/subproject.py:618
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr "Failed to push to remote branch on %s."
+msgstr "Haaroittaminen epäonnistui %s."
 
 #: trans/models/subproject.py:654
 #, python-format
