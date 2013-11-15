@@ -195,6 +195,7 @@ SAME_BLACKLIST = frozenset((
     'in',
     'inconsistent',
     'index',
+    'indigo',
     'info',
     'information',
     'infrastructure',
