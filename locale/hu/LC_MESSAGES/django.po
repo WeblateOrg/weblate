@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-10-24 14:38+0200\n"
-"PO-Revision-Date: 2013-11-15 00:09+0200\n"
+"PO-Revision-Date: 2013-11-17 08:16+0200\n"
 "Last-Translator: János Néhrer <iiamnot@gmail.com>\n"
 "Language-Team: Hungarian <http://l10n.cihar.com/projects/weblate/master/hu/>\n"
 "Language: hu\n"
@@ -425,9 +425,9 @@ msgid "Recent changes in %s"
 msgstr "Friss változtatások ebben: %s"
 
 #: trans/feeds.py:41 trans/feeds.py:79
-#, fuzzy, python-format
+#, python-format
 msgid "All recent changes made using Weblate in %s."
-msgstr "Minden új Weblate-ben végzett módosítás itt: %s."
+msgstr "Minden új Weblate-ben végzett módosítás %s nyelven."
 
 #: trans/formats.py:544
 msgid "Automatic detection"
@@ -648,7 +648,7 @@ msgstr "Nincs"
 #: trans/validators.py:41 trans/validators.py:51 trans/validators.py:71
 #, python-format
 msgid "Bad format string (%s)"
-msgstr "Hibás formátumú szöveg (%s)"
+msgstr "Hibás formátumkód (%s)"
 
 #: trans/validators.py:80
 msgid "File mask does not contain * as a language placeholder!"
@@ -846,7 +846,7 @@ msgstr "Python formátum"
 #: trans/checks/format.py:216 trans/checks/format.py:230
 #: trans/checks/format.py:244 trans/checks/format.py:255
 msgid "Format string does not match source"
-msgstr "A szövegformátum nem egyezik meg a forrással"
+msgstr "A formátumkód nem egyezik meg a forrással"
 
 #: trans/checks/format.py:229
 msgid "PHP format"
@@ -858,7 +858,7 @@ msgstr "C formátum"
 
 #: trans/checks/format.py:254
 msgid "Python brace format"
-msgstr "Python brace format"
+msgstr "Python brace formátum"
 
 #: trans/checks/markup.py:40
 msgid "Mismatched BBcode"
@@ -983,15 +983,15 @@ msgstr ""
 
 #: trans/models/project.py:44
 msgid "Use contact form"
-msgstr ""
+msgstr "Kapcsolattartói form használata"
 
 #: trans/models/project.py:45
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "A fordítási tudnivalókra mutató URL"
 
 #: trans/models/project.py:46
 msgid "Automatically add language file"
-msgstr ""
+msgstr "Nyelvi fájl automatikus hozzáadása"
 
 #: trans/models/project.py:47
 #| msgid "New language"
@@ -1000,27 +1000,27 @@ msgstr "Ne adjon hozzá új nyelvet"
 
 #: trans/models/project.py:50
 msgid "Merge"
-msgstr ""
+msgstr "Összefésülés (Merge)"
 
 #: trans/models/project.py:51
 msgid "Rebase"
-msgstr ""
+msgstr "Újraalapozás (Rebase)"
 
 #: trans/models/project.py:81 trans/models/subproject.py:71
 msgid "Name to display"
-msgstr ""
+msgstr "Megjelenítendő név"
 
 #: trans/models/project.py:84 trans/models/subproject.py:74
 msgid "URL slug"
-msgstr ""
+msgstr "URL kivonat"
 
 #: trans/models/project.py:86 trans/models/subproject.py:76
 msgid "Name used in URLs and file names."
-msgstr ""
+msgstr "Az URL-ekben és fájlnevekben használt megnevezés."
 
 #: trans/models/project.py:90
 msgid "Main website of translated project."
-msgstr ""
+msgstr "A lefordított projekt főoldala."
 
 #: trans/models/project.py:93
 #| msgid "Failing checks"
@@ -1039,7 +1039,7 @@ msgstr "Fordítási tudnivalók"
 
 #: trans/models/project.py:100
 msgid "URL with instructions for translators."
-msgstr ""
+msgstr "A fordítóknak szánt tudnivalókat tartalmazó webcím."
 
 #: trans/models/project.py:103
 #| msgid "Translation changed"
@@ -1048,15 +1048,15 @@ msgstr "Fordítás licence"
 
 #: trans/models/project.py:107
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "Opcionális: a fordításokra érvényes licenc rövid összefoglalója."
 
 #: trans/models/project.py:111
 msgid "License URL"
-msgstr ""
+msgstr "Licenc webcíme"
 
 #: trans/models/project.py:113
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "Opcionális: A licenc részleteit tartalmazó webcím."
 
 #: trans/models/project.py:116
 msgid "New language"
@@ -1064,28 +1064,32 @@ msgstr "Új nyelv"
 
 #: trans/models/project.py:121
 msgid "How to handle requests for creating new languages."
-msgstr ""
+msgstr "Hogyan legyenek kezelve az új nyelvek iránti kérések."
 
 #: trans/models/project.py:125
 msgid "Merge style"
-msgstr ""
+msgstr "Beolvasztási módozat"
 
 #: trans/models/project.py:130
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
+"Meghatározza, hogy a Weblate az upstream tárat fésülje össze (merge) vagy a "
+"változásokat alkalmazza rá (rebase)."
 
 #: trans/models/project.py:137
 #| msgid "Error message:"
 msgid "Commit message"
-msgstr "Üzenet beküldése"
+msgstr "Kommit üzenet"
 
 #: trans/models/project.py:139
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
+"A formátumkódok (format strings) számos információt jelenthetnek, olvassa el "
+"a dokumentációt a további részletekért."
 
 #: trans/models/project.py:146
 #| msgid "Your name"
@@ -1099,51 +1103,55 @@ msgstr "Beküldő e-mail címe"
 
 #: trans/models/project.py:156
 msgid "Push on commit"
-msgstr ""
+msgstr "Elküldés kommitkor"
 
 #: trans/models/project.py:159
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Elküldje-e (push) a tárat upstreamként minden egyes kommit alkalmával."
 
 #: trans/models/project.py:164
 #| msgid "Translations made"
 msgid "Set Translation-Team header"
-msgstr "Fordítási csapat állítása a headerben"
+msgstr "Fordítási csapat beállítása a fejlécben"
 
 #: trans/models/project.py:167
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
+msgstr "Frissítse-e a Weblate a fájlok fejléceiben a fordítási csapatot."
 
 #: trans/models/project.py:173
 msgid "Enable ACL"
-msgstr ""
+msgstr "ACL-ek engedélyezése"
 
 #: trans/models/project.py:176
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
+"Engedélyezi-e az ACL-ek (jogosultságkezelés) alkalmazását erre a projektre. "
+"Olvassa el a dokumentációt, mielőtt beállítja."
 
 #: trans/models/project.py:213
 #, python-format
 msgid "You are not allowed to access project %s."
-msgstr ""
+msgstr "Nincs engedélye a(z) %s projekt eléréséhez."
 
 #: trans/models/project.py:220
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Vagy töltse ki az útmutató webcímét vagy más módot használjon új nyelv "
+"hozzáadására."
 
 #: trans/models/project.py:226
 msgid "License URL can not be used without license summary."
-msgstr ""
+msgstr "A licenc URL nem használható licenc összefoglaló nélkül."
 
 #: trans/models/project.py:232
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr ""
+msgstr "A(z) %s projekt könyvtár nem hozható létre"
 
 #: trans/models/subproject.py:69
 #| msgid "Subproject"
@@ -1160,11 +1168,13 @@ msgstr "Projekt"
 
 #: trans/models/subproject.py:92
 msgid "Git push URL"
-msgstr ""
+msgstr "Git elküldési (push) URL"
 
 #: trans/models/subproject.py:95
 msgid "URL of push Git repository, pushing is disabled if empty."
-msgstr "Git beküldési céltár URL-je. Ha üres, akkor a beküldés le van tiltva."
+msgstr ""
+"Git elküldés céltárolójának URL-je. Ha üres, akkor az elküldés le van "
+"tiltva."
 
 #: trans/models/subproject.py:100
 #| msgid "Repository status:"
@@ -1180,7 +1190,7 @@ msgstr ""
 
 #: trans/models/subproject.py:109
 msgid "Exported Git URL"
-msgstr ""
+msgstr "Exportált Git URL"
 
 #: trans/models/subproject.py:112
 msgid "URL of Git repository where users can fetch changes from Weblate"
@@ -1198,24 +1208,28 @@ msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
+"A forrásszövegben előforduló hibák erre az e-mail címre lesznek bejelentve. "
+"Hagyja üresen, ha nem akar e-mailt."
 
 #: trans/models/subproject.py:125
 msgid "Git branch"
-msgstr ""
+msgstr "Git ág"
 
 #: trans/models/subproject.py:127
 msgid "Git branch to translate"
-msgstr ""
+msgstr "A fordítandó Git ág (branch)"
 
 #: trans/models/subproject.py:140
 msgid "Monolingual base language file"
-msgstr ""
+msgstr "Egynyelvű alap nyelvi fájl"
 
 #: trans/models/subproject.py:144
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
+"A szövegeket és azok forrásait tartalmazó fordítási alapfájl neve; az "
+"egynyelvű fordítási formátumok használata javasolt."
 
 #: trans/models/subproject.py:150
 #| msgid "Failed translation"
@@ -1227,34 +1241,41 @@ msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Az új fordításokhoz használt fájl neve. Gettexthez válassza a .pot fájlt."
 
 #: trans/models/subproject.py:159
 msgid "File format"
-msgstr ""
+msgstr "Fájlformátum"
 
 #: trans/models/subproject.py:164
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
+"Az automatikus formátumfelismerés néhány formátumnál nem működik, és egy "
+"picit lassabb."
 
 #: trans/models/subproject.py:169
 msgid "Additional commit file"
-msgstr ""
+msgstr "További fájl a kommitba"
 
 #: trans/models/subproject.py:175
 msgid ""
 "Additional file to include in commits; please check documentation for more "
 "details."
 msgstr ""
+"További, a kommitokban szerepelő fájlok; keresse fel a dokumentációt további "
+"részletekért."
 
 #: trans/models/subproject.py:180
 msgid "Pre-commit script"
-msgstr ""
+msgstr "Kommit előszkript"
 
 #: trans/models/subproject.py:186
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
+"A fordítás kommitálása előtt lefutó szkript. Keresse fel a dokumentációt "
+"további részletekért."
 
 #: trans/models/subproject.py:192
 #| msgid "Lock"
@@ -1263,7 +1284,7 @@ msgstr "Zárolt"
 
 #: trans/models/subproject.py:195
 msgid "Whether subproject is locked for translation updates."
-msgstr ""
+msgstr "Zárolva van-e az alprojekt a fordítási változtatásokra."
 
 #: trans/models/subproject.py:199
 #| msgid "New translation in %(translation)s"
@@ -1275,6 +1296,8 @@ msgid ""
 "Whether translation updates in other subproject will cause automatic "
 "translation in this project"
 msgstr ""
+"Egy másik alprojektben lévő fordítási módosítás hatására történjen-e "
+"automatikus fordítás ebben a projektben"
 
 #: trans/models/subproject.py:207
 #| msgid "Your translations"
@@ -1283,7 +1306,7 @@ msgstr "Fordítási előzmények mentése"
 
 #: trans/models/subproject.py:210
 msgid "Whether Weblate should keep history of translations"
-msgstr ""
+msgstr "A Weblate megőrizze-e a fordítási előzményeket"
 
 #: trans/models/subproject.py:214
 #| msgid "Suggestions"
@@ -1305,6 +1328,8 @@ msgstr "Javaslatok automatikus elfogadása"
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
+"Ennyi szavazat esetén a javaslatok automatikus elfogadása. 0 esetén "
+"letiltva."
 
 #: trans/models/subproject.py:230
 #| msgid "Failing checks found"
@@ -1316,12 +1341,16 @@ msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
+"További (vesszővel elválasztott) jelölők (flag), amik a minőségellenőrzésre "
+"hatnak. Keresse fel a dokumentációt a lehetséges értékekért."
 
 #: trans/models/subproject.py:461
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Az gép SSH kulcsának ellenőrzése nem sikerült. Kérem adja hozzá őket a "
+"rendszergazdai felület SSH oldalán."
 
 #: trans/models/subproject.py:465
 #, python-format
@@ -1331,43 +1360,43 @@ msgstr "Nem sikerült letölteni a Gir tárolót: %s"
 #: trans/models/subproject.py:569
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "Elküldés tiltva a(z) %s alprojektre."
 
 #: trans/models/subproject.py:618
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "Nem sikerült elküldeni a távoli ágra a(z) %s alprojekten."
 
 #: trans/models/subproject.py:654
 #, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr ""
+msgstr "Nem sikerült átállítani a távoli ágat itt: %s."
 
 #: trans/models/subproject.py:706
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr ""
+msgstr "Nem sikerült újraalapozni (rebase) a mi águnkat a(z) %s távoli ágra."
 
 #: trans/models/subproject.py:709
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "Nem sikerült összefésülni a távoli ágat ebbe: %s."
 
 #: trans/models/subproject.py:830
 msgid "Push URL is not used when repository is linked!"
-msgstr ""
+msgstr "Az elküldési URL nem használt csatolt tárolónál!"
 
 #: trans/models/subproject.py:834
 msgid "Export URL is not used when repository is linked!"
-msgstr ""
+msgstr "Az export URL csatolt tárnál nem használt!"
 
 #: trans/models/subproject.py:844
 msgid "Template file not found!"
-msgstr ""
+msgstr "A sablonfájl nem található!"
 
 #: trans/models/subproject.py:850
 msgid "Format of translation base file could not be recognized."
-msgstr ""
+msgstr "A fordítási alapfájl formátumát nem sikerült felismerni."
 
 #: trans/models/subproject.py:854
 #, python-format
@@ -1377,31 +1406,35 @@ msgstr "Nem sikerült felolvasni a fordítási alapfájlt: %s"
 
 #: trans/models/subproject.py:871
 msgid "File does not seem to be valid!"
-msgstr ""
+msgstr "A fájl nem érvényes formátumú!"
 
 #: trans/models/subproject.py:879
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr ""
+msgstr "%d számú egyező fájl formátumát nem sikerült felismerni."
 
 #: trans/models/subproject.py:888
 #, python-format
 msgid "Failed to parse %d matched files!"
-msgstr ""
+msgstr "Nem sikerült felolvasni %d egyező állományt!"
 
 #: trans/models/subproject.py:899
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"A kiválasztott formátum nem támogatja új fordítások hozzáfűzését, márpedig a "
+"projekt beállításai között ez szerepel."
 
 #: trans/models/subproject.py:905
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
+"Az új fordításokra szolgáló alapfájl formátumát nem sikerült felismerni!"
 
 #: trans/models/subproject.py:910
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"A projekt beállításai miatt az új fordításokhoz való alapfájl nem használt."
 
 #: trans/models/subproject.py:927
 #, python-format
@@ -1411,7 +1444,7 @@ msgstr "Nem sikerült a git frissítése: %s"
 
 #: trans/models/subproject.py:935
 msgid "The mask did not match any files!"
-msgstr ""
+msgstr "A maszk nem illeszkedik egy fájlra sem!"
 
 #: trans/models/subproject.py:941
 msgid ""
@@ -1428,11 +1461,13 @@ msgstr "Nem használhat alapfájlt kétnyelvű fordításhoz!"
 
 #: trans/models/subproject.py:967
 msgid "You can not use monolingual translation without base file!"
-msgstr ""
+msgstr "Alapfájl nélkül nem használható egynyelvű fordítás!"
 
 #: trans/models/subproject.py:976
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
+"A javaslatok automatikus elfogadása csak a szavazás bekapcsolása esetén "
+"használható!"
 
 #: trans/models/translation.py:190
 #, python-format
@@ -1440,16 +1475,18 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"A(z) %s fájl nem található a tárban! Az új fordítás felvételéhez adjon egy "
+"nyelvi fájlt a tárhoz."
 
 #: trans/models/translation.py:199
 #, python-format
 msgid "Format of %s could not be recognized."
-msgstr ""
+msgstr "%s formátumát nem sikerült felismerni."
 
 #: trans/models/translation.py:204
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr ""
+msgstr "Nem sikerült felolvasni a(z) %(file)s fájlt: %(error)s"
 
 #: trans/models/translation.py:241
 #, python-format
@@ -1489,15 +1526,17 @@ msgstr "Javaslattal rendelkező szövegek (%d)"
 #: trans/models/unit.py:521
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
+"Nem sikerült eltárolni az üzenetet a háttérrendszerben zárolási időtúllépés "
+"miatt!"
 
 #: trans/models/unit.py:533
 msgid "Message not found in backend storage, it is probably corrupted."
-msgstr ""
+msgstr "Az üzenet nem található a háttérrendszerben, valószínűleg megsérült."
 
 #: trans/models/unit.py:681
 #, python-format
 msgid "unit ID %s"
-msgstr ""
+msgstr "%s unit azonosító"
 
 #: trans/models/unit.py:1014
 msgid "Message is fuzzy"
@@ -1533,11 +1572,11 @@ msgstr "Hibás konfiguráció"
 
 #: trans/templatetags/translations.py:59
 msgid "Possible configuration"
-msgstr ""
+msgstr "Lehetséges beállítás"
 
 #: trans/templatetags/translations.py:76
 msgid "Tab character"
-msgstr ""
+msgstr "Tabulátor karakter"
 
 #: trans/templatetags/translations.py:147
 msgid "New line"
@@ -1595,7 +1634,7 @@ msgstr "egy héttel ezelőtt"
 
 #: trans/templatetags/translations.py:361
 msgid "yesterday"
-msgstr ""
+msgstr "tegnap"
 
 #: trans/templatetags/translations.py:363
 #, python-format
@@ -1697,7 +1736,7 @@ msgstr[1] "%(count)s hét múlva"
 
 #: trans/templatetags/translations.py:410
 msgid "tomorrow"
-msgstr ""
+msgstr "holnap"
 
 #: trans/templatetags/translations.py:412
 #| msgid "a second from now"
@@ -1764,10 +1803,12 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
+"Aktiválta a fiókot. Most állítsa be a jelszót, hogy legközelebb be tudjon "
+"lépni."
 
 #: trans/views/basic.py:81
 msgid "Please set your full name in your profile."
-msgstr ""
+msgstr "Állítsa be a teljes nevét a profilban."
 
 #: trans/views/basic.py:147
 #, python-format
@@ -1776,7 +1817,7 @@ msgstr "Keresés erre: \"%s\""
 
 #: trans/views/basic.py:153
 msgid "Invalid search query!"
-msgstr ""
+msgstr "Érvénytelen keresőkifejezés!"
 
 #: trans/views/basic.py:183
 #, python-format
@@ -1786,6 +1827,9 @@ msgid ""
 "translated into %(languages)s languages</a>. Overall, these translations are "
 "%(percent)s%% complete."
 msgstr ""
+"<a href=\"%(url)s\">A(z) %(project)s</a> fordítási projekt %(total)s "
+"fordítandó szöveget tartalmaz és <a href=\"%(url)s\">%(languages)s nyelvre van "
+"lefordítva</a>. Ezen fordítások készültségi foka összesen %(percent)s%%."
 
 #: trans/views/basic.py:192
 #, python-format
@@ -1794,6 +1838,8 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
+"<a href=\"%(url)s\">A(z) %(project)s fordítása</a> angolra %(total)s "
+"fordítandó szöveget tartalmaz és %(percent)s%%-ban van kész."
 
 #: trans/views/basic.py:295
 #, python-format
@@ -1812,11 +1858,11 @@ msgstr "Lap Nem Található"
 #: trans/views/basic.py:396 weblate/html/about.html:11
 #: weblate/html/footer.html:7
 msgid "About Weblate"
-msgstr ""
+msgstr "A Weblate-ről"
 
 #: trans/views/basic.py:443
 msgid "Chosen translation already exists in this project!"
-msgstr ""
+msgstr "A kiválasztott nyelv már létezik ebben a projektben!"
 
 #: trans/views/basic.py:450
 #| msgid "The request for machine translation has failed."
@@ -1837,11 +1883,11 @@ msgstr "Változások"
 
 #: trans/views/changes.py:99
 msgid "Failed to find matching project!"
-msgstr ""
+msgstr "Nem található ilyen projekt!"
 
 #: trans/views/changes.py:111
 msgid "Failed to find matching language!"
-msgstr ""
+msgstr "Nem található ilyen nyelv!"
 
 #: trans/views/changes.py:123
 #| msgid "Failed translation"
@@ -1860,7 +1906,7 @@ msgstr "Szótárak"
 #: trans/views/dictionary.py:89 trans/views/dictionary.py:323
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr ""
+msgstr "%(language)s nyelvű szótár a(z) %(project)s projekthez"
 
 #: trans/views/dictionary.py:144
 msgid "No words to import found in file."
@@ -1874,12 +1920,12 @@ msgstr "%d szó beimportálva fájlból."
 #: trans/views/dictionary.py:154
 #, python-format
 msgid "File upload has failed: %s"
-msgstr ""
+msgstr "A fájl feltöltése nem sikerült: %s"
 
 #: trans/views/dictionary.py:157 trans/views/dictionary.py:159
 #: trans/views/edit.py:643
 msgid "Failed to process form!"
-msgstr ""
+msgstr "A form feldolgozása nem sikerült!"
 
 #: trans/views/edit.py:48 weblate/html/list-translations.html:65
 msgid "Fuzzy strings"
@@ -1918,11 +1964,11 @@ msgstr "\"%s\" szövegrészlet keresése"
 #: trans/views/edit.py:91
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr ""
+msgstr "Hiba a(z) %(field)s paraméterben: %(error)s"
 
 #: trans/views/edit.py:110 trans/views/edit.py:537
 msgid "Invalid search string!"
-msgstr ""
+msgstr "Érvénytelen keresőszöveg!"
 
 #: trans/views/edit.py:133
 #, python-format
@@ -1931,15 +1977,15 @@ msgstr "%s óta történt fordítások átnézése"
 
 #: trans/views/edit.py:166 trans/views/edit.py:176
 msgid "No string matched your search!"
-msgstr ""
+msgstr "A keresett szöveg nem található!"
 
 #: trans/views/edit.py:204
 msgid "Your suggestion is empty!"
-msgstr ""
+msgstr "Üres javaslat!"
 
 #: trans/views/edit.py:211
 msgid "You don't have privileges to add suggestions!"
-msgstr ""
+msgstr "Nincs jogosultsága javaslatot tenni!"
 
 #: trans/views/edit.py:223
 msgid ""
@@ -1950,16 +1996,16 @@ msgstr ""
 
 #: trans/views/edit.py:264 trans/views/edit.py:325 trans/views/edit.py:363
 msgid "You don't have privileges to save translations!"
-msgstr ""
+msgstr "Nincs jogosultsága a fordítások mentéséhez!"
 
 #: trans/views/edit.py:270
 msgid "Only suggestions are allowed in this translation!"
-msgstr ""
+msgstr "Csak javaslatok engedélyezettek ebben a fordításban!"
 
 #: trans/views/edit.py:294
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr ""
+msgstr "Az alábbi javítások lettek alkalmazva a fordításra: %s"
 
 #: trans/views/edit.py:308
 msgid "Some checks have failed on your translation!"
@@ -1967,11 +2013,11 @@ msgstr "A fordításodban néhány ellenőrzés sikertelen volt!"
 
 #: trans/views/edit.py:342
 msgid "Can not merge different messages!"
-msgstr ""
+msgstr "Nem lehet összefésülni különböző üzeneteket!"
 
 #: trans/views/edit.py:380
 msgid "Can not revert to different unit!"
-msgstr ""
+msgstr "Nem lehet visszaállni másik unitra!"
 
 #: trans/views/edit.py:385
 #| msgid "Your translations"
@@ -1980,19 +2026,19 @@ msgstr "Nem lehet üres fordításra visszaállni!"
 
 #: trans/views/edit.py:416
 msgid "You do not have privilege to accept suggestions!"
-msgstr ""
+msgstr "Nincs jogosultsága javaslatok elfogadására!"
 
 #: trans/views/edit.py:425
 msgid "You do not have privilege to delete suggestions!"
-msgstr ""
+msgstr "Nincs jogosultsága javaslatok törlésére!"
 
 #: trans/views/edit.py:433 trans/views/edit.py:441
 msgid "You do not have privilege to vote for suggestions!"
-msgstr ""
+msgstr "Nincs jogosultsága javaslatok megszavazására!"
 
 #: trans/views/edit.py:447
 msgid "Invalid suggestion!"
-msgstr ""
+msgstr "Érvénytelen javaslat!"
 
 #: trans/views/edit.py:483
 msgid "You have reached end of translating."
@@ -2000,19 +2046,19 @@ msgstr "A fordítás végére értél."
 
 #: trans/views/edit.py:641
 msgid "Automatic translation completed."
-msgstr ""
+msgstr "Az automatikus fordítás elkészült."
 
 #: trans/views/edit.py:669
 msgid "Posted new comment"
-msgstr ""
+msgstr "Új megjegyzés beküldve"
 
 #: trans/views/edit.py:671
 msgid "Failed to add comment!"
-msgstr ""
+msgstr "Megjegyzés hozzáadása nem sikerült!"
 
 #: trans/views/files.py:82
 msgid "Access denied."
-msgstr ""
+msgstr "Hozzáférés megtagadva."
 
 #: trans/views/files.py:90 weblate/html/accounts/profile.html:12
 msgid "Please fix errors in the form."
@@ -2024,52 +2070,54 @@ msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
 msgstr[0] ""
+"A fájltartalom sikeresen hozzáadva a fordításhoz, %d szöveg feldolgozva."
 msgstr[1] ""
+"A fájltartalom sikeresen hozzáadva a fordításhoz, %d szöveg feldolgozva."
 
 #: trans/views/files.py:133
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Nincs új szöveg a feltöltött állományban, %d szöveg feldolgozva."
+msgstr[1] "Nincs új szöveg a feltöltött állományban, %d szöveg feldolgozva."
 
 #: trans/views/files.py:143
 #, python-format
 msgid "File content merge failed: %s"
-msgstr ""
+msgstr "Fájltartalom hozzáadása nem sikerült: %s"
 
 #: trans/views/git.py:34 trans/views/git.py:45 trans/views/git.py:56
 msgid "All pending translations were committed."
-msgstr ""
+msgstr "Minden függőben lévő fordítás kommitálva."
 
 #: trans/views/git.py:67 trans/views/git.py:78 trans/views/git.py:89
 msgid "All repositories were updated."
-msgstr ""
+msgstr "Minden tároló frissítve lett."
 
 #: trans/views/git.py:100 trans/views/git.py:111 trans/views/git.py:122
 msgid "All repositories were pushed."
-msgstr ""
+msgstr "Minden tároló elküldésre került."
 
 #: trans/views/git.py:133 trans/views/git.py:144 trans/views/git.py:155
 msgid "All repositories have been reset."
-msgstr ""
+msgstr "Minden tároló átállításra (reset) került."
 
 #: trans/views/lock.py:37
 msgid "Translation is now locked for you."
-msgstr ""
+msgstr "A fordítás zárolva lett Önnek."
 
 #: trans/views/lock.py:61
 msgid "Translation is now open for translation updates."
-msgstr ""
+msgstr "A fordítás most nyitva áll a fordítási frissítésekre."
 
 #: trans/views/lock.py:79
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "Az alprojekt zárolva van a fordítási frissítések elől!"
 
 #: trans/views/lock.py:95
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "Az alprojekt nyitva áll a fordítási frissítésekre."
 
 #: trans/views/lock.py:114
 msgid "All subprojects are now locked for translation updates!"
@@ -2077,7 +2125,7 @@ msgstr "Minden alprojekt zárolva lett a fordítási frissítésekhez!"
 
 #: trans/views/lock.py:129
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "A projekt nyitva áll a fordítási frissítésre."
 
 #: weblate/html/404.html:7
 msgid "The page you are looking for was not found."
@@ -2086,7 +2134,7 @@ msgstr "Az Ön által keresett oldal nem található."
 #: weblate/html/404.html:11
 msgid ""
 "However the following translation projects are available on this server:"
-msgstr ""
+msgstr "Mindazonáltal az alábbi fordítási projektek elérhetők ezen a szerveren:"
 
 #: weblate/html/500.html:5
 msgid "Server Error"
@@ -2102,7 +2150,7 @@ msgstr ""
 
 #: weblate/html/about.html:6
 msgid "about"
-msgstr ""
+msgstr "Névjegy"
 
 #: weblate/html/about.html:13
 msgid ""
@@ -2122,11 +2170,14 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
+"A technikai támogatást kér vagy hibát jelentene be a Weblate kapcsán, "
+"keresse fel a <a href=\"%(weblate_url)s\">weblate.org</a> oldalt."
 
 #: weblate/html/about.html:20
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
+"Ez a Weblate példány több szabad szoftver projekt fordításának nyújt helyet."
 
 #: weblate/html/about.html:22 weblate/html/index.html:60
 #, python-format
@@ -2134,20 +2185,24 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
+"Az Ön projektjének is tudunk helyet biztosítani. Ha érdekli, <a href=\"%"
+"(contact_url)s?subject=Project hosting\">lépjen kapcsolatba velünk</a>."
 
 #: weblate/html/about.html:26
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially:"
 msgstr ""
+"A Weblate ingyenes szoftver, amit önkéntesek hoztak létre. Azonban van "
+"lehetőség anyagi támogatásra is:"
 
 #: weblate/html/about.html:29
 msgid "Flattr Weblate!"
-msgstr ""
+msgstr "Flattr Weblate!"
 
 #: weblate/html/about.html:30 weblate/html/footer.html:10
 msgid "Donate to Weblate!"
-msgstr "Adományozz a Weblate-nek!"
+msgstr "Támogassa a Weblate-et!"
 
 #: weblate/html/about.html:33
 msgid "Versions"
@@ -2155,7 +2210,7 @@ msgstr "Verziók"
 
 #: weblate/html/about.html:35
 msgid "This site is built using following projects:"
-msgstr ""
+msgstr "Az oldal elkészítéséhez az alábbi projekteket használtuk fel:"
 
 #: weblate/html/about.html:49 weblate/html/data.html:50
 msgid "Statistics"
@@ -2225,6 +2280,8 @@ msgid ""
 "More information about this check is available in the <a href=\"%(link)s"
 "\">documentation</a>."
 msgstr ""
+"Erről az ellenőrzésről a <a href=\"%(link)s\">dokumentációban</a> talál "
+"további információt."
 
 #: weblate/html/check.html:27 weblate/html/check_project.html:27
 #: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
@@ -2251,7 +2308,7 @@ msgstr "Adat export"
 
 #: weblate/html/data-root.html:14 weblate/html/data.html:15
 msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr ""
+msgstr "Adatokat nyerhet ki a Weblate-ből gép számára értelmezhető formátumban."
 
 #: weblate/html/data-root.html:17 weblate/html/data.html:18
 msgid "RSS feeds"
@@ -2269,6 +2326,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
+"Az exportált RSS hírforrásokról a <a href=\"%(rss_docs)s\">dokumentációban</a> "
+"érhető el további információ."
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60 weblate/html/data.html:86
@@ -2295,6 +2354,8 @@ msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
+"További exportált adat jött létre a projekthez, további információhoz "
+"keresse fel az alábbi hivatkozásokat."
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
 msgid "Notification hooks"
@@ -2307,6 +2368,9 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Az értesítési hurkokkal a Weblate automatikusan beimportálja az Ön "
+"fejlesztői által végzett módosításokat, így folyamatos lehet a fordítás. "
+"További információ a <a href=\"%(hooks_docs)s\">dokumentációban</a> érhető el."
 
 #: weblate/html/data.html:48
 msgid ""
@@ -2321,6 +2385,9 @@ msgid ""
 "these data in other websites or tools. Format of the data is described in <a "
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
+"A JSON formátumú, minden alprojektre elérhető fordítási statisztikákkal más "
+"weboldalakon és eszközökben is elérhetők ezek az adatok. Az adatok "
+"formátumát a <a href=\"%(api_docs)s\">dokumentáció</a> tartalmazza."
 
 #: weblate/html/data.html:68 weblate/html/translation.html:65
 msgid "Download"
@@ -2439,6 +2506,8 @@ msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
+"Bármilyen formátumot feltölthet, amit a Translate Toolkit ismer (beleértve a "
+"TBX, CSV vagy Gettext PO fájlokat)."
 
 #: weblate/html/dictionary.html:106
 msgid "Import"
@@ -2528,7 +2597,7 @@ msgstr "Dokumentáció"
 #: weblate/html/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
-msgstr ""
+msgstr "Kommit %(hash)s"
 
 #: weblate/html/git-commit-info.html:4
 #, python-format
@@ -3429,6 +3498,8 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
+"Több különféle <a href=\"%(data_url)s\">adat exportálási lehetőség</a> érhető "
+"el gép számára értelmezhető formátumban."
 
 #: weblate/html/source-review.html:10 weblate/html/source.html:8
 msgid "source"
@@ -3598,7 +3669,7 @@ msgstr ""
 #: weblate/html/translate.html:173
 #| msgid "Error message:"
 msgid "Commit message:"
-msgstr "Üzenet a beküldéshez:"
+msgstr "Kommit üzenet:"
 
 #: weblate/html/translate.html:181
 msgid "Translation context"
@@ -4272,11 +4343,11 @@ msgstr "Szójegyzék kezelése"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"
-msgstr ""
+msgstr "Függő változások kommitálása"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit"
-msgstr ""
+msgstr "Kommit"
 
 #: weblate/html/js/git-status.html:9
 msgid "Pull changes from remote repository"
@@ -4288,11 +4359,11 @@ msgstr ""
 
 #: weblate/html/js/git-status.html:10
 msgid "Push changes to remote repository"
-msgstr ""
+msgstr "Változások elküldése a távoli tárba"
 
 #: weblate/html/js/git-status.html:10
 msgid "Push"
-msgstr ""
+msgstr "Elküldés"
 
 #: weblate/html/js/git-status.html:12
 msgid "Reset all changes in local repository"
@@ -4320,11 +4391,11 @@ msgstr "A távoli Git tárat még be kell olvasztani!"
 
 #: weblate/html/js/git-status.html:30
 msgid "There are some new commits in local Git repository!"
-msgstr "Új változtatások (commit) a helyi Gir tárban!"
+msgstr "Új kommitok vannak a helyi Gir tárban!"
 
 #: weblate/html/js/git-status.html:38
 msgid "Last remote commit:"
-msgstr ""
+msgstr "Utolsó távoli kommit:"
 
 #: weblate/html/js/git-status.html:53
 msgid "Details"
