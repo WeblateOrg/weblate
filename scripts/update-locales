@@ -6,8 +6,8 @@
 set -e
 
 # Update po files itself
-./manage.py makemessages -a -i 'repos/*' -i 'docs/*' -i 'examples/*'
-./manage.py makemessages -a -i 'repos/*' -i 'docs/*' -i 'examples/*' -d djangojs
+./manage.py makemessages -a -i 'repos/*' -i 'docs/*' -i 'examples/*' --settings=weblate.settings_test
+./manage.py makemessages -a -i 'repos/*' -i 'docs/*' -i 'examples/*' -d djangojs --settings=weblate.settings_test
 
 # Fix Report-Msgid-Bugs-To as it gets removed
 sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' locale/*/*/*.po
