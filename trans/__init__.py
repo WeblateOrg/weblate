@@ -32,7 +32,8 @@ def create_permissions_compat(app, **kwargs):
     '''
     from django.db.models import get_app
     from django.contrib.auth.management import create_permissions
-    create_permissions(get_app(app), (), 0)
+    if app in ('trans', 'lang', 'accounts'):
+        create_permissions(get_app(app), (), 0)
 
 
 @receiver(post_syncdb)
