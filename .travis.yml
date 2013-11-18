@@ -31,7 +31,7 @@ script:
   - ./scripts/generate-locales
   - ./manage.py validate --settings weblate.settings_test_$TRAVIS_DATABASE
   - ./manage.py syncdb --noinput --settings weblate.settings_test_$TRAVIS_DATABASE
-  - ./manage.py migrate --settings weblate.settings_test_$TRAVIS_DATABASE
+  - ./manage.py migrate --settings weblate.settings_test_$TRAVIS_DATABASE --traceback
   - coverage run --source=. ./manage.py test --settings weblate.settings_test_$TRAVIS_DATABASE trans lang accounts
   - pep8 --exclude migrations accounts trans lang weblate
   - pylint --reports=n --rcfile=pylint.rc trans accounts weblate lang
