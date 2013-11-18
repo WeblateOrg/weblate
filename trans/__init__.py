@@ -30,10 +30,13 @@ def create_permissions_compat(app, **kwargs):
 
     See http://south.aeracode.org/ticket/211
     '''
-    from django.db.models import get_app
+    from django.db.models import get_app, get_models
+    from django.conf import settings
     from django.contrib.auth.management import create_permissions
     if app in ('trans', 'lang', 'accounts'):
-        create_permissions(get_app(app), (), 0)
+        create_permissions(
+            get_app(app), get_models(), 2 if settings.DEBUG else 0
+        )
 
 
 @receiver(post_syncdb)
