@@ -543,7 +543,7 @@ class CaptchaTest(UnitTestCase):
         question = '1 + 1'
         timestamp = 1000
         hashed = hash_question(question, timestamp)
-        self.assertEquals(
+        self.assertEqual(
             (question, timestamp),
             unhash_question(hashed)
         )
@@ -572,7 +572,7 @@ class CaptchaTest(UnitTestCase):
             captcha.validate(2)
         )
         restored = MathCaptcha.from_hash(captcha.hashed)
-        self.assertEquals(
+        self.assertEqual(
             captcha.question,
             restored.question
         )

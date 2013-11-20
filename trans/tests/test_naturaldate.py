@@ -64,7 +64,7 @@ class NaturalTimeTest(TestCase):
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
             result = naturaltime(testdate, now)
-            self.assertEquals(
+            self.assertEqual(
                 expected, result,
                 'naturaltime(%s) [%s] != "%s"' % (
                     testdate, result, expected,

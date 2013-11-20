@@ -238,24 +238,24 @@ class HooksViewTest(ViewTestCase):
                 'project': self.subproject.project.slug
             })
         )
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
         response = self.client.get(
             reverse('hook-subproject', kwargs={
                 'project': self.subproject.project.slug,
                 'subproject': self.subproject.slug,
             })
         )
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
         )
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
-        self.assertEquals(response.status_code, 405)
+        self.assertEqual(response.status_code, 405)
 
     def test_wrong_payload(self):
         '''

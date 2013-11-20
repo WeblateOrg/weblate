@@ -142,7 +142,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(response.status_code, 200)
         # Try to load PNG with PIL
         image = Image.open(StringIO(response.content))
-        self.assertEquals(image.format, 'PNG')
+        self.assertEqual(image.format, 'PNG')
 
     def assertBackend(self, expected_translated):
         '''
@@ -470,7 +470,7 @@ class EditTest(ViewTestCase):
 
         # Did the commit message got stored?
         translation = self.get_translation()
-        self.assertEquals(
+        self.assertEqual(
             'Fixing issue #666',
             translation.commit_message
         )
@@ -691,7 +691,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertEquals(len(self.get_unit().suggestions()), 2)
+        self.assertEqual(len(self.get_unit().suggestions()), 2)
 
     def test_delete(self):
         translate_url = self.get_translation().get_translate_url()
@@ -701,7 +701,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Get ids of created suggestions
         suggestions = [sug.pk for sug in self.get_unit().suggestions()]
-        self.assertEquals(len(suggestions), 2)
+        self.assertEqual(len(suggestions), 2)
 
         # Delete one of suggestions
         response = self.edit_unit(
@@ -724,7 +724,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertEquals(len(self.get_unit().suggestions()), 1)
+        self.assertEqual(len(self.get_unit().suggestions()), 1)
 
     def test_accept(self):
         translate_url = self.get_translation().get_translate_url()
@@ -734,7 +734,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Get ids of created suggestions
         suggestions = [sug.pk for sug in self.get_unit().suggestions()]
-        self.assertEquals(len(suggestions), 2)
+        self.assertEqual(len(suggestions), 2)
 
         # Accept one of suggestions
         response = self.edit_unit(
@@ -758,7 +758,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertBackend(1)
-        self.assertEquals(len(self.get_unit().suggestions()), 1)
+        self.assertEqual(len(self.get_unit().suggestions()), 1)
 
     def test_accept_anonymous(self):
         translate_url = self.get_translation().get_translate_url()
@@ -770,7 +770,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Get ids of created suggestion
         suggestions = list(self.get_unit().suggestions())
-        self.assertEquals(len(suggestions), 1)
+        self.assertEqual(len(suggestions), 1)
 
         self.assertIsNone(suggestions[0].user)
 

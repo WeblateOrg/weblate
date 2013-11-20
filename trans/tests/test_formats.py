@@ -43,9 +43,9 @@ class AutoFormatTest(TestCase):
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
-        self.assertEquals(storage.count_units(), self.COUNT)
-        self.assertEquals(storage.mimetype, self.MIME)
-        self.assertEquals(storage.extension, self.EXT)
+        self.assertEqual(storage.count_units(), self.COUNT)
+        self.assertEqual(storage.mimetype, self.MIME)
+        self.assertEqual(storage.extension, self.EXT)
 
     def test_find(self):
         storage = self.FORMAT(self.FILE)
@@ -54,7 +54,7 @@ class AutoFormatTest(TestCase):
         if self.COUNT == 0:
             self.assertTrue(unit is None)
         else:
-            self.assertEquals(unit.get_target(), u'Ahoj světe!\n')
+            self.assertEqual(unit.get_target(), u'Ahoj světe!\n')
 
     def test_add(self):
         if self.FORMAT.supports_new_language():

@@ -27,7 +27,7 @@ class ReportFilterTest(TestCase):
     def test_report_none(self):
         reporter = WeblateExceptionReporterFilter()
         result = reporter.get_request_repr(None)
-        self.assertEquals(
+        self.assertEqual(
             'None',
             result
         )
