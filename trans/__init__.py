@@ -34,9 +34,13 @@ def create_permissions_compat(app, **kwargs):
     from django.conf import settings
     from django.contrib.auth.management import create_permissions
     if app in ('trans', 'lang', 'accounts'):
-        create_permissions(
-            get_app(app), get_models(), 2 if settings.DEBUG else 0
-        )
+        try:
+            create_permissions(
+                get_app(app), get_models(), 2 if settings.DEBUG else 0
+            )
+        except AttributeError as error:
+            # See https://code.djangoproject.com/ticket/20442
+            print 'Failed to create permission objects: {0}'.format(error)
 
 
 @receiver(post_syncdb)
