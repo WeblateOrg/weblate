@@ -124,22 +124,22 @@ class EndStopCheck(TargetCheck):
         if not target:
             return False
         # Thai does not have a full stop
-        if self.is_language(unit, ['th']):
+        if self.is_language(unit, ('th', )):
             return False
-        if self.is_language(unit, ['ja']) and source[-1] in [':', ';']:
+        if self.is_language(unit, ('ja', )) and source[-1] in (':', ';'):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(
-                source, target, -1, [u';', u':', u'：', u'.', u'。']
+                source, target, -1, (u';', u':', u'：', u'.', u'。')
             )
         if self.is_language(unit, ['hi', 'bn']):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
             return self.check_chars(
-                source, target, -1, [u'.', u'।', u'|']
+                source, target, -1, (u'.', u'।', u'|')
             )
         return self.check_chars(
-            source, target, -1, [u'.', u'。', u'।', u'۔', u'։', u'·', u'෴']
+            source, target, -1, (u'.', u'。', u'।', u'۔', u'։', u'·', u'෴')
         )
 
 
@@ -158,7 +158,7 @@ class EndColonCheck(TargetCheck):
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
             return False
-        if self.is_language(unit, ['fr', 'br']):
+        if self.is_language(unit, ('fr', 'br')):
             if source[-1] == ':':
                 # Accept variant with trailing space as well
                 if target[-1] == ' ':
@@ -168,27 +168,27 @@ class EndColonCheck(TargetCheck):
                 if check_string not in self.colon_fr:
                     return True
             return False
-        if self.is_language(unit, ['hy']):
+        if self.is_language(unit, ('hy', )):
             if source[-1] == ':':
                 return self.check_chars(
                     source,
                     target,
                     -1,
-                    [u':', u'՝', u'`']
+                    (u':', u'՝', u'`')
                 )
             return False
-        if self.is_language(unit, ['ja']):
+        if self.is_language(unit, ('ja', )):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
-            if source[-1] in [':', ';']:
+            if source[-1] in (':', ';'):
                 return self.check_chars(
                     source,
                     target,
                     -1,
-                    [u';', u':', u'：', u'.', u'。']
+                    (u';', u':', u'：', u'.', u'。')
                 )
             return False
-        return self.check_chars(source, target, -1, [u':', u'：'])
+        return self.check_chars(source, target, -1, (u':', u'：'))
 
 
 class EndQuestionCheck(TargetCheck):
@@ -207,21 +207,21 @@ class EndQuestionCheck(TargetCheck):
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
             return False
-        if self.is_language(unit, ['fr', 'br']):
+        if self.is_language(unit, ('fr', 'br')):
             if source[-1] != '?':
                 return False
             return target[-2:] not in self.question_fr
 
-        if self.is_language(unit, ['hy']):
+        if self.is_language(unit, ('hy', )):
             if source[-1] == '?':
                 return self.check_chars(
                     source,
                     target,
                     -1,
-                    [u'?', u'՞']
+                    (u'?', u'՞')
                 )
             return False
-        if self.is_language(unit, ['el']):
+        if self.is_language(unit, ('el', )):
             if source[-1] != '?':
                 return False
             return target[-1] not in self.question_el
@@ -230,7 +230,7 @@ class EndQuestionCheck(TargetCheck):
             source,
             target,
             -1,
-            [u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺']
+            (u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺')
         )
 
 
@@ -249,20 +249,20 @@ class EndExclamationCheck(TargetCheck):
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
             return False
-        if self.is_language(unit, ['eu']):
+        if self.is_language(unit, ('eu', )):
             if source[-1] == '!':
                 if u'¡' in target and u'!' in target:
                     return False
-        if self.is_language(unit, ['hy']):
+        if self.is_language(unit, ('hy', )):
             if source[-1] == '!':
                 return self.check_chars(
                     source,
                     target,
                     -1,
-                    [u'!', u'՜', u'~']
+                    (u'!', u'՜', u'~')
                 )
             return False
-        if self.is_language(unit, ['fr', 'br']):
+        if self.is_language(unit, ('fr', 'br')):
             if source[-1] == '!':
                 if target[-2:] not in self.exclamation_fr:
                     return True
@@ -271,7 +271,7 @@ class EndExclamationCheck(TargetCheck):
             source,
             target,
             -1,
-            [u'!', u'！', u'՜', u'᥄', u'႟', u'߹']
+            (u'!', u'！', u'՜', u'᥄', u'႟', u'߹')
         )
 
 
@@ -289,7 +289,7 @@ class EndEllipsisCheck(TargetCheck):
         # Allow ... to be translated into ellipsis
         if source.endswith('...') and target[-1] == u'…':
             return False
-        return self.check_chars(source, target, -1, [u'…'])
+        return self.check_chars(source, target, -1, (u'…', ))
 
 
 class NewlineCountingCheck(CountingCheck):
