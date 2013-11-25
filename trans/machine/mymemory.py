@@ -38,7 +38,7 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         Almost any language without modifiers is supported.
         '''
-        if language in ('ia', 'tt'):
+        if language in ('ia', 'tt', 'ug'):
             return False
         return '@' not in language and len(language) == 2
 
