@@ -123,6 +123,9 @@ class EndStopCheck(TargetCheck):
             return False
         if not target:
             return False
+        # Thai does not have a full stop
+        if self.is_language(unit, ['th']):
+            return False
         if self.is_language(unit, ['ja']) and source[-1] in [':', ';']:
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
