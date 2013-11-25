@@ -36,8 +36,10 @@ class MyMemoryTranslation(MachineTranslation):
 
     def is_supported(self, language):
         '''
-        Any language without modifiers is supported.
+        Almost any language without modifiers is supported.
         '''
+        if language in ('ia',):
+            return False
         return '@' not in language and len(language) == 2
 
     def format_match(self, match):
