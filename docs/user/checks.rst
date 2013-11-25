@@ -113,7 +113,7 @@ Trailing ellipsis
 ~~~~~~~~~~~~~~~~~
 
 Source and translation do not both end with an ellipsis. This only checks for
-real ellipsis (`\u2026`) not for three commas (`...`).
+real ellipsis (``…``) not for three commas (``...``).
 
 .. seealso:: https://en.wikipedia.org/wiki/Ellipsis
 
@@ -232,7 +232,7 @@ For example with Gettext in Python it could be:
 Ellipsis
 ~~~~~~~~
 
-The string uses three dots (...) instead of an ellipsis character (…). Using
+The string uses three dots (``...``) instead of an ellipsis character (``…``). Using
 Unicode character is in most cases better approach and looks better.
 
 .. seealso:: https://en.wikipedia.org/wiki/Ellipsis
