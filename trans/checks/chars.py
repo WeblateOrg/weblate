@@ -139,7 +139,7 @@ class EndStopCheck(TargetCheck):
                 source, target, -1, [u'.', u'।', u'|']
             )
         return self.check_chars(
-            source, target, -1, [u'.', u'。', u'।', u'۔', u'։', u'·']
+            source, target, -1, [u'.', u'。', u'।', u'۔', u'։', u'·', u'෴']
         )
 
 
