@@ -114,7 +114,7 @@ OPENTRAN_JSON = u'''
 [{
     "count":4,
     "projects":[{
-        "count":4,"flags":0,"name":"KDE","orig_phrase":"World",
+        "count":4,"flags":0,"name":"KDE","orig_phrase":"	World",
         "path":"K/step_qt"
     }],
     "text":"Svět","value":1

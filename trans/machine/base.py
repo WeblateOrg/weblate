@@ -92,6 +92,8 @@ class MachineTranslation(object):
         # Needed for Microsoft
         if text.startswith('\xef\xbb\xbf'):
             text = text.decode('UTF-8-sig')
+        # Replace literal \t
+        text = text.replace('\t', '\\t')
         # Needed for Google
         while ',,' in text:
             text = text.replace(',,', ',null,')
