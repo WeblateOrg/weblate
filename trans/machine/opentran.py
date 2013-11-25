@@ -48,7 +48,7 @@ class OpenTranTranslation(MachineTranslation):
         '''
         return (
             match['text'],
-            100 - (match['value'] - 1) * 20,
+            100 - (match['value']) * 20,
             '%s (%s)' % (self.name, match['projects'][0]['name']),
             match['projects'][0]['orig_phrase'],
         )
