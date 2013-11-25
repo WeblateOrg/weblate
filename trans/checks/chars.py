@@ -132,7 +132,7 @@ class EndStopCheck(TargetCheck):
             return self.check_chars(
                 source, target, -1, [u';', u':', u'：', u'.', u'。']
             )
-        if self.is_language(unit, ['hi']):
+        if self.is_language(unit, ['hi', 'bn']):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
             return self.check_chars(
