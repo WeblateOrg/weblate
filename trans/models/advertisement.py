@@ -65,7 +65,7 @@ class AdvertisementManager(models.Manager):
                 placement=placement,
                 text=text
             )
-        elif placement == Advertisement.PLACEMENT_MAIL_TEXT:
+        elif placement == Advertisement.PLACEMENT_MAIL_HTML:
             text = random.choice([
                 '<a href="{0}">{1}</a>'.format(
                     _('Donate to Weblate'),
