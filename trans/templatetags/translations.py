@@ -450,7 +450,7 @@ def get_advertisement_text_mail():
         Advertisement.PLACEMENT_MAIL_TEXT
     )
     if advertisement is None:
-        return None
+        return ''
     return advertisement.text
 
 
@@ -463,5 +463,5 @@ def get_advertisement_html_mail():
         Advertisement.PLACEMENT_MAIL_HTML
     )
     if advertisement is None:
-        return None
+        return ''
     return mark_safe(advertisement.text)
