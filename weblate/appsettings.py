@@ -158,3 +158,6 @@ REGISTRATION_CAPTCHA = get('REGISTRATION_CAPTCHA', True)
 
 # Source language
 SOURCE_LANGUAGE = get('SOURCE_LANGUAGE', 'en')
+
+# Self advertisement
+SELF_ADVERTISEMENT = get('SELF_ADVERTISEMENT', False)

@@ -53,3 +53,4 @@ from trans.tests.test_naturaldate import *
 from trans.tests.test_remote import *
 from trans.tests.test_selenium import *
 from trans.tests.test_debug import *
+from trans.tests.test_advertisement import *

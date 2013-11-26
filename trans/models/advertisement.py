@@ -22,21 +22,68 @@ import random
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.db import models
 from django.utils import timezone
+from weblate import appsettings
+
+DONATE = 'http://weblate.org/donate/'
+GITTIP = 'https://www.gittip.com/nijel/'
 
 
 class AdvertisementManager(models.Manager):
     def get_advertisement(self, placement):
+        '''
+        Returns random advertisement for given placement.
+        '''
         now = timezone.now()
         base = self.filter(
             placement=placement,
-            date_start__lt=now,
-            date_end__gt=now
+            date_start__lte=now,
+            date_end__gte=now
         )
         count = base.count()
         if count == 0:
-            return None
+            return self.fallback_advertisement(placement)
         offset = random.randint(0, count - 1)
         return base[offset]
+
+    def fallback_advertisement(self, placement):
+        '''
+        Returns fallback advertisement.
+        '''
+        if not appsettings.SELF_ADVERTISEMENT:
+            return None
+
+        now = timezone.now()
+
+        if placement == Advertisement.PLACEMENT_MAIL_TEXT:
+            text = random.choice([
+                _('Donate to Weblate at {0}').format(DONATE),
+                _('Support Weblate at {0}').format(GITTIP),
+            ])
+            return Advertisement(
+                date_start=now,
+                date_end=now,
+                placement=placement,
+                text=text
+            )
+        elif placement == Advertisement.PLACEMENT_MAIL_TEXT:
+            text = random.choice([
+                '<a href="{0}">{1}</a>'.format(
+                    _('Donate to Weblate'),
+                    DONATE,
+                ),
+                '<a href="{0}">{1}</a>'.format(
+                    _('Support Weblate using GitTip'),
+                    GITTIP,
+                ),
+            ])
+            return Advertisement(
+                date_start=now,
+                date_end=now,
+                placement=placement,
+                text=text
+            )
+
+        return None
 
 
 class Advertisement(models.Model):
@@ -71,6 +118,8 @@ class Advertisement(models.Model):
         ),
         blank=True
     )
+
+    objects = AdvertisementManager()
 
     class Meta(object):
         app_label = 'trans'
