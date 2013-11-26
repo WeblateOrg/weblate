@@ -40,7 +40,7 @@ from trans.util import (
     split_plural, avatar_for_email, get_user_display
 )
 from lang.models import Language
-from trans.models import Project, SubProject, Dictionary
+from trans.models import Project, SubProject, Dictionary, Advertisement
 from trans.checks import CHECKS
 
 register = template.Library()
@@ -439,3 +439,29 @@ def naturaltime(value, now=None):
             return ungettext(
                 '%(count)s hour from now', '%(count)s hours from now', count
             ) % {'count': count}
+
+
+@register.simple_tag
+def get_advertisement_text_mail():
+    '''
+    Returns advertisement text.
+    '''
+    advertisement = Advertisement.objects.get_advertisement(
+        Advertisement.PLACEMENT_MAIL_TEXT
+    )
+    if advertisement is None:
+        return None
+    return advertisement.text
+
+
+@register.simple_tag
+def get_advertisement_html_mail():
+    '''
+    Returns advertisement text.
+    '''
+    advertisement = Advertisement.objects.get_advertisement(
+        Advertisement.PLACEMENT_MAIL_HTML
+    )
+    if advertisement is None:
+        return None
+    return mark_safe(advertisement.text)
