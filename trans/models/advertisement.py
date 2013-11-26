@@ -92,7 +92,7 @@ class Advertisement(models.Model):
 
     PLACEMENT_CHOICES = (
         (PLACEMENT_MAIL_TEXT, ugettext_lazy('Mail footer (text)')),
-        (PLACEMENT_MAIL_HTML,  ugettext_lazy('Mail footer (HTML)')),
+        (PLACEMENT_MAIL_HTML, ugettext_lazy('Mail footer (HTML)')),
     )
 
     placement = models.IntegerField(
