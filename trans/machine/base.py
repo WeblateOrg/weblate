@@ -190,6 +190,8 @@ class MachineTranslation(object):
         Returns list of machine translations.
         '''
         language = self.convert_language(language)
+        if text == '':
+            return []
         if not self.is_supported(language):
             return []
 
