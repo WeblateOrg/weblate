@@ -69,7 +69,7 @@ class TMServerTranslation(MachineTranslation):
             self.url,
             urllib.quote(appsettings.SOURCE_LANGUAGE),
             urllib.quote(language),
-            urllib.quote(text.encode('utf-8')),
+            urllib.quote(text[:500].encode('utf-8')),
         )
         response = self.json_req(url)
 
