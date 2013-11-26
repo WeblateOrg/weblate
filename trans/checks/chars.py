@@ -126,6 +126,9 @@ class EndStopCheck(TargetCheck):
         # Thai does not have a full stop
         if self.is_language(unit, ('th', )):
             return False
+        # Allow ... to be translated into ellipsis
+        if source.endswith('...') and target[-1] == u'…':
+            return False
         if self.is_language(unit, ('ja', )) and source[-1] in (':', ';'):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
