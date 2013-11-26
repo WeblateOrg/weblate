@@ -138,7 +138,8 @@ SAME_BLACKLIST = frozenset((
     'engine',
     'engines',
     'enterprise',
-    'esperanto',
+    'error',
+    'eu',
     'exchange',
     'expert',
     'export',
@@ -197,6 +198,7 @@ SAME_BLACKLIST = frozenset((
     'hostname',
     'html',
     'http',
+    'hut',
     'hyperlink',
     'icon',
     'icons',
@@ -244,6 +246,7 @@ SAME_BLACKLIST = frozenset((
     'km',
     'knoppix',
     'label',
+    'land',
     'latex',
     'latin',
     'latitude',
@@ -316,8 +319,11 @@ SAME_BLACKLIST = frozenset((
     'office',
     'ok',
     'online',
+    'opac',
     'open',
     'opendocument',
+    'openmaps',
+    'openstreet',
     'opensuse',
     'openvpn',
     'opera',
@@ -326,6 +332,8 @@ SAME_BLACKLIST = frozenset((
     'options',
     'orientation',
     'os',
+    'osm',
+    'osmand',
     'output',
     'overhead',
     'package',
@@ -339,11 +347,13 @@ SAME_BLACKLIST = frozenset((
     'pdf',
     'pdu',
     'percent',
+    'perfume',
     'personal',
     'performance',
     'php',
     'phpmyadmin',
     'pib',
+    'pirate',
     'plan',
     'playlist',
     'plugin',
@@ -395,6 +405,7 @@ SAME_BLACKLIST = frozenset((
     'routines',
     'rss',
     'rtl',
+    'salt',
     'saver',
     'scalable',
     'scenario',
@@ -413,6 +424,8 @@ SAME_BLACKLIST = frozenset((
     'shell',
     'sim',
     'singular',
+    'slot',
+    'slots',
     'slug',
     'sms',
     'smsc',
@@ -450,6 +463,7 @@ SAME_BLACKLIST = frozenset((
     'tables',
     'tada',
     'tbx',
+    'tent',
     'termbase',
     'test',
     'texy',
@@ -508,6 +522,7 @@ SAME_BLACKLIST = frozenset((
     'yd',
     'zero',
     'zip',
+    'zoom',
 
     # Months are same in some languages
     'january',
@@ -821,7 +836,13 @@ class SameCheck(TargetCheck):
 
         # Replace punctation by whitespace for splitting
         stripped = stripped.replace(
+            '_', ' '
+        ).replace(
             ',', ' '
+        ).replace(
+            '\\', ' '
+        ).replace(
+            '/', ' '
         )
 
         return stripped

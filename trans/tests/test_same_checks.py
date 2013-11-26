@@ -365,3 +365,17 @@ class SameCheckTest(CheckTestCase):
                 ''
             )
         )
+
+    def test_same_alphabet(self):
+        self.do_test(
+            False,
+            (
+                "!\"#$%%&amp;'()*+,-./0123456789:;&lt;=&gt;?@"
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`"
+                "abcdefghijklmnopqrstuvwxyz{|}~",
+                "!\"#$%%&amp;'()*+,-./0123456789:;&lt;=&gt;?@"
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`"
+                "abcdefghijklmnopqrstuvwxyz{|}~",
+                '',
+            )
+        )
