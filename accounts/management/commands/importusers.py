@@ -37,6 +37,8 @@ class Command(BaseCommand):
         data = json.load(open(args[0]))
 
         for line in data:
+            if 'fields' in line:
+                line = line['fields']
             if User.objects.filter(username=line['username']).exists():
                 print('Skipping {}, username exists'.format(line['username']))
                 continue
