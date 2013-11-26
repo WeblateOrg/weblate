@@ -821,7 +821,13 @@ class SameCheck(TargetCheck):
 
         # Replace punctation by whitespace for splitting
         stripped = stripped.replace(
+            '_', ' '
+        ).replace(
             ',', ' '
+        ).replace(
+            '\\', ' '
+        ).replace(
+            '/', ' '
         )
 
         return stripped
