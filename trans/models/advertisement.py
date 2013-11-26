@@ -97,16 +97,16 @@ class Advertisement(models.Model):
 
     placement = models.IntegerField(
         choices=PLACEMENT_CHOICES,
-        verbose_name=ugettext_lazy('Advertisement placement'),
+        verbose_name=ugettext_lazy('Placement'),
     )
     date_start = models.DateField(
-        verbose_name=ugettext_lazy('Advertisement start date'),
+        verbose_name=ugettext_lazy('Start date'),
     )
     date_end = models.DateField(
-        verbose_name=ugettext_lazy('Advertisement end date'),
+        verbose_name=ugettext_lazy('End date'),
     )
     text = models.TextField(
-        verbose_name=ugettext_lazy('Advertisement text'),
+        verbose_name=ugettext_lazy('Text'),
         help_text=ugettext_lazy(
             'Depending on placement, HTML can be allowed.'
         )
