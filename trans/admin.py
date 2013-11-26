@@ -21,7 +21,7 @@
 from django.contrib import admin
 from django.conf import settings
 from trans.models import (
-    Project, SubProject, Translation,
+    Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change
 )
 
@@ -187,9 +187,17 @@ class ChangeAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = ('unit',)
 
+
+class AdvertisementAdmin(admin.ModelAdmin):
+    list_display = ['placement', 'date_start', 'date_end', 'text']
+    search_fields = ['text', 'note']
+    date_hiearchy = 'date_end'
+
+
 # Register in admin interface
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(SubProject, SubProjectAdmin)
+admin.site.register(Advertisement, AdvertisementAdmin)
 
 # Show some controls only in debug mode
 if settings.DEBUG:

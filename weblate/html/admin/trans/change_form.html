@@ -3,8 +3,12 @@
 {% load translations %}
 
 {% block form_top %}
-{% if opts.module_name == 'project' or opts.module_name == 'subproject' %}
+{% if opts.module_name == 'project' or opts.module_name == 'subproject' or opts.module_name == 'advertisement' %}
+{% if opts.module_name == 'advertisement' %}
+{% doc_url 'admin/advertisement' as url %}
+{% else %}
 {% doc_url 'admin/projects' opts.module_name as url %}
+{% endif %}
 <p>{% blocktrans %}Required fields are marked as bold, you can find more information in the <a href="{{ url }}">documentation</a>.{% endblocktrans %}</p>
 {% else %}
 <p class="errornote">{% blocktrans %}Do not change this object here, please use Weblate interface instead.{% endblocktrans %}</p>

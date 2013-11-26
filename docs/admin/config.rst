@@ -338,6 +338,15 @@ A boolean (either ``True`` or ``False``) indicating whether registration of new
 accounts is currently permitted. This setting is optional, and a default of
 True will be assumed if it is not supplied.
 
+.. setting:: SELF_ADVERTISEMENT
+
+SELF_ADVERTISEMENT
+------------------
+
+Enables self advertisement of Weblate in case there are no configured ads.
+
+.. seealso:: :ref:`advertisement`
+
 .. setting:: SITE_TITLE
 
 SITE_TITLE

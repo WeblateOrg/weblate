@@ -14,3 +14,4 @@ Administrators guide
     machine
     config
     management
+    advertisement
