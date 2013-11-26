@@ -158,8 +158,8 @@ class Migration(DataMigration):
             'web': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         },
         'trans.source': {
-            'Meta': {'object_name': 'Source'},
-            'checksum': ('django.db.models.fields.CharField', [], {'max_length': '40', 'db_index': 'True'}),
+            'Meta': {'unique_together': "(('checksum', 'subproject'),)", 'object_name': 'Source'},
+            'checksum': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'subproject': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['trans.SubProject']"}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
