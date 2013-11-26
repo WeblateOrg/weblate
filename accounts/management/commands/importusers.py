@@ -38,7 +38,10 @@ class Command(BaseCommand):
 
         for line in data:
             if User.objects.filter(username=line['username']).exists():
-                print('Skipping {}'.format(line['username']))
+                print('Skipping {}, username exists'.format(line['username']))
+                continue
+            if User.objects.filter(email=line['email']).exists():
+                print('Skipping {}, email exists'.format(line['email']))
                 continue
             User.objects.create(
                 username=line['username'],
