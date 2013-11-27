@@ -3,7 +3,7 @@
 {% load static %}
 
 {% for unit in unitdata %}
-<tr>
+<tr id="row-status-{{ unit.0.checksum }}">
 <td>{{ unit.0.position }}</td>
 <td>
 {{ unit.0.get_location_links }}
@@ -15,7 +15,7 @@
 <a href="{{ unit.0.get_absolute_url }}" class="menu-float small-button button" title="{% trans "Open in full editor" %}">{% trans "Edit" %}</a>
 </td>
 </tr>
-<tr>
+<tr id="row-edit-{{ unit.0.checksum }}">
 <td></td>
 <td class="translatetext">{{ unit.0.source|fmtsearchmatch:search_query }}</td>
 <td class="translator">

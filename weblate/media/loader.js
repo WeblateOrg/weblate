@@ -425,6 +425,7 @@ $(function () {
         }, 19000);
     }
     if ($('.zen').length > 0) {
+        var lastrow = null;
         $(window).scroll(function(){
             if ($(window).scrollTop() >= $(document).height() - (2 * $(window).height())) {
                 if ($('#last-section').length > 0 || $('#loading-next').css('display') != 'none') {
@@ -448,9 +449,10 @@ $(function () {
             var $this = $(this);
             var $row = $this.parents('tr');
             $row.addClass('translation-modified');
-            if ($this.attr('id') == $row.find('.translation-editor:last').attr('id')) {
+            if (lastrow != $row.attr('id')) {
                 console.log('should save!');
             }
+            lastrow = $row.attr('id');
         });
     }
 });
