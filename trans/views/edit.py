@@ -233,6 +233,57 @@ def perform_suggestion(unit, form, request):
     return True
 
 
+def perform_translation(unit, form, request):
+    '''
+    Handles translation and stores it to a backend.
+    '''
+    # Remember old checks
+    oldchecks = set(
+        unit.active_checks().values_list('check', flat=True)
+    )
+
+    # Run AutoFixes on user input
+    new_target, fixups = fix_target(form.cleaned_data['target'], unit)
+
+    # Save
+    saved = unit.translate(
+        request,
+        new_target,
+        form.cleaned_data['fuzzy']
+    )
+
+    # Warn about applied fixups
+    if len(fixups) > 0:
+        messages.info(
+            request,
+            _('Following fixups were applied to translation: %s') %
+            ', '.join([unicode(f) for f in fixups])
+        )
+
+    # Get new set of checks
+    newchecks = set(
+        unit.active_checks().values_list('check', flat=True)
+    )
+
+    # Did we introduce any new failures?
+    if saved and newchecks > oldchecks:
+        # Show message to user
+        messages.error(
+            request,
+            _(
+                'Some checks have failed on your translation: {0}'
+            ).format(
+                ', '.join(
+                    [unicode(CHECKS[check].name) for check in newchecks]
+                )
+            )
+        )
+        # Stay on same entry
+        return False
+
+    return True
+
+
 def handle_translate(translation, request, user_locked,
                      this_unit_url, next_unit_url):
     '''
@@ -277,49 +328,7 @@ def handle_translate(translation, request, user_locked,
             unit.translation.commit_message = request.POST['commit_message']
             unit.translation.save()
 
-        # Remember old checks
-        oldchecks = set(
-            unit.active_checks().values_list('check', flat=True)
-        )
-
-        # Run AutoFixes on user input
-        new_target, fixups = fix_target(form.cleaned_data['target'], unit)
-
-        # Save
-        saved = unit.translate(
-            request,
-            new_target,
-            form.cleaned_data['fuzzy']
-        )
-
-        # Warn about applied fixups
-        if len(fixups) > 0:
-            messages.info(
-                request,
-                _('Following fixups were applied to translation: %s') %
-                ', '.join([unicode(f) for f in fixups])
-            )
-
-        # Get new set of checks
-        newchecks = set(
-            unit.active_checks().values_list('check', flat=True)
-        )
-
-        # Did we introduce any new failures?
-        if saved and newchecks > oldchecks:
-            # Show message to user
-            messages.error(
-                request,
-                _(
-                    'Some checks have failed on your translation: {0}'
-                ).format(
-                    ', '.join(
-                        [unicode(CHECKS[check].name) for check in newchecks]
-                    )
-                )
-            )
-            # Stay on same entry
-            return HttpResponseRedirect(this_unit_url)
+        go_next = perform_translation(unit, form, request)
 
     # Redirect to next entry
     if go_next:
