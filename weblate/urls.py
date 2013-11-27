@@ -587,6 +587,11 @@ urlpatterns = patterns(
         'trans.views.js.git_status_translation',
         name='git_status_translation',
     ),
+    url(
+        r'^js/zen/' + TRANSLATION + '$',
+        'trans.views.edit.load_zen',
+        name='load_zen',
+    ),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

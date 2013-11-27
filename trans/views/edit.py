@@ -672,6 +672,35 @@ def comment(request, pk):
     return redirect(request.POST.get('next', translation))
 
 
+def get_zen_unitdata(translation, request):
+    '''
+    Loads unit data for zen mode.
+    '''
+    # Search results
+    search_result = search(translation, request)
+
+    # Search offset
+    try:
+        offset = int(request.GET.get('offset', 0))
+    except ValueError:
+        offset = 0
+
+    # Handle redirects
+    if isinstance(search_result, HttpResponse):
+        return search_result
+
+    units = translation.unit_set.filter(
+        pk__in=search_result['ids'][offset:offset + 20]
+    )
+
+    unitdata = [
+        (unit, TranslationForm(translation, unit=unit))
+        for unit in units
+    ]
+
+    return search_result, unitdata
+
+
 def zen(request, project, subproject, lang):
     '''
     Generic entry point for translating, suggesting and searching.
@@ -684,18 +713,7 @@ def zen(request, project, subproject, lang):
     )
     locked = project_locked or user_locked
 
-    # Search results
-    search_result = search(translation, request)
-
-    # Handle redirects
-    if isinstance(search_result, HttpResponse):
-        return search_result
-
-    units = translation.unit_set.filter(pk__in=search_result['ids'])
-    unitdata = [
-        (unit, TranslationForm(translation, unit=unit))
-        for unit in units
-    ]
+    search_result, unitdata = get_zen_unitdata(translation, request)
 
     return render_to_response(
         'zen.html',
@@ -707,6 +725,26 @@ def zen(request, project, subproject, lang):
                 'search_query': search_result['query'],
                 'filter_name': search_result['name'],
                 'filter_count': len(search_result['ids']),
+            }
+        )
+    )
+
+
+def load_zen(request, project, subproject, lang):
+    '''
+    Loads additional units for zen editor.
+    '''
+    translation = get_translation(request, project, subproject, lang)
+    search_result, unitdata = get_zen_unitdata(translation, request)
+
+    return render_to_response(
+        'zen-units.html',
+        RequestContext(
+            request,
+            {
+                'translation': translation,
+                'unitdata': unitdata,
+                'search_query': search_result['query'],
             }
         )
     )

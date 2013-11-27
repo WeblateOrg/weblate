@@ -421,4 +421,22 @@ $(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
     }
+    if ($('.zen').length > 0) {
+        $(window).scroll(function(){
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                $('#loading-next').show();
+
+                var loader = $('#zen-load');
+                loader.data('offset', 20 + parseInt(loader.data('offset')));
+
+                $.get(
+                    loader.attr('href') + '?offset=' + loader.data('offset'),
+                    function (data) {
+                        $('#loading-next').hide();
+                        $('.zen tbody').append(data);
+                    }
+                );
+            }
+        });
+    }
 });
