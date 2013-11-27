@@ -277,6 +277,9 @@ def handle_translate(translation, request, user_locked,
 
         # Custom commit message
         if 'commit_message' in request.POST and request.POST['commit_message']:
+            # Commit pending changes so that they don't get new message
+            unit.translation.commit_pending(request, request.user)
+            # Store new commit message
             unit.translation.commit_message = request.POST['commit_message']
             unit.translation.save()
 
@@ -305,7 +308,13 @@ def handle_translate(translation, request, user_locked,
             # Show message to user
             messages.error(
                 request,
-                _('Some checks have failed on your translation!')
+                _(
+                    'Some checks have failed on your translation: {0}'
+                ).format(
+                    ', '.join(
+                        [unicode(CHECKS[check].name) for check in newchecks]
+                    )
+                )
             )
             # Stay on same entry
             return HttpResponseRedirect(this_unit_url)
