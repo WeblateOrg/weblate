@@ -426,8 +426,8 @@ $(function () {
     }
     if ($('.zen').length > 0) {
         $(window).scroll(function(){
-            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                if ($('#last-section').length > 0) {
+            if ($(window).scrollTop() >= $(document).height() - (2 * $(window).height())) {
+                if ($('#last-section').length > 0 || $('#loading-next').css('display') != 'none') {
                     return;
                 }
                 $('#loading-next').show();
