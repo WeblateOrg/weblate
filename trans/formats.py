@@ -175,6 +175,11 @@ class FileUnit(object):
         '''
         if self.unit is None:
             return ''
+        if (isinstance(self.unit, tsunit)
+                and not self.unit.isreview()
+                and not self.unit.istranslated()):
+            # For Qt ts, empty translated string means source should be used
+            return self.get_source()
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.unit, propunit):
@@ -258,6 +263,9 @@ class FileUnit(object):
             return False
         if self.is_unit_key_value():
             return not self.unit.isfuzzy() and self.unit.value != ''
+        elif isinstance(self.mainunit, tsunit):
+            # For Qt ts, empty translated string means source should be used
+            return not self.unit.isreview() or self.unit.istranslated()
         else:
             return self.unit.istranslated()
 

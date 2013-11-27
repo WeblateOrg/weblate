@@ -357,8 +357,23 @@ class SubProjectTest(RepoTestCase):
     def test_create_ts(self):
         project = self.create_ts()
         self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+
         unit = Unit.objects.get(source__startswith='Orangutan')
-        self.assertTrue(unit.is_plural)
+        self.assertTrue(unit.is_plural())
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
+        unit = Unit.objects.get(source__startswith='Hello')
+        self.assertFalse(unit.is_plural())
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(unit.target, 'Hello, world!')
+
+        unit = Unit.objects.get(source__startswith='Thank ')
+        self.assertFalse(unit.is_plural())
+        self.assertFalse(unit.translated)
+        self.assertTrue(unit.fuzzy)
+        self.assertEqual(unit.target, 'Thanks')
 
     def test_create_po_pot(self):
         project = self._create_subproject(
