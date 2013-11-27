@@ -247,8 +247,11 @@ $(function () {
     $('#button-prev').button({text: false, icons: { primary: "ui-icon-seek-prev" }});
     $('#button-end').button({text: false, icons: { primary: "ui-icon-seek-end" }});
     $('#navi .button-disabled').button('disable');
-    $('.translation-editor').change(text_change).keypress(text_change).autogrow();
-    $('.translation-editor').focus();
+    var translation_editor = $('.translation-editor');
+    if (translation_editor.length > 0) {
+        translation-editor.change(text_change).keypress(text_change).autogrow();
+        translation-editor.get(0).focus();
+    }
     $('#toggle-direction').buttonset().change(function (e) {
         $('.translation-editor').attr('dir', $("#toggle-direction :radio:checked").attr('value')).focus();
     });
