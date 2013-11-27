@@ -696,7 +696,11 @@ def get_zen_unitdata(translation, request):
     )
 
     unitdata = [
-        (unit, TranslationForm(translation, unit=unit))
+        (unit, TranslationForm(
+            translation,
+            unit,
+            auto_id='id_{0}_%s'.format(unit.checksum)
+        ))
         for unit in units
     ]
 
