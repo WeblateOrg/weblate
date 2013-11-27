@@ -689,6 +689,8 @@ def get_zen_unitdata(translation, request):
     if isinstance(search_result, HttpResponse):
         return search_result
 
+    search_result['last_section'] = offset + 20 >= len(search_result['ids'])
+
     units = translation.unit_set.filter(
         pk__in=search_result['ids'][offset:offset + 20]
     )
@@ -725,6 +727,7 @@ def zen(request, project, subproject, lang):
                 'search_query': search_result['query'],
                 'filter_name': search_result['name'],
                 'filter_count': len(search_result['ids']),
+                'last_section':  search_result['last_section'],
             }
         )
     )
@@ -745,6 +748,7 @@ def load_zen(request, project, subproject, lang):
                 'translation': translation,
                 'unitdata': unitdata,
                 'search_query': search_result['query'],
+                'last_section':  search_result['last_section'],
             }
         )
     )

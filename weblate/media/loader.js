@@ -424,6 +424,9 @@ $(function () {
     if ($('.zen').length > 0) {
         $(window).scroll(function(){
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                if ($('#last-section').length > 0) {
+                    return;
+                }
                 $('#loading-next').show();
 
                 var loader = $('#zen-load');

@@ -30,3 +30,8 @@
 </tr>
 {% endfor %}
 
+{% if last_section %}
+<tr><td colspan="3" id="last-section">
+{% show_message 'info' _('You have reached end of translation.') %}
+</td></tr>
+{% endif %}
