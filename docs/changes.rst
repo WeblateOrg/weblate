@@ -9,6 +9,7 @@ Released on ? 2013.
 * Django 1.6 compatibility.
 * No longer maintained compatibility with Django 1.4.
 * Management commands for locking/unlocking translations.
+* Improved support for Qt TS files.
 
 weblate 1.8
 -----------
