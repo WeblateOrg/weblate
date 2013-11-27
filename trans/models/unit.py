@@ -30,7 +30,6 @@ from trans.checks import CHECKS
 from trans.models.translation import Translation
 from trans.models.source import Source
 from trans.search import update_index_unit, fulltext_search, more_like
-from trans.autofixes import fix_target
 
 from trans.filelock import FileLockException
 from trans.util import is_plural, split_plural, join_plural
@@ -980,15 +979,12 @@ class Unit(models.Model):
         '''
         Stores new translation of a unit.
         '''
-        # Run AutoFixes on user input
-        new_target, fixups = fix_target(new_target, self)
-
         # Update unit and save it
         self.target = join_plural(new_target)
         self.fuzzy = new_fuzzy
         saved = self.save_backend(request)
 
-        return saved, fixups
+        return saved
 
     @property
     def all_flags(self):

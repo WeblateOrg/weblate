@@ -30,6 +30,7 @@ import time
 
 from trans.models import SubProject, Unit, Change
 from trans.models.unitdata import Comment, Suggestion
+from trans.autofixes import fix_target
 from trans.forms import (
     TranslationForm, SearchForm,
     MergeForm, AutoForm, ReviewForm,
@@ -283,10 +284,13 @@ def handle_translate(translation, request, user_locked,
             unit.active_checks().values_list('check', flat=True)
         )
 
+        # Run AutoFixes on user input
+        new_target, fixups = fix_target(form.cleaned_data['target'], unit)
+
         # Save
-        saved, fixups = unit.translate(
+        saved = unit.translate(
             request,
-            form.cleaned_data['target'],
+            new_target,
             form.cleaned_data['fuzzy']
         )
 
