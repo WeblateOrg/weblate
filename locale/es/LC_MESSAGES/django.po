@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-26 11:42+0100\n"
+"POT-Creation-Date: 2013-11-27 08:59+0100\n"
 "PO-Revision-Date: 2013-11-26 14:09+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -701,11 +701,11 @@ msgstr ""
 msgid "translated"
 msgstr "traducido"
 
-#: trans/autofixes/chars.py:30 trans/checks/chars.py:283
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:286
 msgid "Trailing ellipsis"
 msgstr "Puntos suspensivos al final"
 
-#: trans/autofixes/chars.py:43 trans/checks/chars.py:310
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:313
 msgid "Zero-width space"
 msgstr "Espacio de ancho cero"
 
@@ -754,11 +754,11 @@ msgstr "Punto final"
 msgid "Source and translation do not both end with a full stop"
 msgstr "Sólo uno de original y traducción termina con un punto"
 
-#: trans/checks/chars.py:151
+#: trans/checks/chars.py:154
 msgid "Trailing colon"
 msgstr "Dos puntos al final"
 
-#: trans/checks/chars.py:153
+#: trans/checks/chars.py:156
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -766,11 +766,11 @@ msgstr ""
 "Sólo uno de original y traducción termina con dos puntos o éste se encuentra "
 "incorrectamente espaciado"
 
-#: trans/checks/chars.py:199
+#: trans/checks/chars.py:202
 msgid "Trailing question"
 msgstr "Signo de interrogación al final"
 
-#: trans/checks/chars.py:201
+#: trans/checks/chars.py:204
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -778,11 +778,11 @@ msgstr ""
 "Sólo uno de original y traducción termina con signo de interrogación o éste "
 "no está correctamente espaciado"
 
-#: trans/checks/chars.py:242
+#: trans/checks/chars.py:245
 msgid "Trailing exclamation"
 msgstr "Signo de exclamación al final"
 
-#: trans/checks/chars.py:244
+#: trans/checks/chars.py:247
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -790,21 +790,21 @@ msgstr ""
 "Sólo uno de original y traducción termina con un signo de exclamación o éste "
 "no está correctamente espaciado"
 
-#: trans/checks/chars.py:284
+#: trans/checks/chars.py:287
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Sólo uno de original y traducción finaliza con puntos suspensivos"
 
-#: trans/checks/chars.py:301
+#: trans/checks/chars.py:304
 msgid "Mismatched \\n"
 msgstr "Diferencias de \\n"
 
-#: trans/checks/chars.py:302
+#: trans/checks/chars.py:305
 msgid "Number of \\n in translation does not match source"
 msgstr ""
 "La cantidad de \\n en la traducción no corresponde con la cantidad en el "
 "original"
 
-#: trans/checks/chars.py:311
+#: trans/checks/chars.py:314
 msgid "Translation contains extra zero-width space character"
 msgstr "La traducción contiene espacios de ancho cero extras"
 
@@ -862,11 +862,11 @@ msgid "XML tags in translation do not match source"
 msgstr ""
 "Las etiquetas XML en la traducción no coincide con aquellas en el original"
 
-#: trans/checks/same.py:741
+#: trans/checks/same.py:764
 msgid "Not translated"
 msgstr "Sin traducir"
 
-#: trans/checks/same.py:742
+#: trans/checks/same.py:765
 msgid "Source and translated strings are same"
 msgstr "La cadena original y la traducida son iguales"
 
@@ -900,7 +900,6 @@ msgstr "Las traducciones en varios idiomas tienen chequeos fallidos"
 
 #: trans/models/advertisement.py:59
 #, python-brace-format
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate at {0}"
 msgstr "Done a Weblate en {0}"
 
@@ -910,7 +909,6 @@ msgid "Support Weblate at {0}"
 msgstr "Soporte a Weblate en {0}"
 
 #: trans/models/advertisement.py:71
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate"
 msgstr "Donar a Weblate"
 
@@ -927,12 +925,10 @@ msgid "Mail footer (HTML)"
 msgstr "Pie del correo (HTML)"
 
 #: trans/models/advertisement.py:100
-#| msgid "Papiamento"
 msgid "Placement"
 msgstr "Ubicación"
 
 #: trans/models/advertisement.py:103
-#| msgid "Starting date"
 msgid "Start date"
 msgstr "Fecha de inicio"
 
@@ -3480,6 +3476,10 @@ msgstr ""
 "Hay disponibles varios <a href=\"%(data_url)s\">datos exportados</a> en "
 "formato para máquinas."
 
+#: weblate/html/show-lock.html:6
+msgid "This translation is currently locked for updates!"
+msgstr "¡Esta traducción tiene las actualizaciones bloqueadas!"
+
 #: weblate/html/source-review.html:10 weblate/html/source.html:8
 msgid "source"
 msgstr "original"
@@ -4982,9 +4982,6 @@ msgstr "cambios"
 
 #~ msgid "%(percent)d%% complete, help us improve!"
 #~ msgstr "%(percent)d%% completado ¡ayúdanos a mejorar!"
-
-#~ msgid "This translation is currently locked for updates!"
-#~ msgstr "¡Esta traducción tiene las actualizaciones bloqueadas!"
 
 #~ msgid ""
 #~ "You can use %(language)s, %(subproject)s or %(project)s for language "

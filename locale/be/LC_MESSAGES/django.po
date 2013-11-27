@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-26 11:42+0100\n"
+"POT-Creation-Date: 2013-11-27 08:59+0100\n"
 "PO-Revision-Date: 2013-11-26 11:49+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Belarusian "
-"<http://l10n.cihar.com/projects/weblate/master/be/>\n"
+"Language-Team: Belarusian <http://l10n.cihar.com/projects/weblate/master/be/"
+">\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 1.9-dev\n"
 
 #: accounts/forms.py:88
@@ -699,11 +699,11 @@ msgstr ""
 msgid "translated"
 msgstr "перакладзена"
 
-#: trans/autofixes/chars.py:30 trans/checks/chars.py:283
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:286
 msgid "Trailing ellipsis"
 msgstr "Канцавыя кропкі"
 
-#: trans/autofixes/chars.py:43 trans/checks/chars.py:310
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:313
 msgid "Zero-width space"
 msgstr "Прагал нулявой шырыні"
 
@@ -751,11 +751,11 @@ msgstr "Канцавая кропка"
 msgid "Source and translation do not both end with a full stop"
 msgstr "Ключ і пераклад не канчаюцца кропкаю"
 
-#: trans/checks/chars.py:151
+#: trans/checks/chars.py:154
 msgid "Trailing colon"
 msgstr "Канцавое двукроп'е"
 
-#: trans/checks/chars.py:153
+#: trans/checks/chars.py:156
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -763,11 +763,11 @@ msgstr ""
 "Ключ і пераклад не канчаюцца двукроп'ем альбо двукроп'е няправільна адбіта "
 "прагаламі"
 
-#: trans/checks/chars.py:199
+#: trans/checks/chars.py:202
 msgid "Trailing question"
 msgstr "Канцавы пытальнік"
 
-#: trans/checks/chars.py:201
+#: trans/checks/chars.py:204
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -775,11 +775,11 @@ msgstr ""
 "Ключ і пераклад не канчаюцца пытальнікам альбо пытальнік няправільна адбіты "
 "прагаламі"
 
-#: trans/checks/chars.py:242
+#: trans/checks/chars.py:245
 msgid "Trailing exclamation"
 msgstr "Канцавы клічнік"
 
-#: trans/checks/chars.py:244
+#: trans/checks/chars.py:247
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -787,19 +787,19 @@ msgstr ""
 "Ключ і пераклад не канчаюцца клічнікам альбо клічнік няправільна адбіты "
 "прагаламі"
 
-#: trans/checks/chars.py:284
+#: trans/checks/chars.py:287
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Ключ і пераклад не канчаюцца кропкамі"
 
-#: trans/checks/chars.py:301
+#: trans/checks/chars.py:304
 msgid "Mismatched \\n"
 msgstr "Неадпаведнасць \\n"
 
-#: trans/checks/chars.py:302
+#: trans/checks/chars.py:305
 msgid "Number of \\n in translation does not match source"
 msgstr "Колькасць \\n у перакладзе не супадае з колькасцю ў ключы"
 
-#: trans/checks/chars.py:311
+#: trans/checks/chars.py:314
 msgid "Translation contains extra zero-width space character"
 msgstr "Пераклад утрымоўвае лішнія прагалы нулявой шырыні"
 
@@ -856,11 +856,11 @@ msgstr "Неадпаведнасць XML-тагаў"
 msgid "XML tags in translation do not match source"
 msgstr "XML-тагі ў перакладзе не адпавядаюць ключу"
 
-#: trans/checks/same.py:741
+#: trans/checks/same.py:764
 msgid "Not translated"
 msgstr "Не перакладзена"
 
-#: trans/checks/same.py:742
+#: trans/checks/same.py:765
 msgid "Source and translated strings are same"
 msgstr "Ключ і пераклад супадаюць"
 
@@ -902,7 +902,6 @@ msgid "Support Weblate at {0}"
 msgstr ""
 
 #: trans/models/advertisement.py:71
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate"
 msgstr "Зрабіць унёсак для Weblate"
 
@@ -3462,6 +3461,12 @@ msgid ""
 "readable formats."
 msgstr ""
 "Даступны <a href=\"%(data_url)s\">экспарт звестак</a> у машынныя фарматы."
+
+#: weblate/html/show-lock.html:6
+#, fuzzy
+#| msgid "Translation is currently not locked."
+msgid "This translation is currently locked for updates!"
+msgstr "Пераклад не заблакіраваны."
 
 #: weblate/html/source-review.html:10 weblate/html/source.html:8
 msgid "source"

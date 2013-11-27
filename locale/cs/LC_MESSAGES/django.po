@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-26 11:42+0100\n"
+"POT-Creation-Date: 2013-11-27 08:59+0100\n"
 "PO-Revision-Date: 2013-11-26 11:52+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -697,11 +697,11 @@ msgstr ""
 msgid "translated"
 msgstr "přeloženo"
 
-#: trans/autofixes/chars.py:30 trans/checks/chars.py:283
+#: trans/autofixes/chars.py:30 trans/checks/chars.py:286
 msgid "Trailing ellipsis"
 msgstr "Koncová výpustka"
 
-#: trans/autofixes/chars.py:43 trans/checks/chars.py:310
+#: trans/autofixes/chars.py:43 trans/checks/chars.py:313
 msgid "Zero-width space"
 msgstr "Nulová mezera"
 
@@ -749,49 +749,49 @@ msgstr "Koncová tečka"
 msgid "Source and translation do not both end with a full stop"
 msgstr "Překlad a zdroj oba nekončí tečkou"
 
-#: trans/checks/chars.py:151
+#: trans/checks/chars.py:154
 msgid "Trailing colon"
 msgstr "Koncová dvojtečka"
 
-#: trans/checks/chars.py:153
+#: trans/checks/chars.py:156
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí dvojtečkou nebo kolem ní chybí mezery"
 
-#: trans/checks/chars.py:199
+#: trans/checks/chars.py:202
 msgid "Trailing question"
 msgstr "Koncový otazník"
 
-#: trans/checks/chars.py:201
+#: trans/checks/chars.py:204
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí otazníkem nebo kolem něj chybí mezery"
 
-#: trans/checks/chars.py:242
+#: trans/checks/chars.py:245
 msgid "Trailing exclamation"
 msgstr "Koncový vykřičník"
 
-#: trans/checks/chars.py:244
+#: trans/checks/chars.py:247
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr "Překlad a zdroj oba nekončí vykřičníkem nebo kolem něj chybí mezery"
 
-#: trans/checks/chars.py:284
+#: trans/checks/chars.py:287
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Překlad a zdroj oba nekončí výpustky"
 
-#: trans/checks/chars.py:301
+#: trans/checks/chars.py:304
 msgid "Mismatched \\n"
 msgstr "Neodpovídající \\n"
 
-#: trans/checks/chars.py:302
+#: trans/checks/chars.py:305
 msgid "Number of \\n in translation does not match source"
 msgstr "Počet \\n v překladu neodpovídá zdroji"
 
-#: trans/checks/chars.py:311
+#: trans/checks/chars.py:314
 msgid "Translation contains extra zero-width space character"
 msgstr "Překlad obsahuje navíc nulovou mezeru"
 
@@ -848,11 +848,11 @@ msgstr "Neodpovídající XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: trans/checks/same.py:741
+#: trans/checks/same.py:764
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: trans/checks/same.py:742
+#: trans/checks/same.py:765
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
@@ -882,7 +882,6 @@ msgstr "Překlad do více jazyků má selhavší kontroly"
 
 #: trans/models/advertisement.py:59
 #, python-brace-format
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate at {0}"
 msgstr "Přispějte na Weblate na {0}"
 
@@ -892,7 +891,6 @@ msgid "Support Weblate at {0}"
 msgstr "Podpořte Weblate na {0}"
 
 #: trans/models/advertisement.py:71
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate"
 msgstr "Přispějte na Weblate"
 
@@ -909,12 +907,10 @@ msgid "Mail footer (HTML)"
 msgstr "Patička mailu (HTML)"
 
 #: trans/models/advertisement.py:100
-#| msgid "Papiamento"
 msgid "Placement"
 msgstr "Umístění"
 
 #: trans/models/advertisement.py:103
-#| msgid "Starting date"
 msgid "Start date"
 msgstr "Počáteční datum"
 
@@ -3455,6 +3451,10 @@ msgstr ""
 "Jsou k dispozici i <a href=\"%(data_url)s\">různé exporty dat</a> ve "
 "strojově čitelném formátu."
 
+#: weblate/html/show-lock.html:6
+msgid "This translation is currently locked for updates!"
+msgstr "Tento překlad je v současné době uzamčen!"
+
 #: weblate/html/source-review.html:10 weblate/html/source.html:8
 msgid "source"
 msgstr "zdroj"
@@ -4936,9 +4936,6 @@ msgstr "změny"
 
 #~ msgid "%(percent)d%% complete, help us improve!"
 #~ msgstr "%(percent)d%% hotovo, pomozte nám se zlepšit!"
-
-#~ msgid "This translation is currently locked for updates!"
-#~ msgstr "Tento překlad je v současné době uzamčen!"
 
 #~ msgid ""
 #~ "You can use %(language)s, %(subproject)s or %(project)s for language "
