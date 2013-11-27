@@ -308,7 +308,13 @@ def handle_translate(translation, request, user_locked,
             # Show message to user
             messages.error(
                 request,
-                _('Some checks have failed on your translation!')
+                _(
+                    'Some checks have failed on your translation: {0}'
+                ).format(
+                    ', '.join(
+                        [unicode(CHECKS[check].name) for check in newchecks]
+                    )
+                )
             )
             # Stay on same entry
             return HttpResponseRedirect(this_unit_url)
