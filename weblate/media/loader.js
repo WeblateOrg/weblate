@@ -444,5 +444,13 @@ $(function () {
                 );
             }
         });
+        translation_editor.change(function (e) {
+            var $this = $(this);
+            var $row = $this.parents('tr');
+            $row.addClass('translation-modified');
+            if ($this.attr('id') == $row.find('.translation-editor:last').attr('id')) {
+                console.log('should save!');
+            }
+        });
     }
 });
