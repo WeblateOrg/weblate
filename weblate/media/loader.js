@@ -249,8 +249,8 @@ $(function () {
     $('#navi .button-disabled').button('disable');
     var translation_editor = $('.translation-editor');
     if (translation_editor.length > 0) {
-        translation-editor.change(text_change).keypress(text_change).autogrow();
-        translation-editor.get(0).focus();
+        translation_editor.change(text_change).keypress(text_change).autogrow();
+        translation_editor.get(0).focus();
     }
     $('#toggle-direction').buttonset().change(function (e) {
         $('.translation-editor').attr('dir', $("#toggle-direction :radio:checked").attr('value')).focus();
