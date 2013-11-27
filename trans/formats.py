@@ -26,9 +26,10 @@ from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
+from translate.storage.ts2 import tsunit
 from translate.storage import mo
 from translate.storage import factory
-from trans.util import get_string
+from trans.util import get_string, join_plural
 from translate.misc import quote
 import weblate
 import subprocess
@@ -142,6 +143,15 @@ class FileUnit(object):
         '''
         Returns source string from a ttkit unit.
         '''
+        if (isinstance(self.mainunit, tsunit)
+                and self.template is None
+                and self.mainunit.hasplural()):
+            # Need to apply special magic for plurals here
+            # as there is no singlular/plural in the source string
+            return join_plural([
+                self.unit.source.replace('(s)', ''),
+                self.unit.source.replace('(s)', 's'),
+            ])
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.mainunit, propunit):
