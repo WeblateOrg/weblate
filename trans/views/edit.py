@@ -708,13 +708,6 @@ def zen(request, project, subproject, lang):
     Generic entry point for translating, suggesting and searching.
     '''
     translation = get_translation(request, project, subproject, lang)
-
-    # Check locks
-    project_locked, user_locked, own_lock = translation.is_locked(
-        request, True
-    )
-    locked = project_locked or user_locked
-
     search_result, unitdata = get_zen_unitdata(translation, request)
 
     return render_to_response(

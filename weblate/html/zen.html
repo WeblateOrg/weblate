@@ -33,6 +33,7 @@
 <tr><td colspan="3" class="loading-icon">
 <img src="{% get_media_prefix %}loading.gif" id="loading-next" style="display: none" />
 <a href="{% url 'load_zen' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}" class="hidden" id="zen-load" data-offset="0"></a>
+<a href="{% url 'js-lock' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}" class="hidden" id="js-lock"></a>
 </td></tr>
 </tfoot>
 <tbody>
