@@ -3,5 +3,5 @@
 {% show_message "warning" object.get_lock_display %}
 {% endif %}
 {% if object.subproject.locked or object.locked %}
-{% show_message "warning" "This translation is currently locked for updates!" %}
+{% show_message "warning" _("This translation is currently locked for updates!") %}
 {% endif %}
