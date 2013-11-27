@@ -1145,3 +1145,39 @@ class LanguagesViewTest(ViewTestCase):
         ))
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Test/Test')
+
+
+class ZenViewTest(ViewTestCase):
+    def test_zen(self):
+        response = self.client.get(
+            reverse('zen', kwargs=self.kw_translation)
+        )
+        self.assertContains(
+            response,
+            'Thank you for using Weblate.'
+        )
+        self.assertContains(
+            response,
+            'Orangutan has %d bananas'
+        )
+        self.assertContains(
+            response,
+            'You have reached end of translating.'
+        )
+
+    def test_load_zen(self):
+        response = self.client.get(
+            reverse('load_zen', kwargs=self.kw_translation)
+        )
+        self.assertContains(
+            response,
+            'Thank you for using Weblate.'
+        )
+        self.assertContains(
+            response,
+            'Orangutan has %d bananas'
+        )
+        self.assertContains(
+            response,
+            'You have reached end of translating.'
+        )
