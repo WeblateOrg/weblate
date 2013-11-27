@@ -196,7 +196,7 @@ def search(translation, request):
     return search_result
 
 
-def handle_translate_suggest(unit, form, request):
+def perform_suggestion(unit, form, request):
     '''
     Handle suggesion saving.
     '''
@@ -255,7 +255,7 @@ def handle_translate(translation, request, user_locked,
     go_next = True
 
     if 'suggest' in request.POST:
-        go_next = handle_translate_suggest(unit, form, request)
+        go_next = perform_suggestion(unit, form, request)
     elif not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
