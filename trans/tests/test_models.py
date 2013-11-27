@@ -30,7 +30,7 @@ from django.core.exceptions import ValidationError
 import shutil
 import os
 import git
-from trans.models import Project, SubProject
+from trans.models import Project, SubProject, Unit
 from weblate import appsettings
 from trans.tests.test_util import get_test_file
 
@@ -145,6 +145,12 @@ class RepoTestCase(TestCase):
             'po-mono',
             'po-mono/*.po',
             'po-mono/en.po',
+        )
+
+    def create_ts(self):
+        return self._create_subproject(
+            'ts',
+            'ts/*.ts',
         )
 
     def create_iphone(self):
@@ -347,6 +353,12 @@ class SubProjectTest(RepoTestCase):
     def test_create_iphone(self):
         project = self.create_iphone()
         self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_ts(self):
+        project = self.create_ts()
+        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+        unit = Unit.objects.get(source__startswith='Orangutan')
+        self.assertTrue(unit.is_plural)
 
     def test_create_po_pot(self):
         project = self._create_subproject(
