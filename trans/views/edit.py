@@ -328,7 +328,6 @@ def handle_translate(translation, request, user_locked,
         return HttpResponseRedirect(this_unit_url)
 
 
-
 def handle_merge(translation, request, next_unit_url):
     '''
     Handles unit merging.
