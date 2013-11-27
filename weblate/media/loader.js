@@ -448,9 +448,23 @@ $(function () {
         translation_editor.change(function (e) {
             var $this = $(this);
             var $row = $this.parents('tr');
+            var checksum = $row.find('[name=checksum]').val();
+
             $row.addClass('translation-modified');
+
             if (lastrow != $row.attr('id')) {
-                console.log('should save!');
+                var form = $row.find('form');
+                console.log('should save! ' + form.attr('action'));
+                $('#loading-' + checksum).show();
+                $('#messages-' + checksum).html('');
+                $.post(
+                    form.attr('action'),
+                    form.serialize(),
+                    function (data) {
+                        $('#loading-' + checksum).hide();
+                        $('#messages-' + checksum).append(data);
+                    }
+                );
             }
             lastrow = $row.attr('id');
         });

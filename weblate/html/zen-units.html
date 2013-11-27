@@ -1,6 +1,7 @@
 {% load translations %}
 {% load i18n %}
 {% load static %}
+{% load url from future %}
 
 {% for unit in unitdata %}
 <tr id="row-status-{{ unit.0.checksum }}">
@@ -12,6 +13,7 @@
 </td>
 <td>
 <img src="{% get_media_prefix %}loading.gif" id="loading-{{ unit.0.checksum }}" style="display: none" />
+<span id="messages-{{ unit.0.checksum }}"></span>
 <a href="{{ unit.0.get_absolute_url }}" class="menu-float small-button button" title="{% trans "Open in full editor" %}">{% trans "Edit" %}</a>
 </td>
 </tr>
@@ -19,7 +21,7 @@
 <td></td>
 <td class="translatetext">{{ unit.0.source|fmtsearchmatch:search_query }}</td>
 <td class="translator">
-<form action="js-store" method="post">
+<form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
 {{ unit.1.checksum }}
 {{ unit.1.target }}

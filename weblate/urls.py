@@ -592,6 +592,11 @@ urlpatterns = patterns(
         'trans.views.edit.load_zen',
         name='load_zen',
     ),
+    url(
+        r'^js/save-zen/' + TRANSLATION + '$',
+        'trans.views.edit.save_zen',
+        name='save_zen',
+    ),
 
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

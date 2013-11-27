@@ -772,3 +772,26 @@ def load_zen(request, project, subproject, lang):
             }
         )
     )
+
+
+def save_zen(request, project, subproject, lang):
+    '''
+    Save handler for zen mode.
+    '''
+    translation = get_translation(request, project, subproject, lang)
+    form = TranslationForm(translation, None, request.POST)
+    if not form.is_valid():
+        messages.error(_('Failed to save translation!'))
+    else:
+        unit = form.cleaned_data['unit']
+
+        perform_translation(unit, form, request)
+
+    return render_to_response(
+        'zen-response.html',
+        RequestContext(
+            request,
+            {
+            }
+        )
+    )
