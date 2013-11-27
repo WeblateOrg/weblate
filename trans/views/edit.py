@@ -727,7 +727,7 @@ def zen(request, project, subproject, lang):
                 'search_query': search_result['query'],
                 'filter_name': search_result['name'],
                 'filter_count': len(search_result['ids']),
-                'last_section':  search_result['last_section'],
+                'last_section': search_result['last_section'],
             }
         )
     )
@@ -748,7 +748,7 @@ def load_zen(request, project, subproject, lang):
                 'translation': translation,
                 'unitdata': unitdata,
                 'search_query': search_result['query'],
-                'last_section':  search_result['last_section'],
+                'last_section': search_result['last_section'],
             }
         )
     )
