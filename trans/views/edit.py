@@ -742,7 +742,7 @@ def zen(request, project, subproject, lang):
         RequestContext(
             request,
             {
-                'translation': translation,
+                'object': translation,
                 'unitdata': unitdata,
                 'search_query': search_result['query'],
                 'filter_name': search_result['name'],
@@ -765,7 +765,6 @@ def load_zen(request, project, subproject, lang):
         RequestContext(
             request,
             {
-                'translation': translation,
                 'unitdata': unitdata,
                 'search_query': search_result['query'],
                 'last_section': search_result['last_section'],

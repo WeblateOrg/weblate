@@ -8,17 +8,15 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ translation.subproject.project.get_absolute_url }}">{{ translation.subproject.project }}</a></li>
-<li><a href="{{ translation.subproject.get_absolute_url }}">{{ translation.subproject.name }}</a></li>
-<li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
-<li><a href="{{ translation.get_translate_url }}">{% trans "zen" %}</a></li>
+<li><a href="{{ object.subproject.project.get_absolute_url }}">{{ object.subproject.project }}</a></li>
+<li><a href="{{ object.subproject.get_absolute_url }}">{{ object.subproject.name }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+<li><a href="{{ object.get_translate_url }}">{% trans "zen" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% with translation as object %}
 {% include "show-lock.html" %}
-{% endwith %}
 
 <h2>{% trans "Translate" %}</h2>
 
@@ -32,8 +30,8 @@
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 <img src="{% get_media_prefix %}loading.gif" id="loading-next" style="display: none" />
-<a href="{% url 'load_zen' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}" class="hidden" id="zen-load" data-offset="0"></a>
-<a href="{% url 'js-lock' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}" class="hidden" id="js-lock"></a>
+<a href="{% url 'load_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="zen-load" data-offset="0"></a>
+<a href="{% url 'js-lock' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="js-lock"></a>
 </td></tr>
 </tfoot>
 <tbody>
