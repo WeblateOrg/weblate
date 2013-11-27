@@ -270,11 +270,6 @@ def handle_translate(translation, request, user_locked,
             _('Only suggestions are allowed in this translation!')
         )
     elif not user_locked:
-        # Remember old checks
-        oldchecks = set(
-            unit.active_checks().values_list('check', flat=True)
-        )
-
         # Custom commit message
         if 'commit_message' in request.POST and request.POST['commit_message']:
             # Commit pending changes so that they don't get new message
@@ -282,6 +277,11 @@ def handle_translate(translation, request, user_locked,
             # Store new commit message
             unit.translation.commit_message = request.POST['commit_message']
             unit.translation.save()
+
+        # Remember old checks
+        oldchecks = set(
+            unit.active_checks().values_list('check', flat=True)
+        )
 
         # Save
         saved, fixups = unit.translate(
