@@ -196,15 +196,14 @@ def search(translation, request):
     return search_result
 
 
-def handle_translate_suggest(unit, form, request,
-                             this_unit_url, next_unit_url):
+def handle_translate_suggest(unit, form, request):
     '''
     Handle suggesion saving.
     '''
     if form.cleaned_data['target'][0] == '':
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
-        return HttpResponseRedirect(this_unit_url)
+        return False
     elif not request.user.has_perm('trans.add_suggestion'):
         # Need privilege to add
         messages.error(
@@ -212,7 +211,7 @@ def handle_translate_suggest(unit, form, request,
             _('You don\'t have privileges to add suggestions!')
         )
         # Stay on same entry
-        return HttpResponseRedirect(this_unit_url)
+        return False
     # Invite user to become translator if there is nobody else
     recent_changes = Change.objects.content(True).filter(
         translation=unit.translation,
@@ -231,7 +230,7 @@ def handle_translate_suggest(unit, form, request,
         join_plural(form.cleaned_data['target']),
         request,
     )
-    return HttpResponseRedirect(next_unit_url)
+    return True
 
 
 def handle_translate(translation, request, user_locked,
@@ -253,11 +252,10 @@ def handle_translate(translation, request, user_locked,
         return
 
     unit = form.cleaned_data['unit']
+    go_next = True
 
     if 'suggest' in request.POST:
-        return handle_translate_suggest(
-            unit, form, request, this_unit_url, next_unit_url
-        )
+        go_next = handle_translate_suggest(unit, form, request)
     elif not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -324,7 +322,11 @@ def handle_translate(translation, request, user_locked,
             return HttpResponseRedirect(this_unit_url)
 
     # Redirect to next entry
-    return HttpResponseRedirect(next_unit_url)
+    if go_next:
+        return HttpResponseRedirect(next_unit_url)
+    else:
+        return HttpResponseRedirect(this_unit_url)
+
 
 
 def handle_merge(translation, request, next_unit_url):
