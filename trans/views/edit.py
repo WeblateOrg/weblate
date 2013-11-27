@@ -722,7 +722,8 @@ def get_zen_unitdata(translation, request):
         (unit, TranslationForm(
             translation,
             unit,
-            auto_id='id_{0}_%s'.format(unit.checksum)
+            auto_id='id_{0}_%s'.format(unit.checksum),
+            tabindex=100 + (unit.position * 10),
         ))
         for unit in units
     ]

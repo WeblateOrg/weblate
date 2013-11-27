@@ -49,10 +49,11 @@ class PluralTextarea(forms.Textarea):
         Renders all textareas with correct plural labels.
         '''
         lang, value = value
+        tabindex = self.attrs['tabindex']
 
         # Need to add extra class
         attrs['class'] = 'translation-editor'
-        attrs['tabindex'] = '100'
+        attrs['tabindex'] = tabindex
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
 
@@ -72,7 +73,7 @@ class PluralTextarea(forms.Textarea):
             if idx > 0:
                 fieldname = '%s_%d' % (name, idx)
                 attrs['id'] = '%s_%d' % (orig_id, idx)
-                attrs['tabindex'] = 100 + idx
+                attrs['tabindex'] = tabindex + idx
             else:
                 fieldname = name
 
@@ -196,9 +197,11 @@ class TranslationForm(ChecksumForm):
                 ),
                 'fuzzy': unit.fuzzy,
             }
+        tabindex = kwargs.pop('tabindex', 100)
         super(TranslationForm, self).__init__(
             translation, *args, **kwargs
         )
+        self.fields['target'].widget.attrs['tabindex'] = tabindex
 
 
 class AntispamForm(forms.Form):
