@@ -596,7 +596,7 @@ class TranslationTest(RepoTestCase):
         '''
         subproject = self.create_subproject()
         subproject.pre_commit_script = get_test_file(
-            '../../../examples/hook-generate-mo'
+            '../../../../examples/hook-generate-mo'
         )
         appsettings.SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-generate-mo')
