@@ -23,6 +23,7 @@
 from distutils.version import LooseVersion
 from weblate import GIT_VERSION
 import importlib
+import sys
 
 
 def get_version_module(module, name, url, optional=False):
@@ -81,6 +82,13 @@ def get_versions():
     Returns list of used versions.
     '''
     result = []
+
+    result.append((
+        'Python',
+        'http://www.python.org/',
+        sys.version.split()[0],
+        '2.7',
+    ))
 
     name = 'Django'
     url = 'https://www.djangoproject.com/'
