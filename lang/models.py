@@ -23,7 +23,7 @@ from django.utils.translation import ugettext as _, pgettext_lazy
 from django.utils.safestring import mark_safe
 from translate.lang.data import languages
 from lang import data
-from trans.mixins import PercentMixin
+from weblate.trans.mixins import PercentMixin
 
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
@@ -426,7 +426,7 @@ class Language(models.Model, PercentMixin):
             return self._percents
 
         # Import translations
-        from trans.models.translation import Translation
+        from weblate.trans.models.translation import Translation
 
         # Get prercents
         result = Translation.objects.get_percents(language=self)

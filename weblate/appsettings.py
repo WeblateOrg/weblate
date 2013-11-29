@@ -19,7 +19,7 @@
 #
 
 from django.conf import settings
-from trans.util import get_script_name
+from weblate.trans.util import get_script_name
 import os
 
 
@@ -97,42 +97,42 @@ WHOOSH_INDEX = get('WHOOSH_INDEX', os.path.join(WEB_ROOT, 'whoosh-index'))
 
 # List of quality checks
 CHECK_LIST = get('CHECK_LIST', (
-    'trans.checks.same.SameCheck',
-    'trans.checks.chars.BeginNewlineCheck',
-    'trans.checks.chars.EndNewlineCheck',
-    'trans.checks.chars.BeginSpaceCheck',
-    'trans.checks.chars.EndSpaceCheck',
-    'trans.checks.chars.EndStopCheck',
-    'trans.checks.chars.EndColonCheck',
-    'trans.checks.chars.EndQuestionCheck',
-    'trans.checks.chars.EndExclamationCheck',
-    'trans.checks.chars.EndEllipsisCheck',
-    'trans.checks.format.PythonFormatCheck',
-    'trans.checks.format.PythonBraceFormatCheck',
-    'trans.checks.format.PHPFormatCheck',
-    'trans.checks.format.CFormatCheck',
-    'trans.checks.consistency.PluralsCheck',
-    'trans.checks.consistency.ConsistencyCheck',
-    'trans.checks.chars.NewlineCountingCheck',
-    'trans.checks.markup.BBCodeCheck',
-    'trans.checks.chars.ZeroWidthSpaceCheck',
-    'trans.checks.markup.XMLTagsCheck',
-    'trans.checks.source.OptionalPluralCheck',
-    'trans.checks.source.EllipsisCheck',
-    'trans.checks.source.MultipleFailingCheck',
+    'weblate.trans.checks.same.SameCheck',
+    'weblate.trans.checks.chars.BeginNewlineCheck',
+    'weblate.trans.checks.chars.EndNewlineCheck',
+    'weblate.trans.checks.chars.BeginSpaceCheck',
+    'weblate.trans.checks.chars.EndSpaceCheck',
+    'weblate.trans.checks.chars.EndStopCheck',
+    'weblate.trans.checks.chars.EndColonCheck',
+    'weblate.trans.checks.chars.EndQuestionCheck',
+    'weblate.trans.checks.chars.EndExclamationCheck',
+    'weblate.trans.checks.chars.EndEllipsisCheck',
+    'weblate.trans.checks.format.PythonFormatCheck',
+    'weblate.trans.checks.format.PythonBraceFormatCheck',
+    'weblate.trans.checks.format.PHPFormatCheck',
+    'weblate.trans.checks.format.CFormatCheck',
+    'weblate.trans.checks.consistency.PluralsCheck',
+    'weblate.trans.checks.consistency.ConsistencyCheck',
+    'weblate.trans.checks.chars.NewlineCountingCheck',
+    'weblate.trans.checks.markup.BBCodeCheck',
+    'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
+    'weblate.trans.checks.markup.XMLTagsCheck',
+    'weblate.trans.checks.source.OptionalPluralCheck',
+    'weblate.trans.checks.source.EllipsisCheck',
+    'weblate.trans.checks.source.MultipleFailingCheck',
 ))
 
 # List of automatic fixups
 AUTOFIX_LIST = get('AUTOFIX_LIST', (
-    'trans.autofixes.whitespace.SameBookendingWhitespace',
-    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-    'trans.autofixes.chars.RemoveZeroSpace',
+    'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
+    'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+    'weblate.trans.autofixes.chars.RemoveZeroSpace',
 ))
 
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', (
-    'trans.machine.weblatetm.WeblateSimilarTranslation',
-    'trans.machine.weblatetm.WeblateTranslation',
+    'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
+    'weblate.trans.machine.weblatetm.WeblateTranslation',
 ))
 
 # Whether machine translations are enabled

@@ -45,8 +45,8 @@ MT_MYMEMORY_EMAIL = 'test@weblate.org'
 
 # Enable some machine translations
 MACHINE_TRANSLATION_SERVICES = (
-    'trans.machine.microsoft.MicrosoftTranslation',
-    'trans.machine.dummy.DummyTranslation',
+    'weblate.trans.machine.microsoft.MicrosoftTranslation',
+    'weblate.trans.machine.dummy.DummyTranslation',
 )
 
 # Silent logging setup

@@ -25,7 +25,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from lang.models import Language
-from trans.models import Project
+from weblate.trans.models import Project
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain

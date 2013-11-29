@@ -238,7 +238,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'social.apps.django_app.default',
     'south',
-    'trans',
+    'weblate.trans',
     'lang',
     'weblate.accounts',
     # Needed for javascript localization
@@ -256,12 +256,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.csrf',
     'django.contrib.messages.context_processors.messages',
-    'trans.context_processors.weblate_context',
+    'weblate.trans.context_processors.weblate_context',
 )
 
 # Custom exception reporter to include some details
 DEFAULT_EXCEPTION_REPORTER_FILTER = \
-    'trans.debug.WeblateExceptionReporterFilter'
+    'weblate.trans.debug.WeblateExceptionReporterFilter'
 
 # Default logging of Weblate messages
 # - to syslog in production (if available)
@@ -424,36 +424,36 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
 #CHECK_LIST = (
-#    'trans.checks.same.SameCheck',
-#    'trans.checks.chars.BeginNewlineCheck',
-#    'trans.checks.chars.EndNewlineCheck',
-#    'trans.checks.chars.BeginSpaceCheck',
-#    'trans.checks.chars.EndSpaceCheck',
-#    'trans.checks.chars.EndStopCheck',
-#    'trans.checks.chars.EndColonCheck',
-#    'trans.checks.chars.EndQuestionCheck',
-#    'trans.checks.chars.EndExclamationCheck',
-#    'trans.checks.chars.EndEllipsisCheck',
-#    'trans.checks.format.PythonFormatCheck',
-#    'trans.checks.format.PythonBraceFormatCheck',
-#    'trans.checks.format.PHPFormatCheck',
-#    'trans.checks.format.CFormatCheck',
-#    'trans.checks.consistency.PluralsCheck',
-#    'trans.checks.consistency.ConsistencyCheck',
-#    'trans.checks.chars.NewlineCountingCheck',
-#    'trans.checks.markup.BBCodeCheck',
-#    'trans.checks.chars.ZeroWidthSpaceCheck',
-#    'trans.checks.markup.XMLTagsCheck',
-#    'trans.checks.source.OptionalPluralCheck',
-#    'trans.checks.source.EllipsisCheck',
-#    'trans.checks.source.MultipleFailingCheck',
+#    'weblate.trans.checks.same.SameCheck',
+#    'weblate.trans.checks.chars.BeginNewlineCheck',
+#    'weblate.trans.checks.chars.EndNewlineCheck',
+#    'weblate.trans.checks.chars.BeginSpaceCheck',
+#    'weblate.trans.checks.chars.EndSpaceCheck',
+#    'weblate.trans.checks.chars.EndStopCheck',
+#    'weblate.trans.checks.chars.EndColonCheck',
+#    'weblate.trans.checks.chars.EndQuestionCheck',
+#    'weblate.trans.checks.chars.EndExclamationCheck',
+#    'weblate.trans.checks.chars.EndEllipsisCheck',
+#    'weblate.trans.checks.format.PythonFormatCheck',
+#    'weblate.trans.checks.format.PythonBraceFormatCheck',
+#    'weblate.trans.checks.format.PHPFormatCheck',
+#    'weblate.trans.checks.format.CFormatCheck',
+#    'weblate.trans.checks.consistency.PluralsCheck',
+#    'weblate.trans.checks.consistency.ConsistencyCheck',
+#    'weblate.trans.checks.chars.NewlineCountingCheck',
+#    'weblate.trans.checks.markup.BBCodeCheck',
+#    'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
+#    'weblate.trans.checks.markup.XMLTagsCheck',
+#    'weblate.trans.checks.source.OptionalPluralCheck',
+#    'weblate.trans.checks.source.EllipsisCheck',
+#    'weblate.trans.checks.source.MultipleFailingCheck',
 #)
 
 # List of automatic fixups
 #AUTOFIX_LIST = (
-#    'trans.autofixes.whitespace.SameBookendingWhitespace',
-#    'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-#    'trans.autofixes.chars.RemoveZeroSpace',
+#    'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
+#    'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+#    'weblate.trans.autofixes.chars.RemoveZeroSpace',
 #)
 
 # List of scripts to use in custom processing
@@ -462,17 +462,17 @@ WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of machine translations
 #MACHINE_TRANSLATION_SERVICES = (
-#    'trans.machine.apertium.ApertiumTranslation',
-#    'trans.machine.glosbe.GlosbeTranslation',
-#    'trans.machine.google.GoogleTranslation',
-#    'trans.machine.google.GoogleWebTranslation',
-#    'trans.machine.microsoft.MicrosoftTranslation',
-#    'trans.machine.mymemory.MyMemoryTranslation',
-#    'trans.machine.opentran.OpenTranTranslation',
-#    'trans.machine.tmserver.AmagamaTranslation',
-#    'trans.machine.tmserver.TMServerTranslation',
-#    'trans.machine.weblatetm.WeblateSimilarTranslation',
-#    'trans.machine.weblatetm.WeblateTranslation',
+#    'weblate.trans.machine.apertium.ApertiumTranslation',
+#    'weblate.trans.machine.glosbe.GlosbeTranslation',
+#    'weblate.trans.machine.google.GoogleTranslation',
+#    'weblate.trans.machine.google.GoogleWebTranslation',
+#    'weblate.trans.machine.microsoft.MicrosoftTranslation',
+#    'weblate.trans.machine.mymemory.MyMemoryTranslation',
+#    'weblate.trans.machine.opentran.OpenTranTranslation',
+#    'weblate.trans.machine.tmserver.AmagamaTranslation',
+#    'weblate.trans.machine.tmserver.TMServerTranslation',
+#    'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
+#    'weblate.trans.machine.weblatetm.WeblateTranslation',
 #)
 
 # E-mail address that error messages come from.

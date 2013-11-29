@@ -44,9 +44,9 @@ from weblate.accounts.models import (
 from weblate.accounts.captcha import hash_question, unhash_question, MathCaptcha
 from weblate.accounts.middleware import RequireLoginMiddleware
 
-from trans.tests.test_views import ViewTestCase
-from trans.tests.test_util import get_test_file
-from trans.models.unitdata import Suggestion, Comment
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.models.unitdata import Suggestion, Comment
 from lang.models import Language
 from weblate import appsettings
 

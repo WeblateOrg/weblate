@@ -40,7 +40,7 @@ from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
 from weblate.accounts.models import set_lang, Profile
-from trans.models import Change, Project
+from weblate.trans.models import Change, Project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )

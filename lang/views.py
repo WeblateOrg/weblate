@@ -22,7 +22,7 @@ from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from lang.models import Language
-from trans.models import Project, Dictionary, Change
+from weblate.trans.models import Project, Dictionary, Change
 from urllib import urlencode
 
 
