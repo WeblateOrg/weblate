@@ -30,7 +30,9 @@ from weblate.trans.machine.opentran import OpenTranTranslation
 from weblate.trans.machine.apertium import ApertiumTranslation
 from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import MicrosoftTranslation
-from weblate.trans.machine.google import GoogleWebTranslation, GoogleTranslation
+from weblate.trans.machine.google import (
+    GoogleWebTranslation, GoogleTranslation
+)
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )

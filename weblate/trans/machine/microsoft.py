@@ -19,7 +19,9 @@
 #
 
 from datetime import datetime, timedelta
-from weblate.trans.machine.base import MachineTranslation, MachineTranslationError
+from weblate.trans.machine.base import (
+    MachineTranslation, MachineTranslationError
+)
 from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
 

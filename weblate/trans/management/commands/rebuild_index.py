@@ -20,7 +20,9 @@
 
 from weblate.trans.management.commands import WeblateCommand
 from lang.models import Language
-from weblate.trans.search import update_index, create_source_index, create_target_index
+from weblate.trans.search import (
+    update_index, create_source_index, create_target_index
+)
 from optparse import make_option
 
 

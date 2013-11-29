@@ -41,7 +41,9 @@ from weblate.accounts.models import (
     notify_new_contributor,
     notify_new_language,
 )
-from weblate.accounts.captcha import hash_question, unhash_question, MathCaptcha
+from weblate.accounts.captcha import (
+    hash_question, unhash_question, MathCaptcha
+)
 from weblate.accounts.middleware import RequireLoginMiddleware
 
 from weblate.trans.tests.test_views import ViewTestCase

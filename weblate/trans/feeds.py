@@ -26,7 +26,9 @@ from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Change
 from weblate.lang.models import Language
-from weblate.trans.views.helper import get_translation, get_subproject, get_project
+from weblate.trans.views.helper import (
+    get_translation, get_subproject, get_project
+)
 
 
 class ChangesFeed(Feed):

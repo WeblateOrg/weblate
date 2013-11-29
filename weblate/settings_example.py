@@ -198,7 +198,8 @@ SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.store_email',
 )
 
-SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'weblate.accounts.pipeline.send_validation'
+SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = \
+    'weblate.accounts.pipeline.send_validation'
 SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX
 SOCIAL_AUTH_LOGIN_ERROR_URL = '%s/accounts/login/' % URL_PREFIX
 SOCIAL_AUTH_EMAIL_FORM_URL = '%s/accounts/email/' % URL_PREFIX

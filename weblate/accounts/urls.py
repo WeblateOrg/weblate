@@ -33,7 +33,10 @@ urlpatterns = patterns(
         name='email-sent'
     ),
     url(r'^password/', 'weblate.accounts.views.password', name='password'),
-    url(r'^reset/', 'weblate.accounts.views.reset_password', name='password_reset'),
+    url(
+        r'^reset/', 'weblate.accounts.views.reset_password',
+        name='password_reset'
+    ),
     url(r'^logout/', 'weblate.accounts.views.weblate_logout', name='logout'),
     url(r'^profile/', 'weblate.accounts.views.user_profile', name='profile'),
     url(r'^login/$', 'weblate.accounts.views.weblate_login', name='login'),

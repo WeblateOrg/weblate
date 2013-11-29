@@ -22,7 +22,9 @@ from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, permission_required
-from weblate.trans.views.helper import get_project, get_subproject, get_translation
+from weblate.trans.views.helper import (
+    get_project, get_subproject, get_translation
+)
 
 
 @login_required

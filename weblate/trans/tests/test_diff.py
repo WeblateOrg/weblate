@@ -20,7 +20,9 @@
 
 from unittest import TestCase
 from weblate.trans.simplediff import html_diff
-from weblate.trans.templatetags.translations import fmtsourcediff, fmtsearchmatch
+from weblate.trans.templatetags.translations import (
+    fmtsourcediff, fmtsearchmatch
+)
 from weblate.trans.tests.test_checks import MockUnit
 
 
