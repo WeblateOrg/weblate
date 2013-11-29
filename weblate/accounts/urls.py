@@ -20,7 +20,7 @@
 
 from django.conf.urls import patterns, url, include
 
-from accounts.views import RegistrationTemplateView
+from weblate.accounts.views import RegistrationTemplateView
 
 
 urlpatterns = patterns(
@@ -32,12 +32,12 @@ urlpatterns = patterns(
         ),
         name='email-sent'
     ),
-    url(r'^password/', 'accounts.views.password', name='password'),
-    url(r'^reset/', 'accounts.views.reset_password', name='password_reset'),
-    url(r'^logout/', 'accounts.views.weblate_logout', name='logout'),
-    url(r'^profile/', 'accounts.views.user_profile', name='profile'),
-    url(r'^login/$', 'accounts.views.weblate_login', name='login'),
-    url(r'^register/$', 'accounts.views.register', name='register'),
-    url(r'^email/$', 'accounts.views.email_login', name='email_login'),
+    url(r'^password/', 'weblate.accounts.views.password', name='password'),
+    url(r'^reset/', 'weblate.accounts.views.reset_password', name='password_reset'),
+    url(r'^logout/', 'weblate.accounts.views.weblate_logout', name='logout'),
+    url(r'^profile/', 'weblate.accounts.views.user_profile', name='profile'),
+    url(r'^login/$', 'weblate.accounts.views.weblate_login', name='login'),
+    url(r'^register/$', 'weblate.accounts.views.register', name='register'),
+    url(r'^email/$', 'weblate.accounts.views.email_login', name='email_login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 )

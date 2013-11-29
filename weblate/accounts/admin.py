@@ -19,7 +19,7 @@
 #
 
 from django.contrib import admin
-from accounts.models import Profile, VerifiedEmail
+from weblate.accounts.models import Profile, VerifiedEmail
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 

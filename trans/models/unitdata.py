@@ -53,7 +53,7 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
-        from accounts.models import notify_new_suggestion
+        from weblate.accounts.models import notify_new_suggestion
 
         if not request.user.is_authenticated():
             user = None
@@ -208,7 +208,7 @@ class CommentManager(models.Manager):
         '''
         Adds comment to this unit.
         '''
-        from accounts.models import notify_new_comment
+        from weblate.accounts.models import notify_new_comment
 
         new_comment = Comment.objects.create(
             user=user,

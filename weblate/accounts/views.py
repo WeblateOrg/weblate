@@ -31,7 +31,7 @@ from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 from urllib import urlencode
 
-from accounts.forms import (
+from weblate.accounts.forms import (
     RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
     LoginForm, HostingForm, CaptchaRegistrationForm
 )
@@ -39,9 +39,9 @@ from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
-from accounts.models import set_lang, Profile
+from weblate.accounts.models import set_lang, Profile
 from trans.models import Change, Project
-from accounts.forms import (
+from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
 )
 from weblate import appsettings

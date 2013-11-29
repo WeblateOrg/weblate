@@ -171,7 +171,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.email.EmailAuth',
     #'social.backends.github.GithubOAuth2',
     #'social.backends.suse.OpenSUSEOpenId',
-    'accounts.auth.WeblateUserBackend',
+    'weblate.accounts.auth.WeblateUserBackend',
 )
 
 # Social auth backends setup
@@ -187,18 +187,18 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_by_email',
     'social.pipeline.social_auth.social_user',
     'social.pipeline.user.get_username',
-    'accounts.pipeline.require_email',
+    'weblate.accounts.pipeline.require_email',
     'social.pipeline.mail.mail_validation',
     'social.pipeline.social_auth.associate_by_email',
-    'accounts.pipeline.verify_open',
+    'weblate.accounts.pipeline.verify_open',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
-    'accounts.pipeline.store_email',
+    'weblate.accounts.pipeline.store_email',
 )
 
-SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'accounts.pipeline.send_validation'
+SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'weblate.accounts.pipeline.send_validation'
 SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX
 SOCIAL_AUTH_LOGIN_ERROR_URL = '%s/accounts/login/' % URL_PREFIX
 SOCIAL_AUTH_EMAIL_FORM_URL = '%s/accounts/email/' % URL_PREFIX
@@ -213,7 +213,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
-    'accounts.middleware.RequireLoginMiddleware',
+    'weblate.accounts.middleware.RequireLoginMiddleware',
 )
 
 ROOT_URLCONF = 'weblate.urls'
@@ -240,7 +240,7 @@ INSTALLED_APPS = (
     'south',
     'trans',
     'lang',
-    'accounts',
+    'weblate.accounts',
     # Needed for javascript localization
     'weblate',
 )

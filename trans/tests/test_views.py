@@ -30,7 +30,7 @@ from django.core import mail
 from trans.models.changes import Change
 from trans.models.unitdata import Suggestion
 from trans.tests.test_models import RepoTestCase
-from accounts.models import Profile
+from weblate.accounts.models import Profile
 from PIL import Image
 import re
 import time

@@ -20,7 +20,7 @@
 
 from django.contrib.sitemaps import GenericSitemap, Sitemap
 from trans.models import Project, SubProject, Translation
-from accounts.models import Profile
+from weblate.accounts.models import Profile
 
 project_dict = {
     'queryset': Project.objects.all_acl(None),

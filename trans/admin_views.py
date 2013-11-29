@@ -29,7 +29,7 @@ from django.conf import settings
 from weblate import settings_example
 from weblate import appsettings
 from trans.util import HAS_LIBRAVATAR
-from accounts.forms import HAS_ICU
+from weblate.accounts.forms import HAS_ICU
 import weblate
 import django
 

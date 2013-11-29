@@ -24,7 +24,7 @@ from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 from social.exceptions import AuthForbidden
 
-from accounts.models import send_notification_email, VerifiedEmail
+from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
 
 

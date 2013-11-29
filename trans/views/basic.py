@@ -39,7 +39,7 @@ from trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, NewLanguageForm,
 )
-from accounts.models import Profile, notify_new_language
+from weblate.accounts.models import Profile, notify_new_language
 from trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,

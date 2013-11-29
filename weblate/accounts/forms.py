@@ -22,8 +22,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _, get_language
 from django.contrib.auth.forms import AuthenticationForm
 
-from accounts.models import Profile, VerifiedEmail
-from accounts.captcha import MathCaptcha
+from weblate.accounts.models import Profile, VerifiedEmail
+from weblate.accounts.captcha import MathCaptcha
 from lang.models import Language
 from trans.models import Project
 from django.contrib.auth.models import User

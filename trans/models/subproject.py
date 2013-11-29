@@ -690,7 +690,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Sends out notifications on merge failure.
         '''
         # Notify subscribed users about failure
-        from accounts.models import notify_merge_failure
+        from weblate.accounts.models import notify_merge_failure
         notify_merge_failure(self, error, status)
 
     def update_branch(self, request=None):

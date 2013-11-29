@@ -29,7 +29,7 @@ from trans.feeds import (
 )
 from trans.views.changes import ChangesView
 from weblate.sitemaps import sitemaps
-import accounts.urls
+import weblate.accounts.urls
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?(@[a-z]+)?)'
@@ -618,17 +618,17 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
 
     # Auth
-    url(r'^accounts/', include(accounts.urls)),
+    url(r'^accounts/', include(weblate.accounts.urls)),
 
     # Static pages
-    url(r'^contact/', 'accounts.views.contact', name='contact'),
-    url(r'^hosting/', 'accounts.views.hosting', name='hosting'),
+    url(r'^contact/', 'weblate.accounts.views.contact', name='contact'),
+    url(r'^hosting/', 'weblate.accounts.views.hosting', name='hosting'),
     url(r'^about/$', 'trans.views.basic.about', name='about'),
 
     # User pages
     url(
         r'^user/(?P<user>[^/]+)/',
-        'accounts.views.user_page',
+        'weblate.accounts.views.user_page',
         name='user_page',
     ),
 

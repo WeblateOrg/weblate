@@ -497,7 +497,7 @@ class Unit(models.Model):
 
         Optional user parameters defines authorship of a change.
         '''
-        from accounts.models import (
+        from weblate.accounts.models import (
             notify_new_translation, notify_new_contributor
         )
         from trans.models.changes import Change

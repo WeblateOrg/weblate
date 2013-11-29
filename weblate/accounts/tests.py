@@ -31,7 +31,7 @@ from django.conf import settings
 from django.core.management import call_command
 from django.http import HttpRequest, HttpResponseRedirect
 
-from accounts.models import (
+from weblate.accounts.models import (
     Profile,
     notify_merge_failure,
     notify_new_string,
@@ -41,8 +41,8 @@ from accounts.models import (
     notify_new_contributor,
     notify_new_language,
 )
-from accounts.captcha import hash_question, unhash_question, MathCaptcha
-from accounts.middleware import RequireLoginMiddleware
+from weblate.accounts.captcha import hash_question, unhash_question, MathCaptcha
+from weblate.accounts.middleware import RequireLoginMiddleware
 
 from trans.tests.test_views import ViewTestCase
 from trans.tests.test_util import get_test_file

@@ -595,7 +595,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Notify subscribed users
         if was_new:
-            from accounts.models import notify_new_string
+            from weblate.accounts.models import notify_new_string
             notify_new_string(self)
 
     @property
