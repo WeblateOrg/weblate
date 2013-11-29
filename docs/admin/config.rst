@@ -66,8 +66,8 @@ For example you can enable only few of them:
 .. code-block:: python
 
     AUTOFIX_LIST = (
-        'trans.autofixes.whitespace.SameBookendingWhitespace',
-        'trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+        'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
+        'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
     )
 
 .. seealso:: :ref:`autofix`, :ref:`custom-autofix`
@@ -95,9 +95,9 @@ For example you can enable only few of them:
 .. code-block:: python
 
     CHECK_LIST = (
-        'trans.checks.same.SameCheck',
-        'trans.checks.format.CFormatCheck',
-        'trans.checks.chars.ZeroWidthSpaceCheck',
+        'weblate.trans.checks.same.SameCheck',
+        'weblate.trans.checks.format.CFormatCheck',
+        'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
     )
 
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
@@ -190,15 +190,15 @@ List of enabled machine translation services to use.
 .. code-block:: python
 
     MACHINE_TRANSLATION_SERVICES = (
-        'trans.machine.apertium.ApertiumTranslation',
-        'trans.machine.glosbe.GlosbeTranslation',
-        'trans.machine.google.GoogleTranslation',
-        'trans.machine.microsoft.MicrosoftTranslation',
-        'trans.machine.mymemory.MyMemoryTranslation',
-        'trans.machine.opentran.OpenTranTranslation',
-        'trans.machine.tmserver.TMServerTranslation',
-        'trans.machine.weblatetm.WeblateSimilarTranslation',
-        'trans.machine.weblatetm.WeblateTranslation',
+        'weblate.trans.machine.apertium.ApertiumTranslation',
+        'weblate.trans.machine.glosbe.GlosbeTranslation',
+        'weblate.trans.machine.google.GoogleTranslation',
+        'weblate.trans.machine.microsoft.MicrosoftTranslation',
+        'weblate.trans.machine.mymemory.MyMemoryTranslation',
+        'weblate.trans.machine.opentran.OpenTranTranslation',
+        'weblate.trans.machine.tmserver.TMServerTranslation',
+        'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
+        'weblate.trans.machine.weblatetm.WeblateTranslation',
     )
 
 .. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`

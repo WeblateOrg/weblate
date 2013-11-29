@@ -151,6 +151,13 @@ name, please adjust your :file:`settings.py` to match that (consult
 Also please note that there are several new requirements, see
 :ref:`requirements` for more details.
 
+Upgrade from 1.8 to 1.9
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Several internal modules and paths have been renamed and changed, please adjust
+your :file:`settings.py` to match that (consult :file:`settings_example.py` for
+correct values).
+
 .. _pootle-migration:
 
 Migrating from Pootle

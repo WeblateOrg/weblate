@@ -19,8 +19,8 @@
 #
 
 from django.contrib.sitemaps import GenericSitemap, Sitemap
-from trans.models import Project, SubProject, Translation
-from accounts.models import Profile
+from weblate.trans.models import Project, SubProject, Translation
+from weblate.accounts.models import Profile
 
 project_dict = {
     'queryset': Project.objects.all_acl(None),
@@ -55,7 +55,7 @@ class PagesSitemap(Sitemap):
         return item[0]
 
     def lastmod(self, item):
-        from trans.models import Change
+        from weblate.trans.models import Change
         return Change.objects.all()[0].timestamp
 
     def priority(self, item):

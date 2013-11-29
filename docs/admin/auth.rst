@@ -56,7 +56,7 @@ For example, enabling authentication against GitHub:
     AUTHENTICATION_BACKENDS = (
         'social.backends.github.GithubOAuth2',
         'social.backends.email.EmailAuth',
-        'accounts.auth.WeblateUserBackend',
+        'weblate.accounts.auth.WeblateUserBackend',
     )
 
     # Social auth backends setup
