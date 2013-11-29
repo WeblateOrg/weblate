@@ -18,24 +18,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>.
 
-"""module for handling Android resource files"""
-
-from lxml import etree
+"""Module for handling Android String resource files."""
 
 import re
 
-from translate.storage import lisa
-from translate.storage import base
+from lxml import etree
+
 from translate.lang import data
+from translate.storage import base, lisa
+
 
 EOF = None
-WHITESPACE = ' \n\t' # Whitespace that we collapse
+WHITESPACE = ' \n\t'  # Whitespace that we collapse.
 MULTIWHITESPACE = re.compile('[ \n\t]{2}')
 
+
 class AndroidResourceUnit(base.TranslationUnit):
-    """A single term in the Android resource file."""
+    """A single entry in the Android String resource file."""
     rootNode = "string"
     languageNode = "string"
+
+    @classmethod
+    def createfromxmlElement(cls, element):
+        term = cls(None, xmlelement = element)
+        return term
 
     def __init__(self, source, empty=False, xmlelement=None, **kwargs):
         if xmlelement is not None:
@@ -59,11 +65,11 @@ class AndroidResourceUnit(base.TranslationUnit):
     def getid(self):
         return self.xmlelement.get("name")
 
-    def getcontext(self):
-        return self.xmlelement.get("name")
-
     def setid(self, newid):
         return self.xmlelement.set("name", newid)
+
+    def getcontext(self):
+        return self.xmlelement.get("name")
 
     def unescape(self, text):
         '''
@@ -274,11 +280,6 @@ class AndroidResourceUnit(base.TranslationUnit):
     def getlanguageNode(self, lang=None, index=None):
         return self.xmlelement
 
-    def createfromxmlElement(cls, element):
-        term = cls(None, xmlelement = element)
-        return term
-    createfromxmlElement = classmethod(createfromxmlElement)
-
     # Notes are handled as previous sibling comments.
     def addnote(self, text, origin=None, position="append"):
         if origin in ['programmer', 'developer', 'source code', None]:
@@ -318,7 +319,7 @@ class AndroidResourceUnit(base.TranslationUnit):
 
 
 class AndroidResourceFile(lisa.LISAfile):
-    """Class representing a Android resource file store."""
+    """Class representing an Android String resource file store."""
     UnitClass = AndroidResourceUnit
     Name = _("Android String Resource")
     Mimetypes = ["application/xml"]
