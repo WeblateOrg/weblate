@@ -147,10 +147,10 @@ class RepoTestCase(TestCase):
             'po-mono/en.po',
         )
 
-    def create_ts(self):
+    def create_ts(self, suffix=''):
         return self._create_subproject(
             'ts',
-            'ts/*.ts',
+            'ts{0}/*.ts'.format(suffix),
         )
 
     def create_iphone(self):
@@ -355,8 +355,8 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 1, 'cs', 4)
 
     def test_create_ts(self):
-        project = self.create_ts()
-        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+        project = self.create_ts('-translated')
+        self.verify_subproject(project, 1, 'cs', 4)
 
         unit = Unit.objects.get(source__startswith='Orangutan')
         self.assertTrue(unit.is_plural())
@@ -367,7 +367,7 @@ class SubProjectTest(RepoTestCase):
         self.assertFalse(unit.is_plural())
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertEqual(unit.target, 'Hello, world!')
+        self.assertEqual(unit.target, 'Hello, world!\n')
 
         unit = Unit.objects.get(source__startswith='Thank ')
         self.assertFalse(unit.is_plural())

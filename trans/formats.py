@@ -149,8 +149,8 @@ class FileUnit(object):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             return join_plural([
-                self.unit.source.replace('(s)', ''),
-                self.unit.source.replace('(s)', 's'),
+                self.unit.source,
+                self.unit.source,
             ])
         if self.is_unit_key_value():
             # Need to decode property encoded string

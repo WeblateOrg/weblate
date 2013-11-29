@@ -34,6 +34,7 @@ from accounts.models import Profile
 from PIL import Image
 import re
 import time
+import unittest
 from urlparse import urlsplit
 from cStringIO import StringIO
 
@@ -97,7 +98,7 @@ class ViewTestCase(RepoTestCase):
 
     def get_unit(self, source='Hello, world!\n'):
         translation = self.get_translation()
-        return translation.unit_set.get(source=source)
+        return translation.unit_set.get(source__startswith=source)
 
     def change_unit(self, target):
         unit = self.get_unit()
@@ -105,7 +106,10 @@ class ViewTestCase(RepoTestCase):
         unit.save_backend(self.get_request('/'))
 
     def edit_unit(self, source, target, **kwargs):
-        unit = self.get_translation().unit_set.get(source=source)
+        '''
+        Does edit single unit using web interface.
+        '''
+        unit = self.get_unit(source)
         params = {
             'checksum': unit.checksum,
             'target': target,
@@ -341,6 +345,8 @@ class EditTest(ViewTestCase):
     '''
     Tests for manipulating translation.
     '''
+    has_plurals = True
+
     def setUp(self):
         super(EditTest, self).setUp()
         self.translation = self.subproject.translation_set.get(
@@ -389,6 +395,38 @@ class EditTest(ViewTestCase):
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertBackend(1)
+
+    def test_plurals(self):
+        '''
+        Test plural editing.
+        '''
+        if not self.has_plurals:
+            return
+
+        response = self.edit_unit(
+            'Orangutan',
+            u'Opice má %d banán.\n',
+            target_1=u'Opice má %d banány.\n',
+            target_2=u'Opice má %d banánů.\n',
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, self.translate_url, 1)
+        # Check translations
+        unit = self.get_unit('Orangutan')
+        plurals = unit.get_target_plurals()
+        self.assertEquals(len(plurals), 3)
+        self.assertEquals(
+            plurals[0],
+            u'Opice má %d banán.\n',
+        )
+        self.assertEquals(
+            plurals[1],
+            u'Opice má %d banány.\n',
+        )
+        self.assertEquals(
+            plurals[2],
+            u'Opice má %d banánů.\n',
+        )
 
     def test_merge(self):
         # Translate unit to have something to start with
@@ -613,6 +651,8 @@ class EditTest(ViewTestCase):
 
 
 class EditResourceTest(EditTest):
+    has_plurals = False
+
     def create_subproject(self):
         return self.create_android()
 
@@ -623,16 +663,22 @@ class EditPoMonoTest(EditTest):
 
 
 class EditIphoneTest(EditTest):
+    has_plurals = False
+
     def create_subproject(self):
         return self.create_iphone()
 
 
 class EditJavaTest(EditTest):
+    has_plurals = False
+
     def create_subproject(self):
         return self.create_java()
 
 
 class EditXliffTest(EditTest):
+    has_plurals = False
+
     def create_subproject(self):
         return self.create_xliff()
 
@@ -640,6 +686,11 @@ class EditXliffTest(EditTest):
 class EditLinkTest(EditTest):
     def create_subproject(self):
         return self.create_link()
+
+
+class EditTSTest(EditTest):
+    def create_subproject(self):
+        return self.create_ts()
 
 
 class SuggestionsTest(ViewTestCase):
