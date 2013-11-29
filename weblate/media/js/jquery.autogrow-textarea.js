@@ -3,13 +3,12 @@
     /*
      * Auto-growing textareas; technique ripped from Facebook
      */
-    $.fn.autogrow = function(options) {
+    $.fn.autogrow = function() {
 
         this.filter('textarea').each(function() {
 
             var $this       = $(this),
-                minHeight   = $this.height(),
-                lineHeight  = $this.css('lineHeight');
+                minHeight   = $this.height();
 
             var shadow = $('<div></div>').css({
                 position:   'absolute',
@@ -31,7 +30,7 @@
 
                 shadow.html(val);
                 $this.css('height', Math.max(shadow.height() + 20, minHeight));
-            }
+            };
 
             $this.change(update).keyup(update).keydown(update);
 
@@ -41,6 +40,6 @@
 
         return this;
 
-    }
+    };
 
 })(jQuery);
