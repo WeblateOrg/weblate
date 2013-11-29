@@ -23,6 +23,7 @@ Base code for machine translation services.
 
 from django.core.cache import cache
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 import json
 import urllib
 import urllib2
