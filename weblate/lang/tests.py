@@ -23,7 +23,7 @@ Tests for language manipulations.
 """
 
 from django.test import TestCase
-from lang.models import Language
+from weblate.lang.models import Language
 from django.core.management import call_command
 
 

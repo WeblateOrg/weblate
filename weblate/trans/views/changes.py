@@ -26,7 +26,7 @@ from django.utils.translation import ugettext as _
 from django.db.models import Q
 from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
-from lang.models import Language
+from weblate.lang.models import Language
 from urllib import urlencode
 
 

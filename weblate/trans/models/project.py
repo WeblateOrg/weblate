@@ -28,7 +28,7 @@ from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 import os
 import os.path
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.validators import validate_commit_message
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.util import get_site_url

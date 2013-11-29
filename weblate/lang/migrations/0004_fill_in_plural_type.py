@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from south.v2 import DataMigration
-from lang.models import get_plural_type
+from weblate.lang.models import get_plural_type
 
 
 class Migration(DataMigration):

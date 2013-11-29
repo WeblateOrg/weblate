@@ -19,7 +19,7 @@
 #
 
 from django.db import models
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
 from translate.storage.csvl10n import csvfile

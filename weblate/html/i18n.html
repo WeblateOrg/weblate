@@ -10,7 +10,7 @@ These are from django core
 <!-- 
 Language names, generated using:
 
-from lang.models import Language
+from weblate.lang.models import Language
 for l in Language.objects.exclude(name__contains='generated').values_list('name', flat=True).distinct():
     print '{%% trans "%s" %%}' % l
 

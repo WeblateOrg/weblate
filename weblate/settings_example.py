@@ -239,7 +239,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'south',
     'weblate.trans',
-    'lang',
+    'weblate.lang',
     'weblate.accounts',
     # Needed for javascript localization
     'weblate',

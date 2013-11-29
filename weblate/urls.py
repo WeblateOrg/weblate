@@ -380,12 +380,12 @@ urlpatterns = patterns(
     # Languages browsing
     url(
         r'^languages/$',
-        'lang.views.show_languages',
+        'weblate.lang.views.show_languages',
         name='languages',
     ),
     url(
         r'^languages/' + LANGUAGE + '/$',
-        'lang.views.show_language',
+        'weblate.lang.views.show_language',
         name='show_language',
     ),
 

@@ -22,7 +22,7 @@ Helper methods for views.
 '''
 
 from weblate.trans.models import Project, SubProject, Translation
-from lang.models import Language
+from weblate.lang.models import Language
 from django.shortcuts import get_object_or_404
 import django.utils.translation
 

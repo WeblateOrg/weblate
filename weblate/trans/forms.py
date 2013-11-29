@@ -25,7 +25,7 @@ from django.utils.translation import (
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from urllib import urlencode
 import weblate

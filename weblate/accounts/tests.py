@@ -47,7 +47,7 @@ from weblate.accounts.middleware import RequireLoginMiddleware
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.test_util import get_test_file
 from weblate.trans.models.unitdata import Suggestion, Comment
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate import appsettings
 
 REGISTRATION_DATA = {

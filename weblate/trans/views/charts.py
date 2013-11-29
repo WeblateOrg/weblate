@@ -22,7 +22,7 @@ Charting library for Weblate.
 '''
 
 from weblate.trans.models import Change
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.views.helper import get_project_translation
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext

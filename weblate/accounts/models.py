@@ -34,7 +34,7 @@ from django.core.mail import EmailMultiAlternatives
 from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
 
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.models import Project, Change
 from weblate.trans.util import (
     get_user_display, get_site_url, get_distinct_translations

@@ -35,7 +35,7 @@ from datetime import datetime, timedelta
 
 import weblate
 from weblate import appsettings
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.subproject import SubProject

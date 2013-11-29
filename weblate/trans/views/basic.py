@@ -34,7 +34,7 @@ from weblate.trans.models import (
     Dictionary, Change, Unit
 )
 from weblate.trans.requirements import get_versions, get_optional_versions
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, NewLanguageForm,

@@ -19,7 +19,7 @@
 #
 
 from django.contrib import admin
-from lang.models import Language
+from weblate.lang.models import Language
 
 
 class LanguageAdmin(admin.ModelAdmin):

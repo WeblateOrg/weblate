@@ -28,7 +28,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Translation, Dictionary, Change
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.util import get_site_url
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.trans.views.helper import get_project

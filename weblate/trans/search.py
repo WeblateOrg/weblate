@@ -29,7 +29,7 @@ from django.db.models.signals import post_syncdb
 from weblate import appsettings
 from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
-from lang.models import Language
+from weblate.lang.models import Language
 
 TARGET_SCHEMA = Schema(
     checksum=ID(stored=True, unique=True),

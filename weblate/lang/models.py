@@ -22,7 +22,7 @@ from django.db import models
 from django.utils.translation import ugettext as _, pgettext_lazy
 from django.utils.safestring import mark_safe
 from translate.lang.data import languages
-from lang import data
+from weblate.lang import data
 from weblate.trans.mixins import PercentMixin
 
 from south.signals import post_migrate
@@ -278,7 +278,7 @@ def setup_lang(sender, app, **kwargs):
     '''
     Hook for creating basic set of languages on database migration.
     '''
-    if app == 'lang' or getattr(app, '__name__', '') == 'lang.models':
+    if app == 'lang' or getattr(app, '__name__', '') == 'weblate.lang.models':
         Language.objects.setup(False)
 
 
