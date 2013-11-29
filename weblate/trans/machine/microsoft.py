@@ -20,7 +20,7 @@
 
 from datetime import datetime, timedelta
 from weblate.trans.machine.base import (
-    MachineTranslation, MachineTranslationError, ImproperlyConfigured
+    MachineTranslation, MachineTranslationError, MissingConfiguration
 )
 from weblate import appsettings
 
@@ -54,7 +54,7 @@ class MicrosoftTranslation(MachineTranslation):
         self._access_token = None
         self._token_expiry = None
         if not microsoft_translation_supported():
-            raise ImproperlyConfigured(
+            raise MissingConfiguration(
                 'Microsoft Translator requires credentials'
             )
 

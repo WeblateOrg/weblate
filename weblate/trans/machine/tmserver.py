@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.machine.base import (
-    MachineTranslation, ImproperlyConfigured
+    MachineTranslation, MissingConfiguration
 )
 import urllib
 
@@ -44,7 +44,7 @@ class TMServerTranslation(MachineTranslation):
         Returns URL of a server.
         '''
         if appsettings.MT_TMSERVER is None:
-            raise ImproperlyConfigured(
+            raise MissingConfiguration(
                 'Not configured tmserver URL'
             )
 

@@ -35,6 +35,11 @@ class MachineTranslationError(Exception):
     Generic Machine translation error.
     '''
 
+class MissingConfiguration(ImproperlyConfigured):
+    '''
+    Exception raised when configuraiton is wrong.
+    '''
+
 
 class MachineTranslation(object):
     '''

@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.machine.base import (
-    MachineTranslation, MachineTranslationError, ImproperlyConfigured
+    MachineTranslation, MachineTranslationError, MissingConfiguration
 )
 from weblate import appsettings
 
@@ -36,7 +36,7 @@ class GoogleTranslation(MachineTranslation):
         '''
         super(GoogleTranslation, self).__init__()
         if appsettings.MT_GOOGLE_KEY is None:
-            raise ImproperlyConfigured(
+            raise MissingConfiguration(
                 'Google Translate requires API key'
             )
 
