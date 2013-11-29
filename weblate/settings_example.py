@@ -103,6 +103,7 @@ LANGUAGES = (
     ('sl', u'Slovenščina'),
     ('sv', u'Svenska'),
     ('tr', u'Türkçe'),
+    ('uk', u'українська мова'),
     ('zh_CN', u'简体字'),
     ('zh_TW', u'正體字'),
 )
