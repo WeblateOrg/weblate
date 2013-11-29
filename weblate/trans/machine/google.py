@@ -19,9 +19,8 @@
 #
 
 from weblate.trans.machine.base import (
-    MachineTranslation, MachineTranslationError
+    MachineTranslation, MachineTranslationError, ImproperlyConfigured
 )
-from django.core.exceptions import ImproperlyConfigured
 from weblate import appsettings
 
 
