@@ -105,7 +105,10 @@ class ViewTestCase(RepoTestCase):
         unit.save_backend(self.get_request('/'))
 
     def edit_unit(self, source, target, **kwargs):
-        unit = self.get_translation().unit_set.get(source=source)
+        '''
+        Does edit single unit using web interface.
+        '''
+        unit = self.get_translation().unit_set.get(source__startswith=source)
         params = {
             'checksum': unit.checksum,
             'target': target,
