@@ -642,6 +642,11 @@ class EditLinkTest(EditTest):
         return self.create_link()
 
 
+class EditTSTest(EditTest):
+    def create_subproject(self):
+        return self.create_ts()
+
+
 class SuggestionsTest(ViewTestCase):
     def add_suggestion_1(self):
         return self.edit_unit(
