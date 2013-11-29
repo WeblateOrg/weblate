@@ -34,7 +34,6 @@ from accounts.models import Profile
 from PIL import Image
 import re
 import time
-import unittest
 from urlparse import urlsplit
 from cStringIO import StringIO
 
