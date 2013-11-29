@@ -31,8 +31,8 @@ script:
   - ./manage.py validate --settings weblate.settings_test_$TRAVIS_DATABASE
   - ./manage.py syncdb --noinput --settings weblate.settings_test_$TRAVIS_DATABASE
   - ./manage.py migrate --settings weblate.settings_test_$TRAVIS_DATABASE --traceback
-  - coverage run --source=. ./manage.py test --settings weblate.settings_test_$TRAVIS_DATABASE trans lang weblate.accounts
-  - pep8 --exclude migrations trans lang weblate
-  - pylint --reports=n --rcfile=pylint.rc trans weblate lang
+  - coverage run --source=. ./manage.py test --settings weblate.settings_test_$TRAVIS_DATABASE weblate.trans weblate.lang weblate.accounts
+  - pep8 --exclude migrations weblate
+  - pylint --reports=n --rcfile=pylint.rc weblate
 after_success:
   - coveralls
