@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 from weblate.trans.models import Suggestion, Comment, Check, Unit, Project
-from lang.models import Language
+from weblate.lang.models import Language
 
 
 class Command(BaseCommand):

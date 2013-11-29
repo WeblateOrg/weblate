@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.management.commands import WeblateCommand
-from lang.models import Language
+from weblate.lang.models import Language
 from weblate.trans.search import (
     update_index, create_source_index, create_target_index
 )
