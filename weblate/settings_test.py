@@ -32,7 +32,8 @@ if 'TRAVIS_DATABASE' in os.environ:
         DATABASES['default']['USER'] = 'root'
         DATABASES['default']['PASSWORD'] = ''
     elif os.environ['TRAVIS_DATABASE'] == 'postgresql':
-        DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
+        DATABASES['default']['ENGINE'] = \
+            'django.db.backends.postgresql_psycopg2'
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'postgres'
         DATABASES['default']['PASSWORD'] = ''
