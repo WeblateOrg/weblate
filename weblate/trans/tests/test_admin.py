@@ -52,8 +52,8 @@ class AdminTest(ViewTestCase):
         tempdir = tempfile.mkdtemp()
         rsafile = os.path.join(tempdir, 'id_rsa.pub')
         try:
-            backup = trans.admin_views.RSA_KEY_FILE
-            trans.admin_views.RSA_KEY_FILE = rsafile
+            backup = weblate.trans.admin_views.RSA_KEY_FILE
+            weblate.trans.admin_views.RSA_KEY_FILE = rsafile
 
             response = self.client.get(reverse('admin-ssh'))
             self.assertContains(response, 'Generate SSH key')
@@ -65,15 +65,15 @@ class AdminTest(ViewTestCase):
             self.assertContains(response, 'Created new SSH key')
 
         finally:
-            trans.admin_views.RSA_KEY_FILE = backup
+            weblate.trans.admin_views.RSA_KEY_FILE = backup
             shutil.rmtree(tempdir)
 
     def test_ssh_add(self):
         tempdir = tempfile.mkdtemp()
         hostsfile = os.path.join(tempdir, 'known_hosts')
         try:
-            backup = trans.admin_views.KNOWN_HOSTS_FILE
-            trans.admin_views.KNOWN_HOSTS_FILE = hostsfile
+            backup = weblate.trans.admin_views.KNOWN_HOSTS_FILE
+            weblate.trans.admin_views.KNOWN_HOSTS_FILE = hostsfile
 
             # Verify there is button for adding
             response = self.client.get(reverse('admin-ssh'))
@@ -89,7 +89,7 @@ class AdminTest(ViewTestCase):
             # Check the file contains it
             self.assertIn('github.com', file(hostsfile).read())
         finally:
-            trans.admin_views.KNOWN_HOSTS_FILE = backup
+            weblate.trans.admin_views.KNOWN_HOSTS_FILE = backup
             shutil.rmtree(tempdir)
 
     def test_performace(self):
@@ -148,9 +148,9 @@ class AdminTest(ViewTestCase):
 class SSHKeysTest(TestCase):
     def test_parse(self):
         try:
-            backup = trans.admin_views.KNOWN_HOSTS_FILE
-            trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
-            hosts = trans.admin_views.get_host_keys()
+            backup = weblate.trans.admin_views.KNOWN_HOSTS_FILE
+            weblate.trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
+            hosts = weblate.trans.admin_views.get_host_keys()
             self.assertEqual(len(hosts), 50)
         finally:
-            trans.admin_views.KNOWN_HOSTS_FILE = backup
+            weblate.trans.admin_views.KNOWN_HOSTS_FILE = backup
