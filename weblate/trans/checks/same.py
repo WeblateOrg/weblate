@@ -523,6 +523,7 @@ SAME_BLACKLIST = frozenset((
     'xml',
     'yard',
     'yd',
+    'zen',
     'zero',
     'zip',
     'zoom',
