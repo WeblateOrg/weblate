@@ -229,11 +229,12 @@ def ssh(request):
     if can_generate and action == 'generate':
         # Create directory if it does not exist
         key_dir = os.path.dirname(RSA_KEY_FILE)
-        if not os.path.exists(key_dir):
-            os.makedirs(key_dir)
 
         # Try generating key
         try:
+            if not os.path.exists(key_dir):
+                os.makedirs(key_dir)
+
             subprocess.check_output(
                 [
                     'ssh-keygen', '-q',
@@ -245,7 +246,7 @@ def ssh(request):
                 stderr=subprocess.STDOUT,
             )
             messages.info(request, _('Created new SSH key.'))
-        except subprocess.CalledProcessError as exc:
+        except (subprocess.CalledProcessError, OSError) as exc:
             messages.error(
                 request,
                 _('Failed to generate key: %s') % exc.output
