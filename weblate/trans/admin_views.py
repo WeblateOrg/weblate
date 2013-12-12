@@ -178,7 +178,7 @@ def parse_hosts_line(line):
     '''
     Parses single hosts line into tuple host, key fingerprint.
     '''
-    host, dummy, key = line.strip().partition(' ssh-rsa ')
+    host, keytype, key = line.strip().split(None, 3)[:3]
     fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
     fingerprint = ':'.join(
         [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
@@ -186,7 +186,7 @@ def parse_hosts_line(line):
     if host.startswith('|1|'):
         # Translators: placeholder SSH hashed hostname
         host = _('[hostname hashed]')
-    return (host, fingerprint)
+    return (host, keytype, fingerprint)
 
 
 def get_host_keys():
@@ -197,9 +197,8 @@ def get_host_keys():
         result = []
         with open(KNOWN_HOSTS_FILE, 'r') as handle:
             for line in handle:
-                if ' ssh-rsa ' not in line:
-                    continue
-                result.append(parse_hosts_line(line))
+                if ' ssh-rsa ' in line or ' ecdsa-sha2-nistp256 ' in line:
+                    result.append(parse_hosts_line(line))
     except IOError:
         return []
 
@@ -287,15 +286,17 @@ def ssh(request):
                     if ' ssh-rsa ' in line or ' ecdsa-sha2-nistp256 ' in line
                 ]
                 for key in keys:
-                    host, fingerprint = parse_hosts_line(key)
+                    host, keytype, fingerprint = parse_hosts_line(key)
                     messages.warning(
                         request,
                         _(
                             'Added host key for %(host)s with fingerprint '
-                            '%(fingerprint)s, please verify that it is correct.'
+                            '%(fingerprint)s (%(keytype)s, '
+                            'please verify that it is correct.'
                         ) % {
                             'host': host,
                             'fingerprint': fingerprint,
+                            'keytype': keytype,
                         }
                     )
                 with open(KNOWN_HOSTS_FILE, 'a') as handle:
