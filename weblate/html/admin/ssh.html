@@ -56,7 +56,10 @@
     <form method="post">
     {% csrf_token %}
     <input type="hidden" name="action" value="add-host" />
-    <input type="text" name="host" /><br />
+    {% trans "Host:" %}
+    <input type="text" name="host" /> 
+    {% trans "Port:" %}
+    <input type="text" name="port" /><br />
     <input type="submit" value="{% trans "Submit" %}" />
     </form>
 

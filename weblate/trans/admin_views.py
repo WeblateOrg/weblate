@@ -268,30 +268,44 @@ def ssh(request):
     # Add host key
     if action == 'add-host':
         host = request.POST.get('host', '')
+        port = request.POST.get('port', '')
         if len(host) == 0:
             messages.error(request, _('Invalid host name given!'))
         else:
-            output = subprocess.check_output(['ssh-keyscan', host])
-            keys = [
-                line
-                for line in output.splitlines()
-                if ' ssh-rsa ' in line
-            ]
-            for key in keys:
-                host, fingerprint = parse_hosts_line(key)
-                messages.warning(
-                    request,
-                    _(
-                        'Added host key for %(host)s with fingerprint '
-                        '%(fingerprint)s, please verify that it is correct.'
-                    ) % {
-                        'host': host,
-                        'fingerprint': fingerprint,
-                    }
+            cmdline = ['ssh-keyscan']
+            if port:
+                cmdline.extend(['-p', port])
+            cmdline.append(host)
+            try:
+                output = subprocess.check_output(
+                    cmdline,
+                    stderr=subprocess.STDOUT,
                 )
-            with open(KNOWN_HOSTS_FILE, 'a') as handle:
+                keys = [
+                    line
+                    for line in output.splitlines()
+                    if ' ssh-rsa ' in line or ' ecdsa-sha2-nistp256 ' in line
+                ]
                 for key in keys:
-                    handle.write('%s\n' % key)
+                    host, fingerprint = parse_hosts_line(key)
+                    messages.warning(
+                        request,
+                        _(
+                            'Added host key for %(host)s with fingerprint '
+                            '%(fingerprint)s, please verify that it is correct.'
+                        ) % {
+                            'host': host,
+                            'fingerprint': fingerprint,
+                        }
+                    )
+                with open(KNOWN_HOSTS_FILE, 'a') as handle:
+                    for key in keys:
+                        handle.write('%s\n' % key)
+            except (subprocess.CalledProcessError, OSError) as exc:
+                messages.error(
+                    request,
+                    _('Failed to get host key: %s') % exc.output
+                )
 
     return render_to_response("admin/ssh.html", RequestContext(request, {
         'public_key': key,
