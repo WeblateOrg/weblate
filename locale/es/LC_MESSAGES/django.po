@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-12-17 11:58+0100\n"
-"PO-Revision-Date: 2013-11-29 15:50+0200\n"
+"PO-Revision-Date: 2013-12-17 15:53+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
 "Language: es\n"
@@ -2276,7 +2276,7 @@ msgstr ""
 "de confirmación. Visite dicho enlace para completar su registro."
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2286,9 +2286,9 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"Si no lo recibe a la brevedad revise su carpeta de correo no deseado. Si "
-"tampoco está allí, <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contáctenos</a>."
+"Si no lo recibe a la brevedad revise su carpeta de correo no deseado o "
+"intente registrarse nuevamente. Si el problema persiste, <a href=\"%"
+"(contact_url)s?subject=Registration problems\">contáctenos</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2575,10 +2575,9 @@ msgid "Hostname"
 msgstr "Nombre de servidor"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Tipo de búsqueda"
+msgstr "Tipo de clave"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2597,14 +2596,13 @@ msgstr ""
 "Puede revisar la llave del servidor con el formulario a continuación."
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Alojamiento"
+msgstr "Equipo:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "Puerto:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -3121,7 +3119,7 @@ msgid "Invalid host name given!"
 msgstr "¡Nombre de servidor inválido!"
 
 #: weblate/trans/admin_views.py:301
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3129,14 +3127,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
 "please verify that it is correct."
 msgstr ""
-"Se agregó la llave de servidor para %(host)s con la huella %(fingerprint)s, "
-"verifique que sea correcta."
+"Se agregó la llave de servidor para %(host)s con la huella %(fingerprint)s ("
+"%(keytype)s), verifique que sea correcta."
 
 #: weblate/trans/admin_views.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "No se pudo generar la llave: %s"
+msgstr "No se pudo generar la llave de servidor: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
