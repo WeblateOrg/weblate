@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-29 15:16+0100\n"
+"POT-Creation-Date: 2013-12-17 11:58+0100\n"
 "PO-Revision-Date: 2013-11-29 15:50+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <http://l10n.cihar.com/projects/weblate/master/es/>\n"
@@ -2226,7 +2226,6 @@ msgid "Translation status"
 msgstr "Estado de la traducción"
 
 #: weblate/html/zen-response.html:7
-#| msgid "Translation changed"
 msgid "Translation has been saved!"
 msgstr "¡Traducción guardada!"
 
@@ -2244,7 +2243,6 @@ msgstr "zen"
 
 #: weblate/html/zen.html:25
 #, python-format
-#| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Filtro actual: %(filter_name)s (%(filter_count)s)"
 
@@ -2278,11 +2276,15 @@ msgstr ""
 "de confirmación. Visite dicho enlace para completar su registro."
 
 #: weblate/html/accounts/email-sent.html:11
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If you don't receive it shortly, please check your spam folder. If it's "
+#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+#| "\">contact us</a>."
 msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
+"If you don't receive it shortly, please check your spam folder or retry the "
+"registration. If the problem persists, please <a href=\"%(contact_url)s?"
+"subject=Registration problems\">contact us</a>."
 msgstr ""
 "Si no lo recibe a la brevedad revise su carpeta de correo no deseado. Si "
 "tampoco está allí, <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2573,14 +2575,20 @@ msgid "Hostname"
 msgstr "Nombre de servidor"
 
 #: weblate/html/admin/ssh.html:41
+#, fuzzy
+#| msgid "Search type"
+msgid "Key type"
+msgstr "Tipo de búsqueda"
+
+#: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
 msgstr "Huella"
 
-#: weblate/html/admin/ssh.html:54
+#: weblate/html/admin/ssh.html:55
 msgid "Add host key"
 msgstr "Agrega llave de servidor"
 
-#: weblate/html/admin/ssh.html:55
+#: weblate/html/admin/ssh.html:56
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
@@ -2589,14 +2597,24 @@ msgstr ""
 "Puede revisar la llave del servidor con el formulario a continuación."
 
 #: weblate/html/admin/ssh.html:60
+#, fuzzy
+#| msgid "Hosting"
+msgid "Host:"
+msgstr "Alojamiento"
+
+#: weblate/html/admin/ssh.html:62
+msgid "Port:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:64
 msgid "Submit"
 msgstr "Enviar"
 
-#: weblate/html/admin/ssh.html:63
+#: weblate/html/admin/ssh.html:67
 msgid "More information"
 msgstr "Más información"
 
-#: weblate/html/admin/ssh.html:65
+#: weblate/html/admin/ssh.html:69
 #, python-format
 msgid ""
 "You can find more information about setting up SSH keys in <a href="
@@ -3089,27 +3107,36 @@ msgstr "Archivos estáticos del «admin»"
 msgid "[hostname hashed]"
 msgstr "[nombre de servidor cifrado]"
 
-#: weblate/trans/admin_views.py:247
+#: weblate/trans/admin_views.py:264
 msgid "Created new SSH key."
 msgstr "Se creó una nueva llave SSH."
 
-#: weblate/trans/admin_views.py:251
+#: weblate/trans/admin_views.py:268
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "No se pudo generar la llave: %s"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:280
 msgid "Invalid host name given!"
 msgstr "¡Nombre de servidor inválido!"
 
-#: weblate/trans/admin_views.py:284
-#, python-format
+#: weblate/trans/admin_views.py:301
+#, fuzzy, python-format
+#| msgid ""
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
+#| "verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
-"that it is correct."
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"please verify that it is correct."
 msgstr ""
 "Se agregó la llave de servidor para %(host)s con la huella %(fingerprint)s, "
 "verifique que sea correcta."
+
+#: weblate/trans/admin_views.py:316
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to get host key: %s"
+msgstr "No se pudo generar la llave: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -3541,11 +3568,11 @@ msgid "XML tags in translation do not match source"
 msgstr ""
 "Las etiquetas XML en la traducción no coincide con aquellas en el original"
 
-#: weblate/trans/checks/same.py:767
+#: weblate/trans/checks/same.py:770
 msgid "Not translated"
 msgstr "Sin traducir"
 
-#: weblate/trans/checks/same.py:768
+#: weblate/trans/checks/same.py:771
 msgid "Source and translated strings are same"
 msgstr "La cadena original y la traducida son iguales"
 
@@ -3587,11 +3614,11 @@ msgstr "Done a Weblate en {0}"
 msgid "Support Weblate at {0}"
 msgstr "Soporte a Weblate en {0}"
 
-#: weblate/trans/models/advertisement.py:71
+#: weblate/trans/models/advertisement.py:72
 msgid "Donate to Weblate"
 msgstr "Donar a Weblate"
 
-#: weblate/trans/models/advertisement.py:75
+#: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
 msgstr "Soporte a Weblate usando GitTip"
 
@@ -4602,7 +4629,6 @@ msgstr "Se realizaron las siguientes correcciones a la traducción: %s"
 
 #: weblate/trans/views/edit.py:274
 #, python-brace-format
-#| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Fallaron algunos chequeos en su traducción: {0}"
 
@@ -4656,7 +4682,6 @@ msgid "Failed to add comment!"
 msgstr "¡No se pudo agregar el comentario!"
 
 #: weblate/trans/views/edit.py:785
-#| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
 msgstr "¡No se pudo guardar la traducción!"
 

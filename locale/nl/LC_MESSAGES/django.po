@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-29 15:16+0100\n"
+"POT-Creation-Date: 2013-12-17 11:58+0100\n"
 "PO-Revision-Date: 2013-12-12 14:57+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <http://l10n.cihar.com/projects/weblate/master/nl/>\n"
@@ -1715,7 +1715,6 @@ msgstr ""
 "in door machineleesbare formaten."
 
 #: weblate/html/show-lock.html:6
-#| msgid "Translation is currently not locked."
 msgid "This translation is currently locked for updates!"
 msgstr "Deze vertaling wordt op dit moment vergrendeld voor aanpassingen!"
 
@@ -2227,7 +2226,6 @@ msgid "Translation status"
 msgstr "Vertalingsstatus"
 
 #: weblate/html/zen-response.html:7
-#| msgid "Translation changed"
 msgid "Translation has been saved!"
 msgstr "Vertaling werd opgeslagen!"
 
@@ -2245,7 +2243,6 @@ msgstr "zen"
 
 #: weblate/html/zen.html:25
 #, python-format
-#| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Huidige filter: %(filter_name)s (%(filter_count)s)"
 
@@ -2280,11 +2277,15 @@ msgstr ""
 "registratie te voltooien."
 
 #: weblate/html/accounts/email-sent.html:11
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If you don't receive it shortly, please check your spam folder. If it's "
+#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+#| "\">contact us</a>."
 msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
+"If you don't receive it shortly, please check your spam folder or retry the "
+"registration. If the problem persists, please <a href=\"%(contact_url)s?"
+"subject=Registration problems\">contact us</a>."
 msgstr ""
 "Als u het niet onmiddellijk ontvangt, controleer dan uw spam-map. Mocht u "
 "het daar niet vinden, neem dan <a href=\"%(contact_url)s?subject=Lost "
@@ -2572,14 +2573,20 @@ msgid "Hostname"
 msgstr "Hostnaam"
 
 #: weblate/html/admin/ssh.html:41
+#, fuzzy
+#| msgid "Search type"
+msgid "Key type"
+msgstr "Zoektype"
+
+#: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
 msgstr "Vingerafdruk"
 
-#: weblate/html/admin/ssh.html:54
+#: weblate/html/admin/ssh.html:55
 msgid "Add host key"
 msgstr "Voeg een hostsleutel toe"
 
-#: weblate/html/admin/ssh.html:55
+#: weblate/html/admin/ssh.html:56
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
@@ -2588,14 +2595,24 @@ msgstr ""
 "hostsleutel controleren met behulp van onderstaand formulier."
 
 #: weblate/html/admin/ssh.html:60
+#, fuzzy
+#| msgid "Hosting"
+msgid "Host:"
+msgstr "Huisvesting"
+
+#: weblate/html/admin/ssh.html:62
+msgid "Port:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:64
 msgid "Submit"
 msgstr "Opslaan"
 
-#: weblate/html/admin/ssh.html:63
+#: weblate/html/admin/ssh.html:67
 msgid "More information"
 msgstr "Meer informatie"
 
-#: weblate/html/admin/ssh.html:65
+#: weblate/html/admin/ssh.html:69
 #, python-format
 msgid ""
 "You can find more information about setting up SSH keys in <a href="
@@ -3099,27 +3116,36 @@ msgstr "Statische adminbestanden"
 msgid "[hostname hashed]"
 msgstr "[hostnaam gehashed]"
 
-#: weblate/trans/admin_views.py:247
+#: weblate/trans/admin_views.py:264
 msgid "Created new SSH key."
 msgstr "Nieuwe SSH-sleutel aangemaakt."
 
-#: weblate/trans/admin_views.py:251
+#: weblate/trans/admin_views.py:268
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Genereren van de sleutel is mislukt: %s"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:280
 msgid "Invalid host name given!"
 msgstr "Ongeldige hostnaam opgegeven!"
 
-#: weblate/trans/admin_views.py:284
-#, python-format
+#: weblate/trans/admin_views.py:301
+#, fuzzy, python-format
+#| msgid ""
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
+#| "verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
-"that it is correct."
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"please verify that it is correct."
 msgstr ""
 "Hostsleutel van %(host)s toegevoegd met vingerafdruk %(fingerprint)s, "
 "gelieve na te gaan of deze correct is."
+
+#: weblate/trans/admin_views.py:316
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to get host key: %s"
+msgstr "Genereren van de sleutel is mislukt: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -3547,11 +3573,11 @@ msgstr "Niet-overeenkomende XML-tags"
 msgid "XML tags in translation do not match source"
 msgstr "XML-tags in de vertaling komt niet overeen met de bron"
 
-#: weblate/trans/checks/same.py:767
+#: weblate/trans/checks/same.py:770
 msgid "Not translated"
 msgstr "Niet vertaald"
 
-#: weblate/trans/checks/same.py:768
+#: weblate/trans/checks/same.py:771
 msgid "Source and translated strings are same"
 msgstr "Bron- en vertaalde tekenreeksen zijn hetzelfde"
 
@@ -3592,11 +3618,11 @@ msgstr "Doe een gift aan Weblate via {0}"
 msgid "Support Weblate at {0}"
 msgstr "Ondersteun Weblate op {0}"
 
-#: weblate/trans/models/advertisement.py:71
+#: weblate/trans/models/advertisement.py:72
 msgid "Donate to Weblate"
 msgstr "Doe een donatie aan Weblate"
 
-#: weblate/trans/models/advertisement.py:75
+#: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
 msgstr "Ondersteun Weblate met GitTip"
 
@@ -4605,7 +4631,6 @@ msgstr "Volgende correcties werden toegepast op de vertaling: %s"
 
 #: weblate/trans/views/edit.py:274
 #, python-brace-format
-#| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Sommige controles zijn gefaald voor uw vertaling : {0}"
 
@@ -4659,7 +4684,6 @@ msgid "Failed to add comment!"
 msgstr "Opmerking toevoegen is mislukt!"
 
 #: weblate/trans/views/edit.py:785
-#| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
 msgstr "Opslaan van vertaling mislukt!"
 

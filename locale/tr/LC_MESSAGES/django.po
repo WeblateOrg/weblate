@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-29 15:16+0100\n"
+"POT-Creation-Date: 2013-12-17 11:58+0100\n"
 "PO-Revision-Date: 2013-11-29 18:45+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -2220,7 +2220,6 @@ msgid "Translation status"
 msgstr "Çeviri durumu"
 
 #: weblate/html/zen-response.html:7
-#| msgid "Translation changed"
 msgid "Translation has been saved!"
 msgstr "Çeviri kaydedildi!"
 
@@ -2238,7 +2237,6 @@ msgstr "zen"
 
 #: weblate/html/zen.html:25
 #, python-format
-#| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Şu anki süzgeç: %(filter_name)s (%(filter_count)s)"
 
@@ -2273,11 +2271,15 @@ msgstr ""
 "bağlantıyı takip edin."
 
 #: weblate/html/accounts/email-sent.html:11
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If you don't receive it shortly, please check your spam folder. If it's "
+#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+#| "\">contact us</a>."
 msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
+"If you don't receive it shortly, please check your spam folder or retry the "
+"registration. If the problem persists, please <a href=\"%(contact_url)s?"
+"subject=Registration problems\">contact us</a>."
 msgstr ""
 "Eğer kısa sürede almadıysanız, lütfen gereksiz/istenmeyen mesajlar klasörünü "
 "kontrol edin. Eğer orada yoksa, lütfen <a href=\"%(contact_url)s?"
@@ -2561,14 +2563,20 @@ msgid "Hostname"
 msgstr "Anamakine adı"
 
 #: weblate/html/admin/ssh.html:41
+#, fuzzy
+#| msgid "Search type"
+msgid "Key type"
+msgstr "Arama türü"
+
+#: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
 msgstr "Parmakizi"
 
-#: weblate/html/admin/ssh.html:54
+#: weblate/html/admin/ssh.html:55
 msgid "Add host key"
 msgstr "Anamakine anahtarı ekle"
 
-#: weblate/html/admin/ssh.html:55
+#: weblate/html/admin/ssh.html:56
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
@@ -2577,14 +2585,24 @@ msgstr ""
 "Aşağıdaki formu kullanarak anamakine anahtarını kontrol edebilirsiniz."
 
 #: weblate/html/admin/ssh.html:60
+#, fuzzy
+#| msgid "Hosting"
+msgid "Host:"
+msgstr "Barındırma"
+
+#: weblate/html/admin/ssh.html:62
+msgid "Port:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:64
 msgid "Submit"
 msgstr "Gönder"
 
-#: weblate/html/admin/ssh.html:63
+#: weblate/html/admin/ssh.html:67
 msgid "More information"
 msgstr "Daha fazla bilgi"
 
-#: weblate/html/admin/ssh.html:65
+#: weblate/html/admin/ssh.html:69
 #, python-format
 msgid ""
 "You can find more information about setting up SSH keys in <a href="
@@ -3085,27 +3103,36 @@ msgstr "Yönetici sabit dosyaları"
 msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
-#: weblate/trans/admin_views.py:247
+#: weblate/trans/admin_views.py:264
 msgid "Created new SSH key."
 msgstr "Yeni SSH anahtarı oluşturuldu."
 
-#: weblate/trans/admin_views.py:251
+#: weblate/trans/admin_views.py:268
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Anahtar üretme başarısız: %s"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:280
 msgid "Invalid host name given!"
 msgstr "Verilen geçersiz anamakine adı!"
 
-#: weblate/trans/admin_views.py:284
-#, python-format
+#: weblate/trans/admin_views.py:301
+#, fuzzy, python-format
+#| msgid ""
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
+#| "verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
-"that it is correct."
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"please verify that it is correct."
 msgstr ""
 "%(fingerprint)s parmakizi olan %(host)s için anamakine anahtarı eklendi, "
 "lütfen doğru olduğunu onaylayın."
+
+#: weblate/trans/admin_views.py:316
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to get host key: %s"
+msgstr "Anahtar üretme başarısız: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -3529,11 +3556,11 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: weblate/trans/checks/same.py:767
+#: weblate/trans/checks/same.py:770
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: weblate/trans/checks/same.py:768
+#: weblate/trans/checks/same.py:771
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
@@ -3573,11 +3600,11 @@ msgstr "{0} adresinde Weblate'e Bağış Yap"
 msgid "Support Weblate at {0}"
 msgstr "{0} adresinde Weblate'i Destekle"
 
-#: weblate/trans/models/advertisement.py:71
+#: weblate/trans/models/advertisement.py:72
 msgid "Donate to Weblate"
 msgstr "Weblate'e Bağış Yapın"
 
-#: weblate/trans/models/advertisement.py:75
+#: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
 msgstr "GitTip kullanarak Weblate'i Destekle"
 
@@ -4558,7 +4585,6 @@ msgstr "Şu belirtilen düzeltmeler çeviriye uygulandı: %s"
 
 #: weblate/trans/views/edit.py:274
 #, python-brace-format
-#| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Çevirinizde bazı kontroller başarısız oldu: {0}"
 
@@ -4612,7 +4638,6 @@ msgid "Failed to add comment!"
 msgstr "Yorum ekleme başarısız!"
 
 #: weblate/trans/views/edit.py:785
-#| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
 msgstr "Çeviri kaydetme başarısız!"
 

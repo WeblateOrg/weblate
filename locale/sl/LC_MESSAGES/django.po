@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-29 15:16+0100\n"
+"POT-Creation-Date: 2013-12-17 11:58+0100\n"
 "PO-Revision-Date: 2013-12-04 16:15+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2226,7 +2227,6 @@ msgid "Translation status"
 msgstr "Stanje prevoda"
 
 #: weblate/html/zen-response.html:7
-#| msgid "Translation changed"
 msgid "Translation has been saved!"
 msgstr "Prevod smo shranili!"
 
@@ -2244,7 +2244,6 @@ msgstr ""
 
 #: weblate/html/zen.html:25
 #, python-format
-#| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Trenutni filter: %(filter_name)s (%(filter_count)s)"
 
@@ -2279,11 +2278,15 @@ msgstr ""
 "registracijo."
 
 #: weblate/html/accounts/email-sent.html:11
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If you don't receive it shortly, please check your spam folder. If it's "
+#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+#| "\">contact us</a>."
 msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
+"If you don't receive it shortly, please check your spam folder or retry the "
+"registration. If the problem persists, please <a href=\"%(contact_url)s?"
+"subject=Registration problems\">contact us</a>."
 msgstr ""
 "Če je ne prejmete v kratkem, preverite vašo mapo z neželeno pošto (spam). Če "
 "je tudi tam ni, <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2570,14 +2573,20 @@ msgid "Hostname"
 msgstr "Ime gostitelja"
 
 #: weblate/html/admin/ssh.html:41
+#, fuzzy
+#| msgid "Search type"
+msgid "Key type"
+msgstr "Način iskanja"
+
+#: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
 msgstr "Prstni odtis"
 
-#: weblate/html/admin/ssh.html:54
+#: weblate/html/admin/ssh.html:55
 msgid "Add host key"
 msgstr "Dodaj gostiteljski ključ"
 
-#: weblate/html/admin/ssh.html:55
+#: weblate/html/admin/ssh.html:56
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
@@ -2586,14 +2595,24 @@ msgstr ""
 "ključe. Preverite jih lahko s spodnjim obrazcem."
 
 #: weblate/html/admin/ssh.html:60
+#, fuzzy
+#| msgid "Hosting"
+msgid "Host:"
+msgstr "Gostovanje"
+
+#: weblate/html/admin/ssh.html:62
+msgid "Port:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:64
 msgid "Submit"
 msgstr "Potrdi"
 
-#: weblate/html/admin/ssh.html:63
+#: weblate/html/admin/ssh.html:67
 msgid "More information"
 msgstr "Več informacij"
 
-#: weblate/html/admin/ssh.html:65
+#: weblate/html/admin/ssh.html:69
 #, python-format
 msgid ""
 "You can find more information about setting up SSH keys in <a href="
@@ -3087,27 +3106,36 @@ msgstr "Administratorske statične datoteke"
 msgid "[hostname hashed]"
 msgstr "[ime gostitelja je šifrirano]"
 
-#: weblate/trans/admin_views.py:247
+#: weblate/trans/admin_views.py:264
 msgid "Created new SSH key."
 msgstr "Ustvaril sem nov ključ SSH."
 
-#: weblate/trans/admin_views.py:251
+#: weblate/trans/admin_views.py:268
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nisem uspel ustvariti ključa: %s"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:280
 msgid "Invalid host name given!"
 msgstr "Podali ste neveljavno ime gostitelja!"
 
-#: weblate/trans/admin_views.py:284
-#, python-format
+#: weblate/trans/admin_views.py:301
+#, fuzzy, python-format
+#| msgid ""
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
+#| "verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
-"that it is correct."
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"please verify that it is correct."
 msgstr ""
 "Dodal sem ključ gostitelja za %(host)s, s prstnim odtisom %(fingerprint)s; "
 "prosimo, preverite, če je pravilen."
+
+#: weblate/trans/admin_views.py:316
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to get host key: %s"
+msgstr "Nisem uspel ustvariti ključa: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -3533,11 +3561,11 @@ msgstr "Neujemanje oznak XML"
 msgid "XML tags in translation do not match source"
 msgstr "Oznake XML v prevodu se ne ujemajo z izvirnikom"
 
-#: weblate/trans/checks/same.py:767
+#: weblate/trans/checks/same.py:770
 msgid "Not translated"
 msgstr "Ni prevedeno"
 
-#: weblate/trans/checks/same.py:768
+#: weblate/trans/checks/same.py:771
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
@@ -3569,7 +3597,6 @@ msgstr "Prevodi v več jezikih imajo spodletela preverjanja"
 
 #: weblate/trans/models/advertisement.py:59
 #, python-brace-format
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate at {0}"
 msgstr "Prispevajte k Weblate na {0}"
 
@@ -3578,11 +3605,11 @@ msgstr "Prispevajte k Weblate na {0}"
 msgid "Support Weblate at {0}"
 msgstr "Podprite Weblate na {0}"
 
-#: weblate/trans/models/advertisement.py:71
+#: weblate/trans/models/advertisement.py:72
 msgid "Donate to Weblate"
 msgstr "Donirajte Weblateu"
 
-#: weblate/trans/models/advertisement.py:75
+#: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
 msgstr "Podprite Weblate z GitTip"
 
@@ -3595,12 +3622,10 @@ msgid "Mail footer (HTML)"
 msgstr "Noga pošte (HTML)"
 
 #: weblate/trans/models/advertisement.py:100
-#| msgid "Papiamento"
 msgid "Placement"
 msgstr "Postavitev"
 
 #: weblate/trans/models/advertisement.py:103
-#| msgid "Starting date"
 msgid "Start date"
 msgstr "Datum začetka"
 
@@ -3618,7 +3643,8 @@ msgstr "Od postavitve je odvisno, ali je HTML dovoljen."
 
 #: weblate/trans/models/advertisement.py:117
 msgid "Free form note for your notes, not used within Weblate."
-msgstr "Beležka proste oblike za vaše beležke; se ne uporablja znotraj Weblate."
+msgstr ""
+"Beležka proste oblike za vaše beležke; se ne uporablja znotraj Weblate."
 
 #: weblate/trans/models/changes.py:150
 msgid "Resource update"
@@ -4606,7 +4632,6 @@ msgstr "Na prevodu smo izvedli naslednje popravke: %s"
 
 #: weblate/trans/views/edit.py:274
 #, python-brace-format
-#| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Na vašem prevodu so spodletela nekatera preverjanja: {0}"
 
@@ -4660,7 +4685,6 @@ msgid "Failed to add comment!"
 msgstr "Nisem uspel dodati pripombe!"
 
 #: weblate/trans/views/edit.py:785
-#| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
 msgstr "Nismo uspeli shraniti novega prevoda!"
 

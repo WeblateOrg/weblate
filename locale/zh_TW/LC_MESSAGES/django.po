@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-11-29 15:16+0100\n"
+"POT-Creation-Date: 2013-12-17 11:58+0100\n"
 "PO-Revision-Date: 2013-11-30 02:34+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<http://l10n.cihar.com/projects/weblate/master/zh_TW/>\n"
+"Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
+"master/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2161,7 +2161,6 @@ msgid "Translation status"
 msgstr "翻譯狀態"
 
 #: weblate/html/zen-response.html:7
-#| msgid "Translation changed"
 msgid "Translation has been saved!"
 msgstr "已儲存翻譯！"
 
@@ -2179,7 +2178,6 @@ msgstr "zen"
 
 #: weblate/html/zen.html:25
 #, python-format
-#| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "目前篩選：%(filter_name)s (%(filter_count)s)"
 
@@ -2210,11 +2208,15 @@ msgstr ""
 "感謝您註冊。您將會很快收到一封有確認連結的電子郵件。請隨此連結完成您的註冊。"
 
 #: weblate/html/accounts/email-sent.html:11
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "If you don't receive it shortly, please check your spam folder. If it's "
+#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
+#| "\">contact us</a>."
 msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">contact us</a>."
+"If you don't receive it shortly, please check your spam folder or retry the "
+"registration. If the problem persists, please <a href=\"%(contact_url)s?"
+"subject=Registration problems\">contact us</a>."
 msgstr ""
 "如果您沒有收到，請檢查您的垃圾郵件夾。如果不在那裡，請<a href="
 "\"%(contact_url)s?subject=Lost activation code\">連絡我們</a>。"
@@ -2484,14 +2486,20 @@ msgid "Hostname"
 msgstr "主機名稱"
 
 #: weblate/html/admin/ssh.html:41
+#, fuzzy
+#| msgid "Search type"
+msgid "Key type"
+msgstr "搜尋類型"
+
+#: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
 msgstr "特徵"
 
-#: weblate/html/admin/ssh.html:54
+#: weblate/html/admin/ssh.html:55
 msgid "Add host key"
 msgstr "增加主機金鑰"
 
-#: weblate/html/admin/ssh.html:55
+#: weblate/html/admin/ssh.html:56
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can check host "
 "key using form below."
@@ -2499,14 +2507,24 @@ msgstr ""
 "要存取 SSH 主機，主機金鑰需要進行驗證。您可以在下面檢查主機金鑰使用方式。"
 
 #: weblate/html/admin/ssh.html:60
+#, fuzzy
+#| msgid "Hosting"
+msgid "Host:"
+msgstr "主機"
+
+#: weblate/html/admin/ssh.html:62
+msgid "Port:"
+msgstr ""
+
+#: weblate/html/admin/ssh.html:64
 msgid "Submit"
 msgstr "送出"
 
-#: weblate/html/admin/ssh.html:63
+#: weblate/html/admin/ssh.html:67
 msgid "More information"
 msgstr "更詳細的資訊"
 
-#: weblate/html/admin/ssh.html:65
+#: weblate/html/admin/ssh.html:69
 #, python-format
 msgid ""
 "You can find more information about setting up SSH keys in <a href="
@@ -2533,7 +2551,9 @@ msgstr "不要在此變更這個物件，請使用 Weblate 介面作為替代。
 msgid ""
 "Importing a new translation can take some time, please check <a href="
 "\"%(url)s\">our documentation</a> for information on how to improve this."
-msgstr "匯入一個新的翻譯可能需要一些時間，請查看 <a href=\"%(url)s\">我們的文件</a> 的資訊，如何改善此問題。"
+msgstr ""
+"匯入一個新的翻譯可能需要一些時間，請查看 <a href=\"%(url)s\">我們的文件</a> "
+"的資訊，如何改善此問題。"
 
 #: weblate/html/js/dictionary.html:20
 msgid "Copy word to translation"
@@ -2789,7 +2809,8 @@ msgstr "在 %(subproject)s 的新評論"
 msgid ""
 "%(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
-msgstr "%(username)s 剛才在 %(site_title)s 的 %(translation)s上作了第一次的貢獻。"
+msgstr ""
+"%(username)s 剛才在 %(site_title)s 的 %(translation)s上作了第一次的貢獻。"
 
 #: weblate/html/mail/new_contributor_subject.txt:1
 #, python-format
@@ -2987,25 +3008,34 @@ msgstr "管理者靜態檔案"
 msgid "[hostname hashed]"
 msgstr "[主機名稱雜湊]"
 
-#: weblate/trans/admin_views.py:247
+#: weblate/trans/admin_views.py:264
 msgid "Created new SSH key."
 msgstr "新建 SSH 金鑰。"
 
-#: weblate/trans/admin_views.py:251
+#: weblate/trans/admin_views.py:268
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "產生金鑰失敗：%s"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:280
 msgid "Invalid host name given!"
 msgstr "無效的主機名稱！"
 
-#: weblate/trans/admin_views.py:284
-#, python-format
+#: weblate/trans/admin_views.py:301
+#, fuzzy, python-format
+#| msgid ""
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
+#| "verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s, please verify "
-"that it is correct."
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"please verify that it is correct."
 msgstr "已增加主機金鑰 %(host)s 與特徵 %(fingerprint)s，請驗證它的正確性。"
+
+#: weblate/trans/admin_views.py:316
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to get host key: %s"
+msgstr "產生金鑰失敗：%s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -3420,11 +3450,11 @@ msgstr "XML 標籤不一致"
 msgid "XML tags in translation do not match source"
 msgstr "在翻譯中的 XML 標籤與來源不一致"
 
-#: weblate/trans/checks/same.py:767
+#: weblate/trans/checks/same.py:770
 msgid "Not translated"
 msgstr "尚未翻譯"
 
-#: weblate/trans/checks/same.py:768
+#: weblate/trans/checks/same.py:771
 msgid "Source and translated strings are same"
 msgstr "來源和翻譯的字串均相同"
 
@@ -3462,11 +3492,11 @@ msgstr "在{0}贊助 Weblate"
 msgid "Support Weblate at {0}"
 msgstr "在 {0} 支援 Weblate"
 
-#: weblate/trans/models/advertisement.py:71
+#: weblate/trans/models/advertisement.py:72
 msgid "Donate to Weblate"
 msgstr "贊助 Weblate"
 
-#: weblate/trans/models/advertisement.py:75
+#: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
 msgstr "支援 Weblate 使用 Git 提示"
 
@@ -4408,7 +4438,6 @@ msgstr "接著的修正，應用到翻譯：%s"
 
 #: weblate/trans/views/edit.py:274
 #, python-brace-format
-#| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
 msgstr "在您的翻譯有一些查核失敗：{0}"
 
@@ -4462,7 +4491,6 @@ msgid "Failed to add comment!"
 msgstr "無法加入評論！"
 
 #: weblate/trans/views/edit.py:785
-#| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
 msgstr "儲存翻譯失敗！"
 
