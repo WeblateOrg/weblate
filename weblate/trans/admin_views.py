@@ -205,6 +205,23 @@ def get_host_keys():
     return result
 
 
+def get_key_data():
+    '''
+    Parses host key and returns it.
+    '''
+    # Read key data if it exists
+    if os.path.exists(RSA_KEY_FILE):
+        key_data = file(RSA_KEY_FILE).read()
+        key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
+        return {
+            'key': key_data,
+            'type': key_type,
+            'fingerprint': key_fingerprint,
+            'id': key_id,
+        }
+    return None
+
+
 @staff_member_required
 def ssh(request):
     '''
@@ -253,17 +270,7 @@ def ssh(request):
             )
 
     # Read key data if it exists
-    if os.path.exists(RSA_KEY_FILE):
-        key_data = file(RSA_KEY_FILE).read()
-        key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
-        key = {
-            'key': key_data,
-            'type': key_type,
-            'fingerprint': key_fingerprint,
-            'id': key_id,
-        }
-    else:
-        key = None
+    key = get_key_data()
 
     # Add host key
     if action == 'add-host':
