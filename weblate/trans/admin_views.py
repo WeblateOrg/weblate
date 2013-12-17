@@ -248,7 +248,8 @@ def ssh(request):
         except (subprocess.CalledProcessError, OSError) as exc:
             messages.error(
                 request,
-                _('Failed to generate key: %s') % exc.output
+                _('Failed to generate key: %s') %
+                getattr(exc, 'output', str(exc))
             )
 
     # Read key data if it exists
