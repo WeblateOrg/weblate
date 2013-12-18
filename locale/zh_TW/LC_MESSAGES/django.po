@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-12-17 11:58+0100\n"
-"PO-Revision-Date: 2013-11-30 02:34+0200\n"
+"PO-Revision-Date: 2013-12-18 11:06+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
-"Language-Team: Traditional Chinese <http://l10n.cihar.com/projects/weblate/"
-"master/zh_TW/>\n"
+"Language-Team: Traditional Chinese "
+"<http://l10n.cihar.com/projects/weblate/master/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2208,7 +2208,7 @@ msgstr ""
 "感謝您註冊。您將會很快收到一封有確認連結的電子郵件。請隨此連結完成您的註冊。"
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2218,8 +2218,8 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"如果您沒有收到，請檢查您的垃圾郵件夾。如果不在那裡，請<a href="
-"\"%(contact_url)s?subject=Lost activation code\">連絡我們</a>。"
+"如果您沒有收到，請檢查您的垃圾郵件夾，或者試著重新註冊。如果問題仍然存在，請 <a href=\"%"
+"(contact_url)s?subject=Registration problems\">連絡我們</a>。"
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2486,10 +2486,9 @@ msgid "Hostname"
 msgstr "主機名稱"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "搜尋類型"
+msgstr "關鍵字類型"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2507,14 +2506,13 @@ msgstr ""
 "要存取 SSH 主機，主機金鑰需要進行驗證。您可以在下面檢查主機金鑰使用方式。"
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "主機"
+msgstr "主機："
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "連接埠："
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -3022,20 +3020,20 @@ msgid "Invalid host name given!"
 msgstr "無效的主機名稱！"
 
 #: weblate/trans/admin_views.py:301
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
 "please verify that it is correct."
-msgstr "已增加主機金鑰 %(host)s 與特徵 %(fingerprint)s，請驗證它的正確性。"
+msgstr "已增加主機金鑰 %(host)s 與特徵 %(fingerprint)s (%(keytype)s，請驗證它的正確性。"
 
 #: weblate/trans/admin_views.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "產生金鑰失敗：%s"
+msgstr "獲取主機金鑰失敗：%s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
