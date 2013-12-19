@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-12-17 11:58+0100\n"
-"PO-Revision-Date: 2013-11-29 15:58+0200\n"
+"PO-Revision-Date: 2013-12-19 08:16+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
 "Language: cs\n"
@@ -2268,7 +2268,7 @@ msgstr ""
 "registrace. Prosím následujte jej pro dokončení registrace."
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2279,8 +2279,8 @@ msgid ""
 "subject=Registration problems\">contact us</a>."
 msgstr ""
 "Pokud vám email během chvíle nedorazí, podívejte se do složky s nevyžádanou "
-"poštou. Pokud ho nenajdete ani tam, prosím <a href=\"%(contact_url)s?"
-"subject=Lost activation code\">napište nám</a>."
+"poštou nebo zkuste registraci znovu. Pokud problém přetrvá, prosím <a href=\""
+"%(contact_url)s?subject=Registration problems\">napište nám</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2556,10 +2556,9 @@ msgid "Hostname"
 msgstr "Jméno hostitele"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Způsob vyhledávání"
+msgstr "Typ klíče"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2578,14 +2577,13 @@ msgstr ""
 "dalšího klíče slouží formulář níže na stránce."
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Hostování"
+msgstr "Server:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -3101,7 +3099,7 @@ msgid "Invalid host name given!"
 msgstr "Zadáno chybné jméno hostitele!"
 
 #: weblate/trans/admin_views.py:301
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3109,14 +3107,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
 "please verify that it is correct."
 msgstr ""
-"Přidán klíč pro hostitele %(host)s s otiskem %(fingerprint)s, prosím ověřte, "
-"že je tento otisk správný."
+"Přidán klíč pro hostitele %(host)s s otiskem %(fingerprint)s (%(keytype)s), "
+"prosím ověřte, že je tento otisk správný."
 
 #: weblate/trans/admin_views.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Nepodařilo se vytvořit klíč: %s"
+msgstr "Nepodařilo se načíst klíč: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
