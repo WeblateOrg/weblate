@@ -299,7 +299,7 @@ def ssh(request):
                         request,
                         _(
                             'Added host key for %(host)s with fingerprint '
-                            '%(fingerprint)s (%(keytype)s, '
+                            '%(fingerprint)s (%(keytype)s), '
                             'please verify that it is correct.'
                         ) % {
                             'host': host,
