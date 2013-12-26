@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-12-17 11:58+0100\n"
+"POT-Creation-Date: 2013-12-26 10:45+0100\n"
 "PO-Revision-Date: 2013-12-19 18:24+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <http://l10n.cihar.com/projects/weblate/master/tr/>\n"
@@ -2272,10 +2272,6 @@ msgstr ""
 
 #: weblate/html/accounts/email-sent.html:11
 #, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder. If it's "
-#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-#| "\">contact us</a>."
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
@@ -2564,7 +2560,6 @@ msgid "Hostname"
 msgstr "Anamakine adı"
 
 #: weblate/html/admin/ssh.html:41
-#| msgid "Search type"
 msgid "Key type"
 msgstr "Anahtar türü"
 
@@ -2585,7 +2580,6 @@ msgstr ""
 "Aşağıdaki formu kullanarak anamakine anahtarını kontrol edebilirsiniz."
 
 #: weblate/html/admin/ssh.html:60
-#| msgid "Hosting"
 msgid "Host:"
 msgstr "Anamakine:"
 
@@ -3116,12 +3110,12 @@ msgid "Invalid host name given!"
 msgstr "Verilen geçersiz anamakine adı!"
 
 #: weblate/trans/admin_views.py:301
-#, python-format
+#, fuzzy, python-format
 #| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
-#| "verify that it is correct."
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
+#| "(%(keytype)s, please verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
 "%(fingerprint)s (%(keytype)s) parmakizi olan %(host)s için anamakine "
@@ -3129,7 +3123,6 @@ msgstr ""
 
 #: weblate/trans/admin_views.py:316
 #, python-format
-#| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
 msgstr "Anamakine anahtarını alma başarısız: %s"
 
@@ -3555,11 +3548,11 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: weblate/trans/checks/same.py:770
+#: weblate/trans/checks/same.py:771
 msgid "Not translated"
 msgstr "Çevrilmemiş"
 
-#: weblate/trans/checks/same.py:771
+#: weblate/trans/checks/same.py:772
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 

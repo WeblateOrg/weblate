@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-12-17 11:58+0100\n"
+"POT-Creation-Date: 2013-12-26 10:45+0100\n"
 "PO-Revision-Date: 2013-12-19 08:16+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <http://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -2269,18 +2269,14 @@ msgstr ""
 
 #: weblate/html/accounts/email-sent.html:11
 #, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder. If it's "
-#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-#| "\">contact us</a>."
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
 "Pokud vám email během chvíle nedorazí, podívejte se do složky s nevyžádanou "
-"poštou nebo zkuste registraci znovu. Pokud problém přetrvá, prosím <a href=\""
-"%(contact_url)s?subject=Registration problems\">napište nám</a>."
+"poštou nebo zkuste registraci znovu. Pokud problém přetrvá, prosím <a href="
+"\"%(contact_url)s?subject=Registration problems\">napište nám</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2556,7 +2552,6 @@ msgid "Hostname"
 msgstr "Jméno hostitele"
 
 #: weblate/html/admin/ssh.html:41
-#| msgid "Search type"
 msgid "Key type"
 msgstr "Typ klíče"
 
@@ -2577,7 +2572,6 @@ msgstr ""
 "dalšího klíče slouží formulář níže na stránce."
 
 #: weblate/html/admin/ssh.html:60
-#| msgid "Hosting"
 msgid "Host:"
 msgstr "Server:"
 
@@ -3099,12 +3093,12 @@ msgid "Invalid host name given!"
 msgstr "Zadáno chybné jméno hostitele!"
 
 #: weblate/trans/admin_views.py:301
-#, python-format
+#, fuzzy, python-format
 #| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
-#| "verify that it is correct."
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
+#| "(%(keytype)s, please verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
 "Přidán klíč pro hostitele %(host)s s otiskem %(fingerprint)s (%(keytype)s), "
@@ -3112,7 +3106,6 @@ msgstr ""
 
 #: weblate/trans/admin_views.py:316
 #, python-format
-#| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
 msgstr "Nepodařilo se načíst klíč: %s"
 
@@ -3533,11 +3526,11 @@ msgstr "Neodpovídající XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: weblate/trans/checks/same.py:770
+#: weblate/trans/checks/same.py:771
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: weblate/trans/checks/same.py:771
+#: weblate/trans/checks/same.py:772
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 

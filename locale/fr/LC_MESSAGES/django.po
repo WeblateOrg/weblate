@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-12-17 11:58+0100\n"
+"POT-Creation-Date: 2013-12-26 10:45+0100\n"
 "PO-Revision-Date: 2013-12-19 18:24+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
@@ -2289,10 +2289,6 @@ msgstr ""
 
 #: weblate/html/accounts/email-sent.html:11
 #, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder. If it's "
-#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-#| "\">contact us</a>."
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
@@ -2586,7 +2582,6 @@ msgid "Hostname"
 msgstr "Nom d'hôte"
 
 #: weblate/html/admin/ssh.html:41
-#| msgid "Search type"
 msgid "Key type"
 msgstr "Type de clé"
 
@@ -2607,7 +2602,6 @@ msgstr ""
 "vérifier la clé SSH en utilisant le formulaire ci-dessous."
 
 #: weblate/html/admin/ssh.html:60
-#| msgid "Hosting"
 msgid "Host:"
 msgstr "Hôte :"
 
@@ -3139,20 +3133,19 @@ msgid "Invalid host name given!"
 msgstr "Nom d'hôte incorrect !"
 
 #: weblate/trans/admin_views.py:301
-#, python-format
+#, fuzzy, python-format
 #| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
-#| "verify that it is correct."
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
+#| "(%(keytype)s, please verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Clé de l'hôte ajoutée pour %(host)s avec l'empreinte %(fingerprint)s (%"
-"(keytype)s, veuillez vérifier qu'elle est correcte."
+"Clé de l'hôte ajoutée pour %(host)s avec l'empreinte %(fingerprint)s "
+"(%(keytype)s, veuillez vérifier qu'elle est correcte."
 
 #: weblate/trans/admin_views.py:316
 #, python-format
-#| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
 msgstr "Impossible d'obtenir la clé de l'hôte : %s"
 
@@ -3594,11 +3587,11 @@ msgstr "Disparité des balises XML"
 msgid "XML tags in translation do not match source"
 msgstr "Les balises XML dans la traduction ne correspondent pas à la source"
 
-#: weblate/trans/checks/same.py:770
+#: weblate/trans/checks/same.py:771
 msgid "Not translated"
 msgstr "Non traduit"
 
-#: weblate/trans/checks/same.py:771
+#: weblate/trans/checks/same.py:772
 msgid "Source and translated strings are same"
 msgstr "La chaîne source est identique à la chaîne traduite"
 

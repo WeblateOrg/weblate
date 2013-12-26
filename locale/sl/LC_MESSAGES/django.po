@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2013-12-17 11:58+0100\n"
+"POT-Creation-Date: 2013-12-26 10:45+0100\n"
 "PO-Revision-Date: 2013-12-20 23:59+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
-"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/>\n"
+"Language-Team: Slovenian <http://l10n.cihar.com/projects/weblate/master/sl/"
+">\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2278,18 +2279,14 @@ msgstr ""
 
 #: weblate/html/accounts/email-sent.html:11
 #, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder. If it's "
-#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-#| "\">contact us</a>."
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
 "Če je ne prejmete v kratkem, preverite vašo mapo z neželeno pošto (spam) ali "
-"se poskusite znova registrirati. Če vam težave ne uspe odpraviti, <a href=\""
-"%(contact_url)s?subject=Registration problems\">stopite v stik z nami</a>."
+"se poskusite znova registrirati. Če vam težave ne uspe odpraviti, <a href="
+"\"%(contact_url)s?subject=Registration problems\">stopite v stik z nami</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2572,7 +2569,6 @@ msgid "Hostname"
 msgstr "Ime gostitelja"
 
 #: weblate/html/admin/ssh.html:41
-#| msgid "Search type"
 msgid "Key type"
 msgstr "Vrsta ključa"
 
@@ -2593,7 +2589,6 @@ msgstr ""
 "ključe. Preverite jih lahko s spodnjim obrazcem."
 
 #: weblate/html/admin/ssh.html:60
-#| msgid "Hosting"
 msgid "Host:"
 msgstr "Gostitelj:"
 
@@ -3117,20 +3112,19 @@ msgid "Invalid host name given!"
 msgstr "Podali ste neveljavno ime gostitelja!"
 
 #: weblate/trans/admin_views.py:301
-#, python-format
+#, fuzzy, python-format
 #| msgid ""
-#| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
-#| "verify that it is correct."
+#| "Added host key for %(host)s with fingerprint %(fingerprint)s "
+#| "(%(keytype)s, please verify that it is correct."
 msgid ""
-"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s, "
+"Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Dodal sem ključ gostitelja za %(host)s, s prstnim odtisom %(fingerprint)s (%"
-"(keytype)s; prosimo, preverite, če je pravilen."
+"Dodal sem ključ gostitelja za %(host)s, s prstnim odtisom %(fingerprint)s "
+"(%(keytype)s; prosimo, preverite, če je pravilen."
 
 #: weblate/trans/admin_views.py:316
 #, python-format
-#| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
 msgstr "Nisem uspel pridobiti gostiteljevega ključa: %s"
 
@@ -3558,11 +3552,11 @@ msgstr "Neujemanje oznak XML"
 msgid "XML tags in translation do not match source"
 msgstr "Oznake XML v prevodu se ne ujemajo z izvirnikom"
 
-#: weblate/trans/checks/same.py:770
+#: weblate/trans/checks/same.py:771
 msgid "Not translated"
 msgstr "Ni prevedeno"
 
-#: weblate/trans/checks/same.py:771
+#: weblate/trans/checks/same.py:772
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
