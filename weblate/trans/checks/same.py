@@ -79,6 +79,7 @@ SAME_BLACKLIST = frozenset((
     'cache',
     'cardinality',
     'chat',
+    'click',
     'cm',
     'code',
     'collation',
