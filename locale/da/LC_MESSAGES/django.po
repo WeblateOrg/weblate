@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2013-12-26 10:45+0100\n"
-"PO-Revision-Date: 2013-12-16 19:48+0200\n"
-"Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
+"PO-Revision-Date: 2013-12-28 03:01+0200\n"
+"Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <http://l10n.cihar.com/projects/weblate/master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -2269,7 +2269,7 @@ msgstr ""
 "tilmelding."
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2279,9 +2279,9 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"Hvis du ikke modtager den efter kort tid, så tjek dit spamfilter. Hvis den "
-"ikke er der, så tag <a href=\"%(contact_url)s?subject=Lost activation code"
-"\">kontakt til os</a>."
+"Hvis du ikke modtager den efter kort tid, så tjek din spammappe eller prøv "
+"registrering igen. Hvis problemet fortsætter, så tag <a href=\"%"
+"(contact_url)s?subject=Registration problems\">kontakt til os</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2563,10 +2563,9 @@ msgid "Hostname"
 msgstr "Værtsnavn"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Søgetype"
+msgstr "Nøgletype"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2585,14 +2584,13 @@ msgstr ""
 "kontrollere værtsnøgler med formularen neden for."
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Hosting"
+msgstr "Vært:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -3109,7 +3107,7 @@ msgid "Invalid host name given!"
 msgstr "Værtsnavnet er ugyldigt!"
 
 #: weblate/trans/admin_views.py:301
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3117,14 +3115,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s, "
-"kontroller at det er korrekt."
+"Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s (%"
+"(keytype)s, kontroller at det er korrekt."
 
 #: weblate/trans/admin_views.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Oprettelse af nøgle mislykkedes: %s"
+msgstr "Kunne ikke hente værtsnøgle: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
