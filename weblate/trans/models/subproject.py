@@ -1059,9 +1059,19 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return True
 
     def git_needs_merge(self):
+        '''
+        Checks whether there is something to merge from remote repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.git_needs_merge()
         return self.git_check_merge('..origin/%s' % self.branch)
 
     def git_needs_push(self):
+        '''
+        Checks whether there is something to push to remote repository.
+        '''
+        if self.is_repo_link():
+            return self.linked_subproject.git_needs_push()
         return self.git_check_merge('origin/%s..' % self.branch)
 
     @property
