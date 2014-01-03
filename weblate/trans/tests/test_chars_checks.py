@@ -170,7 +170,7 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def test_hy(self):
         self.do_test(False, ('Text!', u'Texte՜', ''), 'hy')
-        self.do_test(True, ('Text!', u'Texte', ''), 'hy')
+        self.do_test(False, ('Text!', u'Texte', ''), 'hy')
         self.do_test(False, ('Text', u'Texte!', ''), 'hy')
 
     def test_eu(self):
