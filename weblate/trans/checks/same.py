@@ -347,6 +347,7 @@ SAME_BLACKLIST = frozenset((
     'parameters',
     'partition',
     'party',
+    'password',
     'pause',
     'paypal',
     'pdf',
