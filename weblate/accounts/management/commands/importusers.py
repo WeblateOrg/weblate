@@ -20,6 +20,7 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
+from __future__ import print_function
 import json
 
 
