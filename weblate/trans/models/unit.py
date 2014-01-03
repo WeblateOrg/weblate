@@ -474,7 +474,7 @@ class Unit(models.Model):
 
         # Delete extra plurals
         while len(ret) > plurals:
-            del(ret[-1])
+            del ret[-1]
 
         return ret
 

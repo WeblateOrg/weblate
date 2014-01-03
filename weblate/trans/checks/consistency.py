@@ -38,7 +38,7 @@ class PluralsCheck(TargetCheck):
         if targets == len(targets) * ['']:
             return False
         # Check for empty translation
-        return ('' in targets)
+        return '' in targets
 
 
 class ConsistencyCheck(TargetCheck):

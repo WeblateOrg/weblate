@@ -314,7 +314,7 @@ class FileFormat(object):
     '''
     name = ''
     format_id = ''
-    loader = None
+    loader = (None, None)
     monolingual = None
     check_flags = ()
 

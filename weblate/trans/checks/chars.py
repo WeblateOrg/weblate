@@ -73,7 +73,7 @@ class BeginSpaceCheck(TargetCheck):
         target_space = len(target) - len(stripped_target)
 
         # Compare numbers
-        return (source_space != target_space)
+        return source_space != target_space
 
 
 class EndSpaceCheck(TargetCheck):
@@ -106,7 +106,7 @@ class EndSpaceCheck(TargetCheck):
         target_space = len(target) - len(stripped_target)
 
         # Compare numbers
-        return (source_space != target_space)
+        return source_space != target_space
 
 
 class EndStopCheck(TargetCheck):

@@ -81,7 +81,7 @@ def get_plural_type(code, pluralequation):
             return mapping[1]
 
     # Arabic special case
-    if base_code in ('ar'):
+    if base_code in ('ar',):
         return PLURAL_ARABIC
 
     # Log error in case of uknown mapping

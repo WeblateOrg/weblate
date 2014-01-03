@@ -923,4 +923,4 @@ class SameCheck(TargetCheck):
         if self.should_ignore(source, unit, cache_slot):
             return False
 
-        return (source == target)
+        return source == target

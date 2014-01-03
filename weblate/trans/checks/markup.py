@@ -58,7 +58,7 @@ class BBCodeCheck(TargetCheck):
         src_tags = set([x[0] for x in src_match])
         tgt_tags = set([x[0] for x in tgt_match])
 
-        return (src_tags != tgt_tags)
+        return src_tags != tgt_tags
 
 
 class XMLTagsCheck(TargetCheck):

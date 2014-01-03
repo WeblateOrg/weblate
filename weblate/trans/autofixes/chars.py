@@ -30,7 +30,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     name = _('Trailing ellipsis')
 
     def fix_single_target(self, target, source, unit):
-        if (source and source[-1] == u'…' and target.endswith('...')):
+        if source and source[-1] == u'…' and target.endswith('...'):
             return u'%s…' % target[:-3], True
         return target, False
 
