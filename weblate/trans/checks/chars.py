@@ -257,13 +257,6 @@ class EndExclamationCheck(TargetCheck):
                 if u'¡' in target and u'!' in target:
                     return False
         if self.is_language(unit, ('hy', )):
-            if source[-1] == '!':
-                return self.check_chars(
-                    source,
-                    target,
-                    -1,
-                    (u'!', u'՜', u'~')
-                )
             return False
         if self.is_language(unit, ('fr', 'br')):
             if source[-1] == '!':
