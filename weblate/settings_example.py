@@ -79,6 +79,7 @@ LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
     ('be', u'беларуская'),
+    ('br', 'Brezhoneg'),
     ('ca', u'Català'),
     ('cs', u'Česky'),
     ('da', 'Dansk'),
