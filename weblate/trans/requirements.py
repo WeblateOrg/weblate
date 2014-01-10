@@ -174,6 +174,16 @@ def get_versions():
         '1.1.6',
     ))
 
+    name = 'lxml'
+    url = 'http://lxml.de/'
+    mod = get_version_module('lxml.etree', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '3.1.0',
+    ))
+
     return result
 
 
