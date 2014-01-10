@@ -24,6 +24,8 @@ Whoosh (>= 2.5, 2.5.2 is recommended)
     http://bitbucket.org/mchaput/whoosh/
 PIL or Pillow library
     http://python-imaging.github.io/
+lxml (>= 3.1.0)
+    http://lxml.de/
 south
     http://south.aeracode.org/
 libravatar (optional for federated avatar support)
