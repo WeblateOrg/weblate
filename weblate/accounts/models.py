@@ -662,13 +662,11 @@ def create_groups(update):
             anon_user.set_unusable_password()
             anon_user.groups.clear()
             anon_user.groups.add(guest_group)
-    except IntegrityError as error:
+    except:
         raise ValueError(
             'Anonymous user ({}) already exists and enabled, '
-            'please change ANONYMOUS_USER_NAME setting.\n'
-            'Raised error was: {!r}'.format(
+            'please change ANONYMOUS_USER_NAME setting.'.format(
                 ANONYMOUS_USER_NAME,
-                error
             )
         )
 
