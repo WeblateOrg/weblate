@@ -183,7 +183,10 @@ class UnitManager(models.Manager):
         if user.is_anonymous():
             return self.none()
         from weblate.trans.models.changes import Change
-        sample = self.all()[0]
+        try:
+            sample = self.all()[0]
+        except IndexError:
+            return self.none()
         changes = Change.objects.content().filter(
             translation=sample.translation,
             timestamp__gte=date
