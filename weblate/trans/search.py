@@ -22,7 +22,7 @@
 Whoosh based full text search.
 '''
 
-from whoosh.fields import Schema, TEXT, ID
+from whoosh.fields import SchemaClass, TEXT, ID
 from whoosh.filedb.filestore import FileStorage
 from whoosh import qparser
 from django.db.models.signals import post_syncdb
@@ -31,18 +31,24 @@ from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
 from weblate.lang.models import Language
 
-TARGET_SCHEMA = Schema(
-    checksum=ID(stored=True, unique=True),
-    target=TEXT
-)
-
-SOURCE_SCHEMA = Schema(
-    checksum=ID(stored=True, unique=True),
-    source=TEXT,
-    context=TEXT
-)
-
 STORAGE = FileStorage(appsettings.WHOOSH_INDEX)
+
+
+class TargetSchema(SchemaClass):
+    '''
+    Fultext index schema for target strings.
+    '''
+    checksum = ID(stored=True, unique=True)
+    target = TEXT()
+
+
+class SourceSchema(SchemaClass):
+    '''
+    Fultext index schema for source and context strings.
+    '''
+    checksum = ID(stored=True, unique=True)
+    source = TEXT()
+    context = TEXT()
 
 
 @receiver(post_syncdb)
@@ -57,14 +63,14 @@ def create_source_index():
     '''
     Creates source string index.
     '''
-    return STORAGE.create_index(SOURCE_SCHEMA, 'source')
+    return STORAGE.create_index(SourceSchema, 'source')
 
 
 def create_target_index(lang):
     '''
     Creates traget string index for given language.
     '''
-    return STORAGE.create_index(TARGET_SCHEMA, 'target-%s' % lang)
+    return STORAGE.create_index(TargetSchema, 'target-%s' % lang)
 
 
 def update_source_unit_index(writer, unit):
@@ -186,18 +192,18 @@ def fulltext_search(query, lang, source=True, context=True, target=True):
         with index.searcher() as searcher:
             if source:
                 checksums.update(
-                    base_search(searcher, 'source', SOURCE_SCHEMA, query)
+                    base_search(searcher, 'source', SourceSchema, query)
                 )
             if context:
                 checksums.update(
-                    base_search(searcher, 'context', SOURCE_SCHEMA, query)
+                    base_search(searcher, 'context', SourceSchema, query)
                 )
 
     if target:
         index = get_target_index(lang)
         with index.searcher() as searcher:
             checksums.update(
-                base_search(searcher, 'target', TARGET_SCHEMA, query)
+                base_search(searcher, 'target', TargetSchema, query)
             )
 
     return checksums
