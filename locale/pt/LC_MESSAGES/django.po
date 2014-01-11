@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-01-03 11:54+0100\n"
-"PO-Revision-Date: 2013-11-20 11:25+0200\n"
-"Last-Translator: Edu Rib PT <edurib.pt@gmail.com>\n"
-"Language-Team: Portuguese <http://l10n.cihar.com/projects/weblate/master/pt/"
-">\n"
+"PO-Revision-Date: 2014-01-11 19:06+0200\n"
+"Last-Translator: Nuno Ferreira <numagf@gmail.com>\n"
+"Language-Team: Portuguese "
+"<http://l10n.cihar.com/projects/weblate/master/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,16 +89,16 @@ msgstr "Este e-mail já está em uso. Por favor, forneça um e-mail diferente."
 
 #: weblate/accounts/forms.py:345
 msgid "First and last name should be different!"
-msgstr ""
+msgstr "O primeiro e último nome devem ser diferentes!"
 
 #: weblate/accounts/forms.py:377
 #, python-format
 msgid "What is %s?"
-msgstr ""
+msgstr "O que é %s?"
 
 #: weblate/accounts/forms.py:387
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "Favor verifique as suas contas e tente novamente."
 
 #: weblate/accounts/forms.py:409
 msgid "New password"
@@ -229,7 +229,7 @@ msgstr "Registo de utilizador"
 
 #: weblate/accounts/views.py:123
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "Você não pode mudar o perfil demo no servidor demo."
 
 #: weblate/accounts/views.py:146
 msgid "Your profile has been updated."
@@ -305,7 +305,7 @@ msgstr ""
 
 #: weblate/html/about.html:6
 msgid "about"
-msgstr ""
+msgstr "sobre"
 
 #: weblate/html/about.html:11 weblate/html/footer.html:7
 #: weblate/trans/views/basic.py:394
@@ -313,7 +313,6 @@ msgid "About Weblate"
 msgstr "Acerca do Weblate"
 
 #: weblate/html/about.html:13
-#, fuzzy
 #| msgid ""
 #| "Weblate is a web based translation tool with tight Git integration. It "
 #| "features simple and clean user interface, propagation of translations "
@@ -326,7 +325,7 @@ msgid ""
 msgstr ""
 "Weblate é uma ferramenta de tradução baseada na web com firme integração "
 "Git. Dispõe de uma interface limpa e simples, propagação de traduções "
-"através de sub-projectos, testes de consistência e ligação automática a "
+"através de sub-projectos, testes de qualidade e ligação automática a "
 "ficheiros de origem."
 
 #: weblate/html/about.html:15 weblate/html/accounts/contact.html:15
@@ -342,9 +341,11 @@ msgstr ""
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
+"Esta instância do Weblate hospeda traduções de vários projetos de software "
+"livre."
 
 #: weblate/html/about.html:22 weblate/html/index.html:60
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -353,9 +354,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
-"Se não o receber em breve, por favor, verifique a sua pasta de spam. Se ele "
-"não estiver lá, por favor <a href=\"%(contact_url)s?subject=Lost activation "
-"code\">contacte-nos</a>."
+"Também podemos hospedar seu projeto. Se você estiver interessado, por favor, "
+"<a href=\"%(contact_url)s?subject=Project hosting\">contate-nos</a>."
 
 #: weblate/html/about.html:26
 msgid ""
@@ -390,10 +390,9 @@ msgid "Strings to translate"
 msgstr "Cadeias para traduzir"
 
 #: weblate/html/about.html:57
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Words to translate"
-msgstr "Cadeias para traduzir"
+msgstr "Palavras para traduzir"
 
 #: weblate/html/about.html:61
 msgid "Used languages"
@@ -412,14 +411,13 @@ msgid "Translations made"
 msgstr "Traduções feitas"
 
 #: weblate/html/about.html:77
-#, fuzzy
 msgid "Failing checks found"
-msgstr "Verificações falharam"
+msgstr "Foram detetados erros de verificação"
 
 #: weblate/html/about.html:81
 #, fuzzy
 msgid "Ignored checks"
-msgstr "Ignorar: %(check)s"
+msgstr "Verificações ignoradas"
 
 #: weblate/html/base.html:40
 #, python-format
@@ -510,22 +508,24 @@ msgstr ""
 
 #: weblate/html/data-root.html:17 weblate/html/data.html:18
 msgid "RSS feeds"
-msgstr ""
+msgstr "Feeds RSS"
 
 #: weblate/html/data-root.html:20 weblate/html/data.html:21
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
+"Para acompanhar o progresso da tradução você pode usar feeds RSS as quais "
+"incluem todas as modificações importantes na tradução."
 
 #: weblate/html/data-root.html:21 weblate/html/data.html:22
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"Mais informações sobre esta verificação está disponível na <a href=\"%(link)s"
-"\">documentação</a>."
+"Mais informações sobre feeds RSS exportadas estão disponíveis na <a href=\"%"
+"(rss_docs)s\">documentação</a>."
 
 #: weblate/html/data-root.html:27 weblate/html/data.html:29
 #: weblate/html/data.html.py:60 weblate/html/data.html:86
@@ -541,24 +541,24 @@ msgstr "Ligação"
 #: weblate/html/data-root.html:33 weblate/html/data.html:36
 #: weblate/html/data.html.py:42
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: weblate/html/data-root.html:38
-#, fuzzy
 msgid "Per project data"
-msgstr "Projeto"
+msgstr "Dados do projeto"
 
 #: weblate/html/data-root.html:41
 msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
+"Existem mais dados exportados neste projeto, favor veja os links a seguir "
+"para mais informações."
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
-#, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "Notificar sobre novo comentário"
+msgstr "Ganchos de notificação"
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
@@ -567,12 +567,17 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Com ganchos de notificação, o Weblate irá automaticamente importar mudanças "
+"feitas pelos seus programadores e permitirá tradução contínua. Mais "
+"informações estão disponíveis na <a href=\"%(hooks_docs)s\">documentação</a>."
 
 #: weblate/html/data.html:48
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
+"Também estão disponíveis feeds RSS por idioma, os quais você pode construir "
+"adicionando um código de idioma nas URLs acima."
 
 #: weblate/html/data.html:53
 #, python-format
@@ -592,12 +597,13 @@ msgstr "Descarregar"
 
 #: weblate/html/data.html:93 weblate/html/data.html.py:99
 msgid "Hook"
-msgstr ""
+msgstr "Gancho"
 
 #: weblate/html/data.html:105
 msgid ""
 "Weblate also supports direct notification from several code hosting sites:"
 msgstr ""
+"O Weblate também suporta notificação direta de vários sites de hospedagem:"
 
 #: weblate/html/data.html:110
 msgid "Hosting site"
@@ -610,6 +616,7 @@ msgstr "Nota"
 #: weblate/html/data.html:119
 msgid "Enable Weblate service hook in repository settings."
 msgstr ""
+"Ativar o serviço de ganchos do Weblate nas configurações de repositório."
 
 #: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
 msgid "glossaries"
@@ -704,13 +711,12 @@ msgid "Add"
 msgstr "Adicionar"
 
 #: weblate/html/dictionary.html:99
-#, fuzzy
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
 msgstr ""
-"Você pode carregar qualquer formato aceite pelo Translate Toolkit, como "
-"ficheiros CVS ou PO."
+"Você pode carregar qualquer formato aceite pelo Translate Toolkit (incluindo "
+"ficheiros TBX, CSV ou Gettext PO)."
 
 #: weblate/html/dictionary.html:106
 msgid "Import"
@@ -747,10 +753,9 @@ msgstr "Guardar"
 
 #: weblate/html/edit_dictionary.html:25 weblate/html/trans/change_list.html:12
 #: weblate/trans/views/changes.py:55
-#, fuzzy
 #| msgid "Change word"
 msgid "Changes"
-msgstr "Trocar a palavra"
+msgstr "Modificações"
 
 #: weblate/html/engage.html:11 weblate/html/engage.html.py:25
 #, python-format
@@ -2293,9 +2298,8 @@ msgstr ""
 
 #: weblate/html/widgets.html:59 weblate/html/widgets.html.py:67
 #: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
-#, fuzzy
 msgid "Translation status"
-msgstr "Traduções"
+msgstr "Estado da tradução"
 
 #: weblate/html/zen-response.html:7
 #, fuzzy
@@ -3790,10 +3794,9 @@ msgid "Support Weblate at {0}"
 msgstr ""
 
 #: weblate/trans/models/advertisement.py:72
-#, fuzzy
 #| msgid "Donate to Weblate!"
 msgid "Donate to Weblate"
-msgstr "Doar ao Weblate!"
+msgstr "Doações para o Weblate"
 
 #: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
