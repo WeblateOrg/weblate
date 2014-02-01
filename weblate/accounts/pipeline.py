@@ -104,7 +104,6 @@ def user_full_name(strategy, details, response, user=None, *args, **kwargs):
     """
     Update user full name using data from provider.
     """
-    print 'pipe', user, details
     if user:
         full_name = ''
 
