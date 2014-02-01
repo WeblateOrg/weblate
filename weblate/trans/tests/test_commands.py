@@ -308,7 +308,7 @@ class LockingCommandTest(RepoTestCase):
         self.create_subproject()
 
     def test_locking(self):
-        subproject = SubProject.objects.get(pk=1)
+        subproject = SubProject.objects.all()[0]
         self.assertFalse(
             SubProject.objects.filter(locked=True).exists()
         )
