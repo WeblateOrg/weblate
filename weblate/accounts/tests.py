@@ -222,6 +222,11 @@ class CommandTest(TestCase):
         user2 = User.objects.get(username='weblate')
         self.assertEqual(user.first_name, user2.first_name)
 
+    def test_importdjangousers(self):
+        # First import
+        call_command('importusers', get_test_file('users-django.json'))
+        self.assertEquals(User.objects.count(), 2)
+
 
 class ViewTest(TestCase):
     '''
