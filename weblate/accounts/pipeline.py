@@ -122,6 +122,6 @@ def user_full_name(strategy, details, response, user=None, *args, **kwargs):
 
         full_name = full_name.strip()
 
-        if full_name != user.first_name:
+        if full_name and full_name != user.first_name:
             user.first_name = full_name
             strategy.storage.user.changed(user)
