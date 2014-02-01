@@ -29,7 +29,7 @@ footer {
 {% endblock %}
 <footer>
     {% trans "Sent by Weblate translation system" %}<br />
-    http://{{ current_site }}{% url 'home' %}<br />
+    {{ current_site_url }}{% url 'home' %}<br />
     <a href="http://weblate.org/">weblate.org</a><br />
     {% get_advertisement_html_mail %}
 </footer>

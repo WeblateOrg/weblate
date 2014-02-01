@@ -4,10 +4,10 @@
 
 {% blocktrans %}Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar.{% endblocktrans %}
 
-http://{{ current_site }}{{ url }}
+{{ current_site_url }}{{ url }}
 
 {% blocktrans %}If there is a problem with your registration, please contact us:{% endblocktrans %}
 
-http://{{ current_site }}{% url 'contact' %}?subject=Registration
+{{ current_site_url }}{% url 'contact' %}?subject=Registration
 
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

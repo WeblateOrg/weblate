@@ -52,7 +52,7 @@
 </p>
 
 <p>
-<a href="http://{{ current_site }}{{ suggestion.get_review_url }}">http://{{ current_site }}{{ suggestion.get_review_url }}</a>
+<a href="{{ current_site_url }}{{ suggestion.get_review_url }}">{{ current_site_url }}{{ suggestion.get_review_url }}</a>
 </p>
 
 {% include "mail/footer.html" %}
