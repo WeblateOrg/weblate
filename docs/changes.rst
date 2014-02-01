@@ -10,6 +10,8 @@ Released on ? 2013.
 * No longer maintained compatibility with Django 1.4.
 * Management commands for locking/unlocking translations.
 * Improved support for Qt TS files.
+* Users can now delete their account.
+* Avatars can be disabled.
 
 weblate 1.8
 -----------
