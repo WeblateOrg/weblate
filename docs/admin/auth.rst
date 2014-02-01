@@ -102,8 +102,7 @@ Once you have the package installed, you can hook it to Django authentication:
 
     # List of attributes to import from LDAP on login
     AUTH_LDAP_USER_ATTR_MAP = {
-        'first_name': 'givenName',
-        'last_name': 'sn',
+        'first_name': 'name',
         'email': 'mail',
     }
 

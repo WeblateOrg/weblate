@@ -29,7 +29,7 @@ class ProfileAdmin(admin.ModelAdmin):
         'user', 'full_name', 'language', 'suggested', 'translated'
     ]
     search_fields = [
-        'user__username', 'user__email', 'user__first_name', 'user__last_name'
+        'user__username', 'user__email', 'user__first_name'
     ]
     list_filter = ['language']
 
