@@ -362,6 +362,10 @@ class Unit(models.Model):
         '''
         Updates Unit from ttkit unit.
         '''
+        # Store current values for use in Translation.check_sync
+        self.old_fuzzy = self.fuzzy
+        self.old_translated = self.translated
+
         # Get unit attributes
         location = unit.get_locations()
         flags = unit.get_flags()
