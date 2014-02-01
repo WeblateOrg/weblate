@@ -84,6 +84,9 @@ class RegistrationTest(TestCase):
         )
 
     def test_register_captcha(self):
+        # Enable captcha
+        appsettings.REGISTRATION_CAPTCHA = True
+
         response = self.client.post(
             reverse('register'),
             REGISTRATION_DATA
