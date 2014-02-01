@@ -847,7 +847,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         gitrepo.git.commit(
             author=author.encode('utf-8'),
             date=timestamp.isoformat(),
-            m=msg
+            m=msg.encode('utf-8'),
         )
 
         # Optionally store updated hash
