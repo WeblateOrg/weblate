@@ -18,6 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+import binascii
+
 from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
@@ -680,6 +683,32 @@ def move_users():
 
     for user in User.objects.all():
         user.groups.add(group)
+
+
+def remove_user(user):
+    '''
+    Removes user account.
+    '''
+    # Change username
+    user.username = 'deleted-{0}'.format(user.pk)
+    while User.objects.filter(username=user.username).exists():
+        user.username = 'deleted-{0}-{1}'.format(
+            user.pk,
+            binascii.b2a_hex(os.urandom(5))
+        )
+
+    # Remove user information
+    user.first_name = 'Deleted User'
+    user.last_name = ''
+    user.email = 'noreply@weblate.org'
+
+    # Disable the user
+    user.is_active = False
+    user.set_unusable_password()
+    user.save()
+
+    # Remove all social auth associations
+    user.social_auth.all().delete()
 
 
 @receiver(post_syncdb)

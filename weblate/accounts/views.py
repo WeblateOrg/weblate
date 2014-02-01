@@ -19,6 +19,7 @@
 #
 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.contrib.auth import logout
 from django.template import RequestContext
 from django.conf import settings
 from django.contrib import messages
@@ -39,7 +40,7 @@ from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
-from weblate.accounts.models import set_lang, Profile
+from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans.models import Change, Project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm
@@ -186,6 +187,26 @@ def user_profile(request):
         profile.language
     )
     return response
+
+
+@login_required
+def user_remove(request):
+    if request.method == 'POST':
+        remove_user(request.user)
+
+        logout(request)
+
+        messages.info(
+            request,
+            _('Your account has been removed.')
+        )
+
+        return redirect('home')
+
+    return render_to_response(
+        'accounts/removal.html',
+        RequestContext(request)
+    )
 
 
 def get_initial_contact(request):

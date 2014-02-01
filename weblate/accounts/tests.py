@@ -360,6 +360,19 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('logout'))
         self.assertRedirects(response, reverse('login'))
 
+    def test_removal(self):
+        # Create user
+        self.get_user()
+        # Login
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(
+            reverse('remove')
+        )
+        self.assertRedirects(response, reverse('home'))
+        self.assertFalse(
+            User.objects.filter(username='testuser').exists()
+        )
+
 
 class ProfileTest(ViewTestCase):
     def test_profile(self):

@@ -28,6 +28,7 @@
 {% if enable_avatar %}
 <li><a href="#avatar">{% trans "Avatar" %}</a></li>
 {% endif %}
+<li><a href="#remove">{% trans "Removal" %}</a></li>
 </ul>
 <div id="preferences">
 <table>
@@ -119,7 +120,13 @@
 <p><a href="https://www.libravatar.org/">{% trans "Avatars are provided using libravatar." %}</a></p>
 </div>
 {% endif %}
+
+<div id="remove">
+{% show_message 'warning' _('Removal of the account deletes all your private data.') %}
+<p><a class="button" href="{% url 'remove' %}">{% trans "Remove my account" %}</a></p>
 </div>
+</div>
+
 
 <input type="submit" value="{% trans "Save" %}" class="button" />
 </form>
