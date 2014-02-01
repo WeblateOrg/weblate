@@ -105,7 +105,7 @@ def user_full_name(strategy, details, response, user=None, *args, **kwargs):
     Update user full name using data from provider.
     """
     if user:
-        full_name = details.get('fullname', '')
+        full_name = details.get('fullname', '').strip()
 
         if (not full_name
                 and ('first_name' in details or 'last_name' in details)):
