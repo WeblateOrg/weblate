@@ -215,7 +215,7 @@ def get_initial_contact(request):
     '''
     initial = {}
     if request.user.is_authenticated():
-        initial['name'] = request.user.get_full_name()
+        initial['name'] = request.user.first_name
         initial['email'] = request.user.email
     return initial
 

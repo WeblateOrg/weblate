@@ -735,7 +735,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         Returns formatted author name with email.
         '''
         # Get full name from database
-        full_name = user.get_full_name()
+        full_name = user.first_name
 
         # Use username if full name is empty
         if full_name == '':

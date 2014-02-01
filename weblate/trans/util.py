@@ -109,7 +109,7 @@ def get_user_display(user, icon=True, link=False):
         email = ''
     else:
         # Get full name
-        full_name = user.get_full_name()
+        full_name = user.first_name
 
         # Use user name if full name is empty
         if full_name.strip() == '':
