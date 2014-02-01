@@ -28,6 +28,7 @@ from weblate.trans.mixins import PercentMixin
 from south.signals import post_migrate
 from django.db.models.signals import post_syncdb
 from django.dispatch import receiver
+from weblate.appsettings import SIMPLIFY_LANGUAGES
 import weblate
 
 # Plural types definition
@@ -166,7 +167,7 @@ class LanguageManager(models.Manager):
             return ret
 
         # Try canonical variant
-        if newcode in data.DEFAULT_LANGS:
+        if SIMPLIFY_LANGUAGES and newcode in data.DEFAULT_LANGS:
             ret = self.try_get(lang.lower())
             if ret is not None:
                 return ret

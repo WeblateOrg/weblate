@@ -347,6 +347,18 @@ Enables self advertisement of Weblate in case there are no configured ads.
 
 .. seealso:: :ref:`advertisement`
 
+.. setting:: SIMPLIFY_LANGUAGES
+
+SIMPLIFY_LANGUAGES
+------------------
+
+Use simple language codes for default language/country combinations. For
+example ``fr_FR`` translation will use ``fr`` language code. This is usually
+desired behavior as it simplifies listing of the languages for these default
+combinations.
+
+Disable this if you are having different translations for both variants.
+
 .. setting:: SITE_TITLE
 
 SITE_TITLE

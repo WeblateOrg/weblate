@@ -161,3 +161,6 @@ SOURCE_LANGUAGE = get('SOURCE_LANGUAGE', 'en')
 
 # Self advertisement
 SELF_ADVERTISEMENT = get('SELF_ADVERTISEMENT', False)
+
+# Use simple language codes for default language/country combinations
+SIMPLIFY_LANGUAGES = GET('SIMPLIFY_LANGUAGES', True)
