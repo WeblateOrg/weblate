@@ -397,6 +397,21 @@ TTF_PATH
 
 Path to Droid fonts used for widgets and charts.
 
+.. setting:: URL_PREFIX
+
+URL_PREFIX
+----------
+
+This settings allows you to run Weblate under some path (otherwise it relies on
+being executed from webserver root). To use this setting, you also need to
+configure your server to strip this prefix. For example with WSGI, this can be
+achieved by setting ``WSGIScriptAlias``.
+
+.. note::
+
+    This setting does not work with Django's builtin server, you would have to
+    adjust :file:`urls.py` to contain this prefix.
+
 .. setting:: WHOOSH_INDEX
 
 WHOOSH_INDEX
