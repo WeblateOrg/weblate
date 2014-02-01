@@ -193,6 +193,7 @@ Per project access control
 ++++++++++++++++++++++++++
 
 .. versionadded:: 1.4
+
     This feature is available since Weblate 1.4.
 
 .. note::

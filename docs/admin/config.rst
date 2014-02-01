@@ -102,7 +102,7 @@ For example you can enable only few of them:
 
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
 
-.. settting:: ENABLE_AVATARS
+.. setting:: ENABLE_AVATARS
 
 ENABLE_AVATARS
 --------------

@@ -10,6 +10,7 @@ Generic upgrade instructions
 ++++++++++++++++++++++++++++
 
 .. versionchanged:: 1.2
+
     Since version 1.2 the migration is done using South module, to upgrade to 1.2, 
     please see :ref:`version-specific-instructions`.
 

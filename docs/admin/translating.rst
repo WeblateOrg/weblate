@@ -7,6 +7,7 @@ Suggestion voting
 -----------------
 
 .. versionadded:: 1.6
+
     This feature is available since Weblate 1.6.
 
 In default Weblate setup, everybody can add suggestions and logged in users can
