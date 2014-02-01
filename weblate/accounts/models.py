@@ -210,7 +210,6 @@ def send_notification_email(language, email, notification,
         # Adjust context
         site = Site.objects.get_current()
         context['current_site'] = site.domain
-        context['site'] = site
         if translation_obj is not None:
             context['translation'] = translation_obj
             context['translation_url'] = get_site_url(

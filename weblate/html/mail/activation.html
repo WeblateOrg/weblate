@@ -17,7 +17,7 @@
 </p>
 
 <p>
-<a href="http://{{ site.domain }}{{ url }}">http://{{ site.domain }}{{ url }}</a>
+<a href="http://{{ current_site }}{{ url }}">http://{{ current_site }}{{ url }}</a>
 </p>
 
 <p>
@@ -25,7 +25,7 @@
 </p>
 
 <p>
-<a href="http://{{ site.domain }}{% url 'contact' %}?subject=Registration">http://{{ site.domain }}{% url 'contact' %}?subject=Registration</a>
+<a href="http://{{ current_site }}{% url 'contact' %}?subject=Registration">http://{{ current_site }}{% url 'contact' %}?subject=Registration</a>
 </p>
 
 {% endblock %}
