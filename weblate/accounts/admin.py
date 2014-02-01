@@ -26,10 +26,10 @@ from django.contrib.auth.models import User
 
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [
-        'user', 'get_full_name', 'language', 'suggested', 'translated'
+        'user', 'full_name', 'language', 'suggested', 'translated'
     ]
     search_fields = [
-        'user__username', 'user__email', 'user__first_name', 'user__last_name'
+        'user__username', 'user__email', 'user__first_name'
     ]
     list_filter = ['language']
 

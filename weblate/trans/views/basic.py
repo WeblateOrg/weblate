@@ -75,7 +75,7 @@ def home(request):
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if not request.user.is_anonymous() and request.user.get_full_name() == '':
+    if not request.user.is_anonymous() and request.user.first_name == '':
         messages.warning(
             request,
             _('Please set your full name in your profile.')

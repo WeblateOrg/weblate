@@ -8,6 +8,6 @@
 
 {% trans "Requesting user:" %}
 
-{{ user.get_full_name }} <{{ user.email }}>
+{{ user.first_name }} <{{ user.email }}>
 
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

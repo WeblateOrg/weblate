@@ -231,7 +231,6 @@ class UserForm(forms.ModelForm):
         fields = (
             'username',
             'first_name',
-            'last_name',
             'email',
         )
 
@@ -246,9 +245,7 @@ class UserForm(forms.ModelForm):
         emails.add(self.instance.email)
 
         self.fields['first_name'].required = True
-        self.fields['last_name'].required = True
-        self.fields['first_name'].label = _('First name')
-        self.fields['last_name'].label = _('Last name')
+        self.fields['first_name'].label = _('Full name')
         self.fields['email'].choices = [(x, x) for x in emails]
         self.fields['username'].valid = self.instance.username
 
@@ -322,8 +319,7 @@ class RegistrationForm(EmailForm):
     error_css_class = "error"
 
     username = UsernameField()
-    first_name = forms.CharField(label=_('First name'))
-    last_name = forms.CharField(label=_('Last name'))
+    first_name = forms.CharField(label=_('Full name'))
     content = forms.CharField(required=False)
 
     def clean_content(self):
@@ -333,19 +329,6 @@ class RegistrationForm(EmailForm):
         if self.cleaned_data['content'] != '':
             raise forms.ValidationError('Invalid value')
         return ''
-
-    def clean(self):
-        '''
-        Check for valid names.
-        '''
-        first = self.cleaned_data.get('first_name')
-        last = self.cleaned_data.get('last_name')
-        if first == last:
-            raise forms.ValidationError(
-                _('First and last name should be different!')
-            )
-
-        return self.cleaned_data
 
 
 class CaptchaRegistrationForm(RegistrationForm):

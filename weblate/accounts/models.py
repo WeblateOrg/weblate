@@ -538,11 +538,12 @@ class Profile(models.Model):
             }
         )
 
-    def get_full_name(self):
+    @property
+    def full_name(self):
         '''
         Returns user's full name.
         '''
-        return self.user.get_full_name()
+        return self.user.first_name
 
     def get_secondary_units(self, unit):
         '''

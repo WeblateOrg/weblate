@@ -49,10 +49,18 @@ class Command(BaseCommand):
                 print('Skipping {}, email exists'.format(line['email']))
                 continue
 
+            if not line['last_name'] in line['first_name']:
+                full_name = u'{0} {1}'.format(
+                    line['first_name'],
+                    line['last_name']
+                )
+            else:
+                full_name = line['first_name']
+
             User.objects.create(
                 username=line['username'],
-                first_name=line['first_name'],
-                last_name=line['last_name'],
+                first_name=full_name,
+                last_name='',
                 password=line['password'],
                 email=line['email']
             )
