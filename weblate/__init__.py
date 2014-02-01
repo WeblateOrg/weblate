@@ -51,7 +51,7 @@ if RUNNING_GIT:
     try:
         import git
         # Describe current checkout
-        GIT_VERSION = git.Repo(get_root_dir()).git.describe()
+        GIT_VERSION = git.Repo(get_root_dir()).git.describe(always=True)
 
         # Check if we're close to release tag
         parts = GIT_VERSION.split('-')
