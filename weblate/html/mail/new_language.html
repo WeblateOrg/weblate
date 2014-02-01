@@ -24,6 +24,17 @@
 {{ language.name }} ({{ language.code }})
 </td>
 </tr>
+<tr>
+
+<th>
+{% trans "Requesting user:" %}
+
+</th>
+
+<td>
+<a href="mailto:{{ user.email }}">{{ user.get_full_name }}</a>
+</td>
+</tr>
 
 </table>
 

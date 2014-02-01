@@ -467,6 +467,7 @@ class Profile(models.Model):
             subproject,
             {
                 'language': language,
+                'user': user,
             }
         )
 
