@@ -43,7 +43,7 @@ from weblate.trans.util import (
     get_user_display, get_site_url, get_distinct_translations
 )
 import weblate
-from weblate.appsettings import ANONYMOUS_USER_NAME
+from weblate.appsettings import ANONYMOUS_USER_NAME, ENABLE_HTTPS
 
 
 def notify_merge_failure(subproject, error, status):
@@ -209,7 +209,10 @@ def send_notification_email(language, email, notification,
 
         # Adjust context
         site = Site.objects.get_current()
-        context['current_site_url'] = 'http://{0}'.format(site.domain)
+        context['current_site_url'] = '{0}://{1}'.format(
+            'https' if ENABLE_HTTPS else 'http',
+            site.domain
+        )
         if translation_obj is not None:
             context['translation'] = translation_obj
             context['translation_url'] = get_site_url(

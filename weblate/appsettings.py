@@ -167,3 +167,6 @@ SIMPLIFY_LANGUAGES = get('SIMPLIFY_LANGUAGES', True)
 
 # Disable avatars
 ENABLE_AVATARS = get('ENABLE_AVATARS', True)
+
+# Is the site using https
+ENABLE_HTTPS = get('ENABLE_HTTPS', False)

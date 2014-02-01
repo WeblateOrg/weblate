@@ -119,6 +119,14 @@ Whether to enable anonymous remote hooks.
 
 .. seealso:: :ref:`hooks`
 
+.. setting:: ENABLE_HTTPS
+
+ENABLE_HTTPS
+------------
+
+Whether to send links to the Weblate as https or http. This setting only
+affects sent mails.
+
 .. setting:: GIT_ROOT
 
 GIT_ROOT
