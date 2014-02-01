@@ -537,7 +537,15 @@ class Translation(models.Model, URLMixin, PercentMixin):
             )
 
             # Check if unit is new and untranslated
-            was_new = was_new or (is_new and not newunit.translated)
+            was_new = (
+                was_new
+                or (is_new and not newunit.translated)
+                or (
+                    not newunit.translated
+                    and newunit.translated != newunit.old_translated
+                )
+                or (newunit.fuzzy and newunit.fuzzy != newunit.old_fuzzy)
+            )
 
             # Update position
             pos += 1
