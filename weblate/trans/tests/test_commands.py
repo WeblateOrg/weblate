@@ -24,6 +24,7 @@ Tests for management commands.
 
 from django.test import TestCase
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.models import SubProject
 from django.core.management import call_command
 from django.core.management.base import CommandError
 import django
@@ -296,3 +297,38 @@ class LockTranslationTest(CheckGitTest):
 
 class UnLockTranslationTest(CheckGitTest):
     command_name = 'unlock_translation'
+
+
+class LockingCommandTest(RepoTestCase):
+    '''
+    Test locking and unlocking.
+    '''
+    def setUp(self):
+        super(LockingCommandTest, self).setUp()
+        self.create_subproject()
+
+    def test_locking(self):
+        subproject = SubProject.objects.get(pk=1)
+        self.assertFalse(
+            SubProject.objects.filter(locked=True).exists()
+        )
+        call_command(
+            'lock_translation',
+            '{0}/{1}'.format(
+                subproject.project.slug,
+                subproject.slug,
+            )
+        )
+        self.assertTrue(
+            SubProject.objects.filter(locked=True).exists()
+        )
+        call_command(
+            'unlock_translation',
+            '{0}/{1}'.format(
+                subproject.project.slug,
+                subproject.slug,
+            )
+        )
+        self.assertFalse(
+            SubProject.objects.filter(locked=True).exists()
+        )
