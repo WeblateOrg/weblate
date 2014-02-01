@@ -4,9 +4,9 @@ python:
 env:
   matrix:
     - DJANGO_VERSION=1.5.5 TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="trans lang accounts"
-    - DJANGO_VERSION=1.6 TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
-    - DJANGO_VERSION=1.6 TRAVIS_DATABASE=postgresql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
-    - DJANGO_VERSION=1.6 TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_VERSION=1.6.1 TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_VERSION=1.6.1 TRAVIS_DATABASE=postgresql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_VERSION=1.6.1 TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
 #  global:
 # Sauce labs setup
 #    - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
