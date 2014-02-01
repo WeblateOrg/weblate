@@ -41,6 +41,7 @@ from weblate.trans.validators import (
     validate_extra_file, validate_autoaccept,
     validate_check_flags,
 )
+from weblate.lang.models import Language
 from weblate.appsettings import SCRIPT_CHOICES
 
 
@@ -939,15 +940,24 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if len(matches) == 0:
             raise ValidationError(_('The mask did not match any files!'))
         langs = set()
+        translated_langs = set()
         for match in matches:
             code = self.get_lang_code(match)
+            lang = Language.objects.auto_get_or_create(code=code)
             if code in langs:
                 raise ValidationError(_(
                     'There are more files for single language, please '
                     'adjust the mask and use subprojects for translating '
                     'different resources.'
                 ))
+            if lang.code in translated_langs:
+                raise ValidationError(_(
+                    'More translations were mapped to single language '
+                    'code (%s). You should disable SIMPLIFY_LANGUAGES '
+                    'to prevent Weblate mapping similar languages to one.'
+                ) % lang.code)
             langs.add(code)
+            translated_langs.add(lang.code)
 
         # Try parsing files
         self.clean_files(matches)
