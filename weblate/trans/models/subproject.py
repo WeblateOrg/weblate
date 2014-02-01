@@ -855,6 +855,32 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('Failed to parse translation base file: %s') % str(exc)
             )
 
+    def clean_lang_codes(self, matches):
+        '''
+        Validates that there are no double language codes found in the files.
+        '''
+        if len(matches) == 0:
+            raise ValidationError(_('The mask did not match any files!'))
+        langs = set()
+        translated_langs = set()
+        for match in matches:
+            code = self.get_lang_code(match)
+            lang = Language.objects.auto_get_or_create(code=code)
+            if code in langs:
+                raise ValidationError(_(
+                    'There are more files for single language, please '
+                    'adjust the mask and use subprojects for translating '
+                    'different resources.'
+                ))
+            if lang.code in translated_langs:
+                raise ValidationError(_(
+                    'More translations were mapped to single language '
+                    'code (%s). You should disable SIMPLIFY_LANGUAGES '
+                    'to prevent Weblate mapping similar languages to one.'
+                ) % lang.code)
+            langs.add(code)
+            translated_langs.add(lang.code)
+
     def clean_files(self, matches):
         '''
         Validates whether we can parse translation files.
@@ -937,27 +963,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.clean_repo_link()
 
         matches = self.get_mask_matches()
-        if len(matches) == 0:
-            raise ValidationError(_('The mask did not match any files!'))
-        langs = set()
-        translated_langs = set()
-        for match in matches:
-            code = self.get_lang_code(match)
-            lang = Language.objects.auto_get_or_create(code=code)
-            if code in langs:
-                raise ValidationError(_(
-                    'There are more files for single language, please '
-                    'adjust the mask and use subprojects for translating '
-                    'different resources.'
-                ))
-            if lang.code in translated_langs:
-                raise ValidationError(_(
-                    'More translations were mapped to single language '
-                    'code (%s). You should disable SIMPLIFY_LANGUAGES '
-                    'to prevent Weblate mapping similar languages to one.'
-                ) % lang.code)
-            langs.add(code)
-            translated_langs.add(lang.code)
+
+        # Verify language codes
+        self.clean_lang_codes(matches)
 
         # Try parsing files
         self.clean_files(matches)
