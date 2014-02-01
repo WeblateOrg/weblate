@@ -12,6 +12,7 @@ Released on ? 2013.
 * Improved support for Qt TS files.
 * Users can now delete their account.
 * Avatars can be disabled.
+* Merged first and last name attributes.
 
 weblate 1.8
 -----------
