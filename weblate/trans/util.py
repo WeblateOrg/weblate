@@ -32,7 +32,6 @@ import urllib
 import time
 import random
 import os.path
-from weblate.appsettings import ENABLE_AVATARS
 
 try:
     import libravatar
@@ -101,6 +100,8 @@ def get_user_display(user, icon=True, link=False):
     '''
     Nicely formats user for display.
     '''
+    from weblate.appsettings import ENABLE_AVATARS
+
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
