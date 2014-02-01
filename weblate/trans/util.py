@@ -32,6 +32,7 @@ import urllib
 import time
 import random
 import os.path
+from weblate.appsettings import ENABLE_AVATARS
 
 try:
     import libravatar
@@ -119,7 +120,7 @@ def get_user_display(user, icon=True, link=False):
     full_name = escape(full_name)
 
     # Icon requested?
-    if icon:
+    if icon and ENABLE_AVATARS:
         # Get avatar image
         avatar = avatar_for_email(email, size=32)
 

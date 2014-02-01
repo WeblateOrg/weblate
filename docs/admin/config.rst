@@ -102,6 +102,14 @@ For example you can enable only few of them:
 
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
 
+.. settting:: ENABLE_AVATARS
+
+ENABLE_AVATARS
+--------------
+
+Whether to enable libravatar/gravatar based avatars for users. By default this
+is enabled.
+
 .. setting:: ENABLE_HOOKS
 
 ENABLE_HOOKS

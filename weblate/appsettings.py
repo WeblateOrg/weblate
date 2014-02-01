@@ -164,3 +164,6 @@ SELF_ADVERTISEMENT = get('SELF_ADVERTISEMENT', False)
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get('SIMPLIFY_LANGUAGES', True)
+
+# Disable avatars
+ENABLE_AVATARS = get('ENABLE_AVATARS', True)

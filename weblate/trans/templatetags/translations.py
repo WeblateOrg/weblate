@@ -297,6 +297,8 @@ def show_checks(checks, user):
 
 @register.simple_tag
 def avatar(user, size=80):
+    if not appsettings.ENABLE_AVATARS:
+        return ''
     url = avatar_for_email(user.email, size)
     alt = escape(_('Avatar for %s') % get_user_display(user, False))
     return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (

@@ -9,9 +9,11 @@
 
 {% block content %}
 
+{% if enable_avatar %}
 <div class="border menu-float">
 {% avatar page_user 128 %}
 </div>
+{% endif %}
 
 <h2>{{ page_profile.get_user_name }}</h2>
 
