@@ -268,6 +268,12 @@ class VerifiedEmail(models.Model):
     social = models.ForeignKey(UserSocialAuth)
     email = models.EmailField()
 
+    def __unicode__(self):
+        return u'{0} - {1}'.format(
+            self.social.user.username,
+            self.email
+        )
+
 
 class ProfileManager(models.Manager):
     '''
