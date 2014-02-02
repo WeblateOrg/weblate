@@ -32,6 +32,13 @@ XML_MATCH = re.compile(r'<[^>]+>')
 XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
 
 
+def strip_entities(text):
+    '''
+    Strips all HTML entities (we don't care about them).
+    '''
+    return XML_ENTITY_MATCH.sub('', text)
+
+
 class BBCodeCheck(TargetCheck):
     '''
     Check for matching bbcode tags.
@@ -69,17 +76,11 @@ class XMLTagsCheck(TargetCheck):
     name = _('XML tags mismatch')
     description = _('XML tags in translation do not match source')
 
-    def strip_entities(self, text):
-        '''
-        Strips all HTML entities (we don't care about them).
-        '''
-        return XML_ENTITY_MATCH.sub('', text)
-
     def parse_xml(self, text):
         '''
         Wrapper for parsing XML.
         '''
-        text = self.strip_entities(text.encode('utf-8'))
+        text = strip_entities(text.encode('utf-8'))
         return cElementTree.fromstring('<weblate>%s</weblate>' % text)
 
     def check_single(self, source, target, unit, cache_slot):
