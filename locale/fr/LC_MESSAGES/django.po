@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-02-02 10:50+0100\n"
-"PO-Revision-Date: 2014-01-03 21:27+0200\n"
+"PO-Revision-Date: 2014-02-02 13:59+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <http://l10n.cihar.com/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -53,10 +53,9 @@ msgstr ""
 "Authentification."
 
 #: weblate/accounts/forms.py:248 weblate/accounts/forms.py:322
-#, fuzzy
 #| msgid "Your name"
 msgid "Full name"
-msgstr "Votre nom"
+msgstr "Votre nom complet"
 
 #: weblate/accounts/forms.py:257
 msgid "Subject"
@@ -233,10 +232,9 @@ msgid "User profile"
 msgstr "Profil d'utilisateur"
 
 #: weblate/accounts/views.py:201
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "Your account has been removed."
-msgstr "Aucune activité récente n'a été enregistrée."
+msgstr "Votre compte a été supprimé."
 
 #: weblate/accounts/views.py:235 weblate/accounts/views.py:274
 msgid "Message has been sent to administrator."
@@ -2410,7 +2408,7 @@ msgstr "Avatar"
 
 #: weblate/html/accounts/profile.html:31
 msgid "Removal"
-msgstr ""
+msgstr "Suppression"
 
 #: weblate/html/accounts/profile.html:39
 msgid "You will receive chosen notifications via email for all your languages."
@@ -2469,11 +2467,11 @@ msgstr "Les avatars sont fournis par libravatar."
 
 #: weblate/html/accounts/profile.html:125 weblate/html/accounts/removal.html:8
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "La suppression du compte efface toutes vos données privées."
 
 #: weblate/html/accounts/profile.html:126
 msgid "Remove my account"
-msgstr ""
+msgstr "Supprimer mon compte"
 
 #: weblate/html/accounts/register.html:9
 msgid "Registration"
@@ -2501,12 +2499,13 @@ msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr ""
+"En appuyant sur le bouton suivant, vous n'aurez plus la possibilité "
+"d'utiliser ce compte."
 
 #: weblate/html/accounts/removal.html:13
-#, fuzzy
 #| msgid "Sort this column"
 msgid "Delete this account"
-msgstr "Trier cette colonne"
+msgstr "Supprimer cette colonne"
 
 #: weblate/html/accounts/reset.html:9
 msgid ""
@@ -2959,10 +2958,9 @@ msgid "Requested language:"
 msgstr "Langue demandée :"
 
 #: weblate/html/mail/new_language.html:30 weblate/html/mail/new_language.txt:9
-#, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "Langue demandée :"
+msgstr "Utilisateur demandeur :"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -4176,6 +4174,9 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
+"Des traductions multiples ont été associées à un code de langue unique (%s). "
+"Vous devriez désactiver SIMPLIFY_LANGUAGES afin d'éviter que Weblate "
+"associe des langues similaires."
 
 #: weblate/trans/models/subproject.py:898
 msgid "File does not seem to be valid!"
