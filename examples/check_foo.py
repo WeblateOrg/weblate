@@ -21,7 +21,7 @@
 Simple quality check example.
 '''
 
-from trans.checks import TargetCheck
+from weblate.trans.checks import TargetCheck
 from django.utils.translation import ugettext_lazy as _
 
 
