@@ -227,7 +227,7 @@ class CommentManager(models.Manager):
         '''
         from weblate.accounts.models import notify_new_comment
 
-        new_comment = Comment.objects.create(
+        new_comment = self.create(
             user=user,
             contentsum=unit.contentsum,
             project=unit.translation.subproject.project,
