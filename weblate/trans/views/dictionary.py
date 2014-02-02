@@ -148,10 +148,10 @@ def upload_dictionary(request, project, lang):
                         request,
                         _('Imported %d words from file.') % count
                     )
-            except Exception as e:
+            except Exception as error:
                 messages.error(
                     request,
-                    _('File upload has failed: %s' % unicode(e))
+                    _('File upload has failed: %s' % unicode(error))
                 )
         else:
             messages.error(request, _('Failed to process form!'))

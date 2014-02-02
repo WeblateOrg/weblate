@@ -198,10 +198,10 @@ def load_class(name):
     module, attr = name.rsplit('.', 1)
     try:
         mod = import_module(module)
-    except ImportError as e:
+    except ImportError as error:
         raise ImproperlyConfigured(
             'Error importing module %s: "%s"' %
-            (module, e)
+            (module, error)
         )
     try:
         cls = getattr(mod, attr)

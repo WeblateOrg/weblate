@@ -199,11 +199,11 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 _('Format of %s could not be recognized.') %
                 self.filename
             )
-        except Exception as e:
+        except Exception as error:
             raise ValidationError(
                 _('Failed to parse file %(file)s: %(error)s') % {
                     'file': self.filename,
-                    'error': str(e)
+                    'error': str(error)
                 }
             )
 

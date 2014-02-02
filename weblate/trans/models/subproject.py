@@ -453,8 +453,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 # so we will sleep a bit an retry
                 sleep_while_git_locked()
                 self.git_repo.git.remote('update', 'origin')
-        except Exception as e:
-            error_text = str(e)
+        except Exception as error:
+            error_text = str(error)
             weblate.logger.error('Failed to update Git repo: %s', error_text)
             if validate:
                 if 'Host key verification failed' in error_text:
@@ -603,12 +603,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     'origin'
                 )
             return True
-        except Exception as e:
+        except Exception as error:
             weblate.logger.warning(
                 'failed push on repo %s',
                 self.__unicode__()
             )
-            msg = 'Error:\n%s' % str(e)
+            msg = 'Error:\n%s' % str(error)
             mail_admins(
                 'failed push on repo %s' % self.__unicode__(),
                 msg
@@ -639,12 +639,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.__unicode__()
                 )
                 self.git_repo.git.reset('--hard', 'origin/%s' % self.branch)
-            except Exception as e:
+            except Exception as error:
                 weblate.logger.warning(
                     'failed reset on repo %s',
                     self.__unicode__()
                 )
-                msg = 'Error:\n%s' % str(e)
+                msg = 'Error:\n%s' % str(error)
                 mail_admins(
                     'failed reset on repo %s' % self.__unicode__(),
                     msg
@@ -719,10 +719,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.__unicode__()
                 )
                 return True
-            except Exception as e:
+            except Exception as error:
                 # In case merge has failer recover
                 status = self.git_repo.git.status()
-                error = str(e)
+                error = str(error)
                 method('--abort')
 
         # Log error
@@ -899,8 +899,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     ))
             except ValueError:
                 notrecognized.append(match)
-            except Exception as e:
-                errors.append('%s: %s' % (match, str(e)))
+            except Exception as error:
+                errors.append('%s: %s' % (match, str(error)))
         if len(notrecognized) > 0:
             msg = (
                 _('Format of %d matched files could not be recognized.') %

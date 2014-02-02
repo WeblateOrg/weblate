@@ -37,8 +37,8 @@ def validate_repoweb(val):
     '''
     try:
         val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
-    except Exception as e:
-        raise ValidationError(_('Bad format string (%s)') % str(e))
+    except Exception as error:
+        raise ValidationError(_('Bad format string (%s)') % str(error))
 
 
 def validate_extra_file(val):
@@ -47,8 +47,8 @@ def validate_extra_file(val):
     '''
     try:
         val % {'language': 'cs'}
-    except Exception as e:
-        raise ValidationError(_('Bad format string (%s)') % str(e))
+    except Exception as error:
+        raise ValidationError(_('Bad format string (%s)') % str(error))
 
 
 def validate_commit_message(val):
@@ -67,8 +67,8 @@ def validate_commit_message(val):
             'translated': 40,
             'translated_percent': 20.0,
         }
-    except Exception as e:
-        raise ValidationError(_('Bad format string (%s)') % str(e))
+    except Exception as error:
+        raise ValidationError(_('Bad format string (%s)') % str(error))
 
 
 def validate_filemask(val):

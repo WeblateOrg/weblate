@@ -45,8 +45,8 @@ class FileLock(object):
                     os.O_CREAT | os.O_EXCL | os.O_RDWR
                 )
                 break
-            except OSError as e:
-                if e.errno != errno.EEXIST:
+            except OSError as error:
+                if error.errno != errno.EEXIST:
                     raise
                 if (time.time() - start_time) >= self.timeout:
                     raise FileLockException("Timeout occured.")
