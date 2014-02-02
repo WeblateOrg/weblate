@@ -90,7 +90,7 @@ class EndSpaceCheck(TargetCheck):
             return False
         if not source or not target:
             return False
-        if self.is_language(unit, ['fr', 'br']):
+        if self.is_language(unit, ('fr', 'br')):
             if source[-1] in [':', '!', '?'] and target[-1] == ' ':
                 return False
 
@@ -135,7 +135,7 @@ class EndStopCheck(TargetCheck):
             return self.check_chars(
                 source, target, -1, (u';', u':', u'：', u'.', u'。')
             )
-        if self.is_language(unit, ['hi', 'bn']):
+        if self.is_language(unit, ('hi', 'bn')):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
             return self.check_chars(

@@ -38,6 +38,6 @@ class PluralCzechCheck(TargetCheck):
 
     # Real check code
     def check(self, sources, targets, unit):
-        if self.is_language(unit, ['cs']):
+        if self.is_language(unit, ('cs', )):
             return targets[1] == targets[2]
         return False

@@ -916,7 +916,7 @@ class SameCheck(TargetCheck):
 
     def check_single(self, source, target, unit, cache_slot):
         # English variants will have most things not translated
-        if self.is_language(unit, ['en']):
+        if self.is_language(unit, ('en', )):
             return False
 
         # One letter things are usually labels or decimal/thousand separators
