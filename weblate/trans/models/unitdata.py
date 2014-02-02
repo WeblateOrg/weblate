@@ -122,6 +122,12 @@ class Suggestion(models.Model, RelatedUnitMixin):
         )
         app_label = 'trans'
 
+    def __unicode__(self):
+        return u'suggestion for {0} by {1}'.format(
+            self.contentsum,
+            self.user.username if self.user else 'unknown',
+        )
+
     def accept(self, translation, request):
         allunits = translation.unit_set.filter(
             contentsum=self.contentsum,
@@ -202,6 +208,17 @@ class Vote(models.Model):
         unique_together = ('suggestion', 'user')
         app_label = 'trans'
 
+    def __unicode__(self):
+        if self.positive:
+            vote = '+1'
+        else:
+            vote = '-1'
+        return u'{0} for {1} by {2}'.format(
+            vote,
+            self.contentsum,
+            self.user.username,
+        )
+
 
 class CommentManager(models.Manager):
     def add(self, unit, user, lang, text):
@@ -258,6 +275,12 @@ class Comment(models.Model, RelatedUnitMixin):
         ordering = ['timestamp']
         app_label = 'trans'
 
+    def __unicode__(self):
+        return u'comment for {0} by {1}'.format(
+            self.contentsum,
+            self.user.username if self.user else 'unknown',
+        )
+
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 
@@ -285,7 +308,7 @@ class Check(models.Model, RelatedUnitMixin):
         unique_together = ('contentsum', 'project', 'language', 'check')
 
     def __unicode__(self):
-        return '%s/%s: %s' % (
+        return u'{0}/{1}: {2}'.format(
             self.project,
             self.language,
             self.check,
@@ -321,3 +344,6 @@ class IndexUpdate(models.Model):
 
     class Meta:
         app_label = 'trans'
+
+    def __unicode__(self):
+        return self.unit.__unicode__()
