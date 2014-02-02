@@ -32,7 +32,7 @@ import git
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.models.project import Project
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
-from lockfile import FileLock
+from weblate.trans.filelock import FileLock
 from weblate.trans.util import is_repo_link
 from weblate.trans.util import get_site_url
 from weblate.trans.util import sleep_while_git_locked

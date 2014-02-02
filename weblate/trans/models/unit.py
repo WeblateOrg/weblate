@@ -31,7 +31,7 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.source import Source
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
 
-from lockfile import LockError
+from weblate.trans.filelock import FileLockException
 from weblate.trans.util import is_plural, split_plural, join_plural
 import weblate
 
@@ -521,7 +521,7 @@ class Unit(models.Model):
         # Store to backend
         try:
             (saved, pounit) = self.translation.update_unit(self, request, user)
-        except LockError:
+        except FileLockException:
             weblate.logger.error('failed to lock backend for %s!', self)
             messages.error(
                 request,
