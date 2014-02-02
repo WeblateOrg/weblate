@@ -21,7 +21,7 @@
 Quality check example for Czech plurals.
 '''
 
-from weblate.trans.checks import TargetCheck
+from weblate.trans.checks.base import TargetCheck
 from django.utils.translation import ugettext_lazy as _
 
 
