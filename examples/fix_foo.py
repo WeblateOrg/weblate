@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from trans.autofixes.base import AutoFix
+from weblate.trans.autofixes.base import AutoFix
 from django.utils.translation import ugettext_lazy as _
 
 
