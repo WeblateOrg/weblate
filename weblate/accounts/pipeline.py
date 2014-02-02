@@ -40,8 +40,7 @@ def get_backend_name(strategy):
 
 
 @partial
-def require_email(strategy, details, user=None, is_new=False,
-                  *args, **kwargs):
+def require_email(strategy, details, user=None, is_new=False, **kwargs):
     '''
     Forces entering email for backends which don't provide it.
     '''
@@ -80,7 +79,7 @@ def send_validation(strategy, code):
     )
 
 
-def verify_open(strategy, user, *args, **kwargs):
+def verify_open(strategy, user, **kwargs):
     '''
     Checks whether it is possible to create new user.
     '''
@@ -89,7 +88,7 @@ def verify_open(strategy, user, *args, **kwargs):
         raise AuthForbidden(strategy.backend)
 
 
-def store_email(strategy, user, social, details, *args, **kwargs):
+def store_email(strategy, user, social, details, **kwargs):
     '''
     Stores verified email.
     '''
@@ -100,7 +99,7 @@ def store_email(strategy, user, social, details, *args, **kwargs):
             verified.save()
 
 
-def user_full_name(strategy, details, response, user=None, *args, **kwargs):
+def user_full_name(strategy, details, user=None, **kwargs):
     """
     Update user full name using data from provider.
     """
