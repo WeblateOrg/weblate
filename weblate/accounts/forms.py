@@ -419,17 +419,13 @@ class PasswordForm(forms.Form):
         field.
 
         """
-        try:
-            password1 = self.cleaned_data['password1']
-            password2 = self.cleaned_data['password2']
+        password1 = self.cleaned_data.get('password1', '')
+        password2 = self.cleaned_data.get('password2', '')
 
-            if password1 != password2:
-                raise forms.ValidationError(
-                    _('You must type the same password each time.')
-                )
-
-        except KeyError:
-            pass
+        if password1 != password2:
+            raise forms.ValidationError(
+                _('You must type the same password each time.')
+            )
 
         return self.cleaned_data
 
