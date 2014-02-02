@@ -13,6 +13,7 @@ Released on ? 2014.
 * Users can now delete their account.
 * Avatars can be disabled.
 * Merged first and last name attributes.
+* Use lockfile module instead of own code.
 
 weblate 1.8
 -----------

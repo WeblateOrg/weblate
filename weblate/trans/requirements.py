@@ -184,6 +184,16 @@ def get_versions():
         '3.1.0',
     ))
 
+    name = 'lockfile'
+    url = 'https://pypi.python.org/pypi/lockfile'
+    mod = get_version_module('lockfile', name, url, True)
+    result.append((
+        name,
+        url,
+        'N/A',
+        '',
+    ))
+
     return result
 
 

@@ -26,6 +26,8 @@ PIL or Pillow library
     http://python-imaging.github.io/
 lxml (>= 3.1.0)
     http://lxml.de/
+lockfile
+    https://pypi.python.org/pypi/lockfile
 south
     http://south.aeracode.org/
 libravatar (optional for federated avatar support)
