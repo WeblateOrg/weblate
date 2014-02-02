@@ -28,7 +28,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from urllib import urlencode
 
@@ -344,7 +344,7 @@ def weblate_login(request):
     if 'message' in request.GET:
         messages.info(request, request.GET['message'])
 
-    return login(
+    return auth_views.login(
         request,
         template_name='accounts/login.html',
         authentication_form=LoginForm,
@@ -364,7 +364,7 @@ def weblate_logout(request):
     '''
     messages.info(request, _('Thanks for using Weblate!'))
 
-    return logout(
+    return auth_views.logout(
         request,
         next_page=settings.LOGIN_URL,
     )
