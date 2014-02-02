@@ -333,6 +333,8 @@ class Unit(models.Model):
         '''
         super(Unit, self).__init__(*args, **kwargs)
         self._all_flags = None
+        self.old_translated = self.translated
+        self.old_fuzzy = self.fuzzy
 
     def has_acl(self, user):
         '''
