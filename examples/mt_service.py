@@ -21,7 +21,7 @@
 Machine translation example.
 '''
 
-from trans.machine.base import MachineTranslation
+from weblate.trans.machine.base import MachineTranslation
 import dictionary
 
 
