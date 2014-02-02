@@ -874,7 +874,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 ))
             if lang.code in translated_langs:
                 raise ValidationError(_(
-                    'More translations were mapped to single language '
+                    'Multiple translations were mapped to a single language '
                     'code (%s). You should disable SIMPLIFY_LANGUAGES '
                     'to prevent Weblate mapping similar languages to one.'
                 ) % lang.code)
