@@ -262,6 +262,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._file_format = None
         self._template_store = None
         self._all_flags = None
+        self._linked_subproject = None
 
     def has_acl(self, user):
         '''
@@ -371,7 +372,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns subproject for linked repo.
         '''
-        return SubProject.objects.get_linked(self.repo)
+        if self._linked_subproject is None:
+            self._linked_subproject = SubProject.objects.get_linked(self.repo)
+        return self._linked_subproject
 
     @property
     def git_repo(self):
