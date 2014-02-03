@@ -332,3 +332,17 @@ class LockingCommandTest(RepoTestCase):
         self.assertFalse(
             SubProject.objects.filter(locked=True).exists()
         )
+
+
+class BenchmarkCommandTest(RepoTestCase):
+    '''
+    Benchmarking test.
+    '''
+    def setUp(self):
+        super(BenchmarkCommandTest, self).setUp()
+        self.create_subproject()
+
+    def test_benchmark(self):
+        call_command(
+            'benchmark', 'test', 'weblate://test/test', 'po/*.po'
+        )
