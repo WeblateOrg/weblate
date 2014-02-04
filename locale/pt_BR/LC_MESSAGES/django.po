@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-02-02 10:50+0100\n"
-"PO-Revision-Date: 2014-01-21 17:19+0200\n"
-"Last-Translator: Douglas dreginatto <douglas@reginatto.com>\n"
-"Language-Team: Portuguese (Brazil) <http://l10n.cihar.com/projects/weblate/"
-"master/pt_BR/>\n"
+"PO-Revision-Date: 2014-02-04 21:06+0200\n"
+"Last-Translator: Helder Santana <helder.bs.santana@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://l10n.cihar.com/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,10 +52,9 @@ msgid "You can add another emails on Authentication tab."
 msgstr "Você pode adicionar outro email na aba Autenticação."
 
 #: weblate/accounts/forms.py:248 weblate/accounts/forms.py:322
-#, fuzzy
 #| msgid "Your name"
 msgid "Full name"
-msgstr "Seu nome"
+msgstr "Nome completo"
 
 #: weblate/accounts/forms.py:257
 msgid "Subject"
@@ -230,10 +229,9 @@ msgid "User profile"
 msgstr "Perfil do usuário"
 
 #: weblate/accounts/views.py:201
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "Your account has been removed."
-msgstr "Nenhuma atividade recente registrada."
+msgstr "Sua conta foi removida."
 
 #: weblate/accounts/views.py:235 weblate/accounts/views.py:274
 msgid "Message has been sent to administrator."
@@ -2228,7 +2226,7 @@ msgstr "Tradução foi armazenada!"
 
 #: weblate/html/zen-units.html:17
 msgid "Open in full editor"
-msgstr ""
+msgstr "Abrir em editor completo"
 
 #: weblate/html/zen-units.html:37 weblate/trans/views/edit.py:507
 msgid "You have reached end of translating."
@@ -2236,7 +2234,7 @@ msgstr "Você chegou no final da tradução."
 
 #: weblate/html/zen.html:14
 msgid "zen"
-msgstr ""
+msgstr "\"zen\""
 
 #: weblate/html/zen.html:25
 #, python-format
@@ -2395,7 +2393,7 @@ msgstr "Avatar"
 
 #: weblate/html/accounts/profile.html:31
 msgid "Removal"
-msgstr ""
+msgstr "Remoção"
 
 #: weblate/html/accounts/profile.html:39
 msgid "You will receive chosen notifications via email for all your languages."
@@ -2456,11 +2454,11 @@ msgstr "Os avatares são fornecidos pelo libravatar."
 
 #: weblate/html/accounts/profile.html:125 weblate/html/accounts/removal.html:8
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "A remoção desta conta apaga todos os seus dados privados."
 
 #: weblate/html/accounts/profile.html:126
 msgid "Remove my account"
-msgstr ""
+msgstr "Remover minha conta"
 
 #: weblate/html/accounts/register.html:9
 msgid "Registration"
@@ -2487,13 +2485,12 @@ msgstr ""
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
-msgstr ""
+msgstr "Ao pressionar o botão, você não poderá mais utilizar esta conta."
 
 #: weblate/html/accounts/removal.html:13
-#, fuzzy
 #| msgid "Sort this column"
 msgid "Delete this account"
-msgstr "Ordenar esta coluna"
+msgstr "Apagar esta conta"
 
 #: weblate/html/accounts/reset.html:9
 msgid ""
@@ -2593,10 +2590,9 @@ msgid "Hostname"
 msgstr "Nome de host"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Tipo de procura"
+msgstr "Tipo de chave"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2615,14 +2611,13 @@ msgstr ""
 "verificar a chave de host usando o formulário abaixo."
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Hospedagem"
+msgstr "Host:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "Porta:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -2942,10 +2937,9 @@ msgid "Requested language:"
 msgstr "Idioma solicitado:"
 
 #: weblate/html/mail/new_language.html:30 weblate/html/mail/new_language.txt:9
-#, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "Idioma solicitado:"
+msgstr "Usuário solicitado:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -3144,7 +3138,7 @@ msgid "Invalid host name given!"
 msgstr "Hostname fornecido inválido!"
 
 #: weblate/trans/admin_views.py:301
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3152,14 +3146,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Foi adicionada uma chave de host para %(host)s com a identidade "
-"%(fingerprint)s, favor verifique se está correto."
+"Foi adicionada uma chave de host para o %(host)s com a identidade %"
+"(fingerprint)s (%(keytype)s), favor verificar se está correto."
 
 #: weblate/trans/admin_views.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Falha ao gerar chave: %s"
+msgstr "Falha em obter a chave do host: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
