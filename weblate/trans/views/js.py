@@ -18,8 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required
 from django.db.models import Q
@@ -101,12 +100,16 @@ def get_other(request, unit_id):
 
     other = Unit.objects.same(unit)
 
-    return render_to_response('js/other.html', RequestContext(request, {
-        'other': other.select_related(),
-        'unit': unit,
-        'search_id': request.GET.get('sid', ''),
-        'offset': request.GET.get('offset', ''),
-    }))
+    return render(
+        request,
+        'js/other.html',
+        {
+            'other': other.select_related(),
+            'unit': unit,
+            'search_id': request.GET.get('sid', ''),
+            'offset': request.GET.get('offset', ''),
+        }
+    )
 
 
 def get_unit_changes(request, unit_id):
@@ -116,14 +119,18 @@ def get_unit_changes(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     unit.check_acl(request)
 
-    return render_to_response('last-changes.html', RequestContext(request, {
-        'last_changes': unit.change_set.all()[:10],
-        'last_changes_rss': reverse(
-            'rss-translation',
-            kwargs=unit.translation.get_kwargs(),
-        ),
-        'last_changes_url': urlencode(unit.translation.get_kwargs()),
-    }))
+    return render(
+        request,
+        'last-changes.html',
+        {
+            'last_changes': unit.change_set.all()[:10],
+            'last_changes_rss': reverse(
+                'rss-translation',
+                kwargs=unit.translation.get_kwargs(),
+            ),
+            'last_changes_url': urlencode(unit.translation.get_kwargs()),
+        }
+    )
 
 
 def get_dictionary(request, unit_id):
@@ -162,10 +169,14 @@ def get_dictionary(request, unit_id):
         # Filter dictionary
         dictionary = dictionary.filter(query)
 
-    return render_to_response('js/dictionary.html', RequestContext(request, {
-        'dictionary': dictionary,
-        'translation': unit.translation,
-    }))
+    return render(
+        request,
+        'js/dictionary.html',
+        {
+            'dictionary': dictionary,
+            'translation': unit.translation,
+        }
+    )
 
 
 @permission_required('trans.ignore_check')
@@ -185,9 +196,13 @@ def ignore_check(request, check_id):
 def git_status_project(request, project):
     obj = get_project(request, project)
 
-    return render_to_response('js/git-status.html', RequestContext(request, {
-        'object': obj,
-    }))
+    return render(
+        request,
+        'js/git-status.html',
+        {
+            'object': obj,
+        }
+    )
 
 
 @any_permission_required(
@@ -197,9 +212,13 @@ def git_status_project(request, project):
 def git_status_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    return render_to_response('js/git-status.html', RequestContext(request, {
-        'object': obj,
-    }))
+    return render(
+        request,
+        'js/git-status.html',
+        {
+            'object': obj,
+        }
+    )
 
 
 @any_permission_required(
@@ -209,9 +228,13 @@ def git_status_subproject(request, project, subproject):
 def git_status_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    return render_to_response('js/git-status.html', RequestContext(request, {
-        'object': obj,
-    }))
+    return render(
+        request,
+        'js/git-status.html',
+        {
+            'object': obj,
+        }
+    )
 
 
 def js_config(request):
@@ -222,14 +245,12 @@ def js_config(request):
     # Machine translation
     machine_services = MACHINE_TRANSLATION_SERVICES.keys()
 
-    return render_to_response(
+    return render(
+        request,
         'js/config.js',
-        RequestContext(
-            request,
-            {
-                'machine_services': machine_services,
-            }
-        ),
+        {
+            'machine_services': machine_services,
+        },
         content_type='application/javascript'
     )
 
@@ -244,12 +265,10 @@ def get_detail(request, project, subproject, checksum):
         translation__subproject=subproject
     )
 
-    return render_to_response(
+    return render(
+        request,
         'js/detail.html',
-        RequestContext(
-            request,
-            {
-                'units': units,
-            }
-        )
+        {
+            'units': units,
+        }
     )

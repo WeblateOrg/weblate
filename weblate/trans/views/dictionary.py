@@ -18,9 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import ugettext as _
-from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -44,11 +43,15 @@ def show_dictionaries(request, project):
         subproject__project=obj
     ).values_list('language', flat=True).distinct()
 
-    return render_to_response('dictionaries.html', RequestContext(request, {
-        'title': _('Dictionaries'),
-        'dicts': Language.objects.filter(id__in=dicts),
-        'project': obj,
-    }))
+    return render(
+        request,
+        'dictionaries.html',
+        {
+            'title': _('Dictionaries'),
+            'dicts': Language.objects.filter(id__in=dicts),
+            'project': obj,
+        }
+    )
 
 
 @login_required
@@ -85,19 +88,23 @@ def edit_dictionary(request, project, lang):
         dictionary=word,
     ).order_by('-timestamp')[:10]
 
-    return render_to_response('edit_dictionary.html', RequestContext(request, {
-        'title': _('%(language)s dictionary for %(project)s') %
-        {'language': lang, 'project': prj},
-        'project': prj,
-        'language': lang,
-        'form': form,
-        'last_changes': last_changes,
-        'last_changes_url': urlencode({
-            'project': prj.slug,
-            'lang': lang.code,
-            'glossary': 1
-        }),
-    }))
+    return render(
+        request,
+        'edit_dictionary.html',
+        {
+            'title': _('%(language)s dictionary for %(project)s') %
+            {'language': lang, 'project': prj},
+            'project': prj,
+            'language': lang,
+            'form': form,
+            'last_changes': last_changes,
+            'last_changes_url': urlencode({
+                'project': prj.slug,
+                'lang': lang.code,
+                'glossary': 1
+            }),
+        }
+    )
 
 
 @login_required
@@ -319,20 +326,24 @@ def show_dictionary(request, project, lang):
         dictionary__language=lang
     ).order_by('-timestamp')[:10]
 
-    return render_to_response('dictionary.html', RequestContext(request, {
-        'title': _('%(language)s dictionary for %(project)s') %
-        {'language': lang, 'project': prj},
-        'project': prj,
-        'language': lang,
-        'words': words,
-        'form': form,
-        'uploadform': uploadform,
-        'letterform': letterform,
-        'letter': letter,
-        'last_changes': last_changes,
-        'last_changes_url': urlencode({
-            'project': prj.slug,
-            'lang': lang.code,
-            'glossary': 1
-        }),
-    }))
+    return render(
+        request,
+        'dictionary.html',
+        {
+            'title': _('%(language)s dictionary for %(project)s') %
+            {'language': lang, 'project': prj},
+            'project': prj,
+            'language': lang,
+            'words': words,
+            'form': form,
+            'uploadform': uploadform,
+            'letterform': letterform,
+            'letter': letter,
+            'last_changes': last_changes,
+            'last_changes_url': urlencode({
+                'project': prj.slug,
+                'lang': lang.code,
+                'glossary': 1
+            }),
+        }
+    )

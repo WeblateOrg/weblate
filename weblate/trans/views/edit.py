@@ -18,9 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import ugettext as _
-from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -573,36 +572,34 @@ def translate(request, project, subproject, lang):
     # Prepare form
     form = TranslationForm(translation, unit)
 
-    return render_to_response(
+    return render(
+        request,
         'translate.html',
-        RequestContext(
-            request,
-            {
-                'this_unit_url': this_unit_url,
-                'first_unit_url': base_unit_url + '0',
-                'last_unit_url': base_unit_url + str(num_results - 1),
-                'next_unit_url': next_unit_url,
-                'prev_unit_url': base_unit_url + str(offset - 1),
-                'object': translation,
-                'unit': unit,
-                'total': translation.unit_set.all().count(),
-                'search_id': search_result['search_id'],
-                'search_query': search_result['query'],
-                'offset': offset,
-                'filter_name': search_result['name'],
-                'filter_count': num_results,
-                'filter_pos': offset + 1,
-                'form': form,
-                'antispam': antispam,
-                'comment_form': CommentForm(),
-                'search_form': SearchForm(),
-                'update_lock': own_lock,
-                'secondary': secondary,
-                'locked': locked,
-                'user_locked': user_locked,
-                'project_locked': project_locked,
-            },
-        )
+        {
+            'this_unit_url': this_unit_url,
+            'first_unit_url': base_unit_url + '0',
+            'last_unit_url': base_unit_url + str(num_results - 1),
+            'next_unit_url': next_unit_url,
+            'prev_unit_url': base_unit_url + str(offset - 1),
+            'object': translation,
+            'unit': unit,
+            'total': translation.unit_set.all().count(),
+            'search_id': search_result['search_id'],
+            'search_query': search_result['query'],
+            'offset': offset,
+            'filter_name': search_result['name'],
+            'filter_count': num_results,
+            'filter_pos': offset + 1,
+            'form': form,
+            'antispam': antispam,
+            'comment_form': CommentForm(),
+            'search_form': SearchForm(),
+            'update_lock': own_lock,
+            'secondary': secondary,
+            'locked': locked,
+            'user_locked': user_locked,
+            'project_locked': project_locked,
+        }
     )
 
 
@@ -740,19 +737,17 @@ def zen(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
-    return render_to_response(
+    return render(
+        request,
         'zen.html',
-        RequestContext(
-            request,
-            {
-                'object': translation,
-                'unitdata': unitdata,
-                'search_query': search_result['query'],
-                'filter_name': search_result['name'],
-                'filter_count': len(search_result['ids']),
-                'last_section': search_result['last_section'],
-            }
-        )
+        {
+            'object': translation,
+            'unitdata': unitdata,
+            'search_query': search_result['query'],
+            'filter_name': search_result['name'],
+            'filter_count': len(search_result['ids']),
+            'last_section': search_result['last_section'],
+        }
     )
 
 
@@ -763,17 +758,15 @@ def load_zen(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
-    return render_to_response(
+    return render(
+        request,
         'zen-units.html',
-        RequestContext(
-            request,
-            {
-                'object': translation,
-                'unitdata': unitdata,
-                'search_query': search_result['query'],
-                'last_section': search_result['last_section'],
-            }
-        )
+        {
+            'object': translation,
+            'unitdata': unitdata,
+            'search_query': search_result['query'],
+            'last_section': search_result['last_section'],
+        }
     )
 
 
@@ -790,11 +783,7 @@ def save_zen(request, project, subproject, lang):
 
         perform_translation(unit, form, request)
 
-    return render_to_response(
+    return render(
+        request,
         'zen-response.html',
-        RequestContext(
-            request,
-            {
-            }
-        )
     )

@@ -24,8 +24,7 @@ Charting library for Weblate.
 from weblate.trans.models import Change
 from weblate.lang.models import Language
 from weblate.trans.views.helper import get_project_translation
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from cStringIO import StringIO
@@ -276,10 +275,14 @@ def view_activity(request, project=None, subproject=None, lang=None):
             'yearly_activity',
         )
 
-    return render_to_response('js/activity.html', RequestContext(request, {
-        'yearly_url': yearly_url,
-        'monthly_url': monthly_url,
-    }))
+    return render(
+        request,
+        'js/activity.html',
+        {
+            'yearly_url': yearly_url,
+            'monthly_url': monthly_url,
+        }
+    )
 
 
 def view_language_activity(request, lang):
@@ -299,7 +302,11 @@ def view_language_activity(request, lang):
         kwargs={'lang': language.code},
     )
 
-    return render_to_response('js/activity.html', RequestContext(request, {
-        'yearly_url': yearly_url,
-        'monthly_url': monthly_url,
-    }))
+    return render(
+        request,
+        'js/activity.html',
+        {
+            'yearly_url': yearly_url,
+            'monthly_url': monthly_url,
+        }
+    )

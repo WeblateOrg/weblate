@@ -477,24 +477,24 @@ urlpatterns = patterns(
     # Compatibility URLs for Widgets
     url(
         r'^widgets/' + PROJECT + '(?P<widget>[^/]+)/(?P<color>[^/]+)/$',
-        'weblate.trans.views.widgets.render',
+        'weblate.trans.views.widgets.render_widget',
         name='widgets-compat-render-color',
     ),
     url(
         r'^widgets/' + PROJECT + '(?P<widget>[^/]+)/$',
-        'weblate.trans.views.widgets.render',
+        'weblate.trans.views.widgets.render_widget',
         name='widgets-compat-render',
     ),
 
     # Engagement widgets
     url(
         r'^widgets/' + WIDGET + '-' + LANGUAGE + r'\.png$',
-        'weblate.trans.views.widgets.render',
+        'weblate.trans.views.widgets.render_widget',
         name='widget-image-lang',
     ),
     url(
         r'^widgets/' + WIDGET + r'\.png$',
-        'weblate.trans.views.widgets.render',
+        'weblate.trans.views.widgets.render_widget',
         name='widget-image',
     ),
     url(

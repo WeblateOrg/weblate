@@ -19,8 +19,7 @@
 #
 
 from django.http import HttpResponse, Http404
-from django.template import RequestContext
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
 
@@ -33,9 +32,13 @@ from weblate.trans.views.helper import get_project, try_set_language
 
 
 def widgets_root(request):
-    return render_to_response('widgets-root.html', RequestContext(request, {
-        'projects': Project.objects.all_acl(request.user),
-    }))
+    return render(
+        request,
+        'widgets-root.html',
+        {
+            'projects': Project.objects.all_acl(request.user),
+        }
+    )
 
 
 def widgets(request, project):
@@ -92,19 +95,23 @@ def widgets(request, project):
             'colors': color_list,
         })
 
-    return render_to_response('widgets.html', RequestContext(request, {
-        'engage_url': engage_url,
-        'engage_url_track': engage_url_track,
-        'widget_list': widget_list,
-        'widget_base_url': widget_base_url,
-        'object': obj,
-        'image_src': widget_list[0]['colors'][0]['url'],
-        'form': form,
-    }))
+    return render(
+        request,
+        'widgets.html',
+        {
+            'engage_url': engage_url,
+            'engage_url_track': engage_url_track,
+            'widget_list': widget_list,
+            'widget_base_url': widget_base_url,
+            'object': obj,
+            'image_src': widget_list[0]['colors'][0]['url'],
+            'form': form,
+        }
+    )
 
 
 @cache_page(3600)
-def render(request, project, widget='287x66', color=None, lang=None):
+def render_widget(request, project, widget='287x66', color=None, lang=None):
     obj = get_project(request, project)
 
     # Handle language parameter

@@ -18,9 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.utils.translation import ugettext as _
-from django.template import RequestContext
 from django.http import Http404
 from django.db.models import Count
 
@@ -41,11 +40,15 @@ def show_checks(request):
     allchecks = Check.objects.filter(
         ignore=ignore,
     ).values('check').annotate(count=Count('id'))
-    return render_to_response('checks.html', RequestContext(request, {
-        'checks': allchecks,
-        'title': _('Failing checks'),
-        'ignore_string': ignore_string,
-    }))
+    return render(
+        request,
+        'checks.html',
+        {
+            'checks': allchecks,
+            'title': _('Failing checks'),
+            'ignore_string': ignore_string,
+        }
+    )
 
 
 def show_check(request, name):
@@ -67,12 +70,16 @@ def show_check(request, name):
         ignore=ignore,
     ).values('project__slug').annotate(count=Count('id'))
 
-    return render_to_response('check.html', RequestContext(request, {
-        'checks': checks,
-        'title': check.name,
-        'check': check,
-        'ignore_string': ignore_string,
-    }))
+    return render(
+        request,
+        'check.html',
+        {
+            'checks': checks,
+            'title': check.name,
+            'check': check,
+            'ignore_string': ignore_string,
+        }
+    )
 
 
 def show_check_project(request, name, project):
@@ -135,13 +142,17 @@ def show_check_project(request, name, project):
             ).annotate(count=Count('id'))
             units |= res
 
-    return render_to_response('check_project.html', RequestContext(request, {
-        'checks': units,
-        'title': '%s/%s' % (prj.__unicode__(), check.name),
-        'check': check,
-        'project': prj,
-        'ignore_string': ignore_string,
-    }))
+    return render(
+        request,
+        'check_project.html',
+        {
+            'checks': units,
+            'title': '%s/%s' % (prj.__unicode__(), check.name),
+            'check': check,
+            'project': prj,
+            'ignore_string': ignore_string,
+        }
+    )
 
 
 def show_check_subproject(request, name, project, subproject):
@@ -184,6 +195,7 @@ def show_check_subproject(request, name, project, subproject):
                 'translation__language__code'
             ).annotate(count=Count('id'))
             units |= res
+
     source_checks = []
     if check.source:
         checks = Check.objects.filter(
@@ -199,9 +211,11 @@ def show_check_subproject(request, name, project, subproject):
         ).count()
         if res > 0:
             source_checks.append(res)
-    return render_to_response(
+
+    return render(
+        request,
         'check_subproject.html',
-        RequestContext(request, {
+        {
             'checks': units,
             'source_checks': source_checks,
             'anychecks': len(units) + len(source_checks) > 0,
@@ -209,5 +223,5 @@ def show_check_subproject(request, name, project, subproject):
             'check': check,
             'subproject': subprj,
             'ignore_string': ignore_string,
-        })
+        }
     )

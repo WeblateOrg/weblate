@@ -18,9 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import logout
-from django.template import RequestContext
 from django.conf import settings
 from django.contrib import messages
 from django.utils.translation import ugettext as _
@@ -166,21 +165,19 @@ def user_profile(request):
         if x == 'email' or x not in social_names
     ]
 
-    response = render_to_response(
+    response = render(
+        request,
         'accounts/profile.html',
-        RequestContext(
-            request,
-            {
-                'form': form,
-                'userform': userform,
-                'subscriptionform': subscriptionform,
-                'profile': profile,
-                'title': _('User profile'),
-                'licenses': Project.objects.exclude(license=''),
-                'associated': social,
-                'new_backends': new_backends,
-            }
-        )
+        {
+            'form': form,
+            'userform': userform,
+            'subscriptionform': subscriptionform,
+            'profile': profile,
+            'title': _('User profile'),
+            'licenses': Project.objects.exclude(license=''),
+            'associated': social,
+            'new_backends': new_backends,
+        }
     )
     response.set_cookie(
         settings.LANGUAGE_COOKIE_NAME,
@@ -203,9 +200,9 @@ def user_remove(request):
 
         return redirect('home')
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/removal.html',
-        RequestContext(request)
     )
 
 
@@ -241,15 +238,13 @@ def contact(request):
             initial['subject'] = request.GET['subject']
         form = ContactForm(initial=initial)
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/contact.html',
-        RequestContext(
-            request,
-            {
-                'form': form,
-                'title': _('Contact'),
-            }
-        )
+        {
+            'form': form,
+            'title': _('Contact'),
+        }
     )
 
 
@@ -278,15 +273,13 @@ def hosting(request):
         initial = get_initial_contact(request)
         form = HostingForm(initial=initial)
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/hosting.html',
-        RequestContext(
-            request,
-            {
-                'form': form,
-                'title': _('Hosting'),
-            }
-        )
+        {
+            'form': form,
+            'title': _('Hosting'),
+        }
     )
 
 
@@ -315,20 +308,18 @@ def user_page(request, user):
     ))
     user_projects = Project.objects.filter(id__in=user_projects_ids)
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/user.html',
-        RequestContext(
-            request,
-            {
-                'page_profile': profile,
-                'page_user': user,
-                'last_changes': last_changes,
-                'last_changes_url': urlencode(
-                    {'user': user.username.encode('utf-8')}
-                ),
-                'user_projects': user_projects,
-            }
-        )
+        {
+            'page_profile': profile,
+            'page_user': user,
+            'last_changes': last_changes,
+            'last_changes_url': urlencode(
+                {'user': user.username.encode('utf-8')}
+            ),
+            'user_projects': user_projects,
+        }
     )
 
 
@@ -388,17 +379,15 @@ def register(request):
 
     backends = set(load_backends(BACKENDS).keys())
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/register.html',
-        RequestContext(
-            request,
-            {
-                'registration_email': 'email' in backends,
-                'registration_backends': backends - set(['email']),
-                'title': _('User registration'),
-                'form': form,
-            }
-        )
+        {
+            'registration_email': 'email' in backends,
+            'registration_backends': backends - set(['email']),
+            'title': _('User registration'),
+            'form': form,
+        }
     )
 
 
@@ -414,15 +403,13 @@ def email_login(request):
     else:
         form = EmailForm()
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/email.html',
-        RequestContext(
-            request,
-            {
-                'title': _('Register email'),
-                'form': form,
-            }
-        )
+        {
+            'title': _('Register email'),
+            'form': form,
+        }
     )
 
 
@@ -472,16 +459,14 @@ def password(request):
     else:
         form = PasswordForm()
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/password.html',
-        RequestContext(
-            request,
-            {
-                'title': _('Change password'),
-                'change_form': change_form,
-                'form': form,
-            }
-        )
+        {
+            'title': _('Change password'),
+            'change_form': change_form,
+            'form': form,
+        }
     )
 
 
@@ -499,13 +484,11 @@ def reset_password(request):
     else:
         form = ResetForm()
 
-    return render_to_response(
+    return render(
+        request,
         'accounts/reset.html',
-        RequestContext(
-            request,
-            {
-                'title': _('Password reset'),
-                'form': form,
-            }
-        )
+        {
+            'title': _('Password reset'),
+            'form': form,
+        }
     )

@@ -18,10 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
-from django.template import RequestContext, loader
-from django.http import HttpResponseNotFound, Http404
+from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum, Count, Q
@@ -98,16 +97,20 @@ def home(request):
         Q(dictionary__project__in=acl_projects)
     ).order_by('-timestamp')[:10]
 
-    return render_to_response('index.html', RequestContext(request, {
-        'projects': projects,
-        'top_translations': top_translations.select_related('user'),
-        'top_suggestions': top_suggestions.select_related('user'),
-        'last_changes': last_changes,
-        'last_changes_rss': reverse('rss'),
-        'last_changes_url': '',
-        'usertranslations': usertranslations,
-        'search_form': SearchForm(),
-    }))
+    return render(
+        request,
+        'index.html',
+        {
+            'projects': projects,
+            'top_translations': top_translations.select_related('user'),
+            'top_suggestions': top_suggestions.select_related('user'),
+            'last_changes': last_changes,
+            'last_changes_rss': reverse('rss'),
+            'last_changes_url': '',
+            'usertranslations': usertranslations,
+            'search_form': SearchForm(),
+        }
+    )
 
 
 def search(request):
@@ -150,9 +153,10 @@ def search(request):
     else:
         messages.error(request, _('Invalid search query!'))
 
-    return render_to_response(
+    return render(
+        request,
         'search.html',
-        RequestContext(request, context)
+        context
     )
 
 
@@ -196,7 +200,11 @@ def show_engage(request, project, lang=None):
 
     context['status_text'] = mark_safe(status_text % context)
 
-    return render_to_response('engage.html', RequestContext(request, context))
+    return render(
+        request,
+        'engage.html',
+        context
+    )
 
 
 def show_project(request, project):
@@ -213,18 +221,22 @@ def show_project(request, project):
         Q(dictionary__project=obj)
     ).order_by('-timestamp')[:10]
 
-    return render_to_response('project.html', RequestContext(request, {
-        'object': obj,
-        'dicts': Language.objects.filter(id__in=dicts),
-        'last_changes': last_changes,
-        'last_changes_rss': reverse(
-            'rss-project',
-            kwargs={'project': obj.slug}
-        ),
-        'last_changes_url': urlencode(
-            {'project': obj.slug}
-        ),
-    }))
+    return render(
+        request,
+        'project.html',
+        {
+            'object': obj,
+            'dicts': Language.objects.filter(id__in=dicts),
+            'last_changes': last_changes,
+            'last_changes_rss': reverse(
+                'rss-project',
+                kwargs={'project': obj.slug}
+            ),
+            'last_changes_url': urlencode(
+                {'project': obj.slug}
+            ),
+        }
+    )
 
 
 def show_subproject(request, project, subproject):
@@ -236,20 +248,24 @@ def show_subproject(request, project, subproject):
 
     new_lang_form = NewLanguageForm()
 
-    return render_to_response('subproject.html', RequestContext(request, {
-        'object': obj,
-        'translations': obj.translation_set.enabled(),
-        'show_language': 1,
-        'last_changes': last_changes,
-        'last_changes_rss': reverse(
-            'rss-subproject',
-            kwargs={'subproject': obj.slug, 'project': obj.project.slug}
-        ),
-        'last_changes_url': urlencode(
-            {'subproject': obj.slug, 'project': obj.project.slug}
-        ),
-        'new_lang_form': new_lang_form,
-    }))
+    return render(
+        request,
+        'subproject.html',
+        {
+            'object': obj,
+            'translations': obj.translation_set.enabled(),
+            'show_language': 1,
+            'last_changes': last_changes,
+            'last_changes_rss': reverse(
+                'rss-subproject',
+                kwargs={'subproject': obj.slug, 'project': obj.project.slug}
+            ),
+            'last_changes_url': urlencode(
+                {'subproject': obj.slug, 'project': obj.project.slug}
+            ),
+            'new_lang_form': new_lang_form,
+        }
+    )
 
 
 def review_source(request, project, subproject):
@@ -285,13 +301,17 @@ def review_source(request, project, subproject):
         # If page is out of range (e.g. 9999), deliver last page of results.
         sources = paginator.page(paginator.num_pages)
 
-    return render_to_response('source-review.html', RequestContext(request, {
-        'object': obj,
-        'source': source,
-        'sources': sources,
-        'rqtype': rqtype,
-        'title': _('Review source strings in %s') % obj.__unicode__(),
-    }))
+    return render(
+        request,
+        'source-review.html',
+        {
+            'object': obj,
+            'source': source,
+            'sources': sources,
+            'rqtype': rqtype,
+            'title': _('Review source strings in %s') % obj.__unicode__(),
+        }
+    )
 
 
 def show_source(request, project, subproject):
@@ -307,11 +327,15 @@ def show_source(request, project, subproject):
     except Translation.DoesNotExist:
         raise Http404('No translation exists in this subproject.')
 
-    return render_to_response('source.html', RequestContext(request, {
-        'object': obj,
-        'source': source,
-        'title': _('Source strings in %s') % obj.__unicode__(),
-    }))
+    return render(
+        request,
+        'source.html',
+        {
+            'object': obj,
+            'source': source,
+            'title': _('Source strings in %s') % obj.__unicode__(),
+        }
+    )
 
 
 def show_translation(request, project, subproject, lang):
@@ -345,32 +369,38 @@ def show_translation(request, project, subproject, lang):
             }
         )
 
-    return render_to_response('translation.html', RequestContext(request, {
-        'object': obj,
-        'form': form,
-        'autoform': autoform,
-        'search_form': search_form,
-        'review_form': review_form,
-        'last_changes': last_changes,
-        'last_changes_url': urlencode(obj.get_kwargs()),
-        'last_changes_rss': reverse(
-            'rss-translation',
-            kwargs=obj.get_kwargs(),
-        ),
-    }))
+    return render(
+        request,
+        'translation.html',
+        {
+            'object': obj,
+            'form': form,
+            'autoform': autoform,
+            'search_form': search_form,
+            'review_form': review_form,
+            'last_changes': last_changes,
+            'last_changes_url': urlencode(obj.get_kwargs()),
+            'last_changes_rss': reverse(
+                'rss-translation',
+                kwargs=obj.get_kwargs(),
+            ),
+        }
+    )
 
 
 def not_found(request):
     '''
     Error handler showing list of available projects.
     '''
-    template = loader.get_template('404.html')
-    return HttpResponseNotFound(
-        template.render(RequestContext(request, {
+    return render(
+        request,
+        '404.html',
+        {
             'request_path': request.path,
             'title': _('Page Not Found'),
             'projects': Project.objects.all_acl(request.user),
-        }))
+        },
+        status=404
     )
 
 
@@ -404,26 +434,38 @@ def about(request):
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
     context['versions'] = get_versions() + get_optional_versions()
 
-    return render_to_response('about.html', RequestContext(request, context))
+    return render(
+        request,
+        'about.html',
+        context
+    )
 
 
 def data_root(request):
-    return render_to_response('data-root.html', RequestContext(request, {
-        'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-        'api_docs': weblate.get_doc_url('api', 'exports'),
-        'rss_docs': weblate.get_doc_url('api', 'rss'),
-        'projects': Project.objects.all_acl(request.user),
-    }))
+    return render(
+        request,
+        'data-root.html',
+        {
+            'hooks_docs': weblate.get_doc_url('api', 'hooks'),
+            'api_docs': weblate.get_doc_url('api', 'exports'),
+            'rss_docs': weblate.get_doc_url('api', 'rss'),
+            'projects': Project.objects.all_acl(request.user),
+        }
+    )
 
 
 def data_project(request, project):
     obj = get_project(request, project)
-    return render_to_response('data.html', RequestContext(request, {
-        'object': obj,
-        'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-        'api_docs': weblate.get_doc_url('api', 'exports'),
-        'rss_docs': weblate.get_doc_url('api', 'rss'),
-    }))
+    return render(
+        request,
+        'data.html',
+        {
+            'object': obj,
+            'hooks_docs': weblate.get_doc_url('api', 'hooks'),
+            'api_docs': weblate.get_doc_url('api', 'exports'),
+            'rss_docs': weblate.get_doc_url('api', 'rss'),
+        }
+    )
 
 
 @login_required
