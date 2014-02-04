@@ -100,6 +100,7 @@ def notify_new_language(subproject, language, user):
         subproject,
         {
             'language': language,
+            'user': user,
         }
     )
 
