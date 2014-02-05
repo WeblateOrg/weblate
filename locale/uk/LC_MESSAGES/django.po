@@ -8,16 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-02-02 10:50+0100\n"
-"PO-Revision-Date: 2013-11-30 11:14+0200\n"
-"Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <http://l10n.cihar.com/projects/weblate/master/uk/"
-">\n"
+"PO-Revision-Date: 2014-02-06 00:11+0200\n"
+"Last-Translator: Oleksandr <chesterroy@gmail.com>\n"
+"Language-Team: Ukrainian <http://l10n.cihar.com/projects/weblate/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 1.9-dev\n"
 
 #: ttkit/aresource.py:331 weblate/trans/formats.py:737
@@ -51,10 +50,9 @@ msgid "You can add another emails on Authentication tab."
 msgstr "Ви можете додати ще одну адресу ел. пошти у вкладці автентичність."
 
 #: weblate/accounts/forms.py:248 weblate/accounts/forms.py:322
-#, fuzzy
 #| msgid "Your name"
 msgid "Full name"
-msgstr "Ваше ім’я"
+msgstr "Повне ім’я"
 
 #: weblate/accounts/forms.py:257
 msgid "Subject"
@@ -231,10 +229,9 @@ msgid "User profile"
 msgstr "Профіль користувача"
 
 #: weblate/accounts/views.py:201
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "Your account has been removed."
-msgstr "Не було зареєстровано жодної останньої активності."
+msgstr "Ваш акаунт було видалено."
 
 #: weblate/accounts/views.py:235 weblate/accounts/views.py:274
 msgid "Message has been sent to administrator."
@@ -2273,7 +2270,7 @@ msgstr ""
 "підтвердження. Будь ласка, натисніть це посилання для завершення реєстрацію."
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2283,9 +2280,9 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"Якщо ви не отримали його найближчим часом, то перевірте теку зі спамом. У "
-"разі його відсутності у цій теці <a href=\"%(contact_url)s?subject=Lost "
-"activation code\"> зв'яжіться з нами</a>."
+"Якщо ви не отримали його найближчим часом, то перевірте теку зі спамом або "
+"пройдіть реєстрацію заново. Якщо проблема не зникне <a href=\"%"
+"(contact_url)s?subject=Registration problems\">зв'яжіться з нами</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2397,7 +2394,7 @@ msgstr "Аватар"
 
 #: weblate/html/accounts/profile.html:31
 msgid "Removal"
-msgstr ""
+msgstr "Видалення"
 
 #: weblate/html/accounts/profile.html:39
 msgid "You will receive chosen notifications via email for all your languages."
@@ -2457,11 +2454,11 @@ msgstr "Аватари надані libravatar."
 
 #: weblate/html/accounts/profile.html:125 weblate/html/accounts/removal.html:8
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "Видалення акаунту призведе до видалення усіх ваших персональних даних."
 
 #: weblate/html/accounts/profile.html:126
 msgid "Remove my account"
-msgstr ""
+msgstr "Видалити мій акаунт"
 
 #: weblate/html/accounts/register.html:9
 msgid "Registration"
@@ -2489,10 +2486,12 @@ msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr ""
+"Натиснувши цю кнопку ви назавжди втратите змогу скористатись цим обліковим "
+"записом."
 
 #: weblate/html/accounts/removal.html:13
 msgid "Delete this account"
-msgstr ""
+msgstr "Видалити цей обліковий запис"
 
 #: weblate/html/accounts/reset.html:9
 msgid ""
@@ -2592,10 +2591,9 @@ msgid "Hostname"
 msgstr "Назва вузла"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Тип пошуку"
+msgstr "Тип ключа"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2614,14 +2612,13 @@ msgstr ""
 "допоможе форма нижче."
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Хостинг"
+msgstr "Хост:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "Порт:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -2943,10 +2940,9 @@ msgid "Requested language:"
 msgstr "Запитана мова:"
 
 #: weblate/html/mail/new_language.html:30 weblate/html/mail/new_language.txt:9
-#, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "Запитана мова:"
+msgstr "Запит користувача:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -3146,7 +3142,7 @@ msgid "Invalid host name given!"
 msgstr "Неприпустиме ім'я вузлу дано!"
 
 #: weblate/trans/admin_views.py:301
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3154,14 +3150,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Доданий ключ для вузлу %(host)s з відбитком %(fingerprint)s. Будь ласка, "
-"перевірте, чи все правильно."
+"Доданий ключ для хоста %(host)s з відбитком %(fingerprint)s (%(keytype)s). "
+"Будь ласка, перевірте, чи все правильно."
 
 #: weblate/trans/admin_views.py:316
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Не вдалося створити ключ: %s"
+msgstr "Не вдалося отримати ключ: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -4137,6 +4133,8 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
+"Декілька перекладів були прив'язані до одного мовного коду (%s). Необхідно "
+"вимкнути SIMPLIFY_LANGUAGES, щоб уникнути цього."
 
 #: weblate/trans/models/subproject.py:898
 msgid "File does not seem to be valid!"
