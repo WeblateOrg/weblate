@@ -481,5 +481,12 @@ $(function () {
         });
         translation_editor.change(zen_editor);
         $('.fuzzy_checkbox').change(zen_editor);
+
+        $(window).on('beforeunload', function(){
+            if ($('.translation-modified').length > 0) {
+                return gettext('There are some unsaved changes, are you sure you want to leave?');
+            }
+        });
+
     }
 });
