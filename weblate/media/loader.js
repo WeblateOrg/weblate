@@ -27,6 +27,9 @@ jQuery.fn.extend({
 
 
 function text_change(e) {
+    if (e.key && e.key == 'Tab') {
+        return;
+    }
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
