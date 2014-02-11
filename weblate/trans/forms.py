@@ -201,6 +201,7 @@ class TranslationForm(ChecksumForm):
         super(TranslationForm, self).__init__(
             translation, *args, **kwargs
         )
+        self.fields['fuzzy'].widget.attrs['class'] = 'fuzzy_checkbox'
         self.fields['target'].widget.attrs['tabindex'] = tabindex
 
 
