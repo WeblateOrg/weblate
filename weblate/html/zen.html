@@ -30,7 +30,7 @@
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 <img src="{% get_media_prefix %}loading.gif" id="loading-next" style="display: none" />
-<a href="{% url 'load_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="zen-load" data-offset="0"></a>
+<a href="{% url 'load_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?sid={{ search_id }}" class="hidden" id="zen-load" data-offset="0"></a>
 <a href="{% url 'js-lock' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="js-lock"></a>
 </td></tr>
 </tfoot>
