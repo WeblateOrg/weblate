@@ -231,6 +231,36 @@ function load_progress() {
     $('div.progress .good').attr('title', gettext('Translated strings'));
 }
 
+var lastrow = null;
+
+function zen_editor(e) {
+    var $this = $(this);
+    var $row = $this.parents('tr');
+    var checksum = $row.find('[name=checksum]').val();
+
+    $row.addClass('translation-modified');
+
+    if (lastrow != $row.attr('id')) {
+        var form = $row.find('form');
+        console.log('should save! ' + form.attr('action'));
+        $('#loading-' + checksum).show();
+        $('#messages-' + checksum).html('');
+        $.post(
+            form.attr('action'),
+            form.serialize(),
+            function (data) {
+                $('#loading-' + checksum).hide();
+                $('#messages-' + checksum).append(data);
+            }
+        );
+    }
+    lastrow = $row.attr('id');
+}
+
+function init_editor(editors) {
+    editors.change(text_change).keypress(text_change).autogrow();
+}
+
 $(function () {
     $('.button').button();
     $('#breadcrumbs').buttonset();
@@ -249,7 +279,7 @@ $(function () {
     $('#navi .button-disabled').button('disable');
     var translation_editor = $('.translation-editor');
     if (translation_editor.length > 0) {
-        translation_editor.change(text_change).keypress(text_change).autogrow();
+        init_editor(translation_editor);
         translation_editor.get(0).focus();
     }
     $('#toggle-direction').buttonset().change(function (e) {
@@ -425,7 +455,6 @@ $(function () {
         }, 19000);
     }
     if ($('.zen').length > 0) {
-        var lastrow = null;
         $(window).scroll(function(){
             if ($(window).scrollTop() >= $(document).height() - (2 * $(window).height())) {
                 if ($('#last-section').length > 0 || $('#loading-next').css('display') != 'none') {
@@ -440,33 +469,17 @@ $(function () {
                     loader.attr('href') + '&offset=' + loader.data('offset'),
                     function (data) {
                         $('#loading-next').hide();
-                        $('.zen tbody').append(data);
+
+                        $('.zen tbody').append(data).find('.button').button();
+
+                        var $editors = $('.zen tbody').find('.translation-editor');
+
+                        init_editor($editors);
+                        $editors.change(zen_editor);
                     }
                 );
             }
         });
-        translation_editor.change(function (e) {
-            var $this = $(this);
-            var $row = $this.parents('tr');
-            var checksum = $row.find('[name=checksum]').val();
-
-            $row.addClass('translation-modified');
-
-            if (lastrow != $row.attr('id')) {
-                var form = $row.find('form');
-                console.log('should save! ' + form.attr('action'));
-                $('#loading-' + checksum).show();
-                $('#messages-' + checksum).html('');
-                $.post(
-                    form.attr('action'),
-                    form.serialize(),
-                    function (data) {
-                        $('#loading-' + checksum).hide();
-                        $('#messages-' + checksum).append(data);
-                    }
-                );
-            }
-            lastrow = $row.attr('id');
-        });
+        translation_editor.change(zen_editor);
     }
 });
