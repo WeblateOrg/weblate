@@ -474,14 +474,16 @@ $(function () {
 
                         $('.zen tbody').append(data).find('.button').button();
 
-                        var $editors = $('.zen tbody').find('.translation-editor');
+                        var $editors = $('.translation-editor');
 
                         init_editor($editors);
                         $editors.change(zen_editor);
+                        $('.fuzzy_checkbox').change(zen_editor);
                     }
                 );
             }
         });
         translation_editor.change(zen_editor);
+        $('.fuzzy_checkbox').change(zen_editor);
     }
 });
