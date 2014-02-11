@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-02-11 17:13+0100\n"
-"PO-Revision-Date: 2014-02-02 15:29+0200\n"
+"PO-Revision-Date: 2014-02-11 19:27+0200\n"
 "Last-Translator: Martin Jurík <martin@droid.sk>\n"
 "Language-Team: Slovak <http://l10n.cihar.com/projects/weblate/master/sk/>\n"
 "Language: sk\n"
@@ -1794,13 +1794,12 @@ msgstr "preklad"
 
 #: weblate/html/translate.html:25
 msgid "Edit in Zen mode"
-msgstr ""
+msgstr "Upraviť v režime Zen"
 
 #: weblate/html/translate.html:25
-#, fuzzy
 #| msgid "zen"
 msgid "Zen"
-msgstr "zen"
+msgstr "Zen"
 
 #: weblate/html/translate.html:40
 #, python-format
@@ -2274,7 +2273,7 @@ msgstr ""
 "registrácie. Prosím, nasledujte ho pre dokončenie registrácie."
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2285,8 +2284,9 @@ msgid ""
 "subject=Registration problems\">contact us</a>."
 msgstr ""
 "Ak Vám e-mail behom chvíle nedorazí, pozrite sa do priečinka s nevyžiadanou "
-"poštou. Ak ho ani tam nenájdete, prosím, <a href=\"%(contact_url)s?"
-"subject=Lost activation code\">napíšte nám</a>."
+"poštou, alebo sa skúste opätovne zaregistrovať. Ak problém naďalej "
+"pretrváva, prosím <a href=\"%(contact_url)s?subject=Registration "
+"problems\">napíšte nám</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2391,7 +2391,7 @@ msgstr "Avatar"
 
 #: weblate/html/accounts/profile.html:31
 msgid "Removal"
-msgstr ""
+msgstr "Odstránenie"
 
 #: weblate/html/accounts/profile.html:39
 msgid "You will receive chosen notifications via email for all your languages."
@@ -2447,11 +2447,11 @@ msgstr "Avatary sú získavané prostredníctvom služby libravatar."
 
 #: weblate/html/accounts/profile.html:125 weblate/html/accounts/removal.html:8
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "Odstránením účtu sa vymažú všetky vaše súkromné údaje."
 
 #: weblate/html/accounts/profile.html:126
 msgid "Remove my account"
-msgstr ""
+msgstr "Odstrániť môj účet"
 
 #: weblate/html/accounts/register.html:9
 msgid "Registration"
@@ -2478,11 +2478,11 @@ msgstr ""
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
-msgstr ""
+msgstr "Po stlačení nasledujúceho tlačidla už nebude možné používať tento účet."
 
 #: weblate/html/accounts/removal.html:13
 msgid "Delete this account"
-msgstr ""
+msgstr "Odstrániť tento účet"
 
 #: weblate/html/accounts/reset.html:9
 msgid ""
@@ -2582,10 +2582,9 @@ msgid "Hostname"
 msgstr "Meno hostiteľa"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Spôsob vyhľadávania"
+msgstr "Typ kľúča"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2604,14 +2603,13 @@ msgstr ""
 "ďalšieho kľúča slúži formulár nižšie na stránke."
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Hosťovanie"
+msgstr "Server:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
@@ -2933,10 +2931,9 @@ msgid "Requested language:"
 msgstr "Požadovaný jazyk:"
 
 #: weblate/html/mail/new_language.html:30 weblate/html/mail/new_language.txt:9
-#, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "Požadovaný jazyk:"
+msgstr "Užívateľ:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -3134,7 +3131,7 @@ msgid "Invalid host name given!"
 msgstr "Zadané chybné meno hostiteľa!"
 
 #: weblate/trans/admin_views.py:302
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3142,14 +3139,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Pridaný kľúč pre hostiteľa %(host)s s odtlačkom %(fingerprint)s, overte "
-"prosím, že je tento odtlačok správny."
+"Pridaný kľúč pre hostiteľa %(host)s s odtlačkom %(fingerprint)s (%"
+"(keytype)s), overte prosím, že je tento odtlačok správny."
 
 #: weblate/trans/admin_views.py:317
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Nepodarilo sa vytvoriť kľúč: %s"
+msgstr "Nepodarilo sa načítať kľúč: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -4119,6 +4116,8 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
+"Viac prekladov by použilo rovnaký kód jazyka (%s). Pravdepodobne by pomohlo "
+"vypnutie mapovanie podobných jazykov vo Weblate pomocou SIMPLIFY_LANGUAGES."
 
 #: weblate/trans/models/subproject.py:901
 msgid "File does not seem to be valid!"
