@@ -40,7 +40,7 @@ Monolingual Gettext
 
 Some projects decide to use Gettext as monolingual formats - they code just IDs
 in their source code and the string needs to be translated to all languages,
-including English. Weblate does support this, though you have to choose explicitely
+including English. Weblate does support this, though you have to choose explicitly
 this file format when importing resources into Weblate.
 
 .. _xliff:

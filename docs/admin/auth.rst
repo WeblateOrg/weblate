@@ -45,7 +45,7 @@ http://psa.matiasaguirre.net/docs/configuration/django.html
 Enabling individual backends is quite easy, it's just matter of adding entry to
 ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
 authentication. Please note that some backends do not provide user email by
-default, you have to request it explicitely, otherwise Weblate will not be able
+default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
 
 For example, enabling authentication against GitHub:
