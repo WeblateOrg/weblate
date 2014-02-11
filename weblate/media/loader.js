@@ -242,7 +242,6 @@ function zen_editor(e) {
 
     if (lastrow != $row.attr('id')) {
         var form = $row.find('form');
-        console.log('should save! ' + form.attr('action'));
         $('#loading-' + checksum).show();
         $('#messages-' + checksum).html('');
         $.post(
