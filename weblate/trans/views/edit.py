@@ -747,6 +747,7 @@ def zen(request, project, subproject, lang):
             'filter_name': search_result['name'],
             'filter_count': len(search_result['ids']),
             'last_section': search_result['last_section'],
+            'search_id': search_result['search_id'],
         }
     )
 

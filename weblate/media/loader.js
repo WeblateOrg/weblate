@@ -437,7 +437,7 @@ $(function () {
                 loader.data('offset', 20 + parseInt(loader.data('offset')));
 
                 $.get(
-                    loader.attr('href') + '?offset=' + loader.data('offset'),
+                    loader.attr('href') + '&offset=' + loader.data('offset'),
                     function (data) {
                         $('#loading-next').hide();
                         $('.zen tbody').append(data);
