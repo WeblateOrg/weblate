@@ -256,7 +256,7 @@ function zen_editor(e) {
 }
 
 function init_editor(editors) {
-    editors.change(text_change).keypress(text_change).autogrow();
+    editors.autogrow();
 }
 
 $(function () {
@@ -277,6 +277,8 @@ $(function () {
     $('#navi .button-disabled').button('disable');
     var translation_editor = $('.translation-editor');
     if (translation_editor.length > 0) {
+        $(document).on('change', '.translation-editor', text_change);
+        $(document).on('keypress', '.translation-editor', text_change);
         init_editor(translation_editor);
         translation_editor.get(0).focus();
     }
@@ -473,14 +475,12 @@ $(function () {
                         var $editors = $('.translation-editor');
 
                         init_editor($editors);
-                        $editors.change(zen_editor);
-                        $('.fuzzy_checkbox').change(zen_editor);
                     }
                 );
             }
         });
-        translation_editor.change(zen_editor);
-        $('.fuzzy_checkbox').change(zen_editor);
+        $(document).on('change', '.translation-editor', zen_editor);
+        $(document).on('change', '.fuzzy_checkbox', zen_editor);
 
         $(window).on('beforeunload', function(){
             if ($('.translation-modified').length > 0) {
