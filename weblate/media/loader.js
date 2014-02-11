@@ -27,7 +27,7 @@ jQuery.fn.extend({
 
 
 function text_change(e) {
-    $('#id_fuzzy').prop('checked', false);
+    $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
 function mt_set(txt) {
