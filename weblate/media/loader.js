@@ -253,6 +253,7 @@ function zen_editor(e) {
             function (data) {
                 $('#loading-' + checksum).hide();
                 $('#messages-' + checksum).append(data);
+                $row.removeClass('translation-modified').addClass('translation-saved');
             }
         );
     }
