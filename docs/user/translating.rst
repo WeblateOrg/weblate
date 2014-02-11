@@ -44,6 +44,22 @@ preferences, translation to these languages will be shown.
 Bellow translation can be also shown suggestions from other users, which you
 can accept or delete.
 
+Keyboard shortcuts
+++++++++++++++++++
+
+While translating you can use following keyboard shortcuts:
+
+:kbd:`Alt+Home`
+    Navigates to first translation in current search.
+:kbd:`Alt+End`
+    Navigates to last translation in current search.
+:kbd:`Alt+PageUp`
+    Navigates to previous translation in current search.
+:kbd:`Alt+PageDown`
+    Navigates to next translation in current search.
+:kbd:`Alt+Enter`
+    Saves current translation.
+
 Translation context
 +++++++++++++++++++
 

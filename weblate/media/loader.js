@@ -281,6 +281,13 @@ $(function () {
         $(document).on('keypress', '.translation-editor', text_change);
         init_editor(translation_editor);
         translation_editor.get(0).focus();
+        if ($('#button-first').length > 0) {
+            Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
+            Mousetrap.bindGlobal('alt+enter', function(e) {$('.translation-form').submit(); return false;});
+        }
     }
     $('#toggle-direction').buttonset().change(function (e) {
         $('.translation-editor').attr('dir', $("#toggle-direction :radio:checked").attr('value')).focus();
