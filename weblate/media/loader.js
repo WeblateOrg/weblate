@@ -234,8 +234,6 @@ function load_progress() {
     $('div.progress .good').attr('title', gettext('Translated strings'));
 }
 
-var lastrow = null;
-
 function zen_editor(e) {
     var $this = $(this);
     var $row = $this.parents('tr');
@@ -243,21 +241,18 @@ function zen_editor(e) {
 
     $row.addClass('translation-modified');
 
-    if (lastrow != $row.attr('id')) {
-        var form = $row.find('form');
-        $('#loading-' + checksum).show();
-        $('#messages-' + checksum).html('');
-        $.post(
-            form.attr('action'),
-            form.serialize(),
-            function (data) {
-                $('#loading-' + checksum).hide();
-                $('#messages-' + checksum).append(data);
-                $row.removeClass('translation-modified').addClass('translation-saved');
-            }
-        );
-    }
-    lastrow = $row.attr('id');
+    var form = $row.find('form');
+    $('#loading-' + checksum).show();
+    $('#messages-' + checksum).html('');
+    $.post(
+        form.attr('action'),
+        form.serialize(),
+        function (data) {
+            $('#loading-' + checksum).hide();
+            $('#messages-' + checksum).append(data);
+            $row.removeClass('translation-modified').addClass('translation-saved');
+        }
+    );
 }
 
 function init_editor(editors) {
