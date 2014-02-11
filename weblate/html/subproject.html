@@ -39,7 +39,7 @@
 <li><a href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#share">{% trans "Share" %}</a></li>
-<li><a href="#source">{% trans "Source" %}</a></li>
+<li><a href="#tools">{% trans "Tools" %}</a></li>
 <li><a href="{% url 'view_activity_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
 </ul>
 
@@ -77,8 +77,10 @@
 {% endwith %}
 </div>
 
-<div id="source">
-<a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a>
+<div id="tools">
+<ul>
+<li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
+</ul>
 </div>
 
 </div>
