@@ -27,6 +27,7 @@ from django.db.models import Sum, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
+import django.views.defaults
 
 from weblate.trans.models import (
     Project, SubProject, Translation, Check,
@@ -402,6 +403,20 @@ def not_found(request):
         },
         status=404
     )
+
+
+def server_error(request):
+    '''
+    Error handler for server erros.
+    '''
+    try:
+        return render(
+            request,
+            '500.html',
+            status=500
+        )
+    except Exception:
+        return django.views.defaults.server_error(request)
 
 
 def about(request):

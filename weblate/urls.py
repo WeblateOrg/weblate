@@ -53,6 +53,8 @@ admin.autodiscover()
 
 handler404 = 'weblate.trans.views.basic.not_found'
 
+handler500 = 'weblate.trans.views.basic.server_error'
+
 admin.site.index_template = 'admin/custom-index.html'
 
 urlpatterns = patterns(
