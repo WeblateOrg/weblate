@@ -709,7 +709,7 @@ def get_zen_unitdata(translation, request):
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
-        return search_result
+        return search_result, None
 
     search_result['last_section'] = offset + 20 >= len(search_result['ids'])
 
@@ -737,6 +737,10 @@ def zen(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
 
+    # Handle redirects
+    if isinstance(search_result, HttpResponse):
+        return search_result
+
     return render(
         request,
         'zen.html',
@@ -758,6 +762,10 @@ def load_zen(request, project, subproject, lang):
     '''
     translation = get_translation(request, project, subproject, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
+
+    # Handle redirects
+    if isinstance(search_result, HttpResponse):
+        return search_result
 
     return render(
         request,
