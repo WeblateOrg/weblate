@@ -21,9 +21,11 @@
 {% include "show-lock.html" %}
 {% endwith %}
 
+{% if perms.trans.save_translation %}
 <div class="menu-float">
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" class="button" title="{% trans "Edit in Zen mode" %} (experimental)">{% trans "Zen" %}</a>
 </div>
+{% endif %}
 
 <h2>{% trans "Translate" %}</h2>
 
