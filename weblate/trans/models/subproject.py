@@ -324,7 +324,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns full path to subproject git repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.get_path()
         else:
             return os.path.join(self.project.get_path(), self.slug)
@@ -351,10 +351,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns true if push is possible for this subproject.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.can_push()
         return self.push != '' and self.push is not None
 
+    @property
     def is_repo_link(self):
         '''
         Checks whether repository is just a link for other one.
@@ -381,7 +382,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Gets Git repository object.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.git_repo
 
         if self._git_repo is None:
@@ -404,7 +405,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns link to repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.repo
         return self.repo
 
@@ -412,7 +413,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns branch in repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.branch
         return self.branch
 
@@ -420,7 +421,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns URL of exported git repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.git_export
         return self.git_export
 
@@ -432,7 +433,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         repository path here.
         '''
         if len(self.repoweb) == 0:
-            if self.is_repo_link():
+            if self.is_repo_link:
                 return self.linked_subproject.get_repoweb_link(filename, line)
             return None
 
@@ -446,7 +447,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Pulls from remote repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.update_remote_branch(validate)
 
         # Update
@@ -477,7 +478,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Ensures repository is correctly configured and points to current
         remote.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.configure_repo(validate)
 
         # Create origin remote if it does not exist
@@ -515,7 +516,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Ensures local tracking branch exists and is checkouted.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.configure_branch()
 
         # create branch if it does not exist
@@ -533,7 +534,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.do_update(request)
 
         # pull remote
@@ -565,7 +566,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Wrapper for pushing changes to remote repo.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.do_push(request)
 
         # Do we have push configured
@@ -631,7 +632,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Wrapper for reseting repo to same sources as remote.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.do_reset(request)
 
         # First check we're up to date
@@ -680,7 +681,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Checks whether there is any translation which needs commit.
         '''
-        if not from_link and self.is_repo_link():
+        if not from_link and self.is_repo_link:
             return self.linked_subproject.commit_pending(
                 request, True, skip_push=skip_push
             )
@@ -704,7 +705,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Updates current branch to match remote (if possible).
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.update_branch(request)
 
         # Merge/rebase
@@ -820,7 +821,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Brings git repo in sync with current model.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return
         self.configure_repo(validate)
         self.commit_pending(None)
@@ -965,7 +966,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(_('Failed to update git: %s') % exc.status)
 
         # Push repo is not used with link
-        if self.is_repo_link():
+        if self.is_repo_link:
             self.clean_repo_link()
 
         matches = self.get_mask_matches()
@@ -1086,7 +1087,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Checks whether there is something to merge from remote repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.git_needs_merge()
         return self.git_check_merge('..origin/%s' % self.branch)
 
@@ -1094,7 +1095,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Checks whether there is something to push to remote repository.
         '''
-        if self.is_repo_link():
+        if self.is_repo_link:
             return self.linked_subproject.git_needs_push()
         return self.git_check_merge('origin/%s..' % self.branch)
 

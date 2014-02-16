@@ -88,7 +88,7 @@ def validate_repo(val):
     from weblate.trans.models import SubProject
     try:
         repo = SubProject.objects.get_linked(val)
-        if repo is not None and repo.is_repo_link():
+        if repo is not None and repo.is_repo_link:
             raise ValidationError(_('Can not link to linked repository!'))
     except (SubProject.DoesNotExist, ValueError):
         raise ValidationError(
