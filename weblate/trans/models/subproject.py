@@ -381,6 +381,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Gets Git repository object.
         '''
+        if self.is_repo_link():
+            return self.linked_subproject.git_repo
+
         if self._git_repo is None:
             path = self.get_path()
             try:
