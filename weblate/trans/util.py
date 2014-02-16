@@ -177,8 +177,10 @@ def get_site_url(url=''):
     '''
     Returns root url of current site with domain.
     '''
+    from weblate.appsettings import ENABLE_HTTPS
     site = Site.objects.get_current()
-    return 'http://%s%s' % (
+    return '{0}://{1}{2}'.format(
+        'https' if ENABLE_HTTPS else 'http',
         site.domain,
         url
     )
