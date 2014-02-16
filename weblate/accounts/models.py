@@ -29,7 +29,6 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group, User, Permission
 from django.db.models.signals import post_syncdb
-from django.contrib.sites.models import Site
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
@@ -43,7 +42,7 @@ from weblate.trans.util import (
     get_user_display, get_site_url, get_distinct_translations
 )
 import weblate
-from weblate.appsettings import ANONYMOUS_USER_NAME, ENABLE_HTTPS
+from weblate.appsettings import ANONYMOUS_USER_NAME
 
 
 def notify_merge_failure(subproject, error, status):
@@ -209,11 +208,7 @@ def send_notification_email(language, email, notification,
         html_body_template = 'mail/{}.html'.format(notification)
 
         # Adjust context
-        site = Site.objects.get_current()
-        context['current_site_url'] = '{0}://{1}'.format(
-            'https' if ENABLE_HTTPS else 'http',
-            site.domain
-        )
+        context['current_site_url'] = get_site_url()
         if translation_obj is not None:
             context['translation'] = translation_obj
             context['translation_url'] = get_site_url(
