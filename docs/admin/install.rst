@@ -98,8 +98,8 @@ Most requirements can be also installed using pip installer:
 
     pip install -r requirements.txt
 
-Also you will need header files for ``python-dev``, ``libxml2`` and ``libxslt`` to compile some
-of the required Python modules. 
+Also you will need header files for ``python-dev``, ``libxml2`` and ``libxslt``
+to compile some of the required Python modules.
 
 On Debian or Ubuntu you can install them using:
 
