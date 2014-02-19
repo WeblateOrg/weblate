@@ -314,6 +314,50 @@ def review_source(request, project, subproject):
         }
     )
 
+def show_matrix(request, project, subproject):
+    '''
+    Matrix overview of all language strings 
+    '''
+    obj = get_subproject(request, project, subproject)
+
+    # Grab first translation in subproject
+    # (this assumes all have same source strings)
+    try:
+        source = obj.translation_set.all()[0]
+    except Translation.DoesNotExist:
+        raise Http404('No translation exists in this subproject.')
+
+    # Grab search type and page number
+    rqtype = request.GET.get('type', 'all')
+    limit = request.GET.get('limit', 50)
+    page = request.GET.get('page', 1)
+    ignored = 'ignored' in request.GET
+
+    # Fiter units
+    sources = source.unit_set.filter_type(rqtype, source, ignored)
+
+    paginator = Paginator(sources, limit)
+
+    try:
+        sources = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        sources = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        sources = paginator.page(paginator.num_pages)
+
+    return render(
+        request,
+        'matrix-overview.html',
+        {
+            'object': obj,
+            'source': source,
+            'sources': sources,
+            'rqtype': rqtype,
+            'title': _('Matrix Overview for %s') % obj.__unicode__(),
+        }
+    )
 
 def show_source(request, project, subproject):
     '''

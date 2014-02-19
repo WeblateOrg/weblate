@@ -130,6 +130,11 @@ urlpatterns = patterns(
         name='show_source',
     ),
     url(
+        r'^projects/' + SUBPROJECT + 'matrix/$', 
+        'weblate.trans.views.basic.show_matrix', 
+        name='show_matrix',
+    ),
+    url(
         r'^projects/' + SUBPROJECT + 'source/review/$',
         'weblate.trans.views.basic.review_source',
         name='review_source',
