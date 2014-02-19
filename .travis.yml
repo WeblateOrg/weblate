@@ -19,7 +19,7 @@ install:
   - pip install --use-mirrors Django==$DJANGO_VERSION
   - pip install --use-mirrors -r requirements.txt
   - pip install --use-mirrors -r requirements-optional.txt
-  - pip install --use-mirrors -r requirements-test.txt
+  - pip install --use-mirrors -r requirements-travis.txt
 # generate configuration and create databases
 before_script:
   - mysql -e 'create database weblate;'
