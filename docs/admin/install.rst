@@ -51,6 +51,10 @@ you can use apt-get:
     apt-get install python-mysqldb   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
 
+    # Dependencies for python-social-auth
+
+    apt-get install python-requests-oauthlib python-six python-openid
+
 
 There is one library not available in Debian so far, so it is recommended to
 install it using pip:
