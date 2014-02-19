@@ -72,8 +72,8 @@ All requirements are available either directly in openSUSE or in
 
 .. code-block:: sh
 
-    zypper install python-django python-social-auth translate-toolkit python-GitPython \
-        python-whoosh python-imaging python-South
+    zypper install python-Django python-icu translate-toolkit python-GitPython \
+        python-Whoosh python-Pillow python-South python-python-social-auth
 
 
 Requirements on OSX
