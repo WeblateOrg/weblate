@@ -3,14 +3,30 @@
 import json
 import urllib2
 import imp
+import PyICU
 
 URL = 'http://l10n.cihar.com/exports/stats/weblate/master/'
 THRESHOLD = 20
 
+
+def print_language(lang, fmt='{0} ({1})'):
+    '''
+    Prints language code with it's name.
+    '''
+    locale = PyICU.Locale(lang)
+    print(
+        fmt.format(
+            lang,
+            locale.getDisplayName(locale).capitalize().encode('utf-8')
+        )
+    )
+
+
 def main():
     # load data
-    fp = urllib2.urlopen(URL)
-    data = fp.read()
+    handle = urllib2.urlopen(URL)
+    data = handle.read()
+    handle.close()
     # parse data
     data = json.loads(data)
 
@@ -20,8 +36,9 @@ def main():
         if lang['translated_percent'] > THRESHOLD:
             languages.append(lang['code'])
     languages.sort()
-    print 'Found languages:'
-    print '\n'.join(languages)
+    print 'Expected setup:'
+    for lang in languages:
+        print_language(lang, fmt="    ('{0}', u'{1}'),")
 
     # prepare for checking
     languages = set(languages)
@@ -38,10 +55,12 @@ def main():
     # Print results
     if len(extra) > 0:
         print 'Extra languages:'
-        print '\n'.join(extra)
+        for lang in extra:
+            print_language(lang)
     if len(languages) > 0:
         print 'Missing languages:'
-        print '\n'.join(languages)
+        for lang in languages:
+            print_language(lang)
 
 if __name__ == "__main__":
     main()
