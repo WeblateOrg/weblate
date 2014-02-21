@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-02-11 17:13+0100\n"
-"PO-Revision-Date: 2014-02-03 17:48+0200\n"
+"PO-Revision-Date: 2014-02-21 10:25+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
-"Language-Team: Polish <http://l10n.cihar.com/projects/weblate/master/pl/>\n"
+"Language-Team: Polish <https://l10n.cihar.com/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -553,8 +553,8 @@ msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
-"Istnieją również na język kanały RSS dostępne, można je skonstruować, "
-"dodając kod języka do powyższego URL."
+"Istnieją również kanały RSS dostępne z podziałem na języki, można je "
+"utworzyć dodając kod języka do powyższego URL."
 
 #: weblate/html/data.html:53
 #, python-format
@@ -564,7 +564,7 @@ msgid ""
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
 "Statystyki tłumaczeń dla każdego podprojektu w formacie JSON pozwalają "
-"korzystać z tych danych na innych stronach internetowych lub narzędzi. "
+"korzystać z tych danych na innych stronach internetowych lub narzędziach. "
 "Format danych jest opisany w <a href=\"%(api_docs)s\">dokumentacji</a>."
 
 #: weblate/html/data.html:68 weblate/html/translation.html:65
@@ -1368,10 +1368,9 @@ msgid "Uzbek (latin)"
 msgstr "uzbecki (łacina)"
 
 #: weblate/html/i18n.html:158
-#, fuzzy
 #| msgid "Galician"
 msgid "Valencian"
-msgstr "galicyjski"
+msgstr "walencki"
 
 #: weblate/html/i18n.html:159
 msgid "Venda"
@@ -1416,7 +1415,7 @@ msgstr ""
 "Strona napędzana przez wersję demo <a href=\"%(weblate_url)s\">Weblate</a>."
 
 #: weblate/html/index.html:12
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
 #| "the software projects listed below. You need to be logged in for "
@@ -1425,9 +1424,8 @@ msgid ""
 "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating the "
 "software projects listed below."
 msgstr ""
-"<a href=\"%(weblate_url)s\">Weblate</a> uruchamia tę witrynę do tłumaczenia "
-"projektów wymienionych poniżej. Musisz się zalogować, by móc tłumaczyć, w "
-"przeciwnym razie możesz jedynie tworzyć sugestie."
+"Strona korzysta z <a href=\"%(weblate_url)s\">Weblate</a> do tłumaczenia "
+"projektów wymienionych poniżej."
 
 #: weblate/html/index.html:14
 msgid ""
@@ -1540,10 +1538,9 @@ msgid "No recent activity has been recorded."
 msgstr "Nie zarejestrowano żadnej ostatniej aktywności."
 
 #: weblate/html/last-changes.html:40
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "No matching activity has been found."
-msgstr "Nie zarejestrowano żadnej ostatniej aktywności."
+msgstr "Nie zarejestrowano żadnej pasującej aktywności."
 
 #: weblate/html/last-changes.html:47
 msgid "Browse changes"
@@ -1567,7 +1564,6 @@ msgid "Ignore: %(check)s"
 msgstr "Ignoruj: %(check)s"
 
 #: weblate/html/list-translations.html:9
-#, fuzzy
 #| msgid "Words"
 msgctxt "Number of translated words"
 msgid "Words"
@@ -1685,10 +1681,9 @@ msgid "No matching strings found!"
 msgstr "Nie znaleziono pasujących napisów!"
 
 #: weblate/html/share.html:7
-#, fuzzy
 #| msgid "Your translations"
 msgid "Share your translation"
-msgstr "Twoje tłumaczenia"
+msgstr "Podziel się tłumaczeniem"
 
 #: weblate/html/share.html:10
 msgid "Share on Facebook!"
@@ -2034,7 +2029,7 @@ msgstr ""
 "bez dostępu do sieci."
 
 #: weblate/html/translation.html:71
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "You can <a href=\"%(download_url)s\">download</a> file for offline "
 #| "translation."
@@ -2042,8 +2037,8 @@ msgid ""
 "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
 "use within the application."
 msgstr ""
-"Możesz <a href=\"%(download_url)s\">pobrać</a> plik, aby przetłumaczyć go "
-"bez dostępu do sieci."
+"Możesz również <a href=\"%(pack_download_url)s\">pobrać</a> skompilowany plik, "
+"aby wykorzystać go w aplikacji."
 
 #: weblate/html/translation.html:75 weblate/html/translation.html.py:87
 msgid "Upload"
@@ -2126,17 +2121,15 @@ msgid "Total"
 msgstr "Razem"
 
 #: weblate/html/translation.html:167
-#, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
-msgstr "Pole wyboru do zaznaczania tłumaczenia jako niepewne"
+msgstr "Niepewny"
 
 #: weblate/html/translation.html:173
-#, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
-msgstr "Testy nieudane"
+msgstr "Test nieudany"
 
 #: weblate/html/translation_info.html:10
 #, python-format
@@ -2250,10 +2243,9 @@ msgid "Translation status"
 msgstr "Status tłumaczenia"
 
 #: weblate/html/zen-response.html:7
-#, fuzzy
 #| msgid "Translation changed"
 msgid "Translation has been saved!"
-msgstr "Tłumaczenie zmienione"
+msgstr "Tłumaczenie zostało zapisane!"
 
 #: weblate/html/zen-units.html:17
 msgid "Open in full editor"
@@ -2268,10 +2260,10 @@ msgid "zen"
 msgstr ""
 
 #: weblate/html/zen.html:25
-#, fuzzy, python-format
+#, python-format
 #| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
-msgstr "Aktualny filtr: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+msgstr "Aktualny filtr: %(filter_name)s (%(filter_count)s)"
 
 #: weblate/html/accounts/contact.html:6
 msgid "contact"
@@ -2303,7 +2295,7 @@ msgstr ""
 "potwierdzającym. Proszę kliknąć na ten link, aby zakończyć rejestrację."
 
 #: weblate/html/accounts/email-sent.html:11
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -2313,9 +2305,9 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"Jeśli nie otrzymasz go wkrótce, proszę sprawdzić folder spam. Jeśli go tam "
-"nie ma, <a href=\"%(contact_url)s?subject=Lost activation code\">prosimy o "
-"kontakt</a>."
+"Jeśli nie otrzymasz go wkrótce, proszę sprawdzić folder spam lub ponowić "
+"rejestrację. Jeśli problem nadal występuje <a href=\"%"
+"(contact_url)s?subject=Lost activation code\">prosimy o kontakt</a>."
 
 #: weblate/html/accounts/email.html:13 weblate/html/accounts/register.html:23
 #: weblate/html/accounts/reset.html:15
@@ -2324,7 +2316,6 @@ msgstr "Proszę poprawić błędy w formularzu rejestracyjnym."
 
 #: weblate/html/accounts/email.html:25 weblate/html/accounts/profile.html:98
 #: weblate/html/accounts/register.html:12
-#, fuzzy
 #| msgid ""
 #| "By registering you agree to use your name and email in Git commits and "
 #| "your contribution to be licensed under same license as translated content."
@@ -2332,11 +2323,11 @@ msgid ""
 "By registering you agree to use your name and email in Git commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"Poprzez rejestrację użytkownika zgadzasz się używać swoje dane (imię, "
-"nazwisko) i e-mail w logach Gita."
+"Poprzez rejestrację użytkownika zgadzasz się używać swoich danych (imię, "
+"nazwisko) i e-maila w logach Gita oraz na licencjonowanie Twoich prac na "
+"warunkach określonych przez każdy z tłumaczonych projektów."
 
 #: weblate/html/accounts/hosting.html:6
-#, fuzzy
 #| msgid "Last name"
 msgid "hosting"
 msgstr "hosting"
@@ -2381,10 +2372,9 @@ msgstr ""
 "Nie pamiętasz hasła? Możesz <a href=\"%(reset_url)s\">je zresetować</a>."
 
 #: weblate/html/accounts/login.html:47
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party login"
-msgstr "Rejestracja użytkownika"
+msgstr "Logowanie przez zewnętrzne serwisy"
 
 #: weblate/html/accounts/password.html:6
 msgid ""
@@ -2506,10 +2496,9 @@ msgid "Register using email"
 msgstr "Zarejestruj używając adresu email"
 
 #: weblate/html/accounts/register.html:41
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
-msgstr "Rejestracja użytkownika"
+msgstr "Rejestracja przez zewnętrzne serwisy"
 
 #: weblate/html/accounts/register.html:53
 #, python-format
@@ -2527,10 +2516,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/accounts/removal.html:13
-#, fuzzy
 #| msgid "Sort this column"
 msgid "Delete this account"
-msgstr "Posortuj tę kolumnę"
+msgstr "Usuń to konto"
 
 #: weblate/html/accounts/reset.html:9
 msgid ""
@@ -2630,10 +2618,9 @@ msgid "Hostname"
 msgstr "Nazwa hosta"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Typ wyszukiwania"
+msgstr "Rodzaj klucza"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2650,10 +2637,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Serwer hostingowy"
+msgstr "Adres:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
@@ -2808,7 +2794,6 @@ msgid ""
 msgstr ""
 
 #: weblate/html/mail/activation.html:16 weblate/html/mail/activation.txt:5
-#, fuzzy
 #| msgid ""
 #| "Hi,\n"
 #| "\n"
@@ -2822,17 +2807,11 @@ msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"Witaj,\n"
-"\n"
-"To automatyczna wiadomość wysłana w celu zakończenia rejestracji w "
-"%(site_title)s.\n"
-"\n"
 "Proszę otworzyć poniższy odsyłacz w przeglądarce. Jeśli odsyłacz połamał się "
-"między\n"
-"wiele linii może istnieć konieczność sklejenia go."
+"między wiele linii może istnieć konieczność sklejenia go i przekopiowania "
+"do paska adresu."
 
 #: weblate/html/mail/activation.html:24 weblate/html/mail/activation.txt:9
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "If there is a problem with your registration, please reply to\n"
@@ -2841,12 +2820,7 @@ msgstr ""
 #| "Best regards,\n"
 #| "%(site_title)s\n"
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
-"\n"
-"Jeśli masz problem z rejestracją, odpowiedz na tę wiadomość.\n"
-"\n"
-"Z poważaniem,\n"
-"%(site_title)s\n"
+msgstr "Jeśli masz problem z rejestracją, skontaktuj się z nami:"
 
 #: weblate/html/mail/activation_subject.txt:1
 #, python-format
@@ -2995,23 +2969,22 @@ msgid "New contributor in %(translation)s"
 msgstr "Nowy współpracownik w %(translation)s"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid ""
 "there has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr "nastąpiło nowe tłumaczenie do %(translation)s na %(site_title)s."
+msgstr "pojawiła się prośba o nowy język dla %(translation)s na %(site_title)s."
 
 #: weblate/html/mail/new_language.html:19 weblate/html/mail/new_language.txt:5
 msgid "Requested language:"
 msgstr "Żądany język:"
 
 #: weblate/html/mail/new_language.html:30 weblate/html/mail/new_language.txt:9
-#, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "Żądany język:"
+msgstr "Żądający użytkownik:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -3207,7 +3180,7 @@ msgid "Invalid host name given!"
 msgstr "Podano nieprawidłową nazwę hosta!"
 
 #: weblate/trans/admin_views.py:302
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3215,14 +3188,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Dodano klucz hosta dla %(host)s z \"odciskiem palca\" %(fingerprint)s. "
-"Proszę zweryfikować poprawność."
+"Dodano klucz hosta dla %(host)s z odciskiem palca %(fingerprint)s (%"
+"(keytype)s). Proszę zweryfikować poprawność."
 
 #: weblate/trans/admin_views.py:317
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Nie udało się wygenerować klucza: %s"
+msgstr "Nie udało się pobrać klucza: %s"
 
 #: weblate/trans/feeds.py:40 weblate/trans/feeds.py:78
 #, python-format
@@ -3414,7 +3387,6 @@ msgid "Whole project"
 msgstr "Cały projekt"
 
 #: weblate/trans/util.py:108
-#, fuzzy
 #| msgid "None"
 msgctxt "No known user"
 msgid "None"
@@ -3630,10 +3602,9 @@ msgid "C format"
 msgstr "Format C"
 
 #: weblate/trans/checks/format.py:254
-#, fuzzy
 #| msgid "Python format"
 msgid "Python brace format"
-msgstr "Format Python"
+msgstr "Format klamrowy Python"
 
 #: weblate/trans/checks/markup.py:47
 msgid "Mismatched BBcode"
@@ -3685,10 +3656,10 @@ msgid "The translations in several languages have failing checks"
 msgstr "Tłumaczenia w kilku językach nie przeszły testów"
 
 #: weblate/trans/models/advertisement.py:59
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Donate to Weblate!"
 msgid "Donate to Weblate at {0}"
-msgstr "Dotuj Weblate!"
+msgstr "Dotuj Weblate na {0}"
 
 #: weblate/trans/models/advertisement.py:60
 #, python-brace-format
@@ -3712,13 +3683,11 @@ msgid "Mail footer (HTML)"
 msgstr ""
 
 #: weblate/trans/models/advertisement.py:100
-#, fuzzy
 #| msgid "Papiamento"
 msgid "Placement"
-msgstr "papiamento"
+msgstr "Umiejscowienie"
 
 #: weblate/trans/models/advertisement.py:103
-#, fuzzy
 #| msgid "Starting date"
 msgid "Start date"
 msgstr "Data początkowa"
@@ -4192,10 +4161,9 @@ msgid "Push URL is not used when repository is linked!"
 msgstr "Push URL nie jest używane, gdy repozytorium jest powiązane!"
 
 #: weblate/trans/models/subproject.py:838
-#, fuzzy
 #| msgid "Push URL is not used when repository is linked!"
 msgid "Export URL is not used when repository is linked!"
-msgstr "Push URL nie jest używane, gdy repozytorium jest powiązane!"
+msgstr "Eksport URL nie jest używane, gdy repozytorium jest powiązane!"
 
 #: weblate/trans/models/subproject.py:848
 msgid "Template file not found!"
@@ -4460,7 +4428,6 @@ msgid "now"
 msgstr "teraz"
 
 #: weblate/trans/templatetags/translations.py:371
-#, fuzzy
 #| msgid "a second ago"
 #| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
@@ -4475,7 +4442,6 @@ msgstr[1] "%(count)s sekundy temu"
 msgstr[2] "%(count)s sekund temu"
 
 #: weblate/trans/templatetags/translations.py:378
-#, fuzzy
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
@@ -4706,10 +4672,10 @@ msgid "Strings with suggestions"
 msgstr "Napisy z sugestiami"
 
 #: weblate/trans/views/edit.py:64
-#, fuzzy, python-format
+#, python-format
 #| msgid "Search for \"%s\""
 msgid "Fulltext search for \"%s\""
-msgstr "Szukaj dla \"%s\""
+msgstr "Pełnotekstowe szukanie \"%s\""
 
 #: weblate/trans/views/edit.py:66
 #, python-format
@@ -4766,12 +4732,10 @@ msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
 #: weblate/trans/views/edit.py:273
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
-msgstr ""
-"Testy, dla tego fragmentu tłumaczenia, wykazały drobne błędy formalne "
-"(patrz: sugestie korekty, poniżej)!"
+msgstr "Niektóre testy na Twoim tłumaczeniu nie powiodły się: {0}"
 
 #: weblate/trans/views/edit.py:313 weblate/trans/views/edit.py:349
 #: weblate/trans/views/edit.py:386
@@ -4827,10 +4791,9 @@ msgid "Failed to add comment!"
 msgstr "Nie udało się dodać komentarza!"
 
 #: weblate/trans/views/edit.py:781
-#, fuzzy
 #| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
-msgstr "Przetworzenie żądania nowego tłumaczenia nie powiodło się!"
+msgstr "Zapisanie tłumaczenia nie powiodło się!"
 
 #: weblate/trans/views/files.py:82
 msgid "Access denied."
