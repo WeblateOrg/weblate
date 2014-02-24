@@ -307,4 +307,6 @@ class ZeroWidthSpaceCheck(TargetCheck):
     description = _('Translation contains extra zero-width space character')
 
     def check_single(self, source, target, unit, cache_slot):
+        if self.is_language(unit, ('km', )):
+            return False
         return (u'\u200b' in target) != (u'\u200b' in source)
