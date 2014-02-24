@@ -77,6 +77,9 @@ class MockUnit(object):
     def all_flags(self):
         return self.flags.split(',')
 
+    def get_source_plurals(self):
+        return [self.source]
+
 
 class CheckTestCase(TestCase):
     '''
