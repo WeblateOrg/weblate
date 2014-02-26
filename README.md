@@ -4,7 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/nijel/weblate/badge.png?branch=master)](https://coveralls.io/r/nijel/weblate?branch=master)
 [![Translation status](https://l10n.cihar.com/widgets/weblate-status-badge.png)](https://l10n.cihar.com/engage/weblate/?utm_source=widget)
 [![Code Health](https://landscape.io/github/nijel/weblate/master/landscape.png)](https://landscape.io/github/nijel/weblate/master)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nijel/weblate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 Weblate is a free web-based translation tool with tight Git integration. It
 features simple and clean user interface, propagation of translations across
