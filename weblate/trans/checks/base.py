@@ -76,7 +76,7 @@ class Check(object):
         try:
             src = source[pos]
             tgt = target[pos]
-        except:
+        except IndexError:
             return False
         return (
             (src in chars and tgt not in chars)
