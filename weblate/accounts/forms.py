@@ -120,7 +120,6 @@ class SortedSelectMixin(object):
                 cmp=collator.compare
             )
 
-
     def render_options(self, choices, selected_choices):
         '''
         Renders sorted options.
