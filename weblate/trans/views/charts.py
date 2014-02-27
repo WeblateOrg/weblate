@@ -40,7 +40,6 @@ def render_activity(activity):
     # Preprocess data for chart
     maximum = max([l[1] for l in activity] + [1])
     step = 780.0 / len(activity)
-    width = step / 2
 
     # Prepare image
     image = Image.new('RGB', (800, 100), 'white')
@@ -73,7 +72,7 @@ def render_activity(activity):
             (
                 20 + current,
                 84,
-                20 + current + width,
+                20 + current + (step / 2),
                 84 - value[1] * 78.0 / maximum
             ),
             fill=(0, 67, 118)
