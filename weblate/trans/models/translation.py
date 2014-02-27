@@ -143,6 +143,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
     objects = TranslationManager()
 
+    is_git_lockable = False
+
     class Meta:
         ordering = ['language__name']
         permissions = (
@@ -378,9 +380,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 }
             )
         )
-
-    def is_git_lockable(self):
-        return False
 
     @models.permalink
     def get_translate_url(self):

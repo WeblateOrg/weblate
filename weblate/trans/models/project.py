@@ -180,6 +180,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     objects = ProjectManager()
 
+    is_git_lockable = True
+
     class Meta:
         ordering = ['name']
         app_label = 'trans'
@@ -261,9 +263,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return get_site_url(
             reverse('engage', kwargs={'project': self.slug})
         )
-
-    def is_git_lockable(self):
-        return True
 
     def is_git_locked(self):
         return max(
