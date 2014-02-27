@@ -61,7 +61,7 @@ class SuggestionManager(models.Manager):
             user = request.user
 
         # Create the suggestion
-        suggestion = Suggestion.objects.create(
+        suggestion = self.create(
             target=target,
             contentsum=unit.contentsum,
             language=unit.translation.language,
