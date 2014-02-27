@@ -28,7 +28,7 @@ from weblate.trans.feeds import (
     ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 )
 from weblate.trans.views.changes import ChangesView
-from weblate.sitemaps import sitemaps
+from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 
 # URL regexp for language code
@@ -638,12 +638,12 @@ urlpatterns = patterns(
     url(
         r'^sitemap\.xml$',
         'django.contrib.sitemaps.views.index',
-        {'sitemaps': sitemaps}
+        {'sitemaps': SITEMAPS}
     ),
     url(
         r'^sitemap-(?P<section>.+)\.xml$',
         'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': sitemaps}
+        {'sitemaps': SITEMAPS}
     ),
 
     # Media files

@@ -22,22 +22,22 @@ from django.contrib.sitemaps import GenericSitemap, Sitemap
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.accounts.models import Profile
 
-project_dict = {
+PROJECT_DICT = {
     'queryset': Project.objects.all_acl(None),
     'date_field': 'get_last_change',
 }
 
-subproject_dict = {
+SUBPROJECT_DICT = {
     'queryset': SubProject.objects.all_acl(None),
     'date_field': 'get_last_change',
 }
 
-translation_dict = {
+TRANSLATION_DICT = {
     'queryset': Translation.objects.all_acl(None),
     'date_field': 'get_last_change',
 }
 
-user_dict = {
+USER_DICT = {
     'queryset': Profile.objects.all(),
     'date_field': 'get_last_change',
 }
@@ -98,12 +98,12 @@ class EngageLangSitemap(Sitemap):
         )
 
 
-sitemaps = {
-    'project': GenericSitemap(project_dict, priority=0.8),
-    'engage': EngageSitemap(project_dict, priority=1.0),
+SITEMAPS = {
+    'project': GenericSitemap(PROJECT_DICT, priority=0.8),
+    'engage': EngageSitemap(PROJECT_DICT, priority=1.0),
     'engagelang': EngageLangSitemap(),
-    'subproject': GenericSitemap(subproject_dict, priority=0.6),
-    'translation': GenericSitemap(translation_dict, priority=0.2),
-    'user': GenericSitemap(user_dict, priority=0.1),
+    'subproject': GenericSitemap(SUBPROJECT_DICT, priority=0.6),
+    'translation': GenericSitemap(TRANSLATION_DICT, priority=0.2),
+    'user': GenericSitemap(USER_DICT, priority=0.1),
     'pages': PagesSitemap(),
 }
