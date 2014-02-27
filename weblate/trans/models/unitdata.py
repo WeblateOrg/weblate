@@ -317,13 +317,13 @@ class Check(models.Model, RelatedUnitMixin):
     def get_description(self):
         try:
             return CHECKS[self.check].description
-        except:
+        except KeyError:
             return self.check
 
     def get_doc_url(self):
         try:
             return CHECKS[self.check].get_doc_url()
-        except:
+        except KeyError:
             return ''
 
     def set_ignore(self):
