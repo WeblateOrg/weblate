@@ -48,27 +48,6 @@ def remove_accents(input_str):
     return only_ascii
 
 
-def sort_choices(choices):
-    '''
-    Sorts choices alphabetically.
-
-    Either using cmp or ICU.
-    '''
-    if not HAS_ICU:
-        return sorted(
-            choices,
-            key=lambda tup: remove_accents(tup[1])
-        )
-    else:
-        locale = icu.Locale(get_language())
-        collator = icu.Collator.createInstance(locale)
-        return sorted(
-            choices,
-            key=lambda tup: tup[1],
-            cmp=collator.compare
-        )
-
-
 class NoStripEmailField(forms.EmailField):
     '''
     Email field which does no stripping.
@@ -121,6 +100,27 @@ class SortedSelectMixin(object):
     '''
     Mixin for Select widgets to sort choices alphabetically.
     '''
+    def sort_choices(self, choices):
+        '''
+        Sorts choices alphabetically.
+
+        Either using cmp or ICU.
+        '''
+        if not HAS_ICU:
+            return sorted(
+                choices,
+                key=lambda tup: remove_accents(tup[1])
+            )
+        else:
+            locale = icu.Locale(get_language())
+            collator = icu.Collator.createInstance(locale)
+            return sorted(
+                choices,
+                key=lambda tup: tup[1],
+                cmp=collator.compare
+            )
+
+
     def render_options(self, choices, selected_choices):
         '''
         Renders sorted options.
@@ -130,7 +130,7 @@ class SortedSelectMixin(object):
         output = []
 
         # Actually sort values
-        all_choices = sort_choices(list(chain(self.choices, choices)))
+        all_choices = self.sort_choices(list(chain(self.choices, choices)))
 
         # Stolen from Select.render_options
         for option_value, option_label in all_choices:
