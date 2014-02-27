@@ -215,7 +215,7 @@ class Vote(models.Model):
             vote = '-1'
         return u'{0} for {1} by {2}'.format(
             vote,
-            self.contentsum,
+            self.suggestion,
             self.user.username,
         )
 
