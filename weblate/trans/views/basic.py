@@ -319,43 +319,22 @@ def show_matrix(request, project, subproject):
     Matrix overview of all language strings 
     '''
     obj = get_subproject(request, project, subproject)
+    
+    translations = Translation.objects.filter(subproject=obj)
 
-    # Grab first translation in subproject
-    # (this assumes all have same source strings)
-    try:
-        source = obj.translation_set.all()[0]
-    except Translation.DoesNotExist:
-        raise Http404('No translation exists in this subproject.')
-
-    # Grab search type and page number
-    rqtype = request.GET.get('type', 'all')
-    limit = request.GET.get('limit', 50)
-    page = request.GET.get('page', 1)
-    ignored = 'ignored' in request.GET
-
-    # Fiter units
-    sources = source.unit_set.filter_type(rqtype, source, ignored)
-
-    paginator = Paginator(sources, limit)
-
-    try:
-        sources = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        sources = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        sources = paginator.page(paginator.num_pages)
+    languages = [translation.language.name for translation in translations]
+    #Assuming all translations have the same sources
+    units = Unit.objects.filter(translation=translations[0])
+    source_strings = [unit.source for unit in units]
 
     return render(
         request,
         'matrix-overview.html',
         {
             'object': obj,
-            'source': source,
-            'sources': sources,
-            'rqtype': rqtype,
-            'title': _('Matrix Overview for %s') % obj.__unicode__(),
+            'languages': languages,
+            'source_strings': source_strings,
+            'title': _('Matrix overview of source strings in %s') % obj.__unicode__(),
         }
     )
 
