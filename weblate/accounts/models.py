@@ -100,7 +100,8 @@ def notify_new_language(subproject, language, user):
         {
             'language': language,
             'user': user,
-        }
+        },
+        user=user,
     )
 
 
@@ -159,7 +160,7 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
         user
     )
     for subscription in subscriptions:
-        subscription.notify_new_comment(unit, comment)
+        subscription.notify_new_comment(unit, comment, user)
 
     # Notify upstream
     if comment.language is None and report_source_bugs != '':
@@ -426,7 +427,7 @@ class Profile(models.Model):
             return None
 
     def notify_user(self, notification, translation_obj,
-                    context=None, headers=None):
+                    context=None, headers=None, user=None):
         '''
         Wrapper for sending notifications to user.
         '''
@@ -445,7 +446,8 @@ class Profile(models.Model):
             notification,
             translation_obj,
             context,
-            headers
+            headers,
+            user=user
         )
 
     def notify_any_translation(self, unit, oldunit):
@@ -475,7 +477,8 @@ class Profile(models.Model):
             {
                 'language': language,
                 'user': user,
-            }
+            },
+            user=user
         )
 
     def notify_new_string(self, translation):
@@ -512,7 +515,7 @@ class Profile(models.Model):
             }
         )
 
-    def notify_new_comment(self, unit, comment):
+    def notify_new_comment(self, unit, comment, user):
         '''
         Sends notification about new comment.
         '''
@@ -523,7 +526,8 @@ class Profile(models.Model):
                 'unit': unit,
                 'comment': comment,
                 'subproject': unit.translation.subproject,
-            }
+            },
+            user=user,
         )
 
     def notify_merge_failure(self, subproject, error, status):
