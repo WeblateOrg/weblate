@@ -21,9 +21,11 @@
 </tr>
 </thead>
 <tbody>
-{% for source in source_strings %}
+{% for row in matrix_data %}
 	<tr>
-		<td class="translatetext">{{ source }}</td>
+		{% for cell in row %}
+		<td class="translatetext">{{ cell }}</td>
+		{% endfor %}
 	</tr>
 {% endfor %}
 </tbody>

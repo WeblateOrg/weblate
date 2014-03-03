@@ -323,9 +323,19 @@ def show_matrix(request, project, subproject):
     translations = Translation.objects.filter(subproject=obj)
 
     languages = [translation.language.name for translation in translations]
+    
     #Assuming all translations have the same sources
     units = Unit.objects.filter(translation=translations[0])
     source_strings = [unit.source for unit in units]
+
+    #The table (matrix) is represented as a list of lists
+    #The first entry in the list is the source
+    matrix_data = [[source] for source in source_strings]
+
+    for row in matrix_data:
+        for translation in translations:
+            unit = Unit.objects.filter(translation=translation, source=row[0]).first()
+            row.append(unit.target)
 
     return render(
         request,
@@ -334,6 +344,7 @@ def show_matrix(request, project, subproject):
             'object': obj,
             'languages': languages,
             'source_strings': source_strings,
+            'matrix_data': matrix_data,
             'title': _('Matrix overview of source strings in %s') % obj.__unicode__(),
         }
     )
