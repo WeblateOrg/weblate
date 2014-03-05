@@ -210,3 +210,9 @@ To allow access to this project, you have to add the privilege to do so either
 directly to given user or group of users in Django admin interface.
 
 .. seealso:: https://docs.djangoproject.com/en/1.6/topics/auth/default/#auth-admin
+
+Managing users and groups
+-------------------------
+
+All users and groups can be managed using Django admin interface, which is
+available under :file:`/admin/` URL.
