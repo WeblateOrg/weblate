@@ -147,7 +147,7 @@ options:
     List of site administrators to receive notifications when something goes
     wrong, for example notifications on failed merge or Django errors.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#admins
+    .. seealso:: https://docs.djangoproject.com/en/1.6/ref/settings/#admins
 
 ``ALLOWED_HOSTS``
 
@@ -173,7 +173,7 @@ options:
 
             CREATE DATABASE <dbname> CHARACTER SET utf8;
 
-    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#databases, https://docs.djangoproject.com/en/1.4/ref/databases/
+    .. seealso:: https://docs.djangoproject.com/en/1.6/ref/settings/#databases, https://docs.djangoproject.com/en/1.4/ref/databases/
 
 ``DEBUG``
 
@@ -184,7 +184,7 @@ options:
     Debug mode also slows down Weblate as Django stores much more information
     internally in this case.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.4/ref/settings/#debug
+    .. seealso:: https://docs.djangoproject.com/en/1.6/ref/settings/#debug
 
 ``DEFAULT_FROM_EMAIL``
 
@@ -304,7 +304,7 @@ environment), for example setup for MySQL:
         }
     }
 
-.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/1.4/ref/databases/>`_
+.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/1.6/ref/databases/>`_
 
 .. _production-cache:
 
@@ -323,7 +323,7 @@ variable, for example:
         }
     }
 
-.. seealso:: `Django’s cache framework <https://docs.djangoproject.com/en/1.4/topics/cache/>`_
+.. seealso:: `Django’s cache framework <https://docs.djangoproject.com/en/1.6/topics/cache/>`_
 
 .. _production-email:
 
@@ -344,8 +344,8 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
     `DEFAULT_FROM_EMAIL documentation`_,
     `SERVER_EMAIL documentation`_
 
-.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#default-from-email
-.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.4/ref/settings/#server-email
+.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.6/ref/settings/#default-from-email
+.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.6/ref/settings/#server-email
 
 
 .. _production-hosts:
@@ -444,7 +444,7 @@ use that for following paths:
 Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
 as :file:`favicon.ico`.
 
-.. seealso:: https://docs.djangoproject.com/en/1.4/howto/deployment/
+.. seealso:: https://docs.djangoproject.com/en/1.6/howto/deployment/
 
 Sample configuration for Lighttpd
 +++++++++++++++++++++++++++++++++
