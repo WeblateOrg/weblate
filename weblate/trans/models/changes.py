@@ -134,6 +134,7 @@ class ChangeManager(models.Manager):
         Prefilters Changes by ACL for users and fetches related fields
         for last changes display.
         '''
+        from weblate.trans.models import Project
         result = self.prefetch()
 
         acl_projects, filtered = Project.objects.get_acl_status(
