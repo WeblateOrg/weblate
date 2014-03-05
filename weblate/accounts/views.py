@@ -88,7 +88,7 @@ def mail_admins_contact(subject, message, context, sender):
     '''
     weblate.logger.info(
         'contact from from %s: %s',
-        email,
+        sender,
         subject,
     )
     if not settings.ADMINS:
