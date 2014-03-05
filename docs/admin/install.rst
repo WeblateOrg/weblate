@@ -499,8 +499,8 @@ Additionally you will have to adjust :file:`weblate/settings.py`:
 
 .. _appliance:
 
-Appliance
----------
+SUSE Studio appliance
+---------------------
 
 Weblate appliance provides preconfigured Weblate running with MySQL database as
 backend and Apache as web server. It is provided in many formats suitable for
