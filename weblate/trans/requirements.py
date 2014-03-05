@@ -140,6 +140,16 @@ def get_versions():
         '0.3.2',
     ))
 
+    name = 'gitdb'
+    url = 'https://github.com/gitpython-developers/gitdb'
+    mod = get_version_module('gitdb', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '0.5.4',
+    ))
+
     name = 'Git'
     url = 'http://git-scm.com/'
     mod = get_version_module('git', name, url)
