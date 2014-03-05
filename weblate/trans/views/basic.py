@@ -401,6 +401,22 @@ def not_found(request):
     )
 
 
+def denied(request):
+    '''
+    Error handler showing list of available projects.
+    '''
+    return render(
+        request,
+        '403.html',
+        {
+            'request_path': request.path,
+            'title': _('Permission Denied'),
+            'projects': Project.objects.all_acl(request.user),
+        },
+        status=403
+    )
+
+
 def server_error(request):
     '''
     Error handler for server erros.

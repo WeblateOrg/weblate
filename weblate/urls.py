@@ -51,6 +51,8 @@ WIDGET = r'(?P<project>[^/]+)-(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 
 admin.autodiscover()
 
+handler403 = 'weblate.trans.views.basic.denied'
+
 handler404 = 'weblate.trans.views.basic.not_found'
 
 handler500 = 'weblate.trans.views.basic.server_error'
