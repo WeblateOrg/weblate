@@ -92,6 +92,13 @@ def mail_admins_contact(subject, message, context, sender):
         subject,
     )
     if not settings.ADMINS:
+        messages.error(
+            request,
+            _('Message could not be sent to administrator!')
+        )
+        weblate.logger.error(
+            'ADMINS not configured, can not send message!'
+        )
         return
 
     mail = EmailMultiAlternatives(
@@ -102,6 +109,11 @@ def mail_admins_contact(subject, message, context, sender):
     )
 
     mail.send(fail_silently=False)
+
+    messages.info(
+        request,
+        _('Message has been sent to administrator.')
+    )
 
 
 @login_required
@@ -233,10 +245,6 @@ def contact(request):
                 form.cleaned_data,
                 form.cleaned_data['email'],
             )
-            messages.info(
-                request,
-                _('Message has been sent to administrator.')
-            )
             return redirect('home')
     else:
         initial = get_initial_contact(request)
@@ -269,10 +277,6 @@ def hosting(request):
                 HOSTING_TEMPLATE,
                 form.cleaned_data,
                 form.cleaned_data['email'],
-            )
-            messages.info(
-                request,
-                _('Message has been sent to administrator.')
             )
             return redirect('home')
     else:
