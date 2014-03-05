@@ -137,9 +137,7 @@ class ChangeManager(models.Manager):
         from weblate.trans.models import Project
         result = self.prefetch()
 
-        acl_projects, filtered = Project.objects.get_acl_status(
-            self.request.user
-        )
+        acl_projects, filtered = Project.objects.get_acl_status(user)
         if filtered:
             result = result.filter(
                 Q(translation__subproject__project__in=acl_projects) |
