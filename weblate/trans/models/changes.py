@@ -20,7 +20,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
 from weblate.trans.models.unit import Unit
