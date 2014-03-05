@@ -31,6 +31,7 @@ class Check(object):
     description = ''
     target = False
     source = False
+    ignore_fuzzy = True
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
@@ -43,6 +44,9 @@ class Check(object):
         '''
         # Is this check ignored
         if self.ignore_string in unit.all_flags:
+            return False
+        # No checking of fuzzy units
+        if self.ignore_fuzzy and unit.fuzzy:
             return False
         # Check singular
         if self.check_single(sources[0], targets[0], unit, 0):
