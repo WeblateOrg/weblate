@@ -319,6 +319,8 @@ SAME_BLACKLIST = frozenset((
     'mv',
     'n/a',
     'name',
+    'namecoin',
+    'namecoins',
     'navigation',
     'neutral',
     'nimh',
