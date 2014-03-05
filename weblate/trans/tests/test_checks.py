@@ -72,6 +72,7 @@ class MockUnit(object):
         self.flags = flags
         self.translation = MockTranslation(code)
         self.source = source
+        self.fuzzy = False
 
     @property
     def all_flags(self):
