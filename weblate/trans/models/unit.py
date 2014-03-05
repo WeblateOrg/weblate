@@ -812,7 +812,7 @@ class Unit(models.Model):
         checks_to_run = CHECKS
         cleanup_checks = True
 
-        if (same_state or is_new) and not self.translated:
+        if (not same_state or is_new) and not self.translated:
             # Check whether there is any message with same source
             project = self.translation.subproject.project
             same_source = Unit.objects.filter(
