@@ -79,7 +79,12 @@ class FileUnit(object):
         if (isinstance(self.mainunit, xliffunit)
                 or isinstance(self.mainunit, phpunit)):
             return ''
-        return ', '.join(self.mainunit.getlocations())
+        result = ', '.join(self.mainunit.getlocations())
+        # Do not try to handle relative locations in Qt TS, see
+        # http://qt-project.org/doc/qt-4.8/linguist-ts-file-format.html
+        if ':+' in result or ':-' in result:
+            return ''
+        return result
 
     def reformat_flags(self, typecomments):
         '''
