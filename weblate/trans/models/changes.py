@@ -129,7 +129,7 @@ class ChangeManager(models.Manager):
             'translation__subproject__project',
         )
 
-    def last_changes(self, user)
+    def last_changes(self, user):
         '''
         Prefilters Changes by ACL for users and fetches related fields
         for last changes display.
