@@ -29,6 +29,7 @@ from glob import glob
 import os
 import weblate
 import git
+from gitdb.exc import ODBError
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.models.project import Project
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
@@ -376,6 +377,16 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self._linked_subproject = SubProject.objects.get_linked(self.repo)
         return self._linked_subproject
 
+    def reset_git_repo(self):
+        '''
+        Resets git repository object database.
+        '''
+        if self.is_repo_link:
+            self.linked_subproject.reset_git_repo()
+            return
+
+        self._git_repo = None
+
     @property
     def git_repo(self):
         '''
@@ -398,7 +409,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns latest remote commit we know.
         '''
-        return self.git_repo.commit('origin/%s' % self.branch)
+        try:
+            return self.git_repo.commit('origin/%s' % self.branch)
+        except ODBError:
+            # Try to reread git database in case our in memory object is not
+            # up to date with it.
+            self.reset_git_repo()
+            return self.git_repo.commit('origin/%s' % self.branch)
 
     def get_repo_url(self):
         '''
