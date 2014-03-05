@@ -82,7 +82,9 @@ class FileUnit(object):
         result = ', '.join(self.mainunit.getlocations())
         # Do not try to handle relative locations in Qt TS, see
         # http://qt-project.org/doc/qt-4.8/linguist-ts-file-format.html
-        if ':+' in result or ':-' in result:
+        if (':+' in result or ':-' in result
+                ' +' in result or ' -' in result
+                or results.startswith('+') or results.startswith('-')):
             return ''
         return result
 
