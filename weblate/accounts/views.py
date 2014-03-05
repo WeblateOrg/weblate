@@ -82,7 +82,7 @@ class RegistrationTemplateView(TemplateView):
         return context
 
 
-def mail_admins_contact(subject, message, context, sender):
+def mail_admins_contact(request, subject, message, context, sender):
     '''
     Sends a message to the admins, as defined by the ADMINS setting.
     '''
@@ -240,6 +240,7 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             mail_admins_contact(
+                request,
                 '%(subject)s',
                 CONTACT_TEMPLATE,
                 form.cleaned_data,
@@ -273,6 +274,7 @@ def hosting(request):
         form = HostingForm(request.POST)
         if form.is_valid():
             mail_admins_contact(
+                request,
                 'Hosting request for %(project)s',
                 HOSTING_TEMPLATE,
                 form.cleaned_data,
