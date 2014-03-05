@@ -35,6 +35,8 @@ class ChangesFeed(Feed):
     '''
     Generic RSS feed for Weblate changes.
     '''
+    def get_object(self, request):
+        return request.user
 
     def title(self):
         return _('Recent changes in %s') % appsettings.SITE_TITLE
@@ -48,7 +50,7 @@ class ChangesFeed(Feed):
         return reverse('home')
 
     def items(self, obj):
-        return Change.objects.last_changes(None)[:10]
+        return Change.objects.last_changes(obj)[:10]
 
     def item_title(self, item):
         return item.get_action_display()
