@@ -290,13 +290,9 @@ def user_page(request, user):
     user = get_object_or_404(User, username=user)
     profile = get_object_or_404(Profile, user=user)
 
-    # Projects user is allowed to see
-    acl_projects = Project.objects.all_acl(request.user)
-
     # Filter all user activity
-    all_changes = Change.objects.filter(
+    all_changes = Change.objects.last_changes(request.user).filter(
         user=user,
-        translation__subproject__project__in=acl_projects,
     )
 
     # Last user activity

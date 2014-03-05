@@ -67,7 +67,6 @@ def home(request):
         return redirect('password')
 
     projects = Project.objects.all_acl(request.user)
-    acl_projects = projects
     if projects.count() == 1:
         projects = SubProject.objects.filter(
             project=projects[0]
@@ -93,10 +92,7 @@ def home(request):
     # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
-    last_changes = Change.objects.prefetch().filter(
-        Q(translation__subproject__project__in=acl_projects) |
-        Q(dictionary__project__in=acl_projects)
-    )[:10]
+    last_changes = Change.objects.last_changes(request.user)[:10]
 
     return render(
         request,
