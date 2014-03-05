@@ -84,7 +84,7 @@ def edit_dictionary(request, project, lang):
             initial={'source': word.source, 'target': word.target}
         )
 
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.last_changes(request.user).filter(
         dictionary=word,
     )[:10]
 
@@ -321,7 +321,7 @@ def show_dictionary(request, project, lang):
         # If page is out of range (e.g. 9999), deliver last page of results.
         words = paginator.page(paginator.num_pages)
 
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.last_changes(request.user).filter(
         dictionary__project=prj,
         dictionary__language=lang
     )[:10]

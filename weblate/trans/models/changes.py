@@ -129,6 +129,24 @@ class ChangeManager(models.Manager):
             'translation__subproject__project',
         )
 
+    def last_changes(self, user)
+        '''
+        Prefilters Changes by ACL for users and fetches related fields
+        for last changes display.
+        '''
+        result = self.prefetch()
+
+        acl_projects, filtered = Project.objects.get_acl_status(
+            self.request.user
+        )
+        if filtered:
+            result = result.filter(
+                Q(translation__subproject__project__in=acl_projects) |
+                Q(dictionary__project__in=acl_projects)
+            )
+
+        return result
+
 
 class Change(models.Model):
     ACTION_UPDATE = 0

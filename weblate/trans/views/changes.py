@@ -126,17 +126,7 @@ class ChangesView(ListView):
         # Glossary entries
         self.glossary = 'glossary' in self.request.GET
 
-        result = Change.objects.prefetch()
-
-        # Filter by ACL
-        acl_projects, filtered = Project.objects.get_acl_status(
-            self.request.user
-        )
-        if filtered:
-            result = result.filter(
-                Q(translation__subproject__project__in=acl_projects) |
-                Q(dictionary__project__in=acl_projects)
-            )
+        result = Change.objects.last_changes(self.request.user)
 
         if self.translation is not None:
             result = result.filter(

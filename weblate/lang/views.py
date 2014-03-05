@@ -39,7 +39,7 @@ def show_languages(request):
 
 def show_language(request, lang):
     obj = get_object_or_404(Language, code=lang)
-    last_changes = Change.objects.filter(
+    last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj
     )[:10]
     dicts = Dictionary.objects.filter(
