@@ -86,7 +86,7 @@ def edit_dictionary(request, project, lang):
 
     last_changes = Change.objects.filter(
         dictionary=word,
-    ).order_by('-timestamp')[:10]
+    )[:10]
 
     return render(
         request,
@@ -324,7 +324,7 @@ def show_dictionary(request, project, lang):
     last_changes = Change.objects.filter(
         dictionary__project=prj,
         dictionary__language=lang
-    ).order_by('-timestamp')[:10]
+    )[:10]
 
     return render(
         request,

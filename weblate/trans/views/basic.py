@@ -96,7 +96,7 @@ def home(request):
     last_changes = Change.objects.prefetch().filter(
         Q(translation__subproject__project__in=acl_projects) |
         Q(dictionary__project__in=acl_projects)
-    ).order_by('-timestamp')[:10]
+    )[:10]
 
     return render(
         request,
@@ -220,7 +220,7 @@ def show_project(request, project):
     last_changes = Change.objects.prefetch().filter(
         Q(translation__subproject__project=obj) |
         Q(dictionary__project=obj)
-    ).order_by('-timestamp')[:10]
+    )[:10]
 
     return render(
         request,
@@ -245,7 +245,7 @@ def show_subproject(request, project, subproject):
 
     last_changes = Change.objects.prefetch().filter(
         translation__subproject=obj
-    ).order_by('-timestamp')[:10]
+    )[:10]
 
     new_lang_form = NewLanguageForm()
 
@@ -343,7 +343,7 @@ def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
     last_changes = Change.objects.prefetch().filter(
         translation=obj
-    ).order_by('-timestamp')[:10]
+    )[:10]
 
     # Check locks
     obj.is_locked(request)
