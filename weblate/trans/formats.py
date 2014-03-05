@@ -84,7 +84,7 @@ class FileUnit(object):
         # http://qt-project.org/doc/qt-4.8/linguist-ts-file-format.html
         if (':+' in result or ':-' in result
                 or ' +' in result or ' -' in result
-                or results.startswith('+') or results.startswith('-')):
+                or result.startswith('+') or result.startswith('-')):
             return ''
         return result
 
