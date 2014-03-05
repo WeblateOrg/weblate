@@ -39,6 +39,7 @@ from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
+import weblate
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans.models import Change, Project
 from weblate.accounts.forms import (
@@ -85,6 +86,11 @@ def mail_admins_contact(subject, message, context, sender):
     '''
     Sends a message to the admins, as defined by the ADMINS setting.
     '''
+    weblate.logger.info(
+        'contact from from %s: %s',
+        email,
+        subject,
+    )
     if not settings.ADMINS:
         return
 
