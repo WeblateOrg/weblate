@@ -79,7 +79,21 @@ class FileUnit(object):
         if (isinstance(self.mainunit, xliffunit)
                 or isinstance(self.mainunit, phpunit)):
             return ''
-        return ', '.join(self.mainunit.getlocations())
+        # Process locations, especialy needed for Qt
+        locations = []
+        for location in self.mainunit.getlocations():
+            if location.startswith('+'):
+                # Only line number
+                location = '{0}:{1}'.format(
+                    locations[-1].split(':')[0],
+                    location[1:]
+                )
+            elif ':+' in location:
+                # Line number with +
+                location = location.replace(':+', ':')
+            locations.append(location)
+
+        return ', '.join(locations)
 
     def reformat_flags(self, typecomments):
         '''
