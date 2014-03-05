@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<p>
+{% trans "You don't have privileges to display this page." %}
+</p>
+
+{% if projects %}
+<p>{% trans "However the following translation projects are available on this server:" %}</p>
+
+<ul>
+{% for p in projects %}
+    <li><a href="{{ p.get_absolute_url }}">{{ p }}</a>
+        <ul>
+        {% for s in p.subproject_set.all %}
+            <li><a href="{{ s.get_absolute_url }}">{{ s.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}
+
