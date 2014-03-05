@@ -42,6 +42,7 @@ import __builtin__
 
 FILE_FORMATS = {}
 FLAGS_RE = re.compile(r'\b[-\w]+\b')
+LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 
 
 def register_fileformat(fileformat):
@@ -82,9 +83,7 @@ class FileUnit(object):
         result = ', '.join(self.mainunit.getlocations())
         # Do not try to handle relative locations in Qt TS, see
         # http://qt-project.org/doc/qt-4.8/linguist-ts-file-format.html
-        if (':+' in result or ':-' in result
-                or ' +' in result or ' -' in result
-                or result.startswith('+') or result.startswith('-')):
+        if LOCATIONS_RE.match(result):
             return ''
         return result
 
