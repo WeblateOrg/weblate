@@ -27,6 +27,8 @@ naming might vary in your application.
 GNU Gettext
 -----------
 
+.. index:: single: Gettext
+
 Most widely used format in translating free software. This was first format
 supported by Weblate and still has best support.
 
@@ -48,6 +50,8 @@ this file format when importing resources into Weblate.
 XLIFF
 -----
 
+.. index:: single: XLIFF
+
 XML based format created to standardize translation files, but in the end it
 is one of many standards in this area.
 
@@ -58,6 +62,8 @@ XLIFF is usually used as bilingual.
 Java properties
 ---------------
 
+.. index:: single: Java
+
 Native Java format for translations.
 
 Java properties are usually used as bilingual.
@@ -66,6 +72,8 @@ Java properties are usually used as bilingual.
 
 Qt Linguist .ts
 ---------------
+
+.. index:: single: Qt
 
 Translation format used in Qt based applications.
 
@@ -77,6 +85,8 @@ Qt Linguist files are used as both bilingual and monolingual.
 
 Android string resources
 ------------------------
+
+.. index:: single: Android
 
 Android specific file format for translating applications.
 
@@ -96,6 +106,8 @@ location than others :file:`res/values/strings.xml`.
 Apple OS X strings
 ------------------
 
+.. index:: single: Apple
+
 Apple specific file format for translating applications, used for both OS X
 and iPhone/iPad application translations.
 
@@ -111,6 +123,8 @@ Apple OS X strings are usually used as bilingual.
 
 PHP files
 ---------
+
+.. index:: single: PHP
 
 PHP files can be processed directly, though currently Translate-toolkit has
 some problems writing them properly, so please double check that your files
