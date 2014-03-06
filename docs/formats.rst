@@ -10,13 +10,13 @@ tested formats.
 .. seealso:: `Supported formats in translate-toolkit`_
 
 
-Weblate does support both :index:`monolingual` and :index:`bilingual` formats.
-Bilingual formats store two languages in single file - source and translation
-(typical examples is :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the
-other side, monolingual formats identify the string by ID and each language
-file contains only mapping of those to given language (typically
-:ref:`aresource`). Some file formats are used in both variants, see detailed
-description below.
+Weblate does support both :index:`monolingual <pair: translation; monolingual>`
+and :index:`bilingual <pair: translation; bilingual>` formats.  Bilingual
+formats store two languages in single file - source and translation (typical
+examples is :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
+monolingual formats identify the string by ID and each language file contains
+only mapping of those to given language (typically :ref:`aresource`). Some file
+formats are used in both variants, see detailed description below.
 
 For correct use of monolingual files, Weblate requires access to file
 containing complete list of strings to translate with their source - this file
@@ -28,7 +28,7 @@ naming might vary in your application.
 GNU Gettext
 -----------
 
-.. index:: single: Gettext
+.. index:: single: Gettext; Gettext po
 
 Most widely used format in translating free software. This was first format
 supported by Weblate and still has best support.
@@ -51,7 +51,7 @@ this file format when importing resources into Weblate.
 XLIFF
 -----
 
-.. index:: single: XLIFF
+.. index:: single: XLIFF; file format
 
 XML based format created to standardize translation files, but in the end it
 is one of many standards in this area.
@@ -63,7 +63,7 @@ XLIFF is usually used as bilingual.
 Java properties
 ---------------
 
-.. index:: single: Java
+.. index:: single: Java; properties
 
 Native Java format for translations.
 
@@ -74,7 +74,7 @@ Java properties are usually used as bilingual.
 Qt Linguist .ts
 ---------------
 
-.. index:: single: Qt
+.. index:: single: Qt; file format
 
 Translation format used in Qt based applications.
 
@@ -87,7 +87,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 Android string resources
 ------------------------
 
-.. index:: single: Android
+.. index:: single: Android; string resources
 
 Android specific file format for translating applications.
 
@@ -107,10 +107,10 @@ location than others :file:`res/values/strings.xml`.
 Apple OS X strings
 ------------------
 
-.. index:: single: Apple
+.. index:: single: Apple; strings
 
 Apple specific file format for translating applications, used for both OS X
-and :index:`iPhone`/:index:`iPad` application translations.
+and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
 
 Apple OS X strings are usually used as bilingual.
 
@@ -125,7 +125,7 @@ Apple OS X strings are usually used as bilingual.
 PHP files
 ---------
 
-.. index:: single: PHP
+.. index:: single: PHP; files
 
 PHP files can be processed directly, though currently Translate-toolkit has
 some problems writing them properly, so please double check that your files
