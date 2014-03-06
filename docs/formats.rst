@@ -10,12 +10,13 @@ tested formats.
 .. seealso:: `Supported formats in translate-toolkit`_
 
 
-Weblate does support both monolingual and bilingual formats. Bilingual formats
-store two languages in single file - source and translation (typical examples
-is :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
-monolingual formats identify the string by ID and each language file contains
-only mapping of those to given language (typically :ref:`aresource`). Some file
-formats are used in both variants, see detailed description below.
+Weblate does support both :index:`monolingual` and :index:`bilingual` formats.
+Bilingual formats store two languages in single file - source and translation
+(typical examples is :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the
+other side, monolingual formats identify the string by ID and each language
+file contains only mapping of those to given language (typically
+:ref:`aresource`). Some file formats are used in both variants, see detailed
+description below.
 
 For correct use of monolingual files, Weblate requires access to file
 containing complete list of strings to translate with their source - this file
@@ -109,7 +110,7 @@ Apple OS X strings
 .. index:: single: Apple
 
 Apple specific file format for translating applications, used for both OS X
-and iPhone/iPad application translations.
+and :index:`iPhone`/:index:`iPad` application translations.
 
 Apple OS X strings are usually used as bilingual.
 
