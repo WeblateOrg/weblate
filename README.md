@@ -2,7 +2,7 @@
 
 [![build status](https://secure.travis-ci.org/nijel/weblate.png)](https://travis-ci.org/nijel/weblate)
 [![Coverage Status](https://coveralls.io/repos/nijel/weblate/badge.png?branch=master)](https://coveralls.io/r/nijel/weblate?branch=master)
-[![Translation status](https://l10n.cihar.com/widgets/weblate-status-badge.png)](https://l10n.cihar.com/engage/weblate/?utm_source=widget)
+[![Translation status](http://l10n.cihar.com/widgets/weblate-status-badge.png)](https://l10n.cihar.com/engage/weblate/?utm_source=widget)
 [![Code Health](https://landscape.io/github/nijel/weblate/master/landscape.png)](https://landscape.io/github/nijel/weblate/master)
 
 Weblate is a free web-based translation tool with tight Git integration. It
