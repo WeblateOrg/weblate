@@ -22,6 +22,7 @@
 
 import re
 
+from django.utils.translation import ugettext_lazy as _
 from lxml import etree
 
 from translate.lang import data
@@ -40,7 +41,7 @@ class AndroidResourceUnit(base.TranslationUnit):
 
     @classmethod
     def createfromxmlElement(cls, element):
-        term = cls(None, xmlelement = element)
+        term = cls(None, xmlelement=element)
         return term
 
     def __init__(self, source, empty=False, xmlelement=None, **kwargs):
@@ -72,12 +73,12 @@ class AndroidResourceUnit(base.TranslationUnit):
         return self.xmlelement.get("name")
 
     def unescape(self, text):
-        '''
+        """
         Remove escaping from Android resource.
 
         Code stolen from android2po
         <https://github.com/miracle2k/android2po>
-        '''
+        """
         # Return text for empty elements
         if text is None:
             return ''
@@ -107,7 +108,7 @@ class AndroidResourceUnit(base.TranslationUnit):
                 if not active_quote or c is EOF:
                     # Replace by a single space, will get rid of
                     # non-significant newlines/tabs etc.
-                    text[i-space_count : i] = ' '
+                    text[i - space_count: i] = ' '
                     i -= space_count - 1
                 space_count = 0
             elif space_count == 1:
@@ -117,7 +118,7 @@ class AndroidResourceUnit(base.TranslationUnit):
                 # it will be considered significant on import. So,
                 # make sure that this kind of whitespace is always a
                 # standard space.
-                text[i-1] = ' '
+                text[i - 1] = ' '
                 space_count = 0
             else:
                 space_count = 0
@@ -157,16 +158,16 @@ class AndroidResourceUnit(base.TranslationUnit):
                         # in the clauses below without issue.
                         pass
                     elif c == 'n' or c == 'N':
-                        text[i-1 : i+1] = '\n' # an actual newline
+                        text[i - 1: i + 1] = '\n'  # an actual newline
                         i -= 1
                     elif c == 't' or c == 'T':
-                        text[i-1 : i+1] = '\t' # an actual tab
+                        text[i - 1: i + 1] = '\t'  # an actual tab
                         i -= 1
                     elif c == ' ':
-                        text[i-1 : i+1] = ' ' # an actual space
+                        text[i - 1: i + 1] = ' '  # an actual space
                         i -= 1
                     elif c in '"\'@':
-                        text[i-1 : i] = '' # remove the backslash
+                        text[i - 1: i] = ''  # remove the backslash
                         i -= 1
                     elif c == 'u':
                         # Unicode sequence. Android is nice enough to deal
@@ -179,10 +180,11 @@ class AndroidResourceUnit(base.TranslationUnit):
                         # prefixing the missing digits with zeros.
                         # Note: max(len()) is needed in the slice due to
                         # trailing ``None`` element.
-                        max_slice = min(i+5, len(text)-1)
-                        codepoint_str = "".join(text[i+1 : max_slice])
+                        max_slice = min(i + 5, len(text) - 1)
+                        codepoint_str = "".join(text[i + 1: max_slice])
                         if len(codepoint_str) < 4:
-                            codepoint_str = u"0" * (4-len(codepoint_str)) + codepoint_str
+                            codepoint_str = u"0" * (
+                                4 - len(codepoint_str)) + codepoint_str
                         try:
                             # We can't trust int() to raise a ValueError,
                             # it will ignore leading/trailing whitespace.
@@ -192,11 +194,11 @@ class AndroidResourceUnit(base.TranslationUnit):
                         except ValueError:
                             raise ValueError('bad unicode escape sequence')
 
-                        text[i-1 : max_slice] = codepoint
+                        text[i - 1: max_slice] = codepoint
                         i -= 1
                     else:
                         # All others, remove, like Android does as well.
-                        text[i-1 : i+1] = ''
+                        text[i - 1: i + 1] = ''
                         i -= 1
                     active_escape = False
 
@@ -206,9 +208,10 @@ class AndroidResourceUnit(base.TranslationUnit):
         return "".join(text[:-1])
 
     def escape(self, text, add_quote=True):
-        '''
-        Escape all the characters which need to be escaped in an Android XML file.
-        '''
+        """
+        Escape all the characters which need to be escaped in an Android XML
+        file.
+        """
         if text is None:
             return
         if len(text) == 0:
@@ -226,7 +229,10 @@ class AndroidResourceUnit(base.TranslationUnit):
         if text.startswith('@'):
             text = '\\@' + text[1:]
         # Quote strings with more whitespace
-        if add_quote and (text[0] in WHITESPACE or text[-1] in WHITESPACE or len(MULTIWHITESPACE.findall(text)) > 0):
+        if add_quote and (
+                            text[0] in WHITESPACE or text[-1] in WHITESPACE
+                or len(
+                        MULTIWHITESPACE.findall(text)) > 0):
             return '"%s"' % text
         return text
 
@@ -234,7 +240,7 @@ class AndroidResourceUnit(base.TranslationUnit):
         super(AndroidResourceUnit, self).setsource(source)
 
     def getsource(self, lang=None):
-        if (super(AndroidResourceUnit, self).source is None):
+        if super(AndroidResourceUnit, self).source is None:
             return self.target
         else:
             return super(AndroidResourceUnit, self).source
@@ -279,7 +285,9 @@ class AndroidResourceUnit(base.TranslationUnit):
         # Grab inner text
         target = self.unescape(self.xmlelement.text or u'')
         # Include markup as well
-        target += u''.join([data.forceunicode(etree.tostring(child, encoding='utf-8')) for child in self.xmlelement.iterchildren()])
+        target += u''.join(
+            [data.forceunicode(etree.tostring(child, encoding='utf-8')) for
+             child in self.xmlelement.iterchildren()])
         return target
 
     target = property(gettarget, settarget)
@@ -293,14 +301,15 @@ class AndroidResourceUnit(base.TranslationUnit):
             self.xmlelement.addprevious(etree.Comment(text))
         else:
             return super(AndroidResourceUnit, self).addnote(text, origin=origin,
-                                                 position=position)
+                                                            position=position)
 
     def getnotes(self, origin=None):
         if origin in ['programmer', 'developer', 'source code', None]:
             comments = []
-            if (self.xmlelement is not None):
+            if self.xmlelement is not None:
                 prevSibling = self.xmlelement.getprevious()
-                while ((prevSibling is not None) and (prevSibling.tag is etree.Comment)):
+                while ((prevSibling is not None) and (
+                            prevSibling.tag is etree.Comment)):
                     comments.insert(0, prevSibling.text)
                     prevSibling = prevSibling.getprevious()
 
@@ -309,9 +318,11 @@ class AndroidResourceUnit(base.TranslationUnit):
             return super(AndroidResourceUnit, self).getnotes(origin)
 
     def removenotes(self):
-        if ((self.xmlelement is not None) and (self.xmlelement.getparent is not None)):
+        if ((self.xmlelement is not None) and (
+                    self.xmlelement.getparent is not None)):
             prevSibling = self.xmlelement.getprevious()
-            while ((prevSibling is not None) and (prevSibling.tag is etree.Comment)):
+            while ((prevSibling is not None) and (
+                        prevSibling.tag is etree.Comment)):
                 prevSibling.getparent().remove(prevSibling)
                 prevSibling = self.xmlelement.getprevious()
 
@@ -322,7 +333,7 @@ class AndroidResourceUnit(base.TranslationUnit):
                               encoding='utf-8')
 
     def __eq__(self, other):
-        return (str(self) == str(other))
+        return str(self) == str(other)
 
 
 class AndroidResourceFile(lisa.LISAfile):
