@@ -21,7 +21,9 @@
 """Module for handling Android String resource files."""
 
 import re
+import gettext
 
+from django.utils.translation import ugettext_lazy as _
 from lxml import etree
 
 from translate.lang import data
