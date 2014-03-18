@@ -352,16 +352,9 @@ class FileFormat(object):
     def parse_store(cls, storefile):
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
-        try:
-            # Try bultin ttkit copy
-            # (only valid for aresource)
-            module = importlib.import_module(
-                'ttkit.%s' % module_name
-            )
-        except ImportError:
-            module = importlib.import_module(
-                'translate.storage.%s' % module_name
-            )
+        module = importlib.import_module(
+            'translate.storage.%s' % module_name
+        )
 
         # Get the class
         storeclass = getattr(module, class_name)
