@@ -102,3 +102,7 @@ LOGGING = {
 INSTALLED_APPS = INSTALLED_APPS + ('django_nose', )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Override default test match regexp (?:^|[\\b_\\.-])[Tt]est.
+# It will match things like get_test_file which is not a test.
+NOSE_ARGS = [r'--match=(?:^|[\b_\./-])^[Tt]est', ]
