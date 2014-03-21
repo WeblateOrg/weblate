@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-03-21 12:35+0100\n"
-"PO-Revision-Date: 2013-11-26 11:49+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Russian <http://l10n.cihar.com/projects/weblate/master/ru/>\n"
+"PO-Revision-Date: 2014-03-21 15:18+0200\n"
+"Last-Translator: Dmitri GOULIAEV <dmitri+weblate@gouliaev.info>\n"
+"Language-Team: Russian <https://l10n.cihar.com/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 1.9-dev\n"
 
 #: weblate/accounts/avatar.py:148
@@ -53,10 +53,9 @@ msgstr ""
 "Вы можете добавить другой адрес электронной почты на вкладке Идентификация."
 
 #: weblate/accounts/forms.py:247 weblate/accounts/forms.py:321
-#, fuzzy
 #| msgid "Your name"
 msgid "Full name"
-msgstr "Ваше имя"
+msgstr "Полное имя"
 
 #: weblate/accounts/forms.py:256
 msgid "Subject"
@@ -220,10 +219,9 @@ msgid "User registration"
 msgstr "Регистрация пользователя"
 
 #: weblate/accounts/views.py:100
-#, fuzzy
 #| msgid "Message has been sent to administrator."
 msgid "Message could not be sent to administrator!"
-msgstr "Сообщение было отправлено администратору."
+msgstr "Сообщение не было отправлено администратору!"
 
 #: weblate/accounts/views.py:118
 msgid "Message has been sent to administrator."
@@ -242,10 +240,9 @@ msgid "User profile"
 msgstr "Профиль пользователя"
 
 #: weblate/accounts/views.py:219
-#, fuzzy
 #| msgid "Your password has been changed."
 msgid "Your account has been removed."
-msgstr "Ваш пароль был изменён."
+msgstr "Ваша учётная запись была удалена."
 
 #: weblate/accounts/views.py:264
 msgid "Contact"
@@ -2164,10 +2161,9 @@ msgid "Translation status"
 msgstr "Состояние перевода"
 
 #: weblate/html/zen-response.html:7
-#, fuzzy
 #| msgid "Translation changed"
 msgid "Translation has been saved!"
-msgstr "Перевод изменён"
+msgstr "Перевод был сохранён!"
 
 #: weblate/html/zen-units.html:17
 msgid "Open in full editor"
@@ -2404,10 +2400,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/accounts/removal.html:13
-#, fuzzy
 #| msgid "Sort this column"
 msgid "Delete this account"
-msgstr "Отсортировать этой колонке"
+msgstr "Удалить эту учётную запись"
 
 #: weblate/html/accounts/reset.html:9
 msgid ""
@@ -2501,10 +2496,9 @@ msgid "Hostname"
 msgstr "Имя хоста"
 
 #: weblate/html/admin/ssh.html:41
-#, fuzzy
 #| msgid "Search type"
 msgid "Key type"
-msgstr "Тип поиска"
+msgstr "Тип ключа"
 
 #: weblate/html/admin/ssh.html:42
 msgid "Fingerprint"
@@ -2521,10 +2515,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/admin/ssh.html:60
-#, fuzzy
 #| msgid "Hosting"
 msgid "Host:"
-msgstr "Хостинг"
+msgstr "Хост:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
@@ -2834,10 +2827,9 @@ msgid "Requested language:"
 msgstr "Требуемый язык:"
 
 #: weblate/html/mail/new_language.html:30 weblate/html/mail/new_language.txt:9
-#, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "Требуемый язык:"
+msgstr "Запрашивающий пользователь:"
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -2987,10 +2979,9 @@ msgid "Django caching"
 msgstr "Кеширование Django"
 
 #: weblate/trans/admin_views.py:116
-#, fuzzy
 #| msgid "Django caching"
 msgid "Avatar caching"
-msgstr "Кеширование Django"
+msgstr "Кеширование аватара"
 
 #: weblate/trans/admin_views.py:127
 msgid "Email addresses"
@@ -3039,7 +3030,7 @@ msgid "Invalid host name given!"
 msgstr "Некорректное имя хоста!"
 
 #: weblate/trans/admin_views.py:308
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
 #| "verify that it is correct."
@@ -3047,14 +3038,14 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Добавлен ключ для хоста %(host)s с отпечатком %(fingerprint)s. Пожалуйста, "
-"проверьте, всё ли правильно."
+"Добавлен ключ для хоста %(host)s с отпечатком %(fingerprint)s (%(keytype)s). "
+"Пожалуйста, проверьте, всё ли правильно."
 
 #: weblate/trans/admin_views.py:323
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
-msgstr "Не удалось создать ключ %s"
+msgstr "Не удалось получить ключ хоста: %s"
 
 #: weblate/trans/feeds.py:42 weblate/trans/feeds.py:80
 #, python-format
@@ -3547,7 +3538,6 @@ msgid "Placement"
 msgstr ""
 
 #: weblate/trans/models/advertisement.py:103
-#, fuzzy
 #| msgid "Starting date"
 msgid "Start date"
 msgstr "Дата начала"
@@ -4498,10 +4488,10 @@ msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
 #: weblate/trans/views/edit.py:273
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Share your translation"
 msgid "Some checks have failed on your translation: {0}"
-msgstr "Поделитесь своим переводом"
+msgstr "Ваш перевод не прошёл некоторые проверки: {0}"
 
 #: weblate/trans/views/edit.py:313 weblate/trans/views/edit.py:349
 #: weblate/trans/views/edit.py:386
@@ -4553,10 +4543,9 @@ msgid "Failed to add comment!"
 msgstr ""
 
 #: weblate/trans/views/edit.py:789
-#, fuzzy
 #| msgid "Failed to process new translation request!"
 msgid "Failed to save translation!"
-msgstr "Не удалось обработать новый запрос на перевод!"
+msgstr "Не удалось сохранить перевод!"
 
 #: weblate/trans/views/files.py:82
 msgid "Access denied."
