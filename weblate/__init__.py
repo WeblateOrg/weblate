@@ -41,6 +41,9 @@ def is_running_git():
 # Weblate version
 VERSION = '1.9'
 
+# User-Agent string to use
+USER_AGENT = 'Weblate/{0}'.format(VERSION)
+
 # Are we running git
 RUNNING_GIT = is_running_git()
 GIT_RELEASE = False

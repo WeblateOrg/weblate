@@ -129,7 +129,7 @@ def download_avatar_image(user, size):
     url = avatar_for_email(user.email, size)
     request = urllib2.Request(url)
     request.timeout = 0.5
-    request.add_header('User-Agent', 'Weblate/{0}'.format(weblate.VERSION))
+    request.add_header('User-Agent', weblate.USER_AGENT)
 
     # Fire request
     handle = urllib2.urlopen(request)

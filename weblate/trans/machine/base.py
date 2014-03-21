@@ -84,7 +84,7 @@ class MachineTranslation(object):
         # Create request object with custom headers
         request = urllib2.Request(url)
         request.timeout = 0.5
-        request.add_header('User-Agent', 'Weblate/%s' % weblate.VERSION)
+        request.add_header('User-Agent', weblate.USER_AGENT)
         # Optional authentication
         if not skip_auth:
             self.authenticate(request)
