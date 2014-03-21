@@ -36,10 +36,7 @@ from datetime import date, datetime
 import weblate
 
 from weblate.trans.simplediff import html_diff
-from weblate.trans.util import (
-    split_plural, avatar_for_email,
-)
-from weblate.accounts.avatar import get_user_display
+from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject, Dictionary, Advertisement
 from weblate.trans.checks import CHECKS
@@ -294,17 +291,6 @@ def show_checks(checks, user):
         'checks': checks,
         'perms_ignore_check': user.has_perm('trans.ignore_check'),
     }
-
-
-@register.simple_tag
-def avatar(user, size=80):
-    if not appsettings.ENABLE_AVATARS:
-        return ''
-    url = avatar_for_email(user.email, size)
-    alt = escape(_('Avatar for %s') % get_user_display(user, False))
-    return """<img src="%s" alt="Avatar for %s" height="%s" width="%s"/>""" % (
-        url, alt, size, size
-    )
 
 
 @register.filter
