@@ -353,4 +353,10 @@ class ShieldsBadgeWidget(Widget):
             color
         )
 
+    def render_texts(self):
+        '''
+        Text rendering method to be overridden.
+        '''
+        raise Exception('Not supported')
+
 register_widget(ShieldsBadgeWidget)
