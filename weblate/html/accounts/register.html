@@ -41,7 +41,7 @@
 <h2>{% trans "Third party registration" %}</h2>
 
 {% for name in registration_backends %}
-  <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
+  <a class="button" href="{% url 'social:begin' name %}">{{ name }}</a>
 {% endfor %}
 
 {% endif %}

@@ -47,7 +47,7 @@
 <h2>{% trans "Third party login" %}</h2>
 
 {% for name in login_backends %}
-  <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
+  <a class="button" href="{% url 'social:begin' name %}?next={{ next }}">{{ name }}</a>
 {% endfor %}
 
 {% endif %}
