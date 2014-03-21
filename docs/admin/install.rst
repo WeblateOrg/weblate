@@ -350,7 +350,7 @@ recommended to use separate, file backed cache for this purpose:
             },
         }
 
-.. seealso:: :settings:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/1.6/topics/cache/>`_
+.. seealso:: :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/1.6/topics/cache/>`_
 
 .. _production-email:
 
