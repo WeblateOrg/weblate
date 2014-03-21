@@ -27,7 +27,7 @@ from django.contrib import messages
 from django.conf import settings
 from weblate import settings_example
 from weblate import appsettings
-from weblate.trans.util import HAS_LIBRAVATAR
+from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.accounts.forms import HAS_ICU
 import weblate
 import django
