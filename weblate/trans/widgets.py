@@ -22,8 +22,10 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from PIL import Image, ImageDraw
 from weblate.trans.fonts import is_base, get_font
+from weblate.appsettings import ENABLE_HTTPS
 from cStringIO import StringIO
 import os.path
+import urllib
 
 
 COLOR_DATA = {
@@ -325,3 +327,30 @@ class BadgeWidget(Widget):
         )
 
 register_widget(BadgeWidget)
+
+
+class ShieldsBadgeWidget(Widget):
+    name = 'shields'
+    colors = ('badge', )
+
+    def redirect(self):
+        if ENABLE_HTTPS:
+            proto = 'https'
+        else:
+            proto = 'http'
+
+        if self.percent > 90:
+            color = 'brightgreen'
+        elif self.percent > 75:
+            color = 'yellow'
+        else:
+            color = 'red'
+
+        return '{0}://img.shields.io/badge/{1}-{2}-{3}.svg'.format(
+            proto,
+            urllib.quote(_('translated').encode('utf-8')),
+            '{0}%25'.format(self.percent),
+            color
+        )
+
+register_widget(ShieldsBadgeWidget)

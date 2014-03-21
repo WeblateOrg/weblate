@@ -19,7 +19,7 @@
 #
 
 from django.http import HttpResponse, Http404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
 
@@ -126,6 +126,10 @@ def render_widget(request, project, widget='287x66', color=None, lang=None):
 
     # Construct object
     widget = widget_class(obj, color, lang)
+
+    # Redirect widget
+    if hasattr(widget, 'redirect'):
+        return redirect(widget.redirect())
 
     # Render widget
     widget.render()
