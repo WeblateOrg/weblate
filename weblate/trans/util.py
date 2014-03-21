@@ -18,79 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import hashlib
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
-from django.core.cache import cache
-from django.utils.html import escape
-from django.conf import settings
 from importlib import import_module
-import urllib
 import time
 import random
 import os.path
 
-try:
-    import libravatar
-    HAS_LIBRAVATAR = True
-except ImportError:
-    HAS_LIBRAVATAR = False
-
-AVATAR_URL_PREFIX = getattr(
-    settings,
-    'AVATAR_URL_PREFIX',
-    'https://seccdn.libravatar.org/'
-)
-# See http://wiki.libravatar.org/api/
-# for available choices
-AVATAR_DEFAULT_IMAGE = getattr(
-    settings,
-    'AVATAR_DEFAULT_IMAGE',
-    'identicon'
-)
-
 PLURAL_SEPARATOR = '\x1e\x1e'
-
-
-def avatar_for_email(email, size=80):
-    '''
-    Generates url for avatar.
-    '''
-
-    # Safely handle blank email
-    if email == '':
-        email = 'noreply@weblate.org'
-
-    # Retrieve from cache
-    cache_key = 'avatar-%s-%s' % (email, size)
-    url = cache.get(cache_key)
-    if url is not None:
-        return url
-
-    if HAS_LIBRAVATAR:
-        # Use libravatar library if available
-        url = libravatar.libravatar_url(
-            email=email,
-            https=True,
-            default=AVATAR_DEFAULT_IMAGE,
-            size=size
-        )
-
-    else:
-        # Fallback to standard method
-        mail_hash = hashlib.md5(email.lower()).hexdigest()
-
-        url = "%savatar/%s?" % (AVATAR_URL_PREFIX, mail_hash)
-
-        url += urllib.urlencode({
-            's': str(size),
-            'd': AVATAR_DEFAULT_IMAGE
-        })
-
-    # Store result in cache
-    cache.set(cache_key, url, 3600 * 24)
-
-    return escape(url)
 
 
 def is_plural(text):
