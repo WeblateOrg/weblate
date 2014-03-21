@@ -110,6 +110,10 @@ ENABLE_AVATARS
 Whether to enable libravatar/gravatar based avatars for users. By default this
 is enabled.
 
+The avatars are fetched and cached on the server, so there is no risk in
+leaking private information or slowing down the user experiences with enabling
+this.
+
 .. seealso:: :ref:`production-cache-avatar`
 
 .. setting:: ENABLE_HOOKS
