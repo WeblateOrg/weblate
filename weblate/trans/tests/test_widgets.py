@@ -75,8 +75,11 @@ class WidgetsTest(ViewTestCase):
                         }
                     )
                 )
-                # This is pretty stupid test for PNG image
-                self.assertPNG(response)
+
+                if hasattr(WIDGETS[widget], 'redirect'):
+                    self.assertEquals(response.status_code, 302)
+                else:
+                    self.assertPNG(response)
 
     def test_view_widget_image_lang(self):
         for widget in WIDGETS:
@@ -92,5 +95,8 @@ class WidgetsTest(ViewTestCase):
                         }
                     )
                 )
-                # This is pretty stupid test for PNG image
-                self.assertPNG(response)
+
+                if hasattr(WIDGETS[widget], 'redirect'):
+                    self.assertEquals(response.status_code, 302)
+                else:
+                    self.assertPNG(response)
