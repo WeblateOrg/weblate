@@ -9,9 +9,9 @@
 
 {% block content %}
 
-{% if enable_avatar %}
+{% if enable_avatars %}
 <div class="border menu-float">
-{% avatar page_user 128 %}
+<img src="{% url 'user_avatar' user=request.user.username size=128 %}" />
 </div>
 {% endif %}
 
