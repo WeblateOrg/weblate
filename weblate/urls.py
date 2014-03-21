@@ -631,9 +631,16 @@ urlpatterns = patterns(
 
     # User pages
     url(
-        r'^user/(?P<user>[^/]+)/',
+        r'^user/(?P<user>[^/]+)/$',
         'weblate.accounts.views.user_page',
         name='user_page',
+    ),
+
+    # Avatars
+    url(
+        r'^user/(?P<user>[^/]+)/avatar/(?P<size>(32|128))/$',
+        'weblate.accounts.views.user_avatar',
+        name='user_avatar',
     ),
 
     # Sitemap

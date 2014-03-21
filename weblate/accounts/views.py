@@ -19,6 +19,8 @@
 #
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.cache import cache_page
+from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.conf import settings
 from django.contrib import messages
@@ -40,6 +42,7 @@ from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
 import weblate
+from weblate.accounts.avatar import get_avatar_image
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans.models import Change, Project
 from weblate.accounts.forms import (
@@ -328,6 +331,19 @@ def user_page(request, user):
             ),
             'user_projects': user_projects,
         }
+    )
+
+
+@cache_page(3600 * 24)
+def user_avatar(request, user, size):
+    '''
+    User avatar page.
+    '''
+    user = get_object_or_404(User, username=user)
+
+    return HttpResponse(
+        content_type='image/png',
+        content=get_avatar_image(user, size)
     )
 
 
