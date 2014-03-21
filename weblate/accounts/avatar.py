@@ -34,19 +34,6 @@ try:
 except ImportError:
     HAS_LIBRAVATAR = False
 
-AVATAR_URL_PREFIX = getattr(
-    settings,
-    'AVATAR_URL_PREFIX',
-    'https://seccdn.libravatar.org/'
-)
-# See http://wiki.libravatar.org/api/
-# for available choices
-AVATAR_DEFAULT_IMAGE = getattr(
-    settings,
-    'AVATAR_DEFAULT_IMAGE',
-    'identicon'
-)
-
 PLURAL_SEPARATOR = '\x1e\x1e'
 
 
@@ -71,7 +58,7 @@ def avatar_for_email(email, size=80):
         url = libravatar.libravatar_url(
             email=email,
             https=True,
-            default=AVATAR_DEFAULT_IMAGE,
+            default=appsettings.AVATAR_DEFAULT_IMAGE,
             size=size
         )
 
@@ -79,11 +66,11 @@ def avatar_for_email(email, size=80):
         # Fallback to standard method
         mail_hash = hashlib.md5(email.lower()).hexdigest()
 
-        url = "%savatar/%s?" % (AVATAR_URL_PREFIX, mail_hash)
+        url = "%savatar/%s?" % (appsettings.AVATAR_URL_PREFIX, mail_hash)
 
         url += urllib.urlencode({
             's': str(size),
-            'd': AVATAR_DEFAULT_IMAGE
+            'd': appsettings.AVATAR_DEFAULT_IMAGE
         })
 
     # Store result in cache

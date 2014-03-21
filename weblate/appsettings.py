@@ -168,5 +168,12 @@ SIMPLIFY_LANGUAGES = get('SIMPLIFY_LANGUAGES', True)
 # Disable avatars
 ENABLE_AVATARS = get('ENABLE_AVATARS', True)
 
+# Avatar URL prefix
+AVATAR_URL_PREFIX = get('AVATAR_URL_PREFIX', 'https://seccdn.libravatar.org/')
+
+# Avatar fallback image
+# See http://wiki.libravatar.org/api/ for available choices
+AVATAR_DEFAULT_IMAGE = get('AVATAR_DEFAULT_IMAGE', 'identicon')
+
 # Is the site using https
 ENABLE_HTTPS = get('ENABLE_HTTPS', False)
