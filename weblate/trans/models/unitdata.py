@@ -26,7 +26,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.project import Project
 from weblate.trans.models.changes import Change
-from weblate.trans.util import get_user_display
+from weblate.accounts.avatar import get_user_display
 
 
 class RelatedUnitMixin(object):

@@ -37,8 +37,9 @@ import weblate
 
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import (
-    split_plural, avatar_for_email, get_user_display
+    split_plural, avatar_for_email,
 )
+from weblate.accounts.avatar import get_user_display
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject, Dictionary, Advertisement
 from weblate.trans.checks import CHECKS

@@ -41,8 +41,9 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.models.subproject import SubProject
 from weblate.trans.models.project import Project
 from weblate.trans.util import (
-    get_user_display, get_site_url, sleep_while_git_locked, translation_percent
+    get_site_url, sleep_while_git_locked, translation_percent
 )
+from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin
 from weblate.trans.boolean_sum import BooleanSum
 

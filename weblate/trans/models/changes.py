@@ -26,7 +26,7 @@ from django.utils import timezone
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.dictionary import Dictionary
-from weblate.trans.util import get_user_display
+from weblate.accounts.avatar import get_user_display
 
 
 class ChangeManager(models.Manager):

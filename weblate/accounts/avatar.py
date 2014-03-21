@@ -23,7 +23,10 @@ import urllib
 import hashlib
 import os.path
 from django.core.cache import get_cache, InvalidCacheBackendError
-from django.conf import settings
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import pgettext
+from django.core.urlresolvers import reverse
 
 import weblate
 from weblate import appsettings
@@ -130,3 +133,44 @@ def download_avatar_image(user, size):
 
     # Read and possibly convert response
     return handle.read()
+
+
+def get_user_display(user, icon=True, link=False):
+    '''
+    Nicely formats user for display.
+    '''
+    # Did we get any user?
+    if user is None:
+        # None user, probably remotely triggered action
+        full_name = pgettext('No known user', 'None')
+    else:
+        # Get full name
+        full_name = user.first_name
+
+        # Use user name if full name is empty
+        if full_name.strip() == '':
+            full_name = user.username
+
+    # Escape HTML
+    full_name = escape(full_name)
+
+    # Icon requested?
+    if icon and appsettings.ENABLE_AVATARS:
+        if user is None:
+            avatar = 'TODO'
+        else:
+            avatar = reverse(
+                'user_avatar', kwargs={'user': user.username, 'size': 32}
+            )
+        full_name = '<img src="%(avatar)s" class="avatar" /> %(name)s' % {
+            'name': full_name,
+            'avatar': avatar
+        }
+
+    if link and user is not None:
+        return mark_safe('<a href="%(link)s">%(name)s</a>' % {
+            'name': full_name,
+            'link': reverse('user_page', kwargs={'user': user.username}),
+        })
+    else:
+        return mark_safe(full_name)

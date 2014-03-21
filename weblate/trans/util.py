@@ -21,11 +21,8 @@
 import hashlib
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
-from django.utils.translation import pgettext
 from django.core.cache import cache
 from django.utils.html import escape
-from django.utils.safestring import mark_safe
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from importlib import import_module
 import urllib
@@ -94,49 +91,6 @@ def avatar_for_email(email, size=80):
     cache.set(cache_key, url, 3600 * 24)
 
     return escape(url)
-
-
-def get_user_display(user, icon=True, link=False):
-    '''
-    Nicely formats user for display.
-    '''
-    from weblate.appsettings import ENABLE_AVATARS
-
-    # Did we get any user?
-    if user is None:
-        # None user, probably remotely triggered action
-        full_name = pgettext('No known user', 'None')
-        email = ''
-    else:
-        # Get full name
-        full_name = user.first_name
-
-        # Use user name if full name is empty
-        if full_name.strip() == '':
-            full_name = user.username
-
-        email = user.email
-
-    # Escape HTML
-    full_name = escape(full_name)
-
-    # Icon requested?
-    if icon and ENABLE_AVATARS:
-        # Get avatar image
-        avatar = avatar_for_email(email, size=32)
-
-        full_name = '<img src="%(avatar)s" class="avatar" /> %(name)s' % {
-            'name': full_name,
-            'avatar': avatar
-        }
-
-    if link and user is not None:
-        return mark_safe('<a href="%(link)s">%(name)s</a>' % {
-            'name': full_name,
-            'link': reverse('user_page', kwargs={'user': user.username}),
-        })
-    else:
-        return mark_safe(full_name)
 
 
 def is_plural(text):

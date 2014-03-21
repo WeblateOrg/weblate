@@ -38,9 +38,8 @@ from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Change
-from weblate.trans.util import (
-    get_user_display, get_site_url, get_distinct_translations
-)
+from weblate.trans.util import get_site_url, get_distinct_translations
+from weblate.accounts.avatar import get_user_display
 import weblate
 from weblate.appsettings import ANONYMOUS_USER_NAME
 
