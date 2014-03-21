@@ -110,6 +110,8 @@ ENABLE_AVATARS
 Whether to enable libravatar/gravatar based avatars for users. By default this
 is enabled.
 
+.. seealso:: :ref:`production-cache-avatar`
+
 .. setting:: ENABLE_HOOKS
 
 ENABLE_HOOKS

@@ -323,7 +323,34 @@ variable, for example:
         }
     }
 
-.. seealso:: `Django’s cache framework <https://docs.djangoproject.com/en/1.6/topics/cache/>`_
+.. seealso:: :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/1.6/topics/cache/>`_
+
+.. _production-cache-avatar:
+
+Avatar caching
+++++++++++++++
+
+In addition to caching of Django, Weblate performs caching of avatars. It is
+recommended to use separate, file backed cache for this purpose:
+
+.. code-block:: python
+
+    CACHES = {
+        'default': {
+            # Default caching backend setup, see above
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        },
+        'avatar': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': os.path.join(WEB_ROOT, 'avatar-cache'),
+            'TIMEOUT': 604800,
+            'OPTIONS': {
+                'MAX_ENTRIES': 1000,
+            },
+        }
+
+.. seealso:: :settings:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/1.6/topics/cache/>`_
 
 .. _production-email:
 

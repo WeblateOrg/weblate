@@ -111,6 +111,12 @@ def performance(request):
         cache,
         'production-cache',
     ))
+    # Avatar caching
+    checks.append((
+        _('Avatar caching'),
+        'avatar' in settings.CACHES,
+        'production-cache-avatar',
+    ))
     # Check email setup
     default_mails = (
         'root@localhost',

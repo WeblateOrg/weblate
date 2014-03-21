@@ -13,6 +13,7 @@ Released on ? 2014.
 * Users can now delete their account.
 * Avatars can be disabled.
 * Merged first and last name attributes.
+* Avatars are now fetched and cached server side.
 
 weblate 1.8
 -----------

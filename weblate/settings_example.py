@@ -493,6 +493,14 @@ ALLOWED_HOSTS = []
 #    'default': {
 #        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
 #        'LOCATION': '127.0.0.1:11211',
+#    },
+#    'avatar': {
+#        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#        'LOCATION': os.path.join(WEB_ROOT, 'avatar-cache'),
+#        'TIMEOUT': 604800,
+#        'OPTIONS': {
+#            'MAX_ENTRIES': 1000,
+#        },
 #    }
 #}
 
