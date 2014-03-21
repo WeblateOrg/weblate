@@ -51,7 +51,7 @@ def avatar_for_email(email, size=80):
         email = 'noreply@weblate.org'
 
     # Retrieve from cache
-    cache_key = 'avatar-%s-%s' % (email, size)
+    cache_key = 'avatar-{0}-{1}'.format(email, size)
     cache = get_cache('default')
     url = cache.get(cache_key)
     if url is not None:
@@ -70,12 +70,14 @@ def avatar_for_email(email, size=80):
         # Fallback to standard method
         mail_hash = hashlib.md5(email.lower()).hexdigest()
 
-        url = "%savatar/%s?" % (appsettings.AVATAR_URL_PREFIX, mail_hash)
-
-        url += urllib.urlencode({
-            's': str(size),
-            'd': appsettings.AVATAR_DEFAULT_IMAGE
-        })
+        url = "{0}avatar/{1}?{2}".format(
+            appsettings.AVATAR_URL_PREFIX,
+            mail_hash,
+            urllib.urlencode({
+                's': str(size),
+                'd': appsettings.AVATAR_DEFAULT_IMAGE
+            })
+        )
 
     # Store result in cache
     cache.set(cache_key, url, 3600 * 24)
@@ -127,7 +129,7 @@ def download_avatar_image(user, size):
     url = avatar_for_email(user.email, size)
     request = urllib2.Request(url)
     request.timeout = 0.5
-    request.add_header('User-Agent', 'Weblate/%s' % weblate.VERSION)
+    request.add_header('User-Agent', 'Weblate/{0}'.format(weblate.VERSION))
 
     # Fire request
     handle = urllib2.urlopen(request)
@@ -167,15 +169,15 @@ def get_user_display(user, icon=True, link=False):
                 'user_avatar', kwargs={'user': user.username, 'size': 32}
             )
 
-        full_name = '<img src="%(avatar)s" class="avatar" /> %(name)s' % {
-            'name': full_name,
-            'avatar': avatar
-        }
+        full_name = u'<img src="{avatar}" class="avatar" /> {name}'.format(
+            name=full_name,
+            avatar=avatar
+        )
 
     if link and user is not None:
-        return mark_safe('<a href="%(link)s">%(name)s</a>' % {
-            'name': full_name,
-            'link': reverse('user_page', kwargs={'user': user.username}),
-        })
+        return mark_safe(u'<a href="{link}">{name}</a>'.format(
+            name=full_name,
+            link=reverse('user_page', kwargs={'user': user.username}),
+        ))
     else:
         return mark_safe(full_name)
