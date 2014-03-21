@@ -27,6 +27,7 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 import weblate
 from weblate import appsettings
@@ -157,11 +158,15 @@ def get_user_display(user, icon=True, link=False):
     # Icon requested?
     if icon and appsettings.ENABLE_AVATARS:
         if user is None:
-            avatar = 'TODO'
+            avatar = os.path.join(
+                settings.MEDIA_URL,
+                'weblate-32.png'
+            )
         else:
             avatar = reverse(
                 'user_avatar', kwargs={'user': user.username, 'size': 32}
             )
+
         full_name = '<img src="%(avatar)s" class="avatar" /> %(name)s' % {
             'name': full_name,
             'avatar': avatar
