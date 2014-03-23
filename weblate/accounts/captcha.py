@@ -63,7 +63,7 @@ class MathCaptcha(object):
         if operator == '-':
             first += self.interval[1]
 
-        return '{} {} {}'.format(
+        return '{0} {1} {2}'.format(
             first,
             operator,
             second
@@ -106,7 +106,7 @@ class MathCaptcha(object):
         Gets unicode for display.
         '''
         parts = self.question.split()
-        return u'{} {} {}'.format(
+        return u'{0} {1} {2}'.format(
             parts[0],
             self.operators_display[parts[1]],
             parts[2],
@@ -134,7 +134,7 @@ def hash_question(question, timestamp):
     '''
     timestamp = format_timestamp(timestamp)
     hexsha = checksum_question(question, timestamp)
-    return '{}{}{}'.format(
+    return '{0}{1}{2}'.format(
         hexsha,
         timestamp,
         question.encode('base64')
