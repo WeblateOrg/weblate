@@ -117,7 +117,7 @@ def format_timestamp(timestamp):
     '''
     Formats timestamp in a form usable in captcha.
     '''
-    return '{:>010x}'.format(int(timestamp))
+    return '{0:>010x}'.format(int(timestamp))
 
 
 def checksum_question(question, timestamp):
