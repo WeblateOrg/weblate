@@ -86,3 +86,8 @@ def get_doc_url(page, anchor=''):
         url += '#%s' % anchor
 
     return url
+
+# Check for requirements
+from weblate.trans.requirements import check_requirements
+
+check_requirements()
