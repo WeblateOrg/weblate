@@ -40,9 +40,9 @@ GIT_URL = 'git://github.com/nijel/weblate-test.git'
 
 
 class RepoTestCase(TestCase):
-    '''
+    """
     Generic class for tests working with repositories.
-    '''
+    """
     def setUp(self):
         if 'test-repos' in settings.GIT_ROOT:
             test_dir = os.path.join(settings.GIT_ROOT, 'test')
@@ -84,9 +84,9 @@ class RepoTestCase(TestCase):
             shutil.rmtree(test_repo_path)
 
     def create_project(self):
-        '''
+        """
         Creates test project.
-        '''
+        """
         return Project.objects.create(
             name='Test',
             slug='test',
@@ -94,9 +94,9 @@ class RepoTestCase(TestCase):
         )
 
     def _create_subproject(self, file_format, mask, template='', new_base=''):
-        '''
+        """
         Creates real test subproject.
-        '''
+        """
         project = self.create_project()
         return SubProject.objects.create(
             name='Test',
@@ -113,9 +113,9 @@ class RepoTestCase(TestCase):
         )
 
     def create_subproject(self):
-        '''
+        """
         Wrapper method for providing test subproject.
-        '''
+        """
         return self._create_subproject(
             'auto',
             'po/*.po',
@@ -192,9 +192,9 @@ class RepoTestCase(TestCase):
 
 
 class ProjectTest(RepoTestCase):
-    '''
+    """
     Project object testing.
-    '''
+    """
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
@@ -251,9 +251,9 @@ class ProjectTest(RepoTestCase):
         )
 
     def test_acl(self):
-        '''
+        """
         Test for ACL handling.
-        '''
+        """
         # Create user to verify ACL
         user = User.objects.create_user(
             username='testuser',
@@ -282,9 +282,9 @@ class ProjectTest(RepoTestCase):
 
 
 class SubProjectTest(RepoTestCase):
-    '''
+    """
     SubProject object testing.
-    '''
+    """
     def verify_subproject(self, project, translations, lang, units,
                           unit='Hello, world!\n', fail=False):
         # Validation
@@ -432,9 +432,9 @@ class SubProjectTest(RepoTestCase):
         self.verify_subproject(project, 3, 'cs', 4)
 
     def test_extra_file(self):
-        '''
+        """
         Extra commit file validation.
-        '''
+        """
         project = self.create_subproject()
         project.full_clean()
 
@@ -452,9 +452,9 @@ class SubProjectTest(RepoTestCase):
         )
 
     def test_check_flags(self):
-        '''
+        """
         Check flags validation.
-        '''
+        """
         project = self.create_subproject()
         project.full_clean()
 
@@ -580,9 +580,9 @@ class SubProjectTest(RepoTestCase):
 
 
 class TranslationTest(RepoTestCase):
-    '''
+    """
     Translation testing.
-    '''
+    """
     def test_basic(self):
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
@@ -591,9 +591,9 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.fuzzy, 0)
 
     def test_extra_file(self):
-        '''
+        """
         Test extra commit file handling.
-        '''
+        """
         subproject = self.create_subproject()
         subproject.pre_commit_script = get_test_file(
             '../../../../examples/hook-generate-mo'
@@ -615,9 +615,9 @@ class TranslationTest(RepoTestCase):
         )
 
     def test_validation(self):
-        '''
+        """
         Translation validation
-        '''
+        """
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
         translation.full_clean()
