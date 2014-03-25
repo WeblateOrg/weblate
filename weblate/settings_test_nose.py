@@ -28,76 +28,8 @@ are:
 - It will let more precise specification of what tests to run.
 """
 
-from weblate.settings_example import *
+from weblate.settings_test import *
 import os
-
-if 'TRAVIS_DATABASE' in os.environ:
-    if os.environ['TRAVIS_DATABASE'] == 'mysql':
-        DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-        DATABASES['default']['NAME'] = 'weblate'
-        DATABASES['default']['USER'] = 'root'
-        DATABASES['default']['PASSWORD'] = ''
-    elif os.environ['TRAVIS_DATABASE'] == 'postgresql':
-        DATABASES['default']['ENGINE'] = \
-            'django.db.backends.postgresql_psycopg2'
-        DATABASES['default']['NAME'] = 'weblate'
-        DATABASES['default']['USER'] = 'postgres'
-        DATABASES['default']['PASSWORD'] = ''
-
-
-# Configure admins
-ADMINS = (('Weblate test', 'noreply@weblate.org'), )
-
-# Different root for test repos
-GIT_ROOT = '%s/test-repos/' % WEB_ROOT
-
-# Avoid migrating during testsuite
-SOUTH_TESTS_MIGRATE = False
-
-# Fake access to Microsoft Translator
-MT_MICROSOFT_ID = 'ID'
-MT_MICROSOFT_SECRET = 'SECRET'
-
-# Fake Google translate API key
-MT_GOOGLE_KEY = 'KEY'
-
-# To get higher limit for testing
-MT_MYMEMORY_EMAIL = 'test@weblate.org'
-
-# Enable some machine translations
-MACHINE_TRANSLATION_SERVICES = (
-    'weblate.trans.machine.microsoft.MicrosoftTranslation',
-    'weblate.trans.machine.dummy.DummyTranslation',
-)
-
-# Silent logging setup
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'weblate': {
-            'handlers': [],
-            'level': 'ERROR',
-        }
-    }
-}
 
 INSTALLED_APPS = INSTALLED_APPS + ('django_nose', )
 
