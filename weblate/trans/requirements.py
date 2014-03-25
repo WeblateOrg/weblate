@@ -225,3 +225,20 @@ def get_versions_string():
             )
         )
     return '\n'.join(result)
+
+
+def check_requirements():
+    '''
+    Performs check on requirements and raises an exception on error.
+    '''
+    versions = get_versions()
+    failure = False
+
+    for version in versions:
+        failure |= check_version(*version)
+
+    if failure:
+        raise Exception(
+            'Some of required modules are missing or too old! '
+            'Check above output for details.'
+        )

@@ -41,25 +41,3 @@ def create_permissions_compat(app, **kwargs):
         except AttributeError as error:
             # See https://code.djangoproject.com/ticket/20442
             print 'Failed to create permission objects: {0}'.format(error)
-
-
-@receiver(post_syncdb)
-@receiver(post_migrate)
-def check_versions(sender, app, **kwargs):
-    '''
-    Check required versions.
-    '''
-    if (app == 'trans'
-            or getattr(app, '__name__', '') == 'weblate.trans.models'):
-        from weblate.trans.requirements import get_versions, check_version
-        versions = get_versions()
-        failure = False
-
-        for version in versions:
-            failure |= check_version(*version)
-
-        if failure:
-            raise Exception(
-                'Some of required modules are missing or too old! '
-                'Check above output for details.'
-            )
