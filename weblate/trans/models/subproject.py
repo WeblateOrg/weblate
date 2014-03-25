@@ -377,16 +377,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self._linked_subproject = SubProject.objects.get_linked(self.repo)
         return self._linked_subproject
 
-    def reset_git_repo(self):
-        '''
-        Resets git repository object database.
-        '''
-        if self.is_repo_link:
-            self.linked_subproject.reset_git_repo()
-            return
-
-        self._git_repo = None
-
     @property
     def git_repo(self):
         '''
@@ -414,7 +404,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         except ODBError:
             # Try to reread git database in case our in memory object is not
             # up to date with it.
-            self.reset_git_repo()
+            self.git_repo.odb.update_cache()
             return self.git_repo.commit('origin/%s' % self.branch)
 
     def get_repo_url(self):
