@@ -90,7 +90,7 @@ def get_avatar_image(user, size):
     Returns avatar image from cache (if available) or downloads it.
     '''
 
-    cache_key = 'avatar-img-{0}-{1}'.format(
+    cache_key = u'avatar-img-{0}-{1}'.format(
         user.username,
         size
     )
