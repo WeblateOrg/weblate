@@ -136,20 +136,20 @@ EXTRA_PLATFORMS = {
     },
     # Following browsers do not work correctly store cookies with Sauce labs:
     # http://support.saucelabs.com/entries/20629691
-    #'Opera': {
-    #    'browserName': 'opera',
-    #    'platform': 'WIN7',
-    #},
-    #'MSIE10': {
-    #    'browserName': 'internet explorer',
-    #    'version': '10',
-    #    'platform': 'WIN8',
-    #},
-    #'MSIE9': {
-    #    'browserName': 'internet explorer',
-    #    'version': '9',
-    #    'platform': 'VISTA',
-    #},
+    # 'Opera': {
+    #     'browserName': 'opera',
+    #     'platform': 'WIN7',
+    # },
+    # 'MSIE10': {
+    #     'browserName': 'internet explorer',
+    #     'version': '10',
+    #     'platform': 'WIN8',
+    # },
+    # 'MSIE9': {
+    #     'browserName': 'internet explorer',
+    #     'version': '9',
+    #     'platform': 'VISTA',
+    # },
 }
 
 
