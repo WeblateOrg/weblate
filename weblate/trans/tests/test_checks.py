@@ -86,8 +86,9 @@ class CheckTestCase(TestCase):
     '''
     Generic test, also serves for testing base class.
     '''
+    check = None
+
     def setUp(self):
-        self.check = None
         self.test_empty = ('', '', '')
         self.test_good_matching = ('string', 'string', '')
         self.test_good_none = ('string', 'string', '')
@@ -95,7 +96,7 @@ class CheckTestCase(TestCase):
         self.test_failure_1 = None
         self.test_failure_2 = None
         self.test_failure_3 = None
-        self.test_ignore_check = ('x', 'x', self.check.ignore_string)
+        self.test_ignore_check = ('x', 'x', self.check.ignore_string if self.check else '')
 
     def do_test(self, expected, data, lang='cs'):
         '''

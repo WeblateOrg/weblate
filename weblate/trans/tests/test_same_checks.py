@@ -29,9 +29,10 @@ from weblate.trans.tests.test_checks import MockUnit, CheckTestCase
 
 
 class SameCheckTest(CheckTestCase):
+    check = SameCheck()
+
     def setUp(self):
         super(SameCheckTest, self).setUp()
-        self.check = SameCheck()
         self.test_good_none = ('%(source)s', '%(source)s', 'python-format')
         self.test_good_matching = ('source', 'translation', '')
         self.test_good_ignore = ('alarm', 'alarm', '')
