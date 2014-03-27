@@ -786,6 +786,100 @@ TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
 RST_MATCH = re.compile(r'(?::ref:`[^`]+`|``[^`]+``)')
 
 
+def strip_format(msg, flags):
+    '''
+    Checks whether given string contains only format strings
+    and possible punctation. These are quite often not changed
+    by translators.
+    '''
+    if 'python-format' in flags:
+        regex = PYTHON_PRINTF_MATCH
+    elif 'python-brace-format' in flags:
+        regex = PYTHON_BRACE_MATCH
+    elif 'php-format' in flags:
+        regex = PHP_PRINTF_MATCH
+    elif 'c-format' in flags:
+        regex = C_PRINTF_MATCH
+    elif 'rst-text' in flags:
+        regex = RST_MATCH
+    else:
+        return msg
+    stripped = regex.sub('', msg)
+    return stripped
+
+
+def strip_string(msg, flags):
+    '''
+    Strips (usually) not translated parts from the string.
+    '''
+    # Strip format strings
+    stripped = strip_format(msg, flags)
+
+    # Remove email addresses
+    stripped = EMAIL_RE.sub('', stripped)
+
+    # Strip full URLs
+    stripped = URL_RE.sub('', stripped)
+
+    # Strip hash tags / IRC channels
+    stripped = HASH_RE.sub('', stripped)
+
+    # Strip domain names/URLs
+    stripped = DOMAIN_RE.sub('', stripped)
+
+    # Strip file/URL paths
+    stripped = PATH_RE.sub('', stripped)
+
+    # Strip template markup
+    stripped = TEMPLATE_RE.sub('', stripped)
+
+    # Remove some html entities
+    stripped = stripped.replace(
+        '&nbsp;', ' '
+    ).replace(
+        '&rsaquo;', '"'
+    ).replace(
+        '&lt;', '<'
+    ).replace(
+        '&gt;', '>'
+    ).replace(
+        '&amp;', '&'
+    ).replace(
+        '&ldquo;', '"'
+    ).replace(
+        '&rdquo;', '"'
+    ).replace(
+        '&times;', '.'
+    ).replace(
+        '&quot;', '"'
+    )
+
+    # Cleanup trailing/leading chars
+    stripped = strip_chars(stripped)
+
+    # Replace punctation by whitespace for splitting
+    stripped = stripped.replace(
+        '_', ' '
+    ).replace(
+        ',', ' '
+    ).replace(
+        '\\', ' '
+    ).replace(
+        '/', ' '
+    )
+
+    return stripped
+
+
+def strip_chars(word):
+    '''
+    Strip chars not useful for translating.
+    '''
+    return word.strip(
+        u' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r✓—'
+    )
+
+
 class SameCheck(TargetCheck):
     '''
     Check for not translated entries.
@@ -794,102 +888,11 @@ class SameCheck(TargetCheck):
     name = _('Not translated')
     description = _('Source and translated strings are same')
 
-    def strip_format(self, msg, flags):
-        '''
-        Checks whether given string contains only format strings
-        and possible punctation. These are quite often not changed
-        by translators.
-        '''
-        if 'python-format' in flags:
-            regex = PYTHON_PRINTF_MATCH
-        elif 'python-brace-format' in flags:
-            regex = PYTHON_BRACE_MATCH
-        elif 'php-format' in flags:
-            regex = PHP_PRINTF_MATCH
-        elif 'c-format' in flags:
-            regex = C_PRINTF_MATCH
-        elif 'rst-text' in flags:
-            regex = RST_MATCH
-        else:
-            return msg
-        stripped = regex.sub('', msg)
-        return stripped
-
-    def strip_string(self, msg, flags):
-        '''
-        Strips (usually) not translated parts from the string.
-        '''
-        # Strip format strings
-        stripped = self.strip_format(msg, flags)
-
-        # Remove email addresses
-        stripped = EMAIL_RE.sub('', stripped)
-
-        # Strip full URLs
-        stripped = URL_RE.sub('', stripped)
-
-        # Strip hash tags / IRC channels
-        stripped = HASH_RE.sub('', stripped)
-
-        # Strip domain names/URLs
-        stripped = DOMAIN_RE.sub('', stripped)
-
-        # Strip file/URL paths
-        stripped = PATH_RE.sub('', stripped)
-
-        # Strip template markup
-        stripped = TEMPLATE_RE.sub('', stripped)
-
-        # Remove some html entities
-        stripped = stripped.replace(
-            '&nbsp;', ' '
-        ).replace(
-            '&rsaquo;', '"'
-        ).replace(
-            '&lt;', '<'
-        ).replace(
-            '&gt;', '>'
-        ).replace(
-            '&amp;', '&'
-        ).replace(
-            '&ldquo;', '"'
-        ).replace(
-            '&rdquo;', '"'
-        ).replace(
-            '&times;', '.'
-        ).replace(
-            '&quot;', '"'
-        )
-
-        # Cleanup trailing/leading chars
-        stripped = self.strip_chars(stripped)
-
-        # Replace punctation by whitespace for splitting
-        stripped = stripped.replace(
-            '_', ' '
-        ).replace(
-            ',', ' '
-        ).replace(
-            '\\', ' '
-        ).replace(
-            '/', ' '
-        )
-
-        return stripped
-
-    def strip_chars(self, word):
-        '''
-        Strip chars not useful for translating.
-        '''
-        return word.strip(
-            u' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r✓—'
-        )
-
     def test_word(self, word):
         '''
         Test whether word should be ignored.
         '''
-        stripped = self.strip_chars(word)
+        stripped = strip_chars(word)
         return len(stripped) <= 1 or stripped in SAME_BLACKLIST
 
     def should_ignore(self, source, unit, cache_slot):
@@ -911,7 +914,7 @@ class SameCheck(TargetCheck):
             result = True
         else:
             # Strip format strings
-            stripped = self.strip_string(lower_source, unit.all_flags)
+            stripped = strip_string(lower_source, unit.all_flags)
 
             # Ignore strings which don't contain any string to translate
             # or just single letter (usually unit or something like that)
