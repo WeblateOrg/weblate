@@ -448,27 +448,8 @@ class Language(models.Model, PercentMixin):
         '''
         Fixes name, in most cases when wrong one is provided by ttkit.
         '''
-        # Fixups (mostly shortening) of langauge names
-        if self.code == 'ia':
-            self.name = 'Interlingua'
-        elif self.code == 'el':
-            self.name = 'Greek'
-        elif self.code == 'st':
-            self.name = 'Sotho'
-        elif self.code == 'oc':
-            self.name = 'Occitan'
-        elif self.code == 'nb':
-            self.name = 'Norwegian Bokmål'
-        elif self.code == 'pa':
-            self.name = 'Punjabi'
-        elif self.code == 'zh_CN':
-            self.name = 'Simplified Chinese'
-        elif self.code == 'zh_TW':
-            self.name = 'Traditional Chinese'
-        elif self.code == 'ca@valencia':
-            self.name = 'Valencian'
-        elif self.code == 'ky':
-            self.name = 'Kyrgyz'
+        if self.code in data.LANGUAGE_NAME_FIXUPS:
+            self.name = data.LANGUAGE_NAME_FIXUPS[self.code]
 
     def set_direction(self):
         '''

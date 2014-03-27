@@ -258,6 +258,21 @@ RTL_LANGS = set((
     'yi',
 ))
 
+# Fixups (mostly shortening) of langauge names
+LANGUAGE_NAME_FIXUPS = {
+    'ia': 'Interlingua',
+    'el': 'Greek',
+    'st': 'Sotho',
+    'oc': 'Occitan',
+    'nb': 'Norwegian Bokmål',
+    'pa': 'Punjabi',
+    'zh_CN': 'Simplified Chinese',
+    'zh_TW': 'Traditional Chinese',
+    'ca@valencia': 'Valencian',
+    'ky': 'Kyrgyz',
+}
+
+
 
 # Following variables are used to map Gettext plural equations
 # to one/few/may/other like rules
