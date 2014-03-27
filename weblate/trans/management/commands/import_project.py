@@ -149,7 +149,7 @@ class Command(BaseCommand):
             )
 
         # Do we have correct mask?
-        if not '**' in filemask:
+        if '**' not in filemask:
             raise CommandError(
                 'You need to specify double wildcard '
                 'for subproject part of the match!'

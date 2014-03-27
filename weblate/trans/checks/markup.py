@@ -94,7 +94,7 @@ class XMLTagsCheck(TargetCheck):
         # Do we need to process source (cache miss)
         if source_tags is None:
             # Quick check if source looks like XML
-            if not '<' in source or len(XML_MATCH.findall(source)) == 0:
+            if '<' not in source or len(XML_MATCH.findall(source)) == 0:
                 self.set_cache(unit, [], cache_slot)
                 return False
             # Check if source is XML

@@ -107,7 +107,7 @@ class UnitManager(models.Manager):
             checks = checks.filter(language=translation.language)
 
         # Filter by check type
-        if not rqtype in ['allchecks', 'sourcechecks']:
+        if rqtype not in ('allchecks', 'sourcechecks'):
             checks = checks.filter(check=rqtype)
 
         checks = checks.values_list('contentsum', flat=True)
@@ -644,7 +644,7 @@ class Unit(models.Model):
         git backend (eg. commit or by parsing file).
         '''
         # Warn if request is not coming from backend
-        if not 'backend' in kwargs:
+        if 'backend' not in kwargs:
             weblate.logger.error(
                 'Unit.save called without backend sync: %s',
                 ''.join(traceback.format_stack())

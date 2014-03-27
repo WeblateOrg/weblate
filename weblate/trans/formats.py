@@ -386,7 +386,7 @@ class FileFormat(object):
         '''
         return (
             (self.monolingual or self.monolingual is None)
-            and not self.template_store is None
+            and self.template_store is not None
         )
 
     def find_unit(self, context, source):
@@ -452,7 +452,7 @@ class FileFormat(object):
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()
-        if (not 'Content-Type' in header
+        if ('Content-Type' not in header
                 or 'charset=CHARSET' in header['Content-Type']
                 or 'charset=ASCII' in header['Content-Type']):
             kwargs['Content_Type'] = 'text/plain; charset=UTF-8'

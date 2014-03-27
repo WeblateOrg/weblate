@@ -55,7 +55,7 @@ class GlosbeTranslation(MachineTranslation):
             **params
         )
 
-        if not 'tuc' in response:
+        if 'tuc' not in response:
             return []
 
         return [(match['phrase']['text'], 100, self.name, text)

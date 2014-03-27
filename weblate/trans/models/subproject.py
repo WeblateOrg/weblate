@@ -526,7 +526,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.configure_branch()
 
         # create branch if it does not exist
-        if not self.branch in self.git_repo.heads:
+        if self.branch not in self.git_repo.heads:
             self.git_repo.git.branch(
                 '--track',
                 self.branch,

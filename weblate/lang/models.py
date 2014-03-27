@@ -387,7 +387,7 @@ class Language(models.Model, PercentMixin):
         self._percents = None
 
     def __unicode__(self):
-        if (not '(' in self.name
+        if ('(' not in self.name
                 and ('_' in self.code or '-' in self.code)
                 and self.code not in ('zh_TW', 'zh_CN')):
             return '%s (%s)' % (_(self.name), self.code)

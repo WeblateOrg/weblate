@@ -111,7 +111,7 @@ class BaseFormatCheck(TargetCheck):
         Checks single unit, handling plurals.
         '''
         # Verify unit is properly flagged
-        if not self.flag in unit.all_flags:
+        if self.flag not in unit.all_flags:
             return False
 
         # Special case languages with single plural form

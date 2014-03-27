@@ -115,7 +115,7 @@ class PluralTextarea(forms.Textarea):
         ret = [data.get(name, None)]
         for idx in range(1, 10):
             fieldname = '%s_%d' % (name, idx)
-            if not fieldname in data:
+            if fieldname not in data:
                 break
             ret.append(data.get(fieldname, None))
         ret = [smart_unicode(r.replace('\r', '')) for r in ret]

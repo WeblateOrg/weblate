@@ -75,7 +75,7 @@ def validate_filemask(val):
     '''
     Validates file mask that it contains *.
     '''
-    if not '*' in val:
+    if '*' not in val:
         raise ValidationError(
             _('File mask does not contain * as a language placeholder!')
         )

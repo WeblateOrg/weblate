@@ -241,7 +241,7 @@ def download_dictionary(request, project, lang):
     export_format = None
     if 'format' in request.GET:
         export_format = request.GET['format']
-    if not export_format in ['csv', 'po', 'tbx']:
+    if export_format not in ('csv', 'po', 'tbx'):
         export_format = 'csv'
 
     # Grab all words

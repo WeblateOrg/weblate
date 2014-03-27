@@ -111,7 +111,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
             first_name = details.get('first_name', '')
             last_name = details.get('last_name', '')
 
-            if first_name and not first_name in last_name:
+            if first_name and first_name not in last_name:
                 full_name = u'{0} {1}'.format(first_name, last_name)
             elif first_name:
                 full_name = first_name

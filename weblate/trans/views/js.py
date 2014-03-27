@@ -58,7 +58,7 @@ def translate(request, unit_id):
 
     service_name = request.GET.get('service', 'INVALID')
 
-    if not service_name in MACHINE_TRANSLATION_SERVICES:
+    if service_name not in MACHINE_TRANSLATION_SERVICES:
         return HttpResponseBadRequest('Invalid service specified')
 
     translation_service = MACHINE_TRANSLATION_SERVICES[service_name]
