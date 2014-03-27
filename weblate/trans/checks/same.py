@@ -880,6 +880,14 @@ def strip_chars(word):
     )
 
 
+def test_word(word):
+    '''
+    Test whether word should be ignored.
+    '''
+    stripped = strip_chars(word)
+    return len(stripped) <= 1 or stripped in SAME_BLACKLIST
+
+
 class SameCheck(TargetCheck):
     '''
     Check for not translated entries.
@@ -887,13 +895,6 @@ class SameCheck(TargetCheck):
     check_id = 'same'
     name = _('Not translated')
     description = _('Source and translated strings are same')
-
-    def test_word(self, word):
-        '''
-        Test whether word should be ignored.
-        '''
-        stripped = strip_chars(word)
-        return len(stripped) <= 1 or stripped in SAME_BLACKLIST
 
     def should_ignore(self, source, unit, cache_slot):
         '''
@@ -924,7 +925,7 @@ class SameCheck(TargetCheck):
                 # Check if we have any word which is not in blacklist
                 # (words which are often same in foreign language)
                 result = min(
-                    (self.test_word(word) for word in stripped.split())
+                    (test_word(word) for word in stripped.split())
                 )
 
         # Store in cache
