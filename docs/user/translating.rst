@@ -57,7 +57,7 @@ While translating you can use following keyboard shortcuts:
     Navigates to previous translation in current search.
 :kbd:`Alt+PageDown`
     Navigates to next translation in current search.
-:kbd:`Alt+Enter`
+:kbd:`Alt+Enter` or :kbd:`Ctrl+Enter`
     Saves current translation.
 
 Translation context

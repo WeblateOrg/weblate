@@ -287,6 +287,7 @@ $(function () {
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+enter', function(e) {$('.translation-form').submit(); return false;});
+            Mousetrap.bindGlobal('ctrl+enter', function(e) {$('.translation-form').submit(); return false;});
         }
     }
     $('#toggle-direction').buttonset().change(function (e) {
