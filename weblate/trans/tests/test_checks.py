@@ -102,7 +102,7 @@ class CheckTestCase(TestCase):
         '''
         Performs single check if we have data to test.
         '''
-        if data is None or self.checks is None:
+        if data is None or self.check is None:
             return
         result = self.check.check_single(
             data[0],
