@@ -171,8 +171,8 @@ TEMPLATE_LOADERS = (
 AUTHENTICATION_BACKENDS = (
     'social.backends.google.GoogleOpenId',
     'social.backends.email.EmailAuth',
-    #'social.backends.github.GithubOAuth2',
-    #'social.backends.suse.OpenSUSEOpenId',
+    # 'social.backends.github.GithubOAuth2',
+    # 'social.backends.suse.OpenSUSEOpenId',
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
@@ -320,14 +320,14 @@ LOGGING = {
             'facility': SysLogHandler.LOG_LOCAL2,
         },
         # Logging to a file
-        #'logfile': {
-        #    'level':'DEBUG',
-        #    'class':'logging.handlers.RotatingFileHandler',
-        #    'filename': "/var/log/weblate/weblate.log",
-        #    'maxBytes': 100000,
-        #    'backupCount': 3,
-        #    'formatter': 'logfile',
-        #},
+        # 'logfile': {
+        #     'level':'DEBUG',
+        #     'class':'logging.handlers.RotatingFileHandler',
+        #     'filename': "/var/log/weblate/weblate.log",
+        #     'maxBytes': 100000,
+        #     'backupCount': 3,
+        #     'formatter': 'logfile',
+        # },
     },
     'loggers': {
         'django.request': {
@@ -336,10 +336,10 @@ LOGGING = {
             'propagate': True,
         },
         # Logging database queries
-        #'django.db.backends': {
-        #    'handlers': [DEFAULT_LOG],
-        #    'level': 'DEBUG',
-        #},
+        # 'django.db.backends': {
+        #     'handlers': [DEFAULT_LOG],
+        #     'level': 'DEBUG',
+        # },
         'weblate': {
             'handlers': [DEFAULT_LOG],
             'level': 'DEBUG',
@@ -426,57 +426,57 @@ LOCK_TIME = 15 * 60
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
 
 # List of quality checks
-#CHECK_LIST = (
-#    'weblate.trans.checks.same.SameCheck',
-#    'weblate.trans.checks.chars.BeginNewlineCheck',
-#    'weblate.trans.checks.chars.EndNewlineCheck',
-#    'weblate.trans.checks.chars.BeginSpaceCheck',
-#    'weblate.trans.checks.chars.EndSpaceCheck',
-#    'weblate.trans.checks.chars.EndStopCheck',
-#    'weblate.trans.checks.chars.EndColonCheck',
-#    'weblate.trans.checks.chars.EndQuestionCheck',
-#    'weblate.trans.checks.chars.EndExclamationCheck',
-#    'weblate.trans.checks.chars.EndEllipsisCheck',
-#    'weblate.trans.checks.format.PythonFormatCheck',
-#    'weblate.trans.checks.format.PythonBraceFormatCheck',
-#    'weblate.trans.checks.format.PHPFormatCheck',
-#    'weblate.trans.checks.format.CFormatCheck',
-#    'weblate.trans.checks.consistency.PluralsCheck',
-#    'weblate.trans.checks.consistency.ConsistencyCheck',
-#    'weblate.trans.checks.chars.NewlineCountingCheck',
-#    'weblate.trans.checks.markup.BBCodeCheck',
-#    'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
-#    'weblate.trans.checks.markup.XMLTagsCheck',
-#    'weblate.trans.checks.source.OptionalPluralCheck',
-#    'weblate.trans.checks.source.EllipsisCheck',
-#    'weblate.trans.checks.source.MultipleFailingCheck',
-#)
+# CHECK_LIST = (
+#     'weblate.trans.checks.same.SameCheck',
+#     'weblate.trans.checks.chars.BeginNewlineCheck',
+#     'weblate.trans.checks.chars.EndNewlineCheck',
+#     'weblate.trans.checks.chars.BeginSpaceCheck',
+#     'weblate.trans.checks.chars.EndSpaceCheck',
+#     'weblate.trans.checks.chars.EndStopCheck',
+#     'weblate.trans.checks.chars.EndColonCheck',
+#     'weblate.trans.checks.chars.EndQuestionCheck',
+#     'weblate.trans.checks.chars.EndExclamationCheck',
+#     'weblate.trans.checks.chars.EndEllipsisCheck',
+#     'weblate.trans.checks.format.PythonFormatCheck',
+#     'weblate.trans.checks.format.PythonBraceFormatCheck',
+#     'weblate.trans.checks.format.PHPFormatCheck',
+#     'weblate.trans.checks.format.CFormatCheck',
+#     'weblate.trans.checks.consistency.PluralsCheck',
+#     'weblate.trans.checks.consistency.ConsistencyCheck',
+#     'weblate.trans.checks.chars.NewlineCountingCheck',
+#     'weblate.trans.checks.markup.BBCodeCheck',
+#     'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
+#     'weblate.trans.checks.markup.XMLTagsCheck',
+#     'weblate.trans.checks.source.OptionalPluralCheck',
+#     'weblate.trans.checks.source.EllipsisCheck',
+#     'weblate.trans.checks.source.MultipleFailingCheck',
+# )
 
 # List of automatic fixups
-#AUTOFIX_LIST = (
-#    'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
-#    'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-#    'weblate.trans.autofixes.chars.RemoveZeroSpace',
-#)
+# AUTOFIX_LIST = (
+#     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
+#     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
+#     'weblate.trans.autofixes.chars.RemoveZeroSpace',
+# )
 
 # List of scripts to use in custom processing
-#PRE_COMMIT_SCRIPTS = (
-#)
+# PRE_COMMIT_SCRIPTS = (
+# )
 
 # List of machine translations
-#MACHINE_TRANSLATION_SERVICES = (
-#    'weblate.trans.machine.apertium.ApertiumTranslation',
-#    'weblate.trans.machine.glosbe.GlosbeTranslation',
-#    'weblate.trans.machine.google.GoogleTranslation',
-#    'weblate.trans.machine.google.GoogleWebTranslation',
-#    'weblate.trans.machine.microsoft.MicrosoftTranslation',
-#    'weblate.trans.machine.mymemory.MyMemoryTranslation',
-#    'weblate.trans.machine.opentran.OpenTranTranslation',
-#    'weblate.trans.machine.tmserver.AmagamaTranslation',
-#    'weblate.trans.machine.tmserver.TMServerTranslation',
-#    'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-#    'weblate.trans.machine.weblatetm.WeblateTranslation',
-#)
+# MACHINE_TRANSLATION_SERVICES = (
+#     'weblate.trans.machine.apertium.ApertiumTranslation',
+#     'weblate.trans.machine.glosbe.GlosbeTranslation',
+#     'weblate.trans.machine.google.GoogleTranslation',
+#     'weblate.trans.machine.google.GoogleWebTranslation',
+#     'weblate.trans.machine.microsoft.MicrosoftTranslation',
+#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
+#     'weblate.trans.machine.opentran.OpenTranTranslation',
+#     'weblate.trans.machine.tmserver.AmagamaTranslation',
+#     'weblate.trans.machine.tmserver.TMServerTranslation',
+#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
+#     'weblate.trans.machine.weblatetm.WeblateTranslation',
+# )
 
 # E-mail address that error messages come from.
 SERVER_EMAIL = 'noreply@weblate.org'
@@ -489,31 +489,31 @@ DEFAULT_FROM_EMAIL = 'noreply@weblate.org'
 ALLOWED_HOSTS = []
 
 # Example configuration to use memcached for caching
-#CACHES = {
-#    'default': {
-#        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#        'LOCATION': '127.0.0.1:11211',
-#    },
-#    'avatar': {
-#        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#        'LOCATION': os.path.join(WEB_ROOT, 'avatar-cache'),
-#        'TIMEOUT': 604800,
-#        'OPTIONS': {
-#            'MAX_ENTRIES': 1000,
-#        },
-#    }
-#}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     },
+#     'avatar': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': os.path.join(WEB_ROOT, 'avatar-cache'),
+#         'TIMEOUT': 604800,
+#         'OPTIONS': {
+#             'MAX_ENTRIES': 1000,
+#         },
+#     }
+# }
 
 # Example for restricting access to logged in users
-#LOGIN_REQUIRED_URLS = (
-#    r'/(.*)$',
-#)
+# LOGIN_REQUIRED_URLS = (
+#     r'/(.*)$',
+# )
 
 # In such case you will want to include some of the exceptions
-#LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-#   r'/accounts/(.*)$', # Required for login
-#   r'/media/(.*)$',    # Required for development mode
-#   r'/widgets/(.*)$',  # Allowing public access to widgets
-#   r'/data/(.*)$',     # Allowing public access to data exports
-#   r'/hooks/(.*)$',    # Allowing public access to notification hooks
-#)
+# LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+#    r'/accounts/(.*)$', # Required for login
+#    r'/media/(.*)$',    # Required for development mode
+#    r'/widgets/(.*)$',  # Allowing public access to widgets
+#    r'/data/(.*)$',     # Allowing public access to data exports
+#    r'/hooks/(.*)$',    # Allowing public access to notification hooks
+# )
