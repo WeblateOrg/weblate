@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.utils.translation import pgettext_lazy
+
 
 # Extra languages not included in ttkit
 EXTRALANGS = (
@@ -322,3 +324,91 @@ ONE_FEW_MANY_OTHER_PLURALS = (
 ONE_OTHER_ZERO_PLURALS = (
     'n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2'
 )
+
+# Plural types definition
+PLURAL_NONE = 0
+PLURAL_ONE_OTHER = 1
+PLURAL_ONE_FEW_OTHER = 2
+PLURAL_ARABIC = 3
+PLURAL_ONE_TWO_OTHER = 4
+PLURAL_ONE_TWO_THREE_OTHER = 5
+PLURAL_ONE_TWO_FEW_OTHER = 6
+PLURAL_ONE_OTHER_ZERO = 7
+PLURAL_ONE_FEW_MANY_OTHER = 8
+PLURAL_TWO_OTHER = 9
+PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
+PLURAL_UNKNOWN = 666
+
+# Plural equation - type mappings
+PLURAL_MAPPINGS = (
+    (ONE_OTHER_PLURALS, PLURAL_ONE_OTHER),
+    (ONE_FEW_OTHER_PLURALS, PLURAL_ONE_FEW_OTHER),
+    (ONE_TWO_OTHER_PLURALS, PLURAL_ONE_TWO_OTHER),
+    (ONE_TWO_FEW_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_OTHER),
+    (ONE_TWO_THREE_OTHER_PLURALS, PLURAL_ONE_TWO_THREE_OTHER),
+    (ONE_OTHER_ZERO_PLURALS, PLURAL_ONE_OTHER_ZERO),
+    (ONE_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_FEW_MANY_OTHER),
+    (TWO_OTHER_PLURALS, PLURAL_TWO_OTHER),
+    (ONE_TWO_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_MANY_OTHER),
+)
+
+# Plural names mapping
+PLURAL_NAMES = {
+    PLURAL_NONE: ('',),
+    PLURAL_ONE_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_FEW_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ARABIC: (
+        pgettext_lazy('Plural form description', 'Zero'),
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_THREE_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Three'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_FEW_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_OTHER_ZERO: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Other'),
+        pgettext_lazy('Plural form description', 'Zero'),
+    ),
+    PLURAL_ONE_FEW_MANY_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ONE_TWO_FEW_MANY_OTHER: (
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_TWO_OTHER: (
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+}
