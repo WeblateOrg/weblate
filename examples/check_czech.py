@@ -37,7 +37,7 @@ class PluralCzechCheck(TargetCheck):
     description = _('Your translation is foo')
 
     # Real check code
-    def check(self, sources, targets, unit):
+    def check_target_unit(self, sources, targets, unit):
         if self.is_language(unit, ('cs', )):
             return targets[1] == targets[2]
         return False

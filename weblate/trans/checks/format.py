@@ -106,7 +106,7 @@ class BaseFormatCheck(TargetCheck):
     flag = None
     regexp = None
 
-    def check(self, sources, targets, unit):
+    def check_target_unit(self, sources, targets, unit):
         '''
         Checks single unit, handling plurals.
         '''

@@ -33,21 +33,21 @@ class PluralsCheckTest(TestCase):
         self.check = PluralsCheck()
 
     def test_none(self):
-        self.assertFalse(self.check.check(
+        self.assertFalse(self.check.check_target(
             ['string'],
             ['string'],
             None
         ))
 
     def test_empty(self):
-        self.assertFalse(self.check.check(
+        self.assertFalse(self.check.check_target(
             ['string', 'plural'],
             ['', ''],
             None
         ))
 
     def test_partial_empty(self):
-        self.assertTrue(self.check.check(
+        self.assertTrue(self.check.check_target(
             ['string', 'plural'],
             ['string', ''],
             None

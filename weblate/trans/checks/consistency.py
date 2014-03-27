@@ -30,7 +30,7 @@ class PluralsCheck(TargetCheck):
     name = _('Missing plurals')
     description = _('Some plural forms are not translated')
 
-    def check(self, sources, targets, unit):
+    def check_target_unit(self, sources, targets, unit):
         # Is this plural?
         if len(sources) == 1:
             return False
@@ -58,7 +58,7 @@ class ConsistencyCheck(TargetCheck):
     )
     ignore_untranslated = False
 
-    def check(self, sources, targets, unit):
+    def check_target_unit(self, sources, targets, unit):
         from weblate.trans.models import Unit
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:

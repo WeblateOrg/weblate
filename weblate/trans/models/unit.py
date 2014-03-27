@@ -877,7 +877,7 @@ class Unit(models.Model):
         for check in checks_to_run:
             check_obj = CHECKS[check]
             # Target check
-            if check_obj.target and check_obj.check(src, tgt, self):
+            if check_obj.target and check_obj.check_target(src, tgt, self):
                 if check in old_target_checks:
                     # We already have this check
                     old_target_checks.remove(check)

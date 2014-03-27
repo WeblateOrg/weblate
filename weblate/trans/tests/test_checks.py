@@ -148,7 +148,7 @@ class CheckTestCase(TestCase):
         if self.check is None:
             return
         self.assertFalse(
-            self.check.check(
+            self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
                 MockUnit(None, self.test_good_matching[2])
@@ -159,7 +159,7 @@ class CheckTestCase(TestCase):
         if self.check is None:
             return
         self.assertFalse(
-            self.check.check(
+            self.check.check_target(
                 [self.test_good_matching[0]] * 2,
                 [self.test_good_matching[1]] * 3,
                 MockUnit(None, self.test_good_matching[2])
@@ -170,7 +170,7 @@ class CheckTestCase(TestCase):
         if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
-            self.check.check(
+            self.check.check_target(
                 [self.test_failure_1[0]],
                 [self.test_failure_1[1]],
                 MockUnit(None, self.test_failure_1[2])
@@ -181,7 +181,7 @@ class CheckTestCase(TestCase):
         if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
-            self.check.check(
+            self.check.check_target(
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
                 MockUnit(None, self.test_failure_1[2])
@@ -192,7 +192,7 @@ class CheckTestCase(TestCase):
         if self.check is None:
             return
         self.assertFalse(
-            self.check.check(
+            self.check.check_target(
                 [self.test_ignore_check[0]] * 2,
                 [self.test_ignore_check[1]] * 3,
                 MockUnit(None, self.test_ignore_check[2])

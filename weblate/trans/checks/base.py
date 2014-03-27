@@ -38,16 +38,22 @@ class Check(object):
         self.doc_id = 'check-%s' % id_dash
         self.ignore_string = 'ignore-%s' % id_dash
 
-    def check(self, sources, targets, unit):
+    def check_target(self, sources, targets, unit):
         '''
-        Checks single unit, handling plurals.
+        Checks target strings.
         '''
         # Is this check ignored
         if self.ignore_string in unit.all_flags:
             return False
-        # No checking of fuzzy units
+        # No checking of not translated units
         if self.ignore_untranslated and not unit.translated:
             return False
+        return self.check_target_unit(sources, targets, unit)
+
+    def check_target_unit(self, sources, targets, unit):
+        '''
+        Checks single unit, handling plurals.
+        '''
         # Check singular
         if self.check_single(sources[0], targets[0], unit, 0):
             return True
