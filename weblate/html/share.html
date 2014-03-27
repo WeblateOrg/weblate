@@ -16,9 +16,9 @@
 <p>
 <a href="{{ widgets_url }}">
 {% if object.language %}
-<img src="{% url 'widget-image-lang' project=project.slug widget='status' color='badge' lang=object.language.code %}" />
+<img src="{% url 'widget-image-lang' project=project.slug widget='shields' color='badge' lang=object.language.code %}" />
 {% else %}
-<img src="{% url 'widget-image' project=project.slug widget='status' color='badge' %}" />
+<img src="{% url 'widget-image' project=project.slug widget='shields' color='badge' %}" />
 {% endif %}
 </a>
 </p>
