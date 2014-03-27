@@ -41,3 +41,9 @@ class PluralCzechCheck(TargetCheck):
         if self.is_language(unit, ('cs', )):
             return targets[1] == targets[2]
         return False
+
+    def check_single(self, source, target, unit, cache_slot):
+        '''
+        We don't check target strings here.
+        '''
+        return False
