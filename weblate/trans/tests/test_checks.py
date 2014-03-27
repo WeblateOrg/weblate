@@ -96,7 +96,9 @@ class CheckTestCase(TestCase):
         self.test_failure_1 = None
         self.test_failure_2 = None
         self.test_failure_3 = None
-        self.test_ignore_check = ('x', 'x', self.check.ignore_string if self.check else '')
+        self.test_ignore_check = (
+            'x', 'x', self.check.ignore_string if self.check else ''
+        )
 
     def do_test(self, expected, data, lang='cs'):
         '''
