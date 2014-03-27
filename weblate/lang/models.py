@@ -316,7 +316,7 @@ class Language(models.Model, PercentMixin):
         '''
         try:
             return unicode(data.PLURAL_NAMES[self.plural_type][idx])
-        except:
+        except (IndexError, KeyError):
             if idx == 0:
                 return _('Singular')
             elif idx == 0:
