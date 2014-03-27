@@ -24,7 +24,6 @@ Helpers for quality checks tests.
 
 from django.test import TestCase
 import uuid
-from weblate.trans.checks.base import Check
 
 
 class MockLanguage(object):
@@ -88,7 +87,7 @@ class CheckTestCase(TestCase):
     Generic test, also serves for testing base class.
     '''
     def setUp(self):
-        self.check = Check()
+        self.check = None
         self.test_empty = ('', '', '')
         self.test_good_matching = ('string', 'string', '')
         self.test_good_none = ('string', 'string', '')
@@ -102,7 +101,7 @@ class CheckTestCase(TestCase):
         '''
         Performs single check if we have data to test.
         '''
-        if data is None:
+        if data is None or self.checks is None:
             return
         result = self.check.check_single(
             data[0],
