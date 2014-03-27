@@ -143,6 +143,8 @@ class CheckTestCase(TestCase):
         self.do_test(True, self.test_failure_3)
 
     def test_check_good_matching_singular(self):
+        if self.check is None:
+            return
         self.assertFalse(
             self.check.check(
                 [self.test_good_matching[0]],
@@ -152,6 +154,8 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_good_matching_plural(self):
+        if self.check is None:
+            return
         self.assertFalse(
             self.check.check(
                 [self.test_good_matching[0]] * 2,
@@ -161,7 +165,7 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_failure_1_singular(self):
-        if self.test_failure_1 is None:
+        if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
             self.check.check(
@@ -172,7 +176,7 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_failure_1_plural(self):
-        if self.test_failure_1 is None:
+        if self.test_failure_1 is None or self.check is None:
             return
         self.assertTrue(
             self.check.check(
@@ -183,6 +187,8 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_ignore_check(self):
+        if self.check is None:
+            return
         self.assertFalse(
             self.check.check(
                 [self.test_ignore_check[0]] * 2,
