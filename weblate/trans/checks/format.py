@@ -204,7 +204,7 @@ class BaseFormatCheck(TargetCheck):
         return False
 
     def is_position_based(self, string):
-        return True
+        raise NotImplementedError()
 
     def check_single(self, source, target, unit, cache_slot):
         '''
@@ -250,6 +250,9 @@ class CFormatCheck(BaseFormatCheck):
     description = _('Format string does not match source')
     flag = 'c-format'
     regexp = C_PRINTF_MATCH
+
+    def is_position_based(self, string):
+        return True
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):
