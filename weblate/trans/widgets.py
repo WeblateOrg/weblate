@@ -349,7 +349,7 @@ class ShieldsBadgeWidget(Widget):
         return '{0}://img.shields.io/badge/{1}-{2}-{3}.svg'.format(
             proto,
             urllib.quote(_('translated').encode('utf-8')),
-            '{0}%25'.format(self.percent),
+            '{0}%25'.format(int(self.percent)),
             color
         )
 
