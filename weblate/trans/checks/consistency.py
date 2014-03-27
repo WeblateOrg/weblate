@@ -50,7 +50,7 @@ class ConsistencyCheck(TargetCheck):
     description = _(
         'This message has more than one translation in this project'
     )
-    ignore_fuzzy = False
+    ignore_untranslated = False
 
     def check(self, sources, targets, unit):
         from weblate.trans.models import Unit

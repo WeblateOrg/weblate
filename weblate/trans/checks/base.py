@@ -31,7 +31,7 @@ class Check(object):
     description = ''
     target = False
     source = False
-    ignore_fuzzy = True
+    ignore_untranslated = True
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
@@ -46,7 +46,7 @@ class Check(object):
         if self.ignore_string in unit.all_flags:
             return False
         # No checking of fuzzy units
-        if self.ignore_fuzzy and unit.fuzzy:
+        if self.ignore_untranslated and not unit.translated:
             return False
         # Check singular
         if self.check_single(sources[0], targets[0], unit, 0):
