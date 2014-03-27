@@ -192,7 +192,7 @@ class EndColonCheck(TargetCheck):
                     (u';', u':', u'：', u'.', u'。')
                 )
             return False
-        return self.check_chars(source, target, -1, (u':', u'：'))
+        return self.check_chars(source, target, -1, (u':', u'：', u'៖'))
 
 
 class EndQuestionCheck(TargetCheck):
