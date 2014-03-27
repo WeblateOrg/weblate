@@ -65,13 +65,13 @@ class Check(object):
         '''
         Check for single phrase, not dealing with plurals.
         '''
-        return False
+        raise NotImplementedError()
 
     def check_source(self, source, unit):
         '''
         Checks source string
         '''
-        return False
+        raise NotImplementedError()
 
     def check_chars(self, source, target, pos, chars):
         '''
@@ -130,12 +130,36 @@ class TargetCheck(Check):
     '''
     target = True
 
+    def check_source(self, source, unit):
+        '''
+        We don't check source strings here.
+        '''
+        return False
+
+    def check_single(self, source, target, unit, cache_slot):
+        '''
+        Check for single phrase, not dealing with plurals.
+        '''
+        raise NotImplementedError()
+
 
 class SourceCheck(Check):
     '''
     Basic class for source checks.
     '''
     source = True
+
+    def check_single(self, source, target, unit, cache_slot):
+        '''
+        We don't check target strings here.
+        '''
+        return False
+
+    def check_source(self, source, unit):
+        '''
+        Checks source string
+        '''
+        raise NotImplementedError()
 
 
 class CountingCheck(TargetCheck):

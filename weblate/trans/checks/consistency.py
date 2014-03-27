@@ -40,6 +40,12 @@ class PluralsCheck(TargetCheck):
         # Check for empty translation
         return '' in targets
 
+    def check_single(self, source, target, unit, cache_slot):
+        '''
+        We don't check target strings here.
+        '''
+        return False
+
 
 class ConsistencyCheck(TargetCheck):
     '''
@@ -71,4 +77,10 @@ class ConsistencyCheck(TargetCheck):
                 if unit2.translation.subproject.allow_translation_propagation:
                     return True
 
+        return False
+
+    def check_single(self, source, target, unit, cache_slot):
+        '''
+        We don't check target strings here.
+        '''
         return False

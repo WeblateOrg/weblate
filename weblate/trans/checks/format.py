@@ -206,6 +206,12 @@ class BaseFormatCheck(TargetCheck):
     def is_position_based(self, string):
         return True
 
+    def check_single(self, source, target, unit, cache_slot):
+        '''
+        We don't check target strings here.
+        '''
+        return False
+
 
 class PythonFormatCheck(BaseFormatCheck):
     '''
