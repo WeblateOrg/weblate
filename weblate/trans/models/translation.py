@@ -789,11 +789,10 @@ class Translation(models.Model, URLMixin, PercentMixin):
         except:
             pass
 
-        # Try to add section (might fail if it exists)
-        try:
+        # Add section if it does not exist
+        if not cnf.has_section(section):
             cnf.add_section(section)
-        except:
-            pass
+
         # Update config
         cnf.set(section, key, expected)
 
