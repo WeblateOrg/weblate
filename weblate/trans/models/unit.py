@@ -842,8 +842,8 @@ class Unit(models.Model):
 
             # Run source checks as well
             for check in CHECKS:
-                if check.source:
-                    checks_to_run[check.check_id] = check
+                if CHECKS[check].source:
+                    checks_to_run[check.check_id] = CHECKS[check]
 
             cleanup_checks = False
 
