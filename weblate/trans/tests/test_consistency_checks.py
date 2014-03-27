@@ -26,6 +26,7 @@ from django.test import TestCase
 from weblate.trans.checks.consistency import (
     PluralsCheck,
 )
+from weblate.trans.tests.test_checks import MockUnit
 
 
 class PluralsCheckTest(TestCase):
@@ -36,19 +37,19 @@ class PluralsCheckTest(TestCase):
         self.assertFalse(self.check.check_target(
             ['string'],
             ['string'],
-            None
+            MockUnit('plural_none'),
         ))
 
     def test_empty(self):
         self.assertFalse(self.check.check_target(
             ['string', 'plural'],
             ['', ''],
-            None
+            MockUnit('plural_empty'),
         ))
 
     def test_partial_empty(self):
         self.assertTrue(self.check.check_target(
             ['string', 'plural'],
             ['string', ''],
-            None
+            MockUnit('plural_partial_empty'),
         ))
