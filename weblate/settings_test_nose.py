@@ -29,7 +29,6 @@ are:
 """
 
 from weblate.settings_test import *
-import os
 
 INSTALLED_APPS = INSTALLED_APPS + ('django_nose', )
 
