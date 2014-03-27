@@ -840,6 +840,11 @@ class Unit(models.Model):
             if 'inconsistent' in CHECKS:
                 checks_to_run['inconsistent'] = CHECKS['inconsistent']
 
+            # Run source checks as well
+            for check in CHECKS:
+                if check.source:
+                    checks_to_run[check.check_id] = check
+
             cleanup_checks = False
 
         return (checks_to_run, cleanup_checks)
