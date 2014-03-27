@@ -25,6 +25,12 @@ share information about translation using Facebook or Twitter. All these
 possibilities can be found on :guilabel:`Share` tab. Example of status badges
 for Weblate itself are show below.
 
+Shields.IO badge often used to quickly see status of a project:
+
+.. image:: ../images/weblate-shields-badge.svg
+    :alt: Translation status
+    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+
 Small badge often used to quickly see status of a project:
 
 .. image:: ../images/weblate-status-badge.png
