@@ -72,6 +72,7 @@ class WidgetsTest(ViewTestCase):
                             'project': self.project.slug,
                             'widget': widget,
                             'color': color,
+                            'extension': 'png',
                         }
                     )
                 )
@@ -92,6 +93,7 @@ class WidgetsTest(ViewTestCase):
                             'widget': widget,
                             'color': color,
                             'lang': 'cs',
+                            'extension': 'png',
                         }
                     )
                 )
