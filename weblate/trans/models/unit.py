@@ -921,7 +921,7 @@ class Unit(models.Model):
         '''
         Updates flag counting failing checks.
         '''
-        has_failing_check = not self.fuzzy and self.active_checks().exists()
+        has_failing_check = self.translated and self.active_checks().exists()
 
         # Change attribute if it has changed
         if has_failing_check != self.has_failing_check:
