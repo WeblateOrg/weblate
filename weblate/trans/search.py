@@ -156,7 +156,13 @@ def update_index_unit(unit, source=True):
     # Should this happen in background?
     if appsettings.OFFLOAD_INDEXING:
         from weblate.trans.models.unitdata import IndexUpdate
-        IndexUpdate.objects.create(unit=unit, source=source)
+        update, created = IndexUpdate.objects.get_or_create(
+            defaults={'source': source},
+            unit=unit,
+        )
+        if created and not update.source and source:
+            update.source = True
+            update.save()
         return
 
     # Update source
