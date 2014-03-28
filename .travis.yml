@@ -7,8 +7,9 @@ env:
     - DJANGO_VERSION=1.6.2 TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
     - DJANGO_VERSION=1.6.2 TRAVIS_DATABASE=postgresql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
     - DJANGO_VERSION=1.6.2 TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
-  global:
-    - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
+#  global:
+# Sauce labs setup
+#    - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
 #    - secure: "AYu5aeoSHEbBA67Y60yhVa5B/3a7ZLvECnGvyKGfH4oJU/yeEBokgiqFzwRAcXWILMVSMTVGw3vpcq3B/5SRg1vuq+OzRzZ/kopwd4z7P91MYNeXgKNC0bIgEyKg0Fb3ElK1XjFlAXLlIZTwhVBwuJSX+EUFluecN8kJ7Cf7yjE="
 before_install:
   - sudo apt-get update -qq
