@@ -861,6 +861,10 @@ def strip_string(msg, flags):
     stripped = stripped.replace(
         '_', ' '
     ).replace(
+        '(', ' '
+    ).replace(
+        ')', ' '
+    ).replace(
         ',', ' '
     ).replace(
         '\\', ' '

@@ -133,6 +133,15 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
+                '%d table(s)',
+                '%d table(s)',
+                'php-format'
+            )
+        )
+
+        self.do_test(
+            False,
+            (
                 '%s %s %s %s %s %s &nbsp; %s',
                 '%s %s %s %s %s %s &nbsp; %s',
                 'c-format',
