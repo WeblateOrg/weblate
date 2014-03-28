@@ -49,6 +49,9 @@ PROJECT_LANG = PROJECT + LANGUAGE + '/'
 # URL regexp used as base for widgets
 WIDGET = r'(?P<project>[^/]+)-(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 
+# Widget extension match
+EXTENSION = r'(?P<extension>(png|svg))'
+
 admin.autodiscover()
 
 handler403 = 'weblate.trans.views.basic.denied'
@@ -492,12 +495,12 @@ urlpatterns = patterns(
 
     # Engagement widgets
     url(
-        r'^widgets/' + WIDGET + '-' + LANGUAGE + r'\.png$',
+        r'^widgets/' + WIDGET + '-' + LANGUAGE + r'\.' + EXTENSION + r'$',
         'weblate.trans.views.widgets.render_widget',
         name='widget-image-lang',
     ),
     url(
-        r'^widgets/' + WIDGET + r'\.png$',
+        r'^widgets/' + WIDGET + r'\.' + EXTENSION + r'$',
         'weblate.trans.views.widgets.render_widget',
         name='widget-image',
     ),

@@ -74,6 +74,7 @@ def widgets(request, project):
                         'project': obj.slug,
                         'widget': widget_name,
                         'color': color,
+                        'extension': widget_class.extension,
                     }
                 )
             else:
@@ -83,7 +84,8 @@ def widgets(request, project):
                         'project': obj.slug,
                         'widget': widget_name,
                         'color': color,
-                        'lang': lang.code
+                        'lang': lang.code,
+                        'extension': widget_class.extension,
                     }
                 )
             color_list.append({
@@ -111,7 +113,7 @@ def widgets(request, project):
 
 
 @cache_page(3600)
-def render_widget(request, project, widget='287x66', color=None, lang=None):
+def render_widget(request, project, widget='287x66', color=None, lang=None, extension='png'):
     obj = get_project(request, project)
 
     # Handle language parameter
@@ -137,4 +139,7 @@ def render_widget(request, project, widget='287x66', color=None, lang=None):
     # Get image data
     data = widget.get_image()
 
-    return HttpResponse(content_type='image/png', content=data)
+    return HttpResponse(
+        content_type=widget.content_type,
+        content=data
+    )

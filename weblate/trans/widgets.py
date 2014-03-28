@@ -69,6 +69,8 @@ class Widget(object):
     colors = ('grey', 'white', 'black')
     progress = None
     alpha = False
+    extension = 'png'
+    content_type = 'image/png'
 
     def __init__(self, obj, color=None, lang=None):
         '''
@@ -332,6 +334,8 @@ register_widget(BadgeWidget)
 class ShieldsBadgeWidget(Widget):
     name = 'shields'
     colors = ('badge', )
+    extension = 'svg'
+    content_type = 'image/svg+xml'
 
     def redirect(self):
         if ENABLE_HTTPS:
