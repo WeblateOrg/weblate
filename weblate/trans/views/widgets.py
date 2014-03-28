@@ -41,6 +41,13 @@ def widgets_root(request):
     )
 
 
+def widgets_sorter(widget):
+    """
+    Provides better ordering of widgets.
+    """
+    return WIDGETS[widget].order
+
+
 def widgets(request, project):
     obj = get_project(request, project)
 
@@ -63,7 +70,7 @@ def widgets(request, project):
         reverse('widgets', kwargs={'project': obj.slug})
     )
     widget_list = []
-    for widget_name in WIDGETS:
+    for widget_name in sorted(WIDGETS, key=widgets_sorter):
         widget_class = WIDGETS[widget_name]
         color_list = []
         for color in widget_class.colors:
