@@ -120,7 +120,8 @@ def widgets(request, project):
 
 
 @cache_page(3600)
-def render_widget(request, project, widget='287x66', color=None, lang=None, extension='png'):
+def render_widget(request, project, widget='287x66', color=None, lang=None,
+                  extension='png'):
     obj = get_project(request, project)
 
     # Handle language parameter
