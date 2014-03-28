@@ -785,6 +785,11 @@ TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
 
 RST_MATCH = re.compile(r'(?::ref:`[^`]+`|``[^`]+``)')
 
+SPLIT_RE = re.compile(
+    ur'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
+    ur'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—\[\]0-9-])+'
+)
+
 
 def strip_format(msg, flags):
     '''
@@ -833,63 +838,15 @@ def strip_string(msg, flags):
     # Strip template markup
     stripped = TEMPLATE_RE.sub('', stripped)
 
-    # Remove some html entities
-    stripped = stripped.replace(
-        '&nbsp;', ' '
-    ).replace(
-        '&rsaquo;', '"'
-    ).replace(
-        '&lt;', '<'
-    ).replace(
-        '&gt;', '>'
-    ).replace(
-        '&amp;', '&'
-    ).replace(
-        '&ldquo;', '"'
-    ).replace(
-        '&rdquo;', '"'
-    ).replace(
-        '&times;', '.'
-    ).replace(
-        '&quot;', '"'
-    )
-
     # Cleanup trailing/leading chars
-    stripped = strip_chars(stripped)
-
-    # Replace punctation by whitespace for splitting
-    stripped = stripped.replace(
-        '_', ' '
-    ).replace(
-        '(', ' '
-    ).replace(
-        ')', ' '
-    ).replace(
-        ',', ' '
-    ).replace(
-        '\\', ' '
-    ).replace(
-        '/', ' '
-    )
-
     return stripped
-
-
-def strip_chars(word):
-    '''
-    Strip chars not useful for translating.
-    '''
-    return word.strip(
-        u' ,./<>?;\'\\:"|[]{}`~!@#$%^&*()-=_+0123456789\n\r✓—'
-    )
 
 
 def test_word(word):
     '''
     Test whether word should be ignored.
     '''
-    stripped = strip_chars(word)
-    return len(stripped) <= 1 or stripped in SAME_BLACKLIST
+    return len(word) <= 1 or word in SAME_BLACKLIST
 
 
 class SameCheck(TargetCheck):
@@ -929,7 +886,7 @@ class SameCheck(TargetCheck):
                 # Check if we have any word which is not in blacklist
                 # (words which are often same in foreign language)
                 result = min(
-                    (test_word(word) for word in stripped.split())
+                    (test_word(word) for word in SPLIT_RE.split(stripped))
                 )
 
         # Store in cache
