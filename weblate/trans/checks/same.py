@@ -55,6 +55,7 @@ SAME_BLACKLIST = frozenset((
     'atom',
     'audio',
     'auto',
+    'authentication',
     'avatar',
     'backend',
     'balance',
@@ -80,6 +81,8 @@ SAME_BLACKLIST = frozenset((
     'bzip2',
     'cache',
     'cardinality',
+    'charset',
+    'charsets',
     'chat',
     'click',
     'club',
@@ -120,6 +123,7 @@ SAME_BLACKLIST = frozenset((
     'detail',
     'details',
     'ding',
+    'direction',
     'distribution',
     'distro',
     'dm',
@@ -143,6 +147,7 @@ SAME_BLACKLIST = frozenset((
     'engine',
     'engines',
     'enterprise',
+    'enum',
     'error',
     'eu',
     'exchange',
@@ -313,6 +318,7 @@ SAME_BLACKLIST = frozenset((
     'mint',
     'minus',
     'minute',
+    'minutes',
     'mm',
     'multiplayer',
     'musicbottle',
@@ -332,6 +338,7 @@ SAME_BLACKLIST = frozenset((
     'notify',
     'nt',
     'null',
+    'numeric',
     'obex',
     'office',
     'ok',
@@ -354,7 +361,9 @@ SAME_BLACKLIST = frozenset((
     'output',
     'overhead',
     'package',
+    'page',
     'pager',
+    'pages',
     'parameter',
     'parameters',
     'partition',
@@ -386,6 +395,7 @@ SAME_BLACKLIST = frozenset((
     'pool',
     'port',
     'portable',
+    'portrait',
     'position',
     'pre',
     'pre-commit',
@@ -445,6 +455,7 @@ SAME_BLACKLIST = frozenset((
     'server',
     'servers',
     'service',
+    'set',
     'shell',
     'sim',
     'singular',
@@ -787,7 +798,7 @@ RST_MATCH = re.compile(r'(?::ref:`[^`]+`|``[^`]+``)')
 
 SPLIT_RE = re.compile(
     ur'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|' +
-    ur'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—\[\]0-9-])+'
+    ur'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—…\[\]0-9-])+'
 )
 
 
