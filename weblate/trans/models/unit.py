@@ -825,19 +825,17 @@ class Unit(models.Model):
                 translation__subproject__allow_translation_propagation=False,
             )
 
+            # We run only checks which span across more units
+            checks_to_run = {}
+
             # Delete all checks if only message with this source is fuzzy
             if not same_source.exists():
                 checks = self.checks()
                 if checks.exists():
                     checks.delete()
                     self.update_has_failing_check(True)
-                return ({}, False)
-
-            # We run only checks which span across more units
-            checks_to_run = {}
-
-            # Consistency check checks across more translations
-            if 'inconsistent' in CHECKS:
+            elif 'inconsistent' in CHECKS:
+                # Consistency check checks across more translations
                 checks_to_run['inconsistent'] = CHECKS['inconsistent']
 
             # Run source checks as well
