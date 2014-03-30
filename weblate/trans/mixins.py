@@ -18,8 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.urlresolvers import reverse
+import logging
 import os
+
+from django.core.urlresolvers import reverse
+
+
+logger = logging.getLogger(__name__)
 
 
 class PercentMixin(object):
@@ -144,12 +149,16 @@ class PathMixin(object):
         '''
         Detects slug changes and possibly renames underlaying directory.
         '''
+        logger.debug('check_rename: old slug is "%s", new is "%s"', old.slug,
+                     self.slug)
         if old.slug != self.slug:
             old_path = old.get_path()
             # Invalidate cache
             self._dir_path = None
             new_path = self.get_path()
+            logging.info('Path changed from %s to %s', old_path, new_path)
             if os.path.exists(old_path) and not os.path.exists(new_path):
+                logger.info('renaming "%s" to "%s"', old_path, new_path)
                 os.rename(old_path, new_path)
 
     def create_path(self):
