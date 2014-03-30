@@ -33,7 +33,7 @@ import unicodedata
 import weblate
 
 try:
-    import icu
+    import icu  # pylint: disable=import-error
     HAS_ICU = True
 except ImportError:
     HAS_ICU = False

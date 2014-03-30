@@ -33,7 +33,7 @@ import weblate
 from weblate import appsettings
 
 try:
-    import libravatar
+    import libravatar  # pylint: disable=import-error
     HAS_LIBRAVATAR = True
 except ImportError:
     HAS_LIBRAVATAR = False
