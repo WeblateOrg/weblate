@@ -198,7 +198,6 @@ class ProjectTest(RepoTestCase):
     Project object testing.
     """
 
-
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))

@@ -40,18 +40,18 @@ except ImportError:
 
 
 def remove_accents(input_str):
-    '''
+    """
     Removes accents from a string.
-    '''
+    """
     nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
     return only_ascii
 
 
 class NoStripEmailField(forms.EmailField):
-    '''
+    """
     Email field which does no stripping.
-    '''
+    """
     def clean(self, value):
         value = self.to_python(value)
         # We call super-super method to skip default EmailField behavior
