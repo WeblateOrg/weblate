@@ -87,11 +87,13 @@ class RepoTestCase(TestCase):
         """
         Creates test project.
         """
-        return Project.objects.create(
+        project = Project.objects.create(
             name='Test',
             slug='test',
             web='http://weblate.org/'
         )
+        self.addCleanup(shutil.rmtree, project.get_path(), True)
+        return project
 
     def _create_subproject(self, file_format, mask, template='', new_base=''):
         """
@@ -195,6 +197,7 @@ class ProjectTest(RepoTestCase):
     """
     Project object testing.
     """
+
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.get_path()))
@@ -206,8 +209,10 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(old_path))
         project.slug = 'changed'
         project.save()
+        new_path = project.get_path()
+        self.addCleanup(shutil.rmtree, new_path, True)
         self.assertFalse(os.path.exists(old_path))
-        self.assertTrue(os.path.exists(project.get_path()))
+        self.assertTrue(os.path.exists(new_path))
 
     def test_delete(self):
         project = self.create_project()

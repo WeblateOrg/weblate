@@ -33,7 +33,7 @@ import weblate
 from weblate import appsettings
 
 try:
-    import libravatar
+    import libravatar  # pylint: disable=import-error
     HAS_LIBRAVATAR = True
 except ImportError:
     HAS_LIBRAVATAR = False
@@ -42,9 +42,9 @@ PLURAL_SEPARATOR = '\x1e\x1e'
 
 
 def avatar_for_email(email, size=80):
-    '''
+    """
     Generates url for avatar.
-    '''
+    """
 
     # Safely handle blank email
     if email == '':
@@ -86,9 +86,9 @@ def avatar_for_email(email, size=80):
 
 
 def get_avatar_image(user, size):
-    '''
+    """
     Returns avatar image from cache (if available) or downloads it.
-    '''
+    """
 
     cache_key = u'avatar-img-{0}-{1}'.format(
         user.username,
@@ -123,9 +123,9 @@ def get_avatar_image(user, size):
 
 
 def download_avatar_image(user, size):
-    '''
+    """
     Downloads avatar image from remote server.
-    '''
+    """
     url = avatar_for_email(user.email, size)
     request = urllib2.Request(url)
     request.timeout = 0.5
@@ -139,9 +139,9 @@ def download_avatar_image(user, size):
 
 
 def get_user_display(user, icon=True, link=False):
-    '''
+    """
     Nicely formats user for display.
-    '''
+    """
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action

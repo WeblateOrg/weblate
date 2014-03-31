@@ -54,16 +54,16 @@ MERGE_CHOICES = (
 
 class ProjectManager(models.Manager):
     def all_acl(self, user):
-        '''
+        """
         Returns list of projects user is allowed to access.
-        '''
+        """
         return self.get_acl_status(user)[0]
 
     def get_acl_status(self, user):
-        '''
+        """
         Returns list of projects user is allowed to access
         and flag whether there is any filtering active.
-        '''
+        """
         projects = self.all()
         project_ids = [
             project.id for project in projects if project.has_acl(user)
@@ -187,16 +187,16 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         app_label = 'trans'
 
     def __init__(self, *args, **kwargs):
-        '''
+        """
         Constructor to initialize some cache properties.
-        '''
+        """
         super(Project, self).__init__(*args, **kwargs)
 
     def has_acl(self, user):
-        '''
+        """
         Checks whether current user is allowed to access this
         project.
-        '''
+        """
         if not self.enable_acl:
             return True
 
@@ -206,9 +206,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return user.has_perm('trans.weblate_acl_%s' % self.slug)
 
     def check_acl(self, request):
-        '''
+        """
         Raises an error if user is not allowed to access this project.
-        '''
+        """
         if not self.has_acl(request.user):
             messages.error(
                 request,
@@ -235,31 +235,31 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def _reverse_url_name(self):
-        '''
+        """
         Returns base name for URL reversing.
-        '''
+        """
         return 'project'
 
     def _reverse_url_kwargs(self):
-        '''
+        """
         Returns kwargs for URL reversing.
-        '''
+        """
         return {
             'project': self.slug
         }
 
     def get_widgets_url(self):
-        '''
+        """
         Returns absolute URL for widgets.
-        '''
+        """
         return get_site_url(
             reverse('widgets', kwargs={'project': self.slug})
         )
 
     def get_share_url(self):
-        '''
+        """
         Returns absolute URL usable for sharing.
-        '''
+        """
         return get_site_url(
             reverse('engage', kwargs={'project': self.slug})
         )
@@ -316,31 +316,31 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # pylint: disable=W0221
 
     def _get_percents(self, lang=None):
-        '''
+        """
         Returns percentages of translation status.
-        '''
+        """
         # Import translations
         from weblate.trans.models.translation import Translation
 
-        # Get prercents
+        # Get percents:
         return Translation.objects.get_percents(project=self, language=lang)
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
 
     def get_translated_percent(self, lang=None):
-        '''
+        """
         Returns percent of translated strings.
-        '''
+        """
         if lang is None:
             return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
 
     def get_total(self):
-        '''
+        """
         Calculates total number of strings to translate. This is done based on
         assumption that all languages have same number of strings.
-        '''
+        """
         from weblate.trans.models.translation import Translation
         total = 0
         for resource in self.subproject_set.all():
@@ -351,23 +351,23 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return total
 
     def get_languages(self):
-        '''
+        """
         Returns list of all languages used in project.
-        '''
+        """
         return Language.objects.filter(
             translation__subproject__project=self
         ).distinct()
 
     def get_language_count(self):
-        '''
+        """
         Returns number of languages used in this project.
-        '''
+        """
         return self.get_languages().count()
 
     def git_needs_commit(self):
-        '''
+        """
         Checks whether there are some not committed changes.
-        '''
+        """
         for resource in self.subproject_set.all():
             if resource.git_needs_commit():
                 return True
@@ -386,52 +386,52 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return False
 
     def commit_pending(self, request):
-        '''
+        """
         Commits any pending changes.
-        '''
+        """
         for resource in self.subproject_set.all():
             resource.commit_pending(request)
 
     def do_update(self, request=None):
-        '''
+        """
         Updates all git repos.
-        '''
+        """
         ret = False
         for resource in self.subproject_set.all():
             ret &= resource.do_update(request)
         return ret
 
     def do_push(self, request=None):
-        '''
+        """
         Pushes all git repos.
-        '''
+        """
         ret = False
         for resource in self.subproject_set.all():
             ret |= resource.do_push(request)
         return ret
 
     def do_reset(self, request=None):
-        '''
+        """
         Pushes all git repos.
-        '''
+        """
         ret = False
         for resource in self.subproject_set.all():
             ret |= resource.do_reset(request)
         return ret
 
     def can_push(self):
-        '''
+        """
         Checks whether any suprojects can push.
-        '''
+        """
         ret = False
         for resource in self.subproject_set.all():
             ret |= resource.can_push()
         return ret
 
     def get_last_change(self):
-        '''
+        """
         Returns date of last change done in Weblate.
-        '''
+        """
         from weblate.trans.models.changes import Change
         try:
             change = Change.objects.content().filter(
