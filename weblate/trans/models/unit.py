@@ -667,7 +667,7 @@ class Unit(models.Model):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.check(same_state, force_insert)
+            self.check(same_state, same_content, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
@@ -847,7 +847,7 @@ class Unit(models.Model):
 
         return (checks_to_run, cleanup_checks)
 
-    def check(self, same_state=True, is_new=False):
+    def check(self, same_state=True, same_content=True, is_new=False):
         '''
         Updates checks for this unit.
         '''
@@ -912,7 +912,7 @@ class Unit(models.Model):
             )
 
         # Update failing checks flag
-        if was_change or is_new:
+        if was_change or is_new or not same_content:
             self.update_has_failing_check(was_change)
 
     def update_has_failing_check(self, recurse=False):
