@@ -57,6 +57,7 @@ def weblate_context(request):
 
         'mt_enabled': appsettings.MACHINE_TRANSLATION_ENABLED,
         'hooks_enabled': appsettings.ENABLE_HOOKS,
+        'whiteboard_enabled': appsettings.ENABLE_WHITEBOARD,
 
         'registration_open': appsettings.REGISTRATION_OPEN,
     }
