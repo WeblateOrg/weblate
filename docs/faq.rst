@@ -270,6 +270,16 @@ as ``TEMP`` variable:
 
 .. seealso:: :djadmin:`rebuild_index`
 
+
+Database operations fail with "too many SQL variables"
+------------------------------------------------------
+
+This can happen with SQLite database as it is not powerful enough for some
+relations used within Weblate. The only way to fix this is to use some more
+capable database, see :ref:`production-database` for more information.
+
+.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/1.6/ref/databases/>`_
+
 Features
 ++++++++
 
