@@ -195,7 +195,7 @@ def user_profile(request):
             'subscriptionform': subscriptionform,
             'profile': profile,
             'title': _('User profile'),
-            'licenses': Project.objects.exclude(license=''),
+            'licenses': Project.objects.all_acl(request.user).exclude(license=''),
             'associated': social,
             'new_backends': new_backends,
         }
