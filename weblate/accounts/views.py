@@ -185,6 +185,11 @@ def user_profile(request):
         x for x in all_backends
         if x == 'email' or x not in social_names
     ]
+    license_projects = Project.objects.all_acl(
+        request.user
+    ).exclude(
+        license=''
+    )
 
     response = render(
         request,
@@ -195,7 +200,7 @@ def user_profile(request):
             'subscriptionform': subscriptionform,
             'profile': profile,
             'title': _('User profile'),
-            'licenses': Project.objects.all_acl(request.user).exclude(license=''),
+            'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
         }
