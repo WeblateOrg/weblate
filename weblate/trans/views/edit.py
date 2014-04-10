@@ -352,6 +352,10 @@ def handle_merge(translation, request, next_unit_url):
 
     mergeform = MergeForm(translation, request.GET)
     if not mergeform.is_valid():
+        messages.error(
+            request,
+            _('Invalid merge request!')
+        )
         return
 
     unit = mergeform.cleaned_data['unit']
