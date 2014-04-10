@@ -927,9 +927,10 @@ class SameCheck(TargetCheck):
             else:
                 # Check if we have any word which is not in blacklist
                 # (words which are often same in foreign language)
-                result = min(
-                    (test_word(word) for word in SPLIT_RE.split(stripped))
-                )
+                for word in SPLIT_RE.split(stripped):
+                    if not test_word(word):
+                        return False
+                return True
 
         # Store in cache
         self.set_cache(unit, result, cache_slot)
