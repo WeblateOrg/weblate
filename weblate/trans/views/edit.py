@@ -73,8 +73,10 @@ def cleanup_session(session):
     Deletes old search results from session storage.
     '''
     now = int(time.time())
-    for key in session.keys():
-        if key.startswith('search_') and session[key]['ttl'] < now:
+    for key, value in session.iteritems():
+        print key
+        if (key.startswith('search_')
+                and (not isinstance(value, dict) or value['ttl'] < now)):
             del session[key]
 
 
@@ -183,7 +185,7 @@ def search(translation, request):
     search_id = str(uuid.uuid1())
     search_result = {
         'query': search_query,
-        'name': name,
+        'name': unicode(name),
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,
