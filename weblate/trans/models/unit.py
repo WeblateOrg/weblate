@@ -552,7 +552,9 @@ class Unit(models.Model):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if not saved and oldunit.fuzzy == self.fuzzy:
+        if (not saved
+                and oldunit.fuzzy == self.fuzzy
+                and oldunit.target == self.target):
             # Propagate if we should
             if propagate:
                 self.propagate(request, change_action)
