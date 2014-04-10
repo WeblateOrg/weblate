@@ -74,7 +74,6 @@ def cleanup_session(session):
     '''
     now = int(time.time())
     for key, value in session.iteritems():
-        print key
         if (key.startswith('search_')
                 and (not isinstance(value, dict) or value['ttl'] < now)):
             del session[key]
