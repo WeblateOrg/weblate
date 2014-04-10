@@ -821,7 +821,7 @@ DOMAIN_RE = re.compile(
     re.IGNORECASE
 )
 
-PATH_RE = re.compile(r'(/[a-zA-Z0-9=:?._-]+)+')
+PATH_RE = re.compile(r'(^|[ ])(/[a-zA-Z0-9=:?._-]+)+')
 
 TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
 
