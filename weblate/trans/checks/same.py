@@ -699,6 +699,7 @@ SAME_BLACKLIST = frozenset((
     'ko',
     'korean',
     'kurdish',
+    'kyrgyz',
     'lao',
     'latvian',
     'limburgish',
