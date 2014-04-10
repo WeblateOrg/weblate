@@ -264,6 +264,8 @@ class EndExclamationCheck(TargetCheck):
                 if target[-2:] not in self.exclamation_fr:
                     return True
             return False
+        if source.endswith('Texy!') or target.endswith('Texy!'):
+            return False
         return self.check_chars(
             source,
             target,
