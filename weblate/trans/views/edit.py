@@ -73,7 +73,7 @@ def cleanup_session(session):
     Deletes old search results from session storage.
     '''
     now = int(time.time())
-    for key in session:
+    for key in session.keys():
         value = session[key]
         if (key.startswith('search_')
                 and (not isinstance(value, dict) or value['ttl'] < now)):
