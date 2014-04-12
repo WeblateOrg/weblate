@@ -830,7 +830,7 @@ DOMAIN_RE = re.compile(
 
 PATH_RE = re.compile(r'(^|[ ])(/[a-zA-Z0-9=:?._-]+)+')
 
-TEMPLATE_RE = re.compile(r'{[a-z_-]+}')
+TEMPLATE_RE = re.compile(r'{[a-z_-]+}|@[A-Z_]@')
 
 RST_MATCH = re.compile(r'(?::ref:`[^`]+`|``[^`]+``)')
 

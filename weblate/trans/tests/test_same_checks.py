@@ -350,10 +350,26 @@ class SameCheckTest(CheckTestCase):
             )
         )
         self.do_test(
+            False,
+            (
+                '@NAME@: @BOO@',
+                '@NAME@: @BOO@',
+                ''
+            )
+        )
+        self.do_test(
             True,
             (
                 '{building}: some description',
                 '{building}: some description',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                '@NAME@: long text',
+                '@NAME@: long text',
                 ''
             )
         )
