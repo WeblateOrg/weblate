@@ -53,7 +53,7 @@ DATABASES = {
         'NAME': 'weblate.db',
         # Database user, not used with sqlite3.
         'USER': 'weblate',
-        # Database pasword, not used with sqlite3.
+        # Database password, not used with sqlite3.
         'PASSWORD': 'weblate',
         # Set to empty string for localhost. Not used with sqlite3.
         'HOST': '127.0.0.1',
@@ -519,4 +519,4 @@ ALLOWED_HOSTS = []
 # )
 
 # Enable whiteboard functionality - under development so disabled by default.
-ENABLE_WHITEBOARD = False
+ENABLE_WHITEBOARD = True
