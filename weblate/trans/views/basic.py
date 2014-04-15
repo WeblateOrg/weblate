@@ -33,6 +33,7 @@ from weblate.trans.models import (
     Project, SubProject, Translation, Check,
     Dictionary, Change, Unit
 )
+from weblate.trans.models import whiteboard as whiteboard_models
 from weblate.trans.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
@@ -65,6 +66,9 @@ def home(request):
             )
         )
         return redirect('password')
+
+    wb_messages = whiteboard_models.WhiteboardMessage.objects.order_by(
+        'message')
 
     projects = Project.objects.all_acl(request.user)
     if projects.count() == 1:
@@ -106,6 +110,7 @@ def home(request):
             'last_changes_url': '',
             'usertranslations': usertranslations,
             'search_form': SearchForm(),
+            'whiteboard_messages': wb_messages,
         }
     )
 

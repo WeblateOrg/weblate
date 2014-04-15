@@ -25,7 +25,9 @@
     </ul>
 
     <div id="messages">
-        not implemented :(
+        {% for msg in whiteboard_messages %}
+        <snan class="">{{ msg.message }}</snan>
+        {% endfor %}
     </div>
 
     <div id="add">
