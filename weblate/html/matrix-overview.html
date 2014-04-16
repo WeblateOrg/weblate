@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+{% load translations %}
+{% load static %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'show_matrix' project=object.project.slug subproject=object.slug %}">{% trans "matrix" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<table>
+<thead>
+<th>{% trans "Source" %}</th>
+{% for language in languages %}
+  <th> {{ language }} </th>
+{% endfor %}
+</tr>
+</thead>
+<tbody>
+{% for row in matrix_data %}
+	<tr>
+		{% for cell in row %}
+		<td class="translatetext">{{ cell }}</td>
+		{% endfor %}
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
