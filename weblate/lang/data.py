@@ -136,6 +136,12 @@ EXTRALANGS = (
         1,
         '0',
     ),
+    (
+        'ksh',
+        'Colognian',
+        2,
+        'n==0 ? 0 : n==1 ? 1 : 2',
+    )
 )
 
 # List of defaul languages - the ones, where using
@@ -298,6 +304,10 @@ ONE_FEW_OTHER_PLURALS = (
     'n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2',
 )
 
+ZERO_ONE_OTHER_PLURALS = (
+    'n==0 ? 0 : n==1 ? 1 : 2',
+)
+
 ONE_TWO_OTHER_PLURALS = (
     'n==1 ? 0 : n==2 ? 1 : 2',
 )
@@ -336,6 +346,7 @@ PLURAL_ONE_OTHER_ZERO = 7
 PLURAL_ONE_FEW_MANY_OTHER = 8
 PLURAL_TWO_OTHER = 9
 PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
+PLURAL_ZERO_ONE_OTHER = 11
 PLURAL_UNKNOWN = 666
 
 # Plural equation - type mappings
@@ -343,6 +354,7 @@ PLURAL_MAPPINGS = (
     (ONE_OTHER_PLURALS, PLURAL_ONE_OTHER),
     (ONE_FEW_OTHER_PLURALS, PLURAL_ONE_FEW_OTHER),
     (ONE_TWO_OTHER_PLURALS, PLURAL_ONE_TWO_OTHER),
+    (ZERO_ONE_OTHER_PLURALS, PLURAL_ZERO_ONE_OTHER),
     (ONE_TWO_FEW_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_OTHER),
     (ONE_TWO_THREE_OTHER_PLURALS, PLURAL_ONE_TWO_THREE_OTHER),
     (ONE_OTHER_ZERO_PLURALS, PLURAL_ONE_OTHER_ZERO),
@@ -369,6 +381,11 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Two'),
         pgettext_lazy('Plural form description', 'Few'),
         pgettext_lazy('Plural form description', 'Many'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ZERO_ONE_OTHER: (
+        pgettext_lazy('Plural form description', 'Zero'),
+        pgettext_lazy('Plural form description', 'One'),
         pgettext_lazy('Plural form description', 'Other'),
     ),
     PLURAL_ONE_TWO_OTHER: (

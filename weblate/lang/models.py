@@ -237,6 +237,12 @@ class LanguageManager(models.Manager):
                 lang.direction = 'rtl'
             else:
                 lang.direction = 'ltr'
+
+            # Get plural type
+            lang.plural_type = get_plural_type(
+                lang.code,
+                lang.pluralequation
+            )
             lang.save()
 
     def have_translation(self):
@@ -262,6 +268,7 @@ class Language(models.Model, PercentMixin):
         (data.PLURAL_ONE_OTHER, 'One/other (classic plural)'),
         (data.PLURAL_ONE_FEW_OTHER, 'One/few/other (Slavic languages)'),
         (data.PLURAL_ARABIC, 'Arabic languages'),
+        (data.PLURAL_ZERO_ONE_OTHER, 'Zero/one/other'),
         (data.PLURAL_ONE_TWO_OTHER, 'One/two/other'),
         (data.PLURAL_ONE_TWO_FEW_OTHER, 'One/two/few/other'),
         (data.PLURAL_ONE_TWO_THREE_OTHER, 'One/two/three/other'),
