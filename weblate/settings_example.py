@@ -30,7 +30,7 @@ if django.VERSION < (1, 4, 0):
     )
 
 #
-# Django settings for weblate project.
+# Django settings for Weblate project.
 #
 
 import os
@@ -53,7 +53,7 @@ DATABASES = {
         'NAME': 'weblate.db',
         # Database user, not used with sqlite3.
         'USER': 'weblate',
-        # Database pasword, not used with sqlite3.
+        # Database password, not used with sqlite3.
         'PASSWORD': 'weblate',
         # Set to empty string for localhost. Not used with sqlite3.
         'HOST': '127.0.0.1',
