@@ -24,9 +24,9 @@ import os
 
 
 def get(name, default):
-    '''
+    """
     Returns setting from django settings with default value.
-    '''
+    """
     return getattr(settings, name, default)
 
 
