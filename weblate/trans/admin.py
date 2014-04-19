@@ -24,6 +24,7 @@ from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change
 )
+from weblate.trans.models import whiteboard as whiteboard_model
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -188,6 +189,12 @@ class ChangeAdmin(admin.ModelAdmin):
     raw_id_fields = ('unit',)
 
 
+class WhiteboardAdmin(admin.ModelAdmin):
+    list_display = ['message']
+    prepopulated_fields = {}
+    search_fields = ['message']
+
+
 class AdvertisementAdmin(admin.ModelAdmin):
     list_display = ['placement', 'date_start', 'date_end', 'text']
     search_fields = ['text', 'note']
@@ -198,6 +205,7 @@ class AdvertisementAdmin(admin.ModelAdmin):
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(SubProject, SubProjectAdmin)
 admin.site.register(Advertisement, AdvertisementAdmin)
+admin.site.register(whiteboard_model.WhiteboardMessage, WhiteboardAdmin)
 
 # Show some controls only in debug mode
 if settings.DEBUG:
