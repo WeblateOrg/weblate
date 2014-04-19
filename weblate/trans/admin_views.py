@@ -46,9 +46,9 @@ RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
 
 @staff_member_required
 def report(request):
-    '''
+    """
     Provides report about git status of all repos.
-    '''
+    """
     return render(
         request,
         "admin/report.html",
@@ -60,9 +60,9 @@ def report(request):
 
 @staff_member_required
 def performance(request):
-    '''
+    """
     Shows performance tuning tips.
-    '''
+    """
     checks = []
     # Check for debug mode
     checks.append((
@@ -182,9 +182,9 @@ def performance(request):
 
 
 def parse_hosts_line(line):
-    '''
+    """
     Parses single hosts line into tuple host, key fingerprint.
-    '''
+    """
     host, keytype, key = line.strip().split(None, 3)[:3]
     fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
     fingerprint = ':'.join(
@@ -193,13 +193,13 @@ def parse_hosts_line(line):
     if host.startswith('|1|'):
         # Translators: placeholder SSH hashed hostname
         host = _('[hostname hashed]')
-    return (host, keytype, fingerprint)
+    return host, keytype, fingerprint
 
 
 def get_host_keys():
-    '''
+    """
     Returns list of host keys.
-    '''
+    """
     try:
         result = []
         with open(KNOWN_HOSTS_FILE, 'r') as handle:
@@ -213,9 +213,9 @@ def get_host_keys():
 
 
 def get_key_data():
-    '''
+    """
     Parses host key and returns it.
-    '''
+    """
     # Read key data if it exists
     if os.path.exists(RSA_KEY_FILE):
         key_data = file(RSA_KEY_FILE).read()
@@ -231,9 +231,9 @@ def get_key_data():
 
 @staff_member_required
 def ssh(request):
-    '''
+    """
     Show information and manipulate with SSH key.
-    '''
+    """
     # Check whether we can generate SSH key
     try:
         ret = subprocess.check_call(
