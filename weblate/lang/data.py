@@ -139,7 +139,7 @@ EXTRALANGS = (
     (
         'ksh',
         'Colognian',
-        2,
+        3,
         'n==0 ? 0 : n==1 ? 1 : 2',
     )
 )
