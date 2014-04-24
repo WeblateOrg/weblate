@@ -218,7 +218,7 @@ def get_key_data():
     '''
     # Read key data if it exists
     if os.path.exists(RSA_KEY_FILE):
-        with file(RSA_KEY_FILE) as handle:
+        with open(RSA_KEY_FILE) as handle:
             key_data = handle.read()
         key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
         return {

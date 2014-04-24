@@ -752,7 +752,7 @@ class AndroidFormat(FileFormat):
         '''
         Adds new language file.
         '''
-        with file(filename, 'w') as output:
+        with open(filename, 'w') as output:
             output.write('''<?xml version="1.0" encoding="utf-8"?>
 <resources></resources>''')
 

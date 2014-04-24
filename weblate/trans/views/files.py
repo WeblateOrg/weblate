@@ -39,7 +39,7 @@ def download_translation(request, project, subproject, lang):
     filename = '%s-%s-%s.%s' % (project, subproject, lang, obj.store.extension)
 
     # Create response
-    with file(srcfilename) as handle:
+    with open(srcfilename) as handle:
         response = HttpResponse(
             handle.read(),
             content_type=obj.store.mimetype
