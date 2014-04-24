@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-04-16 13:55+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://l10n.cihar.com/projects/weblate/master/cs/>\n"
@@ -910,7 +910,6 @@ msgid "Chinese (Taiwan)"
 msgstr "čínština (Taiwan)"
 
 #: weblate/html/i18n.html:41
-#| msgid "Slovenian"
 msgid "Colognian"
 msgstr "Kölsch"
 
@@ -1912,12 +1911,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "Pro přidání návrhu nemáte oprávnění!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
-msgstr "Text, který bude připojen do zprávy v commitu."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "Text pro commit:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr "Text, který bude připojen do zprávy v commitu."
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2367,7 +2372,7 @@ msgstr "Vložte dvakrát nové heslo. Tak ověříme, že bylo zadáno správně
 msgid "Change my password"
 msgstr "Změnit heslo"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Prosím opravte chyby ve formuláři."
 
@@ -3123,20 +3128,20 @@ msgstr "Statické soubory administrace"
 msgid "[hostname hashed]"
 msgstr "[jméno hostitele je skryto]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Byl vytvořen nový SSH klíč."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nepodařilo se vytvořit klíč: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Zadáno chybné jméno hostitele!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3145,7 +3150,7 @@ msgstr ""
 "Přidán klíč pro hostitele %(host)s s otiskem %(fingerprint)s (%(keytype)s), "
 "prosím ověřte, že je tento otisk správný."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Nepodařilo se načíst klíč: %s"
@@ -3566,11 +3571,11 @@ msgstr "Neodpovídající XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Nepřeloženo"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
@@ -4688,11 +4693,11 @@ msgstr "Nepodařilo se vytvořit komentář!"
 msgid "Failed to save translation!"
 msgstr "Nepodařilo se uložit překlad!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Nedovolený přístup."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4703,7 +4708,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Obsah souboru byl úspěšně přidán do překladu, zpracováno %d řetězců."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4714,7 +4719,7 @@ msgstr[1] ""
 msgstr[2] ""
 "V nahraném souboru nebyly žádné nové řetězce, zpracováno %d řetězců."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Selhalo sloučení obsahu souboru: %s"

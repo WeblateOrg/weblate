@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-02-21 10:25+0200\n"
 "Last-Translator: Bartosz Feński <fenio@debian.org>\n"
 "Language-Team: Polish <https://l10n.cihar.com/projects/weblate/master/pl/>\n"
@@ -1917,7 +1917,9 @@ msgid "No privileges for adding suggestions!"
 msgstr "Nie masz uprawnień do dodawania sugestii!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
 msgstr ""
 
 #: weblate/html/translate.html:179
@@ -1925,6 +1927,10 @@ msgstr ""
 #| msgid "Error message"
 msgid "Commit message:"
 msgstr "Wiadomość błędu"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr ""
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2382,7 +2388,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Zmień hasło"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Proszę poprawić błędy w formularzu."
 
@@ -3139,20 +3145,20 @@ msgstr "Pliki statyczne administratora"
 msgid "[hostname hashed]"
 msgstr "[haszowana nazwa hosta]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Nowy klucz SSH został utworzony."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nie udało się wygenerować klucza: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Podano nieprawidłową nazwę hosta!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3161,7 +3167,7 @@ msgstr ""
 "Dodano klucz hosta dla %(host)s z odciskiem palca %(fingerprint)s "
 "(%(keytype)s). Proszę zweryfikować poprawność."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Nie udało się pobrać klucza: %s"
@@ -3588,11 +3594,11 @@ msgstr "Tagi XML niedopasowanie"
 msgid "XML tags in translation do not match source"
 msgstr "Tagi XML w tłumaczeniu nie pasują do źródła"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Nie przetłumaczony"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Napisy: źródłowy i tłumaczenie są takie same"
 
@@ -4755,11 +4761,11 @@ msgstr "Nie udało się dodać komentarza!"
 msgid "Failed to save translation!"
 msgstr "Zapisanie tłumaczenia nie powiodło się!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Odmowa dostępu."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4771,7 +4777,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Zawartość pliku pomyślnie połączona z tłumaczeniem, przetworzono %d napisów."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4781,7 +4787,7 @@ msgstr[1] "Nie było nowych napisów w przesłanym pliku, przetworzono %d napisy
 msgstr[2] ""
 "Nie było nowych napisów w przesłanym pliku, przetworzono %d napisów."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Scalanie zawartości pliku nie powiodło się: %s"

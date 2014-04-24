@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-01-25 02:59+0200\n"
 "Last-Translator: Eduardo Abreu <eduardextreme@hotmail.com>\n"
 "Language-Team: Portuguese <http://l10n.cihar.com/projects/weblate/master/pt/"
@@ -1970,13 +1970,19 @@ msgid "No privileges for adding suggestions!"
 msgstr "Não tem privilégios para aceitar sugestões!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
 msgstr ""
 
 #: weblate/html/translate.html:179
 #, fuzzy
 msgid "Commit message:"
 msgstr "Detalhes do erro:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr ""
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2466,7 +2472,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Trocar minha palavra-passe"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Por favor, corrija os erros no formulário."
 
@@ -3337,20 +3343,20 @@ msgstr "Ficheiros estáticos do administrador"
 msgid "[hostname hashed]"
 msgstr "[nome da máquina com hash]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Nova chave SSH gerada."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Não foi possível gerar a chave: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "O nome do anfitrião é inválido!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, fuzzy, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
@@ -3362,7 +3368,7 @@ msgstr ""
 "Foi adicionada uma chave de anfitrião a %(host)s com a identidade de "
 "%(fingerprint)s, verifique se está correcto."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
@@ -3793,11 +3799,11 @@ msgstr "As tags XML não coincidem"
 msgid "XML tags in translation do not match source"
 msgstr "As tags XML na tradução não coincidem com as originais"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Não traduzido"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "A cadeira original e traduzida são iguais"
 
@@ -4964,11 +4970,11 @@ msgstr "Falha ao gerar a chave!"
 msgid "Failed to save translation!"
 msgstr "Falha ao processar o formulário!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr ""
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, fuzzy, python-format
 #| msgid "File content successfully merged into translation."
 msgid "File content successfully merged into translation, processed %d string."
@@ -4977,7 +4983,7 @@ msgid_plural ""
 msgstr[0] "O conteúdo do arquivo foi fundido na tradução com sucesso."
 msgstr[1] "O conteúdo do arquivo foi fundido na tradução com sucesso."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, fuzzy, python-format
 #| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d string."
@@ -4986,7 +4992,7 @@ msgid_plural ""
 msgstr[0] "Não há novas cadeias no arquivo enviado."
 msgstr[1] "Não há novas cadeias no arquivo enviado."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao fundir o conteúdo do arquivo: %s"

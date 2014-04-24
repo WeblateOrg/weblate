@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-04-16 22:46+0200\n"
 "Last-Translator: Panagiotis Papazoglou <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <https://l10n.cihar.com/projects/weblate/master/el/>\n"
@@ -922,7 +922,6 @@ msgid "Chinese (Taiwan)"
 msgstr "Κινέζικα (Ταιβάν)"
 
 #: weblate/html/i18n.html:41
-#| msgid "Slovenian"
 msgid "Colognian"
 msgstr "Κολονικά"
 
@@ -1920,12 +1919,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "Κανένα δικαίωμα για προσθήκη προτάσεων!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
-msgstr "Πρόσθετο κείμενο για να συμπεριληφθεί στο μήνυμα ολοκλήρωσης."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "Μήνυμα πράξης:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr "Πρόσθετο κείμενο για να συμπεριληφθεί στο μήνυμα ολοκλήρωσης."
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2388,7 +2393,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Αλλαγή του κωδικού μου"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Διορθώστε σφάλματα στη φόρμα."
 
@@ -3158,20 +3163,20 @@ msgstr "Στατικά αρχεία διαχειριστή"
 msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Απέτυχε η δημιουργία κλειδιού: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Δόθηκε μη έγκυρο όνομα φιλοξενητή!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3180,7 +3185,7 @@ msgstr ""
 "Προστέθηκε κλειδί φιλοξενίας για %(host)s με το αποτύπωμα %(fingerprint)s "
 "(%(keytype)s), επιβεβαιώστε ότι είναι σωστό."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Απέτυχε η λήψη κλειδιού φιλοξενητή: %s"
@@ -3617,11 +3622,11 @@ msgstr "Οι ετικέτες XML δεν ταιριάζουν"
 msgid "XML tags in translation do not match source"
 msgstr "Οι ετικέτες XML στη μετάφραση δεν ταιριάζουν με την προέλευση"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Αμετάφραστο"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
@@ -4745,11 +4750,11 @@ msgstr "Απέτυχε η προσθήκη σχολίου!"
 msgid "Failed to save translation!"
 msgstr "Απέτυχε η αποθήκευση της μετάφρασης!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Η πρόσβαση δεν επιτρέπεται."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4761,7 +4766,7 @@ msgstr[1] ""
 "Το περιεχόμενο του αρχείου ενώθηκε επιτυχώς στη μετάφραση, δρομολογήθηκαν %d "
 "κείμενα."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4771,7 +4776,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Δεν υπήρχαν νέα κείμενα στο απεσταλμένο αρχείο, δρομολογήθηκαν %d κείμενα."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Το περιεχόμενο του αρχείου απέτυχε να ενωθεί: %s"

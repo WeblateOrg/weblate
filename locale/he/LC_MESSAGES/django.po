@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2013-11-26 11:49+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Hebrew <http://l10n.cihar.com/projects/weblate/master/he/>\n"
@@ -1930,7 +1930,9 @@ msgid "No privileges for adding suggestions!"
 msgstr "אין לך הרשאות לאשר הצעות!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
 msgstr ""
 
 #: weblate/html/translate.html:179
@@ -1938,6 +1940,10 @@ msgstr ""
 #| msgid "Commit %(hash)s"
 msgid "Commit message:"
 msgstr "הגשה %(hash)s"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr ""
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2387,7 +2393,7 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "נא לתקן את הטעויות בטופס."
 
@@ -3144,20 +3150,20 @@ msgstr "מנהל קבצים סטטיים"
 msgid "[hostname hashed]"
 msgstr "[שם המארח מוצפן]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "נוצר מפתח SSH חדש."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "יצירת המפתח נכשלה: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "שם המארח שגוי!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, fuzzy, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
@@ -3169,7 +3175,7 @@ msgstr ""
 "נוסף מפתח למארח %(host)s עם החותמת %(fingerprint)s, נא לוודא שהפרטים האלה "
 "נכונים."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
@@ -3596,11 +3602,11 @@ msgstr "תגי ה־XML אינם תואמים"
 msgid "XML tags in translation do not match source"
 msgstr "תגי ה־XML בתרגום אינם תואמים למקור"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "אין תרגום"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "מחרוזות המקור והתרגום זהות"
 
@@ -4833,11 +4839,11 @@ msgstr "הוספת ההערה נכשלה!"
 msgid "Failed to save translation!"
 msgstr "עיבוד הטופס נכשל!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "הגישה נדחתה."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, fuzzy, python-format
 #| msgid "File content successfully merged into translation."
 msgid "File content successfully merged into translation, processed %d string."
@@ -4846,7 +4852,7 @@ msgid_plural ""
 msgstr[0] "תוכן הקובץ מוזג עם התרגום בהצלחה."
 msgstr[1] "תוכן הקובץ מוזג עם התרגום בהצלחה."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, fuzzy, python-format
 #| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d string."
@@ -4855,7 +4861,7 @@ msgid_plural ""
 msgstr[0] "לא הופיעו מחרוזות חדשות בקובץ שהועלה."
 msgstr[1] "לא הופיעו מחרוזות חדשות בקובץ שהועלה."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "מיזוג תוכן הקובץ נכשל: %s"

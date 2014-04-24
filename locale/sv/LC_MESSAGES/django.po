@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-03-21 23:17+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <https://l10n.cihar.com/projects/weblate/master/sv/>\n"
@@ -1907,12 +1907,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "Du har inte behörighet att lägga till förslag!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
-msgstr "Ytterligare text att inkludera i incheckningsmeddelandet."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "Incheckningsmeddelande:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr "Ytterligare text att inkludera i incheckningsmeddelandet."
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2367,7 +2373,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Byt mitt lösenord"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Var god rätta till fel i formuläret."
 
@@ -3128,20 +3134,20 @@ msgstr ""
 msgid "[hostname hashed]"
 msgstr ""
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Skapade ny SSH-nyckel."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Misslyckades med att skapa nyckel: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Ogiltigt värdnamn angivet!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3150,7 +3156,7 @@ msgstr ""
 "La till värdnyckel för %(host)s med fingeravtryck %(fingerprint)s "
 "(%(keytype)s), bekräfta att detta stämmer."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Kunde inte erhålla värdens nyckel: %s"
@@ -3580,11 +3586,11 @@ msgstr "XML-taggar matchar ej"
 msgid "XML tags in translation do not match source"
 msgstr "XML-taggarna i översättningen matchar ej källan"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Inte översatt"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Strängar för källa och översättning är samma"
 
@@ -4694,11 +4700,11 @@ msgstr "Kunde inte lägga till kommentar!"
 msgid "Failed to save translation!"
 msgstr "Kunde inte spara översättning!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Åtkomst nekad."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4706,7 +4712,7 @@ msgid_plural ""
 msgstr[0] "Filinnehållet bakades in i översättningen, hanterade %d sträng."
 msgstr[1] "Filinnehållet bakades in i översättningen, hanterade %d strängar."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4716,7 +4722,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Det fanns inga nya strängar i den skickade filen, hanterade %d strängar."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Sammanslagning med filinnehållet misslyckades: %s"

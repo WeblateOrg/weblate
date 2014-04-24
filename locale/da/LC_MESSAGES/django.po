@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-04-16 17:25+0200\n"
 "Last-Translator: jan madsen <janmassi@gmail.com>\n"
 "Language-Team: Danish <https://l10n.cihar.com/projects/weblate/master/da/>\n"
@@ -913,7 +913,6 @@ msgid "Chinese (Taiwan)"
 msgstr "Kinesisk (Taiwan)"
 
 #: weblate/html/i18n.html:41
-#| msgid "Slovenian"
 msgid "Colognian"
 msgstr "Colognian"
 
@@ -1908,12 +1907,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "Ingen rettigheder til at tilføje forslag!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
-msgstr "Medtage yderligere tekst i besked."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "Indsend besked:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr "Medtage yderligere tekst i besked."
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2371,7 +2376,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Skift adgangskode"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Ret fejlene i tilmeldingsformularen."
 
@@ -3132,20 +3137,20 @@ msgstr "Admin. statiske filer"
 msgid "[hostname hashed]"
 msgstr "[værtsnavn hashed]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Oprettede ny SSH nøgle."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Oprettelse af nøgle mislykkedes: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Værtsnavnet er ugyldigt!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3154,7 +3159,7 @@ msgstr ""
 "Tilføjede værtsnøgle for %(host)s med fingeraftrykket %(fingerprint)s "
 "(%(keytype)s, kontroller at det er korrekt."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Kunne ikke hente værtsnøgle: %s"
@@ -3582,11 +3587,11 @@ msgstr "Uoverstemmelse mellem XML-mærker"
 msgid "XML tags in translation do not match source"
 msgstr "XML-mærkerne i oversættelsen matcher ikke med kildens"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Ikke oversat"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Kilde og oversatte strenge er ens"
 
@@ -4698,11 +4703,11 @@ msgstr "Kunne ikke tilføje kommentar!"
 msgid "Failed to save translation!"
 msgstr "Kunne ikke gemme oversættelse!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Adgang nægtet."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4710,7 +4715,7 @@ msgid_plural ""
 msgstr[0] "Filindhold er flettet ind i oversættelse, behandlede %d streng."
 msgstr[1] "Filindhold er flettet ind i oversættelse, behandlede %d strenge."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4718,7 +4723,7 @@ msgid_plural ""
 msgstr[0] "Der var ingen nye strenge i overført fil, behandlede %d streng."
 msgstr[1] "Der var ingen nye strenge i overført fil, behandlede %d strenge."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Fletning af filindhold mislykkedes: %s"

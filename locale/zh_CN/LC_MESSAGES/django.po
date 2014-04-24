@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-02-14 05:45+0200\n"
 "Last-Translator: Huang Zhiyi <hzy980512@126.com>\n"
 "Language-Team: Simplified Chinese <http://l10n.cihar.com/projects/weblate/"
@@ -1895,12 +1895,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "您没有接受建议的权限！"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
-msgstr "在提交的条目中额外附加的文字。"
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "提交的条目："
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr "在提交的条目中额外附加的文字。"
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2351,7 +2357,7 @@ msgstr "请输入两次让我们校验您是否正确地输入了您想要设置
 msgid "Change my password"
 msgstr "修改我的密码"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "请更正表单中的错误。"
 
@@ -3121,20 +3127,20 @@ msgstr "Admin静态文件"
 msgid "[hostname hashed]"
 msgstr "[主机哈希加密]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "已创建 SSH 密钥。"
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "生成密钥失败：%s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "主机名无效！"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, fuzzy, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
@@ -3144,7 +3150,7 @@ msgid ""
 "please verify that it is correct."
 msgstr "已为主机 %(host)s 添加指纹为 %(fingerprint)s 的密钥，请检查是否正确。"
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
@@ -3562,11 +3568,11 @@ msgstr "XML 标签不一致"
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "未翻译"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "源条目和已翻译条目相同"
 
@@ -4635,25 +4641,25 @@ msgstr "添加注释失败！"
 msgid "Failed to save translation!"
 msgstr "处理新翻译请求失败！"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "访问被拒绝。"
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
 msgstr[0] "文件内容已成功合并入现有译文，已处理 %d 个条目。"
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
 msgstr[0] "上传的文件中没有新翻译的条目，已处理 %d 个条目。"
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "文件内容合并失败：%s"

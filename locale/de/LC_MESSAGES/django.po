@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-04-19 12:44+0200\n"
 "Last-Translator: Denny Sandner <dennysandner@googlemail.com>\n"
 "Language-Team: German <https://l10n.cihar.com/projects/weblate/master/de/>\n"
@@ -223,7 +223,6 @@ msgid "User registration"
 msgstr "Benutzer-Registrierung"
 
 #: weblate/accounts/views.py:100
-#| msgid "Message has been sent to administrator."
 msgid "Message could not be sent to administrator!"
 msgstr "Die Nachricht konnte nicht an den Administrator gesandt werden."
 
@@ -285,7 +284,6 @@ msgid "Password reset"
 msgstr "Kennwort zurücksetzen"
 
 #: weblate/html/403.html:7
-#| msgid "You don't have privileges to save translations!"
 msgid "You don't have privileges to display this page."
 msgstr "Sie haben nicht die Berechtigung, diese Seite anzuzeigen zu lassen."
 
@@ -787,8 +785,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Wenn Du Deinen Zugang aktiviert hast, gehe einfach direkt <a href=\"%(url)s\""
-">zum Übersetzen</a>."
+"Wenn Du Deinen Zugang aktiviert hast, gehe einfach direkt <a href=\"%(url)s"
+"\">zum Übersetzen</a>."
 
 #: weblate/html/footer.html:6
 #, python-format
@@ -916,7 +914,6 @@ msgid "Chinese (Taiwan)"
 msgstr "Chinesisch (Taiwan)"
 
 #: weblate/html/i18n.html:41
-#| msgid "Slovenian"
 msgid "Colognian"
 msgstr "Kölsch"
 
@@ -1389,7 +1386,6 @@ msgid "Uzbek (latin)"
 msgstr "Usbekisch (lateinisch)"
 
 #: weblate/html/i18n.html:159
-#| msgid "Galician"
 msgid "Valencian"
 msgstr "Galizisch"
 
@@ -1914,13 +1910,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "Sie haben nicht die Berechtigung, Vorschläge hinzu zufügen!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
 msgstr ""
 
 #: weblate/html/translate.html:179
-#| msgid "Error message"
 msgid "Commit message:"
 msgstr "Text speichern:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr ""
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2371,7 +2372,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Mein Kennwort ändern"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Bitte Fehler im Formular beheben."
 
@@ -2492,7 +2493,6 @@ msgid ""
 msgstr ""
 
 #: weblate/html/accounts/removal.html:13
-#| msgid "Sort this column"
 msgid "Delete this account"
 msgstr "Lösche diesen Zugang"
 
@@ -3127,29 +3127,28 @@ msgstr ""
 msgid "[hostname hashed]"
 msgstr ""
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Neuer SSH Schlüssel wurde erzeugt."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Fehler beim Generieren des Schlüssels: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Ungültiger Hostname angegeben!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
-#| msgid "Failed to generate key!"
 msgid "Failed to get host key: %s"
 msgstr "Fehler beim Besorgen des Schlüssels: %s"
 
@@ -3581,11 +3580,11 @@ msgstr "Geänderte XML-Tags"
 msgid "XML tags in translation do not match source"
 msgstr "XML Tags in der Übersetzung passen nicht zur Quelle"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Nicht übersetzt"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Ursprungs- und übersetzte Zeichenkette sind identisch"
 
@@ -3617,7 +3616,6 @@ msgstr ""
 
 #: weblate/trans/models/advertisement.py:59
 #, python-brace-format
-#| msgid "Donate to Weblate!"
 msgid "Donate to Weblate at {0}"
 msgstr "An Weblate spenden bei {0}"
 
@@ -3976,7 +3974,6 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:161
-#| msgid "C format"
 msgid "File format"
 msgstr "Dateiformat"
 
@@ -4048,8 +4045,6 @@ msgid "Suggestion voting"
 msgstr "Vorschläge"
 
 #: weblate/trans/models/subproject.py:219
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
 msgid "Whether users can vote for suggestions."
 msgstr "Es gibt %(count)s Vorschläge ."
 
@@ -4288,7 +4283,6 @@ msgid "Message is fuzzy"
 msgstr "Nachricht ist unscharf"
 
 #: weblate/trans/models/unit.py:1028
-#| msgid "Message is translated"
 msgid "Message is not translated"
 msgstr "Die Nachricht ist nicht übersetzt"
 
@@ -4305,12 +4299,10 @@ msgid "Message has comments"
 msgstr "Nachricht hat Kommentare"
 
 #: weblate/trans/templatetags/translations.py:55
-#| msgid "New password confirmation"
 msgid "Good configuration"
 msgstr "Konfiguration in Ordnung"
 
 #: weblate/trans/templatetags/translations.py:56
-#| msgid "New password confirmation"
 msgid "Bad configuration"
 msgstr "Fehlkonfiguration"
 
@@ -4327,30 +4319,22 @@ msgid "New line"
 msgstr "Zeilenumbruch"
 
 #: weblate/trans/templatetags/translations.py:330
-#| msgid "a year ago"
-#| msgid_plural "%(count)s years ago"
 msgid "a year ago"
 msgstr "vor einem Jahr"
 
 #: weblate/trans/templatetags/translations.py:332
 #, python-format
-#| msgid "a year ago"
-#| msgid_plural "%(count)s years ago"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "vor einem Jahr"
 msgstr[1] "vor %(count)s Jahren"
 
 #: weblate/trans/templatetags/translations.py:337
-#| msgid "a month ago"
-#| msgid_plural "%(count)s months ago"
 msgid "a month ago"
 msgstr "vor einem Monat"
 
 #: weblate/trans/templatetags/translations.py:339
 #, python-format
-#| msgid "a month ago"
-#| msgid_plural "%(count)s months ago"
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "vor einem Monat"
@@ -4358,16 +4342,12 @@ msgstr[1] "vor %(count)s Monaten"
 
 #: weblate/trans/templatetags/translations.py:344
 #, python-format
-#| msgid "a week ago"
-#| msgid_plural "%(count)s weeks ago"
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "vor einer Woche"
 msgstr[1] "vor %(count)s Wochen"
 
 #: weblate/trans/templatetags/translations.py:348
-#| msgid "a week ago"
-#| msgid_plural "%(count)s weeks ago"
 msgid "a week ago"
 msgstr "vor einer Woche"
 
@@ -4377,8 +4357,6 @@ msgstr "gestern"
 
 #: weblate/trans/templatetags/translations.py:352
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "vor einer Sekunde"
@@ -4390,75 +4368,55 @@ msgid "now"
 msgstr "jetzt"
 
 #: weblate/trans/templatetags/translations.py:358
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "a second ago"
 msgstr "vor einer Sekunde"
 
 #: weblate/trans/templatetags/translations.py:360
 #, python-format
-#| msgid "a second ago"
-#| msgid_plural "%(count)s seconds ago"
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "vor einer Sekunde"
 msgstr[1] "vor %(count)s Sekunden"
 
 #: weblate/trans/templatetags/translations.py:365
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "a minute ago"
 msgstr "vor einer Minute"
 
 #: weblate/trans/templatetags/translations.py:367
 #, python-format
-#| msgid "a minute ago"
-#| msgid_plural "%(count)s minutes ago"
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "vor einer Minute"
 msgstr[1] "vor %(count)s Minuten"
 
 #: weblate/trans/templatetags/translations.py:372
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "an hour ago"
 msgstr "vor einer Stunde"
 
 #: weblate/trans/templatetags/translations.py:374
 #, python-format
-#| msgid "an hour ago"
-#| msgid_plural "%(count)s hours ago"
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "vor einer Stunde"
 msgstr[1] "vor %(count)s Stunden"
 
 #: weblate/trans/templatetags/translations.py:381
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "a year from now"
 msgstr "in einem Jahr"
 
 #: weblate/trans/templatetags/translations.py:383
 #, python-format
-#| msgid "a year from now"
-#| msgid_plural "%(count)s years from now"
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "in einem Jahr"
 msgstr[1] "in %(count)s Jahren"
 
 #: weblate/trans/templatetags/translations.py:388
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "a month from now"
 msgstr "in einem Monat"
 
 #: weblate/trans/templatetags/translations.py:390
 #, python-format
-#| msgid "a month from now"
-#| msgid_plural "%(count)s months from now"
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "in einem Monat"
@@ -4466,8 +4424,6 @@ msgstr[1] "in %(count)s Monaten"
 
 #: weblate/trans/templatetags/translations.py:395
 #, python-format
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "in einer Woche"
@@ -4478,60 +4434,44 @@ msgid "tomorrow"
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:401
-#| msgid "a week from now"
-#| msgid_plural "%(count)s weeks from now"
 msgid "a week from now"
 msgstr "in einer Woche"
 
 #: weblate/trans/templatetags/translations.py:403
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "in einer Sekunde"
 msgstr[1] "in %(count)s Sekunden"
 
 #: weblate/trans/templatetags/translations.py:409
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "a second from now"
 msgstr "in einer Sekunde"
 
 #: weblate/trans/templatetags/translations.py:411
 #, python-format
-#| msgid "a second from now"
-#| msgid_plural "%(count)s seconds from now"
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "in einer Sekunde"
 msgstr[1] "in %(count)s Sekunden"
 
 #: weblate/trans/templatetags/translations.py:418
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "a minute from now"
 msgstr "in einer Minute"
 
 #: weblate/trans/templatetags/translations.py:420
 #, python-format
-#| msgid "a minute from now"
-#| msgid_plural "%(count)s minutes from now"
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "in einer Minute"
 msgstr[1] "in %(count)s Minuten"
 
 #: weblate/trans/templatetags/translations.py:427
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "an hour from now"
 msgstr "in einer Stunde"
 
 #: weblate/trans/templatetags/translations.py:429
 #, python-format
-#| msgid "an hour from now"
-#| msgid_plural "%(count)s hours from now"
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "in einer Stunde"
@@ -4549,12 +4489,10 @@ msgstr "Bitte stellen Sie im Profil Ihren vollen Namen ein."
 
 #: weblate/trans/views/basic.py:152
 #, python-format
-#| msgid "Avatar for %s"
 msgid "Search for %s"
 msgstr "Suche nach \"%s\""
 
 #: weblate/trans/views/basic.py:158
-#| msgid "Invalid search string!"
 msgid "Invalid search query!"
 msgstr "Ungültige Suche!"
 
@@ -4798,13 +4736,12 @@ msgstr "Fehler beim Hinzufügen des Kommentars!"
 msgid "Failed to save translation!"
 msgstr "Fehler beim Verarbeiten des Formulars!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Zugang verweigert."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
-#| msgid "File content successfully merged into translation."
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
 "File content successfully merged into translation, processed %d strings."
@@ -4815,9 +4752,8 @@ msgstr[1] ""
 "Datei-Inhalt erfolgreich mit Übersetzung zusammengeführt. %d Zeichenketten "
 "verarbeitet."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
-#| msgid "There were no new strings in uploaded file."
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
 "There were no new strings in uploaded file, processed %d strings."
@@ -4828,7 +4764,7 @@ msgstr[1] ""
 "Es gab keine neuen Zeichenketten in der hochgeladenen Datei. %d "
 "Zeichenketten wurden verarbeitet."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Zusammenführung des Datei-Inhalts fehlgeschlagen: %s"

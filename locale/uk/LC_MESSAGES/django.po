@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-04-13 15:05+0200\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.cihar.com/projects/weblate/master/uk/"
@@ -1915,12 +1915,18 @@ msgid "No privileges for adding suggestions!"
 msgstr "Немає прав на додавання пропозицій!"
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
-msgstr "Додатковий текст для включення у неодмінне повідомлення."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "Неодмінне повідомлення:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr "Додатковий текст для включення у неодмінне повідомлення."
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2378,7 +2384,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Змінити мій пароль"
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "Будь ласка, виправте помилки у формі."
 
@@ -3142,20 +3148,20 @@ msgstr "Статичні файли адміністратора"
 msgid "[hostname hashed]"
 msgstr "[хешоване ім'я вузлу]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Створено новий ключ SSH."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Не вдалося створити ключ: %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Неприпустиме ім'я вузлу дано!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3164,7 +3170,7 @@ msgstr ""
 "Доданий ключ для хоста %(host)s з відбитком %(fingerprint)s (%(keytype)s). "
 "Будь ласка, перевірте, чи все правильно."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Не вдалося отримати ключ: %s"
@@ -3593,11 +3599,11 @@ msgstr "Невідповідність теґів XML"
 msgid "XML tags in translation do not match source"
 msgstr "Теґи XML у перекладі не збігаються з тегами XML у оригіналі"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Не перекладено"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Джерело і переклад збігаються"
 
@@ -4720,11 +4726,11 @@ msgstr "Не вдалося додати коментар!"
 msgid "Failed to save translation!"
 msgstr "Не вдалося зберегти переклад!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr "Доступ - заборонений."
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4733,7 +4739,7 @@ msgstr[0] "Вміст файлу успішно об'єднано з перек�
 msgstr[1] "Вміст файлу успішно об'єднано з перекладом, оброблено %d рядки."
 msgstr[2] "Вміст файлу успішно об'єднано з перекладом, оброблено %d рядків."
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4743,7 +4749,7 @@ msgstr[1] "Не знайдено нових рядків у завантажен
 msgstr[2] ""
 "Не знайдено нових рядків у завантаженому файлі, оброблено %d рядків."
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Не вдалося об'єднати вміст файлу: %s"

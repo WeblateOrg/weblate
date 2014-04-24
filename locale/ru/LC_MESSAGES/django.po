@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-04-16 13:06+0200\n"
+"POT-Creation-Date: 2014-04-24 11:45+0200\n"
 "PO-Revision-Date: 2014-03-21 15:18+0200\n"
 "Last-Translator: Dmitri GOULIAEV <dmitri+weblate@gouliaev.info>\n"
 "Language-Team: Russian <https://l10n.cihar.com/projects/weblate/master/ru/>\n"
@@ -1856,12 +1856,18 @@ msgid "No privileges for adding suggestions!"
 msgstr ""
 
 #: weblate/html/translate.html:178
-msgid "Additional text to include in the commit message."
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
 msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
 msgstr "Commit-сообщение:"
+
+#: weblate/html/translate.html:179
+msgid "Additional text to include in the commit message."
+msgstr ""
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
@@ -2277,7 +2283,7 @@ msgstr ""
 msgid "Change my password"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:90
+#: weblate/html/accounts/profile.html:12 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr ""
 
@@ -3006,20 +3012,20 @@ msgstr "Администрирование статических файлов"
 msgid "[hostname hashed]"
 msgstr "[имя хоста хэшировано]"
 
-#: weblate/trans/admin_views.py:271
+#: weblate/trans/admin_views.py:272
 msgid "Created new SSH key."
 msgstr "Создан новый SSH-ключ."
 
-#: weblate/trans/admin_views.py:275
+#: weblate/trans/admin_views.py:276
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Не удалось создать ключ %s"
 
-#: weblate/trans/admin_views.py:287
+#: weblate/trans/admin_views.py:288
 msgid "Invalid host name given!"
 msgstr "Некорректное имя хоста!"
 
-#: weblate/trans/admin_views.py:308
+#: weblate/trans/admin_views.py:309
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -3028,7 +3034,7 @@ msgstr ""
 "Добавлен ключ для хоста %(host)s с отпечатком %(fingerprint)s (%(keytype)s). "
 "Пожалуйста, проверьте, всё ли правильно."
 
-#: weblate/trans/admin_views.py:323
+#: weblate/trans/admin_views.py:324
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Не удалось получить ключ хоста: %s"
@@ -3458,11 +3464,11 @@ msgstr "Тэги XML некорректно расставлены"
 msgid "XML tags in translation do not match source"
 msgstr "Тэги XML в переводе не совпадают с тэгами XML в источнике"
 
-#: weblate/trans/checks/same.py:906
+#: weblate/trans/checks/same.py:907
 msgid "Not translated"
 msgstr "Не переведено"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:908
 msgid "Source and translated strings are same"
 msgstr "Источник и перевод совпадают"
 
@@ -4534,11 +4540,11 @@ msgstr ""
 msgid "Failed to save translation!"
 msgstr "Не удалось сохранить перевод!"
 
-#: weblate/trans/views/files.py:82
+#: weblate/trans/views/files.py:83
 msgid "Access denied."
 msgstr ""
 
-#: weblate/trans/views/files.py:122
+#: weblate/trans/views/files.py:123
 #, python-format
 msgid "File content successfully merged into translation, processed %d string."
 msgid_plural ""
@@ -4547,7 +4553,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: weblate/trans/views/files.py:133
+#: weblate/trans/views/files.py:134
 #, python-format
 msgid "There were no new strings in uploaded file, processed %d string."
 msgid_plural ""
@@ -4556,7 +4562,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: weblate/trans/views/files.py:143
+#: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
 msgstr ""
