@@ -16,7 +16,7 @@ before_install:
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
 # commands to install dependencies
 install: 
-  - pip install -e hg+http://bitbucket.org/logilab/pylint/pylint
+  - pip install -e 'hg+http://bitbucket.org/logilab/pylint/pylint#egg=pylint'
   - pip install Django==$DJANGO_VERSION
   - pip install -r requirements.txt
   - pip install -r requirements-optional.txt
