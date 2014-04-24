@@ -175,8 +175,8 @@
 
 {% if perms.trans.save_translation %}
 <div class="menu-float tooltip">
-<div class="tooltip-content">{% trans "Additional text to include in the commit message." %}</div>
-{% trans "Commit message:" %} <input type="text" name="commit_message" class="commit_message" tabindex="152" value="{{ unit.translation.commit_message }}" />
+<div class="tooltip-content">{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}</div>
+{% trans "Commit message:" %} <input type="text" name="commit_message" class="commit_message" placeholder="{% trans "Additional text to include in the commit message." %}" tabindex="152" value="{{ unit.translation.commit_message }}" />
 </div>
 {% endif %}
 </td></tr>
