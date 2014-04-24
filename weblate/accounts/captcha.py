@@ -17,6 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""
+Simple mathematical captcha.
+"""
 
 
 from django.conf import settings
@@ -25,8 +28,17 @@ import hashlib
 import binascii
 import time
 from random import randint, choice
+import ast
+import operator
 
 TIMEDELTA = 600
+
+# Supported operators
+OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+}
 
 
 class MathCaptcha(object):
@@ -55,17 +67,17 @@ class MathCaptcha(object):
         '''
         Generates random question.
         '''
-        operator = choice(self.operators)
+        operation = choice(self.operators)
         first = randint(self.interval[0], self.interval[1])
         second = randint(self.interval[0], self.interval[1])
 
         # We don't want negative answers
-        if operator == '-':
+        if operation == '-':
             first += self.interval[1]
 
         return '{0} {1} {2}'.format(
             first,
-            operator,
+            operation,
             second
         )
 
@@ -98,7 +110,7 @@ class MathCaptcha(object):
         '''
         Returns result.
         '''
-        return eval(self.question)
+        return eval_expr(self.question)
 
     @property
     def display(self):
@@ -156,3 +168,35 @@ def unhash_question(question):
     if hexsha != checksum_question(question, timestamp):
         raise ValueError('Tampered question!')
     return question, int(timestamp, 16)
+
+
+def eval_expr(expr):
+    """
+    Evaluates arithmetic expression used in Captcha.
+
+    >>> eval_expr('2+6')
+    8
+    >>> eval_expr('2*6')
+    12
+    """
+    return eval_node(ast.parse(expr).body[0].value)
+
+
+def eval_node(node):
+    """
+    Evaluates single AST node.
+    """
+    if isinstance(node, ast.Num):
+        # number
+        return node.n
+    elif isinstance(node, ast.operator):
+        # operator
+        return OPERATORS[type(node)]
+    elif isinstance(node, ast.BinOp):
+        # binary operation
+        return eval_node(node.op)(
+            eval_node(node.left),
+            eval_node(node.right)
+        )
+    else:
+        raise ValueError(node)
