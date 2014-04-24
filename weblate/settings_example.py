@@ -95,6 +95,7 @@ LANGUAGES = (
     ('id', 'Indonesia'),
     ('ja', u'日本語'),
     ('ko', u'한국어'),
+    ('ksh', u'Kölsch'),
     ('nl', u'Nederlands'),
     ('pl', u'Polski'),
     ('pt', u'Português'),
