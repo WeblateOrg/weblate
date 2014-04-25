@@ -101,20 +101,14 @@ def git_service_hook(request, service):
         allowed_methods = ()
 
     # We support only post methods
-    if request.method not in allowed_methods:
+    if not appsettings.ENABLE_HOOKS or request.method not in allowed_methods:
         return HttpResponseNotAllowed(allowed_methods)
 
     # Check if we got payload
     try:
-        payload = request.POST['payload']
-    except KeyError:
-        return HttpResponseBadRequest('missing payload!')
-
-    # Check if we got payload
-    try:
-        data = json.loads(payload)
+        data = json.loads(request.POST['payload'])
     except (ValueError, KeyError):
-        return HttpResponseBadRequest('could not parse json payload!')
+        return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
     if service == 'github':
@@ -129,24 +123,22 @@ def git_service_hook(request, service):
     try:
         service_data = hook_helper(data)
     except KeyError:
-        return HttpResponseBadRequest('invalid data in json payload!')
+        return HttpResponseBadRequest('Invalid data in json payload!')
 
     # Log data
     service_long_name = service_data['service_long_name']
     repos = service_data['repos']
     branch = service_data['branch']
-    if branch is None:
-        weblate.logger.info(
-            'received %s notification on repository %s, branch %s',
-            service_long_name, repos[0], branch
-        )
-        subprojects = SubProject.objects.filter(repo__in=repos, branch=branch)
-    else:
-        weblate.logger.info(
-            'received %s notification on repository %s',
-            service_long_name, repos[0]
-        )
-        subprojects = SubProject.objects.filter(repo__in=repos)
+
+    weblate.logger.info(
+        'received %s notification on repository %s, branch %s',
+        service_long_name, repos[0], branch
+    )
+
+    subprojects = SubProject.objects.filter(repo__in=repos)
+
+    if branch is not None:
+        subprojects = subprojects.filter(branch=branch)
 
     # Trigger updates
     for obj in subprojects:
