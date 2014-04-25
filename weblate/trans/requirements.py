@@ -21,7 +21,6 @@
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
-from weblate import GIT_VERSION
 import importlib
 import sys
 
@@ -232,6 +231,7 @@ def get_versions_string():
     '''
     Returns string with version information summary.
     '''
+    from weblate import GIT_VERSION
     result = [' * Weblate %s' % GIT_VERSION]
     for version in get_versions() + get_optional_versions():
         result.append(
