@@ -101,6 +101,32 @@ location than others :file:`res/values/strings.xml`.
 
     This format is not yet supported by Translate-toolkit (merge request is
     pending), but Weblate includes own support for it.
+    
+.. note::
+
+    Android `string-array` structures are not currently supported. To work around this, 
+    you can break you string arrays apart:
+    
+    .. code-block:: xml
+    
+        <string-array name="several_strings">
+            <item>First string</item>
+            <item>Second string</item>
+        </string-array>
+        
+    become:
+    
+    .. code-block:: xml
+    
+        <string-array name="several_strings">
+            <item>@string/several_strings_0</item>
+            <item>@string/several_strings_1</item>
+        </string-array>
+        <string name="several_strings_0">First string</string>
+        <string name="several_strings_1">Second string</string>
+    
+    The `string-array` that points to the `string` elements should be stored in a different 
+    file, and not localized.
 
 .. _apple:
 
