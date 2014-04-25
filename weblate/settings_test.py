@@ -92,3 +92,6 @@ LOGGING = {
         }
     }
 }
+
+# Use whiteboard in tests
+ENABLE_WHITEBOARD = True

@@ -24,9 +24,9 @@ import os
 
 
 def get(name, default):
-    '''
+    """
     Returns setting from django settings with default value.
-    '''
+    """
     return getattr(settings, name, default)
 
 
@@ -177,3 +177,5 @@ AVATAR_DEFAULT_IMAGE = get('AVATAR_DEFAULT_IMAGE', 'identicon')
 
 # Is the site using https
 ENABLE_HTTPS = get('ENABLE_HTTPS', False)
+
+ENABLE_WHITEBOARD = get('ENABLE_WHITEBOARD', False)

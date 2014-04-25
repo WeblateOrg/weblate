@@ -33,6 +33,7 @@ from weblate.trans.models import (
     Project, SubProject, Translation, Check,
     Dictionary, Change, Unit
 )
+from weblate.trans.models import whiteboard as whiteboard_models
 from weblate.trans.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
@@ -51,10 +52,10 @@ from urllib import urlencode
 
 
 def home(request):
-    '''
+    """
     Home page of Weblate showing list of projects, stats
     and user links if logged in.
-    '''
+    """
 
     if 'show_set_password' in request.session:
         messages.warning(
@@ -65,6 +66,9 @@ def home(request):
             )
         )
         return redirect('password')
+
+    wb_messages = whiteboard_models.WhiteboardMessage.objects.order_by(
+        'message')
 
     projects = Project.objects.all_acl(request.user)
     if projects.count() == 1:
@@ -106,14 +110,15 @@ def home(request):
             'last_changes_url': '',
             'usertranslations': usertranslations,
             'search_form': SearchForm(),
+            'whiteboard_messages': wb_messages,
         }
     )
 
 
 def search(request):
-    '''
-    Performs sitewide search on units.
-    '''
+    """
+    Performs site-wide search on units.
+    """
     search_form = SearchForm(request.GET)
     context = {
         'search_form': search_form,
@@ -273,9 +278,9 @@ def show_subproject(request, project, subproject):
 
 
 def review_source(request, project, subproject):
-    '''
+    """
     Listing of source strings to review.
-    '''
+    """
     obj = get_subproject(request, project, subproject)
 
     # Grab first translation in subproject
@@ -291,7 +296,7 @@ def review_source(request, project, subproject):
     page = request.GET.get('page', 1)
     ignored = 'ignored' in request.GET
 
-    # Fiter units
+    # Filter units:
     sources = source.unit_set.filter_type(rqtype, source, ignored)
 
     paginator = Paginator(sources, limit)
@@ -319,9 +324,9 @@ def review_source(request, project, subproject):
 
 
 def show_source(request, project, subproject):
-    '''
+    """
     Show source strings summary and checks.
-    '''
+    """
     obj = get_subproject(request, project, subproject)
 
     # Grab first translation in subproject
@@ -393,9 +398,9 @@ def show_translation(request, project, subproject, lang):
 
 
 def not_found(request):
-    '''
+    """
     Error handler showing list of available projects.
-    '''
+    """
     return render(
         request,
         '404.html',
@@ -409,9 +414,9 @@ def not_found(request):
 
 
 def denied(request):
-    '''
+    """
     Error handler showing list of available projects.
-    '''
+    """
     return render(
         request,
         '403.html',
@@ -425,9 +430,9 @@ def denied(request):
 
 
 def server_error(request):
-    '''
-    Error handler for server erros.
-    '''
+    """
+    Error handler for server errors.
+    """
     try:
         return render(
             request,
@@ -439,9 +444,9 @@ def server_error(request):
 
 
 def about(request):
-    '''
+    """
     Shows about page with version information.
-    '''
+    """
     context = {}
     totals = Profile.objects.aggregate(
         Sum('translated'), Sum('suggested'), Count('id')
