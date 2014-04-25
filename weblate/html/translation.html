@@ -175,6 +175,17 @@
 <td class="number">{{ object.failing_checks }}</td>
 <td class="number"></td>
 </tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<th>{% trans "Last change" %}<th>
+<td class="number" colspan="3">{{ object.get_last_change }}</td>
+</tr>
+<tr>
+<th>{% trans "Last author" %}<th>
+<td class="number" colspan="3">{{ object.get_last_author }}</td>
+</tr>
 </table>
 </div>
 

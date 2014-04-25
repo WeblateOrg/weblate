@@ -700,7 +700,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         self.revision = blob_hash
         self.save()
 
-    def get_last_author(self, email=True):
+    def get_last_author(self, email=False):
         '''
         Returns last autor of change done in Weblate.
         '''
@@ -727,7 +727,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         Commits any pending changes.
         '''
         # Get author of last changes
-        last = self.get_last_author()
+        last = self.get_last_author(True)
 
         # If it is same as current one, we don't have to commit
         if author == last or last is None:

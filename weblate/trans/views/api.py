@@ -245,7 +245,7 @@ def export_stats(request, project, subproject):
             'total': trans.total,
             'total_words': trans.total_words,
             'last_change': trans.get_last_change(),
-            'last_author': trans.get_last_author(False),
+            'last_author': trans.get_last_author(),
             'translated': trans.translated,
             'translated_words': trans.translated_words,
             'translated_percent': trans.get_translated_percent(),
