@@ -127,6 +127,8 @@ location than others :file:`res/values/strings.xml`.
     
     The `string-array` that points to the `string` elements should be stored in a different 
     file, and not localized.
+    
+    This script may help pre-process your existing strings.xml files and translations: https://gist.github.com/paour/11291062
 
 .. _apple:
 
