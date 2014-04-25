@@ -70,8 +70,10 @@ Weblate provides various exports to allow you further process the data.
                 "last_change": "2012-03-28T15:07:38+00:00",
                 "name": "Czech", 
                 "total": 436, 
+                "total_words": 15271,
                 "translated": 436, 
                 "translated_percent": 100.0, 
+                "translated_words": 3201, 
                 "url": "http://l10n.cihar.com/engage/weblate/cs/"
                 "url_translate": "http://l10n.cihar.com/projects/weblate/master/cs/"
             }, 
@@ -85,8 +87,10 @@ Weblate provides various exports to allow you further process the data.
                 "last_change": null,
                 "name": "Dutch", 
                 "total": 436, 
+                "total_words": 15271,
                 "translated": 319, 
                 "translated_percent": 73.2, 
+                "translated_words": 3201, 
                 "url": "http://l10n.cihar.com/engage/weblate/nl/"
                 "url_translate": "http://l10n.cihar.com/projects/weblate/master/nl/"
             }, 
@@ -100,8 +104,10 @@ Weblate provides various exports to allow you further process the data.
                 "last_change": null,
                 "name": "Greek", 
                 "total": 436, 
+                "total_words": 15271,
                 "translated": 312, 
                 "translated_percent": 71.6, 
+                "translated_words": 3201, 
                 "url": "http://l10n.cihar.com/engage/weblate/el/"
                 "url_translate": "http://l10n.cihar.com/projects/weblate/master/el/"
             }, 
