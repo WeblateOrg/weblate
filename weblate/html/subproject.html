@@ -62,7 +62,8 @@
 </tr>
 </table>
 </form>
-<p>{% blocktrans %}Should your language be missing, please <a href="{{ contact_url }}?subject=New+language+request+for+{{ object }}">contact us</a>.{% endblocktrans %}</li>
+<p>{% trans "Can not find your language in above list?" %}</p>
+<p><a class="button" href="{{ contact_url }}?subject=New+language+request+for+{{ object }}">{% trans "Report missing language" %}</a></p>
 {% endif %}
 </div>
 {% endif %}
