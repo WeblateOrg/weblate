@@ -308,7 +308,12 @@ def naturaltime_past(value, now):
     """
     Handling of past dates for naturaltime.
     """
+
+    # this function is huge
+    # pylint: disable=R0911,R0912
+
     delta = now - value
+
     if delta.days >= 365:
         count = delta.days / 365
         if count == 1:
@@ -364,7 +369,12 @@ def naturaltime_future(value, now):
     """
     Handling of future dates for naturaltime.
     """
+
+    # this function is huge
+    # pylint: disable=R0911,R0912
+
     delta = value - now
+
     if delta.days >= 365:
         count = delta.days / 365
         if count == 1:
@@ -429,9 +439,6 @@ def naturaltime(value, now=None):
     For date and time values shows how many seconds, minutes or hours ago
     compared to current timestamp returns representing string.
     """
-    # this function is huge
-    # pylint: disable=R0911,R0912
-
     # datetime is a subclass of date
     if not isinstance(value, date):
         return value
