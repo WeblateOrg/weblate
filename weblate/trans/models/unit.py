@@ -47,12 +47,12 @@ class UnitManager(models.Manager):
         src = unit.get_source()
         ctx = unit.get_context()
         checksum = unit.get_checksum()
+        created = False
 
         # Try getting existing unit
         dbunit = None
         try:
             dbunit = translation.unit_set.get(checksum=checksum)
-            created = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
             dbunit = translation.unit_set.filter(checksum=checksum).delete()
