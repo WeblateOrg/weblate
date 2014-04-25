@@ -957,7 +957,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.load_template_store()
             except ValueError:
                 raise ValidationError(
-                    _('Format of translation base file could not be recognized.')
+                    _(
+                        'Format of translation base file '
+                        'could not be recognized.'
+                    )
                 )
             except Exception as exc:
                 raise ValidationError(
