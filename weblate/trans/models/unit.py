@@ -506,9 +506,7 @@ class Unit(models.Model):
 
         Optional user parameters defines authorship of a change.
         '''
-        from weblate.accounts.models import (
-            notify_new_translation, notify_new_contributor
-        )
+        from weblate.accounts.models import notify_new_translation
         from weblate.trans.models.changes import Change
 
         # Update lock timestamp
@@ -581,14 +579,6 @@ class Unit(models.Model):
         user.profile.translated += 1
         user.profile.save()
 
-        # Notify about new contributor
-        user_changes = Change.objects.filter(
-            translation=self.translation,
-            user=request.user
-        )
-        if not user_changes.exists():
-            notify_new_contributor(self, request.user)
-
         # Generate Change object for this change
         if gen_change:
             self.generate_change(request, user, oldunit, change_action)
@@ -614,7 +604,16 @@ class Unit(models.Model):
         '''
         Creates Change entry for saving unit.
         '''
+        from weblate.accounts.models import notify_new_contributor
         from weblate.trans.models.changes import Change
+
+        # Notify about new contributor
+        user_changes = Change.objects.filter(
+            translation=self.translation,
+            user=request.user
+        )
+        if not user_changes.exists():
+            notify_new_contributor(self, request.user)
 
         # Action type to store
         if change_action is not None:
