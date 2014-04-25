@@ -336,14 +336,3 @@ class Check(models.Model, RelatedUnitMixin):
         # Update related unit flags
         for unit in self.get_related_units():
             unit.update_has_failing_check(False)
-
-
-class IndexUpdate(models.Model):
-    unit = models.ForeignKey(Unit)
-    source = models.BooleanField(default=True)
-
-    class Meta:
-        app_label = 'trans'
-
-    def __unicode__(self):
-        return self.unit.__unicode__()
