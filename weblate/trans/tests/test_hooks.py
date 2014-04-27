@@ -265,16 +265,28 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-github'),
         )
-        self.assertContains(response, 'missing payload', status_code=400)
+        self.assertContains(
+            response,
+            'Could not parse JSON payload!',
+            status_code=400
+        )
         # wrong
         response = self.client.post(
             reverse('hook-github'),
             {'payload': 'XX'},
         )
-        self.assertContains(response, 'could not parse', status_code=400)
+        self.assertContains(
+            response,
+            'Could not parse JSON payload!',
+            status_code=400
+        )
         # missing data
         response = self.client.post(
             reverse('hook-github'),
             {'payload': '{}'},
         )
-        self.assertContains(response, 'invalid data', status_code=400)
+        self.assertContains(
+            response,
+            'Invalid data in json payload!',
+            status_code=400
+        )
