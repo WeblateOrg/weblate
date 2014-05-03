@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-04-24 11:45+0200\n"
-"PO-Revision-Date: 2014-03-21 23:17+0200\n"
+"PO-Revision-Date: 2014-05-03 10:03+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <https://l10n.cihar.com/projects/weblate/master/sv/>\n"
 "Language: sv\n"
@@ -581,7 +581,7 @@ msgstr "Hämta"
 
 #: weblate/html/data.html:93 weblate/html/data.html.py:99
 msgid "Hook"
-msgstr ""
+msgstr "Krok"
 
 #: weblate/html/data.html:105
 msgid ""
@@ -2734,7 +2734,7 @@ msgstr "Det finns nya incheckningar i det lokala Git-förrådet!"
 
 #: weblate/html/js/git-status.html:38
 msgid "Last remote commit:"
-msgstr ""
+msgstr "Senaste fjärrincheckning:"
 
 #: weblate/html/js/git-status.html:53
 msgid "Details"
@@ -2875,9 +2875,11 @@ msgstr "Du kan översätta på %(translation_url)s"
 
 #: weblate/html/mail/merge_failure.html:12
 #: weblate/html/mail/merge_failure.txt:3
-#, fuzzy, python-format
+#, python-format
 msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
-msgstr "Automatisk översättning"
+msgstr ""
+"det har inträffat ett sammanslagningsfel för %(subproject)s på "
+"%(site_title)s."
 
 #: weblate/html/mail/merge_failure.html:16
 msgid "Error message"
@@ -2903,7 +2905,7 @@ msgstr "Förrådsstatus:"
 #: weblate/html/mail/merge_failure_subject.txt:1
 #, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr ""
+msgstr "Sammanslagningsfel i %(subproject)s"
 
 #: weblate/html/mail/new_comment.html:12 weblate/html/mail/new_comment.txt:3
 #, python-format
@@ -3804,7 +3806,7 @@ msgstr "Hur förfrågningar om att skapa nya språk hanteras."
 
 #: weblate/trans/models/project.py:125
 msgid "Merge style"
-msgstr ""
+msgstr "Sammanslagningsstil"
 
 #: weblate/trans/models/project.py:130
 msgid ""
@@ -3833,14 +3835,13 @@ msgid "Committer email"
 msgstr "Incheckares e-postadress"
 
 #: weblate/trans/models/project.py:156
-#, fuzzy
 #| msgid "Posted new comment"
 msgid "Push on commit"
-msgstr "Postade ny kommentar"
+msgstr "Skicka vid incheckning"
 
 #: weblate/trans/models/project.py:159
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Huruvida arkivet ska skickas uppströms vid varje incheckning."
 
 #: weblate/trans/models/project.py:164
 #, fuzzy
@@ -4651,10 +4652,9 @@ msgid "Only suggestions are allowed in this translation!"
 msgstr "Endast förslag tillåts i denna översättning!"
 
 #: weblate/trans/views/edit.py:359
-#, fuzzy
 #| msgid "Invalid search query!"
 msgid "Invalid merge request!"
-msgstr "Ogiltig sökning!"
+msgstr "Ogiltig sammanslagningsförfrågan!"
 
 #: weblate/trans/views/edit.py:372
 msgid "Can not merge different messages!"
