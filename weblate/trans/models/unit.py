@@ -50,9 +50,9 @@ class UnitManager(models.Manager):
 
         # Try getting existing unit
         dbunit = None
+        created = False
         try:
             dbunit = translation.unit_set.get(checksum=checksum)
-            created = False
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
             dbunit = translation.unit_set.filter(checksum=checksum).delete()
@@ -68,8 +68,6 @@ class UnitManager(models.Manager):
                 context=ctx
             )
             created = True
-        else:
-            created = False
 
         # Update all details
         dbunit.update_from_unit(unit, pos, created)
