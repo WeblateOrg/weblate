@@ -36,6 +36,9 @@ import weblate
 
 
 class Command(BaseCommand):
+    """
+    Command for mass importing of repositories into Weblate.
+    """
     help = 'imports projects with more subprojects'
     args = '<project> <gitrepo> <branch> <filemask>'
     option_list = BaseCommand.option_list + (
@@ -69,6 +72,7 @@ class Command(BaseCommand):
         self.name_template = None
         self.base_file_template = None
         self.logger = weblate.logger
+        self._mask_regexp = None
 
     def format_string(self, template, match):
         '''
@@ -78,17 +82,23 @@ class Command(BaseCommand):
             return template % match
         return template
 
-    def get_name(self, maskre, path):
-        matches = maskre.match(path)
+    def get_name(self, path):
+        """
+        Returns file name from patch based on filemask.
+        """
+        matches = self.match_regexp.match(path)
         return matches.group(1)
 
-    def get_match_regexp(self):
+    @property
+    def match_regexp(self):
         '''
-        Prepare regexp for file matching
+        Returns regexp for file matching
         '''
-        match = fnmatch.translate(self.filemask)
-        match = match.replace('.*.*', '(.*.*)')
-        return re.compile(match)
+        if self._mask_regexp is None:
+            match = fnmatch.translate(self.filemask)
+            match = match.replace('.*.*', '(.*.*)')
+            self._mask_regexp = re.compile(match)
+        return self._mask_regexp
 
     def checkout_tmp(self, project, repo, branch):
         '''
@@ -129,9 +139,8 @@ class Command(BaseCommand):
 
         # Parse subproject names out of them
         names = set()
-        maskre = self.get_match_regexp()
         for match in matches:
-            names.add(self.get_name(maskre, match))
+            names.add(self.get_name(match))
         self.logger.info('Found %d subprojects', len(names))
         return names
 
