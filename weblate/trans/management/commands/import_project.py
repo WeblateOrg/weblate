@@ -68,6 +68,7 @@ class Command(BaseCommand):
         self.file_format = None
         self.name_template = None
         self.base_file_template = None
+        self.logger = weblate.logger
 
     def format_string(self, template, match):
         '''
@@ -98,15 +99,15 @@ class Command(BaseCommand):
         os.chmod(workdir, 0755)
 
         # Initialize git repository
-        weblate.logger.info('Initializing git repository...')
+        self.logger.info('Initializing git repository...')
         gitrepo = git.Repo.init(workdir)
         gitrepo.git.remote('add', 'origin', repo)
 
-        weblate.logger.info('Fetching remote git repository...')
+        self.logger.info('Fetching remote git repository...')
         gitrepo.git.remote('update', 'origin')
         gitrepo.git.branch('--track', branch, 'origin/%s' % branch)
 
-        weblate.logger.info('Updating working copy in git repository...')
+        self.logger.info('Updating working copy in git repository...')
         gitrepo.git.checkout(branch)
 
         return workdir
@@ -124,14 +125,14 @@ class Command(BaseCommand):
         '''
         # Find matching files
         matches = self.get_matching_files(repo)
-        weblate.logger.info('Found %d matching files', len(matches))
+        self.logger.info('Found %d matching files', len(matches))
 
         # Parse subproject names out of them
         names = set()
         maskre = self.get_match_regexp()
         for match in matches:
             names.add(self.get_name(maskre, match))
-        weblate.logger.info('Found %d subprojects', len(names))
+        self.logger.info('Found %d subprojects', len(names))
         return names
 
     def handle(self, *args, **options):
@@ -200,13 +201,13 @@ class Command(BaseCommand):
                 project=project
             )
             if subprojects.exists():
-                weblate.logger.warn(
+                self.logger.warn(
                     'Subproject %s already exists, skipping',
                     name
                 )
                 continue
 
-            weblate.logger.info('Creating subproject %s', name)
+            self.logger.info('Creating subproject %s', name)
             SubProject.objects.create(
                 name=name,
                 slug=slug,
@@ -233,7 +234,7 @@ class Command(BaseCommand):
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
-            weblate.logger.warn(
+            self.logger.warn(
                 'Subproject %s already exists, skipping and using it '
                 'as main subproject',
                 name
@@ -241,7 +242,7 @@ class Command(BaseCommand):
             shutil.rmtree(workdir)
             return matches, 'weblate://%s/%s' % (project.slug, slug)
 
-        weblate.logger.info('Creating subproject %s as main subproject', name)
+        self.logger.info('Creating subproject %s as main subproject', name)
 
         # Rename gitrepository to new name
         os.rename(
