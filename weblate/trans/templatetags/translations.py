@@ -270,10 +270,10 @@ def admin_boolean_icon(val):
     icon_url = static('admin/img/icon-%s.gif' % TYPE_MAPPING[val]
                       )
     return mark_safe(
-        u'<img src="%(url)s" alt="%(text)s" title="%(text)s" />' % {
-            'url': icon_url,
-            'text': NAME_MAPPING[val],
-        }
+        u'<img src="{url}" alt="{text}" title="{text}" />'.format(
+            url=icon_url,
+            text=NAME_MAPPING[val],
+        )
     )
 
 
