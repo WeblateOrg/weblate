@@ -141,7 +141,13 @@ EXTRALANGS = (
         'Colognian',
         3,
         'n==0 ? 0 : n==1 ? 1 : 2',
-    )
+    ),
+    (
+        'sc',
+        'Sardinian',
+        2,
+        'n != 1',
+    ),
 )
 
 # List of defaul languages - the ones, where using
