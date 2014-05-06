@@ -88,12 +88,16 @@ def edit_dictionary(request, project, lang):
         dictionary=word,
     )[:10]
 
+    title = _('%(language)s dictionary for %(project)s') % {
+        'language': lang,
+        'project': prj
+    }
+
     return render(
         request,
         'edit_dictionary.html',
         {
-            'title': _('%(language)s dictionary for %(project)s') %
-            {'language': lang, 'project': prj},
+            'title': title,
             'project': prj,
             'language': lang,
             'form': form,
