@@ -8,7 +8,7 @@ if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
 fi
 
 # Grab version
-version=`python -c 'import weblate; print weblate.VERSION' | sed 's/-dev//'`
+version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print weblate.VERSION' | sed 's/-dev//'`
 namever=weblate-$version
 
 # What are we going to build?
