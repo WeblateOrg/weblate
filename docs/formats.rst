@@ -99,11 +99,6 @@ location than others :file:`res/values/strings.xml`.
 
 .. note::
 
-    This format is not yet supported by Translate-toolkit (merge request is
-    pending), but Weblate includes own support for it.
-    
-.. note::
-
     Android `string-array` structures are not currently supported. To work around this, 
     you can break you string arrays apart:
     
