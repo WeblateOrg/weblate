@@ -320,7 +320,7 @@ class Unit(models.Model):
 
     objects = UnitManager()
 
-    class Meta:
+    class Meta(object):
         permissions = (
             ('save_translation', "Can save translation"),
         )

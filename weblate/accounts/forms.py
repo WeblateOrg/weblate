@@ -159,7 +159,7 @@ class ProfileForm(forms.ModelForm):
     '''
     User profile editing.
     '''
-    class Meta:
+    class Meta(object):
         model = Profile
         fields = (
             'language',
@@ -184,7 +184,7 @@ class SubscriptionForm(forms.ModelForm):
     '''
     User subscription management.
     '''
-    class Meta:
+    class Meta(object):
         model = Profile
         fields = (
             'subscriptions',
@@ -225,7 +225,7 @@ class UserForm(forms.ModelForm):
         required=True
     )
 
-    class Meta:
+    class Meta(object):
         model = User
         fields = (
             'username',

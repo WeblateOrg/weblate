@@ -243,7 +243,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     is_git_lockable = True
 
-    class Meta:
+    class Meta(object):
         ordering = ['project__name', 'name']
         unique_together = (
             ('project', 'name'),

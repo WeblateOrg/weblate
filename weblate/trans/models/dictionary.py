@@ -124,7 +124,7 @@ class Dictionary(models.Model):
 
     objects = DictionaryManager()
 
-    class Meta:
+    class Meta(object):
         ordering = ['source']
         permissions = (
             ('upload_dictionary', "Can import dictionary"),

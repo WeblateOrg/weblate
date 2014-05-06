@@ -182,7 +182,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     is_git_lockable = True
 
-    class Meta:
+    class Meta(object):
         ordering = ['name']
         app_label = 'trans'
 

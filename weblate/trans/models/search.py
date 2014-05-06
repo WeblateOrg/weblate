@@ -26,7 +26,7 @@ class IndexUpdate(models.Model):
     unit = models.ForeignKey(Unit)
     source = models.BooleanField(default=True)
 
-    class Meta:
+    class Meta(object):
         app_label = 'trans'
 
     def __unicode__(self):

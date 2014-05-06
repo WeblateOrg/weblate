@@ -114,7 +114,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
 
     objects = SuggestionManager()
 
-    class Meta:
+    class Meta(object):
         permissions = (
             ('accept_suggestion', "Can accept suggestion"),
             ('override_suggestion', 'Can override suggestion state'),
@@ -204,7 +204,7 @@ class Vote(models.Model):
     user = models.ForeignKey(User)
     positive = models.BooleanField(default=True)
 
-    class Meta:
+    class Meta(object):
         unique_together = ('suggestion', 'user')
         app_label = 'trans'
 
@@ -271,7 +271,7 @@ class Comment(models.Model, RelatedUnitMixin):
 
     objects = CommentManager()
 
-    class Meta:
+    class Meta(object):
         ordering = ['timestamp']
         app_label = 'trans'
 
@@ -300,7 +300,7 @@ class Check(models.Model, RelatedUnitMixin):
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
     ignore = models.BooleanField(db_index=True)
 
-    class Meta:
+    class Meta(object):
         permissions = (
             ('ignore_check', "Can ignore check results"),
         )

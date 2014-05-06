@@ -28,6 +28,6 @@ class Source(models.Model):
     subproject = models.ForeignKey(SubProject)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
+    class Meta(object):
         app_label = 'trans'
         unique_together = ('checksum', 'subproject')

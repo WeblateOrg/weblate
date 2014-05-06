@@ -194,7 +194,7 @@ class Change(models.Model):
 
     objects = ChangeManager()
 
-    class Meta:
+    class Meta(object):
         ordering = ['-timestamp']
         app_label = 'trans'
 

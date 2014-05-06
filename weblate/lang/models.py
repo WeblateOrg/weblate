@@ -294,7 +294,7 @@ class Language(models.Model, PercentMixin):
 
     objects = LanguageManager()
 
-    class Meta:
+    class Meta(object):
         ordering = ['name']
 
     def __init__(self, *args, **kwargs):

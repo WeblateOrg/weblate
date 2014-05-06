@@ -146,7 +146,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
     is_git_lockable = False
 
-    class Meta:
+    class Meta(object):
         ordering = ['language__name']
         permissions = (
             ('upload_translation', "Can upload translation"),
