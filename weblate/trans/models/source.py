@@ -31,3 +31,6 @@ class Source(models.Model):
     class Meta(object):
         app_label = 'trans'
         unique_together = ('checksum', 'subproject')
+
+    def __unicode__(self):
+        return 'src:{0}'.format(self.checksum)
