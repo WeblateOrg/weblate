@@ -36,7 +36,10 @@ supported by Weblate and still has best support.
 Weblate supports contextual information stored in the file, adjusting it's
 headers or linking to corresponding source files.
 
-.. seealso:: https://en.wikipedia.org/wiki/Gettext, http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/po.html
+.. seealso:: 
+   
+   `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_, 
+   `Gettext in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/po.html>`_
 
 Monolingual Gettext
 +++++++++++++++++++
