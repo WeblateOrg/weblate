@@ -191,7 +191,7 @@ class ChangeAdmin(admin.ModelAdmin):
 class AdvertisementAdmin(admin.ModelAdmin):
     list_display = ['placement', 'date_start', 'date_end', 'text']
     search_fields = ['text', 'note']
-    date_hiearchy = 'date_end'
+    date_hierarchy = 'date_end'
 
 
 # Register in admin interface
