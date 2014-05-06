@@ -42,14 +42,18 @@ class Command(BaseCommand):
         make_option(
             '--name-template',
             default='%s',
-            help='Python formatting string, transforming the filemask '
-                 'match to a project name'
+            help=(
+                'Python formatting string, transforming the filemask '
+                'match to a project name'
+            )
         ),
         make_option(
             '--base-file-template',
             default='',
-            help='Python formatting string, transforming the filemask '
-                 'match to a monolingual base file name'
+            help=(
+                'Python formatting string, transforming the filemask '
+                'match to a monolingual base file name'
+            )
         ),
         make_option(
             '--file-format',
