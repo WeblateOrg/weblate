@@ -4,7 +4,7 @@ Changes
 weblate 1.9
 -----------
 
-Released on ? 2014.
+Released on May 6th 2014.
 
 * Django 1.6 compatibility.
 * No longer maintained compatibility with Django 1.4.
