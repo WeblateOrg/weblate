@@ -126,3 +126,6 @@ class Advertisement(models.Model):
         index_together = [
             ('placement', 'date_start', 'date_end'),
         ]
+
+    def __unicode__(self):
+        return self.text
