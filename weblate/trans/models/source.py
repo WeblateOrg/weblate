@@ -19,6 +19,7 @@
 #
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.models.subproject import SubProject
 
@@ -27,7 +28,16 @@ class Source(models.Model):
     checksum = models.CharField(max_length=40)
     subproject = models.ForeignKey(SubProject)
     timestamp = models.DateTimeField(auto_now_add=True)
-    priority = models.IntegerField(default=100)
+    priority = models.IntegerField(
+        default=100,
+        choices=(
+            (60, _('Very high')),
+            (80, _('High')),
+            (100, _('Medium')),
+            (120, _('Low')),
+            (140, _('Very low')),
+        )
+    )
 
     class Meta(object):
         app_label = 'trans'

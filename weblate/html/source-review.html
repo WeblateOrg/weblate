@@ -31,6 +31,7 @@
 <tr>
 <td></td>
 <th>{% trans "Source" %}</th>
+<th>{% trans "Priority" %}</td>
 <th>{% trans "Failing checks" %}</th>
 </tr>
 </thead>
@@ -42,6 +43,7 @@
 <span class="ui-icon ui-icon-triangle-1-e expander-icon"></span>
 </td>
 <td class="translatetext expander">{{ source.source|fmttranslation }}</td>
+<td class="number">{{ source.get_priority_display }}</td>
 <td>
 {% show_checks source.active_source_checks user %}
 {% if comments %}
@@ -61,7 +63,7 @@
 <tr><th colspan="2">{% trans "User comments" %}</th></tr>
 {% include "list-comments.html" %}
 {% endif %}
-<tr class="details"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
+<tr class="details"><td colspan="3"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
 </table>
 </td>
 <td>
