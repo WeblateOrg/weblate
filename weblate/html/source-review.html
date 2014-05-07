@@ -54,7 +54,7 @@
 <tr class="hidden">
 <td>
 </td>
-<td>
+<td colspan="3">
 <table>
 {% with source as unit %}
 {% include "unit-details.html" %}
@@ -63,10 +63,8 @@
 <tr><th colspan="2">{% trans "User comments" %}</th></tr>
 {% include "list-comments.html" %}
 {% endif %}
-<tr class="details"><td colspan="3"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
+<tr class="details"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
 </table>
-</td>
-<td>
 </td>
 </tr>
 {% endwith %}
