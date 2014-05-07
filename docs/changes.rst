@@ -8,6 +8,7 @@ Released on ? 2014.
 
 * Documentation improvements.
 * Added whiteboard for site wide messages.
+* Configurable strings priority.
 
 weblate 1.9
 -----------

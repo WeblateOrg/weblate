@@ -43,7 +43,7 @@
 <span class="ui-icon ui-icon-triangle-1-e expander-icon"></span>
 </td>
 <td class="translatetext expander">{{ source.source|fmttranslation }}</td>
-<td>{{ source.source_info.get_priority_display }}</td>
+<td>{{ source.source_info.get_priority_display }}{% if perms.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"></a>{% endif %}</td>
 <td>
 {% show_checks source.active_source_checks user %}
 {% if comments %}
@@ -71,6 +71,14 @@
 {% endfor %}
 </tbody>
 </table>
+
+<div class="hidden" id="priority_form" title="{% trans "Change string priority" %}">
+<form method="POST" action="">
+{% csrf_token %}
+{{ priority_form }}
+<input type="hidden" name="next" value="{{ request.get_full_path }}" />
+</form>
+</div>
 {% else %}
 <p>{% trans "No matching source strings found!" %}</p>
 {% endif %}

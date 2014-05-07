@@ -26,7 +26,7 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.trans.views.helper import get_subproject
-from weblate.trans.models import Translation
+from weblate.trans.models import Translation, Source
 from weblate.trans.forms import PriorityForm
 
 
@@ -71,6 +71,7 @@ def review_source(request, project, subproject):
             'source': source,
             'sources': sources,
             'rqtype': rqtype,
+            'priority_form': PriorityForm(),
             'title': _('Review source strings in %s') % obj.__unicode__(),
         }
     )
@@ -106,11 +107,11 @@ def edit_priority(request, pk):
     """
     Change source string priority.
     """
-    source = get_object_or_404(pk=pk)
+    source = get_object_or_404(Source, pk=pk)
     form = PriorityForm(request.POST)
     if form.is_valid():
         source.priority = form.cleaned_data['priority']
         source.save()
     else:
         messages.error(request, _('Failed to change a priority!'))
-    return redirect(request.POST.get('next', translation))
+    return redirect(request.POST.get('next', source.get_absolute_url()))

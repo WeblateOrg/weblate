@@ -502,5 +502,8 @@ class NewLanguageForm(forms.Form):
 class PriorityForm(forms.Form):
     priority = forms.ChoiceField(
         label=_('Priority'),
-        choices=PRIORITY_CHOICES
+        choices=PRIORITY_CHOICES,
+        help_text=_(
+            'Strings with higher priority are offered first to translators.'
+        ),
     )
