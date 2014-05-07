@@ -663,6 +663,7 @@ def create_groups(update):
             Permission.objects.get(codename='delete_comment'),
             Permission.objects.get(codename='add_suggestion'),
             Permission.objects.get(codename='use_mt'),
+            Permission.objects.get(codename='edit_priority'),
         )
 
     try:

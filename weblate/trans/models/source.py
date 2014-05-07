@@ -40,6 +40,9 @@ class Source(models.Model):
     )
 
     class Meta(object):
+        permissions = (
+            ('edit_priority', "Can edit priority"),
+        )
         app_label = 'trans'
         unique_together = ('checksum', 'subproject')
 
