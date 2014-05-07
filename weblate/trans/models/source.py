@@ -27,6 +27,7 @@ class Source(models.Model):
     checksum = models.CharField(max_length=40)
     subproject = models.ForeignKey(SubProject)
     timestamp = models.DateTimeField(auto_now_add=True)
+    priority = models.IntegerField(default=100)
 
     class Meta(object):
         app_label = 'trans'
