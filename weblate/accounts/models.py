@@ -37,7 +37,7 @@ from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project, Change
+from weblate.trans.models import Project, Change, Unit
 from weblate.trans.util import get_site_url, get_distinct_translations
 from weblate.accounts.avatar import get_user_display
 import weblate
@@ -554,7 +554,6 @@ class Profile(models.Model):
         '''
         Returns list of secondary units.
         '''
-        from weblate.trans.models.unit import Unit
         secondary_langs = self.secondary_languages.exclude(
             id=unit.translation.language.id
         )

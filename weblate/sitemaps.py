@@ -19,7 +19,8 @@
 #
 
 from django.contrib.sitemaps import GenericSitemap, Sitemap
-from weblate.trans.models import Project, SubProject, Translation
+from django.core.urlresolvers import reverse
+from weblate.trans.models import Project, SubProject, Translation, Change
 from weblate.accounts.models import Profile
 
 PROJECT_DICT = {
@@ -55,7 +56,6 @@ class PagesSitemap(Sitemap):
         return item[0]
 
     def lastmod(self, item):
-        from weblate.trans.models import Change
         return Change.objects.all()[0].timestamp
 
     def priority(self, item):
@@ -70,7 +70,6 @@ class EngageSitemap(GenericSitemap):
     Wrapper around GenericSitemap to point to engage page.
     '''
     def location(self, obj):
-        from django.core.urlresolvers import reverse
         return reverse('engage', kwargs={'project': obj.slug})
 
 
@@ -91,7 +90,6 @@ class EngageLangSitemap(Sitemap):
         return ret
 
     def location(self, item):
-        from django.core.urlresolvers import reverse
         return reverse(
             'engage-lang',
             kwargs={'project': item[0].slug, 'lang': item[1].code}
