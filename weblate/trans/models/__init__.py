@@ -21,7 +21,7 @@
 import os
 import shutil
 
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
 from weblate.trans.models.project import Project
@@ -54,3 +54,17 @@ def delete_object_dir(sender, instance, **kwargs):
     # Remove path if it exists
     if os.path.exists(project_path):
         shutil.rmtree(project_path)
+
+
+@receiver(post_save, sender=Source)
+def update_string_pririties(sender, instance, created=False, **kwargs):
+    """
+    Updates unit score
+    """
+    if instance.priority_modified:
+        units = Unit.objects.filter(
+            checksum=instance.checksum
+        ).exclude(
+            priority=instance.priority
+        )
+        units.update(priority=instance.priority)

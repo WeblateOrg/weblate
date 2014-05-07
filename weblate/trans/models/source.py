@@ -33,5 +33,21 @@ class Source(models.Model):
         app_label = 'trans'
         unique_together = ('checksum', 'subproject')
 
+    def __init__(self, *args, **kwargs):
+        super(Source, self).__init__(*args, **kwargs)
+        self.priority_modified = False
+
     def __unicode__(self):
         return 'src:{0}'.format(self.checksum)
+
+    def save(self, force_insert=False, **kwargs):
+        """
+        Wrapper around save to indicate whether priority has been
+        modified.
+        """
+        if force_insert:
+            self.priority_modified = (self.priority != 100)
+        else:
+            old = Source.objects.get(pk=self.pk)
+            self.priority_modified = (old.priority != self.priority)
+        super(Source, self).save(force_insert, **kwargs)
