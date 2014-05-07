@@ -41,6 +41,7 @@ from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
 
+
 class ViewTestCase(RepoTestCase):
     def setUp(self):
         super(ViewTestCase, self).setUp()
