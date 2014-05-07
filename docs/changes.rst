@@ -6,6 +6,9 @@ weblate 1.10
 
 Released on ? 2014.
 
+* Documentation improvements.
+* Added whiteboard for site wide messages.
+
 weblate 1.9
 -----------
 
