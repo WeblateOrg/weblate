@@ -32,6 +32,7 @@ import os
 import git
 from weblate.trans.models import Project, SubProject, Unit
 from weblate.trans.models import whiteboard as whiteboard_model
+from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests.test_util import get_test_file
 
@@ -638,3 +639,28 @@ class WhiteboardMessageTest(TestCase):
         Rather dumb test just to make sure there are no obvious parsing errors.
         """
         whiteboard_model.WhiteboardMessage()
+
+
+class SourceTest(RepoTestCase):
+    """
+    Source objects testing.
+    """
+    def setUp(self):
+        super(SourceTest, self).setUp()
+        self.create_subproject()
+
+    def test_exists(self):
+        self.assertTrue(Source.objects.exists())
+
+    def test_source_info(self):
+        unit = Unit.objects.all()[0]
+        self.assertIsNotNone(unit.get_source_string_info())
+
+    def test_priority(self):
+        unit = Unit.objects.all()[0]
+        self.assertEquals(unit.priority, 100)
+        source = unit.get_source_string_info()
+        source.priority = 200
+        source.save()
+        unit2 = Unit.objects.get(pk=unit.pk)
+        self.assertEquals(unit2.priority, 200)

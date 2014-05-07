@@ -319,6 +319,8 @@ class Unit(models.Model):
 
     num_words = models.IntegerField(default=0)
 
+    priority = models.IntegerField(default=100)
+
     objects = UnitManager()
 
     class Meta(object):
