@@ -420,7 +420,7 @@ class Unit(models.Model):
             return
 
         # Ensure we track source string
-        source, source_created = Source.objects.get_or_create(
+        source_info, source_created = Source.objects.get_or_create(
             checksum=self.checksum,
             subproject=self.translation.subproject
         )
@@ -436,7 +436,7 @@ class Unit(models.Model):
         self.comment = comment
         self.contentsum = contentsum
         self.previous_source = previous_source
-        self.priority = source.priority
+        self.priority = source_info.priority
         self.save(
             force_insert=created,
             backend=True,
