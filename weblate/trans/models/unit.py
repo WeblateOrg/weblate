@@ -336,6 +336,7 @@ class Unit(models.Model):
         """
         super(Unit, self).__init__(*args, **kwargs)
         self._all_flags = None
+        self._source_info = None
         self.old_translated = self.translated
         self.old_fuzzy = self.fuzzy
 
@@ -1051,14 +1052,14 @@ class Unit(models.Model):
             '\n'.join([FLAG_TEMPLATE % flag for flag in flags])
         )
 
-    def get_source_string_info(self):
+    @property
+    def source_info(self):
         """
         Returns related source string object.
         """
-        try:
-            return Source.objects.get(
+        if self._source_info is None:
+            self._source_info = Source.objects.get(
                 checksum=self.checksum,
                 subproject=self.translation.subproject
             )
-        except Source.DoesNotExist:
-            return None
+        return self._source_info
