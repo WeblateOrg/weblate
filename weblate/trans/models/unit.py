@@ -419,6 +419,12 @@ class Unit(models.Model):
                 previous_source == self.previous_source):
             return
 
+        # Ensure we track source string
+        source, source_created = Source.objects.get_or_create(
+            checksum=self.checksum,
+            subproject=self.translation.subproject
+        )
+
         # Store updated values
         self.position = pos
         self.location = location
@@ -430,6 +436,7 @@ class Unit(models.Model):
         self.comment = comment
         self.contentsum = contentsum
         self.previous_source = previous_source
+        self.priority = source.priority
         self.save(
             force_insert=created,
             backend=True,
@@ -437,14 +444,8 @@ class Unit(models.Model):
             same_state=same_state
         )
 
-        # Ensure we track source string
-        dummy, created = Source.objects.get_or_create(
-            checksum=self.checksum,
-            subproject=self.translation.subproject
-        )
-
         # Create change object for new source string
-        if created:
+        if source_created:
             from weblate.trans.models.changes import Change
 
             Change.objects.create(
