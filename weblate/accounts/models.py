@@ -731,14 +731,14 @@ def sync_create_groups(sender, app, **kwargs):
 
 
 @receiver(post_save, sender=User)
-def create_profile_callback(sender, **kwargs):
+def create_profile_callback(sender, instance, created=False, **kwargs):
     '''
     Automatically adds user to Users group.
     '''
-    if kwargs['created']:
+    if created:
         # Add user to Users group if it exists
         try:
             group = Group.objects.get(name='Users')
-            kwargs['instance'].groups.add(group)
+            instance.groups.add(group)
         except Group.DoesNotExist:
             pass
