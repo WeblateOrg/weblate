@@ -637,4 +637,4 @@ class WhiteboardMessageTest(TestCase):
 
         Rather dumb test just to make sure there are no obvious parsing errors.
         """
-        _ = whiteboard_model.WhiteboardMessage
+        whiteboard_model.WhiteboardMessage()
