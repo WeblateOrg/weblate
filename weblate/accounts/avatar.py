@@ -85,6 +85,18 @@ def avatar_for_email(email, size=80):
     return url
 
 
+def get_fallback_avatar(size):
+    """
+    Returns fallback avatar.
+    """
+    fallback = os.path.join(
+        appsettings.WEB_ROOT,
+        'media/weblate-{0}.png'.format(size)
+    )
+    with open(fallback, 'r') as handle:
+        return handle.read()
+
+
 def get_avatar_image(user, size):
     """
     Returns avatar image from cache (if available) or downloads it.
@@ -112,12 +124,7 @@ def get_avatar_image(user, size):
                 user.username,
                 str(error)
             )
-            fallback = os.path.join(
-                appsettings.WEB_ROOT,
-                'media/weblate-{0}.png'.format(size)
-            )
-            with open(fallback, 'r') as handle:
-                return handle.read()
+            return get_fallback_avatar(size)
 
     return image
 
