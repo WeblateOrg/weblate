@@ -166,7 +166,7 @@ def get_user_display(user, icon=True, link=False):
 
     # Icon requested?
     if icon and appsettings.ENABLE_AVATARS:
-        if user is None:
+        if user is None or user.email == 'noreply@weblate.org':
             avatar = os.path.join(
                 settings.MEDIA_URL,
                 'weblate-32.png'
