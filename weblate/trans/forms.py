@@ -500,7 +500,7 @@ class NewLanguageForm(forms.Form):
 
 
 class PriorityForm(forms.Form):
-    priority = forms.ChoiceField}(
+    priority = forms.ChoiceField(
         label=_('Priority'),
         choices=PRIORITY_CHOICES
     )
