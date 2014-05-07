@@ -319,7 +319,7 @@ class Unit(models.Model):
 
     num_words = models.IntegerField(default=0)
 
-    priority = models.IntegerField(default=100)
+    priority = models.IntegerField(default=100, db_index=True)
 
     objects = UnitManager()
 
@@ -327,7 +327,7 @@ class Unit(models.Model):
         permissions = (
             ('save_translation', "Can save translation"),
         )
-        ordering = ['position']
+        ordering = ['priority', 'position']
         app_label = 'trans'
 
     def __init__(self, *args, **kwargs):
