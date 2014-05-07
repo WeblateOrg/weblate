@@ -85,6 +85,16 @@ def avatar_for_email(email, size=80):
     return url
 
 
+def get_fallback_avatar_url(size):
+    """
+    Returns URL of fallback avatar.
+    """
+    return os.path.join(
+        settings.MEDIA_URL,
+        'weblate-{0}.png'.format(size)
+    )
+
+
 def get_fallback_avatar(size):
     """
     Returns fallback avatar.
@@ -167,10 +177,7 @@ def get_user_display(user, icon=True, link=False):
     # Icon requested?
     if icon and appsettings.ENABLE_AVATARS:
         if user is None or user.email == 'noreply@weblate.org':
-            avatar = os.path.join(
-                settings.MEDIA_URL,
-                'weblate-32.png'
-            )
+            avatar = get_fallback_avatar_url(32)
         else:
             avatar = reverse(
                 'user_avatar', kwargs={'user': user.username, 'size': 32}

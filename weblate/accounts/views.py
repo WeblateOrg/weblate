@@ -42,7 +42,7 @@ from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
 import weblate
-from weblate.accounts.avatar import get_avatar_image
+from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans.models import Change, Project
 from weblate.accounts.forms import (
@@ -345,6 +345,9 @@ def user_avatar(request, user, size):
     User avatar page.
     '''
     user = get_object_or_404(User, username=user)
+
+    if user.email == 'noreply@weblate.org':
+        return redirect(get_fallback_avatar_url(size))
 
     return HttpResponse(
         content_type='image/png',
