@@ -31,6 +31,7 @@ import shutil
 import os
 import git
 from weblate.trans.models import Project, SubProject, Unit
+from weblate.trans.models import whiteboard as whiteboard_model
 from weblate import appsettings
 from weblate.trans.tests.test_util import get_test_file
 
@@ -626,3 +627,14 @@ class TranslationTest(RepoTestCase):
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
         translation.full_clean()
+
+
+class WhiteboardMessageTest(TestCase):
+    """Test(s) for WhiteboardMessage model."""
+
+    def test_can_be_imported(self):
+        """Test that whiteboard model can be imported.
+
+        Rather dumb test just to make sure there are no obvious parsing errors.
+        """
+        _ = whiteboard_model.WhiteboardMessage

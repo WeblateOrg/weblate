@@ -15,6 +15,27 @@
 </p>
 {% endif %}
 
+{% if whiteboard_enabled %}
+<h2>{% trans "Whiteboard" %}</h2>
+
+<div class="tabs" id="whiteboard-tabs">
+    <ul>
+        <li><a href="#messages">{% trans "Messages" %}</a></li>
+        <li><a href="#add">{% trans "Add" %}</a></li>
+    </ul>
+
+    <div id="messages">
+        {% for msg in whiteboard_messages %}
+        <snan class="">{{ msg.message }}</snan>
+        {% endfor %}
+    </div>
+
+    <div id="add">
+        not implemented :(
+    </div>
+</div>
+{% endif %}
+
 <h2>{% trans "Translations" %}</h2>
 
 <div class="tabs" id="index-tabs">

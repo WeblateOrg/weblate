@@ -36,14 +36,15 @@ from weblate.trans.models.changes import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
+from weblate.trans.models.whiteboard import WhiteboardMessage
 
 
 @receiver(post_delete, sender=Project)
 @receiver(post_delete, sender=SubProject)
 def delete_object_dir(sender, instance, **kwargs):
-    '''
+    """
     Handler to delete (sub)project directory on project deletion.
-    '''
+    """
     # Do not delete linked subprojects
     if hasattr(instance, 'is_repo_link') and instance.is_repo_link:
         return
