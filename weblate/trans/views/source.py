@@ -1,0 +1,97 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2014 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <http://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
+from django.utils.translation import ugettext as _
+
+from weblate.trans.views.helper import get_subproject
+from weblate.trans.models import Translation
+
+
+def review_source(request, project, subproject):
+    """
+    Listing of source strings to review.
+    """
+    obj = get_subproject(request, project, subproject)
+
+    # Grab first translation in subproject
+    # (this assumes all have same source strings)
+    try:
+        source = obj.translation_set.all()[0]
+    except Translation.DoesNotExist:
+        raise Http404('No translation exists in this subproject.')
+
+    # Grab search type and page number
+    rqtype = request.GET.get('type', 'all')
+    limit = request.GET.get('limit', 50)
+    page = request.GET.get('page', 1)
+    ignored = 'ignored' in request.GET
+
+    # Filter units:
+    sources = source.unit_set.filter_type(rqtype, source, ignored)
+
+    paginator = Paginator(sources, limit)
+
+    try:
+        sources = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        sources = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        sources = paginator.page(paginator.num_pages)
+
+    return render(
+        request,
+        'source-review.html',
+        {
+            'object': obj,
+            'source': source,
+            'sources': sources,
+            'rqtype': rqtype,
+            'title': _('Review source strings in %s') % obj.__unicode__(),
+        }
+    )
+
+
+def show_source(request, project, subproject):
+    """
+    Show source strings summary and checks.
+    """
+    obj = get_subproject(request, project, subproject)
+
+    # Grab first translation in subproject
+    # (this assumes all have same source strings)
+    try:
+        source = obj.translation_set.all()[0]
+    except Translation.DoesNotExist:
+        raise Http404('No translation exists in this subproject.')
+
+    return render(
+        request,
+        'source.html',
+        {
+            'object': obj,
+            'source': source,
+            'title': _('Source strings in %s') % obj.__unicode__(),
+        }
+    )

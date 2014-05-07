@@ -131,12 +131,12 @@ urlpatterns = patterns(
     ),
     url(
         r'^projects/' + SUBPROJECT + 'source/$',
-        'weblate.trans.views.basic.show_source',
+        'weblate.trans.views.source.show_source',
         name='show_source',
     ),
     url(
         r'^projects/' + SUBPROJECT + 'source/review/$',
-        'weblate.trans.views.basic.review_source',
+        'weblate.trans.views.source.review_source',
         name='review_source',
     ),
 

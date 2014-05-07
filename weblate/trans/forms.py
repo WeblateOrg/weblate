@@ -27,6 +27,7 @@ from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
+from weblate.trans.models.source import PRIORITY_CHOICES
 from urllib import urlencode
 import weblate
 
@@ -496,3 +497,10 @@ class NewLanguageForm(forms.Form):
         super(NewLanguageForm, self).__init__(*args, **kwargs)
         choices = [(l.code, l.__unicode__()) for l in Language.objects.all()]
         self.fields['lang'].choices = choices
+
+
+class PriorityForm(forms.Form):
+    priority = forms.ChoiceField}(
+        label=_('Priority'),
+        choices=PRIORITY_CHOICES
+    )
