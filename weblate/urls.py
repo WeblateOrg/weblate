@@ -139,6 +139,11 @@ urlpatterns = patterns(
         'weblate.trans.views.source.review_source',
         name='review_source',
     ),
+    url(
+        r'^source/(?P<pk>[0-9]+)/priority/$',
+        'weblate.trans.views.source.edit_priority',
+        name='edit_priority'
+    ),
 
     # Translation pages
     url(
