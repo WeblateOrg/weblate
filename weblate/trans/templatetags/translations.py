@@ -267,8 +267,7 @@ def admin_boolean_icon(val):
     '''
     Admin icon wrapper.
     '''
-    icon_url = static('admin/img/icon-%s.gif' % TYPE_MAPPING[val]
-                      )
+    icon_url = static('admin/img/icon-%s.gif' % TYPE_MAPPING[val])
     return mark_safe(
         u'<img src="{url}" alt="{text}" title="{text}" />'.format(
             url=icon_url,
