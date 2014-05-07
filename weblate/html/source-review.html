@@ -31,7 +31,7 @@
 <tr>
 <td></td>
 <th>{% trans "Source" %}</th>
-<th>{% trans "Priority" %}</td>
+<th>{% trans "Priority" %}</th>
 <th>{% trans "Failing checks" %}</th>
 </tr>
 </thead>
@@ -43,7 +43,7 @@
 <span class="ui-icon ui-icon-triangle-1-e expander-icon"></span>
 </td>
 <td class="translatetext expander">{{ source.source|fmttranslation }}</td>
-<td class="number">{{ source.get_priority_display }}</td>
+<td>{{ source.source_info.get_priority_display }}</td>
 <td>
 {% show_checks source.active_source_checks user %}
 {% if comments %}
