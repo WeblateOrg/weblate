@@ -44,6 +44,13 @@ class AdvertisementTest(TestCase):
         )
         self.assertTrue('Weblate' in adv.text)
 
+    def test_self_html(self):
+        appsettings.SELF_ADVERTISEMENT = True
+        adv = Advertisement.objects.get_advertisement(
+            Advertisement.PLACEMENT_MAIL_HTML
+        )
+        self.assertTrue('Weblate' in adv.text)
+
     def test_existing(self):
         appsettings.SELF_ADVERTISEMENT = False
         adv_created = Advertisement.objects.create(
