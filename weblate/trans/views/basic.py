@@ -30,9 +30,8 @@ import django.views.defaults
 
 from weblate.trans.models import (
     Project, SubProject, Translation, Check,
-    Dictionary, Change, Unit
+    Dictionary, Change, Unit, WhiteboardMessage
 )
-from weblate.trans.models import whiteboard as whiteboard_models
 from weblate.trans.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
@@ -66,7 +65,7 @@ def home(request):
         )
         return redirect('password')
 
-    wb_messages = whiteboard_models.WhiteboardMessage.objects.order_by(
+    wb_messages = WhiteboardMessage.objects.order_by(
         'message')
 
     projects = Project.objects.all_acl(request.user)

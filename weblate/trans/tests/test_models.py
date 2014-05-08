@@ -30,8 +30,7 @@ from django.core.exceptions import ValidationError
 import shutil
 import os
 import git
-from weblate.trans.models import Project, SubProject, Unit
-from weblate.trans.models import whiteboard as whiteboard_model
+from weblate.trans.models import Project, SubProject, Unit, WhiteboardMessage
 from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests.test_util import get_test_file
@@ -638,7 +637,7 @@ class WhiteboardMessageTest(TestCase):
 
         Rather dumb test just to make sure there are no obvious parsing errors.
         """
-        whiteboard_model.WhiteboardMessage()
+        WhiteboardMessage()
 
 
 class SourceTest(RepoTestCase):

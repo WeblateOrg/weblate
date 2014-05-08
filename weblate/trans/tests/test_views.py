@@ -35,7 +35,7 @@ from django.core import mail
 from PIL import Image
 
 from weblate import appsettings
-from weblate.trans.models import whiteboard as whiteboard_models
+from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.models.changes import Change
 from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.tests.test_models import RepoTestCase
@@ -1242,7 +1242,7 @@ class HomeViewTest(ViewTestCase):
         # appsettings.ENABLE_WHITEBOARD is just a constant that is being
         # assigned during first import
         appsettings.ENABLE_WHITEBOARD = True
-        msg = whiteboard_models.WhiteboardMessage(message='test_message')
+        msg = WhiteboardMessage(message='test_message')
         msg.save()
 
         response = self.client.get(reverse('home'))
