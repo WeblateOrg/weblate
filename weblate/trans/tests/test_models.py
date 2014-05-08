@@ -654,12 +654,12 @@ class SourceTest(RepoTestCase):
 
     def test_source_info(self):
         unit = Unit.objects.all()[0]
-        self.assertIsNotNone(unit.get_source_string_info())
+        self.assertIsNotNone(unit.source_info)
 
     def test_priority(self):
         unit = Unit.objects.all()[0]
         self.assertEquals(unit.priority, 100)
-        source = unit.get_source_string_info()
+        source = unit.source_info
         source.priority = 200
         source.save()
         unit2 = Unit.objects.get(pk=unit.pk)
