@@ -62,12 +62,6 @@ class AdvertisementManager(models.Manager):
         if placement == Advertisement.PLACEMENT_MAIL_TEXT:
             text, param = random.choice(self._fallback_choices)
             text = text.format(param)
-            return Advertisement(
-                date_start=now,
-                date_end=now,
-                placement=placement,
-                text=text
-            )
         elif placement == Advertisement.PLACEMENT_MAIL_HTML:
             text = random.choice([
                 u'<a href="{0}">{1}</a>'.format(
@@ -79,14 +73,15 @@ class AdvertisementManager(models.Manager):
                     _('Support Weblate using GitTip'),
                 ),
             ])
-            return Advertisement(
-                date_start=now,
-                date_end=now,
-                placement=placement,
-                text=text
-            )
+        else:
+            return None
 
-        return None
+        return Advertisement(
+            date_start=now,
+            date_end=now,
+            placement=placement,
+            text=text
+        )
 
 
 class Advertisement(models.Model):
