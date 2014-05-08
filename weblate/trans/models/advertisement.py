@@ -29,6 +29,11 @@ GITTIP = 'https://www.gittip.com/nijel/'
 
 
 class AdvertisementManager(models.Manager):
+    _fallback_choices = (
+        (ugettext_lazy('Donate to Weblate at {0}'), DONATE),
+        (ugettext_lazy('Support Weblate at {0}'), GITTIP),
+    )
+
     def get_advertisement(self, placement):
         '''
         Returns random advertisement for given placement.
@@ -55,10 +60,8 @@ class AdvertisementManager(models.Manager):
         now = timezone.now()
 
         if placement == Advertisement.PLACEMENT_MAIL_TEXT:
-            text = random.choice([
-                _('Donate to Weblate at {0}').format(DONATE),
-                _('Support Weblate at {0}').format(GITTIP),
-            ])
+            text, param = random.choice(self._fallback_choices)
+            text = text.format(param)
             return Advertisement(
                 date_start=now,
                 date_end=now,
