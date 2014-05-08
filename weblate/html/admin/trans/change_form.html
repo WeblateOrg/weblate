@@ -3,7 +3,7 @@
 {% load translations %}
 
 {% block form_top %}
-{% if opts.module_name == 'project' or opts.module_name == 'subproject' or opts.module_name == 'advertisement' %}
+{% if opts.module_name == 'project' or opts.module_name == 'subproject' or opts.module_name == 'advertisement' or opts.module_name == 'whiteboardmessage' %}
 {% if opts.module_name == 'advertisement' %}
 {% doc_url 'admin/advertisement' as url %}
 {% else %}

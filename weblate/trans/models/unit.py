@@ -336,6 +336,7 @@ class Unit(models.Model):
         """
         super(Unit, self).__init__(*args, **kwargs)
         self._all_flags = None
+        self._source_info = None
         self.old_translated = self.translated
         self.old_fuzzy = self.fuzzy
 
@@ -418,6 +419,12 @@ class Unit(models.Model):
                 previous_source == self.previous_source):
             return
 
+        # Ensure we track source string
+        source_info, source_created = Source.objects.get_or_create(
+            checksum=self.checksum,
+            subproject=self.translation.subproject
+        )
+
         # Store updated values
         self.position = pos
         self.location = location
@@ -429,6 +436,7 @@ class Unit(models.Model):
         self.comment = comment
         self.contentsum = contentsum
         self.previous_source = previous_source
+        self.priority = source_info.priority
         self.save(
             force_insert=created,
             backend=True,
@@ -436,14 +444,8 @@ class Unit(models.Model):
             same_state=same_state
         )
 
-        # Ensure we track source string
-        dummy, created = Source.objects.get_or_create(
-            checksum=self.checksum,
-            subproject=self.translation.subproject
-        )
-
         # Create change object for new source string
-        if created:
+        if source_created:
             from weblate.trans.models.changes import Change
 
             Change.objects.create(
@@ -1051,14 +1053,14 @@ class Unit(models.Model):
             '\n'.join([FLAG_TEMPLATE % flag for flag in flags])
         )
 
-    def get_source_string_info(self):
+    @property
+    def source_info(self):
         """
         Returns related source string object.
         """
-        try:
-            return Source.objects.get(
+        if self._source_info is None:
+            self._source_info = Source.objects.get(
                 checksum=self.checksum,
                 subproject=self.translation.subproject
             )
-        except Source.DoesNotExist:
-            return None
+        return self._source_info

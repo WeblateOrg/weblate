@@ -26,6 +26,7 @@ from django.utils import timezone
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.dictionary import Dictionary
+from weblate.trans.models.project import Project
 from weblate.accounts.avatar import get_user_display
 
 
@@ -134,7 +135,6 @@ class ChangeManager(models.Manager):
         Prefilters Changes by ACL for users and fetches related fields
         for last changes display.
         '''
-        from weblate.trans.models import Project
         result = self.prefetch()
 
         acl_projects, filtered = Project.objects.get_acl_status(user)

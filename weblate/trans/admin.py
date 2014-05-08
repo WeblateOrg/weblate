@@ -22,9 +22,9 @@ from django.contrib import admin
 from django.conf import settings
 from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
-    Unit, Suggestion, Comment, Check, Dictionary, Change
+    Unit, Suggestion, Comment, Check, Dictionary, Change,
+    Source, WhiteboardMessage
 )
-from weblate.trans.models import whiteboard as whiteboard_model
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -201,11 +201,16 @@ class AdvertisementAdmin(admin.ModelAdmin):
     date_hierarchy = 'date_end'
 
 
+class SourceAdmin(admin.ModelAdmin):
+    list_display = ['checksum', 'priority', 'timestamp']
+    date_hierarchy = 'timestamp'
+
+
 # Register in admin interface
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(SubProject, SubProjectAdmin)
 admin.site.register(Advertisement, AdvertisementAdmin)
-admin.site.register(whiteboard_model.WhiteboardMessage, WhiteboardAdmin)
+admin.site.register(WhiteboardMessage, WhiteboardAdmin)
 
 # Show some controls only in debug mode
 if settings.DEBUG:
@@ -216,3 +221,4 @@ if settings.DEBUG:
     admin.site.register(Check, CheckAdmin)
     admin.site.register(Dictionary, DictionaryAdmin)
     admin.site.register(Change, ChangeAdmin)
+    admin.site.register(Source, SourceAdmin)

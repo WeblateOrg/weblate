@@ -268,6 +268,31 @@ $(function () {
     $('.sug-upvote').button({text: false, icons: { primary: "ui-icon-plusthick" }});
     $('.sug-downvote').button({text: false, icons: { primary: "ui-icon-minusthick" }});
     $('.historybutton').button({text: true, icons: { primary: "ui-icon-arrowreturn-1-w" }});
+    $('.edit-priority').button({text: false, icons: { primary: "ui-icon-pencil" }}).click(function (e) {
+        var form = $('#priority_form');
+        form.find('form').attr('action', $(this).attr('href'));
+        form.find('#id_priority').val($(this).data('priority'));
+        form.dialog({
+            modal: true,
+            autoOpen: true,
+            buttons: [
+                {
+                    text: gettext("Ok"),
+                    click: function () {
+                        $(this).find('form').submit();
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: gettext("Cancel"),
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        });
+        e.preventDefault();
+    });
     $('#navi').buttonset();
     $('#button-first').button({text: false, icons: { primary: "ui-icon-seek-first" }});
     $('#button-next').button({text: false, icons: { primary: "ui-icon-seek-next" }});
