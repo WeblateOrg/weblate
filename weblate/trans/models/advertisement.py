@@ -33,6 +33,10 @@ class AdvertisementManager(models.Manager):
         (ugettext_lazy('Donate to Weblate at {0}'), DONATE),
         (ugettext_lazy('Support Weblate at {0}'), GITTIP),
     )
+    _fallback_choices_html = (
+        (ugettext_lazy('Donate to Weblate'), DONATE),
+        (ugettext_lazy('Support Weblate using GitTip'), GITTIP),
+    )
 
     def get_advertisement(self, placement):
         '''
@@ -60,19 +64,13 @@ class AdvertisementManager(models.Manager):
         now = timezone.now()
 
         if placement == Advertisement.PLACEMENT_MAIL_TEXT:
-            text, param = random.choice(self._fallback_choices)
-            text = text.format(param)
+            text, url = random.choice(self._fallback_choices)
+            text = text.format(url)
         elif placement == Advertisement.PLACEMENT_MAIL_HTML:
-            text = random.choice([
-                u'<a href="{0}">{1}</a>'.format(
-                    DONATE,
-                    _('Donate to Weblate'),
-                ),
-                u'<a href="{0}">{1}</a>'.format(
-                    GITTIP,
-                    _('Support Weblate using GitTip'),
-                ),
-            ])
+            text, url = random.choice(self._fallback_choices_html)
+            text = u'<a href="{0}">{1}</a>'.format(
+                text, url
+            )
         else:
             return None
 
