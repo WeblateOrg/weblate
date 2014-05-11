@@ -18,8 +18,8 @@
 
 
 <div class="row">
-
 <div class="col-md-6">
+
 <div class="panel panel-primary">
   <div class="panel-heading">{% trans "Project Information" %}</div>
   <div class="panel-body">
@@ -29,33 +29,85 @@
 </table>
 </div>
 </div>
-</div>
-</div>
 
-{% with object.get_translation_checks as checks%}
-{% if checks %}
-<div class="row">
-<div class="col-md-6">
 <div class="panel panel-primary">
 <div class="panel-heading">{% trans "Strings to check" %}</div>
 <div class="list-group">
   <div class="panel-body">
-{% for c in checks %}
+{% for c in object.get_translation_checks %}
 <a class="list-group-item" href="{{ object.get_translate_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
 {% endfor %}
 </div>
 </div>
 </div>
+
+</div>
+
+<div class="col-md-6">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Stats" %}</div>
+<div class="panel-body">
+<table>
+<tr>
+<td></td>
+<th>{% trans "Percent" %}</th>
+<th>{% trans "Strings" %}</th>
+<th>{% trans "Words" %}</th>
+</tr>
+<tr>
+<th>{% trans "Total" %}</th>
+<td class="percent"></td>
+<td class="number">{{ object.total }}</td>
+<td class="number">{{ object.total_words }}</td>
+</tr>
+<tr>
+<th>{% trans "Translated" %}</th>
+<td class="percent">{{ object.get_translated_percent }}%</td>
+<td class="number">{{ object.translated }}</td>
+<td class="number">{{ object.translated_words }}</td>
+</tr>
+<tr>
+<th>{% trans "Fuzzy" %}</th>
+<td class="percent">{{ object.get_fuzzy_percent }}%</td>
+<td class="number">{{ object.fuzzy }}</td>
+<td class="number"></td>
+</tr>
+<tr>
+<th>{% trans "Failing check" %}</th>
+<td class="percent">{{ object.get_failing_checks_percent }}%</td>
+<td class="number">{{ object.failing_checks }}</td>
+<td class="number"></td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+<tr>
+<th>{% trans "Last change" %}<th>
+<td class="number" colspan="3">{{ object.get_last_change }}</td>
+</tr>
+<tr>
+<th>{% trans "Last author" %}<th>
+<td class="number" colspan="3">{{ object.get_last_author }}</td>
+</tr>
+</table>
 </div>
 </div>
-{% endif %}
-{% endwith %}
+
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "History" %}</div>
+<div class="panel-body">
+{% include "last-changes.html" %}
+</div>
+</div>
+
+</div>
+
+</div>
 
 <h2>{% trans "Tools" %}</h2>
 
 <div class="tabs" id="translation-tabs">
 <ul>
-<li><a href="#changes">{% trans "History" %}</a></li>
 <li><a href="#search">{% trans "Search" %}</a></li>
 <li><a href="#files">{% trans "Files" %}</a></li>
 {% if autoform %}
@@ -66,7 +118,6 @@
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
 <li><a href="#share">{% trans "Share" %}</a></li>
-<li><a href="#stats">{% trans "Stats" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>
 
@@ -109,7 +160,6 @@
 <div id="changes">
 
 <h3>{% trans "History" %}</h3>
-{% include "last-changes.html" %}
 
 {% if review_form %}
 <h3>{% trans "Review" %}</h3>
@@ -160,51 +210,6 @@
 {% endwith %}
 </div>
 
-<div id="stats">
-<table>
-<tr>
-<td></td>
-<th>{% trans "Percent" %}</th>
-<th>{% trans "Strings" %}</th>
-<th>{% trans "Words" %}</th>
-</tr>
-<tr>
-<th>{% trans "Total" %}</th>
-<td class="percent"></td>
-<td class="number">{{ object.total }}</td>
-<td class="number">{{ object.total_words }}</td>
-</tr>
-<tr>
-<th>{% trans "Translated" %}</th>
-<td class="percent">{{ object.get_translated_percent }}%</td>
-<td class="number">{{ object.translated }}</td>
-<td class="number">{{ object.translated_words }}</td>
-</tr>
-<tr>
-<th>{% trans "Fuzzy" %}</th>
-<td class="percent">{{ object.get_fuzzy_percent }}%</td>
-<td class="number">{{ object.fuzzy }}</td>
-<td class="number"></td>
-</tr>
-<tr>
-<th>{% trans "Failing check" %}</th>
-<td class="percent">{{ object.get_failing_checks_percent }}%</td>
-<td class="number">{{ object.failing_checks }}</td>
-<td class="number"></td>
-</tr>
-<tr>
-<td colspan="4">&nbsp;</td>
-</tr>
-<tr>
-<th>{% trans "Last change" %}<th>
-<td class="number" colspan="3">{{ object.get_last_change }}</td>
-</tr>
-<tr>
-<th>{% trans "Last author" %}<th>
-<td class="number" colspan="3">{{ object.get_last_author }}</td>
-</tr>
-</table>
-</div>
 
 </div>
 
