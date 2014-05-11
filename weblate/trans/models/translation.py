@@ -1045,14 +1045,15 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns list of failing checks on current translation.
         '''
-        result = [('all', _('All strings'))]
+        result = [('all', _('All strings'), self.total)]
 
         # Untranslated strings
         nottranslated = self.unit_set.count_type('untranslated', self)
         if nottranslated > 0:
             result.append((
                 'untranslated',
-                _('Untranslated strings (%d)') % nottranslated
+                _('Untranslated strings (%d)') % nottranslated,
+                nottranslated,
             ))
 
         # Fuzzy strings
@@ -1060,21 +1061,24 @@ class Translation(models.Model, URLMixin, PercentMixin):
         if fuzzy > 0:
             result.append((
                 'fuzzy',
-                _('Fuzzy strings (%d)') % fuzzy
+                _('Fuzzy strings (%d)') % fuzzy,
+                fuzzy,
             ))
 
         # Translations with suggestions
         if self.have_suggestion > 0:
             result.append((
                 'suggestions',
-                _('Strings with suggestions (%d)') % self.have_suggestion
+                _('Strings with suggestions (%d)') % self.have_suggestion,
+                self.have_suggestion,
             ))
 
         # All checks
         if self.failing_checks > 0:
             result.append((
                 'allchecks',
-                _('Strings with any failing checks (%d)') % self.failing_checks
+                _('Strings with any failing checks (%d)') % self.failing_checks,
+                self.failing_checks,
             ))
 
         # Process specific checks
@@ -1084,14 +1088,15 @@ class Translation(models.Model, URLMixin, PercentMixin):
             cnt = self.unit_set.count_type(check, self)
             if cnt > 0:
                 desc = CHECKS[check].description + (' (%d)' % cnt)
-                result.append((check, desc))
+                result.append((check, desc, cnt))
 
         # Grab comments
         targetcomments = self.unit_set.count_type('targetcomments', self)
         if targetcomments > 0:
             result.append((
                 'targetcomments',
-                _('Strings with comments (%d)') % targetcomments
+                _('Strings with comments (%d)') % targetcomments,
+                targetcomments,
             ))
 
         return result
