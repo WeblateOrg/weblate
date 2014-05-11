@@ -47,13 +47,16 @@
 <div class="panel panel-primary">
 <div class="panel-heading">{% trans "Stats" %}</div>
 <div class="panel-body">
-<table>
+<table class="table">
+<thead>
 <tr>
 <td></td>
 <th>{% trans "Percent" %}</th>
 <th>{% trans "Strings" %}</th>
 <th>{% trans "Words" %}</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <th>{% trans "Total" %}</th>
 <td class="percent"></td>
@@ -89,6 +92,7 @@
 <th>{% trans "Last author" %}<th>
 <td class="number" colspan="3">{{ object.get_last_author }}</td>
 </tr>
+</tbody>
 </table>
 </div>
 </div>
