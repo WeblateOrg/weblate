@@ -82,15 +82,6 @@ def home(request):
             _('Please set your full name in your profile.')
         )
 
-    # Load user translations if user is authenticated
-    usertranslations = None
-    if request.user.is_authenticated():
-        usertranslations = Translation.objects.filter(
-            language__in=request.user.profile.languages.all()
-        ).order_by(
-            'subproject__project__name', 'subproject__name'
-        ).select_related()
-
     # Some stats
     top_translations = Profile.objects.order_by('-translated')[:10]
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
@@ -106,7 +97,6 @@ def home(request):
             'last_changes': last_changes,
             'last_changes_rss': reverse('rss'),
             'last_changes_url': '',
-            'usertranslations': usertranslations,
             'search_form': SearchForm(),
             'whiteboard_messages': wb_messages,
         }
