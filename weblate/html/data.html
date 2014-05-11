@@ -4,12 +4,10 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'data_project' project=object.slug %}">{% trans "data" %}</a></li>
+<li><a href="{% url 'data_project' project=object.slug %}">{% trans "data exports" %}</a></li>
 {% endblock %}
 
 {% block content %}
-
-<h2>{% trans "Data export" %}</h2>
 
 <p>
 {% trans "You can retrieve various data from Weblate in machine readable format." %}
@@ -22,7 +20,7 @@
 {% blocktrans %}More information about exported RSS feeds is available in <a href="{{ rss_docs }}">the documentation</a>.{% endblocktrans %}
 </p>
 
-<table>
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "Project" %}</th>
@@ -53,7 +51,7 @@
 {% blocktrans %}Translation statistics for every subproject in JSON format allow you to use these data in other websites or tools. Format of the data is described in <a href="{{ api_docs }}">the documentation</a>.{% endblocktrans %}
 </p>
 
-<table>
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "Project" %}</th>
@@ -79,7 +77,7 @@
 </p>
 {% endif %}
 
-<table>
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "Project" %}</th>
@@ -104,7 +102,7 @@
 
 <p>{% blocktrans %}Weblate also supports direct notification from several code hosting sites:{% endblocktrans %}</p>
 
-<table>
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "Hosting site" %}</th>
