@@ -1,7 +1,1 @@
-<div class="ui-widget">
-    <div style="padding: 0pt 0.7em;" class="ui-state-{% if tags == "error" %}error{% else %}highlight{% endif %} ui-corner-all"> 
-        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-{% if tags == "error" or tags == "warning" %}alert{% else %}info{% endif %}"></span>
-            {{ message }}
-        </p>
-    </div>
-</div>
+<div class="alert alert-{% if tags == "error"%}danger{% else %}{{ tags }}{% endif %}">{{ message }}</div>
