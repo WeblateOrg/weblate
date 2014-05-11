@@ -22,6 +22,7 @@ import weblate
 from weblate import appsettings
 from datetime import datetime
 from weblate.trans.util import get_site_url
+from weblate.trans.models.project import Project
 
 URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'http://weblate.org/donate/?utm_source=weblate&utm_term=%s'
@@ -60,4 +61,5 @@ def weblate_context(request):
         'whiteboard_enabled': appsettings.ENABLE_WHITEBOARD,
 
         'registration_open': appsettings.REGISTRATION_OPEN,
+        'acl_projects': Project.objects.all_acl(request.user),
     }
