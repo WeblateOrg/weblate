@@ -7,15 +7,15 @@
 <li><a href="{{ object.subproject.project.get_absolute_url }}">{{ object.subproject.project }}</a></li>
 <li><a href="{{ object.subproject.get_absolute_url }}">{{ object.subproject.name }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+<a class="pull-right" href="{{ object.get_widgets_url }}">
+<img src="{% url 'widget-image-lang' project=object.subproject.project.slug widget='shields' color='badge' lang=object.language.code extension='svg' %}" />
+</a>
 {% endblock %}
 
 {% block content %}
 
 {% include "show-lock.html" %}
 
-<a class="menu-float" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image-lang' project=object.subproject.project.slug widget='shields' color='badge' lang=object.language.code extension='svg' %}" />
-</a>
 
 <div class="row">
 

@@ -5,16 +5,16 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+
+<a class="pull-right" href="{{ object.get_widgets_url }}">
+<img src="{% url 'widget-image' project=object.project.slug widget='shields' color='badge' extension='svg' %}" />
+</a>
 {% endblock %}
 
 {% block content %}
 {% include "show-lock.html" %}
 
 <h2>{% trans "Project Information" %}</h2>
-
-<a class="menu-float" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=object.project.slug widget='shields' color='badge' extension='svg' %}" />
-</a>
 
 <table class="info">
 {% include "subproject_info.html" %}

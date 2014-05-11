@@ -4,15 +4,15 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+
+<a class="pull-right" href="{{ object.get_widgets_url }}">
+<img src="{% url 'widget-image' project=object.slug widget='shields' color='badge' extension='svg' %}" />
+</a>
 {% endblock %}
 
 {% block content %}
 
 <h2>{% trans "Project Information" %}</h2>
-
-<a class="menu-float" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=object.slug widget='shields' color='badge' extension='svg' %}" />
-</a>
 
 <table class="info">
 {% include "project_info.html" %}
