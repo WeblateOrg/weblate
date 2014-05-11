@@ -20,12 +20,15 @@
   <li class="active"><a href="#overview" data-toggle="pill">{% trans "Overview" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      {% trans "Download" %} <span class="caret"></span>
+      {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-<li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Source file" %}</a></li>
+<li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Download source file" %}</a></li>
 {% if object.supports_language_pack %}
-<li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Compiled translation" %}</a></li>
+<li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Download compiled translation" %}</a></li>
+{% endif %}
+{% if perms.trans.upload_translation %}
+<li><a href="#upload" data-toggle="pill">{% trans "Upload translation" %}</a></li>
 {% endif %}
     </ul>
   </li>
@@ -198,38 +201,40 @@
 </div>
 {% endif %}
 
+{% if perms.trans.upload_translation %}
+<div class="tab-pane" id="upload">
+<form action="{% url 'upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Upload" %}</div>
+<div class="panel-body">
+{% if perms.trans.overwrite_translation %}
+<p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
+{% else %}
+<p>{% trans "Uploaded file will be merged with current translation." %}</p>
+{% endif %}
+{% csrf_token %}
+<table>
+{{ form.as_table }}
+</table>
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Upload" %}" class="btn btn-default" />
+</div>
+
+</div>
+</div>
+{% endif %}
+
 <h2>{% trans "Tools" %}</h2>
 
 <div class="tabs" id="translation-tabs">
 <ul>
-<li><a href="#files">{% trans "Files" %}</a></li>
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>
-
-<div id="files">
-
-{% if perms.trans.upload_translation %}
-<h3>{% trans "Upload" %}</h3>
-{% if perms.trans.overwrite_translation %}
-<p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
-{% else %}
-<p>{% trans "Uploaded file will be merged with current translation." %}</p>
-{% endif %}
-
-<form action="{% url 'upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
-<p><input type="submit" value="{% trans "Upload" %}" class="button" /></p>
-</form>
-{% endif %}
-</div>
-
 
 <div id="locking">
 <p>{% trans "Locking the translation will prevent others to work on translation." %}</p>
