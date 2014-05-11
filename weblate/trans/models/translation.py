@@ -1012,14 +1012,15 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns list of failing source checks on current subproject.
         '''
-        result = [('all', _('All strings'))]
+        result = [('all', _('All strings'), self.total)]
 
         # All checks
         sourcechecks = self.unit_set.count_type('sourcechecks', self)
         if sourcechecks > 0:
             result.append((
                 'sourcechecks',
-                _('Strings with any failing checks (%d)') % sourcechecks
+                _('Strings with any failing checks'),
+                sourcechecks
             ))
 
         # Process specific checks
@@ -1028,15 +1029,19 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 continue
             cnt = self.get_failing_checks(check)
             if cnt > 0:
-                desc = CHECKS[check].description + (' (%d)' % cnt)
-                result.append((check, desc))
+                result.append((
+                    check,
+                    CHECKS[check].description,
+                    cnt
+                ))
 
         # Grab comments
         sourcecomments = self.unit_set.count_type('sourcecomments', self)
         if sourcecomments > 0:
             result.append((
                 'sourcecomments',
-                _('Strings with comments (%d)') % sourcecomments
+                _('Strings with comments'),
+                sourcecomments,
             ))
 
         return result
@@ -1052,7 +1057,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         if nottranslated > 0:
             result.append((
                 'untranslated',
-                _('Untranslated strings (%d)') % nottranslated,
+                _('Untranslated strings'),
                 nottranslated,
             ))
 
@@ -1061,7 +1066,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         if fuzzy > 0:
             result.append((
                 'fuzzy',
-                _('Fuzzy strings (%d)') % fuzzy,
+                _('Fuzzy strings'),
                 fuzzy,
             ))
 
@@ -1069,7 +1074,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         if self.have_suggestion > 0:
             result.append((
                 'suggestions',
-                _('Strings with suggestions (%d)') % self.have_suggestion,
+                _('Strings with suggestions'),
                 self.have_suggestion,
             ))
 
@@ -1077,7 +1082,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         if self.failing_checks > 0:
             result.append((
                 'allchecks',
-                _('Strings with any failing checks (%d)') % self.failing_checks,
+                _('Strings with any failing checks'),
                 self.failing_checks,
             ))
 
@@ -1087,15 +1092,18 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 continue
             cnt = self.unit_set.count_type(check, self)
             if cnt > 0:
-                desc = CHECKS[check].description + (' (%d)' % cnt)
-                result.append((check, desc, cnt))
+                result.append((
+                    check,
+                    CHECKS[check].description,
+                    cnt
+                ))
 
         # Grab comments
         targetcomments = self.unit_set.count_type('targetcomments', self)
         if targetcomments > 0:
             result.append((
                 'targetcomments',
-                _('Strings with comments (%d)') % targetcomments,
+                _('Strings with comments'),
                 targetcomments,
             ))
 
