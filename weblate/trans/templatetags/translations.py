@@ -477,7 +477,7 @@ def get_advertisement_html_mail():
 
 
 @register.inclusion_tag('progress.html')
-def translation_progress(translation):
+def translation_progress(translation, show_percents=True):
     translated = translation.get_translated_percent()
     fuzzy = translation.get_fuzzy_percent()
     checks = translation.get_failing_checks_percent()
@@ -487,6 +487,7 @@ def translation_progress(translation):
         'checks': int(checks),
         'fuzzy': int(fuzzy),
         'percent': translated,
+        'show_percents': show_percents,
     }
 
 

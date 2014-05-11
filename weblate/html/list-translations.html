@@ -1,6 +1,7 @@
 {% load i18n %}
+{% load translations %}
 
-<table class="sort">
+<table class="sort table">
 <thead>
 <tr>
 <th>{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
@@ -18,7 +19,7 @@
 <tr>
 <th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{{ trans.subproject }}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a></th>
 <td>{% if trans.is_user_locked %}<span class="ui-icon ui-icon-locked tooltip">{{ trans.get_lock_display }}</span>{% endif %}</td>
-<td><div class="progress" data-value="{{ percent|floatformat:0 }}" data-fuzzy="{{ fuzzy|floatformat:0 }}" data-checks="{{ check_percent|floatformat:0 }}"></div></td>
+<td class="progress-cell">{% translation_progress trans False %}</td>
 <td class="percent">{{ percent }}%</td>
 <td class="percent" title="{% blocktrans count words=trans.untranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.get_words_percent }}%</td>
 <td class="percent">
