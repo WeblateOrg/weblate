@@ -13,25 +13,38 @@
 
 {% include "show-lock.html" %}
 
-<h2>{% trans "Project Information" %}</h2>
-
 <a class="menu-float" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image-lang' project=object.subproject.project.slug widget='shields' color='badge' lang=object.language.code extension='svg' %}" />
 </a>
 
+<div class="row">
+
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading">{% trans "Project Information" %}</div>
+  <div class="panel-body">
+
 <table class="info">
 {% include "translation_info.html" %}
 </table>
+</div>
+</div>
+</div>
+</div>
 
 {% with object.get_translation_checks as checks%}
 {% if checks %}
-<h2>{% trans "Strings to check" %}</h2>
 <div class="row">
-<div class="col-md-4">
+<div class="col-md-6">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Strings to check" %}</div>
 <div class="list-group">
+  <div class="panel-body">
 {% for c in checks %}
 <a class="list-group-item" href="{{ object.get_translate_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
 {% endfor %}
+</div>
+</div>
 </div>
 </div>
 </div>
