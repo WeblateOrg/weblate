@@ -474,3 +474,17 @@ def get_advertisement_html_mail():
     if advertisement is None:
         return ''
     return mark_safe(advertisement.text)
+
+
+@register.inclusion_tag('progress.html')
+def translation_progress(translation):
+    translated = translation.get_translated_percent()
+    fuzzy = translation.get_fuzzy_percent()
+    checks = translation.get_failing_checks_percent()
+
+    return {
+        'good': int(translated - checks),
+        'checks': int(checks),
+        'fuzzy': int(fuzzy),
+        'percent': translated,
+    }

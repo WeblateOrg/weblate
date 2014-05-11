@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<div class="row">
+
+<div class="col-xs-10">
+<div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ good }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ good }}%;" title="{% trans "Translated strings" %}"></div>
+  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="{{ checks }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ checks }}%;" title="{% trans "Fuzzy strings" %}"></div>
+  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ fuzzy }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fuzzy }}%;" title="{% trans "Strings with any failing checks" %}"></div>
+</div>
+</div>
+
+<div class="col-xs-2">
+{{ percent }}%
+</div>
+
+</div>

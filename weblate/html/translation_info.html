@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load translations %}
 
 {% with object.subproject as object %}
 {% include "subproject_info.html" %}
@@ -8,7 +9,7 @@
 
 <tr>
 <th>{% trans "Strings" %}<span class="badge pull-right">{{ object.total }}</span></th>
-<td><div class="progress" data-value="{{ percent|floatformat:0 }}" data-fuzzy="{{ fuzzy|floatformat:0 }}" data-checks="{{ check_percent|floatformat:0 }}"></div> {{ percent }}%</td>
+<td>{% translation_progress object %}</td>
 </tr>
 
 <tr>
