@@ -32,14 +32,27 @@
 
 <div class="panel panel-primary">
 <div class="panel-heading">{% trans "Strings to check" %}</div>
-<div class="list-group">
   <div class="panel-body">
+<div class="list-group">
 {% for c in object.get_translation_checks %}
 <a class="list-group-item" href="{{ object.get_translate_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
 {% endfor %}
 </div>
 </div>
 </div>
+
+<form action="{{ object.get_translate_url }}" method="GET">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Search" %}</div>
+  <div class="panel-body">
+{{ search_form.as_p }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Search" %}" class="button" />
+</div>
+</div>
+</form>
+
 
 </div>
 
@@ -112,7 +125,6 @@
 
 <div class="tabs" id="translation-tabs">
 <ul>
-<li><a href="#search">{% trans "Search" %}</a></li>
 <li><a href="#files">{% trans "Files" %}</a></li>
 {% if autoform %}
 <li><a href="#auto">{% trans "Automatic translation" %}</a></li>
@@ -124,13 +136,6 @@
 <li><a href="#share">{% trans "Share" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>
-
-<div id="search">
-<form action="{{ object.get_translate_url }}" method="GET">
-{{ search_form.as_p }}
-<input type="submit" value="{% trans "Search" %}" class="button" />
-</form>
-</div>
 
 <div id="files">
 
