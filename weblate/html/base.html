@@ -32,6 +32,50 @@
 
  <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
  <header>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'home' %}">WL</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'home' %}">{% trans "Dashboard" %}</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Projects" %}<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% for project in acl_projects %}
+            <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
+        <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li><a class="button" id="profile-button" href="{% url 'profile' %}">{{ user.profile.get_user_display }}</a></li>
+        <li><a class="button" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><span class="glyphicon glyphicon-log-out"></span></a></li>
+        {% else %}
+        {% if registration_open %}
+        <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>
+        {% endif %}
+        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url }}{% endif %}">{% trans "Login" %}</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
     <h1 class="ui-state-default"><a href="{% url 'home' %}">{% include "title.html" %}</a></h1>
 
 <nav>
