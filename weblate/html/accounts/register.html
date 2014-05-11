@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load i18n %}
+{% load translations %}
 
 {% block content %}
 
@@ -17,13 +18,7 @@
 <h2>{% trans "Register using email" %}</h2>
 
 {% if form.errors %}
-<div class="ui-widget">
-    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
-        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
-        {% trans "Please fix errors in registration form." %}
-        </p>
-    </div>
-</div>
+{% show_message "error" _("Please fix errors in the registration form.") %}
 {% endif %}
 
 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">

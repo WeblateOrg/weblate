@@ -6,13 +6,7 @@
 {% block content %}
 
 {% if form.errors or userform.errors or subscriptionform.errors %}
-<div class="ui-widget">
-    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
-        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
-        {% trans "Please fix errors in the form." %}
-        </p>
-    </div>
-</div>
+{% show_message "error" _("Please fix errors in the form.") %}
 {% endif %}
 
 <form method="post" action="{% url 'profile' %}">
