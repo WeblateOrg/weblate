@@ -35,8 +35,11 @@
       {% trans "Share" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
+{% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
       <li><a href="http://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook!" %}</a></li>
       <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
+      <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
+{% endwith %}
     </ul>
   </li>
 </ul>
@@ -172,20 +175,10 @@
 <li><a href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
-<li><a href="#share">{% trans "Share" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>
 
 <div id="files">
-
-<h3>{% trans "Download" %}</h3>
-{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code as download_url %}
-<p>{% blocktrans %}You can <a href="{{ download_url }}">download</a> file for offline translation.{% endblocktrans %}</p>
-
-{% if object.supports_language_pack %}
-{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code as pack_download_url %}
-<p>{% blocktrans %}You can also <a href="{{ pack_download_url }}">download</a> compiled file to use within the application.{% endblocktrans %}</p>
-{% endif %}
 
 {% if perms.trans.upload_translation %}
 <h3>{% trans "Upload" %}</h3>
@@ -234,13 +227,6 @@
 {% endif %}
 {% endif %}
 </div>
-
-<div id="share">
-{% with object.subproject.project as project %}
-{% include 'share.html' %}
-{% endwith %}
-</div>
-
 
 </div>
 
