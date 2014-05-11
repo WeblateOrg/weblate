@@ -488,3 +488,15 @@ def translation_progress(translation):
         'fuzzy': int(fuzzy),
         'percent': translated,
     }
+
+
+@register.inclusion_tag('progress.html')
+def words_progress(translation):
+    translated = translation.get_words_percent()
+
+    return {
+        'good': int(translated),
+        'checks': 0,
+        'fuzzy': 0,
+        'percent': translated,
+    }

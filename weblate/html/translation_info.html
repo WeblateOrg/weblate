@@ -14,7 +14,7 @@
 
 <tr>
 <th>{% trans "Words" %}<span class="badge pull-right">{{ object.total_words }}</span></th>
-<td><div class="progress" data-value="{{ word_percent|floatformat:0 }}"></div> {{ word_percent }}%</td>
+<td>{% words_progress object %}</td>
 </tr>
 
 {% endwith %}
