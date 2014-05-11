@@ -16,6 +16,31 @@
 
 {% include "show-lock.html" %}
 
+<ul class="nav nav-pills">
+  <li class="active"><a href="{{ object.get_absolute_url }}">{% trans "Overview" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Download" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+<li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Source file" %}</a></li>
+{% if object.supports_language_pack %}
+<li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Compiled translation" %}</a></li>
+{% endif %}
+    </ul>
+  </li>
+  <li><a href="{% url 'data_project' project=object.subproject.project.slug  %}">{% trans "Data exports" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Share" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="http://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook!" %}</a></li>
+      <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
+    </ul>
+  </li>
+</ul>
+
 
 <div class="row">
 <div class="col-md-6">
