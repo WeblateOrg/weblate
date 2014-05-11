@@ -48,11 +48,25 @@
 {{ search_form.as_p }}
 </div>
 <div class="panel-footer">
-<input type="submit" value="{% trans "Search" %}" class="button" />
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
 </div>
 </div>
 </form>
 
+{% if review_form %}
+<form action="{{ object.get_translate_url }}" method="GET">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Review" %}</div>
+  <div class="panel-body">
+<p>{% trans "Review translations touched by other users." %}</p>
+{{ review_form.as_p }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Start review" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+{% endif %}
 
 </div>
 
@@ -162,23 +176,6 @@
 {{ form.as_table }}
 </table>
 <p><input type="submit" value="{% trans "Upload" %}" class="button" /></p>
-</form>
-{% endif %}
-</div>
-
-<div id="changes">
-
-<h3>{% trans "History" %}</h3>
-
-{% if review_form %}
-<h3>{% trans "Review" %}</h3>
-
-<p>{% trans "Review translations touched by other users." %}</p>
-<form action="{{ object.get_translate_url }}" method="GET">
-<table>
-{{ review_form.as_table }}
-</table>
-<p><input type="submit" value="{% trans "Start review" %}" class="button" /></p>
 </form>
 {% endif %}
 </div>
