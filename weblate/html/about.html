@@ -26,15 +26,17 @@
 <p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially:{% endblocktrans %}</p>
 
 <p>
-<a class="button" href="https://flattr.com/thing/571085/Weblate">{% trans "Flattr Weblate!" %}</a>
-<a class="button" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4">{% trans "Donate to Weblate!" %}</a>
+<a class="btn btn-default" href="https://flattr.com/thing/571085/Weblate">{% trans "Flattr Weblate!" %}</a>
+<a class="btn btn-default" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4">{% trans "Donate to Weblate!" %}</a>
 </p>
 
 <h2>{% trans "Versions" %}</h2>
 
 <p>{% trans "This site is built using following projects:" %}</p>
 
-<table>
+<div class="row">
+<div class="col-md-4">
+<table class="table table-condensed table-striped">
 <tr>
 <th><a href="{{ weblate_url }}">Weblate</a></th>
 <td>{{ version }}</td>
@@ -45,10 +47,14 @@
 </tr>
 {% endfor %}
 </table>
+</div>
+</div>
 
 <h2>{% trans "Statistics" %}</h2>
 
-<table>
+<div class="row">
+<div class="col-md-4">
+<table class="table table-condensed table-striped">
 <tr>
 <th>{% trans "Strings to translate" %}</th>
 <td>{{ total_strings }}</td>
@@ -82,6 +88,8 @@
 <td>{{ ignored_checks }}</td>
 </tr>
 </table>
+</div>
+</div>
 
 {% endblock %}
 
