@@ -5,8 +5,6 @@
 {% include "subproject_info.html" %}
 {% endwith %}
 
-{% with object.get_translated_percent as percent and object.get_fuzzy_percent as fuzzy and object.get_words_percent as word_percent %}
-
 <tr>
 <th>{% trans "Strings" %}<span class="badge pull-right">{{ object.total }}</span></th>
 <td>{% translation_progress object %}</td>
@@ -16,5 +14,3 @@
 <th>{% trans "Words" %}<span class="badge pull-right">{{ object.total_words }}</span></th>
 <td>{% words_progress object %}</td>
 </tr>
-
-{% endwith %}
