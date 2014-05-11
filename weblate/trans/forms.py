@@ -434,7 +434,10 @@ class ReviewForm(forms.Form):
     '''
     Translation review form.
     '''
-    date = forms.DateField(label=_('Starting date'))
+    date = forms.DateField(
+        label=_('Starting date'),
+        widget=forms.TextInput(attrs={'type': 'date'})
+    )
     type = forms.CharField(widget=forms.HiddenInput, initial='review')
 
     def clean_type(self):
