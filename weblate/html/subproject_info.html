@@ -7,7 +7,7 @@
 {% if perms.trans.can_see_git_repository %}
 <tr>
 <th>{% trans "Git repository" %}</th>
-<td>
+<td colspan="2">
 <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code> ({{ object.get_repo_branch }}
  @ 
 {% with object.get_last_remote_commit as commit %}
@@ -21,7 +21,7 @@
 {% if export_url %}
 <tr>
 <th>{% trans "Git repository with Weblate translations" %}</th>
-<td><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
+<td colspan="2"><code class="git-repo ui-corner-all">{{ export_url }}</code></td>
 </tr>
 {% endif %}
 {% endwith %}

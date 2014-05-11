@@ -1,10 +1,5 @@
 {% load i18n %}
 
-{% if show_percents %}
-<div class="row">
-
-<div class="col-xs-10">
-{% endif %}
 <div class="progress">
   {% if good %}
   <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ good }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ good }}%;" title="{% trans "Translated strings" %}"></div>
@@ -16,13 +11,3 @@
   <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ fuzzy }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ fuzzy }}%;" title="{% trans "Strings with any failing checks" %}"></div>
   {% endif %}
 </div>
-
-{% if show_percents %}
-</div>
-
-<div class="col-xs-2">
-{{ percent }}%
-</div>
-
-</div>
-{% endif %}

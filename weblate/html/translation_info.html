@@ -7,10 +7,12 @@
 
 <tr>
 <th>{% trans "Strings" %}<span class="badge pull-right">{{ object.total }}</span></th>
-<td>{% translation_progress object %}</td>
+<td class="progress-cell">{% translation_progress object %}</td>
+<td class="percent">{{ object.get_translated_percent }}%</td>
 </tr>
 
 <tr>
 <th>{% trans "Words" %}<span class="badge pull-right">{{ object.total_words }}</span></th>
-<td>{% words_progress object %}</td>
+<td class="progress-cell">{% words_progress object %}</td>
+<td class="percent">{{ object.get_words_percent }}%</td>
 </tr>
