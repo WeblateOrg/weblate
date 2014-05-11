@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load i18n %}
+{% load translations %}
 
 {% block content %}
 
 {% if form.errors %}
-<div class="ui-widget">
-    <div style="padding: 0pt 0.7em;" class="ui-state-error ui-corner-all"> 
-        <p><span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-alert"></span>
-        {% trans "This username/password combination was not found. Please try again." %}
-        </p>
-    </div>
-</div>
+{% show_message "error" _("This username/password combination was not found. Please try again.") %}
 {% endif %}
 
 <h2>{% trans "Password login" %}</h2>
