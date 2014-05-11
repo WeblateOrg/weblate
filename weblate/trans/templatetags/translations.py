@@ -500,4 +500,5 @@ def words_progress(translation):
         'checks': 0,
         'fuzzy': 0,
         'percent': translated,
+        'show_percents': True,
     }
