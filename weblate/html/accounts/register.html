@@ -3,41 +3,53 @@
 {% load i18n %}
 {% load translations %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
+{% endblock %}
+
 {% block content %}
 
 
 {% if registration_open %}
-<h2>{% trans "Registration" %}</h2>
 
-<p>
-{% trans "By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project." %}
-</p>
-
-{% if registration_email %}
-
-<h2>{% trans "Register using email" %}</h2>
+{% show_message "info" _("By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project.") %}
 
 {% if form.errors %}
 {% show_message "error" _("Please fix errors in the registration form.") %}
 {% endif %}
 
+{% if registration_email %}
+
 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Register using email" %}</h4></div>
+  <div class="panel-body">
+
 {% csrf_token %}
 <table>
 {{ form.as_table }}
 </table>
-<p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans 'Register' %}" class="btn btn-default" />
+</div>
+</div>
 </form>
 
 {% endif %}
 
 {% if registration_backends %}
 
-<h2>{% trans "Third party registration" %}</h2>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Third party registration" %}</h4></div>
+  <div class="panel-body">
 
 {% for name in registration_backends %}
-  <a class="button" href="{% url 'social:begin' name %}">{{ name }}</a>
+  <a class="btn btn-default" href="{% url 'social:begin' name %}">{{ name }}</a>
 {% endfor %}
+</div>
+</div>
 
 {% endif %}
 
