@@ -17,6 +17,10 @@
 {% show_message "info" _("To test Weblate, you can login as <code>demo</code> user with password <code>demo</code>.") %}
 {% endif %}
 
+<div class="row">
+
+<div class="col-md-6">
+
 <form method="post" action="{% url 'login' %}">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Password login" %}</h4></div>
@@ -26,6 +30,10 @@
 <table>
 {{ form.as_table }}
 </table>
+<p class="helptext">
+{% url 'password_reset' as reset_url %}
+{% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
+</p>
 
 <input type="hidden" name="next" value="{{ next }}" />
 
@@ -36,17 +44,9 @@
 </div>
 </form>
 
-{% if registration_open %}
-<p>
-{% url 'register' as register_url %}
-{% blocktrans %}Do not have an account yet? You can <a href="{{ register_url }}">register</a>.{% endblocktrans %}
-</p>
-{% endif %}
+</div>
 
-<p>
-{% url 'password_reset' as reset_url %}
-{% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
-</p>
+<div class="col-md-6">
 
 {% if login_backends %}
 
@@ -61,5 +61,22 @@
 </div>
 
 {% endif %}
+
+{% if registration_open %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Registration" %}</h4></div>
+  <div class="panel-body">
+
+<p>
+{% url 'register' as register_url %}
+{% blocktrans %}Do not have an account yet? You can <a href="{{ register_url }}">register</a>.{% endblocktrans %}
+</p>
+
+</div>
+</div>
+{% endif %}
+
+</div>
+</div>
 
 {% endblock %}
