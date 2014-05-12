@@ -11,7 +11,7 @@ $(function () {
                 }
             }
         );
-    })
+    });
 
     $(document).tooltip({
         selector: '.git-commit',
