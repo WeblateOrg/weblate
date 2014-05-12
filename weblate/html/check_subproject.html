@@ -4,7 +4,7 @@
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'checks' %}">{% trans "checks" %}</a></li>
+<li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
 <li><a href="{% url 'show_check' name=check.check_id %}">{{ check.name }}</a></li>
 <li><a href="{% url 'show_check_project' name=check.check_id project=subproject.project.slug %}">{{ subproject.project }}</a></li>
 <li><a href="{% url 'show_check_subproject' name=check.check_id project=subproject.project.slug subproject=subproject.slug %}">{{ subproject.name }}</a></li>
