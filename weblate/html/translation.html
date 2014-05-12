@@ -68,7 +68,7 @@
 <div class="col-md-6">
 
 <div class="panel panel-primary">
-  <div class="panel-heading">{% trans "Project Information" %}</div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
   <div class="panel-body">
 
 <table class="table">
@@ -78,7 +78,7 @@
 </div>
 
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Strings to check" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Strings to check" %}</h4></div>
   <div class="panel-body">
 <div class="list-group">
 {% for c in object.get_translation_checks %}
@@ -90,7 +90,7 @@
 
 <form action="{{ object.get_translate_url }}" method="GET">
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Search" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
   <div class="panel-body">
 {{ search_form.as_p }}
 </div>
@@ -103,7 +103,7 @@
 {% if review_form %}
 <form action="{{ object.get_translate_url }}" method="GET">
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Review" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Review" %}</h4></div>
   <div class="panel-body">
 <p>{% trans "Review translations touched by other users." %}</p>
 {{ review_form.as_p }}
@@ -119,7 +119,7 @@
 
 <div class="col-md-6">
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Stats" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Stats" %}</h4></div>
 <div class="panel-body">
 <table class="table">
 <thead>
@@ -172,7 +172,7 @@
 </div>
 
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "History" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "History" %}</h4></div>
 <div class="panel-body">
 {% include "last-changes.html" %}
 </div>
@@ -189,7 +189,7 @@
 <div class="tab-pane" id="auto">
 <form action="{% url 'auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Automatic translation" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Automatic translation" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "Automatic translation takes existing translations in this project and applies it to the current subproject. It can be used to push translations to a different branch, to fix inconsistent translations or to translate new subproject using translation memory." %}</p>
 {% csrf_token %}
@@ -209,7 +209,7 @@
 <div class="tab-pane" id="upload">
 <form action="{% url 'upload_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Upload" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
 <div class="panel-body">
 {% if perms.trans.overwrite_translation %}
 <p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
@@ -232,7 +232,7 @@
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <div class="tab-pane" id="git">
 <div class="panel panel-primary">
-<div class="panel-heading">{% trans "Git maintenance" %}</div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Git maintenance" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "Loading…" %}</p>
 </div>
