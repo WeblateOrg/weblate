@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 {% load url from future %}
 
 {% block breadcrumbs %}
@@ -20,7 +21,7 @@
 
 <h2>{% trans "Subprojects" %}</h2>
 
-<table class="sort">
+<table class="sort table">
 <thead>
 <tr>
 <th>{% trans "Subproject" %}</th>
@@ -31,7 +32,7 @@
 {% with prj.get_translated_percent as percent and prj.get_fuzzy_percent as fuzzy and prj.get_failing_checks_percent as check_percent %}
 <tr>
 <th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
-<td><div class="progress" data-value="{{ percent|floatformat:0 }}" data-fuzzy="{{ fuzzy|floatformat:0 }}" data-checks="{{ check_percent|floatformat:0 }}"></div></td>
+<td class="progress-cell">{% translation_progress prj %}</td>
 <td class="percent">{{ percent }}%</td>
 </tr>
 {% endwith %}
