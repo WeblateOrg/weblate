@@ -45,6 +45,17 @@
 {% endif %}
 <li><a href="#languages" data-href="{% url 'languages' %}" data-toggle="pill">{% trans "Languages" %}</a></li>
 <li><a href="#checks" data-href="{% url 'checks' %}" data-toggle="pill">{% trans "Checks" %}</a></li>
+<li class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    {% trans "Tools" %} <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="{% url 'languages' %}">{% trans "Languages summary" %}</a></li>
+    <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
+    <li><a href="{% url 'data_root' %}">{% trans "Data export" %}</a></li>
+    <li><a href="{% url 'widgets_root' %}">{% trans "Widgets" %}</a></li>
+  </ul>
+</li>
 </ul>
 
 <div class="tab-content">
@@ -106,7 +117,6 @@
 <li><a href="#translators">{% trans "Most active translators" %}</a></li>
 <li><a href="#suggesters">{% trans "Most active suggesters" %}</a></li>
 <li><a href="{% url 'view_activity' %}">{% trans "Activity" %}</a></li>
-<li><a href="#others">{% trans "Others" %}</a></li>
 </ul>
 
 <div id="changes">
@@ -155,15 +165,6 @@
 {% endfor %}
 </tbody>
 </table>
-</div>
-
-<div id="others">
-<ul>
-<li><a href="{% url 'languages' %}">{% trans "Languages summary" %}</a></li>
-<li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
-<li><a href="{% url 'data_root' %}">{% trans "Data export" %}</a></li>
-<li><a href="{% url 'widgets_root' %}">{% trans "Widgets" %}</a></li>
-</ul>
 </div>
 </div>
 
