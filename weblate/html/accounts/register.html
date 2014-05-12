@@ -17,9 +17,11 @@
 {% if form.errors %}
 {% show_message "error" _("Please fix errors in the registration form.") %}
 {% endif %}
+<div class="row">
 
 {% if registration_email %}
 
+<div class="col-md-6">
 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
 
 <div class="panel panel-primary">
@@ -36,11 +38,13 @@
 </div>
 </div>
 </form>
+</div>
 
 {% endif %}
 
 {% if registration_backends %}
 
+<div class="col-md-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Third party registration" %}</h4></div>
   <div class="panel-body">
@@ -48,6 +52,7 @@
 {% for name in registration_backends %}
   <a class="btn btn-default" href="{% url 'social:begin' name %}">{{ name }}</a>
 {% endfor %}
+</div>
 </div>
 </div>
 
