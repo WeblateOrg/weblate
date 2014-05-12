@@ -38,6 +38,9 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'data_project' project=object.subproject.project.slug  %}">{% trans "Data exports" %}</a></li>
+        {% if perms.trans.commit_translation or perms.trans.update_translation %}
+        <li><a href="#git" data-toggle="pill" data-href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
+        {% endif %}
       {% if autoform %}
       <li><a href="#auto" data-toggle="pill">{% trans "Automatic translation" %}</a></li>
       {% endif %}
@@ -181,6 +184,7 @@
 
 
 </div>
+
 {% if autoform %}
 <div class="tab-pane" id="auto">
 <form action="{% url 'auto_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
@@ -225,13 +229,22 @@
 </div>
 {% endif %}
 
+{% if perms.trans.commit_translation or perms.trans.update_translation %}
+<div class="tab-pane" id="git">
+<div class="panel panel-primary">
+<div class="panel-heading">{% trans "Git maintenance" %}</div>
+<div class="panel-body">
+<p>{% trans "Loading…" %}</p>
+</div>
+
+</div>
+</div>
+{% endif %}
+
 <h2>{% trans "Tools" %}</h2>
 
 <div class="tabs" id="translation-tabs">
 <ul>
-{% if perms.trans.commit_translation or perms.trans.update_translation %}
-<li><a href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
-{% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>

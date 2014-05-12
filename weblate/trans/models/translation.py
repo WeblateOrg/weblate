@@ -1280,3 +1280,9 @@ class Translation(models.Model, URLMixin, PercentMixin):
             'subproject': self.subproject.slug,
             'project': self.subproject.project.slug
         }
+
+    def get_export_url(self):
+        '''
+        Returns URL of exported git repository.
+        '''
+        return self.subproject.get_export_url()
