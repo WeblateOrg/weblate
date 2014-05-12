@@ -51,7 +51,6 @@ class BootstrapBoundField(BoundField):
             result = set(classes.split())
         else:
             result = set()
-        print self.field.widget
         if isinstance(self.field.widget, CheckboxInput):
             result.add('checkbox')
         else:
