@@ -200,39 +200,6 @@ function load_table_sorting() {
 
     });
 }
-function load_progress() {
-    $('div.progress').each(function f(i, e) {
-        var $e = $(e);
-        var good = parseFloat($e.data('value'));
-        var checks = -1;
-        if ($e.data('checks')) {
-            checks = parseFloat($e.data('checks'));
-            good = good - checks;
-        }
-        var parts = [{
-            value: good,
-            barClass: 'good'
-        }];
-        if (checks !== -1) {
-            parts.push({
-                value: checks,
-                barClass: 'checks'
-            });
-        }
-        if ($e.data('fuzzy')) {
-            parts.push({
-                value: parseFloat($e.data('fuzzy')),
-                barClass: 'fuzzy'
-            });
-        }
-        $e.multiprogressbar({
-            parts: parts
-        });
-    });
-    $('div.progress .checks').attr('title', gettext('Strings with any failing checks'));
-    $('div.progress .fuzzy').attr('title', gettext('Fuzzy strings'));
-    $('div.progress .good').attr('title', gettext('Translated strings'));
-}
 
 function zen_editor(e) {
     var $this = $(this);
@@ -262,7 +229,6 @@ function init_editor(editors) {
 $(function () {
     $('.button').button();
     $('#breadcrumbs').buttonset();
-    load_progress();
     $('.sug-accept').button({text: false, icons: { primary: "ui-icon-check" }});
     $('.sug-delete').button({text: false, icons: { primary: "ui-icon-close" }});
     $('.sug-upvote').button({text: false, icons: { primary: "ui-icon-plusthick" }});
@@ -395,7 +361,6 @@ $(function () {
         load: function (e, ui) {
             $(ui.panel).find(".tab-loading").remove();
             load_table_sorting();
-            load_progress();
             $('.buttons').buttonset();
             $('.buttons .disabled').button('disable');
             $('.details-accordion').accordion({collapsible: true, active: false});
