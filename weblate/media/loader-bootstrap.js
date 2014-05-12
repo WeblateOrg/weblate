@@ -1,4 +1,5 @@
 $(function () {
+    /* AJAX loading of tabs/pills */
     $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
         var $target = $(e.target);
         var $content = $($target.attr('href'));
@@ -16,8 +17,13 @@ $(function () {
         );
     });
 
+    /* Git commit tooltip */
     $(document).tooltip({
         selector: '.git-commit',
         html: true
     });
+
+    /* Hiding spam protection field */
+    $('#s_content').hide();
+    $('#id_content').parent('td').parent('tr').hide();
 });
