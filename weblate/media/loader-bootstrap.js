@@ -1,7 +1,10 @@
 $(function () {
     $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
         var $target = $(e.target);
-        var $content = $($target.attr('href')).find('.panel-body');
+        var $content = $($target.attr('href'));
+        if ($content.find('.panel-body').length > 0) {
+            $content = $content.find('.panel-body');
+        };
         $content.load(
             $target.data('href'),
             function (response, status, xhr) {

@@ -36,28 +36,30 @@
 </div>
 {% endif %}
 
-<h2>{% trans "Translations" %}</h2>
-
-<div class="tabs" id="index-tabs">
-<ul>
+<ul class="nav nav-pills">
 {% if usertranslations %}
-<li><a href="#your">{% trans "Your translations" %}</a></li>
+<li class="active"><a href="#your" data-toggle="pill">{% trans "Your translations" %}</a></li>
+<li><a href="#projects" data-toggle="pill">{% trans "Projects" %}</a></li>
+{% else %}
+<li class="active"><a href="#projects" data-toggle="pill">{% trans "Projects" %}</a></li>
 {% endif %}
-<li><a href="#projects">{% trans "Projects" %}</a></li>
-<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
-<li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
+<li><a href="#languages" data-href="{% url 'languages' %}" data-toggle="pill">{% trans "Languages" %}</a></li>
+<li><a href="#checks" data-href="{% url 'checks' %}" data-toggle="pill">{% trans "Checks" %}</a></li>
 </ul>
 
+<div class="tab-content">
 {% if usertranslations %}
-<div id="your">
+<div class="tab-pane active" id="your">
 {% with usertranslations as translations and 2 as show_language %}
 {% include "list-translations.html" %}
 {% endwith %}
 </div>
+<div class="tab-pane" id="projects">
+{% else %}
+<div class="tab-pane active" id="projects">
 {% endif %}
 
-<div id="projects">
-<table class="sort">
+<table class="sort table">
 <thead>
 <tr>
 <th>{% trans "Project" %}</th>
@@ -83,6 +85,15 @@
 <p>{% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}</p>
 {% endif %}
 </div>
+
+<div class="tab-pane" id="languages">
+<p>{% trans "Loading…" %}</p>
+</div>
+
+<div class="tab-pane" id="checks">
+<p>{% trans "Loading…" %}</p>
+</div>
+
 </div>
 
 <h2>{% trans "Summaries" %}</h2>
