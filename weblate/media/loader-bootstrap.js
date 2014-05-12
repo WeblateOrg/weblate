@@ -12,4 +12,9 @@ $(function () {
             }
         );
     })
+
+    $(document).tooltip({
+        selector: '.git-commit',
+        html: true
+    });
 });

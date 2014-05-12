@@ -1,5 +1,5 @@
 {% load i18n %}{% load translations %}
-<span class="git-commit ui-corner-all tooltip">{{ commit.hexsha|slice:":8" }}<span class="tooltip-content">
+<code class="git-commit" data-toggle="tooltip" data-placement="bottom" data-title="
 {% blocktrans with commit.hexsha as hash %}Commit {{ hash }}{% endblocktrans %}<br />
 {% blocktrans with commit.author.name as author and commit.authored_date|gitdate as date %}Authored by {{ author }} on {{ date }}{% endblocktrans %}
-</span></span>
+">{{ commit.hexsha|slice:":8" }}</code>
