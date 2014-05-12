@@ -19,8 +19,9 @@
 #
 
 from django.forms.forms import BoundField, Form
+from django.forms.widgets import CheckboxInput
 from django.forms.util import ErrorList
-from django.utils.html import format_html, format_html_join
+from django.utils.html import format_html_join
 from django.utils.encoding import force_text
 
 
@@ -49,8 +50,11 @@ class BootstrapBoundField(BoundField):
             result = set(classes.split())
         else:
             result = set()
-        # TODO: not for checkbox (should have checkbox class)
-        result.add('form-group')
+        print self.field.widget
+        if isinstance(self.field.widget, CheckboxInput):
+            result.add('checkbox')
+        else:
+            result.add('form-group')
         return ' '.join(result)
 
 
@@ -59,7 +63,6 @@ class BootstrapForm(Form):
     Adds HTML output in divs and spans.
     '''
     def as_div(self):
-        # TODO: not for checkbox (should have checkbox class)
         return self._html_output(
             normal_row=DIV_TEMPLATE,
             error_row=u'%s',
@@ -88,6 +91,7 @@ class BootstrapForm(Form):
     def __init__(self, *args, **kwargs):
         kwargs['error_class'] = BootstrapErrorList
         super(BootstrapForm, self).__init__(*args, **kwargs)
-        # TODO: not for checkbox (should have checkbox class)
         for field in self.fields:
-            self.fields[field].widget.attrs['class'] = 'form-control'
+            widget = self.fields[field].widget
+            if not isinstance(widget, CheckboxInput):
+                widget.attrs['class'] = 'form-control'
