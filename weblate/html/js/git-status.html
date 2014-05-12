@@ -4,21 +4,21 @@
 {% with object.git_needs_commit as needs_commit %}
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 
-<ul class="buttons">
-<li><a href="{{ object.get_commit_url }}" title="{% trans "Commit pending changes" %}"{% if not needs_commit %} class="disabled"{% endif %}>{% trans "Commit" %}</a></li>
-<li><a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}"{% if not perms.trans.update_translation %} class="disabled"{% endif %}>{% trans "Pull" %}</a></li>
-<li><a href="{{ object.get_push_url }}" title="{% trans "Push changes to remote repository" %}"{% if not perms.trans.push_translation or not object.can_push %} class="disabled"{% endif %}>{% trans "Push" %}</a></li>
+<div class="btn-group">
+<a href="{{ object.get_commit_url }}" title="{% trans "Commit pending changes" %}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
+<a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Pull" %}</a>
+<a href="{{ object.get_push_url }}" title="{% trans "Push changes to remote repository" %}" class="btn btn-default{% if not perms.trans.push_translation or not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
 {% if perms.trans.reset_translation %}
-<li><a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="confirm-reset">{% trans "Reset" %}</a></li>
+<a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="btn btn-default confirm-reset">{% trans "Reset" %}</a>
 {% endif %}
 {% if perms.trans.lock_subproject and object.is_git_lockable %}
 {% if object.is_git_locked %}
-<li><a href="{{ object.get_unlock_url }}" title="{% trans "Allow changes in the repository" %}">{% trans "Unlock" %}</a></li>
+<a href="{{ object.get_unlock_url }}" title="{% trans "Allow changes in the repository" %}" class="btn btn-default">{% trans "Unlock" %}</a>
 {% else %}
-<li><a href="{{ object.get_lock_url }}" title="{% trans "Prevent any changes in the repository" %}">{% trans "Lock" %}</a></li>
+<a href="{{ object.get_lock_url }}" title="{% trans "Prevent any changes in the repository" %}" class="btn btn-default">{% trans "Lock" %}</a>
 {% endif %}
 {% endif %}
-</ul>
+</div>
 
 {% if needs_commit %}
 <p>{% trans "There are some not committed changes!" %}</p>
