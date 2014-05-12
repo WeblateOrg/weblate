@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 {% load url from future %}
 
 {% block breadcrumbs %}
@@ -8,7 +9,7 @@
 
 {% block content %}
 
-<table class="sort">
+<table class="sort table">
 <thead>
 <tr>
 <th>{% trans "Language" %}</th>
@@ -19,7 +20,7 @@
 {% with lang.get_translated_percent as percent and lang.get_fuzzy_percent as fuzzy and lang.get_failing_checks_percent as check_percent %}
 <tr>
 <th><a href="{{ lang.get_absolute_url }}">{{ lang }}</a></th>
-<td><div class="progress" data-value="{{ percent|floatformat:0 }}" data-fuzzy="{{ fuzzy|floatformat:0 }}" data-checks="{{ check_percent|floatformat:0 }}"></div></td>
+<td class="progress-cell">{% translation_progress lang %}</td>
 <td class="percent">{{ percent }}%</td>
 </tr>
 {% endwith %}
