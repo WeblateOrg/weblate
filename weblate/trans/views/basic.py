@@ -325,7 +325,6 @@ def not_found(request):
         {
             'request_path': request.path,
             'title': _('Page Not Found'),
-            'projects': Project.objects.all_acl(request.user),
         },
         status=404
     )
@@ -341,7 +340,6 @@ def denied(request):
         {
             'request_path': request.path,
             'title': _('Permission Denied'),
-            'projects': Project.objects.all_acl(request.user),
         },
         status=403
     )
@@ -406,7 +404,6 @@ def data_root(request):
             'hooks_docs': weblate.get_doc_url('api', 'hooks'),
             'api_docs': weblate.get_doc_url('api', 'exports'),
             'rss_docs': weblate.get_doc_url('api', 'rss'),
-            'projects': Project.objects.all_acl(request.user),
         }
     )
 

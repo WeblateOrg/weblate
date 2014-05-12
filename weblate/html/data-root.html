@@ -40,7 +40,7 @@
 </p>
 
 <ul>
-{% for project in projects %}
+{% for project in acl_projects %}
 <li><a href="{% url 'data_project' project=project.slug %}">{{ project.name }}</a></li>
 {% endfor %}
 </ul>

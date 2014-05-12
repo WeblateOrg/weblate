@@ -35,9 +35,6 @@ def widgets_root(request):
     return render(
         request,
         'widgets-root.html',
-        {
-            'projects': Project.objects.all_acl(request.user),
-        }
     )
 
 
