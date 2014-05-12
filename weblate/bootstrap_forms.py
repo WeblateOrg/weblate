@@ -59,6 +59,7 @@ class BootstrapForm(Form):
     Adds HTML output in divs and spans.
     '''
     def as_div(self):
+        # TODO: not for checkbox (should have checkbox class)
         return self._html_output(
             normal_row=DIV_TEMPLATE,
             error_row=u'%s',
@@ -87,7 +88,6 @@ class BootstrapForm(Form):
     def __init__(self, *args, **kwargs):
         kwargs['error_class'] = BootstrapErrorList
         super(BootstrapForm, self).__init__(*args, **kwargs)
-        print repr(self.fields)
+        # TODO: not for checkbox (should have checkbox class)
         for field in self.fields:
-            print repr(field)
             self.fields[field].widget.attrs['class'] = 'form-control'
