@@ -20,12 +20,13 @@
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _, get_language
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate
 
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from weblate.lang.models import Language
 from weblate.trans.models import Project
+from weblate.bootstrap_forms import BootstrapForm
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
@@ -273,7 +274,7 @@ class ContactForm(forms.Form):
         return ''
 
 
-class EmailForm(forms.Form):
+class EmailForm(BootstrapForm):
     '''
     Email change form.
     '''
@@ -448,13 +449,51 @@ class ResetForm(EmailForm):
         return users[0]
 
 
-class LoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
+class LoginForm(BootstrapForm):
+    username = forms.CharField(
+        max_length=254,
+        label=_('Username or email')
+    )
+    password = forms.CharField(
+        label=_("Password"),
+        widget=forms.PasswordInput
+    )
 
+    error_messages = {
+        'invalid_login': _("Please enter a correct username and password. "
+                           "Note that both fields may be case-sensitive."),
+        'inactive': _("This account is inactive."),
+    }
+
+    def __init__(self, request=None, *args, **kwargs):
+        """
+        The 'request' parameter is set for custom auth use by subclasses.
+        The form data comes in via the standard 'data' kwarg.
+        """
+        self.request = request
+        self.user_cache = None
         super(LoginForm, self).__init__(*args, **kwargs)
 
-        self.fields['username'].label = _('Username or email')
-        self.fields['password'].label = _('Password')
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username and password:
+            self.user_cache = authenticate(
+                username=username,
+                password=password
+            )
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
+                )
+            elif not self.user_cache.is_active:
+                raise forms.ValidationError(
+                    self.error_messages['inactive'],
+                    code='inactive',
+                )
+        return self.cleaned_data
 
 
 class HostingForm(forms.Form):

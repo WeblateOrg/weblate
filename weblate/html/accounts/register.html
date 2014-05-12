@@ -29,9 +29,7 @@
   <div class="panel-body">
 
 {% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
+{{ form.as_div }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans 'Register' %}" class="btn btn-default" />

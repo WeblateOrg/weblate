@@ -25,5 +25,5 @@ $(function () {
 
     /* Hiding spam protection field */
     $('#s_content').hide();
-    $('#id_content').parent('td').parent('tr').hide();
+    $('#id_content').parent('div').hide();
 });
