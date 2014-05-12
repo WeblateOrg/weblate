@@ -122,7 +122,7 @@ class RegistrationTest(TestCase):
 
         # Check we can access home (was redirected to password change)
         response = self.client.get(reverse('home'))
-        self.assertContains(response, 'Logged in as')
+        self.assertContains(response, 'First Last')
 
         user = User.objects.get(username='username')
         # Verify user is active
