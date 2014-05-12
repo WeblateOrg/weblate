@@ -44,7 +44,7 @@
 </table>
 {% else %}
 <p>
-{% trans "There are no matching failed checks!" %}
+{% show_message "warning" _("No matching checks found!") %}
 </p>
 {% endif %}
 
