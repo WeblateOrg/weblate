@@ -35,7 +35,8 @@ HELP_TEMPLATE = '<p class="help-block">%s</p>'
 
 class BootstrapErrorList(ErrorList):
     def as_ul(self):
-        if not self: return ''
+        if not self:
+            return ''
         return format_html_join(
             '',
             u'<p class="text-danger">{0}</p>',
@@ -67,7 +68,7 @@ class BootstrapForm(Form):
             normal_row=DIV_TEMPLATE,
             error_row=u'%s',
             row_ender='</div>',
-            help_text_html = HELP_TEMPLATE,
+            help_text_html=HELP_TEMPLATE,
             errors_on_separate_row=False
         )
 
