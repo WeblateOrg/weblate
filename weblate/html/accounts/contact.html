@@ -8,13 +8,14 @@
 
 {% block content %}
 
-<div class="alert alert-info">{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</div>
+<div class="alert alert-info">
+    {% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}
+    {% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}
+</div>
 
-<p>
-{% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}
-{% blocktrans %}Please contact us in English, otherwise we might be unable to understand your request.{% endblocktrans %}
-</p>
+<div class="row">
 
+<div class="col-md-6">
 <form method="post" action="{% url 'contact' %}">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Contact" %}</h4></div>
@@ -27,5 +28,8 @@
 </div>
 </div>
 </form>
+
+</div>
+</div>
 
 {% endblock %}

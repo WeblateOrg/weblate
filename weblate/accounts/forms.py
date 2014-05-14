@@ -261,6 +261,10 @@ class ContactForm(BootstrapForm):
     message = forms.CharField(
         label=_('Message'),
         required=True,
+        help_text=_(
+            'Please contact us in English, otherwise we might '
+            'be unable to understand your request.'
+        ),
         widget=forms.Textarea
     )
     content = forms.CharField(required=False)
