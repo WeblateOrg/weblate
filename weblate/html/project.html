@@ -12,14 +12,23 @@
 {% endblock %}
 
 {% block content %}
+<div class="row">
 
-<h2>{% trans "Project Information" %}</h2>
+<div class="col-md-6">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
+  <div class="panel-body">
 
 <table class="table">
 {% include "project_info.html" %}
 </table>
+</div>
+</div>
 
-<h2>{% trans "Subprojects" %}</h2>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Subprojects" %}</h4></div>
+  <div class="panel-body">
 
 <table class="sort table">
 <thead>
@@ -41,6 +50,11 @@
 </table>
 
 {% include "legend.html" %}
+</div>
+
+</div>
+</div>
+</div>
 
 <h2>{% trans "Tools" %}</h2>
 

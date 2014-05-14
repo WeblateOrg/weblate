@@ -14,17 +14,31 @@
 {% block content %}
 {% include "show-lock.html" %}
 
-<h2>{% trans "Project Information" %}</h2>
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
+  <div class="panel-body">
 
 <table class="table">
 {% include "subproject_info.html" %}
 </table>
+</div>
+</div>
 
-<h2>{% trans "Translations" %}</h2>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Translations" %}</h4></div>
+  <div class="panel-body">
 
 {% include "list-translations.html" %}
 
 {% url 'contact' as contact_url %}
+</div>
+</div>
+</div>
+</div>
 
 
 <h2>{% trans "Tools" %}</h2>
