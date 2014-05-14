@@ -251,7 +251,7 @@ class UserForm(forms.ModelForm):
         self.fields['username'].valid = self.instance.username
 
 
-class ContactForm(forms.Form):
+class ContactForm(BootstrapForm):
     '''
     Form for contacting site owners.
     '''
