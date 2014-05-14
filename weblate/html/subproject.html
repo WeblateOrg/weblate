@@ -48,7 +48,7 @@
 {% if object.project.new_lang == 'url' %}
 <p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</li>
 {% else %}
-<p>{% trans "Please choose language into which you would like to translate." %}</p>
+<p>{% trans "Please choose the language into which you would like to translate." %}</p>
 <form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
 {% csrf_token %}
 <table>
@@ -81,7 +81,7 @@
 <div id="tools">
 <ul>
 <li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
-<li><a href="{% url 'data_project' project=object.project.slug %}">{% trans "Machine readable data" %}</a></li>
+<li><a href="{% url 'data_project' project=object.project.slug %}">{% trans "Machine-readable data" %}</a></li>
 </ul>
 </div>
 
