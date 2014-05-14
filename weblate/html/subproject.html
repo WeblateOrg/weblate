@@ -14,6 +14,39 @@
 {% block content %}
 {% include "show-lock.html" %}
 
+<ul class="nav nav-pills">
+  <li class="active"><a href="#overview" data-toggle="pill">{% trans "Overview" %}</a></li>
+  <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Tools" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url 'data_project' project=object.project.slug  %}">{% trans "Data exports" %}</a></li>
+      {% if perms.trans.commit_translation or perms.trans.update_translation %}
+      <li><a href="#git" data-toggle="pill" data-href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
+      {% endif %}
+      <li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Share" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+{% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
+      <li><a href="http://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook!" %}</a></li>
+      <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation!" %}</a></li>
+      <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
+{% endwith %}
+    </ul>
+  </li>
+</ul>
+
+
+
+<div class="tab-content">
+<div class="tab-pane active" id="overview">
 <div class="row">
 
 <div class="col-md-6">
@@ -46,21 +79,33 @@
 
 </div>
 
+</div>
 
-<h2>{% trans "Tools" %}</h2>
 
-<div class="tabs" id="subproject-tabs">
-<ul>
-{% if object.can_add_language %}
-<li><a href="#new-lang">{% trans "New translation" %}</a></li>
-{% endif %}
+<div class="tab-pane" id="activity">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Activity" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "Loading…" %}</p>
+</div>
+
+</div>
+</div>
+
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<li><a href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
+<div class="tab-pane" id="git">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Git maintenance" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "Loading…" %}</p>
+</div>
+
+</div>
+</div>
 {% endif %}
-<li><a href="#share">{% trans "Share" %}</a></li>
-<li><a href="#tools">{% trans "Tools" %}</a></li>
-<li><a href="{% url 'view_activity_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
-</ul>
+
+</div>
+
 
 {% if object.can_add_language %}
 <div id="new-lang">
@@ -87,18 +132,7 @@
 </div>
 {% endif %}
 
-<div id="share">
-{% with object.project as project %}
-{% include 'share.html' %}
-{% endwith %}
-</div>
 
-<div id="tools">
-<ul>
-<li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
-<li><a href="{% url 'data_project' project=object.project.slug %}">{% trans "Machine readable data" %}</a></li>
-</ul>
-</div>
 
 </div>
 
