@@ -30,12 +30,12 @@
 <a class="btn btn-default" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4">{% trans "Donate to Weblate!" %}</a>
 </p>
 
+<div class="row">
+<div class="col-md-6">
 <h2>{% trans "Versions" %}</h2>
 
 <p>{% trans "This site is built using following projects:" %}</p>
 
-<div class="row">
-<div class="col-md-4">
 <table class="table table-condensed table-striped">
 <tr>
 <th><a href="{{ weblate_url }}">Weblate</a></th>
@@ -48,12 +48,10 @@
 {% endfor %}
 </table>
 </div>
-</div>
 
+<div class="col-md-6">
 <h2>{% trans "Statistics" %}</h2>
 
-<div class="row">
-<div class="col-md-4">
 <table class="table table-condensed table-striped">
 <tr>
 <th>{% trans "Strings to translate" %}</th>
