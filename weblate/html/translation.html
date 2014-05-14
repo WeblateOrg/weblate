@@ -18,6 +18,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="pill">{% trans "Overview" %}</a></li>
+  <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Files" %} <span class="caret"></span>
@@ -38,7 +39,6 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'data_project' project=object.subproject.project.slug  %}">{% trans "Data exports" %}</a></li>
-      <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
       <li><a href="#locking" data-toggle="pill">{% trans "Locking" %}</a></li>
       {% if perms.trans.commit_translation or perms.trans.update_translation %}
       <li><a href="#git" data-toggle="pill" data-href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
