@@ -68,13 +68,22 @@
 
 <div class="row">
 <div class="col-md-6">
-
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Translation status" %}</h4></div>
   <div class="panel-body">
 
 <table class="table">
-{% include "translation_info.html" %}
+<tr>
+<th>{% trans "Strings" %}<span class="badge pull-right">{{ object.total }}</span></th>
+<td class="progress-cell">{% translation_progress object %}</td>
+<td class="percent">{{ object.get_translated_percent }}%</td>
+</tr>
+
+<tr>
+<th>{% trans "Words" %}<span class="badge pull-right">{{ object.total_words }}</span></th>
+<td class="progress-cell">{% words_progress object %}</td>
+<td class="percent">{{ object.get_words_percent }}%</td>
+</tr>
 </table>
 </div>
 </div>
@@ -120,6 +129,19 @@
 </div>
 
 <div class="col-md-6">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
+  <div class="panel-body">
+
+<table class="table">
+{% with object.subproject as object %}
+{% include "subproject_info.html" %}
+{% endwith %}
+</table>
+</div>
+</div>
+
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Stats" %}</h4></div>
 <div class="panel-body">
