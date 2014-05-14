@@ -79,11 +79,11 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Glossaries" %}</h4></div>
   <div class="panel-body">
 {% if dicts %}
-<ul>
+<div class="list-group">
 {% for dict in dicts %}
-<li><a href="{% url 'show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
+<a class="list-group-item" href="{% url 'show_dictionary' project=object.slug lang=dict.language.code %}"><span class="badge">{{ dict.count }}</span>{{ dict.language }}</a>
 {% endfor %}
-</ul>
+</div>
 {% else %}
 <p>{% trans "There are currently no glossaries defined for this project." %}</p>
 {% endif %}

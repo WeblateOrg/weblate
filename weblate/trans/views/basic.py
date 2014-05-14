@@ -207,11 +207,23 @@ def show_engage(request, project, lang=None):
 def show_project(request, project):
     obj = get_project(request, project)
 
-    dicts = Dictionary.objects.filter(
+    dict_langs = Dictionary.objects.filter(
         project=obj
     ).values_list(
         'language', flat=True
     ).distinct()
+
+    dicts = []
+    for language in Language.objects.filter(id__in=dict_langs):
+        dicts.append(
+            {
+                'language': language,
+                'count': Dictionary.objects.filter(
+                    language=language,
+                    project=obj
+                ).count(),
+            }
+        )
 
     last_changes = Change.objects.prefetch().filter(
         Q(translation__subproject__project=obj) |
@@ -223,7 +235,7 @@ def show_project(request, project):
         'project.html',
         {
             'object': obj,
-            'dicts': Language.objects.filter(id__in=dicts),
+            'dicts': dicts,
             'last_changes': last_changes,
             'last_changes_rss': reverse(
                 'rss-project',
