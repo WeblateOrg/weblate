@@ -42,8 +42,26 @@
 
 {% include "legend.html" %}
 </div>
-
 </div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Glossaries" %}</h4></div>
+  <div class="panel-body">
+{% if dicts %}
+<ul>
+{% for dict in dicts %}
+<li><a href="{% url 'show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>{% trans "There are currently no glossaries defined for this project." %}</p>
+{% endif %}
+</div>
+<div class="panel-footer">
+<a class="btn btn-default" href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a>
+</div>
+</div>
+
 
 </div>
 
@@ -67,7 +85,6 @@
 <div class="tabs" id="project-tabs">
 <ul>
 <li><a href="#changes">{% trans "History" %}</a></li>
-<li><a href="#dicts">{% trans "Glossaries" %}</a></li>
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
@@ -75,14 +92,6 @@
 <li><a href="{% url 'view_activity_project' project=object.slug %}">{% trans "Activity" %}</a></li>
 </ul>
 
-<div id="dicts">
-<ul>
-{% for dict in dicts %}
-<li><a href="{% url 'show_dictionary' project=object.slug lang=dict.code %}">{{ dict }}</a></li>
-{% endfor %}
-<li><a href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a></li>
-</ul>
-</div>
 
 <div id="changes">
 {% include "last-changes.html" %}
