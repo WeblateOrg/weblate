@@ -8,12 +8,17 @@
 <tr>
 <th>{% trans "Git repository" %}</th>
 <td colspan="2">
-<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code> ({{ object.get_repo_branch }}
- @ 
+<code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
+</td>
+</tr>
+
+<tr>
+<th>{% trans "Git branch" %}</th>
+<td colspan="2">
+{{ object.get_repo_branch }}
 {% with object.get_last_remote_commit as commit %}
 {% include "git-commit-info.html" %}
 {% endwith %}
-)
 </td>
 </tr>
 
