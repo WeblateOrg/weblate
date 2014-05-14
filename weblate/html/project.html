@@ -77,6 +77,8 @@
 </div>
 </div>
 
+{% include "last-changes.html" %}
+
 </div>
 </div>
 
@@ -84,18 +86,12 @@
 
 <div class="tabs" id="project-tabs">
 <ul>
-<li><a href="#changes">{% trans "History" %}</a></li>
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#share">{% trans "Share" %}</a></li>
 <li><a href="{% url 'view_activity_project' project=object.slug %}">{% trans "Activity" %}</a></li>
 </ul>
-
-
-<div id="changes">
-{% include "last-changes.html" %}
-</div>
 
 <div id="share">
 {% with object as project %}

@@ -1,6 +1,9 @@
 {% load i18n %}
 {% load translations %}
 {% load url from future %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% if history_title %}{{ history_title }}{% else %}{% trans "History" %}{% endif %}</h4></div>
+<div class="panel-body">
 
 {% if last_changes_rss %}
 <a class="rss menu-float ui-state-default ui-corner-all" href="{{ last_changes_rss }}">
@@ -42,9 +45,11 @@
 </td></tr>
 {% endfor %}
 </tbody>
-{% if not hide_browse %}
-<tfoot><tr><td colspan="4" class="tablenotice">
-<a href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse changes" %}</a>
-</td></tr></tfoot>
-{% endif %}
 </table>
+</div>
+{% if not hide_browse %}
+<div class="panel-footer">
+<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse changes" %}</a>
+</div>
+{% endif %}
+</div>
