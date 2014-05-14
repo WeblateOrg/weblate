@@ -251,7 +251,7 @@ class ViewTest(TestCase):
         '''
         # Basic get
         response = self.client.get(reverse('contact'))
-        self.assertContains(response, 'class="contact-table"')
+        self.assertContains(response, 'id="id_message"')
 
         # Sending message
         response = self.client.post(
