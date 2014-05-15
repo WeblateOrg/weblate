@@ -4,10 +4,10 @@
 {% with good=100 %}
 {% include "progress.html" %} - {% trans "Good translations" %}
 {% endwith %}
-{% with fuzzy=100 %}
-{% include "progress.html" %} - {% trans "Fuzzy translations" %}
-{% endwith %}
 {% with checks=100 %}
 {% include "progress.html" %} - {% trans "Translations with failing checks" %}
+{% endwith %}
+{% with fuzzy=100 %}
+{% include "progress.html" %} - {% trans "Fuzzy translations" %}
 {% endwith %}
 </div>
