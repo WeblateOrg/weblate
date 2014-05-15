@@ -9,20 +9,10 @@
 
 {% block content %}
 
-<table class="sort table table-condensed table-striped">
-<thead>
-<tr>
-<th>{% trans "Check" %}</th>
-<th>{% trans "Failures" %}</th>
-</tr>
-<tbody>
+<div class="list-group">
 {% for check in checks %}
-<tr>
-<th><abbr title="{% check_description check.check %}">{% check_name check.check %}</abbr></th>
-<td><a href="{% url 'show_check' name=check.check %}{{ ignore_string }}">{{ check.count }}</a></td>
-</tr>
+<a class="list-group-item" href="{% url 'show_check' name=check.check %}{{ ignore_string }}"><span class="badge">{{ check.count }}</span><abbr title="{% check_description check.check %}">{% check_name check.check %}</abbr></a>
 {% endfor %}
-</tbody>
-</table>
+</div>
 
 {% endblock %}

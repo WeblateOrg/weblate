@@ -20,27 +20,13 @@
 </p>
 
 {% if checks %}
-<table class="sort table table-condensed table-striped">
-<thead>
-<tr>
-<th>{% trans "Project" %}</th>
-<th>{% trans "Failures" %}</th>
-</tr>
-<tbody>
+<div class="list-group">
 {% for obj in checks %}
-<tr>
-<th><a href="{% url 'subproject' project=obj.translation__subproject__project__slug subproject=obj.translation__subproject__slug %}">{% subproject_name obj.translation__subproject__project__slug obj.translation__subproject__slug %}</a></th>
-<td><a href="{% url 'show_check_subproject' name=check.check_id project=obj.translation__subproject__project__slug subproject=obj.translation__subproject__slug %}{{ ignore_string }}">{{ obj.count }}</a></td>
-</tr>
+<a class="list-group-item" href="{% url 'show_check_subproject' name=check.check_id project=obj.translation__subproject__project__slug subproject=obj.translation__subproject__slug %}{{ ignore_string }}"><span class="badge">{{ obj.count }}</span>{% subproject_name obj.translation__subproject__project__slug obj.translation__subproject__slug %}</a>
 {% endfor %}
-</tbody>
-</table>
+</div>
 {% else %}
-<p>
 {% show_message "warning" _("No matching checks found!") %}
-</p>
 {% endif %}
 
 {% endblock %}
-
-

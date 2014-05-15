@@ -21,34 +21,16 @@
 </p>
 
 {% if anychecks %}
-<table class="sort table table-condensed table-striped">
-<thead>
-<tr>
-<th>{% trans "Translation" %}</th>
-<th>{% trans "Failures" %}</th>
-</tr>
-<tbody>
+<div class="list-group">
 {% for obj in checks %}
-<tr>
-<th><a href="{% url 'translation' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}">{% language_name obj.translation__language__code %}</a></th>
-<td><a href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}">{{ obj.count }}</a></td>
-</tr>
+<a class="list-group-item" href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
 {% endfor %}
 {% for count in source_checks %}
-<tr>
-<th><a href="{% url 'show_source' project=subproject.project.slug subproject=subproject.slug %}">{% trans "Source" %}</a></th>
-<td><a href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}">{{ count }}</a></td>
-</tr>
+<a class="list-group-item" href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}"><span class="badge">{{ count }}</span>{% trans "Source" %}</a>
 {% endfor %}
-</tbody>
-</table>
+</div>
 {% else %}
-<p>
 {% show_message "warning" _("No matching checks found!") %}
-</p>
 {% endif %}
 
 {% endblock %}
-
-
-
