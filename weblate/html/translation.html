@@ -19,6 +19,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="pill">{% trans "Overview" %}</a></li>
   <li><a href="#search" data-toggle="pill">{% trans "Search" %}</a></li>
+  <li><a href="#history" data-toggle="pill">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
   <li><a href="#stats" data-toggle="pill">{% trans "Statistics" %}</a></li>
   <li class="dropdown">
@@ -117,14 +118,17 @@
 </div>
 </div>
 
+</div>
+
+</div>
+
+
+</div>
+
+<div class="tab-pane" id="history">
 {% include "last-changes.html" %}
-
 </div>
 
-</div>
-
-
-</div>
 
 {% if autoform %}
 <div class="tab-pane" id="auto">

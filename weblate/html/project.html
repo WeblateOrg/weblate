@@ -14,6 +14,7 @@
 {% block content %}
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="pill">{% trans "Overview" %}</a></li>
+  <li><a href="#history" data-toggle="pill">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity_project' project=object.slug %}">{% trans "Activity" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -75,6 +76,21 @@
 </div>
 </div>
 
+
+</div>
+
+<div class="col-md-6">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
+  <div class="panel-body">
+
+<table class="table">
+{% include "project_info.html" %}
+</table>
+</div>
+</div>
+
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Glossaries" %}</h4></div>
   <div class="panel-body">
@@ -95,26 +111,13 @@
 
 
 </div>
-
-<div class="col-md-6">
-
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
-  <div class="panel-body">
-
-<table class="table">
-{% include "project_info.html" %}
-</table>
-</div>
 </div>
 
+</div>
+
+<div class="tab-pane" id="history">
 {% include "last-changes.html" %}
-
 </div>
-</div>
-
-</div>
-
 
 <div class="tab-pane" id="activity">
 <div class="panel panel-primary">
