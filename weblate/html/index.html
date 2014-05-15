@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if not user.is_authenticated %}
-<p>
+<p class="alert alert-info">
 {% if demo_server %}
 {% blocktrans %}This site runs <a href="{{ weblate_url }}">Weblate</a> demo server.{% endblocktrans %}
 {% else %}
