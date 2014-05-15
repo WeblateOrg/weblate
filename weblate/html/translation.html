@@ -18,6 +18,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="pill">{% trans "Overview" %}</a></li>
+  <li><a href="#search" data-toggle="pill">{% trans "Search" %}</a></li>
   <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
   <li><a href="#stats" data-toggle="pill">{% trans "Statistics" %}</a></li>
   <li class="dropdown">
@@ -99,33 +100,6 @@
 </div>
 </div>
 </div>
-
-<form action="{{ object.get_translate_url }}" method="GET">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
-  <div class="panel-body">
-{{ search_form.as_p }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
-</div>
-</div>
-</form>
-
-{% if review_form %}
-<form action="{{ object.get_translate_url }}" method="GET">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Review" %}</h4></div>
-  <div class="panel-body">
-<p>{% trans "Review translations touched by other users." %}</p>
-{{ review_form.as_p }}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Start review" %}" class="btn btn-default" />
-</div>
-</div>
-</form>
-{% endif %}
 
 </div>
 
@@ -231,6 +205,42 @@
 </div>
 </div>
 
+<div class="tab-pane" id="search">
+<div class="row">
+<div class="col-md-6">
+<form action="{{ object.get_translate_url }}" method="GET">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
+  <div class="panel-body">
+{{ search_form.as_p }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+
+</div>
+{% if review_form %}
+<div class="col-md-6">
+<form action="{{ object.get_translate_url }}" method="GET">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Review" %}</h4></div>
+  <div class="panel-body">
+<p>{% trans "Review translations touched by other users." %}</p>
+{{ review_form.as_p }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Start review" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+
+</div>
+{% endif %}
+
+</div>
+</div>
 
 <div class="tab-pane" id="stats">
 <div class="row">
