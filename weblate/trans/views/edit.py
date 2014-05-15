@@ -664,7 +664,7 @@ def auto_translation(request, project, subproject, lang):
                 # Save unit to backend
                 unit.save_backend(request, False, False)
 
-        messages.info(request, _('Automatic translation completed.'))
+        messages.success(request, _('Automatic translation completed.'))
     else:
         messages.error(request, _('Failed to process form!'))
 
@@ -692,7 +692,7 @@ def comment(request, pk):
             lang,
             form.cleaned_data['comment']
         )
-        messages.info(request, _('Posted new comment'))
+        messages.success(request, _('Posted new comment'))
     else:
         messages.error(request, _('Failed to add comment!'))
 

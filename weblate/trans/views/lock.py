@@ -36,7 +36,7 @@ def lock_translation(request, project, subproject, lang):
 
     if not obj.is_user_locked(request):
         obj.create_lock(request.user, True)
-        messages.info(request, _('Translation is now locked for you.'))
+        messages.success(request, _('Translation is now locked for you.'))
 
     return redirect(obj)
 
@@ -58,7 +58,7 @@ def unlock_translation(request, project, subproject, lang):
 
     if not obj.is_user_locked(request):
         obj.create_lock(None)
-        messages.info(
+        messages.success(
             request,
             _('Translation is now open for translation updates.')
         )
@@ -76,7 +76,7 @@ def lock_subproject(request, project, subproject):
     obj.locked = True
     obj.save()
 
-    messages.info(
+    messages.success(
         request,
         _('Subproject is now locked for translation updates!')
     )
@@ -92,7 +92,7 @@ def unlock_subproject(request, project, subproject):
     obj.locked = False
     obj.save()
 
-    messages.info(
+    messages.success(
         request,
         _('Subproject is now open for translation updates.')
     )
@@ -111,7 +111,7 @@ def lock_project(request, project):
         subproject.locked = True
         subproject.save()
 
-    messages.info(
+    messages.success(
         request,
         _('All subprojects are now locked for translation updates!')
     )
@@ -128,6 +128,9 @@ def unlock_project(request, project):
         subproject.locked = False
         subproject.save()
 
-    messages.info(request, _('Project is now open for translation updates.'))
+    messages.success(
+        request,
+        _('Project is now open for translation updates.')
+    )
 
     return redirect(obj)

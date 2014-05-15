@@ -33,7 +33,7 @@ def commit_project(request, project):
     obj = get_project(request, project)
     obj.commit_pending(request)
 
-    messages.info(request, _('All pending translations were committed.'))
+    messages.success(request, _('All pending translations were committed.'))
 
     return redirect(obj)
 
@@ -44,7 +44,7 @@ def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
     obj.commit_pending(request)
 
-    messages.info(request, _('All pending translations were committed.'))
+    messages.success(request, _('All pending translations were committed.'))
 
     return redirect(obj)
 
@@ -55,7 +55,7 @@ def commit_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
     obj.commit_pending(request)
 
-    messages.info(request, _('All pending translations were committed.'))
+    messages.success(request, _('All pending translations were committed.'))
 
     return redirect(obj)
 
@@ -66,7 +66,7 @@ def update_project(request, project):
     obj = get_project(request, project)
 
     if obj.do_update(request):
-        messages.info(request, _('All repositories were updated.'))
+        messages.success(request, _('All repositories were updated.'))
 
     return redirect(obj)
 
@@ -77,7 +77,7 @@ def update_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
     if obj.do_update(request):
-        messages.info(request, _('All repositories were updated.'))
+        messages.success(request, _('All repositories were updated.'))
 
     return redirect(obj)
 
@@ -88,7 +88,7 @@ def update_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
     if obj.do_update(request):
-        messages.info(request, _('All repositories were updated.'))
+        messages.success(request, _('All repositories were updated.'))
 
     return redirect(obj)
 
@@ -99,7 +99,7 @@ def push_project(request, project):
     obj = get_project(request, project)
 
     if obj.do_push(request):
-        messages.info(request, _('All repositories were pushed.'))
+        messages.success(request, _('All repositories were pushed.'))
 
     return redirect(obj)
 
@@ -110,7 +110,7 @@ def push_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
     if obj.do_push(request):
-        messages.info(request, _('All repositories were pushed.'))
+        messages.success(request, _('All repositories were pushed.'))
 
     return redirect(obj)
 
@@ -121,7 +121,7 @@ def push_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
     if obj.do_push(request):
-        messages.info(request, _('All repositories were pushed.'))
+        messages.success(request, _('All repositories were pushed.'))
 
     return redirect(obj)
 
@@ -132,7 +132,7 @@ def reset_project(request, project):
     obj = get_project(request, project)
 
     if obj.do_reset(request):
-        messages.info(request, _('All repositories have been reset.'))
+        messages.success(request, _('All repositories have been reset.'))
 
     return redirect(obj)
 
@@ -143,7 +143,7 @@ def reset_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
     if obj.do_reset(request):
-        messages.info(request, _('All repositories have been reset.'))
+        messages.success(request, _('All repositories have been reset.'))
 
     return redirect(obj)
 
@@ -154,6 +154,6 @@ def reset_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
     if obj.do_reset(request):
-        messages.info(request, _('All repositories have been reset.'))
+        messages.success(request, _('All repositories have been reset.'))
 
     return redirect(obj)

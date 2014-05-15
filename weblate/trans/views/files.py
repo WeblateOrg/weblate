@@ -117,7 +117,7 @@ def upload_translation(request, project, subproject, lang):
             method=form.cleaned_data['method']
         )
         if ret:
-            messages.info(
+            messages.success(
                 request,
                 ungettext(
                     'File content successfully merged into translation, '

@@ -113,7 +113,7 @@ def mail_admins_contact(request, subject, message, context, sender):
 
     mail.send(fail_silently=False)
 
-    messages.info(
+    messages.success(
         request,
         _('Message has been sent to administrator.')
     )
@@ -164,7 +164,7 @@ def user_profile(request):
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
             translation.activate(lang_code)
 
-            messages.info(request, _('Your profile has been updated.'))
+            messages.success(request, _('Your profile has been updated.'))
 
             return response
     else:
@@ -219,7 +219,7 @@ def user_remove(request):
 
         logout(request)
 
-        messages.info(
+        messages.success(
             request,
             _('Your account has been removed.')
         )
@@ -480,7 +480,7 @@ def password(request):
                 form.cleaned_data['password1']
             )
             request.user.save()
-            messages.info(
+            messages.success(
                 request,
                 _('Your password has been changed.')
             )

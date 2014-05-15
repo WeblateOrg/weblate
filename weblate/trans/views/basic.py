@@ -449,7 +449,7 @@ def new_language(request, project, subproject):
             )
         elif obj.project.new_lang == 'contact':
             notify_new_language(obj, language, request.user)
-            messages.info(
+            messages.success(
                 request,
                 _(
                     "A request for a new translation has been "

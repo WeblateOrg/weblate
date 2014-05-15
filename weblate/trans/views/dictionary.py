@@ -160,7 +160,7 @@ def upload_dictionary(request, project, lang):
                         _('No words to import found in file.')
                     )
                 else:
-                    messages.info(
+                    messages.success(
                         request,
                         _('Imported %d words from file.') % count
                     )

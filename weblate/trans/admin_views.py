@@ -269,7 +269,7 @@ def ssh(request):
                 ],
                 stderr=subprocess.STDOUT,
             )
-            messages.info(request, _('Created new SSH key.'))
+            messages.success(request, _('Created new SSH key.'))
         except (subprocess.CalledProcessError, OSError) as exc:
             messages.error(
                 request,
