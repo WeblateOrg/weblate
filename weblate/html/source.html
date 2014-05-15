@@ -5,23 +5,19 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "source" %}</a></li>
+<li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "source strings" %}</a></li>
 {% endblock %}
 
 {% block content %}
-
-<h2>{% trans "Project Information" %}</h2>
-
-<table>
-{% include "subproject_info.html" %}
-</table>
+<div class="row">
+<div class="col-md-6">
 
 {% url 'review_source' project=source.subproject.project.slug subproject=source.subproject.slug as review_url %}
 {% with source.get_source_checks as checks %}
 {% if checks %}
-<h2>{% trans "Strings to check" %}</h2>
-<div class="row">
-<div class="col-md-4">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Strings to check" %}</h4></div>
+  <div class="panel-body">
 <div class="list-group">
 {% for c in checks %}
 <a class="list-group-item list-group-item-{{ c.3 }}" href="{{ review_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
@@ -34,7 +30,19 @@
 
 </div>
 
+<div class="col-md-6">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
+  <div class="panel-body">
+
+<table class="table">
+{% include "subproject_info.html" %}
+</table>
+</div>
+</div>
+
+</div>
+</div>
+
 {% endblock %}
-
-
-
