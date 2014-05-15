@@ -31,29 +31,102 @@
 
 <div class="tab-content">
 <div class="tab-pane active" id="preferences">
-<table>
-{{ form.as_table }}
-</table>
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Preferences" %}</h4></div>
+  <div class="panel-body">
+    <table>
+    {{ form.as_table }}
+    </table>
+  </div>
+</div>
+</div>
+<div class="col-md-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>
+      {% blocktrans %}Choose which languages you prefer to translate. These will be offered to you on the dashboard to have easier access to chosen translations.{% endblocktrans %}
+    </p>
+    <p>
+      {% blocktrans %}The secondary languages are shown next to the source string when translating.{% endblocktrans %}
+    </p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'user/profile' 'languages' %}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
 </div>
 <div class="tab-pane" id="subscriptions">
-<p>{% trans "You will receive chosen notifications via email for all your languages." %}</p>
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Subscriptions" %}</h4></div>
+  <div class="panel-body">
 <table>
 {{ subscriptionform.as_table }}
 </table>
+  </div>
+</div>
+</div>
+<div class="col-md-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>{% trans "You will receive chosen notifications via email for all your languages." %}</p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'user/profile' 'subscriptions' %}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
 </div>
 <div class="tab-pane" id="account">
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Account" %}</h4></div>
+  <div class="panel-body">
 <table>
 {{ userform.as_table }}
 </table>
-<span class="helptext">{% trans "Your name and email will appear as author on Git commits." %}</span>
+  </div>
+</div>
+</div>
+<div class="col-md-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>{% trans "Your name and email will appear as author on Git commits." %}</p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'user/profile' %}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
 </div>
 <div class="tab-pane" id="auth">
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Authentication" %}</h4></div>
+  <div class="panel-body">
 
 <p><a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a></p>
+</div>
+</div>
 
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Third party identities" %}</h4></div>
+  <div class="panel-body">
 <p>{% trans "You can manage third party identities which are associated to this account." %}</p>
 <p>{% trans "Currently associated:" %}</p>
-<table>
+<table class="table table-condensed">
 <thead>
 <tr>
 <th>{% trans "Identity" %}</th>
@@ -81,6 +154,21 @@
   <a class="btn btn-default" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
 {% endfor %}
 {% endif %}
+</div>
+</div>
+</div>
+<div class="col-md-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>{% trans "You can configure how you will log in on this site." %}</p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'user/profile' 'authentication' %}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
 
 </div>
 <div class="tab-pane" id="info">
