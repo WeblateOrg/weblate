@@ -665,7 +665,7 @@ class Unit(models.Model):
         force_insert = kwargs.get('force_insert', False)
 
         # Store number of words
-        if not same_content:
+        if not same_content or not self.num_words:
             self.num_words = len(self.get_source_plurals()[0].split())
 
         # Actually save the unit
