@@ -53,7 +53,7 @@ class EllipsisCheck(SourceCheck):
         u'The string uses three dots (...) '
         u'instead of an ellipsis character (…)'
     )
-    severity = 'info'
+    severity = 'warning'
 
     def check_source(self, source, unit):
         return '...' in source[0]
@@ -68,7 +68,7 @@ class MultipleFailingCheck(SourceCheck):
     description = _(
         'The translations in several languages have failing checks'
     )
-    severity = 'info'
+    severity = 'warning'
 
     def check_source(self, source, unit):
         from weblate.trans.models.unitdata import Check
