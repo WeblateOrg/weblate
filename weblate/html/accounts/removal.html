@@ -3,14 +3,26 @@
 {% load translations %}
 {% load url from future %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'profile' %}">{% trans "Profile" %}</a></li>
+{% endblock %}
+
 {% block content %}
 
-{% show_message 'warning' _('Removal of the account deletes all your private data.') %}
+{% show_message 'danger' _('Removal of the account deletes all your private data.') %}
 
 <form method="post" action="{% url 'remove' %}">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Account removal" %}</h4></div>
+  <div class="panel-body">
 <p>{% blocktrans %}By pressing following button, your will no longer be able to use this account.{% endblocktrans %}</p>
 {% csrf_token %}
-<input type="submit" class="button" value="{% trans "Delete this account" %}" />
+</div>
+<div class="panel-footer">
+<input type="submit" class="btn btn-default" value="{% trans "Delete this account" %}" />
+</div>
 </form>
+</div>
+</div>
 
 {% endblock %}
