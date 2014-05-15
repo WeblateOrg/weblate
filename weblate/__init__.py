@@ -39,7 +39,7 @@ def is_running_git():
     return os.path.exists(os.path.join(get_root_dir(), '.git'))
 
 # Weblate version
-VERSION = '1.10'
+VERSION = '2.0'
 
 # User-Agent string to use
 USER_AGENT = 'Weblate/{0}'.format(VERSION)
