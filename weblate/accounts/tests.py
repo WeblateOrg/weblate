@@ -284,7 +284,7 @@ class ViewTest(TestCase):
         # Enabled
         appsettings.OFFER_HOSTING = True
         response = self.client.get(reverse('hosting'))
-        self.assertContains(response, 'class="contact-table"')
+        self.assertContains(response, 'id="id_message"')
 
         # Sending message
         response = self.client.post(
@@ -378,7 +378,7 @@ class ProfileTest(ViewTestCase):
     def test_profile(self):
         # Get profile page
         response = self.client.get(reverse('profile'))
-        self.assertContains(response, 'class="tabs preferences"')
+        self.assertContains(response, 'action="/accounts/profile/"')
 
         # Save profile
         response = self.client.post(
