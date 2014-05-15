@@ -9,10 +9,35 @@
 
 {% block content %}
 
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
+  <div class="panel-body">
+
 <div class="list-group">
 {% for check in checks %}
 <a class="list-group-item" href="{% url 'show_check' name=check.check %}{{ ignore_string }}"><span class="badge">{{ check.count }}</span><abbr title="{% check_description check.check %}">{% check_name check.check %}</abbr></a>
 {% endfor %}
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Information" %}</h4></div>
+  <div class="panel-body">
+  <p>{% trans "Customizable quality checks will help you in improving quality of translations." %}</p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'user/checks' %}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
+
 </div>
 
 {% endblock %}

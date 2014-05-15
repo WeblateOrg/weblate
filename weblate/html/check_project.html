@@ -11,13 +11,11 @@
 
 {% block content %}
 
-<p>
-{{ check.description }}
-</p>
-
-<p>
-{% blocktrans with check.get_doc_url as link %}More information about this check is available in the <a href="{{ link }}">documentation</a>.{% endblocktrans %}
-</p>
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
+  <div class="panel-body">
 
 {% if checks %}
 <div class="list-group">
@@ -28,5 +26,26 @@
 {% else %}
 {% show_message "warning" _("No matching checks found!") %}
 {% endif %}
+
+</div>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Check details" %}</h4></div>
+  <div class="panel-body">
+    <p>
+    {{ check.description }}
+    </p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{{ check.get_doc_url  }}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
+
+</div>
 
 {% endblock %}
