@@ -44,6 +44,7 @@
 {% else %}
 <li class="active"><a href="#projects" data-toggle="pill">{% trans "Projects" %}</a></li>
 {% endif %}
+<li><a href="#search" data-toggle="pill">{% trans "Search" %}</a></li>
 <li><a href="#languages" data-href="{% url 'languages' %}" data-toggle="pill">{% trans "Languages" %}</a></li>
 <li><a href="#checks" data-href="{% url 'checks' %}" data-toggle="pill">{% trans "Checks" %}</a></li>
 <li class="dropdown">
@@ -98,6 +99,23 @@
 {% endif %}
 </div>
 
+<div class="tab-pane" id="search">
+
+<form action="{% url 'search' %}" method="GET">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
+  <div class="panel-body">
+{{ search_form.as_p }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+
+</div>
+
+
 <div class="tab-pane" id="languages">
 <p>{% trans "Loading…" %}</p>
 </div>
@@ -114,7 +132,6 @@
 
 <ul>
 <li><a href="#changes">{% trans "History" %}</a></li>
-<li><a href="#search">{% trans "Search" %}</a></li>
 <li><a href="#translators">{% trans "Most active translators" %}</a></li>
 <li><a href="#suggesters">{% trans "Most active suggesters" %}</a></li>
 <li><a href="{% url 'view_activity' %}">{% trans "Activity" %}</a></li>
@@ -122,13 +139,6 @@
 
 <div id="changes">
 {% include "last-changes.html" %}
-</div>
-
-<div id="search">
-<form action="{% url 'search' %}" method="GET">
-{{ search_form.as_p }}
-<input type="submit" value="{% trans "Search" %}" class="button" />
-</form>
 </div>
 
 <div id="translators">
