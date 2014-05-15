@@ -520,4 +520,4 @@ ALLOWED_HOSTS = []
 # )
 
 # Enable whiteboard functionality - under development so disabled by default.
-ENABLE_WHITEBOARD = True
+ENABLE_WHITEBOARD = False
