@@ -231,6 +231,16 @@ class Translation(models.Model, URLMixin, PercentMixin):
             return 0
         return translation_percent(self.translated_words, self.total_words)
 
+    def get_fuzzy_words_percent(self):
+        if self.total_words == 0:
+            return 0
+        return translation_percent(self.fuzzy_words, self.total_words)
+
+    def get_failing_checks_words_percent(self):
+        if self.total_words == 0:
+            return 0
+        return translation_percent(self.failing_checks_words, self.total_words)
+
     @property
     def untranslated_words(self):
         return self.total_words - self.translated_words
