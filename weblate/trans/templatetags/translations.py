@@ -183,15 +183,6 @@ def fmtsourcediff(value, other):
     return fmttranslation(other.source, diff=value)
 
 
-@register.filter
-@stringfilter
-def site_title(value):
-    '''
-    Returns site title
-    '''
-    return appsettings.SITE_TITLE
-
-
 @register.simple_tag
 def check_name(check):
     '''
