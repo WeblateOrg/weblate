@@ -129,6 +129,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
     fuzzy = models.IntegerField(default=0, db_index=True)
     total = models.IntegerField(default=0, db_index=True)
     translated_words = models.IntegerField(default=0)
+    fuzzy_words = models.IntegerField(default=0)
+    failing_checks_words = models.IntegerField(default=0)
     total_words = models.IntegerField(default=0)
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
@@ -688,6 +690,26 @@ class Translation(models.Model, URLMixin, PercentMixin):
         # Nothing matches filter
         if self.translated_words is None:
             self.translated_words = 0
+
+        # Count fuzzy words
+        self.fuzzy_words = self.unit_set.filter(
+            fuzzy=True
+        ).aggregate(
+            Sum('num_words')
+        )['num_words__sum']
+        # Nothing matches filter
+        if self.fuzzy_words is None:
+            self.fuzzy_words = 0
+
+        # Count words with failing checks
+        self.failing_checks_words = self.unit_set.filter(
+            has_failing_check=True
+        ).aggregate(
+            Sum('num_words')
+        )['num_words__sum']
+        # Nothing matches filter
+        if self.failing_checks_words is None:
+            self.failing_checks_words = 0
 
         # Store hash will save object
         self.store_hash()
