@@ -105,6 +105,7 @@ class BaseFormatCheck(TargetCheck):
     '''
     flag = None
     regexp = None
+    severity = 'danger'
 
     def check_target_unit(self, sources, targets, unit):
         '''

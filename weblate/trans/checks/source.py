@@ -35,6 +35,7 @@ class OptionalPluralCheck(SourceCheck):
     description = _(
         'The string is optionally used as plural, but not using plural forms'
     )
+    severity = 'info'
 
     def check_source(self, source, unit):
         if len(source) > 1:
@@ -52,6 +53,7 @@ class EllipsisCheck(SourceCheck):
         u'The string uses three dots (...) '
         u'instead of an ellipsis character (…)'
     )
+    severity = 'info'
 
     def check_source(self, source, unit):
         return '...' in source[0]
@@ -66,6 +68,7 @@ class MultipleFailingCheck(SourceCheck):
     description = _(
         'The translations in several languages have failing checks'
     )
+    severity = 'info'
 
     def check_source(self, source, unit):
         from weblate.trans.models.unitdata import Check

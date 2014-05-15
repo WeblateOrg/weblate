@@ -32,6 +32,7 @@ class Check(object):
     target = False
     source = False
     ignore_untranslated = True
+    severity = 'info'
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')

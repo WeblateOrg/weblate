@@ -29,6 +29,7 @@ class BeginNewlineCheck(TargetCheck):
     check_id = 'begin_newline'
     name = _('Starting newline')
     description = _('Source and translation do not both start with a newline')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         return self.check_chars(source, target, 0, ['\n'])
@@ -41,6 +42,7 @@ class EndNewlineCheck(TargetCheck):
     check_id = 'end_newline'
     name = _('Trailing newline')
     description = _('Source and translation do not both end with a newline')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         return self.check_chars(source, target, -1, ['\n'])
@@ -55,6 +57,7 @@ class BeginSpaceCheck(TargetCheck):
     description = _(
         'Source and translation do not both start with same number of spaces'
     )
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
@@ -83,6 +86,7 @@ class EndSpaceCheck(TargetCheck):
     check_id = 'end_space'
     name = _('Trailing space')
     description = _('Source and translation do not both end with a space')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         # One letter things are usually decimal/thousand separators
@@ -116,6 +120,7 @@ class EndStopCheck(TargetCheck):
     check_id = 'end_stop'
     name = _('Trailing stop')
     description = _('Source and translation do not both end with a full stop')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         if len(source) <= 4:
@@ -158,6 +163,7 @@ class EndColonCheck(TargetCheck):
         'or colon is not correctly spaced'
     )
     colon_fr = (' :', '&nbsp;:', u' :')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
@@ -207,6 +213,7 @@ class EndQuestionCheck(TargetCheck):
     )
     question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
     question_el = ('?', ';', u';')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
@@ -249,6 +256,7 @@ class EndExclamationCheck(TargetCheck):
         'or it is not correctly spaced'
     )
     exclamation_fr = (' !', '&nbsp;!', u' !', ' ! ', '&nbsp;! ', u' ! ')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
@@ -281,6 +289,7 @@ class EndEllipsisCheck(TargetCheck):
     check_id = 'end_ellipsis'
     name = _('Trailing ellipsis')
     description = _('Source and translation do not both end with an ellipsis')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         if not target:
@@ -299,6 +308,7 @@ class NewlineCountingCheck(CountingCheck):
     check_id = 'escaped_newline'
     name = _('Mismatched \\n')
     description = _('Number of \\n in translation does not match source')
+    severity = 'warning'
 
 
 class ZeroWidthSpaceCheck(TargetCheck):
@@ -308,6 +318,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     check_id = 'zero-width-space'
     name = _('Zero-width space')
     description = _('Translation contains extra zero-width space character')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         if self.is_language(unit, ('km', )):

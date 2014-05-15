@@ -24,7 +24,7 @@
 <div class="col-md-4">
 <div class="list-group">
 {% for c in checks %}
-<a class="list-group-item" href="{{ review_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
+<a class="list-group-item list-group-item-{{ c.3 }}" href="{{ review_url }}?type={{ c.0 }}"><span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
 {% endfor %}
 </div>
 </div>

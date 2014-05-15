@@ -906,6 +906,7 @@ class SameCheck(TargetCheck):
     check_id = 'same'
     name = _('Not translated')
     description = _('Source and translated strings are same')
+    severity = 'warning'
 
     def should_ignore(self, source, unit, cache_slot):
         '''

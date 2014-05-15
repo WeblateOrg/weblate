@@ -46,6 +46,7 @@ class BBCodeCheck(TargetCheck):
     check_id = 'bbcode'
     name = _('Mismatched BBcode')
     description = _('BBcode in translation does not match source')
+    severity = 'warning'
 
     def check_single(self, source, target, unit, cache_slot):
         # Try geting source parsing from cache
@@ -75,6 +76,7 @@ class XMLTagsCheck(TargetCheck):
     check_id = 'xml-tags'
     name = _('XML tags mismatch')
     description = _('XML tags in translation do not match source')
+    severity = 'warning'
 
     def parse_xml(self, text):
         '''

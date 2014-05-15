@@ -1012,7 +1012,14 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns list of failing source checks on current subproject.
         '''
-        result = [('all', _('All strings'), self.total)]
+        result = [
+            (
+                'all',
+                _('All strings'),
+                self.total,
+                'success',
+            )
+        ]
 
         # All checks
         sourcechecks = self.unit_set.count_type('sourcechecks', self)
@@ -1020,7 +1027,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
             result.append((
                 'sourcechecks',
                 _('Strings with any failing checks'),
-                sourcechecks
+                sourcechecks,
+                'danger',
             ))
 
         # Process specific checks
@@ -1032,7 +1040,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 result.append((
                     check,
                     CHECKS[check].description,
-                    cnt
+                    cnt,
+                    CHECKS[check].severity,
                 ))
 
         # Grab comments
@@ -1042,6 +1051,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'sourcecomments',
                 _('Strings with comments'),
                 sourcecomments,
+                'info',
             ))
 
         return result
@@ -1050,7 +1060,14 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns list of failing checks on current translation.
         '''
-        result = [('all', _('All strings'), self.total)]
+        result = [
+            (
+                'all',
+                _('All strings'),
+                self.total,
+                'success',
+            )
+        ]
 
         # Untranslated strings
         nottranslated = self.unit_set.count_type('untranslated', self)
@@ -1059,6 +1076,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'untranslated',
                 _('Untranslated strings'),
                 nottranslated,
+                'danger',
             ))
 
         # Fuzzy strings
@@ -1068,6 +1086,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'fuzzy',
                 _('Fuzzy strings'),
                 fuzzy,
+                'danger',
             ))
 
         # Translations with suggestions
@@ -1076,6 +1095,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'suggestions',
                 _('Strings with suggestions'),
                 self.have_suggestion,
+                'info',
             ))
 
         # All checks
@@ -1084,6 +1104,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'allchecks',
                 _('Strings with any failing checks'),
                 self.failing_checks,
+                'danger',
             ))
 
         # Process specific checks
@@ -1095,7 +1116,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 result.append((
                     check,
                     CHECKS[check].description,
-                    cnt
+                    cnt,
+                    CHECKS[check].severity,
                 ))
 
         # Grab comments
@@ -1105,6 +1127,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 'targetcomments',
                 _('Strings with comments'),
                 targetcomments,
+                'info',
             ))
 
         return result
