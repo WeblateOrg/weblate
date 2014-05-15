@@ -1246,10 +1246,10 @@ class HomeViewTest(ViewTestCase):
         msg.save()
 
         response = self.client.get(reverse('home'))
-        self.assertContains(response, 'Whiteboard')
+        self.assertContains(response, 'whiteboard')
         self.assertContains(response, 'test_message')
 
     def test_home_without_whiteboard(self):
         appsettings.ENABLE_WHITEBOARD = False
         response = self.client.get(reverse('home'))
-        self.assertNotContains(response, 'Whiteboard')
+        self.assertNotContains(response, 'whiteboard')
