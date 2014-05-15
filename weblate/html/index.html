@@ -38,7 +38,7 @@
 {% endif %}
 
 <ul class="nav nav-pills">
-{% if usertranslations %}
+{% if user.is_authenticated %}
 <li class="active"><a href="#your" data-toggle="pill">{% trans "Your translations" %}</a></li>
 <li><a href="#projects" data-toggle="pill">{% trans "Projects" %}</a></li>
 {% else %}
@@ -62,14 +62,20 @@
 </ul>
 
 <div class="tab-content">
-{% if usertranslations %}
+{% if user.is_authenticated %}
 <div class="tab-pane active" id="your">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Your translations" %}</h4></div>
   <div class="panel-body">
+{% if usertranslations %}
 {% with usertranslations as translations and 2 as show_language %}
 {% include "list-translations.html" %}
 {% endwith %}
+{% else %}
+{% endif %}
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% url 'profile' %}">{% trans "Manage your translations" %}</a>
   </div>
 </div>
 </div>
