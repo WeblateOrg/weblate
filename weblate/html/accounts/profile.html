@@ -3,6 +3,10 @@
 {% load i18n %}
 {% load translations %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
+{% endblock %}
+
 {% block content %}
 
 {% if form.errors or userform.errors or subscriptionform.errors %}
