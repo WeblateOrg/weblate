@@ -508,7 +508,7 @@ class LoginForm(BootstrapForm):
         return self.user_cache
 
 
-class HostingForm(forms.Form):
+class HostingForm(BootstrapForm):
     '''
     Form for asking for hosting.
     '''

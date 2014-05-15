@@ -1,21 +1,57 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 {% load url from future %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'hosting' %}">{% trans "hosting" %}</a></li>
+<li><a href="{% url 'hosting' %}">{% trans "Hosting" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
-<p>{% blocktrans %}Please check in advance whether your project is eligible for project hosting on this site.{% endblocktrans %}</p>
+{% show_message 'info' _("Please check in advance whether your project is eligible for project hosting on this site.") %}
 
+<div class="row">
+
+<div class="col-md-6">
 <form method="post" action="{% url 'hosting' %}">
 {% csrf_token %}
-<table class="contact-table">
-{{ form.as_table }}
-<tr><td></td><td><input type="submit" class="button" value="{% trans "Send" %}" /></td></tr>
-</table>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Ask for project hosting" %}</h4></div>
+  <div class="panel-body">
+{{ form.as_div }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Send" %}" class="btn btn-default" />
+</div>
+</div>
 </form>
+</div>
+
+<div class="col-md-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Conditions for free hosting conditions" %}</h4></div>
+  <div class="panel-body">
+<ul>
+<li>{% trans 'Translated content has to be released under <a href="http://en.wikipedia.org/wiki/Free_software_license">free license</a>.' %}</li>
+<li>{% trans "Source code has to be publicly available in supported version control system." %}</li>
+<li>{% trans "There is no guarantee for service availability or quality." %}</li>
+</ul>
+
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Commercial hosting" %}</h4></div>
+  <div class="panel-body">
+  <p>
+    {% trans "Commercial hosting is possible as well, our price starts at 19 EUR per project and month, please get in touch with us for more details." %}
+  </p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% url 'contact' %}?subject=Commercial hosting">{% trans "Contact us" %}</a>
+  </div>
+</div>
+</div>
+</div>
 
 {% endblock %}
