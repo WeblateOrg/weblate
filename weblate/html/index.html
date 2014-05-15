@@ -46,6 +46,7 @@
 {% endif %}
 <li><a href="#search" data-toggle="pill">{% trans "Search" %}</a></li>
 <li><a href="#activity" data-toggle="pill" data-href="{% url 'view_activity' %}">{% trans "Activity" %}</a></li>
+<li><a href="#stats" data-toggle="pill">{% trans "Statistics" %}</a></li>
 <li class="dropdown">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
     {% trans "Tools" %} <span class="caret"></span>
@@ -134,25 +135,13 @@
 </div>
 </div>
 
-</div>
-
-<h2>{% trans "Summaries" %}</h2>
-
-<div class="tabs" id="main-tabs">
-
-<ul>
-<li><a href="#changes">{% trans "History" %}</a></li>
-<li><a href="#translators">{% trans "Most active translators" %}</a></li>
-<li><a href="#suggesters">{% trans "Most active suggesters" %}</a></li>
-<li><a href="{% url 'view_activity' %}">{% trans "Activity" %}</a></li>
-</ul>
-
-<div id="changes">
-{% include "last-changes.html" %}
-</div>
-
-<div id="translators">
-<table>
+<div class="tab-pane" id="stats">
+<div class="row">
+<div class="col-md-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
+<div class="panel-body">
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "User" %}</th>
@@ -168,10 +157,15 @@
 </tbody>
 </table>
 </div>
+</div>
+</div>
 
-<div id="suggesters">
 
-<table>
+<div class="col-md-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active suggesters" %}</h4></div>
+<div class="panel-body">
+<table class="table">
 <thead>
 <tr>
 <th>{% trans "User" %}</th>
@@ -187,6 +181,27 @@
 </tbody>
 </table>
 </div>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<h2>{% trans "Summaries" %}</h2>
+
+<div class="tabs" id="main-tabs">
+
+<ul>
+<li><a href="#changes">{% trans "History" %}</a></li>
+<li><a href="{% url 'view_activity' %}">{% trans "Activity" %}</a></li>
+</ul>
+
+<div id="changes">
+{% include "last-changes.html" %}
+</div>
+
 </div>
 
 {% endblock %}
