@@ -364,9 +364,6 @@ def weblate_login(request):
     if request.user.is_authenticated():
         return redirect('profile')
 
-    if 'message' in request.GET:
-        messages.info(request, request.GET['message'])
-
     return auth_views.login(
         request,
         template_name='accounts/login.html',
