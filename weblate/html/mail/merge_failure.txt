@@ -1,6 +1,6 @@
 {% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
 
-{% blocktrans with site|site_title as site_title %}there has been a merge failure on {{ subproject }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans %}there has been a merge failure on {{ subproject }} at {{ site_title }}.{% endblocktrans %}
 
 {% trans "Error message:" %}
 

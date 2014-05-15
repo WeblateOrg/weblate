@@ -1,5 +1,5 @@
 {% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
 
-{% blocktrans with site|site_title as site_title %}there are new strings to translate on {{ translation }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans %}there are new strings to translate on {{ translation }} at {{ site_title }}.{% endblocktrans %}
 
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

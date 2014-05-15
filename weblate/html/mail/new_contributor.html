@@ -9,7 +9,7 @@
 </p>
 
 <p>
-{% blocktrans with site|site_title as site_title and user.first_name as username %}{{ username }} has just made a first contribution on {{ translation }} at {{ site_title }}.{% endblocktrans %}
+{% blocktrans and user.first_name as username %}{{ username }} has just made a first contribution on {{ translation }} at {{ site_title }}.{% endblocktrans %}
 <p>
 
 {% include "mail/footer.html" %}

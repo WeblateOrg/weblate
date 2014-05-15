@@ -41,7 +41,7 @@ from weblate.trans.models import Project, Change, Unit
 from weblate.trans.util import get_site_url, get_distinct_translations
 from weblate.accounts.avatar import get_user_display
 import weblate
-from weblate.appsettings import ANONYMOUS_USER_NAME
+from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
 
 def notify_merge_failure(subproject, error, status):
@@ -215,6 +215,7 @@ def send_notification_email(language, email, notification,
                 translation_obj.get_absolute_url()
             )
         context['subject_template'] = subject_template
+        context['site_title'] = SITE_TITLE
 
         # Render subject
         subject = render_to_string(subject_template, context).strip()
