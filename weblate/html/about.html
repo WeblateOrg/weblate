@@ -8,31 +8,55 @@
 
 {% block content %}
 
-<h2>{% trans "About Weblate" %}</h2>
+<div class="row">
+<div class="col-md-{% if offer_hosting %}4{% else %}6{% endif %}">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "About Weblate" %}</h4></div>
+<div class="panel-body">
 
 <p>{% blocktrans %}Weblate is a web based translation tool with tight Git integration. It features simple and clean user interface, propagation of translations across subprojects, quality checks and automatic linking to source files.{% endblocktrans %}</p>
 
 <p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</p>
 
+</div>
+</div>
+</div>
+
 
 {% if offer_hosting %}
+<div class="col-md-4">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Hosting projects" %}</h4></div>
+<div class="panel-body">
 <p>
 {% trans "This Weblate instance hosts translations for various free software projects." %}
 {% url 'hosting' as contact_url %}
 {% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}
 </p>
+</div>
+</div>
+</div>
 {% endif %}
 
-<p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially:{% endblocktrans %}</p>
-
-<p>
+<div class="col-md-{% if offer_hosting %}4{% else %}6{% endif %}">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Donate to Weblate" %}</h4></div>
+<div class="panel-body">
+<p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially.{% endblocktrans %}</p>
+</div>
+<div class="panel-footer">
 <a class="btn btn-default" href="https://flattr.com/thing/571085/Weblate">{% trans "Flattr Weblate!" %}</a>
 <a class="btn btn-default" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4">{% trans "Donate to Weblate!" %}</a>
-</p>
+</div>
+</div>
+</div>
+</div>
 
 <div class="row">
 <div class="col-md-6">
-<h2>{% trans "Versions" %}</h2>
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Versions" %}</h4></div>
+<div class="panel-body">
 
 <p>{% trans "This site is built using following projects:" %}</p>
 
@@ -48,9 +72,13 @@
 {% endfor %}
 </table>
 </div>
+</div>
+</div>
 
 <div class="col-md-6">
-<h2>{% trans "Statistics" %}</h2>
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
+<div class="panel-body">
 
 <table class="table table-condensed table-striped">
 <tr>
@@ -86,6 +114,8 @@
 <td>{{ ignored_checks }}</td>
 </tr>
 </table>
+</div>
+</div>
 </div>
 </div>
 
