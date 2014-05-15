@@ -2,7 +2,15 @@
 {% load url from future %}
 {% load i18n %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
+{% endblock %}
+
 {% block content %}
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Registration almost complete" %}</h4></div>
+  <div class="panel-body">
 
 <p>{% blocktrans %}Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration.{% endblocktrans %}</p>
 
@@ -10,5 +18,8 @@
 {% url 'contact' as contact_url %}
 {% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. If the problem persists, please <a href="{{ contact_url }}?subject=Registration problems">contact us</a>.{% endblocktrans %}
 </p>
+
+</div>
+</div>
 
 {% endblock %}
