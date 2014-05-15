@@ -2,12 +2,12 @@
 
 <div class="legend">
 {% with good=100 %}
-{% include "progress.html" %} - {% trans "Translated strings" %}
-{% endwith %}
-{% with checks=100 %}
-{% include "progress.html" %} - {% trans "Strings with any failing checks" %}
+{% include "progress.html" %} - {% trans "Good translations" %}
 {% endwith %}
 {% with fuzzy=100 %}
-{% include "progress.html" %} - {% trans "Fuzzy strings" %}
+{% include "progress.html" %} - {% trans "Fuzzy translations" %}
+{% endwith %}
+{% with checks=100 %}
+{% include "progress.html" %} - {% trans "Translations with failing checks" %}
 {% endwith %}
 </div>
