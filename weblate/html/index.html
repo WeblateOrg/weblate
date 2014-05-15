@@ -63,15 +63,23 @@
 <div class="tab-content">
 {% if usertranslations %}
 <div class="tab-pane active" id="your">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Your translations" %}</h4></div>
+  <div class="panel-body">
 {% with usertranslations as translations and 2 as show_language %}
 {% include "list-translations.html" %}
 {% endwith %}
+  </div>
+</div>
 </div>
 <div class="tab-pane" id="projects">
 {% else %}
 <div class="tab-pane active" id="projects">
 {% endif %}
 
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Projects" %}</h4></div>
+  <div class="panel-body">
 <table class="sort table">
 <thead>
 <tr>
@@ -97,6 +105,8 @@
 {% url 'hosting' as contact_url %}
 <p>{% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}</p>
 {% endif %}
+  </div>
+</div>
 </div>
 
 <div class="tab-pane" id="search">
