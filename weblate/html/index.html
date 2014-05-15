@@ -108,11 +108,12 @@
 
 {% include "legend.html" %}
 
-{% if offer_hosting %}
-{% url 'hosting' as contact_url %}
-<p>{% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}</p>
-{% endif %}
   </div>
+{% if offer_hosting %}
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
+  </div>
+{% endif %}
 </div>
 </div>
 
