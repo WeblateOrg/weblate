@@ -6,11 +6,7 @@ weblate 2.0
 
 Released on ? 2014.
 
-weblate 1.10
------------
-
-Released on ? 2014.
-
+* New responsive UI using Bootstrap.
 * Documentation improvements.
 * Added whiteboard for site wide messages.
 * Configurable strings priority.
