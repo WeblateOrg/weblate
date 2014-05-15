@@ -388,7 +388,7 @@ class CaptchaRegistrationForm(RegistrationForm):
         )
 
 
-class PasswordForm(forms.Form):
+class PasswordForm(BootstrapForm):
     '''
     Form for setting password.
     '''
@@ -435,7 +435,7 @@ class PasswordForm(forms.Form):
         return self.cleaned_data
 
 
-class PasswordChangeForm(forms.Form):
+class PasswordChangeForm(BootstrapForm):
     password = forms.CharField(
         widget=forms.PasswordInput(render_value=False),
         label=_("Current password"),
