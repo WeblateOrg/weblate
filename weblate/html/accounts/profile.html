@@ -15,39 +15,41 @@
 
 <form method="post" action="{% url 'profile' %}">
 {% csrf_token %}
-<div class="tabs preferences" id="tabs-preferences">
-<ul>
-<li><a href="#preferences">{% trans "Preferences" %}</a></li>
-<li><a href="#subscriptions">{% trans "Subscriptions" %}</a></li>
-<li><a href="#account">{% trans "Account" %}</a></li>
-<li><a href="#auth">{% trans "Authentication" %}</a></li>
-<li><a href="#info">{% trans "Information" %}</a></li>
-<li><a href="#licenses">{% trans "Licenses" %}</a></li>
+
+<ul class="nav nav-pills">
+<li class="active"><a data-toggle="pill" href="#preferences">{% trans "Preferences" %}</a></li>
+<li><a data-toggle="pill" href="#subscriptions">{% trans "Subscriptions" %}</a></li>
+<li><a data-toggle="pill" href="#account">{% trans "Account" %}</a></li>
+<li><a data-toggle="pill" href="#auth">{% trans "Authentication" %}</a></li>
+<li><a data-toggle="pill" href="#info">{% trans "Information" %}</a></li>
+<li><a data-toggle="pill" href="#licenses">{% trans "Licenses" %}</a></li>
 {% if enable_avatars %}
-<li><a href="#avatar">{% trans "Avatar" %}</a></li>
+<li><a data-toggle="pill" href="#avatar">{% trans "Avatar" %}</a></li>
 {% endif %}
-<li><a href="#remove">{% trans "Removal" %}</a></li>
+<li><a data-toggle="pill" href="#remove">{% trans "Removal" %}</a></li>
 </ul>
-<div id="preferences">
+
+<div class="tab-content">
+<div class="tab-pane active" id="preferences">
 <table>
 {{ form.as_table }}
 </table>
 </div>
-<div id="subscriptions">
+<div class="tab-pane" id="subscriptions">
 <p>{% trans "You will receive chosen notifications via email for all your languages." %}</p>
 <table>
 {{ subscriptionform.as_table }}
 </table>
 </div>
-<div id="account">
+<div class="tab-pane" id="account">
 <table>
 {{ userform.as_table }}
 </table>
 <span class="helptext">{% trans "Your name and email will appear as author on Git commits." %}</span>
 </div>
-<div id="auth">
+<div class="tab-pane" id="auth">
 
-<p><a href="{% url 'password' %}" class="button">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a></p>
+<p><a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a></p>
 
 <p>{% trans "You can manage third party identities which are associated to this account." %}</p>
 <p>{% trans "Currently associated:" %}</p>
@@ -65,7 +67,7 @@
 <th>{{ assoc.provider }}</th>
 <td>{{ assoc.uid }}</th>
 <td>
-<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}" class="disconnect button">{% trans "Disconnect" %}</a>
+<a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}" class="disconnect btn btn-default">{% trans "Disconnect" %}</a>
 </td>
 
 </tr>
@@ -76,12 +78,12 @@
 {% if new_backends %}
 <p>{% trans "Add new association:" %}</p>
 {% for name in new_backends %}
-  <a class="button" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
+  <a class="btn btn-default" href="{% url 'social:begin' name %}?next={% url 'profile' %}">{{ name }}</a>
 {% endfor %}
 {% endif %}
 
 </div>
-<div id="info">
+<div class="tab-pane" id="info">
 {% with request.user as user %}
 {% include 'user-activity.html' %}
 {% endwith %}
@@ -91,7 +93,7 @@
 <a href="{{ user_page }}">{{ user_page }}</a>
 </p>
 </div>
-<div id="licenses">
+<div class="tab-pane" id="licenses">
 <p>
 {% trans "By registering you agree to use your name and email in Git commits and provide your contribution under license defined by each translated project." %}
 </p>
@@ -113,20 +115,20 @@
 {% endif %}
 </div>
 {% if enable_avatars %}
-<div id="avatar">
+<div class="tab-pane" id="avatar">
 <p class="border"><img src="{% url 'user_avatar' user=request.user.username size=128 %}" /></p>
 <p><a href="https://www.libravatar.org/">{% trans "Avatars are provided using libravatar." %}</a></p>
 </div>
 {% endif %}
 
-<div id="remove">
+<div class="tab-pane" id="remove">
 {% show_message 'warning' _('Removal of the account deletes all your private data.') %}
-<p><a class="button" href="{% url 'remove' %}">{% trans "Remove my account" %}</a></p>
+<p><a class="btn btn-default" href="{% url 'remove' %}">{% trans "Remove my account" %}</a></p>
 </div>
 </div>
 
 
-<input type="submit" value="{% trans "Save" %}" class="button" />
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
 </form>
 <form method="post" action="" id="disconnect-form">{% csrf_token %}</form>
 
