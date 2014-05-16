@@ -35,5 +35,5 @@ script:
   - coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS 
   - pep8 --exclude migrations weblate
   - pylint --reports=n --rcfile=pylint.rc weblate
-after_success:
+after_script:
   - coveralls
