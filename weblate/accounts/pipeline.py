@@ -28,17 +28,6 @@ from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
 
 
-def get_backend_name(strategy):
-    '''
-    Wrapper to provide compatibility with different versions
-    of python-social-auth.
-    '''
-    if hasattr(strategy, 'backend_name'):
-        return strategy.backend_name
-    else:
-        return strategy.backend.name
-
-
 @partial
 def require_email(strategy, details, user=None, is_new=False, **kwargs):
     '''
@@ -46,7 +35,7 @@ def require_email(strategy, details, user=None, is_new=False, **kwargs):
     '''
     if user and user.email:
         # Force validation of new email address
-        if get_backend_name(strategy) == 'email':
+        if strategy.backend.name == 'email':
             return {'is_new': True}
 
         return
@@ -64,7 +53,7 @@ def send_validation(strategy, code):
     Sends verification email.
     '''
     url = '{}?verification_code={}'.format(
-        reverse('social:complete', args=(get_backend_name(strategy),)),
+        reverse('social:complete', args=(strategy.backend.name,)),
         code.code
     )
 
