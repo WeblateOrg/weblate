@@ -26,7 +26,7 @@ from django.utils.encoding import force_text
 
 
 DIV_TEMPLATE = '''<div %(html_class_attr)s>%(label)s
-%(field)s%(help_text)s%(errors)s%(help_text)s</div>'''
+%(field)s%(errors)s%(help_text)s</div>'''
 
 SPAN_TEMPLATE = '''<span%(html_class_attr)s>%(field)s</span>'''
 
