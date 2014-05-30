@@ -28,6 +28,7 @@ from django.forms import ValidationError
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.bootstrap_forms import BootstrapForm
 from urllib import urlencode
 import weblate
 
@@ -487,7 +488,7 @@ class EnageLanguageForm(forms.Form):
         self.fields['lang'].choices += choices
 
 
-class NewLanguageForm(forms.Form):
+class NewLanguageForm(BootstrapForm):
     '''
     Form for requesting new language.
     '''
