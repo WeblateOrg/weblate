@@ -9,16 +9,7 @@
 
 {% block content %}
 
-<span class="navi-toolbar ui-widget-header ui-corner-all">
-<span id="navi">
-<a id="button-first" {% if page_obj.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;{{ search_url }}">{% trans "First" %}</a>
-<a id="button-prev" {% if not page_obj.has_previous %}class="button-disabled"{% else %}href="?page={{ page_obj.previous_page_number }}&amp;{{ search_url }}"{% endif %}>{% trans "Previous" %}</a>
-<a id="button-pos" class="textbutton">{% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
-<a id="button-next" {% if not page_obj.has_next %}class="button-disabled"{% else %}href="?page={{ page_obj.next_page_number }}&amp;{{ search_url }}"{% endif %}>{% trans "Next" %}</a>
-<a id="button-end" {% if page_obj.paginator.num_pages == page_obj.number %}class="button-disabled"{% endif %} href="?page={{ page_obj.paginator.num_pages }}&amp;{{ search_url }}">{% trans "Last" %}</a>
-</span>
-<form class="autosubmit">{{ letterform.as_p }}</form>
-</span>
+{% include "paginator.html" %}
 
 {% with object_list as last_changes and True as hide_browse %}
 {% include "last-changes.html" %}
