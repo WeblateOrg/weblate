@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-05-06 13:05+0200\n"
-"PO-Revision-Date: 2014-06-01 19:20+0200\n"
+"PO-Revision-Date: 2014-06-09 03:30+0200\n"
 "Last-Translator: ks k <kmshts@gmail.com>\n"
 "Language-Team: Korean <https://l10n.cihar.com/projects/weblate/master/ko/>\n"
 "Language: ko\n"
@@ -21,7 +21,7 @@ msgstr ""
 #: weblate/accounts/avatar.py:148
 msgctxt "No known user"
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: weblate/accounts/forms.py:88
 msgid "At least five characters long."
@@ -35,7 +35,7 @@ msgstr "사용자 이름"
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
-msgstr ""
+msgstr "이 값은 문자, 숫자 및 다음과 같은 문자를 포함 할 수 있습니다: @ . + - _"
 
 #: weblate/accounts/forms.py:112
 msgid "This username is already taken. Please choose another."
@@ -47,7 +47,7 @@ msgstr "이메일"
 
 #: weblate/accounts/forms.py:221
 msgid "You can add another emails on Authentication tab."
-msgstr ""
+msgstr "인증탭에서 다른 이메일을 추가할 수 있습니다."
 
 #: weblate/accounts/forms.py:248 weblate/accounts/forms.py:322
 #| msgid "Your name"
@@ -83,11 +83,12 @@ msgstr "이메일 주소가 이미 사용중입니다. 다른 이메일 주소�
 #: weblate/accounts/forms.py:360
 #, python-format
 msgid "What is %s?"
-msgstr ""
+msgstr "%s 가 무엇입니까?"
 
 #: weblate/accounts/forms.py:370
+#, fuzzy
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "수학을 확인하고 다시 시도하십시오."
 
 #: weblate/accounts/forms.py:392
 msgid "New password"
@@ -118,8 +119,9 @@ msgid "Current password"
 msgstr "현재 비밀번호"
 
 #: weblate/accounts/forms.py:446
+#, fuzzy
 msgid "User with this email address was not found."
-msgstr ""
+msgstr "이 이메일 주소를 가진 사용자 찾을 수 없습니다."
 
 #: weblate/accounts/forms.py:456
 msgid "Username or email"
@@ -135,7 +137,7 @@ msgstr "프로젝트 이름"
 
 #: weblate/accounts/forms.py:467 weblate/trans/models/project.py:89
 msgid "Project website"
-msgstr ""
+msgstr "프로젝트 웹사이트"
 
 #: weblate/accounts/forms.py:469 weblate/trans/models/subproject.py:85
 msgid "Git repository"
@@ -145,7 +147,7 @@ msgstr "Git 저장소"
 msgid ""
 "URL of Git repository, use weblate://project/subproject for sharing with "
 "other subproject."
-msgstr ""
+msgstr "Git 저장소의 URL weblate://프로젝트/하위프로젝트 를 사용하여 다른 하위 프로젝트와 공유."
 
 #: weblate/accounts/forms.py:477 weblate/trans/models/subproject.py:133
 msgid "File mask"
@@ -156,6 +158,8 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
+"번역할 파일경로, 언어 코드 대신 * 를 사용하세요, 예를 들어: po/*.po 또는 "
+"locale/*/LC_MESSAGE/django.po."
 
 #: weblate/accounts/forms.py:486
 msgid "Additional message"
@@ -221,7 +225,7 @@ msgstr "관리자에게 메세지를 보냈습니다."
 
 #: weblate/accounts/views.py:144
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "데모 서버에서 데모 약력을 변경할 수 없습니다."
 
 #: weblate/accounts/views.py:167
 msgid "Your profile has been updated."
@@ -232,10 +236,9 @@ msgid "User profile"
 msgstr "사용자 프로파일"
 
 #: weblate/accounts/views.py:224
-#, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "Your account has been removed."
-msgstr "최근 활동이 없었습니다."
+msgstr "당신의 계정이 제거 되었습니다."
 
 #: weblate/accounts/views.py:269
 msgid "Contact"
@@ -252,7 +255,7 @@ msgstr "로그인"
 
 #: weblate/accounts/views.py:385
 msgid "Thanks for using Weblate!"
-msgstr ""
+msgstr "웹레이트를 사용하여 주셔서 감사합니다!"
 
 #: weblate/accounts/views.py:439 weblate/html/accounts/email.html:7
 msgid "Register email"
@@ -260,7 +263,7 @@ msgstr "이메일 등록"
 
 #: weblate/accounts/views.py:463
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "잘못된 암호를 입력하였습니다."
 
 #: weblate/accounts/views.py:485
 msgid "Your password has been changed."
@@ -275,8 +278,9 @@ msgid "Password reset"
 msgstr "비밀번호 초기화"
 
 #: weblate/html/403.html:7
+#, fuzzy
 msgid "You don't have privileges to display this page."
-msgstr ""
+msgstr "이 페이지를 표시 할 권한이 없습니다."
 
 #: weblate/html/403.html:11 weblate/html/404.html:11
 msgid ""
@@ -296,8 +300,8 @@ msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
 msgstr ""
-"요청을 처리하는 동안 서버에 심각한 문제가 있었습니다. 이 바나나 같은 문제를 "
-"해결하기 위해 숙련된 원숭이(개발자)를 파견했습니다 (;^.^;)."
+"요청을 처리하는 동안 서버에 심각한 문제가 있었습니다. 이 바나나 같은 문제를 해결하기 위해 숙련된 원숭이(개발자)를 파견했습니다 "
+"(;^.^;)."
 
 #: weblate/html/about.html:6
 msgid "about"
@@ -330,7 +334,7 @@ msgstr ""
 #: weblate/html/about.html:20
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
-msgstr ""
+msgstr "이 웹레이트 인스턴스는 다양한 자유 소프트웨어 프로젝트에대한 번역을 관리합니다."
 
 #: weblate/html/about.html:22 weblate/html/index.html:62
 #, python-format
@@ -338,6 +342,8 @@ msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgstr ""
+"우리는 프로젝트를 호스팅할 수 있습니다. 뿐만 아니라, 당신이 관심이 있다면, <a href=\""
+"%(contact_url)s?subject=Project hosting\"> 저희에게 연락</a>을 바랍니다."
 
 #: weblate/html/about.html:26
 msgid ""
@@ -539,7 +545,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
-msgstr "새 덧글이 있을경우 통보"
+msgstr "통보 걸기??"
 
 #: weblate/html/data-root.html:54 weblate/html/data.html:78
 #, python-format
@@ -611,7 +617,7 @@ msgstr "단어"
 
 #: weblate/html/dictionary.html:15 weblate/html/translate.html:194
 msgid "Glossary"
-msgstr "어휘"
+msgstr "용어집"
 
 #: weblate/html/dictionary.html:19 weblate/html/search.html:14
 #: weblate/html/source-review.html:20 weblate/html/translate.html:34
@@ -849,11 +855,11 @@ msgstr ""
 
 #: weblate/html/i18n.html:28
 msgid "Belarusian"
-msgstr ""
+msgstr "벨라루스어"
 
 #: weblate/html/i18n.html:29
 msgid "Belarusian (latin)"
-msgstr ""
+msgstr "벨라루스어 (라틴)"
 
 #: weblate/html/i18n.html:30
 msgid "Bengali"
@@ -1806,6 +1812,7 @@ msgid "Git repository with Weblate translations:"
 msgstr ""
 
 #: weblate/html/translate.html:15
+#, fuzzy
 msgid "translate"
 msgstr "번역"
 
@@ -3586,10 +3593,9 @@ msgid "Support Weblate at {0}"
 msgstr ""
 
 #: weblate/trans/models/advertisement.py:72
-#, fuzzy
 #| msgid "Donate to Weblate!"
 msgid "Donate to Weblate"
-msgstr "Weblate에 기부하기!"
+msgstr "웹레이트에 기부하기"
 
 #: weblate/trans/models/advertisement.py:76
 msgid "Support Weblate using GitTip"
