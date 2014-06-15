@@ -36,7 +36,7 @@ http://weblate.readthedocs.org/.
 Installation and setup instructions are provided in our manual, check
 quick setup guide:
 
-http://weblate.readthedocs.org/en/latest/quick.html
+http://weblate.readthedocs.org/en/latest/admin/quick.html
 
 ## Bugs
 
