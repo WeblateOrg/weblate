@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nijel/weblate.svg)](https://travis-ci.org/nijel/weblate)
 [![Coverage Status](https://img.shields.io/coveralls/nijel/weblate.svg)](https://coveralls.io/r/nijel/weblate?branch=master)
-[![Translation status](http://l10n.cihar.com/widgets/weblate-shields-badge.png)](https://l10n.cihar.com/engage/weblate/?utm_source=widget)
+[![Translation status](http://l10n.cihar.com/widgets/weblate-shields-badge.svg)](https://l10n.cihar.com/engage/weblate/?utm_source=widget)
 [![Code Health](https://landscape.io/github/nijel/weblate/master/landscape.png)](https://landscape.io/github/nijel/weblate/master)
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=253393)](https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 [![tip for next commit](http://tip4commit.com/projects/497.svg)](http://tip4commit.com/projects/497)
