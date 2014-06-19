@@ -4,7 +4,7 @@ set -e
 set -x
 
 for app in trans lang accounts ; do 
-    rm weblate.db
+    rm -f weblate.db
     ./manage.py syncdb --noinput --settings weblate.settings_test
     ./manage.py migrate --settings weblate.settings_test --traceback $app
 done
