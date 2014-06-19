@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-05-06 13:05+0200\n"
-"PO-Revision-Date: 2014-06-18 17:48+0200\n"
+"PO-Revision-Date: 2014-06-19 13:11+0200\n"
 "Last-Translator: ks k <kmshts@gmail.com>\n"
 "Language-Team: Korean <https://l10n.cihar.com/projects/weblate/master/ko/>\n"
 "Language: ko\n"
@@ -2020,11 +2020,11 @@ msgstr "파일 올리기"
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
-msgstr ""
+msgstr "업로드된 파일은 현재 번역과 병합됩니다. 이미 번역 된 문자열을 덮어 쓰기 할 경우에, 그것을 가능하게하는 것을 잊지 마세요."
 
 #: weblate/html/translation.html:79
 msgid "Uploaded file will be merged with current translation."
-msgstr ""
+msgstr "업로드된 파일은 현재 번역과 병합됩니다."
 
 #: weblate/html/translation.html:98
 msgid "Review"
@@ -2032,7 +2032,7 @@ msgstr "검토"
 
 #: weblate/html/translation.html:100
 msgid "Review translations touched by other users."
-msgstr ""
+msgstr "다른 사용자에 의해 작업된 번역을 검토하기."
 
 #: weblate/html/translation.html:105
 msgid "Start review"
@@ -2045,6 +2045,8 @@ msgid ""
 "a different branch, to fix inconsistent translations or to translate new "
 "subproject using translation memory."
 msgstr ""
+"자동 번역과 기존 번역에서는이 프로젝트는 현재 하위 프로젝트에 적용 됩니다. 그것은 번역을 다른 분기와 밀어넣거나 일관성 없는 번역을 "
+"고치기거나 번역 메모리를 사용하는 새로운 하위 프로젝트를 번역하기위해 사용됩니다."
 
 #: weblate/html/translation.html:118
 msgid "Process"
@@ -2052,19 +2054,19 @@ msgstr "처리"
 
 #: weblate/html/translation.html:124
 msgid "Locking the translation will prevent others to work on translation."
-msgstr ""
+msgstr "번역을 잠구는것은 번역을 작업하는 다른사람을 막을 것입니다."
 
 #: weblate/html/translation.html:126
 msgid "Locked by:"
-msgstr ""
+msgstr "작업을 잠구신 분:"
 
 #: weblate/html/translation.html:127
 msgid "Lock expires:"
-msgstr ""
+msgstr "잠금 만료일:"
 
 #: weblate/html/translation.html:129
 msgid "Translation is currently not locked."
-msgstr ""
+msgstr "번역은 현재 잠겨있지 않습니다."
 
 #: weblate/html/translation.html:133 weblate/html/js/git-status.html:16
 msgid "Unlock"
@@ -2095,16 +2097,14 @@ msgid "Failing check"
 msgstr "실패한 검사"
 
 #: weblate/html/translation.html:182
-#, fuzzy
 #| msgid "Last name"
 msgid "Last change"
-msgstr "성"
+msgstr "최종 변경 사항"
 
 #: weblate/html/translation.html:186
-#, fuzzy
 #| msgid "Last name"
 msgid "Last author"
-msgstr "성"
+msgstr "최종 작성자"
 
 #: weblate/html/translation_info.html:10
 #, python-format
@@ -2117,14 +2117,14 @@ msgid "Words (%(count)s):"
 msgstr "단어 (%(count)s):"
 
 #: weblate/html/unit-details.html:5
+#, fuzzy
 msgid "Used in"
-msgstr ""
+msgstr "에 사용됨"
 
 #: weblate/html/unit-details.html:18
-#, fuzzy
 #| msgid "First name"
 msgid "First seen"
-msgstr "이름"
+msgstr "첫 장면"
 
 #: weblate/html/user-activity.html:12
 msgid "Last login"
@@ -2146,24 +2146,24 @@ msgstr "번역 프로젝트 홍보"
 msgid ""
 "Weblate provides various widgets to promote your translation projects. Open "
 "one of the project pages below."
-msgstr ""
+msgstr "웹레이트는 귀하의 번역 프로젝트를 홍보하기위한 다양한 위젯을 제공합니다. 아래의 프로젝트 페이지 중 하나를 엽니다."
 
 #: weblate/html/widgets.html:19
 #, python-format
 msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
-msgstr ""
+msgstr "<a href=\"%(engage_url)s\">%(engage_url)s</a>의 소개 페이지에 초보자를 가리킬 수 있습니다."
 
 #: weblate/html/widgets.html:22
 msgid "Promoting specific translations"
-msgstr ""
+msgstr "특정 번역을 홍보하기"
 
 #: weblate/html/widgets.html:25
 msgid ""
 "Besides promoting whole translation project, you can also choose specific "
 "language to promote:"
-msgstr ""
+msgstr "전체 번역 프로젝트를 홍보하기 외에도, 또한 홍보하기위한 특정 언어를 선택할 수 있습니다:"
 
 #: weblate/html/widgets.html:29
 msgid "Image widgets"
@@ -2175,15 +2175,17 @@ msgid ""
 "can increase visibility of your translation projects and bring new "
 "contributors."
 msgstr ""
+"프로젝트의 번역을 홍보하기 위해 다음의 위젯을 사용할 수 있습니다. 그것들은 번역 프로젝트의 가시성을 높이고 새로운 참여자를 데려올 수 "
+"있습니다."
 
 #: weblate/html/widgets.html:36
 #, python-format
 msgid "Image %(widget)s"
-msgstr ""
+msgstr "이미지 %(widget)s"
 
 #: weblate/html/widgets.html:38
 msgid "Color variants:"
-msgstr ""
+msgstr "색상 변형:"
 
 #: weblate/html/widgets.html:48
 msgid "HTML code"
@@ -2195,7 +2197,7 @@ msgstr "BB 코드"
 
 #: weblate/html/widgets.html:50
 msgid "Markdown code"
-msgstr ""
+msgstr "가격인하 코드"
 
 #: weblate/html/widgets.html:51
 msgid "RST code"
@@ -2203,7 +2205,7 @@ msgstr "RST 코드"
 
 #: weblate/html/widgets.html:52
 msgid "Textile code"
-msgstr ""
+msgstr "직물 코드"
 
 #: weblate/html/widgets.html:59 weblate/html/widgets.html.py:67
 #: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
@@ -2211,10 +2213,9 @@ msgid "Translation status"
 msgstr "번역 현황"
 
 #: weblate/html/zen-response.html:7
-#, fuzzy
 #| msgid "Translation license"
 msgid "Translation has been saved!"
-msgstr "번역 라이센스"
+msgstr "번역이 저장되었습니다!"
 
 #: weblate/html/zen-units.html:17
 msgid "Open in full editor"
@@ -2222,20 +2223,20 @@ msgstr "전체편집기에서 열기"
 
 #: weblate/html/zen-units.html:37 weblate/trans/views/edit.py:512
 msgid "You have reached end of translating."
-msgstr ""
+msgstr "번역의 끝에 도달 했습니다."
 
 #: weblate/html/zen.html:14
 msgid "zen"
-msgstr ""
+msgstr "선"
 
 #: weblate/html/zen.html:25
 #, python-format
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
-msgstr ""
+msgstr "현재 필터: %(filter_name)s (%(filter_count)s)"
 
 #: weblate/html/accounts/contact.html:6
 msgid "contact"
-msgstr "제안사항들"
+msgstr "연락하기"
 
 #: weblate/html/accounts/contact.html:11
 msgid "You can contact maintainers of this server here."
@@ -2245,7 +2246,7 @@ msgstr "여기에서, 이 서버의 관리자들에게 연락할 수 있습니�
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
-msgstr "반드시 영어로 연락하여 주십시오, 그렇지 않으면 요청사항을 이해할 수 없을 수 도 있습니다."
+msgstr "반드시 영어로 연락해 주세요, 그렇지 않으면 요청사항을 이해할 수 없을 수 도 있습니다."
 
 #: weblate/html/accounts/contact.html:21 weblate/html/accounts/hosting.html:17
 msgid "Send"
@@ -2366,11 +2367,11 @@ msgstr "라이센스"
 
 #: weblate/html/accounts/profile.html:29
 msgid "Avatar"
-msgstr ""
+msgstr "아바타"
 
 #: weblate/html/accounts/profile.html:31
 msgid "Removal"
-msgstr ""
+msgstr "제거"
 
 #: weblate/html/accounts/profile.html:39
 msgid "You will receive chosen notifications via email for all your languages."
@@ -2393,11 +2394,11 @@ msgstr ""
 
 #: weblate/html/accounts/profile.html:55
 msgid "Currently associated:"
-msgstr ""
+msgstr "현재 관련됨:"
 
 #: weblate/html/accounts/profile.html:59
 msgid "Identity"
-msgstr ""
+msgstr "정체"
 
 #: weblate/html/accounts/profile.html:60
 #, fuzzy
@@ -2417,7 +2418,7 @@ msgstr "번역으로서 추가"
 
 #: weblate/html/accounts/profile.html:92
 msgid "Your public profile:"
-msgstr ""
+msgstr "귀하의 공개된 약력:"
 
 #: weblate/html/accounts/profile.html:102
 msgid ""
@@ -2427,11 +2428,11 @@ msgstr ""
 
 #: weblate/html/accounts/profile.html:120
 msgid "Avatars are provided using libravatar."
-msgstr ""
+msgstr "아바타는 libravatar를 사용하여 제공됩니다."
 
 #: weblate/html/accounts/profile.html:125 weblate/html/accounts/removal.html:8
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "계정의 제거는 모든 개인 데이터를 삭제합니다."
 
 #: weblate/html/accounts/profile.html:126
 msgid "Remove my account"
@@ -2486,15 +2487,15 @@ msgstr "내 암호 재설정"
 
 #: weblate/html/accounts/user.html:36 weblate/html/js/activity.html:2
 msgid "Activity in last 30 days"
-msgstr ""
+msgstr "지난 30일간 활동"
 
 #: weblate/html/accounts/user.html:39 weblate/html/js/activity.html:5
 msgid "Activity in last year"
-msgstr ""
+msgstr "지난 1년간 활동"
 
 #: weblate/html/accounts/user.html:42
 msgid "Recent contributions"
-msgstr ""
+msgstr "최근 기여"
 
 #: weblate/html/admin/custom-index.html:11
 msgid "Reports"
@@ -2541,7 +2542,7 @@ msgstr "공개 SSH 키"
 
 #: weblate/html/admin/ssh.html:15
 msgid "Weblate currently uses following SSH key:"
-msgstr ""
+msgstr "웹레이트는 현재 다음 SSH 키를 사용:"
 
 #: weblate/html/admin/ssh.html:22
 msgid "Generate SSH key"
@@ -2595,7 +2596,7 @@ msgstr "포트:"
 
 #: weblate/html/admin/ssh.html:64
 msgid "Submit"
-msgstr ""
+msgstr "제출"
 
 #: weblate/html/admin/ssh.html:67
 msgid "More information"
@@ -2692,23 +2693,23 @@ msgstr ""
 
 #: weblate/html/js/git-status.html:38
 msgid "Last remote commit:"
-msgstr ""
+msgstr "최근 원격 커밋:"
 
 #: weblate/html/js/git-status.html:53
 msgid "Details"
-msgstr ""
+msgstr "자세히"
 
 #: weblate/html/js/other.html:17
 msgid "Use this translation for all subprojects"
-msgstr ""
+msgstr "모든 하위 프로젝트에서 이 번역을 사용"
 
 #: weblate/html/js/other.html:17
 msgid "Use this translation"
-msgstr ""
+msgstr "이 번역을 사용"
 
 #: weblate/html/js/other.html:25
 msgid "No other strings found."
-msgstr ""
+msgstr "다른 문자열을 찾을 수 없습니다."
 
 #: weblate/html/mail/activation.html:8 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:8
@@ -2792,12 +2793,12 @@ msgstr ""
 
 #: weblate/html/mail/changed_translation.txt:13
 msgid "Previous translation:"
-msgstr ""
+msgstr "이전 번역:"
 
 #: weblate/html/mail/changed_translation_subject.txt:1
 #, python-format
 msgid "Changed translation in %(translation)s"
-msgstr ""
+msgstr "%(translation)s 에서 변경된 번역"
 
 #: weblate/html/mail/footer.html:4 weblate/html/mail/footer.txt:1
 msgid "Translation summary:"
@@ -2819,12 +2820,12 @@ msgstr "애매한 문자열:"
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-msgstr ""
+msgstr "<a href=\"%(translation_url)s\">%(translation_url)s</a>에서 번역 할 수 있습니다."
 
 #: weblate/html/mail/footer.txt:7
 #, python-format
 msgid "You can translate at %(translation_url)s"
-msgstr ""
+msgstr "%(translation_url)s에서 번역 할 수 있습니다."
 
 #: weblate/html/mail/merge_failure.html:12
 #: weblate/html/mail/merge_failure.txt:3
@@ -2865,12 +2866,12 @@ msgstr ""
 
 #: weblate/html/mail/new_comment.html:29 weblate/html/mail/new_comment.txt:9
 msgid "Comment:"
-msgstr ""
+msgstr "댓글:"
 
 #: weblate/html/mail/new_comment_subject.txt:1
 #, python-format
 msgid "New comment in %(subproject)s"
-msgstr ""
+msgstr "%(subproject)s에 새로운 댓글이 있습니다"
 
 #: weblate/html/mail/new_contributor.html:12
 #: weblate/html/mail/new_contributor.txt:3
@@ -2883,7 +2884,7 @@ msgstr ""
 #: weblate/html/mail/new_contributor_subject.txt:1
 #, python-format
 msgid "New contributor in %(translation)s"
-msgstr ""
+msgstr "%(translation)s의 새로운 기여자"
 
 #: weblate/html/mail/new_language.html:12 weblate/html/mail/new_language.txt:3
 #, python-format
@@ -2933,12 +2934,12 @@ msgstr "제안사항:"
 #: weblate/html/mail/new_suggestion.html:51
 #: weblate/html/mail/new_suggestion.txt:13
 msgid "You can review it at:"
-msgstr ""
+msgstr "검토 할 수 있습니다:"
 
 #: weblate/html/mail/new_suggestion_subject.txt:1
 #, python-format
 msgid "New suggestion in %(translation)s"
-msgstr ""
+msgstr "%(translation)s에서 새로운 제안"
 
 #: weblate/html/mail/new_translation.html:12
 #: weblate/html/mail/new_translation.txt:3
@@ -2948,16 +2949,16 @@ msgstr ""
 
 #: weblate/html/mail/new_translation.txt:13
 msgid "Previously not translated"
-msgstr ""
+msgstr "이전에 번역되지 않았습니다"
 
 #: weblate/html/mail/new_translation_subject.txt:1
 #, python-format
 msgid "New translation in %(translation)s"
-msgstr ""
+msgstr "%(translation)s에서 새로운 번역"
 
 #: weblate/html/mail/signature.txt:4
 msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr ""
+msgstr "웹레이트에대한 자세한 내용은 http://weblate.org/에서 찾을 수 있습니다"
 
 #: weblate/html/trans/change_list.html:7
 msgid "changes"
@@ -3012,7 +3013,7 @@ msgstr ""
 
 #: weblate/lang/models.py:330
 msgid "Plural"
-msgstr ""
+msgstr "복수형"
 
 #: weblate/lang/models.py:331
 #, python-format
@@ -3025,15 +3026,15 @@ msgstr "디버그 모드"
 
 #: weblate/trans/admin_views.py:75
 msgid "Site domain"
-msgstr ""
+msgstr "사이트 도메인"
 
 #: weblate/trans/admin_views.py:81
 msgid "Database backend"
-msgstr ""
+msgstr "데이터베이스 백엔드"
 
 #: weblate/trans/admin_views.py:87
 msgid "Site administrator"
-msgstr ""
+msgstr "사이트 관리자"
 
 #. Translators: Indexing is postponed to cron job
 #: weblate/trans/admin_views.py:94
@@ -3042,15 +3043,15 @@ msgstr ""
 
 #: weblate/trans/admin_views.py:110
 msgid "Django caching"
-msgstr ""
+msgstr "장고 캐싱"
 
 #: weblate/trans/admin_views.py:116
 msgid "Avatar caching"
-msgstr ""
+msgstr "아바타 캐싱"
 
 #: weblate/trans/admin_views.py:127
 msgid "Email addresses"
-msgstr ""
+msgstr "이메일 주소"
 
 #: weblate/trans/admin_views.py:136
 msgid "Federated avatar support"
@@ -3127,11 +3128,11 @@ msgstr "Gettext PO 파일"
 
 #: weblate/trans/formats.py:668
 msgid "Gettext PO file (monolingual)"
-msgstr ""
+msgstr "Gettext PO 파일 (단일단어)"
 
 #: weblate/trans/formats.py:677
 msgid "Qt Linguist Translation File"
-msgstr ""
+msgstr "Qt는 언어 학자 번역 파일"
 
 #: weblate/trans/formats.py:685
 msgid "XLIFF Translation File"
@@ -3165,7 +3166,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:102
 msgid "Plural equation"
-msgstr ""
+msgstr "복수의 공식"
 
 #: weblate/trans/forms.py:176
 msgid "Message you wanted to translate is no longer available!"
