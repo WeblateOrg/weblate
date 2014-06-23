@@ -57,11 +57,19 @@ class BootstrapBoundField(BoundField):
             result.add('form-group')
         return ' '.join(result)
 
+    def label_tag(self, contents=None, attrs=None, label_suffix=None):
+        return super(BootstrapBoundField, self).label_tag(contents, attrs, '')
+
 
 class BootstrapForm(Form):
     '''
     Adds HTML output in divs and spans.
     '''
+    def __init__(self, *args, **kwargs):
+        if not 'label_suffix' in kwargs:
+            kwargs['label_suffix'] = ''
+        super(BootstrapForm, self).__init__(*args, **kwargs)
+
     def as_div(self):
         return self._html_output(
             normal_row=DIV_TEMPLATE,
