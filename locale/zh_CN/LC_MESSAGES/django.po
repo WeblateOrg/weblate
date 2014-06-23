@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-05-06 13:05+0200\n"
-"PO-Revision-Date: 2014-02-14 05:45+0200\n"
-"Last-Translator: Huang Zhiyi <hzy980512@126.com>\n"
-"Language-Team: Simplified Chinese <http://l10n.cihar.com/projects/weblate/"
-"master/zh_CN/>\n"
+"PO-Revision-Date: 2014-06-23 17:59+0200\n"
+"Last-Translator: shanyan baishui <Siramizu@gmail.com>\n"
+"Language-Team: Simplified Chinese "
+"<https://l10n.cihar.com/projects/weblate/master/zh_CN/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 1.9-dev\n"
+"X-Generator: Weblate 1.10-dev\n"
 
 #: weblate/accounts/avatar.py:148
 msgctxt "No known user"
@@ -48,7 +48,7 @@ msgstr "电子邮箱"
 
 #: weblate/accounts/forms.py:221
 msgid "You can add another emails on Authentication tab."
-msgstr "您可以在认证选项卡中添加其他电邮地址。"
+msgstr "您可以在认证选项卡中添加其它的电子邮件。"
 
 #: weblate/accounts/forms.py:248 weblate/accounts/forms.py:322
 msgid "Full name"
@@ -119,11 +119,11 @@ msgstr "当前密码"
 
 #: weblate/accounts/forms.py:446
 msgid "User with this email address was not found."
-msgstr "找不到使用此邮箱的用户。"
+msgstr "未找到使用该电子邮件地址的用户。"
 
 #: weblate/accounts/forms.py:456
 msgid "Username or email"
-msgstr "用户名或电邮地址"
+msgstr "用户名或电子邮件"
 
 #: weblate/accounts/forms.py:457
 msgid "Password"
@@ -224,7 +224,7 @@ msgstr "信息已经发送给了管理员。"
 
 #: weblate/accounts/views.py:144
 msgid "You can not change demo profile on the demo server."
-msgstr "您不能在演示服务器上修改演示档案。"
+msgstr "您不能修改演示服务器的 demo 用户资料。"
 
 #: weblate/accounts/views.py:167
 msgid "Your profile has been updated."
@@ -331,16 +331,14 @@ msgstr ""
 #: weblate/html/about.html:20
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
-msgstr "本Weblate为各种自由软件项目主导翻译工作。"
+msgstr "此 Weblate 托管了许多自由软件项目的翻译。"
 
 #: weblate/html/about.html:22 weblate/html/index.html:62
 #, python-format
 msgid ""
 "We can host your project as well, if you are interested, please <a href="
 "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
-msgstr ""
-"我们也可以主导您的项目，如果您有兴趣，请 <a href=\"%(contact_url)s?"
-"subject=Project hosting\">联络我们</a>。"
+msgstr "我们也能为您的项目提供托管，若您有兴趣，请<a href=\"%(contact_url)s?subject=托管项目\">联系我们</a>。"
 
 #: weblate/html/about.html:26
 msgid ""
@@ -1067,11 +1065,11 @@ msgstr ""
 
 #: weblate/html/i18n.html:85
 msgid "Klingon"
-msgstr "克林贡"
+msgstr "克林贡语"
 
 #: weblate/html/i18n.html:86
 msgid "Klingon (pIqaD)"
-msgstr "克林贡 (pIqaD)"
+msgstr "克林贡语 (pIqaD)"
 
 #: weblate/html/i18n.html:87
 msgid "Korean"
@@ -1310,7 +1308,7 @@ msgstr "塔吉克语"
 
 #: weblate/html/i18n.html:145
 msgid "Tagalog"
-msgstr "塔加拉族语"
+msgstr "他加禄语"
 
 #: weblate/html/i18n.html:146
 msgid "Tamil"
@@ -1527,7 +1525,7 @@ msgstr "操作"
 
 #: weblate/html/last-changes.html:32
 msgid "Revert to this translation"
-msgstr "恢复到此翻译"
+msgstr "恢复为此翻译"
 
 #: weblate/html/last-changes.html:32
 msgid "Revert"
@@ -1539,7 +1537,7 @@ msgstr "没有最近活动的记录。"
 
 #: weblate/html/last-changes.html:40
 msgid "No matching activity has been found."
-msgstr "未发现匹配的活动。"
+msgstr "未找到匹配的活动。"
 
 #: weblate/html/last-changes.html:47
 msgid "Browse changes"
@@ -1583,19 +1581,19 @@ msgid "Suggestions"
 msgstr "建议"
 
 #: weblate/html/list-translations.html:23
-#, fuzzy, python-format
+#, python-format
 #| msgid "Your translations"
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
-msgstr[0] "%(words)s 字进行翻译！"
+msgstr[0] "还有 %(words)s 个单词需要翻译！"
 
 #: weblate/html/list-translations.html:26
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s not translated string."
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
-msgstr[0] "还有 %(count)s 模糊条目。"
+msgstr[0] "还有 %(count)s 个模糊条目。"
 
 #: weblate/html/list-translations.html:35
 #, python-format
@@ -1604,7 +1602,7 @@ msgid_plural "There are %(count)s failing checks."
 msgstr[0] "还有 %(count)s 个未通过检查。"
 
 #: weblate/html/list-translations.html:44
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s not translated string."
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s suggestion."
@@ -1762,9 +1760,8 @@ msgid ""
 msgstr "如果没有您的语言，请查阅<a href=\"%(url)s\">翻译说明</a>。"
 
 #: weblate/html/subproject.html:51
-#, fuzzy
 msgid "Please choose language into which you would like to translate."
-msgstr "请选择您想翻译到的目标语言。"
+msgstr "请选择您想翻译的语言。"
 
 #: weblate/html/subproject.html:59
 msgid "Start new translation"
@@ -1798,7 +1795,7 @@ msgstr "Git 代码库："
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
-msgstr "Weblate翻译所在的Git仓库："
+msgstr "Weblate 翻译所在的 Git 代码库："
 
 #: weblate/html/translate.html:15
 msgid "translate"
@@ -1868,10 +1865,10 @@ msgid "Suggested by anonymous user"
 msgstr "建议者为匿名用户"
 
 #: weblate/html/translate.html:128
-#, fuzzy, python-format
+#, python-format
 msgid ", %(count)s vote"
 msgid_plural ", %(count)s votes"
-msgstr[0] ", %(count)s 票"
+msgstr[0] "，%(count)s 票"
 
 #: weblate/html/translate.html:132
 msgid "+1 vote"
@@ -1915,11 +1912,11 @@ msgstr ""
 
 #: weblate/html/translate.html:179
 msgid "Commit message:"
-msgstr "提交的条目："
+msgstr "提交信息："
 
 #: weblate/html/translate.html:179
 msgid "Additional text to include in the commit message."
-msgstr "在提交的条目中额外附加的文字。"
+msgstr "在提交信息中附加的内容。"
 
 #: weblate/html/translate.html:187
 msgid "Translation context"
