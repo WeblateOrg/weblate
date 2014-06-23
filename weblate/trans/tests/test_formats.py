@@ -88,4 +88,4 @@ class AndroidFormatTest(AutoFormatTest):
     COUNT = 0
     MATCH = '<resources></resources>'
     MASK = 'res/values-*/strings.xml'
-    EXPECTED_PATH = '/path/res/values-cs_CZ/strings.xml'
+    EXPECTED_PATH = '/path/res/values-cs-rCZ/strings.xml'
