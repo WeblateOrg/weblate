@@ -57,9 +57,6 @@ class BootstrapBoundField(BoundField):
             result.add('form-group')
         return ' '.join(result)
 
-    def label_tag(self, contents=None, attrs=None, label_suffix=None):
-        return super(BootstrapBoundField, self).label_tag(contents, attrs, '')
-
 
 class BootstrapForm(Form):
     '''
