@@ -13,20 +13,10 @@
 
 {% block content %}
 
-<h2>{% trans "Strings to review" %}</h2>
+{% include "paginator.html" %}
 
-<span class="navi-toolbar ui-widget-header ui-corner-all">
-<span id="navi">
-<a id="button-first" {% if sources.number == 1 %}class="button-disabled"{% endif %} href="?page=1&amp;type={{ rqtype }}">{% trans "First" %}</a>
-<a id="button-prev" {% if not sources.has_previous %}class="button-disabled"{% else %}href="?page={{ sources.previous_page_number }}&amp;type={{ rqtype }}"{% endif %}>{% trans "Previous" %}</a>
-<a id="button-pos" class="textbutton">{% blocktrans with sources.number as position and sources.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a>
-<a id="button-next" {% if not sources.has_next %}class="button-disabled"{% else %}href="?page={{ sources.next_page_number }}&amp;type={{ rqtype }}"{% endif %}>{% trans "Next" %}</a>
-<a id="button-end" {% if sources.paginator.num_pages == sources.number %}class="button-disabled"{% endif %} href="?page={{ sources.paginator.num_pages }}&amp;type={{ rqtype }}">{% trans "Last" %}</a>
-</span>
-</span>
-
-{% if sources.object_list %}
-<table>
+{% if page_obj.object_list %}
+<table class="table">
 <thead>
 <tr>
 <td></td>
@@ -36,7 +26,7 @@
 </tr>
 </thead>
 <tbody>
-{% for source in sources.object_list %}
+{% for source in page_obj.object_list %}
 {% with source.get_source_comments as comments %}
 <tr>
 <td class="expander">
