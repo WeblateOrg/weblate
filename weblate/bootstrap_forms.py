@@ -65,11 +65,6 @@ class BootstrapForm(Form):
     '''
     Adds HTML output in divs and spans.
     '''
-    def __init__(self, *args, **kwargs):
-        if not 'label_suffix' in kwargs:
-            kwargs['label_suffix'] = ''
-        super(BootstrapForm, self).__init__(*args, **kwargs)
-
     def as_div(self):
         return self._html_output(
             normal_row=DIV_TEMPLATE,
@@ -98,6 +93,8 @@ class BootstrapForm(Form):
 
     def __init__(self, *args, **kwargs):
         kwargs['error_class'] = BootstrapErrorList
+        if not 'label_suffix' in kwargs:
+            kwargs['label_suffix'] = ''
         super(BootstrapForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             widget = self.fields[field].widget
