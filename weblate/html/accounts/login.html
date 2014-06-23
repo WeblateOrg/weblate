@@ -2,6 +2,7 @@
 {% load url from future %}
 {% load i18n %}
 {% load translations %}
+{% load authnames %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
@@ -53,7 +54,7 @@
   <div class="panel-body">
 
 {% for name in login_backends %}
-  <a class="btn btn-default" href="{% url 'social:begin' name %}?next={{ next }}">{{ name }}</a>
+  <a class="btn btn-default" href="{% url 'social:begin' name %}?next={{ next }}">{% auth_name name %}</a>
 {% endfor %}
 </div>
 </div>
