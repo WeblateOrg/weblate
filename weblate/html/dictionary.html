@@ -12,15 +12,16 @@
 
 {% include "paginator.html" %}
 
-<form class="autosubmit">{{ letterform.as_p }}</form>
+<form class="autosubmit paginatoraddon">
+{{ letterform.as_p }}
+</form>
 
 {% if page_obj.object_list %}
-<table>
+<table class="table table-condensed">
 <thead>
 <tr>
 <th>{% trans "Source" %}</th>
 <th>{% trans "Translation" %}</th>
-<th></th>
 <th></th>
 </tr>
 </thead>
@@ -31,18 +32,16 @@
 <td class="translatetext">{{ word.target }}</td>
 <td>
 {% if perms.trans.change_dictionary %}
-<form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get">
+<form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get" class="inlineform">
 <input type="hidden" name="id" value="{{ word.id }}" />
-<input type="submit" class="button" value="{% trans "Edit" %}" />
+<input type="submit" class="btn btn-default" value="{% trans "Edit" %}" />
 </form>
 {% endif %}
-</td>
-<td>
 {% if perms.trans.delete_dictionary %}
-<form action="{% url 'delete_dictionary' project=project.slug lang=language.code %}" method="post">
+<form action="{% url 'delete_dictionary' project=project.slug lang=language.code %}" method="post" class="inlineform">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
-<input type="submit" class="button" value="{% trans "Delete" %}" />
+<input type="submit" class="btn btn-default" value="{% trans "Delete" %}" />
 </form>
 {% endif %}
 </td>
@@ -76,7 +75,7 @@
 <table>
 {{ form.as_table }}
 </table>
-<input type="submit" class="button" value="{% trans "Add" %}" />
+<input type="submit" class="btn btn-default" value="{% trans "Add" %}" />
 </form>
 
 </div>
@@ -92,7 +91,7 @@
 <table>
 {{ uploadform.as_table }}
 </table>
-<input type="submit" class="button" value="{% trans "Import" %}" />
+<input type="submit" class="btn btn-default" value="{% trans "Import" %}" />
 </form>
 
 </div>
