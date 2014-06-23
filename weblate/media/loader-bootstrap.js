@@ -52,4 +52,9 @@ $(function () {
             );
         }
     });
+
+    /* Priority editor */
+    $('.edit-priority').click(function (e) {
+        e.preventDefault();
+    });
 });
