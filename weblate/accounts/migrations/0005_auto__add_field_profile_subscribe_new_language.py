@@ -23,6 +23,10 @@ from south.v2 import SchemaMigration
 
 class Migration(SchemaMigration):
 
+    depends_on = (
+        ('lang', '0003_auto__add_field_language_plural_type'),
+    )
+
     def forwards(self, orm):
         # Adding field 'Profile.subscribe_new_language'
         db.add_column(u'accounts_profile', 'subscribe_new_language',
