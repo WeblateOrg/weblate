@@ -90,7 +90,7 @@ class BootstrapForm(Form):
 
     def __init__(self, *args, **kwargs):
         kwargs['error_class'] = BootstrapErrorList
-        if not 'label_suffix' in kwargs:
+        if 'label_suffix' not in kwargs:
             kwargs['label_suffix'] = ''
         super(BootstrapForm, self).__init__(*args, **kwargs)
         for field in self.fields:
