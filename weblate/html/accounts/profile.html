@@ -24,7 +24,6 @@
 <li><a data-toggle="pill" href="#auth">{% trans "Authentication" %}</a></li>
 <li><a data-toggle="pill" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="pill" href="#licenses">{% trans "Licenses" %}</a></li>
-<li><a data-toggle="pill" href="#remove">{% trans "Removal" %}</a></li>
 </ul>
 
 <div class="tab-content">
@@ -154,6 +153,19 @@
 {% endif %}
 </div>
 </div>
+
+
+<div class="panel panel-danger">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Removal" %}</h4></div>
+  <div class="panel-body">
+
+{% show_message 'warning' _('Removal of the account deletes all your private data.') %}
+   </div>
+   <div class="panel-footer">
+    <a class="btn btn-default" href="{% url 'remove' %}">{% trans "Remove my account" %}</a>
+   </div>
+</div>
+
 </div>
 <div class="col-md-6 hidden-xs">
 <div class="panel panel-primary">
@@ -234,11 +246,6 @@
 {% endfor %}
 </dl>
 {% endif %}
-</div>
-
-<div class="tab-pane" id="remove">
-{% show_message 'warning' _('Removal of the account deletes all your private data.') %}
-<p><a class="btn btn-default" href="{% url 'remove' %}">{% trans "Remove my account" %}</a></p>
 </div>
 </div>
 
