@@ -75,7 +75,7 @@ class ChangesView(ListView):
         if self.glossary:
             url['glossary'] = 1
 
-        context['search_url'] = urlencode(url)
+        context['query_string'] = urlencode(url)
 
         return context
 
