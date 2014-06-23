@@ -34,10 +34,6 @@
 <p>{% trans "No matching strings found!" %}</p>
 {% endif %}
 
-<h2>{% trans "Search" %}</h2>
-<form action="{% url 'search' %}" method="GET">
-{{ search_form.as_p }}
-<input type="submit" value="{% trans "Search" %}" class="button" />
-</form>
+{% include "search-form.html" %}
 
 {% endblock %}
