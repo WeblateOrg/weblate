@@ -40,6 +40,8 @@ class AutoFormatTest(TestCase):
     EXT = 'po'
     COUNT = 5
     MATCH = 'msgid_plural'
+    MASK = 'po/*.po'
+    EXPECTED_PATH = '/path/po/cs_CZ.po'
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -65,6 +67,14 @@ class AutoFormatTest(TestCase):
             self.assertTrue(self.MATCH in data)
             out.close()
 
+    def test_get_language_filename(self):
+        self.assertEquals(
+            self.FORMAT.get_language_filename(
+                '/path', self.MASK, 'cs_CZ'
+            ),
+            self.EXPECTED_PATH
+        )
+
 
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
@@ -77,3 +87,5 @@ class AndroidFormatTest(AutoFormatTest):
     EXT = 'xml'
     COUNT = 0
     MATCH = '<resources></resources>'
+    MASK = 'res/values-*/strings.xml'
+    EXPECTED_PATH = '/path/res/values-cs_CZ/strings.xml'
