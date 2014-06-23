@@ -9,8 +9,6 @@
 
 {% block content %}
 
-{% include "paginator.html" %}
-
 {% if page_obj.object_list %}
 <table class="table table-bordered">
 <tbody>
@@ -30,8 +28,10 @@
 {% endfor %}
 </tbody>
 </table>
+
+{% include "paginator.html" %}
 {% else %}
-<p>{% trans "No matching strings found!" %}</p>
+{% show_message "info" _("No matching strings found!") %}
 {% endif %}
 
 {% include "search-form.html" %}
