@@ -111,17 +111,9 @@
 <div class="row">
 <div class="col-md-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Authentication" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "User identities" %}</h4></div>
   <div class="panel-body">
-
-<p><a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a></p>
-</div>
-</div>
-
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Third party identities" %}</h4></div>
-  <div class="panel-body">
-<p>{% trans "You can manage third party identities which are associated to this account." %}</p>
+<p>{% trans "You can manage identities which are associated to this account and which can be used to log in." %}</p>
 <p>{% trans "Currently associated:" %}</p>
 <table class="table table-condensed">
 <thead>
@@ -132,6 +124,13 @@
 </td>
 </tr>
 <tbody>
+<tr>
+<th>{% trans "Password" %}</th>
+<td>{{ request.user.username }}</td>
+<td>
+<a href="{% url 'password' %}" class="btn btn-default">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
+</td>
+</tr>
 {% for assoc in associated %}
 <tr>
 <th>{% auth_name assoc.provider %}</th>
