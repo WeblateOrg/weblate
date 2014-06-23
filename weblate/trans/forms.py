@@ -282,7 +282,7 @@ def get_upload_form(request):
         return SimpleUploadForm
 
 
-class SearchForm(forms.Form):
+class SearchForm(BootstrapForm):
     '''
     Text searching form.
     '''
