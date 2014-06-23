@@ -140,7 +140,7 @@ def search(request):
             # results.
             units = paginator.page(paginator.num_pages)
 
-        context['units'] = units
+        context['page_obj'] = units
         context['title'] = _('Search for %s') % (
             search_form.cleaned_data['q']
         )
