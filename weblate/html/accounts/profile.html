@@ -232,18 +232,25 @@
 
 {% if licenses %}
 <p>{% trans "Following projects have explicitly specified their licensing and copyright conditions:" %}</p>
-<dl>
+<table class="table">
+<thead>
+<tr><th>{% trans "Project" %}</th><th>{% trans "License" %}</th></tr>
+</thead>
+<tbody>
 {% for project in licenses %}
-<dt><strong>{{ project.name }}</strong></dt>
-<dd>
+<tr>
+<th><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></th>
+<td>
 {% if project.license_url %}
 <a href="{{ project.license_url }}">{{ project.license }}</a></p>
 {% else %}
 {{ project.license }}
 {% endif %}
-</dd>
+</td>
+</tr>
 {% endfor %}
-</dl>
+</tbody>
+</table>
 {% endif %}
 </div>
 </div>
