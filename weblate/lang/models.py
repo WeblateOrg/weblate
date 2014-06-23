@@ -400,3 +400,13 @@ class Language(models.Model, PercentMixin):
             # not have
             self.nplurals = 2
             self.pluralequation = 'n != 1'
+
+    def get_code(self, file_format):
+        '''
+        Return language code with format based on the file format
+        '''
+        if file_format == 'AndroidFormat':
+            # Android format : xx-rYY
+            return self.code.replace('_', '-r')
+
+        return self.code
