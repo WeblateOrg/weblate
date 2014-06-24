@@ -33,9 +33,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Preferences" %}</h4></div>
   <div class="panel-body">
-    <table>
-    {{ form.as_table }}
-    </table>
+    {{ form.as_div }}
   </div>
 </div>
 </div>
@@ -61,11 +59,15 @@
 <div class="row">
 <div class="col-md-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Subscriptions" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Subscribed projects" %}</h4></div>
   <div class="panel-body">
-<table>
-{{ subscriptionform.as_table }}
-</table>
+{{ subscriptionform.as_span }}
+  </div>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Subscription settings" %}</h4></div>
+  <div class="panel-body">
+{{ subscriptionsettingsform.as_div }}
   </div>
 </div>
 </div>
@@ -88,9 +90,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Account" %}</h4></div>
   <div class="panel-body">
-<table>
-{{ userform.as_table }}
-</table>
+{{ userform.as_div }}
   </div>
 </div>
 </div>

@@ -46,7 +46,8 @@ from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans.models import Change, Project
 from weblate.accounts.forms import (
-    ProfileForm, SubscriptionForm, UserForm, ContactForm
+    ProfileForm, SubscriptionForm, UserForm, ContactForm,
+    SubscriptionSettingsForm
 )
 from weblate import appsettings
 
@@ -134,6 +135,10 @@ def user_profile(request):
             request.POST,
             instance=profile
         )
+        subscriptionsettingsform = SubscriptionSettingsForm(
+            request.POST,
+            instance=profile
+        )
         userform = UserForm(
             request.POST,
             instance=request.user
@@ -147,9 +152,11 @@ def user_profile(request):
 
         if (form.is_valid()
                 and userform.is_valid()
+                and subscriptionsettingsform.is_valid()
                 and subscriptionform.is_valid()):
             # Save changes
             form.save()
+            subscriptionsettingsform.save()
             subscriptionform.save()
             userform.save()
 
@@ -172,6 +179,9 @@ def user_profile(request):
             instance=profile
         )
         subscriptionform = SubscriptionForm(
+            instance=profile
+        )
+        subscriptionsettingsform = SubscriptionSettingsForm(
             instance=profile
         )
         userform = UserForm(
@@ -198,6 +208,7 @@ def user_profile(request):
             'form': form,
             'userform': userform,
             'subscriptionform': subscriptionform,
+            'subscriptionsettingsform': subscriptionsettingsform,
             'profile': profile,
             'title': _('User profile'),
             'licenses': license_projects,

@@ -26,7 +26,7 @@ from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-from weblate.bootstrap_forms import BootstrapForm
+from weblate.bootstrap_forms import BootstrapForm, BootstrapModelForm
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
@@ -157,7 +157,7 @@ class SortedSelect(SortedSelectMixin, forms.Select):
     pass
 
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(BootstrapModelForm):
     '''
     User profile editing.
     '''
@@ -182,7 +182,7 @@ class ProfileForm(forms.ModelForm):
         self.fields['secondary_languages'].queryset = qs
 
 
-class SubscriptionForm(forms.ModelForm):
+class SubscriptionForm(BootstrapModelForm):
     '''
     User subscription management.
     '''
@@ -190,13 +190,6 @@ class SubscriptionForm(forms.ModelForm):
         model = Profile
         fields = (
             'subscriptions',
-            'subscribe_any_translation',
-            'subscribe_new_string',
-            'subscribe_new_suggestion',
-            'subscribe_new_contributor',
-            'subscribe_new_comment',
-            'subscribe_new_language',
-            'subscribe_merge_failure',
         )
         widgets = {
             'subscriptions': forms.CheckboxSelectMultiple
@@ -211,7 +204,24 @@ class SubscriptionForm(forms.ModelForm):
         self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
 
 
-class UserForm(forms.ModelForm):
+class SubscriptionSettingsForm(BootstrapModelForm):
+    '''
+    User subscription management.
+    '''
+    class Meta(object):
+        model = Profile
+        fields = (
+            'subscribe_any_translation',
+            'subscribe_new_string',
+            'subscribe_new_suggestion',
+            'subscribe_new_contributor',
+            'subscribe_new_comment',
+            'subscribe_new_language',
+            'subscribe_merge_failure',
+        )
+
+
+class UserForm(BootstrapModelForm):
     '''
     User information form.
     '''

@@ -19,7 +19,8 @@
 #
 
 from django.forms.forms import BoundField, Form
-from django.forms.widgets import CheckboxInput
+from django.forms.models import ModelForm
+from django.forms.widgets import CheckboxInput, CheckboxSelectMultiple
 from django.forms.util import ErrorList
 from django.utils.html import format_html_join
 from django.utils.encoding import force_text
@@ -52,6 +53,8 @@ class BootstrapBoundField(BoundField):
         else:
             result = set()
         if isinstance(self.field.widget, CheckboxInput):
+            result.add('checkbox')
+        elif isinstance(self.field.widget, CheckboxSelectMultiple):
             result.add('checkbox')
         else:
             result.add('form-group')
@@ -95,5 +98,46 @@ class BootstrapForm(Form):
         super(BootstrapForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             widget = self.fields[field].widget
-            if not isinstance(widget, CheckboxInput):
+            if not isinstance(widget, CheckboxInput) and not isinstance(widget, CheckboxSelectMultiple):
+                widget.attrs['class'] = 'form-control'
+
+
+class BootstrapModelForm(ModelForm):
+    '''
+    Adds HTML output in divs and spans.
+    '''
+    def as_div(self):
+        return self._html_output(
+            normal_row=DIV_TEMPLATE,
+            error_row=u'%s',
+            row_ender='</div>',
+            help_text_html=HELP_TEMPLATE,
+            errors_on_separate_row=False
+        )
+
+    def as_span(self):
+        return self._html_output(
+            normal_row=SPAN_TEMPLATE,
+            error_row=u'%s',
+            row_ender='</span>',
+            help_text_html=u'',
+            errors_on_separate_row=True
+        )
+
+    def __getitem__(self, name):
+        "Returns a BoundField with the given name."
+        try:
+            field = self.fields[name]
+        except KeyError:
+            raise KeyError('Key %r not found in Form' % name)
+        return BootstrapBoundField(self, field, name)
+
+    def __init__(self, *args, **kwargs):
+        kwargs['error_class'] = BootstrapErrorList
+        if 'label_suffix' not in kwargs:
+            kwargs['label_suffix'] = ''
+        super(BootstrapModelForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            widget = self.fields[field].widget
+            if not isinstance(widget, CheckboxInput) and not isinstance(widget, CheckboxSelectMultiple):
                 widget.attrs['class'] = 'form-control'
