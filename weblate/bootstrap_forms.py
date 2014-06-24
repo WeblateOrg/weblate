@@ -20,7 +20,9 @@
 
 from django.forms.forms import BoundField, Form
 from django.forms.models import ModelForm
-from django.forms.widgets import CheckboxInput, CheckboxSelectMultiple
+from django.forms.widgets import (
+    CheckboxInput, CheckboxSelectMultiple, FileInput
+)
 from django.forms.util import ErrorList
 from django.utils.html import format_html_join
 from django.utils.encoding import force_text
@@ -32,6 +34,16 @@ DIV_TEMPLATE = '''<div %(html_class_attr)s>%(label)s
 SPAN_TEMPLATE = '''<span%(html_class_attr)s>%(field)s</span>'''
 
 HELP_TEMPLATE = '<p class="help-block">%s</p>'
+
+
+def do_form_control(widget):
+    if isinstance(widget, CheckboxInput):
+        return False
+    if isinstance(widget, CheckboxSelectMultiple):
+        return False
+    if isinstance(widget, FileInput):
+        return False
+    return True
 
 
 class BootstrapErrorList(ErrorList):
@@ -98,7 +110,7 @@ class BootstrapForm(Form):
         super(BootstrapForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             widget = self.fields[field].widget
-            if not isinstance(widget, CheckboxInput) and not isinstance(widget, CheckboxSelectMultiple):
+            if do_form_control(widget):
                 widget.attrs['class'] = 'form-control'
 
 
@@ -139,5 +151,5 @@ class BootstrapModelForm(ModelForm):
         super(BootstrapModelForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             widget = self.fields[field].widget
-            if not isinstance(widget, CheckboxInput) and not isinstance(widget, CheckboxSelectMultiple):
+            if do_form_control(widget):
                 widget.attrs['class'] = 'form-control'
