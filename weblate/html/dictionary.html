@@ -10,6 +10,20 @@
 
 {% block content %}
 
+<ul class="nav nav-pills">
+<li class="active"><a href="#browse" data-toggle="tab">{% trans "Browse" %}</a></li>
+{% if perms.trans.add_dictionary %}
+<li><a href="#add" data-toggle="tab">{% trans "Add new word" %}</a></li>
+{% endif %}
+{% if perms.trans.upload_dictionary %}
+<li><a href="#import" data-toggle="tab">{% trans "Import glossary" %}</a></li>
+{% endif %}
+<li><a href="#export" data-toggle="tab">{% trans "Export glossary" %}</a></li>
+<li><a href="#changes" data-toggle="tab">{% trans "History" %}</a></li>
+</ul>
+
+<div class="tab-content">
+<div class="tab-pane active" id="browse">
 {% include "paginator.html" %}
 
 <form class="autosubmit paginatoraddon">
@@ -52,23 +66,10 @@
 {% else %}
 <p>{% trans "No words found!" %}</p>
 {% endif %}
-
-<h2>{% trans "Tools" %}</h2>
-
-<div class="tabs" id="dictionary-tabs">
-<ul>
-{% if perms.trans.add_dictionary %}
-<li><a href="#add">{% trans "Add new word" %}</a></li>
-{% endif %}
-{% if perms.trans.upload_dictionary %}
-<li><a href="#import">{% trans "Import glossary" %}</a></li>
-{% endif %}
-<li><a href="#export">{% trans "Export glossary" %}</a></li>
-<li><a href="#changes">{% trans "History" %}</a></li>
-</ul>
+</div>
 
 {% if perms.trans.add_dictionary %}
-<div id="add">
+<div class="tab-pane" id="add">
 
 <form method="POST">
 <div class="panel panel-primary">
@@ -87,7 +88,7 @@
 {% endif %}
 
 {% if perms.trans.upload_dictionary %}
-<div id="import">
+<div class="tab-pane" id="import">
 <form action="{% url 'upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Import glossary" %}</h4></div>
@@ -105,8 +106,11 @@
 </div>
 {% endif %}
 
-<div id="export">
+<div class="tab-pane" id="export">
 
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Export glossary" %}</h4></div>
+  <div class="panel-body">
 <p>{% trans "You can download glossary in following formats:" %}</p>
 
 <ul>
@@ -115,9 +119,13 @@
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
 </div>
+</div>
+</div>
 
-<div id="changes">
+<div class="tab-pane" id="changes">
 {% include "last-changes.html" %}
+</div>
+
 </div>
 
 {% endblock %}
