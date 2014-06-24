@@ -447,7 +447,7 @@ class ReviewForm(forms.Form):
         return self.cleaned_data['type']
 
 
-class LetterForm(forms.Form):
+class LetterForm(BootstrapForm):
     '''
     Form for choosing starting letter in a glossary.
     '''
