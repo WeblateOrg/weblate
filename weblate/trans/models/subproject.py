@@ -68,7 +68,7 @@ class SubProjectManager(models.Manager):
 
 class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
-        verbose_name=ugettext_lazy('Subproject name'),
+        verbose_name=ugettext_lazy('Resource name'),
         max_length=100,
         help_text=ugettext_lazy('Name to display')
     )
@@ -85,8 +85,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Git repository'),
         max_length=200,
         help_text=ugettext_lazy(
-            'URL of Git repository, use weblate://project/subproject '
-            'for sharing with other subproject.'
+            'URL of Git repository, use weblate://project/resource '
+            'for sharing with other resource.'
         ),
         validators=[validate_repo],
     )
@@ -194,15 +194,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Locked'),
         default=False,
         help_text=ugettext_lazy(
-            'Whether subproject is locked for translation updates.'
+            'Whether resource is locked for translation updates.'
         )
     )
     allow_translation_propagation = models.BooleanField(
         verbose_name=ugettext_lazy('Allow translation propagation'),
         default=True,
         help_text=ugettext_lazy(
-            'Whether translation updates in other subproject '
-            'will cause automatic translation in this project'
+            'Whether translation updates in other resources '
+            'will cause automatic translation in this one'
         )
     )
     save_history = models.BooleanField(
@@ -862,7 +862,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if code in langs:
                 raise ValidationError(_(
                     'There are more files for single language, please '
-                    'adjust the mask and use subprojects for translating '
+                    'adjust the mask and use resources for translating '
                     'different resources.'
                 ))
             if lang.code in translated_langs:

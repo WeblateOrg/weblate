@@ -326,7 +326,7 @@ PRE_COMMIT_SCRIPTS
 ------------------
 
 List of scripts which are allowed as pre commit scripts. The script needs to be
-later enabled in subproject configuration.
+later enabled in resource configuration.
 
 For example you can allow script which does some cleanup:
 

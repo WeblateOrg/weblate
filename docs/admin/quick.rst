@@ -49,11 +49,11 @@ Adding translation
 
    All you need to specify here is project name and it's website.
 
-#. Create subproject which is the real resource for translating - it points to
-   Git repository and selects which files to translate. See :ref:`subproject`
+#. Create resource which is the real resource for translating - it points to
+   Git repository and selects which files to translate. See :ref:`resource`
    for more details.
 
-   The important fields here being subproject name, Git repository address and
+   The important fields here being resource name, Git repository address and
    mask for finding translatable files. Weblate supports wide range of formats
    including Gettext PO files, Android resource strings, OS X string properties,
    Java properties or Qt Linguist files, see :ref:`formats` for more details.

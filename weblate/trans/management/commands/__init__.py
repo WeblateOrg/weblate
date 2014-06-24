@@ -28,16 +28,16 @@ from weblate.trans.models import Unit, SubProject, Translation
 
 class WeblateCommand(BaseCommand):
     '''
-    Command which accepts project/subproject/--all params to process.
+    Command which accepts project/resource/--all params to process.
     '''
-    args = '<project/subproject>'
+    args = '<project/resource>'
     option_list = BaseCommand.option_list + (
         make_option(
             '--all',
             action='store_true',
             dest='all',
             default=False,
-            help='process all subprojects'
+            help='process all resources'
         ),
     )
 
@@ -58,14 +58,14 @@ class WeblateCommand(BaseCommand):
 
     def get_subprojects(self, *args, **options):
         '''
-        Returns list of subprojects matching parameters.
+        Returns list of resources matching parameters.
         '''
         if options['all']:
-            # all subprojects
+            # all resources
             result = SubProject.objects.all()
         elif len(args) == 0:
             # no argumets to filter projects
-            print 'Please specify either --all or <project/subproject>'
+            print 'Please specify either --all or <project/resource>'
             raise CommandError('Nothing to process!')
         else:
             # start with none and add found
@@ -73,19 +73,19 @@ class WeblateCommand(BaseCommand):
 
             # process arguments
             for arg in args:
-                # do we have also subproject?
+                # do we have also resource?
                 parts = arg.split('/')
 
                 # filter by project
                 found = SubProject.objects.filter(project__slug=parts[0])
 
-                # filter by subproject if available
+                # filter by resource if available
                 if len(parts) == 2:
                     found = found.filter(slug=parts[1])
 
                 # warn on no match
                 if found.count() == 0:
-                    print '"%s" did not match any subproject' % arg
+                    print '"%s" did not match any resources' % arg
                     raise CommandError('Nothing to process!')
 
                 # merge results

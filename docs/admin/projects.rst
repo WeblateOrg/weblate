@@ -7,11 +7,11 @@ Translation organization
 Weblate organizes translatable content into tree like structure. The toplevel
 object is :ref:`project`, which should hold all translations which belong
 together (for example translation of an application in several versions
-and/or documentation). On the next level, there is :ref:`subproject`, which is
+and/or documentation). On the next level, there is :ref:`resource`, which is
 actually the resource to translate. Here you define Git repository to use and
-mask of files to translate. Bellow :ref:`subproject` there are individual
+mask of files to translate. Bellow :ref:`resource` there are individual
 translations, which are handled automatically by Weblate as the translation
-files (matching mask defined in :ref:`subproject`) appear in Git repository.
+files (matching mask defined in :ref:`resource`) appear in Git repository.
 
 Administration
 --------------
@@ -24,7 +24,7 @@ Adding new resources
 --------------------
 
 All translation resources need to be available as Git repositories and are
-organized as project/subproject structure.
+organized as project/resource structure.
 
 Weblate supports wide range of translation formats supported by translate
 toolkit, see :ref:`formats` for more information.
@@ -45,9 +45,9 @@ Project
 
 To add new resource to translate, you need to create translation project first.
 The project is sort of shelf, in which real translations are folded. All
-subprojects in same project share suggestions and dictionary, also the
-translations are automatically propagated through the all subproject in single
-project (unless disabled in subproject configuration).
+resources in same project share suggestions and dictionary, also the
+translations are automatically propagated through the all resource in single
+project (unless disabled in resource configuration).
 
 The project has only few attributes giving translators information about
 project.
@@ -62,8 +62,8 @@ strings in the message:
     Language code
 ``%(language_name)s``
     Language name
-``%(subproject)s``
-    Subproject name
+``%(resource)s``
+    Resource name
 ``%(project)s``
     Project name
 ``%(total)s``
@@ -85,12 +85,12 @@ pushing of changes (see also :ref:`push-changes`), merge or rebase
 (see :ref:`merge-rebase`), git committer name or
 maintaining of Translation-Team header.
 
-.. _subproject:
+.. _resource:
 
-Subproject
-----------
+Resource
+--------
 
-Subproject is real resource for translating. You enter Git repository location
+Resource is real resource for translating. You enter Git repository location
 and file mask which files to translate and Weblate automatically fetches the Git
 and finds all matching translatable files.
 
@@ -99,14 +99,14 @@ created and named as "cs_CZ (generated)". You should adjust the definition and
 report this back to Weblate authors so that missing language can be included in
 next release.
 
-The subproject contains all important parameters for working with Git and
+The resource contains all important parameters for working with Git and
 getting translations out of it:
 
 Repo
     Git repository used to pull changes.
 
-    This can be either real Git URL or ``weblate://project/subproject``
-    indicating that Git repository should be shared with another subproject.
+    This can be either real Git URL or ``weblate://project/resource``
+    indicating that Git repository should be shared with another resource.
 Push
     Git URL used for pushing, this is completely optional and push support will
     be disabled when this is empty.
@@ -121,7 +121,7 @@ Filemask
     Mask of files to translate including path. It should include one *
     replacing language code. In case your Git repository contains more than one
     translation files (eg. more Gettext domains), you need to create separate
-    subproject for each. For example ``po/*.po`` or
+    resource for each. For example ``po/*.po`` or
     ``locale/*/LC_MESSAGES/django.po``.
 Monolingual base language file
     Base file containing strings definition for :ref:`monolingual`.
@@ -133,8 +133,8 @@ Report source bugs
 Locked
     You can lock the translation to prevent updates by users.
 Allow translation propagation
-    You can disable propagation of translations to this subproject from other
-    subprojects within same project. This really depends on what you are
+    You can disable propagation of translations to this resource from other
+    resources within same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 Pre commit script
     One of scripts defined in :setting:`PRE_COMMIT_SCRIPTS` which is executed
@@ -167,7 +167,7 @@ Clone Git repository in advance
 
 You can put in place Git repository which will be used by Weblate. The
 repositories are stored in path defined by :setting:`GIT_ROOT` in
-:file:`settings.py` in :file:`<project>/<subproject>` directories.
+:file:`settings.py` in :file:`<project>/<resource>` directories.
 
 This can be especially useful if you already have local clone of this
 repository and you can use ``--reference`` option while cloning:
@@ -177,7 +177,7 @@ repository and you can use ``--reference`` option while cloning:
     git clone \
         --reference /path/to/checkout \
         git://github.com/nijel/weblate.git \
-        weblate/repos/project/subproject
+        weblate/repos/project/resource
 
 Optimize configuration
 ++++++++++++++++++++++
@@ -201,13 +201,13 @@ information how to configure this.
 
 .. _autocreate:
 
-Automatic creation of subprojects
----------------------------------
+Automatic creation of resources
+-------------------------------
 
 In case you have project with dozen of po files, you might want to import all
 at once. This can be achieved using :djadmin:`import_project`.
 
-First you need to create project which will contain all subprojects and then
+First you need to create project which will contain all resources and then
 it's just a matter of running :djadmin:`import_project`.
 
 .. seealso:: :ref:`manage`

@@ -11,36 +11,36 @@ Management commands
 
 The ./manage.py is extended with following commands:
 
-checkgit <project|project/subproject>
--------------------------------------
+checkgit <project|project/resource>
+-----------------------------------
 
 .. django-admin:: checkgit
 
 Prints current state of backend git repository.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
-commitgit <project|project/subproject>
---------------------------------------
+commitgit <project|project/resource>
+------------------------------------
 
 .. django-admin:: commitgit
 
 Commits any possible pending changes to backend git repository.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
-commit_pending <project|project/subproject>
--------------------------------------------
+commit_pending <project|project/resource>
+-----------------------------------------
 
 .. django-admin:: commit_pending
 
 Commits pending changes older than given age (using ``--age`` parameter,
 defaults to 24 hours).
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
 This is most useful if executed periodically from cron or similar tool:
 
@@ -67,23 +67,23 @@ import_project <project> <gitrepo> <branch> <filemask>
 
 .. django-admin:: import_project
 
-Batch imports subprojects into project based on file mask.
+Batch imports resources into project based on file mask.
 
-`<project>` names an existing project, into which the subprojects should
+`<project>` names an existing project, into which the resources should
 be imported.
 
 The `<gitrepo>` defines URL of Git repository to use, and `<branch>` the
 git branch.
-To import additional translation subprojects, from an existing Weblate subproject,
-use a `weblate://<project>/<subproject>` URL for the `<gitrepo>`.
+To import additional translation resources, from an existing Weblate resource,
+use a `weblate://<project>/<resource>` URL for the `<gitrepo>`.
 
 The repository is searched for directories matching a double wildcard
 (`**`) in the `<filemask>`.
-Each of these is then added as a subproject, named after the matched
+Each of these is then added as a resource, named after the matched
 directory.
-Existing subprojects will be skipped.
+Existing resources will be skipped.
 
-To customise the subproject's name, use the ``--name-template`` option.
+To customise the resource's name, use the ``--name-template`` option.
 Its parameter is a python formatting string, which will expect the
 match from `<filemask>`.
 
@@ -127,8 +127,8 @@ list_versions
 
 Lists versions of Weblate dependencies.
 
-loadpo <project|project/subproject>
------------------------------------
+loadpo <project|project/resource>
+---------------------------------
 
 .. django-admin:: loadpo
 
@@ -138,35 +138,35 @@ repository).
 You can use ``--force`` to force update even if the files should be up
 to date. Additionally you can limit languages to process with ``--lang``.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
-lock_translation <project|project/subproject>
----------------------------------------------
+lock_translation <project|project/resource>
+-------------------------------------------
 
 .. django-admin:: lock_translation
 
-Locks given subproject for translating. This is useful in case you want to do
+Locks given resource for translating. This is useful in case you want to do
 some maintenance on underlaying repository.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
 .. seealso:: :djadmin:`unlock_translation`
 
-pushgit <project|project/subproject>
-------------------------------------
+pushgit <project|project/resource>
+----------------------------------
 
 .. django-admin:: pushgit
 
 Pushes committed changes to upstream Git repository. With ``--force-commit``
 it also commits any pending changes.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
-rebuild_index <project|project/subproject>
-------------------------------------------
+rebuild_index <project|project/resource>
+----------------------------------------
 
 .. django-admin:: rebuild_index
 
@@ -189,16 +189,16 @@ uptodate.
 
 .. seealso:: :ref:`fulltext`
 
-unlock_translation <project|project/subproject>
------------------------------------------------
+unlock_translation <project|project/resource>
+---------------------------------------------
 
 .. django-admin:: unlock_translation
 
-Unnocks given subproject for translating. This is useful in case you want to do
+Unnocks given resource for translating. This is useful in case you want to do
 some maintenance on underlaying repository.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
 .. seealso:: :djadmin:`lock_translation`
 
@@ -226,25 +226,25 @@ translate-toolkit).
 The option ``--no-update`` disables update of existing languages (only adds
 new ones).
 
-updatechecks <project|project/subproject>
------------------------------------------
+updatechecks <project|project/resource>
+---------------------------------------
 
 .. django-admin:: updatechecks
 
 Updates all check for all units. This could be useful only on upgrades
 which do major changes to checks.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
-updategit <project|project/subproject>
---------------------------------------
+updategit <project|project/resource>
+------------------------------------
 
 .. django-admin:: updategit
 
 Fetches remote Git repositories and updates internal cache.
 
-You can either define which project or subproject to update (eg.
-``weblate/master``) or use ``--all`` to update all existing subprojects.
+You can either define which project or resource to update (eg.
+``weblate/master``) or use ``--all`` to update all existing resources.
 
 

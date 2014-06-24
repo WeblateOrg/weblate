@@ -39,7 +39,7 @@ class Command(BaseCommand):
     """
     Command for mass importing of repositories into Weblate.
     """
-    help = 'imports projects with more subprojects'
+    help = 'imports projects with more resources'
     args = '<project> <gitrepo> <branch> <filemask>'
     option_list = BaseCommand.option_list + (
         make_option(
@@ -211,12 +211,12 @@ class Command(BaseCommand):
             )
             if subprojects.exists():
                 self.logger.warn(
-                    'Subproject %s already exists, skipping',
+                    'Resource %s already exists, skipping',
                     name
                 )
                 continue
 
-            self.logger.info('Creating subproject %s', name)
+            self.logger.info('Creating resource %s', name)
             SubProject.objects.create(
                 name=name,
                 slug=slug,
@@ -244,14 +244,14 @@ class Command(BaseCommand):
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
             self.logger.warn(
-                'Subproject %s already exists, skipping and using it '
-                'as main subproject',
+                'Resource %s already exists, skipping and using it '
+                'as main resource',
                 name
             )
             shutil.rmtree(workdir)
             return matches, 'weblate://%s/%s' % (project.slug, slug)
 
-        self.logger.info('Creating subproject %s as main subproject', name)
+        self.logger.info('Creating resource %s as main resource', name)
 
         # Rename gitrepository to new name
         os.rename(

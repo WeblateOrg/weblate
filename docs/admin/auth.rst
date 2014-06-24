@@ -155,7 +155,7 @@ Can update translation from git [Managers]
 Can push translations to remote git [Managers]
     Can force Git push in the web interface.
 Can do automatic translation using other project strings [Managers]
-    Can do automatic translation based on strings from other subprojects.
+    Can do automatic translation based on strings from other resources
 Can lock whole translation project [Managers]
     Can lock translation for updates, useful while doing some major changes 
     in the project.

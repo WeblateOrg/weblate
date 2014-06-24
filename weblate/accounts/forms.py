@@ -519,8 +519,8 @@ class HostingForm(BootstrapForm):
     repo = forms.CharField(
         label=_('Git repository'),
         help_text=_(
-            'URL of Git repository, use weblate://project/subproject '
-            'for sharing with other subproject.'
+            'URL of Git repository, use weblate://project/resource '
+            'for sharing with other resource.'
         ),
         required=True
     )

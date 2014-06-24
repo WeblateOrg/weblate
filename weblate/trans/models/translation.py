@@ -794,6 +794,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
             'language': self.language_code,
             'language_name': self.language.name,
             'subproject': self.subproject.name,
+            'resource': self.subproject.name,
             'project': self.subproject.project.name,
             'total': self.total,
             'fuzzy': self.fuzzy,

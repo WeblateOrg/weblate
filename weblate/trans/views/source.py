@@ -42,7 +42,7 @@ def review_source(request, project, subproject):
     try:
         source = obj.translation_set.all()[0]
     except Translation.DoesNotExist:
-        raise Http404('No translation exists in this subproject.')
+        raise Http404('No translation exists in this resource.')
 
     # Grab search type and page number
     rqtype = request.GET.get('type', 'all')
@@ -89,7 +89,7 @@ def show_source(request, project, subproject):
     try:
         source = obj.translation_set.all()[0]
     except Translation.DoesNotExist:
-        raise Http404('No translation exists in this subproject.')
+        raise Http404('No translation exists in this resource.')
 
     return render(
         request,

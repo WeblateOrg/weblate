@@ -15,7 +15,7 @@ without interaction unless some merge conflict occurs.
 
 1. Set up you git repository to tell Weblate whenever there is any change, see
    :ref:`hooks` for information how to do it.
-2. Set push URL at your :ref:`subproject` in Weblate, this will allow Weblate
+2. Set push URL at your :ref:`resource` in Weblate, this will allow Weblate
    to push changes to your repository.
 3. Enable push on commit on your :ref:`project` in Weblate, this will make
    Weblate push changes to your repository whenever they are committed at Weblate.
@@ -64,7 +64,7 @@ How do I translate several branches at once?
 --------------------------------------------
 
 Weblate supports pushing translation changes within one :ref:`project`. For
-every :ref:`subproject` which has it enabled (the default behavior), the change
+every :ref:`resource` which has it enabled (the default behavior), the change
 made is automatically propagated to others. This way the translations are kept
 synchronized even if the branches themselves have already diverged quite a lot
 and it is not possible to simply merge translation changes between them.
@@ -82,7 +82,7 @@ How to export Git repository weblate uses?
 ------------------------------------------
 
 There is nothing special about the repository, it lives under
-:setting:`GIT_ROOT` directory and is named as `project/subproject/`. If you
+:setting:`GIT_ROOT` directory and is named as `project/resource/`. If you
 have SSH access to this machine, you can use the repository directly.
 
 For anonymous access you might want to run git server and let it serve the
@@ -330,7 +330,7 @@ Why does Weblate force to have show all po files in single tree?
 ----------------------------------------------------------------
 
 Weblate was designed in a way that every po file is represented as single
-subproject. This is beneficial for translators, that they know what they are
+resource. This is beneficial for translators, that they know what they are
 actually translating. If you feel your project should be translated as one,
 consider merging these po files. It will make life easier even for translators
 not using Weblate.
