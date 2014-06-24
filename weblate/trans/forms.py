@@ -405,7 +405,7 @@ class AutoForm(forms.Form):
             [('', _('All subprojects'))] + choices
 
 
-class WordForm(forms.Form):
+class WordForm(BootstrapForm):
     '''
     Form for adding word to a glossary.
     '''
