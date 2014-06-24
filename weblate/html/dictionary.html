@@ -71,11 +71,16 @@
 <div id="add">
 
 <form method="POST">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new word" %}</h4></div>
+  <div class="panel-body">
 {% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
-<input type="submit" class="btn btn-default" value="{% trans "Add" %}" />
+{{ form.as_div }}
+</div>
+  <div class="panel-footer">
+<input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
+</div>
+</div>
 </form>
 
 </div>
@@ -83,15 +88,18 @@
 
 {% if perms.trans.upload_dictionary %}
 <div id="import">
-
-<p>{% trans "You can upload any format which is understood by Translate Toolkit (including TBX, CSV or Gettext PO files)." %}</p>
-
 <form action="{% url 'upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Import glossary" %}</h4></div>
+  <div class="panel-body">
+
 {% csrf_token %}
-<table>
-{{ uploadform.as_table }}
-</table>
+{{ uploadform.as_div }}
+</div>
+  <div class="panel-footer">
 <input type="submit" class="btn btn-default" value="{% trans "Import" %}" />
+</div>
+</div>
 </form>
 
 </div>

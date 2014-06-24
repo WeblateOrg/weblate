@@ -413,12 +413,16 @@ class WordForm(BootstrapForm):
     target = forms.CharField(label=_('Translation'))
 
 
-class DictUploadForm(forms.Form):
+class DictUploadForm(BootstrapForm):
     '''
     Uploading file to a dictionary.
     '''
     file = forms.FileField(
-        label=_('File')
+        label=_('File'),
+        help_text=_(
+            'You can upload any format which is understood by '
+            'Translate Toolkit (including TBX, CSV or Gettext PO files).'
+        )
     )
     method = forms.ChoiceField(
         label=_('Merge method'),
