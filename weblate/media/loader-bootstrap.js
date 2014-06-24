@@ -57,4 +57,30 @@ $(function () {
     $('.edit-priority').click(function (e) {
         e.preventDefault();
     });
+
+    /* Load correct tab */
+    if (location.hash !== '') {
+        var activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
+        if (activeTab.length) {
+            activeTab.tab('show');
+            window.scrollTo(0, 0);
+        }
+    }
+
+    /* Add a hash to the URL when the user clicks on a tab */
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        history.pushState(null, null, $(this).attr('href'));
+        /* Remove focus on rows */
+        $('.selectable-row').removeClass('active');
+    });
+
+    /* Navigate to a tab when the history changes */
+    window.addEventListener("popstate", function(e) {
+        var activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
+        if (activeTab.length) {
+            activeTab.tab('show');
+        } else {
+            $('.nav-tabs a:first').tab('show');
+        }
+    });
 });
