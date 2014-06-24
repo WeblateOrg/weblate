@@ -23,7 +23,7 @@ from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.db.models import Count
 
-from weblate.trans.models import Unit, Check, SubProject
+from weblate.trans.models import Unit, Check
 from weblate.trans.checks import CHECKS
 from weblate.trans.views.helper import get_project, get_subproject
 
