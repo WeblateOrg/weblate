@@ -65,9 +65,7 @@ class ConsistencyCheck(TargetCheck):
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False
-        related = Unit.objects.same(unit).exclude(
-            id=unit.id,
-        )
+        related = Unit.objects.same(unit)
         if not related.exists():
             return False
 

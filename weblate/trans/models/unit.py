@@ -295,6 +295,8 @@ class UnitManager(models.Manager):
             checksum=unit.checksum,
             translation__subproject__project=project,
             translation__language=unit.translation.language
+        ).exclude(
+            pk=unit.id
         )
 
 
@@ -496,7 +498,7 @@ class Unit(models.Model):
         """
         Propagates current translation to all others.
         """
-        allunits = Unit.objects.same(self).exclude(id=self.id).filter(
+        allunits = Unit.objects.same(self).filter(
             translation__subproject__allow_translation_propagation=True
         )
         for unit in allunits:
@@ -941,7 +943,7 @@ class Unit(models.Model):
         self.translation.invalidate_cache()
 
         if recurse:
-            for unit in Unit.objects.same(self).exclude(id=self.id):
+            for unit in Unit.objects.same(self):
                 unit.update_has_failing_check(False)
 
     def update_has_suggestion(self):
