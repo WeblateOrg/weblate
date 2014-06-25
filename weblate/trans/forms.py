@@ -54,7 +54,7 @@ class PluralTextarea(forms.Textarea):
         tabindex = self.attrs['tabindex']
 
         # Need to add extra class
-        attrs['class'] = 'translation-editor'
+        attrs['class'] = 'translation-editor form-control'
         attrs['tabindex'] = tabindex
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
@@ -146,7 +146,7 @@ class PluralField(forms.CharField):
         return value
 
 
-class ChecksumForm(forms.Form):
+class ChecksumForm(BootstrapForm):
     '''
     Form for handling checksum ids for translation.
     '''
@@ -183,7 +183,10 @@ class TranslationForm(ChecksumForm):
     '''
     Form used for translation of single string.
     '''
-    target = PluralField(required=False)
+    target = PluralField(
+        required=False,
+        label=_('Translation'),
+    )
     fuzzy = forms.BooleanField(
         label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'),
         required=False

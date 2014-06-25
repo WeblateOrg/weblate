@@ -43,6 +43,34 @@
 
 <div class="row">
 <div class="col-sm-10">
+
+<form action="{{ this_unit_url }}" method="post" class="translation-form">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Translate" %}</h4></div>
+  <div class="panel-body">
+    {{ form.as_div }}
+  </div>
+  <div class="panel-footer">
+    {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
+    {% if perms.trans.save_translation %}
+    <input class="btn btn-default" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
+    {% else %}
+    {% url 'login' as login_url %}
+    {% with unit.translation.get_translate_url as translate_url %}
+    {% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
+    {% endwith %}
+    {% endif %}
+    {% endif %}
+
+    {% if perms.trans.add_suggestion %}
+    <input class="btn btn-default" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
+    {% else %}
+    {% trans "No privileges for adding suggestions!" %}
+    {% endif %}
+  </div>
+</div>
+</form>
+
 </div>
 
 <div class="col-sm-2 small">
