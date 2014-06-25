@@ -48,6 +48,8 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translate" %}</h4></div>
   <div class="panel-body">
+    {% csrf_token %}
+    {% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
     {% if secondary %}
     {% for unit in secondary %}
     <div class="form-group">
@@ -162,12 +164,9 @@
 </div>
 
 
-<form action="{{ this_unit_url }}" method="post" class="translation-form">
 <a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
 <a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
 <a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
-{% csrf_token %}
-{% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
 <table>
 <tr>
 <td class="labelscolumn"></td>
@@ -227,7 +226,6 @@
 {% endwith %}
 
 </table>
-</form>
 
 <h2>{% trans "Translation context" %}</h2>
 
