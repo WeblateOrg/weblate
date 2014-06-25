@@ -79,6 +79,14 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Source information" %}</h4></div>
   <div class="panel-body">
   <table class="table table-striped table-condensed">
+    {% if unit.context %}
+    <tr>
+    <th>{% trans "Context" %}</th>
+    </tr>
+    <tr>
+    <td>{{ unit.context|fmtsearchmatch:search_query }}</td>
+    </tr>
+    {% endif %}
     {% include "unit-details.html" %}
     <tr>
     <th>{% trans "String priority" %}</th>
@@ -129,12 +137,6 @@
 <th class="source labelscolumn">{% trans "Source" %}</th>
 <td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
 </tr>
-{% if unit.context %}
-<tr>
-<th class="labelscolumn">{% trans "Context" %}</th>
-<td>{{ unit.context|fmtsearchmatch:search_query }}</td>
-</tr>
-{% endif %}
 <tr>
 <td class="labelscolumn"></td>
 <td class="toolbar">
