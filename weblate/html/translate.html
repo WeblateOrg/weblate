@@ -85,6 +85,19 @@
     {% else %}
     {% trans "No privileges for adding suggestions!" %}
     {% endif %}
+
+    {% if perms.trans.save_translation %}
+    <div class="pull-right">
+    {% trans "Commit message:" %} 
+    <input type="text" name="commit_message" class="tooltip-control" 
+        data-toggle="tooltip" data-placement="bottom"
+        placeholder="{% trans "Additional text to include in the commit message." %}" 
+        tabindex="152" 
+        value="{{ unit.translation.commit_message }}" 
+        title="{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}"
+    />
+    </div>
+    {% endif %}
   </div>
 </div>
 </form>
@@ -212,31 +225,6 @@
 </tr>
 {% endif %}
 {% endwith %}
-<tr><td class="labelscolumn"></td><td>
-{% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
-{% if perms.trans.save_translation %}
-<input class="button" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
-{% else %}
-{% url 'login' as login_url %}
-{% with unit.translation.get_translate_url as translate_url %}
-{% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
-{% endwith %}
-{% endif %}
-{% endif %}
-
-{% if perms.trans.add_suggestion %}
-<input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
-{% else %}
-{% trans "No privileges for adding suggestions!" %}
-{% endif %}
-
-{% if perms.trans.save_translation %}
-<div class="menu-float tooltip">
-<div class="tooltip-content">{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}</div>
-{% trans "Commit message:" %} <input type="text" name="commit_message" class="commit_message" placeholder="{% trans "Additional text to include in the commit message." %}" tabindex="152" value="{{ unit.translation.commit_message }}" />
-</div>
-{% endif %}
-</td></tr>
 
 </table>
 </form>

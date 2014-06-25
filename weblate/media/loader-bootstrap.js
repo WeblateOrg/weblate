@@ -102,4 +102,6 @@ $(function () {
         $(document).on('keypress', '.translation-editor', text_change);
         init_editor(translation_editor);
     }
+
+    $('.tooltip-control').tooltip();
 });
