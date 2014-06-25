@@ -93,6 +93,17 @@
 
 <div class="col-sm-2 small">
 
+{% with unit.active_checks as checks %}
+{% if checks %}
+<div class="panel panel-danger">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Failing checks" %}</h4></div>
+  <div class="panel-body">
+{% show_checks checks user %}
+  </div>
+</div>
+{% endif %}
+{% endwith %}
+
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Source information" %}</h4></div>
   <div class="panel-body">
@@ -163,16 +174,6 @@
 <a class="specialchar" title="{% trans "Insert new line" %}">↵</a>
 <a class="specialchar" title="{% trans "Insert horizontal ellipsis" %}">…</a>
 </span>
-{% with unit.active_checks as checks %}
-{% if checks %}
-<tr>
-<th class="labelscolumn">{% trans "Failing checks" %}</th>
-<td>
-{% show_checks checks user %}
-</td>
-</tr>
-{% endif %}
-{% endwith %}
 {% with unit.suggestions as suggestions %}
 {% if suggestions %}
 <tr>
