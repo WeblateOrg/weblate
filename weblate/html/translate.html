@@ -107,41 +107,49 @@
 
 {% with unit.suggestions as suggestions %}
 {% if suggestions %}
+<form action="{{ this_unit_url }}" method="post" class="translation-form">
+    {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
   <div class="panel-body">
 
+<div class="list-group">
 {% for suggestion in suggestions %}
-<div class="form-group">
-<label>
+<div class="list-group-item">
+<h4 class="list-group-item-heading">
 {% if suggestion.user %}
-{% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
+{% blocktrans with suggestion.get_user_display as user %}{{ user }} has suggested{% endblocktrans %}
 {% else %}
-{% trans "Suggested by anonymous user" %}
+{% trans "Anonymous user has suggested" %}
 {% endif %}
-</label>
-<div class="form-control translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</div>
+</h4>
+<div class="translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</div>
 {% if unit.can_vote_suggestions %}
+<p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}, {{ count }} vote{% plural %}, {{ count }} votes{% endblocktrans %}
+</p>
 {% endif %}
-<div class="menu-float action-buttons">
+<div class="pull-right action-buttons">
 {% if unit.can_vote_suggestions and perms.trans.vote_suggestion %}
-<button type="submit" class="sug-upvote" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
-<button type="submit" class="sug-downvote" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
+<button type="submit" class="sug-upvote btn btn-success" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
+<button type="submit" class="sug-downvote btn btn-danger" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
 {% endif %}
 {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.accept_suggestion %}
-<button type="submit" class="sug-accept" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
+<button type="submit" class="sug-accept btn btn-success" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
-<button type="submit" class="sug-delete" name="delete" value="{{ suggestion.id }}">{% trans "Delete" %}</button>
+<button type="submit" class="sug-delete btn btn-danger" name="delete" value="{{ suggestion.id }}">{% trans "Delete" %}</button>
 {% endif %}
 {% endif %}
 </div>
+<div class="clearfix"></div>
 </div>
 {% endfor %}
+</div>
   </div>
 </div>
+</form>
 {% endif %}
 {% endwith %}
 
