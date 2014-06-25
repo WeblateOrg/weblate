@@ -181,11 +181,14 @@ def search(translation, request):
     # Remove old search results
     cleanup_session(request.session)
 
+    if name is not None:
+        name = unicode(name)
+
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
         'query': search_query,
-        'name': unicode(name),
+        'name': name,
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,
