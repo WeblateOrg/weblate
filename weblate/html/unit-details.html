@@ -2,7 +2,7 @@
 {% load translations %}
 {% if unit.location %}
 <tr>
-<th class="labelscolumn">{% trans "Used in" %}</th>
+<th>{% trans "Used in" %}</th>
 </tr>
 <tr>
 <td>{{ unit.get_location_links }}</td>
@@ -10,15 +10,15 @@
 {% endif %}
 {% if unit.comment %}
 <tr>
-<th class="labelscolumn">{% trans "Comments" %}</th>
+<th>{% trans "Comments" %}</th>
 </tr>
 <tr>
-<td class="translation_comment">{{ unit.comment }}</td>
+<td>{{ unit.comment }}</td>
 </tr>
 {% endif %}
 <tr>
-<th class="labelscolumn">{% trans "First seen" %}</th>
+<th>{% trans "First seen" %}</th>
 </tr>
 <tr>
-<td class="translation_comment">{{ unit.source_info.timestamp|naturaltime }}</td>
+<td>{{ unit.source_info.timestamp|naturaltime }}</td>
 </tr>
