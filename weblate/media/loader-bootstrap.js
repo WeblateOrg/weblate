@@ -96,6 +96,7 @@ $(function () {
         }
     });
 
+    /* Translation editor */
     var translation_editor = $('.translation-editor');
     if (translation_editor.length > 0) {
         $(document).on('change', '.translation-editor', text_change);
@@ -112,5 +113,14 @@ $(function () {
         }
     }
 
+    /* Generic tooltips */
     $('.tooltip-control').tooltip();
+
+    /* Check ignoring */
+    $('.check').bind('close.bs.alert', function () {
+        var $this = $(this);
+        $.get($this.data('href'));
+        $this.tooltip('destroy');
+    });
+
 });
