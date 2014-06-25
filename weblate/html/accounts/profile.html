@@ -35,6 +35,9 @@
   <div class="panel-body">
     {{ form.as_div }}
   </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+  </div>
 </div>
 </div>
 <div class="col-md-6 hidden-xs">
@@ -63,11 +66,17 @@
   <div class="panel-body">
 {{ subscriptionform.as_span }}
   </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+  </div>
 </div>
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Subscription settings" %}</h4></div>
   <div class="panel-body">
 {{ subscriptionsettingsform.as_div }}
+  </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
 </div>
@@ -91,6 +100,9 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Account" %}</h4></div>
   <div class="panel-body">
 {{ userform.as_div }}
+  </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
   </div>
 </div>
 </div>
@@ -277,7 +289,6 @@
 </div>
 
 
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
 </form>
 <form method="post" action="" id="disconnect-form">{% csrf_token %}</form>
 
