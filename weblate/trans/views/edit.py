@@ -591,6 +591,7 @@ def translate(request, project, subproject, lang):
             'prev_unit_url': base_unit_url + str(offset - 1),
             'object': translation,
             'unit': unit,
+            'others': Unit.objects.same(unit),
             'total': translation.unit_set.all().count(),
             'search_id': search_result['search_id'],
             'search_query': search_result['query'],

@@ -91,27 +91,6 @@ def translate(request, unit_id):
     )
 
 
-def get_other(request, unit_id):
-    '''
-    AJAX handler for same strings in other subprojects.
-    '''
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
-
-    other = Unit.objects.same(unit)
-
-    return render(
-        request,
-        'js/other.html',
-        {
-            'other': other.select_related(),
-            'unit': unit,
-            'search_id': request.GET.get('sid', ''),
-            'offset': request.GET.get('offset', ''),
-        }
-    )
-
-
 def get_unit_changes(request, unit_id):
     '''
     Returns unit's recent changes.
