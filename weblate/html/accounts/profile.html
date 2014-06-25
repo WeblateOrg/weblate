@@ -158,10 +158,10 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Removal" %}</h4></div>
   <div class="panel-body">
 
-{% show_message 'warning' _('Removal of the account deletes all your private data.') %}
+    <p>{% trans "Removal of the account deletes all your private data." %}</p>
    </div>
    <div class="panel-footer">
-    <a class="btn btn-default" href="{% url 'remove' %}">{% trans "Remove my account" %}</a>
+    <a class="btn btn-danger" href="{% url 'remove' %}">{% trans "Remove my account" %}</a>
    </div>
 </div>
 
