@@ -101,6 +101,7 @@ $(function () {
         $(document).on('change', '.translation-editor', text_change);
         $(document).on('keypress', '.translation-editor', text_change);
         init_editor(translation_editor);
+        translation_editor.get(0).focus();
     }
 
     $('.tooltip-control').tooltip();
