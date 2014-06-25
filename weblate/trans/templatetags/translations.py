@@ -77,7 +77,8 @@ def fmt_whitespace(value):
 
 
 @register.inclusion_tag('format-translation.html')
-def format_translation(value, language=None, diff=None, search_match=None, simple=False):
+def format_translation(value, language=None, diff=None, search_match=None,
+                       simple=False):
     """
     Nicely formats translation text possibly handling plurals or diff.
     """
