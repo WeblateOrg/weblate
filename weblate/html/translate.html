@@ -105,6 +105,14 @@
     <td>{{ unit.context|fmtsearchmatch:search_query }}</td>
     </tr>
     {% endif %}
+    {% if unit.flags %}
+    <tr>
+    <th>{% trans "Flags" %}</th>
+    </tr>
+    <tr>
+    <td>{{ unit.flags }}</td>
+    </tr>
+    {% endif %}
     {% include "unit-details.html" %}
     <tr>
     <th>{% trans "String priority" %}</th>
@@ -203,12 +211,6 @@
 </tr>
 {% endif %}
 {% endwith %}
-{% if unit.flags %}
-<tr>
-<th class="labelscolumn">{% trans "Flags" %}</th>
-<td><span class="legend">{{ unit.flags }}</span></td>
-</tr>
-{% endif %}
 <tr><td class="labelscolumn"></td><td>
 {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.save_translation %}
