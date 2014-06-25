@@ -166,7 +166,7 @@ def user_profile(request):
 
             return response
     else:
-        forms = [form(instance=profile) for form in FORM_CLASSES]
+        forms = [form(instance=profile) for form in form_classes]
         userform = UserForm(instance=request.user)
 
     social = request.user.social_auth.all()
