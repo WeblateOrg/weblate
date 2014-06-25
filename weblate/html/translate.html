@@ -104,6 +104,47 @@
 </div>
 </form>
 
+
+{% with unit.suggestions as suggestions %}
+{% if suggestions %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
+  <div class="panel-body">
+
+{% for suggestion in suggestions %}
+<div class="form-group">
+<label>
+{% if suggestion.user %}
+{% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
+{% else %}
+{% trans "Suggested by anonymous user" %}
+{% endif %}
+</label>
+<div class="form-control translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</div>
+{% if unit.can_vote_suggestions %}
+{% blocktrans count count=suggestion.get_num_votes %}, {{ count }} vote{% plural %}, {{ count }} votes{% endblocktrans %}
+{% endif %}
+<div class="menu-float action-buttons">
+{% if unit.can_vote_suggestions and perms.trans.vote_suggestion %}
+<button type="submit" class="sug-upvote" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
+<button type="submit" class="sug-downvote" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
+{% endif %}
+{% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
+{% if perms.trans.accept_suggestion %}
+<button type="submit" class="sug-accept" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
+{% endif %}
+{% if perms.trans.delete_suggestion %}
+<button type="submit" class="sug-delete" name="delete" value="{{ suggestion.id }}">{% trans "Delete" %}</button>
+{% endif %}
+{% endif %}
+</div>
+</div>
+{% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endwith %}
+
 </div>
 
 <div class="col-sm-3 small">
@@ -186,44 +227,6 @@
 <a class="specialchar" title="{% trans "Insert new line" %}">↵</a>
 <a class="specialchar" title="{% trans "Insert horizontal ellipsis" %}">…</a>
 </span>
-{% with unit.suggestions as suggestions %}
-{% if suggestions %}
-<tr>
-<th class="labelscolumn">{% trans "Suggestions" %}</th>
-<td>
-<table class="suggestions">
-{% for suggestion in suggestions %}
-<tr><td class="translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</td></tr>
-<tr><td>
-{% if suggestion.user %}
-{% blocktrans with suggestion.get_user_display as user %}Suggested by {{ user }}{% endblocktrans %}
-{% else %}
-{% trans "Suggested by anonymous user" %}
-{% endif %}
-{% if unit.can_vote_suggestions %}
-{% blocktrans count count=suggestion.get_num_votes %}, {{ count }} vote{% plural %}, {{ count }} votes{% endblocktrans %}
-{% endif %}
-<div class="menu-float action-buttons">
-{% if unit.can_vote_suggestions and perms.trans.vote_suggestion %}
-<button type="submit" class="sug-upvote" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
-<button type="submit" class="sug-downvote" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
-{% endif %}
-{% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
-{% if perms.trans.accept_suggestion %}
-<button type="submit" class="sug-accept" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
-{% endif %}
-{% if perms.trans.delete_suggestion %}
-<button type="submit" class="sug-delete" name="delete" value="{{ suggestion.id }}">{% trans "Delete" %}</button>
-{% endif %}
-{% endif %}
-</div>
-</td>
-{% endfor %}
-</table>
-</td>
-</tr>
-{% endif %}
-{% endwith %}
 
 </table>
 
