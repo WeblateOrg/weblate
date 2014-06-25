@@ -76,6 +76,82 @@ def fmt_whitespace(value):
     return value
 
 
+@register.inclusion_tag('format-translation.html')
+def format_translation(value, language=None, diff=None, search_match=None, simple=False):
+    """
+    Nicely formats translation text possibly handling plurals or diff.
+    """
+    # Get language
+    if language is None:
+        language = Language.objects.get_default()
+
+    # Split plurals to separate strings
+    plurals = split_plural(value)
+
+    # Newline concatenator
+    newline = u'<span class="hlspace" title="{0}">↵</span><br />'.format(
+        _('New line')
+    )
+
+    # Split diff plurals
+    if diff is not None:
+        diff = split_plural(diff)
+        # Previous message did not have to be a plural
+        while len(diff) < len(plurals):
+            diff.append(diff[0])
+
+    # We will collect part for each plural
+    parts = []
+
+    for idx, value in enumerate(plurals):
+
+        # HTML escape
+        value = escape(force_unicode(value))
+
+        # Format diff if there is any
+        if diff is not None:
+            diffvalue = escape(force_unicode(diff[idx]))
+            value = html_diff(diffvalue, value)
+
+        # Format search term
+        if search_match is not None:
+            # Since the search ignored case, we need to highlight any
+            # combination of upper and lower case we find. This is too
+            # advanced for str.replace().
+            caseless = re.compile(re.escape(search_match), re.IGNORECASE)
+            for variation in re.findall(caseless, value):
+                value = re.sub(
+                    caseless,
+                    u'<span class="hlmatch">{0}</span>'.format(variation),
+                    value,
+                )
+
+        # Normalize newlines
+        value = NEWLINES_RE.sub('\n', value)
+
+        # Split string
+        paras = value.split('\n')
+
+        # Format whitespace in each paragraph
+        paras = [fmt_whitespace(p) for p in paras]
+
+        # Show label for plural (if there are any)
+        title = ''
+        if len(plurals) > 1:
+            title = language.get_plural_label(idx)
+
+        # Join paragraphs
+        content = mark_safe(newline.join(paras))
+
+        parts.append({'title': title, 'content': content})
+
+    return {
+        'simple': simple,
+        'items': parts,
+        'language': language,
+    }
+
+
 @register.filter
 @stringfilter
 def fmttranslation(value, language=None, diff=None, search_match=None):

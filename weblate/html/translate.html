@@ -54,19 +54,19 @@
     {% for unit in secondary %}
     <div class="form-group">
     <label>{{ unit.translation.language }}</label>
-    <div class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</div>
+    {% format_translation unit.target unit.translation.language %}
     </div>
     {% endfor %}
     {% endif %}
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    <div>{{ unit.previous_source|fmtsourcediff:unit }}</div>
+    {% format_translation unit.previous_source unit.language unit.target %}
     </div>
     {% endif %}
     <div class="form-group">
     <label>{% trans "Source" %}</label>
-    <div class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</div>
+    {% format_translation unit.source search_match=search_query %}
     </div>
     {{ form.as_div }}
   </div>
@@ -123,7 +123,7 @@
 {% trans "Anonymous user has suggested" %}
 {% endif %}
 </h4>
-<div class="translatetext">{{ suggestion.target|fmttranslationdiff:unit }}</div>
+{% format_translation suggestion.target unit.language unit.target %}
 {% if unit.can_vote_suggestions %}
 <p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}, {{ count }} vote{% plural %}, {{ count }} votes{% endblocktrans %}
@@ -177,7 +177,7 @@
     <th>{% trans "Context" %}</th>
     </tr>
     <tr>
-    <td>{{ unit.context|fmtsearchmatch:search_query }}</td>
+    <td>{% format_translation unit.context search_match=search_query simple=True %}</td>
     </tr>
     {% endif %}
     {% if unit.flags %}
