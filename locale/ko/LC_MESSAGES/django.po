@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-05-06 13:05+0200\n"
-"PO-Revision-Date: 2014-06-25 03:52+0200\n"
+"PO-Revision-Date: 2014-06-25 21:01+0200\n"
 "Last-Translator: ks k <kmshts@gmail.com>\n"
 "Language-Team: Korean <https://l10n.cihar.com/projects/weblate/master/ko/>\n"
 "Language: ko\n"
@@ -3095,6 +3095,7 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
+"지문 %(fingerprint)s (%(keytype)s),와 %(host)s에 대한 호스트 키를 추가,이 올바른지 확인하시기 바랍니다."
 
 #: weblate/trans/admin_views.py:324
 #, python-format
@@ -3156,7 +3157,7 @@ msgstr "안드로이드 문자열 자원"
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
-msgstr ""
+msgstr "이 방정식은 복수형이 주어진 갯수(N)를 기반으로하여 사용되는 식별합니다."
 
 #: weblate/trans/forms.py:102
 msgid "Plural equation"
@@ -3237,27 +3238,27 @@ msgstr "부분 문자열"
 
 #: weblate/trans/forms.py:303
 msgid "Search in source strings"
-msgstr ""
+msgstr "원본 문자열에서 검색"
 
 #: weblate/trans/forms.py:308
 msgid "Search in target strings"
-msgstr ""
+msgstr "대상 문자열에서 검색"
 
 #: weblate/trans/forms.py:313
 msgid "Search in context strings"
-msgstr ""
+msgstr "상황에 맞는 정보 문자열 검색"
 
 #: weblate/trans/forms.py:374
 msgid "Overwrite strings"
-msgstr ""
+msgstr "문자열 덮어씌기"
 
 #: weblate/trans/forms.py:379
 msgid "Replace inconsistent"
-msgstr ""
+msgstr "일관성없음 교체"
 
 #: weblate/trans/forms.py:384
 msgid "Subproject to use"
-msgstr ""
+msgstr "사용하기 위한 하위 프로젝트"
 
 #: weblate/trans/forms.py:403
 msgid "All subprojects"
@@ -3296,30 +3297,30 @@ msgstr "모든 프로젝트"
 #: weblate/trans/validators.py:71
 #, python-format
 msgid "Bad format string (%s)"
-msgstr ""
+msgstr "잘못된 형식의 문자열 (%s)"
 
 #: weblate/trans/validators.py:80
 msgid "File mask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "파일 마스크는 언어 자리표시자로 *를 포함하지 않습니다!"
 
 #: weblate/trans/validators.py:92
 msgid "Can not link to linked repository!"
-msgstr ""
+msgstr "연결된 저장소로 연결할 수 없습니다!"
 
 #: weblate/trans/validators.py:96
 msgid "Invalid link to Weblate project, use weblate://project/subproject."
-msgstr ""
+msgstr "웹레이트 프로젝트로 연결이 잘못되었습니다, 사용법 weblate://프로젝트/하위프로젝트."
 
 #: weblate/trans/validators.py:108
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
-msgstr ""
+msgstr "모든 사용자가 그의 제안에 투표를 하였기때문에 값 1은 자동수락(autoaccept)를 허용하지 않습니다."
 
 #: weblate/trans/validators.py:122
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "잘못된 검색 플래그: \"%s\""
 
 #: weblate/trans/widgets.py:267
 #, python-format
@@ -3327,6 +3328,8 @@ msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"%(languages)d개 언어로 %(count)d 문자열을 번역↵\n"
+"%(percent)d%% 완료됨, 우리가 개선하는 데 도와주세요!"
 
 #. Translators: please use your language name instead of English
 #: weblate/trans/widgets.py:271
@@ -3335,6 +3338,8 @@ msgid ""
 "translating %(count)d strings into English\n"
 "%(percent)d%% complete, help us improve!"
 msgstr ""
+"영어로 %(count)d 개의 문자열이 번역중입니다.\n"
+"%(percent)d%% 완료됨, 우리가 향상할 수 있도록 도와주세요!"
 
 #: weblate/trans/widgets.py:292
 #, python-format
@@ -3342,6 +3347,8 @@ msgid ""
 "translation\n"
 "%(percent)d%% done"
 msgstr ""
+"번역\n"
+"%(percent)d%% 완료됨"
 
 #. Translators: please use your language name instead of English
 #: weblate/trans/widgets.py:294
@@ -3350,6 +3357,8 @@ msgid ""
 "English translation\n"
 "%(percent)d%% done"
 msgstr ""
+"영어번역\n"
+"%(percent)d%% 완료됨"
 
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
@@ -3369,81 +3378,81 @@ msgstr "앞쪽 뒤쪽 공백"
 
 #: weblate/trans/checks/chars.py:30
 msgid "Starting newline"
-msgstr "새로운줄 시작"
+msgstr "앞쪽 새로운 줄"
 
 #: weblate/trans/checks/chars.py:31
 msgid "Source and translation do not both start with a newline"
-msgstr ""
+msgstr "원본과 번역 둘다 새로운 줄로 시작하지 않습니다"
 
 #: weblate/trans/checks/chars.py:42
 msgid "Trailing newline"
-msgstr ""
+msgstr "뒤쪽 새로운 줄"
 
 #: weblate/trans/checks/chars.py:43
 msgid "Source and translation do not both end with a newline"
-msgstr ""
+msgstr "원본과 번역 둘다 새로운 줄로 끝나지 않습니다"
 
 #: weblate/trans/checks/chars.py:54
 msgid "Starting spaces"
-msgstr ""
+msgstr "앞쪽 공백"
 
 #: weblate/trans/checks/chars.py:56
 msgid "Source and translation do not both start with same number of spaces"
-msgstr ""
+msgstr "원본과 번역 둘다 같은 공간수로 시작하지 않습니다"
 
 #: weblate/trans/checks/chars.py:84
 msgid "Trailing space"
-msgstr ""
+msgstr "뒤쪽 공백"
 
 #: weblate/trans/checks/chars.py:85
 msgid "Source and translation do not both end with a space"
-msgstr ""
+msgstr "원본과 번역 둘다 공백으로 끝나지 않습니다"
 
 #: weblate/trans/checks/chars.py:117
 msgid "Trailing stop"
-msgstr ""
+msgstr "뒤쪽 중단"
 
 #: weblate/trans/checks/chars.py:118
 msgid "Source and translation do not both end with a full stop"
-msgstr ""
+msgstr "원본과 번역 둘다 마침표로 끝나지 않습니다"
 
 #: weblate/trans/checks/chars.py:155
 msgid "Trailing colon"
-msgstr ""
+msgstr "뒤쪽 콜론"
 
 #: weblate/trans/checks/chars.py:157
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
-msgstr ""
+msgstr "원본과 번역 둘다 콜론으로 끝나지 않았거나 콜론이 제대로 띄어지지 않았습니다"
 
 #: weblate/trans/checks/chars.py:203
 msgid "Trailing question"
-msgstr ""
+msgstr "뒤쪽 물음표"
 
 #: weblate/trans/checks/chars.py:205
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
-msgstr ""
+msgstr "원본과 번역 둘다 물음표로 끝나지 않거나 제대로 띄어지지 않았습니다"
 
 #: weblate/trans/checks/chars.py:246
 msgid "Trailing exclamation"
-msgstr ""
+msgstr "뒤쪽 느낌표"
 
 #: weblate/trans/checks/chars.py:248
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
-msgstr ""
+msgstr "원본과 번역 둘다 물음표로 끝나지 않거나 제대로 띄어지지 않았습니다"
 
 #: weblate/trans/checks/chars.py:283
 msgid "Source and translation do not both end with an ellipsis"
-msgstr ""
+msgstr "소스와 번역 둘다 말 줄임표로 끝나지 않습니다."
 
 #: weblate/trans/checks/chars.py:300
 msgid "Mismatched \\n"
-msgstr ""
+msgstr "일치하지 않음 \\n"
 
 #: weblate/trans/checks/chars.py:301
 msgid "Number of \\n in translation does not match source"
@@ -3492,7 +3501,7 @@ msgstr ""
 
 #: weblate/trans/checks/markup.py:47
 msgid "Mismatched BBcode"
-msgstr ""
+msgstr "일치된 BB코드"
 
 #: weblate/trans/checks/markup.py:48
 msgid "BBcode in translation does not match source"
@@ -3500,7 +3509,7 @@ msgstr ""
 
 #: weblate/trans/checks/markup.py:76
 msgid "XML tags mismatch"
-msgstr ""
+msgstr "XML 태그 불일치"
 
 #: weblate/trans/checks/markup.py:77
 msgid "XML tags in translation do not match source"
@@ -3524,7 +3533,7 @@ msgstr ""
 
 #: weblate/trans/checks/source.py:50
 msgid "Ellipsis"
-msgstr ""
+msgstr "말 줄임표"
 
 #: weblate/trans/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
