@@ -150,19 +150,11 @@
 {% endif %}
 </td>
 </tr>
-<tr>
-<th class="labelscolumn">{% if unit.is_plural %}{% trans "Translations" %}{% else %}{% trans "Translation" %}{% endif %}</th>
-<td class="translator">
-{{ form.checksum }}
-{{ form.target }}
-<br />
-{{ form.fuzzy }}<label for="id_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
 <span class="specialchars">{% trans "Special characters:" %}
 <a class="specialchar" title="{% trans "Insert tab character" %}">→</a>
 <a class="specialchar" title="{% trans "Insert new line" %}">↵</a>
 <a class="specialchar" title="{% trans "Insert horizontal ellipsis" %}">…</a>
 </span>
-</td></tr>
 {% with unit.active_checks as checks %}
 {% if checks %}
 <tr>
