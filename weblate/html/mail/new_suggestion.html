@@ -20,7 +20,7 @@
 </th>
 
 <td>
-{{ unit.source|fmttranslation }}
+{% format_translation unit.source %}
 </td>
 </tr>
 
@@ -30,7 +30,7 @@
 </th>
 
 <td>
-{{ suggestion.target|fmttranslation:unit.translation.language }}
+{% format_translation suggestion.target unit.translation.language %}
 </td>
 </tr>
 
@@ -41,7 +41,7 @@
 </th>
 
 <td>
-{{ suggestion.target|fmttranslationdiff:unit }}
+{% format_translation suggestion.target unit.translation.language unit.target %}
 </td>
 </tr>
 {% endif %}

@@ -20,7 +20,7 @@
 </th>
 
 <td>
-{{ unit.source|fmttranslation }}
+{% format_translation unit.source %}
 </td>
 </tr>
 
@@ -30,7 +30,7 @@
 </th>
 
 <td>
-{{ unit.target|fmttranslation:unit.translation.language }}
+{% format_translation unit.target unit.translation.language %}
 </td>
 </tr>
 
@@ -40,7 +40,7 @@
 </th>
 
 <td>
-{{ unit.target|fmttranslationdiff:oldunit }}
+{% format_translation unit.target unit.translation.language oldunit.target %}
 </td>
 </tr>
 </table>
