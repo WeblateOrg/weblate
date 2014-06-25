@@ -320,6 +320,12 @@ class Check(models.Model, RelatedUnitMixin):
         except KeyError:
             return self.check
 
+    def get_severity(self):
+        try:
+            return CHECKS[self.check].severity
+        except KeyError:
+            return 'info'
+
     def get_doc_url(self):
         try:
             return CHECKS[self.check].get_doc_url()
