@@ -125,7 +125,7 @@ def user_profile(request):
 
     profile = request.user.profile
 
-    FORM_CLASSES = [
+    form_classes = [
         ProfileForm,
         SubscriptionForm,
         SubscriptionSettingsForm,
@@ -133,7 +133,7 @@ def user_profile(request):
 
     if request.method == 'POST':
         # Parse POST params
-        forms = [form(request.POST, instance=profile) for form in FORM_CLASSES]
+        forms = [form(request.POST, instance=profile) for form in form_classes]
         userform = UserForm(request.POST, instance=request.user)
 
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
