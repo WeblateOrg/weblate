@@ -61,10 +61,14 @@ class PluralTextarea(forms.Textarea):
 
         # Handle single item translation
         if len(value) == 1:
-            return super(PluralTextarea, self).render(
-                name,
-                escape_newline(value[0]),
-                attrs
+            return u'<label for="{0}">{1}</label>{2}'.format(
+                attrs['id'],
+                ugettext('Translation'),
+                super(PluralTextarea, self).render(
+                    name,
+                    escape_newline(value[0]),
+                    attrs
+                )
             )
 
         # Okay we have more strings
@@ -88,7 +92,7 @@ class PluralTextarea(forms.Textarea):
             # Label for plural
             label = lang.get_plural_label(idx)
             ret.append(
-                '<label class="plurallabel" for="%s">%s</label><br />%s' % (
+                u'<label class="plurallabel" for="{0}">{1}</label><br />{2}'.format(
                     attrs['id'],
                     label,
                     textarea
@@ -104,7 +108,7 @@ class PluralTextarea(forms.Textarea):
             ugettext('Plural equation'),
             lang.pluralequation
         )
-        pluralmsg = '<br /><span class="pluralequation">%s</span>' % pluralinfo
+        pluralmsg = u'<p class="help-block">{0}</p>'.format(pluralinfo)
 
         # Join output
         return mark_safe('<br />'.join(ret) + pluralmsg)
@@ -185,7 +189,7 @@ class TranslationForm(ChecksumForm):
     '''
     target = PluralField(
         required=False,
-        label=_('Translation'),
+        label='',
     )
     fuzzy = forms.BooleanField(
         label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'),
