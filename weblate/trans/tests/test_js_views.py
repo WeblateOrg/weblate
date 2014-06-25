@@ -90,13 +90,6 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_get_other(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse('js-other', kwargs={'unit_id': unit.id}),
-        )
-        self.assertContains(response, unit.checksum)
-
     def test_get_unit_changes(self):
         unit = self.get_unit()
         response = self.client.get(
