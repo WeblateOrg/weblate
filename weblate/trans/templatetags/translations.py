@@ -249,15 +249,6 @@ def fmtsearchmatch(value, term):
     return fmttranslation(value, search_match=term)
 
 
-@register.filter
-@stringfilter
-def fmtsourcediff(value, other):
-    '''
-    Formats diff between two sources.
-    '''
-    return fmttranslation(other.source, diff=value)
-
-
 @register.simple_tag
 def check_name(check):
     '''
