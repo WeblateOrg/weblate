@@ -27,8 +27,6 @@
 </div>
 {% endif %}
 
-<h2>{% trans "Translate" %}</h2>
-
 <span class="navi-toolbar ui-widget-header ui-corner-all">
 <span id="navi">
 <a id="button-first" href="{{ first_unit_url }}">{% trans "First" %}</a>
@@ -42,6 +40,41 @@
 {% blocktrans %}Current filter: {{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
 {% endif %}
 </span>
+
+<div class="row">
+<div class="col-sm-10">
+</div>
+
+<div class="col-sm-2 small">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Source information" %}</h4></div>
+  <div class="panel-body">
+  <table class="table">
+    {% include "unit-details.html" %}
+    <tr>
+    <th>{% trans "String priority" %}</th>
+    </tr>
+    <tr>
+    <td>{{ unit.source_info.get_priority_display }}</td>
+    </tr>
+    {% with unit.active_source_checks as checks %}
+    {% if checks %}
+    <tr>
+    <th>{% trans "Failing checks" %}</th>
+    </tr>
+    <tr>
+    <td>{% show_checks checks user %}</td>
+    </tr>
+    {% endif %}
+    {% endwith %}
+  </table>
+  </div>
+</div>
+</div>
+
+</div>
+
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form">
 <a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
@@ -148,7 +181,6 @@
 </tr>
 {% endif %}
 {% endwith %}
-{% include "unit-details.html" %}
 {% if unit.flags %}
 <tr>
 <th class="labelscolumn">{% trans "Flags" %}</th>
@@ -271,13 +303,6 @@
     </table>
     </div>
     <div id="tab-source">
-
-    {% with unit.active_source_checks as checks %}
-    {% if checks %}
-    <h4>{% trans "Failing checks" %}</h4>
-    {% show_checks checks user %}
-    {% endif %}
-    {% endwith %}
 
     <h4>{% trans "User comments" %}</h4>
     <p>{% trans "You can share comments about source string for this translation with other translators and developers." %}</p>
