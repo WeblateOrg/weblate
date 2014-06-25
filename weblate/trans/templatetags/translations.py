@@ -233,15 +233,6 @@ def fmttranslation(value, language=None, diff=None, search_match=None):
 
 @register.filter
 @stringfilter
-def fmttranslationdiff(value, other):
-    '''
-    Formats diff between two translations.
-    '''
-    return fmttranslation(value, other.translation.language, other.target)
-
-
-@register.filter
-@stringfilter
 def fmtsearchmatch(value, term):
     '''
     Formats terms matching a search query.
