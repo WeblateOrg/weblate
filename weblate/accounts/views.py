@@ -125,24 +125,17 @@ def user_profile(request):
 
     profile = request.user.profile
 
+    FORM_CLASSES = [
+        ProfileForm,
+        SubscriptionForm,
+        SubscriptionSettingsForm,
+    ]
+
     if request.method == 'POST':
-        # Read params
-        form = ProfileForm(
-            request.POST,
-            instance=profile
-        )
-        subscriptionform = SubscriptionForm(
-            request.POST,
-            instance=profile
-        )
-        subscriptionsettingsform = SubscriptionSettingsForm(
-            request.POST,
-            instance=profile
-        )
-        userform = UserForm(
-            request.POST,
-            instance=request.user
-        )
+        # Parse POST params
+        forms = [form(request.POST, instance=profile) for form in FORM_CLASSES]
+        userform = UserForm(request.POST, instance=request.user)
+
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
             messages.warning(
                 request,
@@ -150,14 +143,12 @@ def user_profile(request):
             )
             return redirect('profile')
 
-        if (form.is_valid()
-                and userform.is_valid()
-                and subscriptionsettingsform.is_valid()
-                and subscriptionform.is_valid()):
+        is_valid = [form.is_valid() for form in forms]
+
+        if min(is_valid) and userform.is_valid():
             # Save changes
-            form.save()
-            subscriptionsettingsform.save()
-            subscriptionform.save()
+            for form in forms:
+                form.save()
             userform.save()
 
             # Change language
@@ -175,18 +166,8 @@ def user_profile(request):
 
             return response
     else:
-        form = ProfileForm(
-            instance=profile
-        )
-        subscriptionform = SubscriptionForm(
-            instance=profile
-        )
-        subscriptionsettingsform = SubscriptionSettingsForm(
-            instance=profile
-        )
-        userform = UserForm(
-            instance=request.user
-        )
+        forms = [form(instance=profile) for form in FORM_CLASSES]
+        userform = UserForm(instance=request.user)
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
@@ -205,10 +186,10 @@ def user_profile(request):
         request,
         'accounts/profile.html',
         {
-            'form': form,
+            'form': forms[0],
+            'subscriptionform': forms[1],
+            'subscriptionsettingsform': forms[2],
             'userform': userform,
-            'subscriptionform': subscriptionform,
-            'subscriptionsettingsform': subscriptionsettingsform,
             'profile': profile,
             'title': _('User profile'),
             'licenses': license_projects,
