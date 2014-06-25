@@ -48,6 +48,24 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translate" %}</h4></div>
   <div class="panel-body">
+    {% if secondary %}
+    {% for unit in secondary %}
+    <div class="form-group">
+    <label>{{ unit.translation.language }}</label>
+    <div class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% if unit.previous_source and unit.fuzzy %}
+    <div class="form-group">
+    <label>{% trans "Source change" %}</label>
+    <div>{{ unit.previous_source|fmtsourcediff:unit }}</div>
+    </div>
+    {% endif %}
+    <div class="form-group">
+    <label>{% trans "Source" %}</label>
+    <div class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</div>
+    </div>
     {{ form.as_div }}
   </div>
   <div class="panel-footer">
@@ -119,24 +137,6 @@
 {% csrf_token %}
 {% if antispam %}<div id="s_content">{{ antispam }}</div>{% endif %}
 <table>
-{% if secondary %}
-{% for unit in secondary %}
-<tr>
-<th class="source labelscolumn">{{ unit.translation.language }}</th>
-<td class="translatetext">{{ unit.target|fmttranslation:unit.translation.language }}</td>
-</tr>
-{% endfor %}
-{% endif %}
-{% if unit.previous_source and unit.fuzzy %}
-<tr>
-<th class="labelscolumn">{% trans "Source change" %}</th>
-<td>{{ unit.previous_source|fmtsourcediff:unit }}</td>
-</tr>
-{% endif %}
-<tr>
-<th class="source labelscolumn">{% trans "Source" %}</th>
-<td class="translatetext">{{ unit.source|fmtsearchmatch:search_query }}</td>
-</tr>
 <tr>
 <td class="labelscolumn"></td>
 <td class="toolbar">
