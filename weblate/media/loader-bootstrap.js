@@ -1,3 +1,15 @@
+
+function init_editor(editors) {
+    editors.autosize();
+}
+
+function text_change(e) {
+    if (e.key && e.key == 'Tab') {
+        return;
+    }
+    $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
+}
+
 $(function () {
     /* AJAX loading of tabs/pills */
     $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
@@ -83,4 +95,11 @@ $(function () {
             $('.nav-tabs a:first').tab('show');
         }
     });
+
+    var translation_editor = $('.translation-editor');
+    if (translation_editor.length > 0) {
+        $(document).on('change', '.translation-editor', text_change);
+        $(document).on('keypress', '.translation-editor', text_change);
+        init_editor(translation_editor);
+    }
 });
