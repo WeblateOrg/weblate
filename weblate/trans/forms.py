@@ -32,6 +32,18 @@ from weblate.bootstrap_forms import BootstrapForm
 from urllib import urlencode
 import weblate
 
+ICON_TEMPLATE = u'<span class="glyphicon glyphicon-{0}"></span> {1}'
+BUTTON_TEMPLATE = u'<button class="btn btn-xs btn-default {0}" title="{1}">{2}</button>'
+GROUP_TEMPLATE = u'<div class="btn-group">{0}</div>'
+TOOLBAR_TEMPLATE = u'<div class="btn-toolbar pull-right">{0}</div>'
+
+SPECIAL_CHARS = (u'→', u'↵', u'…')
+CHAR_NAMES = {
+    u'→': _('Insert tab character" %}'),
+    u'↵': _('Insert new line" %}'),
+    u'…': _('Insert horizontal ellipsis" %}'),
+}
+
 
 def escape_newline(value):
     '''
@@ -46,6 +58,42 @@ class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
     '''
+    def get_toolbar(self, language):
+        """
+        Returns toolbar HTML code.
+        """
+        groups = []
+        # Copy button
+        groups.append(
+            GROUP_TEMPLATE.format(
+                BUTTON_TEMPLATE.format(
+                    'copymt',
+                    ugettext('Fill in with source string'),
+                    ICON_TEMPLATE.format('transfer', ugettext('Copy'))
+                )
+            )
+        )
+
+        # Special chars
+        chars = []
+        for char in SPECIAL_CHARS:
+            if char in CHAR_NAMES:
+                name = CHAR_NAMES[char]
+            else:
+                name = ugettext('Insert character {0}').format(char)
+            chars.append(
+                BUTTON_TEMPLATE.format(
+                    'specialchar',
+                    name,
+                    char
+                )
+            )
+        groups.append(
+            GROUP_TEMPLATE.format('\n'.join(chars))
+        )
+
+        return TOOLBAR_TEMPLATE.format(u'\n'.join(groups))
+
     def render(self, name, value, attrs=None):
         '''
         Renders all textareas with correct plural labels.
@@ -58,6 +106,8 @@ class PluralTextarea(forms.Textarea):
         attrs['tabindex'] = tabindex
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
+
+        toolbar = self.get_toolbar(lang)
 
         # Okay we have more strings
         ret = []
@@ -83,7 +133,8 @@ class PluralTextarea(forms.Textarea):
             else:
                 label = lang.get_plural_label(idx)
             ret.append(
-                u'<label for="{0}">{1}</label>{2}'.format(
+                u'{0}<label for="{1}">{2}</label>{3}'.format(
+                    toolbar,
                     attrs['id'],
                     label,
                     textarea
