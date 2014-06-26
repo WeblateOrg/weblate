@@ -92,7 +92,7 @@ class PluralTextarea(forms.Textarea):
             # Label for plural
             label = lang.get_plural_label(idx)
             ret.append(
-                u'<label for="{0}">{1}</label><br />{2}'.format(
+                u'<label for="{0}">{1}</label>{2}'.format(
                     attrs['id'],
                     label,
                     textarea
