@@ -43,7 +43,7 @@ RADIO_TEMPLATE = u'''
 </label>
 '''
 GROUP_TEMPLATE = u'<div class="btn-group btn-group-xs" {0}>{1}</div>'
-TOOLBAR_TEMPLATE = u'<div class="btn-toolbar pull-right">{0}</div>'
+TOOLBAR_TEMPLATE = u'<div class="btn-toolbar pull-right editor-toolbar">{0}</div>'
 
 SPECIAL_CHARS = (u'→', u'↵', u'…')
 CHAR_NAMES = {
