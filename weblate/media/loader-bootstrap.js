@@ -1,3 +1,30 @@
+jQuery.fn.extend({
+    insertAtCaret: function (myValue) {
+        return this.each(function (i) {
+            if (document.selection) {
+                // For browsers like Internet Explorer
+                this.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                this.focus();
+            } else if (this.selectionStart || this.selectionStart == '0') {
+                //For browsers like Firefox and Webkit based
+                var startPos = this.selectionStart;
+                var endPos = this.selectionEnd;
+                var scrollTop = this.scrollTop;
+                this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos, this.value.length);
+                this.focus();
+                this.selectionStart = startPos + myValue.length;
+                this.selectionEnd = startPos + myValue.length;
+                this.scrollTop = scrollTop;
+            } else {
+                this.value += myValue;
+                this.focus();
+            }
+        });
+    }
+});
+
 function get_source_string(callback) {
     $('#loading').show();
     $.get($('#js-get').attr('href'), function (data) {
@@ -131,10 +158,10 @@ $(function () {
     });
 
     /* Copy source text */
-    $('.copy-text').click(function f(e) {
+    $('.copy-text').click(function (e) {
         var $this = $(this);
         get_source_string(function (data) {
-            $this.parents('.form-group').find('.translation-editor').val(data).change();
+            $this.parents('.form-group').find('.translation-editor').val(data).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', true);
         });
         e.preventDefault();
@@ -147,5 +174,20 @@ $(function () {
             'dir',
             $this.find('input').val()
         );
+    });
+
+    /* Special characters */
+    $('.specialchar').click(function (e) {
+        var $this = $(this);
+        var text = $this.text();
+        if (text == '\\t') {
+            text = '\t';
+        } else if (text == '→') {
+            text = '\t';
+        } else if (text == '↵') {
+            text = '\r';
+        }
+        $this.parents('.form-group').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
+        e.preventDefault();
     });
 });
