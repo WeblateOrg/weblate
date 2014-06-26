@@ -35,6 +35,10 @@
 {% endif %}
 </span>
 
+{% if perms.trans.save_translation %}
+<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
+{% endif %}
+
 <ul class="nav nav-pills">
 <li class="active"><a href="#translate" data-toggle="tab">{% trans "Translate" %}</a></li>
 {% if unit.suggestions %}
@@ -42,9 +46,6 @@
 {% endif %}
 {% if others %}
 <li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
-{% endif %}
-{% if perms.trans.save_translation %}
-<li class="pull-right"><a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default">{% trans "Zen" %}</a></li>
 {% endif %}
 </ul>
 
