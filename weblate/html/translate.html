@@ -41,9 +41,22 @@
 {% endif %}
 </span>
 
+<ul class="nav nav-pills">
+<li class="active"><a href="#translate" data-toggle="tab">{% trans "Translate" %}</a></li>
+{% if unit.suggestions %}
+<li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
+{% endif %}
+{% if others %}
+<li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
+{% endif %}
+</ul>
+
 <div class="row">
 <div class="col-sm-9">
 
+<div class="tab-content">
+
+<div class="tab-pane active" id="translate">
 <form action="{{ this_unit_url }}" method="post" class="translation-form">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translate" %}</h4></div>
@@ -103,17 +116,17 @@
   </div>
 </div>
 </form>
+</div>
 
-
-{% with unit.suggestions as suggestions %}
-{% if suggestions %}
+{% if unit.suggestions %}
+<div class="tab-pane" id="suggestions">
 <form action="{{ this_unit_url }}" method="post" class="translation-form">
     {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
   <div class="panel-body">
 
-{% for suggestion in suggestions %}
+{% for suggestion in unit.suggestions %}
 <h5><strong>
 {% if suggestion.user %}
 {% blocktrans with suggestion.get_user_display as user %}{{ user }} has suggested{% endblocktrans %}
@@ -146,10 +159,11 @@
   </div>
 </div>
 </form>
+</div>
 {% endif %}
-{% endwith %}
 
 {% if others %}
+<div class="tab-pane" id="others">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other translations" %}</h4></div>
   <div class="panel-body">
@@ -174,8 +188,10 @@
     </table>
   </div>
 </div>
+</div>
 {% endif %}
 
+</div>
 
 </div>
 
