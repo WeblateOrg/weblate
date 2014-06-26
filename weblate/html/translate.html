@@ -21,12 +21,6 @@
 {% include "show-lock.html" %}
 {% endwith %}
 
-{% if perms.trans.save_translation %}
-<div class="menu-float">
-<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" class="button" title="{% trans "Edit in Zen mode" %} (experimental)">{% trans "Zen" %}</a>
-</div>
-{% endif %}
-
 <span class="navi-toolbar ui-widget-header ui-corner-all">
 <span id="navi">
 <a id="button-first" href="{{ first_unit_url }}">{% trans "First" %}</a>
@@ -48,6 +42,9 @@
 {% endif %}
 {% if others %}
 <li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
+{% endif %}
+{% if perms.trans.save_translation %}
+<li class="pull-right"><a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default">{% trans "Zen" %}</a></li>
 {% endif %}
 </ul>
 
