@@ -113,16 +113,14 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
   <div class="panel-body">
 
-<div class="list-group">
 {% for suggestion in suggestions %}
-<div class="list-group-item">
-<h4 class="list-group-item-heading">
+<h5><strong>
 {% if suggestion.user %}
 {% blocktrans with suggestion.get_user_display as user %}{{ user }} has suggested{% endblocktrans %}
 {% else %}
 {% trans "Anonymous user has suggested" %}
 {% endif %}
-</h4>
+</strong></h5>
 {% format_translation suggestion.target unit.language unit.target %}
 {% if unit.can_vote_suggestions %}
 <p class="help-block">
@@ -144,9 +142,7 @@
 {% endif %}
 </div>
 <div class="clearfix"></div>
-</div>
 {% endfor %}
-</div>
   </div>
 </div>
 </form>
