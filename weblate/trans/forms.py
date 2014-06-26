@@ -93,7 +93,7 @@ class PluralTextarea(forms.Textarea):
         # Show plural equation for more strings
         pluralmsg = ''
         if len(value) > 1:
-            pluralinfo = '<abbr title="%s">%s</abbr>: %s' % (
+            pluralinfo = u'<abbr title="{0}">{1}</abbr>: {2}'.format(
                 ugettext(
                     'This equation identifies which plural form '
                     'will be used based on given count (n).'
