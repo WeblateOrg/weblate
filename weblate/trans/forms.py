@@ -59,18 +59,6 @@ class PluralTextarea(forms.Textarea):
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
 
-        # Handle single item translation
-        if len(value) == 1:
-            return u'<label for="{0}">{1}</label>{2}'.format(
-                attrs['id'],
-                ugettext('Translation'),
-                super(PluralTextarea, self).render(
-                    name,
-                    escape_newline(value[0]),
-                    attrs
-                )
-            )
-
         # Okay we have more strings
         ret = []
         orig_id = attrs['id']
@@ -90,7 +78,10 @@ class PluralTextarea(forms.Textarea):
                 attrs
             )
             # Label for plural
-            label = lang.get_plural_label(idx)
+            if len(value) == 1:
+                label = ugettext('Translation')
+            else:
+                label = lang.get_plural_label(idx)
             ret.append(
                 u'<label for="{0}">{1}</label>{2}'.format(
                     attrs['id'],
@@ -100,18 +91,20 @@ class PluralTextarea(forms.Textarea):
             )
 
         # Show plural equation for more strings
-        pluralinfo = '<abbr title="%s">%s</abbr>: %s' % (
-            ugettext(
-                'This equation identifies which plural form '
-                'will be used based on given count (n).'
-            ),
-            ugettext('Plural equation'),
-            lang.pluralequation
-        )
-        pluralmsg = u'<p class="help-block">{0}</p>'.format(pluralinfo)
+        pluralmsg = ''
+        if len(value) > 1:
+            pluralinfo = '<abbr title="%s">%s</abbr>: %s' % (
+                ugettext(
+                    'This equation identifies which plural form '
+                    'will be used based on given count (n).'
+                ),
+                ugettext('Plural equation'),
+                lang.pluralequation
+            )
+            pluralmsg = u'<p class="help-block">{0}</p>'.format(pluralinfo)
 
         # Join output
-        return mark_safe('<br />'.join(ret) + pluralmsg)
+        return mark_safe(''.join(ret) + pluralmsg)
 
     def value_from_datadict(self, data, files, name):
         '''
