@@ -213,7 +213,7 @@
   <div class="panel-body">N/A
   </div>
   <div class="panel-footer">
-    <a href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=translation.language.code %}" class="btn btn-default">{% trans "Manage glossary" %}</a>
+    <a href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" class="btn btn-default">{% trans "Manage glossary" %}</a>
   </div>
 </div>
 
