@@ -26,10 +26,8 @@ jQuery.fn.extend({
 });
 
 function get_source_string(callback) {
-    $('#loading').show();
     $.get($('#js-get').attr('href'), function (data) {
         callback(data);
-        $('#loading').hide();
     });
 }
 
@@ -160,9 +158,11 @@ $(function () {
     /* Copy source text */
     $('.copy-text').click(function (e) {
         var $this = $(this);
+        $this.button('loading');
         get_source_string(function (data) {
             $this.parents('.form-group').find('.translation-editor').val(data).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', true);
+            $this.button('reset');
         });
         e.preventDefault();
     });

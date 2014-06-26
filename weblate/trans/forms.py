@@ -33,7 +33,7 @@ from urllib import urlencode
 import weblate
 
 ICON_TEMPLATE = u'<span class="glyphicon glyphicon-{0}"></span> {1}'
-BUTTON_TEMPLATE = u'<button class="btn btn-default {0}" title="{1}">{2}</button>'
+BUTTON_TEMPLATE = u'<button class="btn btn-default {0}" title="{1}" {2}>{3}</button>'
 RADIO_TEMPLATE= u'<label class="btn btn-default {0}" title="{1}"><input type="radio" name="{2}" value="{3}" {4}/>{5}</label>'
 GROUP_TEMPLATE = u'<div class="btn-group btn-group-xs" {0}>{1}</div>'
 TOOLBAR_TEMPLATE = u'<div class="btn-toolbar pull-right">{0}</div>'
@@ -71,6 +71,7 @@ class PluralTextarea(forms.Textarea):
                 BUTTON_TEMPLATE.format(
                     'copy-text',
                     ugettext('Fill in with source string'),
+                    u'data-loading-text="{0}"'.format(ugettext(u'Loading…')),
                     ICON_TEMPLATE.format('transfer', ugettext('Copy'))
                 )
             )
@@ -87,6 +88,7 @@ class PluralTextarea(forms.Textarea):
                 BUTTON_TEMPLATE.format(
                     'specialchar',
                     name,
+                    '',
                     char
                 )
             )
