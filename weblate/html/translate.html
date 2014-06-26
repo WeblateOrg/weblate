@@ -157,7 +157,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Other translations" %}</h4></div>
   <div class="panel-body">
-<table class="table">
+<table class="table table-condensed">
     <thead>
     <tr><th>{% trans "Resource" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th><th></th></tr>
     </thead>
@@ -169,7 +169,7 @@
     <td>{{ item.get_state_flags }}</td>
     <td>
     {% if perms.trans.save_translation %}
-    <a class="mergebutton small-button" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>
+    <a class="mergebutton small-button btn btn-default" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>
     {% endif %}
     </td>
     </tr>
