@@ -137,6 +137,7 @@ class PluralField(forms.CharField):
     string.
     '''
     def __init__(self, max_length=None, min_length=None, *args, **kwargs):
+        kwargs['label'] = ''
         super(PluralField, self).__init__(
             *args,
             widget=PluralTextarea,
@@ -189,7 +190,6 @@ class TranslationForm(ChecksumForm):
     '''
     target = PluralField(
         required=False,
-        label='',
     )
     fuzzy = forms.BooleanField(
         label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'),
