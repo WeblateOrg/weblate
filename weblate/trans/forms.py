@@ -33,8 +33,15 @@ from urllib import urlencode
 import weblate
 
 ICON_TEMPLATE = u'<span class="glyphicon glyphicon-{0}"></span> {1}'
-BUTTON_TEMPLATE = u'<button class="btn btn-default {0}" title="{1}" {2}>{3}</button>'
-RADIO_TEMPLATE= u'<label class="btn btn-default {0}" title="{1}"><input type="radio" name="{2}" value="{3}" {4}/>{5}</label>'
+BUTTON_TEMPLATE = u'''
+<button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
+'''
+RADIO_TEMPLATE = u'''
+<label class="btn btn-default {0}" title="{1}">
+<input type="radio" name="{2}" value="{3}" {4}/>
+{5}
+</label>
+'''
 GROUP_TEMPLATE = u'<div class="btn-group btn-group-xs" {0}>{1}</div>'
 TOOLBAR_TEMPLATE = u'<div class="btn-toolbar pull-right">{0}</div>'
 
@@ -118,7 +125,10 @@ class PluralTextarea(forms.Textarea):
                 ),
             ]
             groups.append(
-                GROUP_TEMPLATE.format('data-toggle="buttons"', u'\n'.join(rtl_switch))
+                GROUP_TEMPLATE.format(
+                    'data-toggle="buttons"',
+                    u'\n'.join(rtl_switch)
+                )
             )
 
         return TOOLBAR_TEMPLATE.format(u'\n'.join(groups))
@@ -271,7 +281,9 @@ class TranslationForm(ChecksumForm):
             kwargs['initial'] = {
                 'checksum': unit.checksum,
                 'target': (
-                    unit.translation.language, unit.get_target_plurals(), unit.checksum
+                    unit.translation.language,
+                    unit.get_target_plurals(),
+                    unit.checksum
                 ),
                 'fuzzy': unit.fuzzy,
             }
