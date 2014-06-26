@@ -89,8 +89,33 @@ class PluralTextarea(forms.Textarea):
                 )
             )
         groups.append(
-            GROUP_TEMPLATE.format('\n'.join(chars))
+            GROUP_TEMPLATE.format('', u'\n'.join(chars))
         )
+
+        # RTL/LTR switch
+        if language.direction == 'rtl':
+            rtl_name = 'rtl-{0}'.format(fieldname)
+            rtl_switch = [
+                RADIO_TEMPLATE.format(
+                    'direction-rtl active',
+                    ugettext('Toggle text direction'),
+                    rtl_name,
+                    'rtl',
+                    'checked="checked"',
+                    'RTL',
+                ),
+                RADIO_TEMPLATE.format(
+                    'direction-ltr',
+                    ugettext('Toggle text direction'),
+                    rtl_name,
+                    'ltr',
+                    '',
+                    'LTR'
+                ),
+            ]
+            groups.append(
+                GROUP_TEMPLATE.format('data-toggle="buttons"', u'\n'.join(rtl_switch))
+            )
 
         return TOOLBAR_TEMPLATE.format(u'\n'.join(groups))
 
@@ -98,7 +123,7 @@ class PluralTextarea(forms.Textarea):
         '''
         Renders all textareas with correct plural labels.
         '''
-        lang, value = value
+        lang, value, checksum = value
         tabindex = self.attrs['tabindex']
 
         # Need to add extra class
@@ -107,19 +132,15 @@ class PluralTextarea(forms.Textarea):
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
 
-        toolbar = self.get_toolbar(lang)
-
         # Okay we have more strings
         ret = []
-        orig_id = attrs['id']
+        base_id = 'id_{0}'.format(checksum)
         for idx, val in enumerate(value):
             # Generate ID
-            if idx > 0:
-                fieldname = '%s_%d' % (name, idx)
-                attrs['id'] = '%s_%d' % (orig_id, idx)
-                attrs['tabindex'] = tabindex + idx
-            else:
-                fieldname = name
+            fieldname = '{0}_{1}'.format(name, idx)
+            fieldid = '{0}_{1}'.format(base_id, idx)
+            attrs['id'] = fieldid
+            attrs['tabindex'] = tabindex + idx
 
             # Render textare
             textarea = super(PluralTextarea, self).render(
@@ -246,7 +267,7 @@ class TranslationForm(ChecksumForm):
             kwargs['initial'] = {
                 'checksum': unit.checksum,
                 'target': (
-                    unit.translation.language, unit.get_target_plurals()
+                    unit.translation.language, unit.get_target_plurals(), unit.checksum
                 ),
                 'fuzzy': unit.fuzzy,
             }
