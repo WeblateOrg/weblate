@@ -139,4 +139,13 @@ $(function () {
         });
         e.preventDefault();
     });
+
+    /* Direction toggling */
+    $('.direction-toggle').change(function (e) {
+        var $this = $(this);
+        $this.parents('.form-group').find('.translation-editor').attr(
+            'dir',
+            $this.find('input').val()
+        );
+    });
 });
