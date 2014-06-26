@@ -1,3 +1,10 @@
+function get_source_string(callback) {
+    $('#loading').show();
+    $.get($('#js-get').attr('href'), function (data) {
+        callback(data);
+        $('#loading').hide();
+    });
+}
 
 function init_editor(editors) {
     editors.autosize();
@@ -123,4 +130,13 @@ $(function () {
         $this.tooltip('destroy');
     });
 
+    /* Copy source text */
+    $('.copy-text').click(function f(e) {
+        var $this = $(this);
+        get_source_string(function (data) {
+            $this.parents('.form-group').find('.translation-editor').val(data).change();
+            $('#id_fuzzy').prop('checked', true);
+        });
+        e.preventDefault();
+    });
 });

@@ -69,7 +69,7 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE.format(
                 '',
                 BUTTON_TEMPLATE.format(
-                    'copymt',
+                    'copy-text',
                     ugettext('Fill in with source string'),
                     ICON_TEMPLATE.format('transfer', ugettext('Copy'))
                 )
@@ -99,7 +99,7 @@ class PluralTextarea(forms.Textarea):
             rtl_name = 'rtl-{0}'.format(fieldname)
             rtl_switch = [
                 RADIO_TEMPLATE.format(
-                    'direction-rtl active',
+                    'direction-toggle active',
                     ugettext('Toggle text direction'),
                     rtl_name,
                     'rtl',
@@ -107,7 +107,7 @@ class PluralTextarea(forms.Textarea):
                     'RTL',
                 ),
                 RADIO_TEMPLATE.format(
-                    'direction-ltr',
+                    'direction-toggle',
                     ugettext('Toggle text direction'),
                     rtl_name,
                     'ltr',
