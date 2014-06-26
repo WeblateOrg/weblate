@@ -33,8 +33,9 @@ from urllib import urlencode
 import weblate
 
 ICON_TEMPLATE = u'<span class="glyphicon glyphicon-{0}"></span> {1}'
-BUTTON_TEMPLATE = u'<button class="btn btn-xs btn-default {0}" title="{1}">{2}</button>'
-GROUP_TEMPLATE = u'<div class="btn-group">{0}</div>'
+BUTTON_TEMPLATE = u'<button class="btn btn-default {0}" title="{1}">{2}</button>'
+RADIO_TEMPLATE= u'<label class="btn btn-default {0}" title="{1}"><input type="radio" name="{2}" value="{3}" {4}/>{5}</label>'
+GROUP_TEMPLATE = u'<div class="btn-group btn-group-xs" {0}>{1}</div>'
 TOOLBAR_TEMPLATE = u'<div class="btn-toolbar pull-right">{0}</div>'
 
 SPECIAL_CHARS = (u'→', u'↵', u'…')
@@ -58,7 +59,7 @@ class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
     '''
-    def get_toolbar(self, language):
+    def get_toolbar(self, language, fieldname):
         """
         Returns toolbar HTML code.
         """
@@ -66,6 +67,7 @@ class PluralTextarea(forms.Textarea):
         # Copy button
         groups.append(
             GROUP_TEMPLATE.format(
+                '',
                 BUTTON_TEMPLATE.format(
                     'copymt',
                     ugettext('Fill in with source string'),
@@ -155,8 +157,8 @@ class PluralTextarea(forms.Textarea):
                 label = lang.get_plural_label(idx)
             ret.append(
                 u'{0}<label for="{1}">{2}</label>{3}'.format(
-                    toolbar,
-                    attrs['id'],
+                    self.get_toolbar(lang, fieldid),
+                    fieldid,
                     label,
                     textarea
                 )
