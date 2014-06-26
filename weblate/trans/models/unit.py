@@ -339,6 +339,7 @@ class Unit(models.Model):
         super(Unit, self).__init__(*args, **kwargs)
         self._all_flags = None
         self._source_info = None
+        self._suggestions = None
         self.old_translated = self.translated
         self.old_fuzzy = self.fuzzy
 
@@ -718,11 +719,13 @@ class Unit(models.Model):
         Returns all suggestions for this unit.
         """
         from weblate.trans.models.unitdata import Suggestion
-        return Suggestion.objects.filter(
-            contentsum=self.contentsum,
-            project=self.translation.subproject.project,
-            language=self.translation.language
-        )
+        if self._suggestions is None:
+            self._suggestions = Suggestion.objects.filter(
+                contentsum=self.contentsum,
+                project=self.translation.subproject.project,
+                language=self.translation.language
+            )
+        return self._suggestions
 
     def cleanup_checks(self, source, target):
         """
