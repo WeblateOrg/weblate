@@ -129,15 +129,15 @@
 {% endif %}
 <div class="pull-right">
 {% if unit.can_vote_suggestions and perms.trans.vote_suggestion %}
-<button type="submit" class="sug-upvote btn btn-success" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
-<button type="submit" class="sug-downvote btn btn-danger" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
+<button type="submit" class="btn btn-success" name="upvote" value="{{ suggestion.id }}">{% trans "+1 vote" %}</button>
+<button type="submit" class="btn btn-danger" name="downvote" value="{{ suggestion.id }}">{% trans "-1 vote" %}</button>
 {% endif %}
 {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.accept_suggestion %}
-<button type="submit" class="sug-accept btn btn-success" name="accept" value="{{ suggestion.id }}">{% trans "Accept" %}</button>
+<button type="submit" class="btn btn-success btn-xs" name="accept" value="{{ suggestion.id }}"><span class="glyphicon glyphicon-ok"></span> {% trans "Accept" %}</button>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
-<button type="submit" class="sug-delete btn btn-danger" name="delete" value="{{ suggestion.id }}">{% trans "Delete" %}</button>
+<button type="submit" class="btn btn-danger btn-xs" name="delete" value="{{ suggestion.id }}"><span class="glyphicon glyphicon-remove"></span> {% trans "Delete" %}</button>
 {% endif %}
 {% endif %}
 </div>
