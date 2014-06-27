@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-05-06 13:05+0200\n"
-"PO-Revision-Date: 2014-06-25 22:17+0200\n"
+"PO-Revision-Date: 2014-06-27 06:41+0200\n"
 "Last-Translator: ks k <kmshts@gmail.com>\n"
 "Language-Team: Korean <https://l10n.cihar.com/projects/weblate/master/ko/>\n"
 "Language: ko\n"
@@ -1775,7 +1775,7 @@ msgstr "Git 저장소:"
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
-msgstr "Weblate 번역과 Git 저장소:"
+msgstr "Weblate 번역이 있는 Git 저장소:"
 
 #: weblate/html/translate.html:15
 #, fuzzy
@@ -3659,19 +3659,19 @@ msgstr "새로운 원본 문자열"
 #: weblate/trans/models/changes.py:202
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(user)s에 의해 %(translation)s에 %(time)s %(action)s"
 
 #: weblate/trans/models/project.py:44
 msgid "Use contact form"
-msgstr ""
+msgstr "연락 양식을 사용"
 
 #: weblate/trans/models/project.py:45
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "번역 지침 URL을 가리킴"
 
 #: weblate/trans/models/project.py:46
 msgid "Automatically add language file"
-msgstr ""
+msgstr "자동으로 언어 파일 추가"
 
 #: weblate/trans/models/project.py:47
 msgid "No adding of language"
@@ -3679,27 +3679,27 @@ msgstr "언어 추가하지 않음"
 
 #: weblate/trans/models/project.py:50
 msgid "Merge"
-msgstr ""
+msgstr "병합"
 
 #: weblate/trans/models/project.py:51
 msgid "Rebase"
-msgstr ""
+msgstr "리베이스"
 
 #: weblate/trans/models/project.py:81 weblate/trans/models/subproject.py:73
 msgid "Name to display"
-msgstr ""
+msgstr "표시될 이름"
 
 #: weblate/trans/models/project.py:84 weblate/trans/models/subproject.py:76
 msgid "URL slug"
-msgstr ""
+msgstr "URL 슬러그"
 
 #: weblate/trans/models/project.py:86 weblate/trans/models/subproject.py:78
 msgid "Name used in URLs and file names."
-msgstr ""
+msgstr "URL 및 파일 이름에 사용 되는 이름입니다."
 
 #: weblate/trans/models/project.py:90
 msgid "Main website of translated project."
-msgstr ""
+msgstr "번역된 프로젝트의 주요 웹사이트입니다."
 
 #: weblate/trans/models/project.py:93
 msgid "Mailing list"
@@ -3723,7 +3723,7 @@ msgstr "번역 라이센스"
 
 #: weblate/trans/models/project.py:107
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "번역에 사용하는 라이센스의 선택 사항 요약입니다."
 
 #: weblate/trans/models/project.py:111
 msgid "License URL"
@@ -3731,7 +3731,7 @@ msgstr "라이센스 URL"
 
 #: weblate/trans/models/project.py:113
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "라이센스 세부사항을 가진 옵션 URL입니다."
 
 #: weblate/trans/models/project.py:116
 msgid "New language"
@@ -3739,17 +3739,17 @@ msgstr "새로운 언어"
 
 #: weblate/trans/models/project.py:121
 msgid "How to handle requests for creating new languages."
-msgstr ""
+msgstr "새로운 언어를 만들기 위한 요청을 처리하는 방법."
 
 #: weblate/trans/models/project.py:125
 msgid "Merge style"
-msgstr ""
+msgstr "병합 스타일"
 
 #: weblate/trans/models/project.py:130
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
-msgstr ""
+msgstr "Weblate는 업스트림 저장소를 병합하거나 rebase를 바꾸어야 하는지를 정의 합니다."
 
 #: weblate/trans/models/project.py:137
 msgid "Commit message"
@@ -3759,7 +3759,7 @@ msgstr "전송 메세지"
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
-msgstr ""
+msgstr "다양한 정보의 형식 문자열을 사용할 수 있습니다, 자세한 내용은 설명서를 확인 하시기 바랍니다."
 
 #: weblate/trans/models/project.py:146
 msgid "Committer name"
@@ -3771,11 +3771,11 @@ msgstr "기여자 이메일"
 
 #: weblate/trans/models/project.py:156
 msgid "Push on commit"
-msgstr ""
+msgstr "커밋 밀기"
 
 #: weblate/trans/models/project.py:159
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "저장소는 모든 커밋 상류에 밀어질여야 할지 여부."
 
 #: weblate/trans/models/project.py:164
 msgid "Set Translation-Team header"
@@ -3784,22 +3784,22 @@ msgstr "번역팀 안내문 헤더 설정"
 #: weblate/trans/models/project.py:167
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
+msgstr "파일 헤더에서 번역-팀이 Weblate에 의해 갱신되어야 할지 여부."
 
 #: weblate/trans/models/project.py:173
 msgid "Enable ACL"
-msgstr ""
+msgstr "ACL 사용"
 
 #: weblate/trans/models/project.py:176
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
-msgstr ""
+msgstr "이 프로젝트에대한 ACL 사용여부를 알려면, 사용하기 전에 설명서를 확인하기 바랍니다."
 
 #: weblate/trans/models/project.py:215
 #, python-format
 msgid "You are not allowed to access project %s."
-msgstr ""
+msgstr "프로젝트 %s를 접근할 수 없습니다."
 
 #: weblate/trans/models/project.py:222
 msgid ""
