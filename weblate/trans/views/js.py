@@ -23,7 +23,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 
-from weblate.trans.models import Unit, Check, Dictionary
+from weblate.trans.models import Unit, Check
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.decorators import any_permission_required
 from weblate.trans.views.helper import (
