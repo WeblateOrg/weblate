@@ -103,7 +103,7 @@
 </form>
 
 <ul class="nav nav-pills">
-<li class="active"><a href="#XXX" data-toggle="tab">{% trans "Translate" %}</a></li>
+<li class="active"><a href="#nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
@@ -116,7 +116,27 @@
 
 <div class="tab-content">
 
-<div class="tab-pane active" id="XXX">
+<div class="tab-pane active" id="nearby">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Nearby messages" %}</h4></div>
+  <div class="panel-body">
+<table class="table table-condensed">
+<thead>
+<tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
+</thead>
+<tbody>
+{% for item in unit.nearby %}
+<tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
+<td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source %}</a></td>
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language %}</a></td>
+<td>{{ item.get_state_flags }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
 </div>
 
 {% if unit.suggestions %}
@@ -341,23 +361,6 @@
         {% endif %}
         </a></li>
     </ul>
-    <div id="tab-nearby">
-    <table>
-    <thead>
-    <tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
-    </thead>
-    <tbody>
-    {% for item in unit.nearby %}
-    <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
-    <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-    <td class="translatetext"><a href="{{ item.get_absolute_url }}">{{ item.source|fmttranslation }}</a></td>
-    <td class="translatetext translation_html_markup" {{ item.translation.language.get_html }}><a href="{{ item.get_absolute_url }}">{{ item.target|fmttranslation:unit.translation.language }}</a></td>
-    <td>{{ item.get_state_flags }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-    </table>
-    </div>
     {% if mt_enabled and perms.trans.use_mt %}
     <div id="tab-machine">
     <img src="{% get_media_prefix %}loading.gif" id="mt-loading" style="display: none" />
