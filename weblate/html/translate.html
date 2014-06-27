@@ -21,6 +21,8 @@
 {% include "show-lock.html" %}
 {% endwith %}
 
+{% with unit.get_comments as comments %}
+
 {% if perms.trans.save_translation %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
 {% endif %}
@@ -109,6 +111,9 @@
 {% endif %}
 {% if others %}
 <li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
+{% endif %}
+{% if comments or perms.trans.add_comment %}
+<li><a href="#comments" data-toggle="tab">{% trans "Comments "%}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
 {% endif %}
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
@@ -230,6 +235,39 @@
 <p>{% trans "Loading…" %}</p>
 </div>
 
+{% if comments or perms.trans.add_comment %}
+<div class="tab-pane" id="comments">
+
+{% if comments %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Comments" %}</h4></div>
+  <div class="panel-body">
+    {% include "list-comments.html" %}
+  </div>
+</div>
+{% endif %}
+
+{% if perms.trans.add_comment %}
+<form method="post" action="{% url 'comment' pk=unit.id %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ this_unit_url }}" />
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
+  <div class="panel-body">
+  <p class="help-block">{% trans "You can share comments about this string with other translators and developers." %}</p>
+{{ comment_form.as_div }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+{% endif %}
+
+</div>
+{% endif %}
+
+
 </div>
 
 </div>
@@ -339,26 +377,11 @@
 
 <h2>{% trans "Translation context" %}</h2>
 
-{% with unit.get_comments as comments and unit.get_source_comments as source_comments %}
 <div id="translate-tabs">
     <ul>
         {% if mt_enabled and perms.trans.use_mt %}
         <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
         {% endif %}
-        <li><a href="#tab-comments" title="{% trans "Comments about this translation" %}">
-        {% if comments %}
-        {% blocktrans with comments.count as  count %}Comments ({{ count }}){% endblocktrans %}
-        {% else %}
-        {% trans "Comments" %}
-        {% endif %}
-        </a></li>
-        <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">
-        {% if source_comments %}
-        {% blocktrans with source_comments.count as  count %}Source ({{ count }}){% endblocktrans %}
-        {% else %}
-        {% trans "Source" %}
-        {% endif %}
-        </a></li>
     </ul>
     {% if mt_enabled and perms.trans.use_mt %}
     <div id="tab-machine">
@@ -379,55 +402,6 @@
     </ul>
     </div>
     {% endif %}
-    <div id="tab-comments">
-    <p>{% trans "You can share comments about this translation with other translators." %}</p>
-    <table>
-    {% include "list-comments.html" %}
-    <tr>
-    <th>{% trans "New comment" %}</th>
-    <td>
-    {% if perms.trans.add_comment %}
-    <form method="post" action="{% url 'comment' pk=unit.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ this_unit_url }}" />
-    {{ comment_form.comment }}
-    <br />
-    <input class="button" type="submit" value="{% trans "Add" %}" />
-    </form>
-    {% else %}
-    {% trans "You are not allowed to add comments." %}
-    {% endif %}
-    </td>
-    </tr>
-    </table>
-    </div>
-    <div id="tab-source">
-
-    <h4>{% trans "User comments" %}</h4>
-    <p>{% trans "You can share comments about source string for this translation with other translators and developers." %}</p>
-    <table>
-    {% with source_comments as comments %}
-    {% include "list-comments.html" %}
-    {% endwith %}
-    <tr>
-    <th>{% trans "New comment" %}</th>
-    <td>
-    {% if perms.trans.add_comment %}
-    <form method="post" action="{% url 'comment' pk=unit.id %}">
-    {% csrf_token %}
-    <input type="hidden" name="type" value="source" />
-    <input type="hidden" name="next" value="{{ this_unit_url }}" />
-    {{ comment_form.comment }}
-    <br />
-    <input class="button" type="submit" value="{% trans "Add" %}" />
-    </form>
-    {% else %}
-    {% trans "You are not allowed to add comments." %}
-    {% endif %}
-    </td>
-    </tr>
-    </table>
-    </div>
 
 </div>
 {% endwith %}

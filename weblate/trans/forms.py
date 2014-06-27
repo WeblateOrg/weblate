@@ -570,8 +570,8 @@ class CommentForm(BootstrapForm):
         label=_('Scope'),
         help_text=_('Is your comment specific to this translation or generic for all of them?'),
         choices=(
-            ('global', _('Source string')),
-            ('translation', _('This translation')),
+            ('global', _('Source string comment')),
+            ('translation', _('Translation comment')),
         ),
         initial='global',
     )

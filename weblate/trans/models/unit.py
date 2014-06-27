@@ -800,7 +800,8 @@ class Unit(models.Model):
         return Comment.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
-            language=self.translation.language,
+        ).filter(
+            Q(language=self.translation.language)|Q(language=None),
         )
 
     def get_source_comments(self):

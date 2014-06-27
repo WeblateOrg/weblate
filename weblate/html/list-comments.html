@@ -1,10 +1,19 @@
 {% load translations %}
+{% load i18n %}
+
 {% for comment in comments %}
-<tr>
-<td>
-<strong>{{ comment.get_user_display }}</strong><br />
+<div>
+<strong>{{ comment.get_user_display }}</strong>
 {{ comment.timestamp|naturaltime }}
-</td>
-<td dir="auto">{{ comment.comment }}</td>
-</tr>
+<span class="pull-right badge">
+{% if comment.language %}
+{% trans "Translation comment" %}
+{% else %}
+{% trans "Source string comment" %}
+{% endif %}
+</span>
+</div>
+<div class="list-group">
+<div class="list-group-item" dir="auto">{{ comment.comment }}</div>
+</div>
 {% endfor %}
