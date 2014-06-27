@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-05-06 13:05+0200\n"
-"PO-Revision-Date: 2014-06-25 22:17+0200\n"
+"PO-Revision-Date: 2014-06-27 06:41+0200\n"
 "Last-Translator: ks k <kmshts@gmail.com>\n"
 "Language-Team: Korean <https://l10n.cihar.com/projects/weblate/master/ko/>\n"
 "Language: ko\n"
@@ -103,19 +103,19 @@ msgstr "암호 (다시입력)"
 
 #: weblate/accounts/forms.py:399
 msgid "Repeat the password so we can verify you typed it in correctly."
-msgstr "비밀번호가 올바른지 확인하기 위해 다시 입력하십시오."
+msgstr "암호가 올바른지 확인하기 위해 다시 입력하십시오."
 
 #: weblate/accounts/forms.py:410
 msgid "Password needs to have at least six characters."
-msgstr "비밀번호는 적어도 6글자 이상이어야 합니다."
+msgstr "암호는 적어도 6글자 이상이어야 합니다."
 
 #: weblate/accounts/forms.py:427
 msgid "You must type the same password each time."
-msgstr "각각 동일한 비밀번호를 입력해야합니다."
+msgstr "각각 동일한 암호를 입력해야합니다."
 
 #: weblate/accounts/forms.py:436
 msgid "Current password"
-msgstr "현재 비밀번호"
+msgstr "현재 암호"
 
 #: weblate/accounts/forms.py:446
 msgid "User with this email address was not found."
@@ -127,7 +127,7 @@ msgstr "사용자 이름 또는 이메일"
 
 #: weblate/accounts/forms.py:457
 msgid "Password"
-msgstr "비밀번호"
+msgstr "암호"
 
 #: weblate/accounts/forms.py:466 weblate/trans/models/project.py:78
 msgid "Project name"
@@ -265,15 +265,15 @@ msgstr "잘못된 암호를 입력하였습니다."
 
 #: weblate/accounts/views.py:485
 msgid "Your password has been changed."
-msgstr "당신의 비밀번호가 바뀌었습니다."
+msgstr "당신의 암호가 바뀌었습니다."
 
 #: weblate/accounts/views.py:495 weblate/html/accounts/profile.html:52
 msgid "Change password"
-msgstr "비밀번호 변경"
+msgstr "암호 변경"
 
 #: weblate/accounts/views.py:520 weblate/html/accounts/reset.html:7
 msgid "Password reset"
-msgstr "비밀번호 초기화"
+msgstr "암호 초기화"
 
 #: weblate/html/403.html:7
 msgid "You don't have privileges to display this page."
@@ -1775,10 +1775,9 @@ msgstr "Git 저장소:"
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
-msgstr "Weblate 번역과 Git 저장소:"
+msgstr "Weblate 번역이 있는 Git 저장소:"
 
 #: weblate/html/translate.html:15
-#, fuzzy
 msgid "translate"
 msgstr "번역하기"
 
@@ -1873,7 +1872,7 @@ msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
 "translations."
 msgstr ""
-"번역을 자동으로 저장하기 위한 <a href=\"%(login_url)s?next=%(translate_url)s\">로그 인</a>."
+"번역을 자동으로 저장하기 위한 <a href=\"%(login_url)s?next=%(translate_url)s\">로그인</a>."
 
 #: weblate/html/translate.html:171
 msgid "Suggest"
@@ -2295,12 +2294,12 @@ msgstr "이 사이트에 프로젝트 호스팅을 위한 귀하의 프로젝트
 
 #: weblate/html/accounts/login.html:11
 msgid "This username/password combination was not found. Please try again."
-msgstr "이 사용자이름/암호 조합을 찾을 수 없습니다. 다시 시도 하십시오."
+msgstr "이 사용자 이름/암호 조합을 찾을 수 없습니다. 다시 시도 하십시오."
 
 #: weblate/html/accounts/login.html:17
 #| msgid "Password (again)"
 msgid "Password login"
-msgstr "비밀번호 로그인"
+msgstr "암호 로그인"
 
 #: weblate/html/accounts/login.html:20
 msgid ""
@@ -2384,7 +2383,7 @@ msgstr "이름과 이메일이 Git 커밋에서 저자로 나타납니다."
 #: weblate/html/accounts/profile.html:52
 #| msgid "New password"
 msgid "Set password"
-msgstr "비밀번호 설정"
+msgstr "암호 설정"
 
 #: weblate/html/accounts/profile.html:54
 msgid ""
@@ -2474,7 +2473,7 @@ msgstr "이 계정을 삭제"
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
-msgstr "비밀번호를 잊어 버리셨나요? 아래에 이메일 주소를 입력하세요, 그러면 새로운 설정을 위한 지시사항을 이메일로 보내드리겠습니다."
+msgstr "암호를 잊어 버리셨나요? 아래에 이메일 주소를 입력하세요, 그러면 새로운 설정을 위한 지시사항을 이메일로 보내드리겠습니다."
 
 #: weblate/html/accounts/reset.html:28
 msgid "Reset my password"
@@ -3659,19 +3658,19 @@ msgstr "새로운 원본 문자열"
 #: weblate/trans/models/changes.py:202
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
-msgstr ""
+msgstr "%(user)s에 의해 %(translation)s에 %(time)s %(action)s"
 
 #: weblate/trans/models/project.py:44
 msgid "Use contact form"
-msgstr ""
+msgstr "연락 양식을 사용"
 
 #: weblate/trans/models/project.py:45
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "번역 지침 URL을 가리킴"
 
 #: weblate/trans/models/project.py:46
 msgid "Automatically add language file"
-msgstr ""
+msgstr "자동으로 언어 파일 추가"
 
 #: weblate/trans/models/project.py:47
 msgid "No adding of language"
@@ -3679,27 +3678,27 @@ msgstr "언어 추가하지 않음"
 
 #: weblate/trans/models/project.py:50
 msgid "Merge"
-msgstr ""
+msgstr "병합"
 
 #: weblate/trans/models/project.py:51
 msgid "Rebase"
-msgstr ""
+msgstr "리베이스"
 
 #: weblate/trans/models/project.py:81 weblate/trans/models/subproject.py:73
 msgid "Name to display"
-msgstr ""
+msgstr "표시될 이름"
 
 #: weblate/trans/models/project.py:84 weblate/trans/models/subproject.py:76
 msgid "URL slug"
-msgstr ""
+msgstr "URL 슬러그"
 
 #: weblate/trans/models/project.py:86 weblate/trans/models/subproject.py:78
 msgid "Name used in URLs and file names."
-msgstr ""
+msgstr "URL 및 파일 이름에 사용 되는 이름입니다."
 
 #: weblate/trans/models/project.py:90
 msgid "Main website of translated project."
-msgstr ""
+msgstr "번역된 프로젝트의 주요 웹사이트입니다."
 
 #: weblate/trans/models/project.py:93
 msgid "Mailing list"
@@ -3723,7 +3722,7 @@ msgstr "번역 라이센스"
 
 #: weblate/trans/models/project.py:107
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "번역에 사용하는 라이센스의 선택 사항 요약입니다."
 
 #: weblate/trans/models/project.py:111
 msgid "License URL"
@@ -3731,7 +3730,7 @@ msgstr "라이센스 URL"
 
 #: weblate/trans/models/project.py:113
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "라이센스 세부사항을 가진 옵션 URL입니다."
 
 #: weblate/trans/models/project.py:116
 msgid "New language"
@@ -3739,17 +3738,17 @@ msgstr "새로운 언어"
 
 #: weblate/trans/models/project.py:121
 msgid "How to handle requests for creating new languages."
-msgstr ""
+msgstr "새로운 언어를 만들기 위한 요청을 처리하는 방법."
 
 #: weblate/trans/models/project.py:125
 msgid "Merge style"
-msgstr ""
+msgstr "병합 스타일"
 
 #: weblate/trans/models/project.py:130
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
-msgstr ""
+msgstr "Weblate는 업스트림 저장소를 병합하거나 rebase를 바꾸어야 하는지를 정의 합니다."
 
 #: weblate/trans/models/project.py:137
 msgid "Commit message"
@@ -3759,7 +3758,7 @@ msgstr "전송 메세지"
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
-msgstr ""
+msgstr "다양한 정보의 형식 문자열을 사용할 수 있습니다, 자세한 내용은 설명서를 확인 하시기 바랍니다."
 
 #: weblate/trans/models/project.py:146
 msgid "Committer name"
@@ -3771,11 +3770,11 @@ msgstr "기여자 이메일"
 
 #: weblate/trans/models/project.py:156
 msgid "Push on commit"
-msgstr ""
+msgstr "커밋 밀기"
 
 #: weblate/trans/models/project.py:159
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "저장소는 모든 커밋 상류에 밀어질여야 할지 여부."
 
 #: weblate/trans/models/project.py:164
 msgid "Set Translation-Team header"
@@ -3784,22 +3783,22 @@ msgstr "번역팀 안내문 헤더 설정"
 #: weblate/trans/models/project.py:167
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
-msgstr ""
+msgstr "파일 헤더에서 번역-팀이 Weblate에 의해 갱신되어야 할지 여부."
 
 #: weblate/trans/models/project.py:173
 msgid "Enable ACL"
-msgstr ""
+msgstr "ACL 사용"
 
 #: weblate/trans/models/project.py:176
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
-msgstr ""
+msgstr "이 프로젝트에대한 ACL 사용여부를 알려면, 사용하기 전에 설명서를 확인하기 바랍니다."
 
 #: weblate/trans/models/project.py:215
 #, python-format
 msgid "You are not allowed to access project %s."
-msgstr ""
+msgstr "프로젝트 %s를 접근할 수 없습니다."
 
 #: weblate/trans/models/project.py:222
 msgid ""
