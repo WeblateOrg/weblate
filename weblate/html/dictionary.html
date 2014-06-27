@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 {% load url from future %}
 
 {% block breadcrumbs %}
@@ -31,7 +32,7 @@
 </form>
 
 {% if page_obj.object_list %}
-<table class="table table-condensed">
+<table class="table table-condensed table-striped">
 <thead>
 <tr>
 <th>{% trans "Source" %}</th>
@@ -42,8 +43,8 @@
 <tbody>
 {% for word in page_obj.object_list %}
 <tr>
-<td class="translatetext">{{ word.source }}</td>
-<td class="translatetext">{{ word.target }}</td>
+<td>{{ word.source }}</td>
+<td>{% format_translation word.target language simple=True %}</td>
 <td>
 {% if perms.trans.change_dictionary %}
 <form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get" class="inlineform">
