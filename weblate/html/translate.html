@@ -115,6 +115,9 @@
 {% if comments or perms.trans.add_comment %}
 <li><a href="#comments" data-toggle="tab">{% trans "Comments "%}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
 {% endif %}
+{% if mt_enabled and perms.trans.use_mt %}
+<li><a href="#machine" data-toggle="tab" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+{% endif %}
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
@@ -234,6 +237,30 @@
 <div class="tab-pane" id="history">
 <p>{% trans "Loading…" %}</p>
 </div>
+
+{% if mt_enabled and perms.trans.use_mt %}
+<div class="tab-pane" id="machine">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Machine translation" %}<img src="{% get_media_prefix %}loading.gif" id="mt-loading" style="display: none" /></h4></div>
+  <div class="panel-body">
+<table class="table table-compact">
+<thead>
+<tr>
+<th>{% trans "Translation" %}</th>
+<th>{% trans "Source" %}</th>
+<th>{% trans "Service" %}</th>
+<th></th>
+<tr>
+</thead>
+<tbody id="machine-translations">
+</tbody>
+</table>
+<ul id="mt-errors">
+</ul>
+</div>
+</div>
+</div>
+{% endif %}
 
 {% if comments or perms.trans.add_comment %}
 <div class="tab-pane" id="comments">
@@ -375,35 +402,6 @@
 <a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
 <a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
 
-<h2>{% trans "Translation context" %}</h2>
-
-<div id="translate-tabs">
-    <ul>
-        {% if mt_enabled and perms.trans.use_mt %}
-        <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
-        {% endif %}
-    </ul>
-    {% if mt_enabled and perms.trans.use_mt %}
-    <div id="tab-machine">
-    <img src="{% get_media_prefix %}loading.gif" id="mt-loading" style="display: none" />
-    <table>
-    <thead>
-    <tr>
-    <th>{% trans "Translation" %}</th>
-    <th>{% trans "Source" %}</th>
-    <th>{% trans "Service" %}</th>
-    <th></th>
-    <tr>
-    </thead>
-    <tbody id="machine-translations">
-    </tbody>
-    </table>
-    <ul id="mt-errors">
-    </ul>
-    </div>
-    {% endif %}
-
-</div>
 {% endwith %}
 
 {% endblock %}
