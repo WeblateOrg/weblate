@@ -342,7 +342,6 @@
 {% with unit.get_comments as comments and unit.get_source_comments as source_comments %}
 <div id="translate-tabs">
     <ul>
-        <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
         {% if mt_enabled and perms.trans.use_mt %}
         <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
         {% endif %}
