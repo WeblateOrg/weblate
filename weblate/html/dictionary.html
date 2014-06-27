@@ -71,7 +71,7 @@
 {% if perms.trans.add_dictionary %}
 <div class="tab-pane" id="add">
 
-<form method="POST">
+<form action="{% url 'show_dictionary' project=project.slug lang=language.code %}" method="POST">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new word" %}</h4></div>
   <div class="panel-body">
