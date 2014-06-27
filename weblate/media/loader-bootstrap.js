@@ -47,6 +47,9 @@ $(function () {
     $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
         var $target = $(e.target);
         var $content = $($target.attr('href'));
+        if ($target.data('loaded')) {
+            return;
+        }
         if ($content.find('.panel-body').length > 0) {
             $content = $content.find('.panel-body');
         };
@@ -57,6 +60,7 @@ $(function () {
                     var msg = gettext('Error while loading page:');
                     $content.html( msg + " "  + xhr.status + " " + xhr.statusText );
                 }
+                $target.data('loaded', 1);
             }
         );
     });
