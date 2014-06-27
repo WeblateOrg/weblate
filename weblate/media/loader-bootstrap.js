@@ -190,4 +190,11 @@ $(function () {
         $this.parents('.form-group').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
         e.preventDefault();
     });
+
+    /* Copy from dictionary */
+    $('.copydict').click(function (e) {
+        var text = $(this).parents('tr').find('.target').text();
+        $('.translation-editor').insertAtCaret($.trim(text)).trigger('autosize.resize');;
+        e.preventDefault();
+    });
 });
