@@ -1,5 +1,5 @@
 {% if simple %}
-{{ items.0.content }}
+<span lang="{{ language.code }}" dir="{{ language.direction }}">{{ items.0.content }}</span>
 {% else %}
 <div class="list-group">
   {% for item in items %}
