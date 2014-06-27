@@ -35,7 +35,7 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.util import is_plural, split_plural, join_plural
 import weblate
 
-FLAG_TEMPLATE = '<span title="%s" class="flag-icon ui-icon ui-icon-%s"></span>'
+FLAG_TEMPLATE = u'<span title="{0}" class="glyphicon glyphicon-{1}"></span>'
 
 
 class UnitManager(models.Manager):
@@ -1030,22 +1030,22 @@ class Unit(models.Model):
         if self.fuzzy:
             flags.append((
                 _('Message is fuzzy'),
-                'help'
+                'question-sign'
             ))
         elif not self.translated:
             flags.append((
                 _('Message is not translated'),
-                'document-b'
+                'remove-sign'
             ))
         elif self.has_failing_check:
             flags.append((
                 _('Message has failing checks'),
-                'notice'
+                'exclamation-sign'
             ))
         elif self.translated:
             flags.append((
                 _('Message is translated'),
-                'check'
+                'ok-sign'
             ))
 
         if self.has_comment:
@@ -1055,7 +1055,7 @@ class Unit(models.Model):
             ))
 
         return mark_safe(
-            '\n'.join([FLAG_TEMPLATE % flag for flag in flags])
+            '\n'.join([FLAG_TEMPLATE.format(*flag) for flag in flags])
         )
 
     @property
