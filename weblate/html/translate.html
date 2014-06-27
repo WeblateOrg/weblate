@@ -208,7 +208,33 @@
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Glossary" %}</h4></div>
-  <div class="panel-body">N/A
+  <div class="panel-body">
+    {% if glossary %}
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+        <th>{% trans "Source" %}</th>
+        <th>{% trans "Translation" %}</th>
+        <th></th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for item in glossary %}
+        <tr>
+        <td>{{ item.source }}</td>
+        <td>{% format_translation item.target unit.translation.language simple=True %}</td>
+        <td>
+        {% if perms.trans.save_translation %}
+        <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word to translation" %}">{% trans "Copy" %}</a>
+        {% endif %}
+        </td>
+        </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>{% trans "No related strings were found in the glossary." %}</p>
+    {% endif %}
   </div>
   <div class="panel-footer">
     <a href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" class="btn btn-default">{% trans "Manage glossary" %}</a>
@@ -270,7 +296,6 @@
 <div id="translate-tabs">
     <ul>
         <li><a href="#tab-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
-        <li><a href="{% url 'js-dictionary' unit_id=unit.id %}" title="{% trans "Words extracted from glossary" %}">{% trans "Glossary" %}</a></li>
         {% if mt_enabled and perms.trans.use_mt %}
         <li><a href="#tab-machine" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
         {% endif %}

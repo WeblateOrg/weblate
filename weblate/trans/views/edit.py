@@ -27,8 +27,9 @@ from django.utils import formats
 import uuid
 import time
 
-from weblate.trans.models import SubProject, Unit, Change
-from weblate.trans.models.unitdata import Comment, Suggestion
+from weblate.trans.models import (
+    SubProject, Unit, Change, Comment, Suggestion, Dictionary
+)
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, SearchForm,
@@ -608,6 +609,7 @@ def translate(request, project, subproject, lang):
             'locked': locked,
             'user_locked': user_locked,
             'project_locked': project_locked,
+            'glossary': Dictionary.objects.get_words(unit),
         }
     )
 
