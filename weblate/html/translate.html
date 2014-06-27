@@ -110,6 +110,7 @@
 {% if others %}
 <li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
 {% endif %}
+<li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
 <div class="tab-content">
@@ -189,6 +190,10 @@
 </div>
 </div>
 {% endif %}
+
+<div class="tab-pane" id="history">
+<p>{% trans "Loading…" %}</p>
+</div>
 
 </div>
 
@@ -313,7 +318,6 @@
         {% trans "Comments" %}
         {% endif %}
         </a></li>
-        <li><a href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
         <li><a href="#tab-source" title="{% trans "Source string details and feedback" %}">
         {% if source_comments %}
         {% blocktrans with source_comments.count as  count %}Source ({{ count }}){% endblocktrans %}
