@@ -21,7 +21,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import permission_required
-from django.db.models import Q
 from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Unit, Check, Dictionary
@@ -31,7 +30,6 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 
-from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 from urllib import urlencode
 import json
 
@@ -118,41 +116,12 @@ def get_dictionary(request, unit_id):
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
     unit.check_acl(request)
-    words = set()
-
-    # Prepare analyzers
-    # - standard analyzer simply splits words
-    # - stemming extracts stems, to catch things like plurals
-    analyzers = (StandardAnalyzer(), StemmingAnalyzer())
-
-    # Extract words from all plurals and from context
-    for text in unit.get_source_plurals() + [unit.context]:
-        for analyzer in analyzers:
-            words = words.union([token.text for token in analyzer(text)])
-
-    # Grab all words in the dictionary
-    dictionary = Dictionary.objects.filter(
-        project=unit.translation.subproject.project,
-        language=unit.translation.language
-    )
-
-    if len(words) == 0:
-        # No extracted words, no dictionary
-        dictionary = dictionary.none()
-    else:
-        # Build the query (can not use __in as we want case insensitive lookup)
-        query = Q()
-        for word in words:
-            query |= Q(source__iexact=word)
-
-        # Filter dictionary
-        dictionary = dictionary.filter(query)
 
     return render(
         request,
         'js/dictionary.html',
         {
-            'dictionary': dictionary,
+            'dictionary': Dictionary.objects.get_words(unit),
             'translation': unit.translation,
         }
     )
