@@ -529,7 +529,7 @@ class DictUploadForm(BootstrapForm):
     )
 
 
-class ReviewForm(forms.Form):
+class ReviewForm(BootstrapForm):
     '''
     Translation review form.
     '''
