@@ -570,11 +570,6 @@ urlpatterns = patterns(
         name='js-unit-changes',
     ),
     url(
-        r'^js/dictionary/(?P<unit_id>[0-9]+)/$',
-        'weblate.trans.views.js.get_dictionary',
-        name='js-dictionary',
-    ),
-    url(
         r'^js/detail/' + SUBPROJECT + '(?P<checksum>[^/]+)/$',
         'weblate.trans.views.js.get_detail',
         name='js-detail',

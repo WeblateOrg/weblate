@@ -110,23 +110,6 @@ def get_unit_changes(request, unit_id):
     )
 
 
-def get_dictionary(request, unit_id):
-    '''
-    Lists words from dictionary for current translation.
-    '''
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
-
-    return render(
-        request,
-        'js/dictionary.html',
-        {
-            'dictionary': Dictionary.objects.get_words(unit),
-            'translation': unit.translation,
-        }
-    )
-
-
 @permission_required('trans.ignore_check')
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))

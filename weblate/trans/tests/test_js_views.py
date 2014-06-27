@@ -97,16 +97,6 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertContains(response, 'href="/exports/rss/')
 
-    def test_get_dictionary(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse('js-dictionary', kwargs={'unit_id': unit.id}),
-        )
-        self.assertContains(
-            response,
-            'No related strings found in dictionary.'
-        )
-
     def test_js_config(self):
         response = self.client.get(reverse('js-config'))
         # Check we have dummy service listed
