@@ -116,7 +116,7 @@
 <li><a href="#comments" data-toggle="tab">{% trans "Comments "%}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
 {% endif %}
 {% if mt_enabled and perms.trans.use_mt %}
-<li><a href="#machine" data-toggle="tab" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
+<li><a href="#machine" data-toggle="tab" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
 {% endif %}
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>

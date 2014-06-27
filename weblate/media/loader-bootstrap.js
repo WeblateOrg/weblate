@@ -1,3 +1,20 @@
+var loading = 0;
+var mt_loaded = false;
+
+function inc_loading() {
+    if (loading === 0) {
+        $('#mt-loading').show();
+    }
+    loading++;
+}
+
+function dec_loading() {
+    loading--;
+    if (loading === 0) {
+        $('#mt-loading').hide();
+    }
+}
+
 jQuery.fn.extend({
     insertAtCaret: function (myValue) {
         return this.each(function (i) {
@@ -63,6 +80,23 @@ $(function () {
                 $target.data('loaded', 1);
             }
         );
+    });
+
+    /* Machine translation */
+    $(document).on('show.bs.tab', '[data-load="mt"]', function (e) {
+        if (mt_loaded) {
+            return;
+        }
+        mt_loaded = true;
+        MACHINE_TRANSLATION_SERVICES.forEach(function (el, idx, ar) {
+            inc_loading();
+            $.ajax({
+                url: $('#js-translate').attr('href') + '?service=' + el,
+                success: process_machine_translation,
+                error: failed_machine_translation,
+                dataType: 'json'
+            });
+        });
     });
 
     /* Git commit tooltip */
