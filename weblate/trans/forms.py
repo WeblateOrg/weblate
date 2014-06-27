@@ -558,11 +558,24 @@ class LetterForm(BootstrapForm):
     )
 
 
-class CommentForm(forms.Form):
+class CommentForm(BootstrapForm):
     '''
     Simple commenting form.
     '''
-    comment = forms.CharField(widget=forms.Textarea(attrs={'dir': 'auto'}))
+    comment = forms.CharField(
+        widget=forms.Textarea(attrs={'dir': 'auto'}),
+        label=_('New comment'),
+    )
+    scope = forms.ChoiceField(
+        label=_('Scope'),
+        help_text=_('Is your comment specific to this translation or generic for all of them?'),
+        choices=(
+            ('global', _('Source string')),
+            ('translation', _('This translation')),
+        ),
+        initial='global',
+    )
+
 
 
 class EnageLanguageForm(forms.Form):

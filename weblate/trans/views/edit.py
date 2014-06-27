@@ -684,14 +684,14 @@ def comment(request, pk):
     '''
     translation = get_object_or_404(Unit, pk=pk)
     translation.check_acl(request)
-    if request.POST.get('type', '') == 'source':
-        lang = None
-    else:
-        lang = translation.translation.language
 
     form = CommentForm(request.POST)
 
     if form.is_valid():
+        if form.cleaned_data['scope'] == 'global':
+            lang = None
+        else:
+            lang = translation.translation.language
         Comment.objects.add(
             translation,
             request.user,
