@@ -110,6 +110,7 @@
 {% if others %}
 <li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
 {% endif %}
+<li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
@@ -190,6 +191,20 @@
 </div>
 </div>
 {% endif %}
+
+<div class="tab-pane" id="search">
+<form action="{{ unit.translation.get_translate_url }}" method="GET">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
+  <div class="panel-body">
+{{ search_form.as_div }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+</div>
 
 <div class="tab-pane" id="history">
 <p>{% trans "Loading…" %}</p>
@@ -325,7 +340,6 @@
         {% trans "Source" %}
         {% endif %}
         </a></li>
-        <li><a href="#tab-search">{% trans "Search" %}</a></li>
     </ul>
     <div id="tab-nearby">
     <table>
@@ -411,12 +425,6 @@
     </td>
     </tr>
     </table>
-    </div>
-    <div id="tab-search">
-    <form action="{{ unit.translation.get_translate_url }}" method="GET">
-    {{ search_form.as_p }}
-    <input type="submit" value="{% trans "Search" %}" class="button" />
-    </form>
     </div>
 
 </div>
