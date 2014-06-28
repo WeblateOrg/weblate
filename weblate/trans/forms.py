@@ -568,14 +568,16 @@ class CommentForm(BootstrapForm):
     )
     scope = forms.ChoiceField(
         label=_('Scope'),
-        help_text=_('Is your comment specific to this translation or generic for all of them?'),
+        help_text=_(
+            'Is your comment specific to this '
+            'translation or generic for all of them?'
+        ),
         choices=(
             ('global', _('Source string comment')),
             ('translation', _('Translation comment')),
         ),
         initial='global',
     )
-
 
 
 class EnageLanguageForm(forms.Form):

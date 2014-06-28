@@ -801,7 +801,7 @@ class Unit(models.Model):
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
         ).filter(
-            Q(language=self.translation.language)|Q(language=None),
+            Q(language=self.translation.language) | Q(language=None),
         )
 
     def get_source_comments(self):
