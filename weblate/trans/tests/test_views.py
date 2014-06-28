@@ -1124,7 +1124,10 @@ class CommentViewTest(ViewTestCase):
         # Add comment
         response = self.client.post(
             reverse('comment', kwargs={'pk': unit.id}),
-            {'comment': 'New target testing comment'}
+            {
+                'comment': 'New target testing comment',
+                'scope': 'translation',
+            }
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
@@ -1156,7 +1159,7 @@ class CommentViewTest(ViewTestCase):
             reverse('comment', kwargs={'pk': unit.id}),
             {
                 'comment': 'New source testing comment',
-                'type': 'source'
+                'scope': 'global',
             }
         )
         self.assertRedirects(response, unit.get_absolute_url())
@@ -1171,10 +1174,10 @@ class CommentViewTest(ViewTestCase):
             language_code='cs'
         )
         # Check number of comments
-        self.assertFalse(unit.has_comment)
+        self.assertTrue(unit.has_comment)
         self.assertEqual(
             translation.unit_set.count_type('targetcomments', translation),
-            0
+            1
         )
         self.assertEqual(
             translation.unit_set.count_type('sourcecomments', translation),
