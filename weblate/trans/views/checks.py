@@ -142,6 +142,25 @@ def show_check_project(request, name, project):
             ).annotate(count=Count('id'))
             units |= res
 
+    counts = {}
+    for unit in units:
+        key = '{0}/{1}'.format(
+            unit['translation__subproject__project__slug'],
+            unit['translation__subproject__slug']
+        )
+        if key in counts:
+            counts[key] += unit['count']
+        else:
+            counts[key] = unit['count']
+
+    units = [
+        {
+            'translation__subproject__slug': key.split('/')[1],
+            'translation__subproject__project__slug': key.split('/')[0],
+            'count': counts[key]
+        } for key in counts
+    ]
+
     return render(
         request,
         'check_project.html',
@@ -211,6 +230,21 @@ def show_check_subproject(request, name, project, subproject):
         ).count()
         if res > 0:
             source_checks.append(res)
+
+    counts = {}
+    for unit in units:
+        key = unit['translation__language__code']
+        if key in counts:
+            counts[key] += unit['count']
+        else:
+            counts[key] = unit['count']
+
+    units = [
+        {
+            'translation__language__code': key,
+            'count': counts[key]
+        } for key in counts
+    ]
 
     return render(
         request,

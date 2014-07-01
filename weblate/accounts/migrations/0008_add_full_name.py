@@ -22,6 +22,10 @@ from south.v2 import DataMigration
 
 class Migration(DataMigration):
 
+    depends_on = (
+        ('lang', '0003_auto__add_field_language_plural_type'),
+    )
+
     def forwards(self, orm):
         '''
         Merges first and last name into one field.

@@ -1192,9 +1192,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not self.file_format_cls.is_valid_base_for_new(base_filename):
             raise ValueError('Not supported operation!')
 
-        filename = os.path.join(
+        filename = self.file_format_cls.get_language_filename(
             self.get_path(),
-            self.filemask.replace('*', language.code)
+            self.filemask,
+            language.code
         )
 
         # Create directory for a translation
