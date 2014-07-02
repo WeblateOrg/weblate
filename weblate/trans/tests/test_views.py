@@ -323,6 +323,11 @@ class BasicIphoneViewTest(BasicViewTest):
         return self.create_iphone()
 
 
+class BasicJSONViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_json()
+
+
 class BasicJavaViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_java()
@@ -664,6 +669,13 @@ class EditIphoneTest(EditTest):
 
     def create_subproject(self):
         return self.create_iphone()
+
+
+class EditJSONTest(EditTest):
+    has_plurals = False
+
+    def create_subproject(self):
+        return self.create_json()
 
 
 class EditJavaTest(EditTest):
