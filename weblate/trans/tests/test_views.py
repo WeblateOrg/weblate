@@ -438,8 +438,8 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'merge': unit.id}
         )
         self.assertBackend(1)
-        # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        # We should stay on same message
+        self.assertRedirectsOffset(response, self.translate_url, unit.position)
 
         # Test error handling
         unit2 = self.translation.unit_set.get(
