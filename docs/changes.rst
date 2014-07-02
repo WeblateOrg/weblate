@@ -9,6 +9,7 @@ Released on ? 2014.
 * Documentation improvements.
 * Added whiteboard for site wide messages.
 * Configurable strings priority.
+* Added support for JSON file format.
 
 weblate 1.9
 -----------

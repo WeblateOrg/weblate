@@ -187,6 +187,22 @@ Sample file which should work:
 
     `PHP files in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/php.html>`_
 
+JSON files
+----------
+
+.. index:: single: JSON; files
+
+.. versionadded:: 2.0
+
+JSON is format used mostly for translating applications implemented in
+Javascript.
+
+JSON translations are usually monolingual, so it is recommended to specify base
+file with English strings.
+
+.. seealso::
+
+   `JSON in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/json.html>`_
 
 Others
 ------
