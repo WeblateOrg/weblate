@@ -323,6 +323,11 @@ class BasicIphoneViewTest(BasicViewTest):
         return self.create_iphone()
 
 
+class BasicJSONViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_json()
+
+
 class BasicJavaViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_java()
@@ -438,8 +443,8 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'merge': unit.id}
         )
         self.assertBackend(1)
-        # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        # We should stay on same message
+        self.assertRedirectsOffset(response, self.translate_url, unit.position)
 
         # Test error handling
         unit2 = self.translation.unit_set.get(
@@ -664,6 +669,13 @@ class EditIphoneTest(EditTest):
 
     def create_subproject(self):
         return self.create_iphone()
+
+
+class EditJSONTest(EditTest):
+    has_plurals = False
+
+    def create_subproject(self):
+        return self.create_json()
 
 
 class EditJavaTest(EditTest):

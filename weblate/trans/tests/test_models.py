@@ -169,6 +169,12 @@ class RepoTestCase(TestCase):
             'android/values/strings.xml',
         )
 
+    def create_json(self):
+        return self._create_subproject(
+            'json',
+            'json/*.json',
+        )
+
     def create_java(self):
         return self._create_subproject(
             'properties',
@@ -411,6 +417,10 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_android(self):
         project = self.create_android()
+        self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_json(self):
+        project = self.create_json()
         self.verify_subproject(project, 1, 'cs', 4)
 
     def test_create_java(self):

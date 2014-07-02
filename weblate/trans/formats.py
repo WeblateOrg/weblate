@@ -27,6 +27,7 @@ from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
 from translate.storage.ts2 import tsunit
+from translate.storage.jsonl10n import JsonUnit
 from translate.storage import mo
 from translate.storage import factory
 from weblate.trans.util import get_string, join_plural
@@ -158,6 +159,8 @@ class FileUnit(object):
                 self.unit.source,
                 self.unit.source,
             ])
+        if isinstance(self.mainunit, JsonUnit) and self.template is None:
+            return self.mainunit.getid().lstrip('.')
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.mainunit, propunit):
@@ -296,6 +299,8 @@ class FileUnit(object):
         For some reason, blank string does not mean non translatable
         unit in some formats (XLIFF), so lets skip those as well.
         '''
+        if isinstance(self.mainunit, JsonUnit):
+            return True
         return self.mainunit.istranslatable() and not self.mainunit.isblank()
 
     def set_target(self, target):
@@ -779,5 +784,13 @@ class AndroidFormat(FileFormat):
 <resources></resources>''')
 
 register_fileformat(AndroidFormat)
+
+
+class JSONFormat(FileFormat):
+    name = _('JSON file')
+    format_id = 'json'
+    loader = ('jsonl10n', 'JsonFile')
+
+register_fileformat(JSONFormat)
 
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
