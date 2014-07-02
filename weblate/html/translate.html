@@ -241,7 +241,11 @@
 {% if mt_enabled and perms.trans.use_mt %}
 <div class="tab-pane" id="machine">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Machine translation" %}<img src="{% get_media_prefix %}loading.gif" id="mt-loading" class="pull-right" style="display: none" /></h4></div>
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% trans "Machine translation" %}
+    <span id="mt-loading"  class="glyphicon glyphicon-refresh glyphicon-spin pull-right"></span>
+  </h4></div>
   <div class="panel-body">
 <table class="table table-compact table-striped">
 <thead>
