@@ -69,7 +69,7 @@ class AdvertisementManager(models.Manager):
         elif placement == Advertisement.PLACEMENT_MAIL_HTML:
             text, url = random.choice(self._fallback_choices_html)
             text = u'<a href="{0}">{1}</a>'.format(
-                text, url
+                url, text
             )
         else:
             return None
