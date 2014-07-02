@@ -67,6 +67,8 @@ def translate(request, unit_id):
         'service': translation_service.name,
         'responseDetails': '',
         'translations': [],
+        'lang': unit.translation.language.code,
+        'dir': unit.translation.language.direction,
     }
 
     try:

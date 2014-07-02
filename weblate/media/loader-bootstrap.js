@@ -59,6 +59,50 @@ function text_change(e) {
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
+function process_machine_translation(data, textStatus, jqXHR) {
+    dec_loading();
+    if (data.responseStatus == 200) {
+        data.translations.forEach(function (el, idx, ar) {
+            var new_row = $('<tr/>').data('quality', el.quality);
+            var done = false;
+            new_row.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
+            new_row.append($('<td/>').text(el.source));
+            new_row.append($('<td/>').text(el.service));
+            /* Translators: Verb for copy operation */
+            new_row.append($('<td><a class="copymt btn btn-xs btn-default">' + gettext('Copy') + '</a></td>'));
+            $('#machine-translations').children('tr').each(function (idx) {
+                if ($(this).data('quality') < el.quality && !done) {
+                    $(this).before(new_row);
+                    done = true;
+                }
+            });
+            if (! done) {
+                $('#machine-translations').append(new_row);
+            }
+        });
+        $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
+            var text = $(this).parent().parent().find('.target').text();
+            $('.translation-editor').val(text).trigger('autosize.resize');
+            $('#id_fuzzy').prop('checked', true);
+        });
+    } else {
+        var msg = interpolate(
+            gettext('The request for machine translation using %s has failed:'),
+            [data.service]
+        );
+        $('#mt-errors').append(
+            $('<li>' + msg + ' ' + data.responseDetails + '</li>')
+        );
+    }
+}
+
+function failed_machine_translation(jqXHR, textStatus, errorThrown) {
+    dec_loading();
+    $('#mt-errors').append(
+        $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
+    );
+}
+
 $(function () {
     /* AJAX loading of tabs/pills */
     $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
