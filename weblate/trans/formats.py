@@ -780,6 +780,7 @@ class AndroidFormat(FileFormat):
 
 register_fileformat(AndroidFormat)
 
+
 class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
