@@ -780,4 +780,12 @@ class AndroidFormat(FileFormat):
 
 register_fileformat(AndroidFormat)
 
+
+class JSONFormat(FileFormat):
+    name = _('JSON file')
+    format_id = 'json'
+    loader = ('jsonl10n', 'JsonFile')
+
+register_fileformat(JSONFormat)
+
 FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
