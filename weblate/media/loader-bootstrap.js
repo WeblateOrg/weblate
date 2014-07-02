@@ -279,4 +279,15 @@ $(function () {
         $('.translation-editor').insertAtCaret($.trim(text)).trigger('autosize.resize');;
         e.preventDefault();
     });
+
+    /* Widgets selector */
+    $('.select-tab').on('change', function (e) {
+         $(this).parent().find('.tab-pane').removeClass('active');
+        $('#' + $(this).val()).addClass('active');
+    });
+
+    /* Code samples (on widgets page) */
+    $('.code-example').focus(function () {
+        $(this).select();
+    });
 });

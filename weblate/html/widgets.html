@@ -43,52 +43,54 @@
 {% endfor %}
 </p>
 
-<div class="tabs">
-<ul>
-<li><a href="#{{ widget.name }}-html-code">{% trans "HTML code" %}</a></li>
-<li><a href="#{{ widget.name }}-bb-code">{% trans "BB code" %}</a></li>
-<li><a href="#{{ widget.name }}-mdk-code">{% trans "Markdown code" %}</a></li>
-<li><a href="#{{ widget.name }}-rst-code">{% trans "RST code" %}</a></li>
-<li><a href="#{{ widget.name }}-textile-code">{% trans "Textile code" %}</a></li>
-</ul>
+<div>
+<select class="select-tab form-control">
+<option value="{{ widget.name }}-html-code">{% trans "HTML code" %}</option>
+<option value="{{ widget.name }}-bb-code">{% trans "BB code" %}</option>
+<option value="{{ widget.name }}-mdk-code">{% trans "Markdown code" %}</option>
+<option value="{{ widget.name }}-rst-code">{% trans "RST code" %}</option>
+<option value="{{ widget.name }}-textile-code">{% trans "Textile code" %}</option>
+</select>
 
-<div id="{{ widget.name }}-html-code">
+<div class="tab-content">
+<div class="tab-pane active" id="{{ widget.name }}-html-code">
 {% for color in widget.colors %}
-<textarea class="code-example">
+<textarea class="code-example form-control">
 &lt;a href="{{ engage_url_track }}"&gt;
 &lt;img src="{{ color.url }}" alt="{% trans "Translation status" %}" /&gt;
 &lt;/a&gt;</textarea>
 {% endfor %}
 </div>
 
-<div id="{{ widget.name }}-bb-code">
+<div class="tab-pane" id="{{ widget.name }}-bb-code">
 {% for color in widget.colors %}
-<textarea class="code-example">
+<textarea class="code-example form-control">
 [url={{ engage_url_track }}][img alt="{% trans "Translation status" %}"]{{ color.url }}[/img][/url]</textarea>
 {% endfor %}
 </div>
 
-<div id="{{ widget.name }}-mdk-code">
+<div class="tab-pane" id="{{ widget.name }}-mdk-code">
 {% for color in widget.colors %}
-<textarea class="code-example">
+<textarea class="code-example form-control">
 [![{% trans "Translation status" %}]({{ color.url }})]({{ engage_url_track }})</textarea>
 {% endfor %}
 </div>
 
-<div id="{{ widget.name }}-rst-code">
+<div class="tab-pane" id="{{ widget.name }}-rst-code">
 {% for color in widget.colors %}
-<textarea class="code-example">
+<textarea class="code-example form-control">
 .. image:: {{ color.url }}
     :alt: {% trans "Translation status" %}
     :target: {{ engage_url_track }}</textarea>
 {% endfor %}
 </div>
 
-<div id="{{ widget.name }}-textile-code">
+<div class="tab-pane" id="{{ widget.name }}-textile-code">
 {% for color in widget.colors %}
-<textarea class="code-example">
+<textarea class="code-example form-control">
 !{{ color.url }}!:{{ engage_url_track }}</textarea>
 {% endfor %}
+</div>
 </div>
 
 </div>
