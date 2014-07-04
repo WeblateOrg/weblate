@@ -4371,7 +4371,7 @@ msgid ""
 msgstr ""
 "<a href=\"%(url)s\">번역 프로젝트 %(project)s</a>는 현재 번역 %(total)s 개의 문자열을 포함하고 "
 "있고, <a href=\"%(url)s\">%(languages)s로 번역</a>되고 있습니다. 전반적으로, 이 번역은 "
-"%(percent)s%% 완료되었습니다."
+"%(percent)s%% 완료 되었습니다."
 
 #: weblate/trans/views/basic.py:198
 #, python-format
@@ -4380,28 +4380,30 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
+"영어로 <a href=\"%(url)s\">번역 프로젝트 %(project)s</a>는 현재 번역 %(total)s 개의 문자열을 "
+"포함하고 있고 %(percent)s%% 완료 되었습니다."
 
 #: weblate/trans/views/basic.py:316
 #, python-format
 msgid "Review source strings in %s"
-msgstr ""
+msgstr "%s에 원본 문자열을 검토"
 
 #: weblate/trans/views/basic.py:340
 #, python-format
 msgid "Source strings in %s"
-msgstr ""
+msgstr "%s에 원본 문자열"
 
 #: weblate/trans/views/basic.py:404
 msgid "Page Not Found"
-msgstr ""
+msgstr "페이지를 찾을 수 없습니다"
 
 #: weblate/trans/views/basic.py:420
 msgid "Permission Denied"
-msgstr ""
+msgstr "사용 권한이 거부되었습니다"
 
 #: weblate/trans/views/basic.py:517
 msgid "Chosen translation already exists in this project!"
-msgstr ""
+msgstr "선택한 번역은 이미 이 프로젝트에 존재합니다!"
 
 #: weblate/trans/views/basic.py:524
 msgid ""
@@ -4419,7 +4421,7 @@ msgstr "일치하는 프로젝트를 찾지 못했습니다!"
 
 #: weblate/trans/views/changes.py:111
 msgid "Failed to find matching language!"
-msgstr ""
+msgstr "일치하는 언어 찾기 실패!"
 
 #: weblate/trans/views/changes.py:123
 #| msgid "Failed to update git: %s"
@@ -4429,62 +4431,62 @@ msgstr "일치하는 사용자를 찾지 못했습니다!"
 #: weblate/trans/views/dictionary.py:44
 #, python-format
 msgid "%(language)s dictionary for %(project)s"
-msgstr ""
+msgstr "%(project)s 에 대한 %(language)s 사전"
 
 #: weblate/trans/views/dictionary.py:60
 msgid "Dictionaries"
-msgstr ""
+msgstr "사전"
 
 #: weblate/trans/views/dictionary.py:160
 msgid "No words to import found in file."
-msgstr ""
+msgstr "파일에서 가져올 수 있는 단어가 없습니다."
 
 #: weblate/trans/views/dictionary.py:165
 #, python-format
 msgid "Imported %d words from file."
-msgstr ""
+msgstr "파일에서 %d 개의 단어를 불러오기 하였습니다."
 
 #: weblate/trans/views/dictionary.py:170
 #, python-format
 msgid "File upload has failed: %s"
-msgstr ""
+msgstr "파일 업로드 실패: %s"
 
 #: weblate/trans/views/dictionary.py:173 weblate/trans/views/dictionary.py:175
 #: weblate/trans/views/edit.py:670
 msgid "Failed to process form!"
-msgstr ""
+msgstr "양식을 처리 할 수 없습니다!"
 
 #: weblate/trans/views/edit.py:50
 msgid "Untranslated strings"
-msgstr "번역안된 문자열"
+msgstr "번역 안된 문자열"
 
 #: weblate/trans/views/edit.py:52
 msgid "Strings with suggestions"
-msgstr ""
+msgstr "제안된 문자열"
 
 #: weblate/trans/views/edit.py:64
 #, python-format
 msgid "Fulltext search for \"%s\""
-msgstr ""
+msgstr "\"%s\" 에 대한 전체 텍스트 검색"
 
 #: weblate/trans/views/edit.py:66
 #, python-format
 msgid "Search for exact string \"%s\""
-msgstr ""
+msgstr "정확한 문자열 \"%s\" 를 검색"
 
 #: weblate/trans/views/edit.py:68
 #, python-format
 msgid "Substring search for \"%s\""
-msgstr ""
+msgstr "하위 문자열 \"%s\" 를 검색."
 
 #: weblate/trans/views/edit.py:93
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr ""
+msgstr "매개변수 %(field)s: %(error)s 오류"
 
 #: weblate/trans/views/edit.py:112 weblate/trans/views/edit.py:566
 msgid "Invalid search string!"
-msgstr ""
+msgstr "잘못된 검색 문자열!"
 
 #: weblate/trans/views/edit.py:135
 #, python-format
@@ -4493,15 +4495,15 @@ msgstr "%s 이후의 번역 다시보기"
 
 #: weblate/trans/views/edit.py:168 weblate/trans/views/edit.py:178
 msgid "No string matched your search!"
-msgstr ""
+msgstr "검색과 일치하는 문자열이 없습니다!"
 
 #: weblate/trans/views/edit.py:205
 msgid "Your suggestion is empty!"
-msgstr ""
+msgstr "귀하의 제안이 없습니다!"
 
 #: weblate/trans/views/edit.py:212
 msgid "You don't have privileges to add suggestions!"
-msgstr ""
+msgstr "제안을 추가할 권한이 없습니다!"
 
 #: weblate/trans/views/edit.py:224
 msgid ""
@@ -4513,7 +4515,7 @@ msgstr ""
 #: weblate/trans/views/edit.py:260
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr ""
+msgstr "다음 픽스업이 번역에 적용되었습니다: %s"
 
 #: weblate/trans/views/edit.py:275
 #, python-brace-format
@@ -4524,23 +4526,23 @@ msgstr "일부 검사는 번역에 실패했음: {0}"
 #: weblate/trans/views/edit.py:315 weblate/trans/views/edit.py:351
 #: weblate/trans/views/edit.py:392
 msgid "You don't have privileges to save translations!"
-msgstr ""
+msgstr "번역을 저장할 권한이 없습니다!"
 
 #: weblate/trans/views/edit.py:321
 msgid "Only suggestions are allowed in this translation!"
-msgstr ""
+msgstr "제안은 이 번역에만 허용됩니다!"
 
 #: weblate/trans/views/edit.py:359
 msgid "Invalid merge request!"
-msgstr ""
+msgstr "잘못된 병합 요청!"
 
 #: weblate/trans/views/edit.py:372
 msgid "Can not merge different messages!"
-msgstr ""
+msgstr "서로 다른 메시지를 병합 할 수 없습니다!"
 
 #: weblate/trans/views/edit.py:409
 msgid "Can not revert to different unit!"
-msgstr ""
+msgstr "다른 유닛으로 되돌릴 수 없습니다!"
 
 #: weblate/trans/views/edit.py:414
 msgid "Can not revert to empty translation!"
@@ -4548,31 +4550,31 @@ msgstr "빈 내용의 번역으로 되돌릴 수 없습니다!"
 
 #: weblate/trans/views/edit.py:445
 msgid "You do not have privilege to accept suggestions!"
-msgstr ""
+msgstr "제안을 수락 할 권한이 없습니다!"
 
 #: weblate/trans/views/edit.py:454
 msgid "You do not have privilege to delete suggestions!"
-msgstr ""
+msgstr "제안을 삭제할 수있는 권한이 없습니다!"
 
 #: weblate/trans/views/edit.py:462 weblate/trans/views/edit.py:470
 msgid "You do not have privilege to vote for suggestions!"
-msgstr ""
+msgstr "제안에 대해 투표 할 권한이 없습니다!"
 
 #: weblate/trans/views/edit.py:476
 msgid "Invalid suggestion!"
-msgstr ""
+msgstr "잘못된 제안!"
 
 #: weblate/trans/views/edit.py:668
 msgid "Automatic translation completed."
-msgstr ""
+msgstr "자동 번역 완료."
 
 #: weblate/trans/views/edit.py:696
 msgid "Posted new comment"
-msgstr ""
+msgstr "새로운 댓글이 등록되었습니다."
 
 #: weblate/trans/views/edit.py:698
 msgid "Failed to add comment!"
-msgstr ""
+msgstr "댓글 추가하기 실패!"
 
 #: weblate/trans/views/edit.py:795
 #| msgid "Failed to process new translation request!"
@@ -4600,51 +4602,51 @@ msgstr[0] ""
 #: weblate/trans/views/files.py:144
 #, python-format
 msgid "File content merge failed: %s"
-msgstr ""
+msgstr "파일 내용 병합 실패함: %s"
 
 #: weblate/trans/views/git.py:36 weblate/trans/views/git.py:47
 #: weblate/trans/views/git.py:58
 msgid "All pending translations were committed."
-msgstr ""
+msgstr "보류중인 모든 번역이 커밋되었습니다."
 
 #: weblate/trans/views/git.py:69 weblate/trans/views/git.py:80
 #: weblate/trans/views/git.py:91
 msgid "All repositories were updated."
-msgstr ""
+msgstr "모든 저장소가 업데이트 되었습니다."
 
 #: weblate/trans/views/git.py:102 weblate/trans/views/git.py:113
 #: weblate/trans/views/git.py:124
 msgid "All repositories were pushed."
-msgstr ""
+msgstr "모든 저장소가 밀어졌습니다."
 
 #: weblate/trans/views/git.py:135 weblate/trans/views/git.py:146
 #: weblate/trans/views/git.py:157
 msgid "All repositories have been reset."
-msgstr ""
+msgstr "모든 저장소가 재설정 되었습니다."
 
 #: weblate/trans/views/lock.py:39
 msgid "Translation is now locked for you."
-msgstr ""
+msgstr "번역은 지금 귀하를 위해 잠겨 있습니다."
 
 #: weblate/trans/views/lock.py:63
 msgid "Translation is now open for translation updates."
-msgstr ""
+msgstr "업데이트를 위해 번역이 현재 열려 있습니다."
 
 #: weblate/trans/views/lock.py:81
 msgid "Subproject is now locked for translation updates!"
-msgstr ""
+msgstr "번역 업데이트를 위해 하위 프로젝트가 현재 잠겨 있습니다!"
 
 #: weblate/trans/views/lock.py:97
 msgid "Subproject is now open for translation updates."
-msgstr ""
+msgstr "번역 업데이트를 위해 하위 프로젝트가 열려 있습니다."
 
 #: weblate/trans/views/lock.py:116
 msgid "All subprojects are now locked for translation updates!"
-msgstr ""
+msgstr "번역 업데이트를 위해 모든 하위 프로젝트들은 현재 잠겨있습니다!"
 
 #: weblate/trans/views/lock.py:131
 msgid "Project is now open for translation updates."
-msgstr ""
+msgstr "번역 업데이트를 위해 프로젝트가 열려 있습니다."
 
 #~ msgid "First name"
 #~ msgstr "이름"
