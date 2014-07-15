@@ -986,6 +986,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             old = SubProject.objects.get(pk=self.id)
             self.check_rename(old)
 
+        # Check file format
+        if self.file_format not in FILE_FORMATS:
+            raise ValidationError(
+                _('Unsupported file format: {0}').format(self.file_format)
+            )
+
         # Validate git repo
         try:
             self.sync_git_repo(True)

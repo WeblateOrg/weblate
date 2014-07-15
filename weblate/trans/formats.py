@@ -50,7 +50,17 @@ def register_fileformat(fileformat):
     '''
     Registers fileformat in dictionary.
     '''
-    FILE_FORMATS[fileformat.format_id] = fileformat
+    try:
+        cls = fileformat.get_class()
+        FILE_FORMATS[fileformat.format_id] = fileformat
+    except (AttributeError, ImportError) as error:
+        weblate.logger.error(
+            'File format "{0}" not supported by translate-toolkit: {1}'.format(
+                fileformat.format_id,
+                str(error)
+            )
+        )
+    return fileformat
 
 
 class FileUnit(object):
@@ -354,7 +364,10 @@ class FileFormat(object):
         return cls.parse_store(storefile)
 
     @classmethod
-    def parse_store(cls, storefile):
+    def get_class(cls):
+        """
+        Returns class for handling this module.
+        """
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
         module = importlib.import_module(
@@ -362,7 +375,14 @@ class FileFormat(object):
         )
 
         # Get the class
-        storeclass = getattr(module, class_name)
+        return getattr(module, class_name)
+
+    @classmethod
+    def parse_store(cls, storefile):
+        """
+        Parses the store.
+        """
+        storeclass = cls.get_class()
 
         # Parse file
         store = storeclass.parsefile(storefile)
@@ -579,6 +599,7 @@ class FileFormat(object):
         raise ValueError('Not supported')
 
 
+@register_fileformat
 class AutoFormat(FileFormat):
     name = _('Automatic detection')
     format_id = 'auto'
@@ -590,9 +611,12 @@ class AutoFormat(FileFormat):
         '''
         return factory.getobject(storefile)
 
-register_fileformat(AutoFormat)
+    @classmethod
+    def get_class(cls):
+        return None
 
 
+@register_fileformat
 class PoFormat(FileFormat):
     name = _('Gettext PO file')
     format_id = 'po'
@@ -677,42 +701,44 @@ class PoFormat(FileFormat):
             stderr=subprocess.STDOUT,
         )
 
-register_fileformat(PoFormat)
 
-
+@register_fileformat
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
     loader = ('po', 'pofile')
     monolingual = True
 
-register_fileformat(PoMonoFormat)
 
-
+@register_fileformat
 class TSFormat(FileFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
     loader = ('ts2', 'tsfile')
 
-register_fileformat(TSFormat)
 
-
+@register_fileformat
 class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
     loader = ('xliff', 'xlifffile')
 
-register_fileformat(XliffFormat)
 
-
+@register_fileformat
 class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
 
-register_fileformat(StringsFormat)
+
+@register_fileformat
+class StringsUtf8Format(FileFormat):
+    name = _('OS X Strings (UTF-8)')
+    format_id = 'strings-utf8'
+    loader = ('properties', 'stringsutf8file')
 
 
+@register_fileformat
 class PropertiesFormat(FileFormat):
     name = _('Java Properties')
     format_id = 'properties'
@@ -728,26 +754,23 @@ class PropertiesFormat(FileFormat):
         store.encoding = 'iso-8859-1'
         return store
 
-register_fileformat(PropertiesFormat)
 
-
+@register_fileformat
 class PropertiesUtf8Format(FileFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
     monolingual = True
 
-register_fileformat(PropertiesUtf8Format)
 
-
+@register_fileformat
 class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'
     loader = ('php', 'phpfile')
 
-register_fileformat(PhpFormat)
 
-
+@register_fileformat
 class AndroidFormat(FileFormat):
     name = _('Android String Resource')
     format_id = 'aresource'
@@ -783,14 +806,14 @@ class AndroidFormat(FileFormat):
             output.write('''<?xml version="1.0" encoding="utf-8"?>
 <resources></resources>''')
 
-register_fileformat(AndroidFormat)
 
-
+@register_fileformat
 class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
     loader = ('jsonl10n', 'JsonFile')
 
-register_fileformat(JSONFormat)
 
-FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
+FILE_FORMAT_CHOICES = [
+    (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
+]
