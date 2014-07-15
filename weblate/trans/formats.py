@@ -54,12 +54,7 @@ def register_fileformat(fileformat):
         fileformat.get_class()
         FILE_FORMATS[fileformat.format_id] = fileformat
     except (AttributeError, ImportError) as error:
-        weblate.logger.error(
-            'File format "{0}" not supported by translate-toolkit: {1}'.format(
-                fileformat.format_id,
-                str(error)
-            )
-        )
+        pass
     return fileformat
 
 
