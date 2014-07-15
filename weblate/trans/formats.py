@@ -51,7 +51,7 @@ def register_fileformat(fileformat):
     Registers fileformat in dictionary.
     '''
     try:
-        cls = fileformat.get_class()
+        fileformat.get_class()
         FILE_FORMATS[fileformat.format_id] = fileformat
     except (AttributeError, ImportError) as error:
         weblate.logger.error(
