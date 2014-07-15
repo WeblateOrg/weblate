@@ -791,4 +791,6 @@ class JSONFormat(FileFormat):
     loader = ('jsonl10n', 'JsonFile')
 
 
-FILE_FORMAT_CHOICES = [(fmt, FILE_FORMATS[fmt].name) for fmt in FILE_FORMATS]
+FILE_FORMAT_CHOICES = [
+    (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
+]
