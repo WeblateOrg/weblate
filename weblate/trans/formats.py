@@ -53,7 +53,7 @@ def register_fileformat(fileformat):
     try:
         fileformat.get_class()
         FILE_FORMATS[fileformat.format_id] = fileformat
-    except (AttributeError, ImportError) as error:
+    except (AttributeError, ImportError):
         pass
     return fileformat
 
