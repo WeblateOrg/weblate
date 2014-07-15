@@ -164,7 +164,7 @@
 {% trans "Anonymous user has suggested" %}
 {% endif %}
 </strong></h5>
-{% format_translation suggestion.target unit.language unit.target %}
+{% format_translation suggestion.target unit.translation.language unit.target %}
 {% if unit.can_vote_suggestions %}
 <p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
