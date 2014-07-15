@@ -970,22 +970,22 @@ class SearchViewTest(ViewTestCase):
         # Default
         self.do_search(
             {'q': 'hello'},
-            'Current filter: Fulltext search for'
+            'Fulltext search for'
         )
         # Fulltext
         self.do_search(
             {'q': 'hello', 'search': 'ftx'},
-            'Current filter: Fulltext search for'
+            'Fulltext search for'
         )
         # Substring
         self.do_search(
             {'q': 'hello', 'search': 'substring'},
-            'Current filter: Substring search for'
+            'Substring search for'
         )
         # Exact string
         self.do_search(
             {'q': 'Thank you for using Weblate.', 'search': 'exact'},
-            'Current filter: Search for exact string'
+            'Search for exact string'
         )
         # Short string
         self.do_search(
@@ -1013,7 +1013,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_links(self):
         response = self.do_search(
             {'q': 'weblate'},
-            'Current filter: Fulltext search for'
+            'Fulltext search for'
         )
         # Extract search ID
         search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
@@ -1080,7 +1080,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_type(self):
         self.do_search(
             {'type': 'untranslated'},
-            'Current filter: Untranslated strings'
+            'Untranslated strings'
         )
         self.do_search(
             {'type': 'fuzzy'},
