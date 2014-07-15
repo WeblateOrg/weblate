@@ -713,6 +713,14 @@ class StringsFormat(FileFormat):
 register_fileformat(StringsFormat)
 
 
+class StringsUtf8Format(FileFormat):
+    name = _('OS X Strings (UTF-8)')
+    format_id = 'strings-utf8'
+    loader = ('properties', 'stringsutf8file')
+
+register_fileformat(StringsUtf8Format)
+
+
 class PropertiesFormat(FileFormat):
     name = _('Java Properties')
     format_id = 'properties'
