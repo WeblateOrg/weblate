@@ -27,19 +27,20 @@
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
 {% endif %}
 
-<span class="navi-toolbar ui-widget-header ui-corner-all">
-<span id="navi">
-<a id="button-first" href="{{ first_unit_url }}">{% trans "First" %}</a>
-<a id="button-prev" href="{{ prev_unit_url }}">{% trans "Previous" %}</a>
-<a id="button-pos" class="textbutton">{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}</a>
-<a id="button-next" href="{{ next_unit_url }}">{% trans "Next" %}</a>
-<a id="button-end" href="{{ last_unit_url }}">{% trans "Last" %}</a>
-</span>
-
+<ul class="pagination">
+<li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+<li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><span class="glyphicon glyphicon-backward"></span></a></li>
+<li><a>
 {% if filter_name %}
-{% blocktrans %}Current filter: {{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
+{% blocktrans %}{{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
+{% else %}
+{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}
 {% endif %}
-</span>
+</a></li>
+<li><a id="button-next" href="{{ next_unit_url }}" title="{% trans "Next" %}"><span class="glyphicon glyphicon-forward"></span></a></li>
+<li><a id="button-end" href="{{ last_unit_url }}" title="{% trans "Last" %}"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+</ul>
+
 
 <div class="row">
 <div class="col-sm-9">
