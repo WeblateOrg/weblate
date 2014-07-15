@@ -50,7 +50,16 @@ def register_fileformat(fileformat):
     '''
     Registers fileformat in dictionary.
     '''
-    FILE_FORMATS[fileformat.format_id] = fileformat
+    try:
+        cls = fileformat.get_class()
+        FILE_FORMATS[fileformat.format_id] = fileformat
+    except (AttributeError, ImportError) as error:
+        weblate.logger.error(
+            'File format "{0}" not supported by translate-toolkit: {1}'.format(
+                fileformat.format_id,
+                str(error)
+            )
+        )
     return fileformat
 
 
@@ -355,7 +364,10 @@ class FileFormat(object):
         return cls.parse_store(storefile)
 
     @classmethod
-    def parse_store(cls, storefile):
+    def get_class(cls):
+        """
+        Returns class for handling this module.
+        """
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
         module = importlib.import_module(
@@ -363,7 +375,14 @@ class FileFormat(object):
         )
 
         # Get the class
-        storeclass = getattr(module, class_name)
+        return getattr(module, class_name)
+
+    @classmethod
+    def parse_store(cls, storefile):
+        """
+        Parses the store.
+        """
+        storeclass = cls.get_class()
 
         # Parse file
         store = storeclass.parsefile(storefile)
@@ -591,6 +610,10 @@ class AutoFormat(FileFormat):
         Directly loads using translate-toolkit.
         '''
         return factory.getobject(storefile)
+
+    @classmethod
+    def get_class(cls):
+        return None
 
 
 @register_fileformat
