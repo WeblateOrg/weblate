@@ -115,7 +115,7 @@ class ViewTestCase(RepoTestCase):
         unit = self.get_unit(source)
         params = {
             'checksum': unit.checksum,
-            'target': target,
+            'target_0': target,
         }
         params.update(kwargs)
         return self.client.post(

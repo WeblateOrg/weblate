@@ -203,12 +203,12 @@ class PluralTextarea(forms.Textarea):
         Returns processed plurals - either list of plural strings or single
         string if no plurals are in use.
         '''
-        ret = [data.get(name, None)]
-        for idx in range(1, 10):
+        ret = []
+        for idx in range(0, 10):
             fieldname = '%s_%d' % (name, idx)
             if fieldname not in data:
                 break
-            ret.append(data.get(fieldname, None))
+            ret.append(data.get(fieldname, ''))
         ret = [smart_unicode(r.replace('\r', '')) for r in ret]
         if len(ret) == 0:
             return ret[0]
