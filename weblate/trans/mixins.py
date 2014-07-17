@@ -147,10 +147,6 @@ class PathMixin(object):
         """
         Detects slug changes and possibly renames underlaying directory.
         """
-        weblate.logger.debug(
-            'check_rename: old slug is "%s", new is "%s"',
-            old.slug, self.slug
-        )
         if old.slug != self.slug:
             old_path = old.get_path()
             # Invalidate cache
