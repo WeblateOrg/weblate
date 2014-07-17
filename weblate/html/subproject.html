@@ -75,7 +75,7 @@
 </div>
 </div>
 
-{% if object.can_add_language %}
+{% if object.can_add_language and user.is_authenticated %}
 <form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">
