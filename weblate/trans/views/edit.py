@@ -794,7 +794,7 @@ def save_zen(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
     form = TranslationForm(translation, None, request.POST)
     if not form.is_valid():
-        messages.error(_('Failed to save translation!'))
+        messages.error(request, _('Failed to save translation!'))
     else:
         unit = form.cleaned_data['unit']
 
