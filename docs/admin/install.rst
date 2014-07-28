@@ -98,20 +98,20 @@ Most requirements can be also installed using pip installer:
 
     pip install -r requirements.txt
 
-Also you will need header files for ``python-dev``, ``libxml2`` and ``libxslt``
-to compile some of the required Python modules.
+Also you will need header files for ``python-dev``, ``libxml2``, ``libxslt``
+and ``libfreetype6`` to compile some of the required Python modules.
 
 On Debian or Ubuntu you can install them using:
 
 .. code-block:: sh
 
-    apt-get install libxml2-dev libxslt-dev python-dev
+    apt-get install libxml2-dev libxslt-dev libfreetype6-dev python-dev
 
 On openSUSE or SLES you can install them using:
 
 .. code-block:: sh
 
-    zypper install libxslt-devel libxml2-devel python-devel
+    zypper install libxslt-devel libxml2-devel freetype-devel python-devel
 
 .. _file-permissions:
 
