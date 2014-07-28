@@ -2,7 +2,7 @@ Changes
 =======
 
 weblate 1.10
------------
+------------
 
 Released on ? 2014.
 
