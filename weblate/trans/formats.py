@@ -632,7 +632,9 @@ class PoFormat(FileFormat):
                 mounit.source = ""
             else:
                 mounit.source = unit.source
-                mounit.msgctxt = [unit.getcontext()]
+                context = unit.getcontext()
+                if context:
+                    mounit.msgctxt = [context]
             mounit.target = unit.target
             outputfile.addunit(mounit)
         return str(outputfile)
