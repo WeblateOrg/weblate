@@ -38,7 +38,9 @@
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
 <li><a href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
+{% if enable_sharing %}
 <li><a href="#share">{% trans "Share" %}</a></li>
+{% endif %}
 <li><a href="#tools">{% trans "Tools" %}</a></li>
 <li><a href="{% url 'view_activity_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
 </ul>
@@ -72,11 +74,13 @@
 {% include "last-changes.html" %}
 </div>
 
+{% if enable_sharing %}
 <div id="share">
 {% with object.project as project %}
 {% include 'share.html' %}
 {% endwith %}
 </div>
+{% endif %}
 
 <div id="tools">
 <ul>

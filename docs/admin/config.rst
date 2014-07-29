@@ -133,6 +133,13 @@ ENABLE_HTTPS
 Whether to send links to the Weblate as https or http. This setting only
 affects sent mails.
 
+.. setting:: ENABLE_SHARING
+
+ENABLE_SHARING
+--------------
+
+Whether to show links to share translation progress on social networks.
+
 .. setting:: GIT_ROOT
 
 GIT_ROOT

@@ -48,6 +48,7 @@ def weblate_context(request):
         'offer_hosting': appsettings.OFFER_HOSTING,
         'demo_server': appsettings.DEMO_SERVER,
         'enable_avatars': appsettings.ENABLE_AVATARS,
+        'enable_sharing': appsettings.ENABLE_SHARING,
 
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),

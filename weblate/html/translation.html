@@ -48,7 +48,9 @@
 <li><a href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
 {% endif %}
 <li><a href="#locking">{% trans "Locking" %}</a></li>
+{% if enable_sharing %}
 <li><a href="#share">{% trans "Share" %}</a></li>
+{% endif %}
 <li><a href="#stats">{% trans "Stats" %}</a></li>
 <li><a href="{% url 'view_activity_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
 </ul>
@@ -137,11 +139,13 @@
 {% endif %}
 </div>
 
+{% if enable_sharing %}
 <div id="share">
 {% with object.subproject.project as project %}
 {% include 'share.html' %}
 {% endwith %}
 </div>
+{% endif %}
 
 <div id="stats">
 <table>
