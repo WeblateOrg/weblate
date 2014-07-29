@@ -31,6 +31,7 @@ from weblate.trans.util import get_site_url
 import json
 import weblate
 import threading
+import re
 
 
 BITBUCKET_GIT_REPOS = (
@@ -193,7 +194,7 @@ def github_hook_helper(data):
     # Parse owner, branch and repository name
     owner = data['repository']['owner']['name']
     slug = data['repository']['name']
-    branch = data['ref'].split('/')[-1]
+    branch = re.sub(r'^refs/heads/', '', data['ref'])
 
     # Construct possible repository URLs
     repos = [repo % {'owner': owner, 'slug': slug} for repo in GITHUB_REPOS]
