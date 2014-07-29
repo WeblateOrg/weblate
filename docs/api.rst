@@ -34,6 +34,13 @@ repository has been updated.
 
     .. seealso:: http://help.github.com/post-receive-hooks/ :setting:`ENABLE_HOOKS`
 
+.. describe:: POST /hooks/gitlab/
+
+    Special hook for handling GitLab notifications and automatically updating
+    matching subprojects.
+
+    .. seealso:: http://doc.gitlab.com/ce/web_hooks/web_hooks.html :setting:`ENABLE_HOOKS`
+
 .. describe:: POST /hooks/bitbucket/
 
     Special hook for handling Bitbucket notifications and automatically
