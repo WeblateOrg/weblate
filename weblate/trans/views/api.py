@@ -109,7 +109,7 @@ def git_service_hook(request, service):
     # Check if we got payload
     try:
         # GitLab sends json as application/json
-        if service == 'gitlab':
+        if request.META['CONTENT_TYPE'] == 'application/json':
             data = json.loads(request.body)
         # Bitbucket and GitHub sends json as x-www-form-data
         else:
