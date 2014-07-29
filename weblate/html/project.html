@@ -27,6 +27,7 @@
       {% endif %}
     </ul>
   </li>
+{% if enable_sharing %}
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Share" %} <span class="caret"></span>
@@ -39,6 +40,7 @@
 {% endwith %}
     </ul>
   </li>
+{% endif %}
 </ul>
 
 <div class="tab-content">

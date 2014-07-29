@@ -30,6 +30,7 @@
       <li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
     </ul>
   </li>
+{% if enable_sharing %}
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Share" %} <span class="caret"></span>
@@ -42,6 +43,7 @@
 {% endwith %}
     </ul>
   </li>
+{% endif %}
 </ul>
 
 

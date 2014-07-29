@@ -11,6 +11,7 @@ Released on ? 2014.
 * Added whiteboard for site wide messages.
 * Configurable strings priority.
 * Added support for JSON file format.
+* Fixed generating mo files in certain cases.
 
 weblate 1.9
 -----------

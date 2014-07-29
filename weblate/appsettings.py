@@ -72,6 +72,9 @@ DEMO_SERVER = get('DEMO_SERVER', False)
 # Enable remote hooks
 ENABLE_HOOKS = get('ENABLE_HOOKS', True)
 
+# Enable sharing
+ENABLE_SHARING = get('ENABLE_SHARING', True)
+
 # Whether to run hooks in background
 BACKGROUND_HOOKS = get('BACKGROUND_HOOKS', True)
 
