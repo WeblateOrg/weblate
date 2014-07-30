@@ -186,7 +186,7 @@ def get_versions():
         name,
         url,
         mod.__version__,
-        '0.7',
+        '1.0',
     ))
 
     name = 'Pillow (PIL)'

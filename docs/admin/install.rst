@@ -26,7 +26,7 @@ PIL or Pillow library
     http://python-imaging.github.io/
 lxml (>= 3.1.0)
     http://lxml.de/
-South (>= 0.7.5)
+South (>= 1.0)
     http://south.aeracode.org/
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
