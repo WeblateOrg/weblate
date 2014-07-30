@@ -16,24 +16,16 @@ load-plugins=pylint_django
 # C0111 Missing docstring 
 # I0011 Warning locally suppressed using disable-msg
 # I0012 Warning locally suppressed using disable-msg
-# W0704 Except doesn't do anything Used when an except clause does nothing but "pass" and there is no "else" clause
 # W0142 Used * or * magic* Used when a function or method is called using *args or **kwargs to dispatch arguments.
-# W0232 Class has no __init__ method Used when a class has no __init__ method, neither its parent classes.
 # W0613 Unused argument %r Used when a function or method argument is not used.
-# W0702 No exception's type specified Used when an except clause doesn't specify exceptions type to catch.
 # R0201 Method could be a function
 # E1101 does not work well on metaclasses like Django models or Mechanize browser
-# E1120 Does not work with class based views
 # E1103 does not work with WSGIRequest or file objects
 # W0703 Catching too general exception Exception
 # R0921,R0922 Is raised when abstract classes are used in different module
 # E1002 Produces lot of false positives with Django 1.5
-# C1001(old-style-class) Raised on every Meta class
-# E0202(method-hidden) raised on all get_absolute_url methods
-# E1123(unexpected-keyword-arg) raised on all Django forms or fields
 # R0401(cyclic-import) we have too many of them
-# W1302(bad-format-string) looks like a false positive with PyLint 1.3.0
-disable=C0111,I0011,I0012,W0704,W0142,W0232,W0613,W0702,R0201,E1101,E1120,E1103,W0703,R0921,R0922,E1002,C1001,E0202,E1123,R0401,W1302
+disable=C0111,I0011,I0012,W0142,W0613,W0703,R0201,E1103,E1101,R0401,R0921,R0922,E1002
 
 [REPORTS]
 
