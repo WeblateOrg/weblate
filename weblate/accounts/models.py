@@ -37,7 +37,9 @@ from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project, Change, Unit
+from weblate.trans.models.project import Project
+from weblate.trans.models.unit import Unit
+from weblate.trans.models.changes import Change
 from weblate.trans.util import get_site_url, get_distinct_translations
 from weblate.accounts.avatar import get_user_display
 import weblate
