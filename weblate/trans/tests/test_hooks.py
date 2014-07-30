@@ -69,6 +69,46 @@ GITHUB_PAYLOAD = '''
 }
 '''
 
+GITLAB_PAYLOAD = '''
+{
+  "before": "95790bf891e76fee5e1747ab589903a6a1f80f22",
+  "after": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
+  "ref": "refs/heads/master",
+  "user_id": 4,
+  "user_name": "John Smith",
+  "project_id": 15,
+  "repository": {
+    "name": "Diaspora",
+    "url": "git@example.com:diaspora.git",
+    "description": "",
+    "homepage": "http://example.com/diaspora"
+  },
+  "commits": [
+    {
+      "id": "b6568db1bc1dcd7f8b4d5a946b0b91f9dacd7327",
+      "message": "Update Catalan translation to e38cb41.",
+      "timestamp": "2011-12-12T14:27:31+02:00",
+      "url": "http://example.com/diaspora/commits/b6568db1b",
+      "author": {
+        "name": "Jordi Mallach",
+        "email": "jordi@softcatala.org"
+      }
+    },
+    {
+      "id": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
+      "message": "fixed readme",
+      "timestamp": "2012-01-03T23:36:29+02:00",
+      "url": "http://example.com/diaspora/commits/da1560886",
+      "author": {
+        "name": "GitLab dev user",
+        "email": "gitlabdev@dv6700.(none)"
+      }
+    }
+  ],
+  "total_commits_count": 4
+}
+'''
+
 BITBUCKET_PAYLOAD_GIT = '''
 {
     "canon_url": "https://bitbucket.org",
@@ -201,6 +241,15 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'update triggered')
 
+    def test_view_hook_gitlab(self):
+        appsettings.BACKGROUND_HOOKS = False
+        appsettings.ENABLE_HOOKS = True
+        response = self.client.post(
+            reverse('hook-gitlab'), GITLAB_PAYLOAD,
+            content_type="application/json"
+        )
+        self.assertContains(response, 'update triggered')
+
     def test_view_hook_bitbucket_git(self):
         appsettings.BACKGROUND_HOOKS = False
         appsettings.ENABLE_HOOKS = True
@@ -252,14 +301,19 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
         response = self.client.post(
+            reverse('hook-gitlab'), GITLAB_PAYLOAD,
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 405)
+        response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
         self.assertEqual(response.status_code, 405)
 
-    def test_wrong_payload(self):
+    def test_wrong_payload_github(self):
         '''
-        Tests for invalid payloads.
+        Tests for invalid payloads with github.
         '''
         # missing
         response = self.client.post(
@@ -284,6 +338,50 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-github'),
             {'payload': '{}'},
+        )
+        self.assertContains(
+            response,
+            'Invalid data in json payload!',
+            status_code=400
+        )
+
+    def test_wrong_payload_gitlab(self):
+        '''
+        Tests for invalid payloads with gitlab.
+        '''
+        # missing
+        response = self.client.post(
+            reverse('hook-gitlab'),
+        )
+        self.assertContains(
+            response,
+            'Could not parse JSON payload!',
+            status_code=400
+        )
+        # missing content-type header
+        response = self.client.post(
+            reverse('hook-gitlab'),
+            {'payload': 'anything'}
+        )
+        self.assertContains(
+            response,
+            'Could not parse JSON payload!',
+            status_code=400
+        )
+        # wrong
+        response = self.client.post(
+            reverse('hook-gitlab'), 'xx',
+            content_type="application/json"
+        )
+        self.assertContains(
+            response,
+            'Could not parse JSON payload!',
+            status_code=400
+        )
+        # missing data
+        response = self.client.post(
+            reverse('hook-gitlab'), '{}',
+            content_type="application/json"
         )
         self.assertContains(
             response,

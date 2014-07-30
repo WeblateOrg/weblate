@@ -92,8 +92,9 @@ def git_service_hook(request, service):
     '''
     Shared code between Git service hooks.
 
-    Currently used for bitbucket_hook and github_hook, but should be usable for
-    hook from other Git services (Google Code, custom coded sites, etc.) too.
+    Currently used for bitbucket_hook, github_hook and gitlab_hook, but should
+    be usable for other Git services (Google Code, custom coded sites, etc.)
+    too.
     '''
     # Check for enabled hooks
     if appsettings.ENABLE_HOOKS:
@@ -107,13 +108,20 @@ def git_service_hook(request, service):
 
     # Check if we got payload
     try:
-        data = json.loads(request.POST['payload'])
+        # GitLab sends json as application/json
+        if request.META['CONTENT_TYPE'] == 'application/json':
+            data = json.loads(request.body)
+        # Bitbucket and GitHub sends json as x-www-form-data
+        else:
+            data = json.loads(request.POST['payload'])
     except (ValueError, KeyError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
     if service == 'github':
         hook_helper = github_hook_helper
+    elif service == 'gitlab':
+        hook_helper = gitlab_hook_helper
     elif service == 'bitbucket':
         hook_helper = bitbucket_hook_helper
     else:
@@ -201,6 +209,25 @@ def github_hook_helper(data):
 
     return {
         'service_long_name': 'GitHub',
+        'repos': repos,
+        'branch': branch,
+    }
+
+
+@csrf_exempt
+def gitlab_hook_helper(data):
+    '''
+    API to handle commit hooks from GitLab.
+    '''
+    ssh_url = data['repository']['url']
+    http_url = '.'.join((data['repository']['homepage'], 'git'))
+    branch = re.sub(r'^refs/heads/', '', data['ref'])
+
+    # Construct possible repository URLs
+    repos = [ssh_url, http_url]
+
+    return {
+        'service_long_name': 'GitLab',
         'repos': repos,
         'branch': branch,
     }
