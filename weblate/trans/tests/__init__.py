@@ -20,6 +20,7 @@
 
 # Wildcard import
 # pylint: disable=W0401
+# flake8: noqa
 
 from weblate.trans.tests.test_diff import *
 from weblate.trans.tests.test_checks import *
