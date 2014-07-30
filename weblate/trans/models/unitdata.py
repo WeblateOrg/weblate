@@ -24,7 +24,6 @@ from django.contrib.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.project import Project
 from weblate.trans.models.changes import Change
 from weblate.accounts.avatar import get_user_display
 
@@ -103,7 +102,7 @@ class Suggestion(models.Model, RelatedUnitMixin):
     contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey('Project')
     language = models.ForeignKey(Language)
 
     votes = models.ManyToManyField(
@@ -265,7 +264,7 @@ class Comment(models.Model, RelatedUnitMixin):
     contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey('Project')
     language = models.ForeignKey(Language, null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
@@ -295,7 +294,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 class Check(models.Model, RelatedUnitMixin):
     contentsum = models.CharField(max_length=40, db_index=True)
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey('Project')
     language = models.ForeignKey(Language, null=True, blank=True)
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
     ignore = models.BooleanField(db_index=True, default=False)

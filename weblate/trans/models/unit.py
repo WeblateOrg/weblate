@@ -27,7 +27,6 @@ from django.contrib import messages
 from django.core.cache import cache
 import traceback
 from weblate.trans.checks import CHECKS
-from weblate.trans.models.translation import Translation
 from weblate.trans.models.source import Source
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
 
@@ -301,7 +300,7 @@ class UnitManager(models.Manager):
 
 
 class Unit(models.Model):
-    translation = models.ForeignKey(Translation)
+    translation = models.ForeignKey('Translation')
     checksum = models.CharField(max_length=40, db_index=True)
     contentsum = models.CharField(max_length=40, db_index=True)
     location = models.TextField(default='', blank=True)
