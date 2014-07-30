@@ -3,6 +3,7 @@ from django.utils.unittest import SkipTest
 from selenium import webdriver
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+import django
 import os
 import new
 import json
@@ -62,7 +63,7 @@ class SeleniumTests(LiveServerTestCase):
                 cls.caps['build'] = os.environ['TRAVIS_BUILD_NUMBER']
                 cls.caps['tags'] = [
                     'python-{}'.format(os.environ['TRAVIS_PYTHON_VERSION']),
-                    'django-{}'.format(os.environ['DJANGO_VERSION']),
+                    'django-{}'.format(django.get_version()),
                     os.environ['TRAVIS_DATABASE'],
                     'CI'
                 ]
