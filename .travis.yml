@@ -36,7 +36,7 @@ install:
 before_script:
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
-  - if [[ -n "$DO_SELENIUM" ]] ; then curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
+  - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/henrikhodne/9322897/raw/sauce-connect.sh | bash ; fi
 # commands to run tests
 script: 
   - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
