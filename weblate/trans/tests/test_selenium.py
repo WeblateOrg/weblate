@@ -79,6 +79,7 @@ class SeleniumTests(LiveServerTestCase):
                 desired_capabilities=cls.caps,
                 command_executor="http://{}/wd/hub".format(hub_url)
             )
+            cls.driver.implicitly_wait(10)
             jobid = cls.driver.session_id
             print 'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
         super(SeleniumTests, cls).setUpClass()
