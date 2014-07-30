@@ -344,11 +344,8 @@ class Language(models.Model, PercentMixin):
         if self._percents is not None:
             return self._percents
 
-        # Import translations
-        from weblate.trans.models.translation import Translation
-
-        # Get prercents
-        result = Translation.objects.get_percents(language=self)
+        # Get translations percents
+        result = self.translation_set.get_percents()
 
         # Update cache
         self._percents = result
