@@ -27,7 +27,6 @@ from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils.formats import date_format
 from django.utils import timezone
 from django import template
-from weblate import appsettings
 
 import re
 
