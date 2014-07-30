@@ -29,12 +29,11 @@ install:
   - pip install -r requirements-optional.txt
   - pip install -r travis/requirements.txt
   - pip install -r travis/requirements-$TRAVIS_DATABASE.txt
-addons:
-  sauce_connect: true
 # create databases
 before_script:
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
+  - if [[ -n "$DO_SELENIUM" ]] ; then curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
 # commands to run tests
 script: 
   - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi

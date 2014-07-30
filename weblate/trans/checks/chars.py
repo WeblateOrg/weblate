@@ -165,39 +165,48 @@ class EndColonCheck(TargetCheck):
     colon_fr = (' :', '&nbsp;:', u' :')
     severity = 'warning'
 
+    def _check_fr(self, source, target):
+        if source[-1] == ':':
+            # Accept variant with trailing space as well
+            if target[-1] == ' ':
+                check_string = target[-3:-1]
+            else:
+                check_string = target[-2:]
+            if check_string not in self.colon_fr:
+                return True
+        return False
+
+    def _check_hy(self, source, target):
+        if source[-1] == ':':
+            return self.check_chars(
+                source,
+                target,
+                -1,
+                (u':', u'՝', u'`')
+            )
+        return False
+
+    def _check_ja(self, source, target):
+        # Japanese sentence might need to end with full stop
+        # in case it's used before list.
+        if source[-1] in (':', ';'):
+            return self.check_chars(
+                source,
+                target,
+                -1,
+                (u';', u':', u'：', u'.', u'。')
+            )
+        return False
+
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
             return False
         if self.is_language(unit, ('fr', 'br')):
-            if source[-1] == ':':
-                # Accept variant with trailing space as well
-                if target[-1] == ' ':
-                    check_string = target[-3:-1]
-                else:
-                    check_string = target[-2:]
-                if check_string not in self.colon_fr:
-                    return True
-            return False
+            return self._check_fr(source, target)
         if self.is_language(unit, ('hy', )):
-            if source[-1] == ':':
-                return self.check_chars(
-                    source,
-                    target,
-                    -1,
-                    (u':', u'՝', u'`')
-                )
-            return False
+            return self._check_hy(source, target)
         if self.is_language(unit, ('ja', )):
-            # Japanese sentence might need to end with full stop
-            # in case it's used before list.
-            if source[-1] in (':', ';'):
-                return self.check_chars(
-                    source,
-                    target,
-                    -1,
-                    (u';', u':', u'：', u'.', u'。')
-                )
-            return False
+            return self._check_ja(source, target)
         return self.check_chars(source, target, -1, (u':', u'：', u'៖'))
 
 
@@ -215,27 +224,35 @@ class EndQuestionCheck(TargetCheck):
     question_el = ('?', ';', u';')
     severity = 'warning'
 
+    def _check_fr(self, source, target):
+        if source[-1] != '?':
+            return False
+        return target[-2:] not in self.question_fr
+
+    def _check_hy(self, source, target):
+        if source[-1] == '?':
+            return self.check_chars(
+                source,
+                target,
+                -1,
+                (u'?', u'՞')
+            )
+        return False
+
+    def _check_el(self, source, target):
+        if source[-1] != '?':
+            return False
+        return target[-1] not in self.question_el
+
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
             return False
         if self.is_language(unit, ('fr', 'br')):
-            if source[-1] != '?':
-                return False
-            return target[-2:] not in self.question_fr
-
+            return self._check_fr(source, target)
         if self.is_language(unit, ('hy', )):
-            if source[-1] == '?':
-                return self.check_chars(
-                    source,
-                    target,
-                    -1,
-                    (u'?', u'՞')
-                )
-            return False
+            return self._check_hy(source, target)
         if self.is_language(unit, ('el', )):
-            if source[-1] != '?':
-                return False
-            return target[-1] not in self.question_el
+            return self._check_el(source, target)
 
         return self.check_chars(
             source,
@@ -258,6 +275,12 @@ class EndExclamationCheck(TargetCheck):
     exclamation_fr = (' !', '&nbsp;!', u' !', ' ! ', '&nbsp;! ', u' ! ')
     severity = 'warning'
 
+    def _check_fr(self, source, target):
+        if source[-1] == '!':
+            if target[-2:] not in self.exclamation_fr:
+                return True
+        return False
+
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:
             return False
@@ -268,10 +291,7 @@ class EndExclamationCheck(TargetCheck):
         if self.is_language(unit, ('hy', )):
             return False
         if self.is_language(unit, ('fr', 'br')):
-            if source[-1] == '!':
-                if target[-2:] not in self.exclamation_fr:
-                    return True
-            return False
+            return self._check_fr(source, target)
         if source.endswith('Texy!') or target.endswith('Texy!'):
             return False
         return self.check_chars(

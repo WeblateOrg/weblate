@@ -173,23 +173,27 @@ class BaseFormatCheck(TargetCheck):
         else:
             src_matches = None
 
+        # We ignore %% in the matches as this is really not relevant. However
+        # it needs to be matched to prevent handling %%s as %s.
+
         # Cache miss, so calculate value
         if src_matches is None:
-            src_matches = [x[0] for x in self.regexp.findall(source)]
+            src_matches = [
+                x[0]
+                for x in self.regexp.findall(source)
+                if x[0] != '%'
+            ]
             if src_matches:
                 uses_position = max(
                     [self.is_position_based(x) for x in src_matches]
                 )
             self.set_cache(unit, (uses_position, src_matches), cache_slot)
 
-        tgt_matches = [x[0] for x in self.regexp.findall(target)]
-
-        # We ignore %% as this is really not relevant. However it needs
-        # to be matched to prevent handling %%s as %s.
-        while '%' in src_matches:
-            src_matches.remove('%')
-        while '%' in tgt_matches:
-            tgt_matches.remove('%')
+        tgt_matches = [
+            x[0]
+            for x in self.regexp.findall(target)
+            if x[0] != '%'
+        ]
 
         if not uses_position:
             src_matches = set(src_matches)
