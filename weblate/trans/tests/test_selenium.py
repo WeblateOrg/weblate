@@ -12,7 +12,7 @@ import base64
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
     'DO_SELENIUM' in os.environ
-    'SAUCE_USERNAME' in os.environ
+    and 'SAUCE_USERNAME' in os.environ
     and 'SAUCE_ACCESS_KEY' in os.environ
 )
 
