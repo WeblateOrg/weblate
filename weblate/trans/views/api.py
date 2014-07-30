@@ -51,6 +51,17 @@ GITHUB_REPOS = (
     'git@github.com:%(owner)s/%(slug)s.git',
 )
 
+HOOK_HANDLERS = {}
+
+
+def register_hook(handler):
+    """
+    Registers hook handler.
+    """
+    name = handler.__name__.split('_')[0]
+    HOOK_HANDLERS[name] = handler
+    return handler
+
 
 def perform_update(obj):
     '''
@@ -118,15 +129,10 @@ def git_service_hook(request, service):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
-    if service == 'github':
-        hook_helper = github_hook_helper
-    elif service == 'gitlab':
-        hook_helper = gitlab_hook_helper
-    elif service == 'bitbucket':
-        hook_helper = bitbucket_hook_helper
-    else:
-        weblate.logger.error('service %s, not supported', service)
+    if service not in HOOK_HANDLERS:
+        weblate.logger.error('service %s is not supported', service)
         return HttpResponseBadRequest('invalid service')
+    hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
     try:
@@ -161,7 +167,7 @@ def git_service_hook(request, service):
     return HttpResponse('update triggered')
 
 
-@csrf_exempt
+@register_hook
 def bitbucket_hook_helper(data):
     '''
     API to handle commit hooks from Bitbucket.
@@ -194,7 +200,7 @@ def bitbucket_hook_helper(data):
     }
 
 
-@csrf_exempt
+@register_hook
 def github_hook_helper(data):
     '''
     API to handle commit hooks from GitHub.
@@ -214,7 +220,7 @@ def github_hook_helper(data):
     }
 
 
-@csrf_exempt
+@register_hook
 def gitlab_hook_helper(data):
     '''
     API to handle commit hooks from GitLab.
