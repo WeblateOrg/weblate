@@ -64,7 +64,6 @@ class SeleniumTests(LiveServerTestCase):
                 cls.caps['tags'] = [
                     'python-{}'.format(os.environ['TRAVIS_PYTHON_VERSION']),
                     'django-{}'.format(django.get_version()),
-                    os.environ['TRAVIS_DATABASE'],
                     'CI'
                 ]
 
