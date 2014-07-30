@@ -29,25 +29,25 @@ Shields.IO badge often used to quickly see status of a project:
 
 .. image:: ../images/weblate-shields-badge.svg
     :alt: Translation status
-    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+    :target: https://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 Small badge often used to quickly see status of a project:
 
 .. image:: ../images/weblate-status-badge.png
     :alt: Translation status
-    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+    :target: https://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 Big badge with status details useful for inclusion on a web page:
 
 .. image:: ../images/weblate-287x66-white.png
     :alt: Translation status
-    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+    :target: https://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 Small badge with status useful for inclusion on a web page:
 
 .. image:: ../images/weblate-88x31-grey.png
     :alt: Translation status
-    :target: http://l10n.cihar.com/engage/weblate/?utm_source=widget
+    :target: https://l10n.cihar.com/engage/weblate/?utm_source=widget
 
 All these badges come with links to simple page which explains users how to
 translate using Weblate:
