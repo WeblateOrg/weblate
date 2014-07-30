@@ -298,7 +298,7 @@ class Check(models.Model, RelatedUnitMixin):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language, null=True, blank=True)
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
-    ignore = models.BooleanField(db_index=True)
+    ignore = models.BooleanField(db_index=True, default=False)
 
     class Meta(object):
         permissions = (

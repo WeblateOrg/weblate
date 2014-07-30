@@ -676,7 +676,7 @@ class Unit(models.Model):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.check(same_state, same_content, force_insert)
+            self.run_checks(same_state, same_content, force_insert)
 
         # Update fulltext index if content has changed or this is a new unit
         if force_insert or not same_content:
@@ -859,7 +859,7 @@ class Unit(models.Model):
 
         return checks_to_run, cleanup_checks
 
-    def check(self, same_state=True, same_content=True, is_new=False):
+    def run_checks(self, same_state=True, same_content=True, is_new=False):
         """
         Updates checks for this unit.
         """

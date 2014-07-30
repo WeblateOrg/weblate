@@ -3,6 +3,7 @@ from django.utils.unittest import SkipTest
 from selenium import webdriver
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+import django
 import os
 import new
 import json
@@ -11,7 +12,8 @@ import base64
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
-    'SAUCE_USERNAME' in os.environ
+    'DO_SELENIUM' in os.environ
+    and 'SAUCE_USERNAME' in os.environ
     and 'SAUCE_ACCESS_KEY' in os.environ
 )
 
@@ -61,7 +63,7 @@ class SeleniumTests(LiveServerTestCase):
                 cls.caps['build'] = os.environ['TRAVIS_BUILD_NUMBER']
                 cls.caps['tags'] = [
                     'python-{}'.format(os.environ['TRAVIS_PYTHON_VERSION']),
-                    'django-{}'.format(os.environ['DJANGO_VERSION']),
+                    'django-{}'.format(django.get_version()),
                     os.environ['TRAVIS_DATABASE'],
                     'CI'
                 ]
@@ -134,22 +136,20 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    # Following browsers do not work correctly store cookies with Sauce labs:
-    # http://support.saucelabs.com/entries/20629691
-    # 'Opera': {
-    #     'browserName': 'opera',
-    #     'platform': 'WIN7',
-    # },
-    # 'MSIE10': {
-    #     'browserName': 'internet explorer',
-    #     'version': '10',
-    #     'platform': 'WIN8',
-    # },
-    # 'MSIE9': {
-    #     'browserName': 'internet explorer',
-    #     'version': '9',
-    #     'platform': 'VISTA',
-    # },
+    'Opera': {
+        'browserName': 'opera',
+        'platform': 'WIN7',
+    },
+    'MSIE10': {
+        'browserName': 'internet explorer',
+        'version': '10',
+        'platform': 'WIN8',
+    },
+    'MSIE9': {
+        'browserName': 'internet explorer',
+        'version': '9',
+        'platform': 'VISTA',
+    },
 }
 
 

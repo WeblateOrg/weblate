@@ -50,7 +50,7 @@ class ProjectAdmin(admin.ModelAdmin):
             translation__subproject__project__in=queryset
         )
         for unit in units.iterator():
-            unit.check()
+            unit.run_checks()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
 
@@ -90,7 +90,7 @@ class SubProjectAdmin(admin.ModelAdmin):
             translation__subproject__in=queryset
         )
         for unit in units.iterator():
-            unit.check()
+            unit.run_checks()
             cnt += 1
         self.message_user(
             request,

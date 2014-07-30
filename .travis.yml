@@ -1,40 +1,53 @@
 language: python
 python:
   - "2.7"
+# - Test against all supported Django versions with sqlite
+# - Test against all supported databases with current Django
+# - Test against RC version of Django
+# - Run Selenium tests on current Django
+# - Run pylint/pep8 checker
 env:
   matrix:
-    - DJANGO_VERSION=1.5.8 TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="trans lang accounts"
-    - DJANGO_VERSION=1.6.5 TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
-    - DJANGO_VERSION=1.6.5 TRAVIS_DATABASE=postgresql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
-    - DJANGO_VERSION=1.6.5 TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
-#  global:
+    - DJANGO_PIP="Django>=1.5,<1.6" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="trans lang accounts"
+    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=postgresql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
+    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans.tests.test_selenium" DO_SELENIUM=1
+    - DJANGO_PIP="Django" TRAVIS_DATABASE=sqlite DO_LINT=1
+  global:
 # Sauce labs setup
-#    - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
-#    - secure: "AYu5aeoSHEbBA67Y60yhVa5B/3a7ZLvECnGvyKGfH4oJU/yeEBokgiqFzwRAcXWILMVSMTVGw3vpcq3B/5SRg1vuq+OzRzZ/kopwd4z7P91MYNeXgKNC0bIgEyKg0Fb3ElK1XjFlAXLlIZTwhVBwuJSX+EUFluecN8kJ7Cf7yjE="
+    - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
+    - secure: "AYu5aeoSHEbBA67Y60yhVa5B/3a7ZLvECnGvyKGfH4oJU/yeEBokgiqFzwRAcXWILMVSMTVGw3vpcq3B/5SRg1vuq+OzRzZ/kopwd4z7P91MYNeXgKNC0bIgEyKg0Fb3ElK1XjFlAXLlIZTwhVBwuJSX+EUFluecN8kJ7Cf7yjE="
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
 # commands to install dependencies
 install: 
-  - pip install Django==$DJANGO_VERSION
+  - pip install $DJANGO_PIP
   - pip install -r requirements.txt
   - pip install -r requirements-optional.txt
   - pip install -r travis/requirements.txt
   - pip install -r travis/requirements-$TRAVIS_DATABASE.txt
-# generate configuration and create databases
+addons:
+  sauce_connect: true
+# create databases
 before_script:
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
-#  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 # commands to run tests
 script: 
-  - ./scripts/generate-locales
-  - ./manage.py validate --settings weblate.settings_test
-  - if [[ $TRAVIS_DATABASE = sqlite ]] ; then ./travis/migrate-testing ; fi
-  - ./manage.py syncdb --noinput --settings weblate.settings_test
-  - ./manage.py migrate --settings weblate.settings_test --traceback
-  - coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS 
-  - pep8 --exclude migrations weblate
-  - pylint --reports=n --rcfile=pylint.rc weblate
+  - if [[ -n "$DO_LINT" ]] ; then ./scripts/generate-locales ; fi
+  - if [[ -z "$DO_LINT" ]] ; then ./manage.py validate --settings weblate.settings_test ; fi
+  - if [[ $TRAVIS_DATABASE = sqlite -a -z "$DO_LINT" ]] ; then ./travis/migrate-testing ; fi
+  - if [[ -z "$DO_LINT" ]] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
+  - if [[ -z "$DO_LINT" ]] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
+  - if [[ -z "$DO_LINT" ]] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
+  - if [[ -n "$DO_LINT" ]] ; then pep8 --exclude south_migrations,migrations weblate ; fi
+  - if [[ -n "$DO_LINT" ]] ; then pylint --reports=n --rcfile=pylint.rc weblate ; fi
 after_script:
   - coveralls
+matrix:
+  allow_failures:
+    - python: "2.7"
+      env: DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
