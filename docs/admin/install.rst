@@ -173,7 +173,10 @@ options:
 
             CREATE DATABASE <dbname> CHARACTER SET utf8;
 
-    .. seealso:: https://docs.djangoproject.com/en/1.6/ref/settings/#databases, https://docs.djangoproject.com/en/1.4/ref/databases/
+    .. seealso:: 
+        
+        https://docs.djangoproject.com/en/1.6/ref/settings/#databases, 
+        https://docs.djangoproject.com/en/1.6/ref/databases/
 
 ``DEBUG``
 
