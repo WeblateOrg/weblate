@@ -19,7 +19,7 @@
 #
 
 from django.conf import settings
-from weblate.trans.util import get_script_name
+from weblate.trans.scripts import get_script_name
 import os
 
 

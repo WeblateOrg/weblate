@@ -23,7 +23,6 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
-from weblate.trans.models.unit import Unit
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.project import Project
@@ -180,7 +179,7 @@ class Change(models.Model):
         (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
     )
 
-    unit = models.ForeignKey(Unit, null=True)
+    unit = models.ForeignKey('Unit', null=True)
     translation = models.ForeignKey(Translation, null=True)
     dictionary = models.ForeignKey(Dictionary, null=True)
     user = models.ForeignKey(User, null=True)
