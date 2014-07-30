@@ -18,7 +18,7 @@ Requires:       translate-toolkit >= 1.10.0
 Requires:       python-GitPython >= 0.3.2
 Requires:       python-whoosh >= 2.5.2
 Requires:       python-Pillow
-Requires:       python-South >= 0.7
+Requires:       python-South >= 1.0
 %py_requires
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
