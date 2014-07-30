@@ -19,7 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand
-from weblate.trans.requirements import get_versions_string
+from weblate import get_versions_string
 
 
 class Command(BaseCommand):

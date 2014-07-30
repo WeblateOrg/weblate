@@ -19,7 +19,7 @@
 #
 
 from django.test import TestCase
-from weblate.trans.requirements import check_version
+from weblate.requirements import check_version
 
 
 class RequirementsTest(TestCase):
