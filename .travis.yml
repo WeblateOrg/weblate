@@ -44,3 +44,5 @@ matrix:
   allow_failures:
     - python: 2.7
       env: DJANGO_PIP="Django==1.6.5" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans.test.test_selenium" DO_SELENIUM=1
+    - python: 2.7
+      env: DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
