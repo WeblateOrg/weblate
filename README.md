@@ -31,14 +31,14 @@ Weblate has it's website at http://weblate.org/.
 Detailed documentation is available in **docs** directory in the sources.
 
 The documentation can be also viewed online on
-http://weblate.readthedocs.org/.
+http://docs.weblate.org/.
 
 ## Installation
 
 Installation and setup instructions are provided in our manual, check
 quick setup guide:
 
-http://weblate.readthedocs.org/en/latest/admin/quick.html
+http://docs.weblate.org/en/latest/admin/quick.html
 
 ## Bugs
 

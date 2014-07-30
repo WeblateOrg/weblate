@@ -80,7 +80,7 @@ def get_doc_url(page, anchor=''):
     else:
         version = 'weblate-%s' % VERSION
     # Generate URL
-    url = 'http://weblate.readthedocs.org/en/%s/%s.html' % (version, page)
+    url = 'http://docs.weblate.org/en/%s/%s.html' % (version, page)
     # Optionally append anchor
     if anchor != '':
         url += '#%s' % anchor
