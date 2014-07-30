@@ -115,7 +115,8 @@ class SeleniumTests(LiveServerTestCase):
         User.objects.create_user(
             'testuser',
             'noreply@weblate.org',
-            'testpassword'
+            'testpassword',
+            first_name='Test User',
         )
         password_input = self.driver.find_element_by_id('id_password')
         password_input.send_keys('testpassword')
