@@ -20,7 +20,7 @@
 
 import os
 import logging
-from weblate.trans.requirements import (
+from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
 )
 

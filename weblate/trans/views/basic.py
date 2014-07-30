@@ -32,7 +32,7 @@ from weblate.trans.models import (
     Project, SubProject, Translation, Check,
     Dictionary, Change, Unit, WhiteboardMessage
 )
-from weblate.trans.requirements import get_versions, get_optional_versions
+from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
