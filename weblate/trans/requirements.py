@@ -227,22 +227,6 @@ def check_version(name, url, version, expected):
     return False
 
 
-def get_versions_string():
-    '''
-    Returns string with version information summary.
-    '''
-    from weblate import GIT_VERSION
-    result = [' * Weblate %s' % GIT_VERSION]
-    for version in get_versions() + get_optional_versions():
-        result.append(
-            ' * %s %s' % (
-                version[0],
-                version[2],
-            )
-        )
-    return '\n'.join(result)
-
-
 def check_requirements():
     '''
     Performs check on requirements and raises an exception on error.

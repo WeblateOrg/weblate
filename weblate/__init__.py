@@ -20,6 +20,9 @@
 
 import os
 import logging
+from weblate.trans.requirements import (
+    check_requirements, get_versions, get_optional_versions
+)
 
 logger = logging.getLogger('weblate')
 
@@ -87,7 +90,22 @@ def get_doc_url(page, anchor=''):
 
     return url
 
+
+def get_versions_string():
+    '''
+    Returns string with version information summary.
+    '''
+    result = [' * Weblate %s' % GIT_VERSION]
+    for version in get_versions() + get_optional_versions():
+        result.append(
+            ' * %s %s' % (
+                version[0],
+                version[2],
+            )
+        )
+    return '\n'.join(result)
+
+
 # Check for requirements
-from weblate.trans.requirements import check_requirements
 
 check_requirements()
