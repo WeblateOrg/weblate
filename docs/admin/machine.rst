@@ -88,7 +88,7 @@ To enable this service, add ``trans.machine.google.GoogleWebTranslation`` to
 
 .. seealso::
 
-    http://translate.google.com/
+    https://translate.google.com/
 
 .. _ms-translate:
 
@@ -105,7 +105,7 @@ To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
 .. seealso::
 
     :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`, 
-    http://www.microsofttranslator.com/, 
+    http://www.bing.com/translator/,
     https://datamarket.azure.com/developer/applications/
 
 .. _mymemory:

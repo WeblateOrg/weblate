@@ -44,7 +44,7 @@ Using prebuilt appliance
 Adding translation
 ------------------
 
-#. Open admin interface (http://example.org/admin/) and create project you
+#. Open admin interface (http://localhost/admin/) and create project you
    want to translate. See :ref:`project` for more details.
 
    All you need to specify here is project name and it's website.

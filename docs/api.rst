@@ -32,21 +32,31 @@ repository has been updated.
         Weblate service hook in repository settings and set URL to URL of your
         Weblate installation.
 
-    .. seealso:: http://help.github.com/post-receive-hooks/ :setting:`ENABLE_HOOKS`
+    .. seealso:: 
+       
+       https://help.github.com/articles/creating-webhooks
+       :setting:`ENABLE_HOOKS`
 
 .. describe:: POST /hooks/gitlab/
 
     Special hook for handling GitLab notifications and automatically updating
     matching subprojects.
 
-    .. seealso:: http://doc.gitlab.com/ce/web_hooks/web_hooks.html :setting:`ENABLE_HOOKS`
+    .. seealso:: 
+
+        http://doc.gitlab.com/ce/web_hooks/web_hooks.html 
+        :setting:`ENABLE_HOOKS`
 
 .. describe:: POST /hooks/bitbucket/
 
     Special hook for handling Bitbucket notifications and automatically
     updating matching resources.
 
-    .. seealso:: https://confluence.atlassian.com/display/BITBUCKET/POST+Service+Management https://confluence.atlassian.com/display/BITBUCKET/Writing+Brokers+for+Bitbucket :setting:`ENABLE_HOOKS`
+    .. seealso:: 
+
+        https://confluence.atlassian.com/display/BITBUCKET/Write+brokers+%28hooks%29+for+Bitbucket
+        https://confluence.atlassian.com/display/BITBUCKET/POST+hook+management
+        :setting:`ENABLE_HOOKS`
 
 .. _exports:
 

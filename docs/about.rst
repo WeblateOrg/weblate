@@ -22,8 +22,8 @@ Project website
 ---------------
 
 You can find project website at <http://weblate.org/>, there is also
-demonstration server at <http://demo.weblate.org/>. This documentation
-can be browsed on <http://weblate.readthedocs.org/>.
+demonstration server at <https://demo.weblate.org/>. This documentation
+can be browsed on <http://docs.weblate.org/>.
 
 Authors
 -------

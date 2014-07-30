@@ -7,9 +7,6 @@ python:
 # - Run Selenium tests on current Django
 # - Run pylint/pep8 checker
 env:
-  global:
-    - TRAVIS_DATABASE=sqlite
-    - TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
   matrix:
     - DJANGO_PIP="Django" DO_LINT=1
     - DJANGO_PIP="Django>=1.5,<1.6" TRAVIS_RUN_TESTS="trans lang accounts"
@@ -17,7 +14,7 @@ env:
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=postgresql
     - DJANGO_PIP="Django>=1.6,<1.7"
     - DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/"
-    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_RUN_TESTS="weblate.trans.tests.test_selenium" DO_SELENIUM=1
+    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
   global:
 # Sauce labs setup
     - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
@@ -26,22 +23,22 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
 # commands to install dependencies
-install: 
+install:
   - pip install $DJANGO_PIP
   - pip install -r requirements.txt
   - pip install -r requirements-optional.txt
   - pip install -r travis/requirements.txt
-  - pip install -r travis/requirements-$TRAVIS_DATABASE.txt
+  - pip install -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
 # create databases
 before_script:
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
   - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/henrikhodne/9322897/raw/sauce-connect.sh | bash ; fi
 # commands to run tests
-script: 
+script:
   - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test ; fi
-  - if [ $TRAVIS_DATABASE = sqlite -a -z "$DO_LINT" ] ; then ./travis/migrate-testing ; fi
+  - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./travis/migrate-testing ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
   - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi

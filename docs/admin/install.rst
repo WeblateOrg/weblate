@@ -9,7 +9,7 @@ Requirements
 ------------
 
 Python (2.7)
-    http://www.python.org/
+    https://www.python.org/
 Django (>= 1.5) (Django 1.6 is supported since Weblate 1.9)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.9.0, 1.10.0 or newer strongly recommended)
@@ -23,7 +23,7 @@ python-social-auth (>= 0.1.17, < 0.1.24)
 Whoosh (>= 2.5, 2.5.2 is recommended)
     http://bitbucket.org/mchaput/whoosh/
 PIL or Pillow library
-    http://python-imaging.github.io/
+    https://python-pillow.github.io/
 lxml (>= 3.1.0)
     http://lxml.de/
 South (>= 1.0)
@@ -173,7 +173,10 @@ options:
 
             CREATE DATABASE <dbname> CHARACTER SET utf8;
 
-    .. seealso:: https://docs.djangoproject.com/en/1.6/ref/settings/#databases, https://docs.djangoproject.com/en/1.4/ref/databases/
+    .. seealso:: 
+        
+        https://docs.djangoproject.com/en/1.6/ref/settings/#databases, 
+        https://docs.djangoproject.com/en/1.6/ref/databases/
 
 ``DEBUG``
 
