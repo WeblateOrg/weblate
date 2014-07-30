@@ -79,11 +79,10 @@ class ChangesView(ListView):
 
         return context
 
-    def get_queryset(self):
-        '''
-        Returns list of changes to browse.
-        '''
-        # Filtering by translation/project
+    def _get_queryset_project(self):
+        """
+        Filtering by translation/project.
+        """
         if 'project' in self.request.GET:
             try:
                 self.project, self.subproject, self.translation = \
@@ -99,7 +98,10 @@ class ChangesView(ListView):
                     _('Failed to find matching project!')
                 )
 
-        # Filtering by language
+    def _get_queryset_language(self):
+        """
+        Filtering by language
+        """
         if self.translation is None and 'lang' in self.request.GET:
             try:
                 self.language = Language.objects.get(
@@ -111,7 +113,10 @@ class ChangesView(ListView):
                     _('Failed to find matching language!')
                 )
 
-        # Filtering by user
+    def _get_queryset_user(self):
+        """
+        Filtering by user
+        """
         if 'user' in self.request.GET:
             try:
                 self.user = User.objects.get(
@@ -122,6 +127,16 @@ class ChangesView(ListView):
                     self.request,
                     _('Failed to find matching user!')
                 )
+
+    def get_queryset(self):
+        '''
+        Returns list of changes to browse.
+        '''
+        self._get_queryset_project()
+
+        self._get_queryset_language()
+
+        self._get_queryset_user()
 
         # Glossary entries
         self.glossary = 'glossary' in self.request.GET

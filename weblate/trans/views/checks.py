@@ -155,10 +155,10 @@ def show_check_project(request, name, project):
 
     units = [
         {
-            'translation__subproject__slug': key.split('/')[1],
-            'translation__subproject__project__slug': key.split('/')[0],
-            'count': counts[key]
-        } for key in counts
+            'translation__subproject__slug': item.split('/')[1],
+            'translation__subproject__project__slug': item.split('/')[0],
+            'count': counts[item]
+        } for item in counts
     ]
 
     return render(
@@ -241,9 +241,9 @@ def show_check_subproject(request, name, project, subproject):
 
     units = [
         {
-            'translation__language__code': key,
-            'count': counts[key]
-        } for key in counts
+            'translation__language__code': item,
+            'count': counts[item]
+        } for item in counts
     ]
 
     return render(

@@ -409,6 +409,41 @@ class FileFormat(object):
             and self.template_store is not None
         )
 
+    def _find_unit_template(self, context, source):
+        # Need to create new unit based on template
+        template_ttkit_unit = self.template_store.findid(context)
+        # We search by ID when using template
+        ttkit_unit = self.store.findid(context)
+        # We always need new unit to translate
+        if ttkit_unit is None:
+            ttkit_unit = template_ttkit_unit
+            if template_ttkit_unit is None:
+                raise Exception(
+                    'Could not find template unit for new unit!'
+                )
+            add = True
+        else:
+            add = False
+
+        return (FileUnit(ttkit_unit, template_ttkit_unit), add)
+
+    def _find_unit_bilingual(self, context, source):
+        # Find all units with same source
+        found_units = self.store.findunits(source)
+        # Find is broken for propfile, ignore results
+        if len(found_units) > 0 and not isinstance(self.store, propfile):
+            for ttkit_unit in found_units:
+                # Does context match?
+                if ttkit_unit.getcontext() == context:
+                    return (FileUnit(ttkit_unit), False)
+        else:
+            # Fallback to manual find for value based files
+            for ttkit_unit in self.store.units:
+                ttkit_unit = FileUnit(ttkit_unit)
+                if ttkit_unit.get_source() == source:
+                    return (ttkit_unit, False)
+        return (None, False)
+
     def find_unit(self, context, source):
         '''
         Finds unit by context and source.
@@ -417,39 +452,9 @@ class FileFormat(object):
         unit is new one.
         '''
         if self.has_template:
-            # Need to create new unit based on template
-            template_ttkit_unit = self.template_store.findid(context)
-            # We search by ID when using template
-            ttkit_unit = self.store.findid(context)
-            # We always need new unit to translate
-            if ttkit_unit is None:
-                ttkit_unit = template_ttkit_unit
-                if template_ttkit_unit is None:
-                    raise Exception(
-                        'Could not find template unit for new unit!'
-                    )
-                add = True
-            else:
-                add = False
-
-            return (FileUnit(ttkit_unit, template_ttkit_unit), add)
+            return self._find_unit_template(context, source)
         else:
-            # Find all units with same source
-            found_units = self.store.findunits(source)
-            # Find is broken for propfile, ignore results
-            if len(found_units) > 0 and not isinstance(self.store, propfile):
-                for ttkit_unit in found_units:
-                    # Does context match?
-                    if ttkit_unit.getcontext() == context:
-                        return (FileUnit(ttkit_unit), False)
-            else:
-                # Fallback to manual find for value based files
-                for ttkit_unit in self.store.units:
-                    ttkit_unit = FileUnit(ttkit_unit)
-                    if ttkit_unit.get_source() == source:
-                        return (ttkit_unit, False)
-
-        return (None, False)
+            return self._find_unit_bilingual(context, source)
 
     def add_unit(self, ttkit_unit):
         '''

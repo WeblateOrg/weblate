@@ -8,13 +8,13 @@ python:
 # - Run pylint/pep8 checker
 env:
   matrix:
+    - DJANGO_PIP="Django" TRAVIS_DATABASE=sqlite DO_LINT=1
     - DJANGO_PIP="Django>=1.5,<1.6" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="trans lang accounts"
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=postgresql TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
     - DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans weblate.lang weblate.accounts"
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=sqlite TRAVIS_RUN_TESTS="weblate.trans.tests.test_selenium" DO_SELENIUM=1
-    - DJANGO_PIP="Django" TRAVIS_DATABASE=sqlite DO_LINT=1
   global:
 # Sauce labs setup
     - secure: "W4EtqCQSbSWb2sDwHd0obttzUTKIPyFZE90qD+YdV76YLgIK7QX4Vc6Hx9fRRNy397h4RrYIzyU2vemGIR5j8cR16Y6MyJ8Fy4DyC2mHyo3T7Tx4/cJYTQDPF2G4kxjR+vmhsdQIdmaYLsjtb2C2M0aIkU8FGFv6D3+TXqsoOmI="
@@ -37,14 +37,15 @@ before_script:
   - psql -c 'create database weblate;' -U postgres
 # commands to run tests
 script: 
-  - if [[ -n "$DO_LINT" ]] ; then ./scripts/generate-locales ; fi
-  - if [[ -z "$DO_LINT" ]] ; then ./manage.py validate --settings weblate.settings_test ; fi
-  - if [[ $TRAVIS_DATABASE = sqlite -a -z "$DO_LINT" ]] ; then ./travis/migrate-testing ; fi
-  - if [[ -z "$DO_LINT" ]] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
-  - if [[ -z "$DO_LINT" ]] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
-  - if [[ -z "$DO_LINT" ]] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
-  - if [[ -n "$DO_LINT" ]] ; then pep8 --exclude south_migrations,migrations weblate ; fi
-  - if [[ -n "$DO_LINT" ]] ; then pylint --reports=n --rcfile=pylint.rc weblate ; fi
+  - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
+  - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test ; fi
+  - if [ $TRAVIS_DATABASE = sqlite -a -z "$DO_LINT" ] ; then ./travis/migrate-testing ; fi
+  - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
+  - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
+  - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
+  - if [ -n "$DO_LINT" ] ; then pep8 --exclude south_migrations,migrations weblate ; fi
+  - if [ -n "$DO_LINT" ] ; then pylint --reports=n --rcfile=pylint.rc weblate ; fi
+  - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_nose.py' -not -name 'settings_test.py'` ; fi
 after_script:
   - coveralls
 matrix:
