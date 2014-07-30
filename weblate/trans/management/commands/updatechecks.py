@@ -29,4 +29,4 @@ class Command(WeblateLangCommand):
 
         # Invoke check for every unit
         for unit in units.iterator():
-            unit.check()
+            unit.run_checks()

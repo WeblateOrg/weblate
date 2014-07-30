@@ -456,7 +456,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 # There are other units as well, but some checks
                 # (eg. consistency) needs update now
                 for unit in units:
-                    unit.check()
+                    unit.run_checks()
                 continue
 
             # Last unit referencing to these checks
