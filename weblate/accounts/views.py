@@ -134,7 +134,7 @@ def user_profile(request):
     if request.method == 'POST':
         # Parse POST params
         forms = [form(request.POST, instance=profile) for form in form_classes]
-        userform = UserForm(request.POST, instance=request.user)
+        forms.append(UserForm(request.POST, instance=request.user))
 
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
             messages.warning(
@@ -143,13 +143,10 @@ def user_profile(request):
             )
             return redirect('profile')
 
-        is_valid = [form.is_valid() for form in forms]
-
-        if min(is_valid) and userform.is_valid():
+        if min([form.is_valid() for form in forms]):
             # Save changes
             for form in forms:
                 form.save()
-            userform.save()
 
             # Change language
             set_lang(request.user, request=request, user=request.user)
@@ -167,7 +164,7 @@ def user_profile(request):
             return response
     else:
         forms = [form(instance=profile) for form in form_classes]
-        userform = UserForm(instance=request.user)
+        forms.append(UserForm(instance=request.user))
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
@@ -189,7 +186,7 @@ def user_profile(request):
             'form': forms[0],
             'subscriptionform': forms[1],
             'subscriptionsettingsform': forms[2],
-            'userform': userform,
+            'userform': forms[3],
             'profile': profile,
             'title': _('User profile'),
             'licenses': license_projects,
