@@ -447,6 +447,11 @@ urlpatterns = patterns(
         name='hook-github',
     ),
     url(
+        r'^hooks/gitlab/$', 'weblate.trans.views.api.git_service_hook',
+        {'service': 'gitlab'},
+        name='hook-gitlab',
+    ),
+    url(
         r'^hooks/bitbucket/$', 'weblate.trans.views.api.git_service_hook',
         {'service': 'bitbucket'},
         name='hook-bitbucket',
