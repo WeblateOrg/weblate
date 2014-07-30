@@ -38,7 +38,6 @@ from weblate import appsettings
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.checks import CHECKS
-from weblate.trans.models.subproject import SubProject
 from weblate.trans.models.project import Project
 from weblate.trans.util import (
     get_site_url, sleep_while_git_locked, translation_percent
@@ -120,7 +119,7 @@ class TranslationManager(models.Manager):
 
 
 class Translation(models.Model, URLMixin, PercentMixin):
-    subproject = models.ForeignKey(SubProject)
+    subproject = models.ForeignKey('SubProject')
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
     filename = models.CharField(max_length=200)
