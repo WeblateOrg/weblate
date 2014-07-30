@@ -1,7 +1,7 @@
 Name:           weblate
 Version: 1.10
 Release:        1
-License:        GPL-3+
+License:        GPL-3.0+
 Summary:        Web-based translation tool
 Group:          Productivity/Networking/Web/Frontends
 Source:         %{name}-%{version}.tar.bz2
@@ -74,6 +74,14 @@ rm -f %{buildroot}/%{WLDIR}/README.md \
     %{buildroot}/%{WLDIR}/ChangeLog \
     %{buildroot}/%{WLDIR}/COPYING \
     %{buildroot}/%{WLDIR}/INSTALL
+rm -f \
+    %{buildroot}/%{WLDIR}/.coveragerc \
+    %{buildroot}/%{WLDIR}/.landscape.yaml \
+    %{buildroot}/%{WLDIR}/.travis.yml \
+    %{buildroot}/%{WLDIR}/.pep8 \
+    %{buildroot}/%{WLDIR}/.scrutinizer.yml \
+    %{buildroot}/%{WLDIR}/pylint.rc
+
 
 # Byte compile python files
 %py_compile %{buildroot}/%{WLDIR}
