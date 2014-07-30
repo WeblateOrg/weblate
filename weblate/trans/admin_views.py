@@ -321,7 +321,7 @@ def ssh(request):
             stderr=subprocess.STDOUT,
         )
         can_generate = (ret == 0 and not os.path.exists(RSA_KEY_FILE))
-    except:
+    except subprocess.CalledProcessError:
         can_generate = False
 
     # Grab action type

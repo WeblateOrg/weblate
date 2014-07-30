@@ -189,7 +189,7 @@ def check_name(check):
     '''
     try:
         return CHECKS[check].name
-    except:
+    except KeyError:
         return check
 
 
@@ -200,7 +200,7 @@ def check_description(check):
     '''
     try:
         return CHECKS[check].description
-    except:
+    except KeyError:
         return check
 
 

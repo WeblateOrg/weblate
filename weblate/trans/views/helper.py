@@ -101,7 +101,7 @@ def try_set_language(lang):
 
     try:
         django.utils.translation.activate(lang)
-    except:
+    except Exception:
         # Ignore failure on activating language
         pass
     try:

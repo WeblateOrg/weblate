@@ -30,6 +30,7 @@ from django.core.urlresolvers import reverse
 import os
 import git
 import traceback
+import ConfigParser
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -807,7 +808,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
             value = cnf.get(section, key)
             if value == expected:
                 return
-        except:
+        except ConfigParser.Error:
             pass
 
         # Add section if it does not exist
@@ -1217,7 +1218,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
                 fileobj,
                 self.subproject.template_store
             )
-        except:
+        except Exception:
             # Fallback to automatic detection
             fileobj.seek(0)
             store = AutoFormat(fileobj)
