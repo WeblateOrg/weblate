@@ -389,7 +389,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             path = self.get_path()
             try:
                 self._git_repo = git.Repo(path)
-            except:
+            except Exception:
                 # Fallback to initializing the repository
                 self._git_repo = git.Repo.init(path)
 

@@ -671,7 +671,7 @@ class PoFormat(FileFormat):
                     stderr=subprocess.STDOUT,
                 )
                 cls.msginit_found = (ret == 0)
-            except:
+            except subprocess.CalledProcessError:
                 cls.msginit_found = False
         return cls.msginit_found
 
@@ -683,7 +683,7 @@ class PoFormat(FileFormat):
         try:
             pofile.parsefile(base)
             return True
-        except:
+        except Exception:
             return False
 
     @staticmethod

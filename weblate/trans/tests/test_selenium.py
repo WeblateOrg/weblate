@@ -124,6 +124,9 @@ class SeleniumTests(LiveServerTestCase):
         # Load profile
         self.driver.find_element_by_id('profile-button').click()
 
+        # Wait for profile to load
+        self.driver.find_element_by_id('subscriptions')
+
         # Finally logout
         self.driver.find_element_by_id('logout-button').click()
 

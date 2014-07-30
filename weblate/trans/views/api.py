@@ -260,7 +260,7 @@ def export_stats(request, project, subproject):
 
     try:
         indent = int(request.GET['indent'])
-    except:
+    except (ValueError, KeyError):
         indent = None
 
     response = []
