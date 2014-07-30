@@ -21,8 +21,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.models.subproject import SubProject
-
 PRIORITY_CHOICES = (
     (60, _('Very high')),
     (80, _('High')),
@@ -34,7 +32,7 @@ PRIORITY_CHOICES = (
 
 class Source(models.Model):
     checksum = models.CharField(max_length=40)
-    subproject = models.ForeignKey(SubProject)
+    subproject = models.ForeignKey('SubProject')
     timestamp = models.DateTimeField(auto_now_add=True)
     priority = models.IntegerField(
         default=100,
