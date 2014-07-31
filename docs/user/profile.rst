@@ -33,7 +33,7 @@ Secondary languages
 
 You can define secondary languages, which will be shown you while translating
 together with source language. Example can be seen on following image, where
-Czech language is shown as secondary:
+Slovak language is shown as secondary:
 
 .. image:: ../images/secondary-language.png
 
