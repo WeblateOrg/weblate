@@ -591,7 +591,7 @@ class FileFormat(object):
     def get_language_filename(cls, path, mask, code):
         """
         Return full filename of a language file for given
-        path, filemaks and language code.
+        path, filemask and language code.
         """
         return os.path.join(
             path,
