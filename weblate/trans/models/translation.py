@@ -1275,12 +1275,11 @@ class Translation(models.Model, URLMixin, PercentMixin):
             author = self.get_author_name(request.user)
 
         # List translations we should process
+        # Filter out those who don't want automatic update, but keep ourselves
         translations = Translation.objects.filter(
             language=self.language,
             subproject__project=self.subproject.project
-        )
-        # Filter out those who don't want automatic update, but keep ourselves
-        translations = translations.filter(
+        ).filter(
             Q(pk=self.pk) | Q(subproject__allow_translation_propagation=True)
         )
 
