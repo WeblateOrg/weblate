@@ -18,8 +18,11 @@ env:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
+  - git clone --depth 1 --branch v0.1.2 https://github.com/ruleant/buildtime-trend.git $HOME/buildtime-trend 
+  - source $HOME/buildtime-trend/init.sh
 # commands to install dependencies
 install:
+  - timestamp.sh install
   - pip install $DJANGO_PIP
   - pip install -r requirements.txt
   - pip install -r requirements-optional.txt
@@ -27,11 +30,13 @@ install:
   - pip install -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
 # create databases
 before_script:
+  - timestamp.sh before_script
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
   - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/henrikhodne/9322897/raw/sauce-connect.sh | bash ; fi
 # commands to run tests
 script:
+  - timestamp.sh tests
   - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test ; fi
   - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./travis/migrate-testing ; fi
@@ -42,7 +47,10 @@ script:
   - if [ -n "$DO_LINT" ] ; then pylint --rcfile=pylint.rc weblate ; fi
   - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_nose.py' -not -name 'settings_test.py'` ; fi
 after_script:
+  - timestamp.sh coveralls
   - coveralls
+  - timestamp.sh done
+  - sync-buildtime-trend-with-gh-pages.sh
 matrix:
   allow_failures:
     - python: "2.7"
