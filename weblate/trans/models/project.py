@@ -265,9 +265,10 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         )
 
     def is_git_locked(self):
-        return max(
-            [subproject.locked for subproject in self.subproject_set.all()]
-        )
+        subprojects = self.subproject_set.all()
+        if len(subprojects) == 0:
+            return False
+        return max([subproject.locked for subproject in subprojects])
 
     def _get_path(self):
         return os.path.join(appsettings.GIT_ROOT, self.slug)

@@ -34,6 +34,7 @@ repository has been updated.
 
     .. seealso:: 
        
+       :ref:`github-setup`
        https://help.github.com/articles/creating-webhooks
        :setting:`ENABLE_HOOKS`
 

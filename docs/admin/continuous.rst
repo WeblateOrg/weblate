@@ -35,6 +35,21 @@ And enable it's use by defining proper attributes in given repository (eg. in
     This merge driver assumes the changes in POT files always are done in branch
     we're trying to merge.
 
+.. _github-setup:
+
+Automatically receiving changes from GitHub
+-------------------------------------------
+
+Weblate comes with native support for GitHub. To receive notifications on every
+push to GitHub repository, you just need to enable Weblate Service in the
+repository settings as shown on the image below:
+
+.. image:: ../images/github-settings.png
+
+The set the base URL of your Weblate installation (for example
+``https://hosted.weblate.org``) and Weblate will be notified about every push
+to GitHub repository.
+
 .. _push-changes:
 
 Pushing changes
