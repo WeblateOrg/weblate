@@ -28,6 +28,7 @@ install:
   - pip install -r requirements-optional.txt
   - pip install -r travis/requirements.txt
   - pip install -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
+  - pip install -r $HOME/buildtime-trend/requirements.txt
 # create databases
 before_script:
   - timestamp.sh before_script
