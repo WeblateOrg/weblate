@@ -16,10 +16,11 @@ env:
     - DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/"
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
   - git clone --depth 1 --branch v0.1.2 https://github.com/ruleant/buildtime-trend.git $HOME/buildtime-trend 
   - source $HOME/buildtime-trend/init.sh
+  - timestamp.sh packages
+  - sudo apt-get update -qq
+  - sudo apt-get install git libffi-dev libpq-dev libmysqlclient-dev libicu-dev
 # commands to install dependencies
 install:
   - timestamp.sh install
