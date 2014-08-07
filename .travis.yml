@@ -51,6 +51,9 @@ after_script:
   - timestamp.sh coveralls
   - coveralls
   - timestamp.sh done
+after_success:
+  - sync-buildtime-trend-with-gh-pages.sh
+after_failure:
   - sync-buildtime-trend-with-gh-pages.sh
 matrix:
   allow_failures:
