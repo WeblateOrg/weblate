@@ -129,7 +129,7 @@ URL_PREFIX = ''
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '%s/media/' % WEB_ROOT
+MEDIA_ROOT = os.path.join(WEB_ROOT, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -228,7 +228,7 @@ TEMPLATE_DIRS = (
     # or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '%s/html/' % WEB_ROOT,
+    os.path.join(WEB_ROOT, 'html'),
 )
 
 INSTALLED_APPS = (
@@ -250,7 +250,7 @@ INSTALLED_APPS = (
     'weblate',
 )
 
-LOCALE_PATHS = ('%s/../locale' % WEB_ROOT, )
+LOCALE_PATHS = (os.path.join(WEB_ROOT, '..', 'locale'), )
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -378,7 +378,7 @@ MT_GOOGLE_KEY = None
 MT_TMSERVER = None
 
 # Path where git repositories are stored, it needs to be writable
-GIT_ROOT = '%s/repos/' % WEB_ROOT
+GIT_ROOT = os.path.join(WEB_ROOT, 'repos')
 
 # Title of site to use
 SITE_TITLE = 'Weblate'
