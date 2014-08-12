@@ -43,7 +43,7 @@ if 'TRAVIS_DATABASE' in os.environ:
 ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 
 # Different root for test repos
-GIT_ROOT = '%s/test-repos/' % WEB_ROOT
+GIT_ROOT = os.path.join(WEB_ROOT, 'test-repos')
 
 # Avoid migrating during testsuite
 SOUTH_TESTS_MIGRATE = False
