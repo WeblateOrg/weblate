@@ -58,7 +58,7 @@ MT_GOOGLE_KEY = get('MT_GOOGLE_KEY', None)
 MT_TMSERVER = get('MT_TMSERVER', None)
 
 # Path where git repositories are stored, it needs to be writable
-GIT_ROOT = get('GIT_ROOT', '%s/repos/' % WEB_ROOT)
+GIT_ROOT = get('GIT_ROOT', os.path.join(WEB_ROOT, 'repos'))
 
 # Title of site to use
 SITE_TITLE = get('SITE_TITLE', 'Weblate')
