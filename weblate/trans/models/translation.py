@@ -1125,6 +1125,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
         Merges translation unit wise, needed for template based translations to
         add new strings.
         """
+        from weblate.trans.models.unit import Unit
+
         for unit2 in store2.all_units():
             # No translated -> skip
             if not unit2.is_translated() or unit2.unit.isheader():
