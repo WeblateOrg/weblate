@@ -410,7 +410,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         return self.subproject.file_format_cls(
             self.get_filename(),
-            self.subproject.template_store
+            self.subproject.template_store,
+            language_code=self.language_code
         )
 
     def supports_language_pack(self):

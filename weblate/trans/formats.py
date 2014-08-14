@@ -385,7 +385,7 @@ class FileFormat(object):
         # Apply possible fixups and return
         return cls.fixup(store)
 
-    def __init__(self, storefile, template_store=None):
+    def __init__(self, storefile, template_store=None, language_code=None):
         '''
         Creates file format object, wrapping up translate-toolkit's
         store.
@@ -398,6 +398,10 @@ class FileFormat(object):
             raise ValueError('Invalid file format')
         # Remember template
         self.template_store = template_store
+        # Set language (needed for some which do not include this)
+        if (language_code is not None
+                and self.store.gettargetlanguage() is None):
+            self.store.settargetlanguage(language_code)
 
     @property
     def has_template(self):
