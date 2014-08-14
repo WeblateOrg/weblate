@@ -24,6 +24,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.unittest import SkipTest
 from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.util import add_configuration_error
 import tempfile
 import shutil
 import os
@@ -99,6 +100,11 @@ class AdminTest(ViewTestCase):
     def test_performace(self):
         response = self.client.get(reverse('admin-performance'))
         self.assertContains(response, 'Django caching')
+
+    def test_error(self):
+        add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')
+        response = self.client.get(reverse('admin-performance'))
+        self.assertContains(response, 'FOOOOOOOOOOOOOO')
 
     def test_report(self):
         response = self.client.get(reverse('admin-report'))

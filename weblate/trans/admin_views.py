@@ -29,6 +29,7 @@ from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.accounts.forms import HAS_ICU
+from weblate.trans.util import get_configuration_errors
 import weblate
 import django
 
@@ -172,11 +173,13 @@ def performance(request):
         'production-admin-files',
         'order-cell',
     ))
+
     return render(
         request,
         "admin/performance.html",
         {
             'checks': checks,
+            'errors': get_configuration_errors()
         }
     )
 

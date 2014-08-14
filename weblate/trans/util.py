@@ -20,6 +20,7 @@
 
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from importlib import import_module
 import time
 import random
@@ -124,3 +125,22 @@ def translation_percent(translated, total):
     Returns translation percentage.
     '''
     return (1000 * translated / total) / 10.0
+
+
+def add_configuration_error(name, message):
+    """
+    Logs configuration error.
+    """
+    errors = cache.get('configuration-errors', [])
+    errors.append({
+        'name': name,
+        'message': message,
+    })
+    cache.set('configuration-errors', errors)
+
+
+def get_configuration_errors():
+    """
+    Returns all configuration errors.
+    """
+    return cache.get('configuration-errors', [])

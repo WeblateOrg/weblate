@@ -30,13 +30,14 @@ from translate.storage.ts2 import tsunit
 from translate.storage.jsonl10n import JsonUnit
 from translate.storage import mo
 from translate.storage import factory
-from weblate.trans.util import get_string, join_plural
+from weblate.trans.util import get_string, join_plural, add_configuration_error
 from translate.misc import quote
 import weblate
 import subprocess
 import os.path
 import re
 import hashlib
+import traceback
 import importlib
 import __builtin__
 
@@ -54,7 +55,10 @@ def register_fileformat(fileformat):
         fileformat.get_class()
         FILE_FORMATS[fileformat.format_id] = fileformat
     except (AttributeError, ImportError):
-        pass
+        add_configuration_error(
+            'File format: {0}'.format(fileformat.format_id),
+            traceback.format_exc()
+        )
     return fileformat
 
 
