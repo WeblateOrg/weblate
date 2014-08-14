@@ -41,7 +41,7 @@ from weblate.trans.formats import AutoFormat
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.project import Project
 from weblate.trans.util import (
-    get_site_url, sleep_while_git_locked, translation_percent
+    get_site_url, sleep_while_git_locked, translation_percent, split_plural,
 )
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin
@@ -1119,6 +1119,31 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         return result
 
+    def merge_translations(self, request, author, store2, overwrite,
+                           add_fuzzy):
+        """
+        Merges translation unit wise, needed for template based translations to
+        add new strings.
+        """
+        for unit2 in store2.all_units():
+            # No translated -> skip
+            if not unit2.is_translated() or unit2.unit.isheader():
+                continue
+
+            try:
+                unit = self.unit_set.get(
+                    source=unit2.get_source(),
+                    context=unit2.get_context(),
+                )
+            except Unit.DoesNotExist:
+                continue
+
+            unit.translate(
+                request,
+                split_plural(unit2.get_target()),
+                add_fuzzy or unit2.is_fuzzy()
+            )
+
     def merge_store(self, request, author, store2, overwrite, merge_header,
                     add_fuzzy):
         '''
@@ -1241,15 +1266,26 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         if method in ('', 'fuzzy'):
             # Do actual merge
-            for translation in translations:
-                ret |= translation.merge_store(
+            if self.subproject.has_template():
+                # Merge on units level
+                self.merge_translations(
                     request,
                     author,
                     store,
                     overwrite,
-                    merge_header,
                     (method == 'fuzzy')
                 )
+            else:
+                # Merge on file level
+                for translation in translations:
+                    ret |= translation.merge_store(
+                        request,
+                        author,
+                        store,
+                        overwrite,
+                        merge_header,
+                        (method == 'fuzzy')
+                    )
         else:
             # Add as sugestions
             ret = self.merge_suggestions(request, store)
