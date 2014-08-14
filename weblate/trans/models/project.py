@@ -26,6 +26,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Group
 import os
 import os.path
 from weblate.lang.models import Language
@@ -307,11 +308,13 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                     permission.name = perm_name
                     permission.save()
             except Permission.DoesNotExist:
-                Permission.objects.create(
+                permission = Permission.objects.create(
                     codename=perm_code,
                     name=perm_name,
                     content_type=content_type
                 )
+            group = Group.objects.get_or_create(name=self.name)
+            group.permissions.add(permission)
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
