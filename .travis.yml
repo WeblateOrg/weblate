@@ -50,7 +50,7 @@ script:
   - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_nose.py' -not -name 'settings_test.py'` ; fi
 after_script:
   - timestamp.sh coveralls
-  - coveralls
+  - if [ -z "$DO_LINT" ] ; then coveralls ; fi
   - timestamp.sh done
   - sync-buildtime-trend-with-gh-pages.sh
 matrix:
