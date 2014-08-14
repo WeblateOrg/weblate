@@ -32,6 +32,8 @@ libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 PyICU (optional for proper sorting of strings)
     https://pypi.python.org/pypi/PyICU
+babel (optional for Android resources support)
+    http://babel.pocoo.org/
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
