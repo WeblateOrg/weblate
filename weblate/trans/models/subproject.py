@@ -212,6 +212,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'Whether Weblate should keep history of translations'
         )
     )
+    enable_suggestions = models.BooleanField(
+        verbose_name=ugettext_lazy('Enable suggestions'),
+        default=True,
+        help_text=ugettext_lazy(
+            'Whether to allow translation suggestions at all.'
+        )
+    )
     suggestion_voting = models.BooleanField(
         verbose_name=ugettext_lazy('Suggestion voting'),
         default=False,

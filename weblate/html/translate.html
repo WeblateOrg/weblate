@@ -167,10 +167,12 @@
 {% endif %}
 {% endif %}
 
+{% if unit.translation.subproject.enable_suggestions %}
 {% if perms.trans.add_suggestion %}
 <input class="button" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
 {% else %}
 {% trans "No privileges for adding suggestions!" %}
+{% endif %}
 {% endif %}
 
 {% if perms.trans.save_translation %}
