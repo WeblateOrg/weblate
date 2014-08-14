@@ -327,6 +327,13 @@ def ssh(request):
     except subprocess.CalledProcessError:
         can_generate = False
 
+    if not os.access(os.path.expanduser('~'), os.W_OK):
+        can_generate = False
+        messages.error(
+            request,
+            _('Can not write to home directory, please fix your configuration.')
+        )
+
     # Grab action type
     action = request.POST.get('action', None)
 
