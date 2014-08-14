@@ -96,19 +96,19 @@ def performance(request):
         'production-indexing',
     ))
     # Check for sane caching
-    cache = settings.CACHES['default']['BACKEND'].split('.')[-1]
-    if cache in ['MemcachedCache', 'DatabaseCache']:
+    caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
+    if caches in ['MemcachedCache', 'DatabaseCache']:
         # We consider these good
-        cache = True
-    elif cache in ['DummyCache']:
+        caches = True
+    elif caches in ['DummyCache']:
         # This one is definitely bad
-        cache = False
+        caches = False
     else:
         # These might not be that bad
-        cache = None
+        caches = None
     checks.append((
         _('Django caching'),
-        cache,
+        caches,
         'production-cache',
     ))
     # Avatar caching
