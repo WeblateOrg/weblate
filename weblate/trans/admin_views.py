@@ -331,7 +331,7 @@ def ssh(request):
         can_generate = False
         messages.error(
             request,
-            _('Can not write to home directory, please fix your configuration.')
+            _('Can not write to home directory, please check documentation.')
         )
 
     # Grab action type
