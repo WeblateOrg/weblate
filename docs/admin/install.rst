@@ -451,8 +451,16 @@ Home directory
 ++++++++++++++
 
 The home directory for user which is running Weblate should be existing and
-writable by this user. This is especially needed if you want to use SSH 
-to access private repositories.
+writable by this user. This is especially needed if you want to use SSH to
+access private repositories, but Git might need to access this directory as
+well (depends on Git version you use).
+
+You can change the directory used by Weblate in :file:`settings.py`, for
+example to set it to ``configuration`` directory under Weblate tree:
+
+.. code-block:: python
+
+    os.environ['HOME'] = os.path.join(WEB_ROOT, 'configuration')
 
 .. note::
 
