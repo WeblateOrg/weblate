@@ -32,6 +32,8 @@ libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 PyICU (optional for proper sorting of strings)
     https://pypi.python.org/pypi/PyICU
+babel (optional for Android resources support)
+    http://babel.pocoo.org/
 Database backend
     Any database supported in Django will work, check their documentation for more details.
 
@@ -44,7 +46,8 @@ you can use apt-get:
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git \
-        python-whoosh python-pil python-django-south python-libravatar python-pyicu
+        python-whoosh python-pil python-django-south python-libravatar \
+        python-pyicu python-babel
 
     # Optional for database backend
 
@@ -73,7 +76,8 @@ All requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-Django python-icu translate-toolkit python-GitPython \
-        python-Whoosh python-Pillow python-South python-python-social-auth
+        python-Whoosh python-Pillow python-South python-python-social-auth \
+        python-babel
 
 
 Requirements on OSX
@@ -100,6 +104,12 @@ Most requirements can be also installed using pip installer:
 
 Also you will need header files for ``python-dev``, ``libxml2``, ``libxslt``
 and ``libfreetype6`` to compile some of the required Python modules.
+
+All optional dependencies (see above) can be installed using:
+
+.. code-block:: sh
+
+    pip install -r requirements-optional.txt
 
 On Debian or Ubuntu you can install them using:
 
@@ -441,8 +451,16 @@ Home directory
 ++++++++++++++
 
 The home directory for user which is running Weblate should be existing and
-writable by this user. This is especially needed if you want to use SSH 
-to access private repositories.
+writable by this user. This is especially needed if you want to use SSH to
+access private repositories, but Git might need to access this directory as
+well (depends on Git version you use).
+
+You can change the directory used by Weblate in :file:`settings.py`, for
+example to set it to ``configuration`` directory under Weblate tree:
+
+.. code-block:: python
+
+    os.environ['HOME'] = os.path.join(WEB_ROOT, 'configuration')
 
 .. note::
 

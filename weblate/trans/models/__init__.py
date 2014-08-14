@@ -18,25 +18,31 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+__all__ = [
+    'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
+    'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
+    'Advertisement', 'WhiteboardMessage',
+]
+
 import os
 import shutil
 
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
-from weblate.trans.models.project import Project  # noqa
-from weblate.trans.models.subproject import SubProject  # noqa
-from weblate.trans.models.translation import Translation  # noqa
-from weblate.trans.models.unit import Unit  # noqa
-from weblate.trans.models.unitdata import (  # noqa
+from weblate.trans.models.project import Project
+from weblate.trans.models.subproject import SubProject
+from weblate.trans.models.translation import Translation
+from weblate.trans.models.unit import Unit
+from weblate.trans.models.unitdata import (
     Check, Suggestion, Comment, Vote
 )
-from weblate.trans.models.search import IndexUpdate  # noqa
-from weblate.trans.models.changes import Change  # noqa
-from weblate.trans.models.dictionary import Dictionary  # noqa
-from weblate.trans.models.source import Source  # noqa
-from weblate.trans.models.advertisement import Advertisement  # noqa
-from weblate.trans.models.whiteboard import WhiteboardMessage  # noqa
+from weblate.trans.models.search import IndexUpdate
+from weblate.trans.models.changes import Change
+from weblate.trans.models.dictionary import Dictionary
+from weblate.trans.models.source import Source
+from weblate.trans.models.advertisement import Advertisement
+from weblate.trans.models.whiteboard import WhiteboardMessage
 
 
 @receiver(post_delete, sender=Project)

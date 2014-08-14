@@ -19,11 +19,10 @@
 #
 
 from django.db import models
-from weblate.trans.models.unit import Unit
 
 
 class IndexUpdate(models.Model):
-    unit = models.ForeignKey(Unit, unique=True)
+    unit = models.ForeignKey('Unit', unique=True)
     source = models.BooleanField(default=True)
 
     class Meta(object):

@@ -522,3 +522,6 @@ ALLOWED_HOSTS = []
 
 # Enable whiteboard functionality - under development so disabled by default.
 ENABLE_WHITEBOARD = False
+
+# Override home directory to some writable location
+# os.environ['HOME'] = os.path.join(WEB_ROOT, 'configuration')

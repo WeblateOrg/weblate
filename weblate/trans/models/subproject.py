@@ -38,12 +38,29 @@ from weblate.trans.util import is_repo_link
 from weblate.trans.util import get_site_url
 from weblate.trans.util import sleep_while_git_locked
 from weblate.trans.validators import (
-    validate_repoweb, validate_filemask, validate_repo,
+    validate_repoweb, validate_filemask,
     validate_extra_file, validate_autoaccept,
     validate_check_flags,
 )
 from weblate.lang.models import Language
 from weblate.appsettings import SCRIPT_CHOICES
+
+
+def validate_repo(val):
+    '''
+    Validates Git URL, and special weblate:// links.
+    '''
+    try:
+        repo = SubProject.objects.get_linked(val)
+        if repo is not None and repo.is_repo_link:
+            raise ValidationError(_('Can not link to linked repository!'))
+    except (SubProject.DoesNotExist, ValueError):
+        raise ValidationError(
+            _(
+                'Invalid link to Weblate project, '
+                'use weblate://project/subproject.'
+            )
+        )
 
 
 class SubProjectManager(models.Manager):

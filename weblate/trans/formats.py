@@ -30,13 +30,14 @@ from translate.storage.ts2 import tsunit
 from translate.storage.jsonl10n import JsonUnit
 from translate.storage import mo
 from translate.storage import factory
-from weblate.trans.util import get_string, join_plural
+from weblate.trans.util import get_string, join_plural, add_configuration_error
 from translate.misc import quote
 import weblate
 import subprocess
 import os.path
 import re
 import hashlib
+import traceback
 import importlib
 import __builtin__
 
@@ -54,7 +55,10 @@ def register_fileformat(fileformat):
         fileformat.get_class()
         FILE_FORMATS[fileformat.format_id] = fileformat
     except (AttributeError, ImportError):
-        pass
+        add_configuration_error(
+            'File format: {0}'.format(fileformat.format_id),
+            traceback.format_exc()
+        )
     return fileformat
 
 
@@ -385,7 +389,7 @@ class FileFormat(object):
         # Apply possible fixups and return
         return cls.fixup(store)
 
-    def __init__(self, storefile, template_store=None):
+    def __init__(self, storefile, template_store=None, language_code=None):
         '''
         Creates file format object, wrapping up translate-toolkit's
         store.
@@ -398,6 +402,10 @@ class FileFormat(object):
             raise ValueError('Invalid file format')
         # Remember template
         self.template_store = template_store
+        # Set language (needed for some which do not include this)
+        if (language_code is not None
+                and self.store.gettargetlanguage() is None):
+            self.store.settargetlanguage(language_code)
 
     @property
     def has_template(self):
@@ -409,7 +417,7 @@ class FileFormat(object):
             and self.template_store is not None
         )
 
-    def _find_unit_template(self, context, source):
+    def _find_unit_template(self, context):
         # Need to create new unit based on template
         template_ttkit_unit = self.template_store.findid(context)
         # We search by ID when using template
@@ -452,7 +460,7 @@ class FileFormat(object):
         unit is new one.
         '''
         if self.has_template:
-            return self._find_unit_template(context, source)
+            return self._find_unit_template(context)
         else:
             return self._find_unit_bilingual(context, source)
 

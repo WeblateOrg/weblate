@@ -32,8 +32,31 @@
   {% endfor %}
   </tbody>
   </table>
-</div>
-</div>
+    </div>
+  </div>
+  {% if errors %}
+  <h1>{% trans "Configuration errors" %}</h1>
+  <div id="changelist" class="module filtered">
+    <div class="results">
+  <table id="result_list" class="orderable-initalized">
+  <thead>
+  <tr>
+    <th>{% trans "Name" %}</th>
+    <th>{% trans "Message" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for error in errors %}
+  <tr class="row{% cycle 1,2 %} {{ check.3 }}">
+      <td>{{ error.name }}</td>
+      <td><pre>{{ error.message }}</pre></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+    </div>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}
 

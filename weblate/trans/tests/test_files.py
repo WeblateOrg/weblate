@@ -28,6 +28,7 @@ from weblate.trans.tests.test_util import get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_MO = get_test_file('cs.mo')
+TEST_ANDROID = get_test_file('strings-cs.xml')
 
 TRANSLATION_OURS = u'Nazdar světe!\n'
 TRANSLATION_PO = u'Ahoj světe!\n'
@@ -181,6 +182,26 @@ class ImportMoPoTest(ImportTest):
     def create_subproject(self):
         # Needs to create PO file to have language pack option
         return self.create_po()
+
+
+class AndroidImportTest(ViewTestCase):
+    def create_subproject(self):
+        return self.create_android()
+
+    def test_import(self):
+        with open(TEST_ANDROID) as handle:
+            self.client.post(
+                reverse(
+                    'upload_translation',
+                    kwargs=self.kw_translation
+                ),
+                {'file': handle}
+            )
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 2)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
 
 
 class ExportTest(ViewTestCase):

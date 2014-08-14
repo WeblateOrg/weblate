@@ -147,14 +147,12 @@ class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
     '''
     Wrapper class to sort choices alphabetically.
     '''
-    pass
 
 
 class SortedSelect(SortedSelectMixin, forms.Select):
     '''
     Wrapper class to sort choices alphabetically.
     '''
-    pass
 
 
 class ProfileForm(BootstrapModelForm):
