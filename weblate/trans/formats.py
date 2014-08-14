@@ -417,7 +417,7 @@ class FileFormat(object):
             and self.template_store is not None
         )
 
-    def _find_unit_template(self, context, source):
+    def _find_unit_template(self, context):
         # Need to create new unit based on template
         template_ttkit_unit = self.template_store.findid(context)
         # We search by ID when using template
@@ -460,7 +460,7 @@ class FileFormat(object):
         unit is new one.
         '''
         if self.has_template:
-            return self._find_unit_template(context, source)
+            return self._find_unit_template(context)
         else:
             return self._find_unit_bilingual(context, source)
 
