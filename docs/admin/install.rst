@@ -46,7 +46,8 @@ you can use apt-get:
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit python-git \
-        python-whoosh python-pil python-django-south python-libravatar python-pyicu
+        python-whoosh python-pil python-django-south python-libravatar \
+        python-pyicu python-babel
 
     # Optional for database backend
 
@@ -75,7 +76,8 @@ All requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-Django python-icu translate-toolkit python-GitPython \
-        python-Whoosh python-Pillow python-South python-python-social-auth
+        python-Whoosh python-Pillow python-South python-python-social-auth \
+        python-babel
 
 
 Requirements on OSX
@@ -102,6 +104,12 @@ Most requirements can be also installed using pip installer:
 
 Also you will need header files for ``python-dev``, ``libxml2``, ``libxslt``
 and ``libfreetype6`` to compile some of the required Python modules.
+
+All optional dependencies (see above) can be installed using:
+
+.. code-block:: sh
+
+    pip install -r requirements-optional.txt
 
 On Debian or Ubuntu you can install them using:
 
