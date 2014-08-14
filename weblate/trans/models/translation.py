@@ -1175,7 +1175,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
     def merge_suggestions(self, request, store):
         '''
-        Merges contect of translate-toolkit store as a suggestions.
+        Merges content of translate-toolkit store as a suggestions.
         '''
         from weblate.trans.models.unitdata import Suggestion
         from weblate.trans.models.unit import Unit
