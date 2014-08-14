@@ -40,6 +40,8 @@ from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.project import Project
+from weblate.trans.models.unit import Unit
+from weblate.trans.models.unitdata import Check, Suggestion, Comment
 from weblate.trans.util import (
     get_site_url, sleep_while_git_locked, translation_percent, split_plural,
 )
@@ -445,8 +447,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Removes stale checks/comments/suggestions for deleted units.
         '''
-        from weblate.trans.models.unit import Unit
-        from weblate.trans.models.unitdata import Check, Suggestion, Comment
         for contentsum in deleted_contentsums:
             units = Unit.objects.filter(
                 translation__language=self.language,
@@ -501,7 +501,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Checks whether database is in sync with git and possibly does update.
         '''
-        from weblate.trans.models.unit import Unit
         from weblate.trans.models.changes import Change
 
         if change is None:
@@ -1125,7 +1124,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         Merges translation unit wise, needed for template based translations to
         add new strings.
         """
-        from weblate.trans.models.unit import Unit
 
         for unit2 in store2.all_units():
             # No translated -> skip
@@ -1204,8 +1202,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Merges content of translate-toolkit store as a suggestions.
         '''
-        from weblate.trans.models.unitdata import Suggestion
-        from weblate.trans.models.unit import Unit
         ret = False
         for unit in store.all_units():
 
