@@ -116,3 +116,14 @@ def update_comment_flag(sender, instance, **kwargs):
             unit.translation.invalidate_cache('sourcecomments')
         else:
             unit.translation.invalidate_cache('targetcomments')
+
+
+@receiver(post_delete, sender=Suggestion)
+@receiver(post_save, sender=Suggestion)
+def update_comment_flag(sender, instance, **kwargs):
+    """
+    Update related unit suggestion flags
+    """
+    for unit in get_related_units(instance):
+        # Update unit stats
+        unit.update_has_suggestion()

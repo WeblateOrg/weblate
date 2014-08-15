@@ -93,10 +93,6 @@ class SuggestionManager(models.Manager):
             user.profile.suggested += 1
             user.profile.save()
 
-        # Update unit flags
-        for relunit in suggestion.get_related_units():
-            relunit.update_has_suggestion()
-
 
 class Suggestion(models.Model, RelatedUnitMixin):
     contentsum = models.CharField(max_length=40, db_index=True)
@@ -139,12 +135,6 @@ class Suggestion(models.Model, RelatedUnitMixin):
             )
 
         self.delete()
-
-    def delete(self, *args, **kwargs):
-        super(Suggestion, self).delete(*args, **kwargs)
-        # Update unit flags
-        for unit in self.get_related_units():
-            unit.update_has_suggestion()
 
     def get_matching_unit(self):
         '''
