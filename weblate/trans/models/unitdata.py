@@ -149,12 +149,6 @@ class Suggestion(models.Model, RelatedUnitMixin):
         '''
         return self.get_matching_unit().source
 
-    def get_review_url(self):
-        '''
-        Returns URL which can be used for review.
-        '''
-        return self.get_matching_unit().get_absolute_url()
-
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 

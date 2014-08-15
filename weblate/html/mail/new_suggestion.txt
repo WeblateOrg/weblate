@@ -12,6 +12,6 @@
 
 {% trans "You can review it at:" %}
 
-{{ current_site_url }}{{ suggestion.get_review_url }}
+{{ current_site_url }}{{ unit.get_absolute_url }}
 
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}
