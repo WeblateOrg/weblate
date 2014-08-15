@@ -63,7 +63,7 @@ def delete_object_dir(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Source)
-def update_string_pririties(sender, instance, created=False, **kwargs):
+def update_string_pririties(sender, instance, **kwargs):
     """
     Updates unit score
     """
