@@ -239,16 +239,6 @@ class CommentManager(models.Manager):
             author=user
         )
 
-        # Invalidate counts cache
-        if lang is None:
-            unit.translation.invalidate_cache('sourcecomments')
-        else:
-            unit.translation.invalidate_cache('targetcomments')
-
-        # Update unit stats
-        for relunit in new_comment.get_related_units():
-            relunit.update_has_comment()
-
         # Notify subscribed users
         notify_new_comment(
             unit,
@@ -258,7 +248,7 @@ class CommentManager(models.Manager):
         )
 
 
-class Comment(models.Model, RelatedUnitMixin):
+class Comment(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -281,11 +271,6 @@ class Comment(models.Model, RelatedUnitMixin):
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 
-    def delete(self, *args, **kwargs):
-        super(Comment, self).delete(*args, **kwargs)
-        # Update unit flags
-        for unit in self.get_related_units():
-            unit.update_has_comment()
 
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 

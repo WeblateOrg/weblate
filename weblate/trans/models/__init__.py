@@ -92,10 +92,27 @@ def get_related_units(unitdata):
 
 
 @receiver(post_save, sender=Check)
-def update_failed_check(sender, instance, **kwargs):
+def update_failed_check_flag(sender, instance, **kwargs):
     """
     Update related unit failed check flag.
     """
     if instance.ignore:
         for unit in get_related_units(instance):
             unit.update_has_failing_check(False)
+
+
+@receiver(post_delete, sender=Comment)
+@receiver(post_save, sender=Comment)
+def update_comment_flag(sender, instance, **kwargs):
+    """
+    Update related unit comment flags
+    """
+    for unit in get_related_units(instance):
+        # Update unit stats
+        unit.update_has_comment()
+
+        # Invalidate counts cache
+        if instance.language is None:
+            unit.translation.invalidate_cache('sourcecomments')
+        else:
+            unit.translation.invalidate_cache('targetcomments')
