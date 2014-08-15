@@ -436,11 +436,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         Returns date of last change done in Weblate.
         """
-        from weblate.trans.models.changes import Change
-        try:
-            change = Change.objects.content().filter(
-                translation__subproject__project=self
-            )
-            return change[0].timestamp
-        except IndexError:
+        resources = self.subproject_set.all()
+        changes = [resource.get_last_change() for resource in resources]
+        changes = [c for c in changes if c is not None]
+        if not changes:
             return None
+        return max(changes)
