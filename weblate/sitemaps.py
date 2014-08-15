@@ -29,12 +29,16 @@ PROJECT_DICT = {
 }
 
 SUBPROJECT_DICT = {
-    'queryset': SubProject.objects.all_acl(None),
+    'queryset': SubProject.objects.filter(
+        project__in=Project.objects.all_acl(None)
+    ),
     'date_field': 'get_last_change',
 }
 
 TRANSLATION_DICT = {
-    'queryset': Translation.objects.all_acl(None),
+    'queryset': Translation.objects.filter(
+        subproject__project__in=Project.objects.all_acl(None)
+    ),
     'date_field': 'get_last_change',
 }
 

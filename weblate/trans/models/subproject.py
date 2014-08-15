@@ -31,7 +31,6 @@ import weblate
 import git
 from gitdb.exc import ODBError
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
-from weblate.trans.models.project import Project
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.util import is_repo_link
@@ -64,15 +63,6 @@ def validate_repo(val):
 
 
 class SubProjectManager(models.Manager):
-    def all_acl(self, user):
-        '''
-        Returns list of projects user is allowed to access.
-        '''
-        projects, filtered = Project.objects.get_acl_status(user)
-        if not filtered:
-            return self.all()
-        return self.filter(project__in=projects)
-
     def get_linked(self, val):
         '''
         Returns subproject for linked repo.
@@ -95,7 +85,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         help_text=ugettext_lazy('Name used in URLs and file names.')
     )
     project = models.ForeignKey(
-        Project,
+        'Project',
         verbose_name=ugettext_lazy('Project'),
     )
     repo = models.CharField(
