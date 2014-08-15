@@ -37,7 +37,6 @@ from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans.models.changes import Change
 from weblate.trans.util import get_site_url
 from weblate.accounts.avatar import get_user_display
 import weblate
@@ -419,10 +418,7 @@ class Profile(models.Model):
         Returns date of last change user has done in Weblate.
         '''
         try:
-            change = Change.objects.filter(
-                user=self.user
-            )
-            return change[0].timestamp
+            return self.user.change_set.all()[0].timestamp
         except IndexError:
             return None
 
