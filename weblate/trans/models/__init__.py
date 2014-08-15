@@ -74,3 +74,28 @@ def update_string_pririties(sender, instance, **kwargs):
             priority=instance.priority
         )
         units.update(priority=instance.priority)
+
+
+def get_related_units(unitdata):
+    '''
+    Returns queryset with related units.
+    '''
+    related_units = Unit.objects.filter(
+        contentsum=unitdata.contentsum,
+        translation__subproject__project=unitdata.project,
+    )
+    if unitdata.language is not None:
+        related_units = related_units.filter(
+            translation__language=unitdata.language
+        )
+    return related_units
+
+
+@receiver(post_save, sender=Check)
+def update_failed_check(sender, instance, **kwargs):
+    """
+    Update related unit failed check flag.
+    """
+    if instance.ignore:
+        for unit in get_related_units(instance):
+            unit.update_has_failing_check(False)

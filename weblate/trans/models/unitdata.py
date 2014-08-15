@@ -290,7 +290,7 @@ class Comment(models.Model, RelatedUnitMixin):
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
-class Check(models.Model, RelatedUnitMixin):
+class Check(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey('Project')
     language = models.ForeignKey(Language, null=True, blank=True)
@@ -329,7 +329,3 @@ class Check(models.Model, RelatedUnitMixin):
         '''
         self.ignore = True
         self.save()
-
-        # Update related unit flags
-        for unit in self.get_related_units():
-            unit.update_has_failing_check(False)
