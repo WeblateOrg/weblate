@@ -39,7 +39,6 @@ from weblate import appsettings
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.checks import CHECKS
-from weblate.trans.models.project import Project
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Check, Suggestion, Comment
 from weblate.trans.util import (
@@ -48,6 +47,8 @@ from weblate.trans.util import (
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin
 from weblate.trans.boolean_sum import BooleanSum
+from weblate.accounts.models import notify_new_string
+from weblate.trans.models.changes import Change
 
 
 class TranslationManager(models.Manager):
@@ -73,15 +74,6 @@ class TranslationManager(models.Manager):
         Filters enabled translations.
         '''
         return self.filter(enabled=True).select_related()
-
-    def all_acl(self, user):
-        '''
-        Returns list of projects user is allowed to access.
-        '''
-        projects, filtered = Project.objects.get_acl_status(user)
-        if not filtered:
-            return self.all()
-        return self.filter(subproject__project__in=projects)
 
     def get_percents(self, project=None, subproject=None, language=None):
         '''
@@ -511,7 +503,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Checks whether database is in sync with git and possibly does update.
         '''
-        from weblate.trans.models.changes import Change
 
         if change is None:
             change = Change.ACTION_UPDATE
@@ -615,7 +606,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Notify subscribed users
         if was_new:
-            from weblate.accounts.models import notify_new_string
             notify_new_string(self)
 
     @property
@@ -736,10 +726,11 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns last autor of change done in Weblate.
         '''
-        from weblate.trans.models.changes import Change
         try:
-            change = Change.objects.content().filter(translation=self)[0]
-            return self.get_author_name(change.author, email)
+            return self.get_author_name(
+                self.change_set.content()[0].author,
+                email
+            )
         except IndexError:
             return None
 
@@ -747,10 +738,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns date of last change done in Weblate.
         '''
-        from weblate.trans.models.changes import Change
         try:
-            change = Change.objects.content().filter(translation=self)[0]
-            return change.timestamp
+            return self.change_set.content()[0].timestamp
         except IndexError:
             return None
 
@@ -1196,8 +1185,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Merges translate-toolkit store into current translation.
         '''
-        from weblate.trans.models.changes import Change
-
         # Merge with lock acquired
         with self.subproject.git_lock:
 

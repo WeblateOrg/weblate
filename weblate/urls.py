@@ -32,7 +32,7 @@ from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 
 # URL regexp for language code
-LANGUAGE = r'(?P<lang>[^/-]{2,3}([_-][A-Za-z]{2})?(@[a-z]+)?)'
+LANGUAGE = r'(?P<lang>[^/]+)'
 
 # URL regexp for project
 PROJECT = r'(?P<project>[^/]+)/'

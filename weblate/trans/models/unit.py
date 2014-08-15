@@ -28,10 +28,16 @@ from django.core.cache import cache
 import traceback
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
+from weblate.trans.models.unitdata import Check, Comment, Suggestion
+from weblate.trans.models.changes import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
-
+from weblate.accounts.models import (
+    notify_new_contributor, notify_new_translation
+)
 from weblate.trans.filelock import FileLockException
-from weblate.trans.util import is_plural, split_plural, join_plural
+from weblate.trans.util import (
+    is_plural, split_plural, join_plural, get_distinct_translations
+)
 import weblate
 
 FLAG_TEMPLATE = u'<span title="{0}" class="glyphicon glyphicon-{1}"></span>'
@@ -79,7 +85,6 @@ class UnitManager(models.Manager):
         """
         Filtering for checks.
         """
-        from weblate.trans.models.unitdata import Check
 
         # Filter checks for current project
         checks = Check.objects.filter(
@@ -120,7 +125,6 @@ class UnitManager(models.Manager):
         """
         Basic filtering based on unit state or failed checks.
         """
-        from weblate.trans.models.unitdata import Comment
 
         if rqtype == 'fuzzy':
             return self.filter(fuzzy=True)
@@ -182,7 +186,6 @@ class UnitManager(models.Manager):
         """
         if user.is_anonymous():
             return self.none()
-        from weblate.trans.models.changes import Change
         try:
             sample = self.all()[0]
         except IndexError:
@@ -448,8 +451,6 @@ class Unit(models.Model):
 
         # Create change object for new source string
         if source_created:
-            from weblate.trans.models.changes import Change
-
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_NEW_SOURCE,
@@ -513,9 +514,6 @@ class Unit(models.Model):
 
         Optional user parameters defines authorship of a change.
         """
-        from weblate.accounts.models import notify_new_translation
-        from weblate.trans.models.changes import Change
-
         # Update lock timestamp
         self.translation.update_lock(request)
 
@@ -611,9 +609,6 @@ class Unit(models.Model):
         """
         Creates Change entry for saving unit.
         """
-        from weblate.accounts.models import notify_new_contributor
-        from weblate.trans.models.changes import Change
-
         # Notify about new contributor
         user_changes = Change.objects.filter(
             translation=self.translation,
@@ -717,7 +712,6 @@ class Unit(models.Model):
         """
         Returns all suggestions for this unit.
         """
-        from weblate.trans.models.unitdata import Suggestion
         if self._suggestions is None:
             self._suggestions = Suggestion.objects.filter(
                 contentsum=self.contentsum,
@@ -730,7 +724,6 @@ class Unit(models.Model):
         """
         Cleanups listed source and target checks.
         """
-        from weblate.trans.models.unitdata import Check
         if len(source) == 0 and len(target) == 0:
             return False
         todelete = Check.objects.filter(
@@ -749,7 +742,6 @@ class Unit(models.Model):
         """
         Returns all checks for this unit (even ignored).
         """
-        from weblate.trans.models.unitdata import Check
         return Check.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
@@ -760,7 +752,6 @@ class Unit(models.Model):
         """
         Returns all source checks for this unit (even ignored).
         """
-        from weblate.trans.models.unitdata import Check
         return Check.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
@@ -771,7 +762,6 @@ class Unit(models.Model):
         """
         Returns all active (not ignored) checks for this unit.
         """
-        from weblate.trans.models.unitdata import Check
         return Check.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
@@ -783,7 +773,6 @@ class Unit(models.Model):
         """
         Returns all active (not ignored) source checks for this unit.
         """
-        from weblate.trans.models.unitdata import Check
         return Check.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
@@ -795,7 +784,6 @@ class Unit(models.Model):
         """
         Returns list of target comments.
         """
-        from weblate.trans.models.unitdata import Comment
         return Comment.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
@@ -807,7 +795,6 @@ class Unit(models.Model):
         """
         Returns list of target comments.
         """
-        from weblate.trans.models.unitdata import Comment
         return Comment.objects.filter(
             contentsum=self.contentsum,
             project=self.translation.subproject.project,
@@ -862,8 +849,6 @@ class Unit(models.Model):
         """
         Updates checks for this unit.
         """
-        from weblate.trans.models.unitdata import Check
-
         was_change = False
 
         checks_to_run, cleanup_checks = self.get_checks_to_run(
@@ -1069,3 +1054,20 @@ class Unit(models.Model):
                 subproject=self.translation.subproject
             )
         return self._source_info
+
+    def get_secondary_units(self, user):
+        '''
+        Returns list of secondary units.
+        '''
+        secondary_langs = user.profile.secondary_languages.exclude(
+            id=self.translation.language.id
+        )
+        project = self.translation.subproject.project
+        return get_distinct_translations(
+            Unit.objects.filter(
+                checksum=self.checksum,
+                translated=True,
+                translation__subproject__project=project,
+                translation__language__in=secondary_langs,
+            )
+        )

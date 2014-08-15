@@ -63,7 +63,7 @@ def delete_object_dir(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Source)
-def update_string_pririties(sender, instance, created=False, **kwargs):
+def update_string_pririties(sender, instance, **kwargs):
     """
     Updates unit score
     """
@@ -74,3 +74,56 @@ def update_string_pririties(sender, instance, created=False, **kwargs):
             priority=instance.priority
         )
         units.update(priority=instance.priority)
+
+
+def get_related_units(unitdata):
+    '''
+    Returns queryset with related units.
+    '''
+    related_units = Unit.objects.filter(
+        contentsum=unitdata.contentsum,
+        translation__subproject__project=unitdata.project,
+    )
+    if unitdata.language is not None:
+        related_units = related_units.filter(
+            translation__language=unitdata.language
+        )
+    return related_units
+
+
+@receiver(post_save, sender=Check)
+def update_failed_check_flag(sender, instance, **kwargs):
+    """
+    Update related unit failed check flag.
+    """
+    if instance.ignore:
+        for unit in get_related_units(instance):
+            unit.update_has_failing_check(False)
+
+
+@receiver(post_delete, sender=Comment)
+@receiver(post_save, sender=Comment)
+def update_comment_flag(sender, instance, **kwargs):
+    """
+    Update related unit comment flags
+    """
+    for unit in get_related_units(instance):
+        # Update unit stats
+        unit.update_has_comment()
+
+        # Invalidate counts cache
+        if instance.language is None:
+            unit.translation.invalidate_cache('sourcecomments')
+        else:
+            unit.translation.invalidate_cache('targetcomments')
+
+
+@receiver(post_delete, sender=Suggestion)
+@receiver(post_save, sender=Suggestion)
+def update_suggestion_flag(sender, instance, **kwargs):
+    """
+    Update related unit suggestion flags
+    """
+    for unit in get_related_units(instance):
+        # Update unit stats
+        unit.update_has_suggestion()
