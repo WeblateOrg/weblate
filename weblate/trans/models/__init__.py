@@ -120,7 +120,7 @@ def update_comment_flag(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Suggestion)
 @receiver(post_save, sender=Suggestion)
-def update_comment_flag(sender, instance, **kwargs):
+def update_suggestion_flag(sender, instance, **kwargs):
     """
     Update related unit suggestion flags
     """
