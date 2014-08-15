@@ -47,6 +47,8 @@ from weblate.trans.util import (
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin
 from weblate.trans.boolean_sum import BooleanSum
+from weblate.accounts.models import notify_new_string
+from weblate.trans.models.changes import Change
 
 
 class TranslationManager(models.Manager):
@@ -491,7 +493,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Checks whether database is in sync with git and possibly does update.
         '''
-        from weblate.trans.models.changes import Change
 
         if change is None:
             change = Change.ACTION_UPDATE
@@ -595,7 +596,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Notify subscribed users
         if was_new:
-            from weblate.accounts.models import notify_new_string
             notify_new_string(self)
 
     @property
@@ -1138,8 +1138,6 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Merges translate-toolkit store into current translation.
         '''
-        from weblate.trans.models.changes import Change
-
         # Merge with lock acquired
         with self.subproject.git_lock:
 

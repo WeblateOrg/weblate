@@ -25,6 +25,7 @@ from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.changes import Change
 from weblate.accounts.avatar import get_user_display
+from weblate.accounts.models import notify_new_suggestion, notify_new_comment
 
 
 class RelatedUnitMixin(object):
@@ -52,7 +53,6 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
-        from weblate.accounts.models import notify_new_suggestion
 
         if not request.user.is_authenticated():
             user = None
@@ -224,8 +224,6 @@ class CommentManager(models.Manager):
         '''
         Adds comment to this unit.
         '''
-        from weblate.accounts.models import notify_new_comment
-
         new_comment = self.create(
             user=user,
             contentsum=unit.contentsum,

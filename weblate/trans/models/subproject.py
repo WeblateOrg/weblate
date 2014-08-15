@@ -36,6 +36,7 @@ from weblate.trans.filelock import FileLock
 from weblate.trans.util import is_repo_link
 from weblate.trans.util import get_site_url
 from weblate.trans.util import sleep_while_git_locked
+from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
     validate_repoweb, validate_filemask,
     validate_extra_file, validate_autoaccept,
@@ -43,6 +44,8 @@ from weblate.trans.validators import (
 )
 from weblate.lang.models import Language
 from weblate.appsettings import SCRIPT_CHOICES
+from weblate.accounts.models import notify_merge_failure
+from weblate.trans.models.changes import Change
 
 
 def validate_repo(val):
@@ -718,7 +721,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Sends out notifications on merge failure.
         '''
         # Notify subscribed users about failure
-        from weblate.accounts.models import notify_merge_failure
         notify_merge_failure(self, error, status)
 
     def update_branch(self, request=None):
@@ -787,7 +789,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Loads translations from git.
         '''
-        from weblate.trans.models.translation import Translation
         translations = []
         for path in self.get_mask_matches():
             code = self.get_lang_code(path)
@@ -1175,7 +1176,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns date of last change done in Weblate.
         '''
-        from weblate.trans.models.changes import Change
         try:
             change = Change.objects.content().filter(
                 translation__subproject=self
@@ -1200,8 +1200,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Creates new language file.
         '''
-        from weblate.trans.models.translation import Translation
-
         if self.project.new_lang != 'add':
             raise ValueError('Not supported operation!')
 

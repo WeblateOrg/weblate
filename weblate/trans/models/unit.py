@@ -31,7 +31,9 @@ from weblate.trans.models.source import Source
 from weblate.trans.models.unitdata import Check, Comment, Suggestion
 from weblate.trans.models.changes import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
-
+from weblate.accounts.models import (
+    notify_new_contributor, notify_new_translation
+)
 from weblate.trans.filelock import FileLockException
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations
@@ -509,8 +511,6 @@ class Unit(models.Model):
 
         Optional user parameters defines authorship of a change.
         """
-        from weblate.accounts.models import notify_new_translation
-
         # Update lock timestamp
         self.translation.update_lock(request)
 
@@ -606,8 +606,6 @@ class Unit(models.Model):
         """
         Creates Change entry for saving unit.
         """
-        from weblate.accounts.models import notify_new_contributor
-
         # Notify about new contributor
         user_changes = Change.objects.filter(
             translation=self.translation,
