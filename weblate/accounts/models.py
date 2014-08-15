@@ -37,7 +37,6 @@ from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans.models.project import Project
 from weblate.trans.models.changes import Change
 from weblate.trans.util import get_site_url
 from weblate.accounts.avatar import get_user_display
@@ -362,7 +361,7 @@ class Profile(models.Model):
     translated = models.IntegerField(default=0, db_index=True)
 
     subscriptions = models.ManyToManyField(
-        Project,
+        'trans.Project',
         verbose_name=_('Subscribed projects')
     )
 
