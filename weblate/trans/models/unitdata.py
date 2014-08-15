@@ -28,26 +28,6 @@ from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import notify_new_suggestion, notify_new_comment
 
 
-class RelatedUnitMixin(object):
-    '''
-    Mixin to provide access to related units for contentsum referenced objects.
-    '''
-    def get_related_units(self):
-        '''
-        Returns queryset with related units.
-        '''
-        from weblate.trans.models.unit import Unit
-        related_units = Unit.objects.filter(
-            contentsum=self.contentsum,
-            translation__subproject__project=self.project,
-        )
-        if self.language is not None:
-            related_units = related_units.filter(
-                translation__language=self.language
-            )
-        return related_units
-
-
 class SuggestionManager(models.Manager):
     def add(self, unit, target, request):
         '''
@@ -94,7 +74,7 @@ class SuggestionManager(models.Manager):
             user.profile.save()
 
 
-class Suggestion(models.Model, RelatedUnitMixin):
+class Suggestion(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -135,19 +115,6 @@ class Suggestion(models.Model, RelatedUnitMixin):
             )
 
         self.delete()
-
-    def get_matching_unit(self):
-        '''
-        Retrieves one (possibly out of several) unit matching
-        this suggestion.
-        '''
-        return self.get_related_units()[0]
-
-    def get_source(self):
-        '''
-        Returns source strings matching this suggestion.
-        '''
-        return self.get_matching_unit().source
 
     def get_user_display(self):
         return get_user_display(self.user, link=True)
