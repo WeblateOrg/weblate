@@ -51,6 +51,8 @@ class Command(BaseCommand):
         for check in checks:
             name = '%s-%s' % (check.check, check.checksum)
             units = get_related_units(check)
+            if not units.exists():
+                continue
             if name in results:
                 results[name]['count'] += 1
             else:
