@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from weblate.trans.models import Check
+from weblate.trans.models import Check, get_related_units
 
 
 class Command(BaseCommand):
@@ -50,6 +50,7 @@ class Command(BaseCommand):
             checks = Check.objects.filter(ignore=True)
         for check in checks:
             name = '%s-%s' % (check.check, check.checksum)
+            units = get_related_units(check)
             if name in results:
                 results[name]['count'] += 1
             else:
