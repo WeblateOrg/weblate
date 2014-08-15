@@ -716,10 +716,11 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns last autor of change done in Weblate.
         '''
-        from weblate.trans.models.changes import Change
         try:
-            change = Change.objects.content().filter(translation=self)[0]
-            return self.get_author_name(change.author, email)
+            return self.get_author_name(
+                self.change_set.content()[0].author,
+                email
+            )
         except IndexError:
             return None
 
@@ -727,10 +728,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Returns date of last change done in Weblate.
         '''
-        from weblate.trans.models.changes import Change
         try:
-            change = Change.objects.content().filter(translation=self)[0]
-            return change.timestamp
+            return self.change_set.content()[0].timestamp
         except IndexError:
             return None
 
