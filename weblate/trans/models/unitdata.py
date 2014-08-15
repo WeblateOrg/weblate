@@ -23,7 +23,6 @@ from django.db.models import Count
 from django.contrib.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
-from weblate.trans.models.unit import Unit
 from weblate.trans.models.changes import Change
 from weblate.accounts.avatar import get_user_display
 
@@ -36,6 +35,7 @@ class RelatedUnitMixin(object):
         '''
         Returns queryset with related units.
         '''
+        from weblate.trans.models.unit import Unit
         related_units = Unit.objects.filter(
             contentsum=self.contentsum,
             translation__subproject__project=self.project,
