@@ -49,9 +49,6 @@ class Command(BaseCommand):
         else:
             checks = Check.objects.filter(ignore=True)
         for check in checks:
-            units = check.get_related_units()
-            if not units.exists():
-                continue
             name = '%s-%s' % (check.check, check.checksum)
             if name in results:
                 results[name]['count'] += 1
