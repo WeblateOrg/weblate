@@ -38,9 +38,8 @@ from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
 from weblate.trans.models.project import Project
-from weblate.trans.models.unit import Unit
 from weblate.trans.models.changes import Change
-from weblate.trans.util import get_site_url, get_distinct_translations
+from weblate.trans.util import get_site_url
 from weblate.accounts.avatar import get_user_display
 import weblate
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
@@ -552,23 +551,6 @@ class Profile(models.Model):
         Returns user's full name.
         '''
         return self.user.first_name
-
-    def get_secondary_units(self, unit):
-        '''
-        Returns list of secondary units.
-        '''
-        secondary_langs = self.secondary_languages.exclude(
-            id=unit.translation.language.id
-        )
-        project = unit.translation.subproject.project
-        return get_distinct_translations(
-            Unit.objects.filter(
-                checksum=unit.checksum,
-                translated=True,
-                translation__subproject__project=project,
-                translation__language__in=secondary_langs,
-            )
-        )
 
 
 @receiver(user_logged_in)

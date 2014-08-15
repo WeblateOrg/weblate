@@ -33,7 +33,9 @@ from weblate.trans.models.changes import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
 
 from weblate.trans.filelock import FileLockException
-from weblate.trans.util import is_plural, split_plural, join_plural
+from weblate.trans.util import (
+    is_plural, split_plural, join_plural, get_distinct_translations
+)
 import weblate
 
 FLAG_TEMPLATE = '<span title="%s" class="flag-icon ui-icon ui-icon-%s"></span>'
@@ -1048,3 +1050,20 @@ class Unit(models.Model):
                 subproject=self.translation.subproject
             )
         return self._source_info
+
+    def get_secondary_units(self, user):
+        '''
+        Returns list of secondary units.
+        '''
+        secondary_langs = user.profile.secondary_languages.exclude(
+            id=self.translation.language.id
+        )
+        project = self.translation.subproject.project
+        return get_distinct_translations(
+            Unit.objects.filter(
+                checksum=self.checksum,
+                translated=True,
+                translation__subproject__project=project,
+                translation__language__in=secondary_langs,
+            )
+        )

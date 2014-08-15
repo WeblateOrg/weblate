@@ -578,7 +578,7 @@ def translate(request, project, subproject, lang):
 
     # Show secondary languages for logged in users
     if request.user.is_authenticated():
-        secondary = request.user.profile.get_secondary_units(unit)
+        secondary = unit.get_secondary_units(request.user)
     else:
         secondary = None
 
