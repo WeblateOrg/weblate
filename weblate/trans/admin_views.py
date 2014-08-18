@@ -165,6 +165,13 @@ def performance(request):
         'production-home'
     ))
 
+    # Cached template loader
+    checks.append((
+        _('Cached template loader'),
+        'cached.Loader' in settings.TEMPLATE_LOADERS[0][0],
+        'production-templates'
+    ))
+
     # Check for serving static files
     # This uses CSS magic to hide this check when CSS is properly loaded.
     checks.append((
