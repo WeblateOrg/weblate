@@ -315,6 +315,14 @@ $(function () {
         $this.tooltip('destroy');
     });
 
+    /* Check link clicking */
+    $(document).on('click', '.check [data-toggle="tab"]', function (e) {
+        var href = $(this).attr('href');
+        e.preventDefault();
+        $('.nav [href="' + href + '"]').click();
+        $(window).scrollTop($(href).offset().top);
+    })
+
     /* Copy source text */
     $('.copy-text').click(function (e) {
         var $this = $(this);
