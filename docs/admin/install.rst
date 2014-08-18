@@ -490,7 +490,7 @@ configure it using following snippet:
         )),
     )
 
-.. seelaso:: `Django documentation <https://docs.djangoproject.com/en/1.6/ref/templates/api/#django.template.loaders.cached.Loader>`_
+.. seealso:: `Django documentation on template loading <https://docs.djangoproject.com/en/1.6/ref/templates/api/#django.template.loaders.cached.Loader>`_
 
 .. _server:
 
