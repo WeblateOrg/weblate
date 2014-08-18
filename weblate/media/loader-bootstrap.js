@@ -143,11 +143,11 @@ function load_table_sorting() {
                 thIndex += parseInt(th.attr('colspan'), 10) - 1;
             }
             // skip empty cells and cells with icon (probably already processed)
-            if (th.text() !== '' && th.find('span.ui-icon').length === 0) {
+            if (th.text() !== '' && ! th.hasClass('sort-cell')) {
                 // Store index copy
                 var myIndex = thIndex;
                 // Add icon, title and class
-                th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort-button glyphicon glyphicon-chevron-down sort-none" />');
+                th.attr('title', gettext("Sort this column")).addClass('sort-cell').append('<span class="sort-button glyphicon glyphicon-chevron-down sort-none" />');
 
                 // Click handler
                 th.click(function () {
