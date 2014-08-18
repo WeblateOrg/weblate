@@ -321,6 +321,9 @@
   <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right">{{ others.count }}</span></div>
   {% endif %}
   {% show_checks checks user %}
+  {% if comments %}
+  <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right">{{ comments.count }}</span></div>
+  {% endif %}
   </div>
 </div>
 {% endif %}
