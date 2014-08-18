@@ -103,6 +103,30 @@ function failed_machine_translation(jqXHR, textStatus, errorThrown) {
     );
 }
 
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function cell_cmp(a, b) {
+    if (a.indexOf('%') != -1 && b.indexOf('%') != -1) {
+        a = parseFloat(a.replace(',', '.'));
+        b = parseFloat(b.replace(',', '.'));
+    } else if (isNumber(a) && isNumber(b)) {
+        a  = parseFloat(a);
+        b  = parseFloat(b);
+    } else {
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+    }
+    if (a == b) {
+        return 0;
+    }
+    if (a > b) {
+        return 1;
+    }
+    return -1;
+}
+
 function load_table_sorting() {
     $('table.sort').each(function () {
         var table = $(this),
@@ -123,7 +147,7 @@ function load_table_sorting() {
                 // Store index copy
                 var myIndex = thIndex;
                 // Add icon, title and class
-                th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort ui-icon ui-icon-carat-2-n-s" />');
+                th.attr('title', gettext("Sort this column")).addClass('sort').append('<span class="sort-button glyphicon glyphicon-chevron-down sort-none" />');
 
                 // Click handler
                 th.click(function () {
@@ -138,11 +162,11 @@ function load_table_sorting() {
                         return this.parentNode;
 
                     });
-                    thead.find('span.sort').removeClass('ui-icon-carat-1-n ui-icon-carat-1-s').addClass('ui-icon-carat-2-n-s');
+                    thead.find('span.sort-button').removeClass('glyphicon-chevron-down glyphicon-chevron-up').addClass('glyphicon-chevron-down sort-none');
                     if (inverse == 1) {
-                        $(this).find('span.sort').addClass('ui-icon-carat-1-n').removeClass('ui-icon-carat-2-n-s');
+                        $(this).find('span.sort-button').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up sort-none');
                     } else {
-                        $(this).find('span.sort').addClass('ui-icon-carat-1-s').removeClass('ui-icon-carat-2-n-s');
+                        $(this).find('span.sort-button').addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down sort-none');
                     }
 
                     inverse = inverse * -1;
