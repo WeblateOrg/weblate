@@ -32,7 +32,7 @@
 <td class="expander">
 <a><span class="glyphicon glyphicon-expand"></span></a>
 </td>
-<td class="translatetext expander">{{ source.source|fmttranslation }}</td>
+<td class="translatetext expander">{% format_translation source.source %}</td>
 <td>{{ source.source_info.get_priority_display }}{% if perms.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}</td>
 <td>
 {% show_checks source.active_source_checks user %}
