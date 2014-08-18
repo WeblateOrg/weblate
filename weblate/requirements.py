@@ -209,6 +209,16 @@ def get_versions():
         '3.1.0',
     ))
 
+    name = 'django-crispy-forms'
+    url = 'http://django-crispy-forms.readthedocs.org/'
+    mod = get_version_module('crispy_forms', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '1.4.0',
+    ))
+
     return result
 
 
