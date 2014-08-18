@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load i18n %}
+{% load authnames %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
@@ -49,7 +50,7 @@
   <div class="panel-body">
 
 {% for name in registration_backends %}
-  <a class="btn btn-default" href="{% url 'social:begin' name %}">{{ name }}</a>
+  <a class="btn btn-default" href="{% url 'social:begin' name %}">{% auth_name name %}</a>
 {% endfor %}
 </div>
 </div>
