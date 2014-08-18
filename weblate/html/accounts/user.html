@@ -10,12 +10,10 @@
 {% block content %}
 
 {% if enable_avatars %}
-<div class="border menu-float">
+<div class="pull-right">
 <img src="{% url 'user_avatar' user=page_user.username size=128 %}" />
 </div>
 {% endif %}
-
-<h2>{{ page_profile.get_user_name }}</h2>
 
 {% if user_projects %}
 <h3>{% trans "Projects" %}</h3>
@@ -30,7 +28,9 @@
 <h3>{% trans "Activity" %}</h3>
 
 {% with page_profile as profile and page_user as user %}
+<table class="table table-condensed">
 {% include 'user-activity.html' %}
+</table>
 {% endwith %}
 
 <h3>{% trans "Activity in last 30 days" %}</h3>

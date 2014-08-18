@@ -198,14 +198,17 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
   <div class="panel-body">
+<table class="table table-condensed">
 {% with request.user as user %}
 {% include 'user-activity.html' %}
 {% endwith %}
-<p>
+<tr>
 {% url 'user_page' user=request.user.username as user_page%}
-{% trans "Your public profile:" %}
-<a href="{{ user_page }}">{{ user_page }}</a>
-</p>
+<th>{% trans "Your public profile" %}</th>
+<td><a href="{{ user_page }}">{{ user_page }}</a></td>
+</tr>
+</table
+</div>
 </div>
 </div>
 
