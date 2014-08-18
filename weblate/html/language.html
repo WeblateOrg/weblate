@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 {% load url from future %}
 
 {% block breadcrumbs %}
@@ -9,35 +10,57 @@
 
 {% block content %}
 
-<h2>{% trans "Projects" %}</h2>
+<ul class="nav nav-pills">
+  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
+  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+  <li><a href="#activity" data-toggle="tab" data-href="{% url 'view_language_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
+  <li><a href="#dicts" data-toggle="tab">{% trans "Glossaries" %}</a></li>
+</ul>
+
+<div class="tab-content">
+<div class="tab-pane active" id="overview">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Projects" %}</h4></div>
+  <div class="panel-body">
 
 {% with object.translation_set.enabled as translations %}
 {% include "list-translations.html" %}
 {% endwith %}
 
-<h2>{% trans "Tools" %}</h2>
+  </div>
+</div>
+</div>
 
-<div class="tabs" id="main-tabs">
-
-<ul>
-<li><a href="#changes">{% trans "History" %}</a></li>
-<li><a href="#dicts">{% trans "Glossaries" %}</a></li>
-<li><a href="{% url 'view_language_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
-</ul>
-
-<div id="changes">
+<div class="tab-pane" id="history">
 {% include "last-changes.html" %}
 </div>
 
-<div id="dicts">
-<ul>
+<div class="tab-pane" id="activity">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Activity" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "Loading…" %}</p>
+</div>
+</div>
+</div>
+
+<div class="tab-pane" id="dicts">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Glossaries" %}</h4></div>
+<div class="panel-body">
+{% if dicts %}
+<div class="list-group">
 {% for dict in dicts %}
-<li><a href="{% url 'show_dictionary' lang=object.code project=dict.slug %}">{{ dict }}</a></li>
+<a class="list-group-item" href="{% url 'show_dictionary' lang=object.code project=dict.slug %}">{{ dict }}</a>
 {% endfor %}
-</ul>
+</div>
+{% else %}
+{% show_message "info" _("There are no glossaries defined for this language.") %}
+{% endif %}
+</div>
+</div>
 </div>
 
 </div>
 
 {% endblock %}
-
