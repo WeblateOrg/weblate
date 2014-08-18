@@ -202,7 +202,8 @@ class SubscriptionForm(forms.ModelForm):
         self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
         self.helper = FormHelper(self)
         self.helper.field_class = 'subscription-checkboxes'
-        self.helper.field_template = 'bootstrap3/layout/checkboxselectmultiple.html'
+        self.helper.field_template = \
+            'bootstrap3/layout/checkboxselectmultiple.html'
 
 
 class SubscriptionSettingsForm(forms.ModelForm):
