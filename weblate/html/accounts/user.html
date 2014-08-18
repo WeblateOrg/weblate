@@ -9,37 +9,47 @@
 
 {% block content %}
 
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{{ page_profile.get_user_name }}</h4></div>
+  <div class="panel-body">
+
+<div class="row">
 {% if enable_avatars %}
-<div class="pull-right">
+<div class="col-md-2">
 <img src="{% url 'user_avatar' user=page_user.username size=128 %}" />
 </div>
 {% endif %}
 
-{% if user_projects %}
-<h3>{% trans "Projects" %}</h3>
-
-<ul>
-{% for project in user_projects %}
-<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-{% endfor %}
-</ul>
-{% endif %}
-
-<h3>{% trans "Activity" %}</h3>
-
+<div class="col-md-10">
 {% with page_profile as profile and page_user as user %}
 <table class="table table-condensed">
 {% include 'user-activity.html' %}
 </table>
 {% endwith %}
+</div>
 
-<h3>{% trans "Activity in last 30 days" %}</h3>
+</div>
+
+{% if user_projects %}
+
+<h4>{% trans "Projects" %}</h4>
+<div class="list-group">
+{% for project in user_projects %}
+<a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
+{% endfor %}
+</div>
+
+{% endif %}
+
+<h4>{% trans "Activity in last 30 days" %}</h4>
 <img src="{% url 'monthly_user_activity' user=page_user.username %}">
 
-<h3>{% trans "Activity in last year" %}</h3>
+<h4>{% trans "Activity in last year" %}</h4>
 <img src="{% url 'yearly_user_activity' user=page_user.username %}">
 
-<h3>{% trans "Recent contributions" %}</h3>
+</div>
+</div>
+
 {% include "last-changes.html" %}
 
 {% endblock %}
