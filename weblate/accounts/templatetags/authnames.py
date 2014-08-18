@@ -30,6 +30,7 @@ SOCIALS = {
     'google': ('Google', ''),
     'github': ('GitHub', ''),
     'email': ('Email', ''),
+    'opensuse': ('openSUSE', ''),
 }
 
 
