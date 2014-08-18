@@ -9,7 +9,7 @@
 <td>
 {{ unit.0.get_location_links }}
 
-{{ unit.0.context|fmtsearchmatch:search_query }}
+{% format_translation unit.0.context search_match=search_query %}
 </td>
 <td>
 <img src="{% get_media_prefix %}loading.gif" id="loading-{{ unit.0.checksum }}" style="display: none" />
@@ -19,7 +19,7 @@
 </tr>
 <tr id="row-edit-{{ unit.0.checksum }}">
 <td></td>
-<td class="translatetext">{{ unit.0.source|fmtsearchmatch:search_query }}</td>
+<td class="translatetext">{% format_translation unit.0.source search_match=search_query %}</td>
 <td class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
