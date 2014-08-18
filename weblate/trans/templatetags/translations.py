@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.template.defaultfilters import stringfilter
 from django.utils.html import escape
 from django.contrib.admin.templatetags.admin_static import static
 from django.utils.safestring import mark_safe
