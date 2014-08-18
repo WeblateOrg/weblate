@@ -243,6 +243,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'social.apps.django_app.default',
     'south',
+    'crispy_forms',
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',
@@ -423,6 +424,9 @@ OFFLOAD_INDEXING = False
 AUTO_LOCK = True
 AUTO_LOCK_TIME = 60
 LOCK_TIME = 15 * 60
+
+# Render forms using bootstrap
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')

@@ -28,7 +28,6 @@ from django.forms import ValidationError
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
-from weblate.bootstrap_forms import BootstrapForm
 from urllib import urlencode
 import weblate
 
@@ -236,7 +235,7 @@ class PluralField(forms.CharField):
         return value
 
 
-class ChecksumForm(BootstrapForm):
+class ChecksumForm(forms.Form):
     '''
     Form for handling checksum ids for translation.
     '''
@@ -376,7 +375,7 @@ def get_upload_form(request):
         return SimpleUploadForm
 
 
-class SearchForm(BootstrapForm):
+class SearchForm(forms.Form):
     '''
     Text searching form.
     '''
@@ -499,7 +498,7 @@ class AutoForm(forms.Form):
             [('', _('All subprojects'))] + choices
 
 
-class WordForm(BootstrapForm):
+class WordForm(forms.Form):
     '''
     Form for adding word to a glossary.
     '''
@@ -507,7 +506,7 @@ class WordForm(BootstrapForm):
     target = forms.CharField(label=_('Translation'))
 
 
-class DictUploadForm(BootstrapForm):
+class DictUploadForm(forms.Form):
     '''
     Uploading file to a dictionary.
     '''
@@ -529,7 +528,7 @@ class DictUploadForm(BootstrapForm):
     )
 
 
-class ReviewForm(BootstrapForm):
+class ReviewForm(forms.Form):
     '''
     Translation review form.
     '''
@@ -545,7 +544,7 @@ class ReviewForm(BootstrapForm):
         return self.cleaned_data['type']
 
 
-class LetterForm(BootstrapForm):
+class LetterForm(forms.Form):
     '''
     Form for choosing starting letter in a glossary.
     '''
@@ -558,7 +557,7 @@ class LetterForm(BootstrapForm):
     )
 
 
-class CommentForm(BootstrapForm):
+class CommentForm(forms.Form):
     '''
     Simple commenting form.
     '''
@@ -601,7 +600,7 @@ class EnageLanguageForm(forms.Form):
         self.fields['lang'].choices += choices
 
 
-class NewLanguageForm(BootstrapForm):
+class NewLanguageForm(forms.Form):
     '''
     Form for requesting new language.
     '''

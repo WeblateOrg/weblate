@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load url from future %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'hosting' %}">{% trans "Hosting" %}</a></li>
@@ -19,7 +20,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Ask for project hosting" %}</h4></div>
   <div class="panel-body">
-{{ form.as_div }}
+{{ form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Send" %}" class="btn btn-default" />

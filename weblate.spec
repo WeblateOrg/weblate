@@ -19,6 +19,7 @@ Requires:       python-GitPython >= 0.3.2
 Requires:       python-whoosh >= 2.5.2
 Requires:       python-Pillow
 Requires:       python-South >= 1.0
+Requires:       python-django-crispy-forms
 %py_requires
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch

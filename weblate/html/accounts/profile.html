@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load translations %}
 {% load authnames %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -33,7 +34,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Preferences" %}</h4></div>
   <div class="panel-body">
-    {{ form.as_div }}
+    {{ form|crispy }}
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
@@ -64,7 +65,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Subscribed projects" %}</h4></div>
   <div class="panel-body">
-{{ subscriptionform.as_span }}
+{{ subscriptionform|crispy }}
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
@@ -73,7 +74,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Subscription settings" %}</h4></div>
   <div class="panel-body">
-{{ subscriptionsettingsform.as_div }}
+{{ subscriptionsettingsform|crispy }}
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
@@ -99,7 +100,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Account" %}</h4></div>
   <div class="panel-body">
-{{ userform.as_div }}
+{{ userform|crispy }}
   </div>
   <div class="panel-footer">
     <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />

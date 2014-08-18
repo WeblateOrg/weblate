@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load translations %}
 {% load authnames %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
@@ -28,7 +29,7 @@
   <div class="panel-body">
 
 {% csrf_token %}
-{{ form.as_div }}
+{{ form|crispy }}
 <p class="helptext">
 {% url 'password_reset' as reset_url %}
 {% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}

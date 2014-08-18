@@ -26,7 +26,6 @@ from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-from weblate.bootstrap_forms import BootstrapForm, BootstrapModelForm
 from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
@@ -155,7 +154,7 @@ class SortedSelect(SortedSelectMixin, forms.Select):
     '''
 
 
-class ProfileForm(BootstrapModelForm):
+class ProfileForm(forms.ModelForm):
     '''
     User profile editing.
     '''
@@ -180,7 +179,7 @@ class ProfileForm(BootstrapModelForm):
         self.fields['secondary_languages'].queryset = qs
 
 
-class SubscriptionForm(BootstrapModelForm):
+class SubscriptionForm(forms.ModelForm):
     '''
     User subscription management.
     '''
@@ -202,7 +201,7 @@ class SubscriptionForm(BootstrapModelForm):
         self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
 
 
-class SubscriptionSettingsForm(BootstrapModelForm):
+class SubscriptionSettingsForm(forms.ModelForm):
     '''
     User subscription management.
     '''
@@ -219,7 +218,7 @@ class SubscriptionSettingsForm(BootstrapModelForm):
         )
 
 
-class UserForm(BootstrapModelForm):
+class UserForm(forms.ModelForm):
     '''
     User information form.
     '''
@@ -259,7 +258,7 @@ class UserForm(BootstrapModelForm):
         self.fields['username'].valid = self.instance.username
 
 
-class ContactForm(BootstrapForm):
+class ContactForm(forms.Form):
     '''
     Form for contacting site owners.
     '''
@@ -286,7 +285,7 @@ class ContactForm(BootstrapForm):
         return ''
 
 
-class EmailForm(BootstrapForm):
+class EmailForm(forms.Form):
     '''
     Email change form.
     '''
@@ -396,7 +395,7 @@ class CaptchaRegistrationForm(RegistrationForm):
         )
 
 
-class PasswordForm(BootstrapForm):
+class PasswordForm(forms.Form):
     '''
     Form for setting password.
     '''
@@ -443,7 +442,7 @@ class PasswordForm(BootstrapForm):
         return self.cleaned_data
 
 
-class PasswordChangeForm(BootstrapForm):
+class PasswordChangeForm(forms.Form):
     password = forms.CharField(
         widget=forms.PasswordInput(render_value=False),
         label=_("Current password"),
@@ -461,7 +460,7 @@ class ResetForm(EmailForm):
         return users[0]
 
 
-class LoginForm(BootstrapForm):
+class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=254,
         label=_('Username or email')
@@ -516,7 +515,7 @@ class LoginForm(BootstrapForm):
         return self.user_cache
 
 
-class HostingForm(BootstrapForm):
+class HostingForm(forms.Form):
     '''
     Form for asking for hosting.
     '''

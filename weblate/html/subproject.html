@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load url from future %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -87,7 +88,7 @@
 <p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</p>
 {% else %}
 <p>{% trans "Please choose the language into which you would like to translate." %}</p>
-{{ new_lang_form.as_div }}
+{{ new_lang_form|crispy }}
 </td>
 </tr>
 </table>

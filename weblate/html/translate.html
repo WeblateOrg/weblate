@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load static %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
@@ -69,7 +70,7 @@
     <label>{% trans "Source" %}</label>
     {% format_translation unit.source search_match=search_query %}
     </div>
-    {{ form.as_div }}
+    {{ form|crispy }}
   </div>
   <div class="panel-footer">
     {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
@@ -228,7 +229,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
   <div class="panel-body">
-{{ search_form.as_div }}
+{{ search_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
@@ -289,7 +290,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
   <div class="panel-body">
   <p class="help-block">{% trans "You can share comments about this string with other translators and developers." %}</p>
-{{ comment_form.as_div }}
+{{ comment_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Search" %}" class="btn btn-default" />

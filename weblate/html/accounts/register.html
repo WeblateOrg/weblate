@@ -2,6 +2,7 @@
 {% load url from future %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'register' %}">{% trans "Registration" %}</a></li>
@@ -29,7 +30,7 @@
   <div class="panel-body">
 
 {% csrf_token %}
-{{ form.as_div }}
+{{ form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans 'Register' %}" class="btn btn-default" />
