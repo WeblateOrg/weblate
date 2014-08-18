@@ -21,6 +21,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _, get_language
 from django.contrib.auth import authenticate
+from crispy_forms.helper import FormHelper
 
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
@@ -199,6 +200,9 @@ class SubscriptionForm(forms.ModelForm):
         self.fields['subscriptions'].help_text = None
         self.fields['subscriptions'].required = False
         self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
+        self.helper = FormHelper(self)
+        self.helper.field_class = 'subscription-checkboxes'
+        self.helper.field_template = 'bootstrap3/layout/checkboxselectmultiple.html'
 
 
 class SubscriptionSettingsForm(forms.ModelForm):
