@@ -472,6 +472,26 @@ example to set it to ``configuration`` directory under Weblate tree:
 
 .. seealso:: :ref:`private`
 
+.. _production-templates:
+
+Template loading
+++++++++++++++++
+
+It is recommended to use cached template loader for Django. It caches parsed
+templates and avoids need to do the parsing with every single request. You can
+configure it using following snippet:
+
+.. code-block:: python
+
+    TEMPLATE_LOADERS = (
+        ('django.template.loaders.cached.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        )),
+    )
+
+.. seelaso:: `Django documentation <https://docs.djangoproject.com/en/1.6/ref/templates/api/#django.template.loaders.cached.Loader>`_
+
 .. _server:
 
 Running server
