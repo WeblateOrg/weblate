@@ -20,10 +20,7 @@
 
 from unittest import TestCase
 from weblate.trans.simplediff import html_diff
-from weblate.trans.templatetags.translations import (
-    format_translation,
-    fmtsearchmatch
-)
+from weblate.trans.templatetags.translations import format_translation
 from weblate.trans.tests.test_checks import MockUnit
 
 
@@ -67,8 +64,9 @@ class DiffTest(TestCase):
 
     def test_fmtsearchmatch(self):
         self.assertEqual(
-            fmtsearchmatch('Hello world!', 'hello'),
-            u'<span lang="en" dir="ltr" class="direction">'
-            '<span class="hlmatch">Hello</span> world!'
-            '</span>'
+            format_translation(
+                'Hello world!',
+                search_match='hello'
+            )['items'][0]['content'],
+            u'<span class="hlmatch">Hello</span> world!'
         )
