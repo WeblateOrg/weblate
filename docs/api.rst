@@ -45,6 +45,7 @@ repository has been updated.
 
     .. seealso:: 
 
+       :ref:`gitlab-setup`
         http://doc.gitlab.com/ce/web_hooks/web_hooks.html 
         :setting:`ENABLE_HOOKS`
 
@@ -55,6 +56,7 @@ repository has been updated.
 
     .. seealso:: 
 
+       :ref:`bitbucket-setup`
         https://confluence.atlassian.com/display/BITBUCKET/Write+brokers+%28hooks%29+for+Bitbucket
         https://confluence.atlassian.com/display/BITBUCKET/POST+hook+management
         :setting:`ENABLE_HOOKS`
