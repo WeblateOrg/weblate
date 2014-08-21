@@ -190,7 +190,7 @@ class LanguageManager(models.Manager):
 
         # Languages from ttkit
         for code, props in languages.items():
-            with transaction.atomic():
+            with transaction.commit_on_success():
                 lang, created = Language.objects.get_or_create(
                     code=code
                 )
@@ -222,7 +222,7 @@ class LanguageManager(models.Manager):
 
         # Create Weblate extra languages
         for props in data.EXTRALANGS:
-            with transaction.atomic():
+            with transaction.commit_on_success():
                 lang, created = Language.objects.get_or_create(
                     code=props[0]
                 )
