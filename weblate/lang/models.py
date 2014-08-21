@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from translate.lang.data import languages
@@ -190,60 +190,62 @@ class LanguageManager(models.Manager):
 
         # Languages from ttkit
         for code, props in languages.items():
-            lang, created = Language.objects.get_or_create(
-                code=code
-            )
+            with transaction.atomic():
+                lang, created = Language.objects.get_or_create(
+                    code=code
+                )
 
-            # Should we update existing?
-            if not update and not created:
-                continue
+                # Should we update existing?
+                if not update and not created:
+                    continue
 
-            # Set language name
-            lang.name = props[0].split(';')[0]
-            lang.fixup_name()
+                # Set language name
+                lang.name = props[0].split(';')[0]
+                lang.fixup_name()
 
-            # Set number of plurals and equation
-            lang.nplurals = props[1]
-            lang.pluralequation = props[2].strip(';')
-            lang.fixup_plurals()
+                # Set number of plurals and equation
+                lang.nplurals = props[1]
+                lang.pluralequation = props[2].strip(';')
+                lang.fixup_plurals()
 
-            # Set language direction
-            lang.set_direction()
+                # Set language direction
+                lang.set_direction()
 
-            # Get plural type
-            lang.plural_type = get_plural_type(
-                lang.code,
-                lang.pluralequation
-            )
+                # Get plural type
+                lang.plural_type = get_plural_type(
+                    lang.code,
+                    lang.pluralequation
+                )
 
-            # Save language
-            lang.save()
+                # Save language
+                lang.save()
 
         # Create Weblate extra languages
         for props in data.EXTRALANGS:
-            lang, created = Language.objects.get_or_create(
-                code=props[0]
-            )
+            with transaction.atomic():
+                lang, created = Language.objects.get_or_create(
+                    code=props[0]
+                )
 
-            # Should we update existing?
-            if not update and not created:
-                continue
+                # Should we update existing?
+                if not update and not created:
+                    continue
 
-            lang.name = props[1]
-            lang.nplurals = props[2]
-            lang.pluralequation = props[3]
+                lang.name = props[1]
+                lang.nplurals = props[2]
+                lang.pluralequation = props[3]
 
-            if props[0] in data.RTL_LANGS:
-                lang.direction = 'rtl'
-            else:
-                lang.direction = 'ltr'
+                if props[0] in data.RTL_LANGS:
+                    lang.direction = 'rtl'
+                else:
+                    lang.direction = 'ltr'
 
-            # Get plural type
-            lang.plural_type = get_plural_type(
-                lang.code,
-                lang.pluralequation
-            )
-            lang.save()
+                # Get plural type
+                lang.plural_type = get_plural_type(
+                    lang.code,
+                    lang.pluralequation
+                )
+                lang.save()
 
     def have_translation(self):
         '''
