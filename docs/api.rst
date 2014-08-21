@@ -11,17 +11,17 @@ Notification hooks
 Notification hooks allow external applications to notify Weblate that Git
 repository has been updated.
 
-.. describe:: GET /hooks/update/(string:project)/(string:subproject)/
+.. http:get:: /hooks/update/(string:project)/(string:subproject)/
 
    Triggers update of a subproject (pulling from Git and scanning for
    translation changes).
 
-.. describe:: GET /hooks/update/(string:project)/
+.. http:get:: /hooks/update/(string:project)/
 
    Triggers update of all subprojects in a project (pulling from Git and
    scanning for translation changes).
 
-.. describe:: POST /hooks/github/
+.. http:post:: /hooks/github/
 
     Special hook for handling GitHub notifications and automatically updating
     matching subprojects.
@@ -38,7 +38,7 @@ repository has been updated.
        https://help.github.com/articles/creating-webhooks
        :setting:`ENABLE_HOOKS`
 
-.. describe:: POST /hooks/gitlab/
+.. http:post:: /hooks/gitlab/
 
     Special hook for handling GitLab notifications and automatically updating
     matching subprojects.
@@ -49,7 +49,7 @@ repository has been updated.
        http://doc.gitlab.com/ce/web_hooks/web_hooks.html
        :setting:`ENABLE_HOOKS`
 
-.. describe:: POST /hooks/bitbucket/
+.. http:post:: /hooks/bitbucket/
 
     Special hook for handling Bitbucket notifications and automatically
     updating matching subprojects.
@@ -68,7 +68,7 @@ Exports
 
 Weblate provides various exports to allow you further process the data.
 
-.. describe:: GET /exports/stats/(string:project)/(string:subproject)/
+.. http:get:: /exports/stats/(string:project)/(string:subproject)/
 
     Retrieves statistics for given subproject in JSON format.
 
@@ -163,23 +163,23 @@ RSS feeds
 
 Changes in translations are exported in RSS feeds.
 
-.. describe:: GET /exports/rss/(string:project)/(string:subproject)/(string:language)/
+.. http:get:: /exports/rss/(string:project)/(string:subproject)/(string:language)/
 
     Retrieves RSS feed with recent changes for a translation.
 
-.. describe:: GET /exports/rss/(string:project)/(string:subproject)/
+.. http:get:: /exports/rss/(string:project)/(string:subproject)/
 
     Retrieves RSS feed with recent changes for a subproject.
 
-.. describe:: GET /exports/rss/(string:project)/
+.. http:get:: /exports/rss/(string:project)/
 
     Retrieves RSS feed with recent changes for a project.
 
-.. describe:: GET /exports/rss/language/(string:language)/
+.. http:get:: /exports/rss/language/(string:language)/
 
     Retrieves RSS feed with recent changes for a language.
 
-.. describe:: GET /exports/rss/
+.. http:get:: /exports/rss/
 
     Retrieves RSS feed with recent changes for Weblate instance.
 
