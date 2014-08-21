@@ -291,13 +291,14 @@ Does Weblate support other VCS than Git?
 Weblate does not have native support for anything else than Git, however Git is
 versatile system, which allows plugging in `remote helpers`_ for other VCS as well.
 
-At this time, helpers for Bazaar and Mercurial (hg) are available within 
-`Git source code`_, they might be also included in your Git package. If this is
-not the case, you can download them manually and put somewhere in your search path 
-(for example :file:`~/bin`). You also need to have installed appropriate version 
-control programs.
+At this time, helpers for Bazaar and Mercurial are available within separate
+repositories on GitHub: `git-remote-hg`_ and `git-remote-bzr`_. You can
+download them manually and put somewhere in your search path (for example
+:file:`~/bin`). You also need to have installed appropriate version control
+programs as well.
 
-Once you have these installed, you can use such remotes to specifi repository in Weblate.
+Once you have these installed, you can use such remotes to specify repository
+in Weblate.
 
 To clone ``gnuhello`` project from Launchpad with Bazaar use::
 
@@ -308,7 +309,14 @@ For ``hello`` repository from selenic.com with Mercurial use::
     hg::http://selenic.com/repo/hello
 
 .. _remote helpers: http://git-scm.com/docs/git-remote-helpers
-.. _Git source code: https://github.com/git/git/tree/master/contrib/remote-helpers
+.. _git-remote-hg: https://github.com/felipec/git-remote-hg
+.. _git-remote-bzr: https://github.com/felipec/git-remote-bzr
+
+.. warning::
+
+    Please be prepared to some incovenience when using something else than Git,
+    for example with Mercurial, the remote helper sometimes tends to create new
+    tip when pushing changes back.
 
 .. note::
     

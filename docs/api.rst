@@ -11,17 +11,17 @@ Notification hooks
 Notification hooks allow external applications to notify Weblate that Git
 repository has been updated.
 
-.. describe:: GET /hooks/update/(string:project)/(string:resource)/
+.. http:get:: /hooks/update/(string:project)/(string:resource)/
 
    Triggers update of a resource (pulling from Git and scanning for
    translation changes).
 
-.. describe:: GET /hooks/update/(string:project)/
+.. http:get:: /hooks/update/(string:project)/
 
    Triggers update of all resources in a project (pulling from Git and
    scanning for translation changes).
 
-.. describe:: POST /hooks/github/
+.. http:post:: /hooks/github/
 
     Special hook for handling GitHub notifications and automatically updating
     matching resources.
@@ -38,26 +38,28 @@ repository has been updated.
        https://help.github.com/articles/creating-webhooks
        :setting:`ENABLE_HOOKS`
 
-.. describe:: POST /hooks/gitlab/
+.. http:post:: /hooks/gitlab/
 
     Special hook for handling GitLab notifications and automatically updating
-    matching subprojects.
+    matching resources.
 
     .. seealso:: 
 
-        http://doc.gitlab.com/ce/web_hooks/web_hooks.html 
-        :setting:`ENABLE_HOOKS`
+       :ref:`gitlab-setup`
+       http://doc.gitlab.com/ce/web_hooks/web_hooks.html
+       :setting:`ENABLE_HOOKS`
 
-.. describe:: POST /hooks/bitbucket/
+.. http:post:: /hooks/bitbucket/
 
     Special hook for handling Bitbucket notifications and automatically
     updating matching resources.
 
     .. seealso:: 
 
-        https://confluence.atlassian.com/display/BITBUCKET/Write+brokers+%28hooks%29+for+Bitbucket
-        https://confluence.atlassian.com/display/BITBUCKET/POST+hook+management
-        :setting:`ENABLE_HOOKS`
+       :ref:`bitbucket-setup`
+       https://confluence.atlassian.com/display/BITBUCKET/Write+brokers+%28hooks%29+for+Bitbucket
+       https://confluence.atlassian.com/display/BITBUCKET/POST+hook+management
+       :setting:`ENABLE_HOOKS`
 
 .. _exports:
 
@@ -66,7 +68,7 @@ Exports
 
 Weblate provides various exports to allow you further process the data.
 
-.. describe:: GET /exports/stats/(string:project)/(string:resource)/
+.. http:get:: /exports/stats/(string:project)/(string:resource)/
 
     Retrieves statistics for given resource in JSON format.
 
@@ -161,23 +163,23 @@ RSS feeds
 
 Changes in translations are exported in RSS feeds.
 
-.. describe:: GET /exports/rss/(string:project)/(string:resource)/(string:language)/
+.. http:get:: /exports/rss/(string:project)/(string:resource)/(string:language)/
 
     Retrieves RSS feed with recent changes for a translation.
 
-.. describe:: GET /exports/rss/(string:project)/(string:resource)/
+.. http:get:: /exports/rss/(string:project)/(string:resource)/
 
     Retrieves RSS feed with recent changes for a resource.
 
-.. describe:: GET /exports/rss/(string:project)/
+.. http:get:: /exports/rss/(string:project)/
 
     Retrieves RSS feed with recent changes for a project.
 
-.. describe:: GET /exports/rss/language/(string:language)/
+.. http:get:: /exports/rss/language/(string:language)/
 
     Retrieves RSS feed with recent changes for a language.
 
-.. describe:: GET /exports/rss/
+.. http:get:: /exports/rss/
 
     Retrieves RSS feed with recent changes for Weblate instance.
 
