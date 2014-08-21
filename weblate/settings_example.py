@@ -59,6 +59,8 @@ DATABASES = {
         'HOST': '127.0.0.1',
         # Set to empty string for default. Not used with sqlite3.
         'PORT': '',
+        # We want transactions on SQLite
+        'ATOMIC_REQUESTS': True,
     }
 }
 
