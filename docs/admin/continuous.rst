@@ -50,6 +50,8 @@ The set the base URL of your Weblate installation (for example
 ``https://hosted.weblate.org``) and Weblate will be notified about every push
 to GitHub repository.
 
+.. seealso:: :ref:`hooks`
+
 .. _bitbucket-setup:
 
 Automatically receiving changes from Bitbucket
@@ -59,6 +61,8 @@ Weblate has support for Bitbucket hooks, all you need to do is add POST hook
 with destination to ``/hooks/bitbucket/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/bitbucket/``).
 
+.. seealso:: :ref:`hooks`
+
 .. _gitlab-setup:
 
 Automatically receiving changes from GitLab
@@ -67,6 +71,8 @@ Automatically receiving changes from GitLab
 Weblate has support for GitLab hooks, all you need to do is add project web hook
 with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/gitlab/``).
+
+.. seealso:: :ref:`hooks`
 
 .. _push-changes:
 
