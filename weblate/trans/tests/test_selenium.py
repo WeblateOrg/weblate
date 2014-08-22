@@ -140,10 +140,10 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'Opera': {
-        'browserName': 'opera',
-        'platform': 'WIN7',
-    },
+    # 'Opera': {
+    #     'browserName': 'opera',
+    #     'platform': 'WIN7',
+    # },
     'MSIE10': {
         'browserName': 'internet explorer',
         'version': '10',
