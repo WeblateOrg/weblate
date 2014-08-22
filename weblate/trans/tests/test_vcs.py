@@ -72,3 +72,7 @@ class VCSGitTest(RepoTestCase):
         self.assertTrue(
             "Your branch is up-to-date with 'origin/master'." in status
         )
+
+    def test_needs_commit(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        self.assertFalse(repo.needs_commit())

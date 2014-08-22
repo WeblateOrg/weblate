@@ -127,6 +127,13 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    @property
+    def needs_commit(self):
+        """
+        Checks whether repository needs commit.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -159,3 +166,9 @@ class GitRepository(Repository):
         Resets working copy to match remote branch.
         """
         self._execute(['merge', 'origin/{0}'.format(branch)])
+
+    def needs_commit(self):
+        """
+        Checks whether repository needs commit.
+        """
+        return self._execute(['status', '--porcelain']) != ''
