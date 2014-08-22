@@ -53,3 +53,15 @@ class VCSGitTest(RepoTestCase):
     def test_push(self):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         repo.push('master')
+
+    def test_reset(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        repo.reset('master')
+
+    def test_merge(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        repo.merge('master')
+
+    def test_rebase(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        repo.rebase('master')

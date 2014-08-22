@@ -102,6 +102,24 @@ class Repository(object):
         """
         self._execute(self._cmd_push + [branch])
 
+    def reset(self, branch):
+        """
+        Resets working copy to match remote branch.
+        """
+        raise NotImplementedError()
+
+    def merge(self, branch):
+        """
+        Merges remote branch into working copy.
+        """
+        raise NotImplementedError()
+
+    def rebase(self, branch):
+        """
+        Rebases working copy on top of remote branch.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -116,3 +134,21 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['remote', 'update', 'origin']
     _cmd_push = ['push', 'origin']
+
+    def reset(self, branch):
+        """
+        Resets working copy to match remote branch.
+        """
+        self._execute(['reset', '--hard', 'origin/{0}'.format(branch)])
+
+    def rebase(self, branch):
+        """
+        Rebases working copy on top of remote branch.
+        """
+        self._execute(['rebase', 'origin/{0}'.format(branch)])
+
+    def merge(self, branch):
+        """
+        Resets working copy to match remote branch.
+        """
+        self._execute(['merge', 'origin/{0}'.format(branch)])
