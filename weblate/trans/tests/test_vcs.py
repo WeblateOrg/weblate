@@ -26,20 +26,26 @@ import shutil
 
 
 class VCSGitTest(RepoTestCase):
+    _tempdir = None
+
+    def setUp(self):
+        super(VCSGitTest, self).setUp()
+        self._tempdir = tempfile.mkdtemp()
+
+    def tearDown(self):
+        if self._tempdir is not None:
+            shutil.rmtree(self._tempdir)
+
     def test_clone(self):
-        tempdir = tempfile.mkdtemp()
-        try:
-            GitRepository.clone(self.repo_path, tempdir)
-        finally:
-            shutil.rmtree(tempdir)
+        GitRepository.clone(self.repo_path, self._tempdir)
 
     def test_revision(self):
-        tempdir = tempfile.mkdtemp()
-        try:
-            repo = GitRepository.clone(self.repo_path, tempdir)
-            self.assertEquals(
-                repo.last_revision,
-                repo.last_remote_revision
-            )
-        finally:
-            shutil.rmtree(tempdir)
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        self.assertEquals(
+            repo.last_revision,
+            repo.last_remote_revision
+        )
+
+    def test_remote_update(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        repo.update_remote()

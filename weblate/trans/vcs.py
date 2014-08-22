@@ -39,6 +39,7 @@ class Repository(object):
     _cmd_last_revision = []
     _cmd_last_remote_revision = []
     _cmd_clone = 'clone'
+    _cmd_update_remote = []
 
     def __init__(self, path):
         self.path = path
@@ -86,6 +87,12 @@ class Repository(object):
         cls._popen([cls._cmd_clone, source, target])
         return cls(target)
 
+    def update_remote(self):
+        """
+        Updates remote branch.
+        """
+        self._execute(self._cmd_update_remote)
+
 
 class GitRepository(Repository):
     """
@@ -98,3 +105,4 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = [
         'log', '-n', '1', '--format=format:%H', '@{upstream}'
     ]
+    _cmd_update_remote = ['remote', 'update', 'origin']
