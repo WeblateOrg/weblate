@@ -36,16 +36,18 @@ class Repository(object):
     _last_revision = None
     _last_remote_revision = None
     _cmd = 'false'
-    _cmd_last_revision = []
-    _cmd_last_remote_revision = []
+    _cmd_last_revision = None
+    _cmd_last_remote_revision = None
     _cmd_clone = 'clone'
-    _cmd_update_remote = []
+    _cmd_update_remote = None
 
     def __init__(self, path):
         self.path = path
 
     @classmethod
     def _popen(cls, args, cwd=None):
+        if args is None:
+            raise RepositoryException('Not supported functionality')
         args.insert(0, cls._cmd)
         process = subprocess.Popen(
             args,
