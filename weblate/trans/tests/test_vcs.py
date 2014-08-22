@@ -46,6 +46,10 @@ class VCSGitTest(RepoTestCase):
             repo.last_remote_revision
         )
 
-    def test_remote_update(self):
+    def test_update_remote(self):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         repo.update_remote()
+
+    def test_push(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        repo.push('master')

@@ -40,6 +40,7 @@ class Repository(object):
     _cmd_last_remote_revision = None
     _cmd_clone = 'clone'
     _cmd_update_remote = None
+    _cmd_push = None
 
     def __init__(self, path):
         self.path = path
@@ -91,9 +92,15 @@ class Repository(object):
 
     def update_remote(self):
         """
-        Updates remote branch.
+        Updates remote repository.
         """
         self._execute(self._cmd_update_remote)
+
+    def push(self, branch):
+        """
+        Pushes given branch to remote repository.
+        """
+        self._execute(self._cmd_push + [branch])
 
 
 class GitRepository(Repository):
@@ -108,3 +115,4 @@ class GitRepository(Repository):
         'log', '-n', '1', '--format=format:%H', '@{upstream}'
     ]
     _cmd_update_remote = ['remote', 'update', 'origin']
+    _cmd_push = ['push', 'origin']
