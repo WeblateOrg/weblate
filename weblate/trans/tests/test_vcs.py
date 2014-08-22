@@ -65,3 +65,10 @@ class VCSGitTest(RepoTestCase):
     def test_rebase(self):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         repo.rebase('master')
+
+    def test_status(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        status = repo.status()
+        self.assertTrue(
+            "Your branch is up-to-date with 'origin/master'." in status
+        )

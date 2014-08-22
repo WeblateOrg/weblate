@@ -41,6 +41,7 @@ class Repository(object):
     _cmd_clone = 'clone'
     _cmd_update_remote = None
     _cmd_push = None
+    _cmd_status = ['status']
 
     def __init__(self, path):
         self.path = path
@@ -95,6 +96,12 @@ class Repository(object):
         Updates remote repository.
         """
         self._execute(self._cmd_update_remote)
+
+    def status(self):
+        """
+        Returns status of the repository.
+        """
+        return self._execute(self._cmd_status)
 
     def push(self, branch):
         """
