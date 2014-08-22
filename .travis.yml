@@ -24,12 +24,12 @@ before_install:
 # commands to install dependencies
 install:
   - timestamp.sh install
-  - pip install $DJANGO_PIP
-  - pip install -r requirements.txt
-  - pip install -r requirements-optional.txt
-  - pip install -r travis/requirements.txt
-  - pip install -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
-  - pip install -r ${BUILD_TREND_HOME}/requirements.txt
+  - pip install --download-cache $HOME/.pip-cache $DJANGO_PIP
+  - pip install --download-cache $HOME/.pip-cache -r requirements.txt
+  - pip install --download-cache $HOME/.pip-cache -r requirements-optional.txt
+  - pip install --download-cache $HOME/.pip-cache -r travis/requirements.txt
+  - pip install --download-cache $HOME/.pip-cache -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
+  - pip install --download-cache $HOME/.pip-cache -r ${BUILD_TREND_HOME}/requirements.txt
 # create databases
 before_script:
   - timestamp.sh before_script
@@ -57,3 +57,7 @@ matrix:
   allow_failures:
     - python: "2.7"
       env: DJANGO_PIP="https://www.djangoproject.com/download/1.7c2/tarball/"
+cache:
+  apt: true
+  directories:
+    - $HOME/.pip-cache/
