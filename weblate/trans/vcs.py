@@ -127,7 +127,6 @@ class Repository(object):
         """
         raise NotImplementedError()
 
-    @property
     def needs_commit(self):
         """
         Checks whether repository needs commit.
