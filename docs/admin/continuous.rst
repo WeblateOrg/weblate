@@ -26,7 +26,7 @@ configuration to your :file:`.gitconfig`:
      driver = /path/to/weblate/examples/git-merge-gettext-po %O %A %B
 
 And enable it's use by defining proper attributes in given repository (eg. in
-:file:`.git/info/attribute`)::
+:file:`.git/info/attributes`)::
 
     *.po merge=merge-gettext-po
 
