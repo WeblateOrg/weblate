@@ -534,7 +534,10 @@ class ReviewForm(forms.Form):
     '''
     date = forms.DateField(
         label=_('Starting date'),
-        widget=forms.TextInput(attrs={'type': 'date'})
+        widget=forms.DateInput(
+            attrs={'type': 'date'},
+            format='%Y-%m-%d'
+        )
     )
     type = forms.CharField(widget=forms.HiddenInput, initial='review')
 
