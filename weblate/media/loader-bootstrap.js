@@ -241,14 +241,14 @@ $(function () {
         var $table_row = $(this).parent();
         var $next_row = $table_row.next();
         $next_row.toggle();
-        var $loader = $next_row.find('tr.details .load-details');
+        var $loader = $next_row.find('.load-details');
         if ($loader.length > 0) {
             var url = $loader.attr('href');
             $loader.remove();
             $.get(
                 url,
                 function (data) {
-                    var $cell = $next_row.find('tr.details td');
+                    var $cell = $next_row.find('.details-content');
                     $cell.find('img').remove();
                     $cell.append(data);
                     $cell.find('.button').button();

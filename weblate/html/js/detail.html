@@ -2,7 +2,9 @@
 {% load translations %}
 {% load i18n %}
 
-<table class="table">
+<div class="row">
+<div class="col-md-6">
+<table class="table table-condensed table-striped">
 <thead>
 <tr>
 <th>{% trans "Language" %}</th>
@@ -22,3 +24,20 @@
 {% endfor %}
 </tbody>
 </table>
+</div>
+
+<div class="col-md-6">
+<table class="table table-condensed">
+{% with units.0 as unit %}
+{% include "unit-details.html" %}
+{% with unit.get_source_comments as comments %}
+{% if comments %}
+<tr><th colspan="2">{% trans "User comments" %}</th></tr>
+{% include "list-comments.html" %}
+{% endif %}
+{% endwith %}
+{% endwith %}
+</table>
+</div>
+
+</div>

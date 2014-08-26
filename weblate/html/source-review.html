@@ -37,24 +37,15 @@
 <td>
 {% show_checks source.active_source_checks user %}
 {% if comments %}
-<span class="check">{% trans "Comment" %}</span>
+<div class="alert alert-info check">{% trans "Comment" %}</div>
 {% endif %}
 </td>
 </tr>
 <tr style="display: none">
 <td>
 </td>
-<td colspan="3">
-<table class="table table-condensed">
-{% with source as unit %}
-{% include "unit-details.html" %}
-{% endwith %}
-{% if comments %}
-<tr><th colspan="2">{% trans "User comments" %}</th></tr>
-{% include "list-comments.html" %}
-{% endif %}
-<tr class="details"><td colspan="2"><a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" /></td></tr>
-</table>
+<td colspan="3" class="details-content">
+<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" />
 </td>
 </tr>
 {% endwith %}
