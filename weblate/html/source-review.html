@@ -45,7 +45,8 @@
 <td>
 </td>
 <td colspan="3" class="details-content">
-<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a><img src="{% get_media_prefix %}loading.gif" />
+<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a>
+<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
 </td>
 </tr>
 {% endwith %}

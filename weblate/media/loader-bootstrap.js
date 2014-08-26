@@ -249,7 +249,7 @@ $(function () {
                 url,
                 function (data) {
                     var $cell = $next_row.find('.details-content');
-                    $cell.find('img').remove();
+                    $cell.find('.glyphicon-spin').remove();
                     $cell.append(data);
                     $cell.find('.button').button();
                 }
