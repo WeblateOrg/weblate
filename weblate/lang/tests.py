@@ -25,6 +25,7 @@ Tests for language manipulations.
 from django.test import TestCase
 from weblate.lang.models import Language
 from django.core.management import call_command
+import os.path
 
 
 class LanguagesTest(TestCase):
@@ -196,3 +197,10 @@ class CommandTest(TestCase):
     def test_setuplang_noupdate(self):
         call_command('setuplang', update=False)
         self.assertTrue(Language.objects.exists())
+
+    def test_setuplang(self):
+        testfile = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            'plurals.txt'
+        )
+        call_command('checklang', testfile)
