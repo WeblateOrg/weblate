@@ -198,7 +198,7 @@ class CommandTest(TestCase):
         call_command('setuplang', update=False)
         self.assertTrue(Language.objects.exists())
 
-    def test_setuplang(self):
+    def test_checklang(self):
         testfile = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             'plurals.txt'
