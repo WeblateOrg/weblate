@@ -251,6 +251,38 @@ class LanguageManager(models.Manager):
         '''
         return self.filter(translation__total__gt=0).distinct()
 
+    def check(self, filename):
+        """
+        Checks database language definitions with supplied ones.
+        """
+        errors = []
+        with open(filename) as handle:
+            for line in handle:
+                line = line.strip().decode('utf-8')
+                parts = [part.strip() for part in line.split(',')]
+                if len(parts) != 3:
+                    continue
+                lang, name, plurals = parts
+                nplurals, pluralform = plurals.strip(';').split(';')
+                nplurals = int(nplurals.split('=', 1)[1])
+                pluralform = pluralform.split('=', 1)[1]
+                try:
+                    language = Language.objects.get(code=lang)
+                except Language.DoesNotExist:
+                    errors.append(
+                        u'missing language {0}'.format(line)
+                    )
+                    continue
+                if nplurals != language.nplurals:
+                    errors.append(
+                        u'different number of plurals {0}'.format(line)
+                    )
+                    errors.append(
+                        u'have {0}'.format(language.get_plural_form())
+                    )
+
+        return errors
+
 
 @receiver(post_syncdb)
 @receiver(post_migrate)
