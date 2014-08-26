@@ -270,12 +270,16 @@ class LanguageManager(models.Manager):
                     language = Language.objects.get(code=lang)
                 except Language.DoesNotExist:
                     errors.append(
-                        u'missing language {0}'.format(line)
+                        u'missing language {0}: {1} ({2})'.format(
+                            lang, name, plurals
+                        )
                     )
                     continue
                 if nplurals != language.nplurals:
                     errors.append(
-                        u'different number of plurals {0}'.format(line)
+                        u'different number of plurals {0}: {1} ({2})'.format(
+                            lang, name, plurals
+                        )
                     )
                     errors.append(
                         u'have {0}'.format(language.get_plural_form())
