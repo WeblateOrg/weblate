@@ -148,6 +148,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'tr',
+        'Turkish',
+        2,
+        'n > 1',
+    ),
 )
 
 # List of defaul languages - the ones, where using
