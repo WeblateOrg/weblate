@@ -268,6 +268,24 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'cy',
+        'Welsh',
+        4,
+        '(n==0) ? 0 : (n==1) ? 1  (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5',
+    ),
+    (
+        'hy',
+        'Armenian',
+        2,
+        '(n != 1)',
+    ),
+    (
+        'uz',
+        'Uzbek',
+        2,
+        '(n > 1)',
+    ),
 )
 
 # List of defaul languages - the ones, where using
@@ -460,6 +478,10 @@ ONE_OTHER_ZERO_PLURALS = (
     'n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2'
 )
 
+ZERO_ONE_TWO_THREE_SIX_OTHER = (
+    '(n==0) ? 0 : (n==1) ? 1  (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5',
+)
+
 # Plural types definition
 PLURAL_NONE = 0
 PLURAL_ONE_OTHER = 1
@@ -473,6 +495,7 @@ PLURAL_ONE_FEW_MANY_OTHER = 8
 PLURAL_TWO_OTHER = 9
 PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
 PLURAL_ZERO_ONE_OTHER = 11
+PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER = 12
 PLURAL_UNKNOWN = 666
 
 # Plural equation - type mappings
@@ -487,6 +510,7 @@ PLURAL_MAPPINGS = (
     (ONE_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_FEW_MANY_OTHER),
     (TWO_OTHER_PLURALS, PLURAL_TWO_OTHER),
     (ONE_TWO_FEW_MANY_OTHER_PLURALS, PLURAL_ONE_TWO_FEW_MANY_OTHER),
+    (ZERO_ONE_TWO_THREE_SIX_OTHER, PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER),
 )
 
 # Plural names mapping
@@ -551,6 +575,14 @@ PLURAL_NAMES = {
     ),
     PLURAL_TWO_OTHER: (
         pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Other'),
+    ),
+    PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER: (
+        pgettext_lazy('Plural form description', 'Zero'),
+        pgettext_lazy('Plural form description', 'One'),
+        pgettext_lazy('Plural form description', 'Two'),
+        pgettext_lazy('Plural form description', 'Few'),
+        pgettext_lazy('Plural form description', 'Many'),
         pgettext_lazy('Plural form description', 'Other'),
     ),
 }
