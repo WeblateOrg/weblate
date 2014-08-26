@@ -1015,28 +1015,28 @@ class Unit(models.Model):
         if self.fuzzy:
             flags.append((
                 _('Message is fuzzy'),
-                'question-sign'
+                'question-sign text-danger'
             ))
         elif not self.translated:
             flags.append((
                 _('Message is not translated'),
-                'remove-sign'
+                'remove-sign text-danger'
             ))
         elif self.has_failing_check:
             flags.append((
                 _('Message has failing checks'),
-                'exclamation-sign'
+                'exclamation-sign text-warning'
             ))
         elif self.translated:
             flags.append((
                 _('Message is translated'),
-                'ok-sign'
+                'ok-sign text-success'
             ))
 
         if self.has_comment:
             flags.append((
                 _('Message has comments'),
-                'comment'
+                'comment text-info'
             ))
 
         return mark_safe(
