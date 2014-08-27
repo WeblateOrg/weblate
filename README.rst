@@ -43,7 +43,7 @@ Features
 Documentation
 -------------
 
-Detailed documentation is available in **docs** directory in the sources.
+Detailed documentation is available in ``docs`` directory in the sources.
 
 The documentation can be also viewed online on
 http://docs.weblate.org/.
