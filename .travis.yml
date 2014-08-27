@@ -51,6 +51,7 @@ script:
 after_script:
   - timestamp.sh coveralls
   - if [ -z "$DO_LINT" ] ; then coveralls ; fi
+  - if [ -z "$DO_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
   - timestamp.sh done
   - sync-buildtime-trend-with-gh-pages.sh
 matrix:
