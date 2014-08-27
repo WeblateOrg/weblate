@@ -1,1 +1,1 @@
-<div class="alert alert-{% if tags == "error"%}danger{% else %}{{ tags }}{% endif %}">{{ message }}</div>
+<div class="alert alert-{% if "error" in tags%}danger {{ tags }}{% else %}{{ tags }}{% endif %}">{{ message }}</div>
