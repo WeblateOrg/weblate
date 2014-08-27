@@ -3,6 +3,7 @@ from django.utils.unittest import SkipTest
 from selenium import webdriver
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core import mail
 import django
 import os
 import new
@@ -168,8 +169,39 @@ class SeleniumTests(LiveServerTestCase):
             '//input[@value="Register"]'
         ).click()
 
+        # Check correct submission
         self.assertTrue(
             'Thank you for registering' in
+            self.driver.find_element_by_id('registration-complete').text
+        )
+
+        # Check mailbox
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Your registration on Weblate'
+        )
+
+        # Parse URL
+        line = ''
+        for line in mail.outbox[0].body.splitlines():
+            if line.startswith('http://example.com'):
+                break
+
+        # Confirm account
+        self.driver.get(
+            '{}{}'.format(self.live_server_url, line[18:])
+        )
+
+        # Check we're logged in
+        self.assertTrue(
+            'Test Example' in
+            self.driver.find_element_by_id('profile-button').text
+        )
+
+        # Check we got message
+        self.assertTrue(
+            'You have activated' in
             self.driver.find_element_by_tag_name('body').text
         )
 
