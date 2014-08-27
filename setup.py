@@ -21,6 +21,7 @@
 
 import os
 from setuptools import setup
+from weblate import VERSION_BASE
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
@@ -30,7 +31,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='Weblate',
-    version='2.0',
+    version=VERSION_BASE,
     packages=[
         'weblate',
         'weblate.accounts',
@@ -76,7 +77,8 @@ setup(
     license='GPLv3+',
     description='A web-based translation tool with tight Git integration',
     long_description=README,
-    url='http://www.weblate.org/',
+    url='http://weblate.org/',
+    download_url='https://github.com/nijel/weblate',
     author='Michal Čihař',
     author_email='michal@cihar.com',
     classifiers=[
