@@ -42,6 +42,28 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
 
 
+class RegistrationTestMixin(object):
+    """
+    Helper to share code for registration testing.
+    """
+    def assertRegistrationMailbox(self):
+        # Check mailbox
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Your registration on Weblate'
+        )
+
+        # Parse URL
+        line = ''
+        for line in mail.outbox[0].body.splitlines():
+            if line.startswith('http://example.com'):
+                break
+
+        # Return confirmation URL
+        return line[18:]
+
+
 class ViewTestCase(RepoTestCase):
     def setUp(self):
         super(ViewTestCase, self).setUp()

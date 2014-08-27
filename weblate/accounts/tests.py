@@ -46,7 +46,7 @@ from weblate.accounts.captcha import (
 )
 from weblate.accounts.middleware import RequireLoginMiddleware
 
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
 from weblate.trans.tests.test_util import get_test_file
 from weblate.trans.models.unitdata import Suggestion, Comment
 from weblate.lang.models import Language
@@ -61,23 +61,12 @@ REGISTRATION_DATA = {
 }
 
 
-class RegistrationTest(TestCase):
+class RegistrationTest(TestCase, RegistrationTestMixin):
     def assertRegistration(self):
-        # Check registration mail
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Your registration on Weblate'
-        )
-
-        # Get confirmation URL from mail
-        line = ''
-        for line in mail.outbox[0].body.splitlines():
-            if line.startswith('http://example.com'):
-                break
+        url = self.assertRegistrationMailbox()
 
         # Confirm account
-        response = self.client.get(line[18:], follow=True)
+        response = self.client.get(url, follow=True)
         self.assertRedirects(
             response,
             reverse('password')

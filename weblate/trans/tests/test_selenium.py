@@ -3,7 +3,6 @@ from django.utils.unittest import SkipTest
 from selenium import webdriver
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.core import mail
 import django
 import os
 import new
@@ -12,6 +11,7 @@ import httplib
 import base64
 
 from weblate import appsettings
+from weblate.trans.tests.test_views import RegistrationTestMixin
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
@@ -21,7 +21,7 @@ DO_SELENIUM = (
 )
 
 
-class SeleniumTests(LiveServerTestCase):
+class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
     caps = {
         'browserName': 'firefox',
         'version': '19',
@@ -163,27 +163,9 @@ class SeleniumTests(LiveServerTestCase):
             '//input[@value="Register"]'
         ).click()
 
-        # Check correct submission
-        self.assertTrue(
-            'Thank you for registering' in
-            self.driver.find_element_by_id('registration-complete').text
+        return ''.join(
+            (self.live_server_url, self.assertRegistrationMailbox())
         )
-
-        # Check mailbox
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Your registration on Weblate'
-        )
-
-        # Parse URL
-        line = ''
-        for line in mail.outbox[0].body.splitlines():
-            if line.startswith('http://example.com'):
-                break
-
-        # Confirm account
-        return '{}{}'.format(self.live_server_url, line[18:])
 
     def test_register(self):
         """
