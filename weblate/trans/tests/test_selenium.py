@@ -136,13 +136,7 @@ class SeleniumTests(LiveServerTestCase):
         # We should be back on login page
         self.driver.find_element_by_id('id_username')
 
-    def test_register(self):
-        """
-        Test registration.
-        """
-        # We don't want captcha
-        appsettings.REGISTRATION_CAPTCHA = False
-
+    def register_user(self):
         # open home page
         self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
 
@@ -189,9 +183,19 @@ class SeleniumTests(LiveServerTestCase):
                 break
 
         # Confirm account
-        self.driver.get(
-            '{}{}'.format(self.live_server_url, line[18:])
-        )
+        return '{}{}'.format(self.live_server_url, line[18:])
+
+    def test_register(self):
+        """
+        Test registration.
+        """
+        # We don't want captcha
+        appsettings.REGISTRATION_CAPTCHA = False
+
+        url = self.register_user()
+
+        # Confirm account
+        self.driver.get(url)
 
         # Check we're logged in
         self.assertTrue(
@@ -204,6 +208,8 @@ class SeleniumTests(LiveServerTestCase):
             'You have activated' in
             self.driver.find_element_by_tag_name('body').text
         )
+        # Restore
+        appsettings.REGISTRATION_CAPTCHA = True
 
         # Restore
         appsettings.REGISTRATION_CAPTCHA = True
