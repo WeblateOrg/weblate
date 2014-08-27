@@ -211,6 +211,29 @@ class SeleniumTests(LiveServerTestCase):
         # Restore
         appsettings.REGISTRATION_CAPTCHA = True
 
+    def test_register_nocookie(self):
+        """
+        Test registration without cookies.
+
+        See https://github.com/nijel/weblate/issues/518
+        """
+        # We don't want captcha
+        appsettings.REGISTRATION_CAPTCHA = False
+
+        url = self.register_user()
+
+        # Delete all cookies
+        self.driver.delete_all_cookies()
+
+        # Confirm account
+        self.driver.get(url)
+
+        # Check we've failed
+        self.assertTrue(
+            'Missing needed parameter email' in
+            self.driver.find_element_by_class_name('social-auth').text
+        )
+
         # Restore
         appsettings.REGISTRATION_CAPTCHA = True
 
