@@ -183,10 +183,8 @@ def send_notification_email(language, email, notification,
     Renders and sends notification email.
     '''
     cur_language = django_translation.get_language()
-    if context is None:
-        context = {}
-    if headers is None:
-        headers = {}
+    context = context or {}
+    headers = headers or {}
     try:
         if info is None:
             info = translation_obj.__unicode__()
@@ -201,10 +199,10 @@ def send_notification_email(language, email, notification,
         if language is not None:
             django_translation.activate(language)
 
-        # Template names
-        subject_template = 'mail/{}_subject.txt'.format(notification)
-        body_template = 'mail/{}.txt'.format(notification)
-        html_body_template = 'mail/{}.html'.format(notification)
+        # Template name
+        context['subject_template'] = 'mail/{}_subject.txt'.format(
+            notification
+        )
 
         # Adjust context
         context['current_site_url'] = get_site_url()
@@ -213,15 +211,23 @@ def send_notification_email(language, email, notification,
             context['translation_url'] = get_site_url(
                 translation_obj.get_absolute_url()
             )
-        context['subject_template'] = subject_template
         context['site_title'] = SITE_TITLE
 
         # Render subject
-        subject = render_to_string(subject_template, context).strip()
+        subject = render_to_string(
+            context['subject_template'],
+            context
+        ).strip()
 
         # Render body
-        body = render_to_string(body_template, context)
-        html_body = render_to_string(html_body_template, context)
+        body = render_to_string(
+            'mail/{}.txt'.format(notification),
+            context
+        )
+        html_body = render_to_string(
+            'mail/{}.html'.format(notification),
+            context
+        )
 
         # Define headers
         headers['Auto-Submitted'] = 'auto-generated'
