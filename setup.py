@@ -21,7 +21,6 @@
 
 import os
 from setuptools import setup
-from weblate import VERSION_BASE
 
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
@@ -31,7 +30,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='Weblate',
-    version=VERSION_BASE,
+    version='1.10',
     packages=[
         'weblate',
         'weblate.accounts',
