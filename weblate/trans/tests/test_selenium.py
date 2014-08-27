@@ -10,6 +10,8 @@ import json
 import httplib
 import base64
 
+from weblate import appsettings
+
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
     'DO_SELENIUM' in os.environ
@@ -132,6 +134,47 @@ class SeleniumTests(LiveServerTestCase):
 
         # We should be back on login page
         self.driver.find_element_by_id('id_username')
+
+    def test_register(self):
+        """
+        Test registration.
+        """
+        # We don't want captcha
+        appsettings.REGISTRATION_CAPTCHA = False
+
+        # open home page
+        self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
+
+        # registration page
+        self.driver.find_element_by_id('register-button').click()
+
+        # Fill in registration form
+        self.driver.find_element_by_id(
+            'id_email'
+        ).send_keys(
+            'test@example.net'
+        )
+        self.driver.find_element_by_id(
+            'id_username'
+        ).send_keys(
+            'test-example'
+        )
+        self.driver.find_element_by_id(
+            'id_first_name'
+        ).send_keys(
+            'Test Example'
+        )
+        self.driver.find_element_by_xpath(
+            '//input[@value="Register"]'
+        ).click()
+
+        self.assertTrue(
+            'Thank you for registering' in
+            self.driver.find_element_by_tag_name('body').text
+        )
+
+        # Restore
+        appsettings.REGISTRATION_CAPTCHA = True
 
 
 # What other platforms we want to test
