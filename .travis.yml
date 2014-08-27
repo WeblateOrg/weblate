@@ -14,7 +14,7 @@ env:
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=postgresql
     - DJANGO_PIP="Django>=1.6,<1.7"
     - DJANGO_PIP="Django>=1.7,<1.8"
-    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
+    - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
 before_install:
   - git clone --depth 1 --branch v0.1.2 https://github.com/ruleant/buildtime-trend.git $HOME/buildtime-trend 
   - source $HOME/buildtime-trend/init.sh
