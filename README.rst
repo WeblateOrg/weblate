@@ -1,12 +1,25 @@
-# Weblate 
+Weblate
+=======
 
-[![Build Status](https://travis-ci.org/nijel/weblate.svg)](https://travis-ci.org/nijel/weblate)
-[![Coverage Status](https://img.shields.io/coveralls/nijel/weblate.svg)](https://coveralls.io/r/nijel/weblate?branch=master)
-[![Translation status](http://l10n.cihar.com/widgets/weblate-shields-badge.svg)](https://l10n.cihar.com/engage/weblate/?utm_source=widget)
-[![Code Health](https://landscape.io/github/nijel/weblate/master/landscape.png)](https://landscape.io/github/nijel/weblate/master)
+.. image:: https://travis-ci.org/nijel/weblate.svg
+    :alt: Build status
+    :target: https://travis-ci.org/nijel/weblate
 
-[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=253393)](https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE)
-[![tip for next commit](http://tip4commit.com/projects/497.svg)](http://tip4commit.com/projects/497)
+.. image:: http://l10n.cihar.com/widgets/weblate-shields-badge.svg
+    :alt: Translation status
+    :target: https://l10n.cihar.com/engage/weblate/?utm_source=widget
+
+.. image:: https://img.shields.io/coveralls/nijel/weblate.svg
+    :alt: Coverage Status
+    :target: https://coveralls.io/r/nijel/weblate?branch=master
+
+.. image:: https://landscape.io/github/nijel/weblate/master/landscape.png
+    :alt: Code Health
+    :target: https://landscape.io/github/nijel/weblate/master
+
+.. image:: https://www.bountysource.com/badge/tracker?tracker_id=253393
+    :alt: Bountysource
+    :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
 
 Weblate is a free web-based translation tool with tight Git integration. It
 features simple and clean user interface, propagation of translations across
@@ -15,7 +28,8 @@ files.
 
 Weblate has it's website at http://weblate.org/.
 
-## Features
+Features
+--------
 
 * Easy web based translation
 * Propagation of translations across resources (eg. branches) within projects
@@ -27,25 +41,29 @@ Weblate has it's website at http://weblate.org/.
 * Tunable access control
 * Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more)
 
-## Documentation
+Documentation
+-------------
 
-Detailed documentation is available in **docs** directory in the sources.
+Detailed documentation is available in ``docs`` directory in the sources.
 
 The documentation can be also viewed online on
 http://docs.weblate.org/.
 
-## Installation
+Installation
+------------
 
 Installation and setup instructions are provided in our manual, check
 quick setup guide:
 
 http://docs.weblate.org/en/latest/admin/quick.html
 
-## Bugs
+Bugs
+----
 
 Please report bugs to https://github.com/nijel/weblate/issues.
 
-## License
+License
+-------
 
 Copyright (C) 2012 - 2014 Michal Čihař michal@cihar.com
 

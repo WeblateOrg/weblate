@@ -71,7 +71,7 @@ cp -a . %{buildroot}/%{WLDIR}
 
 # We ship this separately
 rm -rf %{buildroot}/%{WLDIR}/docs
-rm -f %{buildroot}/%{WLDIR}/README.md \
+rm -f %{buildroot}/%{WLDIR}/README.rst \
     %{buildroot}/%{WLDIR}/ChangeLog \
     %{buildroot}/%{WLDIR}/COPYING \
     %{buildroot}/%{WLDIR}/INSTALL
@@ -106,7 +106,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc docs/_build/html
-%doc README.md
+%doc README.rst
 %config(noreplace) /%{_sysconfdir}/weblate
 %config(noreplace) /%{_sysconfdir}/apache2
 %{WLDIR}
