@@ -183,10 +183,8 @@ def send_notification_email(language, email, notification,
     Renders and sends notification email.
     '''
     cur_language = django_translation.get_language()
-    if context is None:
-        context = {}
-    if headers is None:
-        headers = {}
+    context = context or {}
+    headers = headers or {}
     try:
         if info is None:
             info = translation_obj.__unicode__()
