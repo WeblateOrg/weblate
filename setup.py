@@ -30,7 +30,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='Weblate',
-    version='1.10',
+    version='2.0',
     packages=[
         'weblate',
         'weblate.accounts',
@@ -71,6 +71,9 @@ setup(
             'media/*.gif',
             'media/widgets/*.png',
             'media/js/*.js',
+            'media/bootstrap/css/*.*',
+            'media/bootstrap/fonts/*.*',
+            'media/bootstrap/js/*.*',
         ],
     },
     license='GPLv3+',
@@ -94,4 +97,3 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
 )
-
