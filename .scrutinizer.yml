@@ -18,6 +18,7 @@ checks:
 before_commands:
     - pip install --download-cache pip-cache -r requirements.txt
     - pip install --download-cache pip-cache -r requirements-optional.txt
-cache:
-    directories:
-        - 'pip-cache'
+build:
+    cache:
+        directories:
+            - 'pip-cache'
