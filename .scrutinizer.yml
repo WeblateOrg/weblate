@@ -16,9 +16,5 @@ checks:
         code_rating: true
         duplicate_code: true
 before_commands:
-    - pip install --download-cache pip-cache -r requirements.txt
-    - pip install --download-cache pip-cache -r requirements-optional.txt
-build:
-    cache:
-        directories:
-            - 'pip-cache'
+    - pip install -r requirements.txt
+    - pip install -r requirements-optional.txt
