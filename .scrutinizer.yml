@@ -15,3 +15,9 @@ checks:
     python:
         code_rating: true
         duplicate_code: true
+before_commands:
+    - pip install --download-cache pip-cache -r requirements.txt
+    - pip install --download-cache pip-cache -r requirements-optional.txt
+cache:
+    directories:
+        - 'pip-cache'
