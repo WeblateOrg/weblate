@@ -575,8 +575,14 @@ class CommentForm(forms.Form):
             'translation or generic for all of them?'
         ),
         choices=(
-            ('global', _('Source string commen, suggestions to change or improve this string')),
-            ('translation', _('Translation comment, discussions with other translators')),
+            (
+                'global',
+                _('Source string comment, suggestions to change this string')
+            ),
+            (
+                'translation',
+                _('Translation comment, discussions with other translators')
+            ),
         ),
         initial='global',
     )
