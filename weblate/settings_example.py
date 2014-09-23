@@ -536,3 +536,6 @@ ENABLE_WHITEBOARD = False
 
 # Override home directory to some writable location
 # os.environ['HOME'] = os.path.join(BASE_DIR, 'configuration')
+
+# Force sane test runner
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
