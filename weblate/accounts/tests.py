@@ -62,7 +62,7 @@ REGISTRATION_DATA = {
 
 
 class RegistrationTest(TestCase):
-    def assertRegistration(self):
+    def assert_registration(self):
         # Check registration mail
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
@@ -108,7 +108,7 @@ class RegistrationTest(TestCase):
         self.assertRedirects(response, reverse('email-sent'))
 
         # Confirm account
-        self.assertRegistration()
+        self.assert_registration()
 
         # Set password
         response = self.client.post(
@@ -147,7 +147,7 @@ class RegistrationTest(TestCase):
         )
         self.assertRedirects(response, reverse('email-sent'))
 
-        self.assertRegistration()
+        self.assert_registration()
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
