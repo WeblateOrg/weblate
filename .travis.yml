@@ -7,7 +7,7 @@ python:
 # - Run pylint/pep8 checker
 env:
   matrix:
-    - DJANGO_PIP="Django>=1.7,<1.8" DO_LINT=1
+    - DJANGO_PIP="Django>=1.6,<1.7" DO_LINT=1
     - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=mysql
     - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=postgresql
     - DJANGO_PIP="Django>=1.7,<1.8"
