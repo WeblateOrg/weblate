@@ -251,7 +251,7 @@ class LanguageManager(models.Manager):
         '''
         return self.filter(translation__total__gt=0).distinct()
 
-    def check(self, filename):
+    def check_definitions(self, filename):
         """
         Checks database language definitions with supplied ones.
         """

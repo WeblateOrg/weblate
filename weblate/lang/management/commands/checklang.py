@@ -33,6 +33,6 @@ class Command(BaseCommand):
         if len(args) != 1:
             raise CommandError('Use: checklang file')
 
-        errors = Language.objects.check(args[0])
+        errors = Language.objects.check_definitions(args[0])
         for error in errors:
             self.stderr.write(error)
