@@ -113,8 +113,6 @@ LANGUAGES = (
     ('zh_TW', u'正體字'),
 )
 
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
