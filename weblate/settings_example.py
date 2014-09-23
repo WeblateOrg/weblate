@@ -64,7 +64,7 @@ DATABASES = {
     }
 }
 
-WEB_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -129,7 +129,7 @@ URL_PREFIX = ''
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(WEB_ROOT, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -232,7 +232,7 @@ TEMPLATE_DIRS = (
     # or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(WEB_ROOT, 'html'),
+    os.path.join(BASE_DIR, 'html'),
 )
 
 INSTALLED_APPS = (
@@ -259,7 +259,7 @@ if django.VERSION < (1, 7, 0):
         'south',
     )
 
-LOCALE_PATHS = (os.path.join(WEB_ROOT, '..', 'locale'), )
+LOCALE_PATHS = (os.path.join(BASE_DIR, '..', 'locale'), )
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -387,7 +387,7 @@ MT_GOOGLE_KEY = None
 MT_TMSERVER = None
 
 # Path where git repositories are stored, it needs to be writable
-GIT_ROOT = os.path.join(WEB_ROOT, 'repos')
+GIT_ROOT = os.path.join(BASE_DIR, 'repos')
 
 # Title of site to use
 SITE_TITLE = 'Weblate'
@@ -434,7 +434,7 @@ AUTO_LOCK_TIME = 60
 LOCK_TIME = 15 * 60
 
 # Where to put Whoosh index
-WHOOSH_INDEX = os.path.join(WEB_ROOT, 'whoosh-index')
+WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh-index')
 
 # List of quality checks
 # CHECK_LIST = (
@@ -507,7 +507,7 @@ ALLOWED_HOSTS = []
 #     },
 #     'avatar': {
 #         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-#         'LOCATION': os.path.join(WEB_ROOT, 'avatar-cache'),
+#         'LOCATION': os.path.join(BASE_DIR, 'avatar-cache'),
 #         'TIMEOUT': 604800,
 #         'OPTIONS': {
 #             'MAX_ENTRIES': 1000,
@@ -533,4 +533,4 @@ ALLOWED_HOSTS = []
 ENABLE_WHITEBOARD = False
 
 # Override home directory to some writable location
-# os.environ['HOME'] = os.path.join(WEB_ROOT, 'configuration')
+# os.environ['HOME'] = os.path.join(BASE_DIR, 'configuration')

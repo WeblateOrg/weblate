@@ -31,7 +31,7 @@ def get(name, default):
 
 
 # Weblate installation root
-WEB_ROOT = get('WEB_ROOT', os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = get('BASE_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 # Machine translation API keys
 
@@ -58,7 +58,7 @@ MT_GOOGLE_KEY = get('MT_GOOGLE_KEY', None)
 MT_TMSERVER = get('MT_TMSERVER', None)
 
 # Path where git repositories are stored, it needs to be writable
-GIT_ROOT = get('GIT_ROOT', os.path.join(WEB_ROOT, 'repos'))
+GIT_ROOT = get('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
 
 # Title of site to use
 SITE_TITLE = get('SITE_TITLE', 'Weblate')
@@ -96,7 +96,7 @@ AUTO_LOCK_TIME = get('AUTO_LOCK_TIME', 60)
 LOCK_TIME = get('LOCK_TIME', 15 * 60)
 
 # Where to put Whoosh index
-WHOOSH_INDEX = get('WHOOSH_INDEX', os.path.join(WEB_ROOT, 'whoosh-index'))
+WHOOSH_INDEX = get('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))
 
 # List of quality checks
 CHECK_LIST = get('CHECK_LIST', (
@@ -148,7 +148,7 @@ SCRIPT_CHOICES = [
 ] + [('', '')]
 
 # Font for charts and widgets
-TTF_PATH = get('TTF_PATH', os.path.join(WEB_ROOT, 'ttf'))
+TTF_PATH = get('TTF_PATH', os.path.join(BASE_DIR, 'ttf'))
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = get('ANONYMOUS_USER_NAME', 'anonymous')
