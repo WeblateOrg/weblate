@@ -14,6 +14,11 @@ Generic upgrade instructions
     Since version 1.2 the migration is done using South module, to upgrade to 1.2, 
     please see :ref:`version-specific-instructions`.
 
+.. versionchanged:: 1.9
+
+    Since version 1.9, Weblate also supports Django 1.7 migrations, please check
+    :ref:`django-17` for more information.
+
 Before upgrading, please check current :ref:`requirements` as they might have
 changed.
 
@@ -158,6 +163,32 @@ Upgrade from 1.8 to 1.9
 Several internal modules and paths have been renamed and changed, please adjust
 your :file:`settings.py` to match that (consult :file:`settings_example.py` for
 correct values).
+
+.. seealso:: 
+   
+    If you are upgrading to Django 1.7 in same step, please consult
+    :ref:`django-17`.
+
+.. _django-17:
+
+Upgrading to Django 1.7
+-----------------------
+
+Please  adjust your :file:`settings.py` to match several changes in the
+configuration (consult :file:`settings_example.py` for correct values).
+
+Django 1.7 has a new feature to handle database schema upgrade called
+"migrations" which is incompatible with South (used before by Weblate).
+
+Before migrating to Django 1.7, you first need to apply all migrations from
+South. If you already have upgraded Django to 1.7, you can do this using
+virtualenv and :file:`examples/migrate-south` script:
+
+.. code-block:: sh
+
+    examples/migrate-south --settings weblate.settings
+
+Once you have done that, you can run Django 1.7 migrations and work as usual.
 
 .. _pootle-migration:
 
