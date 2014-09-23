@@ -37,7 +37,7 @@ from datetime import datetime, timedelta
 import weblate
 from weblate import appsettings
 from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat
+from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Check, Suggestion, Comment
@@ -1223,17 +1223,20 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         Top level handler for file uploads.
         '''
+        filecopy = fileobj.read()
+        fileobj.close()
         # Load backend file
         try:
             # First try using own loader
             store = self.subproject.file_format_cls(
-                fileobj,
+                StringIOMode(fileobj.name, filecopy),
                 self.subproject.template_store
             )
         except Exception:
             # Fallback to automatic detection
-            fileobj.seek(0)
-            store = AutoFormat(fileobj)
+            store = AutoFormat(
+                StringIOMode(fileobj.name, filecopy),
+            )
 
         # Optionally set authorship
         if author is None:
