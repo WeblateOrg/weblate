@@ -53,10 +53,6 @@ after_script:
   - if [ -z "$DO_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
   - timestamp.sh done
   - sync-buildtime-trend-with-gh-pages.sh
-matrix:
-  allow_failures:
-    - python: "2.7"
-      env: DJANGO_PIP="Django>=1.7,<1.8"
 cache:
   apt: true
   directories:
