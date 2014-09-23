@@ -20,7 +20,7 @@
 
 from django.db import models
 from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat
+from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.models.project import Project
 from translate.storage.csvl10n import csvfile
 from django.core.urlresolvers import reverse
@@ -31,8 +31,10 @@ class DictionaryManager(models.Manager):
         '''
         Handles dictionary update.
         '''
+        filecopy = fileobj.read()
+        fileobj.close()
         # Load file using translate-toolkit
-        store = AutoFormat.load(fileobj)
+        store = AutoFormat.load(StringIOMode(fileobj.name, filecopy))
 
         ret, skipped = self.import_store(
             request, project, language, store, method
@@ -40,8 +42,10 @@ class DictionaryManager(models.Manager):
 
         if ret == 0 and skipped > 0 and isinstance(store, csvfile):
             # Retry with different CSV scheme
-            fileobj.seek(0)
-            store = csvfile(fileobj, ('source', 'target'))
+            store = csvfile(
+                StringIOMode(fileobj.name, filecopy),
+                ('source', 'target')
+            )
             ret, skipped = self.import_store(
                 request, project, language, store, method
             )

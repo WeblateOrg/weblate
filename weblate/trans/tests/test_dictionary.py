@@ -105,6 +105,8 @@ class DictionaryTest(ViewTestCase):
         # Check correct response
         self.assertRedirects(response, self.get_url('show_dictionary'))
 
+        response = self.client.get(self.get_url('show_dictionary'))
+
         # Check number of imported objects
         self.assertEqual(Dictionary.objects.count(), 164)
 

@@ -40,11 +40,22 @@ import hashlib
 import traceback
 import importlib
 import __builtin__
+from StringIO import StringIO
 
 
 FILE_FORMATS = {}
 FLAGS_RE = re.compile(r'\b[-\w]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
+
+
+class StringIOMode(StringIO):
+    """
+    StringIO with mode attribute to make ttkit happy.
+    """
+    def __init__(self, filename, data):
+        StringIO.__init__(self, data)
+        self.mode = 'r'
+        self.name = filename
 
 
 def register_fileformat(fileformat):
