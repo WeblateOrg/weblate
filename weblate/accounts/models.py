@@ -419,7 +419,8 @@ class Profile(models.Model):
             'user': self.user.username
         })
 
-    def get_last_change(self):
+    @property
+    def last_change(self):
         '''
         Returns date of last change user has done in Weblate.
         '''

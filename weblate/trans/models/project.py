@@ -432,12 +432,13 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             ret |= resource.can_push()
         return ret
 
-    def get_last_change(self):
+    @property
+    def last_change(self):
         """
         Returns date of last change done in Weblate.
         """
         resources = self.subproject_set.all()
-        changes = [resource.get_last_change() for resource in resources]
+        changes = [resource.last_change for resource in resources]
         changes = [c for c in changes if c is not None]
         if not changes:
             return None

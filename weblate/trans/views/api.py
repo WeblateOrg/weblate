@@ -270,7 +270,7 @@ def export_stats(request, project, subproject):
             'name': trans.language.name,
             'total': trans.total,
             'total_words': trans.total_words,
-            'last_change': trans.get_last_change(),
+            'last_change': trans.last_change,
             'last_author': trans.get_last_author(),
             'translated': trans.translated,
             'translated_words': trans.translated_words,

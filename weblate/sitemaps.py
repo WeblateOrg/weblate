@@ -25,26 +25,26 @@ from weblate.accounts.models import Profile
 
 PROJECT_DICT = {
     'queryset': Project.objects.all_acl(None),
-    'date_field': 'get_last_change',
+    'date_field': 'last_change',
 }
 
 SUBPROJECT_DICT = {
     'queryset': SubProject.objects.filter(
         project__in=Project.objects.all_acl(None)
     ),
-    'date_field': 'get_last_change',
+    'date_field': 'last_change',
 }
 
 TRANSLATION_DICT = {
     'queryset': Translation.objects.filter(
         subproject__project__in=Project.objects.all_acl(None)
     ),
-    'date_field': 'get_last_change',
+    'date_field': 'last_change',
 }
 
 USER_DICT = {
     'queryset': Profile.objects.all(),
-    'date_field': 'get_last_change',
+    'date_field': 'last_change',
 }
 
 

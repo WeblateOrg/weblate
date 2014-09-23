@@ -724,7 +724,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
         except IndexError:
             return None
 
-    def get_last_change(self):
+    @property
+    def last_change(self):
         '''
         Returns date of last change done in Weblate.
         '''
@@ -746,7 +747,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Commit changes
         self.git_commit(
-            request, last, self.get_last_change(), True, True, skip_push
+            request, last, self.last_change, True, True, skip_push
         )
 
     def get_author_name(self, user, email=True):

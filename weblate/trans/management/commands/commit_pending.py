@@ -45,7 +45,7 @@ class Command(WeblateLangCommand):
             if not translation.git_needs_commit():
                 continue
 
-            last_change = translation.get_last_change()
+            last_change = translation.last_change
             if last_change is None:
                 continue
             if last_change > age:
