@@ -9,7 +9,6 @@ python:
 env:
   matrix:
     - DJANGO_PIP="Django>=1.6,<1.7" DO_LINT=1
-    - DJANGO_PIP="Django>=1.5,<1.6" TRAVIS_RUN_TESTS="trans lang accounts"
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=mysql
     - DJANGO_PIP="Django>=1.6,<1.7" TRAVIS_DATABASE=postgresql
     - DJANGO_PIP="Django>=1.6,<1.7"
