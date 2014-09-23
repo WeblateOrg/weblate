@@ -246,13 +246,18 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.sitemaps',
     'social.apps.django_app.default',
-    'south',
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',
     # Needed for javascript localization
     'weblate',
 )
+
+# South setup for Django < 1.7
+if django.VERSION < (1, 7, 0):
+    INSTALLED_APPS += (
+        'south',
+    )
 
 LOCALE_PATHS = (os.path.join(WEB_ROOT, '..', 'locale'), )
 
