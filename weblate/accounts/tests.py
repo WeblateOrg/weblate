@@ -63,7 +63,7 @@ REGISTRATION_DATA = {
 
 class RegistrationTest(TestCase, RegistrationTestMixin):
     def assert_registration(self):
-        url = self.assertRegistrationMailbox()
+        url = self.assert_registration_mailbox()
 
         # Confirm account
         response = self.client.get(url, follow=True)

@@ -164,7 +164,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         ).click()
 
         return ''.join(
-            (self.live_server_url, self.assertRegistrationMailbox())
+            (self.live_server_url, self.assert_registration_mailbox())
         )
 
     def test_register(self):

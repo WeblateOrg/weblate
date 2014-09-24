@@ -46,7 +46,7 @@ class RegistrationTestMixin(object):
     """
     Helper to share code for registration testing.
     """
-    def assertRegistrationMailbox(self):
+    def assert_registration_mailbox(self):
         # Check mailbox
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
