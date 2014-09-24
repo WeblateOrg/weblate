@@ -34,6 +34,8 @@ before_script:
   - mysql -e 'create database weblate;'
   - psql -c 'create database weblate;' -U postgres
   - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
+  - echo -e "[server]\nmax_allowed_packet=64M" | sudo tee -a /etc/mysql/conf.d/weblate.cnf
+  - sudo service mysql restart
 # commands to run tests
 script:
   - timestamp.sh tests
