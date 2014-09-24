@@ -1,7 +1,7 @@
 Contributing
 ============
 
-There are dozens od ways to contribute to Weblate. We welcome any help, be it
+There are dozens of ways to contribute to Weblate. We welcome any help, be it
 coding help, graphics design, documentation or sponsorship.
 
 Code and development

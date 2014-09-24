@@ -1172,7 +1172,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         return self._template_store
 
-    def get_last_change(self):
+    @property
+    def last_change(self):
         '''
         Returns date of last change done in Weblate.
         '''
