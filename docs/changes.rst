@@ -14,6 +14,7 @@ Released on ? 2014.
 * Fixed generating mo files in certain cases.
 * Added support for GitLab notifications.
 * Added support for disabling translation suggestions.
+* Django 1.7 support.
 
 weblate 1.9
 -----------

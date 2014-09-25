@@ -21,6 +21,7 @@
 Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
+from dateutil import parser
 
 
 class RepositoryException(Exception):
@@ -32,6 +33,15 @@ class RepositoryException(Exception):
 class Repository(object):
     """
     Basic repository object.
+
+    Currently missing methods:
+
+    - repository configuration (SubProject.configure_repo)
+    - branch configuration (SubProject.configure_branch)
+    - needs merge/push (SubProject.git_needs_merge/push)
+    - get object hash (Translation.get_git_blob_hash)
+    - commit (Translation.__git_commit)
+    - configuration (Translation.__configure_committer)
     """
     _last_revision = None
     _last_remote_revision = None
@@ -50,7 +60,7 @@ class Repository(object):
     def _popen(cls, args, cwd=None):
         if args is None:
             raise RepositoryException('Not supported functionality')
-        args.insert(0, cls._cmd)
+        args = [cls._cmd] + args
         process = subprocess.Popen(
             args,
             cwd=cwd,
@@ -133,6 +143,12 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    def get_revision_info(self, revision):
+        """
+        Returns dictionary with detailed revision information.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -171,3 +187,37 @@ class GitRepository(Repository):
         Checks whether repository needs commit.
         """
         return self._execute(['status', '--porcelain']) != ''
+
+    def get_revision_info(self, revision):
+        """
+        Returns dictionary with detailed revision information.
+        """
+        text = self._execute(
+            ['show', '--format=fuller', '--date=rfc', '--no-patch', revision]
+        )
+        result = {}
+
+        message = []
+
+        header = True
+
+        for line in text.splitlines():
+            if header:
+                if not line:
+                    header = False
+                elif line.startswith('commit'):
+                    continue
+                else:
+                    name, value = line.strip().split(':', 1)
+                    if 'Date' in name:
+                        result[name.lower()] = parser.parse(value.strip())
+                    else:
+                        result[name.lower()] = value.strip()
+
+            else:
+                message.append(line.strip())
+
+        result['message'] = '\n'.join(message)
+        result['summary'] = message[0]
+
+        return result

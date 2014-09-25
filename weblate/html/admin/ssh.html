@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
+{% load cycle from future %}
 
 {% block title %}{% trans "SSH keys" %}{% endblock %}
 
@@ -44,7 +45,7 @@
   </thead>
   <tbody>
     {% for key in host_keys %}
-    <tr class="row{% cycle 1,2 %}"><td>{{ key.0 }}</td><td>{{ key.1 }}</td><td>{{ key.2 }}</td></tr>
+    <tr class="row{% cycle '1' '2' %}"><td>{{ key.0 }}</td><td>{{ key.1 }}</td><td>{{ key.2 }}</td></tr>
     {% endfor %}
   </tbody>
     </table>

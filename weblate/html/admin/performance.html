@@ -1,6 +1,7 @@
 {% extends "admin/base_site.html" %}
 {% load i18n %}
 {% load translations %}
+{% load cycle from future %}
 
 {% block title %}{% trans "Performance report" %}{% endblock %}
 
@@ -24,7 +25,7 @@
   </thead>
   <tbody>
   {% for check in checks %}
-  <tr class="row{% cycle 1,2 %} {{ check.3 }}">
+  <tr class="row{% cycle '1' '2' %} {{ check.3 }}">
       <td>{{ check.0 }}</td>
       <td>{% admin_boolean_icon check.1 %}</td>
       <td><a href="{% documentation "admin/install" check.2 %}">{% trans "Documentation" %}</a></td>
@@ -47,7 +48,7 @@
   </thead>
   <tbody>
   {% for error in errors %}
-  <tr class="row{% cycle 1,2 %} {{ check.3 }}">
+  <tr class="row{% cycle '1' '2' %} {{ check.3 }}">
       <td>{{ error.name }}</td>
       <td><pre>{{ error.message }}</pre></td>
   </tr>
