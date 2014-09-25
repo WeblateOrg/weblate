@@ -23,7 +23,7 @@ from weblate.trans.scripts import get_script_name
 import os
 
 
-def get(name, default):
+def getvalue(name, default):
     """
     Returns setting from django settings with default value.
     """
@@ -31,75 +31,75 @@ def get(name, default):
 
 
 # Weblate installation root
-BASE_DIR = get('BASE_DIR', os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = getvalue('BASE_DIR', os.path.dirname(os.path.abspath(__file__)))
 
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
-MT_APERTIUM_KEY = get('MT_APERTIUM_KEY', None)
+MT_APERTIUM_KEY = getvalue('MT_APERTIUM_KEY', None)
 
 # Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
-MT_MICROSOFT_ID = get('MT_MICROSOFT_ID', None)
-MT_MICROSOFT_SECRET = get('MT_MICROSOFT_SECRET', None)
+MT_MICROSOFT_ID = getvalue('MT_MICROSOFT_ID', None)
+MT_MICROSOFT_SECRET = getvalue('MT_MICROSOFT_SECRET', None)
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
-MT_MYMEMORY_EMAIL = get('MT_MYMEMORY_EMAIL', None)
+MT_MYMEMORY_EMAIL = getvalue('MT_MYMEMORY_EMAIL', None)
 
 # Optional MyMemory credentials to access private translation memory
-MT_MYMEMORY_USER = get('MT_MYMEMORY_USER', None)
-MT_MYMEMORY_KEY = get('MT_MYMEMORY_KEY', None)
+MT_MYMEMORY_USER = getvalue('MT_MYMEMORY_USER', None)
+MT_MYMEMORY_KEY = getvalue('MT_MYMEMORY_KEY', None)
 
 # Google API key for Google Translate API
-MT_GOOGLE_KEY = get('MT_GOOGLE_KEY', None)
+MT_GOOGLE_KEY = getvalue('MT_GOOGLE_KEY', None)
 
 # tmserver URL
-MT_TMSERVER = get('MT_TMSERVER', None)
+MT_TMSERVER = getvalue('MT_TMSERVER', None)
 
 # Path where git repositories are stored, it needs to be writable
-GIT_ROOT = get('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
+GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
 
 # Title of site to use
-SITE_TITLE = get('SITE_TITLE', 'Weblate')
+SITE_TITLE = getvalue('SITE_TITLE', 'Weblate')
 
 # Whether to offer hosting
-OFFER_HOSTING = get('OFFER_HOSTING', False)
+OFFER_HOSTING = getvalue('OFFER_HOSTING', False)
 
 # Demo server tweaks
-DEMO_SERVER = get('DEMO_SERVER', False)
+DEMO_SERVER = getvalue('DEMO_SERVER', False)
 
 # Enable remote hooks
-ENABLE_HOOKS = get('ENABLE_HOOKS', True)
+ENABLE_HOOKS = getvalue('ENABLE_HOOKS', True)
 
 # Enable sharing
-ENABLE_SHARING = get('ENABLE_SHARING', True)
+ENABLE_SHARING = getvalue('ENABLE_SHARING', True)
 
 # Whether to run hooks in background
-BACKGROUND_HOOKS = get('BACKGROUND_HOOKS', True)
+BACKGROUND_HOOKS = getvalue('BACKGROUND_HOOKS', True)
 
 # Number of nearby messages to show in each direction
-NEARBY_MESSAGES = get('NEARBY_MESSAGES', 5)
+NEARBY_MESSAGES = getvalue('NEARBY_MESSAGES', 5)
 
 # Minimal number of similar messages to show
-SIMILAR_MESSAGES = get('SIMILAR_MESSAGES', 5)
+SIMILAR_MESSAGES = getvalue('SIMILAR_MESSAGES', 5)
 
 # Enable lazy commits
-LAZY_COMMITS = get('LAZY_COMMITS', True)
+LAZY_COMMITS = getvalue('LAZY_COMMITS', True)
 
 # Offload indexing
-OFFLOAD_INDEXING = get('OFFLOAD_INDEXING', False)
+OFFLOAD_INDEXING = getvalue('OFFLOAD_INDEXING', False)
 
 # Translation locking
-AUTO_LOCK = get('AUTO_LOCK', True)
-AUTO_LOCK_TIME = get('AUTO_LOCK_TIME', 60)
-LOCK_TIME = get('LOCK_TIME', 15 * 60)
+AUTO_LOCK = getvalue('AUTO_LOCK', True)
+AUTO_LOCK_TIME = getvalue('AUTO_LOCK_TIME', 60)
+LOCK_TIME = getvalue('LOCK_TIME', 15 * 60)
 
 # Where to put Whoosh index
-WHOOSH_INDEX = get('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))
+WHOOSH_INDEX = getvalue('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))
 
 # List of quality checks
-CHECK_LIST = get('CHECK_LIST', (
+CHECK_LIST = getvalue('CHECK_LIST', (
     'weblate.trans.checks.same.SameCheck',
     'weblate.trans.checks.chars.BeginNewlineCheck',
     'weblate.trans.checks.chars.EndNewlineCheck',
@@ -126,14 +126,14 @@ CHECK_LIST = get('CHECK_LIST', (
 ))
 
 # List of automatic fixups
-AUTOFIX_LIST = get('AUTOFIX_LIST', (
+AUTOFIX_LIST = getvalue('AUTOFIX_LIST', (
     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
     'weblate.trans.autofixes.chars.RemoveZeroSpace',
 ))
 
 # List of machine translations
-MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', (
+MACHINE_TRANSLATION_SERVICES = getvalue('MACHINE_TRANSLATION_SERVICES', (
     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
     'weblate.trans.machine.weblatetm.WeblateTranslation',
 ))
@@ -142,43 +142,45 @@ MACHINE_TRANSLATION_SERVICES = get('MACHINE_TRANSLATION_SERVICES', (
 MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
 
 # List of scripts to use in custom processing
-PRE_COMMIT_SCRIPTS = get('PRE_COMMIT_SCRIPTS', ())
+PRE_COMMIT_SCRIPTS = getvalue('PRE_COMMIT_SCRIPTS', ())
 SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
 ] + [('', '')]
 
 # Font for charts and widgets
-TTF_PATH = get('TTF_PATH', os.path.join(BASE_DIR, 'ttf'))
+TTF_PATH = getvalue('TTF_PATH', os.path.join(BASE_DIR, 'ttf'))
 
 # Anonymous user name
-ANONYMOUS_USER_NAME = get('ANONYMOUS_USER_NAME', 'anonymous')
+ANONYMOUS_USER_NAME = getvalue('ANONYMOUS_USER_NAME', 'anonymous')
 
 # Enable registrations
-REGISTRATION_OPEN = get('REGISTRATION_OPEN', True)
+REGISTRATION_OPEN = getvalue('REGISTRATION_OPEN', True)
 
 # Captcha for registrations
-REGISTRATION_CAPTCHA = get('REGISTRATION_CAPTCHA', True)
+REGISTRATION_CAPTCHA = getvalue('REGISTRATION_CAPTCHA', True)
 
 # Source language
-SOURCE_LANGUAGE = get('SOURCE_LANGUAGE', 'en')
+SOURCE_LANGUAGE = getvalue('SOURCE_LANGUAGE', 'en')
 
 # Self advertisement
-SELF_ADVERTISEMENT = get('SELF_ADVERTISEMENT', False)
+SELF_ADVERTISEMENT = getvalue('SELF_ADVERTISEMENT', False)
 
 # Use simple language codes for default language/country combinations
-SIMPLIFY_LANGUAGES = get('SIMPLIFY_LANGUAGES', True)
+SIMPLIFY_LANGUAGES = getvalue('SIMPLIFY_LANGUAGES', True)
 
 # Disable avatars
-ENABLE_AVATARS = get('ENABLE_AVATARS', True)
+ENABLE_AVATARS = getvalue('ENABLE_AVATARS', True)
 
 # Avatar URL prefix
-AVATAR_URL_PREFIX = get('AVATAR_URL_PREFIX', 'https://seccdn.libravatar.org/')
+AVATAR_URL_PREFIX = getvalue(
+    'AVATAR_URL_PREFIX', 'https://seccdn.libravatar.org/'
+)
 
 # Avatar fallback image
 # See http://wiki.libravatar.org/api/ for available choices
-AVATAR_DEFAULT_IMAGE = get('AVATAR_DEFAULT_IMAGE', 'identicon')
+AVATAR_DEFAULT_IMAGE = getvalue('AVATAR_DEFAULT_IMAGE', 'identicon')
 
 # Is the site using https
-ENABLE_HTTPS = get('ENABLE_HTTPS', False)
+ENABLE_HTTPS = getvalue('ENABLE_HTTPS', False)
 
-ENABLE_WHITEBOARD = get('ENABLE_WHITEBOARD', False)
+ENABLE_WHITEBOARD = getvalue('ENABLE_WHITEBOARD', False)
