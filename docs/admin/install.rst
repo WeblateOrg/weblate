@@ -28,6 +28,8 @@ lxml (>= 3.1.0)
     http://lxml.de/
 South (>= 1.0)
     http://south.aeracode.org/
+dateutil
+    http://labix.org/python-dateutil
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 PyICU (optional for proper sorting of strings)

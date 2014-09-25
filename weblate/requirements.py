@@ -199,6 +199,16 @@ def get_versions():
         '1.1.6',
     ))
 
+    name = 'dateutil'
+    url = 'http://labix.org/python-dateutil'
+    mod = get_version_module('dateutil', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '1.0'
+    ))
+
     name = 'lxml'
     url = 'http://lxml.de/'
     mod = get_version_module('lxml.etree', name, url)
