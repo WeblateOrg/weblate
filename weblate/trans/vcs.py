@@ -33,6 +33,15 @@ class RepositoryException(Exception):
 class Repository(object):
     """
     Basic repository object.
+
+    Currently missing methods:
+
+    - repository configuration (SubProject.configure_repo)
+    - branch configuration (SubProject.configure_branch)
+    - needs merge/push (SubProject.git_needs_merge/push)
+    - get object hash (Translation.get_git_blob_hash)
+    - commit (Translation.__git_commit)
+    - configuration (Translation.__configure_committer)
     """
     _last_revision = None
     _last_remote_revision = None
