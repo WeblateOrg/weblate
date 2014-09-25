@@ -76,3 +76,12 @@ class VCSGitTest(RepoTestCase):
     def test_needs_commit(self):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         self.assertFalse(repo.needs_commit())
+
+    def test_revision_info(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        info = repo.get_revision_info(repo.last_revision)
+        self.assertTrue('summary' in info)
+        self.assertTrue('author' in info)
+        self.assertTrue('authordate' in info)
+        self.assertTrue('commit' in info)
+        self.assertTrue('commitdate' in info)

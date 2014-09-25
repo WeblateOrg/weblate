@@ -21,6 +21,7 @@
 Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
+from dateutil import parser
 
 
 class RepositoryException(Exception):
@@ -133,6 +134,12 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    def get_revision_info(self, revision):
+        """
+        Returns dictionary with detailed revision information.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -171,3 +178,37 @@ class GitRepository(Repository):
         Checks whether repository needs commit.
         """
         return self._execute(['status', '--porcelain']) != ''
+
+    def get_revision_info(self, revision):
+        """
+        Returns dictionary with detailed revision information.
+        """
+        text = self._execute(
+            ['show', '--format=fuller', '--date=rfc', '--no-patch', revision]
+        )
+        result = {}
+
+        message = []
+
+        header = True
+
+        for line in text.splitlines():
+            if header:
+                if not line:
+                    header = False
+                elif line.startswith('commit'):
+                    continue
+                else:
+                    name, value = line.strip().split(':', 1)
+                    if 'Date' in name:
+                        result[name.lower()] = parser.parse(value.strip())
+                    else:
+                        result[name.lower()] = value.strip()
+
+            else:
+                message.append(line.strip())
+
+        result['message'] = '\n'.join(message)
+        result['summary'] = message[0]
+
+        return result
