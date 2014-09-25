@@ -50,7 +50,7 @@ class Repository(object):
     def _popen(cls, args, cwd=None):
         if args is None:
             raise RepositoryException('Not supported functionality')
-        args.insert(0, cls._cmd)
+        args = [cls._cmd] + args
         process = subprocess.Popen(
             args,
             cwd=cwd,
