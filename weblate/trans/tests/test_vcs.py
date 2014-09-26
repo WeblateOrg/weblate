@@ -86,7 +86,7 @@ class VCSGitTest(RepoTestCase):
         self.assertTrue('commit' in info)
         self.assertTrue('commitdate' in info)
 
-    def test_merge(self):
+    def test_needs_merge(self):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         self.assertFalse(repo.needs_merge('master'))
         self.assertFalse(repo.needs_push('master'))
