@@ -21,6 +21,7 @@
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
+from weblate.trans.vcs import GitRepository
 import importlib
 import sys
 
@@ -37,23 +38,7 @@ def get_version_module(module, name, url, optional=False):
             return None
         raise Exception(
             'Failed to import %s, please install %s from %s' % (
-                module,
-                name,
-                url,
-            )
-        )
-    return mod
-
-
-def get_translate_module(name, url):
-    '''
-    Returns module object for translate toolkit.
-    '''
-    try:
-        mod = importlib.import_module('translate.__version__')
-    except ImportError:
-        raise Exception(
-            'Failed to import translate-toolkit, please install %s from %s' % (
+                module.replace('.__version__', ''),
                 name,
                 url,
             )
@@ -127,7 +112,7 @@ def get_versions():
 
     name = 'Translate Toolkit'
     url = 'http://toolkit.translatehouse.org/'
-    mod = get_translate_module(name, url)
+    mod = get_version_module('translate.__version__', name, url)
     result.append((
         name,
         url,
@@ -165,19 +150,12 @@ def get_versions():
         '0.5.4',
     ))
 
-    name = 'Git'
-    url = 'http://git-scm.com/'
-    mod = get_version_module('git', name, url)
-    try:
-        result.append((
-            name,
-            url,
-            mod.Git().version().replace('git version ', ''),
-            '1.7.2',
-        ))
-    except TypeError:
-        # Happens with too old GitPython
-        pass
+    result.append((
+        'Git',
+        'http://git-scm.com/',
+        GitRepository.get_version(),
+        '1.7.2',
+    ))
 
     name = 'South'
     url = 'http://south.aeracode.org/'
