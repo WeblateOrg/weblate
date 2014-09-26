@@ -373,7 +373,17 @@ class GitRepository(Repository):
         """
         Returns hash of object in the VCS.
         """
-        return self.execute(['ls-tree', 'HEAD', path]).split()[2]
+        # Resolve symlinks first
+        real_path = os.path.realpath(os.path.join(self.path, path))
+        repository_path = os.path.realpath(self.path)
+
+        if not real_path.startswith(repository_path):
+            print real_path, repository_path
+            raise ValueError('Too many symlinks or link outside tree')
+
+        real_path = real_path[len(repository_path):].lstrip('/')
+
+        return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
         """
