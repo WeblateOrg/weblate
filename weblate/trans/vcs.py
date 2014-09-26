@@ -40,7 +40,6 @@ class Repository(object):
     _cmd = 'false'
     _cmd_last_revision = None
     _cmd_last_remote_revision = None
-    _cmd_clone = 'clone'
     _cmd_update_remote = None
     _cmd_push = None
     _cmd_status = ['status']
@@ -86,13 +85,12 @@ class Repository(object):
         return self._last_remote_revision
 
     @classmethod
-    def clone(cls, source, target):
+    def clone(cls, source, target, bare=False):
         """
         Clones repository and returns Repository object for cloned
         repository.
         """
-        cls._popen([cls._cmd_clone, source, target])
-        return cls(target)
+        raise NotImplementedError()
 
     def update_remote(self):
         """
@@ -208,6 +206,18 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['remote', 'update', 'origin']
     _cmd_push = ['push', 'origin']
+
+    @classmethod
+    def clone(cls, source, target, bare=False):
+        """
+        Clones repository and returns Repository object for cloned
+        repository.
+        """
+        if bare:
+            cls._popen(['clone', '--bare', source, target])
+        else:
+            cls._popen(['clone', source, target])
+        return cls(target)
 
     def get_config(self, path):
         """
