@@ -71,6 +71,11 @@ class VCSGitTest(RepoTestCase):
 
     def test_needs_commit(self):
         self.assertFalse(self.repo.needs_commit())
+        with open(os.path.join(self._tempdir, 'README.md'), 'a') as handle:
+            handle.write('CHANGE')
+        self.assertTrue(self.repo.needs_commit())
+        self.assertTrue(self.repo.needs_commit('README.md'))
+        self.assertFalse(self.repo.needs_commit('dummy'))
 
     def check_valid_info(self, info):
         self.assertTrue('summary' in info)

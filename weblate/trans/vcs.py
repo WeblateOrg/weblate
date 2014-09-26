@@ -131,7 +131,7 @@ class Repository(object):
         """
         raise NotImplementedError()
 
-    def needs_commit(self):
+    def needs_commit(self, filename=None):
         """
         Checks whether repository needs commit.
         """
@@ -246,11 +246,15 @@ class GitRepository(Repository):
         """
         self._execute(['merge', 'origin/{0}'.format(branch)])
 
-    def needs_commit(self):
+    def needs_commit(self, filename=None):
         """
         Checks whether repository needs commit.
         """
-        return self._execute(['status', '--porcelain']) != ''
+        if filename is None:
+            status = self._execute(['status', '--porcelain'])
+        else:
+            status = self._execute(['status', '--porcelain', '--', filename])
+        return status != ''
 
     def get_revision_info(self, revision):
         """
