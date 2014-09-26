@@ -126,13 +126,13 @@ class Repository(object):
         """
         raise NotImplementedError()
 
-    def merge(self, branch):
+    def merge(self, branch=None, abort=False):
         """
         Merges remote branch into working copy.
         """
         raise NotImplementedError()
 
-    def rebase(self, branch):
+    def rebase(self, branch=None, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
@@ -268,17 +268,23 @@ class GitRepository(Repository):
         """
         self.execute(['reset', '--hard', 'origin/{0}'.format(branch)])
 
-    def rebase(self, branch):
+    def rebase(self, branch=None, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
-        self.execute(['rebase', 'origin/{0}'.format(branch)])
+        if abort:
+            self.execute(['rebase', '--abort'])
+        else:
+            self.execute(['rebase', 'origin/{0}'.format(branch)])
 
-    def merge(self, branch):
+    def merge(self, branch=None, abort=False):
         """
         Resets working copy to match remote branch.
         """
-        self.execute(['merge', 'origin/{0}'.format(branch)])
+        if abort:
+            self.execute(['merge', '--abort'])
+        else:
+            self.execute(['merge', 'origin/{0}'.format(branch)])
 
     def needs_commit(self, filename=None):
         """
