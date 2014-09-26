@@ -14,8 +14,6 @@ Django (>= 1.6)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.9.0, 1.10.0 or newer strongly recommended)
     http://toolkit.translatehouse.org/
-GitPython (>= 0.3.2)
-    https://github.com/gitpython-developers/GitPython
 Git (>= 1.7.2)
     http://git-scm.com/
 python-social-auth (>= 0.1.17, < 0.1.24)
@@ -47,7 +45,7 @@ you can use apt-get:
 
 .. code-block:: sh
 
-    apt-get install python-django translate-toolkit python-git \
+    apt-get install python-django translate-toolkit \
         python-whoosh python-pil python-django-south python-libravatar \
         python-pyicu python-babel
 
@@ -77,7 +75,7 @@ All requirements are available either directly in openSUSE or in
 
 .. code-block:: sh
 
-    zypper install python-Django python-icu translate-toolkit python-GitPython \
+    zypper install python-Django python-icu translate-toolkit \
         python-Whoosh python-Pillow python-South python-python-social-auth \
         python-babel
 
