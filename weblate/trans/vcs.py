@@ -37,7 +37,6 @@ class Repository(object):
 
     Currently missing methods:
 
-    - repository configuration (SubProject.configure_repo)
     - branch configuration (SubProject.configure_branch)
     """
     _last_revision = None
@@ -184,6 +183,12 @@ class Repository(object):
     def get_object_hash(self, path):
         """
         Returns hash of object in the VCS.
+        """
+        raise NotImplementedError()
+
+    def configure_remote(self, pull_url, push_url, branch):
+        """
+        Configure remote repository.
         """
         raise NotImplementedError()
 
@@ -335,3 +340,39 @@ class GitRepository(Repository):
         Returns hash of object in the VCS.
         """
         return self._execute(['ls-tree', 'HEAD', path]).split()[2]
+
+    def configure_remote(self, pull_url, push_url, branch):
+        """
+        Configure remote repository.
+        """
+        old_pull = None
+        old_push = None
+        # Parse existing remotes
+        for remote in self._execute(['remote', '-v']).splitlines():
+            name, url, kind = remote.split()
+            if name != 'origin':
+                continue
+            if kind == '(fetch)':
+                old_pull = url
+            elif kind == '(push)':
+                old_push = url
+
+        if old_pull is None:
+            # No origin existing
+            self._execute(['remote', 'add', 'origin', pull_url])
+        elif old_pull != pull_url:
+            # URL changed?
+            self._execute(['remote', 'set-url', 'origin', pull_url])
+
+        if old_push != push_url:
+            self._execute(['remote', 'set-url', 'origin', '--push', push_url])
+
+        # Set branch to track
+        try:
+            self._execute(
+                ['remote', 'set-branches', 'origin', branch]
+            )
+        except RepositoryException:
+            self._execute(
+                ['remote', 'set-branches', '--add', 'origin', branch]
+            )
