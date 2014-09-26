@@ -217,7 +217,10 @@ class GitRepository(Repository):
     _cmd_push = ['push', 'origin']
 
     def is_valid(self):
-        return os.path.exists(os.path.join(self.path, '.git'))
+        return (
+            os.path.exists(os.path.join(self.path, '.git', 'config'))
+            or os.path.exists(os.path.join(self.path, 'config'))
+        )
 
     def init(self):
         self._popen(['init', self.path])
