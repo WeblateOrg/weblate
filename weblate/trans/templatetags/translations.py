@@ -23,13 +23,12 @@ from django.contrib.admin.templatetags.admin_static import static
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
-from django.utils.formats import date_format
 from django.utils import timezone
 from django import template
 
 import re
 
-from datetime import date, datetime
+from datetime import date
 
 import weblate
 
@@ -250,17 +249,6 @@ def show_checks(checks, user):
         'checks': checks,
         'perms_ignore_check': user.has_perm('trans.ignore_check'),
     }
-
-
-@register.filter
-def gitdate(value):
-    '''
-    Formats timestamp as returned byt GitPython.
-    '''
-    return date_format(
-        datetime.fromtimestamp(value),
-        'DATETIME_FORMAT'
-    )
 
 
 def naturaltime_past(value, now):

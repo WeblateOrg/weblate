@@ -29,11 +29,11 @@ from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
 import shutil
 import os
-import git
 from weblate.trans.models import Project, SubProject, Unit, WhiteboardMessage
 from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.vcs import GitRepository
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
@@ -61,15 +61,12 @@ class RepoTestCase(TestCase):
             'test-repo.git'
         )
 
-        # Git command wrapper
-        cmd = git.Git()
-
         # Clone repo for testing
         if not os.path.exists(self.base_repo_path):
-            cmd.clone(
-                '--bare',
+            GitRepository.clone(
                 GIT_URL,
-                self.base_repo_path
+                self.base_repo_path,
+                bare=True
             )
 
         # Remove possibly existing directory

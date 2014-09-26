@@ -30,4 +30,4 @@ class Command(WeblateCommand):
         '''
         for subproject in self.get_subprojects(*args, **options):
             print '%s:' % subproject
-            print subproject.git_repo.git.status()
+            print subproject.repository.status()

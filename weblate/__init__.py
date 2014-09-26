@@ -23,6 +23,7 @@ import logging
 from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
 )
+from weblate.trans.vcs import GitRepository, RepositoryException
 
 logger = logging.getLogger('weblate')
 
@@ -39,7 +40,7 @@ def is_running_git():
     '''
     Checks whether we're running inside Git checkout.
     '''
-    return os.path.exists(os.path.join(get_root_dir(), '.git'))
+    return os.path.exists(os.path.join(get_root_dir(), '.git', 'config'))
 
 # Weblate version
 VERSION = '2.0'
@@ -58,9 +59,8 @@ GIT_VERSION = VERSION
 # Grab some information from git
 if RUNNING_GIT:
     try:
-        import git
         # Describe current checkout
-        GIT_VERSION = git.Repo(get_root_dir()).git.describe(always=True)
+        GIT_VERSION = GitRepository(get_root_dir()).describe()
 
         # Check if we're close to release tag
         parts = GIT_VERSION.split('-')
@@ -70,7 +70,7 @@ if RUNNING_GIT:
         # Mark version as devel if it is
         if not GIT_RELEASE:
             VERSION += '-dev'
-    except (ImportError, git.exc.GitCommandError):
+    except RepositoryException:
         # Import failed or git has troubles reading
         # repo (eg. swallow clone)
         RUNNING_GIT = False

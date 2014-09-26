@@ -17,7 +17,7 @@
 <p>{% blocktrans with sp.repo as repo and sp.linked_subproject.get_full_slug as slug %}Not showing status of linked repository. Check <a href="#{{ slug }}">{{ repo }}</a> instead.{% endblocktrans %}</p>
 {% else %}
     <pre>
-{{ sp.git_repo.git.status }}
+{{ sp.repository.status }}
     </pre>
 {% endif %}
   {% endfor %}

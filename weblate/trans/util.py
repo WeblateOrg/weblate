@@ -154,4 +154,5 @@ def get_clean_env():
     return {
         'HOME': os.environ['HOME'],
         'PATH': os.environ['PATH'],
+        'LANG': os.environ['LANG'],
     }
