@@ -23,6 +23,7 @@ from weblate.trans.vcs import GitRepository
 
 import tempfile
 import shutil
+import os.path
 
 
 class VCSGitTest(RepoTestCase):
@@ -31,51 +32,44 @@ class VCSGitTest(RepoTestCase):
     def setUp(self):
         super(VCSGitTest, self).setUp()
         self._tempdir = tempfile.mkdtemp()
+        self.repo = GitRepository.clone(self.repo_path, self._tempdir)
 
     def tearDown(self):
         if self._tempdir is not None:
             shutil.rmtree(self._tempdir)
 
     def test_clone(self):
-        GitRepository.clone(self.repo_path, self._tempdir)
+        self.assertTrue(os.path.exists(os.path.join(self._tempdir, '.git')))
 
     def test_revision(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
         self.assertEquals(
-            repo.last_revision,
-            repo.last_remote_revision
+            self.repo.last_revision,
+            self.repo.last_remote_revision
         )
 
     def test_update_remote(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        repo.update_remote()
+        self.repo.update_remote()
 
     def test_push(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        repo.push('master')
+        self.repo.push('master')
 
     def test_reset(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        repo.reset('master')
+        self.repo.reset('master')
 
     def test_merge(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        repo.merge('master')
+        self.repo.merge('master')
 
     def test_rebase(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        repo.rebase('master')
+        self.repo.rebase('master')
 
     def test_status(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        status = repo.status()
+        status = self.repo.status()
         self.assertTrue(
             "Your branch is up-to-date with 'origin/master'." in status
         )
 
     def test_needs_commit(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        self.assertFalse(repo.needs_commit())
+        self.assertFalse(self.repo.needs_commit())
 
     def check_valid_info(self, info):
         self.assertTrue('summary' in info)
@@ -85,14 +79,12 @@ class VCSGitTest(RepoTestCase):
         self.assertTrue('commitdate' in info)
 
     def test_revision_info(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-
         # Latest commit
-        info = repo.get_revision_info(repo.last_revision)
+        info = self.repo.get_revision_info(self.repo.last_revision)
         self.check_valid_info(info)
 
         # GPG signed commit
-        info = repo.get_revision_info(
+        info = self.repo.get_revision_info(
             'd6179e46c8255f1d5029f06c49468caf57b13b61'
         )
         self.check_valid_info(info)
@@ -102,15 +94,14 @@ class VCSGitTest(RepoTestCase):
         )
 
         # Normal commit
-        info = repo.get_revision_info(
+        info = self.repo.get_revision_info(
             '2ae1998450a693f0a7962d69a1eec4cb2213d595'
         )
         self.check_valid_info(info)
 
     def test_needs_merge(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        self.assertFalse(repo.needs_merge('master'))
-        self.assertFalse(repo.needs_push('master'))
+        self.assertFalse(self.repo.needs_merge('master'))
+        self.assertFalse(self.repo.needs_push('master'))
 
     def test_get_version(self):
         self.assertTrue(GitRepository.get_version() != '')
