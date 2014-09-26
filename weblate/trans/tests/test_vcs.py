@@ -139,3 +139,16 @@ class VCSGitTest(RepoTestCase):
             info['author'],
             'Foo Bar <foo@bar.com>',
         )
+
+        # Check file hash
+        self.assertEquals(
+            self.repo.get_object_hash('testfile'),
+            'fafd745150eb1f20fc3719778942a96e2106d25b'
+        )
+
+    def test_object_hash(self):
+        obj_hash = self.repo.get_object_hash('README.md')
+        self.assertEquals(
+            len(obj_hash),
+            40
+        )

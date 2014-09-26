@@ -39,7 +39,6 @@ class Repository(object):
 
     - repository configuration (SubProject.configure_repo)
     - branch configuration (SubProject.configure_branch)
-    - get object hash (Translation.get_git_blob_hash)
     """
     _last_revision = None
     _last_remote_revision = None
@@ -179,6 +178,12 @@ class Repository(object):
     def commit(self, message, author, timestamp, files):
         """
         Creates new revision.
+        """
+        raise NotImplementedError()
+
+    def get_object_hash(self, path):
+        """
+        Returns hash of object in the VCS.
         """
         raise NotImplementedError()
 
@@ -324,3 +329,9 @@ class GitRepository(Repository):
         self._execute(cmd)
         # Clean cache
         self._last_revision = None
+
+    def get_object_hash(self, path):
+        """
+        Returns hash of object in the VCS.
+        """
+        return self._execute(['ls-tree', 'HEAD', path]).split()[2]
