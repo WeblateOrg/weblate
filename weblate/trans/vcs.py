@@ -34,10 +34,6 @@ class RepositoryException(Exception):
 class Repository(object):
     """
     Basic repository object.
-
-    Currently missing methods:
-
-    - branch configuration (SubProject.configure_branch)
     """
     _last_revision = None
     _last_remote_revision = None
@@ -189,6 +185,12 @@ class Repository(object):
     def configure_remote(self, pull_url, push_url, branch):
         """
         Configure remote repository.
+        """
+        raise NotImplementedError()
+
+    def configure_branch(self, branch):
+        """
+        Configure repository branch.
         """
         raise NotImplementedError()
 
@@ -376,3 +378,20 @@ class GitRepository(Repository):
             self._execute(
                 ['remote', 'set-branches', '--add', 'origin', branch]
             )
+
+    def configure_branch(self, branch):
+        """
+        Configure repository branch.
+        """
+        # List of branches (we get additional * there, but we don't care)
+        branches = self._execute(['branch']).split()
+        if branch in branches:
+            return
+
+        # Add branch
+        self._execute(
+            ['branch', '--track', branch, 'origin/{0}'.format(branch)]
+        )
+
+        # Checkout
+        self._execute(['checkout', branch])

@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.vcs import GitRepository
+from weblate.trans.vcs import GitRepository, RepositoryException
 
 import tempfile
 import shutil
@@ -169,4 +169,14 @@ class VCSGitTest(RepoTestCase):
         self.assertEquals(
             self.repo.get_config('remote.origin.fetch'),
             '+refs/heads/branch:refs/remotes/origin/branch',
+        )
+
+    def test_configure_branch(self):
+        # Existing branch
+        self.repo.configure_branch('master')
+
+        self.assertRaises(
+            RepositoryException,
+            self.repo.configure_branch,
+            ('branch')
         )
