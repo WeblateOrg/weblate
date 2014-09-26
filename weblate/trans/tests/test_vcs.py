@@ -111,3 +111,6 @@ class VCSGitTest(RepoTestCase):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         self.assertFalse(repo.needs_merge('master'))
         self.assertFalse(repo.needs_push('master'))
+
+    def test_get_version(self):
+        self.assertTrue(GitRepository.get_version() != '')

@@ -164,6 +164,13 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    @classmethod
+    def get_version(cls):
+        """
+        Returns VCS program version.
+        """
+        return cls._popen(['--version'])
+
 
 class GitRepository(Repository):
     """
@@ -258,3 +265,10 @@ class GitRepository(Repository):
         (has additional revisions).
         """
         return self._log_revisions('origin/{0}..'.format(branch)) != ''
+
+    @classmethod
+    def get_version(cls):
+        """
+        Returns VCS program version.
+        """
+        return cls._popen(['--version']).split()[-1]
