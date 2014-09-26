@@ -1047,7 +1047,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         if self.is_repo_link:
             return self.linked_subproject.git_needs_merge()
-        return self.repository.needs_merge()
+        return self.repository.needs_merge(self.branch)
 
     def git_needs_push(self):
         '''
@@ -1055,7 +1055,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         if self.is_repo_link:
             return self.linked_subproject.git_needs_push()
-        return self.repository.needs_push()
+        return self.repository.needs_push(self.branch)
 
     @property
     def file_format_cls(self):
