@@ -28,13 +28,10 @@ from django.utils import timezone
 from glob import glob
 import os
 import weblate
-import git
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
-from weblate.trans.util import is_repo_link
-from weblate.trans.util import get_site_url
-from weblate.trans.util import sleep_while_git_locked
+from weblate.trans.util import is_repo_link, get_site_url
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -953,7 +950,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Validate git repo
         try:
             self.sync_git_repo(True)
-        except git.GitCommandError as exc:
+        except RepositoryException as exc:
             raise ValidationError(_('Failed to update git: %s') % exc.status)
 
         # Push repo is not used with link

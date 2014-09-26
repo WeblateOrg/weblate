@@ -29,9 +29,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
 import subprocess
-import git
 import traceback
-import ConfigParser
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -45,6 +43,7 @@ from weblate.trans.models.unitdata import Check, Suggestion, Comment
 from weblate.trans.util import (
     get_site_url, sleep_while_git_locked, translation_percent, split_plural,
 )
+from weblate.trans.vcs import RepositoryException
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin
 from weblate.trans.boolean_sum import BooleanSum
@@ -870,7 +869,7 @@ class Translation(models.Model, URLMixin, PercentMixin):
         with self.subproject.git_lock:
             try:
                 self.__git_commit(author, timestamp, sync)
-            except git.GitCommandError:
+            except RepositoryException:
                 # There might be another attempt on commit in same time
                 # so we will sleep a bit an retry
                 sleep_while_git_locked()
