@@ -107,6 +107,7 @@ class Repository(object):
         Updates remote repository.
         """
         self._execute(self._cmd_update_remote)
+        self._last_remote_revision = None
 
     def status(self):
         """
