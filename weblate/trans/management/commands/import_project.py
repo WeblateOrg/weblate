@@ -24,10 +24,10 @@ from django.utils.text import slugify
 from weblate.trans.models import SubProject, Project
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.util import is_repo_link
+from weblate.trans.vcs import GitRepository
 from glob import glob
 from optparse import make_option
 import tempfile
-import git
 import os
 import re
 import shutil
@@ -109,16 +109,10 @@ class Command(BaseCommand):
         os.chmod(workdir, 0755)
 
         # Initialize git repository
-        self.logger.info('Initializing git repository...')
-        gitrepo = git.Repo.init(workdir)
-        gitrepo.git.remote('add', 'origin', repo)
-
-        self.logger.info('Fetching remote git repository...')
-        gitrepo.git.remote('update', 'origin')
-        gitrepo.git.branch('--track', branch, 'origin/%s' % branch)
-
+        self.logger.info('Cloning git repository...')
+        gitrepo = GitRepository.clone(repo, workdir)
         self.logger.info('Updating working copy in git repository...')
-        gitrepo.git.checkout(branch)
+        gitrepo.configure_branch(branch)
 
         return workdir
 
