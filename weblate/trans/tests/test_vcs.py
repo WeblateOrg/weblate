@@ -170,7 +170,7 @@ class VCSGitTest(RepoTestCase):
             'pushurl',
         )
         # Test that we handle not set fetching
-        self.repo._execute(['config', '--unset', 'remote.origin.fetch'])
+        self.repo.execute(['config', '--unset', 'remote.origin.fetch'])
         self.repo.configure_remote('pullurl', 'pushurl', 'branch')
         self.assertEquals(
             self.repo.get_config('remote.origin.fetch'),

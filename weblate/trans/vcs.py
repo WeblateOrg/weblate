@@ -66,13 +66,13 @@ class Repository(object):
             raise RepositoryException(output_err)
         return output
 
-    def _execute(self, args):
+    def execute(self, args):
         return self._popen(args, self.path)
 
     @property
     def last_revision(self):
         if self._last_revision is None:
-            self._last_revision = self._execute(
+            self._last_revision = self.execute(
                 self._cmd_last_revision
             )
         return self._last_revision
@@ -80,7 +80,7 @@ class Repository(object):
     @property
     def last_remote_revision(self):
         if self._last_remote_revision is None:
-            self._last_remote_revision = self._execute(
+            self._last_remote_revision = self.execute(
                 self._cmd_last_remote_revision
             )
         return self._last_remote_revision
@@ -98,20 +98,20 @@ class Repository(object):
         """
         Updates remote repository.
         """
-        self._execute(self._cmd_update_remote)
+        self.execute(self._cmd_update_remote)
         self._last_remote_revision = None
 
     def status(self):
         """
         Returns status of the repository.
         """
-        return self._execute(self._cmd_status)
+        return self.execute(self._cmd_status)
 
     def push(self, branch):
         """
         Pushes given branch to remote repository.
         """
-        self._execute(self._cmd_push + [branch])
+        self.execute(self._cmd_push + [branch])
 
     def reset(self, branch):
         """
@@ -213,13 +213,13 @@ class GitRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self._execute(['config', path]).strip()
+        return self.execute(['config', path]).strip()
 
     def set_config(self, path, value):
         """
         Set entry in local configuration.
         """
-        self._execute(['config', path, value])
+        self.execute(['config', path, value])
 
     def set_committer(self, name, email):
         """
@@ -232,35 +232,35 @@ class GitRepository(Repository):
         """
         Resets working copy to match remote branch.
         """
-        self._execute(['reset', '--hard', 'origin/{0}'.format(branch)])
+        self.execute(['reset', '--hard', 'origin/{0}'.format(branch)])
 
     def rebase(self, branch):
         """
         Rebases working copy on top of remote branch.
         """
-        self._execute(['rebase', 'origin/{0}'.format(branch)])
+        self.execute(['rebase', 'origin/{0}'.format(branch)])
 
     def merge(self, branch):
         """
         Resets working copy to match remote branch.
         """
-        self._execute(['merge', 'origin/{0}'.format(branch)])
+        self.execute(['merge', 'origin/{0}'.format(branch)])
 
     def needs_commit(self, filename=None):
         """
         Checks whether repository needs commit.
         """
         if filename is None:
-            status = self._execute(['status', '--porcelain'])
+            status = self.execute(['status', '--porcelain'])
         else:
-            status = self._execute(['status', '--porcelain', '--', filename])
+            status = self.execute(['status', '--porcelain', '--', filename])
         return status != ''
 
     def get_revision_info(self, revision):
         """
         Returns dictionary with detailed revision information.
         """
-        text = self._execute(
+        text = self.execute(
             ['show', '--format=fuller', '--date=rfc', '--no-patch', revision]
         )
         result = {}
@@ -294,7 +294,7 @@ class GitRepository(Repository):
         """
         Returns revisin log for given refspec.
         """
-        return self._execute(
+        return self.execute(
             ['log', '--oneline', refspec, '--']
         )
 
@@ -325,7 +325,7 @@ class GitRepository(Repository):
         """
         # Add files
         if files is not None:
-            self._execute(['add', '--'] + files)
+            self.execute(['add', '--'] + files)
 
         # Build the commit command
         cmd = [
@@ -337,7 +337,7 @@ class GitRepository(Repository):
         if timestamp is not None:
             cmd.extend(['--date', timestamp.isoformat()])
         # Execute it
-        self._execute(cmd)
+        self.execute(cmd)
         # Clean cache
         self._last_revision = None
 
@@ -345,7 +345,7 @@ class GitRepository(Repository):
         """
         Returns hash of object in the VCS.
         """
-        return self._execute(['ls-tree', 'HEAD', path]).split()[2]
+        return self.execute(['ls-tree', 'HEAD', path]).split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
         """
@@ -354,7 +354,7 @@ class GitRepository(Repository):
         old_pull = None
         old_push = None
         # Parse existing remotes
-        for remote in self._execute(['remote', '-v']).splitlines():
+        for remote in self.execute(['remote', '-v']).splitlines():
             name, url, kind = remote.split()
             if name != 'origin':
                 continue
@@ -365,21 +365,21 @@ class GitRepository(Repository):
 
         if old_pull is None:
             # No origin existing
-            self._execute(['remote', 'add', 'origin', pull_url])
+            self.execute(['remote', 'add', 'origin', pull_url])
         elif old_pull != pull_url:
             # URL changed?
-            self._execute(['remote', 'set-url', 'origin', pull_url])
+            self.execute(['remote', 'set-url', 'origin', pull_url])
 
         if old_push != push_url:
-            self._execute(['remote', 'set-url', 'origin', '--push', push_url])
+            self.execute(['remote', 'set-url', 'origin', '--push', push_url])
 
         # Set branch to track
         try:
-            self._execute(
+            self.execute(
                 ['remote', 'set-branches', 'origin', branch]
             )
         except RepositoryException:
-            self._execute(
+            self.execute(
                 ['remote', 'set-branches', '--add', 'origin', branch]
             )
 
@@ -388,14 +388,14 @@ class GitRepository(Repository):
         Configure repository branch.
         """
         # List of branches (we get additional * there, but we don't care)
-        branches = self._execute(['branch']).split()
+        branches = self.execute(['branch']).split()
         if branch in branches:
             return
 
         # Add branch
-        self._execute(
+        self.execute(
             ['branch', '--track', branch, 'origin/{0}'.format(branch)]
         )
 
         # Checkout
-        self._execute(['checkout', branch])
+        self.execute(['checkout', branch])
