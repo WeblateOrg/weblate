@@ -282,17 +282,6 @@ def show_checks(checks, user):
     }
 
 
-@register.filter
-def gitdate(value):
-    '''
-    Formats timestamp as returned byt GitPython.
-    '''
-    return date_format(
-        datetime.fromtimestamp(value),
-        'DATETIME_FORMAT'
-    )
-
-
 def naturaltime_past(value, now):
     """
     Handling of past dates for naturaltime.
