@@ -41,7 +41,6 @@ class Repository(object):
     - branch configuration (SubProject.configure_branch)
     - get object hash (Translation.get_git_blob_hash)
     - commit (Translation.__git_commit)
-    - configuration (Translation.__configure_committer)
     """
     _last_revision = None
     _last_remote_revision = None
@@ -172,6 +171,12 @@ class Repository(object):
         """
         return cls._popen(['--version'])
 
+    def set_committer(self, name, email):
+        """
+        Configures commiter name.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -186,6 +191,25 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['remote', 'update', 'origin']
     _cmd_push = ['push', 'origin']
+
+    def get_config(self, path):
+        """
+        Reads entry from configuration.
+        """
+        return self._execute(['config', path]).strip()
+
+    def set_config(self, path, value):
+        """
+        Set entry in local configuration.
+        """
+        self._execute(['config', path, value])
+
+    def set_committer(self, name, email):
+        """
+        Configures commiter name.
+        """
+        self.set_config('user.name', name)
+        self.set_config('user.email', email)
 
     def reset(self, branch):
         """

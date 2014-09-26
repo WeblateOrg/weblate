@@ -105,3 +105,12 @@ class VCSGitTest(RepoTestCase):
 
     def test_get_version(self):
         self.assertTrue(GitRepository.get_version() != '')
+
+    def test_set_committer(self):
+        self.repo.set_committer('Foo Bar', 'foo@example.net')
+        self.assertEquals(
+            self.repo.get_config('user.name'), 'Foo Bar'
+        )
+        self.assertEquals(
+            self.repo.get_config('user.email'), 'foo@example.net'
+        )
