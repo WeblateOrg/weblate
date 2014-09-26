@@ -21,6 +21,7 @@
 Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
+import os.path
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -46,6 +47,14 @@ class Repository(object):
 
     def __init__(self, path):
         self.path = path
+        if not self.is_valid():
+            self.init()
+
+    def is_valid(self):
+        raise NotImplementedError()
+
+    def init(self):
+        raise NotImplementedError()
 
     @classmethod
     def _popen(cls, args, cwd=None):
@@ -206,6 +215,12 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['remote', 'update', 'origin']
     _cmd_push = ['push', 'origin']
+
+    def is_valid(self):
+        return os.path.exists(os.path.join(self.path, '.git'))
+
+    def init(self):
+        self._popen(['init', self.path])
 
     @classmethod
     def clone(cls, source, target, bare=False):
