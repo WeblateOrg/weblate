@@ -22,6 +22,7 @@ Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
 from dateutil import parser
+from weblate.trans.util import get_clean_env
 
 
 class RepositoryException(Exception):
@@ -63,6 +64,7 @@ class Repository(object):
         process = subprocess.Popen(
             args,
             cwd=cwd,
+            env=get_clean_env(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
