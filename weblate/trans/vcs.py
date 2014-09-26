@@ -201,6 +201,12 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    def describe(self):
+        """
+        Verbosely describes current revision.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -437,3 +443,9 @@ class GitRepository(Repository):
 
         # Checkout
         self.execute(['checkout', branch])
+
+    def describe(self):
+        """
+        Verbosely describes current revision.
+        """
+        return self.execute(['describe', '--always']).strip()
