@@ -40,7 +40,6 @@ class Repository(object):
     - repository configuration (SubProject.configure_repo)
     - branch configuration (SubProject.configure_branch)
     - get object hash (Translation.get_git_blob_hash)
-    - commit (Translation.__git_commit)
     """
     _last_revision = None
     _last_remote_revision = None
@@ -177,6 +176,12 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    def commit(self, message, author, timestamp, files):
+        """
+        Creates new revision.
+        """
+        raise NotImplementedError()
+
 
 class GitRepository(Repository):
     """
@@ -297,3 +302,25 @@ class GitRepository(Repository):
         Returns VCS program version.
         """
         return cls._popen(['--version']).split()[-1]
+
+    def commit(self, message, author=None, timestamp=None, files=None):
+        """
+        Creates new revision.
+        """
+        # Add files
+        if files is not None:
+            self._execute(['add', '--'] + files)
+
+        # Build the commit command
+        cmd = [
+            'commit',
+            '--message', message.encode('utf-8'),
+        ]
+        if author is not None:
+            cmd.extend(['--author', author.encode('utf-8')])
+        if timestamp is not None:
+            cmd.extend(['--date', timestamp.isoformat()])
+        # Execute it
+        self._execute(cmd)
+        # Clean cache
+        self._last_revision = None

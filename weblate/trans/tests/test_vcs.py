@@ -24,6 +24,7 @@ from weblate.trans.vcs import GitRepository
 import tempfile
 import shutil
 import os.path
+import datetime
 
 
 class VCSGitTest(RepoTestCase):
@@ -113,4 +114,28 @@ class VCSGitTest(RepoTestCase):
         )
         self.assertEquals(
             self.repo.get_config('user.email'), 'foo@example.net'
+        )
+
+    def test_commit(self):
+        # Create test file
+        with open(os.path.join(self._tempdir, 'testfile'), 'w') as handle:
+            handle.write('TEST FILE\n')
+
+        oldrev = self.repo.last_revision
+        # Commit it
+        self.repo.commit(
+            'Test commit',
+            'Foo Bar <foo@bar.com>',
+            datetime.datetime.now(),
+            ['testfile']
+        )
+        # Check we have new revision
+        self.assertNotEquals(
+            oldrev,
+            self.repo.last_revision
+        )
+        info = self.repo.get_revision_info(self.repo.last_revision)
+        self.assertEquals(
+            info['author'],
+            'Foo Bar <foo@bar.com>',
         )
