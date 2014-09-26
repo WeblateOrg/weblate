@@ -117,6 +117,7 @@ class VCSGitTest(RepoTestCase):
         )
 
     def test_commit(self):
+        self.repo.set_committer('Foo Bar', 'foo@example.net')
         # Create test file
         with open(os.path.join(self._tempdir, 'testfile'), 'w') as handle:
             handle.write('TEST FILE\n')
