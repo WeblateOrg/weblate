@@ -37,23 +37,7 @@ def get_version_module(module, name, url, optional=False):
             return None
         raise Exception(
             'Failed to import %s, please install %s from %s' % (
-                module,
-                name,
-                url,
-            )
-        )
-    return mod
-
-
-def get_translate_module(name, url):
-    '''
-    Returns module object for translate toolkit.
-    '''
-    try:
-        mod = importlib.import_module('translate.__version__')
-    except ImportError:
-        raise Exception(
-            'Failed to import translate-toolkit, please install %s from %s' % (
+                module.replace('.__version__', ''),
                 name,
                 url,
             )
@@ -127,7 +111,7 @@ def get_versions():
 
     name = 'Translate Toolkit'
     url = 'http://toolkit.translatehouse.org/'
-    mod = get_translate_module(name, url)
+    mod = get_version_module('translate.__version__', name, url)
     result.append((
         name,
         url,
