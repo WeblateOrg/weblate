@@ -32,6 +32,7 @@ from translate.storage import mo
 from translate.storage import factory
 from weblate.trans.util import get_string, join_plural, add_configuration_error
 from translate.misc import quote
+from weblate.trans.util import get_clean_env
 import weblate
 import subprocess
 import os.path
@@ -695,6 +696,7 @@ class PoFormat(FileFormat):
                     ['msginit', '--help'],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
+                    env=get_clean_env(),
                 )
                 cls.msginit_found = (ret == 0)
             except subprocess.CalledProcessError:
@@ -727,6 +729,7 @@ class PoFormat(FileFormat):
             ],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
+            env=get_clean_env(),
         )
 
 

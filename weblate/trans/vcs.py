@@ -22,6 +22,7 @@ Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
 from dateutil import parser
+from weblate.trans.util import get_clean_env
 
 
 class RepositoryException(Exception):
@@ -38,7 +39,6 @@ class Repository(object):
 
     - repository configuration (SubProject.configure_repo)
     - branch configuration (SubProject.configure_branch)
-    - needs merge/push (SubProject.git_needs_merge/push)
     - get object hash (Translation.get_git_blob_hash)
     - commit (Translation.__git_commit)
     - configuration (Translation.__configure_committer)
@@ -64,6 +64,7 @@ class Repository(object):
         process = subprocess.Popen(
             args,
             cwd=cwd,
+            env=get_clean_env(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
@@ -140,6 +141,20 @@ class Repository(object):
     def needs_commit(self):
         """
         Checks whether repository needs commit.
+        """
+        raise NotImplementedError()
+
+    def needs_merge(self, branch):
+        """
+        Checks whether repository needs merge with upstream
+        (is missing some revisions).
+        """
+        raise NotImplementedError()
+
+    def needs_push(self, branch):
+        """
+        Checks whether repository needs push to upstream
+        (has additional revisions).
         """
         raise NotImplementedError()
 
@@ -221,3 +236,25 @@ class GitRepository(Repository):
         result['summary'] = message[0]
 
         return result
+
+    def _log_revisions(self, refspec):
+        """
+        Returns revisin log for given refspec.
+        """
+        return self._execute(
+            ['log', '--oneline', refspec, '--']
+        )
+
+    def needs_merge(self, branch):
+        """
+        Checks whether repository needs merge with upstream
+        (is missing some revisions).
+        """
+        return self._log_revisions('..origin/{0}'.format(branch)) != ''
+
+    def needs_push(self, branch):
+        """
+        Checks whether repository needs push to upstream
+        (has additional revisions).
+        """
+        return self._log_revisions('origin/{0}..'.format(branch)) != ''

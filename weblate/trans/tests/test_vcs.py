@@ -77,11 +77,37 @@ class VCSGitTest(RepoTestCase):
         repo = GitRepository.clone(self.repo_path, self._tempdir)
         self.assertFalse(repo.needs_commit())
 
-    def test_revision_info(self):
-        repo = GitRepository.clone(self.repo_path, self._tempdir)
-        info = repo.get_revision_info(repo.last_revision)
+    def check_valid_info(self, info):
         self.assertTrue('summary' in info)
         self.assertTrue('author' in info)
         self.assertTrue('authordate' in info)
         self.assertTrue('commit' in info)
         self.assertTrue('commitdate' in info)
+
+    def test_revision_info(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+
+        # Latest commit
+        info = repo.get_revision_info(repo.last_revision)
+        self.check_valid_info(info)
+
+        # GPG signed commit
+        info = repo.get_revision_info(
+            'd6179e46c8255f1d5029f06c49468caf57b13b61'
+        )
+        self.check_valid_info(info)
+        self.assertEquals(
+            info['author'],
+            'Michal Čihař <michal@cihar.com>'
+        )
+
+        # Normal commit
+        info = repo.get_revision_info(
+            '2ae1998450a693f0a7962d69a1eec4cb2213d595'
+        )
+        self.check_valid_info(info)
+
+    def test_needs_merge(self):
+        repo = GitRepository.clone(self.repo_path, self._tempdir)
+        self.assertFalse(repo.needs_merge('master'))
+        self.assertFalse(repo.needs_push('master'))

@@ -28,6 +28,7 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
+import subprocess
 import git
 import traceback
 import ConfigParser
@@ -49,6 +50,7 @@ from weblate.trans.mixins import URLMixin, PercentMixin
 from weblate.trans.boolean_sum import BooleanSum
 from weblate.accounts.models import notify_new_string
 from weblate.trans.models.changes import Change
+from weblate.trans.util import get_clean_env
 
 
 class TranslationManager(models.Manager):
@@ -849,15 +851,19 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Pre commit hook
         if self.subproject.pre_commit_script != '':
-            ret = os.system('%s "%s"' % (
-                self.subproject.pre_commit_script,
-                self.get_filename()
-            ))
-            if ret != 0:
+            try:
+                subprocess.check_call(
+                    [
+                        self.subproject.pre_commit_script,
+                        self.get_filename()
+                    ],
+                    env=get_clean_env(),
+                )
+            except (OSError, subprocess.CalledProcessError) as err:
                 weblate.logger.error(
-                    'Failed to run pre commit script (%d): %s',
-                    ret,
-                    self.subproject.pre_commit_script
+                    'Failed to run pre commit script %s: %s',
+                    self.subproject.pre_commit_script,
+                    err
                 )
 
         # Create list of files to commit

@@ -29,7 +29,7 @@ from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.accounts.forms import HAS_ICU
-from weblate.trans.util import get_configuration_errors
+from weblate.trans.util import get_configuration_errors, get_clean_env
 import weblate
 import django
 
@@ -261,6 +261,7 @@ def generate_ssh_key(request):
                 '-f', RSA_KEY_FILE[:-4]
             ],
             stderr=subprocess.STDOUT,
+            env=get_clean_env(),
         )
         messages.success(request, _('Created new SSH key.'))
     except (subprocess.CalledProcessError, OSError) as exc:
@@ -288,6 +289,7 @@ def add_host_key(request):
             output = subprocess.check_output(
                 cmdline,
                 stderr=subprocess.STDOUT,
+                env=get_clean_env(),
             )
             keys = [
                 line
@@ -329,6 +331,7 @@ def ssh(request):
             ['which', 'ssh-keygen'],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
+            env=get_clean_env(),
         )
         can_generate = (ret == 0 and not os.path.exists(RSA_KEY_FILE))
     except subprocess.CalledProcessError:
