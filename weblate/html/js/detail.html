@@ -32,8 +32,14 @@
 {% include "unit-details.html" %}
 {% with unit.get_source_comments as comments %}
 {% if comments %}
-<tr><th colspan="2">{% trans "User comments" %}</th></tr>
+<tr>
+<th>{% trans "User comments" %}</th>
+</tr>
+<tr>
+<td>
 {% include "list-comments.html" %}
+</td>
+</tr>
 {% endif %}
 {% endwith %}
 {% endwith %}
