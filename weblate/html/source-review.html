@@ -45,7 +45,7 @@
 <td>
 </td>
 <td colspan="3" class="details-content">
-<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}" class="load-details"></a>
+<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}?next={{ request.get_full_path }}" class="load-details"></a>
 <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
 </td>
 </tr>
@@ -53,14 +53,6 @@
 {% endfor %}
 </tbody>
 </table>
-
-<div class="hidden" id="priority_form" title="{% trans "Change string priority" %}">
-<form method="POST" action="">
-{% csrf_token %}
-{{ priority_form }}
-<input type="hidden" name="next" value="{{ request.get_full_path }}" />
-</form>
-</div>
 {% else %}
 <p>{% trans "No matching source strings found!" %}</p>
 {% endif %}

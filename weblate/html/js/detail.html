@@ -1,6 +1,7 @@
 {% load url from future %}
 {% load translations %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 <div class="row">
 <div class="col-md-6">
@@ -28,6 +29,18 @@
 
 <div class="col-md-6">
 <table class="table table-condensed">
+{% if perms.edit_priority %}
+<tr>
+<td>
+<form method="POST" action="{% url 'edit_priority' pk=source.pk %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}" />
+{{ priority_form|crispy }}
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</form>
+</td>
+</tr>
+{% endif %}
 {% with units.0 as unit %}
 {% include "unit-details.html" %}
 {% with unit.get_source_comments as comments %}

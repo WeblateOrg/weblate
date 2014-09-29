@@ -29,6 +29,7 @@ from weblate.trans.decorators import any_permission_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
+from weblate.trans.forms import PriorityForm
 
 from urllib import urlencode
 import json
@@ -197,11 +198,16 @@ def get_detail(request, project, subproject, checksum):
         checksum=checksum,
         translation__subproject=subproject
     )
+    source = units[0].source_info
 
     return render(
         request,
         'js/detail.html',
         {
             'units': units,
+            'source': source,
+            'next': request.GET.get('next', ''),
+            'priority_form': PriorityForm(initial={'priority': source.priority}),
+
         }
     )

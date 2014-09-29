@@ -72,7 +72,6 @@ def review_source(request, project, subproject):
             'source': source,
             'page_obj': sources,
             'rqtype': rqtype,
-            'priority_form': PriorityForm(),
             'title': _('Review source strings in %s') % obj.__unicode__(),
         }
     )

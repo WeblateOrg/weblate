@@ -239,10 +239,11 @@ $(function () {
     /* Row expander */
     $('.expander').click(function () {
         var $this = $(this);
-        var $table_row = $this.parent();
+        console.log($this);
+        var $table_row = $this.closest('tr');
         var $next_row = $table_row.next();
         $next_row.toggle();
-        $this.find('.expand-icon').toggleClass('glyphicon-chevron-right').toggleClass('glyphicon-chevron-down');
+        $table_row.find('.expand-icon').toggleClass('glyphicon-chevron-right').toggleClass('glyphicon-chevron-down');
         var $loader = $next_row.find('.load-details');
         if ($loader.length > 0) {
             var url = $loader.attr('href');
@@ -262,6 +263,7 @@ $(function () {
     /* Priority editor */
     $('.edit-priority').click(function (e) {
         e.preventDefault();
+        $(this).closest('tr').find('.expander').first().click();
     });
 
     /* Load correct tab */
