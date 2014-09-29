@@ -207,7 +207,9 @@ def get_detail(request, project, subproject, checksum):
             'units': units,
             'source': source,
             'next': request.GET.get('next', ''),
-            'priority_form': PriorityForm(initial={'priority': source.priority}),
+            'priority_form': PriorityForm(
+                initial={'priority': source.priority}
+            ),
 
         }
     )
