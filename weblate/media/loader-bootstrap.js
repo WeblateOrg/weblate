@@ -238,9 +238,11 @@ $(function () {
 
     /* Row expander */
     $('.expander').click(function () {
-        var $table_row = $(this).parent();
+        var $this = $(this);
+        var $table_row = $this.parent();
         var $next_row = $table_row.next();
         $next_row.toggle();
+        $this.find('.expand-icon').toggleClass('glyphicon-chevron-right').toggleClass('glyphicon-chevron-down');
         var $loader = $next_row.find('.load-details');
         if ($loader.length > 0) {
             var url = $loader.attr('href');
