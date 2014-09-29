@@ -408,7 +408,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns latest remote commit we know.
         '''
-        return self.repository.last_remote_revision
+        return self.repository.get_revision_info(
+            self.repository.last_remote_revision
+        )
 
     def get_repo_url(self):
         '''

@@ -22,6 +22,7 @@ Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
 import os.path
+import email.utils
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -300,10 +301,18 @@ class GitRepository(Repository):
         """
         Returns dictionary with detailed revision information.
         """
-        text = self.execute(
-            ['show', '--format=fuller', '--date=rfc', '--no-patch', revision]
-        )
-        result = {}
+        text = self.execute([
+            'show',
+            '--format=fuller',
+            '--date=rfc',
+            '--no-patch',
+            '--abbrev-commit',
+            revision
+        ])
+
+        result = {
+            'revision': revision,
+        }
 
         message = []
 
@@ -314,14 +323,19 @@ class GitRepository(Repository):
                 if not line:
                     header = False
                 elif line.startswith('commit'):
-                    continue
+                    result['shortrevision'] = line.split()[1]
                 else:
                     name, value = line.strip().split(':', 1)
-                    if 'Date' in name:
-                        result[name.lower()] = parser.parse(value.strip())
+                    value = value.strip()
+                    name = name.lower()
+                    if 'date' in name:
+                        result[name] = parser.parse(value)
                     else:
-                        result[name.lower()] = value.strip()
-
+                        result[name] = value
+                        if '@' in value:
+                            parsed = email.utils.parseaddr(value)
+                            result['{0}_name'.format(name)] = parsed[0]
+                            result['{0}_email'.format(name)] = parsed[1]
             else:
                 message.append(line.strip())
 

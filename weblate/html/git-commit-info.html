@@ -1,5 +1,6 @@
 {% load i18n %}
 <code class="git-commit" data-toggle="tooltip" data-placement="bottom" data-title="
-{% blocktrans with commit.hexsha as hash %}Commit {{ hash }}{% endblocktrans %}<br />
-{% blocktrans with commit.author.name as author and commit.authored_date|date:"DATETIME_FORMAT" as date %}Authored by {{ author }} on {{ date }}{% endblocktrans %}
-">{{ commit.hexsha|slice:":8" }}</code>
+{% blocktrans with commit.revision as hash %}Commit {{ hash }}{% endblocktrans %}<br />
+{% blocktrans with commit.author_name as author and commit.authordate|date:"DATETIME_FORMAT" as date %}Authored by {{ author }} on {{ date }}{% endblocktrans %}<br />
+{{ commit.summary }}
+">{{ commit.shortrevision }}</code>
