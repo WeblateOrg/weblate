@@ -172,7 +172,7 @@ class Repository(object):
         """
         return cls._popen(['--version'])
 
-    def set_committer(self, name, email):
+    def set_committer(self, name, mail):
         """
         Configures commiter name.
         """
@@ -256,12 +256,12 @@ class GitRepository(Repository):
         """
         self.execute(['config', path, value])
 
-    def set_committer(self, name, email):
+    def set_committer(self, name, mail):
         """
         Configures commiter name.
         """
         self.set_config('user.name', name)
-        self.set_config('user.email', email)
+        self.set_config('user.email', mail)
 
     def reset(self, branch):
         """
