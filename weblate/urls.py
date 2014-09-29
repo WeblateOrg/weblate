@@ -47,7 +47,7 @@ TRANSLATION = SUBPROJECT + LANGUAGE + '/'
 PROJECT_LANG = PROJECT + LANGUAGE + '/'
 
 # URL regexp used as base for widgets
-WIDGET = r'(?P<project>[^/]+)-(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
+WIDGET = r'(?P<widget>[^/-]+)-(?P<color>[^/-]+)'
 
 # Widget extension match
 EXTENSION = r'(?P<extension>(png|svg))'
@@ -502,17 +502,27 @@ urlpatterns = patterns(
         'weblate.trans.views.widgets.render_widget',
         name='widgets-compat-render',
     ),
+    url(
+        r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-' + LANGUAGE + r'\.' + EXTENSION + r'$',
+        'weblate.trans.views.widgets.render_widget',
+        name='widget-image-lang-dash',
+    ),
+    url(
+        r'^widgets/(?P<project>[^/]+)-' + WIDGET + r'\.' + EXTENSION + r'$',
+        'weblate.trans.views.widgets.render_widget',
+        name='widget-image-dash',
+    ),
 
     # Engagement widgets
     url(
-        r'^widgets/' + WIDGET + '-' + LANGUAGE + r'\.' + EXTENSION + r'$',
-        'weblate.trans.views.widgets.render_widget',
-        name='widget-image-lang',
-    ),
-    url(
-        r'^widgets/' + WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + '-/' + WIDGET + r'\.'  + EXTENSION + r'$',
         'weblate.trans.views.widgets.render_widget',
         name='widget-image',
+    ),
+    url(
+        r'^widgets/' + PROJECT + LANGUAGE + '/' + WIDGET + r'\.'  + EXTENSION + r'$',
+        'weblate.trans.views.widgets.render_widget',
+        name='widget-image-lang',
     ),
     url(
         r'^widgets/' + PROJECT + '$',
