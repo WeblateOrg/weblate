@@ -84,7 +84,7 @@ Requirements on OSX
 +++++++++++++++++++
 
 If your python was not installed using brew, make sure you have this in
-your .bash_profile file or executed somehow:
+your :file:`.bash_profile` file or executed somehow:
 
 .. code-block:: sh
 
