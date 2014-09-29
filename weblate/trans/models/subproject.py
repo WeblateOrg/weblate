@@ -45,23 +45,6 @@ from weblate.accounts.models import notify_merge_failure
 from weblate.trans.models.changes import Change
 
 
-def validate_repo(val):
-    '''
-    Validates Git URL, and special weblate:// links.
-    '''
-    try:
-        repo = SubProject.objects.get_linked(val)
-        if repo is not None and repo.is_repo_link:
-            raise ValidationError(_('Can not link to linked repository!'))
-    except (SubProject.DoesNotExist, ValueError):
-        raise ValidationError(
-            _(
-                'Invalid link to Weblate project, '
-                'use weblate://project/subproject.'
-            )
-        )
-
-
 class SubProjectManager(models.Manager):
     def get_linked(self, val):
         '''
@@ -95,7 +78,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'URL of Git repository, use weblate://project/resource '
             'for sharing with other resource.'
         ),
-        validators=[validate_repo],
     )
     push = models.CharField(
         verbose_name=ugettext_lazy('Git push URL'),
@@ -796,7 +778,29 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Validates repository link.
         '''
-        validate_repo(self.repo)
+        try:
+            repo = SubProject.objects.get_linked(self.repo)
+            if repo is not None and repo.is_repo_link:
+                raise ValidationError(
+                    _(
+                        'Invalid link to a Weblate project, '
+                        'can not link to linked repository!'
+                    )
+                )
+            if repo.pk == self.pk:
+                raise ValidationError(
+                    _(
+                        'Invalid link to a Weblate project, '
+                        'can not link to self!'
+                    )
+                )
+        except (SubProject.DoesNotExist, ValueError):
+            raise ValidationError(
+                _(
+                    'Invalid link to a Weblate project, '
+                    'use weblate://project/subproject.'
+                )
+            )
         if self.push != '':
             raise ValidationError(
                 _('Push URL is not used when repository is linked!')

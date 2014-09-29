@@ -141,7 +141,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(help_text='Name to display', max_length=100, verbose_name='Subproject name')),
                 ('slug', models.SlugField(help_text='Name used in URLs and file names.', verbose_name='URL slug')),
-                ('repo', models.CharField(help_text='URL of Git repository, use weblate://project/subproject for sharing with other subproject.', max_length=200, verbose_name='Git repository', validators=[weblate.trans.models.subproject.validate_repo])),
+                ('repo', models.CharField(help_text='URL of Git repository, use weblate://project/subproject for sharing with other subproject.', max_length=200, verbose_name='Git repository')),
                 ('push', models.CharField(help_text='URL of push Git repository, pushing is disabled if empty.', max_length=200, verbose_name='Git push URL', blank=True)),
                 ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', verbose_name='Repository browser', validators=[weblate.trans.validators.validate_repoweb])),
                 ('git_export', models.CharField(help_text='URL of Git repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported Git URL', blank=True)),

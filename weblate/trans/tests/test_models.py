@@ -525,13 +525,14 @@ class SubProjectTest(RepoTestCase):
             "Bad format string ('foo')",
             project.full_clean
         )
+        project.repoweb = ''
 
         # Bad link
         project.repo = 'weblate://foo'
         project.push = ''
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid link to Weblate project, '
+            'Invalid link to a Weblate project, '
             'use weblate://project/subproject.',
             project.full_clean
         )
@@ -541,8 +542,18 @@ class SubProjectTest(RepoTestCase):
         project.push = ''
         self.assertRaisesMessage(
             ValidationError,
-            'Invalid link to Weblate project, '
+            'Invalid link to a Weblate project, '
             'use weblate://project/subproject.',
+            project.full_clean
+        )
+
+        # Bad link
+        project.repo = 'weblate://test/test'
+        project.push = ''
+        self.assertRaisesMessage(
+            ValidationError,
+            'Invalid link to a Weblate project, '
+            'can not link to self!',
             project.full_clean
         )
 

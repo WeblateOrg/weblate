@@ -177,6 +177,18 @@ class VCSGitTest(RepoTestCase):
             '+refs/heads/branch:refs/remotes/origin/branch',
         )
 
+    def test_configure_remote_no_push(self):
+        self.repo.configure_remote('pullurl', '', 'branch')
+        self.assertEquals(
+            self.repo.get_config('remote.origin.pushURL'),
+            '',
+        )
+        self.repo.configure_remote('pullurl', 'push', 'branch')
+        self.assertEquals(
+            self.repo.get_config('remote.origin.pushURL'),
+            'push',
+        )
+
     def test_configure_branch(self):
         # Existing branch
         self.repo.configure_branch('master')
