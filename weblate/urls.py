@@ -503,7 +503,8 @@ urlpatterns = patterns(
         name='widgets-compat-render',
     ),
     url(
-        r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-' + LANGUAGE + r'\.' + EXTENSION + r'$',
+        r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-' +
+        LANGUAGE + r'\.' + EXTENSION + r'$',
         'weblate.trans.views.widgets.render_widget',
         name='widget-image-lang-dash',
     ),
@@ -515,12 +516,13 @@ urlpatterns = patterns(
 
     # Engagement widgets
     url(
-        r'^widgets/' + PROJECT + '-/' + WIDGET + r'\.'  + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + '-/' + WIDGET + r'\.' + EXTENSION + r'$',
         'weblate.trans.views.widgets.render_widget',
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + LANGUAGE + '/' + WIDGET + r'\.'  + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + LANGUAGE + '/' +
+        WIDGET + r'\.' + EXTENSION + r'$',
         'weblate.trans.views.widgets.render_widget',
         name='widget-image-lang',
     ),
