@@ -151,8 +151,9 @@ def get_clean_env():
     """
     Returns cleaned up environment for subprocess execution.
     """
-    return {
-        'HOME': os.environ['HOME'],
-        'PATH': os.environ['PATH'],
-        'LANG': os.environ['LANG'],
-    }
+    environ = {}
+    variables = ('HOME', 'PATH', 'LANG')
+    for var in variables:
+        if var in os.environ:
+            environ[var] = os.environ[var
+    return environ
