@@ -95,7 +95,7 @@ You can also specify file format to use (see :ref:`formats`) by the
 
 For example:
 
-.. code-block:: bash
+.. code-block:: sh
 
     ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
 
@@ -108,7 +108,7 @@ Imports users from JSON dump of Django auth_users database.
 
 You can dump users from existing Django installation using:
 
-.. code-block:: bash
+.. code-block:: sh
 
     ./manage.py dumpdata auth.User > users.json
 
