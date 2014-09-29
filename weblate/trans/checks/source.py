@@ -74,5 +74,9 @@ class MultipleFailingCheck(SourceCheck):
             project=unit.translation.subproject.project
         ).exclude(
             language__isnull=True
+        ).values(
+            'language'
+        ).annotate(
+            Count('language')
         )
-        return related.count() > 2
+        return len(related) >= 2
