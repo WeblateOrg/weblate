@@ -419,9 +419,10 @@ class GitRepository(Repository):
         old_push = None
         # Parse existing remotes
         for remote in self.execute(['remote', '-v']).splitlines():
-            name, url, kind = remote.split()
+            name, url = remote.split('\t')
             if name != 'origin':
                 continue
+            url, kind = url.rsplit(' ', 1)
             if kind == '(fetch)':
                 old_pull = url
             elif kind == '(push)':
