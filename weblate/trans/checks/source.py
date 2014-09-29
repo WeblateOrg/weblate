@@ -19,6 +19,7 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Count
 from weblate.trans.checks.base import SourceCheck
 import re
 
