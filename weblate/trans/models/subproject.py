@@ -796,6 +796,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Validates repository link.
         '''
+        validate_repo(self.repo)
         if self.push != '':
             raise ValidationError(
                 _('Push URL is not used when repository is linked!')
