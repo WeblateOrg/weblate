@@ -155,5 +155,5 @@ def get_clean_env():
     variables = ('HOME', 'PATH', 'LANG')
     for var in variables:
         if var in os.environ:
-            environ[var] = os.environ[var
+            environ[var] = os.environ[var]
     return environ
