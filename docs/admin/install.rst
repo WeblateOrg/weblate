@@ -498,7 +498,17 @@ Running server
 --------------
 
 Running Weblate is not different from running any other Django based
-application.
+application. Django is usually executed as uwsgi or fcgi (see examples for
+different webservers below).
+
+For testing purposes, you can use Django builtin web server:
+
+.. code-block:: sh
+
+    ./manage.py runserver
+
+Serving static files
+++++++++++++++++++++
 
 It is recommended to serve static files directly by your web server, you should
 use that for following paths:
