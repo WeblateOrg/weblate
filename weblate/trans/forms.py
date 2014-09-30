@@ -209,7 +209,7 @@ class PluralTextarea(forms.Textarea):
                 break
             ret.append(data.get(fieldname, ''))
         ret = [smart_unicode(r.replace('\r', '')) for r in ret]
-        if len(ret) == 0:
+        if len(ret) == 1:
             return ret[0]
         return ret
 
