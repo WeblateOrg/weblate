@@ -199,8 +199,7 @@ class PluralTextarea(forms.Textarea):
 
     def value_from_datadict(self, data, files, name):
         '''
-        Returns processed plurals - either list of plural strings or single
-        string if no plurals are in use.
+        Returns processed plurals as a list.
         '''
         ret = []
         for idx in range(0, 10):
@@ -209,8 +208,6 @@ class PluralTextarea(forms.Textarea):
                 break
             ret.append(data.get(fieldname, ''))
         ret = [smart_unicode(r.replace('\r', '')) for r in ret]
-        if len(ret) == 1:
-            return ret[0]
         return ret
 
 
