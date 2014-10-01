@@ -33,7 +33,6 @@ from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
-from south.signals import post_migrate
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
@@ -706,8 +705,6 @@ def remove_user(user):
     user.social_auth.all().delete()
 
 
-@receiver(post_syncdb)
-@receiver(post_migrate)
 def sync_create_groups(sender, app, **kwargs):
     '''
     Create groups on syncdb.
@@ -715,6 +712,11 @@ def sync_create_groups(sender, app, **kwargs):
     if (app == 'accounts'
             or getattr(app, '__name__', '') == 'weblate.accounts.models'):
         create_groups(False)
+
+post_syncdb.connect(sync_create_groups)
+if 'south' in settings.INSTALLED_APPS:
+    from south.signals import post_migrate
+    post_migrate.connect(sync_create_groups)
 
 
 @receiver(post_save, sender=User)
