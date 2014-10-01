@@ -19,6 +19,6 @@ Travis <https://travis-ci.org/nijel/weblate> and coverage on Coveralls
 Translating
 -----------
 
-Weblate is being translated using Weblate on <https://l10n.cihar.com/>, feel
+Weblate is being translated using Weblate on <https://hosted.weblate.org/>, feel
 free to join us in effort to make Weblate available in as many world languages
 as possible.

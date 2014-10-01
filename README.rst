@@ -5,9 +5,9 @@ Weblate
     :alt: Build status
     :target: https://travis-ci.org/nijel/weblate
 
-.. image:: http://l10n.cihar.com/widgets/weblate-shields-badge.svg
+.. image:: http://hosted.weblate.org/widgets/weblate-shields-badge.svg
     :alt: Translation status
-    :target: https://l10n.cihar.com/engage/weblate/?utm_source=widget
+    :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
 
 .. image:: https://img.shields.io/coveralls/nijel/weblate.svg
     :alt: Coverage Status
