@@ -18,11 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from south.signals import post_migrate
-from django.dispatch import receiver
+from django.conf import settings
 
 
-@receiver(post_migrate)
 def create_permissions_compat(app, **kwargs):
     '''
     Creates permissions like syncdb would if we were not using South
@@ -30,7 +28,6 @@ def create_permissions_compat(app, **kwargs):
     See http://south.aeracode.org/ticket/211
     '''
     from django.db.models import get_app, get_models
-    from django.conf import settings
     from django.contrib.auth.management import create_permissions
     if app in ('trans', 'lang', 'accounts'):
         try:
@@ -40,3 +37,7 @@ def create_permissions_compat(app, **kwargs):
         except AttributeError as error:
             # See https://code.djangoproject.com/ticket/20442
             print 'Failed to create permission objects: {0}'.format(error)
+
+if 'south' in settings.INSTALLED_APPS:
+    from south.signals import post_migrate
+    post_migrate.connect(create_permissions_compat)

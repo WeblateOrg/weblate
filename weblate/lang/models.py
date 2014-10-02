@@ -21,13 +21,14 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
+from django.dispatch import receiver
+from django.conf import settings
+from django.db.models.signals import post_syncdb
+
 from translate.lang.data import languages
+
 from weblate.lang import data
 from weblate.trans.mixins import PercentMixin
-
-from south.signals import post_migrate
-from django.db.models.signals import post_syncdb
-from django.dispatch import receiver
 from weblate.appsettings import SIMPLIFY_LANGUAGES
 import weblate
 
@@ -289,13 +290,16 @@ class LanguageManager(models.Manager):
 
 
 @receiver(post_syncdb)
-@receiver(post_migrate)
 def setup_lang(sender, app, **kwargs):
     '''
     Hook for creating basic set of languages on database migration.
     '''
     if app == 'lang' or getattr(app, '__name__', '') == 'weblate.lang.models':
         Language.objects.setup(False)
+
+if 'south' in settings.INSTALLED_APPS:
+    from south.signals import post_migrate
+    post_migrate.connect(setup_lang)
 
 
 class Language(models.Model, PercentMixin):

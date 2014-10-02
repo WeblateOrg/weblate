@@ -24,6 +24,7 @@ from distutils.version import LooseVersion
 from weblate.trans.vcs import GitRepository
 import importlib
 import sys
+import django
 
 
 def get_version_module(module, name, url, optional=False):
@@ -139,13 +140,14 @@ def get_versions():
 
     name = 'South'
     url = 'http://south.aeracode.org/'
-    mod = get_version_module('south', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
-        '1.0',
-    ))
+    if django.VERSION < (1, 7, 0):
+        mod = get_version_module('south', name, url)
+        result.append((
+            name,
+            url,
+            mod.__version__,
+            '1.0',
+        ))
 
     name = 'Pillow (PIL)'
     url = 'http://python-imaging.github.io/'
