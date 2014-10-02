@@ -83,9 +83,9 @@ class NoStripEmailField(forms.EmailField):
 class UsernameField(forms.RegexField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = 30
-        kwargs['min_length'] = 5
+        kwargs['min_length'] = 4
         kwargs['regex'] = r'^[\w.@+-]+$'
-        kwargs['help_text'] = _('At least five characters long.')
+        kwargs['help_text'] = _('At least four characters long.')
         kwargs['label'] = _('Username')
         kwargs['error_messages'] = {
             'invalid': _(
@@ -100,7 +100,7 @@ class UsernameField(forms.RegexField):
 
     def clean(self, value):
         '''
-        Username validation, requires length of five chars and unique.
+        Username validation, requires unique name.
         '''
         if value is not None:
             existing = User.objects.filter(
