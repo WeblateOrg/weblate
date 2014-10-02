@@ -292,6 +292,15 @@ $(function () {
         }
     });
 
+    /* Activate tab with error */
+    var form_errors = $('div.has-error');
+    if (form_errors.length > 0) {
+        var tab = form_errors.closest('div.tab-pane');
+        if (tab.length > 0) {
+            $('[data-toggle=tab][href=#' + tab.attr('id')+ ']').tab('show');
+        }
+    }
+
     /* Translation editor */
     var translation_editor = $('.translation-editor');
     if (translation_editor.length > 0) {
