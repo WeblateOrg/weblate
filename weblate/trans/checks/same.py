@@ -296,6 +296,8 @@ SAME_BLACKLIST = frozenset((
     'ma',
     'mah',
     'manager',
+    'mandrake',
+    'mandriva',
     'manual',
     'mailbox',
     'mailboxes',
