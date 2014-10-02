@@ -31,13 +31,13 @@
 {% for obj in checks %}
 <tr>
 <th><a href="{% url 'translation' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}">{% language_name obj.translation__language__code %}</a></th>
-<td><a href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}">{{ obj.count }}</a></td>
+<td><a href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}type={{ check.check_id }}">{{ obj.count }}</a></td>
 </tr>
 {% endfor %}
 {% for count in source_checks %}
 <tr>
 <th><a href="{% url 'show_source' project=subproject.project.slug subproject=subproject.slug %}">{% trans "Source" %}</a></th>
-<td><a href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}">{{ count }}</a></td>
+<td><a href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}type={{ check.check_id }}">{{ count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>

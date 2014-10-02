@@ -30,7 +30,7 @@
 {% for obj in checks %}
 <tr>
 <th><a href="{% url 'project' project=obj.project__slug %}">{% project_name obj.project__slug %}</a></th>
-<td><a href="{% url 'show_check_project' name=check.check_id project=obj.project__slug %}{{ ignore_string }}">{{ obj.count }}</a></td>
+<td><a href="{% url 'show_check_project' name=check.check_id project=obj.project__slug %}{{ url_params }}">{{ obj.count }}</a></td>
 </tr>
 {% endfor %}
 </tbody>

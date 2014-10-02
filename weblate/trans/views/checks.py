@@ -33,9 +33,9 @@ def show_checks(request):
     List of failing checks.
     '''
     ignore = ('ignored' in request.GET)
-    ignore_string = ''
+    url_params = ''
     if ignore:
-        ignore_string = '?ignored=true'
+        url_params = '?ignored=true'
 
     allchecks = Check.objects.filter(
         ignore=ignore,
@@ -46,7 +46,7 @@ def show_checks(request):
         {
             'checks': allchecks,
             'title': _('Failing checks'),
-            'ignore_string': ignore_string,
+            'url_params': url_params,
         }
     )
 
@@ -61,9 +61,9 @@ def show_check(request, name):
         raise Http404('No check matches the given query.')
 
     ignore = ('ignored' in request.GET)
-    ignore_string = ''
+    url_params = ''
     if ignore:
-        ignore_string = '?ignored=true'
+        url_params = '?ignored=true'
 
     checks = Check.objects.filter(
         check=name,
@@ -77,7 +77,7 @@ def show_check(request, name):
             'checks': checks,
             'title': check.name,
             'check': check,
-            'ignore_string': ignore_string,
+            'url_params': url_params,
         }
     )
 
@@ -93,9 +93,9 @@ def show_check_project(request, name, project):
         raise Http404('No check matches the given query.')
 
     ignore = ('ignored' in request.GET)
-    ignore_string = ''
+    url_params = ''
     if ignore:
-        ignore_string = '?ignored=true'
+        url_params = '?ignored=true'
 
     units = Unit.objects.none()
     if check.target:
@@ -169,7 +169,7 @@ def show_check_project(request, name, project):
             'title': '%s/%s' % (prj.__unicode__(), check.name),
             'check': check,
             'project': prj,
-            'ignore_string': ignore_string,
+            'url_params': url_params,
         }
     )
 
@@ -185,9 +185,9 @@ def show_check_subproject(request, name, project, subproject):
         raise Http404('No check matches the given query.')
 
     ignore = ('ignored' in request.GET)
-    ignore_string = ''
+    url_params = ''
     if ignore:
-        ignore_string = '?ignored=true'
+        url_params = '?ignored=true'
 
     units = Unit.objects.none()
     if check.target:
@@ -256,6 +256,6 @@ def show_check_subproject(request, name, project, subproject):
             'title': '%s/%s' % (subprj.__unicode__(), check.name),
             'check': check,
             'subproject': subprj,
-            'ignore_string': ignore_string,
+            'url_params': url_params,
         }
     )
