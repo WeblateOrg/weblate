@@ -2,7 +2,7 @@
 {% load translations %}
 {% if unit.location %}
 <tr>
-<th>{% trans "Used in" %}</th>
+<th>{% trans "Source string location" %}</th>
 </tr>
 <tr>
 <td>{{ unit.get_location_links }}</td>
@@ -17,7 +17,7 @@
 </tr>
 {% endif %}
 <tr>
-<th>{% trans "First seen" %}</th>
+<th>{% trans "Source string age" %}</th>
 </tr>
 <tr>
 <td>{{ unit.source_info.timestamp|naturaltime }}</td>
