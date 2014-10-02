@@ -17,7 +17,7 @@
 
 <div class="list-group">
 {% for check in checks %}
-<a class="list-group-item" href="{% url 'show_check' name=check.check %}{{ ignore_string }}"><span class="badge">{{ check.count }}</span><abbr title="{% check_description check.check %}">{% check_name check.check %}</abbr></a>
+<a class="list-group-item" href="{% url 'show_check' name=check.check %}{{ url_params }}"><span class="badge">{{ check.count }}</span><abbr title="{% check_description check.check %}">{% check_name check.check %}</abbr></a>
 {% endfor %}
 </div>
 

@@ -21,10 +21,10 @@
 {% if anychecks %}
 <div class="list-group">
 {% for obj in checks %}
-<a class="list-group-item" href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
+<a class="list-group-item" href="{% url 'translate' project=subproject.project.slug subproject=subproject.slug lang=obj.translation__language__code %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}type={{ check.check_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
 {% endfor %}
 {% for count in source_checks %}
-<a class="list-group-item" href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}{{ ignore_string }}{% if ignore_string %}&amp;{% else %}?{% endif %}type={{ check.check_id }}"><span class="badge">{{ count }}</span>{% trans "Source" %}</a>
+<a class="list-group-item" href="{% url 'review_source' project=subproject.project.slug subproject=subproject.slug %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}type={{ check.check_id }}"><span class="badge">{{ count }}</span>{% trans "Source" %}</a>
 {% endfor %}
 </div>
 {% else %}
