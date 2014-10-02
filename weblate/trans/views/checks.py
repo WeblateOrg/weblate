@@ -18,14 +18,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import urllib
+
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.db.models import Count
 
-from weblate.trans.models import Unit, Check
+from weblate.trans.models import Unit, Check, Project
 from weblate.trans.checks import CHECKS
 from weblate.trans.views.helper import get_project, get_subproject
+
+
+def encode_optional(params):
+    if params:
+        return '?{0}'.format(urllib.urlencode(params))
+    else:
+        return ''
 
 
 def show_checks(request):
@@ -33,20 +42,28 @@ def show_checks(request):
     List of failing checks.
     '''
     ignore = ('ignored' in request.GET)
-    url_params = ''
+    url_params = {}
+
     if ignore:
-        url_params = '?ignored=true'
+        url_params['ignored'] = 'true'
 
     allchecks = Check.objects.filter(
         ignore=ignore,
-    ).values('check').annotate(count=Count('id'))
+    )
+
+    if 'project' in request.GET:
+        allchecks = allchecks.filter(project__slug=request.GET['project'])
+        url_params['project'] = request.GET['project']
+
+    allchecks = allchecks.values('check').annotate(count=Count('id'))
+
     return render(
         request,
         'checks.html',
         {
             'checks': allchecks,
             'title': _('Failing checks'),
-            'url_params': url_params,
+            'url_params': encode_optional(url_params),
         }
     )
 
@@ -61,14 +78,22 @@ def show_check(request, name):
         raise Http404('No check matches the given query.')
 
     ignore = ('ignored' in request.GET)
-    url_params = ''
+
+    url_params = {}
+
     if ignore:
-        url_params = '?ignored=true'
+        url_params['ignored'] = 'true'
 
     checks = Check.objects.filter(
         check=name,
         ignore=ignore,
-    ).values('project__slug').annotate(count=Count('id'))
+    )
+
+    if 'project' in request.GET:
+        checks = checks.filter(project__slug=request.GET['project'])
+        url_params['project'] = request.GET['project']
+
+    checks = checks.values('project__slug').annotate(count=Count('id'))
 
     return render(
         request,
@@ -77,7 +102,7 @@ def show_check(request, name):
             'checks': checks,
             'title': check.name,
             'check': check,
-            'url_params': url_params,
+            'url_params': encode_optional(url_params),
         }
     )
 
