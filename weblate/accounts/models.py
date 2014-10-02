@@ -705,6 +705,7 @@ def remove_user(user):
     user.social_auth.all().delete()
 
 
+@receiver(post_syncdb)
 def sync_create_groups(sender, app, **kwargs):
     '''
     Create groups on syncdb.
@@ -713,7 +714,6 @@ def sync_create_groups(sender, app, **kwargs):
             or getattr(app, '__name__', '') == 'weblate.accounts.models'):
         create_groups(False)
 
-post_syncdb.connect(sync_create_groups)
 if 'south' in settings.INSTALLED_APPS:
     from south.signals import post_migrate
     post_migrate.connect(sync_create_groups)
