@@ -214,6 +214,13 @@ def user_profile(request):
 
 @login_required
 def user_remove(request):
+    if appsettings.DEMO_SERVER and request.user.username == 'demo':
+        messages.warning(
+            request,
+            _('You can not change demo profile on the demo server.')
+        )
+        return redirect('profile')
+
     if request.method == 'POST':
         remove_user(request.user)
 
