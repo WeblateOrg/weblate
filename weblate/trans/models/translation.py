@@ -510,19 +510,19 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Check if we're not already up to date
         if self.revision != self.get_git_blob_hash():
-            weblate.logger.info(
-                'processing %s in %s, revision has changed',
-                self.filename,
-                self.subproject.__unicode__()
-            )
+            reason = 'revision has changed'
         elif force:
-            weblate.logger.info(
-                'processing %s in %s, check forced',
-                self.filename,
-                self.subproject.__unicode__()
-            )
+            reason = 'check forced'
         else:
             return
+
+        weblate.logger.info(
+            'processing %s in %s/%s, %s',
+            self.filename,
+            self.subproject.project.slug,
+            self.subproject.slug,
+            reason,
+        )
 
         # List of created units (used for cleanup and duplicates detection)
         created_units = set()

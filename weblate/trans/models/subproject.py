@@ -714,13 +714,21 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Loads translations from git.
         '''
         translations = []
-        for path in self.get_mask_matches():
+        matches = self.get_mask_matches()
+        for pos, path in enumerate(matches):
             code = self.get_lang_code(path)
             if langs is not None and code not in langs:
                 weblate.logger.info('skipping %s', path)
                 continue
 
-            weblate.logger.info('checking %s', path)
+            weblate.logger.info(
+                'checking %s in %s/%s [%d/%d]',
+                path,
+                self.project.slug,
+                self.slug,
+                pos + 1,
+                len(matches)
+            )
             translation = Translation.objects.check_sync(
                 self, code, path, force, request=request
             )
