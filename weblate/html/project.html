@@ -25,6 +25,8 @@
       {% if perms.trans.commit_translation or perms.trans.update_translation %}
       <li><a href="#git" data-toggle="tab" data-href="{% url 'git_status_project' project=object.slug %}">{% trans "Git maintenance" %}</a></li>
       {% endif %}
+      <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
     </ul>
   </li>
 {% if enable_sharing %}
