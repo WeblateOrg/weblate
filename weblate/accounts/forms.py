@@ -212,7 +212,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
     '''
     class Meta(object):
         model = Profile
-        fields =  Profile.SUBSCRIPTION_FIELDS
+        fields = Profile.SUBSCRIPTION_FIELDS
 
 
 class UserForm(forms.ModelForm):
