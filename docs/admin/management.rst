@@ -62,6 +62,15 @@ createadmin
 
 Creates ``admin`` account with password ``admin``.
 
+dumpuserdata <file.json>
+------------------------
+
+.. django-admin:: dumpuserdata
+
+Dumps userdata to file for later use by :djadmin:`importuserdata`
+
+This is useful when migrating of merging Weblate instances.
+
 import_project <project> <gitrepo> <branch> <filemask>
 ------------------------------------------------------
 
@@ -98,6 +107,13 @@ For example:
 .. code-block:: sh
 
     ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
+
+importuserdata <file.json>
+--------------------------
+
+.. django-admin:: importuserdata
+
+Imports userdata from file created by :djadmin:`dumpuserdata`
 
 importusers <file.json>
 -----------------------

@@ -212,15 +212,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
     '''
     class Meta(object):
         model = Profile
-        fields = (
-            'subscribe_any_translation',
-            'subscribe_new_string',
-            'subscribe_new_suggestion',
-            'subscribe_new_contributor',
-            'subscribe_new_comment',
-            'subscribe_new_language',
-            'subscribe_merge_failure',
-        )
+        fields =  Profile.SUBSCRIPTION_FIELDS
 
 
 class UserForm(forms.ModelForm):
