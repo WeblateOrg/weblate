@@ -398,6 +398,16 @@ class Profile(models.Model):
         default=False
     )
 
+    SUBSCRIPTION_FIELDS = (
+        'subscribe_any_translation',
+        'subscribe_new_string',
+        'subscribe_new_suggestion',
+        'subscribe_new_contributor',
+        'subscribe_new_comment',
+        'subscribe_merge_failure',
+        'subscribe_new_language',
+    )
+
     objects = ProfileManager()
 
     def __unicode__(self):

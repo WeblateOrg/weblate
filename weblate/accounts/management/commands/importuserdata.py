@@ -39,16 +39,6 @@ class Command(BaseCommand):
 
         data = json.load(open(args[0]))
 
-        fields = (
-            'subscribe_any_translation',
-            'subscribe_new_string',
-            'subscribe_new_suggestion',
-            'subscribe_new_contributor',
-            'subscribe_new_comment',
-            'subscribe_merge_failure',
-            'subscribe_new_language',
-        )
-
         for line in data:
             try:
                 user = User.objects.get(username=line['username'])
@@ -90,7 +80,7 @@ class Command(BaseCommand):
                         continue
 
                 # Subscription settings
-                for field in fields:
+                for field in Profile.SUBSCRIPTION_FIELDS:
                     setattr(profile, field, line[field])
 
                 profile.save()

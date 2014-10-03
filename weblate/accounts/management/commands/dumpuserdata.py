@@ -39,14 +39,7 @@ class Command(BaseCommand):
             'language',
             'translated',
             'suggested',
-            'subscribe_any_translation',
-            'subscribe_new_string',
-            'subscribe_new_suggestion',
-            'subscribe_new_contributor',
-            'subscribe_new_comment',
-            'subscribe_merge_failure',
-            'subscribe_new_language',
-        )
+        ) + Profile.SUBSCRIPTION_FIELDS
 
         profiles = Profile.objects.select_related('user', 'subscriptions')
 

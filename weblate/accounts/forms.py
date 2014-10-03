@@ -187,14 +187,7 @@ class SubscriptionForm(forms.ModelForm):
         model = Profile
         fields = (
             'subscriptions',
-            'subscribe_any_translation',
-            'subscribe_new_string',
-            'subscribe_new_suggestion',
-            'subscribe_new_contributor',
-            'subscribe_new_comment',
-            'subscribe_new_language',
-            'subscribe_merge_failure',
-        )
+        ) + Profile.SUBSCRIPTION_FIELDS
         widgets = {
             'subscriptions': forms.CheckboxSelectMultiple
         }
