@@ -37,11 +37,11 @@ class Command(BaseCommand):
         if len(args) != 1:
             raise CommandError('Please specify JSON file to import!')
 
-        data = json.load(open(args[0]))
+        userdata = json.load(open(args[0]))
 
-        for line in data:
+        for userprofile in userdata:
             try:
-                user = User.objects.get(username=line['username'])
+                user = User.objects.get(username=userprofile['username'])
                 update = False
                 try:
                     profile = Profile.objects.get(user=user)
@@ -51,27 +51,29 @@ class Command(BaseCommand):
                     update = True
                     profile = Profile.objects.create(user=user)
                     self.stdout.write(
-                        'Creating profile for {0}'.format(line['username'])
+                        'Creating profile for {0}'.format(
+                            userprofile['username']
+                        )
                     )
 
                 # Merge stats
-                profile.translated += line['translated']
-                profile.suggested += line['suggested']
+                profile.translated += userprofile['translated']
+                profile.suggested += userprofile['suggested']
 
                 # Update fields if we should
                 if update:
-                    profile.language = line['language']
-                    for lang in line['secondary_languages']:
+                    profile.language = userprofile['language']
+                    for lang in userprofile['secondary_languages']:
                         profile.secondary_languages.add(
                             Language.objects.get(code=lang)
                         )
-                    for lang in line['languages']:
+                    for lang in userprofile['languages']:
                         profile.languages.add(
                             Language.objects.get(code=lang)
                         )
 
                 # Add subscriptions
-                for subscription in line['subscriptions']:
+                for subscription in userprofile['subscriptions']:
                     try:
                         profile.subscriptions.add(
                             Project.objects.get(slug=subscription)
@@ -81,10 +83,10 @@ class Command(BaseCommand):
 
                 # Subscription settings
                 for field in Profile.SUBSCRIPTION_FIELDS:
-                    setattr(profile, field, line[field])
+                    setattr(profile, field, userprofile[field])
 
                 profile.save()
             except User.DoesNotExist:
                 self.stderr.write(
-                    'User not found: {0}\n'.format(line['username'])
+                    'User not found: {0}\n'.format(userprofile['username'])
                 )
