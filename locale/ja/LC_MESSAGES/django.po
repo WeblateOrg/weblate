@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-02 09:07+0200\n"
+"POT-Creation-Date: 2014-10-05 11:49+0200\n"
 "PO-Revision-Date: 2014-08-09 16:14+0200\n"
 "Last-Translator: YANO Tetsuro <tetuyano@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -24,15 +24,17 @@ msgctxt "No known user"
 msgid "None"
 msgstr "なし"
 
-#: weblate/accounts/forms.py:88
-msgid "At least five characters long."
+#: weblate/accounts/forms.py:89
+#, fuzzy
+#| msgid "At least five characters long."
+msgid "At least four characters long."
 msgstr "5 文字以上の文字列を指定してください。"
 
-#: weblate/accounts/forms.py:89
+#: weblate/accounts/forms.py:90
 msgid "Username"
 msgstr "ユーザ名"
 
-#: weblate/accounts/forms.py:92
+#: weblate/accounts/forms.py:93
 msgid ""
 "This value may contain only letters, numbers and following characters: @ . + "
 "- _"
@@ -40,131 +42,158 @@ msgstr ""
 "この値は、ASCII文字、数字と 次の文字のみ有効:@ . + - _ (アットマーク、ピリオ"
 "ド、プラス、マイナス、アンダーバーの半角文字)"
 
-#: weblate/accounts/forms.py:112
+#: weblate/accounts/forms.py:113
 msgid "This username is already taken. Please choose another."
 msgstr "このユーザ名は既に使用されています。別の名前にしてください。"
 
-#: weblate/accounts/forms.py:217 weblate/accounts/forms.py:283
+#: weblate/accounts/forms.py:224 weblate/accounts/forms.py:294
 msgid "E-mail"
 msgstr "メールアドレス"
 
-#: weblate/accounts/forms.py:219
+#: weblate/accounts/forms.py:226
 msgid "You can add another emails on Authentication tab."
 msgstr "認証タブで別のメールアドレスを追加できます。"
 
-#: weblate/accounts/forms.py:246 weblate/accounts/forms.py:320
+#: weblate/accounts/forms.py:253 weblate/accounts/forms.py:331
 #, fuzzy
 #| msgid "Your name"
 msgid "Full name"
 msgstr "お名前"
 
-#: weblate/accounts/forms.py:255
+#: weblate/accounts/forms.py:262
 msgid "Subject"
 msgstr "件名"
 
-#: weblate/accounts/forms.py:256 weblate/accounts/forms.py:462
+#: weblate/accounts/forms.py:263 weblate/accounts/forms.py:519
 msgid "Your name"
 msgstr "お名前"
 
-#: weblate/accounts/forms.py:257 weblate/accounts/forms.py:463
+#: weblate/accounts/forms.py:264 weblate/accounts/forms.py:520
 msgid "Your email"
 msgstr "メールアドレス"
 
-#: weblate/accounts/forms.py:259 weblate/html/admin/performance.html:46
+#: weblate/accounts/forms.py:266 weblate/html/admin/performance.html:46
 msgid "Message"
 msgstr "メッセージ"
 
-#: weblate/accounts/forms.py:284
+#: weblate/accounts/forms.py:269
+msgid ""
+"Please contact us in English, otherwise we might be unable to understand "
+"your request."
+msgstr ""
+"連絡は英語でお願いします。そうしていただけないと、我々はあなたの要望をおそら"
+"く理解できないと思います。"
+
+#: weblate/accounts/forms.py:295
 msgid "Activation email will be sent here."
 msgstr "有効なメールアドレス。このアドレスに送信されます。"
 
-#: weblate/accounts/forms.py:297
+#: weblate/accounts/forms.py:308
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr ""
 "このメールアドレスは既に使用されています。別のメールアドレスにしてください。"
 
-#: weblate/accounts/forms.py:358
+#: weblate/accounts/forms.py:369
 #, python-format
 msgid "What is %s?"
 msgstr "%s は何でしょうか？"
 
-#: weblate/accounts/forms.py:368
+#: weblate/accounts/forms.py:379
 msgid "Please check your math and try again."
 msgstr ""
 
-#: weblate/accounts/forms.py:390
+#: weblate/accounts/forms.py:401
 msgid "New password"
 msgstr "新しいパスワード"
 
-#: weblate/accounts/forms.py:391
+#: weblate/accounts/forms.py:402
 msgid "At least six characters long."
 msgstr "6 文字以上の文字列を指定してください。"
 
-#: weblate/accounts/forms.py:395
+#: weblate/accounts/forms.py:406
 msgid "New password (again)"
 msgstr "新しいパスワード (再入力)"
 
-#: weblate/accounts/forms.py:397
+#: weblate/accounts/forms.py:408
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "パスワードが正しいか確認するために、もう一度入力してください。"
 
-#: weblate/accounts/forms.py:408
+#: weblate/accounts/forms.py:419
 msgid "Password needs to have at least six characters."
 msgstr "パスワードは、少なくとも 6 文字必要です。"
 
-#: weblate/accounts/forms.py:425
+#: weblate/accounts/forms.py:436
 msgid "You must type the same password each time."
 msgstr "同じパスワードを入力する必要があります。"
 
-#: weblate/accounts/forms.py:434
+#: weblate/accounts/forms.py:445
 msgid "Current password"
 msgstr "現在のパスワード"
 
-#: weblate/accounts/forms.py:444
+#: weblate/accounts/forms.py:455
 msgid "User with this email address was not found."
 msgstr "このメールアドレスのユーザーは見つかりませんでした。"
 
-#: weblate/accounts/forms.py:454
+#: weblate/accounts/forms.py:463
 msgid "Username or email"
 msgstr "ユーザ名もしくはメールアドレス"
 
-#: weblate/accounts/forms.py:455
+#: weblate/accounts/forms.py:466 weblate/html/accounts/profile.html:141
 msgid "Password"
 msgstr "パスワード"
 
-#: weblate/accounts/forms.py:464 weblate/trans/models/project.py:79
+#: weblate/accounts/forms.py:471
+msgid ""
+"Please enter a correct username and password. Note that both fields may be "
+"case-sensitive."
+msgstr ""
+
+#: weblate/accounts/forms.py:473
+#, fuzzy
+msgid "This account is inactive."
+msgstr ""
+"ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は "
+"<b>%(username)s</b> です。"
+
+#: weblate/accounts/forms.py:521 weblate/trans/models/project.py:79
 msgid "Project name"
 msgstr "プロジェクト名"
 
-#: weblate/accounts/forms.py:465 weblate/trans/models/project.py:90
+#: weblate/accounts/forms.py:522 weblate/html/project_info.html:3
+#: weblate/trans/models/project.py:90
 msgid "Project website"
 msgstr "プロジェクトのウェブサイト"
 
-#: weblate/accounts/forms.py:467 weblate/trans/models/subproject.py:75
+#: weblate/accounts/forms.py:524 weblate/html/subproject_info.html:9
+#: weblate/trans/models/subproject.py:75
 msgid "Git repository"
 msgstr "Git リポジトリ"
 
-#: weblate/accounts/forms.py:469 weblate/trans/models/subproject.py:78
+#: weblate/accounts/forms.py:526 weblate/trans/models/subproject.py:78
+#, fuzzy
+#| msgid ""
+#| "URL of Git repository, use weblate://project/subproject for sharing with "
+#| "other subproject."
 msgid ""
-"URL of Git repository, use weblate://project/subproject for sharing with "
-"other subproject."
+"URL of Git repository, use weblate://project/resource for sharing with other "
+"resource."
 msgstr ""
 "GitレポジトリのURL、その他のサブプロジェクトで利用する場合は、weblate://"
 "project/subproject としてください。"
 
-#: weblate/accounts/forms.py:475 weblate/trans/models/subproject.py:122
+#: weblate/accounts/forms.py:532 weblate/trans/models/subproject.py:122
 msgid "File mask"
 msgstr "ファイルマスク"
 
-#: weblate/accounts/forms.py:477 weblate/trans/models/subproject.py:126
+#: weblate/accounts/forms.py:534 weblate/trans/models/subproject.py:126
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 
-#: weblate/accounts/forms.py:484
+#: weblate/accounts/forms.py:541
 msgid "Additional message"
 msgstr "補足メッセージ"
 
@@ -172,8 +201,8 @@ msgstr "補足メッセージ"
 msgid "Interface Language"
 msgstr "インターフェイスの言語"
 
-#: weblate/accounts/models.py:355 weblate/html/index.html:47
-#: weblate/lang/views.py:35
+#: weblate/accounts/models.py:355 weblate/html/language.html:7
+#: weblate/html/languages.html:7 weblate/lang/views.py:35
 msgid "Languages"
 msgstr "言語"
 
@@ -181,7 +210,7 @@ msgstr "言語"
 msgid "Secondary languages"
 msgstr "第二言語"
 
-#: weblate/accounts/models.py:369
+#: weblate/accounts/models.py:369 weblate/html/accounts/profile.html:66
 msgid "Subscribed projects"
 msgstr "加入したプロジェクト"
 
@@ -213,68 +242,71 @@ msgstr "マージの失敗を通知"
 msgid "Notification on new language request"
 msgstr "新しい言語リクエストの通知"
 
-#: weblate/accounts/views.py:84 weblate/accounts/views.py:420
+#: weblate/accounts/views.py:85 weblate/accounts/views.py:413
 msgid "User registration"
 msgstr "ユーザ登録"
 
-#: weblate/accounts/views.py:100
+#: weblate/accounts/views.py:101
 msgid "Message could not be sent to administrator!"
 msgstr "管理者にメッセージを送信できませんでした！"
 
-#: weblate/accounts/views.py:118
+#: weblate/accounts/views.py:119
 msgid "Message has been sent to administrator."
 msgstr "管理者にメッセージを送信しました。"
 
-#: weblate/accounts/views.py:144
+#: weblate/accounts/views.py:142 weblate/accounts/views.py:209
 msgid "You can not change demo profile on the demo server."
 msgstr ""
 
-#: weblate/accounts/views.py:167
+#: weblate/accounts/views.py:162
 msgid "Your profile has been updated."
 msgstr "個人情報を更新しました。"
 
-#: weblate/accounts/views.py:202
+#: weblate/accounts/views.py:191
 msgid "User profile"
 msgstr "個人情報"
 
-#: weblate/accounts/views.py:224
+#: weblate/accounts/views.py:220
 msgid "Your account has been removed."
 msgstr "アカウントは削除されました。"
 
-#: weblate/accounts/views.py:269
+#: weblate/accounts/views.py:265 weblate/html/accounts/contact.html:7
+#: weblate/html/accounts/contact.html:22
 msgid "Contact"
 msgstr "連絡"
 
-#: weblate/accounts/views.py:301
+#: weblate/accounts/views.py:297 weblate/html/accounts/hosting.html:8
 msgid "Hosting"
 msgstr "ホスティング"
 
-#: weblate/accounts/views.py:378 weblate/html/accounts/login.html:24
-#: weblate/html/base.html:46
+#: weblate/accounts/views.py:371 weblate/html/accounts/login.html:9
+#: weblate/html/accounts/login.html:42 weblate/html/base.html:80
 msgid "Login"
 msgstr "ログイン"
 
-#: weblate/accounts/views.py:388
+#: weblate/accounts/views.py:381
 msgid "Thanks for using Weblate!"
 msgstr "Weblate のご利用ありがとうございました！"
 
-#: weblate/accounts/views.py:442 weblate/html/accounts/email.html:8
+#: weblate/accounts/views.py:435 weblate/html/accounts/email.html:8
 msgid "Register email"
 msgstr "メールアドレスの登録"
 
-#: weblate/accounts/views.py:466
+#: weblate/accounts/views.py:459
 msgid "You have entered an invalid password."
 msgstr ""
 
-#: weblate/accounts/views.py:488
+#: weblate/accounts/views.py:481
 msgid "Your password has been changed."
 msgstr "パスワードを変更しました。"
 
-#: weblate/accounts/views.py:498 weblate/html/accounts/profile.html:46
+#: weblate/accounts/views.py:491 weblate/html/accounts/password.html:13
+#: weblate/html/accounts/profile.html:144
 msgid "Change password"
 msgstr "パスワードを変更する"
 
-#: weblate/accounts/views.py:523 weblate/html/accounts/reset.html:8
+#: weblate/accounts/views.py:516 weblate/html/accounts/reset.html:8
+#: weblate/html/accounts/reset.html:22
 msgid "Password reset"
 msgstr "パスワードのリセット"
 
@@ -304,37 +336,48 @@ msgstr ""
 "決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
 #: weblate/html/about.html:6
-msgid "about"
+msgid "About"
 msgstr ""
 
-#: weblate/html/about.html:11 weblate/html/footer.html:7
-#: weblate/trans/views/basic.py:391
+#: weblate/html/about.html:14 weblate/html/footer.html:7
+#: weblate/trans/views/basic.py:390
 msgid "About Weblate"
 msgstr "Weblate について"
 
-#: weblate/html/about.html:13
+#: weblate/html/about.html:17
+#, fuzzy
+#| msgid ""
+#| "Weblate is a web based translation tool with tight Git integration. It "
+#| "features simple and clean user interface, propagation of translations "
+#| "across subprojects, quality checks and automatic linking to source files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
-"subprojects, quality checks and automatic linking to source files."
+"resources, quality checks and automatic linking to source files."
 msgstr ""
 "Weblate は、Git と密接に統合しているウェブベースの翻訳支援ツールです。本ツー"
 "ルは、シンプルで明瞭なユーザインターフェース、サブプロジェクト間の翻訳連携、"
 "品質チェック、ソースファイルへの自動リンク、といった機能を備えています。"
 
-#: weblate/html/about.html:15 weblate/html/accounts/contact.html:15
+#: weblate/html/about.html:19 weblate/html/accounts/contact.html:14
 #, python-format
 msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
 
-#: weblate/html/about.html:20
+#: weblate/html/about.html:29
+#, fuzzy
+#| msgid "Last name"
+msgid "Hosting projects"
+msgstr "名前 (姓)"
+
+#: weblate/html/about.html:32
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
 
-#: weblate/html/about.html:22 weblate/html/index.html:83
+#: weblate/html/about.html:34
 #, python-format
 msgid ""
 "We can host your project as well, if you are interested, please <a href="
@@ -343,85 +386,92 @@ msgstr ""
 "あなたのプロジェクトをホストすることもできますので、関心をおもちであれば、<a "
 "href=\"%(contact_url)s?subject=Project hosting\">連絡</a>してください。"
 
-#: weblate/html/about.html:26
+#: weblate/html/about.html:43 weblate/trans/models/advertisement.py:37
+msgid "Donate to Weblate"
+msgstr "Weblate に寄付する"
+
+#: weblate/html/about.html:45
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
-"them financially:"
+"them financially."
 msgstr ""
 
-#: weblate/html/about.html:29
+#: weblate/html/about.html:48
 msgid "Flattr Weblate!"
 msgstr "Weblate に Flattr する！"
 
-#: weblate/html/about.html:30 weblate/html/footer.html:10
+#: weblate/html/about.html:49 weblate/html/footer.html:10
 msgid "Donate to Weblate!"
 msgstr "Weblate に寄付する！"
 
-#: weblate/html/about.html:33
+#: weblate/html/about.html:58
 msgid "Versions"
 msgstr "バージョン"
 
-#: weblate/html/about.html:35
+#: weblate/html/about.html:61
 msgid "This site is built using following projects:"
 msgstr "このサイトは、以下のプロジェクトを使用して構築されています。"
 
-#: weblate/html/about.html:49 weblate/html/data.html:50
+#: weblate/html/about.html:80 weblate/html/data.html:48
+#: weblate/html/index.html:35 weblate/html/translation.html:25
+#: weblate/html/translation.html.py:258
 msgid "Statistics"
 msgstr "統計情報"
 
-#: weblate/html/about.html:53
+#: weblate/html/about.html:85
 msgid "Strings to translate"
 msgstr "翻訳する文字列"
 
-#: weblate/html/about.html:57
+#: weblate/html/about.html:89
 msgid "Words to translate"
 msgstr "翻訳する単語"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:93
 msgid "Used languages"
 msgstr "利用中の言語数"
 
-#: weblate/html/about.html:65
+#: weblate/html/about.html:97
 msgid "Registered users"
 msgstr "登録ユーザ数"
 
-#: weblate/html/about.html:69 weblate/html/user-activity.html:4
+#: weblate/html/about.html:101 weblate/html/user-activity.html:3
 msgid "Suggestions made"
 msgstr "提案数"
 
-#: weblate/html/about.html:73 weblate/html/user-activity.html:8
+#: weblate/html/about.html:105 weblate/html/user-activity.html:7
 msgid "Translations made"
 msgstr "翻訳数"
 
-#: weblate/html/about.html:77
+#: weblate/html/about.html:109
 msgid "Failing checks found"
 msgstr "チェック失敗の検出数"
 
-#: weblate/html/about.html:81
+#: weblate/html/about.html:113 weblate/html/project.html:29
 msgid "Ignored checks"
 msgstr "無視されたチェックの数"
 
-#: weblate/html/accounts/contact.html:6
-msgid "contact"
-msgstr "連絡先"
-
-#: weblate/html/accounts/contact.html:11
+#: weblate/html/accounts/contact.html:13
 msgid "You can contact maintainers of this server here."
 msgstr ""
 
-#: weblate/html/accounts/contact.html:13
-msgid ""
-"Please contact us in English, otherwise we might be unable to understand "
-"your request."
-msgstr ""
-"連絡は英語でお願いします。そうしていただけないと、我々はあなたの要望をおそら"
-"く理解できないと思います。"
-
-#: weblate/html/accounts/contact.html:21 weblate/html/accounts/hosting.html:17
+#: weblate/html/accounts/contact.html:28 weblate/html/accounts/hosting.html:26
 msgid "Send"
 msgstr "送信"
 
-#: weblate/html/accounts/email-sent.html:7
+#: weblate/html/accounts/email-sent.html:6 weblate/html/accounts/login.html:67
+#: weblate/html/accounts/register.html:9
+#, fuzzy
+#| msgid "Registration date"
+msgid "Registration"
+msgstr "ユーザ登録日時"
+
+#: weblate/html/accounts/email-sent.html:12
+#, fuzzy
+#| msgid "Registration date"
+msgid "Registration almost complete"
+msgstr "ユーザ登録日時"
+
+#: weblate/html/accounts/email-sent.html:15
 msgid ""
 "Thank you for registering. You will very soon receive an email with a "
 "confirmation link. Please follow this link in order to complete your "
@@ -430,7 +480,7 @@ msgstr ""
 "ユーザ登録いただき、ありがとうございます。確認用のリンクを記載したメールを、"
 "すぐにお送りします。リンク先にアクセスすることで、ユーザ登録が完了します。"
 
-#: weblate/html/accounts/email-sent.html:11
+#: weblate/html/accounts/email-sent.html:19
 #, fuzzy, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
@@ -445,15 +495,15 @@ msgstr ""
 "つからなければ、<a href=\"%(contact_url)s?subject=Lost activation code\">ご連"
 "絡ください</a>。"
 
-#: weblate/html/accounts/email.html:11 weblate/html/accounts/register.html:21
-#: weblate/html/accounts/reset.html:13
+#: weblate/html/accounts/email.html:11 weblate/html/accounts/register.html:20
+#: weblate/html/accounts/reset.html:17
 #, fuzzy
 #| msgid "Please fix errors in registration form."
 msgid "Please fix errors in the registration form."
 msgstr "登録フォームのエラー箇所を修正してください。"
 
-#: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:92
-#: weblate/html/accounts/register.html:13
+#: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
+#: weblate/html/accounts/register.html:17
 #, fuzzy
 msgid ""
 "By registering you agree to use your name and email in Git commits and "
@@ -462,42 +512,86 @@ msgstr ""
 "ここで入力されたお名前とメールアドレスは、翻訳された際の Git のコミットとして"
 "も使われます。"
 
-#: weblate/html/accounts/email.html:22 weblate/html/accounts/register.html:29
-#: weblate/html/base.html:44
+#: weblate/html/accounts/email.html:22 weblate/html/accounts/register.html:37
+#: weblate/html/base.html:78
 msgid "Register"
 msgstr "登録"
 
-#: weblate/html/accounts/hosting.html:6
-#, fuzzy
-#| msgid "Last name"
-msgid "hosting"
-msgstr "名前 (姓)"
-
-#: weblate/html/accounts/hosting.html:11
+#: weblate/html/accounts/hosting.html:13
 msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
 msgstr ""
 
-#: weblate/html/accounts/login.html:9
+#: weblate/html/accounts/hosting.html:21 weblate/html/index.html:100
+msgid "Ask for project hosting"
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:34
+msgid "Conditions for free hosting conditions"
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:37
+msgid ""
+"Translated content has to be released under <a href=\"http://en.wikipedia."
+"org/wiki/Free_software_license\">free license</a>."
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:38
+msgid ""
+"Source code has to be publicly available in supported version control system."
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:39
+msgid "There is no guarantee for service availability or quality."
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:45
+msgid "Commercial hosting"
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:48
+msgid ""
+"Commercial hosting is possible as well, our price starts at 19 EUR per "
+"project and month, please get in touch with us for more details."
+msgstr ""
+
+#: weblate/html/accounts/hosting.html:52 weblate/html/footer.html:8
+msgid "Contact us"
+msgstr "連絡先"
+
+#: weblate/html/accounts/login.html:15
 msgid "This username/password combination was not found. Please try again."
 msgstr ""
 "指定されたユーザ名とパスワードの組み合わせが見つかりません。確認のうえ再度お"
 "願いします。"
 
-#: weblate/html/accounts/login.html:12
-#, fuzzy
-#| msgid "Password (again)"
-msgid "Password login"
-msgstr "パスワード (再入力)"
-
-#: weblate/html/accounts/login.html:15
+#: weblate/html/accounts/login.html:19
 msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
 
-#: weblate/html/accounts/login.html:31
+#: weblate/html/accounts/login.html:28
+#, fuzzy
+#| msgid "Password (again)"
+msgid "Password login"
+msgstr "パスワード (再入力)"
+
+#: weblate/html/accounts/login.html:35
+#, python-format
+msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
+msgstr ""
+"パスワードをお忘れですか？ こちらから<a href=\"%(reset_url)s\">パスワードのリ"
+"セット</a>が行えます。"
+
+#: weblate/html/accounts/login.html:54
+#, fuzzy
+#| msgid "User registration"
+msgid "Third party login"
+msgstr "ユーザ登録"
+
+#: weblate/html/accounts/login.html:72
 #, python-format
 msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
@@ -506,182 +600,262 @@ msgstr ""
 "アカウントはまだお持ちではありませんか？ こちらから<a href=\"%(register_url)s"
 "\">登録</a>が行えます。"
 
-#: weblate/html/accounts/login.html:37
-#, python-format
-msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
-"パスワードをお忘れですか？ こちらから<a href=\"%(reset_url)s\">パスワードのリ"
-"セット</a>が行えます。"
-
-#: weblate/html/accounts/login.html:42
+#: weblate/html/accounts/password.html:6 weblate/html/accounts/profile.html:9
+#: weblate/html/accounts/removal.html:7
 #, fuzzy
-#| msgid "User registration"
-msgid "Third party login"
-msgstr "ユーザ登録"
+#| msgid "User profile"
+msgid "Your profile"
+msgstr "個人情報"
 
-#: weblate/html/accounts/password.html:6
+#: weblate/html/accounts/password.html:16
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
 "正しく入力したか確認できるように、新しいパスワードは二度入力してください。"
 
-#: weblate/html/accounts/password.html:13
+#: weblate/html/accounts/password.html:25
 msgid "Change my password"
 msgstr "パスワードを変更する"
 
-#: weblate/html/accounts/profile.html:9 weblate/trans/views/files.py:91
+#: weblate/html/accounts/profile.html:15 weblate/trans/views/files.py:91
 msgid "Please fix errors in the form."
 msgstr "フォームのエラー箇所を修正してください。"
 
-#: weblate/html/accounts/profile.html:16
+#: weblate/html/accounts/profile.html:22 weblate/html/accounts/profile.html:35
 msgid "Preferences"
 msgstr "環境設定"
 
-#: weblate/html/accounts/profile.html:17
+#: weblate/html/accounts/profile.html:23
 msgid "Subscriptions"
 msgstr "通知設定"
 
-#: weblate/html/accounts/profile.html:18
+#: weblate/html/accounts/profile.html:24
+#: weblate/html/accounts/profile.html:101
 msgid "Account"
 msgstr "アカウント"
 
-#: weblate/html/accounts/profile.html:19
+#: weblate/html/accounts/profile.html:25
 #, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
 msgstr "ドキュメント"
 
-#: weblate/html/accounts/profile.html:20
-msgid "Information"
-msgstr "統計情報"
+#: weblate/html/accounts/profile.html:26
+#, fuzzy
+#| msgid "User profile"
+msgid "Profile"
+msgstr "個人情報"
 
-#: weblate/html/accounts/profile.html:21
+#: weblate/html/accounts/profile.html:27
+#: weblate/html/accounts/profile.html:248
 msgid "Licenses"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:23
-msgid "Avatar"
-msgstr "アバター"
+#: weblate/html/accounts/profile.html:40 weblate/html/accounts/profile.html:71
+#: weblate/html/accounts/profile.html:80
+#: weblate/html/accounts/profile.html:106 weblate/html/edit_dictionary.html:24
+#: weblate/html/js/detail.html:39 weblate/html/translate.html:78
+msgid "Save"
+msgstr "保存"
 
-#: weblate/html/accounts/profile.html:25
-msgid "Removal"
+#: weblate/html/accounts/profile.html:46 weblate/html/accounts/profile.html:86
+#: weblate/html/accounts/profile.html:112
+#: weblate/html/accounts/profile.html:184
+#: weblate/html/accounts/profile.html:230
+#: weblate/html/accounts/profile.html:283
+#, fuzzy
+#| msgid "Subscriptions"
+msgid "Description"
+msgstr "通知設定"
+
+#: weblate/html/accounts/profile.html:49
+msgid ""
+"Choose which languages you prefer to translate. These will be offered to you "
+"on the dashboard to have easier access to chosen translations."
 msgstr ""
 
-#: weblate/html/accounts/profile.html:33
+#: weblate/html/accounts/profile.html:52
+msgid ""
+"The secondary languages are shown next to the source string when translating."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:56 weblate/html/accounts/profile.html:91
+#: weblate/html/accounts/profile.html:117
+#: weblate/html/accounts/profile.html:189
+#: weblate/html/accounts/profile.html:235
+#: weblate/html/admin/performance.html:23
+#: weblate/html/admin/performance.html:31 weblate/html/base.html:70
+#: weblate/html/check.html:42 weblate/html/check_project.html:43
+#: weblate/html/check_subproject.html:47 weblate/html/checks.html:35
+#: weblate/html/footer.html:9
+msgid "Documentation"
+msgstr "ドキュメント"
+
+#: weblate/html/accounts/profile.html:75
+#, fuzzy
+#| msgid "Subscriptions"
+msgid "Subscription settings"
+msgstr "通知設定"
+
+#: weblate/html/accounts/profile.html:88
 msgid "You will receive chosen notifications via email for all your languages."
 msgstr ""
 
-#: weblate/html/accounts/profile.html:42
+#: weblate/html/accounts/profile.html:114
 msgid "Your name and email will appear as author on Git commits."
 msgstr ""
 "お名前とメールアドレスは、翻訳された際の Git コミットの製作者としても使われま"
 "す。"
 
-#: weblate/html/accounts/profile.html:46
+#: weblate/html/accounts/profile.html:127
 #, fuzzy
-#| msgid "New password"
-msgid "Set password"
-msgstr "新しいパスワード"
+#| msgid "User comments"
+msgid "User identities"
+msgstr "ユーザのコメント"
 
-#: weblate/html/accounts/profile.html:48
+#: weblate/html/accounts/profile.html:129
 msgid ""
-"You can manage third party identities which are associated to this account."
+"You can manage identities which are associated to this account and which can "
+"be used to log in."
 msgstr ""
 
-#: weblate/html/accounts/profile.html:49
+#: weblate/html/accounts/profile.html:130
 msgid "Currently associated:"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:53
+#: weblate/html/accounts/profile.html:134
 msgid "Identity"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:54
+#: weblate/html/accounts/profile.html:135
 #, fuzzy
 #| msgid "User"
 msgid "User ID"
 msgstr "ユーザ"
 
-#: weblate/html/accounts/profile.html:55 weblate/html/last-changes.html:16
+#: weblate/html/accounts/profile.html:136 weblate/html/last-changes.html:16
 msgid "Action"
 msgstr "行ったこと"
 
-#: weblate/html/accounts/profile.html:64
+#: weblate/html/accounts/profile.html:144
+#, fuzzy
+#| msgid "New password"
+msgid "Set password"
+msgstr "新しいパスワード"
+
+#: weblate/html/accounts/profile.html:152
 msgid "Disconnect"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:73
+#: weblate/html/accounts/profile.html:161
 #, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
 msgstr "翻訳として追加"
 
-#: weblate/html/accounts/profile.html:86
-msgid "Your public profile:"
+#: weblate/html/accounts/profile.html:171
+msgid "Removal"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:96
+#: weblate/html/accounts/profile.html:174
+#: weblate/html/accounts/removal.html:12
+msgid "Removal of the account deletes all your private data."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:177
+msgid "Remove my account"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:186
+msgid "You can configure how you will log in on this site."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:200
+#, fuzzy
+#| msgid "Your email"
+msgid "Your summary"
+msgstr "メールアドレス"
+
+#: weblate/html/accounts/profile.html:208
+msgid "Your public profile"
+msgstr ""
+
+#: weblate/html/accounts/profile.html:218
+#, fuzzy
+#| msgid "Your name"
+msgid "Your avatar"
+msgstr "お名前"
+
+#: weblate/html/accounts/profile.html:221
+msgid "Avatars are provided using libravatar."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:232
+msgid "Your public appearance on this site."
+msgstr ""
+
+#: weblate/html/accounts/profile.html:255
 msgid ""
 "Following projects have explicitly specified their licensing and copyright "
 "conditions:"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:114
-msgid "Avatars are provided using libravatar."
+#: weblate/html/accounts/profile.html:258 weblate/html/data.html:26
+#: weblate/html/data.html.py:57 weblate/html/data.html:83
+#: weblate/html/index.html:79 weblate/html/list-translations.html:7
+#: weblate/trans/models/subproject.py:72
+msgid "Project"
+msgstr "プロジェクト"
+
+#: weblate/html/accounts/profile.html:258
+msgid "License"
 msgstr ""
 
-#: weblate/html/accounts/profile.html:119 weblate/html/accounts/removal.html:8
-msgid "Removal of the account deletes all your private data."
+#: weblate/html/accounts/profile.html:285
+msgid ""
+"Please pay attention to the licensing information as these specify how "
+"others are allowed to use your translations."
 msgstr ""
 
-#: weblate/html/accounts/profile.html:120
-msgid "Remove my account"
-msgstr ""
-
-#: weblate/html/accounts/profile.html:125 weblate/html/edit_dictionary.html:21
-#: weblate/html/translate.html:161
-msgid "Save"
-msgstr "保存"
-
-#: weblate/html/accounts/register.html:10
-#, fuzzy
-#| msgid "Registration date"
-msgid "Registration"
-msgstr "ユーザ登録日時"
-
-#: weblate/html/accounts/register.html:18
+#: weblate/html/accounts/register.html:30
 #, fuzzy
 #| msgid "Registered users"
 msgid "Register using email"
 msgstr "登録ユーザ数"
 
-#: weblate/html/accounts/register.html:36
+#: weblate/html/accounts/register.html:49
 #, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
 msgstr "ユーザ登録"
 
-#: weblate/html/accounts/register.html:48
+#: weblate/html/accounts/register.html:65
 #, python-format
 msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
 
-#: weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/removal.html:16
+#, fuzzy
+#| msgid "Account"
+msgid "Account removal"
+msgstr "アカウント"
+
+#: weblate/html/accounts/removal.html:18
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr ""
 
-#: weblate/html/accounts/removal.html:13
+#: weblate/html/accounts/removal.html:22
 #, fuzzy
 #| msgid "Sort this column"
 msgid "Delete this account"
 msgstr "この列をソートする"
 
-#: weblate/html/accounts/reset.html:10
+#: weblate/html/accounts/reset.html:14
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
@@ -689,34 +863,23 @@ msgstr ""
 "パスワードをお忘れですか？メールアドレスを入力してください。パスワードのリ"
 "セット方法をメールでお知らせします。"
 
-#: weblate/html/accounts/reset.html:23
+#: weblate/html/accounts/reset.html:28
 msgid "Reset my password"
 msgstr "パスワードをリセットする"
 
-#: weblate/html/accounts/user.html:21 weblate/html/index.html:46
-#: weblate/html/language.html:12
+#: weblate/html/accounts/user.html:35 weblate/html/base.html:63
+#: weblate/html/index.html:28 weblate/html/index.html.py:30
+#: weblate/html/index.html:74 weblate/html/language.html:23
 msgid "Projects"
 msgstr "プロジェクト"
 
-#: weblate/html/accounts/user.html:30 weblate/html/index.html:97
-#: weblate/html/language.html:25 weblate/html/project.html:56
-#: weblate/html/subproject.html:45 weblate/html/translation.html:55
-msgid "Activity"
-msgstr ""
-
-#: weblate/html/accounts/user.html:36 weblate/html/js/activity.html:2
+#: weblate/html/accounts/user.html:44 weblate/html/js/activity.html:2
 msgid "Activity in last 30 days"
 msgstr ""
 
-#: weblate/html/accounts/user.html:39 weblate/html/js/activity.html:5
+#: weblate/html/accounts/user.html:47 weblate/html/js/activity.html:5
 msgid "Activity in last year"
 msgstr ""
-
-#: weblate/html/accounts/user.html:42
-#, fuzzy
-#| msgid "Recent edits"
-msgid "Recent contributions"
-msgstr "最近の編集"
 
 #: weblate/html/admin/custom-index.html:11
 msgid "Reports"
@@ -739,7 +902,7 @@ msgid "Performance report"
 msgstr ""
 
 #: weblate/html/admin/performance.html:10 weblate/html/admin/report.html:8
-#: weblate/html/admin/ssh.html:9 weblate/html/base.html:51
+#: weblate/html/admin/ssh.html:9
 msgid "Home"
 msgstr "トップ"
 
@@ -747,18 +910,13 @@ msgstr "トップ"
 msgid "Performance"
 msgstr ""
 
-#: weblate/html/admin/performance.html:21 weblate/html/checks.html:15
+#: weblate/html/admin/performance.html:21
 msgid "Check"
 msgstr "校正"
 
 #: weblate/html/admin/performance.html:22
 msgid "Result"
 msgstr ""
-
-#: weblate/html/admin/performance.html:23
-#: weblate/html/admin/performance.html:31 weblate/html/footer.html:9
-msgid "Documentation"
-msgstr "ドキュメント"
 
 #: weblate/html/admin/performance.html:39
 #, fuzzy
@@ -770,7 +928,7 @@ msgstr "新しいパスワード確認"
 msgid "Name"
 msgstr ""
 
-#: weblate/html/admin/report.html:8 weblate/html/js/detail.html:9
+#: weblate/html/admin/report.html:8 weblate/html/js/detail.html:12
 msgid "Status"
 msgstr "状態"
 
@@ -883,88 +1041,89 @@ msgid ""
 msgstr ""
 
 #: weblate/html/base.html:40
-#, python-format
-msgid "Logged in as %(name)s"
-msgstr "%(name)s でログイン中"
+#, fuzzy
+#| msgid "Toggle text direction"
+msgid "Toggle navigation"
+msgstr "テキストの方向を逆にする"
 
-#: weblate/html/base.html:41
+#: weblate/html/base.html:51 weblate/html/base.html.py:89
+msgid "Dashboard"
+msgstr ""
+
+#: weblate/html/base.html:54 weblate/html/index.html:27
+#: weblate/html/index.html.py:53
+msgid "Your translations"
+msgstr "対象言語が存在しているプロジェクト"
+
+#: weblate/html/base.html:75
 msgid "Logout"
 msgstr "ログアウト"
 
 #: weblate/html/check.html:7 weblate/html/check_project.html:7
 #: weblate/html/check_subproject.html:7 weblate/html/checks.html:7
-msgid "checks"
-msgstr "校正"
+#: weblate/html/js/detail.html:13
+msgid "Checks"
+msgstr "要校正"
 
-#: weblate/html/check.html:18 weblate/html/check_project.html:19
-#: weblate/html/check_subproject.html:20
-#, python-format
-msgid ""
-"More information about this check is available in the <a href=\"%(link)s"
-"\">documentation</a>."
-msgstr ""
-"校正に関する詳細な情報は<a href=\"%(link)s\">ドキュメント</a>を参照してくださ"
-"い。"
+#: weblate/html/check.html:16 weblate/html/check_project.html:17
+#: weblate/html/check_subproject.html:18 weblate/html/checks.html:15
+#, fuzzy
+#| msgid "Checks"
+msgid "Checks listing"
+msgstr "要校正"
 
-#: weblate/html/check.html:26 weblate/html/check_project.html:26
-#: weblate/html/data.html:28 weblate/html/data.html.py:59
-#: weblate/html/data.html:85 weblate/html/index.html:63
-#: weblate/html/js/other.html:6 weblate/html/list-translations.html:6
-#: weblate/trans/models/subproject.py:72
-msgid "Project"
-msgstr "プロジェクト"
+#: weblate/html/check.html:26 weblate/html/check_project.html:27
+#: weblate/html/check_subproject.html:31
+#, fuzzy
+#| msgid "No matching source strings found!"
+msgid "No matching checks found!"
+msgstr "マッチする原文が見つかりません！"
 
-#: weblate/html/check.html:27 weblate/html/check_project.html:27
-#: weblate/html/check_subproject.html:28 weblate/html/checks.html:16
-msgid "Failures"
-msgstr "不完全数"
+#: weblate/html/check.html:35 weblate/html/check_project.html:36
+#: weblate/html/check_subproject.html:40
+#, fuzzy
+#| msgid "Checks"
+msgid "Check details"
+msgstr "要校正"
 
-#: weblate/html/check.html:40 weblate/html/check_project.html:40
-#: weblate/html/check_subproject.html:47
-msgid "There are no matching failed checks!"
-msgstr "不完全なものはありません！"
-
-#: weblate/html/check_subproject.html:27 weblate/html/dictionary.html:33
-#: weblate/html/js/dictionary.html:9 weblate/html/js/other.html:6
-#: weblate/html/last-changes.html:17 weblate/html/translate.html:91
-#: weblate/html/translate.html.py:220 weblate/html/translate.html:240
-#: weblate/trans/forms.py:412
-msgid "Translation"
-msgstr "翻訳"
-
-#: weblate/html/check_subproject.html:39 weblate/html/dictionary.html:32
-#: weblate/html/js/dictionary.html:8 weblate/html/js/other.html:6
-#: weblate/html/search.html:31 weblate/html/source-review.html:33
-#: weblate/html/translate.html:68 weblate/html/translate.html.py:212
-#: weblate/html/translate.html:220 weblate/html/translate.html.py:241
-#: weblate/trans/forms.py:411
+#: weblate/html/check_subproject.html:27 weblate/html/dictionary.html:39
+#: weblate/html/search.html:21 weblate/html/source-review.html:23
+#: weblate/html/translate.html:70 weblate/html/translate.html.py:137
+#: weblate/html/translate.html:258 weblate/html/translate.html.py:339
+#: weblate/trans/forms.py:502
 msgid "Source"
 msgstr "原文"
 
-#: weblate/html/data-root.html:6 weblate/html/data.html:7
-msgid "data"
+#: weblate/html/checks.html:30
+msgid "Information"
+msgstr "統計情報"
+
+#: weblate/html/checks.html:32
+msgid ""
+"Customizable quality checks will help you in improving quality of "
+"translations."
 msgstr ""
 
-#: weblate/html/data-root.html:11 weblate/html/data.html:12
-#: weblate/html/index.html:153 weblate/html/share.html:30
+#: weblate/html/data-root.html:6 weblate/html/index.html:43
+#: weblate/html/share.html:30
 msgid "Data export"
 msgstr "データのエクスポート"
 
-#: weblate/html/data-root.html:14 weblate/html/data.html:15
+#: weblate/html/data-root.html:12 weblate/html/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
 
-#: weblate/html/data-root.html:17 weblate/html/data.html:18
+#: weblate/html/data-root.html:15 weblate/html/data.html:16
 msgid "RSS feeds"
 msgstr ""
 
-#: weblate/html/data-root.html:20 weblate/html/data.html:21
+#: weblate/html/data-root.html:18 weblate/html/data.html:19
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
 
-#: weblate/html/data-root.html:21 weblate/html/data.html:22
+#: weblate/html/data-root.html:19 weblate/html/data.html:20
 #, python-format
 msgid ""
 "More information about exported RSS feeds is available in <a href="
@@ -973,39 +1132,39 @@ msgstr ""
 "出力された RSS フィードについての詳細は、<a href=\"%(rss_docs)s\">ドキュメン"
 "ト</a>に記載されています。"
 
-#: weblate/html/data-root.html:27 weblate/html/data.html:29
-#: weblate/html/data.html.py:60 weblate/html/data.html:86
-#: weblate/html/data.html.py:111
+#: weblate/html/data-root.html:25 weblate/html/data.html:27
+#: weblate/html/data.html.py:58 weblate/html/data.html:84
+#: weblate/html/data.html.py:109
 msgid "URL"
 msgstr ""
 
-#: weblate/html/data-root.html:28 weblate/html/data.html:30
-#: weblate/html/data.html.py:61 weblate/html/data.html:87
+#: weblate/html/data-root.html:26 weblate/html/data.html:28
+#: weblate/html/data.html.py:59 weblate/html/data.html:85
 msgid "Link"
 msgstr ""
 
-#: weblate/html/data-root.html:33 weblate/html/data.html:36
-#: weblate/html/data.html.py:42
+#: weblate/html/data-root.html:31 weblate/html/data.html:34
+#: weblate/html/data.html.py:40
 msgid "RSS"
 msgstr ""
 
-#: weblate/html/data-root.html:38
+#: weblate/html/data-root.html:36
 msgid "Per project data"
 msgstr "プロジェクト毎のデータ"
 
-#: weblate/html/data-root.html:41
+#: weblate/html/data-root.html:39
 msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
 
-#: weblate/html/data-root.html:51 weblate/html/data.html:75
+#: weblate/html/data-root.html:49 weblate/html/data.html:73
 #, fuzzy
 #| msgid "Notification on new comment"
 msgid "Notification hooks"
 msgstr "新しいコメントを通知"
 
-#: weblate/html/data-root.html:54 weblate/html/data.html:78
+#: weblate/html/data-root.html:52 weblate/html/data.html:76
 #, python-format
 msgid ""
 "With notification hooks, Weblate will automatically import changes done by "
@@ -1013,13 +1172,19 @@ msgid ""
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
 
-#: weblate/html/data.html:48
+#: weblate/html/data.html:7
+#, fuzzy
+#| msgid "Data export"
+msgid "data exports"
+msgstr "データのエクスポート"
+
+#: weblate/html/data.html:46
 msgid ""
 "There are also per language RSS feeds available, you can construct them by "
 "appending a language code to the above URLs."
 msgstr ""
 
-#: weblate/html/data.html:53
+#: weblate/html/data.html:51
 #, python-format
 msgid ""
 "Translation statistics for every subproject in JSON format allow you to use "
@@ -1027,165 +1192,124 @@ msgid ""
 "href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
 
-#: weblate/html/data.html:68 weblate/html/translation.html:67
+#: weblate/html/data.html:66
 msgid "Download"
 msgstr "ダウンロード"
 
-#: weblate/html/data.html:93 weblate/html/data.html.py:99
+#: weblate/html/data.html:91 weblate/html/data.html.py:97
 msgid "Hook"
 msgstr ""
 
-#: weblate/html/data.html:105
+#: weblate/html/data.html:103
 msgid ""
 "Weblate also supports direct notification from several code hosting sites:"
 msgstr ""
 
-#: weblate/html/data.html:110
+#: weblate/html/data.html:108
 #, fuzzy
 #| msgid "Last name"
 msgid "Hosting site"
 msgstr "名前 (姓)"
 
-#: weblate/html/data.html:112 weblate/trans/models/advertisement.py:111
+#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:111
 msgid "Note"
 msgstr ""
 
-#: weblate/html/data.html:119
+#: weblate/html/data.html:117
 msgid "Enable Weblate service hook in repository settings."
 msgstr ""
 
-#: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:7
+#: weblate/html/dictionaries.html:8 weblate/html/dictionary.html:9
 msgid "glossaries"
 msgstr ""
 
-#: weblate/html/dictionaries.html:15 weblate/html/js/detail.html:8
-#: weblate/html/languages.html:14 weblate/html/list-translations.html:6
-#: weblate/trans/forms.py:495
+#: weblate/html/dictionaries.html:15 weblate/html/js/detail.html:11
+#: weblate/html/languages.html:15 weblate/html/list-translations.html:7
+#: weblate/trans/forms.py:614
 msgid "Language"
 msgstr "言語"
 
-#: weblate/html/dictionaries.html:16 weblate/html/translation.html:156
+#: weblate/html/dictionaries.html:16 weblate/html/translation.html:89
+#: weblate/html/translation.html.py:266 weblate/html/translation_info.html:15
 msgid "Words"
 msgstr "単語"
 
-#: weblate/html/dictionary.html:15 weblate/html/translate.html:196
-msgid "Glossary"
-msgstr "用語集"
+#: weblate/html/dictionary.html:16
+#, fuzzy
+#| msgid "Browse changes"
+msgid "Browse"
+msgstr "更新状況を見る"
 
-#: weblate/html/dictionary.html:19 weblate/html/search.html:14
-#: weblate/html/source-review.html:20 weblate/html/trans/change_list.html:16
-#: weblate/html/translate.html:34
-msgid "First"
-msgstr "先頭"
-
-#: weblate/html/dictionary.html:20 weblate/html/search.html:15
-#: weblate/html/source-review.html:21 weblate/html/trans/change_list.html:17
-#: weblate/html/translate.html:35
-msgid "Previous"
-msgstr "前へ"
-
-#: weblate/html/dictionary.html:21 weblate/html/search.html:16
-#: weblate/html/source-review.html:22 weblate/html/trans/change_list.html:18
-#: weblate/html/translate.html:36
-#, python-format
-msgid "%(position)s / %(total)s"
-msgstr "%(position)s 件目 ／ 全 %(total)s 件"
-
-#: weblate/html/dictionary.html:22 weblate/html/search.html:17
-#: weblate/html/source-review.html:23 weblate/html/trans/change_list.html:19
-#: weblate/html/translate.html:37
-msgid "Next"
-msgstr "次へ"
-
-#: weblate/html/dictionary.html:23 weblate/html/search.html:18
-#: weblate/html/source-review.html:24 weblate/html/trans/change_list.html:20
-#: weblate/html/translate.html:38
-msgid "Last"
-msgstr "末尾"
-
-#: weblate/html/dictionary.html:47 weblate/html/js/detail.html:11
-#: weblate/html/js/detail.html.py:19 weblate/html/zen-units.html:17
-msgid "Edit"
-msgstr "編集"
-
-#: weblate/html/dictionary.html:56 weblate/html/translate.html:140
-msgid "Delete"
-msgstr "削除"
-
-#: weblate/html/dictionary.html:65
-msgid "No words found!"
-msgstr "単語が見つかりません!"
-
-#: weblate/html/dictionary.html:68 weblate/html/language.html:18
-#: weblate/html/project.html:44 weblate/html/subproject.html:30
-#: weblate/html/subproject.html.py:44 weblate/html/translation.html:37
-msgid "Tools"
-msgstr "ツール"
-
-#: weblate/html/dictionary.html:73
+#: weblate/html/dictionary.html:18 weblate/html/dictionary.html.py:78
 msgid "Add new word"
 msgstr "新しい単語の追加"
 
-#: weblate/html/dictionary.html:76
+#: weblate/html/dictionary.html:21 weblate/html/dictionary.html.py:96
 msgid "Import glossary"
 msgstr "用語集のインポート"
 
-#: weblate/html/dictionary.html:78
+#: weblate/html/dictionary.html:23 weblate/html/dictionary.html.py:114
 msgid "Export glossary"
 msgstr "用語集のエクスポート"
 
-#: weblate/html/dictionary.html:79 weblate/html/index.html:93
-#: weblate/html/language.html:23 weblate/html/project.html:48
-#: weblate/html/subproject.html:34 weblate/html/translate.html:207
-#: weblate/html/translation.html:41 weblate/html/translation.html.py:96
+#: weblate/html/dictionary.html:24 weblate/html/index.html:33
+#: weblate/html/language.html:15 weblate/html/last-changes.html:6
+#: weblate/html/project.html:17 weblate/html/subproject.html:20
+#: weblate/html/translate.html:126 weblate/html/translation.html:23
 msgid "History"
 msgstr ""
 
-#: weblate/html/dictionary.html:90 weblate/html/index.html:24
-#: weblate/html/translate.html:266 weblate/html/translate.html.py:300
+#: weblate/html/dictionary.html:40 weblate/html/last-changes.html:17
+#: weblate/html/translate.html:137 weblate/html/translate.html.py:205
+#: weblate/html/translate.html:257 weblate/html/translate.html.py:340
+#: weblate/trans/forms.py:172 weblate/trans/forms.py:503
+msgid "Translation"
+msgstr "翻訳"
+
+#: weblate/html/dictionary.html:53 weblate/html/js/detail.html:14
+#: weblate/html/js/detail.html.py:23 weblate/html/zen-units.html:17
+msgid "Edit"
+msgstr "編集"
+
+#: weblate/html/dictionary.html:60 weblate/html/translate.html:186
+msgid "Delete"
+msgstr "削除"
+
+#: weblate/html/dictionary.html:69
+msgid "No words found!"
+msgstr "単語が見つかりません!"
+
+#: weblate/html/dictionary.html:84
 msgid "Add"
 msgstr "追加"
 
-#: weblate/html/dictionary.html:99
-msgid ""
-"You can upload any format which is understood by Translate Toolkit "
-"(including TBX, CSV or Gettext PO files)."
-msgstr ""
-"Translate Toolkit が理解できる形式 (TBX や CSV、Gettext po ファイルなど) であ"
-"ればアップロードできます。"
-
-#: weblate/html/dictionary.html:106
+#: weblate/html/dictionary.html:103
 msgid "Import"
 msgstr "インポート"
 
-#: weblate/html/dictionary.html:114
+#: weblate/html/dictionary.html:116
 msgid "You can download glossary in following formats:"
 msgstr ""
 
-#: weblate/html/dictionary.html:117
+#: weblate/html/dictionary.html:119
 msgid "Comma separated values (CSV)"
 msgstr ""
 
-#: weblate/html/dictionary.html:118
+#: weblate/html/dictionary.html:120
 msgid "Gettext (PO)"
 msgstr ""
 
-#: weblate/html/dictionary.html:119
+#: weblate/html/dictionary.html:121
 msgid "TermBase eXchange (TBX)"
 msgstr ""
 
-#: weblate/html/edit_dictionary.html:7
+#: weblate/html/edit_dictionary.html:8
 msgid "dictionaries"
 msgstr "辞書"
 
-#: weblate/html/edit_dictionary.html:14
+#: weblate/html/edit_dictionary.html:18
 msgid "Change word"
 msgstr "単語の変更"
-
-#: weblate/html/edit_dictionary.html:25 weblate/html/trans/change_list.html:12
-#: weblate/trans/views/changes.py:55
-msgid "Changes"
-msgstr "変更点"
 
 #: weblate/html/engage.html:11 weblate/html/engage.html.py:25
 #, python-format
@@ -1231,10 +1355,6 @@ msgstr ""
 #, python-format
 msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr ""
-
-#: weblate/html/footer.html:8
-msgid "Contact us"
-msgstr "連絡先"
 
 #: weblate/html/git-commit-info.html:3
 #, python-format
@@ -1951,13 +2071,13 @@ msgstr "ヨルバ語"
 msgid "Zulu"
 msgstr "ズールー語"
 
-#: weblate/html/index.html:10
+#: weblate/html/index.html:11
 #, fuzzy, python-format
 #| msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgid "This site runs <a href=\"%(weblate_url)s\">Weblate</a> demo server."
 msgstr "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
-#: weblate/html/index.html:12
+#: weblate/html/index.html:13
 #, fuzzy, python-format
 #| msgid ""
 #| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
@@ -1971,7 +2091,7 @@ msgstr ""
 "フトウェアプロジェクトの翻訳を行っています。翻訳を行うにはログインする必要が"
 "ありますが、ログインしなくても翻訳の提案だけはすることができます。"
 
-#: weblate/html/index.html:14
+#: weblate/html/index.html:15
 #, fuzzy
 #| msgid "You need to log in to be able to manage suggestions!"
 msgid ""
@@ -1979,98 +2099,86 @@ msgid ""
 "suggestions."
 msgstr "提案を管理するには、ログインする必要があります！"
 
-#: weblate/html/index.html:19
-msgid "Whiteboard"
-msgstr ""
-
-#: weblate/html/index.html:23
-#, fuzzy
-#| msgid "Message"
-msgid "Messages"
-msgstr "メッセージ"
-
-#: weblate/html/index.html:39 weblate/html/subproject.html:23
-#: weblate/html/translate.html:91
-msgid "Translations"
-msgstr "翻訳"
-
-#: weblate/html/index.html:44
-msgid "Your translations"
-msgstr "対象言語が存在しているプロジェクト"
-
-#: weblate/html/index.html:48 weblate/html/js/detail.html:10
-msgid "Checks"
-msgstr "要校正"
-
-#: weblate/html/index.html:64 weblate/html/index.html.py:117
-#: weblate/html/languages.html:15 weblate/html/list-translations.html:8
-#: weblate/html/project.html:27 weblate/html/translation.html:165
-msgid "Translated"
-msgstr "翻訳数"
-
-#: weblate/html/index.html:88
-msgid "Summaries"
-msgstr "概要"
-
-#: weblate/html/index.html:94 weblate/html/index.html.py:108
-#: weblate/html/search.html:45 weblate/html/search.html.py:48
-#: weblate/html/translate.html:215 weblate/html/translate.html.py:312
-#: weblate/html/translation.html:42 weblate/html/translation.html.py:61
+#: weblate/html/index.html:32 weblate/html/search-form.html:6
+#: weblate/html/search-form.html.py:11 weblate/html/search.html:7
+#: weblate/html/translate.html:125 weblate/html/translate.html.py:230
+#: weblate/html/translate.html:235 weblate/html/translate.html.py:296
+#: weblate/html/translation.html:22 weblate/html/translation.html.py:222
+#: weblate/html/translation.html:227
 msgid "Search"
 msgstr "検索"
 
-#: weblate/html/index.html:95
+#: weblate/html/index.html:34 weblate/html/index.html.py:114
+#: weblate/html/language.html:16 weblate/html/language.html.py:40
+#: weblate/html/project.html:18 weblate/html/project.html.py:128
+#: weblate/html/subproject.html:21 weblate/html/subproject.html.py:119
+#: weblate/html/translation.html:24 weblate/html/translation.html.py:329
+msgid "Activity"
+msgstr ""
+
+#: weblate/html/index.html:38 weblate/html/project.html:21
+#: weblate/html/subproject.html:24 weblate/html/translation.html:42
+msgid "Tools"
+msgstr "ツール"
+
+#: weblate/html/index.html:41
+msgid "Languages summary"
+msgstr "言語の概要"
+
+#: weblate/html/index.html:42
+msgid "Checks overview"
+msgstr "校正の概要"
+
+#: weblate/html/index.html:44 weblate/html/share.html:14
+msgid "Widgets"
+msgstr ""
+
+#: weblate/html/index.html:60
+msgid ""
+"Choose your languages in the preferences and you will get here overview of "
+"translations in them."
+msgstr ""
+
+#: weblate/html/index.html:64
+#, fuzzy
+#| msgid "Share your translation"
+msgid "Manage your translations"
+msgstr "あなたの翻訳を共有"
+
+#: weblate/html/index.html:80 weblate/html/index.html.py:132
+#: weblate/html/languages.html:16 weblate/html/list-translations.html:9
+#: weblate/html/project.html:64 weblate/html/translation.html:277
+msgid "Translated"
+msgstr "翻訳数"
+
+#: weblate/html/index.html:116 weblate/html/language.html:42
+#: weblate/html/project.html:130 weblate/html/project.html.py:141
+#: weblate/html/subproject.html:121 weblate/html/subproject.html.py:132
+#: weblate/html/translate.html:242 weblate/html/translation.html:187
+#: weblate/html/translation.html.py:331 weblate/trans/forms.py:86
+msgid "Loading…"
+msgstr "読み込み中…"
+
+#: weblate/html/index.html:126
 msgid "Most active translators"
 msgstr "最も活動している翻訳者"
 
-#: weblate/html/index.html:96
-msgid "Most active suggesters"
-msgstr "最も活動している提案者"
-
-#: weblate/html/index.html:98
-msgid "Others"
-msgstr "その他"
-
-#: weblate/html/index.html:116 weblate/html/index.html.py:135
+#: weblate/html/index.html:131 weblate/html/index.html.py:155
 #: weblate/html/last-changes.html:15
 msgid "User"
 msgstr "ユーザ"
 
-#: weblate/html/index.html:136
+#: weblate/html/index.html:150
+msgid "Most active suggesters"
+msgstr "最も活動している提案者"
+
+#: weblate/html/index.html:156
 msgid "Suggested"
 msgstr "提案数"
 
-#: weblate/html/index.html:151
-msgid "Languages summary"
-msgstr "言語の概要"
-
-#: weblate/html/index.html:152
-msgid "Checks overview"
-msgstr "校正の概要"
-
-#: weblate/html/index.html:154 weblate/html/share.html:14
-msgid "Widgets"
-msgstr ""
-
-#: weblate/html/js/dictionary.html:20
-#, fuzzy
-#| msgid "Your translations"
-msgid "Copy word to translation"
-msgstr "対象言語が存在しているプロジェクト"
-
-#: weblate/html/js/dictionary.html:20 weblate/html/translate.html:80
-msgid "Copy"
-msgstr "コピー"
-
-#: weblate/html/js/dictionary.html:28
-msgid "No related strings found in dictionary."
-msgstr "関連するものが辞書内にありません。"
-
-#: weblate/html/js/dictionary.html:31
-#, fuzzy
-#| msgid "Manage all glossaries"
-msgid "Manage glossary"
-msgstr "全用語集の管理"
+#: weblate/html/js/detail.html:49
+msgid "User comments"
+msgstr "ユーザのコメント"
 
 #: weblate/html/js/git-status.html:8
 msgid "Commit pending changes"
@@ -2110,7 +2218,7 @@ msgstr ""
 msgid "Allow changes in the repository"
 msgstr "リモートリポジトリから変更をプルする"
 
-#: weblate/html/js/git-status.html:16 weblate/html/translation.html:135
+#: weblate/html/js/git-status.html:16 weblate/html/translation.html:207
 msgid "Unlock"
 msgstr "ロック解除"
 
@@ -2119,7 +2227,7 @@ msgstr "ロック解除"
 msgid "Prevent any changes in the repository"
 msgstr "変更をリモートリポジトリにプッシュする"
 
-#: weblate/html/js/git-status.html:18 weblate/html/translation.html:137
+#: weblate/html/js/git-status.html:18 weblate/html/translation.html:209
 msgid "Lock"
 msgstr ""
 
@@ -2140,37 +2248,29 @@ msgid "Last remote commit:"
 msgstr ""
 
 #: weblate/html/js/git-status.html:45 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13 weblate/html/subproject_info.html:23
+#: weblate/html/mail/merge_failure.txt:13
 msgid "Git repository with Weblate translations:"
 msgstr "Weblate の翻訳を含む Git リポジトリ:"
 
-#: weblate/html/js/git-status.html:53
+#: weblate/html/js/git-status.html:57
 msgid "Details"
 msgstr "詳細"
 
-#: weblate/html/js/other.html:6 weblate/html/translate.html:220
-msgid "State"
-msgstr "状態"
+#: weblate/html/language.html:14 weblate/html/project.html:16
+#: weblate/html/subproject.html:19 weblate/html/translation.html:21
+#, fuzzy
+#| msgid "review"
+msgid "Overview"
+msgstr "査読"
 
-#: weblate/html/js/other.html:17
-msgid "Use this translation for all subprojects"
-msgstr "全サブプロジェクトでこの翻訳を使います"
-
-#: weblate/html/js/other.html:17
-msgid "Use this translation"
-msgstr "この翻訳を使う"
-
-#: weblate/html/js/other.html:25
-msgid "No other strings found."
-msgstr "他の翻訳が見つかりません。"
-
-#: weblate/html/language.html:6 weblate/html/languages.html:6
-msgid "languages"
-msgstr "言語"
-
-#: weblate/html/language.html:24 weblate/html/project.html:49
+#: weblate/html/language.html:17 weblate/html/language.html.py:49
+#: weblate/html/project.html:99
 msgid "Glossaries"
 msgstr "用語集"
+
+#: weblate/html/language.html:58
+msgid "There are no glossaries defined for this language."
+msgstr ""
 
 #: weblate/html/last-changes.html:14
 msgid "When"
@@ -2194,78 +2294,99 @@ msgstr "最近の活動は記録されていません。"
 msgid "No matching activity has been found."
 msgstr "最近の活動は記録されていません。"
 
-#: weblate/html/last-changes.html:47
+#: weblate/html/last-changes.html:50
 msgid "Browse changes"
 msgstr "更新状況を見る"
 
-#: weblate/html/legend.html:4
-msgid "Translated strings"
-msgstr "翻訳済みの文字列"
+#: weblate/html/last-changes.html:53
+msgid "Follow using RSS"
+msgstr ""
 
-#: weblate/html/legend.html:5 weblate/trans/views/edit.py:54
-msgid "Strings with any failing checks"
+#: weblate/html/legend.html:5 weblate/html/progress.html:5
+#, fuzzy
+#| msgid "Your translations"
+msgid "Good translations"
+msgstr "対象言語が存在しているプロジェクト"
+
+#: weblate/html/legend.html:8 weblate/html/progress.html:11
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "Translations with failing checks"
 msgstr "何らかのチェックに失敗した文字列"
 
-#: weblate/html/legend.html:6 weblate/trans/views/edit.py:48
-msgid "Fuzzy strings"
-msgstr "あいまいな文字列"
+#: weblate/html/legend.html:11 weblate/html/progress.html:8
+#, fuzzy
+#| msgid "Your translations"
+msgid "Fuzzy translations"
+msgstr "対象言語が存在しているプロジェクト"
 
 #: weblate/html/list-checks.html:6
 #, python-format
 msgid "Ignore: %(check)s"
 msgstr "「%(check)s」を無視する"
 
-#: weblate/html/list-translations.html:9
+#: weblate/html/list-comments.html:10
+#, fuzzy
+#| msgid "Translation completed"
+msgid "Translation comment"
+msgstr "翻訳の完了"
+
+#: weblate/html/list-comments.html:12
+#, fuzzy
+msgid "Source string comment"
+msgstr "翻訳元内を検索する"
+
+#: weblate/html/list-translations.html:10
 msgctxt "Number of translated words"
 msgid "Words"
 msgstr "単語数"
 
-#: weblate/html/list-translations.html:10
+#: weblate/html/list-translations.html:11
 msgctxt "Number of fuzzy strings"
 msgid "Fuzzy"
 msgstr "Fuzzy の数"
 
-#: weblate/html/list-translations.html:11
+#: weblate/html/list-translations.html:12
 msgctxt "Number of failing checks"
 msgid "Checks"
 msgstr "チェック数"
 
-#: weblate/html/list-translations.html:12
+#: weblate/html/list-translations.html:13
 msgctxt "Number of suggestions"
 msgid "Suggestions"
 msgstr "提案の数"
 
-#: weblate/html/list-translations.html:23
+#: weblate/html/list-translations.html:24
 #, python-format
 msgid "%(words)s word to translate!"
 msgid_plural "%(words)s words to translate!"
 msgstr[0] "%(words)s 単語を翻訳する必要があります!"
 
-#: weblate/html/list-translations.html:26
+#: weblate/html/list-translations.html:27
 #, python-format
 msgid "There is %(count)s fuzzy string."
 msgid_plural "There are %(count)s fuzzy strings."
 msgstr[0] "fuzzy な文字列が %(count)s 個あります。"
 
-#: weblate/html/list-translations.html:35
+#: weblate/html/list-translations.html:36
 #, python-format
 msgid "There is %(count)s failing check."
 msgid_plural "There are %(count)s failing checks."
 msgstr[0] "不完全なものが %(count)s 個あります。"
 
-#: weblate/html/list-translations.html:44
+#: weblate/html/list-translations.html:45
 #, python-format
 msgid "There is %(count)s suggestion."
 msgid_plural "There are %(count)s suggestions."
 msgstr[0] "提案が %(count)s 個あります。"
 
-#: weblate/html/list-translations.html:53
+#: weblate/html/list-translations.html:54
 #, python-format
 msgid "There is %(count)s not translated string."
 msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "翻訳されていないものが %(count)s 個あります。"
 
-#: weblate/html/list-translations.html:53 weblate/html/translate.html:30
+#: weblate/html/list-translations.html:54 weblate/html/translate.html:51
 #: weblate/html/zen.html:21
 msgid "Translate"
 msgstr "翻訳"
@@ -2576,56 +2697,99 @@ msgstr ""
 msgid "More information about Weblate can be found at http://weblate.org/"
 msgstr ""
 
-#: weblate/html/project.html:11 weblate/html/source.html:13
-#: weblate/html/subproject.html:13 weblate/html/translation.html:16
-msgid "Project Information"
-msgstr "プロジェクト情報"
+#: weblate/html/paginator.html:6 weblate/html/translate.html:38
+#, python-format
+msgid "%(position)s / %(total)s"
+msgstr "%(position)s 件目 ／ 全 %(total)s 件"
 
-#: weblate/html/project.html:21
-msgid "Subprojects"
-msgstr "サブプロジェクト"
+#: weblate/html/project.html:24 weblate/html/subproject.html:27
+#: weblate/html/translation.html:45
+#, fuzzy
+#| msgid "Data export"
+msgid "Data exports"
+msgstr "データのエクスポート"
 
-#: weblate/html/project.html:26
-msgid "Subproject"
-msgstr "サブプロジェクト"
-
-#: weblate/html/project.html:51 weblate/html/subproject.html:39
-#: weblate/html/translation.html:48
+#: weblate/html/project.html:26 weblate/html/project.html.py:139
+#: weblate/html/subproject.html:29 weblate/html/subproject.html.py:130
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:185
 msgid "Git maintenance"
 msgstr "Git のメンテナンス"
 
-#: weblate/html/project.html:54 weblate/html/subproject.html:42
-#: weblate/html/translation.html:52
+#: weblate/html/project.html:28 weblate/html/source-review.html:25
+#: weblate/html/translate.html:397 weblate/trans/views/checks.py:65
+msgid "Failing checks"
+msgstr "不完全性"
+
+#: weblate/html/project.html:35 weblate/html/subproject.html:37
+#: weblate/html/translation.html:58
 msgid "Share"
 msgstr "共有"
 
-#: weblate/html/project.html:64
+#: weblate/html/project.html:39 weblate/html/share.html:10
+#: weblate/html/subproject.html:41 weblate/html/translation.html:62
+msgid "Share on Facebook!"
+msgstr "Facebook で共有！"
+
+#: weblate/html/project.html:40 weblate/html/share.html:11
+#: weblate/html/subproject.html:42 weblate/html/translation.html:63
+#, python-format
+msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
+msgstr "%(share_url)s! の %%23Weblate で %(object)s を翻訳しましょう！"
+
+#: weblate/html/project.html:40 weblate/html/share.html:11
+#: weblate/html/subproject.html:42 weblate/html/translation.html:63
+msgid "Tweet this translation!"
+msgstr "この翻訳をツイートする！"
+
+#: weblate/html/project.html:41 weblate/html/subproject.html:43
+#: weblate/html/translation.html:64
+#, fuzzy
+#| msgid "Status"
+msgid "Status widgets"
+msgstr "状態"
+
+#: weblate/html/project.html:57
+#, fuzzy
+#| msgid "source"
+msgid "Resources"
+msgstr "原文"
+
+#: weblate/html/project.html:63 weblate/html/translate.html:205
+#, fuzzy
+#| msgid "source"
+msgid "Resource"
+msgstr "原文"
+
+#: weblate/html/project.html:89 weblate/html/source.html:36
+#: weblate/html/subproject.html:72 weblate/html/translation.html:115
+msgid "Project Information"
+msgstr "プロジェクト情報"
+
+#: weblate/html/project.html:108
+msgid "There are currently no glossaries defined for this project."
+msgstr ""
+
+#: weblate/html/project.html:112
 msgid "Manage all glossaries"
 msgstr "全用語集の管理"
 
-#: weblate/html/project_info.html:3
-msgid "Project website:"
-msgstr "プロジェクトのウェブサイト:"
-
 #: weblate/html/project_info.html:9
-msgid "Mailing list for translators:"
+#, fuzzy
+#| msgid "Mailing list for translators:"
+msgid "Mailing list for translators"
 msgstr "翻訳者メーリングリスト:"
 
 #: weblate/html/project_info.html:16
-msgid "Instructions for translators:"
+#, fuzzy
+#| msgid "Instructions for translators:"
+msgid "Instructions for translators"
 msgstr "翻訳に関する説明:"
 
-#: weblate/html/project_info.html:23
-msgid "Translation license:"
-msgstr "翻訳物のライセンス："
+#: weblate/html/project_info.html:23 weblate/trans/models/project.py:104
+msgid "Translation license"
+msgstr "翻訳のライセンス"
 
-#: weblate/html/search.html:7
-#, fuzzy
-#| msgid "Search"
-msgid "search"
-msgstr "検索"
-
-#: weblate/html/search.html:42
+#: weblate/html/search.html:34
 #, fuzzy
 #| msgid "No matching source strings found!"
 msgid "No matching strings found!"
@@ -2634,19 +2798,6 @@ msgstr "マッチする原文が見つかりません！"
 #: weblate/html/share.html:7
 msgid "Share your translation"
 msgstr "あなたの翻訳を共有"
-
-#: weblate/html/share.html:10
-msgid "Share on Facebook!"
-msgstr "Facebook で共有！"
-
-#: weblate/html/share.html:11
-#, python-format
-msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "%(share_url)s! の %%23Weblate で %(object)s を翻訳しましょう！"
-
-#: weblate/html/share.html:11
-msgid "Tweet this translation!"
-msgstr "この翻訳をツイートする！"
 
 #: weblate/html/share.html:27
 #, fuzzy, python-format
@@ -2671,51 +2822,43 @@ msgid "This translation is currently locked for updates!"
 msgstr "この翻訳は %(user)s にロックされています！"
 
 #: weblate/html/source-review.html:10 weblate/html/source.html:8
-msgid "source"
-msgstr "原文"
+#, fuzzy
+msgid "source strings"
+msgstr "翻訳元内を検索する"
 
 #: weblate/html/source-review.html:11
 msgid "review"
 msgstr "査読"
 
-#: weblate/html/source-review.html:16
-msgid "Strings to review"
-msgstr "査読する文字列"
-
-#: weblate/html/source-review.html:34 weblate/trans/forms.py:507
+#: weblate/html/source-review.html:24 weblate/trans/forms.py:626
 msgid "Priority"
 msgstr ""
 
-#: weblate/html/source-review.html:35 weblate/html/translate.html:106
-#: weblate/html/translate.html.py:279 weblate/trans/views/checks.py:48
-msgid "Failing checks"
-msgstr "不完全性"
-
-#: weblate/html/source-review.html:50
+#: weblate/html/source-review.html:40
 msgid "Comment"
 msgstr "コメント"
 
-#: weblate/html/source-review.html:63 weblate/html/translate.html:284
-msgid "User comments"
-msgstr "ユーザのコメント"
-
-#: weblate/html/source-review.html:75
-msgid "Change string priority"
-msgstr ""
-
-#: weblate/html/source-review.html:83
+#: weblate/html/source-review.html:57
 msgid "No matching source strings found!"
 msgstr "マッチする原文が見つかりません！"
 
-#: weblate/html/source.html:22 weblate/html/translation.html:28
+#: weblate/html/source.html:19 weblate/html/translation.html:100
 msgid "Strings to check"
 msgstr "検討対象"
 
-#: weblate/html/subproject.html:36 weblate/trans/models/changes.py:167
+#: weblate/html/subproject.html:31
+msgid "Source strings review"
+msgstr "原文の査読"
+
+#: weblate/html/subproject.html:58
+msgid "Translations"
+msgstr "翻訳"
+
+#: weblate/html/subproject.html:85 weblate/trans/models/changes.py:167
 msgid "New translation"
 msgstr "新しい訳文"
 
-#: weblate/html/subproject.html:51
+#: weblate/html/subproject.html:88
 #, fuzzy, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -2724,132 +2867,73 @@ msgstr ""
 "翻訳したい言語がない場合は、<a href=\"%(contact_url)s?subject=New+language"
 "+request+for+%(object)s\">連絡</a>してください。"
 
-#: weblate/html/subproject.html:53
+#: weblate/html/subproject.html:90
 msgid "Please choose the language into which you would like to translate."
 msgstr ""
 
-#: weblate/html/subproject.html:61
+#: weblate/html/subproject.html:95
+msgid "Can not find your language in above list?"
+msgstr ""
+
+#: weblate/html/subproject.html:98
 #, fuzzy
 #| msgid "New translation"
 msgid "Start new translation"
 msgstr "新しい訳文"
 
-#: weblate/html/subproject.html:67
-msgid "Can not find your language in above list?"
-msgstr ""
+#: weblate/html/subproject_info.html:16 weblate/trans/models/subproject.py:116
+msgid "Git branch"
+msgstr "Git ブランチ"
 
-#: weblate/html/subproject.html:68
+#: weblate/html/subproject_info.html:28
 #, fuzzy
-#| msgid "New language"
-msgid "Report missing language"
-msgstr "新しい言語"
+#| msgid "Git repository with Weblate translations:"
+msgid "Git repository with Weblate translations"
+msgstr "Weblate の翻訳を含む Git リポジトリ:"
 
-#: weblate/html/subproject.html:87
-msgid "Source strings review"
-msgstr "原文の査読"
+#: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
+msgid "Changes"
+msgstr "変更点"
 
-#: weblate/html/subproject.html:88
-#, fuzzy
-#| msgid "Machine translation"
-msgid "Machine-readable data"
-msgstr "機械翻訳"
-
-#: weblate/html/subproject_info.html:9
-msgid "Git repository:"
-msgstr "Git リポジトリ:"
-
-#: weblate/html/trans/change_list.html:7
-#, fuzzy
-#| msgid "Recent changes"
-msgid "changes"
-msgstr "最近の更新"
-
-#: weblate/html/translate.html:15
+#: weblate/html/translate.html:16
 msgid "translate"
 msgstr "翻訳"
 
-#: weblate/html/translate.html:26
+#: weblate/html/translate.html:28
 msgid "Edit in Zen mode"
 msgstr ""
 
-#: weblate/html/translate.html:26
+#: weblate/html/translate.html:28
 msgid "Zen"
 msgstr ""
 
-#: weblate/html/translate.html:42
-#, python-format
-msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+#: weblate/html/translate.html:32
+msgid "First"
+msgstr "先頭"
+
+#: weblate/html/translate.html:33
+msgid "Previous"
+msgstr "前へ"
+
+#: weblate/html/translate.html:36
+#, fuzzy, python-format
+#| msgid "Current filter: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
+msgid "%(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 msgstr "フィルタの条件: %(filter_name)s (%(filter_pos)s / %(filter_count)s)"
 
-#: weblate/html/translate.html:63
+#: weblate/html/translate.html:41
+msgid "Next"
+msgstr "次へ"
+
+#: weblate/html/translate.html:42
+msgid "Last"
+msgstr "末尾"
+
+#: weblate/html/translate.html:65
 msgid "Source change"
 msgstr "原文の変更"
 
-#: weblate/html/translate.html:73
-msgid "Context"
-msgstr "コンテキスト"
-
-#: weblate/html/translate.html:83
-msgid "Toggle text direction"
-msgstr "テキストの方向を逆にする"
-
-#: weblate/html/translate.html:96 weblate/html/zen-units.html:29
-msgctxt "Message is fuzzy"
-msgid "Fuzzy"
-msgstr "あいまい"
-
-#: weblate/html/translate.html:97
-msgid "Special characters:"
-msgstr "特殊文字:"
-
-#: weblate/html/translate.html:98
-msgid "Insert tab character"
-msgstr ""
-
-#: weblate/html/translate.html:99
-msgid "Insert new line"
-msgstr "新しい行を挿入"
-
-#: weblate/html/translate.html:100
-msgid "Insert horizontal ellipsis"
-msgstr ""
-
-#: weblate/html/translate.html:116
-msgid "Suggestions"
-msgstr "提案"
-
-#: weblate/html/translate.html:123
-#, python-format
-msgid "Suggested by %(user)s"
-msgstr "%(user)s による提案"
-
-#: weblate/html/translate.html:125
-msgid "Suggested by anonymous user"
-msgstr "匿名ユーザによる提案"
-
-#: weblate/html/translate.html:128
-#, python-format
-msgid ", %(count)s vote"
-msgid_plural ", %(count)s votes"
-msgstr[0] ""
-
-#: weblate/html/translate.html:132
-msgid "+1 vote"
-msgstr ""
-
-#: weblate/html/translate.html:133
-msgid "-1 vote"
-msgstr ""
-
-#: weblate/html/translate.html:137
-msgid "Accept"
-msgstr "採用"
-
-#: weblate/html/translate.html:154
-msgid "Flags"
-msgstr "フラグ"
-
-#: weblate/html/translate.html:165
+#: weblate/html/translate.html:82
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -2858,155 +2942,251 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">ログイン</a>することで翻訳を"
 "保存できるようになります。"
 
-#: weblate/html/translate.html:172
+#: weblate/html/translate.html:89
 msgid "Suggest"
 msgstr "提案"
 
-#: weblate/html/translate.html:174
+#: weblate/html/translate.html:91
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "No privileges for adding suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: weblate/html/translate.html:180
-msgid ""
-"You can leave this empty in most cases as Weblate generates basic commit "
-"messages automatically."
-msgstr ""
-
-#: weblate/html/translate.html:181
+#: weblate/html/translate.html:97
 #, fuzzy
 #| msgid "Commit message"
 msgid "Commit message:"
 msgstr "コミットメッセージ"
 
-#: weblate/html/translate.html:181
+#: weblate/html/translate.html:100
 msgid "Additional text to include in the commit message."
 msgstr ""
 
-#: weblate/html/translate.html:189
-msgid "Translation context"
-msgstr "翻訳の前後関係"
+#: weblate/html/translate.html:103
+msgid ""
+"You can leave this empty in most cases as Weblate generates basic commit "
+"messages automatically."
+msgstr ""
 
-#: weblate/html/translate.html:194
+#: weblate/html/translate.html:112
 msgid "Messages placed around this one"
 msgstr "ここの翻訳の前後の翻訳状況"
 
-#: weblate/html/translate.html:194
+#: weblate/html/translate.html:112 weblate/html/translate.html.py:133
 msgid "Nearby messages"
 msgstr "前後の翻訳"
 
-#: weblate/html/translate.html:195
-msgid "Same message used in different subprojects"
-msgstr "異なるサブプロジェクト内で使われている同じメッセージ"
+#: weblate/html/translate.html:114 weblate/html/translate.html.py:159
+#: weblate/html/translate.html:318
+msgid "Suggestions"
+msgstr "提案"
 
-#: weblate/html/translate.html:195
-msgid "All locations"
-msgstr "他のサブプロジェクト"
+#: weblate/html/translate.html:117 weblate/html/translate.html.py:201
+#: weblate/html/translate.html:321
+#, fuzzy
+#| msgid "Your translations"
+msgid "Other translations"
+msgstr "対象言語が存在しているプロジェクト"
 
-#: weblate/html/translate.html:196
-msgid "Words extracted from glossary"
-msgstr "用語集から抽出した単語"
+#: weblate/html/translate.html:120
+#, fuzzy
+#| msgid "Comments"
+msgid "Comments "
+msgstr "コメント"
 
-#: weblate/html/translate.html:198
+#: weblate/html/translate.html:123
 msgid "Machine translation suggestions"
 msgstr "機械翻訳による提案"
 
-#: weblate/html/translate.html:198
+#: weblate/html/translate.html:123 weblate/html/translate.html.py:250
 msgid "Machine translation"
 msgstr "機械翻訳"
 
-#: weblate/html/translate.html:200
-msgid "Comments about this translation"
-msgstr "この翻訳に関するコメント"
-
-#: weblate/html/translate.html:202
-#, python-format
-msgid "Comments (%(count)s)"
-msgstr ""
-
-#: weblate/html/translate.html:204 weblate/html/unit-details.html:11
-msgid "Comments"
-msgstr "コメント"
-
-#: weblate/html/translate.html:207
+#: weblate/html/translate.html:126
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate 内で最近変更を行った一覧"
 
-#: weblate/html/translate.html:208
-#, fuzzy
-msgid "Source string details and feedback"
-msgstr "翻訳元内を検索する"
+#: weblate/html/translate.html:137 weblate/html/translate.html.py:205
+msgid "State"
+msgstr "状態"
 
-#: weblate/html/translate.html:210
+#: weblate/html/translate.html:165
 #, python-format
-msgid "Source (%(count)s)"
+msgid "%(user)s has suggested"
 msgstr ""
 
-#: weblate/html/translate.html:242
+#: weblate/html/translate.html:167
+msgid "Anonymous user has suggested"
+msgstr ""
+
+#: weblate/html/translate.html:173
+#, fuzzy, python-format
+#| msgid "%(count)s month ago"
+#| msgid_plural "%(count)s months ago"
+msgid "%(count)s vote"
+msgid_plural "%(count)s votes"
+msgstr[0] "%(count)s か月前"
+
+#: weblate/html/translate.html:178
+msgid "+1 vote"
+msgstr ""
+
+#: weblate/html/translate.html:179
+msgid "-1 vote"
+msgstr ""
+
+#: weblate/html/translate.html:183
+msgid "Accept"
+msgstr "採用"
+
+#: weblate/html/translate.html:215
+msgid "Use this translation for all subprojects"
+msgstr "全サブプロジェクトでこの翻訳を使います"
+
+#: weblate/html/translate.html:215
+msgid "Use this translation"
+msgstr "この翻訳を使う"
+
+#: weblate/html/translate.html:259
 msgid "Service"
 msgstr ""
 
-#: weblate/html/translate.html:254
-msgid "You can share comments about this translation with other translators."
-msgstr "この翻訳に関するコメントを、他の翻訳者と共有できます。"
+#: weblate/html/translate.html:278 weblate/html/translate.html.py:325
+#: weblate/html/unit-details.html:13
+msgid "Comments"
+msgstr "コメント"
 
-#: weblate/html/translate.html:258 weblate/html/translate.html.py:291
+#: weblate/html/translate.html:290 weblate/trans/forms.py:566
 msgid "New comment"
 msgstr "新しいコメント"
 
-#: weblate/html/translate.html:269 weblate/html/translate.html.py:303
-msgid "You are not allowed to add comments."
-msgstr ""
-
-#: weblate/html/translate.html:285
+#: weblate/html/translate.html:292
+#, fuzzy
+#| msgid ""
+#| "You can share comments about this translation with other translators."
 msgid ""
-"You can share comments about source string for this translation with other "
-"translators and developers."
-msgstr ""
+"You can share comments about this string with other translators and "
+"developers."
+msgstr "この翻訳に関するコメントを、他の翻訳者と共有できます。"
 
-#: weblate/html/translation.html:43
+#: weblate/html/translate.html:315
+#, fuzzy
+#| msgid "Strings to check"
+msgid "Things to check"
+msgstr "検討対象"
+
+#: weblate/html/translate.html:333
+msgid "Glossary"
+msgstr "用語集"
+
+#: weblate/html/translate.html:351
+#, fuzzy
+#| msgid "Your translations"
+msgid "Copy word to translation"
+msgstr "対象言語が存在しているプロジェクト"
+
+#: weblate/html/translate.html:351 weblate/trans/forms.py:87
+msgid "Copy"
+msgstr "コピー"
+
+#: weblate/html/translate.html:359
+#, fuzzy
+#| msgid "No related strings found in dictionary."
+msgid "No related strings were found in the glossary."
+msgstr "関連するものが辞書内にありません。"
+
+#: weblate/html/translate.html:363
+#, fuzzy
+#| msgid "Manage all glossaries"
+msgid "Manage glossary"
+msgstr "全用語集の管理"
+
+#: weblate/html/translate.html:368
+#, fuzzy
+msgid "Source information"
+msgstr "プロジェクト情報"
+
+#: weblate/html/translate.html:373
+msgid "Context"
+msgstr "コンテキスト"
+
+#: weblate/html/translate.html:381
+msgid "Flags"
+msgstr "フラグ"
+
+#: weblate/html/translate.html:389
+#, fuzzy
+#| msgid "Strings to review"
+msgid "String priority"
+msgstr "査読する文字列"
+
+#: weblate/html/translation.html:28
 msgid "Files"
 msgstr "ファイル"
 
-#: weblate/html/translation.html:45 weblate/trans/models/changes.py:170
-msgid "Automatic translation"
-msgstr "自動翻訳"
+#: weblate/html/translation.html:31
+#, fuzzy
+#| msgid "Failed translation"
+msgid "Download for an offline translation."
+msgstr "翻訳できません"
 
-#: weblate/html/translation.html:50
+#: weblate/html/translation.html:31
+msgid "Download source file"
+msgstr ""
+
+#: weblate/html/translation.html:33
+msgid "Download for using within an application."
+msgstr ""
+
+#: weblate/html/translation.html:33
+#, fuzzy
+#| msgid "Your translations"
+msgid "Download compiled translation"
+msgstr "対象言語が存在しているプロジェクト"
+
+#: weblate/html/translation.html:36
+#, fuzzy
+#| msgid "Your translations"
+msgid "Upload translation"
+msgstr "対象言語が存在しているプロジェクト"
+
+#: weblate/html/translation.html:46 weblate/html/translation.html.py:196
 msgid "Locking"
 msgstr "ロック"
 
-#: weblate/html/translation.html:54
-msgid "Stats"
-msgstr "統計"
+#: weblate/html/translation.html:51 weblate/html/translation.html.py:142
+#: weblate/trans/models/changes.py:170
+msgid "Automatic translation"
+msgstr "自動翻訳"
 
-#: weblate/html/translation.html:69
-#, python-format
+#: weblate/html/translation.html:78 weblate/html/widgets.html:60
+#: weblate/html/widgets.html.py:68 weblate/html/widgets.html:75
+#: weblate/html/widgets.html.py:83
+msgid "Translation status"
+msgstr "翻訳状況"
+
+#: weblate/html/translation.html:83 weblate/html/translation.html.py:265
+#: weblate/html/translation_info.html:9
+msgid "Strings"
+msgstr "文字列"
+
+#: weblate/html/translation.html:144
 msgid ""
-"You can <a href=\"%(download_url)s\">download</a> file for offline "
-"translation."
+"Automatic translation takes existing translations in this project and "
+"applies it to the current resource. It can be used to push translations to a "
+"different branch, to fix inconsistent translations or to translate new "
+"resource using translation memory."
 msgstr ""
-"<a href=\"%(download_url)s\">ダウンロード</a>ファイルで、オフライン翻訳を行う"
-"ことができます。"
 
-#: weblate/html/translation.html:73
-#, fuzzy, python-format
-#| msgid ""
-#| "You can <a href=\"%(download_url)s\">download</a> file for offline "
-#| "translation."
-msgid ""
-"You can also <a href=\"%(pack_download_url)s\">download</a> compiled file to "
-"use within the application."
+#: weblate/html/translation.html:151
+msgid "Process"
 msgstr ""
-"<a href=\"%(download_url)s\">ダウンロード</a>ファイルで、オフライン翻訳を行う"
-"ことができます。"
 
-#: weblate/html/translation.html:77 weblate/html/translation.html.py:89
+#: weblate/html/translation.html:162 weblate/html/translation.html.py:175
 msgid "Upload"
 msgstr "アップロード"
 
-#: weblate/html/translation.html:79
+#: weblate/html/translation.html:165
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3014,113 +3194,91 @@ msgstr ""
 "アップロードファイルを現在の翻訳にマージします。既に存在している翻訳を上書き"
 "したい場合は、忘れずに上書きを有効にしてください。"
 
-#: weblate/html/translation.html:81
+#: weblate/html/translation.html:167
 msgid "Uploaded file will be merged with current translation."
 msgstr "アップロードファイルを現在の翻訳にマージします。"
 
-#: weblate/html/translation.html:100
-msgid "Review"
-msgstr "査読"
-
-#: weblate/html/translation.html:102
-msgid "Review translations touched by other users."
-msgstr "他のユーザによる翻訳に対して査読を行います。"
-
-#: weblate/html/translation.html:107
-msgid "Start review"
-msgstr "査読を開始する"
-
-#: weblate/html/translation.html:114
-msgid ""
-"Automatic translation takes existing translations in this project and "
-"applies it to the current subproject. It can be used to push translations to "
-"a different branch, to fix inconsistent translations or to translate new "
-"subproject using translation memory."
-msgstr ""
-
-#: weblate/html/translation.html:120
-msgid "Process"
-msgstr ""
-
-#: weblate/html/translation.html:126
+#: weblate/html/translation.html:198
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 
-#: weblate/html/translation.html:128
+#: weblate/html/translation.html:200
 msgid "Locked by:"
 msgstr ""
 
-#: weblate/html/translation.html:129
+#: weblate/html/translation.html:201
 msgid "Lock expires:"
 msgstr ""
 
-#: weblate/html/translation.html:131
+#: weblate/html/translation.html:203
 msgid "Translation is currently not locked."
 msgstr ""
 
-#: weblate/html/translation.html:154
+#: weblate/html/translation.html:237
+msgid "Review"
+msgstr "査読"
+
+#: weblate/html/translation.html:239
+msgid "Review translations touched by other users."
+msgstr "他のユーザによる翻訳に対して査読を行います。"
+
+#: weblate/html/translation.html:243
+msgid "Start review"
+msgstr "査読を開始する"
+
+#: weblate/html/translation.html:264
 msgid "Percent"
 msgstr ""
 
-#: weblate/html/translation.html:155
-msgid "Strings"
-msgstr "文字列"
-
-#: weblate/html/translation.html:159
+#: weblate/html/translation.html:271
 msgid "Total"
 msgstr ""
 
-#: weblate/html/translation.html:171
+#: weblate/html/translation.html:283
 #, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "あいまい"
 
-#: weblate/html/translation.html:177
+#: weblate/html/translation.html:289
 #, fuzzy
 #| msgid "Failing checks"
 msgid "Failing check"
 msgstr "不完全性"
 
-#: weblate/html/translation.html:186
+#: weblate/html/translation.html:305
+msgid "Last activity"
+msgstr ""
+
+#: weblate/html/translation.html:310
 #, fuzzy
 #| msgid "Last name"
 msgid "Last change"
 msgstr "名前 (姓)"
 
-#: weblate/html/translation.html:190
+#: weblate/html/translation.html:314
 #, fuzzy
 #| msgid "Last name"
 msgid "Last author"
 msgstr "名前 (姓)"
 
-#: weblate/html/translation_info.html:10
-#, fuzzy, python-format
-#| msgid "Strings with comments (%d)"
-msgid "Strings (%(count)s):"
-msgstr "コメントのついている文字列 (%d)"
-
-#: weblate/html/translation_info.html:15
-#, python-format
-msgid "Words (%(count)s):"
-msgstr "単語 (%(count)s):"
-
 #: weblate/html/unit-details.html:5
-msgid "Used in"
-msgstr "使用箇所"
-
-#: weblate/html/unit-details.html:16
 #, fuzzy
-#| msgid "First name"
-msgid "First seen"
-msgstr "名前 (名)"
+#| msgid "Source strings in %s"
+msgid "Source string location"
+msgstr "原文の文字列: %s"
 
-#: weblate/html/user-activity.html:12
+#: weblate/html/unit-details.html:20
+#, fuzzy
+msgid "Source string age"
+msgstr "翻訳元内を検索する"
+
+#: weblate/html/user-activity.html:11
 msgid "Last login"
 msgstr "最終ログイン日時"
 
-#: weblate/html/user-activity.html:16
+#: weblate/html/user-activity.html:15
 msgid "Registration date"
 msgstr "ユーザ登録日時"
 
@@ -3197,11 +3355,6 @@ msgstr ""
 msgid "Textile code"
 msgstr ""
 
-#: weblate/html/widgets.html:59 weblate/html/widgets.html.py:67
-#: weblate/html/widgets.html:74 weblate/html/widgets.html.py:82
-msgid "Translation status"
-msgstr "翻訳状況"
-
 #: weblate/html/zen-response.html:7
 #, fuzzy
 #| msgid "Translation changed"
@@ -3212,7 +3365,12 @@ msgstr "訳文の変更"
 msgid "Open in full editor"
 msgstr ""
 
-#: weblate/html/zen-units.html:37 weblate/trans/views/edit.py:522
+#: weblate/html/zen-units.html:29
+msgctxt "Message is fuzzy"
+msgid "Fuzzy"
+msgstr "あいまい"
+
+#: weblate/html/zen-units.html:37 weblate/trans/views/edit.py:523
 msgid "You have reached end of translating."
 msgstr "翻訳すべきものは以上です。"
 
@@ -3383,11 +3541,11 @@ msgstr "鍵の生成に失敗しました： %s"
 msgid "Can not write to home directory, please check documentation."
 msgstr ""
 
-#: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:302
+#: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:310
 msgid "Trailing ellipsis"
 msgstr "文末の省略記号"
 
-#: weblate/trans/autofixes/chars.py:43 weblate/trans/checks/chars.py:329
+#: weblate/trans/autofixes/chars.py:43 weblate/trans/checks/chars.py:339
 msgid "Zero-width space"
 msgstr ""
 
@@ -3403,43 +3561,43 @@ msgstr "文頭の改行"
 msgid "Source and translation do not both start with a newline"
 msgstr "翻訳前後で文頭の改行の有無が異なるもの"
 
-#: weblate/trans/checks/chars.py:42
+#: weblate/trans/checks/chars.py:43
 msgid "Trailing newline"
 msgstr "文末の改行"
 
-#: weblate/trans/checks/chars.py:43
+#: weblate/trans/checks/chars.py:44
 msgid "Source and translation do not both end with a newline"
 msgstr "翻訳前後で文末の改行の有無が異なるもの"
 
-#: weblate/trans/checks/chars.py:54
+#: weblate/trans/checks/chars.py:56
 msgid "Starting spaces"
 msgstr "先頭の空白"
 
-#: weblate/trans/checks/chars.py:56
+#: weblate/trans/checks/chars.py:58
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "翻訳前後で先頭の空白数が異なる"
 
-#: weblate/trans/checks/chars.py:84
+#: weblate/trans/checks/chars.py:87
 msgid "Trailing space"
 msgstr "文末の空白"
 
-#: weblate/trans/checks/chars.py:85
+#: weblate/trans/checks/chars.py:88
 msgid "Source and translation do not both end with a space"
 msgstr "翻訳前後で文末の空白の有無が異なるもの"
 
-#: weblate/trans/checks/chars.py:117
+#: weblate/trans/checks/chars.py:121
 msgid "Trailing stop"
 msgstr "文末の〆"
 
-#: weblate/trans/checks/chars.py:118
+#: weblate/trans/checks/chars.py:122
 msgid "Source and translation do not both end with a full stop"
 msgstr "翻訳前後で終止符・句点の有無が異なるもの"
 
-#: weblate/trans/checks/chars.py:155
+#: weblate/trans/checks/chars.py:160
 msgid "Trailing colon"
 msgstr "文末のコロン"
 
-#: weblate/trans/checks/chars.py:157
+#: weblate/trans/checks/chars.py:162
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -3447,11 +3605,11 @@ msgstr ""
 "翻訳前後で、文末のコロンの有無が異なるもの、もしくは文末コロンの前後空白が正"
 "しくないもの"
 
-#: weblate/trans/checks/chars.py:212
+#: weblate/trans/checks/chars.py:218
 msgid "Trailing question"
 msgstr "文末の疑問符"
 
-#: weblate/trans/checks/chars.py:214
+#: weblate/trans/checks/chars.py:220
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -3459,11 +3617,11 @@ msgstr ""
 "翻訳前後で、疑問符の有無が異なるもの、もしくは文末疑問符の前後空白が正しくな"
 "いもの"
 
-#: weblate/trans/checks/chars.py:263
+#: weblate/trans/checks/chars.py:270
 msgid "Trailing exclamation"
 msgstr "文末の感嘆符"
 
-#: weblate/trans/checks/chars.py:265
+#: weblate/trans/checks/chars.py:272
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -3471,19 +3629,19 @@ msgstr ""
 "翻訳前後で、感嘆符の有無が異なるもの、もしくは文末感嘆符の前後空白が正しくな"
 "いもの"
 
-#: weblate/trans/checks/chars.py:303
+#: weblate/trans/checks/chars.py:311
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "翻訳前後で文末の省略記号の有無が異なるもの"
 
-#: weblate/trans/checks/chars.py:320
+#: weblate/trans/checks/chars.py:329
 msgid "Mismatched \\n"
 msgstr ""
 
-#: weblate/trans/checks/chars.py:321
+#: weblate/trans/checks/chars.py:330
 msgid "Number of \\n in translation does not match source"
 msgstr "改行(\\n)の数が翻訳元と一致しないもの"
 
-#: weblate/trans/checks/chars.py:330
+#: weblate/trans/checks/chars.py:340
 msgid "Translation contains extra zero-width space character"
 msgstr ""
 
@@ -3495,33 +3653,33 @@ msgstr "複数形の欠如"
 msgid "Some plural forms are not translated"
 msgstr "翻訳されていない複数形が存在するもの"
 
-#: weblate/trans/checks/consistency.py:55
+#: weblate/trans/checks/consistency.py:56
 msgid "Inconsistent"
 msgstr "不一致"
 
-#: weblate/trans/checks/consistency.py:57
+#: weblate/trans/checks/consistency.py:58
 msgid "This message has more than one translation in this project"
 msgstr ""
 "同じプロジェクト内の一致するメッセージに対して複数通りの翻訳がされているもの"
 
-#: weblate/trans/checks/format.py:225
+#: weblate/trans/checks/format.py:226
 msgid "Python format"
 msgstr "Python 書式"
 
-#: weblate/trans/checks/format.py:226 weblate/trans/checks/format.py:240
-#: weblate/trans/checks/format.py:254 weblate/trans/checks/format.py:268
+#: weblate/trans/checks/format.py:227 weblate/trans/checks/format.py:241
+#: weblate/trans/checks/format.py:255 weblate/trans/checks/format.py:269
 msgid "Format string does not match source"
 msgstr "書式文字列が翻訳元と一致していないもの"
 
-#: weblate/trans/checks/format.py:239
+#: weblate/trans/checks/format.py:240
 msgid "PHP format"
 msgstr "PHP 書式"
 
-#: weblate/trans/checks/format.py:253
+#: weblate/trans/checks/format.py:254
 msgid "C format"
 msgstr "C 言語書式"
 
-#: weblate/trans/checks/format.py:267
+#: weblate/trans/checks/format.py:268
 msgid "Python brace format"
 msgstr "Python のブレース書式"
 
@@ -3533,19 +3691,19 @@ msgstr ""
 msgid "BBcode in translation does not match source"
 msgstr "BBcode が翻訳元と一致しないもの"
 
-#: weblate/trans/checks/markup.py:76
+#: weblate/trans/checks/markup.py:77
 msgid "XML tags mismatch"
 msgstr ""
 
-#: weblate/trans/checks/markup.py:77
+#: weblate/trans/checks/markup.py:78
 msgid "XML tags in translation do not match source"
 msgstr "XMLタグがが翻訳元と一致しないもの"
 
-#: weblate/trans/checks/same.py:907
+#: weblate/trans/checks/same.py:909
 msgid "Not translated"
 msgstr "未翻訳"
 
-#: weblate/trans/checks/same.py:908
+#: weblate/trans/checks/same.py:910
 msgid "Source and translated strings are same"
 msgstr "翻訳前後でメッセージが同じもの"
 
@@ -3557,19 +3715,19 @@ msgstr "複数形の欠如"
 msgid "The string is optionally used as plural, but not using plural forms"
 msgstr ""
 
-#: weblate/trans/checks/source.py:51
+#: weblate/trans/checks/source.py:52
 msgid "Ellipsis"
 msgstr ""
 
-#: weblate/trans/checks/source.py:53
+#: weblate/trans/checks/source.py:54
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
 msgstr ""
 
-#: weblate/trans/checks/source.py:66
+#: weblate/trans/checks/source.py:68
 msgid "Multiple failing checks"
 msgstr "複数のチェックに失敗"
 
-#: weblate/trans/checks/source.py:68
+#: weblate/trans/checks/source.py:70
 msgid "The translations in several languages have failing checks"
 msgstr ""
 
@@ -3633,7 +3791,36 @@ msgstr "Android 文字列リソース"
 msgid "JSON file"
 msgstr ""
 
-#: weblate/trans/forms.py:100
+#: weblate/trans/forms.py:55
+msgid "Insert tab character\" %}"
+msgstr ""
+
+#: weblate/trans/forms.py:56
+#, fuzzy
+#| msgid "Insert new line"
+msgid "Insert new line\" %}"
+msgstr "新しい行を挿入"
+
+#: weblate/trans/forms.py:57
+msgid "Insert horizontal ellipsis\" %}"
+msgstr ""
+
+#: weblate/trans/forms.py:85
+#, fuzzy
+#| msgid "New source string"
+msgid "Fill in with source string"
+msgstr "新しいソース文字列"
+
+#: weblate/trans/forms.py:98
+#, python-brace-format
+msgid "Insert character {0}"
+msgstr ""
+
+#: weblate/trans/forms.py:117 weblate/trans/forms.py:125
+msgid "Toggle text direction"
+msgstr "テキストの方向を逆にする"
+
+#: weblate/trans/forms.py:189
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
@@ -3641,141 +3828,169 @@ msgstr ""
 "この式によって、与えられた数(n)に基づいてどの複数形を使用するかが判別されま"
 "す。"
 
-#: weblate/trans/forms.py:103
+#: weblate/trans/forms.py:192
 msgid "Plural equation"
 msgstr "複数形判定式"
 
-#: weblate/trans/forms.py:177
+#: weblate/trans/forms.py:264
 msgid "Message you wanted to translate is no longer available!"
 msgstr ""
 
-#: weblate/trans/forms.py:187
+#: weblate/trans/forms.py:276
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "あいまい"
 
-#: weblate/trans/forms.py:228 weblate/trans/forms.py:420
+#: weblate/trans/forms.py:319 weblate/trans/forms.py:511
 msgid "File"
 msgstr "ファイル"
 
-#: weblate/trans/forms.py:230 weblate/trans/forms.py:423
+#: weblate/trans/forms.py:321 weblate/trans/forms.py:518
 msgid "Merge method"
 msgstr ""
 
-#: weblate/trans/forms.py:232
+#: weblate/trans/forms.py:323
 msgid "Add as translation"
 msgstr "翻訳として追加"
 
-#: weblate/trans/forms.py:233
+#: weblate/trans/forms.py:324
 msgid "Add as a suggestion"
 msgstr "提案として追加"
 
-#: weblate/trans/forms.py:234
+#: weblate/trans/forms.py:325
 msgid "Add as fuzzy translation"
 msgstr "あいまいな翻訳として追加"
 
-#: weblate/trans/forms.py:239
+#: weblate/trans/forms.py:330
 msgid "Merge file header"
 msgstr ""
 
-#: weblate/trans/forms.py:240
+#: weblate/trans/forms.py:331
 msgid "Merges content of file header into the translation."
 msgstr "ファイルのヘッダ部分を翻訳にマージする。"
 
-#: weblate/trans/forms.py:251
+#: weblate/trans/forms.py:342
 msgid "Overwrite existing translations"
 msgstr "既に存在している翻訳を上書きする"
 
-#: weblate/trans/forms.py:261
+#: weblate/trans/forms.py:352
 msgid "Author name"
 msgstr "製作者名"
 
-#: weblate/trans/forms.py:263 weblate/trans/forms.py:268
+#: weblate/trans/forms.py:354 weblate/trans/forms.py:359
 msgid "Keep empty for using currently logged in user."
 msgstr "現在ログインしているユーザを使用する場合は、空欄にしてください。"
 
-#: weblate/trans/forms.py:266
+#: weblate/trans/forms.py:357
 msgid "Author email"
 msgstr "製作者メールアドレス"
 
-#: weblate/trans/forms.py:290
+#: weblate/trans/forms.py:381
 msgid "Query"
 msgstr "検索ワード"
 
-#: weblate/trans/forms.py:294
+#: weblate/trans/forms.py:385
 msgid "Search type"
 msgstr "検索の種類"
 
-#: weblate/trans/forms.py:297
+#: weblate/trans/forms.py:388
 msgid "Fulltext"
 msgstr "全文検索"
 
-#: weblate/trans/forms.py:298
+#: weblate/trans/forms.py:389
 msgid "Exact match"
 msgstr "完全一致"
 
-#: weblate/trans/forms.py:299
+#: weblate/trans/forms.py:390
 msgid "Substring"
 msgstr "部分一致"
 
-#: weblate/trans/forms.py:304
+#: weblate/trans/forms.py:395
 msgid "Search in source strings"
 msgstr "翻訳元内を検索する"
 
-#: weblate/trans/forms.py:309
+#: weblate/trans/forms.py:400
 msgid "Search in target strings"
 msgstr "翻訳先内を検索する"
 
-#: weblate/trans/forms.py:314
+#: weblate/trans/forms.py:405
 msgid "Search in context strings"
 msgstr "コンテキスト文字列を検索する"
 
-#: weblate/trans/forms.py:375
+#: weblate/trans/forms.py:466
 msgid "Overwrite strings"
 msgstr "上書きする"
 
-#: weblate/trans/forms.py:380
+#: weblate/trans/forms.py:471
 msgid "Replace inconsistent"
 msgstr "異なる翻訳を置換する"
 
-#: weblate/trans/forms.py:385
+#: weblate/trans/forms.py:476
 msgid "Subproject to use"
 msgstr "使用するサブプロジェクト"
 
-#: weblate/trans/forms.py:404
+#: weblate/trans/forms.py:495
 msgid "All subprojects"
 msgstr "すべてのサブプロジェクト"
 
-#: weblate/trans/forms.py:425
+#: weblate/trans/forms.py:513
+msgid ""
+"You can upload any format which is understood by Translate Toolkit "
+"(including TBX, CSV or Gettext PO files)."
+msgstr ""
+"Translate Toolkit が理解できる形式 (TBX や CSV、Gettext po ファイルなど) であ"
+"ればアップロードできます。"
+
+#: weblate/trans/forms.py:520
 msgid "Keep current"
 msgstr ""
 
-#: weblate/trans/forms.py:426
+#: weblate/trans/forms.py:521
 msgid "Overwrite existing"
 msgstr "既に存在しているものを上書きする"
 
-#: weblate/trans/forms.py:427
+#: weblate/trans/forms.py:522
 msgid "Add as other translation"
 msgstr "その他の翻訳として追加"
 
-#: weblate/trans/forms.py:438
+#: weblate/trans/forms.py:533
 msgid "Starting date"
 msgstr "開始日"
 
-#: weblate/trans/forms.py:454
+#: weblate/trans/forms.py:552
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "すべて"
 
-#: weblate/trans/forms.py:456
+#: weblate/trans/forms.py:554
 msgid "Starting letter"
 msgstr "開始文字"
 
-#: weblate/trans/forms.py:475
+#: weblate/trans/forms.py:569
+msgid "Scope"
+msgstr ""
+
+#: weblate/trans/forms.py:571
+msgid ""
+"Is your comment specific to this translation or generic for all of them?"
+msgstr ""
+
+#: weblate/trans/forms.py:577
+msgid "Source string comment, suggestions to change this string"
+msgstr ""
+
+#: weblate/trans/forms.py:581
+#, fuzzy
+#| msgid ""
+#| "You can share comments about this translation with other translators."
+msgid "Translation comment, discussions with other translators"
+msgstr "この翻訳に関するコメントを、他の翻訳者と共有できます。"
+
+#: weblate/trans/forms.py:594
 msgid "Whole project"
 msgstr "プロジェクト全体"
 
-#: weblate/trans/forms.py:510
+#: weblate/trans/forms.py:629
 msgid "Strings with higher priority are offered first to translators."
 msgstr ""
 
@@ -3789,10 +4004,6 @@ msgstr "Weblate に寄付する！"
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr ""
-
-#: weblate/trans/models/advertisement.py:37
-msgid "Donate to Weblate"
-msgstr "Weblate に寄付する"
 
 #: weblate/trans/models/advertisement.py:38
 msgid "Support Weblate using GitTip"
@@ -3943,10 +4154,6 @@ msgstr "翻訳についての説明"
 msgid "URL with instructions for translators."
 msgstr "翻訳者向けの説明が書かれた URL。"
 
-#: weblate/trans/models/project.py:104
-msgid "Translation license"
-msgstr "翻訳のライセンス"
-
 #: weblate/trans/models/project.py:108
 msgid "Optional short summary of license used for translations."
 msgstr ""
@@ -4065,8 +4272,10 @@ msgid "Very low"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:61
-msgid "Subproject name"
-msgstr "サブプロジェクト名"
+#, fuzzy
+#| msgid "Your name"
+msgid "Resource name"
+msgstr "お名前"
 
 #: weblate/trans/models/subproject.py:83
 msgid "Git push URL"
@@ -4104,10 +4313,6 @@ msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
 msgstr ""
-
-#: weblate/trans/models/subproject.py:116
-msgid "Git branch"
-msgstr "Git ブランチ"
 
 #: weblate/trans/models/subproject.py:118
 msgid "Git branch to translate"
@@ -4168,7 +4373,9 @@ msgid "Locked"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:186
-msgid "Whether subproject is locked for translation updates."
+#, fuzzy
+#| msgid "Whether subproject is locked for translation updates."
+msgid "Whether resource is locked for translation updates."
 msgstr "訳文の更新時に、サブプロジェクトをロックするかどうか。"
 
 #: weblate/trans/models/subproject.py:190
@@ -4177,8 +4384,8 @@ msgstr "翻訳の伝達を許可する"
 
 #: weblate/trans/models/subproject.py:193
 msgid ""
-"Whether translation updates in other subproject will cause automatic "
-"translation in this project"
+"Whether translation updates in other resources will cause automatic "
+"translation in this one"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:198
@@ -4267,39 +4474,39 @@ msgstr "リモートブランチ %s にこちらのブランチをリベース�
 msgid "Failed to merge remote branch into %s."
 msgstr "リモートからブランチ %s へのマージに失敗しました。"
 
-#: weblate/trans/models/subproject.py:786
+#: weblate/trans/models/subproject.py:794
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "リンクされたリポジトリにはリンクできません！"
 
-#: weblate/trans/models/subproject.py:793
+#: weblate/trans/models/subproject.py:801
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:800
+#: weblate/trans/models/subproject.py:808
 msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:806
+#: weblate/trans/models/subproject.py:814
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:810
+#: weblate/trans/models/subproject.py:818
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:818
+#: weblate/trans/models/subproject.py:826
 msgid "The mask did not match any files!"
 msgstr "マスクがどのファイルにも一致しませんでした!"
 
-#: weblate/trans/models/subproject.py:826
+#: weblate/trans/models/subproject.py:834
 msgid ""
 "There are more files for single language, please adjust the mask and use "
-"subprojects for translating different resources."
+"resources for translating different resources."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:832
+#: weblate/trans/models/subproject.py:840
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -4307,69 +4514,69 @@ msgid ""
 "one."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:853
+#: weblate/trans/models/subproject.py:861
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:861
+#: weblate/trans/models/subproject.py:869
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:870
+#: weblate/trans/models/subproject.py:878
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:881
+#: weblate/trans/models/subproject.py:889
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:887
+#: weblate/trans/models/subproject.py:895
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:892
+#: weblate/trans/models/subproject.py:900
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:903
-#: weblate/trans/models/subproject.py:909
+#: weblate/trans/models/subproject.py:911
+#: weblate/trans/models/subproject.py:917
 #, fuzzy
 #| msgid "You can not use monolingual translation without template!"
 msgid "You can not base file with bilingual translation!"
 msgstr "テンプレートなしで単一言語の翻訳をすることはできません！"
 
-#: weblate/trans/models/subproject.py:916
+#: weblate/trans/models/subproject.py:924
 msgid "Template file not found!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:923
+#: weblate/trans/models/subproject.py:931
 msgid "Format of translation base file could not be recognized."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:929
+#: weblate/trans/models/subproject.py:937
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "翻訳のベースファイルがパースできませんでした：%s"
 
-#: weblate/trans/models/subproject.py:934
+#: weblate/trans/models/subproject.py:942
 msgid "You can not use monolingual translation without base file!"
 msgstr "ベースファイルなしで単一言語の翻訳をすることはできません！"
 
-#: weblate/trans/models/subproject.py:954
+#: weblate/trans/models/subproject.py:962
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:961
+#: weblate/trans/models/subproject.py:969
 #, python-format
 msgid "Failed to update git: %s"
 msgstr "Git が更新できませんでした： %s"
 
-#: weblate/trans/models/subproject.py:984
+#: weblate/trans/models/subproject.py:992
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
@@ -4390,240 +4597,237 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/models/translation.py:241
+#: weblate/trans/models/translation.py:251
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "この翻訳は %(user)s にロックされています！"
 
-#: weblate/trans/models/translation.py:971
-#: weblate/trans/models/translation.py:1004
+#: weblate/trans/models/translation.py:985
+#: weblate/trans/models/translation.py:1033
 msgid "All strings"
 msgstr "すべての文字列"
 
-#: weblate/trans/models/translation.py:978
-#: weblate/trans/models/translation.py:1033
-#, python-format
-msgid "Strings with any failing checks (%d)"
-msgstr "何らかのチェックに失敗している文字列 (%d)"
-
-#: weblate/trans/models/translation.py:995
-#: weblate/trans/models/translation.py:1050
-#, python-format
-msgid "Strings with comments (%d)"
-msgstr "コメントがある文字列 (%d)"
-
-#: weblate/trans/models/translation.py:1011
-#, python-format
-msgid "Untranslated strings (%d)"
-msgstr "未翻訳の文字列 (%d)"
+#: weblate/trans/models/translation.py:996
+#: weblate/trans/models/translation.py:1072 weblate/trans/views/edit.py:55
+msgid "Strings with any failing checks"
+msgstr "何らかのチェックに失敗した文字列"
 
 #: weblate/trans/models/translation.py:1019
-#, python-format
-msgid "Fuzzy strings (%d)"
-msgstr "あいまいな文字列 (%d)"
+#: weblate/trans/models/translation.py:1095
+#, fuzzy
+#| msgid "Strings with comments (%d)"
+msgid "Strings with comments"
+msgstr "コメントがある文字列 (%d)"
 
-#: weblate/trans/models/translation.py:1026
-#, python-format
-msgid "Strings with suggestions (%d)"
-msgstr "提案があるもの (%d)"
+#: weblate/trans/models/translation.py:1044 weblate/trans/views/edit.py:51
+msgid "Untranslated strings"
+msgstr "未翻訳の文字列"
 
-#: weblate/trans/models/unit.py:529
+#: weblate/trans/models/translation.py:1054 weblate/trans/views/edit.py:49
+msgid "Fuzzy strings"
+msgstr "あいまいな文字列"
+
+#: weblate/trans/models/translation.py:1063 weblate/trans/views/edit.py:53
+msgid "Strings with suggestions"
+msgstr "提案がある文字列"
+
+#: weblate/trans/models/unit.py:532
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: weblate/trans/models/unit.py:541
+#: weblate/trans/models/unit.py:544
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
-#: weblate/trans/models/unit.py:688
+#: weblate/trans/models/unit.py:691
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1011
+#: weblate/trans/models/unit.py:1017
 msgid "Message is fuzzy"
 msgstr "あいまいです"
 
-#: weblate/trans/models/unit.py:1016
+#: weblate/trans/models/unit.py:1022
 msgid "Message is not translated"
 msgstr "翻訳されていません"
 
-#: weblate/trans/models/unit.py:1021
+#: weblate/trans/models/unit.py:1027
 msgid "Message has failing checks"
 msgstr "不完全です"
 
-#: weblate/trans/models/unit.py:1026
+#: weblate/trans/models/unit.py:1032
 msgid "Message is translated"
 msgstr "翻訳されています"
 
-#: weblate/trans/models/unit.py:1032
+#: weblate/trans/models/unit.py:1038
 msgid "Message has comments"
 msgstr "コメントがあります"
 
-#: weblate/trans/templatetags/translations.py:53
+#: weblate/trans/templatetags/translations.py:52
 #, fuzzy
 #| msgid "New password confirmation"
 msgid "Good configuration"
 msgstr "新しいパスワード確認"
 
-#: weblate/trans/templatetags/translations.py:54
+#: weblate/trans/templatetags/translations.py:53
 #, fuzzy
 #| msgid "New password confirmation"
 msgid "Bad configuration"
 msgstr "新しいパスワード確認"
 
-#: weblate/trans/templatetags/translations.py:55
+#: weblate/trans/templatetags/translations.py:54
 msgid "Possible configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:72
+#: weblate/trans/templatetags/translations.py:71
 msgid "Tab character"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:143
+#: weblate/trans/templatetags/translations.py:92
 msgid "New line"
 msgstr "改行"
 
-#: weblate/trans/templatetags/translations.py:297
+#: weblate/trans/templatetags/translations.py:267
 msgid "a year ago"
 msgstr "1 年前"
 
-#: weblate/trans/templatetags/translations.py:299
+#: weblate/trans/templatetags/translations.py:269
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s 年前"
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:274
 msgid "a month ago"
 msgstr "%(count)s ヶ月前"
 
-#: weblate/trans/templatetags/translations.py:306
+#: weblate/trans/templatetags/translations.py:276
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s か月前"
 
-#: weblate/trans/templatetags/translations.py:311
+#: weblate/trans/templatetags/translations.py:281
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s 週間前"
 
-#: weblate/trans/templatetags/translations.py:315
+#: weblate/trans/templatetags/translations.py:285
 msgid "a week ago"
 msgstr "1 週間前"
 
-#: weblate/trans/templatetags/translations.py:317
+#: weblate/trans/templatetags/translations.py:287
 msgid "yesterday"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:319
+#: weblate/trans/templatetags/translations.py:289
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s 日前"
 
-#: weblate/trans/templatetags/translations.py:322
-#: weblate/trans/templatetags/translations.py:383
+#: weblate/trans/templatetags/translations.py:292
+#: weblate/trans/templatetags/translations.py:353
 msgid "now"
 msgstr "今"
 
-#: weblate/trans/templatetags/translations.py:325
+#: weblate/trans/templatetags/translations.py:295
 msgid "a second ago"
 msgstr "1 秒前"
 
-#: weblate/trans/templatetags/translations.py:327
+#: weblate/trans/templatetags/translations.py:297
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s 秒前"
 
-#: weblate/trans/templatetags/translations.py:332
+#: weblate/trans/templatetags/translations.py:302
 msgid "a minute ago"
 msgstr "1 分前"
 
-#: weblate/trans/templatetags/translations.py:334
+#: weblate/trans/templatetags/translations.py:304
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s 分前"
 
-#: weblate/trans/templatetags/translations.py:339
+#: weblate/trans/templatetags/translations.py:309
 msgid "an hour ago"
 msgstr "1 時間前"
 
-#: weblate/trans/templatetags/translations.py:341
+#: weblate/trans/templatetags/translations.py:311
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s 時間前"
 
-#: weblate/trans/templatetags/translations.py:358
+#: weblate/trans/templatetags/translations.py:328
 msgid "a year from now"
 msgstr "今から 1 年"
 
-#: weblate/trans/templatetags/translations.py:360
+#: weblate/trans/templatetags/translations.py:330
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "今から %(count)s 年"
 
-#: weblate/trans/templatetags/translations.py:365
+#: weblate/trans/templatetags/translations.py:335
 msgid "a month from now"
 msgstr "今から 1 ヶ月"
 
-#: weblate/trans/templatetags/translations.py:367
+#: weblate/trans/templatetags/translations.py:337
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "今から %(count)s か月"
 
-#: weblate/trans/templatetags/translations.py:372
+#: weblate/trans/templatetags/translations.py:342
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "今から %(count)s 週間"
 
-#: weblate/trans/templatetags/translations.py:376
+#: weblate/trans/templatetags/translations.py:346
 msgid "tomorrow"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:378
+#: weblate/trans/templatetags/translations.py:348
 msgid "a week from now"
 msgstr "今から 1 週間"
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:350
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "今から %(count)s 日"
 
-#: weblate/trans/templatetags/translations.py:386
+#: weblate/trans/templatetags/translations.py:356
 msgid "a second from now"
 msgstr "今から 1 秒"
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:358
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "今から %(count)s 秒"
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:365
 msgid "a minute from now"
 msgstr "今から 1 分"
 
-#: weblate/trans/templatetags/translations.py:397
+#: weblate/trans/templatetags/translations.py:367
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "今から %(count)s 分"
 
-#: weblate/trans/templatetags/translations.py:404
+#: weblate/trans/templatetags/translations.py:374
 msgid "an hour from now"
 msgstr "今から 1 時間"
 
-#: weblate/trans/templatetags/translations.py:406
+#: weblate/trans/templatetags/translations.py:376
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -4656,20 +4860,20 @@ msgid ""
 "to login next time."
 msgstr ""
 
-#: weblate/trans/views/basic.py:82
+#: weblate/trans/views/basic.py:81
 msgid "Please set your full name in your profile."
 msgstr "個人情報のお名前をフルネームで設定してください。"
 
-#: weblate/trans/views/basic.py:155
+#: weblate/trans/views/basic.py:144
 #, python-format
 msgid "Search for %s"
 msgstr "%s の検索"
 
-#: weblate/trans/views/basic.py:161
+#: weblate/trans/views/basic.py:150
 msgid "Invalid search query!"
 msgstr "検索文字列が無効です！"
 
-#: weblate/trans/views/basic.py:192
+#: weblate/trans/views/basic.py:181
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -4678,7 +4882,7 @@ msgid ""
 "%(percent)s%% complete."
 msgstr ""
 
-#: weblate/trans/views/basic.py:201
+#: weblate/trans/views/basic.py:190
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -4686,7 +4890,7 @@ msgid ""
 "complete."
 msgstr ""
 
-#: weblate/trans/views/basic.py:337
+#: weblate/trans/views/basic.py:338
 msgid "Page Not Found"
 msgstr "ページが見つかりません"
 
@@ -4694,18 +4898,18 @@ msgstr "ページが見つかりません"
 msgid "Permission Denied"
 msgstr ""
 
-#: weblate/trans/views/basic.py:450
+#: weblate/trans/views/basic.py:448
 msgid "Chosen translation already exists in this project!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:457
+#: weblate/trans/views/basic.py:455
 #, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "機械翻訳のリクエストが失敗しました。"
 
-#: weblate/trans/views/basic.py:466
+#: weblate/trans/views/basic.py:464
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Failed to process new translation request!"
@@ -4749,141 +4953,133 @@ msgid "File upload has failed: %s"
 msgstr "ファイルのアップロードに失敗しました：%s"
 
 #: weblate/trans/views/dictionary.py:173 weblate/trans/views/dictionary.py:175
-#: weblate/trans/views/edit.py:680
+#: weblate/trans/views/edit.py:683
 msgid "Failed to process form!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:50
-msgid "Untranslated strings"
-msgstr "未翻訳の文字列"
-
-#: weblate/trans/views/edit.py:52
-msgid "Strings with suggestions"
-msgstr "提案がある文字列"
-
-#: weblate/trans/views/edit.py:64
+#: weblate/trans/views/edit.py:65
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "\"%s\" で全文検索"
 
-#: weblate/trans/views/edit.py:66
+#: weblate/trans/views/edit.py:67
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "\"%s\" で完全一致検索"
 
-#: weblate/trans/views/edit.py:68
+#: weblate/trans/views/edit.py:69
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "\"%s\" で部分文字列検索"
 
-#: weblate/trans/views/edit.py:93
+#: weblate/trans/views/edit.py:94
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/views/edit.py:112 weblate/trans/views/edit.py:576
+#: weblate/trans/views/edit.py:113 weblate/trans/views/edit.py:577
 msgid "Invalid search string!"
 msgstr "無効な検索文字列です！"
 
-#: weblate/trans/views/edit.py:135
+#: weblate/trans/views/edit.py:136
 #, python-format
 msgid "Review of translations since %s"
 msgstr "%s 以降の訳文をレビューする"
 
-#: weblate/trans/views/edit.py:168 weblate/trans/views/edit.py:178
+#: weblate/trans/views/edit.py:169 weblate/trans/views/edit.py:179
 msgid "No string matched your search!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:208
+#: weblate/trans/views/edit.py:209
 msgid "Your suggestion is empty!"
 msgstr "提案内容がありません！"
 
-#: weblate/trans/views/edit.py:215
+#: weblate/trans/views/edit.py:216
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "You don't have privileges to add suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: weblate/trans/views/edit.py:223
+#: weblate/trans/views/edit.py:224
 #, fuzzy
 #| msgid "Only suggestions are allowed in this translation!"
 msgid "Suggestions are not allowed on this translation!"
 msgstr "この翻訳では、提案だけができることになっています！"
 
-#: weblate/trans/views/edit.py:235
+#: weblate/trans/views/edit.py:236
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
 
-#: weblate/trans/views/edit.py:271
+#: weblate/trans/views/edit.py:272
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
-#: weblate/trans/views/edit.py:286
+#: weblate/trans/views/edit.py:287
 #, fuzzy, python-brace-format
 #| msgid "Some checks have failed on your translation!"
 msgid "Some checks have failed on your translation: {0}"
 msgstr "翻訳の中に不完全なところがあります！"
 
-#: weblate/trans/views/edit.py:326 weblate/trans/views/edit.py:361
-#: weblate/trans/views/edit.py:402
+#: weblate/trans/views/edit.py:327 weblate/trans/views/edit.py:362
+#: weblate/trans/views/edit.py:403
 msgid "You don't have privileges to save translations!"
 msgstr "翻訳を保存できる権限がありません！"
 
-#: weblate/trans/views/edit.py:331
+#: weblate/trans/views/edit.py:332
 msgid "Only suggestions are allowed in this translation!"
 msgstr "この翻訳では、提案だけができることになっています！"
 
-#: weblate/trans/views/edit.py:369
+#: weblate/trans/views/edit.py:370
 #, fuzzy
 #| msgid "Invalid search query!"
 msgid "Invalid merge request!"
 msgstr "検索文字列が無効です！"
 
-#: weblate/trans/views/edit.py:382
+#: weblate/trans/views/edit.py:383
 msgid "Can not merge different messages!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:419
+#: weblate/trans/views/edit.py:420
 msgid "Can not revert to different unit!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:424
+#: weblate/trans/views/edit.py:425
 msgid "Can not revert to empty translation!"
 msgstr "翻訳を空に戻すことはできません！"
 
-#: weblate/trans/views/edit.py:455
+#: weblate/trans/views/edit.py:456
 msgid "You do not have privilege to accept suggestions!"
 msgstr "提案を採用できる権限がありません！"
 
-#: weblate/trans/views/edit.py:464
+#: weblate/trans/views/edit.py:465
 msgid "You do not have privilege to delete suggestions!"
 msgstr "提案を削除できる権限がありません！"
 
-#: weblate/trans/views/edit.py:472 weblate/trans/views/edit.py:480
+#: weblate/trans/views/edit.py:473 weblate/trans/views/edit.py:481
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "提案に投票する権限がありません！"
 
-#: weblate/trans/views/edit.py:486
+#: weblate/trans/views/edit.py:487
 msgid "Invalid suggestion!"
 msgstr "無効な提案です！"
 
-#: weblate/trans/views/edit.py:678
+#: weblate/trans/views/edit.py:681
 msgid "Automatic translation completed."
 msgstr "自動翻訳が完了しました。"
 
-#: weblate/trans/views/edit.py:706
+#: weblate/trans/views/edit.py:709
 msgid "Posted new comment"
 msgstr ""
 
-#: weblate/trans/views/edit.py:708
+#: weblate/trans/views/edit.py:711
 msgid "Failed to add comment!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:805
+#: weblate/trans/views/edit.py:807
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Failed to save translation!"
@@ -4954,21 +5150,21 @@ msgstr ""
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 
-#: weblate/trans/views/lock.py:131
+#: weblate/trans/views/lock.py:133
 msgid "Project is now open for translation updates."
 msgstr ""
 
-#: weblate/trans/views/source.py:76
+#: weblate/trans/views/source.py:75
 #, python-format
 msgid "Review source strings in %s"
 msgstr "原文のレビュー：%s"
 
-#: weblate/trans/views/source.py:100
+#: weblate/trans/views/source.py:99
 #, python-format
 msgid "Source strings in %s"
 msgstr "原文の文字列: %s"
 
-#: weblate/trans/views/source.py:117
+#: weblate/trans/views/source.py:116
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Failed to change a priority!"
@@ -5008,6 +5204,176 @@ msgstr ""
 msgid "translated"
 msgstr "翻訳済"
 
+#~ msgid "contact"
+#~ msgstr "連絡先"
+
+#, fuzzy
+#~| msgid "Last name"
+#~ msgid "hosting"
+#~ msgstr "名前 (姓)"
+
+#~ msgid "Avatar"
+#~ msgstr "アバター"
+
+#, fuzzy
+#~| msgid "Recent edits"
+#~ msgid "Recent contributions"
+#~ msgstr "最近の編集"
+
+#~ msgid "Logged in as %(name)s"
+#~ msgstr "%(name)s でログイン中"
+
+#~ msgid "checks"
+#~ msgstr "校正"
+
+#~ msgid ""
+#~ "More information about this check is available in the <a href=\"%(link)s"
+#~ "\">documentation</a>."
+#~ msgstr ""
+#~ "校正に関する詳細な情報は<a href=\"%(link)s\">ドキュメント</a>を参照してく"
+#~ "ださい。"
+
+#~ msgid "Failures"
+#~ msgstr "不完全数"
+
+#~ msgid "There are no matching failed checks!"
+#~ msgstr "不完全なものはありません！"
+
+#, fuzzy
+#~| msgid "Message"
+#~ msgid "Messages"
+#~ msgstr "メッセージ"
+
+#~ msgid "Summaries"
+#~ msgstr "概要"
+
+#~ msgid "Others"
+#~ msgstr "その他"
+
+#~ msgid "No other strings found."
+#~ msgstr "他の翻訳が見つかりません。"
+
+#~ msgid "languages"
+#~ msgstr "言語"
+
+#~ msgid "Translated strings"
+#~ msgstr "翻訳済みの文字列"
+
+#~ msgid "Subprojects"
+#~ msgstr "サブプロジェクト"
+
+#~ msgid "Subproject"
+#~ msgstr "サブプロジェクト"
+
+#~ msgid "Project website:"
+#~ msgstr "プロジェクトのウェブサイト:"
+
+#~ msgid "Translation license:"
+#~ msgstr "翻訳物のライセンス："
+
+#, fuzzy
+#~| msgid "Search"
+#~ msgid "search"
+#~ msgstr "検索"
+
+#, fuzzy
+#~| msgid "New language"
+#~ msgid "Report missing language"
+#~ msgstr "新しい言語"
+
+#, fuzzy
+#~| msgid "Machine translation"
+#~ msgid "Machine-readable data"
+#~ msgstr "機械翻訳"
+
+#~ msgid "Git repository:"
+#~ msgstr "Git リポジトリ:"
+
+#, fuzzy
+#~| msgid "Recent changes"
+#~ msgid "changes"
+#~ msgstr "最近の更新"
+
+#~ msgid "Special characters:"
+#~ msgstr "特殊文字:"
+
+#~ msgid "Suggested by %(user)s"
+#~ msgstr "%(user)s による提案"
+
+#~ msgid "Suggested by anonymous user"
+#~ msgstr "匿名ユーザによる提案"
+
+#~ msgid "Translation context"
+#~ msgstr "翻訳の前後関係"
+
+#~ msgid "Same message used in different subprojects"
+#~ msgstr "異なるサブプロジェクト内で使われている同じメッセージ"
+
+#~ msgid "All locations"
+#~ msgstr "他のサブプロジェクト"
+
+#~ msgid "Words extracted from glossary"
+#~ msgstr "用語集から抽出した単語"
+
+#~ msgid "Comments about this translation"
+#~ msgstr "この翻訳に関するコメント"
+
+#, fuzzy
+#~ msgid "Source string details and feedback"
+#~ msgstr "翻訳元内を検索する"
+
+#~ msgid "Stats"
+#~ msgstr "統計"
+
+#~ msgid ""
+#~ "You can <a href=\"%(download_url)s\">download</a> file for offline "
+#~ "translation."
+#~ msgstr ""
+#~ "<a href=\"%(download_url)s\">ダウンロード</a>ファイルで、オフライン翻訳を"
+#~ "行うことができます。"
+
+#, fuzzy
+#~| msgid ""
+#~| "You can <a href=\"%(download_url)s\">download</a> file for offline "
+#~| "translation."
+#~ msgid ""
+#~ "You can also <a href=\"%(pack_download_url)s\">download</a> compiled file "
+#~ "to use within the application."
+#~ msgstr ""
+#~ "<a href=\"%(download_url)s\">ダウンロード</a>ファイルで、オフライン翻訳を"
+#~ "行うことができます。"
+
+#, fuzzy
+#~| msgid "Strings with comments (%d)"
+#~ msgid "Strings (%(count)s):"
+#~ msgstr "コメントのついている文字列 (%d)"
+
+#~ msgid "Words (%(count)s):"
+#~ msgstr "単語 (%(count)s):"
+
+#~ msgid "Used in"
+#~ msgstr "使用箇所"
+
+#, fuzzy
+#~| msgid "First name"
+#~ msgid "First seen"
+#~ msgstr "名前 (名)"
+
+#~ msgid "Subproject name"
+#~ msgstr "サブプロジェクト名"
+
+#~ msgid "Strings with any failing checks (%d)"
+#~ msgstr "何らかのチェックに失敗している文字列 (%d)"
+
+#~ msgid "Untranslated strings (%d)"
+#~ msgstr "未翻訳の文字列 (%d)"
+
+#~ msgid "Fuzzy strings (%d)"
+#~ msgstr "あいまいな文字列 (%d)"
+
+#~ msgid "Strings with suggestions (%d)"
+#~ msgstr "提案があるもの (%d)"
+
 #~ msgid ""
 #~ "Should your language be missing, please <a href=\"%(contact_url)s?"
 #~ "subject=New+language+request+for+%(object)s\">contact us</a>."
@@ -5041,12 +5407,6 @@ msgstr "翻訳済"
 
 #~ msgid "The two password fields didn't match."
 #~ msgstr "2 つのパスワード項目が一致しません。"
-
-#, fuzzy
-#~ msgid "Thank you. Your account is now activated."
-#~ msgstr ""
-#~ "ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名"
-#~ "は <b>%(username)s</b> です。"
 
 #~ msgid ""
 #~ "You might want to <a href=\"%(profile_url)s\">adjust your profile</a> now."
@@ -5169,9 +5529,6 @@ msgstr "翻訳済"
 
 #~ msgid "AJAX request to load this content has failed!"
 #~ msgstr "AJAX によるこの項目の読み込みに失敗しました！"
-
-#~ msgid "Loading…"
-#~ msgstr "読み込み中…"
 
 #, fuzzy
 #~| msgid "The request for machine translation has failed."
