@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-05 11:49+0200\n"
+"POT-Creation-Date: 2014-10-05 20:13+0200\n"
 "PO-Revision-Date: 2014-10-05 17:51+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
-"Language-Team: Traditional Chinese "
-"<https://hosted.weblate.org/projects/weblate/bootstrap/zh_TW/>\n"
+"Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
+"weblate/bootstrap/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,6 @@ msgid "None"
 msgstr "無"
 
 #: weblate/accounts/forms.py:89
-#| msgid "At least five characters long."
 msgid "At least four characters long."
 msgstr "至少要 4 個字元。"
 
@@ -143,7 +142,6 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/forms.py:473
-#| msgid "Thank you. Your account is now activated."
 msgid "This account is inactive."
 msgstr "帳號現在已停用。"
 
@@ -162,9 +160,6 @@ msgid "Git repository"
 msgstr "Git資源庫"
 
 #: weblate/accounts/forms.py:526 weblate/trans/models/subproject.py:78
-#| msgid ""
-#| "URL of Git repository, use weblate://project/subproject for sharing with "
-#| "other subproject."
 msgid ""
 "URL of Git repository, use weblate://project/resource for sharing with other "
 "resource."
@@ -325,7 +320,6 @@ msgstr ""
 "題。"
 
 #: weblate/html/about.html:6
-#| msgid "about"
 msgid "About"
 msgstr "關於"
 
@@ -335,17 +329,13 @@ msgid "About Weblate"
 msgstr "關於 Weblate"
 
 #: weblate/html/about.html:17
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across subprojects, quality checks and automatic linking to source files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "resources, quality checks and automatic linking to source files."
 msgstr ""
-"Weblate 是一個以 web 為基礎的翻譯工具與 Git "
-"緊密的整合。它特點是有單純和簡潔的使用者界面，資源間交叉翻譯傳輸、品質的檢查以及自動連接到來源檔案。"
+"Weblate 是一個以 web 為基礎的翻譯工具與 Git 緊密的整合。它特點是有單純和簡潔"
+"的使用者界面，資源間交叉翻譯傳輸、品質的檢查以及自動連接到來源檔案。"
 
 #: weblate/html/about.html:19 weblate/html/accounts/contact.html:14
 #, python-format
@@ -357,7 +347,6 @@ msgstr ""
 "\"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/html/about.html:29
-#| msgid "Hosting site"
 msgid "Hosting projects"
 msgstr "專案主機"
 
@@ -380,9 +369,6 @@ msgid "Donate to Weblate"
 msgstr "贊助 Weblate"
 
 #: weblate/html/about.html:45
-#| msgid ""
-#| "Weblate is free software created by volunteers, but you can still support "
-#| "them financially:"
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially."
@@ -456,7 +442,6 @@ msgid "Registration"
 msgstr "註冊"
 
 #: weblate/html/accounts/email-sent.html:12
-#| msgid "Registration date"
 msgid "Registration almost complete"
 msgstr "註冊即將完成"
 
@@ -574,7 +559,6 @@ msgstr "還沒有帳號嗎？您可以 <a href=\"%(register_url)s\">註冊</a>�
 
 #: weblate/html/accounts/password.html:6 weblate/html/accounts/profile.html:9
 #: weblate/html/accounts/removal.html:7
-#| msgid "Your public profile:"
 msgid "Your profile"
 msgstr "您的設定檔"
 
@@ -610,7 +594,6 @@ msgid "Authentication"
 msgstr "認證"
 
 #: weblate/html/accounts/profile.html:26
-#| msgid "User profile"
 msgid "Profile"
 msgstr "設定檔"
 
@@ -631,7 +614,6 @@ msgstr "儲存"
 #: weblate/html/accounts/profile.html:184
 #: weblate/html/accounts/profile.html:230
 #: weblate/html/accounts/profile.html:283
-#| msgid "Subscriptions"
 msgid "Description"
 msgstr "敘述"
 
@@ -659,7 +641,6 @@ msgid "Documentation"
 msgstr "文件檔"
 
 #: weblate/html/accounts/profile.html:75
-#| msgid "Subscriptions"
 msgid "Subscription settings"
 msgstr "訂閱設定"
 
@@ -2863,10 +2844,9 @@ msgstr "建議"
 msgid "Other translations"
 msgstr "您的翻譯"
 
-#: weblate/html/translate.html:120
-#, fuzzy
-#| msgid "Comments"
-msgid "Comments "
+#: weblate/html/translate.html:120 weblate/html/translate.html.py:278
+#: weblate/html/translate.html:325 weblate/html/unit-details.html:13
+msgid "Comments"
 msgstr "評論"
 
 #: weblate/html/translate.html:123
@@ -2925,11 +2905,6 @@ msgstr "使用這個翻譯"
 #: weblate/html/translate.html:259
 msgid "Service"
 msgstr "服務"
-
-#: weblate/html/translate.html:278 weblate/html/translate.html.py:325
-#: weblate/html/unit-details.html:13
-msgid "Comments"
-msgstr "評論"
 
 #: weblate/html/translate.html:290 weblate/trans/forms.py:566
 msgid "New comment"
@@ -5054,6 +5029,11 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "已翻譯"
+
+#, fuzzy
+#~| msgid "Comments"
+#~ msgid "Comments "
+#~ msgstr "評論"
 
 #~ msgid "contact"
 #~ msgstr "連絡人"
