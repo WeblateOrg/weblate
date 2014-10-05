@@ -52,9 +52,9 @@ TOOLBAR_TEMPLATE = u'''
 
 SPECIAL_CHARS = (u'→', u'↵', u'…')
 CHAR_NAMES = {
-    u'→': _('Insert tab character" %}'),
-    u'↵': _('Insert new line" %}'),
-    u'…': _('Insert horizontal ellipsis" %}'),
+    u'→': _('Insert tab character'),
+    u'↵': _('Insert new line'),
+    u'…': _('Insert horizontal ellipsis'),
 }
 
 
