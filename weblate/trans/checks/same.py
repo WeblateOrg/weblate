@@ -858,6 +858,12 @@ SPLIT_RE = re.compile(
     ur'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—…\[\]0-9-])+'
 )
 
+# Docbook tags to ignore
+DB_TAGS = (
+    'screen',
+    'indexterm',
+    'programlisting',
+)
 
 def strip_format(msg, flags):
     '''
@@ -933,6 +939,12 @@ class SameCheck(TargetCheck):
         result = self.get_cache(unit, cache_slot)
         if result is not None:
             return result
+
+        # Ignore some docbook tags
+        if unit.comment.startswith('Tag: '):
+            if unit.comment[5:] in DB_TAGS:
+                self.set_cache(unit, True, cache_slot)
+                return True
 
         # Lower case source
         lower_source = source.lower()
