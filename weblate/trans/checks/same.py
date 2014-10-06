@@ -865,6 +865,7 @@ DB_TAGS = (
     'programlisting',
 )
 
+
 def strip_format(msg, flags):
     '''
     Checks whether given string contains only format strings
