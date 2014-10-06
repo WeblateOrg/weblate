@@ -36,6 +36,7 @@ SAME_BLACKLIST = frozenset((
     'active',
     'add-ons',
     'addons',
+    'address',
     'admin',
     'administration',
     'ah',
@@ -78,6 +79,7 @@ SAME_BLACKLIST = frozenset((
     'bluetooth',
     'bootloader',
     'branch',
+    'broadcast',
     'browser',
     'buffer',
     'byte',
@@ -173,6 +175,7 @@ SAME_BLACKLIST = frozenset((
     'filter',
     'filters',
     'finance',
+    'firewall',
     'firmware',
     'flash',
     'flattr',
@@ -223,9 +226,11 @@ SAME_BLACKLIST = frozenset((
     'http',
     'hut',
     'hyperlink',
+    'icmp',
     'icon',
     'icons',
     'id',
+    'ids',
     'idea',
     'ignore',
     'irc',
@@ -246,6 +251,7 @@ SAME_BLACKLIST = frozenset((
     'innodb',
     'ins',
     'insert',
+    'install',
     'installation',
     'interlingua',
     'internet',
@@ -253,6 +259,8 @@ SAME_BLACKLIST = frozenset((
     'introduction',
     'ion',
     'ios',
+    'ip6tables',
+    'iptables',
     'irix',
     'isbn',
     'ismn',
@@ -287,6 +295,7 @@ SAME_BLACKLIST = frozenset((
     'lock',
     'local',
     'locales',
+    'logcheck',
     'login',
     'logo',
     'logos',
@@ -343,6 +352,9 @@ SAME_BLACKLIST = frozenset((
     'namecoin',
     'namecoins',
     'navigation',
+    'net',
+    'netfilter',
+    'network',
     'neutral',
     'nimh',
     'no',
@@ -397,6 +409,7 @@ SAME_BLACKLIST = frozenset((
     'php',
     'phpmyadmin',
     'pib',
+    'ping',
     'pirate',
     'pirates',
     'placement',
@@ -428,6 +441,7 @@ SAME_BLACKLIST = frozenset((
     'promotion',
     'property',
     'properties',
+    'protocol',
     'provider',
     'proxy',
     'pt',
@@ -476,6 +490,7 @@ SAME_BLACKLIST = frozenset((
     'scripting',
     'scroll',
     'seed',
+    'selinux',
     'send',
     'sergeant',
     'serie',
@@ -496,6 +511,7 @@ SAME_BLACKLIST = frozenset((
     'smsd',
     'snapshot',
     'snapshots',
+    'snmp',
     'socket',
     'software',
     'solaris',
@@ -842,6 +858,12 @@ SPLIT_RE = re.compile(
     ur'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—…\[\]0-9-])+'
 )
 
+# Docbook tags to ignore
+DB_TAGS = (
+    'screen',
+    'indexterm',
+    'programlisting',
+)
 
 def strip_format(msg, flags):
     '''
@@ -918,6 +940,12 @@ class SameCheck(TargetCheck):
         result = self.get_cache(unit, cache_slot)
         if result is not None:
             return result
+
+        # Ignore some docbook tags
+        if unit.comment.startswith('Tag: '):
+            if unit.comment[5:] in DB_TAGS:
+                self.set_cache(unit, True, cache_slot)
+                return True
 
         # Lower case source
         lower_source = source.lower()

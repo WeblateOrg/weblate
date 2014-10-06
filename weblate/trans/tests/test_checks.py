@@ -64,7 +64,8 @@ class MockUnit(object):
     '''
     Mock unit object.
     '''
-    def __init__(self, checksum=None, flags='', code='cs', source=''):
+    def __init__(self, checksum=None, flags='', code='cs', source='',
+                 comment=''):
         if checksum is None:
             checksum = str(uuid.uuid1())
         self.checksum = checksum
@@ -73,6 +74,7 @@ class MockUnit(object):
         self.source = source
         self.fuzzy = False
         self.translated = True
+        self.comment = comment
 
     @property
     def all_flags(self):

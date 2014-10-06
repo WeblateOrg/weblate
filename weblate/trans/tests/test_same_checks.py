@@ -46,6 +46,20 @@ class SameCheckTest(CheckTestCase):
             0
         ))
 
+    def test_same_db_screen(self):
+        self.assertTrue(self.check.check_single(
+            'some long text is here',
+            'some long text is here',
+            MockUnit(code='de'),
+            0
+        ))
+        self.assertFalse(self.check.check_single(
+            'some long text is here',
+            'some long text is here',
+            MockUnit(code='de', comment='Tag: screen'),
+            0
+        ))
+
     def test_same_numbers(self):
         self.do_test(False, ('1:4', '1:4', ''))
         self.do_test(False, ('1, 3, 10', '1, 3, 10', ''))
