@@ -52,6 +52,7 @@ SAME_BLACKLIST = frozenset((
     'appliance',
     'appliances',
     'aptitude',
+    'array',
     'attribute',
     'attribution',
     'atom',
@@ -864,6 +865,7 @@ DB_TAGS = (
     'indexterm',
     'programlisting',
 )
+
 
 def strip_format(msg, flags):
     '''
