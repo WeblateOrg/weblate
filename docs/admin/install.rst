@@ -356,7 +356,7 @@ recommended to use separate, file backed cache for this purpose:
         },
         'avatar': {
             'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-            'LOCATION': os.path.join(WEB_ROOT, 'avatar-cache'),
+            'LOCATION': os.path.join(BASE_DIR, 'avatar-cache'),
             'TIMEOUT': 604800,
             'OPTIONS': {
                 'MAX_ENTRIES': 1000,
@@ -460,7 +460,7 @@ example to set it to ``configuration`` directory under Weblate tree:
 
 .. code-block:: python
 
-    os.environ['HOME'] = os.path.join(WEB_ROOT, 'configuration')
+    os.environ['HOME'] = os.path.join(BASE_DIR, 'configuration')
 
 .. note::
 
