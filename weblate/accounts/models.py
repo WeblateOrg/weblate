@@ -366,7 +366,8 @@ class Profile(models.Model):
 
     subscriptions = models.ManyToManyField(
         'trans.Project',
-        verbose_name=_('Subscribed projects')
+        verbose_name=_('Subscribed projects'),
+        blank=True,
     )
 
     subscribe_any_translation = models.BooleanField(
