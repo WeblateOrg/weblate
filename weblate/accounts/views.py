@@ -141,7 +141,7 @@ def user_profile(request):
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
             messages.warning(
                 request,
-                _('You can not change demo profile on the demo server.')
+                _('You can not change demo account on the demo server.')
             )
             return redirect('profile')
 
@@ -217,7 +217,7 @@ def user_remove(request):
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
         messages.warning(
             request,
-            _('You can not change demo profile on the demo server.')
+            _('You can not change demo account on the demo server.')
         )
         return redirect('profile')
 
@@ -457,6 +457,12 @@ def password(request):
     '''
     Password change / set form.
     '''
+    if appsettings.DEMO_SERVER and request.user.username == 'demo':
+        messages.warning(
+            request,
+            _('You can not change demo account on the demo server.')
+        )
+        return redirect('profile')
 
     do_change = False
 
