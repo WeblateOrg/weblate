@@ -119,6 +119,17 @@ def mail_admins_contact(request, subject, message, context, sender):
     )
 
 
+def deny_demo(request):
+    """
+    Denies editing of demo account on demo server.
+    """
+    messages.warning(
+        request,
+        _('You can not change demo account on the demo server.')
+    )
+    return redirect('profile')
+
+
 @login_required
 def user_profile(request):
 
@@ -139,11 +150,7 @@ def user_profile(request):
             instance=request.user
         )
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
-            messages.warning(
-                request,
-                _('You can not change demo account on the demo server.')
-            )
-            return redirect('profile')
+            return deny_demo()
 
         if (form.is_valid()
                 and userform.is_valid()
@@ -215,11 +222,7 @@ def user_profile(request):
 @login_required
 def user_remove(request):
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
-        messages.warning(
-            request,
-            _('You can not change demo account on the demo server.')
-        )
-        return redirect('profile')
+        return deny_demo()
 
     if request.method == 'POST':
         remove_user(request.user)
@@ -458,11 +461,7 @@ def password(request):
     Password change / set form.
     '''
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
-        messages.warning(
-            request,
-            _('You can not change demo account on the demo server.')
-        )
-        return redirect('profile')
+        return deny_demo()
 
     do_change = False
 
