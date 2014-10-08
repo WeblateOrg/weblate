@@ -150,7 +150,7 @@ def user_profile(request):
             instance=request.user
         )
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
-            return deny_demo()
+            return deny_demo(request)
 
         if (form.is_valid()
                 and userform.is_valid()
@@ -222,7 +222,7 @@ def user_profile(request):
 @login_required
 def user_remove(request):
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo()
+        return deny_demo(request)
 
     if request.method == 'POST':
         remove_user(request.user)
@@ -461,7 +461,7 @@ def password(request):
     Password change / set form.
     '''
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo()
+        return deny_demo(request)
 
     do_change = False
 
