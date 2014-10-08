@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-05 20:21+0200\n"
+"POT-Creation-Date: 2014-10-08 13:33+0200\n"
 "PO-Revision-Date: 2014-10-08 05:40+0200\n"
 "Last-Translator: Michael R. Lawrence <michaellonewolf359@gmail.com>\n"
-"Language-Team: Japanese "
-"<https://hosted.weblate.org/projects/weblate/bootstrap/ja/>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
+"bootstrap/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,6 @@ msgid "None"
 msgstr "なし"
 
 #: weblate/accounts/forms.py:89
-#| msgid "At least five characters long."
 msgid "At least four characters long."
 msgstr "少なくとも 4 文字。"
 
@@ -54,7 +53,6 @@ msgid "You can add another emails on Authentication tab."
 msgstr "認証タブで別のメールアドレスを追加できます。"
 
 #: weblate/accounts/forms.py:253 weblate/accounts/forms.py:331
-#| msgid "Your name"
 msgid "Full name"
 msgstr "完全な名前"
 
@@ -146,11 +144,15 @@ msgstr "パスワード"
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
-msgstr "正しいユーザー名とパスワードを入力してください。両方のフィールドを区別することに注意してください。"
+msgstr ""
+"正しいユーザー名とパスワードを入力してください。両方のフィールドを区別するこ"
+"とに注意してください。"
 
 #: weblate/accounts/forms.py:473
 msgid "This account is inactive."
-msgstr "ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は <b>%(username)s</b> です。"
+msgstr ""
+"ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は "
+"<b>%(username)s</b> です。"
 
 #: weblate/accounts/forms.py:521 weblate/trans/models/project.py:79
 msgid "Project name"
@@ -167,13 +169,12 @@ msgid "Git repository"
 msgstr "Git リポジトリ"
 
 #: weblate/accounts/forms.py:526 weblate/trans/models/subproject.py:78
-#| msgid ""
-#| "URL of Git repository, use weblate://project/subproject for sharing with "
-#| "other subproject."
 msgid ""
 "URL of Git repository, use weblate://project/resource for sharing with other "
 "resource."
-msgstr "GitレポジトリのURL、その他のサブプロジェクトで利用する場合は、weblate://project/subproject としてください。"
+msgstr ""
+"GitレポジトリのURL、その他のサブプロジェクトで利用する場合は、weblate://"
+"project/subproject としてください。"
 
 #: weblate/accounts/forms.py:532 weblate/trans/models/subproject.py:122
 msgid "File mask"
@@ -184,7 +185,8 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"使用して、変換するファイルのパス * 言語コード例えばの代わり: po/*.po または locale/*/LC_MESSAGES/django.po。"
+"使用して、変換するファイルのパス * 言語コード例えばの代わり: po/*.po または "
+"locale/*/LC_MESSAGES/django.po。"
 
 #: weblate/accounts/forms.py:541
 msgid "Additional message"
@@ -207,35 +209,35 @@ msgstr "第二言語"
 msgid "Subscribed projects"
 msgstr "加入したプロジェクト"
 
-#: weblate/accounts/models.py:373
+#: weblate/accounts/models.py:374
 msgid "Notification on any translation"
 msgstr "あらゆる翻訳を通知"
 
-#: weblate/accounts/models.py:377
+#: weblate/accounts/models.py:378
 msgid "Notification on new string to translate"
 msgstr "翻訳を新しい文字列に通知"
 
-#: weblate/accounts/models.py:381
+#: weblate/accounts/models.py:382
 msgid "Notification on new suggestion"
 msgstr "新しい提案に関するお知らせ"
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:386
 msgid "Notification on new contributor"
 msgstr "新しい貢献者に関するお知らせ"
 
-#: weblate/accounts/models.py:389
+#: weblate/accounts/models.py:390
 msgid "Notification on new comment"
 msgstr "新しいコメントを通知"
 
-#: weblate/accounts/models.py:393
+#: weblate/accounts/models.py:394
 msgid "Notification on merge failure"
 msgstr "マージの失敗を通知"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:398
 msgid "Notification on new language request"
 msgstr "新しい言語リクエストの通知"
 
-#: weblate/accounts/views.py:85 weblate/accounts/views.py:413
+#: weblate/accounts/views.py:85 weblate/accounts/views.py:416
 msgid "User registration"
 msgstr "ユーザ登録"
 
@@ -247,58 +249,60 @@ msgstr "管理者にメッセージを送信できませんでした！"
 msgid "Message has been sent to administrator."
 msgstr "管理者にメッセージを送信しました。"
 
-#: weblate/accounts/views.py:142 weblate/accounts/views.py:209
-msgid "You can not change demo profile on the demo server."
+#: weblate/accounts/views.py:129
+#, fuzzy
+#| msgid "You can not change demo profile on the demo server."
+msgid "You can not change demo account on the demo server."
 msgstr "ないデモ デモ サーバー プロファイルを変更できます。"
 
-#: weblate/accounts/views.py:162
+#: weblate/accounts/views.py:169
 msgid "Your profile has been updated."
 msgstr "個人情報を更新しました。"
 
-#: weblate/accounts/views.py:191
+#: weblate/accounts/views.py:198
 msgid "User profile"
 msgstr "個人情報"
 
-#: weblate/accounts/views.py:220
+#: weblate/accounts/views.py:223
 msgid "Your account has been removed."
 msgstr "アカウントは削除されました。"
 
-#: weblate/accounts/views.py:265 weblate/html/accounts/contact.html:7
+#: weblate/accounts/views.py:268 weblate/html/accounts/contact.html:7
 #: weblate/html/accounts/contact.html:22
 msgid "Contact"
 msgstr "連絡"
 
-#: weblate/accounts/views.py:297 weblate/html/accounts/hosting.html:8
+#: weblate/accounts/views.py:300 weblate/html/accounts/hosting.html:8
 msgid "Hosting"
 msgstr "ホスティング"
 
-#: weblate/accounts/views.py:371 weblate/html/accounts/login.html:9
+#: weblate/accounts/views.py:374 weblate/html/accounts/login.html:9
 #: weblate/html/accounts/login.html:42 weblate/html/base.html:80
 msgid "Login"
 msgstr "ログイン"
 
-#: weblate/accounts/views.py:381
+#: weblate/accounts/views.py:384
 msgid "Thanks for using Weblate!"
 msgstr "Weblate のご利用ありがとうございました！"
 
-#: weblate/accounts/views.py:435 weblate/html/accounts/email.html:8
+#: weblate/accounts/views.py:438 weblate/html/accounts/email.html:8
 msgid "Register email"
 msgstr "メールアドレスの登録"
 
-#: weblate/accounts/views.py:459
+#: weblate/accounts/views.py:464
 msgid "You have entered an invalid password."
 msgstr "入力したパスワードが無効です。"
 
-#: weblate/accounts/views.py:481
+#: weblate/accounts/views.py:486
 msgid "Your password has been changed."
 msgstr "パスワードを変更しました。"
 
-#: weblate/accounts/views.py:491 weblate/html/accounts/password.html:13
+#: weblate/accounts/views.py:496 weblate/html/accounts/password.html:13
 #: weblate/html/accounts/profile.html:144
 msgid "Change password"
 msgstr "パスワードを変更する"
 
-#: weblate/accounts/views.py:516 weblate/html/accounts/reset.html:8
+#: weblate/accounts/views.py:521 weblate/html/accounts/reset.html:8
 #: weblate/html/accounts/reset.html:22
 msgid "Password reset"
 msgstr "パスワードのリセット"
@@ -339,17 +343,14 @@ msgid "About Weblate"
 msgstr "Weblate について"
 
 #: weblate/html/about.html:17
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across subprojects, quality checks and automatic linking to source files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
 "resources, quality checks and automatic linking to source files."
 msgstr ""
-"Weblate は、Git と密接に統合しているウェブベースの翻訳支援ツールです。本ツールは、シンプルで明瞭なユーザインターフェース、サブプロジェクト間の"
-"翻訳連携、品質チェック、ソースファイルへの自動リンク、といった機能を備えています。"
+"Weblate は、Git と密接に統合しているウェブベースの翻訳支援ツールです。本ツー"
+"ルは、シンプルで明瞭なユーザインターフェース、サブプロジェクト間の翻訳連携、"
+"品質チェック、ソースファイルへの自動リンク、といった機能を備えています。"
 
 #: weblate/html/about.html:19 weblate/html/accounts/contact.html:14
 #, python-format
@@ -357,18 +358,20 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
-"Weblate のサポートを探しているまたはバグ レポートをファイリングする場合 <a href=\"%(weblate_url)s\"> "
-"weblate.org</a> で、ウェブサイトを確認してください。"
+"Weblate のサポートを探しているまたはバグ レポートをファイリングする場合 <a "
+"href=\"%(weblate_url)s\"> weblate.org</a> で、ウェブサイトを確認してくださ"
+"い。"
 
 #: weblate/html/about.html:29
-#| msgid "Last name"
 msgid "Hosting projects"
 msgstr "名前 (姓)"
 
 #: weblate/html/about.html:32
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
-msgstr "この Weblate インスタンスをホストして様々 なフリーソフトのプロジェクトのための翻訳。"
+msgstr ""
+"この Weblate インスタンスをホストして様々 なフリーソフトのプロジェクトのため"
+"の翻訳。"
 
 #: weblate/html/about.html:34
 #, python-format
@@ -388,7 +391,9 @@ msgstr "Weblate に寄付する"
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially."
-msgstr "Weblate は、ボランティアによって作成された無料のソフトウェアがまだ財政的にサポートすることができます。"
+msgstr ""
+"Weblate は、ボランティアによって作成された無料のソフトウェアがまだ財政的にサ"
+"ポートすることができます。"
 
 #: weblate/html/about.html:48
 msgid "Flattr Weblate!"
@@ -454,12 +459,10 @@ msgstr "送信"
 
 #: weblate/html/accounts/email-sent.html:6 weblate/html/accounts/login.html:67
 #: weblate/html/accounts/register.html:9
-#| msgid "Registration date"
 msgid "Registration"
 msgstr "登録"
 
 #: weblate/html/accounts/email-sent.html:12
-#| msgid "Registration date"
 msgid "Registration almost complete"
 msgstr "ほぼ完全な登録"
 
@@ -474,21 +477,17 @@ msgstr ""
 
 #: weblate/html/accounts/email-sent.html:19
 #, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder. If it's "
-#| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
-#| "\">contact us</a>."
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"まもなく受信しない場合、お客様の迷惑メールフォルダーを確認してくださいか、登録を再試行してください。問題が解決しない場合は、<a href=\""
-"%(contact_url)s?subject=Registration problems\"> 連絡</a> をください。"
+"まもなく受信しない場合、お客様の迷惑メールフォルダーを確認してくださいか、登"
+"録を再試行してください。問題が解決しない場合は、<a href=\"%(contact_url)s?"
+"subject=Registration problems\"> 連絡</a> をください。"
 
 #: weblate/html/accounts/email.html:11 weblate/html/accounts/register.html:20
 #: weblate/html/accounts/reset.html:17
-#| msgid "Please fix errors in registration form."
 msgid "Please fix errors in the registration form."
 msgstr "登録フォーム内のエラーを修正してください。"
 
@@ -497,7 +496,9 @@ msgstr "登録フォーム内のエラーを修正してください。"
 msgid ""
 "By registering you agree to use your name and email in Git commits and "
 "provide your contribution under license defined by each translated project."
-msgstr "ここで入力されたお名前とメールアドレスは、翻訳された際の Git のコミットとしても使われます。"
+msgstr ""
+"ここで入力されたお名前とメールアドレスは、翻訳された際の Git のコミットとして"
+"も使われます。"
 
 #: weblate/html/accounts/email.html:22 weblate/html/accounts/register.html:37
 #: weblate/html/base.html:78
@@ -508,14 +509,18 @@ msgstr "登録"
 msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
-msgstr "プロジェクトがこのサイトにホスティング プロジェクトの対象かどうかを事前に確認してください。"
+msgstr ""
+"プロジェクトがこのサイトにホスティング プロジェクトの対象かどうかを事前に確認"
+"してください。"
 
 #: weblate/html/accounts/hosting.html:21 weblate/html/index.html:100
 msgid "Ask for project hosting"
 msgstr "プロジェクトのホスティングを求める"
 
 #: weblate/html/accounts/hosting.html:34
-msgid "Conditions for free hosting conditions"
+#, fuzzy
+#| msgid "Conditions for free hosting conditions"
+msgid "Conditions for free hosting"
 msgstr "無料ホスティングのための条件の条件"
 
 #: weblate/html/accounts/hosting.html:37
@@ -523,13 +528,15 @@ msgid ""
 "Translated content has to be released under <a href=\"http://en.wikipedia."
 "org/wiki/Free_software_license\">free license</a>."
 msgstr ""
-"翻訳された内容は、<a href=\"http://en.wikipedia.org/wiki/Free_software_license\""
-">自由なライセンス</a>でリリースされる必要があります。"
+"翻訳された内容は、<a href=\"http://en.wikipedia.org/wiki/"
+"Free_software_license\">自由なライセンス</a>でリリースされる必要があります。"
 
 #: weblate/html/accounts/hosting.html:38
 msgid ""
 "Source code has to be publicly available in supported version control system."
-msgstr "ソースコードは、サポートされているバージョン管理システムで公開されている必要があります。"
+msgstr ""
+"ソースコードは、サポートされているバージョン管理システムで公開されている必要"
+"があります。"
 
 #: weblate/html/accounts/hosting.html:39
 msgid "There is no guarantee for service availability or quality."
@@ -543,7 +550,9 @@ msgstr "商用ホスティング"
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
-msgstr "商用のホスティングが可能同様に、プロジェクトと、1 ヶ月あたり 19 ユーロから始まります私たち価格ご連絡下さい詳細についてです。"
+msgstr ""
+"商用のホスティングが可能同様に、プロジェクトと、1 ヶ月あたり 19 ユーロから始"
+"まります私たち価格ご連絡下さい詳細についてです。"
 
 #: weblate/html/accounts/hosting.html:52 weblate/html/footer.html:8
 msgid "Contact us"
@@ -560,10 +569,10 @@ msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
-"Weblate をテストするには、パスワード <code>デモ</code> <code>デモ</code> ユーザーとしてログインすることができます。"
+"Weblate をテストするには、パスワード <code>デモ</code> <code>デモ</code> ユー"
+"ザーとしてログインすることができます。"
 
 #: weblate/html/accounts/login.html:28
-#| msgid "Password (again)"
 msgid "Password login"
 msgstr "パスワード (再入力)"
 
@@ -575,7 +584,6 @@ msgstr ""
 "セット</a>が行えます。"
 
 #: weblate/html/accounts/login.html:54
-#| msgid "User registration"
 msgid "Third party login"
 msgstr "サードパーティのログイン"
 
@@ -590,7 +598,6 @@ msgstr ""
 
 #: weblate/html/accounts/password.html:6 weblate/html/accounts/profile.html:9
 #: weblate/html/accounts/removal.html:7
-#| msgid "User profile"
 msgid "Your profile"
 msgstr "あなたのプロフィール"
 
@@ -623,12 +630,10 @@ msgid "Account"
 msgstr "アカウント"
 
 #: weblate/html/accounts/profile.html:25
-#| msgid "Documentation"
 msgid "Authentication"
 msgstr "認証"
 
 #: weblate/html/accounts/profile.html:26
-#| msgid "User profile"
 msgid "Profile"
 msgstr "個人情報"
 
@@ -649,7 +654,6 @@ msgstr "保存"
 #: weblate/html/accounts/profile.html:184
 #: weblate/html/accounts/profile.html:230
 #: weblate/html/accounts/profile.html:283
-#| msgid "Subscriptions"
 msgid "Description"
 msgstr "解説"
 
@@ -657,7 +661,9 @@ msgstr "解説"
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
-msgstr "翻訳したい言語を選択します。これらはあなたに簡単にアクセスがへの選ばれた翻訳ダッシュ ボードで提供されます。"
+msgstr ""
+"翻訳したい言語を選択します。これらはあなたに簡単にアクセスがへの選ばれた翻訳"
+"ダッシュ ボードで提供されます。"
 
 #: weblate/html/accounts/profile.html:52
 msgid ""
@@ -677,7 +683,6 @@ msgid "Documentation"
 msgstr "ドキュメント"
 
 #: weblate/html/accounts/profile.html:75
-#| msgid "Subscriptions"
 msgid "Subscription settings"
 msgstr "サブスクリプションの設定"
 
@@ -692,7 +697,6 @@ msgstr ""
 "す。"
 
 #: weblate/html/accounts/profile.html:127
-#| msgid "User comments"
 msgid "User identities"
 msgstr "ユーザーの id"
 
@@ -700,7 +704,9 @@ msgstr "ユーザーの id"
 msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
-msgstr "Id をこのアカウントに関連付けられてをログインに使用することができますを管理できます。"
+msgstr ""
+"Id をこのアカウントに関連付けられてをログインに使用することができますを管理で"
+"きます。"
 
 #: weblate/html/accounts/profile.html:130
 msgid "Currently associated:"
@@ -711,7 +717,6 @@ msgid "Identity"
 msgstr "アイデンティティ"
 
 #: weblate/html/accounts/profile.html:135
-#| msgid "User"
 msgid "User ID"
 msgstr "ユーザ"
 
@@ -720,7 +725,6 @@ msgid "Action"
 msgstr "行ったこと"
 
 #: weblate/html/accounts/profile.html:144
-#| msgid "New password"
 msgid "Set password"
 msgstr "新しいパスワード"
 
@@ -729,7 +733,6 @@ msgid "Disconnect"
 msgstr "切断"
 
 #: weblate/html/accounts/profile.html:161
-#| msgid "Add as translation"
 msgid "Add new association:"
 msgstr "新しい関連付けを追加します。"
 
@@ -798,12 +801,10 @@ msgid ""
 msgstr ""
 
 #: weblate/html/accounts/register.html:30
-#| msgid "Registered users"
 msgid "Register using email"
 msgstr "電子メールを使用した登録します。"
 
 #: weblate/html/accounts/register.html:49
-#| msgid "User registration"
 msgid "Third party registration"
 msgstr "サード パーティの登録"
 
@@ -965,7 +966,7 @@ msgstr ""
 #: weblate/html/admin/ssh.html:57
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can get the "
-"host key entering a domain name or IP for the host in the form below."
+"host key by entering a domain name or IP for the host in the form below."
 msgstr ""
 
 #: weblate/html/admin/ssh.html:61
@@ -1079,7 +1080,8 @@ msgstr "統計情報"
 msgid ""
 "Customizable quality checks will help you in improving quality of "
 "translations."
-msgstr "品質チェックのカスタマイズによって、翻訳の質を向上することができるでしょう。"
+msgstr ""
+"品質チェックのカスタマイズによって、翻訳の質を向上することができるでしょう。"
 
 #: weblate/html/data-root.html:6 weblate/html/index.html:43
 #: weblate/html/share.html:30
@@ -3670,11 +3672,11 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr "XMLタグがが翻訳元と一致しないもの"
 
-#: weblate/trans/checks/same.py:909
+#: weblate/trans/checks/same.py:955
 msgid "Not translated"
 msgstr "未翻訳"
 
-#: weblate/trans/checks/same.py:910
+#: weblate/trans/checks/same.py:956
 msgid "Source and translated strings are same"
 msgstr "翻訳前後でメッセージが同じもの"
 
@@ -3769,7 +3771,6 @@ msgid "Insert tab character"
 msgstr "特殊文字:"
 
 #: weblate/trans/forms.py:56
-#| msgid "Insert new line"
 msgid "Insert new line"
 msgstr "新しい行を挿入"
 
