@@ -54,7 +54,7 @@
     {% endif %}
 
     <h1>{% trans "Add host key" %}</h1>
-    <p>{% trans "To access SSH hosts, it's host key needs to be verified. You can get the host key entering a domain name or IP for the host in the form below." %}</p>
+    <p>{% trans "To access SSH hosts, it's host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}</p>
     <form method="post">
     {% csrf_token %}
     <input type="hidden" name="action" value="add-host" />
