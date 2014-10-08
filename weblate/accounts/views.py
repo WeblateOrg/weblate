@@ -148,7 +148,7 @@ def user_profile(request):
         forms.append(UserForm(request.POST, instance=request.user))
 
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
-            return deny_demo()
+            return deny_demo(request)
 
         if min([form.is_valid() for form in forms]):
             # Save changes
@@ -211,7 +211,7 @@ def user_profile(request):
 @login_required
 def user_remove(request):
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo()
+        return deny_demo(request)
 
     if request.method == 'POST':
         remove_user(request.user)
@@ -447,7 +447,7 @@ def password(request):
     Password change / set form.
     '''
     if appsettings.DEMO_SERVER and request.user.username == 'demo':
-        return deny_demo()
+        return deny_demo(request)
 
     do_change = False
 
