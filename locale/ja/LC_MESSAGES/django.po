@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-10-05 20:21+0200\n"
-"PO-Revision-Date: 2014-10-06 14:59+0200\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2014-10-08 05:40+0200\n"
+"Last-Translator: Michael R. Lawrence <michaellonewolf359@gmail.com>\n"
 "Language-Team: Japanese "
 "<https://hosted.weblate.org/projects/weblate/bootstrap/ja/>\n"
 "Language: ja\n"
@@ -25,10 +25,9 @@ msgid "None"
 msgstr "なし"
 
 #: weblate/accounts/forms.py:89
-#, fuzzy
 #| msgid "At least five characters long."
 msgid "At least four characters long."
-msgstr "5 文字以上の文字列を指定してください。"
+msgstr "少なくとも 4 文字。"
 
 #: weblate/accounts/forms.py:90
 msgid "Username"
@@ -55,10 +54,9 @@ msgid "You can add another emails on Authentication tab."
 msgstr "認証タブで別のメールアドレスを追加できます。"
 
 #: weblate/accounts/forms.py:253 weblate/accounts/forms.py:331
-#, fuzzy
 #| msgid "Your name"
 msgid "Full name"
-msgstr "お名前"
+msgstr "完全な名前"
 
 #: weblate/accounts/forms.py:262
 msgid "Subject"
@@ -102,7 +100,7 @@ msgstr "%s は何でしょうか？"
 
 #: weblate/accounts/forms.py:379
 msgid "Please check your math and try again."
-msgstr ""
+msgstr "あなたの数学を確認してください、もう一度やり直してください。"
 
 #: weblate/accounts/forms.py:401
 msgid "New password"
@@ -148,14 +146,11 @@ msgstr "パスワード"
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
-msgstr ""
+msgstr "正しいユーザー名とパスワードを入力してください。両方のフィールドを区別することに注意してください。"
 
 #: weblate/accounts/forms.py:473
-#, fuzzy
 msgid "This account is inactive."
-msgstr ""
-"ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は "
-"<b>%(username)s</b> です。"
+msgstr "ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は <b>%(username)s</b> です。"
 
 #: weblate/accounts/forms.py:521 weblate/trans/models/project.py:79
 msgid "Project name"
@@ -172,16 +167,13 @@ msgid "Git repository"
 msgstr "Git リポジトリ"
 
 #: weblate/accounts/forms.py:526 weblate/trans/models/subproject.py:78
-#, fuzzy
 #| msgid ""
 #| "URL of Git repository, use weblate://project/subproject for sharing with "
 #| "other subproject."
 msgid ""
 "URL of Git repository, use weblate://project/resource for sharing with other "
 "resource."
-msgstr ""
-"GitレポジトリのURL、その他のサブプロジェクトで利用する場合は、weblate://"
-"project/subproject としてください。"
+msgstr "GitレポジトリのURL、その他のサブプロジェクトで利用する場合は、weblate://project/subproject としてください。"
 
 #: weblate/accounts/forms.py:532 weblate/trans/models/subproject.py:122
 msgid "File mask"
@@ -192,6 +184,7 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
+"使用して、変換するファイルのパス * 言語コード例えばの代わり: po/*.po または locale/*/LC_MESSAGES/django.po。"
 
 #: weblate/accounts/forms.py:541
 msgid "Additional message"
@@ -220,15 +213,15 @@ msgstr "あらゆる翻訳を通知"
 
 #: weblate/accounts/models.py:377
 msgid "Notification on new string to translate"
-msgstr ""
+msgstr "翻訳を新しい文字列に通知"
 
 #: weblate/accounts/models.py:381
 msgid "Notification on new suggestion"
-msgstr ""
+msgstr "新しい提案に関するお知らせ"
 
 #: weblate/accounts/models.py:385
 msgid "Notification on new contributor"
-msgstr ""
+msgstr "新しい貢献者に関するお知らせ"
 
 #: weblate/accounts/models.py:389
 msgid "Notification on new comment"
@@ -256,7 +249,7 @@ msgstr "管理者にメッセージを送信しました。"
 
 #: weblate/accounts/views.py:142 weblate/accounts/views.py:209
 msgid "You can not change demo profile on the demo server."
-msgstr ""
+msgstr "ないデモ デモ サーバー プロファイルを変更できます。"
 
 #: weblate/accounts/views.py:162
 msgid "Your profile has been updated."
@@ -294,7 +287,7 @@ msgstr "メールアドレスの登録"
 
 #: weblate/accounts/views.py:459
 msgid "You have entered an invalid password."
-msgstr ""
+msgstr "入力したパスワードが無効です。"
 
 #: weblate/accounts/views.py:481
 msgid "Your password has been changed."
@@ -336,8 +329,9 @@ msgstr ""
 "決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
 #: weblate/html/about.html:6
+#, fuzzy
 msgid "About"
-msgstr ""
+msgstr "約"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:7
 #: weblate/trans/views/basic.py:390
@@ -345,7 +339,6 @@ msgid "About Weblate"
 msgstr "Weblate について"
 
 #: weblate/html/about.html:17
-#, fuzzy
 #| msgid ""
 #| "Weblate is a web based translation tool with tight Git integration. It "
 #| "features simple and clean user interface, propagation of translations "
@@ -355,9 +348,8 @@ msgid ""
 "features simple and clean user interface, propagation of translations across "
 "resources, quality checks and automatic linking to source files."
 msgstr ""
-"Weblate は、Git と密接に統合しているウェブベースの翻訳支援ツールです。本ツー"
-"ルは、シンプルで明瞭なユーザインターフェース、サブプロジェクト間の翻訳連携、"
-"品質チェック、ソースファイルへの自動リンク、といった機能を備えています。"
+"Weblate は、Git と密接に統合しているウェブベースの翻訳支援ツールです。本ツールは、シンプルで明瞭なユーザインターフェース、サブプロジェクト間の"
+"翻訳連携、品質チェック、ソースファイルへの自動リンク、といった機能を備えています。"
 
 #: weblate/html/about.html:19 weblate/html/accounts/contact.html:14
 #, python-format
@@ -365,9 +357,10 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at <a href=\"%(weblate_url)s\">weblate.org</a>."
 msgstr ""
+"Weblate のサポートを探しているまたはバグ レポートをファイリングする場合 <a href=\"%(weblate_url)s\"> "
+"weblate.org</a> で、ウェブサイトを確認してください。"
 
 #: weblate/html/about.html:29
-#, fuzzy
 #| msgid "Last name"
 msgid "Hosting projects"
 msgstr "名前 (姓)"
@@ -375,7 +368,7 @@ msgstr "名前 (姓)"
 #: weblate/html/about.html:32
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
-msgstr ""
+msgstr "この Weblate インスタンスをホストして様々 なフリーソフトのプロジェクトのための翻訳。"
 
 #: weblate/html/about.html:34
 #, python-format
@@ -391,10 +384,11 @@ msgid "Donate to Weblate"
 msgstr "Weblate に寄付する"
 
 #: weblate/html/about.html:45
+#, fuzzy
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
 "them financially."
-msgstr ""
+msgstr "Weblate は、ボランティアによって作成された無料のソフトウェアがまだ財政的にサポートすることができます。"
 
 #: weblate/html/about.html:48
 msgid "Flattr Weblate!"
@@ -452,7 +446,7 @@ msgstr "無視されたチェックの数"
 
 #: weblate/html/accounts/contact.html:13
 msgid "You can contact maintainers of this server here."
-msgstr ""
+msgstr "ここで、このサーバーの管理者に連絡できます。"
 
 #: weblate/html/accounts/contact.html:28 weblate/html/accounts/hosting.html:26
 msgid "Send"
@@ -460,16 +454,14 @@ msgstr "送信"
 
 #: weblate/html/accounts/email-sent.html:6 weblate/html/accounts/login.html:67
 #: weblate/html/accounts/register.html:9
-#, fuzzy
 #| msgid "Registration date"
 msgid "Registration"
-msgstr "ユーザ登録日時"
+msgstr "登録"
 
 #: weblate/html/accounts/email-sent.html:12
-#, fuzzy
 #| msgid "Registration date"
 msgid "Registration almost complete"
-msgstr "ユーザ登録日時"
+msgstr "ほぼ完全な登録"
 
 #: weblate/html/accounts/email-sent.html:15
 msgid ""
@@ -481,7 +473,7 @@ msgstr ""
 "すぐにお送りします。リンク先にアクセスすることで、ユーザ登録が完了します。"
 
 #: weblate/html/accounts/email-sent.html:19
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "If you don't receive it shortly, please check your spam folder. If it's "
 #| "not there, please <a href=\"%(contact_url)s?subject=Lost activation code"
@@ -491,26 +483,21 @@ msgid ""
 "registration. If the problem persists, please <a href=\"%(contact_url)s?"
 "subject=Registration problems\">contact us</a>."
 msgstr ""
-"メールがすぐに届かない場合は、迷惑メールフォルダーをご確認ください。そこに見"
-"つからなければ、<a href=\"%(contact_url)s?subject=Lost activation code\">ご連"
-"絡ください</a>。"
+"まもなく受信しない場合、お客様の迷惑メールフォルダーを確認してくださいか、登録を再試行してください。問題が解決しない場合は、<a href=\""
+"%(contact_url)s?subject=Registration problems\"> 連絡</a> をください。"
 
 #: weblate/html/accounts/email.html:11 weblate/html/accounts/register.html:20
 #: weblate/html/accounts/reset.html:17
-#, fuzzy
 #| msgid "Please fix errors in registration form."
 msgid "Please fix errors in the registration form."
-msgstr "登録フォームのエラー箇所を修正してください。"
+msgstr "登録フォーム内のエラーを修正してください。"
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
 #: weblate/html/accounts/register.html:17
-#, fuzzy
 msgid ""
 "By registering you agree to use your name and email in Git commits and "
 "provide your contribution under license defined by each translated project."
-msgstr ""
-"ここで入力されたお名前とメールアドレスは、翻訳された際の Git のコミットとして"
-"も使われます。"
+msgstr "ここで入力されたお名前とメールアドレスは、翻訳された際の Git のコミットとしても使われます。"
 
 #: weblate/html/accounts/email.html:22 weblate/html/accounts/register.html:37
 #: weblate/html/base.html:78
@@ -521,15 +508,15 @@ msgstr "登録"
 msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
-msgstr ""
+msgstr "プロジェクトがこのサイトにホスティング プロジェクトの対象かどうかを事前に確認してください。"
 
 #: weblate/html/accounts/hosting.html:21 weblate/html/index.html:100
 msgid "Ask for project hosting"
-msgstr ""
+msgstr "プロジェクトのホスティングを求める"
 
 #: weblate/html/accounts/hosting.html:34
 msgid "Conditions for free hosting conditions"
-msgstr ""
+msgstr "無料ホスティングのための条件の条件"
 
 #: weblate/html/accounts/hosting.html:37
 msgid ""
@@ -556,7 +543,7 @@ msgstr "商用ホスティング"
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
-msgstr ""
+msgstr "商用のホスティングが可能同様に、プロジェクトと、1 ヶ月あたり 19 ユーロから始まります私たち価格ご連絡下さい詳細についてです。"
 
 #: weblate/html/accounts/hosting.html:52 weblate/html/footer.html:8
 msgid "Contact us"
@@ -573,9 +560,9 @@ msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
+"Weblate をテストするには、パスワード <code>デモ</code> <code>デモ</code> ユーザーとしてログインすることができます。"
 
 #: weblate/html/accounts/login.html:28
-#, fuzzy
 #| msgid "Password (again)"
 msgid "Password login"
 msgstr "パスワード (再入力)"
@@ -588,10 +575,9 @@ msgstr ""
 "セット</a>が行えます。"
 
 #: weblate/html/accounts/login.html:54
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party login"
-msgstr "ユーザ登録"
+msgstr "サードパーティのログイン"
 
 #: weblate/html/accounts/login.html:72
 #, python-format
@@ -604,10 +590,9 @@ msgstr ""
 
 #: weblate/html/accounts/password.html:6 weblate/html/accounts/profile.html:9
 #: weblate/html/accounts/removal.html:7
-#, fuzzy
 #| msgid "User profile"
 msgid "Your profile"
-msgstr "個人情報"
+msgstr "あなたのプロフィール"
 
 #: weblate/html/accounts/password.html:16
 msgid ""
@@ -638,13 +623,11 @@ msgid "Account"
 msgstr "アカウント"
 
 #: weblate/html/accounts/profile.html:25
-#, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
-msgstr "ドキュメント"
+msgstr "認証"
 
 #: weblate/html/accounts/profile.html:26
-#, fuzzy
 #| msgid "User profile"
 msgid "Profile"
 msgstr "個人情報"
@@ -652,7 +635,7 @@ msgstr "個人情報"
 #: weblate/html/accounts/profile.html:27
 #: weblate/html/accounts/profile.html:248
 msgid "Licenses"
-msgstr ""
+msgstr "バージョン情報、ライセンス、プロジェクトメンバー"
 
 #: weblate/html/accounts/profile.html:40 weblate/html/accounts/profile.html:71
 #: weblate/html/accounts/profile.html:80
@@ -666,21 +649,20 @@ msgstr "保存"
 #: weblate/html/accounts/profile.html:184
 #: weblate/html/accounts/profile.html:230
 #: weblate/html/accounts/profile.html:283
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Description"
-msgstr "通知設定"
+msgstr "解説"
 
 #: weblate/html/accounts/profile.html:49
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
-msgstr ""
+msgstr "翻訳したい言語を選択します。これらはあなたに簡単にアクセスがへの選ばれた翻訳ダッシュ ボードで提供されます。"
 
 #: weblate/html/accounts/profile.html:52
 msgid ""
 "The secondary languages are shown next to the source string when translating."
-msgstr ""
+msgstr "第 2 言語は、翻訳するときソース文字列の横に表示されます。"
 
 #: weblate/html/accounts/profile.html:56 weblate/html/accounts/profile.html:91
 #: weblate/html/accounts/profile.html:117
@@ -695,14 +677,13 @@ msgid "Documentation"
 msgstr "ドキュメント"
 
 #: weblate/html/accounts/profile.html:75
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Subscription settings"
-msgstr "通知設定"
+msgstr "サブスクリプションの設定"
 
 #: weblate/html/accounts/profile.html:88
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
+msgstr "すべての言語に対して、e メール経由で選択した通知を受信します。"
 
 #: weblate/html/accounts/profile.html:114
 msgid "Your name and email will appear as author on Git commits."
@@ -711,27 +692,25 @@ msgstr ""
 "す。"
 
 #: weblate/html/accounts/profile.html:127
-#, fuzzy
 #| msgid "User comments"
 msgid "User identities"
-msgstr "ユーザのコメント"
+msgstr "ユーザーの id"
 
 #: weblate/html/accounts/profile.html:129
 msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
-msgstr ""
+msgstr "Id をこのアカウントに関連付けられてをログインに使用することができますを管理できます。"
 
 #: weblate/html/accounts/profile.html:130
 msgid "Currently associated:"
-msgstr ""
+msgstr "現在関連付けられている："
 
 #: weblate/html/accounts/profile.html:134
 msgid "Identity"
-msgstr ""
+msgstr "アイデンティティ"
 
 #: weblate/html/accounts/profile.html:135
-#, fuzzy
 #| msgid "User"
 msgid "User ID"
 msgstr "ユーザ"
@@ -741,33 +720,31 @@ msgid "Action"
 msgstr "行ったこと"
 
 #: weblate/html/accounts/profile.html:144
-#, fuzzy
 #| msgid "New password"
 msgid "Set password"
 msgstr "新しいパスワード"
 
 #: weblate/html/accounts/profile.html:152
 msgid "Disconnect"
-msgstr ""
+msgstr "切断"
 
 #: weblate/html/accounts/profile.html:161
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
-msgstr "翻訳として追加"
+msgstr "新しい関連付けを追加します。"
 
 #: weblate/html/accounts/profile.html:171
 msgid "Removal"
-msgstr ""
+msgstr "除去"
 
 #: weblate/html/accounts/profile.html:174
 #: weblate/html/accounts/removal.html:12
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "アカウントの削除は、すべてのプライベート データを削除します。"
 
 #: weblate/html/accounts/profile.html:177
 msgid "Remove my account"
-msgstr ""
+msgstr "私のアカウントを削除します。"
 
 #: weblate/html/accounts/profile.html:186
 msgid "You can configure how you will log in on this site."
@@ -791,7 +768,7 @@ msgstr "お名前"
 
 #: weblate/html/accounts/profile.html:221
 msgid "Avatars are provided using libravatar."
-msgstr ""
+msgstr "アバターは、libravatar を使用して提供しています。"
 
 #: weblate/html/accounts/profile.html:232
 msgid "Your public appearance on this site."
@@ -801,7 +778,7 @@ msgstr ""
 msgid ""
 "Following projects have explicitly specified their licensing and copyright "
 "conditions:"
-msgstr ""
+msgstr "次のプロジェクトがそのライセンスと著作権の条件を指定して明示的に。"
 
 #: weblate/html/accounts/profile.html:258 weblate/html/data.html:26
 #: weblate/html/data.html.py:57 weblate/html/data.html:83
@@ -821,16 +798,14 @@ msgid ""
 msgstr ""
 
 #: weblate/html/accounts/register.html:30
-#, fuzzy
 #| msgid "Registered users"
 msgid "Register using email"
-msgstr "登録ユーザ数"
+msgstr "電子メールを使用した登録します。"
 
 #: weblate/html/accounts/register.html:49
-#, fuzzy
 #| msgid "User registration"
 msgid "Third party registration"
-msgstr "ユーザ登録"
+msgstr "サード パーティの登録"
 
 #: weblate/html/accounts/register.html:65
 #, python-format
