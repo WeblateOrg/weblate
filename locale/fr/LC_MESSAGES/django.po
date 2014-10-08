@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-05 12:29+0200\n"
+"POT-Creation-Date: 2014-10-08 13:33+0200\n"
 "PO-Revision-Date: 2014-05-14 18:47+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -190,35 +190,35 @@ msgstr "Langues secondaires"
 msgid "Subscribed projects"
 msgstr "Projets abonnés"
 
-#: weblate/accounts/models.py:373
+#: weblate/accounts/models.py:374
 msgid "Notification on any translation"
 msgstr "Aviser pour toute traduction"
 
-#: weblate/accounts/models.py:377
+#: weblate/accounts/models.py:378
 msgid "Notification on new string to translate"
 msgstr "Aviser pour une nouvelle chaîne à traduire"
 
-#: weblate/accounts/models.py:381
+#: weblate/accounts/models.py:382
 msgid "Notification on new suggestion"
 msgstr "Aviser pour une nouvelle suggestion"
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:386
 msgid "Notification on new contributor"
 msgstr "Aviser pour un nouveau contributeur"
 
-#: weblate/accounts/models.py:389
+#: weblate/accounts/models.py:390
 msgid "Notification on new comment"
 msgstr "Avis lors d'un nouveau commentaire"
 
-#: weblate/accounts/models.py:393
+#: weblate/accounts/models.py:394
 msgid "Notification on merge failure"
 msgstr "Aviser lors de l'échec d'une fusion"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:398
 msgid "Notification on new language request"
 msgstr "Avis à propos d'une requête de nouvelle langue"
 
-#: weblate/accounts/views.py:84 weblate/accounts/views.py:427
+#: weblate/accounts/views.py:84 weblate/accounts/views.py:430
 msgid "User registration"
 msgstr "Enregistrement utilisateur"
 
@@ -230,56 +230,58 @@ msgstr "Le message n'a pu être envoyé à l'administrateur !"
 msgid "Message has been sent to administrator."
 msgstr "Le message a été envoyé à l'administrateur."
 
-#: weblate/accounts/views.py:144 weblate/accounts/views.py:220
-msgid "You can not change demo profile on the demo server."
+#: weblate/accounts/views.py:128
+#, fuzzy
+#| msgid "You can not change demo profile on the demo server."
+msgid "You can not change demo account on the demo server."
 msgstr "Vous ne pouvez pas modifier le profil de démo sur le serveur de démo."
 
-#: weblate/accounts/views.py:167
+#: weblate/accounts/views.py:174
 msgid "Your profile has been updated."
 msgstr "Votre profil a été mis à jour."
 
-#: weblate/accounts/views.py:202
+#: weblate/accounts/views.py:209
 msgid "User profile"
 msgstr "Profil d'utilisateur"
 
-#: weblate/accounts/views.py:231
+#: weblate/accounts/views.py:234
 msgid "Your account has been removed."
 msgstr "Votre compte a été supprimé."
 
-#: weblate/accounts/views.py:276
+#: weblate/accounts/views.py:279
 msgid "Contact"
 msgstr "Contact"
 
-#: weblate/accounts/views.py:308
+#: weblate/accounts/views.py:311
 msgid "Hosting"
 msgstr "Hébergement"
 
-#: weblate/accounts/views.py:385 weblate/html/accounts/login.html:24
+#: weblate/accounts/views.py:388 weblate/html/accounts/login.html:24
 #: weblate/html/base.html:46
 msgid "Login"
 msgstr "Connexion"
 
-#: weblate/accounts/views.py:395
+#: weblate/accounts/views.py:398
 msgid "Thanks for using Weblate!"
 msgstr "Merci d'utiliser Weblate !"
 
-#: weblate/accounts/views.py:449 weblate/html/accounts/email.html:8
+#: weblate/accounts/views.py:452 weblate/html/accounts/email.html:8
 msgid "Register email"
 msgstr "Enregistrement de l'adresse courriel"
 
-#: weblate/accounts/views.py:473
+#: weblate/accounts/views.py:478
 msgid "You have entered an invalid password."
 msgstr "Vous avez saisi un mot de passe non valide."
 
-#: weblate/accounts/views.py:495
+#: weblate/accounts/views.py:500
 msgid "Your password has been changed."
 msgstr "Votre mot de passe a été modifié."
 
-#: weblate/accounts/views.py:505 weblate/html/accounts/profile.html:46
+#: weblate/accounts/views.py:510 weblate/html/accounts/profile.html:46
 msgid "Change password"
 msgstr "Modifier le mot de passe"
 
-#: weblate/accounts/views.py:530 weblate/html/accounts/reset.html:8
+#: weblate/accounts/views.py:535 weblate/html/accounts/reset.html:8
 msgid "Password reset"
 msgstr "Mot de passe réinitialisé"
 
@@ -836,7 +838,7 @@ msgstr "Ajouter une clé d'hôte"
 #| "host key using form below."
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can get the "
-"host key entering a domain name or IP for the host in the form below."
+"host key by entering a domain name or IP for the host in the form below."
 msgstr ""
 "Pour accéder à un hôte SSH, sa clé SSH doit être vérifiée. Vous pouvez "
 "vérifier la clé SSH en utilisant le formulaire ci-dessous."
@@ -3520,11 +3522,11 @@ msgstr "Disparité des balises XML"
 msgid "XML tags in translation do not match source"
 msgstr "Les balises XML dans la traduction ne correspondent pas à la source"
 
-#: weblate/trans/checks/same.py:909
+#: weblate/trans/checks/same.py:955
 msgid "Not translated"
 msgstr "Non traduit"
 
-#: weblate/trans/checks/same.py:910
+#: weblate/trans/checks/same.py:956
 msgid "Source and translated strings are same"
 msgstr "La chaîne source est identique à la chaîne traduite"
 

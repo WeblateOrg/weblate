@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-05 12:29+0200\n"
+"POT-Creation-Date: 2014-10-08 13:33+0200\n"
 "PO-Revision-Date: 2014-07-15 18:57+0200\n"
 "Last-Translator: ks k <kmshts@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -185,35 +185,35 @@ msgstr "제2 언어"
 msgid "Subscribed projects"
 msgstr "구독중인 프로젝트"
 
-#: weblate/accounts/models.py:373
+#: weblate/accounts/models.py:374
 msgid "Notification on any translation"
 msgstr "번역이 있을경우 알림"
 
-#: weblate/accounts/models.py:377
+#: weblate/accounts/models.py:378
 msgid "Notification on new string to translate"
 msgstr "새로 번역해야할 문구가 있을경우 알림"
 
-#: weblate/accounts/models.py:381
+#: weblate/accounts/models.py:382
 msgid "Notification on new suggestion"
 msgstr "새로운 제안사항이 있을경우 알림"
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:386
 msgid "Notification on new contributor"
 msgstr "새로운 참여자가 있을경우 알림"
 
-#: weblate/accounts/models.py:389
+#: weblate/accounts/models.py:390
 msgid "Notification on new comment"
 msgstr "새로운 덧글이 있을경우 알림"
 
-#: weblate/accounts/models.py:393
+#: weblate/accounts/models.py:394
 msgid "Notification on merge failure"
 msgstr "번역 통합 실패시 알림"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:398
 msgid "Notification on new language request"
 msgstr "새로운 언어 추가 요청이 있을 경우 알림"
 
-#: weblate/accounts/views.py:84 weblate/accounts/views.py:427
+#: weblate/accounts/views.py:84 weblate/accounts/views.py:430
 msgid "User registration"
 msgstr "사용자 등록"
 
@@ -225,56 +225,58 @@ msgstr "메세지가 관리자에게 전송 되지 않았습니다!"
 msgid "Message has been sent to administrator."
 msgstr "관리자에게 메세지를 보냈습니다."
 
-#: weblate/accounts/views.py:144 weblate/accounts/views.py:220
-msgid "You can not change demo profile on the demo server."
+#: weblate/accounts/views.py:128
+#, fuzzy
+#| msgid "You can not change demo profile on the demo server."
+msgid "You can not change demo account on the demo server."
 msgstr "데모 서버에서 데모 약력을 변경할 수 없습니다."
 
-#: weblate/accounts/views.py:167
+#: weblate/accounts/views.py:174
 msgid "Your profile has been updated."
 msgstr "귀하의 프로파일이 갱신되었습니다."
 
-#: weblate/accounts/views.py:202
+#: weblate/accounts/views.py:209
 msgid "User profile"
 msgstr "사용자 프로파일"
 
-#: weblate/accounts/views.py:231
+#: weblate/accounts/views.py:234
 msgid "Your account has been removed."
 msgstr "귀하의 계정이 제거 되었습니다."
 
-#: weblate/accounts/views.py:276
+#: weblate/accounts/views.py:279
 msgid "Contact"
 msgstr "연락하기"
 
-#: weblate/accounts/views.py:308
+#: weblate/accounts/views.py:311
 msgid "Hosting"
 msgstr "호스팅"
 
-#: weblate/accounts/views.py:385 weblate/html/accounts/login.html:24
+#: weblate/accounts/views.py:388 weblate/html/accounts/login.html:24
 #: weblate/html/base.html:46
 msgid "Login"
 msgstr "로그인"
 
-#: weblate/accounts/views.py:395
+#: weblate/accounts/views.py:398
 msgid "Thanks for using Weblate!"
 msgstr "Weblate를 사용하여 주셔서 감사합니다!"
 
-#: weblate/accounts/views.py:449 weblate/html/accounts/email.html:8
+#: weblate/accounts/views.py:452 weblate/html/accounts/email.html:8
 msgid "Register email"
 msgstr "이메일 등록"
 
-#: weblate/accounts/views.py:473
+#: weblate/accounts/views.py:478
 msgid "You have entered an invalid password."
 msgstr "잘못된 암호를 입력하였습니다."
 
-#: weblate/accounts/views.py:495
+#: weblate/accounts/views.py:500
 msgid "Your password has been changed."
 msgstr "귀하의 암호가 바뀌었습니다."
 
-#: weblate/accounts/views.py:505 weblate/html/accounts/profile.html:46
+#: weblate/accounts/views.py:510 weblate/html/accounts/profile.html:46
 msgid "Change password"
 msgstr "암호 변경"
 
-#: weblate/accounts/views.py:530 weblate/html/accounts/reset.html:8
+#: weblate/accounts/views.py:535 weblate/html/accounts/reset.html:8
 msgid "Password reset"
 msgstr "암호 초기화"
 
@@ -812,7 +814,7 @@ msgstr "호스트 키 추가"
 #| "host key using form below."
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can get the "
-"host key entering a domain name or IP for the host in the form below."
+"host key by entering a domain name or IP for the host in the form below."
 msgstr ""
 "SSH 호스트를 접근하기 위해서, 호스트 키를 확인해야 합니다. 아래의 양식을 사용"
 "하여 호스트 키를 확인할 수 있습니다."
@@ -3444,11 +3446,11 @@ msgstr "XML 태그 불일치"
 msgid "XML tags in translation do not match source"
 msgstr "번역에서 XML 태그는 원본과 일치하지 않습니다"
 
-#: weblate/trans/checks/same.py:909
+#: weblate/trans/checks/same.py:955
 msgid "Not translated"
 msgstr "미번역"
 
-#: weblate/trans/checks/same.py:910
+#: weblate/trans/checks/same.py:956
 msgid "Source and translated strings are same"
 msgstr "원본과 번역된 문자열이 같습니다"
 

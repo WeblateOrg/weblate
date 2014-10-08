@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-05 12:29+0200\n"
+"POT-Creation-Date: 2014-10-08 13:33+0200\n"
 "PO-Revision-Date: 2014-10-01 20:47+0200\n"
 "Last-Translator: Tim Babych <tim.babych@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -187,35 +187,35 @@ msgstr "Другорядні мови"
 msgid "Subscribed projects"
 msgstr "Підписані проекти"
 
-#: weblate/accounts/models.py:373
+#: weblate/accounts/models.py:374
 msgid "Notification on any translation"
 msgstr "Повідомлення про будь-який переклад"
 
-#: weblate/accounts/models.py:377
+#: weblate/accounts/models.py:378
 msgid "Notification on new string to translate"
 msgstr "Повідомлення про новий рядок для перекладу"
 
-#: weblate/accounts/models.py:381
+#: weblate/accounts/models.py:382
 msgid "Notification on new suggestion"
 msgstr "Повідомлення про нову пропозицію"
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:386
 msgid "Notification on new contributor"
 msgstr "Повідомлення про нового перекладача"
 
-#: weblate/accounts/models.py:389
+#: weblate/accounts/models.py:390
 msgid "Notification on new comment"
 msgstr "Повідомлення про новий коментар"
 
-#: weblate/accounts/models.py:393
+#: weblate/accounts/models.py:394
 msgid "Notification on merge failure"
 msgstr "Повідомлення про невдале злиття"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:398
 msgid "Notification on new language request"
 msgstr "Повідомлення про запит нової мови"
 
-#: weblate/accounts/views.py:84 weblate/accounts/views.py:427
+#: weblate/accounts/views.py:84 weblate/accounts/views.py:430
 msgid "User registration"
 msgstr "Реєстрацiя користувача"
 
@@ -227,56 +227,58 @@ msgstr "Повідомлення не надіслано адміністрат�
 msgid "Message has been sent to administrator."
 msgstr "Повідомлення надіслано адміністратору."
 
-#: weblate/accounts/views.py:144 weblate/accounts/views.py:220
-msgid "You can not change demo profile on the demo server."
+#: weblate/accounts/views.py:128
+#, fuzzy
+#| msgid "You can not change demo profile on the demo server."
+msgid "You can not change demo account on the demo server."
 msgstr "Не можна змінити профіль демо на демо-сервері."
 
-#: weblate/accounts/views.py:167
+#: weblate/accounts/views.py:174
 msgid "Your profile has been updated."
 msgstr "Ваш профіль вже оновлено."
 
-#: weblate/accounts/views.py:202
+#: weblate/accounts/views.py:209
 msgid "User profile"
 msgstr "Профіль користувача"
 
-#: weblate/accounts/views.py:231
+#: weblate/accounts/views.py:234
 msgid "Your account has been removed."
 msgstr "Ваш акаунт було видалено."
 
-#: weblate/accounts/views.py:276
+#: weblate/accounts/views.py:279
 msgid "Contact"
 msgstr "Контакти"
 
-#: weblate/accounts/views.py:308
+#: weblate/accounts/views.py:311
 msgid "Hosting"
 msgstr "Хостинг"
 
-#: weblate/accounts/views.py:385 weblate/html/accounts/login.html:24
+#: weblate/accounts/views.py:388 weblate/html/accounts/login.html:24
 #: weblate/html/base.html:46
 msgid "Login"
 msgstr "Вхід"
 
-#: weblate/accounts/views.py:395
+#: weblate/accounts/views.py:398
 msgid "Thanks for using Weblate!"
 msgstr "Дякуємо за використання Weblate!"
 
-#: weblate/accounts/views.py:449 weblate/html/accounts/email.html:8
+#: weblate/accounts/views.py:452 weblate/html/accounts/email.html:8
 msgid "Register email"
 msgstr "Зареєструвати електронну пошту"
 
-#: weblate/accounts/views.py:473
+#: weblate/accounts/views.py:478
 msgid "You have entered an invalid password."
 msgstr "Ви ввели неправильний пароль."
 
-#: weblate/accounts/views.py:495
+#: weblate/accounts/views.py:500
 msgid "Your password has been changed."
 msgstr "Ваш пароль змінено."
 
-#: weblate/accounts/views.py:505 weblate/html/accounts/profile.html:46
+#: weblate/accounts/views.py:510 weblate/html/accounts/profile.html:46
 msgid "Change password"
 msgstr "Змінити пароль"
 
-#: weblate/accounts/views.py:530 weblate/html/accounts/reset.html:8
+#: weblate/accounts/views.py:535 weblate/html/accounts/reset.html:8
 msgid "Password reset"
 msgstr "Перевстановити пароль"
 
@@ -823,7 +825,7 @@ msgstr "Додати ключ вузла"
 #| "host key using form below."
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can get the "
-"host key entering a domain name or IP for the host in the form below."
+"host key by entering a domain name or IP for the host in the form below."
 msgstr ""
 "Щоб отримати доступ до SSH-вузла, ключ повинен бути перевіреним. У цьому "
 "допоможе форма нижче."
@@ -3489,11 +3491,11 @@ msgstr "Невідповідність теґів XML"
 msgid "XML tags in translation do not match source"
 msgstr "Теґи XML у перекладі не збігаються з тегами XML у оригіналі"
 
-#: weblate/trans/checks/same.py:909
+#: weblate/trans/checks/same.py:955
 msgid "Not translated"
 msgstr "Не перекладено"
 
-#: weblate/trans/checks/same.py:910
+#: weblate/trans/checks/same.py:956
 msgid "Source and translated strings are same"
 msgstr "Джерело і переклад збігаються"
 

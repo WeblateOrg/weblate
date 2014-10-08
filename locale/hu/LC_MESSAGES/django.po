@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-05 12:29+0200\n"
+"POT-Creation-Date: 2014-10-08 13:33+0200\n"
 "PO-Revision-Date: 2014-02-27 11:05+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -190,35 +190,35 @@ msgstr "Másodlagos nyelvek"
 msgid "Subscribed projects"
 msgstr "Feliratkozott projektek"
 
-#: weblate/accounts/models.py:373
+#: weblate/accounts/models.py:374
 msgid "Notification on any translation"
 msgstr "Értesítés bármilyen fordításról"
 
-#: weblate/accounts/models.py:377
+#: weblate/accounts/models.py:378
 msgid "Notification on new string to translate"
 msgstr "Értesítés új lefordítandó szövegről"
 
-#: weblate/accounts/models.py:381
+#: weblate/accounts/models.py:382
 msgid "Notification on new suggestion"
 msgstr "Értesítés új javaslatról"
 
-#: weblate/accounts/models.py:385
+#: weblate/accounts/models.py:386
 msgid "Notification on new contributor"
 msgstr "Értesítés új résztvevőről"
 
-#: weblate/accounts/models.py:389
+#: weblate/accounts/models.py:390
 msgid "Notification on new comment"
 msgstr "Értesítés új kommentről"
 
-#: weblate/accounts/models.py:393
+#: weblate/accounts/models.py:394
 msgid "Notification on merge failure"
 msgstr "Értesítés összefésülési hibáról"
 
-#: weblate/accounts/models.py:397
+#: weblate/accounts/models.py:398
 msgid "Notification on new language request"
 msgstr "Értesítés új nyelv kéréséről"
 
-#: weblate/accounts/views.py:84 weblate/accounts/views.py:427
+#: weblate/accounts/views.py:84 weblate/accounts/views.py:430
 msgid "User registration"
 msgstr "Regisztráció"
 
@@ -232,58 +232,60 @@ msgstr "Az üzenet elküldésre került az adminisztrátornak."
 msgid "Message has been sent to administrator."
 msgstr "Az üzenet elküldésre került az adminisztrátornak."
 
-#: weblate/accounts/views.py:144 weblate/accounts/views.py:220
-msgid "You can not change demo profile on the demo server."
+#: weblate/accounts/views.py:128
+#, fuzzy
+#| msgid "You can not change demo profile on the demo server."
+msgid "You can not change demo account on the demo server."
 msgstr "Nem változtathatja meg a demo profilt a demo szerveren."
 
-#: weblate/accounts/views.py:167
+#: weblate/accounts/views.py:174
 msgid "Your profile has been updated."
 msgstr "A felhasználói fiókja frissítve lett."
 
-#: weblate/accounts/views.py:202
+#: weblate/accounts/views.py:209
 msgid "User profile"
 msgstr "Felhasználói profil"
 
-#: weblate/accounts/views.py:231
+#: weblate/accounts/views.py:234
 #, fuzzy
 #| msgid "No recent activity has been recorded."
 msgid "Your account has been removed."
 msgstr "Nincs friss művelet feljegyezve."
 
-#: weblate/accounts/views.py:276
+#: weblate/accounts/views.py:279
 msgid "Contact"
 msgstr "Kapcsolat"
 
-#: weblate/accounts/views.py:308
+#: weblate/accounts/views.py:311
 msgid "Hosting"
 msgstr "Elhelyezés"
 
-#: weblate/accounts/views.py:385 weblate/html/accounts/login.html:24
+#: weblate/accounts/views.py:388 weblate/html/accounts/login.html:24
 #: weblate/html/base.html:46
 msgid "Login"
 msgstr "Bejelentkezés"
 
-#: weblate/accounts/views.py:395
+#: weblate/accounts/views.py:398
 msgid "Thanks for using Weblate!"
 msgstr "Köszönjük, hogy a Weblate-et használja!"
 
-#: weblate/accounts/views.py:449 weblate/html/accounts/email.html:8
+#: weblate/accounts/views.py:452 weblate/html/accounts/email.html:8
 msgid "Register email"
 msgstr "E-mail cím regisztrálása"
 
-#: weblate/accounts/views.py:473
+#: weblate/accounts/views.py:478
 msgid "You have entered an invalid password."
 msgstr "Érvénytelen jelszót adott meg."
 
-#: weblate/accounts/views.py:495
+#: weblate/accounts/views.py:500
 msgid "Your password has been changed."
 msgstr "A jelszava megváltozott."
 
-#: weblate/accounts/views.py:505 weblate/html/accounts/profile.html:46
+#: weblate/accounts/views.py:510 weblate/html/accounts/profile.html:46
 msgid "Change password"
 msgstr "Jelszóváltás"
 
-#: weblate/accounts/views.py:530 weblate/html/accounts/reset.html:8
+#: weblate/accounts/views.py:535 weblate/html/accounts/reset.html:8
 msgid "Password reset"
 msgstr "Jelszó alaphelyzetbe állítása"
 
@@ -837,7 +839,7 @@ msgstr "Host kulcs hozzáadása"
 #| "host key using form below."
 msgid ""
 "To access SSH hosts, it's host key needs to be verified. You can get the "
-"host key entering a domain name or IP for the host in the form below."
+"host key by entering a domain name or IP for the host in the form below."
 msgstr ""
 "SSH hostok eléréséhez ezen gépek kulcsát ellenőrizni kell. Gép kulcsok "
 "ellenőrzéséhez használja az alábbi formot."
@@ -3531,11 +3533,11 @@ msgstr "XML címke eltérés"
 msgid "XML tags in translation do not match source"
 msgstr "A fordításban lévő XML címkék (tags) eltérnek a forrástól"
 
-#: weblate/trans/checks/same.py:909
+#: weblate/trans/checks/same.py:955
 msgid "Not translated"
 msgstr "Nem lefordított"
 
-#: weblate/trans/checks/same.py:910
+#: weblate/trans/checks/same.py:956
 msgid "Source and translated strings are same"
 msgstr "A forrás és a fordítás megegyezik"
 
