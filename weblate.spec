@@ -54,7 +54,7 @@ List of features includes:
 %build
 make -C docs html
 cp weblate/settings_example.py weblate/settings.py
-sed -i 's@^BASE_DIR = .*@WEB_ROOT = "%{WLDIR}/weblate"@g' weblate/settings.py
+sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}/weblate"@g' weblate/settings.py
 sed -i 's@^WHOOSH_INDEX = .*@WHOOSH_INDEX = "%{WLDATADIR}/whoosh-index"@g' weblate/settings.py
 sed -i 's@^GIT_ROOT = .*@GIT_ROOT = "%{WLDATADIR}/repos"@g' weblate/settings.py
 sed -i "s@'ENGINE': 'django.db.backends.sqlite3'@'ENGINE': 'django.db.backends.mysql'@" weblate/settings.py
