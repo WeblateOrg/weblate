@@ -14,7 +14,7 @@ Django (>= 1.6)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.9.0, 1.10.0 or newer strongly recommended)
     http://toolkit.translatehouse.org/
-Git (>= 1.7.2)
+Git (>= 1.6)
     http://git-scm.com/
 python-social-auth (>= 0.1.17, < 0.1.24)
     http://psa.matiasaguirre.net/
