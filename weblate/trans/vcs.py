@@ -302,10 +302,10 @@ class GitRepository(Repository):
         Returns dictionary with detailed revision information.
         """
         text = self.execute([
-            'show',
+            'log',
+            '-1',
             '--format=fuller',
             '--date=rfc',
-            '--no-patch',
             '--abbrev-commit',
             revision
         ])
