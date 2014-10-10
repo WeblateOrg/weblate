@@ -302,10 +302,10 @@ class GitRepository(Repository):
         Returns dictionary with detailed revision information.
         """
         text = self.execute([
-            'show',
+            'log',
+            '-1',
             '--format=fuller',
             '--date=rfc',
-            '--no-patch',
             '--abbrev-commit',
             revision
         ])
@@ -439,14 +439,11 @@ class GitRepository(Repository):
             self.execute(['remote', 'set-url', 'origin', '--push', push_url])
 
         # Set branch to track
-        try:
-            self.execute(
-                ['remote', 'set-branches', 'origin', branch]
-            )
-        except RepositoryException:
-            self.execute(
-                ['remote', 'set-branches', '--add', 'origin', branch]
-            )
+        self.execute([
+            'config',
+            'remote.origin.fetch',
+            '+refs/heads/{0}:refs/remotes/origin/{0}'.format(branch)
+        ])
 
     def configure_branch(self, branch):
         """

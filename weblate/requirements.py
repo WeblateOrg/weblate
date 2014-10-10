@@ -135,7 +135,7 @@ def get_versions():
         'Git',
         'http://git-scm.com/',
         GitRepository.get_version(),
-        '1.7.2',
+        '1.6',
     ))
 
     name = 'South'
