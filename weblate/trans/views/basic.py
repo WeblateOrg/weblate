@@ -86,7 +86,8 @@ def home(request):
     usertranslations = None
     if request.user.is_authenticated():
         usertranslations = Translation.objects.filter(
-            language__in=request.user.profile.languages.all()
+            language__in=request.user.profile.languages.all(),
+            subproject__project__in=projects,
         ).order_by(
             'subproject__project__name', 'subproject__name'
         ).select_related()
