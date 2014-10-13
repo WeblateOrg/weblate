@@ -45,6 +45,10 @@ def show_language(request, lang):
     dicts = Dictionary.objects.filter(
         language=obj
     ).values_list('project', flat=True).distinct()
+    projects = Project.objects.all_acl(request.user)
+    translations = obj.translation_set.enabled().filter(
+        subproject__project__in=projects
+    )
 
     return render(
         request,
@@ -56,8 +60,7 @@ def show_language(request, lang):
                 'rss-language', kwargs={'lang': obj.code}
             ),
             'last_changes_url': urlencode({'lang': obj.code}),
-            'dicts': Project.objects.all_acl(request.user).filter(
-                id__in=dicts
-            ),
+            'dicts': projects.filter(id__in=dicts),
+            'translations': translations,
         }
     )
