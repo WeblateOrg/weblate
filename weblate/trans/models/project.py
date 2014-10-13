@@ -68,7 +68,7 @@ class ProjectManager(models.Manager):
         """
         projects = self.all()
 
-        cache_key = 'acl-project-{0}'.format(user.id)
+        cache_key = 'acl-project-{0}'.format(user.id if user else 'none')
 
         last_result = cache.get(cache_key)
         if last_result is not None:
