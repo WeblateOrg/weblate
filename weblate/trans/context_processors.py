@@ -50,7 +50,6 @@ def weblate_context(request):
             'subproject__project__name', 'subproject__name'
         ).select_related()
 
-
     return {
         'version': weblate.VERSION,
 
