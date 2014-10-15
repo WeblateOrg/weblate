@@ -24,6 +24,7 @@ from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
 from django.utils import timezone
 from glob import glob
 import os
@@ -386,13 +387,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         return self._repository
 
+    def clear_repo_cache(self):
+        """
+        Clears cached information on repository update.
+        """
+        cache.delete(
+            '{0}-last-commit'.format(self.get_full_slug())
+        )
+
     def get_last_remote_commit(self):
         '''
         Returns latest remote commit we know.
         '''
-        return self.repository.get_revision_info(
-            self.repository.last_remote_revision
-        )
+        cache_key = '{0}-last-commit'.format(self.get_full_slug())
+
+        result = cache.get(cache_key)
+
+        if result is None:
+            result = self.repository.get_revision_info(
+                self.repository.last_remote_revision
+            )
+            cache.set(cache_key, result)
+        return result
 
     def get_repo_url(self):
         '''
