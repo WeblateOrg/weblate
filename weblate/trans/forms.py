@@ -87,7 +87,7 @@ class PluralTextarea(forms.Textarea):
         extra_params = u'data-loading-text="{0}" data-href="{1}"'.format(
             ugettext(u'Loading…'),
             reverse('js-get', kwargs={'checksum': checksum}),
-        ),
+        )
         groups.append(
             GROUP_TEMPLATE.format(
                 '',
