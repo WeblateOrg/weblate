@@ -53,6 +53,10 @@ def get_filter_name(rqtype):
         return _('Strings with suggestions')
     elif rqtype == 'allchecks':
         return _('Strings with any failing checks')
+    elif rqtype == 'sourcecomments':
+        return _('Strings with comments')
+    elif rqtype == 'targetcomments':
+        return _('Strings with comments')
     elif rqtype in CHECKS:
         return CHECKS[rqtype].name
 
@@ -731,18 +735,23 @@ def get_zen_unitdata(translation, request):
         return search_result, None
 
     search_result['last_section'] = offset + 20 >= len(search_result['ids'])
+    search_result['offset'] = offset
 
     units = translation.unit_set.filter(
         pk__in=search_result['ids'][offset:offset + 20]
     )
 
     unitdata = [
-        (unit, TranslationForm(
-            translation,
-            unit,
-            tabindex=100 + (unit.position * 10),
-        ))
-        for unit in units
+        {
+            'unit': unit,
+            'form': TranslationForm(
+                translation,
+                unit,
+                tabindex=100 + (unit.position * 10),
+            ),
+            'offset': offset + pos,
+        }
+        for pos, unit in enumerate(units)
     ]
 
     return search_result, unitdata
@@ -770,6 +779,7 @@ def zen(request, project, subproject, lang):
             'filter_count': len(search_result['ids']),
             'last_section': search_result['last_section'],
             'search_id': search_result['search_id'],
+            'offset': search_result['offset'],
         }
     )
 

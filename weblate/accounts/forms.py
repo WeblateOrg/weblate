@@ -521,10 +521,9 @@ class HostingForm(forms.Form):
     project = forms.CharField(label=_('Project name'), required=True)
     url = forms.URLField(label=_('Project website'), required=True)
     repo = forms.CharField(
-        label=_('Git repository'),
+        label=_('Source code repository'),
         help_text=_(
-            'URL of Git repository, use weblate://project/resource '
-            'for sharing with other resource.'
+            'URL of source code repository for example Git or Mercurial.'
         ),
         required=True
     )

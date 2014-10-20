@@ -73,7 +73,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Project'),
     )
     repo = models.CharField(
-        verbose_name=ugettext_lazy('Git repository'),
+        verbose_name=ugettext_lazy('Source code repository'),
         max_length=200,
         help_text=ugettext_lazy(
             'URL of Git repository, use weblate://project/resource '

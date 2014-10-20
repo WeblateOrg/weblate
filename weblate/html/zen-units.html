@@ -3,35 +3,35 @@
 {% load static %}
 {% load url from future %}
 
-{% for unit in unitdata %}
-<tr id="row-status-{{ unit.0.checksum }}">
-<td>{{ unit.0.position }}</td>
+{% for item in unitdata %}
+<tr id="row-status-{{ item.unit.checksum }}">
+<td>{{ item.unit.position }}</td>
 <td>
-{{ unit.0.get_location_links }}
-{% if unit.0.context %}
-{% format_translation unit.0.context search_match=search_query %}
+{{ item.unit.get_location_links }}
+{% if item.unit.context %}
+{% format_translation item.unit.context search_match=search_query %}
 {% endif %}
 </td>
 <td>
-<a href="{{ unit.0.get_absolute_url }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
+<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?search_id={{ search_id }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
 </td>
 </tr>
-<tr id="row-source-{{ unit.0.checksum }}">
+<tr id="row-source-{{ item.unit.checksum }}">
 <td></td>
-<td colspan="2" class="translatetext">{% format_translation unit.0.source search_match=search_query %}</td>
+<td colspan="2" class="translatetext">{% format_translation item.unit.source search_match=search_query %}</td>
 </tr>
-<tr id="row-edit-{{ unit.0.checksum }}">
+<tr id="row-edit-{{ item.unit.checksum }}">
 <td>
-<span id="loading-{{ unit.0.checksum }}"  class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none"></span>
-<span id="status-{{ unit.0.checksum }}"></span>
+<span id="loading-{{ item.unit.checksum }}"  class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none"></span>
+<span id="status-{{ item.unit.checksum }}"></span>
 </td>
 <td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
-{{ unit.1.checksum }}
-{{ unit.1.target }}
+{{ item.form.checksum }}
+{{ item.form.target }}
 <br />
-{{ unit.1.fuzzy }} <label for="id_{{ unit.0.checksum }}_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
+{{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
 </form>
 </td>
 </tr>
