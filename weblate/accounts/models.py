@@ -20,6 +20,7 @@
 
 import os
 import binascii
+from smtplib import SMTPException
 
 from django.db import models
 from django.dispatch import receiver
@@ -258,6 +259,8 @@ def send_notification_email(language, email, notification,
 
         # Send it out
         email.send(fail_silently=False)
+    except SMTPException as error:
+        weblate.logger.error('Failed to send email: %s', error)
     finally:
         django_translation.activate(cur_language)
 
