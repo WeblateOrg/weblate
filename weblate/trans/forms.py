@@ -48,7 +48,7 @@ GROUP_TEMPLATE = u'''
 <div class="btn-group btn-group-xs" {0}>{1}</div>
 '''
 TOOLBAR_TEMPLATE = u'''
-<div class="btn-toolbar pull-right editor-toolbar">{0}</div>
+<div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 '''
 EDITOR_TEMPLATE = u'''
 <div class="translation-item">

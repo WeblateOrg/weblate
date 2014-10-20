@@ -25,7 +25,7 @@
 {% with unit.get_comments as comments %}
 
 {% if perms.trans.save_translation %}
-<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right flip"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
 {% endif %}
 
 <ul class="pagination">
@@ -93,7 +93,7 @@
     {% endif %}
 
     {% if perms.trans.save_translation %}
-    <div class="pull-right hidden-xs">
+    <div class="pull-right flip hidden-xs">
     {% trans "Commit message:" %} 
     <input type="text" name="commit_message" class="tooltip-control" 
         data-toggle="tooltip" data-placement="bottom"
@@ -173,7 +173,7 @@
 {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
 </p>
 {% endif %}
-<div class="pull-right">
+<div class="pull-right flip">
 {% if unit.can_vote_suggestions and perms.trans.vote_suggestion %}
 <button type="submit" class="btn btn-success btn-xs" name="upvote" value="{{ suggestion.id }}"><span class="glyphicon glyphicon-thumbs-up"></span> {% trans "Vote for" %}</button>
 <button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><span class="glyphicon glyphicon-thumbs-down"></span> {% trans "Vote against" %}</button>
@@ -248,7 +248,7 @@
 <div class="panel-heading">
   <h4 class="panel-title">
     {% trans "Machine translation" %}
-    <span id="mt-loading"  class="glyphicon glyphicon-refresh glyphicon-spin pull-right"></span>
+    <span id="mt-loading"  class="glyphicon glyphicon-refresh glyphicon-spin pull-right flip"></span>
   </h4></div>
   <div class="panel-body">
 <table class="table table-compact table-striped">
@@ -315,14 +315,14 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
   {% if unit.suggestions %}
-  <div class="alert alert-warning check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right">{{ unit.suggestions.count }}</span></div>
+  <div class="alert alert-warning check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
   {% endif %}
   {% if others %}
-  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right">{{ others.count }}</span></div>
+  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
   {% endif %}
   {% show_checks checks user %}
   {% if comments %}
-  <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right">{{ comments.count }}</span></div>
+  <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments.count }}</span></div>
   {% endif %}
   </div>
 </div>
