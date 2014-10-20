@@ -29,7 +29,7 @@
 {% include "paginator.html" %}
 
 <form class="autosubmit paginatoraddon">
-{{ letterform|crispy }}
+{% crispy letterform %}
 </form>
 
 {% if page_obj.object_list %}

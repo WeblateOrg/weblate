@@ -26,6 +26,8 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
+from crispy_forms.helper import FormHelper
+from django.forms import ValidationError
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
@@ -570,6 +572,12 @@ class LetterForm(forms.Form):
         choices=[('', any_letter)] + LETTER_CHOICES,
         required=False
     )
+
+    def __init__(self, *args, **kwargs):
+        super(LetterForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_class = 'form-inline'
+        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
 
 
 class CommentForm(forms.Form):
