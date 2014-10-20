@@ -25,6 +25,7 @@ from importlib import import_module
 import time
 import random
 import os
+import urlparse
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
@@ -157,3 +158,27 @@ def get_clean_env():
         if var in os.environ:
             environ[var] = os.environ[var]
     return environ
+
+
+def cleanup_repo_url(url):
+    """
+    Removes credentials from repository URL.
+    """
+    parsed = urlparse.urlparse(url)
+    print parsed
+    if parsed.username and parsed.password:
+        return url.replace(
+            '{0}:{1}@'.format(
+                parsed.username,
+                parsed.password
+            ),
+            ''
+        )
+    elif parsed.username:
+        return url.replace(
+            '{0}@'.format(
+                parsed.username,
+            ),
+            ''
+        )
+    return url

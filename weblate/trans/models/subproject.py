@@ -32,7 +32,7 @@ import weblate
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
-from weblate.trans.util import is_repo_link, get_site_url
+from weblate.trans.util import is_repo_link, get_site_url, cleanup_repo_url
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -41,7 +41,7 @@ from weblate.trans.validators import (
     validate_check_flags,
 )
 from weblate.lang.models import Language
-from weblate.appsettings import SCRIPT_CHOICES
+from weblate.appsettings import SCRIPT_CHOICES, HIDE_REPO_CREDENTIALS
 from weblate.accounts.models import notify_merge_failure
 from weblate.trans.models.changes import Change
 
@@ -415,8 +415,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Returns link to repository.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.repo
-        return self.repo
+            return self.linked_subproject.get_repo_url()
+        if not HIDE_REPO_CREDENTIALS:
+            return self.repo
+        return cleanup_repo_url(self.repo)
 
     def get_repo_branch(self):
         '''

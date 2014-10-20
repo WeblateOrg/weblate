@@ -183,4 +183,8 @@ AVATAR_DEFAULT_IMAGE = getvalue('AVATAR_DEFAULT_IMAGE', 'identicon')
 # Is the site using https
 ENABLE_HTTPS = getvalue('ENABLE_HTTPS', False)
 
+# Hiding repository credentials
+HIDE_REPO_CREDENTIALS = getvalue('HIDE_REPO_CREDENTIALS', True)
+
+# Whiteboard
 ENABLE_WHITEBOARD = getvalue('ENABLE_WHITEBOARD', False)

@@ -148,6 +148,17 @@ GIT_ROOT
 Path where Weblate will store cloned Git repositories. Defaults to
 :file:`repos` subdirectory.
 
+.. setting:: HIDE_REPO_CREDENTIALS
+
+HIDE_REPO_CREDENTIALS
+---------------------
+
+Hide repository credentials in the web interface. In case you have repository
+URL with user and password, Weblate will hide it when showing it to the users.
+
+For example instead of ``https://user:password@git.example.com/repo.git`` it
+will show just ``https://git.example.com/repo.git``.
+
 .. setting:: LAZY_COMMITS
 
 LAZY_COMMITS
