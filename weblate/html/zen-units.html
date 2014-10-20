@@ -8,8 +8,9 @@
 <td>{{ unit.0.position }}</td>
 <td>
 {{ unit.0.get_location_links }}
-
+{% if unit.0.context %}
 {% format_translation unit.0.context search_match=search_query %}
+{% endif %}
 </td>
 <td>
 <span id="loading-{{ unit.0.checksum }}"  class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none"></span>
@@ -17,10 +18,13 @@
 <a href="{{ unit.0.get_absolute_url }}" class="menu-float small-button button" title="{% trans "Open in full editor" %}">{% trans "Edit" %}</a>
 </td>
 </tr>
+<tr id="row-source-{{ unit.0.checksum }}">
+<td></td>
+<td colspan="2" class="translatetext">{% format_translation unit.0.source search_match=search_query %}</td>
+</tr>
 <tr id="row-edit-{{ unit.0.checksum }}">
 <td></td>
-<td class="translatetext">{% format_translation unit.0.source search_match=search_query %}</td>
-<td class="translator">
+<td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
 {{ unit.1.checksum }}
