@@ -49,6 +49,12 @@ GROUP_TEMPLATE = u'''
 TOOLBAR_TEMPLATE = u'''
 <div class="btn-toolbar pull-right editor-toolbar">{0}</div>
 '''
+EDITOR_TEMPLATE = u'''
+<div class="translation-item">
+{0}<label for="{1}">{2}</label>
+{3}
+</div>
+'''
 
 SPECIAL_CHARS = (u'→', u'↵', u'…')
 CHAR_NAMES = {
@@ -173,7 +179,7 @@ class PluralTextarea(forms.Textarea):
             else:
                 label = lang.get_plural_label(idx)
             ret.append(
-                u'{0}<label for="{1}">{2}</label>{3}'.format(
+                EDITOR_TEMPLATE.format(
                     self.get_toolbar(lang, fieldid),
                     fieldid,
                     label,

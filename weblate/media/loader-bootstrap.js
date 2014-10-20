@@ -341,7 +341,7 @@ $(function () {
         var $this = $(this);
         $this.button('loading');
         get_source_string(function (data) {
-            $this.parents('.form-group').find('.translation-editor').val(data).trigger('autosize.resize');
+            $this.parents('.translation-item').find('.translation-editor').val(data).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', true);
             $this.button('reset');
         });
@@ -351,7 +351,7 @@ $(function () {
     /* Direction toggling */
     $('.direction-toggle').change(function (e) {
         var $this = $(this);
-        $this.parents('.form-group').find('.translation-editor').attr(
+        $this.parents('.translation-item').find('.translation-editor').attr(
             'dir',
             $this.find('input').val()
         );
@@ -368,7 +368,7 @@ $(function () {
         } else if (text == '↵') {
             text = '\r';
         }
-        $this.parents('.form-group').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
+        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
         e.preventDefault();
     });
 
