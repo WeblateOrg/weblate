@@ -174,6 +174,27 @@ function load_table_sorting() {
     });
 }
 
+function zen_editor(e) {
+    var $this = $(this);
+    var $row = $this.parents('tr');
+    var checksum = $row.find('[name=checksum]').val();
+
+    $row.addClass('translation-modified');
+
+    var form = $row.find('form');
+    $('#loading-' + checksum).show();
+    $('#messages-' + checksum).html('');
+    $.post(
+        form.attr('action'),
+        form.serialize(),
+        function (data) {
+            $('#loading-' + checksum).hide();
+            $('#messages-' + checksum).append(data);
+            $row.removeClass('translation-modified').addClass('translation-saved');
+        }
+    );
+}
+
 $(function () {
     /* AJAX loading of tabs/pills */
     $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
@@ -418,6 +439,15 @@ $(function () {
                         init_editor($editors);
                     }
                 );
+            }
+        });
+
+        $(document).on('change', '.translation-editor', zen_editor);
+        $(document).on('change', '.fuzzy_checkbox', zen_editor);
+
+        $(window).on('beforeunload', function(){
+            if ($('.translation-modified').length > 0) {
+                return gettext('There are some unsaved changes, are you sure you want to leave?');
             }
         });
     };
