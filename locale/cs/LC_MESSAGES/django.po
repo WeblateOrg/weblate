@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-10-20 13:49+0200\n"
-"PO-Revision-Date: 2014-10-20 15:21+0200\n"
+"PO-Revision-Date: 2014-10-20 15:33+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
 "\n"
@@ -366,10 +366,9 @@ msgstr ""
 "na jeho stránky na <a href=\"%(weblate_url)s\">weblate.org</a>."
 
 #: weblate/html/about.html:29
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Hosting projects"
-msgstr "Jméno služby"
+msgstr "Hostování překladů"
 
 #: weblate/html/about.html:32
 msgid ""
@@ -550,6 +549,8 @@ msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
 msgstr ""
+"Můžeme hostovat i komerční překlady již od 19 EUR za překlad a měsíc. Prosím "
+"napište nám a domluvíme se."
 
 #: weblate/html/accounts/hosting.html:52 weblate/html/footer.html:8
 msgid "Contact us"
@@ -655,11 +656,14 @@ msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
+"Zvolte jazyky do kterých obvykle překládáte. Na nástěnce pak budete mít "
+"překlady do těchto jazyků snadno přístupné."
 
 #: weblate/html/accounts/profile.html:52
 msgid ""
 "The secondary languages are shown next to the source string when translating."
 msgstr ""
+"Alternativní jazyky jsou při překladu zobrazeny vedle zdrojového řetězce."
 
 #: weblate/html/accounts/profile.html:56 weblate/html/accounts/profile.html:91
 #: weblate/html/accounts/profile.html:117
@@ -686,13 +690,11 @@ msgid "Your name and email will appear as author on Git commits."
 msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
 
 #: weblate/html/accounts/profile.html:127
-#, fuzzy
 #| msgid "User comments"
 msgid "User identities"
-msgstr "Komentáře od uživatelů"
+msgstr "Vaše identity"
 
 #: weblate/html/accounts/profile.html:129
-#, fuzzy
 #| msgid ""
 #| "You can manage third party identities which are associated to this "
 #| "account."
@@ -700,7 +702,8 @@ msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
 msgstr ""
-"Můžete spravovat identity třetích stran, které jsou spojené s tímto účtem."
+"Můžete spravovat identity, které jsou spojené s tímto účtem a pomocí kterých "
+"se můžete přihlásit."
 
 #: weblate/html/accounts/profile.html:130
 msgid "Currently associated:"
@@ -745,13 +748,12 @@ msgstr "Odstranit můj účet"
 
 #: weblate/html/accounts/profile.html:186
 msgid "You can configure how you will log in on this site."
-msgstr ""
+msgstr "Můžete nastavit přihlašování na tyto stránky."
 
 #: weblate/html/accounts/profile.html:200
-#, fuzzy
 #| msgid "Your email"
 msgid "Your summary"
-msgstr "Váš email"
+msgstr "Váš souhrn"
 
 #: weblate/html/accounts/profile.html:208
 msgid "Your public profile"
@@ -2653,16 +2655,14 @@ msgid "Status widgets"
 msgstr "Stavové obrázky"
 
 #: weblate/html/project.html:57
-#, fuzzy
 #| msgid "source"
 msgid "Resources"
-msgstr "zdroj"
+msgstr ""
 
 #: weblate/html/project.html:63 weblate/html/translate.html:205
-#, fuzzy
 #| msgid "source"
 msgid "Resource"
-msgstr "zdroj"
+msgstr ""
 
 #: weblate/html/project.html:89 weblate/html/source.html:36
 #: weblate/html/subproject.html:72 weblate/html/translation.html:115
@@ -2916,11 +2916,11 @@ msgstr[2] "%(count)s hlasů"
 
 #: weblate/html/translate.html:178
 msgid "Vote for"
-msgstr ""
+msgstr "Hlasujte pro"
 
 #: weblate/html/translate.html:179
 msgid "Vote against"
-msgstr ""
+msgstr "Hlasujte proti"
 
 #: weblate/html/translate.html:183
 msgid "Accept"
@@ -2995,30 +2995,27 @@ msgid "Files"
 msgstr "Soubory"
 
 #: weblate/html/translation.html:31
-#, fuzzy
 #| msgid "Optional short summary of license used for translations."
 msgid "Download for an offline translation."
-msgstr "Volitelný krátký popis licence používané pro překlady."
+msgstr "Stáhnout pro překládání v počítači."
 
 #: weblate/html/translation.html:31
 msgid "Download source file"
-msgstr ""
+msgstr "Stáhnout soubor s překlady"
 
 #: weblate/html/translation.html:33
 msgid "Download for using within an application."
-msgstr ""
+msgstr "Stáhnout pro použití v aplikaci."
 
 #: weblate/html/translation.html:33
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Download compiled translation"
-msgstr "Zkopírovat slovo do překladu"
+msgstr "Stáhnout zkompilovaný překlad"
 
 #: weblate/html/translation.html:36
-#, fuzzy
 #| msgid "Your translations"
 msgid "Upload translation"
-msgstr "Vaše překlady"
+msgstr "Nahrát překlady"
 
 #: weblate/html/translation.html:46 weblate/html/translation.html.py:197
 msgid "Locking"
@@ -3648,28 +3645,24 @@ msgid "JSON file"
 msgstr "Soubor JSON"
 
 #: weblate/trans/forms.py:62
-#, fuzzy
 #| msgid "Insert tab character"
 msgid "Insert tab character"
 msgstr "Vložit tabulátor"
 
 #: weblate/trans/forms.py:63
-#, fuzzy
 #| msgid "Insert new line"
 msgid "Insert new line"
 msgstr "Vložit nový řádek"
 
 #: weblate/trans/forms.py:64
-#, fuzzy
 #| msgid "Insert horizontal ellipsis"
 msgid "Insert horizontal ellipsis"
 msgstr "Vložit výpustku"
 
 #: weblate/trans/forms.py:96
-#, fuzzy
 #| msgid "New source string"
 msgid "Fill in with source string"
-msgstr "Nový zdrojový řetězec"
+msgstr "Přepsat zdrojovým řetězcem"
 
 #: weblate/trans/forms.py:109
 #, python-brace-format
@@ -3828,7 +3821,7 @@ msgstr "Počáteční písmeno"
 
 #: weblate/trans/forms.py:584
 msgid "Scope"
-msgstr ""
+msgstr "Rozsah"
 
 #: weblate/trans/forms.py:586
 msgid ""
