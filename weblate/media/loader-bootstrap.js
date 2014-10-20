@@ -223,7 +223,7 @@ $(function () {
 
     /* Git commit tooltip */
     $(document).tooltip({
-        selector: '.git-commit',
+        selector: '.html-tooltip',
         html: true
     });
 
