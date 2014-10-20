@@ -738,11 +738,15 @@ def get_zen_unitdata(translation, request):
     )
 
     unitdata = [
-        (unit, TranslationForm(
-            translation,
-            unit,
-            tabindex=100 + (unit.position * 10),
-        ), offset + pos)
+        {
+            'unit': unit,
+            'form': TranslationForm(
+                translation,
+                unit,
+                tabindex=100 + (unit.position * 10),
+            ),
+            'offset': offset + pos,
+        }
         for pos, unit in enumerate(units)
     ]
 
