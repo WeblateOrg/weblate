@@ -27,7 +27,6 @@ from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
-from django.forms import ValidationError
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
