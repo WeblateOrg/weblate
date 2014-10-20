@@ -27,6 +27,7 @@ from whoosh.filedb.filestore import FileStorage
 from whoosh import qparser
 from django.db.models.signals import post_syncdb
 from django.db.utils import IntegrityError
+from django.db import transaction
 from weblate import appsettings
 from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
@@ -158,10 +159,11 @@ def update_index_unit(unit, source=True):
     if appsettings.OFFLOAD_INDEXING:
         from weblate.trans.models.search import IndexUpdate
         try:
-            IndexUpdate.objects.create(
-                unit=unit,
-                source=source,
-            )
+            with transaction.atomic():
+                IndexUpdate.objects.create(
+                    unit=unit,
+                    source=source,
+                )
         except IntegrityError:
             update = IndexUpdate.objects.get(unit=unit)
             if not update.source and source:
