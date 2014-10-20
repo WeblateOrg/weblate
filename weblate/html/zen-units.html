@@ -13,7 +13,7 @@
 {% endif %}
 </td>
 <td>
-<a href="{{ unit.0.get_absolute_url }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
+<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?search_id={{ search_id }}&amp;offset={{ unit.2 }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
 </td>
 </tr>
 <tr id="row-source-{{ unit.0.checksum }}">

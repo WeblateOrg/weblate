@@ -742,8 +742,8 @@ def get_zen_unitdata(translation, request):
             translation,
             unit,
             tabindex=100 + (unit.position * 10),
-        ))
-        for unit in units
+        ), offset + pos)
+        for pos, unit in enumerate(units)
     ]
 
     return search_result, unitdata
