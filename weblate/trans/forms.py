@@ -302,6 +302,7 @@ class TranslationForm(ChecksumForm):
                 ),
                 'fuzzy': unit.fuzzy,
             }
+            kwargs['auto_id'] = 'id_{0}_%s'.format(unit.checksum)
         tabindex = kwargs.pop('tabindex', 100)
         super(TranslationForm, self).__init__(
             translation, *args, **kwargs
