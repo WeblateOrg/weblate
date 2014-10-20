@@ -182,14 +182,15 @@ function zen_editor(e) {
     $row.addClass('translation-modified');
 
     var form = $row.find('form');
-    $('#loading-' + checksum).show();
+    var statusdiv = $('#status-' + checksum).hide();
+    var loadingdiv = $('#loading-' + checksum).show();
     $.post(
         form.attr('action'),
         form.serialize(),
         function (data) {
             var messages = $('<div>' + data + '</div>');
-            var statusdiv = $('#status-' + checksum);
-            $('#loading-' + checksum).hide();
+            loadingdiv.hide();
+            statusdiv.show();
             if (messages.find('.alert-danger').length > 0) {
                 statusdiv.attr('class', 'glyphicon-remove-sign text-danger');
             } else if (messages.find('.alert-warning').length > 0) {
@@ -199,10 +200,13 @@ function zen_editor(e) {
             } else {
                 statusdiv.attr('class', 'glyphicon-ok-sign text-success');
             }
-            statusdiv.addClass('glyphicon').tooltip({
-                'html': true,
-                'title': data
-            });
+            statusdiv.addClass('glyphicon').tooltip('destroy');
+            if (data.trim() !== '') {
+                statusdiv.tooltip({
+                    'html': true,
+                    'title': data
+                });
+            };
             $row.removeClass('translation-modified').addClass('translation-saved');
         }
     );
