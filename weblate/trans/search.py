@@ -164,6 +164,7 @@ def update_index_unit(unit, source=True):
                     unit=unit,
                     source=source,
                 )
+        # pylint: disable=E0712
         except IntegrityError:
             update = IndexUpdate.objects.get(unit=unit)
             if not update.source and source:
