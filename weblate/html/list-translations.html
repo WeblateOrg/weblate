@@ -51,7 +51,7 @@
 </td>
 <td>
 {% if count > 0 %}
-<a href="{{ trans.get_translate_url }}?type=untranslated" title="{% blocktrans count trans.get_non_translated as count %}There is {{ count }} not translated string.{% plural %}There are {{ count }} not translated strings.{% endblocktrans %}">{% trans "Translate" %}</a>
+<a href="{{ trans.get_translate_url }}?type=untranslated" title="{% blocktrans count trans.get_non_translated as count %}There is {{ count }} not translated string.{% plural %}There are {{ count }} not translated strings.{% endblocktrans %}" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-edit"></span> {% trans "Translate" %}</a>
 {% endif %}
 </td>
 </tr>
