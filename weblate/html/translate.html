@@ -63,7 +63,7 @@
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.target unit.language unit.previous_source %}
+    {% format_translation unit.source unit.language unit.previous_source %}
     </div>
     {% endif %}
     <div class="form-group">
