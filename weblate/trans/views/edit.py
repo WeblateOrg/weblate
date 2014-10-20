@@ -53,6 +53,10 @@ def get_filter_name(rqtype):
         return _('Strings with suggestions')
     elif rqtype == 'allchecks':
         return _('Strings with any failing checks')
+    elif rqtype == 'sourcecomments':
+        return _('Strings with comments')
+    elif rqtype == 'targetcomments':
+        return _('Strings with comments')
     elif rqtype in CHECKS:
         return CHECKS[rqtype].name
 
