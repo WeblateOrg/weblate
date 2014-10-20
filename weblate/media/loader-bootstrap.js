@@ -392,4 +392,11 @@ $(function () {
 
     /* Table sorting */
     load_table_sorting();
+
+    /* Lock updates */
+    if (update_lock) {
+        window.setInterval(function () {
+            $.get($('#js-lock').attr('href'));
+        }, 19000);
+    }
 });
