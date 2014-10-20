@@ -394,7 +394,7 @@ $(function () {
     load_table_sorting();
 
     /* Lock updates */
-    if (update_lock) {
+    if ($('#js-lock').length > 0) {
         window.setInterval(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
