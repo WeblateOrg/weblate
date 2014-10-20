@@ -61,7 +61,7 @@
         </li>
         <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right flip">
         {% if user.is_authenticated %}
         <li><a class="button" id="profile-button" href="{% url 'profile' %}">{{ user.profile.get_user_display }}</a></li>
         <li><a class="button" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><span class="glyphicon glyphicon-log-out"></span></a></li>
