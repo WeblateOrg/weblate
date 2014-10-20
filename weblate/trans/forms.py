@@ -532,7 +532,11 @@ class ReviewForm(forms.Form):
     date = forms.DateField(
         label=_('Starting date'),
         widget=forms.DateInput(
-            attrs={'type': 'date'},
+            attrs={
+                'type': 'date',
+                'data-provide': 'datepicker',
+                'data-date-format': 'yyyy-mm-dd',
+            },
             format='%Y-%m-%d'
         )
     )

@@ -89,9 +89,6 @@
 {% else %}
 <p>{% trans "Please choose the language into which you would like to translate." %}</p>
 {{ new_lang_form|crispy }}
-</td>
-</tr>
-</table>
 <p class="help-block"><a href="{% url 'contact' %}?subject=New+language+request+for+{{ object }}">{% trans "Can not find your language in above list?" %}</a></p>
 </div>
 <div class="panel-footer">

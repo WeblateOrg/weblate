@@ -223,7 +223,7 @@ $(function () {
 
     /* Git commit tooltip */
     $(document).tooltip({
-        selector: '.git-commit',
+        selector: '.html-tooltip',
         html: true
     });
 
@@ -392,4 +392,11 @@ $(function () {
 
     /* Table sorting */
     load_table_sorting();
+
+    /* Lock updates */
+    if ($('#js-lock').length > 0) {
+        window.setInterval(function () {
+            $.get($('#js-lock').attr('href'));
+        }, 19000);
+    }
 });

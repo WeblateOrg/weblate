@@ -411,7 +411,9 @@
 
 <a href="{% url 'js-get' checksum=unit.checksum %}" class="hidden" id="js-get"></a>
 <a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
+{% if update_lock %}
 <a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
+{% endif %}
 
 {% endwith %}
 
