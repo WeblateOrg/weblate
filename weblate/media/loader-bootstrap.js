@@ -392,5 +392,33 @@ $(function () {
         window.setInterval(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
-    }
+    };
+
+    /* Zen mode handling */
+    if ($('.zen').length > 0) {
+        $(window).scroll(function(){
+            if ($(window).scrollTop() >= $(document).height() - (2 * $(window).height())) {
+                if ($('#last-section').length > 0 || $('#loading-next').css('display') != 'none') {
+                    return;
+                }
+                $('#loading-next').show();
+
+                var loader = $('#zen-load');
+                loader.data('offset', 20 + parseInt(loader.data('offset')));
+
+                $.get(
+                    loader.attr('href') + '&offset=' + loader.data('offset'),
+                    function (data) {
+                        $('#loading-next').hide();
+
+                        $('.zen tbody').append(data).find('.button').button();
+
+                        var $editors = $('.translation-editor');
+
+                        init_editor($editors);
+                    }
+                );
+            }
+        });
+    };
 });
