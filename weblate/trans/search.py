@@ -26,6 +26,7 @@ from whoosh.fields import SchemaClass, TEXT, ID
 from whoosh.filedb.filestore import FileStorage
 from whoosh import qparser
 from django.db.models.signals import post_syncdb
+from django.db.utils import IntegrityError
 from weblate import appsettings
 from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
@@ -156,13 +157,16 @@ def update_index_unit(unit, source=True):
     # Should this happen in background?
     if appsettings.OFFLOAD_INDEXING:
         from weblate.trans.models.search import IndexUpdate
-        update, created = IndexUpdate.objects.get_or_create(
-            defaults={'source': source},
-            unit=unit,
-        )
-        if created and not update.source and source:
-            update.source = True
-            update.save()
+        try:
+            IndexUpdate.objects.create(
+                unit=unit,
+                source=source,
+            )
+        except IntegrityError:
+            update = IndexUpdate.objects.get(unit=unit)
+            if not update.source and source:
+                update.source = True
+                update.save()
         return
 
     # Update source
