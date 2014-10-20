@@ -731,6 +731,7 @@ def get_zen_unitdata(translation, request):
         return search_result, None
 
     search_result['last_section'] = offset + 20 >= len(search_result['ids'])
+    search_result['offset'] = offset
 
     units = translation.unit_set.filter(
         pk__in=search_result['ids'][offset:offset + 20]
@@ -770,6 +771,7 @@ def zen(request, project, subproject, lang):
             'filter_count': len(search_result['ids']),
             'last_section': search_result['last_section'],
             'search_id': search_result['search_id'],
+            'offset': search_result['offset'],
         }
     )
 
