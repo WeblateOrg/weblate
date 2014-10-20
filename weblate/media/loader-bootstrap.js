@@ -42,12 +42,6 @@ jQuery.fn.extend({
     }
 });
 
-function get_source_string(callback) {
-    $.get($('#js-get').attr('href'), function (data) {
-        callback(data);
-    });
-}
-
 function init_editor(editors) {
     editors.autosize();
 }
@@ -340,7 +334,7 @@ $(function () {
     $('.copy-text').click(function (e) {
         var $this = $(this);
         $this.button('loading');
-        get_source_string(function (data) {
+        $.get($this.data('href'), function (data) {
             $this.parents('.translation-item').find('.translation-editor').val(data).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', true);
             $this.button('reset');

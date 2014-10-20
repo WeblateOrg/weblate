@@ -25,6 +25,7 @@ from django.utils.translation import (
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
+from django.core.urlresolvers import reverse
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
@@ -77,19 +78,23 @@ class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
     '''
-    def get_toolbar(self, language, fieldname):
+    def get_toolbar(self, language, fieldname, checksum):
         """
         Returns toolbar HTML code.
         """
         groups = []
         # Copy button
+        extra_params = u'data-loading-text="{0}" data-href="{1}"'.format(
+            ugettext(u'Loading…'),
+            reverse('js-get', kwargs={'checksum': checksum}),
+        ),
         groups.append(
             GROUP_TEMPLATE.format(
                 '',
                 BUTTON_TEMPLATE.format(
                     'copy-text',
                     ugettext('Fill in with source string'),
-                    u'data-loading-text="{0}"'.format(ugettext(u'Loading…')),
+                    extra_params,
                     ICON_TEMPLATE.format('transfer', ugettext('Copy'))
                 )
             )
@@ -180,7 +185,7 @@ class PluralTextarea(forms.Textarea):
                 label = lang.get_plural_label(idx)
             ret.append(
                 EDITOR_TEMPLATE.format(
-                    self.get_toolbar(lang, fieldid),
+                    self.get_toolbar(lang, fieldid, checksum),
                     fieldid,
                     label,
                     textarea
