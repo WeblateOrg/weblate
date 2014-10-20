@@ -464,4 +464,12 @@ $(function () {
             }
         });
     };
+
+    /* Social auth disconnect */
+    $('a.disconnect').click(function (e) {
+        e.preventDefault();
+        $('form#disconnect-form')
+            .attr('action', $(this).attr('href'))
+            .submit();
+    });
 });
