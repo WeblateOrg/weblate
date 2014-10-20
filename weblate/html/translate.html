@@ -18,15 +18,15 @@
 
 {% block content %}
 
+{% if perms.trans.save_translation %}
+<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right flip"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
+{% endif %}
+
 {% with unit.translation as object %}
 {% include "show-lock.html" %}
 {% endwith %}
 
 {% with unit.get_comments as comments %}
-
-{% if perms.trans.save_translation %}
-<a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %} (experimental)" class="btn btn-default pull-right flip"><span class="glyphicon glyphicon-fullscreen"></span> {% trans "Zen" %}</a>
-{% endif %}
 
 <ul class="pagination">
 <li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><span class="glyphicon glyphicon-step-backward"></span></a></li>
