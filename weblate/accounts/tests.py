@@ -47,7 +47,7 @@ from weblate.accounts.captcha import (
 from weblate.accounts.middleware import RequireLoginMiddleware
 
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
-from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.tests.utils import get_test_file
 from weblate.trans.models.unitdata import Suggestion, Comment
 from weblate.lang.models import Language
 from weblate import appsettings

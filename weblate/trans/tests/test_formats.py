@@ -25,7 +25,7 @@ from unittest import TestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat,
 )
-from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_ANDROID = get_test_file('strings.xml')

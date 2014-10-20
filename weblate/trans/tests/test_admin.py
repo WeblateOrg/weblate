@@ -23,7 +23,7 @@ import weblate.trans.admin_views
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.unittest import SkipTest
-from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error
 import tempfile
 import shutil

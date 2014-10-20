@@ -32,7 +32,7 @@ import os
 from weblate.trans.models import Project, SubProject, Unit, WhiteboardMessage
 from weblate.trans.models.source import Source
 from weblate import appsettings
-from weblate.trans.tests.test_util import get_test_file
+from weblate.trans.tests.utils import get_test_file
 from weblate.trans.vcs import GitRepository
 
 REPOWEB_URL = \
