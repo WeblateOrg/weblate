@@ -183,13 +183,26 @@ function zen_editor(e) {
 
     var form = $row.find('form');
     $('#loading-' + checksum).show();
-    $('#messages-' + checksum).html('');
     $.post(
         form.attr('action'),
         form.serialize(),
         function (data) {
+            var messages = $('<div>' + data + '</div>');
+            var statusdiv = $('#status-' + checksum);
             $('#loading-' + checksum).hide();
-            $('#messages-' + checksum).append(data);
+            if (messages.find('.alert-danger').length > 0) {
+                statusdiv.attr('class', 'glyphicon-remove-sign text-danger');
+            } else if (messages.find('.alert-warning').length > 0) {
+                statusdiv.attr('class', 'glyphicon-exclamation-sign text-warning');
+            } else if (messages.find('.alert-info').length > 0) {
+                statusdiv.attr('class', 'glyphicon-ok-sign text-warning');
+            } else {
+                statusdiv.attr('class', 'glyphicon-ok-sign text-success');
+            }
+            statusdiv.addClass('glyphicon').tooltip({
+                'html': true,
+                'title': data
+            });
             $row.removeClass('translation-modified').addClass('translation-saved');
         }
     );

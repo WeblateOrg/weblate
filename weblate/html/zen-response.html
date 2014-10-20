@@ -1,8 +1,4 @@
 {% load translations %}
-{% if messages %}
 {% for message in messages %}
 {% show_message message.tags message %}
 {% endfor %}
-{% else %}
-{% show_message 'info' _('Translation has been saved!') %}
-{% endif %}

@@ -13,7 +13,6 @@
 {% endif %}
 </td>
 <td>
-<span id="messages-{{ unit.0.checksum }}" class="inline-message"></span>
 <a href="{{ unit.0.get_absolute_url }}" class="btn btn-xs btn-default pull-right" title="{% trans "Open in full editor" %}"><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
 </td>
 </tr>
@@ -24,6 +23,7 @@
 <tr id="row-edit-{{ unit.0.checksum }}">
 <td>
 <span id="loading-{{ unit.0.checksum }}"  class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none"></span>
+<span id="status-{{ unit.0.checksum }}"></span>
 </td>
 <td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
