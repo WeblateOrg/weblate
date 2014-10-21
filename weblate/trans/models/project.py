@@ -112,58 +112,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
         help_text=ugettext_lazy('URL with instructions for translators.'),
     )
-    license = models.CharField(
-        verbose_name=ugettext_lazy('Translation license'),
-        max_length=150,
-        blank=True,
-        help_text=ugettext_lazy(
-            'Optional short summary of license used for translations.'
-        ),
-    )
-    license_url = models.URLField(
-        verbose_name=ugettext_lazy('License URL'),
-        blank=True,
-        help_text=ugettext_lazy('Optional URL with license details.'),
-    )
-    new_lang = models.CharField(
-        verbose_name=ugettext_lazy('New language'),
-        max_length=10,
-        choices=NEW_LANG_CHOICES,
-        default='contact',
-        help_text=ugettext_lazy(
-            'How to handle requests for creating new languages.'
-        ),
-    )
-    merge_style = models.CharField(
-        verbose_name=ugettext_lazy('Merge style'),
-        max_length=10,
-        choices=MERGE_CHOICES,
-        default='merge',
-        help_text=ugettext_lazy(
-            'Define whether Weblate should merge upstream repository '
-            'or rebase changes onto it.'
-        ),
-    )
-
-    # VCS config
-    commit_message = models.TextField(
-        verbose_name=ugettext_lazy('Commit message'),
-        help_text=ugettext_lazy(
-            'You can use format strings for various information, '
-            'please check documentation for more details.'
-        ),
-        validators=[validate_commit_message],
-        default=DEFAULT_COMMIT_MESSAGE,
-    )
-    committer_name = models.CharField(
-        verbose_name=ugettext_lazy('Committer name'),
-        max_length=200,
-        default='Weblate'
-    )
-    committer_email = models.EmailField(
-        verbose_name=ugettext_lazy('Committer email'),
-        default='noreply@weblate.org'
-    )
 
     push_on_commit = models.BooleanField(
         verbose_name=ugettext_lazy('Push on commit'),
