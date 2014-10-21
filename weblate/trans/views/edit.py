@@ -330,7 +330,8 @@ def handle_translate(translation, request, user_locked,
             request,
             _('You don\'t have privileges to save translations!')
         )
-    elif unit.only_vote_suggestions():
+    elif (unit.only_vote_suggestions()
+          and not request.user.has_perm('trans.override_suggestion')):
         messages.error(
             request,
             _('Only suggestions are allowed in this translation!')
