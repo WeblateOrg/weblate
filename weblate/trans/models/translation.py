@@ -45,7 +45,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.vcs import RepositoryException
 from weblate.accounts.avatar import get_user_display
-from weblate.trans.mixins import URLMixin, PercentMixin
+from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.trans.boolean_sum import BooleanSum
 from weblate.accounts.models import notify_new_string
 from weblate.trans.models.changes import Change
@@ -114,7 +114,7 @@ class TranslationManager(models.Manager):
         return tuple([translation_percent(value, total) for value in result])
 
 
-class Translation(models.Model, URLMixin, PercentMixin):
+class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     subproject = models.ForeignKey('SubProject')
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
@@ -165,6 +165,14 @@ class Translation(models.Model, URLMixin, PercentMixin):
         '''
         super(Translation, self).__init__(*args, **kwargs)
         self._store = None
+
+    @property
+    def log_prefix(self):
+        return '{0}/{1}/{2}: '.format(
+            self.subproject.project.slug,
+            self.subproject.slug,
+            self.language_code,
+        )
 
     def has_acl(self, user):
         '''
@@ -434,9 +442,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
             try:
                 self._store = self.load_store()
             except Exception as exc:
-                weblate.logger.warning(
-                    'failed parsing store %s: %s',
-                    self.__unicode__(),
+                self.log_warning(
+                    'failed parsing store: %s',
                     str(exc)
                 )
                 self.subproject.notify_merge_failure(
@@ -516,11 +523,9 @@ class Translation(models.Model, URLMixin, PercentMixin):
         else:
             return
 
-        weblate.logger.info(
-            'processing %s in %s/%s, %s',
+        self.log_info(
+            'processing %s, %s',
             self.filename,
-            self.subproject.project.slug,
-            self.subproject.slug,
             reason,
         )
 
@@ -556,9 +561,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
             # Check for possible duplicate units
             if newunit.id in created_units:
-                weblate.logger.error(
-                    'Duplicate string to translate in %s: %s (%s)',
-                    self,
+                self.log_error(
+                    'duplicate string to translate: %s (%s)',
                     newunit,
                     repr(newunit.source)
                 )
@@ -806,8 +810,8 @@ class Translation(models.Model, URLMixin, PercentMixin):
                     env=get_clean_env(),
                 )
             except (OSError, subprocess.CalledProcessError) as err:
-                weblate.logger.error(
-                    'Failed to run pre commit script %s: %s',
+                self.log_error(
+                    'failed to run pre commit script %s: %s',
                     self.subproject.pre_commit_script,
                     err
                 )
@@ -862,19 +866,17 @@ class Translation(models.Model, URLMixin, PercentMixin):
 
         # Can we delay commit?
         if not force_commit and appsettings.LAZY_COMMITS:
-            weblate.logger.info(
-                'Delaying commiting %s in %s as %s',
+            self.log_info(
+                'delaying commiting %s as %s',
                 self.filename,
-                self,
                 author
             )
             return False
 
         # Do actual commit with git lock
-        weblate.logger.info(
-            'Commiting %s in %s as %s',
+        self.log_info(
+            'commiting %s as %s',
             self.filename,
-            self,
             author
         )
         with self.subproject.git_lock:

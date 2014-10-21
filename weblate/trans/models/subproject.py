@@ -264,6 +264,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._linked_subproject = None
         self._repository = None
 
+    @property
+    def log_prefix(self):
+        return '{0}/{1}: '.format(self.project.slug, self.slug)
+
     def has_acl(self, user):
         '''
         Checks whether current user is allowed to access this
@@ -462,12 +466,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.update_remote_branch(validate)
 
         # Update
-        weblate.logger.info('updating repo %s', self.__unicode__())
+        self.log_info('updating repository')
         try:
             self.repository.update_remote()
         except RepositoryException as error:
             error_text = str(error)
-            weblate.logger.error('Failed to update repository: %s', error_text)
+            self.log_error('failed to update repository: %s', error_text)
             if validate:
                 if 'Host key verification failed' in error_text:
                     raise ValidationError(_(
@@ -569,17 +573,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Do actual push
         try:
-            weblate.logger.info(
-                'pushing to remote repo %s',
-                self.__unicode__()
-            )
+            self.log_info('pushing to remote repo')
             self.repository.push(self.branch)
             return True
         except RepositoryException as error:
-            weblate.logger.warning(
-                'failed push on repo %s',
-                self.__unicode__()
-            )
+            self.log_error('failed to push on repo')
             msg = 'Error:\n%s' % str(error)
             mail_admins(
                 'failed push on repo %s' % self.__unicode__(),
@@ -606,16 +604,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Do actual reset
         with self.git_lock:
             try:
-                weblate.logger.info(
-                    'reseting to remote repo %s',
-                    self.__unicode__()
-                )
+                self.log_info('reseting to remote repo')
                 self.repository.reset(self.branch)
             except RepositoryException as error:
-                weblate.logger.warning(
-                    'failed reset on repo %s',
-                    self.__unicode__()
-                )
+                self.log_error('failed to reset on repo')
                 msg = 'Error:\n%s' % str(error)
                 mail_admins(
                     'failed reset on repo %s' % self.__unicode__(),
@@ -684,10 +676,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             try:
                 # Try to merge it
                 method(self.branch)
-                weblate.logger.info(
-                    '%s remote into repo %s',
+                self.log_info(
+                    '%s remote into repo',
                     self.project.merge_style,
-                    self.__unicode__()
                 )
                 return True
             except Exception as error:
@@ -697,10 +688,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 method(abort=True)
 
         # Log error
-        weblate.logger.warning(
-            'failed %s on repo %s',
+        self.log_error(
+            'failed %s on repo',
             self.project.merge_style,
-            self.__unicode__()
         )
 
         # Notify subscribers and admins
@@ -736,14 +726,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         for pos, path in enumerate(matches):
             code = self.get_lang_code(path)
             if langs is not None and code not in langs:
-                weblate.logger.info('skipping %s', path)
+                self.log_info('skipping %s', path)
                 continue
 
-            weblate.logger.info(
-                'checking %s in %s/%s [%d/%d]',
+            self.log_info(
+                'checking %s [%d/%d]',
                 path,
-                self.project.slug,
-                self.slug,
                 pos + 1,
                 len(matches)
             )
@@ -756,7 +744,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if langs is None:
             todelete = self.translation_set.exclude(id__in=translations)
             if todelete.exists():
-                weblate.logger.info(
+                self.log_info(
                     'removing stale translations: %s',
                     ','.join([trans.language.code for trans in todelete])
                 )
@@ -764,13 +752,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Process linked repos
         for subproject in self.get_linked_childs():
-            weblate.logger.info(
+            self.log_info(
                 'updating linked project %s',
                 subproject
             )
             subproject.create_translations(force, langs, request=request)
 
-        weblate.logger.info('updating of %s completed', self)
+        self.log_info('updating completed')
 
     def get_lang_code(self, path):
         '''

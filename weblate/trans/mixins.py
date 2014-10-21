@@ -119,7 +119,31 @@ class URLMixin(object):
         return self.reverse_url('unlock')
 
 
-class PathMixin(object):
+class LoggerMixin(object):
+    """
+    Mixin with logging.
+    """
+    @property
+    def log_prefix(self):
+        return 'default: '
+
+    def log_info(self, msg, *args):
+        return weblate.logger.info(
+            self.log_prefix + msg, *args
+        )
+
+    def log_warning(self, msg, *args):
+        return weblate.logger.warning(
+            self.log_prefix + msg, *args
+        )
+
+    def log_error(self, msg, *args):
+        return weblate.logger.error(
+            self.log_prefix + msg, *args
+        )
+
+
+class PathMixin(LoggerMixin):
     """
     Mixin for path manipulations.
     """
@@ -152,12 +176,12 @@ class PathMixin(object):
             # Invalidate cache
             self._dir_path = None
             new_path = self.get_path()
-            weblate.logger.info(
-                'Path changed from %s to %s', old_path, new_path
+            self.log_info(
+                'path changed from %s to %s', old_path, new_path
             )
             if os.path.exists(old_path) and not os.path.exists(new_path):
-                weblate.logger.info(
-                    'Renaming "%s" to "%s"', old_path, new_path
+                self.log_info(
+                    'tenaming "%s" to "%s"', old_path, new_path
                 )
                 os.rename(old_path, new_path)
 
