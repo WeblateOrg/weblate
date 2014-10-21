@@ -440,7 +440,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns true if new languages can be added.
         '''
-        return self.project.new_lang != 'none'
+        return self.new_lang != 'none'
 
     @property
     def linked_subproject(self):
@@ -1237,7 +1237,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Creates new language file.
         '''
-        if self.project.new_lang != 'add':
+        if self.new_lang != 'add':
             raise ValueError('Not supported operation!')
 
         if not self.file_format_cls.supports_new_language():
