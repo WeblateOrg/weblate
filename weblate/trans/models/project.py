@@ -190,6 +190,13 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             'documentation before enabling this.'
         )
     )
+    enable_hooks = models.BooleanField(
+        verbose_name=ugettext_lazy('Enable hooks'),
+        default=True,
+        help_text=ugettext_lazy(
+            'Whether to allow updating this repository by remote hooks.'
+        )
+    )
 
     objects = ProjectManager()
 
