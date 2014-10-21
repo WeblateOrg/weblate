@@ -427,9 +427,12 @@ $(function () {
 
     /* Lock updates */
     if ($('#js-lock').length > 0) {
-        window.setInterval(function () {
+        var js_lock_update = window.setInterval(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
+        window.setInterval(function () {
+            window.clearInterval(js_lock_update);
+        }, 3600000);
     };
 
     /* Zen mode handling */
