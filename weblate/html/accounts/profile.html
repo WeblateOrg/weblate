@@ -252,20 +252,20 @@
 </p>
 
 {% if licenses %}
-<p>{% trans "Following projects have explicitly specified their licensing and copyright conditions:" %}</p>
+<p>{% trans "Following translations have explicitly specified their licensing and copyright conditions:" %}</p>
 <table class="table">
 <thead>
 <tr><th>{% trans "Project" %}</th><th>{% trans "License" %}</th></tr>
 </thead>
 <tbody>
-{% for project in licenses %}
+{% for resource in licenses %}
 <tr>
-<th><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></th>
+<th><a href="{{ resource.get_absolute_url }}">{{ resource.name }}</a></th>
 <td>
-{% if project.license_url %}
-<a href="{{ project.license_url }}">{{ project.license }}</a></p>
+{% if resource.license_url %}
+<a href="{{ resource.license_url }}">{{ resource.license }}</a></p>
 {% else %}
-{{ project.license }}
+{{ resource.license }}
 {% endif %}
 </td>
 </tr>

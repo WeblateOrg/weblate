@@ -4,6 +4,19 @@
 {% include "project_info.html" %}
 {% endwith %}
 
+{% if object.license %}
+<tr>
+<th>{% trans "Translation license" %}</th>
+<td colspan="2">
+{% if object.license_url %}
+<a href="{{ object.license_url }}">{{ object.license }}</a>
+{% else %}
+{{ object.license }}
+{% endif %}
+</td>
+</tr>
+{% endif %}
+
 {% if perms.trans.can_see_git_repository %}
 <tr>
 <th>{% trans "Git repository" %}</th>

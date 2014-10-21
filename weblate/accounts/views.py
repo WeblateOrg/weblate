@@ -44,7 +44,7 @@ from social.apps.django_app.views import complete
 import weblate
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
-from weblate.trans.models import Change, Project
+from weblate.trans.models import Change, Project, SubProject
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm
@@ -180,8 +180,8 @@ def user_profile(request):
         x for x in all_backends
         if x == 'email' or x not in social_names
     ]
-    license_projects = Project.objects.all_acl(
-        request.user
+    license_projects = SubProject.objects.filter(
+        project__in=Project.objects.all_acl(request.user)
     ).exclude(
         license=''
     )
