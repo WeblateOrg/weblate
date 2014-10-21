@@ -165,7 +165,6 @@ def cleanup_repo_url(url):
     Removes credentials from repository URL.
     """
     parsed = urlparse.urlparse(url)
-    print parsed
     if parsed.username and parsed.password:
         return url.replace(
             '{0}:{1}@'.format(
