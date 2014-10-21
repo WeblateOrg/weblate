@@ -240,7 +240,8 @@ class FileUnit(object):
                 return ''
             else:
                 return context[0]
-        elif isinstance(self.mainunit, pounit) and self.template is not None:
+        elif (isinstance(self.mainunit, (pounit, JsonUnit))
+              and self.template is not None):
             # Monolingual PO files
             return self.template.source
         else:
