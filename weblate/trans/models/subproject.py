@@ -459,22 +459,23 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return self.linked_subproject.update_remote_branch(validate)
 
-        # Update
-        self.log_info('updating repository')
-        try:
-            self.repository.update_remote()
-        except RepositoryException as error:
-            error_text = str(error)
-            self.log_error('failed to update repository: %s', error_text)
-            if validate:
-                if 'Host key verification failed' in error_text:
-                    raise ValidationError(_(
-                        'Failed to verify SSH host key, please add '
-                        'them in SSH page in the admin interface.'
-                    ))
-                raise ValidationError(
-                    _('Failed to fetch repository: %s') % error_text
-                )
+        with self.repository_lock:
+            # Update
+            self.log_info('updating repository')
+            try:
+                self.repository.update_remote()
+            except RepositoryException as error:
+                error_text = str(error)
+                self.log_error('failed to update repository: %s', error_text)
+                if validate:
+                    if 'Host key verification failed' in error_text:
+                        raise ValidationError(_(
+                            'Failed to verify SSH host key, please add '
+                            'them in SSH page in the admin interface.'
+                        ))
+                    raise ValidationError(
+                        _('Failed to fetch repository: %s') % error_text
+                    )
 
     def configure_repo(self, validate=False):
         '''
