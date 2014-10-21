@@ -123,6 +123,17 @@
 </div>
 </div>
 
+{% if other_translations %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Other translations" %}</h4></div>
+  <div class="panel-body">
+{% with other_translations as translations %}
+{% include "list-translations.html" %}
+{% endwith %}
+</div>
+</div>
+{% endif %}
+
 </div>
 
 </div>
