@@ -247,18 +247,6 @@ class ProjectTest(RepoTestCase):
 
         appsettings.GIT_ROOT = backup
 
-    def test_validation(self):
-        project = self.create_project()
-        # Correct project
-        project.full_clean()
-        # Invalid commit message
-        project.commit_message = '%(foo)s'
-        self.assertRaisesMessage(
-            ValidationError,
-            'Bad format string',
-            project.full_clean
-        )
-
     def test_acl(self):
         """
         Test for ACL handling.
@@ -495,6 +483,14 @@ class SubProjectTest(RepoTestCase):
         project = self.create_subproject()
         # Correct project
         project.full_clean()
+
+        # Invalid commit message
+        project.commit_message = '%(foo)s'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Bad format string',
+            project.full_clean
+        )
 
         # Invalid mask
         project.filemask = 'foo/x.po'

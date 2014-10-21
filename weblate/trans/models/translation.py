@@ -771,7 +771,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Formats commit message based on project configuration.
         '''
-        msg = self.subproject.project.commit_message % {
+        msg = self.subproject.commit_message % {
             'language': self.language_code,
             'language_name': self.language.name,
             'subproject': self.subproject.name,
