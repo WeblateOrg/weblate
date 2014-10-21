@@ -327,20 +327,18 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         else:
             return os.path.join(self.project.get_path(), self.slug)
 
-    def get_git_lock_path(self):
-        '''
-        Returns full path to subproject git repository.
-        '''
-        return os.path.join(self.project.get_path(), self.slug + '.lock')
-
     @property
     def git_lock(self):
         '''
         Returns lock object for current translation instance.
         '''
         if self._repository_lock is None:
+            lock_path = os.path.join(
+                self.project.get_path(),
+                self.slug + '.lock'
+            )
             self._repository_lock = FileLock(
-                self.get_git_lock_path(),
+                lock_path,
                 timeout=20
             )
         return self._repository_lock
