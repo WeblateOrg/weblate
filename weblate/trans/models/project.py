@@ -36,24 +36,6 @@ from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.util import get_site_url
 
 
-DEFAULT_COMMIT_MESSAGE = (
-    'Translated using Weblate (%(language_name)s)\n\n'
-    'Currently translated at %(translated_percent)s%% '
-    '(%(translated)s of %(total)s strings)'
-)
-
-NEW_LANG_CHOICES = (
-    ('contact', ugettext_lazy('Use contact form')),
-    ('url', ugettext_lazy('Point to translation instructions URL')),
-    ('add', ugettext_lazy('Automatically add language file')),
-    ('none', ugettext_lazy('No adding of language')),
-)
-MERGE_CHOICES = (
-    ('merge', ugettext_lazy('Merge')),
-    ('rebase', ugettext_lazy('Rebase')),
-)
-
-
 class ProjectManager(models.Manager):
     def all_acl(self, user):
         """
