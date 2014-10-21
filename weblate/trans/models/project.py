@@ -31,7 +31,6 @@ from django.core.cache import cache
 import os
 import os.path
 from weblate.lang.models import Language
-from weblate.trans.validators import validate_commit_message
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.util import get_site_url
 
