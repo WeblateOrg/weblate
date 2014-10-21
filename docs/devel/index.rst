@@ -15,14 +15,14 @@ You can check activity reports for translations, project or individual users.
 
 .. _promotion:
 
-Promotion the translation
+Promoting the translation
 -------------------------
 
 Weblate provides you widgets to share on your website or other sources to
-promote translation project. It also has nice welcome page for new contributors
+promote the translation project. It also has a nice welcome page for new contributors
 to give them basic information about the translation. Additionally you can
 share information about translation using Facebook or Twitter. All these
-possibilities can be found on :guilabel:`Share` tab. Example of status badges
+possibilities can be found on the :guilabel:`Share` tab. Example of status badges
 for Weblate itself are show below.
 
 Shields.IO badge often used to quickly see status of a project:
