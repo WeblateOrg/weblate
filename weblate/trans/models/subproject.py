@@ -566,8 +566,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         self.repository.configure_remote(self.repo, self.push, self.branch)
         self.repository.set_committer(
-            self.project.committer_name,
-            self.project.committer_email
+            self.committer_name,
+            self.committer_email
         )
 
         self.update_remote_branch(validate)
