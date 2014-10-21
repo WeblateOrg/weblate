@@ -327,7 +327,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return os.path.join(self.project.get_path(), self.slug)
 
     @property
-    def git_lock(self):
+    def repository_lock(self):
         '''
         Returns lock object for current translation instance.
         '''
@@ -596,7 +596,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.update_remote_branch()
 
         # Do actual reset
-        with self.git_lock:
+        with self.repository_lock:
             try:
                 self.log_info('reseting to remote repo')
                 self.repository.reset(self.branch)
@@ -669,7 +669,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             method = self.repository.merge
             error_msg = _('Failed to merge remote branch into %s.')
 
-        with self.git_lock:
+        with self.repository_lock:
             try:
                 # Try to merge it
                 method(self.branch)

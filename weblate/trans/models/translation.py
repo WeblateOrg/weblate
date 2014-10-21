@@ -878,7 +878,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.filename,
             author
         )
-        with self.subproject.git_lock:
+        with self.subproject.repository_lock:
             try:
                 self.__git_commit(author, timestamp, sync)
             except RepositoryException:
@@ -902,7 +902,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if user is None:
             user = request.user
         # Save with lock acquired
-        with self.subproject.git_lock:
+        with self.subproject.repository_lock:
 
             src = unit.get_source_plurals()[0]
             add = False
@@ -1132,7 +1132,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         Merges translate-toolkit store into current translation.
         '''
         # Merge with lock acquired
-        with self.subproject.git_lock:
+        with self.subproject.repository_lock:
 
             store1 = self.store.store
             store1.require_index()
