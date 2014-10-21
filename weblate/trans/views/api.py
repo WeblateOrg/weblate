@@ -82,6 +82,8 @@ def update_subproject(request, project, subproject):
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_subproject(request, project, subproject, True)
+    if not obj.project.enable_hooks:
+        return HttpResponseNotAllowed([])
     perform_update(obj)
     return HttpResponse('update triggered')
 
@@ -94,6 +96,8 @@ def update_project(request, project):
     if not appsettings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_project(request, project, True)
+    if not obj.enable_hooks:
+        return HttpResponseNotAllowed([])
     perform_update(obj)
     return HttpResponse('update triggered')
 
@@ -157,6 +161,8 @@ def git_service_hook(request, service):
 
     # Trigger updates
     for obj in subprojects:
+        if not obj.project.enable_hooks:
+            continue
         weblate.logger.info(
             '%s notification will update %s',
             service_long_name,
