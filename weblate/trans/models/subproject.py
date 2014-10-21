@@ -739,7 +739,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.update_branch(request)
 
         if method is None:
-            method = self.project.merge_style
+            method = self.merge_style
 
         # Merge/rebase
         if method == 'rebase':
@@ -755,7 +755,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 method(self.branch)
                 self.log_info(
                     '%s remote into repo',
-                    self.project.merge_style,
+                    self.merge_style,
                 )
                 return True
             except Exception as error:
@@ -767,7 +767,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Log error
         self.log_error(
             'failed %s on repo',
-            self.project.merge_style,
+            self.merge_style,
         )
 
         # Notify subscribers and admins
