@@ -31,7 +31,7 @@ class GitNoChangeProjectTest(ViewTestCase):
     Testing of git manipulations with no change in repo.
     '''
 
-    STATUS_CHECK = 'Push changes to remote repository'
+    STATUS_CHECK = 'Push changes to the remote repository'
     TEST_TYPE = 'project'
 
     def setUp(self):
@@ -125,7 +125,7 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     Testing of project git manipulations with committed change in repo.
     '''
 
-    STATUS_CHECK = 'There are some new commits in local Git repository!'
+    STATUS_CHECK = 'There are some new commits in the local repository!'
 
     def setUp(self):
         super(GitCommittedChangeProjectTest, self).setUp()
