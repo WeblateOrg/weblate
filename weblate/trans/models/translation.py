@@ -33,7 +33,6 @@ import traceback
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
-import weblate
 from weblate import appsettings
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode

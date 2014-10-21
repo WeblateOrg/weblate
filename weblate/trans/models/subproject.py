@@ -28,7 +28,6 @@ from django.core.cache import cache
 from django.utils import timezone
 from glob import glob
 import os
-import weblate
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
