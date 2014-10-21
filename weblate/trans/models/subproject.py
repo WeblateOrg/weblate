@@ -312,9 +312,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             reverse('engage', kwargs={'project': self.project.slug})
         )
 
-    def is_git_locked(self):
-        return self.locked
-
     def __unicode__(self):
         return '%s/%s' % (self.project.__unicode__(), self.name)
 

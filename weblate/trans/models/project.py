@@ -284,7 +284,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             reverse('engage', kwargs={'project': self.slug})
         )
 
-    def is_git_locked(self):
+    @property
+    def locked(self):
         subprojects = self.subproject_set.all()
         if len(subprojects) == 0:
             return False

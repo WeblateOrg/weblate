@@ -115,7 +115,7 @@
 
 
 {% if perms.trans.lock_subproject and object.is_lockable %}
-{% if object.is_git_locked %}
+{% if object.locked %}
 <tr>
 <td>
 <a href="{{ object.get_unlock_url }}" class="btn btn-default">{% trans "Unlock" %}</a>
