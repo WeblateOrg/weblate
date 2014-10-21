@@ -238,7 +238,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     objects = SubProjectManager()
 
-    is_git_lockable = True
+    is_lockable = True
 
     class Meta(object):
         ordering = ['project__name', 'name']

@@ -141,7 +141,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     objects = TranslationManager()
 
-    is_git_lockable = False
+    is_lockable = False
 
     class Meta(object):
         ordering = ['language__name']

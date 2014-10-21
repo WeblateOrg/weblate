@@ -200,7 +200,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     objects = ProjectManager()
 
-    is_git_lockable = True
+    is_lockable = True
 
     class Meta(object):
         ordering = ['name']

@@ -114,7 +114,7 @@
 {% endif %}
 
 
-{% if perms.trans.lock_subproject and object.is_git_lockable %}
+{% if perms.trans.lock_subproject and object.is_lockable %}
 {% if object.is_git_locked %}
 <tr>
 <td>
