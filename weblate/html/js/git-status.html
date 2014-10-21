@@ -1,36 +1,25 @@
 {% load i18n %}
 {% load url from future %}
-
 {% with object.git_needs_commit as needs_commit %}
-{% if perms.trans.commit_translation or perms.trans.update_translation %}
 
-<div class="btn-group">
-<a href="{{ object.get_commit_url }}" title="{% trans "Commit pending changes" %}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
-<a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Pull" %}</a>
-<a href="{{ object.get_push_url }}" title="{% trans "Push changes to remote repository" %}" class="btn btn-default{% if not perms.trans.push_translation or not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
-<a href="{{ object.get_update_url }}?method=rebase" title="{% trans "Rebase changes on remote repository" %}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Rebase" %}</a>
-{% if perms.trans.reset_translation %}
-<a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="btn btn-default confirm-reset">{% trans "Reset" %}</a>
-{% endif %}
-{% if perms.trans.lock_subproject and object.is_git_lockable %}
-{% if object.is_git_locked %}
-<a href="{{ object.get_unlock_url }}" title="{% trans "Allow changes in the repository" %}" class="btn btn-default">{% trans "Unlock" %}</a>
-{% else %}
-<a href="{{ object.get_lock_url }}" title="{% trans "Prevent any changes in the repository" %}" class="btn btn-default">{% trans "Lock" %}</a>
-{% endif %}
-{% endif %}
-</div>
+<div class="row">
+<div class="col-md-6">
 
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Repository status" %}</h4></div>
+<div class="panel-body">
 {% if needs_commit %}
 <p>{% trans "There are some not committed changes!" %}</p>
 {% endif %}
 {% if object.git_needs_merge %}
-<p>{% trans "Remote Git repository needs to be merged!" %}</p>
+<p>{% trans "The remote repository needs to be merged!" %}</p>
 {% endif %}
 {% if object.git_needs_push %}
-<p>{% trans "There are some new commits in local Git repository!" %}</p>
+<p>{% trans "There are some new commits in the local repository!" %}</p>
 {% endif %}
-
+{% if not needs_commit and not object.git_needs_merge and not object.git_needs_push %}
+<p>{% trans "The local repository is up to date." %}</p>
+{% endif %}
 
 {% if object.subproject_set %}
 {% else %}
@@ -49,17 +38,11 @@
 {% endif %}
 {% endwith %}
 {% endif %}
+</div>
+</div>
 
-<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#git-details">
-          {% trans "Details" %}
-        </a>
-      </h4>
-    </div>
-    <div id="git-details" class="panel-collapse collapse">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Repository details" %}</h4></div>
       <div class="panel-body">
         {% if object.subproject_set %}
         {% for sp in object.subproject_set.all %}
@@ -74,9 +57,91 @@
         </pre>
         {% endif %}
       </div>
-    </div>
-  </div>
+</div>
+
+</div>
+
+<div class="col-md-6">
+{% if perms.trans.commit_translation or perms.trans.update_translation %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Repository tools" %}</h4></div>
+<div class="panel-body">
+
+<table class="table table-condensed">
+
+<tr>
+<td>
+<a href="{{ object.get_commit_url }}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Commit pending changes to the local repository" %}</p>
+</td>
+</tr>
+
+<tr>
+<td>
+<a href="{{ object.get_update_url }}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Pull" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Pull changes from the remote repository" %}</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="{{ object.get_push_url }}" class="btn btn-default{% if not perms.trans.push_translation or not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Push changes to the remote repository" %}</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="{{ object.get_update_url }}?method=rebase" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Rebase" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Rebase local changes onto the remote repository" %}</p>
+</td>
+</tr>
+{% if perms.trans.reset_translation %}
+<tr>
+<td>
+<a href="{{ object.get_reset_url }}" class="btn btn-default confirm-reset">{% trans "Reset" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Reset all changes in the local repository" %}</p>
+</td>
+</tr>
+{% endif %}
+
+
+{% if perms.trans.lock_subproject and object.is_git_lockable %}
+{% if object.is_git_locked %}
+<tr>
+<td>
+<a href="{{ object.get_unlock_url }}" class="btn btn-default">{% trans "Unlock" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Allow changes in the local repository" %}</p>
+</td>
+</tr>
+{% else %}
+<tr>
+<td>
+<a href="{{ object.get_lock_url }}" class="btn btn-default">{% trans "Lock" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Prevent any changes in the local repository" %}</p>
+</td>
+</tr>
+{% endif %}
+{% endif %}
+
+
+</table>
+
 </div>
 
 {% endif %}
+</div>
+</div>
 {% endwith %}

@@ -45,7 +45,7 @@
       <li><a href="{% url 'data_project' project=object.subproject.project.slug  %}">{% trans "Data exports" %}</a></li>
       <li><a href="#locking" data-toggle="tab">{% trans "Locking" %}</a></li>
       {% if perms.trans.commit_translation or perms.trans.update_translation %}
-      <li><a href="#git" data-toggle="tab" data-href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Git maintenance" %}</a></li>
+      <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Repository maintenance" %}</a></li>
       {% endif %}
       {% if autoform %}
       <li><a href="#auto" data-toggle="tab">{% trans "Automatic translation" %}</a></li>
@@ -192,14 +192,8 @@
 {% endif %}
 
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<div class="tab-pane" id="git">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Git maintenance" %}</h4></div>
-<div class="panel-body">
+<div class="tab-pane" id="repository">
 <p>{% trans "Loading…" %}</p>
-</div>
-
-</div>
 </div>
 {% endif %}
 

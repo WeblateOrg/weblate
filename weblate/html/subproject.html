@@ -26,7 +26,7 @@
     <ul class="dropdown-menu">
       <li><a href="{% url 'data_project' project=object.project.slug  %}">{% trans "Data exports" %}</a></li>
       {% if perms.trans.commit_translation or perms.trans.update_translation %}
-      <li><a href="#git" data-toggle="tab" data-href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Git maintenance" %}</a></li>
+      <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Repository maintenance" %}</a></li>
       {% endif %}
       <li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
     </ul>
@@ -122,14 +122,8 @@
 </div>
 
 {% if perms.trans.commit_translation or perms.trans.update_translation %}
-<div class="tab-pane" id="git">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Git maintenance" %}</h4></div>
-<div class="panel-body">
+<div class="tab-pane" id="repository">
 <p>{% trans "Loading…" %}</p>
-</div>
-
-</div>
 </div>
 {% endif %}
 
