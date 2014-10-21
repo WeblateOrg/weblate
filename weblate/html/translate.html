@@ -153,7 +153,7 @@
 
 {% if unit.suggestions %}
 <div class="tab-pane" id="suggestions">
-<form action="{{ this_unit_url }}" method="post" class="translation-form">
+<form action="{{ this_unit_url }}" method="post">
     {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
