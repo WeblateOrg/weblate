@@ -257,7 +257,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Constructor to initialize some cache properties.
         '''
         super(SubProject, self).__init__(*args, **kwargs)
-        self._lock = None
+        self._repository_lock = None
         self._file_format = None
         self._template_store = None
         self._all_flags = None
@@ -338,12 +338,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns lock object for current translation instance.
         '''
-        if self._lock is None:
-            self._lock = FileLock(
+        if self._repository_lock is None:
+            self._repository_lock = FileLock(
                 self.get_git_lock_path(),
                 timeout=20
             )
-        return self._lock
+        return self._repository_lock
 
     def can_push(self):
         '''
