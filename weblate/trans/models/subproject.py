@@ -37,12 +37,30 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
     validate_repoweb, validate_filemask,
     validate_extra_file, validate_autoaccept,
-    validate_check_flags,
+    validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
 from weblate.appsettings import SCRIPT_CHOICES, HIDE_REPO_CREDENTIALS
 from weblate.accounts.models import notify_merge_failure
 from weblate.trans.models.changes import Change
+
+
+DEFAULT_COMMIT_MESSAGE = (
+    'Translated using Weblate (%(language_name)s)\n\n'
+    'Currently translated at %(translated_percent)s%% '
+    '(%(translated)s of %(total)s strings)'
+)
+
+NEW_LANG_CHOICES = (
+    ('contact', ugettext_lazy('Use contact form')),
+    ('url', ugettext_lazy('Point to translation instructions URL')),
+    ('add', ugettext_lazy('Automatically add language file')),
+    ('none', ugettext_lazy('No adding of language')),
+)
+MERGE_CHOICES = (
+    ('merge', ugettext_lazy('Merge')),
+    ('rebase', ugettext_lazy('Rebase')),
+)
 
 
 class SubProjectManager(models.Manager):
@@ -233,6 +251,64 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
         validators=[validate_check_flags],
         blank=True,
+    )
+
+    # Licensing
+    license = models.CharField(
+        verbose_name=ugettext_lazy('Translation license'),
+        max_length=150,
+        blank=True,
+        default='',
+        help_text=ugettext_lazy(
+            'Optional short summary of license used for translations.'
+        ),
+    )
+    license_url = models.URLField(
+        verbose_name=ugettext_lazy('License URL'),
+        blank=True,
+        default='',
+        help_text=ugettext_lazy('Optional URL with license details.'),
+    )
+
+    # Adding new language
+    new_lang = models.CharField(
+        verbose_name=ugettext_lazy('New language'),
+        max_length=10,
+        choices=NEW_LANG_CHOICES,
+        default='contact',
+        help_text=ugettext_lazy(
+            'How to handle requests for creating new languages.'
+        ),
+    )
+
+    # VCS config
+    merge_style = models.CharField(
+        verbose_name=ugettext_lazy('Merge style'),
+        max_length=10,
+        choices=MERGE_CHOICES,
+        default='merge',
+        help_text=ugettext_lazy(
+            'Define whether Weblate should merge upstream repository '
+            'or rebase changes onto it.'
+        ),
+    )
+    commit_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message'),
+        help_text=ugettext_lazy(
+            'You can use format strings for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_commit_message],
+        default=DEFAULT_COMMIT_MESSAGE,
+    )
+    committer_name = models.CharField(
+        verbose_name=ugettext_lazy('Committer name'),
+        max_length=200,
+        default='Weblate'
+    )
+    committer_email = models.EmailField(
+        verbose_name=ugettext_lazy('Committer email'),
+        default='noreply@weblate.org'
     )
 
     objects = SubProjectManager()
