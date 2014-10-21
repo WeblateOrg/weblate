@@ -7,6 +7,7 @@ weblate 2.0
 Released on ? 2014.
 
 * New responsive UI using Bootstrap.
+* Rewritten VCS backend.
 * Documentation improvements.
 * Added whiteboard for site wide messages.
 * Configurable strings priority.
