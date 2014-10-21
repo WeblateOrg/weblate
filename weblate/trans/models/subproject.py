@@ -1030,6 +1030,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Validator fetches repository and tries to find translation files.
         Then it checks them for validity.
         '''
+        if self.new_lang == 'url' and self.instructions == '':
+            raise ValidationError(_(
+                'Please either fill in instructions URL '
+                'or use different option for adding new language.'
+            ))
+
+        if self.license == '' and self.license_url != '':
+            raise ValidationError(_(
+                'License URL can not be used without license summary.'
+            ))
+
         # Skip validation if we don't have valid project
         if self.project_id is None:
             return

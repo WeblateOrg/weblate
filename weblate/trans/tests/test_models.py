@@ -582,8 +582,8 @@ class SubProjectTest(RepoTestCase):
             subproject.full_clean
         )
 
-        subproject.project.new_lang = 'add'
-        subproject.project.save()
+        subproject.new_lang = 'add'
+        subproject.save()
 
         # Check that it warns about not supported format
         self.assertRaisesMessage(

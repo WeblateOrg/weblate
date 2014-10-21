@@ -237,16 +237,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             raise PermissionDenied
 
     def clean(self):
-        if self.new_lang == 'url' and self.instructions == '':
-            raise ValidationError(_(
-                'Please either fill in instructions URL '
-                'or use different option for adding new language.'
-            ))
-
-        if self.license == '' and self.license_url != '':
-            raise ValidationError(_(
-                'License URL can not be used without license summary.'
-            ))
         try:
             self.create_path()
         except OSError as exc:

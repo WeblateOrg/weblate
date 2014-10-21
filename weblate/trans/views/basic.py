@@ -453,7 +453,7 @@ def new_language(request, project, subproject):
                 request,
                 _('Chosen translation already exists in this project!')
             )
-        elif obj.project.new_lang == 'contact':
+        elif obj.new_lang == 'contact':
             notify_new_language(obj, language, request.user)
             messages.success(
                 request,
@@ -462,7 +462,7 @@ def new_language(request, project, subproject):
                     "sent to the project's maintainers."
                 )
             )
-        elif obj.project.new_lang == 'add':
+        elif obj.new_lang == 'add':
             obj.add_new_language(language, request)
     else:
         messages.error(

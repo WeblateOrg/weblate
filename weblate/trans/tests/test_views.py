@@ -210,8 +210,8 @@ class NewLangTest(ViewTestCase):
         return self.create_po_new_base()
 
     def test_none(self):
-        self.project.new_lang = 'none'
-        self.project.save()
+        self.new_lang = 'none'
+        self.save()
 
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
@@ -219,7 +219,8 @@ class NewLangTest(ViewTestCase):
         self.assertNotContains(response, 'New translation')
 
     def test_url(self):
-        self.project.new_lang = 'url'
+        self.new_lang = 'url'
+        self.save()
         self.project.instructions = 'http://example.com/instructions'
         self.project.save()
 
@@ -230,8 +231,8 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
-        self.project.new_lang = 'contact'
-        self.project.save()
+        self.new_lang = 'contact'
+        self.save()
 
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
@@ -256,8 +257,8 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add(self):
-        self.project.new_lang = 'add'
-        self.project.save()
+        self.new_lang = 'add'
+        self.save()
 
         self.assertFalse(
             self.subproject.translation_set.filter(
