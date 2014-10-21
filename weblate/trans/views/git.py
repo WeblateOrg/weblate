@@ -65,7 +65,7 @@ def commit_translation(request, project, subproject, lang):
 def update_project(request, project):
     obj = get_project(request, project)
 
-    if obj.do_update(request):
+    if obj.do_update(request, method=request.GET.get('method', None)):
         messages.success(request, _('All repositories were updated.'))
 
     return redirect(obj)
@@ -76,7 +76,7 @@ def update_project(request, project):
 def update_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if obj.do_update(request):
+    if obj.do_update(request, method=request.GET.get('method', None)):
         messages.success(request, _('All repositories were updated.'))
 
     return redirect(obj)
@@ -87,7 +87,7 @@ def update_subproject(request, project, subproject):
 def update_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if obj.do_update(request):
+    if obj.do_update(request, method=request.GET.get('method', None)):
         messages.success(request, _('All repositories were updated.'))
 
     return redirect(obj)

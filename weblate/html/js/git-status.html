@@ -8,6 +8,7 @@
 <a href="{{ object.get_commit_url }}" title="{% trans "Commit pending changes" %}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
 <a href="{{ object.get_update_url }}" title="{% trans "Pull changes from remote repository" %}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Pull" %}</a>
 <a href="{{ object.get_push_url }}" title="{% trans "Push changes to remote repository" %}" class="btn btn-default{% if not perms.trans.push_translation or not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
+<a href="{{ object.get_update_url }}?method=rebase" title="{% trans "Rebase changes on remote repository" %}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Rebase" %}</a>
 {% if perms.trans.reset_translation %}
 <a href="{{ object.get_reset_url }}" title="{% trans "Reset all changes in local repository" %}" class="btn btn-default confirm-reset">{% trans "Reset" %}</a>
 {% endif %}

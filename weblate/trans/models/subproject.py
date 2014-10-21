@@ -507,7 +507,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         self.repository.configure_branch(self.branch)
 
-    def do_update(self, request=None):
+    def do_update(self, request=None, method=None):
         '''
         Wrapper for doing repository update and pushing them to translations.
         '''
@@ -518,14 +518,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.update_remote_branch()
 
         # do we have something to merge?
-        if not self.git_needs_merge():
+        if not self.git_needs_merge() and method != 'rebase':
             return True
 
         # commit possible pending changes
         self.commit_pending(request)
 
         # update remote branch
-        ret = self.update_branch(request)
+        ret = self.update_branch(request, method=method)
 
         # create translation objects for all files
         self.create_translations(request=request)
@@ -657,15 +657,18 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Notify subscribed users about failure
         notify_merge_failure(self, error, status)
 
-    def update_branch(self, request=None):
+    def update_branch(self, request=None, method=None):
         '''
         Updates current branch to match remote (if possible).
         '''
         if self.is_repo_link:
             return self.linked_subproject.update_branch(request)
 
+        if method is None:
+            method = self.project.merge_style
+
         # Merge/rebase
-        if self.project.merge_style == 'rebase':
+        if method == 'rebase':
             method = self.repository.rebase
             error_msg = _('Failed to rebase our branch onto remote branch %s.')
         else:

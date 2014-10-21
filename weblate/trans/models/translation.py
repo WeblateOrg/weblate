@@ -620,8 +620,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def get_last_remote_commit(self):
         return self.subproject.get_last_remote_commit()
 
-    def do_update(self, request=None):
-        return self.subproject.do_update(request)
+    def do_update(self, request=None, method=None):
+        return self.subproject.do_update(request, method=method)
 
     def do_push(self, request=None):
         return self.subproject.do_push(request)

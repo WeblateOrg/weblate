@@ -415,13 +415,13 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         for resource in self.subproject_set.all():
             resource.commit_pending(request)
 
-    def do_update(self, request=None):
+    def do_update(self, request=None, method=None):
         """
         Updates all git repos.
         """
         ret = False
         for resource in self.subproject_set.all():
-            ret &= resource.do_update(request)
+            ret &= resource.do_update(request, method=method)
         return ret
 
     def do_push(self, request=None):
