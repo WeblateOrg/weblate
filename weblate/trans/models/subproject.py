@@ -331,6 +331,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns lock object for current translation instance.
         '''
+        if self.is_repo_link:
+            return self.linked_subproject.repository_lock
+
         if self._repository_lock is None:
             lock_path = os.path.join(
                 self.project.get_path(),
