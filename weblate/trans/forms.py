@@ -652,3 +652,13 @@ class PriorityForm(forms.Form):
             'Strings with higher priority are offered first to translators.'
         ),
     )
+
+
+class AddUserForm(forms.Form):
+    name = forms.CharField(
+        label=_('User to add'),
+        help_text=_(
+            'Please provide username or email. '
+            'User needs to have already active account in Weblate.'
+        ),
+    )

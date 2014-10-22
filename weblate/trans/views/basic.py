@@ -20,12 +20,14 @@
 
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Sum, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
+from django.views.decorators.http import require_POST
 import django.views.defaults
 
 from weblate.trans.models import (
@@ -34,9 +36,11 @@ from weblate.trans.models import (
 )
 from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
+from weblate.trans.util import redirect_param
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, NewLanguageForm,
+    AddUserForm,
 )
 from weblate.accounts.models import Profile, notify_new_language
 from weblate.trans.views.helper import (
@@ -243,6 +247,7 @@ def show_project(request, project):
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),
+            'add_user_form': AddUserForm(),
         }
     )
 
@@ -474,4 +479,35 @@ def new_language(request, project, subproject):
         'subproject',
         subproject=obj.slug,
         project=obj.project.slug
+    )
+
+
+@require_POST
+@permission_required('trans.manage_acl')
+def add_user(request, project):
+    obj = get_project(request, project)
+
+    form = AddUserForm(request.POST)
+
+    if form.is_valid():
+        try:
+            user = User.objects.get(
+                Q(username=form.cleaned_data['name']) |
+                Q(email=form.cleaned_data['name'])
+            )
+            obj.add_user(user)
+            messages.success(
+                request, _('User has been added to this project.')
+            )
+        except User.DoesNotExist:
+            messages.error(request, _('No matching user found!'))
+        except User.MultipleObjectsReturned:
+            messages.error(request, _('More users matched!'))
+    else:
+        messages.error(request, _('Invalid user specified!'))
+
+    return redirect_param(
+        'project',
+        '#acl',
+        project=obj.slug,
     )

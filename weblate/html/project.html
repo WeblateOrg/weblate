@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load url from future %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -27,6 +28,9 @@
       {% endif %}
       <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+      {% if perms.trans.manage_acl %}
+      <li><a href="#acl" data-toggle="tab">{% trans "Manage users" %}</a></li>
+      {% endif %}
     </ul>
   </li>
 {% if enable_sharing %}
@@ -139,7 +143,57 @@
 </div>
 {% endif %}
 
+{% if perms.trans.manage_acl %}
+<div class="tab-pane" id="acl">
+<div class="row">
+<div class="col-md-6">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Users" %}</h4></div>
+  <div class="panel-body">
+  <table class="table table-striped">
+  <thead>
+  <tr>
+  <th>{% trans "Username" %}</th>
+  <th>{% trans "Full name" %}</th>
+  <th>{% trans "Email" %}</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for user in object.all_users %}
+  <tr>
+  <td>{{ user.username }}</td>
+  <td>{{ user.first_name }}</td>
+  <td>{{ user.email }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+  </div>
 </div>
+
+</div>
+
+<div class="col-md-6">
+
+<form action="{% url "add-user" project=object.slug %}" method="post">
+{% csrf_token %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Add new user" %}</h4></div>
+  <div class="panel-body">
+    {{ add_user_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-default" value="{% trans "Add" %}" />
+  </div>
+</div>
+</form>
+
+</div>
+
+</div>
+</div>
+{% endif %}
 
 </div>
 

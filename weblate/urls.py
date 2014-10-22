@@ -186,6 +186,11 @@ urlpatterns = patterns(
         'weblate.trans.views.basic.new_language',
         name='new-language',
     ),
+    url(
+        r'^add-user/' + PROJECT + '$',
+        'weblate.trans.views.basic.add_user',
+        name='add-user',
+    ),
 
     # Activity HTML
     url(

@@ -16,6 +16,7 @@ Released on ? 2014.
 * Added support for GitLab notifications.
 * Added support for disabling translation suggestions.
 * Django 1.7 support.
+* ACL projects now have user management.
 
 weblate 1.9
 -----------
