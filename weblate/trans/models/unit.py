@@ -205,8 +205,6 @@ class UnitManager(models.Manager):
         High level wrapper for searching.
         """
 
-        print 'SEARCH', params
-
         if params['type'] != 'all':
             base = self.filter_type(
                 params['type'],
