@@ -215,14 +215,16 @@ def show_check_subproject(request, name, project, subproject):
         raise Http404('No check matches the given query.')
 
     ignore = ('ignored' in request.GET)
-    url_params = ''
+    url_params = {}
+
     if ignore:
-        url_params = '?ignored=true'
+        url_params['ignored'] = 'true'
 
     if check.source:
+        url_params['type'] = check.check_id
         return redirect_param(
             'review_source',
-            url_params,
+            encode_optional(url_params),
             project=subprj.project.slug,
             subproject=subprj.slug,
         )
@@ -277,6 +279,6 @@ def show_check_subproject(request, name, project, subproject):
             'title': '%s/%s' % (subprj.__unicode__(), check.name),
             'check': check,
             'subproject': subprj,
-            'url_params': url_params,
+            'url_params': encode_optional(url_params),
         }
     )
