@@ -20,7 +20,7 @@
 
 import urllib
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.db.models import Count
@@ -28,6 +28,7 @@ from django.db.models import Count
 from weblate.trans.models import Unit, Check
 from weblate.trans.checks import CHECKS
 from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.util import redirect_param
 
 
 def encode_optional(params):
@@ -90,8 +91,9 @@ def show_check(request, name):
     )
 
     if 'project' in request.GET:
-        return redirect(
+        return redirect_param(
             'show_check_project',
+            encode_optional(url_params),
             project=request.GET['project'],
             name=name,
         )
@@ -218,8 +220,9 @@ def show_check_subproject(request, name, project, subproject):
         url_params = '?ignored=true'
 
     if check.source:
-        return redirect(
+        return redirect_param(
             'review_source',
+            url_params,
             project=subprj.project.slug,
             subprj=subproject.slug,
         )

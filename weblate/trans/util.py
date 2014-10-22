@@ -21,6 +21,8 @@
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.sites.models import Site
 from django.core.cache import cache
+from django.http import HttpResponseRedirect
+from django.shortcuts import resolve_url
 from importlib import import_module
 import time
 import random
@@ -181,3 +183,12 @@ def cleanup_repo_url(url):
             ''
         )
     return url
+
+
+def redirect_param(to, params, *args, **kwargs):
+    """
+    Redirects to a URL with parameters.
+    """
+    return HttpResponseRedirect(
+        resolve_url(to, *args, **kwargs) + params
+    )
