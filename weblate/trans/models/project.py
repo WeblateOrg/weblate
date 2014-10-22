@@ -168,6 +168,20 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             )
             raise PermissionDenied
 
+    def all_users(self):
+        """
+        Returns all users having ACL on this project.
+        """
+        group = Group.objects.get(name=self.name)
+        return group.user_set.all()
+
+    def add_user(self, user):
+        """
+        Adds user based on username of email.
+        """
+        group = Group.objects.get(name=self.name)
+        user.groups.add(group)
+
     def clean(self):
         try:
             self.create_path()
