@@ -152,6 +152,14 @@ class VCSGitTest(RepoTestCase):
             'fafd745150eb1f20fc3719778942a96e2106d25b'
         )
 
+        # Check invalid commit
+        self.assertRaises(
+            RepositoryException,
+            self.repo.commit,
+            'test commit',
+            'Foo <bar@example.com>',
+        )
+
     def test_object_hash(self):
         obj_hash = self.repo.get_object_hash('README.md')
         self.assertEquals(

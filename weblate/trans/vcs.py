@@ -72,7 +72,10 @@ class Repository(object):
         output, output_err = process.communicate()
         retcode = process.poll()
         if retcode:
-            raise RepositoryException(output_err)
+            message = output_err.strip()
+            if not message:
+                message = output.strip()
+            raise RepositoryException(output)
         return output
 
     def execute(self, args):
