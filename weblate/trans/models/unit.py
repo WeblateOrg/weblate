@@ -133,6 +133,8 @@ class UnitManager(models.Manager):
             return self.filter(fuzzy=True)
         elif rqtype == 'untranslated':
             return self.filter(translated=False)
+        elif rqtype == 'translated':
+            return self.filter(translated=True)
         elif rqtype == 'suggestions':
             return self.filter(has_suggestion=True)
         elif rqtype == 'sourcecomments':

@@ -427,6 +427,7 @@ class SearchForm(forms.Form):
         choices=[
             ('all', _('All strings')),
             ('untranslated', _('Untranslated strings')),
+            ('translated', _('Translated strings')),
             ('fuzzy', _('Fuzzy strings')),
             ('suggestions', _('Strings with suggestions')),
             ('targetcomments', _('Strings with comments')),
