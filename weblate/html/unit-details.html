@@ -22,3 +22,11 @@
 <tr>
 <td>{{ unit.source_info.timestamp|naturaltime }}</td>
 </tr>
+<tr>
+<th>{% trans "Translation file" %}</th>
+</tr>
+<tr>
+<td>
+{% blocktrans with unit.translation.filename as filename and unit.position as position %}{{ filename }}, translation unit {{ position }}{% endblocktrans %}
+</td>
+</tr>
