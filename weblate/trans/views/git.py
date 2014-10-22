@@ -76,6 +76,7 @@ def perform_update(request, obj):
 
     return redirect(obj)
 
+
 @login_required
 @permission_required('trans.update_translation')
 def update_project(request, project):
