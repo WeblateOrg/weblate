@@ -232,6 +232,8 @@ Users with :guilabel:`Can manage ACL rules for a project` privilege (see
 :ref:`privileges`) can also manage users in projects with access control
 enabled on the project page.
 
+The user management is available in :guilabel:`Tools` menu of a project:
+
 .. image:: ../images/manage-users.png
 
 .. seealso:: :ref:`acl`
