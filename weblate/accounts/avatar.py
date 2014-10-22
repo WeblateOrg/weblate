@@ -38,8 +38,6 @@ try:
 except ImportError:
     HAS_LIBRAVATAR = False
 
-PLURAL_SEPARATOR = '\x1e\x1e'
-
 
 def avatar_for_email(email, size=80):
     """
