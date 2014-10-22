@@ -58,9 +58,12 @@ you can use apt-get:
 
     apt-get install python-requests-oauthlib python-six python-openid
 
+If you are running Debian jessie or above, you can install python-social-auth
+by executing 
 
-There is one library not available in Debian so far, so it is recommended to
-install it using pip:
+    apt-get install python-social-auth
+    
+For Debian 7.0 (wheezy) or older, it is recommended to install it using pip:
 
 .. code-block:: sh
 
