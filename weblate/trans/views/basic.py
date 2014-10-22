@@ -511,3 +511,33 @@ def add_user(request, project):
         '#acl',
         project=obj.slug,
     )
+
+
+@require_POST
+@permission_required('trans.manage_acl')
+def delete_user(request, project):
+    obj = get_project(request, project)
+
+    form = AddUserForm(request.POST)
+
+    if form.is_valid():
+        try:
+            user = User.objects.get(
+                username=form.cleaned_data['name']
+            )
+            obj.remove_user(user)
+            messages.success(
+                request, _('User has been removed from this project.')
+            )
+        except User.DoesNotExist:
+            messages.error(request, _('No matching user found!'))
+        except User.MultipleObjectsReturned:
+            messages.error(request, _('More users matched!'))
+    else:
+        messages.error(request, _('Invalid user specified!'))
+
+    return redirect_param(
+        'project',
+        '#acl',
+        project=obj.slug,
+    )

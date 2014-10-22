@@ -182,6 +182,13 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         group = Group.objects.get(name=self.name)
         user.groups.add(group)
 
+    def remove_user(self, user):
+        """
+        Adds user based on username of email.
+        """
+        group = Group.objects.get(name=self.name)
+        user.groups.remove(group)
+
     def clean(self):
         try:
             self.create_path()

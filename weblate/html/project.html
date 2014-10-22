@@ -165,6 +165,16 @@
   <td>{{ user.username }}</td>
   <td>{{ user.first_name }}</td>
   <td>{{ user.email }}</td>
+  <td>
+<form action="{% url "delete-user" project=object.slug %}" method="post">
+{% csrf_token %}
+<input type="hidden" name="name" value="{{ user.username }}" />
+<button type="submit" class="btn btn-danger btn-xs">
+<span class="glyphicon glyphicon-trash"></span>
+{% trans "Remove" %}
+</button>
+</form>
+  </td>
   </tr>
   {% endfor %}
   </tbody>

@@ -191,6 +191,11 @@ urlpatterns = patterns(
         'weblate.trans.views.basic.add_user',
         name='add-user',
     ),
+    url(
+        r'^delete-user/' + PROJECT + '$',
+        'weblate.trans.views.basic.delete_user',
+        name='delete-user',
+    ),
 
     # Activity HTML
     url(
