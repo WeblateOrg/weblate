@@ -262,6 +262,7 @@ $(function () {
     /* Hiding spam protection field */
     $('#s_content').hide();
     $('#id_content').parent('div').hide();
+    $('#div_id_content').hide();
 
     /* Form automatic submission */
     $("form.autosubmit select").change(function () {
