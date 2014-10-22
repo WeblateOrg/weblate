@@ -22,6 +22,7 @@ from unittest import TestCase
 from weblate.trans.util import cleanup_repo_url
 from weblate.trans.scripts import get_script_name
 
+
 class HideCredentialsTest(TestCase):
     def test_http(self):
         self.assertEqual(
@@ -54,6 +55,7 @@ class HideCredentialsTest(TestCase):
             ),
             'hg::https://bitbucket.org/sumwars/sumwars-code'
         )
+
 
 class ScriptTest(TestCase):
     def test_full_path(self):
