@@ -204,5 +204,5 @@ class VCSGitTest(RepoTestCase):
         self.assertRaises(
             RepositoryException,
             self.repo.configure_branch,
-            ('branch')
+            'branch'
         )
