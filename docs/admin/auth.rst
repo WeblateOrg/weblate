@@ -186,7 +186,12 @@ Can add suggestion [Users, Managers, Guests]
     Can add new suggestions.
 Can use machine translation [Users, Managers]
     Can use machine translations (see :ref:`machine-translation-setup`).
+Can manage ACL rules for a project [Managers]
+    Can add users to ACL controlled projects (see :ref:`acl`)
+Can edit priority [Managers]
+    Can adjust source string priority
 
+.. _acl:
 
 Per project access control
 ++++++++++++++++++++++++++

@@ -134,6 +134,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     class Meta(object):
         ordering = ['name']
         app_label = 'trans'
+        permissions = (
+            ('manage_acl', 'Can manage ACL rules for a project'),
+        )
 
     def __init__(self, *args, **kwargs):
         """
