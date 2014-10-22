@@ -150,9 +150,6 @@ class UnitManager(models.Manager):
             return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)
-        else:
-            # Catch anything not matching including 'all'
-            return self.all()
 
     def count_type(self, rqtype, translation):
         """
