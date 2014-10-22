@@ -113,7 +113,7 @@ def format_translation(value, language=None, diff=None, search_match=None,
             value = html_diff(diffvalue, value)
 
         # Format search term
-        if search_match is not None:
+        if search_match:
             # Since the search ignored case, we need to highlight any
             # combination of upper and lower case we find. This is too
             # advanced for str.replace().
