@@ -95,7 +95,15 @@ class ChecksViewTest(ViewTestCase):
                 }
             )
         )
-        self.assertContains(response, u'…')
+        self.assertRedirects(
+            response,
+            '{0}?type=ellipsis'.format(
+                reverse('review_source', kwargs={
+                    'project': self.project.slug,
+                    'subproject': self.subproject.slug,
+                })
+            )
+        )
 
         response = self.client.get(
             reverse(
