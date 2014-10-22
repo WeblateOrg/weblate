@@ -224,7 +224,7 @@ def show_check_subproject(request, name, project, subproject):
             'review_source',
             url_params,
             project=subprj.project.slug,
-            subprj=subproject.slug,
+            subproject=subprj.slug,
         )
 
     units = Unit.objects.none()
