@@ -20,7 +20,7 @@
 
 from unittest import TestCase
 from weblate.trans.util import cleanup_repo_url
-
+from weblate.trans.scripts import get_script_name
 
 class HideCredentialsTest(TestCase):
     def test_http(self):
@@ -53,4 +53,23 @@ class HideCredentialsTest(TestCase):
                 'hg::https://bitbucket.org/sumwars/sumwars-code'
             ),
             'hg::https://bitbucket.org/sumwars/sumwars-code'
+        )
+
+class ScriptTest(TestCase):
+    def test_full_path(self):
+        self.assertEqual(
+            get_script_name('/foo/bar/baz'),
+            'baz'
+        )
+
+    def test_full_path_ext(self):
+        self.assertEqual(
+            get_script_name('/foo/bar/baz.sh'),
+            'baz.sh'
+        )
+
+    def test_no_path(self):
+        self.assertEqual(
+            get_script_name('baz-script'),
+            'baz-script'
         )
