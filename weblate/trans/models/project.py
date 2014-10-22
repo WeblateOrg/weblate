@@ -255,7 +255,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                     name=perm_name,
                     content_type=content_type
                 )
-            group, dummy = Group.objects.get_or_create(name=self.name)
+            group = Group.objects.get_or_create(name=self.name)[0]
             group.permissions.add(permission)
 
     # Arguments number differs from overridden method
