@@ -20,7 +20,7 @@
 
 import urllib
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.db.models import Count
@@ -90,8 +90,11 @@ def show_check(request, name):
     )
 
     if 'project' in request.GET:
-        checks = checks.filter(project__slug=request.GET['project'])
-        url_params['project'] = request.GET['project']
+        return redirect(
+            'show_check_project',
+            project=request.GET['project'],
+            name=name,
+        )
 
     checks = checks.values('project__slug').annotate(count=Count('id'))
 
