@@ -78,7 +78,7 @@ class WidgetsTest(ViewTestCase):
                 )
 
                 if hasattr(WIDGETS[widget], 'redirect'):
-                    self.assertEquals(response.status_code, 302)
+                    self.assertEqual(response.status_code, 302)
                 else:
                     self.assertPNG(response)
 
@@ -99,6 +99,6 @@ class WidgetsTest(ViewTestCase):
                 )
 
                 if hasattr(WIDGETS[widget], 'redirect'):
-                    self.assertEquals(response.status_code, 302)
+                    self.assertEqual(response.status_code, 302)
                 else:
                     self.assertPNG(response)

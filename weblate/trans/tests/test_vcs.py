@@ -43,7 +43,7 @@ class VCSGitTest(RepoTestCase):
         self.assertTrue(os.path.exists(os.path.join(self._tempdir, '.git')))
 
     def test_revision(self):
-        self.assertEquals(
+        self.assertEqual(
             self.repo.last_revision,
             self.repo.last_remote_revision
         )
@@ -94,7 +94,7 @@ class VCSGitTest(RepoTestCase):
             'd6179e46c8255f1d5029f06c49468caf57b13b61'
         )
         self.check_valid_info(info)
-        self.assertEquals(
+        self.assertEqual(
             info['author'],
             'Michal Čihař <michal@cihar.com>'
         )
@@ -114,10 +114,10 @@ class VCSGitTest(RepoTestCase):
 
     def test_set_committer(self):
         self.repo.set_committer('Foo Bar', 'foo@example.net')
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('user.name'), 'Foo Bar'
         )
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('user.email'), 'foo@example.net'
         )
 
@@ -141,13 +141,13 @@ class VCSGitTest(RepoTestCase):
             self.repo.last_revision
         )
         info = self.repo.get_revision_info(self.repo.last_revision)
-        self.assertEquals(
+        self.assertEqual(
             info['author'],
             'Foo Bar <foo@bar.com>',
         )
 
         # Check file hash
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_object_hash('testfile'),
             'fafd745150eb1f20fc3719778942a96e2106d25b'
         )
@@ -162,37 +162,37 @@ class VCSGitTest(RepoTestCase):
 
     def test_object_hash(self):
         obj_hash = self.repo.get_object_hash('README.md')
-        self.assertEquals(
+        self.assertEqual(
             len(obj_hash),
             40
         )
 
     def test_configure_remote(self):
         self.repo.configure_remote('pullurl', 'pushurl', 'branch')
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('remote.origin.url'),
             'pullurl',
         )
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('remote.origin.pushURL'),
             'pushurl',
         )
         # Test that we handle not set fetching
         self.repo.execute(['config', '--unset', 'remote.origin.fetch'])
         self.repo.configure_remote('pullurl', 'pushurl', 'branch')
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('remote.origin.fetch'),
             '+refs/heads/branch:refs/remotes/origin/branch',
         )
 
     def test_configure_remote_no_push(self):
         self.repo.configure_remote('pullurl', '', 'branch')
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('remote.origin.pushURL'),
             '',
         )
         self.repo.configure_remote('pullurl', 'push', 'branch')
-        self.assertEquals(
+        self.assertEqual(
             self.repo.get_config('remote.origin.pushURL'),
             'push',
         )

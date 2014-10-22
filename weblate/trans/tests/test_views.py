@@ -439,16 +439,16 @@ class EditTest(ViewTestCase):
         # Check translations
         unit = self.get_unit('Orangutan')
         plurals = unit.get_target_plurals()
-        self.assertEquals(len(plurals), 3)
-        self.assertEquals(
+        self.assertEqual(len(plurals), 3)
+        self.assertEqual(
             plurals[0],
             u'Opice má %d banán.\n',
         )
-        self.assertEquals(
+        self.assertEqual(
             plurals[1],
             u'Opice má %d banány.\n',
         )
-        self.assertEquals(
+        self.assertEqual(
             plurals[2],
             u'Opice má %d banánů.\n',
         )

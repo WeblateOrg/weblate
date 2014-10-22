@@ -215,7 +215,7 @@ class CommandTest(TestCase):
     def test_importdjangousers(self):
         # First import
         call_command('importusers', get_test_file('users-django.json'))
-        self.assertEquals(User.objects.count(), 2)
+        self.assertEqual(User.objects.count(), 2)
 
 
 class ViewTest(TestCase):

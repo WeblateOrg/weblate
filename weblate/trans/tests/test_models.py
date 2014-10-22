@@ -671,9 +671,9 @@ class SourceTest(RepoTestCase):
 
     def test_priority(self):
         unit = Unit.objects.all()[0]
-        self.assertEquals(unit.priority, 100)
+        self.assertEqual(unit.priority, 100)
         source = unit.source_info
         source.priority = 200
         source.save()
         unit2 = Unit.objects.get(pk=unit.pk)
-        self.assertEquals(unit2.priority, 200)
+        self.assertEqual(unit2.priority, 200)

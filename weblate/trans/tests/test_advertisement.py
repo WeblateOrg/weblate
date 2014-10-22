@@ -62,7 +62,7 @@ class AdvertisementTest(TestCase):
         adv = Advertisement.objects.get_advertisement(
             Advertisement.PLACEMENT_MAIL_TEXT
         )
-        self.assertEquals(
+        self.assertEqual(
             adv_created,
             adv
         )

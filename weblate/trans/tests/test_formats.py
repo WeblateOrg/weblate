@@ -68,7 +68,7 @@ class AutoFormatTest(TestCase):
             out.close()
 
     def test_get_language_filename(self):
-        self.assertEquals(
+        self.assertEqual(
             self.FORMAT.get_language_filename(
                 '/path', self.MASK, 'cs_CZ'
             ),
