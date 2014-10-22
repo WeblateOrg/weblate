@@ -134,6 +134,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     class Meta(object):
         ordering = ['name']
         app_label = 'trans'
+        permissions = (
+            ('manage_acl', 'Can manage ACL rules for a project'),
+        )
 
     def __init__(self, *args, **kwargs):
         """
@@ -164,6 +167,20 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('You are not allowed to access project %s.') % self.name
             )
             raise PermissionDenied
+
+    def all_users(self):
+        """
+        Returns all users having ACL on this project.
+        """
+        group = Group.objects.get(name=self.name)
+        return group.user_set.all()
+
+    def add_user(self, user):
+        """
+        Adds user based on username of email.
+        """
+        group = Group.objects.get(name=self.name)
+        user.groups.add(group)
 
     def clean(self):
         try:
@@ -252,7 +269,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                     name=perm_name,
                     content_type=content_type
                 )
-            group, dummy = Group.objects.get_or_create(name=self.name)
+            group = Group.objects.get_or_create(name=self.name)[0]
             group.permissions.add(permission)
 
     # Arguments number differs from overridden method

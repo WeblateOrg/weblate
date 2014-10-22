@@ -185,10 +185,10 @@ def cleanup_repo_url(url):
     return url
 
 
-def redirect_param(to, params, *args, **kwargs):
+def redirect_param(location, params, *args, **kwargs):
     """
     Redirects to a URL with parameters.
     """
     return HttpResponseRedirect(
-        resolve_url(to, *args, **kwargs) + params
+        resolve_url(location, *args, **kwargs) + params
     )
