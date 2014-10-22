@@ -22,6 +22,7 @@
 Tests for user handling.
 """
 
+import tempfile
 from unittest import TestCase as UnitTestCase
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -216,6 +217,20 @@ class CommandTest(TestCase):
         # First import
         call_command('importusers', get_test_file('users-django.json'))
         self.assertEqual(User.objects.count(), 2)
+
+    def test_userdata(self):
+        # Create test user
+        user = User.objects.create_user('testuser', 'test@example.com', 'x')
+        profile = Profile.objects.create(user=user)
+        profile.translated = 1000
+        profile.save()
+
+        with tempfile.NamedTemporaryFile() as output:
+            call_command('dumpuserdata', output.name)
+            call_command('importuserdata', output.name)
+
+        profile = Profile.objects.get(user__username='testuser')
+        self.assertEquals(profile.translated, 2000)
 
 
 class ViewTest(TestCase):
