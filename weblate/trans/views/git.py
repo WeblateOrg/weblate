@@ -25,6 +25,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
+from weblate.trans.filelock import FileLockException
 
 
 @login_required
@@ -60,15 +61,27 @@ def commit_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
+def perform_update(request, obj):
+    """
+    Helper function to do the repository update.
+    """
+    try:
+        if obj.do_update(request, method=request.GET.get('method', None)):
+            messages.success(request, _('All repositories were updated.'))
+    except FileLockException:
+        messages.error(
+            request,
+            _('Failed to update repository, another update in progress.')
+        )
+
+    return redirect(obj)
+
 @login_required
 @permission_required('trans.update_translation')
 def update_project(request, project):
     obj = get_project(request, project)
 
-    if obj.do_update(request, method=request.GET.get('method', None)):
-        messages.success(request, _('All repositories were updated.'))
-
-    return redirect(obj)
+    return perform_update(request, obj)
 
 
 @login_required
@@ -76,10 +89,7 @@ def update_project(request, project):
 def update_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if obj.do_update(request, method=request.GET.get('method', None)):
-        messages.success(request, _('All repositories were updated.'))
-
-    return redirect(obj)
+    return perform_update(request, obj)
 
 
 @login_required
@@ -87,10 +97,7 @@ def update_subproject(request, project, subproject):
 def update_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if obj.do_update(request, method=request.GET.get('method', None)):
-        messages.success(request, _('All repositories were updated.'))
-
-    return redirect(obj)
+    return perform_update(request, obj)
 
 
 @login_required
