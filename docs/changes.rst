@@ -17,6 +17,7 @@ Released on ? 2014.
 * Added support for disabling translation suggestions.
 * Django 1.7 support.
 * ACL projects now have user management.
+* Extended search possibilites.
 
 weblate 1.9
 -----------

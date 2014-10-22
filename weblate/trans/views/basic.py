@@ -117,6 +117,7 @@ def search(request):
 
     if search_form.is_valid():
         units = Unit.objects.search(
+            None,
             search_form.cleaned_data,
         ).select_related(
             'translation',

@@ -41,38 +41,6 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
 
 
-def get_filter_name(rqtype):
-    '''
-    Returns name of current filter.
-    '''
-    if rqtype == 'fuzzy':
-        return _('Fuzzy strings')
-    elif rqtype == 'untranslated':
-        return _('Untranslated strings')
-    elif rqtype == 'suggestions':
-        return _('Strings with suggestions')
-    elif rqtype == 'allchecks':
-        return _('Strings with any failing checks')
-    elif rqtype == 'sourcecomments':
-        return _('Strings with comments')
-    elif rqtype == 'targetcomments':
-        return _('Strings with comments')
-    elif rqtype in CHECKS:
-        return CHECKS[rqtype].name
-
-
-def get_search_name(search_type, search_query):
-    '''
-    Returns name for search.
-    '''
-    if search_type == 'ftx':
-        return _('Fulltext search for "%s"') % search_query
-    elif search_type == 'exact':
-        return _('Search for exact string "%s"') % search_query
-    else:
-        return _('Substring search for "%s"') % search_query
-
-
 def cleanup_session(session):
     '''
     Deletes old search results from session storage.
@@ -120,8 +88,6 @@ def search(translation, request):
         return request.session[search_id]
 
     # Possible new search
-    rqtype = request.GET.get('type', 'all')
-
     search_form = SearchForm(request.GET)
     review_form = ReviewForm(request.GET)
 
@@ -141,29 +107,22 @@ def search(translation, request):
     elif search_form.is_valid():
         # Apply search conditions
         allunits = translation.unit_set.search(
+            translation,
             search_form.cleaned_data,
         )
 
         search_query = search_form.cleaned_data['q']
-        name = get_search_name(
-            search_form.cleaned_data['search'],
-            search_query,
-        )
+        name = search_form.get_name()
     else:
         # Error reporting
         if 'date' in request.GET:
             show_form_errors(request, review_form)
-        elif 'q' in request.GET:
+        elif 'q' in request.GET or 'type' in request.GET:
             show_form_errors(request, search_form)
 
         # Filtering by type
-        allunits = translation.unit_set.filter_type(
-            rqtype,
-            translation,
-            ignored='ignored' in request.GET
-        )
-
-        name = get_filter_name(rqtype)
+        allunits = translation.unit_set.all()
+        name = _('All strings')
 
     # Grab unit IDs
     unit_ids = list(allunits.values_list('id', flat=True))

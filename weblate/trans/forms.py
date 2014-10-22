@@ -20,7 +20,7 @@
 
 from django import forms
 from django.utils.translation import (
-    ugettext_lazy as _, ugettext, pgettext_lazy
+    ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
@@ -30,6 +30,7 @@ from crispy_forms.helper import FormHelper
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
+from weblate.trans.checks import CHECKS
 from urllib import urlencode
 import weblate
 
@@ -393,6 +394,7 @@ class SearchForm(forms.Form):
     q = forms.CharField(
         label=_('Query'),
         min_length=2,
+        required=False,
     )
     search = forms.ChoiceField(
         label=_('Search type'),
@@ -419,6 +421,27 @@ class SearchForm(forms.Form):
         required=False,
         initial=False
     )
+    type = forms.ChoiceField(
+        label=_('Search filter'),
+        required=False,
+        choices=[
+            ('all', _('All strings')),
+            ('untranslated', _('Untranslated strings')),
+            ('fuzzy', _('Fuzzy strings')),
+            ('suggestions', _('Strings with suggestions')),
+            ('targetcomments', _('Strings with comments')),
+            ('allchecks', _('Strings with any failing checks')),
+        ] + [
+            (check, CHECKS[check].description)
+            for check in CHECKS if CHECKS[check].target
+        ],
+    )
+    ignored = forms.BooleanField(
+        widget=forms.HiddenInput,
+        label=_('Show ignored checks as well'),
+        required=False,
+        initial=False
+    )
 
     def clean(self):
         '''
@@ -426,9 +449,11 @@ class SearchForm(forms.Form):
         '''
         cleaned_data = super(SearchForm, self).clean()
 
-        # Default to fulltext
+        # Default to fulltext / all strings
         if 'search' in cleaned_data and cleaned_data['search'] == '':
             cleaned_data['search'] = 'ftx'
+        if 'type' in cleaned_data and cleaned_data['type'] == '':
+            cleaned_data['type'] = 'all'
 
         # Default to source and target search
         if (not cleaned_data['src']
@@ -443,18 +468,62 @@ class SearchForm(forms.Form):
         '''
         Encodes query string to be used in URL.
         '''
-        query = {
-            'q': self.cleaned_data['q'].encode('utf-8'),
-            'search': self.cleaned_data['search'],
-        }
-        if self.cleaned_data['src']:
-            query['src'] = 'on'
-        if self.cleaned_data['tgt']:
-            query['tgt'] = 'on'
-        if self.cleaned_data['ctx']:
-            query['ctx'] = 'on'
+        query = {}
+
+        if self.cleaned_data['q']:
+            query['q'] = self.cleaned_data['q'].encode('utf-8')
+            query['search'] = self.cleaned_data['search']
+            if self.cleaned_data['src']:
+                query['src'] = 'on'
+            if self.cleaned_data['tgt']:
+                query['tgt'] = 'on'
+            if self.cleaned_data['ctx']:
+                query['ctx'] = 'on'
+
+        if self.cleaned_data['type'] != 'all':
+            query['type'] = self.cleaned_data['type']
+            if self.cleaned_data['ignored']:
+                query['ignored'] = 'true'
 
         return urlencode(query)
+
+    def get_name(self):
+        """
+        Returns verbose name for a search.
+        """
+        search_name = ''
+        filter_name = ''
+
+        search_query = self.cleaned_data['q']
+        search_type = self.cleaned_data['search']
+        search_filter = self.cleaned_data['type']
+
+        if search_query:
+            if search_type == 'ftx':
+                search_name = _('Fulltext search for "%s"') % search_query
+            elif search_type == 'exact':
+                search_name = _('Search for exact string "%s"') % search_query
+            else:
+                search_name = _('Substring search for "%s"') % search_query
+
+        if search_filter != 'all' or search_name == '':
+            for choice in self.fields['type'].choices:
+                if choice[0] == search_filter:
+                    filter_name = choice[1]
+                    break
+
+        if search_name and filter_name:
+            return pgettext(
+                'String to concatenate search and filter names',
+                '{filter_name}, {search_name}'
+            ).format(
+                search_name=search_name,
+                filter_name=filter_name
+            )
+        elif search_name:
+            return search_name
+        else:
+            return filter_name
 
 
 class MergeForm(ChecksumForm):

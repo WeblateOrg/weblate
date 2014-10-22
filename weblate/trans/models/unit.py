@@ -86,6 +86,9 @@ class UnitManager(models.Manager):
         Filtering for checks.
         """
 
+        if translation is None:
+            return self.all()
+
         # Filter checks for current project
         checks = Check.objects.filter(
             project=translation.subproject.project,
@@ -133,6 +136,8 @@ class UnitManager(models.Manager):
         elif rqtype == 'suggestions':
             return self.filter(has_suggestion=True)
         elif rqtype == 'sourcecomments':
+            if translation is None:
+                return self.all()
             coms = Comment.objects.filter(
                 language=None,
                 project=translation.subproject.project
@@ -196,10 +201,24 @@ class UnitManager(models.Manager):
         ).exclude(user=user)
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
-    def search(self, params):
+    def search(self, translation, params):
         """
         High level wrapper for searching.
         """
+
+        print 'SEARCH', params
+
+        if params['type'] != 'all':
+            base = self.filter_type(
+                params['type'],
+                translation,
+                params['ignored']
+            )
+        else:
+            base = self.all()
+
+        if not params['q']:
+            return base
 
         if params['search'] in ('exact', 'substring'):
             queries = []
@@ -223,17 +242,18 @@ class UnitManager(models.Manager):
                 Q()
             )
 
-            return self.filter(query)
+            return base.filter(query)
         else:
-            return self.fulltext(
-                params['q'],
-                params['src'],
-                params['ctx'],
-                params['tgt']
+            return base.filter(
+                checksum__in=self.fulltext(
+                    params['q'],
+                    params['src'],
+                    params['ctx'],
+                    params['tgt']
+                )
             )
 
-    def fulltext(self, query, source=True, context=True, translation=True,
-                 checksums=False):
+    def fulltext(self, query, source=True, context=True, translation=True):
         """
         Performs full text search on defined set of fields.
 
@@ -243,10 +263,7 @@ class UnitManager(models.Manager):
         lang = self.all()[0].translation.language.code
         ret = fulltext_search(query, lang, source, context, translation)
 
-        if checksums:
-            return ret
-
-        return self.filter(checksum__in=ret)
+        return ret
 
     def same_source(self, unit):
         """
