@@ -217,7 +217,15 @@ def show_check_subproject(request, name, project, subproject):
     if ignore:
         url_params = '?ignored=true'
 
+    if check.source:
+        return redirect(
+            'review_source',
+            project=subprj.project.slug,
+            subprj=subproject.slug,
+        )
+
     units = Unit.objects.none()
+
     if check.target:
         langs = Check.objects.filter(
             check=name,
@@ -243,22 +251,6 @@ def show_check_subproject(request, name, project, subproject):
             ).annotate(count=Count('id'))
             units |= res
 
-    source_checks = []
-    if check.source:
-        checks = Check.objects.filter(
-            check=name, project=subprj.project,
-            language=None,
-            ignore=ignore,
-        ).values_list('contentsum', flat=True)
-        lang = subprj.translation_set.all()[0].language
-        res = Unit.objects.filter(
-            translation__subproject=subprj,
-            contentsum__in=checks,
-            translation__language=lang
-        ).count()
-        if res > 0:
-            source_checks.append(res)
-
     counts = {}
     for unit in units:
         key = unit['translation__language__code']
@@ -279,8 +271,6 @@ def show_check_subproject(request, name, project, subproject):
         'check_subproject.html',
         {
             'checks': units,
-            'source_checks': source_checks,
-            'anychecks': len(units) + len(source_checks) > 0,
             'title': '%s/%s' % (subprj.__unicode__(), check.name),
             'check': check,
             'subproject': subprj,
