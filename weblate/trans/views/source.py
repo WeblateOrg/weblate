@@ -51,10 +51,7 @@ def review_source(request, project, subproject):
     ignored = 'ignored' in request.GET
 
     # Filter units:
-    if rqtype == 'all':
-        sources = source.unit_set.all()
-    else:
-        sources = source.unit_set.filter_type(rqtype, source, ignored)
+    sources = source.unit_set.filter_type(rqtype, source, ignored)
 
     paginator = Paginator(sources, limit)
 
