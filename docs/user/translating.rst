@@ -44,6 +44,28 @@ preferences, translation to these languages will be shown.
 Bellow translation can be also shown suggestions from other users, which you
 can accept or delete.
 
+.. _plurals:
+
+Plurals
++++++++
+
+What are plurals? Generally spoken plurals are words which take into account
+numeric meanings. But as you may imagine each language has it's own definition
+of plurals. English, for example, supports one plural. We have a singular
+definition, for example "car", which means implicit one car, and we have the
+plural definition, "cars" which could mean more than one car but also zero
+cars. Other languages like Czech or Arabic have more plurals and also the
+rules for plurals are different.
+
+Weblate does have support for translating these and offers you one field to
+translate every plural separately. The number of fields and how it is used in
+the translated application depends on plural equation which is different for
+every language. Weblate shows the basic information, but you can find more
+detailed description in the `Language Plural Rules`_ from the Unicode
+Consortium.
+
+.. _Language Plural Rules: http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+
 Keyboard shortcuts
 ++++++++++++++++++
 

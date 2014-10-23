@@ -58,6 +58,10 @@ EDITOR_TEMPLATE = u'''
 {3}
 </div>
 '''
+PLURALS_TEMPLATE = u'''
+<p class="help-block pull-right flip"><a href="{0}">{1}</a></p>
+<p class="help-block">{2}</p>
+'''
 
 SPECIAL_CHARS = (u'→', u'↵', u'…')
 CHAR_NAMES = {
@@ -205,7 +209,11 @@ class PluralTextarea(forms.Textarea):
                 ugettext('Plural equation'),
                 lang.pluralequation
             )
-            pluralmsg = u'<p class="help-block">{0}</p>'.format(pluralinfo)
+            pluralmsg = PLURALS_TEMPLATE.format(
+                weblate.get_doc_url('user/translating', 'plurals'),
+                ugettext('Documentation for plurals.'),
+                pluralinfo
+            )
 
         # Join output
         return mark_safe(''.join(ret) + pluralmsg)
