@@ -66,6 +66,8 @@ Consortium.
 
 .. _Language Plural Rules: http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
 
+.. image:: ../images/plurals.png
+
 Keyboard shortcuts
 ++++++++++++++++++
 
