@@ -24,8 +24,6 @@ from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
 from importlib import import_module
-import time
-import random
 import os
 import urlparse
 

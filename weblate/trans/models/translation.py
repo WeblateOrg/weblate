@@ -42,7 +42,6 @@ from weblate.trans.models.unitdata import Check, Suggestion, Comment
 from weblate.trans.util import (
     get_site_url, translation_percent, split_plural,
 )
-from weblate.trans.vcs import RepositoryException
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.trans.boolean_sum import BooleanSum
