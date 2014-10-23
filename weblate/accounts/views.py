@@ -31,6 +31,10 @@ from django.utils import translation
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
+try:
+    from django.contrib.auth import update_session_auth_hash
+except ImportError:
+    update_session_auth_hash
 from urllib import urlencode
 
 from weblate.accounts.forms import (
@@ -481,6 +485,11 @@ def password(request):
                 form.cleaned_data['password1']
             )
             request.user.save()
+
+            # Update session hash for Django 1.7
+            if update_session_auth_hash:
+                update_session_auth_hash(request, request.user)
+
             messages.success(
                 request,
                 _('Your password has been changed.')
