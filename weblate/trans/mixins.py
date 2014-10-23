@@ -127,6 +127,11 @@ class LoggerMixin(object):
     def log_prefix(self):
         return 'default: '
 
+    def log_debug(self, msg, *args):
+        return weblate.logger.debug(
+            self.log_prefix + msg, *args
+        )
+
     def log_info(self, msg, *args):
         return weblate.logger.info(
             self.log_prefix + msg, *args

@@ -28,6 +28,7 @@ from django.core.cache import cache
 from django.utils import timezone
 from glob import glob
 import os
+import time
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
@@ -542,7 +543,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.log_info('updating repository')
         try:
             with self.repository_lock:
+                start = time.time()
                 self.repository.update_remote()
+                timediff = time.time() - start
+                self.log_info('update took %.2f seconds:', timediff)
+                for line in self.repository.last_output.splitlines():
+                    self.log_debug('update: %s', line)
         except RepositoryException as error:
             error_text = str(error)
             self.log_error('failed to update repository: %s', error_text)
