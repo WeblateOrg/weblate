@@ -648,7 +648,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Do actual push
         try:
             self.log_info('pushing to remote repo')
-            self.repository.push(self.branch)
+            with self.repository_lock:
+                self.repository.push(self.branch)
             return True
         except RepositoryException as error:
             self.log_error('failed to push on repo')
@@ -676,24 +677,24 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.update_remote_branch()
 
         # Do actual reset
-        with self.repository_lock:
-            try:
-                self.log_info('reseting to remote repo')
+        try:
+            self.log_info('reseting to remote repo')
+            with self.repository_lock:
                 self.repository.reset(self.branch)
-            except RepositoryException as error:
-                self.log_error('failed to reset on repo')
-                msg = 'Error:\n%s' % str(error)
-                mail_admins(
-                    'failed reset on repo %s' % self.__unicode__(),
-                    msg
+        except RepositoryException as error:
+            self.log_error('failed to reset on repo')
+            msg = 'Error:\n%s' % str(error)
+            mail_admins(
+                'failed reset on repo %s' % self.__unicode__(),
+                msg
+            )
+            if request is not None:
+                messages.error(
+                    request,
+                    _('Failed to reset to remote branch on %s.') %
+                    self.__unicode__()
                 )
-                if request is not None:
-                    messages.error(
-                        request,
-                        _('Failed to reset to remote branch on %s.') %
-                        self.__unicode__()
-                    )
-                return False
+            return False
 
         # create translation objects for all files
         self.create_translations(request=request)
