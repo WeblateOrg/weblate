@@ -16,7 +16,7 @@ Translate-toolkit (>= 1.9.0, 1.10.0 or newer strongly recommended)
     http://toolkit.translatehouse.org/
 Git (>= 1.6)
     http://git-scm.com/
-python-social-auth (>= 0.1.17, < 0.1.24)
+python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
 Whoosh (>= 2.5, 2.5.2 is recommended)
     http://bitbucket.org/mchaput/whoosh/

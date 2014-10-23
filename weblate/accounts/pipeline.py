@@ -29,13 +29,13 @@ from weblate import appsettings
 
 
 @partial
-def require_email(strategy, details, user=None, is_new=False, **kwargs):
+def require_email(strategy, backend, details, user=None, is_new=False, **kwargs):
     '''
     Forces entering email for backends which don't provide it.
     '''
     if user and user.email:
         # Force validation of new email address
-        if strategy.backend.name == 'email':
+        if backend.name == 'email':
             return {'is_new': True}
 
         return
@@ -48,12 +48,12 @@ def require_email(strategy, details, user=None, is_new=False, **kwargs):
             return redirect('register')
 
 
-def send_validation(strategy, code):
+def send_validation(strategy, backend, code):
     '''
     Sends verification email.
     '''
     url = '{}?verification_code={}'.format(
-        reverse('social:complete', args=(strategy.backend.name,)),
+        reverse('social:complete', args=(backend.name,)),
         code.code
     )
 
@@ -68,13 +68,13 @@ def send_validation(strategy, code):
     )
 
 
-def verify_open(strategy, user, **kwargs):
+def verify_open(backend, user, **kwargs):
     '''
     Checks whether it is possible to create new user.
     '''
 
     if not user and not appsettings.REGISTRATION_OPEN:
-        raise AuthForbidden(strategy.backend)
+        raise AuthForbidden(backend)
 
 
 def store_email(strategy, user, social, details, **kwargs):

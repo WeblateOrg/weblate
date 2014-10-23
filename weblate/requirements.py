@@ -108,7 +108,7 @@ def get_versions():
         name,
         url,
         mod.__version__,
-        '0.1.17',
+        '0.2.0',
     ))
 
     name = 'Translate Toolkit'
