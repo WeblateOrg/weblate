@@ -455,23 +455,21 @@ def password(request):
 
     do_change = False
 
-    if request.user.has_usable_password():
-        if request.method == 'POST':
-            change_form = PasswordChangeForm(request.POST)
-            if change_form.is_valid():
-                cur_password = change_form.cleaned_data['password']
-                if request.user.check_password(cur_password):
-                    do_change = True
-                else:
-                    messages.error(
-                        request,
-                        _('You have entered an invalid password.')
-                    )
-        else:
-            change_form = PasswordChangeForm()
-    else:
+    if not request.user.has_usable_password():
         do_change = True
         change_form = None
+    elif request.method == 'POST':
+        change_form = PasswordChangeForm(request.POST)
+        if change_form.is_valid():
+            cur_password = change_form.cleaned_data['password']
+            do_change = request.user.check_password(cur_password)
+            if not do_change:
+                messages.error(
+                    request,
+                    _('You have entered an invalid password.')
+                )
+    else:
+        change_form = PasswordChangeForm()
 
     if request.method == 'POST':
         form = PasswordForm(request.POST)
