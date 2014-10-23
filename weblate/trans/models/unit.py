@@ -137,9 +137,7 @@ class UnitManager(models.Manager):
             return self.filter(translated=True)
         elif rqtype == 'suggestions':
             return self.filter(has_suggestion=True)
-        elif rqtype == 'sourcecomments':
-            if translation is None:
-                return self.all()
+        elif rqtype == 'sourcecomments' and translation is not None:
             coms = Comment.objects.filter(
                 language=None,
                 project=translation.subproject.project
