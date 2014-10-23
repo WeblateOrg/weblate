@@ -20,7 +20,6 @@
 
 from django.utils.translation import ugettext as _
 from django.contrib import messages
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
@@ -47,6 +46,18 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     return redirect_param(obj, '#repository')
 
 
+def perform_commit(request, obj):
+    """
+    Helper function to do the repository commmit.
+    """
+    return execute_locked(
+        request,
+        obj,
+        _('All pending translations were committed.'),
+        obj.commit_pending,
+    )
+
+
 def perform_update(request, obj):
     """
     Helper function to do the repository update.
@@ -60,37 +71,52 @@ def perform_update(request, obj):
     )
 
 
+def perform_push(request, obj):
+    """
+    Helper function to do the repository push.
+    """
+    return execute_locked(
+        request,
+        obj,
+        _('All repositories were pushed.'),
+        obj.do_push
+    )
+
+
+def perform_reset(request, obj):
+    """
+    Helper function to do the repository reset.
+    """
+    return execute_locked(
+        request,
+        obj,
+        _('All repositories were pushed.'),
+        obj.do_reset
+    )
+
+
 @login_required
 @permission_required('trans.commit_translation')
 def commit_project(request, project):
     obj = get_project(request, project)
-    obj.commit_pending(request)
 
-    messages.success(request, _('All pending translations were committed.'))
-
-    return redirect(obj)
+    return perform_commit(request, obj)
 
 
 @login_required
 @permission_required('trans.commit_translation')
 def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
-    obj.commit_pending(request)
 
-    messages.success(request, _('All pending translations were committed.'))
-
-    return redirect(obj)
+    return perform_commit(request, obj)
 
 
 @login_required
 @permission_required('trans.commit_translation')
 def commit_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
-    obj.commit_pending(request)
 
-    messages.success(request, _('All pending translations were committed.'))
-
-    return redirect(obj)
+    return perform_commit(request, obj)
 
 
 @login_required
@@ -122,10 +148,7 @@ def update_translation(request, project, subproject, lang):
 def push_project(request, project):
     obj = get_project(request, project)
 
-    if obj.do_push(request):
-        messages.success(request, _('All repositories were pushed.'))
-
-    return redirect(obj)
+    return perform_push(request, obj)
 
 
 @login_required
@@ -133,10 +156,7 @@ def push_project(request, project):
 def push_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if obj.do_push(request):
-        messages.success(request, _('All repositories were pushed.'))
-
-    return redirect(obj)
+    return perform_push(request, obj)
 
 
 @login_required
@@ -144,10 +164,7 @@ def push_subproject(request, project, subproject):
 def push_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if obj.do_push(request):
-        messages.success(request, _('All repositories were pushed.'))
-
-    return redirect(obj)
+    return perform_push(request, obj)
 
 
 @login_required
@@ -155,10 +172,7 @@ def push_translation(request, project, subproject, lang):
 def reset_project(request, project):
     obj = get_project(request, project)
 
-    if obj.do_reset(request):
-        messages.success(request, _('All repositories have been reset.'))
-
-    return redirect(obj)
+    return perform_reset(request, obj)
 
 
 @login_required
@@ -166,10 +180,7 @@ def reset_project(request, project):
 def reset_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if obj.do_reset(request):
-        messages.success(request, _('All repositories have been reset.'))
-
-    return redirect(obj)
+    return perform_reset(request, obj)
 
 
 @login_required
@@ -177,7 +188,4 @@ def reset_subproject(request, project, subproject):
 def reset_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if obj.do_reset(request):
-        messages.success(request, _('All repositories have been reset.'))
-
-    return redirect(obj)
+    return perform_reset(request, obj)
