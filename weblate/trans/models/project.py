@@ -363,7 +363,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         Updates all git repos.
         """
-        ret = False
+        ret = True
         for resource in self.subproject_set.all():
             ret &= resource.do_update(request, method=method)
         return ret
