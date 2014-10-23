@@ -34,7 +34,7 @@ from django.views.generic import TemplateView
 try:
     from django.contrib.auth import update_session_auth_hash
 except ImportError:
-    update_session_auth_hash
+    update_session_auth_hash = None
 from urllib import urlencode
 
 from weblate.accounts.forms import (
