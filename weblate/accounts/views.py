@@ -32,9 +32,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 try:
+    # Not supported in Django 1.6
+    # pylint: disable=E0611
     from django.contrib.auth import update_session_auth_hash
 except ImportError:
-    update_session_auth_hash
+    update_session_auth_hash = None
 from urllib import urlencode
 
 from weblate.accounts.forms import (
@@ -455,23 +457,21 @@ def password(request):
 
     do_change = False
 
-    if request.user.has_usable_password():
-        if request.method == 'POST':
-            change_form = PasswordChangeForm(request.POST)
-            if change_form.is_valid():
-                cur_password = change_form.cleaned_data['password']
-                if request.user.check_password(cur_password):
-                    do_change = True
-                else:
-                    messages.error(
-                        request,
-                        _('You have entered an invalid password.')
-                    )
-        else:
-            change_form = PasswordChangeForm()
-    else:
+    if not request.user.has_usable_password():
         do_change = True
         change_form = None
+    elif request.method == 'POST':
+        change_form = PasswordChangeForm(request.POST)
+        if change_form.is_valid():
+            cur_password = change_form.cleaned_data['password']
+            do_change = request.user.check_password(cur_password)
+            if not do_change:
+                messages.error(
+                    request,
+                    _('You have entered an invalid password.')
+                )
+    else:
+        change_form = PasswordChangeForm()
 
     if request.method == 'POST':
         form = PasswordForm(request.POST)
