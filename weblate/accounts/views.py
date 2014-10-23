@@ -32,6 +32,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 try:
+    # Not supported in Django 1.6
+    # pylint: disable=E0611
     from django.contrib.auth import update_session_auth_hash
 except ImportError:
     update_session_auth_hash = None
