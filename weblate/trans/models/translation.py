@@ -40,7 +40,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Check, Suggestion, Comment
 from weblate.trans.util import (
-    get_site_url, sleep_while_git_locked, translation_percent, split_plural,
+    get_site_url, translation_percent, split_plural,
 )
 from weblate.trans.vcs import RepositoryException
 from weblate.accounts.avatar import get_user_display
@@ -879,13 +879,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             author
         )
         with self.subproject.repository_lock:
-            try:
-                self.__git_commit(author, timestamp, sync)
-            except RepositoryException:
-                # There might be another attempt on commit in same time
-                # so we will sleep a bit an retry
-                sleep_while_git_locked()
-                self.__git_commit(author, timestamp, sync)
+            self.__git_commit(author, timestamp, sync)
 
         # Push if we should
         if (self.subproject.project.push_on_commit

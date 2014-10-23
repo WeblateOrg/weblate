@@ -79,13 +79,6 @@ def get_site_url(url=''):
     )
 
 
-def sleep_while_git_locked():
-    '''
-    Random sleep to perform when git repository is locked.
-    '''
-    time.sleep(random.random() * 2)
-
-
 def load_class(name):
     '''
     Imports module and creates class given by name in string.
