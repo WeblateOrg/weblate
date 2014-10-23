@@ -412,6 +412,32 @@ DOUBLE_CLOSE = {
     'zgh': u'»',
 }
 
+HYPHEN_LANGS = frozenset((
+    'af', 'am', 'ar', 'ast', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de',
+    'dsb', 'dz', 'ee', 'el', 'en', 'eo', 'es', 'fa', 'fi', 'fr', 'fy', 'gd',
+    'gl', 'gu', 'he', 'hr', 'hsb', 'id', 'is', 'ja', 'ka', 'kk', 'kn', 'ko',
+    'ksh', 'ky', 'lb', 'lkt', 'lt', 'lv', 'mk', 'mn', 'mr', 'nl', 'os', 'pa',
+    'pl', 'pt', 'ro', 'ru', 'sk', 'sr', 'sv', 'ta', 'th', 'to', 'tr', 'uz',
+    'vi', 'vo', 'yi', 'zh',
+))
+
+EN_DASH_LANGS = frozenset((
+    'af', 'am', 'ar', 'ast', 'az', 'bg', 'bs', 'ca', 'cs', 'cy', 'da', 'de',
+    'dsb', 'dz', 'ee', 'el', 'en', 'eo', 'es', 'fi', 'fr', 'fy', 'gd', 'gl',
+    'gu', 'he', 'hr', 'hsb', 'hu', 'id', 'is', 'ka', 'kk', 'kn', 'ksh', 'ky',
+    'lb', 'lkt', 'lt', 'lv', 'mk', 'mn', 'mr', 'nb', 'nl', 'os', 'pa', 'pl',
+    'pt', 'ro', 'ru', 'sk', 'sr', 'sv', 'ta', 'th', 'to', 'tr', 'uk', 'uz',
+    'vi', 'vo', 'yi', 'zh',
+))
+
+EM_DASH_LANGS = frozenset((
+    'af', 'ar', 'ast', 'az', 'bg', 'bs', 'ca', 'cy', 'de', 'dsb', 'dz', 'ee',
+    'el', 'en', 'eo', 'es', 'fr', 'fy', 'gd', 'gl', 'gu', 'he', 'hr', 'hsb',
+    'id', 'is', 'it', 'ja', 'ka', 'kk', 'kn', 'ko', 'ksh', 'ky', 'lb', 'lkt',
+    'lt', 'lv', 'mk', 'mn', 'mr', 'nl', 'os', 'pa', 'pl', 'pt', 'ro', 'ru',
+    'sv', 'ta', 'th', 'to', 'tr', 'uz', 'vi', 'vo', 'yi', 'zh',
+))
+
 
 def get_quote(code, data, name):
     """
@@ -439,3 +465,12 @@ def get_special_chars(language):
     yield get_quote(code, DOUBLE_CLOSE, _('Closing double quote'))
     yield get_quote(code, SINGLE_OPEN, _('Opening single quote'))
     yield get_quote(code, SINGLE_CLOSE, _('Closing single quote'))
+
+    if code in HYPHEN_LANGS:
+        yield _('Hyphen'), u'-'
+
+    if code in EN_DASH_LANGS:
+        yield _('En dash'), u'–'
+
+    if code in EM_DASH_LANGS:
+        yield _('Em dash'), u'—'
