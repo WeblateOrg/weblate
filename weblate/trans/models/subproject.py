@@ -417,7 +417,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
             self._repository_lock = FileLock(
                 lock_path,
-                timeout=20
+                timeout=30
             )
         return self._repository_lock
 
