@@ -31,6 +31,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
+from weblate.trans.specialchars import get_special_chars
 from urllib import urlencode
 import weblate
 
@@ -62,13 +63,6 @@ PLURALS_TEMPLATE = u'''
 <p class="help-block pull-right flip"><a href="{0}">{1}</a></p>
 <p class="help-block">{2}</p>
 '''
-
-SPECIAL_CHARS = (u'→', u'↵', u'…')
-CHAR_NAMES = {
-    u'→': _('Insert tab character'),
-    u'↵': _('Insert new line'),
-    u'…': _('Insert horizontal ellipsis'),
-}
 
 
 def escape_newline(value):
@@ -108,11 +102,7 @@ class PluralTextarea(forms.Textarea):
 
         # Special chars
         chars = []
-        for char in SPECIAL_CHARS:
-            if char in CHAR_NAMES:
-                name = CHAR_NAMES[char]
-            else:
-                name = ugettext('Insert character {0}').format(char)
+        for name, char in get_special_chars():
             chars.append(
                 BUTTON_TEMPLATE.format(
                     'specialchar',
