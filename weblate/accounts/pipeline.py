@@ -29,7 +29,8 @@ from weblate import appsettings
 
 
 @partial
-def require_email(strategy, backend, details, user=None, is_new=False, **kwargs):
+def require_email(strategy, backend, details, user=None, is_new=False,
+                  **kwargs):
     '''
     Forces entering email for backends which don't provide it.
     '''
