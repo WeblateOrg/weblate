@@ -48,6 +48,7 @@ class Repository(object):
 
     def __init__(self, path):
         self.path = path
+        self.last_output = ''
         if not self.is_valid():
             self.init()
 
@@ -79,7 +80,8 @@ class Repository(object):
         return output
 
     def execute(self, args):
-        return self._popen(args, self.path)
+        self.last_output = self._popen(args, self.path)
+        return self.last_output
 
     @property
     def last_revision(self):
