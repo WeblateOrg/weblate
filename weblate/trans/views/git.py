@@ -90,7 +90,7 @@ def perform_reset(request, obj):
     return execute_locked(
         request,
         obj,
-        _('All repositories were pushed.'),
+        _('All repositories have been reset.'),
         obj.do_reset
     )
 
