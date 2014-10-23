@@ -102,7 +102,7 @@ class PluralTextarea(forms.Textarea):
 
         # Special chars
         chars = []
-        for name, char in get_special_chars():
+        for name, char in get_special_chars(language):
             chars.append(
                 BUTTON_TEMPLATE.format(
                     'specialchar',
