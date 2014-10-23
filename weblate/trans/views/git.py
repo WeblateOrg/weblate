@@ -26,6 +26,38 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 from weblate.trans.filelock import FileLockException
+from weblate.trans.util import redirect_param
+
+
+def execute_locked(request, obj, message, call, *args, **kwargs):
+    """
+    Helper function to catch possible lock exception.
+    """
+    try:
+        result = call(request, *args, **kwargs)
+        # With False the call is supposed to show errors on it's own
+        if result is None or result:
+            messages.success(request, message)
+    except FileLockException:
+        messages.error(
+            request,
+            _('Failed to lock the repository, another operation in progress.')
+        )
+
+    return redirect_param(obj, '#repository')
+
+
+def perform_update(request, obj):
+    """
+    Helper function to do the repository update.
+    """
+    return execute_locked(
+        request,
+        obj,
+        _('All repositories were updated.'),
+        obj.do_update,
+        method=request.GET.get('method', None)
+    )
 
 
 @login_required
@@ -57,22 +89,6 @@ def commit_translation(request, project, subproject, lang):
     obj.commit_pending(request)
 
     messages.success(request, _('All pending translations were committed.'))
-
-    return redirect(obj)
-
-
-def perform_update(request, obj):
-    """
-    Helper function to do the repository update.
-    """
-    try:
-        if obj.do_update(request, method=request.GET.get('method', None)):
-            messages.success(request, _('All repositories were updated.'))
-    except FileLockException:
-        messages.error(
-            request,
-            _('Failed to update repository, another update in progress.')
-        )
 
     return redirect(obj)
 
