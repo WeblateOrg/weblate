@@ -204,6 +204,9 @@ SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.store_email',
 )
 
+# Custom authentication strategy
+SOCIAL_AUTH_STRATEGY = 'weblate.accounts.strategy.WeblateStrategy'
+
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = \
     'weblate.accounts.pipeline.send_validation'
 SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX

@@ -63,8 +63,13 @@ REGISTRATION_DATA = {
 
 
 class RegistrationTest(TestCase, RegistrationTestMixin):
+    clear_cookie = False
+
     def assert_registration(self):
         url = self.assert_registration_mailbox()
+
+        if self.clear_cookie:
+            del self.client.cookies['sessionid']
 
         # Confirm account
         response = self.client.get(url, follow=True)
@@ -179,6 +184,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             response,
             'Invalid value'
         )
+
+class NoCookieRegistrationTest(RegistrationTest):
+    clear_cookie = True
 
 
 class CommandTest(TestCase):

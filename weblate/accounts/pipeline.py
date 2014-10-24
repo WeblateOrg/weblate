@@ -53,9 +53,15 @@ def send_validation(strategy, backend, code):
     '''
     Sends verification email.
     '''
-    url = '{}?verification_code={}'.format(
+
+    # We need to have existing session
+    if not strategy.request.session.session_key:
+        strategy.request.session.create()
+
+    url = '{}?verification_code={}&id={}'.format(
         reverse('social:complete', args=(backend.name,)),
-        code.code
+        code.code,
+        strategy.request.session.session_key
     )
 
     send_notification_email(

@@ -167,7 +167,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             (self.live_server_url, self.assert_registration_mailbox())
         )
 
-    def test_register(self):
+    def test_register(self, clear=False):
         """
         Test registration.
         """
@@ -175,6 +175,10 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         appsettings.REGISTRATION_CAPTCHA = False
 
         url = self.register_user()
+
+        # Delete all cookies
+        if clear:
+            self.driver.delete_all_cookies()
 
         # Confirm account
         self.driver.get(url)
@@ -196,28 +200,8 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
     def test_register_nocookie(self):
         """
         Test registration without cookies.
-
-        See https://github.com/nijel/weblate/issues/518
         """
-        # We don't want captcha
-        appsettings.REGISTRATION_CAPTCHA = False
-
-        url = self.register_user()
-
-        # Delete all cookies
-        self.driver.delete_all_cookies()
-
-        # Confirm account
-        self.driver.get(url)
-
-        # Check we've failed
-        self.assertTrue(
-            'Missing needed parameter email' in
-            self.driver.find_element_by_class_name('social-auth').text
-        )
-
-        # Restore
-        appsettings.REGISTRATION_CAPTCHA = True
+        self.test_register(True)
 
 
 # What other platforms we want to test
