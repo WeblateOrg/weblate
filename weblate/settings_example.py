@@ -59,8 +59,6 @@ DATABASES = {
         'HOST': '127.0.0.1',
         # Set to empty string for default. Not used with sqlite3.
         'PORT': '',
-        # We want transactions on SQLite
-        'ATOMIC_REQUESTS': True,
     }
 }
 
@@ -201,6 +199,7 @@ SOCIAL_AUTH_PIPELINE = (
     'weblate.accounts.pipeline.verify_open',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
+    'social.pipeline.debug.debug',
     'social.pipeline.social_auth.load_extra_data',
     'weblate.accounts.pipeline.user_full_name',
     'weblate.accounts.pipeline.store_email',
