@@ -185,6 +185,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Invalid value'
         )
 
+
 class NoCookieRegistrationTest(RegistrationTest):
     clear_cookie = True
 
