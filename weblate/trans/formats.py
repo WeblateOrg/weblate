@@ -435,10 +435,13 @@ class FileFormat(object):
         )
 
     def _find_unit_template(self, context):
+        uid = context
+        if isinstance(self, JSONFormat):
+            uid = '.'+uid
         # Need to create new unit based on template
-        template_ttkit_unit = self.template_store.findid(context)
+        template_ttkit_unit = self.template_store.findid(uid)
         # We search by ID when using template
-        ttkit_unit = self.store.findid(context)
+        ttkit_unit = self.store.findid(uid)
         # We always need new unit to translate
         if ttkit_unit is None:
             ttkit_unit = template_ttkit_unit
