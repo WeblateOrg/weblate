@@ -2,7 +2,9 @@ from django.test import LiveServerTestCase
 from django.utils.unittest import SkipTest
 from selenium import webdriver
 from django.core.urlresolvers import reverse
+from django.core import mail
 from django.contrib.auth.models import User
+import time
 import django
 import os
 import new
@@ -162,6 +164,14 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         self.driver.find_element_by_xpath(
             '//input[@value="Register"]'
         ).click()
+
+        # Wait for registration email
+        loops = 0
+        while len(mail.outbox) == 0:
+            time.sleep(1)
+            loops += 1
+            if loops > 20:
+                break
 
         return ''.join(
             (self.live_server_url, self.assert_registration_mailbox())
