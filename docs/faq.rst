@@ -203,6 +203,22 @@ For Gettext PO files, you have to pass parameter ``--previous`` to
 For monolingual translations, Weblate can find the previous string by ID, so it
 shows the differences automatically.
 
+Why does Weblate still shows old translation strings when I've updated the template?
+------------------------------------------------------------------------------------
+
+Weblate does not try to manipulate with the translation files in any other way
+than allowing translators to translate. So it also does not update the
+translatable files when the template or source code has been changed. You
+simply have to do this manually and push changes to the repository, Weblate
+will then pick up the changes automatically.
+
+For example with Gettext PO files, you can update the translation files using
+the :command:`msgmerge` tool:
+
+.. code-block:: sh
+
+    msgmerge -U locale/cs/LC_MESSAGES/django.mo locale/django.pot
+
 Troubleshooting
 +++++++++++++++
 
