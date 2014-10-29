@@ -212,6 +212,12 @@ translatable files when the template or source code has been changed. You
 simply have to do this manually and push changes to the repository, Weblate
 will then pick up the changes automatically.
 
+.. note::
+
+    It is usually good idea to merge changed done in Weblate before updating
+    translation files as otherwise you will usually end up with some conflicts
+    to merge.
+
 For example with Gettext PO files, you can update the translation files using
 the :command:`msgmerge` tool:
 
