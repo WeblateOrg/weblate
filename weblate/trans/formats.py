@@ -845,6 +845,14 @@ class JSONFormat(FileFormat):
     format_id = 'json'
     loader = ('jsonl10n', 'JsonFile')
 
+    def _find_unit_template(self, context):
+        """
+        We need to prepend . here to get proper ID.
+        """
+        return super(JSONFormat, self)._find_unit_template(
+            '.' + context
+        )
+
 
 FILE_FORMAT_CHOICES = [
     (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
