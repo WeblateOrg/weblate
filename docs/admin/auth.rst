@@ -209,7 +209,8 @@ Additionally you can limit users access to individual projects. This feature is
 enabled by :guilabel:`Enable ACL` at Project configuration. Once you enable
 this, users without specific privilege 
 (:guilabel:`trans | project | Can access project NAME`) can not access this
-project.
+project. An user group with same name as a project is also automatically
+created to ease you management of the privilege.
 
 To allow access to this project, you have to add the privilege to do so either
 directly to given user or group of users in Django admin interface. Or using
