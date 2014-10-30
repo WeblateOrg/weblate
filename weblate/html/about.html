@@ -30,10 +30,12 @@
 <div class="panel-body">
 <p>
 {% trans "This Weblate instance hosts translations for various free software projects." %}
-{% url 'hosting' as contact_url %}
-{% blocktrans %}We can host your project as well, if you are interested, please <a href="{{ contact_url }}?subject=Project hosting">contact us</a>.{% endblocktrans %}
+{% blocktrans %}We can host your project as well, if you are interested, please contact us.{% endblocktrans %}
 </p>
 </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
+  </div>
 </div>
 </div>
 {% endif %}
