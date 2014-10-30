@@ -100,7 +100,7 @@ class TranslationManager(models.Manager):
 
         # Catch no translations (division by zero)
         if total == 0 or total is None:
-            return (0, 0, 0)
+            return (100, 0, 0)
 
         # Fetch values
         result = [

@@ -102,11 +102,32 @@ base file for monolingual translations.
 You can also specify file format to use (see :ref:`formats`) by the
 ``--file-format`` parameter. The default is autodetection.
 
-For example:
+To give you some examples, let's try importing two projects.
+
+As first we import The Debian Handbook translations, where each language has
+separate folder with translations of each chapter:
 
 .. code-block:: sh
 
-    ./manage.py import_project debian-handbook git://anonscm.debian.org/debian-handbook/debian-handbook.git squeeze/master '*/**.po'
+    ./manage.py import_project \
+        debian-handbook \
+        git://anonscm.debian.org/debian-handbook/debian-handbook.git \
+        squeeze/master \
+        '*/**.po'
+
+Another example can be Tanaguru tool, where we need to specify file format,
+base file template and has all resources and translations located in single
+folder:
+
+.. code-block:: sh
+
+    ./manage.py import_project \
+        --file-format=properties \
+        --base-file-template=web-app/tgol-web-app/src/main/resources/i18n/%s-I18N.properties \
+        tanaguru \
+        https://github.com/Tanaguru/Tanaguru \
+        master \
+        web-app/tgol-web-app/src/main/resources/i18n/**-I18N_*.properties
 
 importuserdata <file.json>
 --------------------------
