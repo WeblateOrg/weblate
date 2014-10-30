@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-29 13:57+0100\n"
+"POT-Creation-Date: 2014-10-30 10:41+0100\n"
 "PO-Revision-Date: 2014-10-10 17:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -361,33 +361,7 @@ msgstr ""
 "href=\"%(weblate_url)s\"> weblate.org</a> で、ウェブサイトを確認してくださ"
 "い。"
 
-#: weblate/html/about.html:29
-#, fuzzy
-#| msgid "Your translations"
-msgid "Hosting translations"
-msgstr "対象言語が存在しているプロジェクト"
-
-#: weblate/html/about.html:32
-msgid ""
-"This Weblate instance hosts translations for various free software projects."
-msgstr ""
-"この Weblate インスタンスをホストして様々 なフリーソフトのプロジェクトのため"
-"の翻訳。"
-
-#: weblate/html/about.html:34
-#, python-format
-msgid ""
-"We can host your project as well, if you are interested, please <a href="
-"\"%(contact_url)s?subject=Project hosting\">contact us</a>."
-msgstr ""
-"あなたのプロジェクトをホストすることもできますので、関心をおもちであれば、<a "
-"href=\"%(contact_url)s?subject=Project hosting\">連絡</a>してください。"
-
-#: weblate/html/about.html:43 weblate/trans/models/advertisement.py:37
-msgid "Donate to Weblate"
-msgstr "Weblate に寄付する"
-
-#: weblate/html/about.html:45
+#: weblate/html/about.html:21
 #, fuzzy
 msgid ""
 "Weblate is free software created by volunteers, but you can still support "
@@ -396,57 +370,86 @@ msgstr ""
 "Weblate は、ボランティアによって作成された無料のソフトウェアがまだ財政的にサ"
 "ポートすることができます。"
 
-#: weblate/html/about.html:48
+#: weblate/html/about.html:25
 msgid "Flattr Weblate!"
 msgstr "Weblate に Flattr する！"
 
-#: weblate/html/about.html:49 weblate/html/footer.html:10
+#: weblate/html/about.html:26 weblate/html/footer.html:10
 msgid "Donate to Weblate!"
 msgstr "Weblate に寄付する！"
 
-#: weblate/html/about.html:58
+#: weblate/html/about.html:35
+#, fuzzy
+#| msgid "Your translations"
+msgid "Hosting translations"
+msgstr "対象言語が存在しているプロジェクト"
+
+#: weblate/html/about.html:38
+msgid ""
+"This Weblate instance hosts translations for various free software projects."
+msgstr ""
+"この Weblate インスタンスをホストして様々 なフリーソフトのプロジェクトのため"
+"の翻訳。"
+
+#: weblate/html/about.html:39
+#, fuzzy
+#| msgid ""
+#| "We can host your project as well, if you are interested, please <a href="
+#| "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
+msgid ""
+"We can host your project as well, if you are interested, please contact us."
+msgstr ""
+"あなたのプロジェクトをホストすることもできますので、関心をおもちであれば、<a "
+"href=\"%(contact_url)s?subject=Project hosting\">連絡</a>してください。"
+
+#: weblate/html/about.html:43 weblate/html/accounts/hosting.html:21
+#: weblate/html/index.html:100
+msgid "Ask for project hosting"
+msgstr "プロジェクトのホスティングを求める"
+
+#: weblate/html/about.html:54
 msgid "Versions"
 msgstr "バージョン"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:57
 msgid "This site is built using following projects:"
 msgstr "このサイトは、以下のプロジェクトを使用して構築されています。"
 
-#: weblate/html/about.html:80 weblate/html/data.html:48
+#: weblate/html/about.html:76 weblate/html/data.html:48
 #: weblate/html/index.html:35 weblate/html/translation.html:25
 #: weblate/html/translation.html.py:266
 msgid "Statistics"
 msgstr "統計情報"
 
-#: weblate/html/about.html:85
+#: weblate/html/about.html:81
 msgid "Strings to translate"
 msgstr "翻訳する文字列"
 
-#: weblate/html/about.html:89
+#: weblate/html/about.html:85
 msgid "Words to translate"
 msgstr "翻訳する単語"
 
-#: weblate/html/about.html:93
+#: weblate/html/about.html:89
 msgid "Used languages"
 msgstr "利用中の言語数"
 
-#: weblate/html/about.html:97
+#: weblate/html/about.html:93
 msgid "Registered users"
 msgstr "登録ユーザ数"
 
-#: weblate/html/about.html:101 weblate/html/user-activity.html:3
+#: weblate/html/about.html:97 weblate/html/user-activity.html:3
 msgid "Suggestions made"
 msgstr "提案数"
 
-#: weblate/html/about.html:105 weblate/html/user-activity.html:7
+#: weblate/html/about.html:101 weblate/html/user-activity.html:7
 msgid "Translations made"
 msgstr "翻訳数"
 
-#: weblate/html/about.html:109
+#: weblate/html/about.html:105
 msgid "Failing checks found"
 msgstr "チェック失敗の検出数"
 
-#: weblate/html/about.html:113 weblate/html/project.html:30
+#: weblate/html/about.html:109 weblate/html/project.html:30
 msgid "Ignored checks"
 msgstr "無視されたチェックの数"
 
@@ -519,10 +522,6 @@ msgid ""
 msgstr ""
 "プロジェクトがこのサイトにホスティング プロジェクトの対象かどうかを事前に確認"
 "してください。"
-
-#: weblate/html/accounts/hosting.html:21 weblate/html/index.html:100
-msgid "Ask for project hosting"
-msgstr "プロジェクトのホスティングを求める"
 
 #: weblate/html/accounts/hosting.html:34
 msgid "Conditions for free hosting"
@@ -4113,6 +4112,10 @@ msgstr "Weblate に寄付する！"
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr ""
+
+#: weblate/trans/models/advertisement.py:37
+msgid "Donate to Weblate"
+msgstr "Weblate に寄付する"
 
 #: weblate/trans/models/advertisement.py:38
 msgid "Support Weblate using GitTip"
