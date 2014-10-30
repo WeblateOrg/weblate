@@ -490,7 +490,9 @@ def add_user(request, project):
 
     form = AddUserForm(request.POST)
 
-    if form.is_valid():
+    if not obj.enable_acl:
+        messages.error(request, _('ACL not enabled for this project!'))
+    elif form.is_valid():
         try:
             user = User.objects.get(
                 Q(username=form.cleaned_data['name']) |
