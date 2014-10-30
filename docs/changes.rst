@@ -18,6 +18,11 @@ Released on ? 2014.
 * Django 1.7 support.
 * ACL projects now have user management.
 * Extended search possibilites.
+* Give more hints to translators about plurals.
+* Fixed Git repository locking.
+* Compatibility with older Git versions.
+* Improved ACL support.
+* Added buttons for per language quotes and other special chars.
 
 weblate 1.9
 -----------
