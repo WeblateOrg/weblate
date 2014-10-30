@@ -219,7 +219,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         # No units?
         if self.total == 0:
-            return (0, 0, 0)
+            return (100, 0, 0)
 
         return (
             translation_percent(self.translated, self.total),
