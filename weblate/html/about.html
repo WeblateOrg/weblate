@@ -9,7 +9,7 @@
 {% block content %}
 
 <div class="row">
-<div class="col-md-{% if offer_hosting %}4{% else %}6{% endif %}">
+<div class="col-md-{% if offer_hosting %}6{% else %}12{% endif %}">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "About Weblate" %}</h4></div>
 <div class="panel-body">
@@ -18,13 +18,19 @@
 
 <p>{% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at <a href="{{ weblate_url }}">weblate.org</a>.{% endblocktrans %}</p>
 
+<p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially.{% endblocktrans %}</p>
+
+</div>
+<div class="panel-footer">
+<a class="btn btn-default" href="https://flattr.com/thing/571085/Weblate">{% trans "Flattr Weblate!" %}</a>
+<a class="btn btn-default" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4">{% trans "Donate to Weblate!" %}</a>
 </div>
 </div>
 </div>
 
 
 {% if offer_hosting %}
-<div class="col-md-4">
+<div class="col-md-6">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Hosting translations" %}</h4></div>
 <div class="panel-body">
@@ -40,18 +46,6 @@
 </div>
 {% endif %}
 
-<div class="col-md-{% if offer_hosting %}4{% else %}6{% endif %}">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Donate to Weblate" %}</h4></div>
-<div class="panel-body">
-<p>{% blocktrans %}Weblate is free software created by volunteers, but you can still support them financially.{% endblocktrans %}</p>
-</div>
-<div class="panel-footer">
-<a class="btn btn-default" href="https://flattr.com/thing/571085/Weblate">{% trans "Flattr Weblate!" %}</a>
-<a class="btn btn-default" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4">{% trans "Donate to Weblate!" %}</a>
-</div>
-</div>
-</div>
 </div>
 
 <div class="row">
