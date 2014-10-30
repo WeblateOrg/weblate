@@ -28,7 +28,7 @@
       {% endif %}
       <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
-      {% if perms.trans.manage_acl %}
+      {% if perms.trans.manage_acl and object.enable_acl %}
       <li><a href="#acl" data-toggle="tab">{% trans "Manage users" %}</a></li>
       {% endif %}
     </ul>
@@ -143,7 +143,7 @@
 </div>
 {% endif %}
 
-{% if perms.trans.manage_acl %}
+{% if perms.trans.manage_acl and object.enable_acl %}
 <div class="tab-pane" id="acl">
 <div class="row">
 <div class="col-md-6">
