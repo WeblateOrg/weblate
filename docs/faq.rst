@@ -310,8 +310,11 @@ Features
 Does Weblate support other VCS than Git?
 ----------------------------------------
 
-Weblate does not have native support for anything else than Git, however Git is
-versatile system, which allows plugging in `remote helpers`_ for other VCS as well.
+Weblate currently does not have native support for anything else than Git, but
+it is possible to write backends for other VCSes.
+
+You can also use Git `remote helpers`_ for supporting other VCS as well, but
+this usually leads to smaller or bigger problems, so be prepared to debug them.
 
 At this time, helpers for Bazaar and Mercurial are available within separate
 repositories on GitHub: `git-remote-hg`_ and `git-remote-bzr`_. You can
