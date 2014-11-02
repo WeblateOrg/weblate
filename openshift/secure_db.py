@@ -25,7 +25,7 @@ from django.conf import settings
 settings.configure()
 
 import os, sqlite3
-from openshiftlibs import make_secure_key, get_openshift_secret_token
+from openshift.openshiftlibs import make_secure_key, get_openshift_secret_token
 from hashlib import sha256
 from django.contrib.auth.hashers import make_password
 
