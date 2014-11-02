@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# Copyright © 2014 Daniel Tschan <tschan@puzzle.ch>
+#
+# This file is part of Weblate <http://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Work around https://bugzilla.redhat.com/show_bug.cgi?id=1157830
+for file in ~/.env/user_vars/*; do
+  key=$(basename $file)
+  export $key="$(< $file)"
+done
+
+AGE=""
+if [ "$WEBLATE_PENDING_AGE" ]; then
+  if [ $WEBLATE_PENDING_AGE -gt 0 ]; then
+    AGE="--age=$WEBLATE_PENDING_AGE"
+  else
+    exit 0
+  fi
+fi
+
+source ${OPENSHIFT_HOMEDIR}/python/virtenv/bin/activate
+python ${OPENSHIFT_REPO_DIR}/openshift/manage.py commit_pending --all $AGE
