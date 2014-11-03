@@ -40,6 +40,17 @@ Using prebuilt appliance
 #. Everything should be set up immediately after boot, though you will want
    to adjust some settings to improve security, see :ref:`appliance`.
 
+Installing on OpenShift
+-----------------------
+
+#. You can install Weblate on OpenShift PaaS directly from its git repository using the OpenShift Client Tools:
+
+   .. parsed-literal::
+
+        rhc -aweblate app create -t python-2.7 --from-code \https://github.com/nijel/weblate.git#weblate-|version| --no-git
+
+#. After installation everything should be preconfigured and you can immediately start to add a translation
+   project as described below. For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.
 
 Adding translation
 ------------------

@@ -606,6 +606,182 @@ You should also adjust some settings to match your environment, namely:
 * :ref:`production-site`
 * :ref:`production-email`
 
+.. _openshift:
+
+Weblate on OpenShift
+--------------------
+
+This repository contains a configuration for the OpenShift platform as a service product, which facilitates easy installation
+of Weblate on OpenShift Online (https://openshift.com), OpenShift Enterprise (https://www.openshift.com/products/enterprise)
+and OpenShift Origin (https://www.openshift.com/products/origin).
+
+Prerequisites
++++++++++++++
+
+1. OpenShift Account
+
+   You need an account for OpenShift Online (https://openshift.com) or another OpenShift installation you have access to.
+
+   You can register a free account on OpenShift Online, which allows you to host up to 3 applications free of charge.
+
+2. OpenShift Client Tools
+
+   In order to follow the examples given in this documentation you need to have the OpenShift Client Tools (RHC) installed:
+   https://developers.openshift.com/en/getting-started-client-tools.html.
+
+   While there are other possibilities to create and configure OpenShift applications, this documentation is based
+   on the OpenShift Client Tools (RHC) because they provide a consistent interface for all described operations.
+
+Installation
+++++++++++++
+
+You can install Weblate on OpenShift directly from Weblate's github repository with the following command:
+
+.. parsed-literal::
+
+    rhc -aweblate app create -t python-2.7 --from-code \https://github.com/nijel/weblate.git#weblate-|version| --no-git
+
+The ``-a`` option defines the name of your weblate installation, ``weblate`` in this instance. You are free to specify a different name.
+The identifier right of the ``#`` sign identifies the version of Weblate to install.  For a list of available versions see here:
+https://github.com/nijel/weblate/tags. Please note that only version 2.0 and newer can be installed on OpenShift,
+as older versions don't include the necessary configuration files. The ``--no-git`` option skips the creation of a local git repository.
+
+Default Configuration
++++++++++++++++++++++
+
+After installation on OpenShift Weblate is ready to use and preconfigured as follows:
+
+* SQLite embedded database (DATABASES)
+* Random admin password
+* Random Django secret key (SECRET_KEY)
+* Indexing offloading if the cron cartridge is installed (OFFLOAD_INDEXING)
+* Committing of pending changes if the cron cartridge is installed (commit_pending)
+* Weblate machine translations for suggestions bases on previous translations (MACHINE_TRANSLATION_SERVICES)
+* Source language for machine translations set to "en-us" (SOURCE_LANGUAGE)
+* Weblate directories (STATIC_ROOT, GIT_ROOT, TTF_PATH, WHOOSH_INDEX, HOME, Avatar cache) set according to OpenShift requirements/conventions
+* Django site name and ALLOWED_HOSTS set to DNS name of your OpenShift application
+* Email sender addresses set to no-reply@<OPENSHIFT_CLOUD_DOMAIN>, where <OPENSHIFT_CLOUD_DOMAIN> is the domain OpenShift runs under. In case of OpenShift Online it's rhcloud.com.
+
+.. seealso:: :ref:`customize_config`
+
+Retrieve Admin Password
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can retrieve the generated admin password with the following command:
+
+.. code-block:: sh
+
+    rhc -aweblate ssh credentials
+
+Indexing Offloading
+~~~~~~~~~~~~~~~~~~~
+
+To enable the preconfigured indexing offloading you need to add the cron cartridge to your application and restart it:
+
+.. code-block:: sh
+
+    rhc -aweblate add-cartridge cron
+    rhc -aweblate app stop
+    rhc -aweblate app start
+
+The fulltext search index will then be updated every 5 minutes.
+Restarting with ``rhc restart`` instead will not enable indexing offloading in Weblate.
+You can verify that indexing offloading is indeed enabled by visiting the URL ``/admin/performance/`` of your application.
+
+Pending Changes
+~~~~~~~~~~~~~~~
+
+Weblate's OpenShift configuration contains a cron job which periodically commits pending changes older than a certain age (24h by default).
+To enable the cron job you need to add the cron cartridge and restart Weblate as described in the previous section. You can change the age
+parameter by setting the environment variable WEBLATE_PENDING_AGE to the desired number of hours, e.g.:
+
+.. code-block:: sh
+
+    rhc -aweblate env set WEBLATE_PENDING_AGE=48
+
+.. _customize_config:
+
+Customize Weblate Configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can customize the configuration of your Weblate installation on OpenShift through environment variables.
+Override any of Weblate's setting documented under :ref:`config` using ``rhc env set`` by prepending the settings name with ``WEBLATE_``.
+For example override the ``ADMINS`` setting like this:
+
+.. code-block:: sh
+
+    rhc -aweblate env set WEBLATE_ADMINS='(("John Doe", "jdoe@example.org"),)'
+
+New settings will only take effect after restarting Weblate:
+
+.. code-block:: sh
+
+    rhc -aweblate app stop
+    rhc -aweblate app start
+
+Restarting using ``rhc -aweblate app restart`` does not work. For security reasons only constant expressions are allowed as values.
+With the exception of environment variables which can be referenced using ``${ENV_VAR}``. For example:
+
+.. code-block:: sh
+
+    rhc -aweblate env set WEBLATE_PRE_COMMIT_SCRIPTS='("${OPENSHIFT_DATA_DIR}/examples/hook-generate-mo",)'
+
+You can check the effective settings Weblate is using by running:
+
+.. code-block:: sh
+
+    rhc -aweblate ssh settings
+
+This will also print syntax errors in your expressions.
+To reset a setting to its preconfigured value just delete the corresponding environment variable:
+
+.. code-block:: sh
+
+   rhc -aweblate env unset WEBLATE_ADMINS
+
+.. seealso:: :ref:`config`
+
+Updating
+++++++++
+
+It is recommended that you try updates on a clone of your Weblate installation before running the actual update.
+To create such a clone run:
+
+.. code-block:: sh
+
+    rhc -aweblate2 app create --from-app weblate
+
+Visit the newly given URL with a browser and wait for the install/update page to disappear.
+
+You can update your Weblate installation on OpenShift directly from Weblate's github repository by executing:
+
+.. parsed-literal::
+
+    rhc -aweblate2 ssh update \https://github.com/nijel/weblate.git#weblate-|version|
+
+The identifier right of the ``#`` sign identifies the version of Weblate to install.
+For a list of available versions see here: https://github.com/nijel/weblate/tags.
+Please note that the update process will not work if you modified the git repository of you weblate installation.
+You can force an update by specifying the ``--force`` option to the update script. However any changes you made to the
+git repository of your installation will be discarded:
+
+.. parsed-literal::
+
+   rhc -aweblate2 ssh update --force \https://github.com/nijel/weblate.git#weblate-|version|
+
+The ``--force`` option is also needed when downgrading to an older version.
+Please note that only version 2.0 and newer can be installed on OpenShift,
+as older versions don't include the necessary configuration files.
+
+The update script takes care of the following update steps as described under :ref:`generic-upgrade-instructions`.
+
+* Install any new requirements
+* manage.py syncdb
+* manage.py migrate
+* manage.py setupgroups --move
+* manage.py setuplang
+* manage.py rebuild_index --all
+
 Migrating Weblate to another server
 -----------------------------------
 
