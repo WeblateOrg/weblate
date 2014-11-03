@@ -58,8 +58,9 @@ CACHES = {
     },
     'avatar': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION':
-            os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'avatar-cache'),
+        'LOCATION': os.path.join(
+            os.environ['OPENSHIFT_DATA_DIR'], 'avatar-cache'
+        ),
         'TIMEOUT': 604800,
         'OPTIONS': {
             'MAX_ENTRIES': 1000,
