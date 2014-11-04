@@ -299,6 +299,11 @@ $(function () {
         $(this).closest('tr').find('.expander').first().click();
     });
 
+    /* Auto expand expander */
+    $('.auto-expand').each(function () {
+        $(this).click()
+    });
+
     /* Load correct tab */
     if (location.hash !== '') {
         var activeTab = $('[data-toggle=tab][href=' + location.hash + ']');

@@ -389,7 +389,10 @@
     <th>{% trans "String priority" %}</th>
     </tr>
     <tr>
-    <td>{{ unit.source_info.get_priority_display }}</td>
+    <td>
+    {{ unit.source_info.get_priority_display }}
+    {% if perms.trans.edit_priority %} <a class="button smallbutton" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}
+    </td>
     </tr>
     {% with unit.active_source_checks as checks %}
     {% if checks %}

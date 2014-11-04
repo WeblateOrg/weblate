@@ -48,10 +48,16 @@ def review_source(request, project, subproject):
     rqtype = request.GET.get('type', 'all')
     limit = request.GET.get('limit', 50)
     page = request.GET.get('page', 1)
+    checksum = request.GET.get('checksum', '')
     ignored = 'ignored' in request.GET
+    expand = False
 
     # Filter units:
-    sources = source.unit_set.filter_type(rqtype, source, ignored)
+    if checksum:
+        sources = source.unit_set.filter(checksum=checksum)
+        expand = True
+    else:
+        sources = source.unit_set.filter_type(rqtype, source, ignored)
 
     paginator = Paginator(sources, limit)
 
@@ -73,6 +79,7 @@ def review_source(request, project, subproject):
             'page_obj': sources,
             'rqtype': rqtype,
             'ignored': ignored,
+            'expand': True,
             'title': _('Review source strings in %s') % obj.__unicode__(),
         }
     )
