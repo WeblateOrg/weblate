@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-10-30 10:41+0100\n"
+"POT-Creation-Date: 2014-11-04 12:09+0100\n"
 "PO-Revision-Date: 2014-11-03 18:53+0200\n"
 "Last-Translator: Marc Delisle <marc@infomarc.info>\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -343,10 +343,15 @@ msgid "About Weblate"
 msgstr "À propos de Weblate"
 
 #: weblate/html/about.html:17
+#, fuzzy
+#| msgid ""
+#| "Weblate is a web based translation tool with tight Git integration. It "
+#| "features simple and clean user interface, propagation of translations "
+#| "across resources, quality checks and automatic linking to source files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
-"resources, quality checks and automatic linking to source files."
+"components, quality checks and automatic linking to source files."
 msgstr ""
 "Weblate est un outil de traduction sur le web fortement lié avec Git. Il "
 "comporte une interface utilisateur simple, permet la propagation de "
@@ -391,9 +396,6 @@ msgstr ""
 "logiciel libre."
 
 #: weblate/html/about.html:39
-#| msgid ""
-#| "We can host your project as well, if you are interested, please <a href="
-#| "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
 msgstr ""
@@ -656,6 +658,7 @@ msgstr "Licences"
 #: weblate/html/accounts/profile.html:91
 #: weblate/html/accounts/profile.html:106 weblate/html/edit_dictionary.html:24
 #: weblate/html/js/detail.html:39 weblate/html/translate.html:78
+#: weblate/html/translate.html.py:296
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -2084,9 +2087,8 @@ msgstr ""
 #: weblate/html/index.html:32 weblate/html/search-form.html:6
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:7
 #: weblate/html/translate.html:125 weblate/html/translate.html.py:230
-#: weblate/html/translate.html:235 weblate/html/translate.html.py:296
-#: weblate/html/translation.html:22 weblate/html/translation.html.py:229
-#: weblate/html/translation.html:234
+#: weblate/html/translate.html:235 weblate/html/translation.html:22
+#: weblate/html/translation.html.py:229 weblate/html/translation.html:234
 msgid "Search"
 msgstr "Rechercher"
 
@@ -2700,12 +2702,14 @@ msgid "Status widgets"
 msgstr "Widgets de statut"
 
 #: weblate/html/project.html:61
-msgid "Resources"
-msgstr "Ressources"
+#, fuzzy
+#| msgid "Comments"
+msgid "Components"
+msgstr "Commentaires"
 
 #: weblate/html/project.html:67 weblate/html/translate.html:205
-msgid "Resource"
-msgstr "Ressource"
+msgid "Component"
+msgstr ""
 
 #: weblate/html/project.html:93 weblate/html/source.html:36
 #: weblate/html/subproject.html:72 weblate/html/translation.html:115
@@ -3033,7 +3037,6 @@ msgid "Manage glossary"
 msgstr "Gérer le glossaire"
 
 #: weblate/html/translate.html:368
-#| msgid "More information"
 msgid "Source information"
 msgstr "Information sur la source"
 
@@ -3094,16 +3097,17 @@ msgid "Strings"
 msgstr "Chaînes"
 
 #: weblate/html/translation.html:155
+#, fuzzy
 #| msgid ""
 #| "Automatic translation takes existing translations in this project and "
-#| "applies it to the current subproject. It can be used to push translations "
+#| "applies it to the current resource. It can be used to push translations "
 #| "to a different branch, to fix inconsistent translations or to translate "
-#| "new subproject using translation memory."
+#| "new resource using translation memory."
 msgid ""
 "Automatic translation takes existing translations in this project and "
-"applies it to the current resource. It can be used to push translations to a "
-"different branch, to fix inconsistent translations or to translate new "
-"resource using translation memory."
+"applies them to the current component. It can be used to push translations "
+"to a different branch, to fix inconsistent translations or to translate a "
+"new component using translation memory."
 msgstr ""
 "La traduction automatique prend les traductions de ce projet et les applique "
 "à la ressource courante. Elle peut être utilisée pour propager les "
@@ -3204,7 +3208,6 @@ msgstr "Fichier de traduction"
 
 #: weblate/html/unit-details.html:30
 #, python-format
-#| msgid "New translation in %(translation)s"
 msgid "%(filename)s, translation unit %(position)s"
 msgstr "%(filename)s, unité de traduction %(position)s"
 
@@ -3642,11 +3645,11 @@ msgstr "Disparité des balises XML"
 msgid "XML tags in translation do not match source"
 msgstr "Les balises XML dans la traduction ne correspondent pas à la source"
 
-#: weblate/trans/checks/same.py:957
+#: weblate/trans/checks/same.py:960
 msgid "Not translated"
 msgstr "Non traduit"
 
-#: weblate/trans/checks/same.py:958
+#: weblate/trans/checks/same.py:961
 msgid "Source and translated strings are same"
 msgstr "La chaîne source est identique à la chaîne traduite"
 
@@ -3738,7 +3741,6 @@ msgid "JSON file"
 msgstr "Fichier JSON"
 
 #: weblate/trans/forms.py:96
-#| msgid "New source string"
 msgid "Fill in with source string"
 msgstr "Remplir avec la chaîne source"
 
@@ -3759,7 +3761,6 @@ msgid "Plural equation"
 msgstr "Équation pour le pluriel"
 
 #: weblate/trans/forms.py:204
-#| msgid "Documentation"
 msgid "Documentation for plurals."
 msgstr "Documentation pour les pluriels."
 
@@ -3852,12 +3853,12 @@ msgstr "Rechercher dans les chaînes de contexte"
 msgid "Search filter"
 msgstr "Filtre de recherche"
 
-#: weblate/trans/forms.py:426 weblate/trans/models/translation.py:979
-#: weblate/trans/models/translation.py:1027 weblate/trans/views/edit.py:125
+#: weblate/trans/forms.py:426 weblate/trans/models/translation.py:980
+#: weblate/trans/models/translation.py:1028 weblate/trans/views/edit.py:125
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: weblate/trans/forms.py:427 weblate/trans/models/translation.py:1038
+#: weblate/trans/forms.py:427 weblate/trans/models/translation.py:1039
 msgid "Untranslated strings"
 msgstr "Chaînes non traduites"
 
@@ -3865,21 +3866,21 @@ msgstr "Chaînes non traduites"
 msgid "Translated strings"
 msgstr "Chaînes traduites"
 
-#: weblate/trans/forms.py:429 weblate/trans/models/translation.py:1048
+#: weblate/trans/forms.py:429 weblate/trans/models/translation.py:1049
 msgid "Fuzzy strings"
 msgstr "Chaînes floues"
 
-#: weblate/trans/forms.py:430 weblate/trans/models/translation.py:1057
+#: weblate/trans/forms.py:430 weblate/trans/models/translation.py:1058
 msgid "Strings with suggestions"
 msgstr "Chaînes avec suggestions"
 
-#: weblate/trans/forms.py:431 weblate/trans/models/translation.py:1013
-#: weblate/trans/models/translation.py:1089
+#: weblate/trans/forms.py:431 weblate/trans/models/translation.py:1014
+#: weblate/trans/models/translation.py:1090
 msgid "Strings with comments"
 msgstr "Chaînes avec commentaires"
 
-#: weblate/trans/forms.py:432 weblate/trans/models/translation.py:990
-#: weblate/trans/models/translation.py:1066
+#: weblate/trans/forms.py:432 weblate/trans/models/translation.py:991
+#: weblate/trans/models/translation.py:1067
 msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications échouées"
 
@@ -3917,7 +3918,9 @@ msgid "Replace inconsistent"
 msgstr "Remplacer ce qui est incohérent"
 
 #: weblate/trans/forms.py:557
-msgid "Subproject to use"
+#, fuzzy
+#| msgid "Subproject to use"
+msgid "Component to use"
 msgstr "Sous-projet à utiliser"
 
 #: weblate/trans/forms.py:576
@@ -3971,8 +3974,6 @@ msgid "Source string comment, suggestions to change this string"
 msgstr ""
 
 #: weblate/trans/forms.py:672
-#| msgid ""
-#| "You can share comments about this translation with other translators."
 msgid "Translation comment, discussions with other translators"
 msgstr "Commentaires de traduction, discussions avec les autres traducteurs"
 
@@ -4162,7 +4163,6 @@ msgstr ""
 "la documentation."
 
 #: weblate/trans/models/project.py:123
-#| msgid "Enable ACL"
 msgid "Enable hooks"
 msgstr "Activer les points d'ancrage"
 
@@ -4221,16 +4221,19 @@ msgid "Merge"
 msgstr "Fusionner"
 
 #: weblate/trans/models/subproject.py:80
-msgid "Resource name"
-msgstr "Nom de la ressource"
+#, fuzzy
+#| msgid "Comment added"
+msgid "Component name"
+msgstr "Commentaire ajouté"
 
 #: weblate/trans/models/subproject.py:97
+#, fuzzy
 #| msgid ""
-#| "URL of Git repository, use weblate://project/subproject for sharing with "
-#| "other subproject."
+#| "URL of Git repository, use weblate://project/resource for sharing with "
+#| "other resource."
 msgid ""
-"URL of Git repository, use weblate://project/resource for sharing with other "
-"resource."
+"URL of Git repository, use weblate://project/component for sharing with "
+"other component."
 msgstr ""
 "URL du référentiel Git, utilisez weblate://projet/sousprojet pour le "
 "partager avec une autre ressource."
@@ -4348,8 +4351,9 @@ msgid "Locked"
 msgstr "Verrouillé"
 
 #: weblate/trans/models/subproject.py:205
-#| msgid "Whether subproject is locked for translation updates."
-msgid "Whether resource is locked for translation updates."
+#, fuzzy
+#| msgid "Whether resource is locked for translation updates."
+msgid "Whether component is locked for translation updates."
 msgstr "Pour verrouiller la ressource lors de sa mise à jour."
 
 #: weblate/trans/models/subproject.py:209
@@ -4357,11 +4361,12 @@ msgid "Allow translation propagation"
 msgstr "Permettre la propagation de la traduction"
 
 #: weblate/trans/models/subproject.py:212
+#, fuzzy
 #| msgid ""
-#| "Whether translation updates in other subproject will cause automatic "
-#| "translation in this project"
+#| "Whether translation updates in other resources will cause automatic "
+#| "translation in this one"
 msgid ""
-"Whether translation updates in other resources will cause automatic "
+"Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
 "Pour déclencher la traductions automatique ici lors de la mise à jour de "
@@ -4380,7 +4385,6 @@ msgid "Enable suggestions"
 msgstr "Autoriser les suggestions"
 
 #: weblate/trans/models/subproject.py:227
-#| msgid "Machine translation suggestions"
 msgid "Whether to allow translation suggestions at all."
 msgstr "Pour autoriser toutes les suggestions de traduction."
 
@@ -4534,12 +4538,13 @@ msgid "The mask did not match any files!"
 msgstr "Le masque ne correspond à aucun fichier !"
 
 #: weblate/trans/models/subproject.py:924
+#, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
-#| "subprojects for translating different resources."
+#| "resources for translating different resources."
 msgid ""
 "There are more files for single language, please adjust the mask and use "
-"resources for translating different resources."
+"components for translating different components."
 msgstr ""
 "Il y a d'autres fichiers pour une seule langue, veuillez ajuster le masque "
 "et utiliser des ressources pour traduire différentes ressources."
@@ -5020,23 +5025,29 @@ msgstr ""
 msgid "Failed to process new translation request!"
 msgstr "Échec du traitement de la requête de nouvelle langue !"
 
-#: weblate/trans/views/basic.py:501
+#: weblate/trans/views/basic.py:494
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "ACL not enabled for this project!"
+msgstr "L'utilisateur a été ajouté à ce projet."
+
+#: weblate/trans/views/basic.py:503
 msgid "User has been added to this project."
 msgstr "L'utilisateur a été ajouté à ce projet."
 
-#: weblate/trans/views/basic.py:504 weblate/trans/views/basic.py:534
+#: weblate/trans/views/basic.py:506 weblate/trans/views/basic.py:536
 msgid "No matching user found!"
 msgstr "Aucun utilisateur n'a été trouvé !"
 
-#: weblate/trans/views/basic.py:506 weblate/trans/views/basic.py:536
+#: weblate/trans/views/basic.py:508 weblate/trans/views/basic.py:538
 msgid "More users matched!"
 msgstr "D'autres utilisateurs ont été trouvés !"
 
-#: weblate/trans/views/basic.py:508 weblate/trans/views/basic.py:538
+#: weblate/trans/views/basic.py:510 weblate/trans/views/basic.py:540
 msgid "Invalid user specified!"
 msgstr "Utilisateur inconnu !"
 
-#: weblate/trans/views/basic.py:531
+#: weblate/trans/views/basic.py:533
 msgid "User has been removed from this project."
 msgstr "L'utilisateur a été retiré du projet."
 
@@ -5251,13 +5262,17 @@ msgid "Translation is now open for translation updates."
 msgstr "La traduction est maintenant ouverte aux mises à jour."
 
 #: weblate/trans/views/lock.py:81
-msgid "Subproject is now locked for translation updates!"
+#, fuzzy
+#| msgid "Subproject is now locked for translation updates!"
+msgid "Component is now locked for translation updates!"
 msgstr ""
 "Le sous-projet est maintenant bloqué pour les mises à jour de traduction !"
 
 #: weblate/trans/views/lock.py:97
-msgid "Subproject is now open for translation updates."
-msgstr "Le sous-projet est maintenant ouvert aux mises à jour de traduction."
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Component is now open for translation updates."
+msgstr "Le projet est maintenant ouvert pour les mises à jour de traduction."
 
 #: weblate/trans/views/lock.py:116
 msgid "All subprojects are now locked for translation updates!"
@@ -5324,6 +5339,19 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "traduit"
+
+#~ msgid "Resources"
+#~ msgstr "Ressources"
+
+#~ msgid "Resource"
+#~ msgstr "Ressource"
+
+#~ msgid "Resource name"
+#~ msgstr "Nom de la ressource"
+
+#~ msgid "Subproject is now open for translation updates."
+#~ msgstr ""
+#~ "Le sous-projet est maintenant ouvert aux mises à jour de traduction."
 
 #, fuzzy
 #~| msgid "Hosting site"
