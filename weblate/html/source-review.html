@@ -29,11 +29,11 @@
 {% for source in page_obj.object_list %}
 {% with source.get_source_comments as comments %}
 <tr>
-<td class="expander">
+<td class="expander {% if expand %}auto-expand{% endif %}">
 <a><span class="glyphicon glyphicon-chevron-right expand-icon"></span></a>
 </td>
 <td class="translatetext expander">{% format_translation source.source %}</td>
-<td>{{ source.source_info.get_priority_display }}{% if perms.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}</td>
+<td>{{ source.source_info.get_priority_display }}{% if perms.trans.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}</td>
 <td class="source-checks">
 {% if ignored %}
 {% show_checks source.source_checks user %}
