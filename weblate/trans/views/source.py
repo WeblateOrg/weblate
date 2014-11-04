@@ -79,7 +79,7 @@ def review_source(request, project, subproject):
             'page_obj': sources,
             'rqtype': rqtype,
             'ignored': ignored,
-            'expand': True,
+            'expand': expand,
             'title': _('Review source strings in %s') % obj.__unicode__(),
         }
     )
