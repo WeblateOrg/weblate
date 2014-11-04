@@ -328,6 +328,7 @@ def show_translation(request, project, subproject, lang):
                 'rss-translation',
                 kwargs=obj.get_kwargs(),
             ),
+            'show_only_component': True,
             'other_translations': Translation.objects.filter(
                 subproject__project=obj.subproject.project,
                 language=obj.language,
