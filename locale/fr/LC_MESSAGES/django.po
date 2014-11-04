@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-11-04 13:37+0100\n"
-"PO-Revision-Date: 2014-11-04 14:19+0200\n"
-"Last-Translator: Marc Delisle <marc@infomarc.info>\n"
+"PO-Revision-Date: 2014-11-04 18:23+0200\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French "
 "<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -352,10 +352,10 @@ msgid ""
 "features simple and clean user interface, propagation of translations across "
 "components, quality checks and automatic linking to source files."
 msgstr ""
-"Weblate est un outil de traduction sur le web fortement lié avec Git. Il "
-"comporte une interface utilisateur simple, permet de propager une traduction "
-"à travers les composantes, de vérifier la qualité des traductions et de se "
-"lier automatiquement aux fichiers sources."
+"Weblate est un outil de traduction qui fonctionne en mode web, possède une "
+"interface utilisateur simple et est fortement lié à Git. Weblate permet de "
+"propager les traductions entre sous-projets, de vérifier la qualité des "
+"traductions et assure automatiquement les échanges avec les fichiers sources."
 
 #: weblate/html/about.html:19 weblate/html/accounts/contact.html:14
 #, python-format
@@ -1101,6 +1101,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
+"Cette option peut vous aider à identifier les traductions délicates à "
+"réaliser."
 
 #: weblate/html/data-root.html:6 weblate/html/index.html:43
 #: weblate/html/share.html:30
@@ -2728,11 +2730,11 @@ msgstr "Widgets de statut"
 #: weblate/html/project.html:61
 #| msgid "Comments"
 msgid "Components"
-msgstr "Composantes"
+msgstr "Sous-projets"
 
 #: weblate/html/project.html:67 weblate/html/translate.html:205
 msgid "Component"
-msgstr ""
+msgstr "Sous-projet"
 
 #: weblate/html/project.html:93 weblate/html/source.html:36
 #: weblate/html/subproject.html:72 weblate/html/translation.html:115
@@ -3092,7 +3094,7 @@ msgstr "Télécharger le fichier source"
 
 #: weblate/html/translation.html:33
 msgid "Download for using within an application."
-msgstr ""
+msgstr "Télécharger pour l'utiliser dans une autre application."
 
 #: weblate/html/translation.html:33
 msgid "Download compiled translation"
@@ -3125,7 +3127,7 @@ msgstr "Chaînes"
 #: weblate/html/translation.html:128
 #| msgid "Comments"
 msgid "Other components"
-msgstr "Autres composantes"
+msgstr "Autres sous-projets"
 
 #: weblate/html/translation.html:155
 #| msgid ""
@@ -3140,10 +3142,10 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "La traduction automatique prend les traductions de ce projet et les applique "
-"à la composante courante. Elle peut être utilisée pour propager les "
+"au sous-projet courant. Elle peut être utilisée pour propager les "
 "traductions sur différentes branches, pour corriger des traductions "
-"incohérentes ou pour traduire une nouvelle composante en utilisant la "
-"mémoire de traduction."
+"incohérentes ou pour traduire un nouveau sous-projet en utilisant la mémoire "
+"de traduction."
 
 #: weblate/html/translation.html:162
 msgid "Process"
@@ -3948,7 +3950,6 @@ msgid "Replace inconsistent"
 msgstr "Remplacer ce qui est incohérent"
 
 #: weblate/trans/forms.py:557
-#, fuzzy
 #| msgid "Subproject to use"
 msgid "Component to use"
 msgstr "Sous-projet à utiliser"
@@ -4002,6 +4003,7 @@ msgstr ""
 #: weblate/trans/forms.py:668
 msgid "Source string comment, suggestions to change this string"
 msgstr ""
+"Commentaire sur la chaîne source : vous suggérer de modifier la chaîne source"
 
 #: weblate/trans/forms.py:672
 msgid "Translation comment, discussions with other translators"
@@ -4251,13 +4253,11 @@ msgid "Merge"
 msgstr "Fusionner"
 
 #: weblate/trans/models/subproject.py:80
-#, fuzzy
 #| msgid "Comment added"
 msgid "Component name"
-msgstr "Commentaire ajouté"
+msgstr "Nom du sous-projet"
 
 #: weblate/trans/models/subproject.py:97
-#, fuzzy
 #| msgid ""
 #| "URL of Git repository, use weblate://project/resource for sharing with "
 #| "other resource."
@@ -4265,14 +4265,13 @@ msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"URL du référentiel Git, utilisez weblate://projet/sousprojet pour le "
+"URL du référentiel Git, utilisez weblate://projet/sous-projet pour le "
 "partager avec une autre ressource."
 
 #: weblate/trans/models/subproject.py:102
-#, fuzzy
 #| msgid "Repository status"
 msgid "Repository push URL"
-msgstr "État du référentiel"
+msgstr "URL pour l'envoi du référentiel"
 
 #: weblate/trans/models/subproject.py:105
 #, fuzzy
@@ -5066,10 +5065,9 @@ msgid "Failed to process new translation request!"
 msgstr "Échec du traitement de la requête de nouvelle langue !"
 
 #: weblate/trans/views/basic.py:494
-#, fuzzy
 #| msgid "User has been added to this project."
 msgid "ACL not enabled for this project!"
-msgstr "L'utilisateur a été ajouté à ce projet."
+msgstr "La sécurité n'est pas active pour ce projet !"
 
 #: weblate/trans/views/basic.py:503
 msgid "User has been added to this project."
@@ -5302,17 +5300,15 @@ msgid "Translation is now open for translation updates."
 msgstr "La traduction est maintenant ouverte aux mises à jour."
 
 #: weblate/trans/views/lock.py:81
-#, fuzzy
 #| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
 msgstr ""
-"Le sous-projet est maintenant bloqué pour les mises à jour de traduction !"
+"Le projet est maintenant verrouillé pour les mises à jour de traduction !"
 
 #: weblate/trans/views/lock.py:97
-#, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
-msgstr "Le projet est maintenant ouvert pour les mises à jour de traduction."
+msgstr "Le projet est maintenant ouvert aux mises à jour de traduction."
 
 #: weblate/trans/views/lock.py:116
 msgid "All subprojects are now locked for translation updates!"
