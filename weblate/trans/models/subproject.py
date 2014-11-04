@@ -923,7 +923,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 raise ValidationError(_(
                     'There are more files for single language, please '
                     'adjust the mask and use components for translating '
-                    'different components.'
+                    'different resources.'
                 ))
             if lang.code in translated_langs:
                 raise ValidationError(_(
