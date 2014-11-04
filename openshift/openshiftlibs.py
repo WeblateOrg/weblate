@@ -72,27 +72,27 @@ def openshift_secure(default_keys, secure_function = 'make_secure_key'):
 
 # This function transforms default keys into per-deployment random keys;
 def make_secure_key(key_info):
-	hashcode = key_info['hash']
-	original = key_info['original']
+    hashcode = key_info['hash']
+    original = key_info['original']
 
-	# These are the legal password characters
-	# as per the Django source code
-	# (django/contrib/auth/models.py)
-	chars  = 'abcdefghjkmnpqrstuvwxyz'
-	chars += 'ABCDEFGHJKLMNPQRSTUVWXYZ'
-	chars += '23456789'
+    # These are the legal password characters
+    # as per the Django source code
+    # (django/contrib/auth/models.py)
+    chars  = 'abcdefghjkmnpqrstuvwxyz'
+    chars += 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+    chars += '23456789'
 
-	# Use the hash to seed the RNG
-	random.seed(int("0x" + hashcode[:8], 0))
+    # Use the hash to seed the RNG
+    random.seed(int("0x" + hashcode[:8], 0))
 
-	# Create a random string the same length as the default
-	rand_key = ''
-	for _ in range(len(original)):
-		rand_pos = random.randint(0,len(chars))
-		rand_key += chars[rand_pos:(rand_pos+1)]
+    # Create a random string the same length as the default
+    rand_key = ''
+    for _ in range(len(original)):
+        rand_pos = random.randint(0,len(chars))
+        rand_key += chars[rand_pos:(rand_pos+1)]
 
-	# Reset the RNG
-	random.seed()
+    # Reset the RNG
+    random.seed()
 
-	# Set the value
-	return rand_key
+    # Set the value
+    return rand_key
