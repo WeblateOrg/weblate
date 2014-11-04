@@ -17,7 +17,7 @@
 {% for trans in translations %}
 {% with trans.get_translated_percent as percent and trans.get_fuzzy_percent as fuzzy and trans.failing_checks as checks and trans.get_non_translated as count and trans.get_failing_checks_percent as check_percent and trans.have_suggestion as suggestions %}
 <tr>
-<th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{{ trans.subproject }}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a></th>
+<th><a href="{{ trans.get_absolute_url }}">{% if show_language == 1 %}{{ trans.language }}{% else %}{% if show_only_component %}{{ trans.subproject.name }}{% else %}{{ trans.subproject }}{% endif %}{% if show_language == 2 %} ({{ trans.language }}){% endif %}{% endif %}</a></th>
 <td>{% if trans.is_user_locked %}<span class="glyphicon glyphicon-lock html-tooltip" data-placement="bottom" data-toggle="tooltip" data-title='{{ trans.get_lock_display }}'></span>{% endif %}</td>
 <td class="progress-cell">{% translation_progress trans %}</td>
 <td class="percent">{{ percent }}%</td>
