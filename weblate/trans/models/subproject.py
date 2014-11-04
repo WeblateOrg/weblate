@@ -94,15 +94,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Source code repository'),
         max_length=200,
         help_text=ugettext_lazy(
-            'URL of Git repository, use weblate://project/component '
+            'URL of a repository, use weblate://project/component '
             'for sharing with other component.'
         ),
     )
     push = models.CharField(
-        verbose_name=ugettext_lazy('Git push URL'),
+        verbose_name=ugettext_lazy('Repository push URL'),
         max_length=200,
         help_text=ugettext_lazy(
-            'URL of push Git repository, pushing is disabled if empty.'
+            'URL of a push repository, pushing is disabled if empty.'
         ),
         blank=True
     )
@@ -116,10 +116,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
     )
     git_export = models.CharField(
-        verbose_name=ugettext_lazy('Exported Git URL'),
+        verbose_name=ugettext_lazy('Exported repository URL'),
         max_length=200,
         help_text=ugettext_lazy(
-            'URL of Git repository where users can fetch changes from Weblate'
+            'URL of a repository where users can fetch changes from Weblate'
         ),
         blank=True
     )
@@ -132,9 +132,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
     )
     branch = models.CharField(
-        verbose_name=ugettext_lazy('Git branch'),
+        verbose_name=ugettext_lazy('Repository branch'),
         max_length=50,
-        help_text=ugettext_lazy('Git branch to translate'),
+        help_text=ugettext_lazy('Repository branch to translate'),
         default='master'
     )
     filemask = models.CharField(
@@ -1108,7 +1108,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def save(self, *args, **kwargs):
         '''
-        Save wrapper which updates backend Git repository and regenerates
+        Save wrapper which updates backend repository and regenerates
         translation data.
         '''
         # Detect if git config has changed (so that we have to pull the repo)
