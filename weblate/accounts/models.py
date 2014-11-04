@@ -588,7 +588,7 @@ def set_lang(sender, request, user, **kwargs):
         request.session['show_set_password'] = True
 
     # Ensure user has a profile
-    profile, dummy = Profile.objects.get_or_create(user=user)
+    profile = Profile.objects.get_or_create(user=user)[0]
 
     # Migrate django-registration based verification to python-social-auth
     if (user.has_usable_password()
