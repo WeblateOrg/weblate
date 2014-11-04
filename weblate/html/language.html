@@ -15,6 +15,15 @@
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-href="{% url 'view_language_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
   <li><a href="#dicts" data-toggle="tab">{% trans "Glossaries" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Tools" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url 'checks' %}?language={{ object.code }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' %}?language={{ object.code }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+    </ul>
+   </li>
 </ul>
 
 <div class="tab-content">

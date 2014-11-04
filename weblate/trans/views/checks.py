@@ -56,6 +56,10 @@ def show_checks(request):
         allchecks = allchecks.filter(project__slug=request.GET['project'])
         url_params['project'] = request.GET['project']
 
+    if 'language' in request.GET:
+        allchecks = allchecks.filter(language__code=request.GET['language'])
+        url_params['language'] = request.GET['language']
+
     allchecks = allchecks.values('check').annotate(count=Count('id'))
 
     return render(
@@ -90,6 +94,10 @@ def show_check(request, name):
         ignore=ignore,
     )
 
+    if 'language' in request.GET:
+        checks = checks.filter(language__code=request.GET['language'])
+        url_params['language'] = request.GET['language']
+
     if 'project' in request.GET:
         return redirect_param(
             'show_check_project',
@@ -123,23 +131,28 @@ def show_check_project(request, name, project):
         raise Http404('No check matches the given query.')
 
     ignore = ('ignored' in request.GET)
-    url_params = ''
+
+    url_params = {}
+
+    allchecks = Check.objects.filter(
+        check=name,
+        project=prj,
+        ignore=ignore,
+    )
+
     if ignore:
-        url_params = '?ignored=true'
+        url_params['ignored'] = 'true'
+
+    if 'language' in request.GET:
+        allchecks = allchecks.filter(language__code=request.GET['language'])
+        url_params['language'] = request.GET['language']
 
     units = Unit.objects.none()
     if check.target:
-        langs = Check.objects.filter(
-            check=name,
-            project=prj,
-            ignore=ignore,
-        ).values_list('language', flat=True).distinct()
+        langs = allchecks.values_list('language', flat=True).distinct()
         for lang in langs:
-            checks = Check.objects.filter(
-                check=name,
-                project=prj,
+            checks = allchecks.filter(
                 language=lang,
-                ignore=ignore,
             ).values_list('contentsum', flat=True)
             res = Unit.objects.filter(
                 contentsum__in=checks,
@@ -152,11 +165,8 @@ def show_check_project(request, name, project):
             ).annotate(count=Count('id'))
             units |= res
     if check.source:
-        checks = Check.objects.filter(
-            check=name,
-            project=prj,
+        checks = allchecks.filter(
             language=None,
-            ignore=ignore,
         ).values_list(
             'contentsum', flat=True
         )
@@ -199,7 +209,7 @@ def show_check_project(request, name, project):
             'title': '%s/%s' % (prj.__unicode__(), check.name),
             'check': check,
             'project': prj,
-            'url_params': url_params,
+            'url_params': encode_optional(url_params),
         }
     )
 
@@ -217,6 +227,12 @@ def show_check_subproject(request, name, project, subproject):
     ignore = ('ignored' in request.GET)
     url_params = {}
 
+    allchecks = Check.objects.filter(
+        check=name,
+        project=subprj.project,
+        ignore=ignore,
+    )
+
     if ignore:
         url_params['ignored'] = 'true'
 
@@ -229,22 +245,24 @@ def show_check_subproject(request, name, project, subproject):
             subproject=subprj.slug,
         )
 
+    if 'language' in request.GET:
+        return redirect_param(
+            'translate',
+            encode_optional(url_params),
+            project=subprj.project.slug,
+            subproject=subprj.slug,
+            lang=request.GET['language'],
+        )
+
     units = Unit.objects.none()
 
     if check.target:
-        langs = Check.objects.filter(
-            check=name,
-            project=subprj.project,
-            ignore=ignore,
-        ).values_list(
+        langs = allchecks.values_list(
             'language', flat=True
         ).distinct()
         for lang in langs:
-            checks = Check.objects.filter(
-                check=name,
-                project=subprj.project,
+            checks = allchecks.filter(
                 language=lang,
-                ignore=ignore,
             ).values_list('contentsum', flat=True)
             res = Unit.objects.filter(
                 translation__subproject=subprj,
