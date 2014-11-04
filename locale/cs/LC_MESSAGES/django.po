@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 13:20+0100\n"
+"POT-Creation-Date: 2014-11-04 13:37+0100\n"
 "PO-Revision-Date: 2014-11-04 13:31+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -487,10 +487,6 @@ msgid "Please fix errors in the registration form."
 msgstr "Prosím opravte chyby v registračním formuláři."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#| msgid ""
-#| "By registering you agree to use your name and email in Git commits and "
-#| "provide your contribution under license defined by each translated "
-#| "project."
 msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
@@ -666,7 +662,7 @@ msgstr ""
 #: weblate/html/admin/performance.html:23
 #: weblate/html/admin/performance.html:31 weblate/html/base.html:62
 #: weblate/html/check.html:42 weblate/html/check_project.html:43
-#: weblate/html/check_subproject.html:44 weblate/html/checks.html:35
+#: weblate/html/check_subproject.html:44 weblate/html/checks.html:36
 #: weblate/html/footer.html:9
 msgid "Documentation"
 msgstr "Dokumentace"
@@ -680,7 +676,6 @@ msgid "Subscription settings"
 msgstr "Nastavení upozornění"
 
 #: weblate/html/accounts/profile.html:114
-#| msgid "Your name and email will appear as author on Git commits."
 msgid "Your name and email will appear as author on the commits."
 msgstr "Vaše jméno a email budou použity jako autor v commitech."
 
@@ -1058,6 +1053,12 @@ msgid ""
 "translations."
 msgstr ""
 "Nastavitelné kontroly kvality vám pomohou se zlepšením kvality překladů."
+
+#: weblate/html/checks.html:33
+msgid ""
+"The checks can help you identify problematic translations or source strings "
+"which are hard to translate."
+msgstr ""
 
 #: weblate/html/data-root.html:6 weblate/html/index.html:43
 #: weblate/html/share.html:30
@@ -2497,7 +2498,6 @@ msgstr "Chybová zpráva"
 
 #: weblate/html/mail/merge_failure.html:31
 #: weblate/html/mail/merge_failure.txt:13
-#| msgid "Git repository with Weblate translations:"
 msgid "Repository with Weblate translations:"
 msgstr "Repozitář s překlady z Weblate:"
 
@@ -2809,17 +2809,14 @@ msgid "Translation license"
 msgstr "Licence překladu"
 
 #: weblate/html/subproject_info.html:22
-#| msgid "Repository tools"
 msgid "Repository"
 msgstr "Repozitář"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-#| msgid "Repository browser"
 msgid "Repository branch"
 msgstr "Větev repozitáře"
 
 #: weblate/html/subproject_info.html:41
-#| msgid "Git repository with Weblate translations"
 msgid "Repository with Weblate translations"
 msgstr "Repozitář s překlady z Weblate"
 
@@ -3074,7 +3071,6 @@ msgid "Strings"
 msgstr "Řetězců"
 
 #: weblate/html/translation.html:128
-#| msgid "Components"
 msgid "Other components"
 msgstr "Další komponenty"
 
@@ -4170,9 +4166,6 @@ msgid "Component name"
 msgstr "Název komponenty"
 
 #: weblate/trans/models/subproject.py:97
-#| msgid ""
-#| "URL of Git repository, use weblate://project/subproject for sharing with "
-#| "other subproject."
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -4181,12 +4174,10 @@ msgstr ""
 "komponentou."
 
 #: weblate/trans/models/subproject.py:102
-#| msgid "Repository status"
 msgid "Repository push URL"
 msgstr "URL pro odesílání repozitáře"
 
 #: weblate/trans/models/subproject.py:105
-#| msgid "URL of push Git repository, pushing is disabled if empty."
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
 "URL pro odesílání do repozitáře, pokud ponecháte prázdné, bude odesílání "
@@ -4206,12 +4197,10 @@ msgstr ""
 "%(line)s místo jména souboru a řádky."
 
 #: weblate/trans/models/subproject.py:119
-#| msgid "Exported Git URL"
 msgid "Exported repository URL"
 msgstr "Adresa exportovaného repozitáře"
 
 #: weblate/trans/models/subproject.py:122
-#| msgid "URL of Git repository where users can fetch changes from Weblate"
 msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr "URL repozitáře, odkud si uživatelé mohou stáhnout změny z Weblate"
 
@@ -4228,7 +4217,6 @@ msgstr ""
 "Ponechte prázdné pokud je nechcete zasílat."
 
 #: weblate/trans/models/subproject.py:137
-#| msgid "Git branch to translate"
 msgid "Repository branch to translate"
 msgstr "Větev repozitáře k překladu"
 
@@ -4295,7 +4283,6 @@ msgid "Locked"
 msgstr "Zamknuté"
 
 #: weblate/trans/models/subproject.py:205
-#| msgid "Whether subproject is locked for translation updates."
 msgid "Whether component is locked for translation updates."
 msgstr "Jestli je komponenta zamknutá pro překlady."
 
@@ -4304,9 +4291,6 @@ msgid "Allow translation propagation"
 msgstr "Povolit propagování překladů"
 
 #: weblate/trans/models/subproject.py:212
-#| msgid ""
-#| "Whether translation updates in other subproject will cause automatic "
-#| "translation in this project"
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
@@ -4476,12 +4460,13 @@ msgid "The mask did not match any files!"
 msgstr "Masce neodpovídají žádné soubory!"
 
 #: weblate/trans/models/subproject.py:924
+#, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
-#| "subprojects for translating different resources."
+#| "components for translating different components."
 msgid ""
 "There are more files for single language, please adjust the mask and use "
-"components for translating different components."
+"components for translating different resources."
 msgstr ""
 "Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
 "komponenty pro překládání různých souborů."
@@ -4960,7 +4945,6 @@ msgid "Failed to process new translation request!"
 msgstr "Nepodařilo se zpracovat požadavek o nový překlad!"
 
 #: weblate/trans/views/basic.py:494
-#| msgid "User has been added to this project."
 msgid "ACL not enabled for this project!"
 msgstr "Tento projekt nemá povolené ACL!"
 
@@ -5190,12 +5174,10 @@ msgid "Translation is now open for translation updates."
 msgstr "Překlad je nyní přístupný pro překladání."
 
 #: weblate/trans/views/lock.py:81
-#| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
 msgstr "Komponenta je nyní zamčena pro překlady!"
 
 #: weblate/trans/views/lock.py:97
-#| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
 msgstr "Komponenta je nyní přístupná pro překládání."
 
