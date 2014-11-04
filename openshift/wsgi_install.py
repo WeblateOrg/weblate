@@ -112,7 +112,7 @@ pre {
         log_msg = os.popen(
             'cat ${OPENSHIFT_PYTHON_LOG_DIR}/install.log |'
             + ' grep \'^[^ ]\\|setup.py install\' |'
-            + ' sed \'s,/var/lib/openshift/[a-z0-9]\{24\},~,g\''
+            + r' sed \'s,/var/lib/openshift/[a-z0-9]\{24\},~,g\''
         ).read()
         log = '<pre>' + log_msg + '</pre>'
 

@@ -28,7 +28,7 @@ def get_openshift_secret_token():
     uuid = os.getenv('OPENSHIFT_APP_UUID')
     if token is not None:
         return token
-    elif (name is not None and uuid is not None):
+    elif name is not None and uuid is not None:
         return hashlib.sha256(name + '-' + uuid).hexdigest()
     return None
 
@@ -101,7 +101,7 @@ def make_secure_key(key_info):
 
     # Create a random string the same length as the default
     rand_key = ''
-    for _ in range(len(original)):
+    for dummy in range(len(original)):
         rand_pos = random.randint(0, len(chars))
         rand_key += chars[rand_pos:(rand_pos + 1)]
 
