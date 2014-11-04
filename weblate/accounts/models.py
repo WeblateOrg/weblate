@@ -576,13 +576,11 @@ class Profile(models.Model):
 
 
 @receiver(user_logged_in)
-def set_lang(sender, **kwargs):
+def set_lang(sender, request, user, **kwargs):
     '''
     Signal handler for setting user language and
     migrating profile if needed.
     '''
-    request = kwargs['request']
-    user = kwargs['user']
 
     # Warning about setting password
     if (getattr(user, 'backend', '') == 'social.backends.email.EmailAuth'
