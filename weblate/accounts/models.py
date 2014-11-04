@@ -23,7 +23,6 @@ import binascii
 from smtplib import SMTPException
 
 from django.db import models
-from django.db.utils import DatabaseError
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
