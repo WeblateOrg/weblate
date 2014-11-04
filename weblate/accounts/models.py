@@ -33,6 +33,7 @@ from django.db.models.signals import post_syncdb
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from social.apps.django_app.default.models import UserSocialAuth
 
@@ -599,7 +600,7 @@ def set_lang(sender, **kwargs):
 
     # Set language for session based on preferences
     lang_code = profile.language
-    request.session['django_language'] = lang_code
+    request.session[LANGUAGE_SESSION_KEY] = lang_code
 
 
 def create_groups(update):
