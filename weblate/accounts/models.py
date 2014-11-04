@@ -23,6 +23,7 @@ import binascii
 from smtplib import SMTPException
 
 from django.db import models
+from django.db.utils import DatabaseError
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
@@ -671,22 +672,29 @@ def create_groups(update):
             Permission.objects.get(codename='manage_acl'),
         )
 
+    created = True
     try:
-        anon_user, created = User.objects.get_or_create(
+        anon_user = User.objects.get(
+            username=ANONYMOUS_USER_NAME,
+        )
+        created = False
+        if anon_user.is_active:
+            raise ValueError(
+                'Anonymous user ({}) already exists and enabled, '
+                'please change ANONYMOUS_USER_NAME setting.'.format(
+                    ANONYMOUS_USER_NAME,
+                )
+            )
+    except User.DoesNotExist:
+        anon_user = User.objects.create(
             username=ANONYMOUS_USER_NAME,
             is_active=False,
         )
-        if created or update:
-            anon_user.set_unusable_password()
-            anon_user.groups.clear()
-            anon_user.groups.add(guest_group)
-    except:
-        raise ValueError(
-            'Anonymous user ({}) already exists and enabled, '
-            'please change ANONYMOUS_USER_NAME setting.'.format(
-                ANONYMOUS_USER_NAME,
-            )
-        )
+
+    if created or update:
+        anon_user.set_unusable_password()
+        anon_user.groups.clear()
+        anon_user.groups.add(guest_group)
 
 
 def move_users():
