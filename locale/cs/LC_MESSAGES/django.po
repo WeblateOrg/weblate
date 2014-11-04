@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 12:09+0100\n"
+"POT-Creation-Date: 2014-11-04 13:16+0100\n"
 "PO-Revision-Date: 2014-11-04 13:10+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -334,10 +334,6 @@ msgid "About Weblate"
 msgstr "O Weblate"
 
 #: weblate/html/about.html:17
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across subprojects, quality checks and automatic linking to source files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -383,9 +379,6 @@ msgid ""
 msgstr "Tato instalace Weblate vám umožní překládat váš svobodný software."
 
 #: weblate/html/about.html:39
-#| msgid ""
-#| "We can host your project as well, if you are interested, please <a href="
-#| "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
 msgstr ""
@@ -494,9 +487,13 @@ msgid "Please fix errors in the registration form."
 msgstr "Prosím opravte chyby v registračním formuláři."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#: weblate/html/accounts/register.html:17
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "provide your contribution under license defined by each translated "
+#| "project."
 msgid ""
-"By registering you agree to use your name and email in Git commits and "
+"By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Registrací souhlasíte s použitím vašeho jména a emailu v commitech do Gitu a "
@@ -684,7 +681,9 @@ msgid "Subscription settings"
 msgstr "Nastavení upozornění"
 
 #: weblate/html/accounts/profile.html:114
-msgid "Your name and email will appear as author on Git commits."
+#, fuzzy
+#| msgid "Your name and email will appear as author on Git commits."
+msgid "Your name and email will appear as author on the commits."
 msgstr "Vaše jméno a email budou použity jako autor v commitech do Gitu."
 
 #: weblate/html/accounts/profile.html:127
@@ -788,6 +787,14 @@ msgid ""
 msgstr ""
 "Prosím pozorně si pročtěte informace o licencích, protože ty určují jak "
 "mohou být použity vaše překlady."
+
+#: weblate/html/accounts/register.html:17
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Registrací souhlasíte s použitím vašeho jména a emailu v commitech do Gitu a "
+"licencováním vašich příspěvků pod licencí jakou daný projekt používá."
 
 #: weblate/html/accounts/register.html:30
 msgid "Register using email"
@@ -2153,8 +2160,7 @@ msgstr "Lokální repozitář je aktuální."
 msgid "Last remote commit:"
 msgstr "Poslední revize vzdáleného repozitáře:"
 
-#: weblate/html/js/git-status.html:35 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/js/git-status.html:35
 msgid "Git repository with Weblate translations:"
 msgstr "Git repozitář s překlady z Weblate:"
 
@@ -2491,6 +2497,13 @@ msgstr ""
 msgid "Error message"
 msgstr "Chybová zpráva"
 
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
+#, fuzzy
+#| msgid "Git repository with Weblate translations:"
+msgid "Repository with Weblate translations:"
+msgstr "Git repozitář s překlady z Weblate:"
+
 #: weblate/html/mail/merge_failure.html:37
 #: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
@@ -2667,7 +2680,6 @@ msgid "Status widgets"
 msgstr "Stavové obrázky"
 
 #: weblate/html/project.html:61
-#| msgid "Comments"
 msgid "Components"
 msgstr "Komponenty"
 
@@ -2800,15 +2812,21 @@ msgid "Translation license"
 msgstr "Licence překladu"
 
 #: weblate/html/subproject_info.html:22
-msgid "Git repository"
-msgstr "Git repozitář"
+#, fuzzy
+#| msgid "Repository tools"
+msgid "Repository"
+msgstr "Nástroje pro repozitář"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-msgid "Git branch"
-msgstr "Větev Gitu"
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Repository branch"
+msgstr "Prohlížení repozitáře"
 
 #: weblate/html/subproject_info.html:41
-msgid "Git repository with Weblate translations"
+#, fuzzy
+#| msgid "Git repository with Weblate translations"
+msgid "Repository with Weblate translations"
 msgstr "Git repozitář s překlady z Weblate"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
@@ -3062,11 +3080,6 @@ msgid "Strings"
 msgstr "Řetězců"
 
 #: weblate/html/translation.html:155
-#| msgid ""
-#| "Automatic translation takes existing translations in this project and "
-#| "applies it to the current subproject. It can be used to push translations "
-#| "to a different branch, to fix inconsistent translations or to translate "
-#| "new subproject using translation memory."
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -3854,7 +3867,6 @@ msgid "Replace inconsistent"
 msgstr "Nahradit nekonzistentní"
 
 #: weblate/trans/forms.py:557
-#| msgid "Subproject to use"
 msgid "Component to use"
 msgstr "Použité komponenty"
 
@@ -4155,7 +4167,6 @@ msgid "Merge"
 msgstr "Sloučit"
 
 #: weblate/trans/models/subproject.py:80
-#| msgid "Comment added"
 msgid "Component name"
 msgstr "Název komponenty"
 
@@ -4165,18 +4176,22 @@ msgstr "Název komponenty"
 #| "URL of Git repository, use weblate://project/subproject for sharing with "
 #| "other subproject."
 msgid ""
-"URL of Git repository, use weblate://project/component for sharing with "
-"other component."
+"URL of a repository, use weblate://project/component for sharing with other "
+"component."
 msgstr ""
 "URL Gitového repozitáře, použijte weblate://projekt/podprojekt pro sdílení s "
 "jiným podprojektem."
 
 #: weblate/trans/models/subproject.py:102
-msgid "Git push URL"
-msgstr "URL pro odesílání Gïtu"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push URL"
+msgstr "Stav repozitáře"
 
 #: weblate/trans/models/subproject.py:105
-msgid "URL of push Git repository, pushing is disabled if empty."
+#, fuzzy
+#| msgid "URL of push Git repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
 "URL pro odesílání do Git repozitáře, pokud ponecháte prázdné, bude odesílání "
 "vypnuté."
@@ -4195,11 +4210,15 @@ msgstr ""
 "%(line)s místo jména souboru a řádky."
 
 #: weblate/trans/models/subproject.py:119
-msgid "Exported Git URL"
+#, fuzzy
+#| msgid "Exported Git URL"
+msgid "Exported repository URL"
 msgstr "Adresa exportovaného Gitu"
 
 #: weblate/trans/models/subproject.py:122
-msgid "URL of Git repository where users can fetch changes from Weblate"
+#, fuzzy
+#| msgid "URL of Git repository where users can fetch changes from Weblate"
+msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr "URL Git repozitáře, odkud si uživatelé mohou stáhnout změny z Weblate"
 
 #: weblate/trans/models/subproject.py:127
@@ -4215,7 +4234,9 @@ msgstr ""
 "Ponechte prázdné pokud je nechcete zasílat."
 
 #: weblate/trans/models/subproject.py:137
-msgid "Git branch to translate"
+#, fuzzy
+#| msgid "Git branch to translate"
+msgid "Repository branch to translate"
 msgstr "Větev Gitu k překladu"
 
 #: weblate/trans/models/subproject.py:150
@@ -5255,6 +5276,15 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "přeloženo"
+
+#~ msgid "Git repository"
+#~ msgstr "Git repozitář"
+
+#~ msgid "Git branch"
+#~ msgstr "Větev Gitu"
+
+#~ msgid "Git push URL"
+#~ msgstr "URL pro odesílání Gïtu"
 
 #, fuzzy
 #~| msgid "Resource update"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 12:09+0100\n"
+"POT-Creation-Date: 2014-11-04 13:16+0100\n"
 "PO-Revision-Date: 2014-10-10 12:12+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/bootstrap/"
@@ -507,9 +507,13 @@ msgid "Please fix errors in the registration form."
 msgstr "Gelieve de fouten in het registratieformulier op te lossen."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#: weblate/html/accounts/register.html:17
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "provide your contribution under license defined by each translated "
+#| "project."
 msgid ""
-"By registering you agree to use your name and email in Git commits and "
+"By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Door te registreren gaat u ermee akkoord dat uw naam en e-mailadres gebruikt "
@@ -704,7 +708,9 @@ msgid "Subscription settings"
 msgstr "Abonnementsinstellingen"
 
 #: weblate/html/accounts/profile.html:114
-msgid "Your name and email will appear as author on Git commits."
+#, fuzzy
+#| msgid "Your name and email will appear as author on Git commits."
+msgid "Your name and email will appear as author on the commits."
 msgstr ""
 "Uw naam en e-mailadres zullen getoond worden als auteur van Git commits."
 
@@ -815,6 +821,15 @@ msgid ""
 msgstr ""
 "Let op de licentiegegevens omdat deze bepalen hoe anderen uw vertalingen "
 "mogen gebruiken."
+
+#: weblate/html/accounts/register.html:17
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Door te registreren gaat u ermee akkoord dat uw naam en e-mailadres gebruikt "
+"wordt in Git commits en dat u uw bijdrage aanbiedt onder dezelfde licentie "
+"als elk vertaald project."
 
 #: weblate/html/accounts/register.html:30
 msgid "Register using email"
@@ -2195,8 +2210,7 @@ msgstr "Alle repositories werden bijgewerkt."
 msgid "Last remote commit:"
 msgstr "Laatste externe commit:"
 
-#: weblate/html/js/git-status.html:35 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/js/git-status.html:35
 msgid "Git repository with Weblate translations:"
 msgstr "Git repository met Weblate-vertalingen:"
 
@@ -2550,6 +2564,13 @@ msgstr ""
 msgid "Error message"
 msgstr "Foutmelding"
 
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
+#, fuzzy
+#| msgid "Git repository with Weblate translations:"
+msgid "Repository with Weblate translations:"
+msgstr "Git repository met Weblate-vertalingen:"
+
 #: weblate/html/mail/merge_failure.html:37
 #: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
@@ -2874,15 +2895,21 @@ msgid "Translation license"
 msgstr "Licentie van de vertaling"
 
 #: weblate/html/subproject_info.html:22
-msgid "Git repository"
-msgstr "Git repository"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository"
+msgstr "Repository status"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-msgid "Git branch"
-msgstr "Git branch"
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Repository branch"
+msgstr "Repository browser"
 
 #: weblate/html/subproject_info.html:41
-msgid "Git repository with Weblate translations"
+#, fuzzy
+#| msgid "Git repository with Weblate translations"
+msgid "Repository with Weblate translations"
 msgstr "Git repository met Weblate-vertalingen"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
@@ -4274,18 +4301,22 @@ msgstr "Opmerking toegevoegd"
 #| "URL of Git repository, use weblate://project/resource for sharing with "
 #| "other resource."
 msgid ""
-"URL of Git repository, use weblate://project/component for sharing with "
-"other component."
+"URL of a repository, use weblate://project/component for sharing with other "
+"component."
 msgstr ""
 "URL van een Git repository, gebruik weblate://project/resource om te delen "
 "met een andere hulpbron."
 
 #: weblate/trans/models/subproject.py:102
-msgid "Git push URL"
-msgstr "Git push-URL"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push URL"
+msgstr "Repository status"
 
 #: weblate/trans/models/subproject.py:105
-msgid "URL of push Git repository, pushing is disabled if empty."
+#, fuzzy
+#| msgid "URL of push Git repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is disabled if empty."
 msgstr "URL van push Git repository, push is uitgeschakeld indien leeg."
 
 #: weblate/trans/models/subproject.py:110
@@ -4302,11 +4333,15 @@ msgstr ""
 "als plaatsvervangers voor branch, bestandsnaam en regelnummer."
 
 #: weblate/trans/models/subproject.py:119
-msgid "Exported Git URL"
+#, fuzzy
+#| msgid "Exported Git URL"
+msgid "Exported repository URL"
 msgstr "Geëxporteerde Git URL"
 
 #: weblate/trans/models/subproject.py:122
-msgid "URL of Git repository where users can fetch changes from Weblate"
+#, fuzzy
+#| msgid "URL of Git repository where users can fetch changes from Weblate"
+msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
 "URL van het Git repository waar gebruikers wijzigingen van Weblate kunnen "
 "afhalen"
@@ -4324,7 +4359,9 @@ msgstr ""
 "voor geen e-mails."
 
 #: weblate/trans/models/subproject.py:137
-msgid "Git branch to translate"
+#, fuzzy
+#| msgid "Git branch to translate"
+msgid "Repository branch to translate"
 msgstr "Git branch om te vertalen"
 
 #: weblate/trans/models/subproject.py:150
@@ -5373,6 +5410,15 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "vertaald"
+
+#~ msgid "Git repository"
+#~ msgstr "Git repository"
+
+#~ msgid "Git branch"
+#~ msgstr "Git branch"
+
+#~ msgid "Git push URL"
+#~ msgstr "Git push-URL"
 
 #~ msgid "Resources"
 #~ msgstr "Hulpbronnen"

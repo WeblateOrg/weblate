@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 12:09+0100\n"
+"POT-Creation-Date: 2014-11-04 13:16+0100\n"
 "PO-Revision-Date: 2014-08-11 06:02+0200\n"
 "Last-Translator: Alecsandru Prună <alecsandrucpruna@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/master/"
@@ -488,9 +488,8 @@ msgid "Please fix errors in the registration form."
 msgstr ""
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#: weblate/html/accounts/register.html:17
 msgid ""
-"By registering you agree to use your name and email in Git commits and "
+"By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
 
@@ -667,7 +666,7 @@ msgid "Subscription settings"
 msgstr "Proiecte abonate"
 
 #: weblate/html/accounts/profile.html:114
-msgid "Your name and email will appear as author on Git commits."
+msgid "Your name and email will appear as author on the commits."
 msgstr ""
 
 #: weblate/html/accounts/profile.html:127
@@ -770,6 +769,12 @@ msgstr ""
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
+msgstr ""
+
+#: weblate/html/accounts/register.html:17
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
 msgstr ""
 
 #: weblate/html/accounts/register.html:30
@@ -2084,8 +2089,7 @@ msgstr ""
 msgid "Last remote commit:"
 msgstr ""
 
-#: weblate/html/js/git-status.html:35 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/js/git-status.html:35
 msgid "Git repository with Weblate translations:"
 msgstr ""
 
@@ -2417,6 +2421,11 @@ msgstr ""
 msgid "Error message"
 msgstr ""
 
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
+msgid "Repository with Weblate translations:"
+msgstr ""
+
 #: weblate/html/mail/merge_failure.html:37
 #: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
@@ -2719,16 +2728,22 @@ msgid "Translation license"
 msgstr ""
 
 #: weblate/html/subproject_info.html:22
-msgid "Git repository"
+#, fuzzy
+#| msgid "Git repository"
+msgid "Repository"
 msgstr "Repository Git"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-msgid "Git branch"
-msgstr ""
+#, fuzzy
+#| msgid "Git repository"
+msgid "Repository branch"
+msgstr "Repository Git"
 
 #: weblate/html/subproject_info.html:41
-msgid "Git repository with Weblate translations"
-msgstr ""
+#, fuzzy
+#| msgid "Notification on any translation"
+msgid "Repository with Weblate translations"
+msgstr "Notificare la orice traducere"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
 msgid "Changes"
@@ -4047,18 +4062,20 @@ msgstr "Denumire proiect"
 #: weblate/trans/models/subproject.py:97
 #, fuzzy
 msgid ""
-"URL of Git repository, use weblate://project/component for sharing with "
-"other component."
+"URL of a repository, use weblate://project/component for sharing with other "
+"component."
 msgstr ""
 "URL-ul repository-ului Git, utilizare weblate://proiect/subproiect pentru "
 "partajarea cu alt subproiect."
 
 #: weblate/trans/models/subproject.py:102
-msgid "Git push URL"
-msgstr ""
+#, fuzzy
+#| msgid "Git repository"
+msgid "Repository push URL"
+msgstr "Repository Git"
 
 #: weblate/trans/models/subproject.py:105
-msgid "URL of push Git repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
 
 #: weblate/trans/models/subproject.py:110
@@ -4073,11 +4090,13 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:119
-msgid "Exported Git URL"
-msgstr ""
+#, fuzzy
+#| msgid "Git repository"
+msgid "Exported repository URL"
+msgstr "Repository Git"
 
 #: weblate/trans/models/subproject.py:122
-msgid "URL of Git repository where users can fetch changes from Weblate"
+msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:127
@@ -4091,8 +4110,10 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:137
-msgid "Git branch to translate"
-msgstr ""
+#, fuzzy
+#| msgid "Git repository"
+msgid "Repository branch to translate"
+msgstr "Repository Git"
 
 #: weblate/trans/models/subproject.py:150
 msgid "Monolingual base language file"
@@ -5056,6 +5077,9 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr ""
+
+#~ msgid "Git repository"
+#~ msgstr "Repository Git"
 
 #, fuzzy
 #~| msgid "Your name"

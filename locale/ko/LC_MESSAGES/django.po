@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 12:09+0100\n"
+"POT-Creation-Date: 2014-11-04 13:16+0100\n"
 "PO-Revision-Date: 2014-10-31 09:36+0200\n"
 "Last-Translator: 권 조 <chobkwon@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -509,9 +509,13 @@ msgid "Please fix errors in the registration form."
 msgstr "등록 양식에서 오류를 수정하십시오."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#: weblate/html/accounts/register.html:17
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "provide your contribution under license defined by each translated "
+#| "project."
 msgid ""
-"By registering you agree to use your name and email in Git commits and "
+"By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "등록함으로서, 각각 번역된 프로젝트에의해 정의된 라이센스 아래 Git 커밋에서 이"
@@ -701,7 +705,9 @@ msgid "Subscription settings"
 msgstr "구독"
 
 #: weblate/html/accounts/profile.html:114
-msgid "Your name and email will appear as author on Git commits."
+#, fuzzy
+#| msgid "Your name and email will appear as author on Git commits."
+msgid "Your name and email will appear as author on the commits."
 msgstr "이름과 이메일이 Git 커밋에서 저자로 나타납니다."
 
 #: weblate/html/accounts/profile.html:127
@@ -821,6 +827,14 @@ msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
 msgstr ""
+
+#: weblate/html/accounts/register.html:17
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"등록함으로서, 각각 번역된 프로젝트에의해 정의된 라이센스 아래 Git 커밋에서 이"
+"름과 이메일을 사용고 참여를 제공하는데 동의합니다."
 
 #: weblate/html/accounts/register.html:30
 msgid "Register using email"
@@ -2209,8 +2223,7 @@ msgstr "모든 저장소가 업데이트 되었습니다."
 msgid "Last remote commit:"
 msgstr "최근 원격 커밋:"
 
-#: weblate/html/js/git-status.html:35 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/js/git-status.html:35
 msgid "Git repository with Weblate translations:"
 msgstr "Weblate 번역이 있는 Git 저장소:"
 
@@ -2566,6 +2579,13 @@ msgstr "%(site_title)s에서 %(subproject)s에 병합이 실패했습니다."
 msgid "Error message"
 msgstr "오류 메세지"
 
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
+#, fuzzy
+#| msgid "Git repository with Weblate translations:"
+msgid "Repository with Weblate translations:"
+msgstr "Weblate 번역이 있는 Git 저장소:"
+
 #: weblate/html/mail/merge_failure.html:37
 #: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
@@ -2898,17 +2918,21 @@ msgid "Translation license"
 msgstr "번역 라이센스"
 
 #: weblate/html/subproject_info.html:22
-msgid "Git repository"
-msgstr "Git 저장소"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository"
+msgstr "저장소 상태"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-msgid "Git branch"
-msgstr "Git 분기"
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Repository branch"
+msgstr "저장소 탐색기"
 
 #: weblate/html/subproject_info.html:41
 #, fuzzy
 #| msgid "Git repository with Weblate translations:"
-msgid "Git repository with Weblate translations"
+msgid "Repository with Weblate translations"
 msgstr "Weblate 번역이 있는 Git 저장소:"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
@@ -4315,18 +4339,22 @@ msgstr "댓글 추가됨"
 #| "URL of Git repository, use weblate://project/subproject for sharing with "
 #| "other subproject."
 msgid ""
-"URL of Git repository, use weblate://project/component for sharing with "
-"other component."
+"URL of a repository, use weblate://project/component for sharing with other "
+"component."
 msgstr ""
 "Git 저장소의 URL은 다른 하위 프로젝트와 공유하기 위해 weblate://프로젝트/하위"
 "프로젝트 를 사용합니다."
 
 #: weblate/trans/models/subproject.py:102
-msgid "Git push URL"
-msgstr "Git 밀기 URL"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push URL"
+msgstr "저장소 상태"
 
 #: weblate/trans/models/subproject.py:105
-msgid "URL of push Git repository, pushing is disabled if empty."
+#, fuzzy
+#| msgid "URL of push Git repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is disabled if empty."
 msgstr "Git 저장소 밀기의 URL, 만약 비어있다면 푸쉬는 비활성화 될것입나다."
 
 #: weblate/trans/models/subproject.py:110
@@ -4343,11 +4371,15 @@ msgstr ""
 "로 %(file)s과 %(line)s를 사용하십시오."
 
 #: weblate/trans/models/subproject.py:119
-msgid "Exported Git URL"
+#, fuzzy
+#| msgid "Exported Git URL"
+msgid "Exported repository URL"
 msgstr "내보내기된 Git URL"
 
 #: weblate/trans/models/subproject.py:122
-msgid "URL of Git repository where users can fetch changes from Weblate"
+#, fuzzy
+#| msgid "URL of Git repository where users can fetch changes from Weblate"
+msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr "WebLate에서 사용자가 변경사항을 가져올 수 있는 Git 저장소의 URL"
 
 #: weblate/trans/models/subproject.py:127
@@ -4363,7 +4395,9 @@ msgstr ""
 "주세요."
 
 #: weblate/trans/models/subproject.py:137
-msgid "Git branch to translate"
+#, fuzzy
+#| msgid "Git branch to translate"
+msgid "Repository branch to translate"
 msgstr "번역할 Git 분기"
 
 #: weblate/trans/models/subproject.py:150
@@ -5383,6 +5417,15 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "번역"
+
+#~ msgid "Git repository"
+#~ msgstr "Git 저장소"
+
+#~ msgid "Git branch"
+#~ msgstr "Git 분기"
+
+#~ msgid "Git push URL"
+#~ msgstr "Git 밀기 URL"
 
 #, fuzzy
 #~| msgid "source"

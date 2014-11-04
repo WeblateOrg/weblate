@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 12:09+0100\n"
+"POT-Creation-Date: 2014-11-04 13:16+0100\n"
 "PO-Revision-Date: 2014-11-04 12:42+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish "
-"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -336,10 +336,6 @@ msgid "About Weblate"
 msgstr "Weblate hakkında"
 
 #: weblate/html/about.html:17
-#| msgid ""
-#| "Weblate is a web based translation tool with tight Git integration. It "
-#| "features simple and clean user interface, propagation of translations "
-#| "across resources, quality checks and automatic linking to source files."
 msgid ""
 "Weblate is a web based translation tool with tight Git integration. It "
 "features simple and clean user interface, propagation of translations across "
@@ -497,9 +493,13 @@ msgid "Please fix errors in the registration form."
 msgstr "Lütfen kayıt formundaki hataları düzeltin."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#: weblate/html/accounts/register.html:17
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "provide your contribution under license defined by each translated "
+#| "project."
 msgid ""
-"By registering you agree to use your name and email in Git commits and "
+"By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Kayıt olarak Git sunumlarında adınızı ve epostanızı kullanmayı ve her "
@@ -690,7 +690,9 @@ msgid "Subscription settings"
 msgstr "Abonelik ayarları"
 
 #: weblate/html/accounts/profile.html:114
-msgid "Your name and email will appear as author on Git commits."
+#, fuzzy
+#| msgid "Your name and email will appear as author on Git commits."
+msgid "Your name and email will appear as author on the commits."
 msgstr "Adınız ve epostanız Git sunumlarında hazırlayan olarak görünecek."
 
 #: weblate/html/accounts/profile.html:127
@@ -796,6 +798,15 @@ msgid ""
 msgstr ""
 "Diğerlerine çevirilerinizi kullanmaya nasıl izin verdiğinizi belirlediğiniz "
 "gibi lütfen lisanslama bilgilerine de dikkat edin."
+
+#: weblate/html/accounts/register.html:17
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Kayıt olarak Git sunumlarında adınızı ve epostanızı kullanmayı ve her "
+"çevrilmiş proje tarafından tanımlanmış lisans altında katkı sağlamayı kabul "
+"ettiniz."
 
 #: weblate/html/accounts/register.html:30
 msgid "Register using email"
@@ -2167,8 +2178,7 @@ msgstr "Yerel havuz güncel."
 msgid "Last remote commit:"
 msgstr "Son uzaktan işleme:"
 
-#: weblate/html/js/git-status.html:35 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/js/git-status.html:35
 msgid "Git repository with Weblate translations:"
 msgstr "Weblate çevirilerinin olduğu Git havuzu:"
 
@@ -2501,6 +2511,13 @@ msgstr ""
 msgid "Error message"
 msgstr "Hata iletisi"
 
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
+#, fuzzy
+#| msgid "Git repository with Weblate translations:"
+msgid "Repository with Weblate translations:"
+msgstr "Weblate çevirilerinin olduğu Git havuzu:"
+
 #: weblate/html/mail/merge_failure.html:37
 #: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
@@ -2684,7 +2701,6 @@ msgid "Status widgets"
 msgstr "Durum parçacıkları"
 
 #: weblate/html/project.html:61
-#| msgid "Comments"
 msgid "Components"
 msgstr "Bileşenler"
 
@@ -2817,15 +2833,21 @@ msgid "Translation license"
 msgstr "Çeviri lisansı"
 
 #: weblate/html/subproject_info.html:22
-msgid "Git repository"
-msgstr "Git havuzu"
+#, fuzzy
+#| msgid "Repository tools"
+msgid "Repository"
+msgstr "Havuz araçları"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-msgid "Git branch"
-msgstr "Git dalı"
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Repository branch"
+msgstr "Havuz tarayıcısı"
 
 #: weblate/html/subproject_info.html:41
-msgid "Git repository with Weblate translations"
+#, fuzzy
+#| msgid "Git repository with Weblate translations"
+msgid "Repository with Weblate translations"
 msgstr "Weblate çevirileri olan Git havuzu"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
@@ -3078,11 +3100,6 @@ msgid "Strings"
 msgstr "Satır"
 
 #: weblate/html/translation.html:155
-#| msgid ""
-#| "Automatic translation takes existing translations in this project and "
-#| "applies it to the current resource. It can be used to push translations "
-#| "to a different branch, to fix inconsistent translations or to translate "
-#| "new resource using translation memory."
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -3879,7 +3896,6 @@ msgid "Replace inconsistent"
 msgstr "Tutarsızı değiştir"
 
 #: weblate/trans/forms.py:557
-#| msgid "Subproject to use"
 msgid "Component to use"
 msgstr "Kullanmak için bileşen"
 
@@ -4182,27 +4198,31 @@ msgid "Merge"
 msgstr "Birleştir"
 
 #: weblate/trans/models/subproject.py:80
-#| msgid "Comment added"
 msgid "Component name"
 msgstr "Bileşen adı"
 
 #: weblate/trans/models/subproject.py:97
+#, fuzzy
 #| msgid ""
-#| "URL of Git repository, use weblate://project/resource for sharing with "
-#| "other resource."
+#| "URL of Git repository, use weblate://project/component for sharing with "
+#| "other component."
 msgid ""
-"URL of Git repository, use weblate://project/component for sharing with "
-"other component."
+"URL of a repository, use weblate://project/component for sharing with other "
+"component."
 msgstr ""
 "Git havuzunun URL'si, diğer bileşen ile paylaşma için weblate://project/"
 "component kullanın."
 
 #: weblate/trans/models/subproject.py:102
-msgid "Git push URL"
-msgstr "Git yollama URL'si"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push URL"
+msgstr "Havuz durumu"
 
 #: weblate/trans/models/subproject.py:105
-msgid "URL of push Git repository, pushing is disabled if empty."
+#, fuzzy
+#| msgid "URL of push Git repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is disabled if empty."
 msgstr "Git havuzuna yollama URL'si, boşsa yollama etkisizleştirilir."
 
 #: weblate/trans/models/subproject.py:110
@@ -4219,11 +4239,15 @@ msgstr ""
 "tutucuları olarak %(file)s ve %(line)s kullan."
 
 #: weblate/trans/models/subproject.py:119
-msgid "Exported Git URL"
+#, fuzzy
+#| msgid "Exported Git URL"
+msgid "Exported repository URL"
 msgstr "Dışa Aktarılmış Git URL'si"
 
 #: weblate/trans/models/subproject.py:122
-msgid "URL of Git repository where users can fetch changes from Weblate"
+#, fuzzy
+#| msgid "URL of Git repository where users can fetch changes from Weblate"
+msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
 "Kullanıcıların Weblate'ten değişiklikleri getirebileceği Git havuzunun URL'si"
 
@@ -4240,7 +4264,9 @@ msgstr ""
 "boş bırakın."
 
 #: weblate/trans/models/subproject.py:137
-msgid "Git branch to translate"
+#, fuzzy
+#| msgid "Git branch to translate"
+msgid "Repository branch to translate"
 msgstr "Çevirmek için Git dalı"
 
 #: weblate/trans/models/subproject.py:150
@@ -4305,7 +4331,6 @@ msgid "Locked"
 msgstr "Kilitlendi"
 
 #: weblate/trans/models/subproject.py:205
-#| msgid "Whether resource is locked for translation updates."
 msgid "Whether component is locked for translation updates."
 msgstr "Çeviri güncellemeleri için bileşenin kilitlenip kilitlenmeyeceği."
 
@@ -4314,9 +4339,6 @@ msgid "Allow translation propagation"
 msgstr "Çeviri yaymaya izin ver"
 
 #: weblate/trans/models/subproject.py:212
-#| msgid ""
-#| "Whether translation updates in other resources will cause automatic "
-#| "translation in this one"
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
@@ -4489,9 +4511,6 @@ msgid "The mask did not match any files!"
 msgstr "Maske herhangi bir dosyayla eşleşmedi!"
 
 #: weblate/trans/models/subproject.py:924
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "resources for translating different resources."
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different components."
@@ -4961,7 +4980,6 @@ msgid "Failed to process new translation request!"
 msgstr "Yeni çeviri isteğini işleme başarısız!"
 
 #: weblate/trans/views/basic.py:494
-#| msgid "User has been added to this project."
 msgid "ACL not enabled for this project!"
 msgstr "Bu proje için ACL etkinleştirilmedi!"
 
@@ -5187,12 +5205,10 @@ msgid "Translation is now open for translation updates."
 msgstr "Çeviri artık çeviri güncellemeleri için açık."
 
 #: weblate/trans/views/lock.py:81
-#| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
 msgstr "Bileşen artık çeviri güncellemeleri için kilitli!"
 
 #: weblate/trans/views/lock.py:97
-#| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
 msgstr "Bileşen artık çeviri güncellemeleri için açık."
 
@@ -5259,6 +5275,15 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "çevrildi"
+
+#~ msgid "Git repository"
+#~ msgstr "Git havuzu"
+
+#~ msgid "Git branch"
+#~ msgstr "Git dalı"
+
+#~ msgid "Git push URL"
+#~ msgstr "Git yollama URL'si"
 
 #~ msgid "Resources"
 #~ msgstr "Kaynaklar"

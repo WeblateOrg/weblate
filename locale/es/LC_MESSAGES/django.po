@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-04 12:09+0100\n"
+"POT-Creation-Date: 2014-11-04 13:16+0100\n"
 "PO-Revision-Date: 2014-10-12 07:12+0200\n"
 "Last-Translator: Matías Bellone <matiasbellone+weblate@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -504,9 +504,13 @@ msgid "Please fix errors in the registration form."
 msgstr "Corrija los errores en el formulario de registro."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#: weblate/html/accounts/register.html:17
+#, fuzzy
+#| msgid ""
+#| "By registering you agree to use your name and email in Git commits and "
+#| "provide your contribution under license defined by each translated "
+#| "project."
 msgid ""
-"By registering you agree to use your name and email in Git commits and "
+"By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Al registrarse, acepta el uso de su nombre y dirección de correo electrónico "
@@ -703,7 +707,9 @@ msgid "Subscription settings"
 msgstr "Configuración de suscripciones"
 
 #: weblate/html/accounts/profile.html:114
-msgid "Your name and email will appear as author on Git commits."
+#, fuzzy
+#| msgid "Your name and email will appear as author on Git commits."
+msgid "Your name and email will appear as author on the commits."
 msgstr ""
 "Su nombre y correo electrónico aparecerán como autor de sus acciones en Git."
 
@@ -814,6 +820,15 @@ msgid ""
 msgstr ""
 "Preste atención a la información de licencias ya que especifica cómo otros "
 "pueden utilizar sus traducciones."
+
+#: weblate/html/accounts/register.html:17
+msgid ""
+"By registering you agree to use your name and email in Git commits and "
+"provide your contribution under license defined by each translated project."
+msgstr ""
+"Al registrarse, acepta el uso de su nombre y dirección de correo electrónico "
+"en los «commit» Git y que provee sus contribuciones bajo la licencia "
+"definida por cada proyecto traducido."
 
 #: weblate/html/accounts/register.html:30
 msgid "Register using email"
@@ -2194,8 +2209,7 @@ msgstr "Se actualizaron todos los repositorios."
 msgid "Last remote commit:"
 msgstr "Último cambio remoto:"
 
-#: weblate/html/js/git-status.html:35 weblate/html/mail/merge_failure.html:31
-#: weblate/html/mail/merge_failure.txt:13
+#: weblate/html/js/git-status.html:35
 msgid "Git repository with Weblate translations:"
 msgstr "Repositorio Git con las traducciones de Weblate:"
 
@@ -2544,6 +2558,13 @@ msgstr "Hubo un error en la fusión de %(subproject)s en %(site_title)s."
 msgid "Error message"
 msgstr "Mensaje de error"
 
+#: weblate/html/mail/merge_failure.html:31
+#: weblate/html/mail/merge_failure.txt:13
+#, fuzzy
+#| msgid "Git repository with Weblate translations:"
+msgid "Repository with Weblate translations:"
+msgstr "Repositorio Git con las traducciones de Weblate:"
+
 #: weblate/html/mail/merge_failure.html:37
 #: weblate/html/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
@@ -2864,15 +2885,21 @@ msgid "Translation license"
 msgstr "Licencia de la traducción"
 
 #: weblate/html/subproject_info.html:22
-msgid "Git repository"
-msgstr "Repositorio Git"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository"
+msgstr "Estado del repositorio"
 
 #: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:135
-msgid "Git branch"
-msgstr "Rama Git"
+#, fuzzy
+#| msgid "Repository browser"
+msgid "Repository branch"
+msgstr "Explorador del repositorio"
 
 #: weblate/html/subproject_info.html:41
-msgid "Git repository with Weblate translations"
+#, fuzzy
+#| msgid "Git repository with Weblate translations"
+msgid "Repository with Weblate translations"
 msgstr "Repositorio Git con las traducciones de Weblate"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:55
@@ -4258,18 +4285,22 @@ msgstr "Comentario agregado"
 #| "URL of Git repository, use weblate://project/resource for sharing with "
 #| "other resource."
 msgid ""
-"URL of Git repository, use weblate://project/component for sharing with "
-"other component."
+"URL of a repository, use weblate://project/component for sharing with other "
+"component."
 msgstr ""
 "URL del repositorio Git, utilice weblate://proyecto/recurso para compartirlo "
 "con otro recurso."
 
 #: weblate/trans/models/subproject.py:102
-msgid "Git push URL"
-msgstr "URL Git para «push»"
+#, fuzzy
+#| msgid "Repository status"
+msgid "Repository push URL"
+msgstr "Estado del repositorio"
 
 #: weblate/trans/models/subproject.py:105
-msgid "URL of push Git repository, pushing is disabled if empty."
+#, fuzzy
+#| msgid "URL of push Git repository, pushing is disabled if empty."
+msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
 "URL de repositorio Git remoto, se desactivará la capacidad de «push» si está "
 "vacío."
@@ -4289,11 +4320,15 @@ msgstr ""
 "respectivamente."
 
 #: weblate/trans/models/subproject.py:119
-msgid "Exported Git URL"
+#, fuzzy
+#| msgid "Exported Git URL"
+msgid "Exported repository URL"
 msgstr "URL Git exportada"
 
 #: weblate/trans/models/subproject.py:122
-msgid "URL of Git repository where users can fetch changes from Weblate"
+#, fuzzy
+#| msgid "URL of Git repository where users can fetch changes from Weblate"
+msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
 "URL del repositorio Git donde los usuarios pueden obtener los cambios de "
 "Weblate"
@@ -4311,7 +4346,9 @@ msgstr ""
 "origen, si está vacío no se generarán correos."
 
 #: weblate/trans/models/subproject.py:137
-msgid "Git branch to translate"
+#, fuzzy
+#| msgid "Git branch to translate"
+msgid "Repository branch to translate"
 msgstr "Rama Git a traducir"
 
 #: weblate/trans/models/subproject.py:150
@@ -5359,6 +5396,15 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "traducido"
+
+#~ msgid "Git repository"
+#~ msgstr "Repositorio Git"
+
+#~ msgid "Git branch"
+#~ msgstr "Rama Git"
+
+#~ msgid "Git push URL"
+#~ msgstr "URL Git para «push»"
 
 #~ msgid "Resources"
 #~ msgstr "Recursos"
