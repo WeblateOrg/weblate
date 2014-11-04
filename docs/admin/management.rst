@@ -11,36 +11,36 @@ Management commands
 
 The ./manage.py is extended with following commands:
 
-checkgit <project|project/resource>
------------------------------------
+checkgit <project|project/component>
+------------------------------------
 
 .. django-admin:: checkgit
 
 Prints current state of backend git repository.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
-commitgit <project|project/resource>
-------------------------------------
+commitgit <project|project/component>
+-------------------------------------
 
 .. django-admin:: commitgit
 
 Commits any possible pending changes to backend git repository.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
-commit_pending <project|project/resource>
------------------------------------------
+commit_pending <project|project/component>
+------------------------------------------
 
 .. django-admin:: commit_pending
 
 Commits pending changes older than given age (using ``--age`` parameter,
 defaults to 24 hours).
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
 This is most useful if executed periodically from cron or similar tool:
 
@@ -76,23 +76,23 @@ import_project <project> <gitrepo> <branch> <filemask>
 
 .. django-admin:: import_project
 
-Batch imports resources into project based on file mask.
+Batch imports components into project based on file mask.
 
-`<project>` names an existing project, into which the resources should
+`<project>` names an existing project, into which the components should
 be imported.
 
 The `<gitrepo>` defines URL of Git repository to use, and `<branch>` the
 git branch.
-To import additional translation resources, from an existing Weblate resource,
-use a `weblate://<project>/<resource>` URL for the `<gitrepo>`.
+To import additional translation components, from an existing Weblate component,
+use a `weblate://<project>/<component>` URL for the `<gitrepo>`.
 
 The repository is searched for directories matching a double wildcard
 (`**`) in the `<filemask>`.
-Each of these is then added as a resource, named after the matched
+Each of these is then added as a component, named after the matched
 directory.
-Existing resources will be skipped.
+Existing components will be skipped.
 
-To customise the resource's name, use the ``--name-template`` option.
+To customise the component's name, use the ``--name-template`` option.
 Its parameter is a python formatting string, which will expect the
 match from `<filemask>`.
 
@@ -116,7 +116,7 @@ separate folder with translations of each chapter:
         '*/**.po'
 
 Another example can be Tanaguru tool, where we need to specify file format,
-base file template and has all resources and translations located in single
+base file template and has all components and translations located in single
 folder:
 
 .. code-block:: sh
@@ -164,8 +164,8 @@ list_versions
 
 Lists versions of Weblate dependencies.
 
-loadpo <project|project/resource>
----------------------------------
+loadpo <project|project/component>
+----------------------------------
 
 .. django-admin:: loadpo
 
@@ -175,35 +175,35 @@ repository).
 You can use ``--force`` to force update even if the files should be up
 to date. Additionally you can limit languages to process with ``--lang``.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
-lock_translation <project|project/resource>
--------------------------------------------
+lock_translation <project|project/component>
+--------------------------------------------
 
 .. django-admin:: lock_translation
 
-Locks given resource for translating. This is useful in case you want to do
+Locks given component for translating. This is useful in case you want to do
 some maintenance on underlaying repository.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
 .. seealso:: :djadmin:`unlock_translation`
 
-pushgit <project|project/resource>
-----------------------------------
+pushgit <project|project/component>
+-----------------------------------
 
 .. django-admin:: pushgit
 
 Pushes committed changes to upstream Git repository. With ``--force-commit``
 it also commits any pending changes.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
-rebuild_index <project|project/resource>
-----------------------------------------
+rebuild_index <project|project/component>
+-----------------------------------------
 
 .. django-admin:: rebuild_index
 
@@ -226,16 +226,16 @@ uptodate.
 
 .. seealso:: :ref:`fulltext`
 
-unlock_translation <project|project/resource>
----------------------------------------------
+unlock_translation <project|project/component>
+----------------------------------------------
 
 .. django-admin:: unlock_translation
 
-Unnocks given resource for translating. This is useful in case you want to do
+Unnocks given component for translating. This is useful in case you want to do
 some maintenance on underlaying repository.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
 .. seealso:: :djadmin:`lock_translation`
 
@@ -263,25 +263,25 @@ translate-toolkit).
 The option ``--no-update`` disables update of existing languages (only adds
 new ones).
 
-updatechecks <project|project/resource>
----------------------------------------
+updatechecks <project|project/component>
+----------------------------------------
 
 .. django-admin:: updatechecks
 
 Updates all check for all units. This could be useful only on upgrades
 which do major changes to checks.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
-updategit <project|project/resource>
-------------------------------------
+updategit <project|project/component>
+-------------------------------------
 
 .. django-admin:: updategit
 
 Fetches remote Git repositories and updates internal cache.
 
-You can either define which project or resource to update (eg.
-``weblate/master``) or use ``--all`` to update all existing resources.
+You can either define which project or component to update (eg.
+``weblate/master``) or use ``--all`` to update all existing components.
 
 

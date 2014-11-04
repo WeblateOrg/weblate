@@ -35,7 +35,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def update_from_git(self, request, queryset):
         """
-        Updates selected resources from git.
+        Updates selected components from git.
         """
         for project in queryset:
             project.do_update(request)
@@ -43,7 +43,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def update_checks(self, request, queryset):
         """
-        Recalculates checks for selected resources.
+        Recalculates checks for selected components.
         """
         cnt = 0
         units = Unit.objects.filter(
@@ -56,7 +56,7 @@ class ProjectAdmin(admin.ModelAdmin):
 
     def force_commit(self, request, queryset):
         """
-        Commits pending changes for selected resources.
+        Commits pending changes for selected components.
         """
         for project in queryset:
             project.commit_pending(request)
@@ -75,7 +75,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
     def update_from_git(self, request, queryset):
         """
-        Updates selected resources from git.
+        Updates selected components from git.
         """
         for project in queryset:
             project.do_update(request)
@@ -83,7 +83,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
     def update_checks(self, request, queryset):
         """
-        Recalculates checks for selected resources.
+        Recalculates checks for selected components.
         """
         cnt = 0
         units = Unit.objects.filter(
@@ -99,7 +99,7 @@ class SubProjectAdmin(admin.ModelAdmin):
 
     def force_commit(self, request, queryset):
         """
-        Commits pending changes for selected resources.
+        Commits pending changes for selected components.
         """
         for project in queryset:
             project.commit_pending(request)

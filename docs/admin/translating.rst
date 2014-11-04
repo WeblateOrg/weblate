@@ -13,7 +13,7 @@ Suggestion voting
 In default Weblate setup, everybody can add suggestions and logged in users can
 accept them. You might however want to have more eyes on the translation and
 require more people to accept them. This can be achieved by suggestion voting.
-You can enable this on :ref:`resource` configuration by 
+You can enable this on :ref:`component` configuration by 
 :guilabel:`Suggestion voting` and :guilabel:`Autoaccept suggestions`. The first
 one enables voting feature, while the latter allows you to configure threshold
 at which suggestion will gets automatically accepted (this includes own vote from

@@ -11,20 +11,20 @@ Notification hooks
 Notification hooks allow external applications to notify Weblate that Git
 repository has been updated.
 
-.. http:get:: /hooks/update/(string:project)/(string:resource)/
+.. http:get:: /hooks/update/(string:project)/(string:component)/
 
-   Triggers update of a resource (pulling from Git and scanning for
+   Triggers update of a component (pulling from Git and scanning for
    translation changes).
 
 .. http:get:: /hooks/update/(string:project)/
 
-   Triggers update of all resources in a project (pulling from Git and
+   Triggers update of all components in a project (pulling from Git and
    scanning for translation changes).
 
 .. http:post:: /hooks/github/
 
     Special hook for handling GitHub notifications and automatically updating
-    matching resources.
+    matching components.
 
     .. note::
 
@@ -41,7 +41,7 @@ repository has been updated.
 .. http:post:: /hooks/gitlab/
 
     Special hook for handling GitLab notifications and automatically updating
-    matching resources.
+    matching components.
 
     .. seealso:: 
 
@@ -52,7 +52,7 @@ repository has been updated.
 .. http:post:: /hooks/bitbucket/
 
     Special hook for handling Bitbucket notifications and automatically
-    updating matching resources.
+    updating matching components.
 
     .. seealso:: 
 
@@ -68,9 +68,9 @@ Exports
 
 Weblate provides various exports to allow you further process the data.
 
-.. http:get:: /exports/stats/(string:project)/(string:resource)/
+.. http:get:: /exports/stats/(string:project)/(string:component)/
 
-    Retrieves statistics for given resource in JSON format.
+    Retrieves statistics for given component in JSON format.
 
     You can get pretty-printed output by appending ``?indent=1`` to the
     request.
@@ -163,13 +163,13 @@ RSS feeds
 
 Changes in translations are exported in RSS feeds.
 
-.. http:get:: /exports/rss/(string:project)/(string:resource)/(string:language)/
+.. http:get:: /exports/rss/(string:project)/(string:component)/(string:language)/
 
     Retrieves RSS feed with recent changes for a translation.
 
-.. http:get:: /exports/rss/(string:project)/(string:resource)/
+.. http:get:: /exports/rss/(string:project)/(string:component)/
 
-    Retrieves RSS feed with recent changes for a resource.
+    Retrieves RSS feed with recent changes for a component.
 
 .. http:get:: /exports/rss/(string:project)/
 

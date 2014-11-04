@@ -63,7 +63,7 @@ Source strings checks
 Weblate includes quite a lot of :ref:`checks`. Some of them also focus on
 quality of source strings. These can give you some hints for making strings
 easier to translate. You can check failing source checks on :guilabel:`Source`
-tab of every resource.
+tab of every component.
 
 Failing checks on translation
 +++++++++++++++++++++++++++++
@@ -80,6 +80,6 @@ String comments
 +++++++++++++++
 
 Weblate allows translators to comment on both translation and source strings.
-Each :ref:`resource` can be configured to receive such comments on email
+Each :ref:`component` can be configured to receive such comments on email
 address and sending this to developers mailing list is usually best approach.
 This way you can monitor when translators find problems and fix them quickly.

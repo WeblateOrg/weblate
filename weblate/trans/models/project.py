@@ -310,9 +310,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         from weblate.trans.models.translation import Translation
         total = 0
-        for resource in self.subproject_set.all():
+        for component in self.subproject_set.all():
             try:
-                total += resource.translation_set.all()[0].total
+                total += component.translation_set.all()[0].total
             except Translation.DoesNotExist:
                 pass
         return total
@@ -335,20 +335,20 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         Checks whether there are some not committed changes.
         """
-        for resource in self.subproject_set.all():
-            if resource.git_needs_commit():
+        for component in self.subproject_set.all():
+            if component.git_needs_commit():
                 return True
         return False
 
     def git_needs_merge(self):
-        for resource in self.subproject_set.all():
-            if resource.git_needs_merge():
+        for component in self.subproject_set.all():
+            if component.git_needs_merge():
                 return True
         return False
 
     def git_needs_push(self):
-        for resource in self.subproject_set.all():
-            if resource.git_needs_push():
+        for component in self.subproject_set.all():
+            if component.git_needs_push():
                 return True
         return False
 
@@ -356,16 +356,16 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         Commits any pending changes.
         """
-        for resource in self.subproject_set.all():
-            resource.commit_pending(request)
+        for component in self.subproject_set.all():
+            component.commit_pending(request)
 
     def do_update(self, request=None, method=None):
         """
         Updates all git repos.
         """
         ret = True
-        for resource in self.subproject_set.all():
-            ret &= resource.do_update(request, method=method)
+        for component in self.subproject_set.all():
+            ret &= component.do_update(request, method=method)
         return ret
 
     def do_push(self, request=None):
@@ -373,8 +373,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Pushes all git repos.
         """
         ret = False
-        for resource in self.subproject_set.all():
-            ret |= resource.do_push(request)
+        for component in self.subproject_set.all():
+            ret |= component.do_push(request)
         return ret
 
     def do_reset(self, request=None):
@@ -382,8 +382,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Pushes all git repos.
         """
         ret = False
-        for resource in self.subproject_set.all():
-            ret |= resource.do_reset(request)
+        for component in self.subproject_set.all():
+            ret |= component.do_reset(request)
         return ret
 
     def can_push(self):
@@ -391,8 +391,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Checks whether any suprojects can push.
         """
         ret = False
-        for resource in self.subproject_set.all():
-            ret |= resource.can_push()
+        for component in self.subproject_set.all():
+            ret |= component.can_push()
         return ret
 
     @property
@@ -400,8 +400,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         Returns date of last change done in Weblate.
         """
-        resources = self.subproject_set.all()
-        changes = [resource.last_change for resource in resources]
+        components = self.subproject_set.all()
+        changes = [component.last_change for component in components]
         changes = [c for c in changes if c is not None]
         if not changes:
             return None

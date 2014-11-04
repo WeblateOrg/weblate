@@ -77,7 +77,7 @@ class SubProjectManager(models.Manager):
 
 class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
-        verbose_name=ugettext_lazy('Resource name'),
+        verbose_name=ugettext_lazy('Component name'),
         max_length=100,
         help_text=ugettext_lazy('Name to display')
     )
@@ -94,8 +94,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Source code repository'),
         max_length=200,
         help_text=ugettext_lazy(
-            'URL of Git repository, use weblate://project/resource '
-            'for sharing with other resource.'
+            'URL of Git repository, use weblate://project/component '
+            'for sharing with other component.'
         ),
     )
     push = models.CharField(
@@ -202,14 +202,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Locked'),
         default=False,
         help_text=ugettext_lazy(
-            'Whether resource is locked for translation updates.'
+            'Whether component is locked for translation updates.'
         )
     )
     allow_translation_propagation = models.BooleanField(
         verbose_name=ugettext_lazy('Allow translation propagation'),
         default=True,
         help_text=ugettext_lazy(
-            'Whether translation updates in other resources '
+            'Whether translation updates in other components '
             'will cause automatic translation in this one'
         )
     )
@@ -922,8 +922,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if code in langs:
                 raise ValidationError(_(
                     'There are more files for single language, please '
-                    'adjust the mask and use resources for translating '
-                    'different resources.'
+                    'adjust the mask and use components for translating '
+                    'different components.'
                 ))
             if lang.code in translated_langs:
                 raise ValidationError(_(

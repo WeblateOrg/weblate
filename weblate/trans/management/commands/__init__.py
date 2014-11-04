@@ -28,16 +28,16 @@ from weblate.trans.models import Unit, SubProject, Translation
 
 class WeblateCommand(BaseCommand):
     '''
-    Command which accepts project/resource/--all params to process.
+    Command which accepts project/component/--all params to process.
     '''
-    args = '<project/resource>'
+    args = '<project/component>'
     option_list = BaseCommand.option_list + (
         make_option(
             '--all',
             action='store_true',
             dest='all',
             default=False,
-            help='process all resources'
+            help='process all components'
         ),
     )
 
@@ -58,14 +58,14 @@ class WeblateCommand(BaseCommand):
 
     def get_subprojects(self, *args, **options):
         '''
-        Returns list of resources matching parameters.
+        Returns list of components matching parameters.
         '''
         if options['all']:
-            # all resources
+            # all components
             result = SubProject.objects.all()
         elif len(args) == 0:
             # no argumets to filter projects
-            print 'Please specify either --all or <project/resource>'
+            print 'Please specify either --all or <project/component>'
             raise CommandError('Nothing to process!')
         else:
             # start with none and add found
@@ -73,19 +73,19 @@ class WeblateCommand(BaseCommand):
 
             # process arguments
             for arg in args:
-                # do we have also resource?
+                # do we have also component?
                 parts = arg.split('/')
 
                 # filter by project
                 found = SubProject.objects.filter(project__slug=parts[0])
 
-                # filter by resource if available
+                # filter by component if available
                 if len(parts) == 2:
                     found = found.filter(slug=parts[1])
 
                 # warn on no match
                 if found.count() == 0:
-                    print '"%s" did not match any resources' % arg
+                    print '"%s" did not match any components' % arg
                     raise CommandError('Nothing to process!')
 
                 # merge results

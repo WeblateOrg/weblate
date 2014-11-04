@@ -554,7 +554,7 @@ class AutoForm(forms.Form):
         initial=False
     )
     subproject = forms.ChoiceField(
-        label=_('Subproject to use'),
+        label=_('Component to use'),
         required=False,
         initial=''
     )

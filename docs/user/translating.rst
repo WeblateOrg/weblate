@@ -98,7 +98,7 @@ Similar messages
     Messages which are similar to currently one, which again can help you to
     stay consistent within translation.
 All locations
-    In case message appears in multiple places (eg. multiple resources),
+    In case message appears in multiple places (eg. multiple components),
     this tab shows all of them and for inconsistent translations (see
     :ref:`check-inconsistent`) you can choose which one to use.
 Glossary
@@ -115,7 +115,7 @@ which contains translated strings.
 Translation history
 +++++++++++++++++++
 
-Every change is by default (unless disabled in resource settings) saved in
+Every change is by default (unless disabled in component settings) saved in
 the database and can be reverted. Of course you can still also revert anything
 in underlaying version control system.
 

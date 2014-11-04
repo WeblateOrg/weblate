@@ -7,11 +7,11 @@ Translation organization
 Weblate organizes translatable content into tree like structure. The toplevel
 object is :ref:`project`, which should hold all translations which belong
 together (for example translation of an application in several versions
-and/or documentation). On the next level, there is :ref:`resource`, which is
-actually the resource to translate. Here you define Git repository to use and
-mask of files to translate. Bellow :ref:`resource` there are individual
+and/or documentation). On the next level, there is :ref:`component`, which is
+actually the component to translate. Here you define Git repository to use and
+mask of files to translate. Bellow :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
-files (matching mask defined in :ref:`resource`) appear in Git repository.
+files (matching mask defined in :ref:`component`) appear in Git repository.
 
 Administration
 --------------
@@ -20,19 +20,19 @@ Administration of Weblate is done through standard Django admin interface,
 which is available under :file:`/admin/` URL.
 
 
-Adding new resources
---------------------
+Adding new components
+---------------------
 
-All translation resources need to be available as Git repositories and are
-organized as project/resource structure.
+All translation components need to be available as Git repositories and are
+organized as project/component structure.
 
 Weblate supports wide range of translation formats supported by translate
 toolkit, see :ref:`formats` for more information.
 
 .. _monolingual:
 
-Monolingual resources
-+++++++++++++++++++++
+Monolingual components
+++++++++++++++++++++++
 
 Weblate does support both multilingual and monolingual formats. For easier
 translating of monolingual formats, you should provide template file, which
@@ -43,11 +43,11 @@ contains mapping of message IDs to source language (usually English).
 Project
 -------
 
-To add new resource to translate, you need to create translation project first.
+To add new component to translate, you need to create translation project first.
 The project is sort of shelf, in which real translations are folded. All
-resources in same project share suggestions and dictionary, also the
-translations are automatically propagated through the all resource in single
-project (unless disabled in resource configuration).
+components in same project share suggestions and dictionary, also the
+translations are automatically propagated through the all component in single
+project (unless disabled in component configuration).
 
 The project has only few attributes giving translators information about
 project.
@@ -62,8 +62,8 @@ strings in the message:
     Language code
 ``%(language_name)s``
     Language name
-``%(resource)s``
-    Resource name
+``%(component)s``
+    Component name
 ``%(project)s``
     Project name
 ``%(total)s``
@@ -85,12 +85,12 @@ pushing of changes (see also :ref:`push-changes`), merge or rebase
 (see :ref:`merge-rebase`), git committer name or
 maintaining of Translation-Team header.
 
-.. _resource:
+.. _component:
 
-Resource
---------
+Component
+---------
 
-Resource is real resource for translating. You enter Git repository location
+Component is real component for translating. You enter Git repository location
 and file mask which files to translate and Weblate automatically fetches the Git
 and finds all matching translatable files.
 
@@ -99,14 +99,14 @@ created and named as "cs_CZ (generated)". You should adjust the definition and
 report this back to Weblate authors so that missing language can be included in
 next release.
 
-The resource contains all important parameters for working with Git and
+The component contains all important parameters for working with Git and
 getting translations out of it:
 
 Repo
     Git repository used to pull changes.
 
-    This can be either real Git URL or ``weblate://project/resource``
-    indicating that Git repository should be shared with another resource.
+    This can be either real Git URL or ``weblate://project/component``
+    indicating that Git repository should be shared with another component.
 Push
     Git URL used for pushing, this is completely optional and push support will
     be disabled when this is empty.
@@ -121,7 +121,7 @@ Filemask
     Mask of files to translate including path. It should include one *
     replacing language code. In case your Git repository contains more than one
     translation files (eg. more Gettext domains), you need to create separate
-    resource for each. For example ``po/*.po`` or
+    component for each. For example ``po/*.po`` or
     ``locale/*/LC_MESSAGES/django.po``.
 Monolingual base language file
     Base file containing strings definition for :ref:`monolingual`.
@@ -133,8 +133,8 @@ Report source bugs
 Locked
     You can lock the translation to prevent updates by users.
 Allow translation propagation
-    You can disable propagation of translations to this resource from other
-    resources within same project. This really depends on what you are
+    You can disable propagation of translations to this component from other
+    components within same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
 Pre commit script
     One of scripts defined in :setting:`PRE_COMMIT_SCRIPTS` which is executed
@@ -167,7 +167,7 @@ Clone Git repository in advance
 
 You can put in place Git repository which will be used by Weblate. The
 repositories are stored in path defined by :setting:`GIT_ROOT` in
-:file:`settings.py` in :file:`<project>/<resource>` directories.
+:file:`settings.py` in :file:`<project>/<component>` directories.
 
 This can be especially useful if you already have local clone of this
 repository and you can use ``--reference`` option while cloning:
@@ -177,7 +177,7 @@ repository and you can use ``--reference`` option while cloning:
     git clone \
         --reference /path/to/checkout \
         git://github.com/nijel/weblate.git \
-        weblate/repos/project/resource
+        weblate/repos/project/component
 
 Optimize configuration
 ++++++++++++++++++++++
@@ -201,13 +201,13 @@ information how to configure this.
 
 .. _autocreate:
 
-Automatic creation of resources
--------------------------------
+Automatic creation of components
+--------------------------------
 
 In case you have project with dozen of po files, you might want to import all
 at once. This can be achieved using :djadmin:`import_project`.
 
-First you need to create project which will contain all resources and then
+First you need to create project which will contain all components and then
 it's just a matter of running :djadmin:`import_project`.
 
 .. seealso:: :ref:`manage`

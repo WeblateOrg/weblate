@@ -344,7 +344,7 @@ PRE_COMMIT_SCRIPTS
 ------------------
 
 List of scripts which are allowed as pre commit scripts. The script needs to be
-later enabled in resource configuration.
+later enabled in component configuration.
 
 For example you can allow script which does some cleanup:
 

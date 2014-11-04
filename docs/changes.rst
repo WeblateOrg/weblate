@@ -63,7 +63,7 @@ Released on October 7th 2013.
 
 * Please check manual for upgrade instructions.
 * Support for checking Python brace format string.
-* Per resource customization of quality checks.
+* Per component customization of quality checks.
 * Detailed per translation stats.
 * Changed way of linking suggestions, checks and comments to units.
 * Users can now add text to commit message.
@@ -181,7 +181,7 @@ Released on August 14th 2012.
 * New introduction page for engaging people with translating using Weblate.
 * Added widgets which can be used for promoting translation projects.
 * Added option to reset repository to origin (for privileged users).
-* Project or resource can now be locked for translations.
+* Project or component can now be locked for translations.
 * Possibility to disable some translations.
 * Configurable options for adding new translations.
 * Configuration of git commits per project.
@@ -205,8 +205,8 @@ weblate 1.1
 Released on July 4th 2012.
 
 * Improved several translations.
-* Better validation while creating resource.
-* Added support for shared git repositories across resources.
+* Better validation while creating component.
+* Added support for shared git repositories across components.
 * Do not necessary commit on every attempt to pull remote repo.
 * Added support for offloading indexing.
 
@@ -215,8 +215,8 @@ weblate 1.0
 
 Released on May 10th 2012.
 
-* Improved validation while adding/saving resource.
-* Experimental support for Android resource files (needs patched ttkit).
+* Improved validation while adding/saving component.
+* Experimental support for Android component files (needs patched ttkit).
 * Updates from hooks are run in background.
 * Improved installation instructions.
 * Improved navigation in dictionary.
@@ -237,7 +237,7 @@ Released on April 18th 2012.
 * Update helper scripts to Django 1.4.
 * Improved navigation while translating.
 * Better handling of po file renames.
-* Better validation while creating resource.
+* Better validation while creating component.
 * Integrated full setup into syncdb.
 * Added list of recent changes to all translation pages.
 * Check for not translated strings ignores format string only messages.

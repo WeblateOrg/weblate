@@ -32,7 +32,7 @@ Vendor:         Michal Čihař <mcihar@suse.com>
 %description
 Weblate is a free web-based translation tool with tight Git integration. It
 features simple and clean user interface, propagation of translations across
-resources, quality checks and automatic linking to source files.
+components, quality checks and automatic linking to source files.
 
 List of features includes:
 

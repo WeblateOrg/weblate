@@ -258,14 +258,14 @@
 <tr><th>{% trans "Project" %}</th><th>{% trans "License" %}</th></tr>
 </thead>
 <tbody>
-{% for resource in licenses %}
+{% for component in licenses %}
 <tr>
-<th><a href="{{ resource.get_absolute_url }}">{{ resource }}</a></th>
+<th><a href="{{ component.get_absolute_url }}">{{ component }}</a></th>
 <td>
-{% if resource.license_url %}
-<a href="{{ resource.license_url }}">{{ resource.license }}</a></p>
+{% if component.license_url %}
+<a href="{{ component.license_url }}">{{ component.license }}</a></p>
 {% else %}
-{{ resource.license }}
+{{ component.license }}
 {% endif %}
 </td>
 </tr>

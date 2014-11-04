@@ -78,7 +78,7 @@ def lock_subproject(request, project, subproject):
 
     messages.success(
         request,
-        _('Subproject is now locked for translation updates!')
+        _('Component is now locked for translation updates!')
     )
 
     return redirect(obj)
@@ -94,7 +94,7 @@ def unlock_subproject(request, project, subproject):
 
     messages.success(
         request,
-        _('Subproject is now open for translation updates.')
+        _('Component is now open for translation updates.')
     )
 
     return redirect(obj)

@@ -35,7 +35,7 @@ class LockTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-    def assertSubprojectLocked(self):
+    def assertComponentLocked(self):
         subproject = SubProject.objects.get(
             slug=self.subproject.slug,
             project__slug=self.project.slug,
@@ -49,7 +49,7 @@ class LockTest(ViewTestCase):
             'This translation is currently locked for updates!'
         )
 
-    def assertSubprojectNotLocked(self):
+    def assertComponentNotLocked(self):
         subproject = SubProject.objects.get(
             slug=self.subproject.slug,
             project__slug=self.project.slug,
@@ -71,7 +71,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertSubprojectLocked()
+        self.assertComponentLocked()
 
         response = self.client.get(
             reverse('unlock_subproject', kwargs=self.kw_subproject)
@@ -80,7 +80,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertSubprojectNotLocked()
+        self.assertComponentNotLocked()
 
     def test_project(self):
         response = self.client.get(
@@ -90,7 +90,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertSubprojectLocked()
+        self.assertComponentLocked()
 
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
@@ -107,7 +107,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertSubprojectNotLocked()
+        self.assertComponentNotLocked()
 
     def test_translation(self):
         response = self.client.get(
