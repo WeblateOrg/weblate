@@ -29,10 +29,11 @@ try:
 except IOError:
     pass
 
+
 def application(environ, start_response):
 
-  ctype = 'text/html'
-  response_body = Template('''<!doctype html>
+    ctype = 'text/html'
+    response_body = Template('''<!doctype html>
 <html lang="en">
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -91,25 +92,36 @@ pre {
   <div class="content">
     <h1>$action1 Weblate</h1>
 
-    <p>Weblate is beeing $action2. Please wait a few minutes and refresh this page.</p>
-             
+    <p>
+    Weblate is beeing $action2.
+    Please wait a few minutes and refresh this page.
+    </p>
+
     $log
   </div>
 </body>
 </html>''')
 
-  if os.path.exists(os.environ['OPENSHIFT_DATA_DIR'] + '/.installed'):
-    action1 = 'Updating'
-    action2 = 'updated'
-    log = ''
-  else:
-    action1 = 'Installing'
-    action2 = 'installed'
-    log = '<pre>' + os.popen('cat ${OPENSHIFT_PYTHON_LOG_DIR}/install.log | grep \'^[^ ]\\|setup.py install\' | sed \'s,/var/lib/openshift/[a-z0-9]\{24\},~,g\'').read() + '</pre>'
+    if os.path.exists(os.environ['OPENSHIFT_DATA_DIR'] + '/.installed'):
+        action1 = 'Updating'
+        action2 = 'updated'
+        log = ''
+    else:
+        action1 = 'Installing'
+        action2 = 'installed'
+        log_msg = os.popen(
+            'cat ${OPENSHIFT_PYTHON_LOG_DIR}/install.log |'
+            + ' grep \'^[^ ]\\|setup.py install\' |'
+            + ' sed \'s,/var/lib/openshift/[a-z0-9]\{24\},~,g\''
+        ).read()
+        log = '<pre>' + log_msg + '</pre>'
 
-  response_body = response_body.substitute(locals())
-  status = '200 OK'
-  response_headers = [('Content-Type', ctype), ('Content-Length', str(len(response_body)))]
-  
-  start_response(status, response_headers)
-  return [response_body]
+    response_body = response_body.substitute(locals())
+    status = '200 OK'
+    response_headers = [
+        ('Content-Type', ctype),
+        ('Content-Length', str(len(response_body)))
+    ]
+
+    start_response(status, response_headers)
+    return [response_body]

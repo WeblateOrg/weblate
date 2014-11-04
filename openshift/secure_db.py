@@ -24,18 +24,26 @@ from django.conf import settings
 # Use default Django settings
 settings.configure()
 
-import os, sqlite3
+import os
+import sqlite3
 from openshift.openshiftlibs import make_secure_key, get_openshift_secret_token
 from hashlib import sha256
 from django.contrib.auth.hashers import make_password
 
-new_pass = make_secure_key({ 'hash': sha256(get_openshift_secret_token()).hexdigest(), 'original': '0' * 12, 'variable': '' })
+new_pass = make_secure_key({
+    'hash': sha256(get_openshift_secret_token()).hexdigest(),
+    'original': '0' * 12,
+    'variable': ''
+})
 new_hash = make_password(new_pass)
 
 # Update admin password in database
 conn = sqlite3.connect(os.environ['OPENSHIFT_DATA_DIR'] + '/weblate.db')
 cursor = conn.cursor()
-cursor.execute('UPDATE AUTH_USER SET password = ? WHERE username = ?', [new_hash, 'admin'])
+cursor.execute(
+    'UPDATE AUTH_USER SET password = ? WHERE username = ?',
+    [new_hash, 'admin']
+)
 conn.commit()
 cursor.close()
 conn.close()
