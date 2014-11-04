@@ -36,7 +36,9 @@ try:
     # pylint: disable=E0611
     from django.contrib.auth import update_session_auth_hash
 except ImportError:
+    # Fallback for Django 1.6
     update_session_auth_hash = None
+
 from urllib import urlencode
 
 from weblate.accounts.forms import (
