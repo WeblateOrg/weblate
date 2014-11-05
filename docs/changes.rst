@@ -23,6 +23,7 @@ Released on ? 2014.
 * Compatibility with older Git versions.
 * Improved ACL support.
 * Added buttons for per language quotes and other special chars.
+* Support for exporting stats as JSONP.
 
 weblate 1.9
 -----------

@@ -269,6 +269,10 @@ def export_stats(request, project, subproject):
     except (ValueError, KeyError):
         indent = None
 
+    jsonp = None
+    if 'jsonp' in request.GET and request.GET['jsonp']:
+        jsonp = request.GET['jsonp']
+
     response = []
     for trans in subprj.translation_set.all():
         response.append({
@@ -288,11 +292,20 @@ def export_stats(request, project, subproject):
             'url': trans.get_share_url(),
             'url_translate': get_site_url(trans.get_absolute_url()),
         })
+    json_data = json.dumps(
+        response,
+        default=json_dt_handler,
+        indent=indent,
+    )
+    if jsonp:
+        return HttpResponse(
+            '{0}({1})'.format(
+                jsonp,
+                json_data,
+            ),
+            content_type='application/javascript'
+        )
     return HttpResponse(
-        json.dumps(
-            response,
-            default=json_dt_handler,
-            indent=indent,
-        ),
+        json_data,
         content_type='application/json'
     )

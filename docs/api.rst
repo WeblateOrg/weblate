@@ -70,7 +70,11 @@ Weblate provides various exports to allow you further process the data.
 
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
-    Retrieves statistics for given component in JSON format.
+    :query integer indent: pretty printed indentation
+    :query string jsonp: JSONP callback function to wrap the data
+
+    Retrieves statistics for given component in JSON format. Optionally as
+    JSONP when you specify the callback in the ``jsonp`` parameter.
 
     You can get pretty-printed output by appending ``?indent=1`` to the
     request.

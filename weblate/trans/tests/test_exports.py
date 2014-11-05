@@ -59,6 +59,13 @@ class ExportsViewTest(ViewTestCase):
         parsed = json.loads(response.content)
         self.assertEqual(parsed[0]['name'], 'Czech')
 
+    def test_export_stats_jsonp(self):
+        response = self.client.get(
+            reverse('export_stats', kwargs=self.kw_subproject),
+            {'jsonp': 'test_callback'}
+        )
+        self.assertContains(response, 'test_callback(')
+
     def test_data(self):
         response = self.client.get(
             reverse('data_root')
