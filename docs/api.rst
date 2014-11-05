@@ -79,9 +79,21 @@ Weblate provides various exports to allow you further process the data.
     You can get pretty-printed output by appending ``?indent=1`` to the
     request.
 
-    Example response:
+    **Example request**:
 
-    .. code-block:: json
+    .. sourcecode:: http
+
+        GET /exports/stats/weblate/master/?indent=4 HTTP/1.1
+        Host: example.com
+        Accept: application/json, text/javascript
+
+    **Example response**:
+
+    .. sourcecode:: http
+
+        HTTP/1.1 200 OK
+        Vary: Accept
+        Content-Type: application/json
 
         [
             {
