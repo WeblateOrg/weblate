@@ -18,12 +18,10 @@
 
 {% include "show-lock.html" %}
 
-<h2>{% trans "Translate" %}</h2>
-
 {% if filter_name %}
-<span class="navi-toolbar ui-widget-header ui-corner-all">
+<div class="alert alert-info">
 {% blocktrans %}Current filter: {{ filter_name }} ({{ filter_count }}){% endblocktrans %}
-</span>
+</div>
 {% endif %}
 
 <table class="zen table table-condensed">
