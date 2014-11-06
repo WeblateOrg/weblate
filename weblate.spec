@@ -13,7 +13,15 @@ Source:         %{name}-%{version}.tar.bz2
 BuildRequires:  bitstream-vera
 BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
+BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
+BuildRequires:  python-South >= 1.0
+BuildRequires:  python-dateutil
+BuildRequires:  python-django >= 1.6
+BuildRequires:  python-django-crispy-forms >= 1.4.0
+BuildRequires:  python-python-social-auth >= 0.2
+BuildRequires:  python-whoosh >= 2.5.2
+BuildRequires:  translate-toolkit >= 1.10.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       python-Pillow
@@ -96,6 +104,9 @@ install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d
 install -d %{buildroot}/%{WLDATADIR}
 install -d %{buildroot}/%{WLDATADIR}/whoosh-index
 install -d %{buildroot}/%{WLDATADIR}/repos
+
+%check
+./manage.py test --settings=weblate/settings_test -v 2
 
 %files
 %defattr(-,root,root)
