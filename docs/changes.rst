@@ -4,7 +4,7 @@ Changes
 weblate 2.0
 -----------
 
-Released on ? 2014.
+Released on Nov 6th 2014.
 
 * New responsive UI using Bootstrap.
 * Rewritten VCS backend.
