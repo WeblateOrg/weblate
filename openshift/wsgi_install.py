@@ -110,9 +110,9 @@ pre {
         action1 = 'Installing'
         action2 = 'installed'
         log_msg = os.popen(
-            'cat ${OPENSHIFT_PYTHON_LOG_DIR}/install.log |'
-            + ' grep \'^[^ ]\\|setup.py install\' |'
-            + r' sed \'s,/var/lib/openshift/[a-z0-9]\{24\},~,g\''
+            r"cat ${OPENSHIFT_PYTHON_LOG_DIR}/install.log |"
+            r" grep '^[^ ]\|setup.py install' |"
+            r" sed 's,/var/lib/openshift/[a-z0-9]\{24\},~,g'"
         ).read()
         log = '<pre>' + log_msg + '</pre>'
 

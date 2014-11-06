@@ -52,7 +52,7 @@ cd ${OPENSHIFT_REPO_DIR}
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
 # Pin Django version to 1.7 to avoid surprises when 1.8 comes out.
-sed -e 's/Django[<>=]\+.*/Django==1.7/' $OPENSHIFT_REPO_DIR/requirements-mandatory.txt >/tmp/requirements.txt
+sed -e 's/Django[<>=]\+.*/Django>1.7,<1.8/' $OPENSHIFT_REPO_DIR/requirements-mandatory.txt >/tmp/requirements.txt
 
 sh "pip install -r /tmp/requirements.txt"
 
