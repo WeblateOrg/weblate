@@ -1,34 +1,32 @@
+%{!?python_sitelib: %global python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%define WLDIR %{_datadir}/weblate
+%define WLDATADIR %{_localstatedir}/lib/weblate
+%define WLETCDIR /%{_sysconfdir}/weblate
 Name:           weblate
-Version: 2.0
-Release:        1
-License:        GPL-3.0+
+Version:        2.0
+Release:        0
 Summary:        Web-based translation tool
+License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
+Url:            http://weblate.org/
 Source:         %{name}-%{version}.tar.bz2
 BuildRequires:  bitstream-vera
 BuildRequires:  graphviz
-BuildRequires:  python-Sphinx
 BuildRequires:  graphviz-gd
-Url:            http://weblate.org/
+BuildRequires:  python-Sphinx
 Requires:       apache2-mod_wsgi
 Requires:       cron
-Requires:       python-django >= 1.6
-Requires:       python-python-social-auth >= 0.2
-Requires:       translate-toolkit >= 1.10.0
-Requires:       python-whoosh >= 2.5.2
 Requires:       python-Pillow
 Requires:       python-South >= 1.0
-Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-dateutil
-%py_requires
+Requires:       python-django >= 1.6
+Requires:       python-django-crispy-forms >= 1.4.0
+Requires:       python-python-social-auth >= 0.2
+Requires:       python-whoosh >= 2.5.2
+Requires:       translate-toolkit >= 1.10.0
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
-Vendor:         Michal Čihař <mcihar@suse.com>
-
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%define WLDIR /usr/share/weblate
-%define WLDATADIR /var/lib/weblate
-%define WLETCDIR /%{_sysconfdir}/weblate
+%py_requires
 
 %description
 Weblate is a free web-based translation tool with tight Git integration. It
@@ -47,7 +45,6 @@ List of features includes:
 * Message quality checks
 * Tunable access control
 * Wide range of supported translation formats (Getext, Qt, Java, Windows, Symbian and more)
-
 
 %prep
 %setup -q
@@ -99,9 +96,6 @@ install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d
 install -d %{buildroot}/%{WLDATADIR}
 install -d %{buildroot}/%{WLDATADIR}/whoosh-index
 install -d %{buildroot}/%{WLDATADIR}/repos
-
-%clean
-rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
