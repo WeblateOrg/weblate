@@ -10,25 +10,30 @@ License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
 Url:            http://weblate.org/
 Source:         %{name}-%{version}.tar.bz2
+Source1:        test-base-repo.git.tar.bz2
 BuildRequires:  bitstream-vera
 BuildRequires:  git
 BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
+BuildRequires:  python-Babel
+BuildRequires:  python-Django >= 1.7
 BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
 BuildRequires:  python-dateutil
-BuildRequires:  python-django >= 1.7
 BuildRequires:  python-django-crispy-forms >= 1.4.0
+BuildRequires:  python-httpretty
 BuildRequires:  python-python-social-auth >= 0.2
+BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
 BuildRequires:  python-whoosh >= 2.5.2
 BuildRequires:  translate-toolkit >= 1.10.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
+Requires:       python-Babel
+Requires:       python-Django >= 1.7
 Requires:       python-Pillow
 Requires:       python-dateutil
-Requires:       python-django >= 1.7
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
 Requires:       python-whoosh >= 2.5.2
@@ -57,6 +62,10 @@ List of features includes:
 
 %prep
 %setup -q
+mkdir weblate/test-repos/
+cd weblate/test-repos/
+tar xvf %{SOURCE1}
+cd ../..
 
 %build
 make -C docs html
