@@ -11,6 +11,7 @@ Group:          Productivity/Networking/Web/Frontends
 Url:            http://weblate.org/
 Source:         %{name}-%{version}.tar.bz2
 BuildRequires:  bitstream-vera
+BuildRequires:  git
 BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
 BuildRequires:  python-Pillow
@@ -24,6 +25,7 @@ BuildRequires:  python-whoosh >= 2.5.2
 BuildRequires:  translate-toolkit >= 1.10.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
+Requires:       git
 Requires:       python-Pillow
 Requires:       python-dateutil
 Requires:       python-django >= 1.7
