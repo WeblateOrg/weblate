@@ -105,7 +105,7 @@ install -d %{buildroot}/%{WLDATADIR}/whoosh-index
 install -d %{buildroot}/%{WLDATADIR}/repos
 
 %check
-./manage.py test --settings=weblate/settings_test -v 2
+./manage.py test --settings=weblate.settings_test -v 2
 
 %files
 %defattr(-,root,root)
