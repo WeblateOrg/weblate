@@ -1,33 +1,46 @@
+%{!?python_sitelib: %global python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%define WLDIR %{_datadir}/weblate
+%define WLDATADIR %{_localstatedir}/lib/weblate
+%define WLETCDIR /%{_sysconfdir}/weblate
 Name:           weblate
-Version: 2.0
-Release:        1
-License:        GPL-3.0+
+Version:        2.0
+Release:        0
 Summary:        Web-based translation tool
+License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
-Source:         %{name}-%{version}.tar.bz2
-BuildRequires:  bitstream-vera
-BuildRequires:  graphviz
-BuildRequires:  python-Sphinx
-BuildRequires:  graphviz-gd
 Url:            http://weblate.org/
+Source:         %{name}-%{version}.tar.bz2
+Source1:        test-base-repo.git.tar.bz2
+BuildRequires:  bitstream-vera
+BuildRequires:  git
+BuildRequires:  graphviz
+BuildRequires:  graphviz-gd
+BuildRequires:  python-Babel
+BuildRequires:  python-Django >= 1.7
+BuildRequires:  python-Pillow
+BuildRequires:  python-Sphinx
+BuildRequires:  python-dateutil
+BuildRequires:  python-django-crispy-forms >= 1.4.0
+BuildRequires:  python-httpretty
+BuildRequires:  python-python-social-auth >= 0.2
+BuildRequires:  python-selenium
+BuildRequires:  python-sphinxcontrib-httpdomain
+BuildRequires:  python-whoosh >= 2.5.2
+BuildRequires:  translate-toolkit >= 1.10.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
-Requires:       python-django >= 1.5
-Requires:       python-python-social-auth >= 0.1.17
-Requires:       translate-toolkit >= 1.10.0
-Requires:       python-whoosh >= 2.5.2
+Requires:       git
+Requires:       python-Babel
+Requires:       python-Django >= 1.7
 Requires:       python-Pillow
-Requires:       python-South >= 1.0
-Requires:       python-django-crispy-forms
-%py_requires
+Requires:       python-dateutil
+Requires:       python-django-crispy-forms >= 1.4.0
+Requires:       python-python-social-auth >= 0.2
+Requires:       python-whoosh >= 2.5.2
+Requires:       translate-toolkit >= 1.10.0
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
-Vendor:         Michal Čihař <mcihar@suse.com>
-
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%define WLDIR /usr/share/weblate
-%define WLDATADIR /var/lib/weblate
-%define WLETCDIR /%{_sysconfdir}/weblate
+%py_requires
 
 %description
 Weblate is a free web-based translation tool with tight Git integration. It
@@ -47,9 +60,12 @@ List of features includes:
 * Tunable access control
 * Wide range of supported translation formats (Getext, Qt, Java, Windows, Symbian and more)
 
-
 %prep
 %setup -q
+mkdir weblate/test-repos/
+cd weblate/test-repos/
+tar xvf %{SOURCE1}
+cd ../..
 
 %build
 make -C docs html
@@ -99,8 +115,8 @@ install -d %{buildroot}/%{WLDATADIR}
 install -d %{buildroot}/%{WLDATADIR}/whoosh-index
 install -d %{buildroot}/%{WLDATADIR}/repos
 
-%clean
-rm -rf %{buildroot}
+%check
+./manage.py test --settings=weblate.settings_test -v 2
 
 %files
 %defattr(-,root,root)

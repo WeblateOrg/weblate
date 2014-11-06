@@ -131,12 +131,15 @@ def get_versions():
         '2.5',
     ))
 
-    result.append((
-        'Git',
-        'http://git-scm.com/',
-        GitRepository.get_version(),
-        '1.6',
-    ))
+    try:
+        result.append((
+            'Git',
+            'http://git-scm.com/',
+            GitRepository.get_version(),
+            '1.6',
+        ))
+    except OSError:
+        raise Exception('Failed to run git, please install it.')
 
     name = 'South'
     url = 'http://south.aeracode.org/'
