@@ -76,7 +76,7 @@ class Repository(object):
             message = output_err.strip()
             if not message:
                 message = output.strip()
-            raise RepositoryException(output)
+            raise RepositoryException(message)
         return output
 
     def execute(self, args):
