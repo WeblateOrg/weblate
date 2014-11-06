@@ -15,9 +15,8 @@ BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
 BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
-BuildRequires:  python-South >= 1.0
 BuildRequires:  python-dateutil
-BuildRequires:  python-django >= 1.6
+BuildRequires:  python-django >= 1.7
 BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-whoosh >= 2.5.2
@@ -25,9 +24,8 @@ BuildRequires:  translate-toolkit >= 1.10.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       python-Pillow
-Requires:       python-South >= 1.0
 Requires:       python-dateutil
-Requires:       python-django >= 1.6
+Requires:       python-django >= 1.7
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
 Requires:       python-whoosh >= 2.5.2
