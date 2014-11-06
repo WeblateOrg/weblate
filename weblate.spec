@@ -12,13 +12,14 @@ BuildRequires:  graphviz-gd
 Url:            http://weblate.org/
 Requires:       apache2-mod_wsgi
 Requires:       cron
-Requires:       python-django >= 1.5
-Requires:       python-python-social-auth >= 0.1.17
+Requires:       python-django >= 1.6
+Requires:       python-python-social-auth >= 0.2
 Requires:       translate-toolkit >= 1.10.0
 Requires:       python-whoosh >= 2.5.2
 Requires:       python-Pillow
 Requires:       python-South >= 1.0
-Requires:       python-django-crispy-forms
+Requires:       python-django-crispy-forms >= 1.4.0
+Requires:       python-dateutil
 %py_requires
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
