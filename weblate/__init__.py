@@ -70,7 +70,7 @@ if RUNNING_GIT:
         # Mark version as devel if it is
         if not GIT_RELEASE:
             VERSION += '-dev'
-    except RepositoryException:
+    except (RepositoryException, OSError):
         # Import failed or git has troubles reading
         # repo (eg. swallow clone)
         RUNNING_GIT = False
