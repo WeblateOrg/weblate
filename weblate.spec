@@ -19,6 +19,7 @@ BuildRequires:  python-dateutil
 BuildRequires:  python-django >= 1.7
 BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-python-social-auth >= 0.2
+BuildRequires:  python-sphinxcontrib-httpdomain
 BuildRequires:  python-whoosh >= 2.5.2
 BuildRequires:  translate-toolkit >= 1.10.0
 Requires:       apache2-mod_wsgi
