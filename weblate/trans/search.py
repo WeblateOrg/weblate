@@ -166,10 +166,14 @@ def update_index_unit(unit, source=True):
                 )
         # pylint: disable=E0712
         except IntegrityError:
-            update = IndexUpdate.objects.get(unit=unit)
-            if not update.source and source:
-                update.source = True
-                update.save()
+            try:
+                update = IndexUpdate.objects.get(unit=unit)
+                if not update.source and source:
+                    update.source = True
+                    update.save()
+            except IndexUpdate.DoesNotExist:
+                # It did exist, but was deleted meanwhile
+                return
         return
 
     # Update source
