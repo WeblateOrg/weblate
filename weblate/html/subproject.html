@@ -29,6 +29,9 @@
       <li><a href="#repository" data-toggle="tab" data-href="{% url 'git_status_subproject' project=object.project.slug subproject=object.slug %}">{% trans "Repository maintenance" %}</a></li>
       {% endif %}
       <li><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source strings review" %}</a></li>
+      {% if perms.trans.manage_acl and object.project.enable_acl %}
+      <li><a href="{{ object.project.get_absolute_url }}#acl">{% trans "Manage users" %}</a></li>
+      {% endif %}
     </ul>
   </li>
 {% if enable_sharing %}
