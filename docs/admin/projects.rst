@@ -231,6 +231,9 @@ You also need to verify SSH host keys of servers you are going to access.
 You can generate or display key currently used by Weblate in the admin
 interface (follow :guilabel:`SSH keys` link on main admin page).
 
+If you are trying to connect to a GitHub repository be sure to use the SSH
+address, not the default HTTPS address. It should start with 'git@github.com'
+
 .. note::
 
     The keys need to be without password to make it work, so be sure they are
