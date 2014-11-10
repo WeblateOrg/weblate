@@ -119,6 +119,14 @@
 {% with object.subproject as object %}
 {% include "subproject_info.html" %}
 {% endwith %}
+<tr>
+<th>{% trans "Translation file" %}</th>
+</tr>
+<tr>
+<td>
+{{ object.filename }}
+</td>
+</tr>
 </table>
 </div>
 </div>
