@@ -32,8 +32,8 @@ good quality of translations.
 
 .. _check-same:
 
-Not translated
-~~~~~~~~~~~~~~
+Unchanged translation
+~~~~~~~~~~~~~~~~~~~~~
 
 The source and translated strings are the same at least in one of the plural forms.
 This check ignores some strings which are quite usually same in all languages

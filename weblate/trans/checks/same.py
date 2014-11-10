@@ -958,7 +958,7 @@ class SameCheck(TargetCheck):
     Check for not translated entries.
     '''
     check_id = 'same'
-    name = _('Not translated')
+    name = _('Unchanged translation')
     description = _('Source and translated strings are same')
     severity = 'warning'
 
