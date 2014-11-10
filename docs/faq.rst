@@ -6,8 +6,8 @@ Configuration
 
 .. _auto-workflow:
 
-How to create automatic worflow?
---------------------------------
+How to create automatic workflow?
+---------------------------------
 
 Weblate can handle all the translation things semi-automatically for you. If
 you will give it push access to your repository, the translations can live
