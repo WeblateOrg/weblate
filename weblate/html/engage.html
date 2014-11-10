@@ -37,6 +37,11 @@
 {% url 'register' as reg_url %}
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to <a href="{{ reg_url }}">register on this server</a>.{% endblocktrans %}
 </p>
+{% if object.enable_acl %}
+<p>
+{% trans "This translation is open only to limited group of translators, if you want to contribute please get in touch with project maintainers." %}
+</p>
+{% endif %}
 <p>
 {% blocktrans %}Once you have activated your account just proceed to the <a href="{{ url }}">translation section</a>.{% endblocktrans %}
 </p>
