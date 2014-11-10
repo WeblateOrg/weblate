@@ -162,8 +162,8 @@ def search(request):
 
 
 def show_engage(request, project, lang=None):
-    # Get project object
-    obj = get_project(request, project)
+    # Get project object, skipping ACL
+    obj = get_project(request, project, skip_acl=True)
 
     # Handle language parameter
     language = None
