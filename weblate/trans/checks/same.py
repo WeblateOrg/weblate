@@ -167,6 +167,7 @@ SAME_BLACKLIST = frozenset((
     'escape',
     'eu',
     'exchange',
+    'excel',
     'expert',
     'export',
     'extra',
