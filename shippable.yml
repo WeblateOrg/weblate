@@ -14,6 +14,8 @@ env:
     - DJANGO_PIP="Django>=1.7,<1.8"
     - DJANGO_PIP="Django>=1.6,<1.7"
     - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
+  global:
+    - secure: d0h5h+Lne5+BM14sbhIHKef6JksyZRoHxvQMKumZ5LTlb2WNx92GksVU5aT+RbWUUzyyXi9l+Ihpy9jNRSS2i7KSIymdkfV1g3sXWCQrBGT5Q29DDcKUbj+hWeZhRWk1dKV4Yndxgh9Pre+ivMjHr5lln3rJl1lA8hD+mnQu9HnEX2dH+G2HtNdcfSPe34Lk2/DX6sRms69RBbyZm5Fl4bG44u9NSUj3n0EzYc70DS9AaBIdG7DFxrR1XhhU7rgCel366yHZiaQNb16b0d+7iC3hhKhxWSvh8rD8+qrhuqxTUF7T2KuL6zr0btK8BCXxu/xavNrbv6phNU8IM6Y27g==
 # commands to install dependencies
 install:
   - pip install --download-cache $HOME/.pip-cache $DJANGO_PIP
