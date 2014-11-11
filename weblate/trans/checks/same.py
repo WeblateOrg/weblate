@@ -464,6 +464,7 @@ SAME_BLACKLIST = frozenset((
     'query',
     'question',
     'questions',
+    'radar',
     'realm',
     'rebase',
     'redhat',
