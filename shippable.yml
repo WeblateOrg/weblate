@@ -21,6 +21,7 @@ install:
   - pip install --download-cache $HOME/.pip-cache -r requirements-optional.txt
   - pip install --download-cache $HOME/.pip-cache -r travis/requirements.txt
   - pip install --download-cache $HOME/.pip-cache -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
+  - pip install --download-cache $HOME/.pip-cache unittest-xml-reporting
 # create databases
 before_script:
   - mysql -e 'create database weblate;'
@@ -33,14 +34,14 @@ before_script:
 # commands to run tests
 script:
   - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
-  - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test ; fi
+  - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test_shippable ; fi
   - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./travis/migrate-testing ; fi
-  - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
-  - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
-  - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
+  - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test_shippable ; fi
+  - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test_shippable --traceback ; fi
+  - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test_shippable $TRAVIS_RUN_TESTS ; fi
   - if [ -n "$DO_LINT" ] ; then pep8 --exclude south_migrations,migrations weblate openshift ; fi
   - if [ -n "$DO_LINT" ] ; then pylint --rcfile=pylint.rc weblate ; fi
-  - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_nose.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'` ; fi
+  - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'` ; fi
 after_script:
   - if [ -z "$DO_LINT" ] ; then coverage xml -o shippable/codecoverage/coverage.xml ; fi
 cache: true

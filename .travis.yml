@@ -48,7 +48,7 @@ script:
   - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
   - if [ -n "$DO_LINT" ] ; then pep8 --exclude south_migrations,migrations weblate openshift ; fi
   - if [ -n "$DO_LINT" ] ; then pylint --rcfile=pylint.rc weblate ; fi
-  - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_nose.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'` ; fi
+  - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'` ; fi
 after_script:
   - timestamp.sh coveralls
   - if [ -z "$DO_LINT" ] ; then coveralls ; fi
