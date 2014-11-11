@@ -47,6 +47,10 @@ You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
 You will receive notifications for selected events on chosen projects for
 languages you have indicated for translation (see above).
 
+.. note::
+
+    You will not receive notifications for actions you've done.
+
 .. image:: ../images/profile-subscriptions.png
 
 Authentication
