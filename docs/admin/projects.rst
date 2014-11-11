@@ -40,8 +40,8 @@ contains mapping of message IDs to source language (usually English).
 
 .. _project:
 
-Project
--------
+Project configuration
+---------------------
 
 To add new component to translate, you need to create translation project first.
 The project is sort of shelf, in which real translations are folded. All
@@ -61,8 +61,8 @@ maintaining of Translation-Team header.
 
 .. _component:
 
-Component
----------
+Component configuration
+-----------------------
 
 Component is real component for translating. You enter Git repository location
 and file mask which files to translate and Weblate automatically fetches the Git
