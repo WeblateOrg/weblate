@@ -18,12 +18,7 @@ env:
     - secure: d0h5h+Lne5+BM14sbhIHKef6JksyZRoHxvQMKumZ5LTlb2WNx92GksVU5aT+RbWUUzyyXi9l+Ihpy9jNRSS2i7KSIymdkfV1g3sXWCQrBGT5Q29DDcKUbj+hWeZhRWk1dKV4Yndxgh9Pre+ivMjHr5lln3rJl1lA8hD+mnQu9HnEX2dH+G2HtNdcfSPe34Lk2/DX6sRms69RBbyZm5Fl4bG44u9NSUj3n0EzYc70DS9AaBIdG7DFxrR1XhhU7rgCel366yHZiaQNb16b0d+7iC3hhKhxWSvh8rD8+qrhuqxTUF7T2KuL6zr0btK8BCXxu/xavNrbv6phNU8IM6Y27g==
 # commands to install dependencies
 install:
-  - pip install --download-cache $HOME/.pip-cache $DJANGO_PIP
-  - pip install --download-cache $HOME/.pip-cache -r requirements.txt
-  - pip install --download-cache $HOME/.pip-cache -r requirements-optional.txt
-  - pip install --download-cache $HOME/.pip-cache -r travis/requirements.txt
-  - pip install --download-cache $HOME/.pip-cache -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
-  - pip install --download-cache $HOME/.pip-cache unittest-xml-reporting
+  - pip install --download-cache $HOME/.pip-cache $DJANGO_PIP -r requirements.txt -r requirements-optional.txt -r travis/requirements.txt -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
 # create databases
 before_script:
   - mysql -e 'DROP DATABASE IF EXISTS weblate;'
