@@ -16,6 +16,7 @@ env:
     - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
   global:
     - secure: d0h5h+Lne5+BM14sbhIHKef6JksyZRoHxvQMKumZ5LTlb2WNx92GksVU5aT+RbWUUzyyXi9l+Ihpy9jNRSS2i7KSIymdkfV1g3sXWCQrBGT5Q29DDcKUbj+hWeZhRWk1dKV4Yndxgh9Pre+ivMjHr5lln3rJl1lA8hD+mnQu9HnEX2dH+G2HtNdcfSPe34Lk2/DX6sRms69RBbyZm5Fl4bG44u9NSUj3n0EzYc70DS9AaBIdG7DFxrR1XhhU7rgCel366yHZiaQNb16b0d+7iC3hhKhxWSvh8rD8+qrhuqxTUF7T2KuL6zr0btK8BCXxu/xavNrbv6phNU8IM6Y27g==
+    - DJANGO_SETTINGS_MODULE=weblate.settings_test_shippable
 # commands to install dependencies
 install:
   - pip install $DJANGO_PIP
@@ -32,11 +33,7 @@ before_script:
 # commands to run tests
 script:
   - if [ -n "$DO_LINT" ] ; then ./ci/run-lint ; fi
-  - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test_shippable ; fi
-  - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./ci/migrate-testing ; fi
-  - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test_shippable ; fi
-  - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test_shippable --traceback ; fi
-  - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test_shippable $TRAVIS_RUN_TESTS ; fi
+  - if [ -z "$DO_LINT" ] ; then ./ci/run-test ; fi
 after_script:
   - if [ -z "$DO_LINT" ] ; then coverage xml -o shippable/codecoverage/coverage.xml ; fi
 cache: true
