@@ -24,7 +24,7 @@ before_install:
 install:
   - timestamp.sh install
   - pip install $DJANGO_PIP
-  - pip install -r requirements-optional.txt -r travis/requirements.txt -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt -r ${BUILD_TREND_HOME}/requirements.txt
+  - pip install -r requirements-optional.txt -r ci/requirements-travis.txt -r ci/requirements-${TRAVIS_DATABASE:-sqlite}.txt -r ${BUILD_TREND_HOME}/requirements.txt
 # create databases
 before_script:
   - timestamp.sh before_script
@@ -38,7 +38,7 @@ script:
   - timestamp.sh tests
   - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test ; fi
-  - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./travis/migrate-testing ; fi
+  - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./ci/migrate-testing ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
   - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
