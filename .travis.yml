@@ -23,7 +23,8 @@ before_install:
 # commands to install dependencies
 install:
   - timestamp.sh install
-  - pip install --download-cache $HOME/.pip-cache $DJANGO_PIP -r requirements.txt -r requirements-optional.txt -r travis/requirements.txt -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt -r ${BUILD_TREND_HOME}/requirements.txt
+  - pip install $DJANGO_PIP
+  - pip install -r requirements.txt -r requirements-optional.txt -r travis/requirements.txt -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt -r ${BUILD_TREND_HOME}/requirements.txt
 # create databases
 before_script:
   - timestamp.sh before_script
