@@ -31,6 +31,9 @@ if 'TRAVIS_DATABASE' in os.environ:
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'root'
         DATABASES['default']['PASSWORD'] = ''
+        DATABASES['default']['OPTIONS'] = {
+            'init_command': 'SET NAMES utf8',
+        }
     elif os.environ['TRAVIS_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = \
             'django.db.backends.postgresql_psycopg2'
