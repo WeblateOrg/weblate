@@ -1,0 +1,7 @@
+#!/bin/sh
+# PIP deps installer
+set -e
+set -x
+
+pip install $CI_DJANGO
+pip install -r requirements-optional.txt -r ci/requirements-shippable.txt -r ci/requirements-${CI_DATABASE:-sqlite}.txt

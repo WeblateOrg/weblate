@@ -19,8 +19,7 @@ env:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test_shippable
 # commands to install dependencies
 install:
-  - pip install $CI_DJANGO
-  - pip install -r requirements-optional.txt -r ci/requirements-shippable.txt -r ci/requirements-${CI_DATABASE:-sqlite}.txt
+  - ./ci/install
 # create databases
 before_script:
   - ./ci/setup-env

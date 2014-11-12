@@ -25,8 +25,7 @@ before_install:
 # commands to install dependencies
 install:
   - timestamp.sh install
-  - pip install $CI_DJANGO
-  - pip install -r requirements-optional.txt -r ci/requirements-travis.txt -r ci/requirements-${CI_DATABASE:-sqlite}.txt
+  - ./ci/install
   - pip install -r ${BUILD_TREND_HOME}/requirements.txt
 # create databases
 before_script:
