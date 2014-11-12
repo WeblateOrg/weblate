@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from weblate.trans.validators import validate_check_flags
 
 PRIORITY_CHOICES = (
     (60, _('Very high')),
@@ -37,6 +38,16 @@ class Source(models.Model):
     priority = models.IntegerField(
         default=100,
         choices=PRIORITY_CHOICES,
+    )
+    check_flags = models.TextField(
+        verbose_name=_('Quality checks flags'),
+        default='',
+        help_text=_(
+            'Additional comma-separated flags to influence quality checks, '
+            'check documentation for possible values.'
+        ),
+        validators=[validate_check_flags],
+        blank=True,
     )
 
     class Meta(object):

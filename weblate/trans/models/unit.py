@@ -1017,6 +1017,7 @@ class Unit(models.Model):
         if self._all_flags is None:
             self._all_flags = set(
                 self.flags.split(',')
+                + self.source_info.check_flags.split(',')
                 + self.translation.subproject.all_flags
             )
         return self._all_flags
