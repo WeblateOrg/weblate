@@ -22,7 +22,6 @@ from django.db import models
 from weblate import appsettings
 from django.db.models import Q
 from django.utils.translation import ugettext as _
-from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.core.cache import cache
 import traceback
