@@ -15,7 +15,7 @@
 {% for unit in page_obj.object_list %}
 <tr><th colspan="2">
 <a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation }}</a> 
-{{ unit.get_state_flags }}
+{% get_state_flags unit %}
 </th></tr>
 <tr>
 <th class="source">{% trans "Source" %}</th>

@@ -142,7 +142,7 @@
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.source %}</a></td>
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language %}</a></td>
-<td>{{ item.get_state_flags }}</td>
+<td>{% get_state_flags item %}</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -209,7 +209,7 @@
     <tr>
     <td>{{ item.translation.subproject }}</td>
     <td><a href="{{ item.get_absolute_url }}">{% format_translation item.target item.translation.language unit.target %}</a></td>
-    <td>{{ item.get_state_flags }}</td>
+    <td>{% get_state_flags item %}</td>
     <td>
     {% if perms.trans.save_translation %}
     <a class="mergebutton small-button btn btn-default" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>

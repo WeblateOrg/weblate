@@ -18,7 +18,7 @@
 {% for unit in units %}
 <tr>
 <th>{{ unit.translation.language }}</th>
-<td>{{ unit.get_state_flags }}</td>
+<td>{% get_state_flags unit %}</td>
 <td>{% show_checks unit.checks user %}</td>
 <td><a href="{{ unit.get_absolute_url }}" class="button small-button">{% trans "Edit" %}</a></td>
 </tr>

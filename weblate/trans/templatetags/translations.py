@@ -54,6 +54,8 @@ NAME_MAPPING = {
     None: ugettext_lazy('Possible configuration')
 }
 
+FLAG_TEMPLATE = u'<span title="{0}" class="glyphicon glyphicon-{1}"></span>'
+
 
 def fmt_whitespace(value):
     '''
@@ -449,3 +451,42 @@ def words_progress(translation):
     checks = translation.get_failing_checks_words_percent()
 
     return translation_progress_data(translated, fuzzy, checks)
+
+
+@register.simple_tag
+def get_state_flags(unit):
+    """
+    Returns state flags.
+    """
+    flags = []
+
+    if unit.fuzzy:
+        flags.append((
+            _('Message is fuzzy'),
+            'question-sign text-danger'
+        ))
+    elif not unit.translated:
+        flags.append((
+            _('Message is not translated'),
+            'remove-sign text-danger'
+        ))
+    elif unit.has_failing_check:
+        flags.append((
+            _('Message has failing checks'),
+            'exclamation-sign text-warning'
+        ))
+    elif unit.translated:
+        flags.append((
+            _('Message is translated'),
+            'ok-sign text-success'
+        ))
+
+    if unit.has_comment:
+        flags.append((
+            _('Message has comments'),
+            'comment text-info'
+        ))
+
+    return mark_safe(
+        '\n'.join([FLAG_TEMPLATE.format(*flag) for flag in flags])
+    )

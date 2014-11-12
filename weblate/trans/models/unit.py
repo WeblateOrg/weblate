@@ -40,8 +40,6 @@ from weblate.trans.util import (
 )
 import weblate
 
-FLAG_TEMPLATE = u'<span title="{0}" class="glyphicon glyphicon-{1}"></span>'
-
 
 class UnitManager(models.Manager):
     def update_from_unit(self, translation, unit, pos):
@@ -1021,43 +1019,6 @@ class Unit(models.Model):
                 + self.translation.subproject.all_flags
             )
         return self._all_flags
-
-    def get_state_flags(self):
-        """
-        Returns state flags.
-        """
-        flags = []
-
-        if self.fuzzy:
-            flags.append((
-                _('Message is fuzzy'),
-                'question-sign text-danger'
-            ))
-        elif not self.translated:
-            flags.append((
-                _('Message is not translated'),
-                'remove-sign text-danger'
-            ))
-        elif self.has_failing_check:
-            flags.append((
-                _('Message has failing checks'),
-                'exclamation-sign text-warning'
-            ))
-        elif self.translated:
-            flags.append((
-                _('Message is translated'),
-                'ok-sign text-success'
-            ))
-
-        if self.has_comment:
-            flags.append((
-                _('Message has comments'),
-                'comment text-info'
-            ))
-
-        return mark_safe(
-            '\n'.join([FLAG_TEMPLATE.format(*flag) for flag in flags])
-        )
 
     @property
     def source_info(self):
