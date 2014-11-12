@@ -21,6 +21,10 @@ Weblate
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
 
+.. image:: http://api.flattr.com/button/flattr-badge-large.png
+    :alt: Flattr this
+    :target: http://flattr.com/thing/571085/Weblate
+
 Weblate is a free web-based translation tool with tight Git integration. It
 features simple and clean user interface, propagation of translations across
 components within a project, quality checks and automatic linking to source
