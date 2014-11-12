@@ -7,13 +7,13 @@ python:
 # - Run pylint/pep8 checker
 env:
   matrix:
-    - DJANGO_PIP="Django>=1.6,<1.7" DO_LINT=1
-    - DJANGO_PIP="Django>=1.7,<1.8" DO_LINT=1
-    - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=mysql
-    - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=postgresql
-    - DJANGO_PIP="Django>=1.7,<1.8"
-    - DJANGO_PIP="Django>=1.6,<1.7"
-    - DJANGO_PIP="Django>=1.7,<1.8" TRAVIS_DATABASE=mysql TRAVIS_RUN_TESTS="-p test_selenium.py" DO_SELENIUM=1
+    - CI_DJANGO="Django>=1.6,<1.7" CI_LINT=1
+    - CI_DJANGO="Django>=1.7,<1.8" CI_LINT=1
+    - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=mysql
+    - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=postgresql
+    - CI_DJANGO="Django>=1.7,<1.8"
+    - CI_DJANGO="Django>=1.6,<1.7"
+    - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=mysql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
 before_install:
@@ -25,8 +25,8 @@ before_install:
 # commands to install dependencies
 install:
   - timestamp.sh install
-  - pip install $DJANGO_PIP
-  - pip install -r requirements-optional.txt -r ci/requirements-travis.txt -r ci/requirements-${TRAVIS_DATABASE:-sqlite}.txt
+  - pip install $CI_DJANGO
+  - pip install -r requirements-optional.txt -r ci/requirements-travis.txt -r ci/requirements-${CI_DATABASE:-sqlite}.txt
   - pip install -r ${BUILD_TREND_HOME}/requirements.txt
 # create databases
 before_script:
@@ -37,12 +37,12 @@ before_script:
 # commands to run tests
 script:
   - timestamp.sh tests
-  - if [ -n "$DO_LINT" ] ; then ./ci/run-lint ; fi
-  - if [ -z "$DO_LINT" ] ; then ./ci/run-test ; fi
+  - if [ -n "$CI_LINT" ] ; then ./ci/run-lint ; fi
+  - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; fi
 after_script:
   - timestamp.sh coveralls
-  - if [ -z "$DO_LINT" ] ; then coveralls ; fi
-  - if [ -z "$DO_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
+  - if [ -z "$CI_LINT" ] ; then coveralls ; fi
+  - if [ -z "$CI_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
   - timestamp.sh done
   - sync-buildtime-trend-with-gh-pages.sh
 cache:
@@ -52,4 +52,4 @@ cache:
 matrix:
   allow_failures:
     - python: "2.7"
-      env: DJANGO_PIP="Django>=1.7,<1.8" DO_LINT=1
+      env: CI_DJANGO="Django>=1.7,<1.8" CI_LINT=1

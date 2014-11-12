@@ -4,9 +4,9 @@ set -e
 set -x
 
 ./manage.py validate
-if [ "$TRAVIS_DATABASE" = sqlite ] ; then 
+if [ "$CI_DATABASE" = sqlite ] ; then 
     ./ci/migrate-testing
 fi
 ./manage.py syncdb --noinput
 ./manage.py migrate --traceback
-coverage run --source=. ./manage.py test $TRAVIS_RUN_TESTS
+coverage run --source=. ./manage.py test $CI_RUN_TESTS
