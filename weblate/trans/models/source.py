@@ -40,12 +40,7 @@ class Source(models.Model):
         choices=PRIORITY_CHOICES,
     )
     check_flags = models.TextField(
-        verbose_name=_('Quality checks flags'),
         default='',
-        help_text=_(
-            'Additional comma-separated flags to influence quality checks, '
-            'check documentation for possible values.'
-        ),
         validators=[validate_check_flags],
         blank=True,
     )
