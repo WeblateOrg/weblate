@@ -7,7 +7,7 @@
 <tr id="row-status-{{ item.unit.checksum }}">
 <td>{{ item.unit.position }}</td>
 <td>
-{{ item.unit.get_location_links }}
+{% get_location_links item.unit %}
 {% if item.unit.context %}
 {% format_translation item.unit.context search_match=search_query %}
 {% endif %}

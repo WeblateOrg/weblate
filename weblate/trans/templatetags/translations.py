@@ -490,3 +490,37 @@ def get_state_flags(unit):
     return mark_safe(
         '\n'.join([FLAG_TEMPLATE.format(*flag) for flag in flags])
     )
+
+
+@register.simple_tag
+def get_location_links(unit):
+    """
+    Generates links to source files where translation was used.
+    """
+    ret = []
+
+    # Do we have any locations?
+    if len(unit.location) == 0:
+        return ''
+
+    # Is it just an ID?
+    if unit.location.isdigit():
+        return _('unit ID %s') % unit.location
+
+    # Go through all locations separated by comma
+    for location in unit.location.split(','):
+        location = location.strip()
+        if location == '':
+            continue
+        location_parts = location.split(':')
+        if len(location_parts) == 2:
+            filename, line = location_parts
+        else:
+            filename = location_parts[0]
+            line = 0
+        link = unit.translation.subproject.get_repoweb_link(filename, line)
+        if link is None:
+            ret.append('%s' % location)
+        else:
+            ret.append('<a href="%s">%s</a>' % (link, location))
+    return mark_safe('\n'.join(ret))

@@ -689,38 +689,6 @@ class Unit(models.Model):
         if force_insert or not same_content:
             update_index_unit(self, force_insert)
 
-    def get_location_links(self):
-        """
-        Generates links to source files where translation was used.
-        """
-        ret = []
-
-        # Do we have any locations?
-        if len(self.location) == 0:
-            return ''
-
-        # Is it just an ID?
-        if self.location.isdigit():
-            return _('unit ID %s') % self.location
-
-        # Go through all locations separated by comma
-        for location in self.location.split(','):
-            location = location.strip()
-            if location == '':
-                continue
-            location_parts = location.split(':')
-            if len(location_parts) == 2:
-                filename, line = location_parts
-            else:
-                filename = location_parts[0]
-                line = 0
-            link = self.translation.subproject.get_repoweb_link(filename, line)
-            if link is None:
-                ret.append('%s' % location)
-            else:
-                ret.append('<a href="%s">%s</a>' % (link, location))
-        return mark_safe('\n'.join(ret))
-
     def suggestions(self):
         """
         Returns all suggestions for this unit.

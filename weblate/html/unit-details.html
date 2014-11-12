@@ -5,7 +5,7 @@
 <th>{% trans "Source string location" %}</th>
 </tr>
 <tr>
-<td>{{ unit.get_location_links }}</td>
+<td>{% get_location_links unit %}</td>
 </tr>
 {% endif %}
 {% if unit.comment %}
