@@ -37,15 +37,12 @@ before_script:
 # commands to run tests
 script:
   - timestamp.sh tests
-  - if [ -n "$DO_LINT" ] ; then ./scripts/generate-locales ; fi
+  - if [ -n "$DO_LINT" ] ; then ./ci/run-lint ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py validate --settings weblate.settings_test ; fi
   - if [ "$TRAVIS_DATABASE" = sqlite -a -z "$DO_LINT" ] ; then ./ci/migrate-testing ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py syncdb --noinput --settings weblate.settings_test ; fi
   - if [ -z "$DO_LINT" ] ; then ./manage.py migrate --settings weblate.settings_test --traceback ; fi
   - if [ -z "$DO_LINT" ] ; then coverage run --source=. ./manage.py test --settings weblate.settings_test $TRAVIS_RUN_TESTS ; fi
-  - if [ -n "$DO_LINT" ] ; then pep8 --exclude south_migrations,migrations weblate openshift ; fi
-  - if [ -n "$DO_LINT" ] ; then pylint --rcfile=pylint.rc weblate ; fi
-  - if [ -n "$DO_LINT" ] ; then pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'` ; fi
 after_script:
   - timestamp.sh coveralls
   - if [ -z "$DO_LINT" ] ; then coveralls ; fi
