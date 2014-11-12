@@ -1,12 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 # Testsuite executor
 set -e
 set -x
-
-# Include Travis virtualenv
-if [ -f ~/virtualenv/python2.7/bin/activate ] ; then
-    source ~/virtualenv/python2.7/bin/activate
-fi
 
 ./manage.py validate
 if [ "$CI_DATABASE" = sqlite ] ; then 
