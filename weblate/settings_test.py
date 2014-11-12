@@ -32,7 +32,7 @@ if 'TRAVIS_DATABASE' in os.environ:
         DATABASES['default']['USER'] = 'root'
         DATABASES['default']['PASSWORD'] = ''
         DATABASES['default']['OPTIONS'] = {
-            'init_command': 'SET CHRACTER SET utf8',
+            'init_command': 'SET NAMES utf8',
         }
     elif os.environ['TRAVIS_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = \
