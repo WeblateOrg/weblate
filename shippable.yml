@@ -19,7 +19,7 @@ env:
 # commands to install dependencies
 install:
   - pip install $DJANGO_PIP
-  - pip install -r requirements.txt -r requirements-optional.txt -r travis/requirements.txt -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
+  - pip install -r requirements-optional.txt -r travis/requirements.txt -r travis/requirements-${TRAVIS_DATABASE:-sqlite}.txt
 # create databases
 before_script:
   - mysql -e 'DROP DATABASE IF EXISTS weblate;'
