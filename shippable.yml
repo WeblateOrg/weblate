@@ -23,11 +23,7 @@ install:
   - pip install -r requirements-optional.txt -r ci/requirements-shippable.txt -r ci/requirements-${TRAVIS_DATABASE:-sqlite}.txt
 # create databases
 before_script:
-  - mysql -e 'DROP DATABASE IF EXISTS weblate;'
-  - mysql -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;'
-  - psql -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
-  - psql -c 'CREATE DATABASE weblate;' -U postgres
-  - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
+  - ./ci/setup-env
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
 # commands to run tests

@@ -31,9 +31,7 @@ install:
 # create databases
 before_script:
   - timestamp.sh before_script
-  - mysql -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;'
-  - psql -c 'create database weblate;' -U postgres
-  - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
+  - ./ci/setup-env
   - echo -e "[server]\nmax_allowed_packet=64M\nwait_timeout=28800" | sudo tee -a /etc/mysql/conf.d/weblate.cnf
   - sudo service mysql restart
 # commands to run tests
