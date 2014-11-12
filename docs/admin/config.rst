@@ -354,6 +354,13 @@ For example you can allow script which does some cleanup:
         '/usr/local/bin/cleanup-translation',
     )
 
+Weblate comes with few example hook scripts which you might find useful:
+
+:file:`examples/hook-generate-mo`
+    Generates MO file from a PO file
+:file:`examples/hook-unwrap-po`
+    Unwraps lines in a PO file.
+
 .. note:: 
    
     The hook is executed using system() call, so it is evaluated in a shell.
