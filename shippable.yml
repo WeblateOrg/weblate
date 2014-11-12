@@ -24,7 +24,8 @@ install:
 before_script:
   - mysql -e 'DROP DATABASE IF EXISTS weblate;'
   - mysql -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;'
-  - psql -c 'create database weblate;' -U postgres
+  - psql -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
+  - psql -c 'CREATE DATABASE weblate;' -U postgres
   - if [ -n "$DO_SELENIUM" ] ; then curl -L https://gist.githubusercontent.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash ; fi
   - mkdir -p shippable/testresults
   - mkdir -p shippable/codecoverage
