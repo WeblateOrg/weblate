@@ -222,11 +222,15 @@ class VCSHgTest(VCSGitTest):
     _class = HgRepository
     _vcs = 'hg'
 
-    def test_commit(self):
-        return
-
     def test_configure_branch(self):
-        return
+        # Existing branch
+        self.repo.configure_branch('default')
+
+        self.assertRaises(
+            RepositoryException,
+            self.repo.configure_branch,
+            'branch'
+        )
 
     def test_configure_remote(self):
         self.repo.configure_remote('/pullurl', '/pushurl', 'branch')

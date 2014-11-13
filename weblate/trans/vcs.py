@@ -612,11 +612,10 @@ class HgRepository(Repository):
     def reset(self, branch):
         """
         Resets working copy to match remote branch.
-
-        TODO: Need to figure out remote revision
         """
         self.set_config('extensions.strip', '')
-        self.execute(['strip'])
+        self.execute(['revert', '-a', '--no-backup'])
+        self.execute(['strip', branch])
 
     def rebase(self, branch=None, abort=False):
         """
@@ -658,8 +657,6 @@ class HgRepository(Repository):
     def get_revision_info(self, revision):
         """
         Returns dictionary with detailed revision information.
-
-        TODO
         """
         template = '''
         author_name: {person(author)}
@@ -750,22 +747,25 @@ class HgRepository(Repository):
     def commit(self, message, author=None, timestamp=None, files=None):
         """
         Creates new revision.
-
-        TODO
         """
-        # Add files
-        if files is not None:
-            self.execute(['add', '--'] + files)
-
         # Build the commit command
         cmd = [
             'commit',
             '--message', message.encode('utf-8'),
         ]
         if author is not None:
-            cmd.extend(['--author', author.encode('utf-8')])
+            cmd.extend(['--user', author.encode('utf-8')])
         if timestamp is not None:
-            cmd.extend(['--date', timestamp.isoformat()])
+            cmd.extend([
+                '--date',
+                timestamp.strftime("%a, %d %b %Y %H:%M:%S +0000")
+            ])
+
+        # Add files
+        if files is not None:
+            self.execute(['add', '--'] + files)
+            cmd.extend(files)
+
         # Execute it
         self.execute(cmd)
         # Clean cache
@@ -793,20 +793,15 @@ class HgRepository(Repository):
         """
         Configure repository branch.
 
-        TODO
+        TODO: Is this really correct?
         """
         # List of branches (we get additional * there, but we don't care)
-        branches = self.execute(['branch']).split()
-        if branch in branches:
+        current_branch = self.execute(['branch'])
+        if branch == current_branch:
             return
 
-        # Add branch
-        self.execute(
-            ['branch', '--track', branch, 'origin/{0}'.format(branch)]
-        )
-
-        # Checkout
-        self.execute(['checkout', branch])
+        # Switch branch
+        self.execute(['branch', branch])
 
     def describe(self):
         """
