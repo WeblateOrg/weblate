@@ -42,7 +42,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/*.po',
         )
@@ -54,7 +54,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/*.po',
             file_format='po'
@@ -69,7 +69,7 @@ class ImportProjectTest(RepoTestCase):
             call_command,
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/*.po',
             file_format='INVALID'
@@ -82,7 +82,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/values-*/strings.xml',
             file_format='aresource',
@@ -96,7 +96,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/values-*/strings.xml',
             file_format='aresource',
@@ -110,7 +110,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/*.po',
         )
@@ -120,7 +120,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/*.po',
         )
@@ -153,7 +153,7 @@ class ImportProjectTest(RepoTestCase):
             call_command,
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '**/*.po',
         )
@@ -168,7 +168,7 @@ class ImportProjectTest(RepoTestCase):
             call_command,
             'import_project',
             'test',
-            self.repo_path,
+            self.git_repo_path,
             'master',
             '*/*.po',
         )

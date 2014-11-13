@@ -33,7 +33,7 @@ class VCSGitTest(RepoTestCase):
     def setUp(self):
         super(VCSGitTest, self).setUp()
         self._tempdir = tempfile.mkdtemp()
-        self.repo = GitRepository.clone(self.repo_path, self._tempdir)
+        self.repo = GitRepository.clone(self.git_repo_path, self._tempdir)
 
     def tearDown(self):
         if self._tempdir is not None:

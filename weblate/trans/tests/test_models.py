@@ -51,30 +51,30 @@ class RepoTestCase(TestCase):
                 shutil.rmtree(test_dir)
 
         # Path where to clone remote repo for tests
-        self.base_repo_path = os.path.join(
+        self.git_base_repo_path = os.path.join(
             settings.GIT_ROOT,
             'test-base-repo.git'
         )
         # Repository on which tests will be performed
-        self.repo_path = os.path.join(
+        self.git_repo_path = os.path.join(
             settings.GIT_ROOT,
             'test-repo.git'
         )
 
         # Clone repo for testing
-        if not os.path.exists(self.base_repo_path):
+        if not os.path.exists(self.git_base_repo_path):
             GitRepository.clone(
                 GIT_URL,
-                self.base_repo_path,
+                self.git_base_repo_path,
                 bare=True
             )
 
         # Remove possibly existing directory
-        if os.path.exists(self.repo_path):
-            shutil.rmtree(self.repo_path)
+        if os.path.exists(self.git_repo_path):
+            shutil.rmtree(self.git_repo_path)
 
         # Create repository copy for the test
-        shutil.copytree(self.base_repo_path, self.repo_path)
+        shutil.copytree(self.git_base_repo_path, self.git_repo_path)
 
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.GIT_ROOT, 'test')
@@ -102,8 +102,8 @@ class RepoTestCase(TestCase):
             name='Test',
             slug='test',
             project=project,
-            repo=self.repo_path,
-            push=self.repo_path,
+            repo=self.git_repo_path,
+            push=self.git_repo_path,
             filemask=mask,
             template=template,
             file_format=file_format,
