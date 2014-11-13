@@ -647,6 +647,7 @@ class HgRepository(Repository):
                     # Nothing to merge
                     return
                 raise
+            self.execute(['commit', '--message', 'Merge'])
 
     def needs_commit(self, filename=None):
         """
