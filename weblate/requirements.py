@@ -21,7 +21,7 @@
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
-from weblate.trans.vcs import GitRepository
+from weblate.trans.vcs import GitRepository, HgRepository
 import importlib
 import sys
 import django
@@ -74,6 +74,16 @@ def get_optional_versions():
             'N/A',
             '',
         ))
+
+    try:
+        result.append((
+            'Mercurial',
+            'http://mercurial.selenic.com/',
+            HgRepository.get_version(),
+            '2.8',
+        ))
+    except OSError:
+        pass
 
     return result
 

@@ -23,6 +23,7 @@ Minimal distributed version control system abstraction for Weblate needs.
 import subprocess
 import os.path
 import email.utils
+import re
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -53,13 +54,22 @@ class Repository(object):
             self.init()
 
     def is_valid(self):
+        '''
+        Checks whether this is a valid repository.
+        '''
         raise NotImplementedError()
 
     def init(self):
+        '''
+        Initializes the repository.
+        '''
         raise NotImplementedError()
 
     @classmethod
     def _popen(cls, args, cwd=None):
+        '''
+        Executes the command using popen.
+        '''
         if args is None:
             raise RepositoryException('Not supported functionality')
         args = [cls._cmd] + args
@@ -80,11 +90,17 @@ class Repository(object):
         return output
 
     def execute(self, args):
+        '''
+        Executes command and caches it's output.
+        '''
         self.last_output = self._popen(args, self.path)
         return self.last_output
 
     @property
     def last_revision(self):
+        '''
+        Returns last local revision.
+        '''
         if self._last_revision is None:
             self._last_revision = self.execute(
                 self._cmd_last_revision
@@ -93,6 +109,9 @@ class Repository(object):
 
     @property
     def last_remote_revision(self):
+        '''
+        Returns last remote revision.
+        '''
         if self._last_remote_revision is None:
             self._last_remote_revision = self.execute(
                 self._cmd_last_remote_revision
@@ -229,12 +248,18 @@ class GitRepository(Repository):
     _cmd_push = ['push', 'origin']
 
     def is_valid(self):
+        '''
+        Checks whether this is a valid repository.
+        '''
         return (
             os.path.exists(os.path.join(self.path, '.git', 'config'))
             or os.path.exists(os.path.join(self.path, 'config'))
         )
 
     def init(self):
+        '''
+        Initializes the repository.
+        '''
         self._popen(['init', self.path])
 
     @classmethod
@@ -470,5 +495,284 @@ class GitRepository(Repository):
     def describe(self):
         """
         Verbosely describes current revision.
+        """
+        return self.execute(['describe', '--always']).strip()
+
+
+class HgRepository(Repository):
+    """
+    Repository implementation for Mercurial.
+    """
+    _cmd = 'hg'
+    _cmd_last_revision = [
+        'id', '--id'
+    ]
+    _cmd_last_remote_revision = [
+        'log', 'TODO'
+    ]
+    _cmd_update_remote = ['pull']
+    _cmd_push = ['push']
+
+    VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
+
+    def is_valid(self):
+        '''
+        Checks whether this is a valid repository.
+        '''
+        return os.path.exists(os.path.join(self.path, '.hg', 'requires'))
+
+    def init(self):
+        '''
+        Initializes the repository.
+        '''
+        self._popen(['init', self.path])
+
+    @classmethod
+    def clone(cls, source, target, bare=False):
+        """
+        Clones repository and returns Repository object for cloned
+        repository.
+        """
+        if bare:
+            cls._popen(['clone', '--updaterev', 'null', source, target])
+        else:
+            cls._popen(['clone', source, target])
+        return cls(target)
+
+    def get_config(self, section, key):
+        """
+        Reads entry from configuration.
+        """
+        return self.execute(
+            ['config', '{0}.{1}'.format(section, key)]
+        ).strip()
+
+    def set_config(self, section, key, value):
+        """
+        Set entry in local configuration.
+
+        TODO: Need to edit INI file
+        """
+        self.execute(['config', section, key, value])
+
+    def set_committer(self, name, mail):
+        """
+        Configures commiter name.
+        """
+        self.set_config(
+            'ui', 'username',
+            u'{0} <{1}>'.format(
+                name,
+                mail
+            )
+        )
+
+    def reset(self, branch):
+        """
+        Resets working copy to match remote branch.
+
+        TODO
+        """
+        self.execute(['reset', '--hard', 'origin/{0}'.format(branch)])
+
+    def rebase(self, branch=None, abort=False):
+        """
+        Rebases working copy on top of remote branch.
+
+        TODO
+        """
+        if abort:
+            self.execute(['rebase', '--abort'])
+        else:
+            self.execute(['rebase', 'origin/{0}'.format(branch)])
+
+    def merge(self, branch=None, abort=False):
+        """
+        Resets working copy to match remote branch.
+
+        TODO
+        """
+        if abort:
+            self.execute(['merge', '--abort'])
+        else:
+            self.execute(['merge', 'origin/{0}'.format(branch)])
+
+    def needs_commit(self, filename=None):
+        """
+        Checks whether repository needs commit.
+
+        TODO
+        """
+        if filename is None:
+            status = self.execute(['status', '--porcelain'])
+        else:
+            status = self.execute(['status', '--porcelain', '--', filename])
+        return status != ''
+
+    def get_revision_info(self, revision):
+        """
+        Returns dictionary with detailed revision information.
+
+        TODO
+        """
+        text = self.execute([
+            'log',
+            '-1',
+            '--format=fuller',
+            '--date=rfc',
+            '--abbrev-commit',
+            revision
+        ])
+
+        result = {
+            'revision': revision,
+        }
+
+        message = []
+
+        header = True
+
+        for line in text.splitlines():
+            if header:
+                if not line:
+                    header = False
+                elif line.startswith('commit'):
+                    result['shortrevision'] = line.split()[1]
+                else:
+                    name, value = line.strip().split(':', 1)
+                    value = value.strip()
+                    name = name.lower()
+                    if 'date' in name:
+                        result[name] = parser.parse(value)
+                    else:
+                        result[name] = value
+                        if '@' in value:
+                            parsed = email.utils.parseaddr(value)
+                            result['{0}_name'.format(name)] = parsed[0]
+                            result['{0}_email'.format(name)] = parsed[1]
+            else:
+                message.append(line.strip())
+
+        result['message'] = '\n'.join(message)
+        result['summary'] = message[0]
+
+        return result
+
+    def _log_revisions(self, refspec):
+        """
+        Returns revisin log for given refspec.
+
+        TODO
+        """
+        return self.execute(
+            ['log', '--oneline', refspec, '--']
+        )
+
+    def needs_merge(self, branch):
+        """
+        Checks whether repository needs merge with upstream
+        (is missing some revisions).
+
+        TODO
+        """
+        return self._log_revisions('..origin/{0}'.format(branch)) != ''
+
+    def needs_push(self, branch):
+        """
+        Checks whether repository needs push to upstream
+        (has additional revisions).
+
+        TODO
+        """
+        return self._log_revisions('origin/{0}..'.format(branch)) != ''
+
+    @classmethod
+    def get_version(cls):
+        """
+        Returns VCS program version.
+        """
+        output = cls._popen(['version'])
+        return cls.VERSION_RE.match(output).group(1)
+
+    def commit(self, message, author=None, timestamp=None, files=None):
+        """
+        Creates new revision.
+
+        TODO
+        """
+        # Add files
+        if files is not None:
+            self.execute(['add', '--'] + files)
+
+        # Build the commit command
+        cmd = [
+            'commit',
+            '--message', message.encode('utf-8'),
+        ]
+        if author is not None:
+            cmd.extend(['--author', author.encode('utf-8')])
+        if timestamp is not None:
+            cmd.extend(['--date', timestamp.isoformat()])
+        # Execute it
+        self.execute(cmd)
+        # Clean cache
+        self._last_revision = None
+
+    def get_object_hash(self, path):
+        """
+        Returns hash of object in the VCS.
+
+        TODO
+        """
+        # Resolve symlinks first
+        real_path = os.path.realpath(os.path.join(self.path, path))
+        repository_path = os.path.realpath(self.path)
+
+        if not real_path.startswith(repository_path):
+            print real_path, repository_path
+            raise ValueError('Too many symlinks or link outside tree')
+
+        real_path = real_path[len(repository_path):].lstrip('/')
+
+        return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
+
+    def configure_remote(self, pull_url, push_url, branch):
+        """
+        Configure remote repository.
+        """
+        old_pull = self.get_config('paths', 'default')
+        old_push = self.get_config('paths', 'default-push')
+
+        if old_pull != pull_url:
+            # No origin existing or URL changed?
+            self.set_config('paths', 'default', pull_url)
+
+        if old_push != push_url:
+            self.set_config('paths', 'default-push', push_url)
+
+    def configure_branch(self, branch):
+        """
+        Configure repository branch.
+
+        TODO
+        """
+        # List of branches (we get additional * there, but we don't care)
+        branches = self.execute(['branch']).split()
+        if branch in branches:
+            return
+
+        # Add branch
+        self.execute(
+            ['branch', '--track', branch, 'origin/{0}'.format(branch)]
+        )
+
+        # Checkout
+        self.execute(['checkout', branch])
+
+    def describe(self):
+        """
+        Verbosely describes current revision.
+
+        TODO
         """
         return self.execute(['describe', '--always']).strip()
