@@ -1037,7 +1037,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Validator fetches repository and tries to find translation files.
         Then it checks them for validity.
         '''
-        if self.new_lang == 'url' and self.instructions == '':
+        if self.new_lang == 'url' and self.project.instructions == '':
             raise ValidationError(_(
                 'Please either fill in instructions URL '
                 'or use different option for adding new language.'
