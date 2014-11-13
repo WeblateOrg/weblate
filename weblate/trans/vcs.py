@@ -528,7 +528,7 @@ class HgRepository(Repository):
     """
     _cmd = 'hg'
     _cmd_last_revision = [
-        'id', '--id'
+        'log', '--limit', '1', '--template', '{node}'
     ]
     _cmd_last_remote_revision = [
         'log', 'TODO'
