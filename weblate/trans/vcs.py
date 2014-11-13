@@ -35,6 +35,7 @@ class RepositoryException(Exception):
     Error while working with a repository.
     """
     def __init__(self, retcode, stderr, stdout):
+        super(RepositoryException, self).__init__(sterr or stdout)
         self.retcode = retcode
         self.stderr = stderr.strip()
         self.stdout = stdout.strip()
@@ -242,8 +243,8 @@ class Repository(object):
             self.resolve_symlinks(path)
         )
 
-        with open(real_path, 'rb') as f:
-            return hashlib.sha1(f.read()).hexdigest()
+        with open(real_path, 'rb') as handle:
+            return hashlib.sha1(handle.read()).hexdigest()
 
     def configure_remote(self, pull_url, push_url, branch):
         """
