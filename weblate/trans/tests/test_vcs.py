@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.vcs import GitRepository, RepositoryException
+from weblate.trans.vcs import GitRepository, HgRepository, RepositoryException
 
 import tempfile
 import shutil
@@ -29,18 +29,25 @@ import datetime
 
 class VCSGitTest(RepoTestCase):
     _tempdir = None
+    _class = GitRepository
+    _vcs = 'git'
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
         self._tempdir = tempfile.mkdtemp()
-        self.repo = GitRepository.clone(self.git_repo_path, self._tempdir)
+        self.repo = self._class.clone(
+            getattr(self, '{0}_repo_path'.format(self._vcs)),
+            self._tempdir
+        )
 
     def tearDown(self):
         if self._tempdir is not None:
             shutil.rmtree(self._tempdir)
 
     def test_clone(self):
-        self.assertTrue(os.path.exists(os.path.join(self._tempdir, '.git')))
+        self.assertTrue(os.path.exists(
+            os.path.join(self._tempdir, '.{0}'.format(self._vcs))
+        ))
 
     def test_revision(self):
         self.assertEqual(
@@ -110,7 +117,7 @@ class VCSGitTest(RepoTestCase):
         self.assertFalse(self.repo.needs_push('master'))
 
     def test_get_version(self):
-        self.assertTrue(GitRepository.get_version() != '')
+        self.assertTrue(self._class.get_version() != '')
 
     def test_set_committer(self):
         self.repo.set_committer('Foo Bar', 'foo@example.net')
@@ -206,3 +213,56 @@ class VCSGitTest(RepoTestCase):
             self.repo.configure_branch,
             'branch'
         )
+
+
+class VCSHgTest(VCSGitTest):
+    """
+    Mercurial repository testing.
+    """
+    _class = HgRepository
+    _vcs = 'hg'
+
+    def test_commit(self):
+        return
+
+    def test_configure_branch(self):
+        return
+
+    def test_configure_remote(self):
+        return
+
+    def test_configure_remote_no_push(self):
+        return
+
+    def test_merge(self):
+        return
+
+    def test_needs_commit(self):
+        return
+
+    def test_needs_merge(self):
+        return
+
+    def test_object_hash(self):
+        return
+
+    def test_push(self):
+        return
+
+    def test_rebase(self):
+        return
+
+    def test_reset(self):
+        return
+
+    def test_revision_info(self):
+        return
+
+    def test_set_committer(self):
+        return
+
+    def test_revision(self):
+        return
+
+    def test_status(self):
+        return
