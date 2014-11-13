@@ -236,15 +236,20 @@ class Repository(object):
 
     def get_object_hash(self, path):
         """
-        Returns hash of object in the VCS.
+        Returns hash of object in the VCS in a way compatible with Git.
         """
         real_path = os.path.join(
             self.path,
             self.resolve_symlinks(path)
         )
+        objhash = hashlib.sha1()
 
         with open(real_path, 'rb') as handle:
-            return hashlib.sha1(handle.read()).hexdigest()
+            data = handle.read()
+            objhash.update('blob {0}\0'.format(len(data)))
+            objhash.update(data)
+
+        return objhash.hexdigest()
 
     def configure_remote(self, pull_url, push_url, branch):
         """
