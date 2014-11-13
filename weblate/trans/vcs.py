@@ -279,7 +279,7 @@ class GitRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(['config', path]).strip()
+        return self.execute(['config', path]).strip().decode('utf-8')
 
     def set_config(self, path, value):
         """
@@ -546,7 +546,7 @@ class HgRepository(Repository):
         """
         return self.execute(
             ['config', '{0}.{1}'.format(section, key)]
-        ).strip()
+        ).strip().decode('utf-8')
 
     def set_config(self, section, key, value):
         """
@@ -557,8 +557,8 @@ class HgRepository(Repository):
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
-        config.set(section, key, value)
-        with open(filename, 'w') as handle:
+        config.set(section, key, value.encode('utf-8'))
+        with open(filename, 'wb') as handle:
             config.write(handle)
 
     def set_committer(self, name, mail):
