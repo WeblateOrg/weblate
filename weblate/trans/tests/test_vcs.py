@@ -229,10 +229,27 @@ class VCSHgTest(VCSGitTest):
         return
 
     def test_configure_remote(self):
-        return
+        self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
+        self.assertEqual(
+            self.repo.get_config('paths', 'default'),
+            '/pullurl',
+        )
+        self.assertEqual(
+            self.repo.get_config('paths', 'default-push'),
+            '/pushurl',
+        )
 
     def test_configure_remote_no_push(self):
-        return
+        self.repo.configure_remote('/pullurl', '', 'branch')
+        self.assertEqual(
+            self.repo.get_config('paths', 'default-push'),
+            '',
+        )
+        self.repo.configure_remote('/pullurl', '/push', 'branch')
+        self.assertEqual(
+            self.repo.get_config('paths', 'default-push'),
+            '/push',
+        )
 
     def test_merge(self):
         return
