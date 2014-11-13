@@ -566,9 +566,14 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(
-            ['config', '{0}.{1}'.format(section, key)]
-        ).strip().decode('utf-8')
+        try:
+            return self.execute(
+                ['config', '{0}.{1}'.format(section, key)]
+            ).strip().decode('utf-8')
+        except RepositoryException as error:
+            if error.retcode == 1:
+                return ''
+            raise
 
     def set_config(self, section, key, value):
         """
