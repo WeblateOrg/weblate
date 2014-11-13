@@ -24,6 +24,8 @@ import subprocess
 import os.path
 import email.utils
 import re
+import ConfigParser
+import hashlib
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -32,6 +34,19 @@ class RepositoryException(Exception):
     """
     Error while working with a repository.
     """
+    def __init__(self, retcode, stderr, stdout):
+        self.retcode = retcode
+        self.stderr = stderr.strip()
+        self.stdout = stdout.strip()
+
+    def __str__(self):
+        if self.stderr:
+            message = self.stderr
+        else:
+            message = self.stdout
+        if self.retcode != 0:
+            return '{0} ({1})'.format(message, self.retcode)
+        return message
 
 
 class Repository(object):
@@ -65,13 +80,26 @@ class Repository(object):
         '''
         raise NotImplementedError()
 
+    def resolve_symlinks(self, path):
+        """
+        Resolves any symlinks in the path.
+        """
+        # Resolve symlinks first
+        real_path = os.path.realpath(os.path.join(self.path, path))
+        repository_path = os.path.realpath(self.path)
+
+        if not real_path.startswith(repository_path):
+            raise ValueError('Too many symlinks or link outside tree')
+
+        return real_path[len(repository_path):].lstrip('/')
+
     @classmethod
     def _popen(cls, args, cwd=None):
         '''
         Executes the command using popen.
         '''
         if args is None:
-            raise RepositoryException('Not supported functionality')
+            raise RepositoryException(0, 'Not supported functionality', '')
         args = [cls._cmd] + args
         process = subprocess.Popen(
             args,
@@ -83,10 +111,7 @@ class Repository(object):
         output, output_err = process.communicate()
         retcode = process.poll()
         if retcode:
-            message = output_err.strip()
-            if not message:
-                message = output.strip()
-            raise RepositoryException(message)
+            raise RepositoryException(retcode, output_err, output)
         return output
 
     def execute(self, args):
@@ -212,7 +237,13 @@ class Repository(object):
         """
         Returns hash of object in the VCS.
         """
-        raise NotImplementedError()
+        real_path = os.path.join(
+            self.path,
+            self.resolve_symlinks(path)
+        )
+
+        with open(real_path, 'rb') as f:
+            return hashlib.sha1(f.read()).hexdigest()
 
     def configure_remote(self, pull_url, push_url, branch):
         """
@@ -278,7 +309,7 @@ class GitRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(['config', path]).strip()
+        return self.execute(['config', path]).strip().decode('utf-8')
 
     def set_config(self, path, value):
         """
@@ -429,15 +460,7 @@ class GitRepository(Repository):
         """
         Returns hash of object in the VCS.
         """
-        # Resolve symlinks first
-        real_path = os.path.realpath(os.path.join(self.path, path))
-        repository_path = os.path.realpath(self.path)
-
-        if not real_path.startswith(repository_path):
-            print real_path, repository_path
-            raise ValueError('Too many symlinks or link outside tree')
-
-        real_path = real_path[len(repository_path):].lstrip('/')
+        real_path = self.resolve_symlinks(path)
 
         return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
 
@@ -543,17 +566,27 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(
-            ['config', '{0}.{1}'.format(section, key)]
-        ).strip()
+        try:
+            return self.execute(
+                ['config', '{0}.{1}'.format(section, key)]
+            ).strip().decode('utf-8')
+        except RepositoryException as error:
+            if error.retcode == 1:
+                return ''
+            raise
 
     def set_config(self, section, key, value):
         """
         Set entry in local configuration.
-
-        TODO: Need to edit INI file
         """
-        self.execute(['config', section, key, value])
+        filename = os.path.join(self.path, '.hg', 'hgrc')
+        config = ConfigParser.RawConfigParser()
+        config.read(filename)
+        if not config.has_section(section):
+            config.add_section(section)
+        config.set(section, key, value.encode('utf-8'))
+        with open(filename, 'wb') as handle:
+            config.write(handle)
 
     def set_committer(self, name, mail):
         """
@@ -717,24 +750,6 @@ class HgRepository(Repository):
         self.execute(cmd)
         # Clean cache
         self._last_revision = None
-
-    def get_object_hash(self, path):
-        """
-        Returns hash of object in the VCS.
-
-        TODO
-        """
-        # Resolve symlinks first
-        real_path = os.path.realpath(os.path.join(self.path, path))
-        repository_path = os.path.realpath(self.path)
-
-        if not real_path.startswith(repository_path):
-            print real_path, repository_path
-            raise ValueError('Too many symlinks or link outside tree')
-
-        real_path = real_path[len(repository_path):].lstrip('/')
-
-        return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
         """

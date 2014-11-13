@@ -120,9 +120,9 @@ class VCSGitTest(RepoTestCase):
         self.assertTrue(self._class.get_version() != '')
 
     def test_set_committer(self):
-        self.repo.set_committer('Foo Bar', 'foo@example.net')
+        self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
-            self.repo.get_config('user.name'), 'Foo Bar'
+            self.repo.get_config('user.name'), u'Foo Bar Žač'
         )
         self.assertEqual(
             self.repo.get_config('user.email'), 'foo@example.net'
@@ -229,10 +229,27 @@ class VCSHgTest(VCSGitTest):
         return
 
     def test_configure_remote(self):
-        return
+        self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
+        self.assertEqual(
+            self.repo.get_config('paths', 'default'),
+            '/pullurl',
+        )
+        self.assertEqual(
+            self.repo.get_config('paths', 'default-push'),
+            '/pushurl',
+        )
 
     def test_configure_remote_no_push(self):
-        return
+        self.repo.configure_remote('/pullurl', '', 'branch')
+        self.assertEqual(
+            self.repo.get_config('paths', 'default-push'),
+            '',
+        )
+        self.repo.configure_remote('/pullurl', '/push', 'branch')
+        self.assertEqual(
+            self.repo.get_config('paths', 'default-push'),
+            '/push',
+        )
 
     def test_merge(self):
         return
@@ -241,9 +258,6 @@ class VCSHgTest(VCSGitTest):
         return
 
     def test_needs_merge(self):
-        return
-
-    def test_object_hash(self):
         return
 
     def test_push(self):
@@ -259,7 +273,10 @@ class VCSHgTest(VCSGitTest):
         return
 
     def test_set_committer(self):
-        return
+        self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
+        self.assertEqual(
+            self.repo.get_config('ui', 'username'), u'Foo Bar Žač <foo@example.net>'
+        )
 
     def test_revision(self):
         return
