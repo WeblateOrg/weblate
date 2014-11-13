@@ -641,13 +641,18 @@ class HgRepository(Repository):
             self.execute(['update', '--clean', '.'])
         else:
             try:
-                self.execute(['merge', '--tool', 'internal:merge'])
+                # First try update
+                self.execute(['update'])
             except RepositoryException as error:
-                if error.retcode == 255:
-                    # Nothing to merge
-                    return
-                raise
-            self.execute(['commit', '--message', 'Merge'])
+                # Fallback to merge
+                try:
+                    self.execute(['merge', '--tool', 'internal:merge'])
+                except RepositoryException as error:
+                    if error.retcode == 255:
+                        # Nothing to merge
+                        return
+                    raise
+                self.execute(['commit', '--message', 'Merge'])
 
     def needs_commit(self, filename=None):
         """
@@ -719,7 +724,7 @@ class HgRepository(Repository):
         (is missing some revisions).
         """
         missing_revs = self.execute(
-            ['log', '--branch', 'tip', '--prune', 'default']
+            ['log', '--branch', 'tip', '--prune', '.']
         )
         return missing_revs != ''
 
