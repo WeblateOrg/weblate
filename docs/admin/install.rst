@@ -18,7 +18,7 @@ Git (>= 1.6)
     http://git-scm.com/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
-Whoosh (>= 2.5, 2.5.2 is recommended)
+Whoosh (>= 2.5, 2.5.2 is recommended, 2.6.0 is broken)
     http://bitbucket.org/mchaput/whoosh/
 PIL or Pillow library
     https://python-pillow.github.io/
