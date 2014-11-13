@@ -224,7 +224,7 @@ def check_requirements():
     '''
     Performs check on requirements and raises an exception on error.
     '''
-    versions = get_versions()
+    versions = get_versions() + get_optional_versions()
     failure = False
 
     for version in versions:
