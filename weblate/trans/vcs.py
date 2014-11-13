@@ -643,13 +643,11 @@ class HgRepository(Repository):
     def needs_commit(self, filename=None):
         """
         Checks whether repository needs commit.
-
-        TODO
         """
         if filename is None:
-            status = self.execute(['status', '--porcelain'])
+            status = self.execute(['status'])
         else:
-            status = self.execute(['status', '--porcelain', '--', filename])
+            status = self.execute(['status', '--', filename])
         return status != ''
 
     def get_revision_info(self, revision):

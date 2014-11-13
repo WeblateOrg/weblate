@@ -254,9 +254,6 @@ class VCSHgTest(VCSGitTest):
     def test_merge(self):
         return
 
-    def test_needs_commit(self):
-        return
-
     def test_needs_merge(self):
         return
 
