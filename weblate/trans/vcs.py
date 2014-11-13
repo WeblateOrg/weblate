@@ -656,13 +656,24 @@ class HgRepository(Repository):
 
         TODO
         """
+        template = '''
+        author_name: {person(author)}
+        author_email: {email(author)}
+        author: {author}
+        authordate: {rfc822date(date)}
+        commit_name: {person(author)}
+        commit_email: {email(author)}
+        commit: {author}
+        commitdate: {rfc822date(date)}
+        commit: {short(note)}
+        message:
+        {desc}
+        '''
         text = self.execute([
             'log',
-            '-1',
-            '--format=fuller',
-            '--date=rfc',
-            '--abbrev-commit',
-            revision
+            '--limit', '1',
+            '--template', template,
+            '--rev', revision
         ])
 
         result = {
@@ -670,29 +681,25 @@ class HgRepository(Repository):
         }
 
         message = []
-
         header = True
 
         for line in text.splitlines():
-            if header:
-                if not line:
-                    header = False
-                elif line.startswith('commit'):
-                    result['shortrevision'] = line.split()[1]
-                else:
-                    name, value = line.strip().split(':', 1)
-                    value = value.strip()
-                    name = name.lower()
-                    if 'date' in name:
-                        result[name] = parser.parse(value)
-                    else:
-                        result[name] = value
-                        if '@' in value:
-                            parsed = email.utils.parseaddr(value)
-                            result['{0}_name'.format(name)] = parsed[0]
-                            result['{0}_email'.format(name)] = parsed[1]
+            line = line.strip()
+            if not line:
+                continue
+            if not header:
+                message.append(line)
+                continue
+            if line == 'message:':
+                header = False
+                continue
+            name, value = line.strip().split(':', 1)
+            value = value.strip()
+            name = name.lower()
+            if 'date' in name:
+                result[name] = parser.parse(value)
             else:
-                message.append(line.strip())
+                result[name] = value
 
         result['message'] = '\n'.join(message)
         result['summary'] = message[0]

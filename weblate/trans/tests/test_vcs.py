@@ -264,7 +264,9 @@ class VCSHgTest(VCSGitTest):
         return
 
     def test_revision_info(self):
-        return
+        # Latest commit
+        info = self.repo.get_revision_info(self.repo.last_revision)
+        self.check_valid_info(info)
 
     def test_set_committer(self):
         self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
