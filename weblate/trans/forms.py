@@ -449,9 +449,9 @@ class SearchForm(forms.Form):
         cleaned_data = super(SearchForm, self).clean()
 
         # Default to fulltext / all strings
-        if 'search' in cleaned_data and cleaned_data['search'] == '':
+        if 'search' not in cleaned_data or cleaned_data['search'] == '':
             cleaned_data['search'] = 'ftx'
-        if 'type' in cleaned_data and cleaned_data['type'] == '':
+        if 'type' not in cleaned_data or cleaned_data['type'] == '':
             cleaned_data['type'] = 'all'
 
         # Default to source and target search
