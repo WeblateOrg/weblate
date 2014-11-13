@@ -164,8 +164,30 @@ Several internal modules and paths have been renamed and changed, please adjust
 your :file:`settings.py` to match that (consult :file:`settings_example.py` for
 correct values).
 
-.. seealso:: 
-   
+.. seealso::
+
+    If you are upgrading to Django 1.7 in same step, please consult
+    :ref:`django-17`.
+
+Upgrade from 1.9 to 2.0
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Several internal modules and paths have been renamed and changed, please adjust
+your :file:`settings.py` to match that (consult :file:`settings_example.py` for
+correct values).
+
+This upgrade also requires you to upgrade python-social-auth from 0.1.x to
+0.2.x series, what will most likely to need to fake one of their migrations
+(see `Upgrading PSA with South`_ for more information):
+
+.. code-block:: sh
+
+    ./manage.py migrate --fake default
+
+.. _Upgrading PSA with South: http://psa.matiasaguirre.net/docs/installing.html#django-with-south
+
+.. seealso::
+
     If you are upgrading to Django 1.7 in same step, please consult
     :ref:`django-17`.
 
