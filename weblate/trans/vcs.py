@@ -611,13 +611,18 @@ class HgRepository(Repository):
     def rebase(self, branch=None, abort=False):
         """
         Rebases working copy on top of remote branch.
-
-        TODO
         """
+        self.set_config('extensions', 'rebase' ,'')
         if abort:
             self.execute(['rebase', '--abort'])
         else:
-            self.execute(['rebase', 'origin/{0}'.format(branch)])
+            try:
+                self.execute(['rebase'])
+            except RepositoryException as error:
+                if error.retcode == 1:
+                    # nothing to rebase
+                    return
+                raise
 
     def merge(self, branch=None, abort=False):
         """
@@ -764,6 +769,10 @@ class HgRepository(Repository):
 
         if old_push != push_url:
             self.set_config('paths', 'default-push', push_url)
+
+        # We also enable some necessary extensions here
+        self.set_config('extensions', 'strip' ,'')
+        self.set_config('extensions', 'rebase' ,'')
 
     def configure_branch(self, branch):
         """

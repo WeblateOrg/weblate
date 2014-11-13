@@ -263,9 +263,6 @@ class VCSHgTest(VCSGitTest):
     def test_push(self):
         return
 
-    def test_rebase(self):
-        return
-
     def test_reset(self):
         return
 
