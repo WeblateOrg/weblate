@@ -37,8 +37,7 @@ before_script:
 # commands to run tests
 script:
   - timestamp.sh tests
-  - if [ -n "$CI_LINT" ] ; then ./ci/run-lint ; fi
-  - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; fi
+  - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; else ./ci/run-lint ; fi
 after_script:
   - timestamp.sh coveralls
   - if [ -z "$CI_LINT" ] ; then coveralls ; fi
