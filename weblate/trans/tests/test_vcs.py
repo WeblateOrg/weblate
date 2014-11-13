@@ -231,23 +231,23 @@ class VCSHgTest(VCSGitTest):
     def test_configure_remote(self):
         self.repo.configure_remote('/pullurl', '/pushurl', 'branch')
         self.assertEqual(
-            self.repo.get_config('paths', 'default'),
+            self.repo.get_config('paths.default'),
             '/pullurl',
         )
         self.assertEqual(
-            self.repo.get_config('paths', 'default-push'),
+            self.repo.get_config('paths.default-push'),
             '/pushurl',
         )
 
     def test_configure_remote_no_push(self):
         self.repo.configure_remote('/pullurl', '', 'branch')
         self.assertEqual(
-            self.repo.get_config('paths', 'default-push'),
+            self.repo.get_config('paths.default-push'),
             '',
         )
         self.repo.configure_remote('/pullurl', '/push', 'branch')
         self.assertEqual(
-            self.repo.get_config('paths', 'default-push'),
+            self.repo.get_config('paths.default-push'),
             '/push',
         )
 
@@ -271,7 +271,7 @@ class VCSHgTest(VCSGitTest):
     def test_set_committer(self):
         self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
-            self.repo.get_config('ui', 'username'),
+            self.repo.get_config('ui.username'),
             u'Foo Bar Žač <foo@example.net>'
         )
 

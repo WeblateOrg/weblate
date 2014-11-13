@@ -563,23 +563,22 @@ class HgRepository(Repository):
             cls._popen(['clone', source, target])
         return cls(target)
 
-    def get_config(self, section, key):
+    def get_config(self, path):
         """
         Reads entry from configuration.
         """
         try:
-            return self.execute(
-                ['config', '{0}.{1}'.format(section, key)]
-            ).strip().decode('utf-8')
+            return self.execute(['config', path]).strip().decode('utf-8')
         except RepositoryException as error:
             if error.retcode == 1:
                 return ''
             raise
 
-    def set_config(self, section, key, value):
+    def set_config(self, path, value):
         """
         Set entry in local configuration.
         """
+        section, key = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         value = value.encode('utf-8')
         config = ConfigParser.RawConfigParser()
@@ -598,7 +597,7 @@ class HgRepository(Repository):
         Configures commiter name.
         """
         self.set_config(
-            'ui', 'username',
+            'ui.username',
             u'{0} <{1}>'.format(
                 name,
                 mail
@@ -611,14 +610,14 @@ class HgRepository(Repository):
 
         TODO: Need to figure out remote revision
         """
-        self.set_config('extensions', 'strip', '')
+        self.set_config('extensions.strip', '')
         self.execute(['strip'])
 
     def rebase(self, branch=None, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
-        self.set_config('extensions', 'rebase', '')
+        self.set_config('extensions.rebase', '')
         if abort:
             self.execute(['rebase', '--abort'])
         else:
@@ -771,19 +770,19 @@ class HgRepository(Repository):
         """
         Configure remote repository.
         """
-        old_pull = self.get_config('paths', 'default')
-        old_push = self.get_config('paths', 'default-push')
+        old_pull = self.get_config('paths.default')
+        old_push = self.get_config('paths.default-push')
 
         if old_pull != pull_url:
             # No origin existing or URL changed?
-            self.set_config('paths', 'default', pull_url)
+            self.set_config('paths.default', pull_url)
 
         if old_push != push_url:
-            self.set_config('paths', 'default-push', push_url)
+            self.set_config('paths.default-push', push_url)
 
         # We also enable some necessary extensions here
-        self.set_config('extensions', 'strip', '')
-        self.set_config('extensions', 'rebase', '')
+        self.set_config('extensions.strip', '')
+        self.set_config('extensions.rebase', '')
 
     def configure_branch(self, branch):
         """
