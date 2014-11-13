@@ -29,6 +29,7 @@ register = template.Library()
 SOCIALS = {
     'google': ('Google', ''),
     'github': ('GitHub', ''),
+    'bitbucket': ('Bitbucket', ''),
     'email': ('Email', ''),
     'opensuse': ('openSUSE', ''),
 }
