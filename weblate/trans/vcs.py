@@ -179,7 +179,7 @@ class Repository(object):
 
     def merge(self, branch=None, abort=False):
         """
-        Merges remote branch into working copy.
+        Merges remote branch or reverts the merge.
         """
         raise NotImplementedError()
 
@@ -347,7 +347,7 @@ class GitRepository(Repository):
 
     def merge(self, branch=None, abort=False):
         """
-        Resets working copy to match remote branch.
+        Merges remote branch or reverts the merge.
         """
         if abort:
             self.execute(['merge', '--abort'])
@@ -635,14 +635,12 @@ class HgRepository(Repository):
 
     def merge(self, branch=None, abort=False):
         """
-        Resets working copy to match remote branch.
-
-        TODO
+        Merges remote branch or reverts the merge.
         """
         if abort:
-            self.execute(['merge', '--abort'])
+            self.execute(['update', '--clean', '.'])
         else:
-            self.execute(['merge', 'origin/{0}'.format(branch)])
+            self.execute(['merge'])
 
     def needs_commit(self, filename=None):
         """
