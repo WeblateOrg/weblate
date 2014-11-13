@@ -608,9 +608,10 @@ class HgRepository(Repository):
         """
         Resets working copy to match remote branch.
 
-        TODO
+        TODO: Need to figure out remote revision
         """
-        self.execute(['reset', '--hard', 'origin/{0}'.format(branch)])
+        self.set_config('extensions', 'strip' ,'')
+        self.execute(['strip'])
 
     def rebase(self, branch=None, abort=False):
         """
