@@ -259,7 +259,10 @@ class VCSHgTest(VCSGitTest):
         return
 
     def test_set_committer(self):
-        return
+        self.repo.set_committer('Foo Bar', 'foo@example.net')
+        self.assertEqual(
+            self.repo.get_config('ui', 'username'), 'Foo Bar <foo@example.net>'
+        )
 
     def test_revision(self):
         return

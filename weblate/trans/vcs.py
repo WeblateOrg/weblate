@@ -24,6 +24,7 @@ import subprocess
 import os.path
 import email.utils
 import re
+import ConfigParser
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -550,10 +551,15 @@ class HgRepository(Repository):
     def set_config(self, section, key, value):
         """
         Set entry in local configuration.
-
-        TODO: Need to edit INI file
         """
-        self.execute(['config', section, key, value])
+        filename = os.path.join(self.path, '.hg', 'hgrc')
+        config = ConfigParser.RawConfigParser()
+        config.read(filename)
+        if not config.has_section(section):
+            config.add_section(section)
+        config.set(section, key, value)
+        with open(filename, 'w') as handle:
+            config.write(handle)
 
     def set_committer(self, name, mail):
         """
