@@ -313,7 +313,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         for component in self.subproject_set.all():
             try:
                 total += component.translation_set.all()[0].total
-            except Translation.DoesNotExist:
+            except (Translation.DoesNotExist, IndexError):
                 pass
         return total
 
