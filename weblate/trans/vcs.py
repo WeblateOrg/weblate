@@ -537,7 +537,7 @@ class HgRepository(Repository):
         'log', '--limit', '1', '--template', '{node}'
     ]
     _cmd_last_remote_revision = [
-        'log', 'TODO'
+        'log', '--limit', '1', '--template', '{node}', '--branch', 'tip'
     ]
     _cmd_update_remote = ['pull']
     _cmd_push = ['push']
@@ -640,7 +640,13 @@ class HgRepository(Repository):
         if abort:
             self.execute(['update', '--clean', '.'])
         else:
-            self.execute(['merge'])
+            try:
+                self.execute(['merge', '--tool', 'internal:merge'])
+            except RepositoryException as error:
+                if error.retcode == 255:
+                    # Nothing to merge
+                    return
+                raise
 
     def needs_commit(self, filename=None):
         """
@@ -706,33 +712,22 @@ class HgRepository(Repository):
 
         return result
 
-    def _log_revisions(self, refspec):
-        """
-        Returns revisin log for given refspec.
-
-        TODO
-        """
-        return self.execute(
-            ['log', '--oneline', refspec, '--']
-        )
-
     def needs_merge(self, branch):
         """
         Checks whether repository needs merge with upstream
         (is missing some revisions).
-
-        TODO
         """
-        return self._log_revisions('..origin/{0}'.format(branch)) != ''
+        missing_revs = self.execute(
+            ['log', '--branch', 'tip', '--prune', 'default']
+        )
+        return missing_revs != ''
 
     def needs_push(self, branch):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
-
-        TODO
         """
-        return self._log_revisions('origin/{0}..'.format(branch)) != ''
+        return self.execute(['log', '-r', 'not public()']) != ''
 
     @classmethod
     def get_version(cls):
@@ -790,16 +785,10 @@ class HgRepository(Repository):
     def configure_branch(self, branch):
         """
         Configure repository branch.
-
-        TODO: Is this really correct?
         """
-        # List of branches (we get additional * there, but we don't care)
-        current_branch = self.execute(['branch'])
-        if branch == current_branch:
-            return
-
-        # Switch branch
-        self.execute(['branch', branch])
+        if branch != 'default':
+            raise RepositoryException(0, 'Only default branch supported!', '')
+        return
 
     def describe(self):
         """
@@ -808,3 +797,15 @@ class HgRepository(Repository):
         return self.execute(
             ['log', '-r', '.', '--template', '{latesttag}-{latesttagdistance}-{node|short}']
         ).strip()
+
+    def push(self, branch):
+        """
+        Pushes given branch to remote repository.
+        """
+        try:
+            super(HgRepository, self).push(branch)
+        except RepositoryException as error:
+            if error.retcode == 1:
+                # No changes found
+                return
+            raise

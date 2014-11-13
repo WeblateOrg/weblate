@@ -31,6 +31,7 @@ class VCSGitTest(RepoTestCase):
     _tempdir = None
     _class = GitRepository
     _vcs = 'git'
+    _branch = 'master'
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
@@ -59,16 +60,16 @@ class VCSGitTest(RepoTestCase):
         self.repo.update_remote()
 
     def test_push(self):
-        self.repo.push('master')
+        self.repo.push(self._branch)
 
     def test_reset(self):
-        self.repo.reset('master')
+        self.repo.reset(self._branch)
 
     def test_merge(self):
-        self.repo.merge('master')
+        self.repo.merge(self._branch)
 
     def test_rebase(self):
-        self.repo.rebase('master')
+        self.repo.rebase(self._branch)
 
     def test_status(self):
         status = self.repo.status()
@@ -113,8 +114,8 @@ class VCSGitTest(RepoTestCase):
         self.check_valid_info(info)
 
     def test_needs_merge(self):
-        self.assertFalse(self.repo.needs_merge('master'))
-        self.assertFalse(self.repo.needs_push('master'))
+        self.assertFalse(self.repo.needs_merge(self._branch))
+        self.assertFalse(self.repo.needs_push(self._branch))
 
     def test_get_version(self):
         self.assertTrue(self._class.get_version() != '')
@@ -206,7 +207,7 @@ class VCSGitTest(RepoTestCase):
 
     def test_configure_branch(self):
         # Existing branch
-        self.repo.configure_branch('master')
+        self.repo.configure_branch(self._branch)
 
         self.assertRaises(
             RepositoryException,
@@ -221,6 +222,7 @@ class VCSHgTest(VCSGitTest):
     """
     _class = HgRepository
     _vcs = 'hg'
+    _branch = 'default'
 
     def test_configure_branch(self):
         # Existing branch
@@ -255,18 +257,6 @@ class VCSHgTest(VCSGitTest):
             '/push',
         )
 
-    def test_merge(self):
-        return
-
-    def test_needs_merge(self):
-        return
-
-    def test_push(self):
-        return
-
-    def test_reset(self):
-        return
-
     def test_revision_info(self):
         # Latest commit
         info = self.repo.get_revision_info(self.repo.last_revision)
@@ -279,8 +269,6 @@ class VCSHgTest(VCSGitTest):
             u'Foo Bar Žač <foo@example.net>'
         )
 
-    def test_revision(self):
-        return
-
     def test_status(self):
-        return
+        status = self.repo.status()
+        self.assertEqual(status, '')
