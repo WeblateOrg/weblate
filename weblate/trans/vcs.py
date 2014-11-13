@@ -610,14 +610,14 @@ class HgRepository(Repository):
 
         TODO: Need to figure out remote revision
         """
-        self.set_config('extensions', 'strip' ,'')
+        self.set_config('extensions', 'strip', '')
         self.execute(['strip'])
 
     def rebase(self, branch=None, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
-        self.set_config('extensions', 'rebase' ,'')
+        self.set_config('extensions', 'rebase', '')
         if abort:
             self.execute(['rebase', '--abort'])
         else:
@@ -781,8 +781,8 @@ class HgRepository(Repository):
             self.set_config('paths', 'default-push', push_url)
 
         # We also enable some necessary extensions here
-        self.set_config('extensions', 'strip' ,'')
-        self.set_config('extensions', 'rebase' ,'')
+        self.set_config('extensions', 'strip', '')
+        self.set_config('extensions', 'rebase', '')
 
     def configure_branch(self, branch):
         """

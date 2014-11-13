@@ -271,7 +271,8 @@ class VCSHgTest(VCSGitTest):
     def test_set_committer(self):
         self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
-            self.repo.get_config('ui', 'username'), u'Foo Bar Žač <foo@example.net>'
+            self.repo.get_config('ui', 'username'),
+            u'Foo Bar Žač <foo@example.net>'
         )
 
     def test_revision(self):
