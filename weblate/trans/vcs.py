@@ -580,11 +580,15 @@ class HgRepository(Repository):
         Set entry in local configuration.
         """
         filename = os.path.join(self.path, '.hg', 'hgrc')
+        value = value.encode('utf-8')
         config = ConfigParser.RawConfigParser()
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
-        config.set(section, key, value.encode('utf-8'))
+        if (config.has_option(section, key)
+                and config.get(section, key) == value):
+            return
+        config.set(section, key, value)
         with open(filename, 'wb') as handle:
             config.write(handle)
 
