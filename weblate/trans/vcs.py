@@ -89,7 +89,6 @@ class Repository(object):
         repository_path = os.path.realpath(self.path)
 
         if not real_path.startswith(repository_path):
-            print real_path, repository_path
             raise ValueError('Too many symlinks or link outside tree')
 
         return real_path[len(repository_path):].lstrip('/')
