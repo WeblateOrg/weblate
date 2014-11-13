@@ -33,11 +33,12 @@ from weblate.trans.models import Project, SubProject, Unit, WhiteboardMessage
 from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.vcs import GitRepository
+from weblate.trans.vcs import GitRepository, HgRepository
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
 GIT_URL = 'git://github.com/nijel/weblate-test.git'
+HG_URL = 'https://nijel@bitbucket.org/nijel/weblate-test'
 
 
 class RepoTestCase(TestCase):
@@ -61,6 +62,17 @@ class RepoTestCase(TestCase):
             'test-repo.git'
         )
 
+        # Path where to clone remote repo for tests
+        self.hg_base_repo_path = os.path.join(
+            settings.GIT_ROOT,
+            'test-base-repo.hg'
+        )
+        # Repository on which tests will be performed
+        self.hg_repo_path = os.path.join(
+            settings.GIT_ROOT,
+            'test-repo.hg'
+        )
+
         # Clone repo for testing
         if not os.path.exists(self.git_base_repo_path):
             GitRepository.clone(
@@ -75,6 +87,21 @@ class RepoTestCase(TestCase):
 
         # Create repository copy for the test
         shutil.copytree(self.git_base_repo_path, self.git_repo_path)
+
+        # Clone repo for testing
+        if not os.path.exists(self.hg_base_repo_path):
+            HgRepository.clone(
+                HG_URL,
+                self.hg_base_repo_path,
+                bare=True
+            )
+
+        # Remove possibly existing directory
+        if os.path.exists(self.hg_repo_path):
+            shutil.rmtree(self.hg_repo_path)
+
+        # Create repository copy for the test
+        shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
 
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.GIT_ROOT, 'test')
