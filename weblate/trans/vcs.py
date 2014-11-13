@@ -806,7 +806,7 @@ class HgRepository(Repository):
     def describe(self):
         """
         Verbosely describes current revision.
-
-        TODO
         """
-        return self.execute(['describe', '--always']).strip()
+        return self.execute(
+            ['log', '-r', '.', '--template', '{latesttag}-{latesttagdistance}-{node|short}']
+        ).strip()
