@@ -35,7 +35,7 @@ class RepositoryException(Exception):
     Error while working with a repository.
     """
     def __init__(self, retcode, stderr, stdout):
-        super(RepositoryException, self).__init__(sterr or stdout)
+        super(RepositoryException, self).__init__(stderr or stdout)
         self.retcode = retcode
         self.stderr = stderr.strip()
         self.stdout = stdout.strip()
