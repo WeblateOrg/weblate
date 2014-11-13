@@ -25,6 +25,7 @@ from weblate.trans.vcs import GitRepository, HgRepository
 import importlib
 import sys
 import django
+import os
 
 
 def get_version_module(module, name, url, optional=False):
@@ -224,7 +225,10 @@ def check_requirements():
     '''
     Performs check on requirements and raises an exception on error.
     '''
-    versions = get_versions() + get_optional_versions()
+    if not os.environ.has_key('OPENSHIFT_REPO_DIR'):
+        versions = get_versions() + get_optional_versions()
+    else:
+        versions = get_versions()
     failure = False
 
     for version in versions:
