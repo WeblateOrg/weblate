@@ -128,7 +128,7 @@ def get_versions():
         name,
         url,
         mod.sver,
-        '1.9.0',
+        '1.10.0',
     ))
 
     name = 'Whoosh'
