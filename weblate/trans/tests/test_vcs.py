@@ -243,9 +243,6 @@ class VCSHgTest(VCSGitTest):
     def test_needs_merge(self):
         return
 
-    def test_object_hash(self):
-        return
-
     def test_push(self):
         return
 

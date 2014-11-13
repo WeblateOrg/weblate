@@ -25,6 +25,7 @@ import os.path
 import email.utils
 import re
 import ConfigParser
+import hashlib
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -65,6 +66,20 @@ class Repository(object):
         Initializes the repository.
         '''
         raise NotImplementedError()
+
+    def resolve_symlinks(self, path):
+        """
+        Resolves any symlinks in the path.
+        """
+        # Resolve symlinks first
+        real_path = os.path.realpath(os.path.join(self.path, path))
+        repository_path = os.path.realpath(self.path)
+
+        if not real_path.startswith(repository_path):
+            print real_path, repository_path
+            raise ValueError('Too many symlinks or link outside tree')
+
+        return real_path[len(repository_path):].lstrip('/')
 
     @classmethod
     def _popen(cls, args, cwd=None):
@@ -213,7 +228,13 @@ class Repository(object):
         """
         Returns hash of object in the VCS.
         """
-        raise NotImplementedError()
+        real_path = os.path.join(
+            self.path,
+            self.resolve_symlinks(path)
+        )
+
+        with open(real_path, 'rb') as f:
+            return hashlib.sha1(f.read()).hexdigest()
 
     def configure_remote(self, pull_url, push_url, branch):
         """
@@ -430,15 +451,7 @@ class GitRepository(Repository):
         """
         Returns hash of object in the VCS.
         """
-        # Resolve symlinks first
-        real_path = os.path.realpath(os.path.join(self.path, path))
-        repository_path = os.path.realpath(self.path)
-
-        if not real_path.startswith(repository_path):
-            print real_path, repository_path
-            raise ValueError('Too many symlinks or link outside tree')
-
-        real_path = real_path[len(repository_path):].lstrip('/')
+        real_path = self.resolve_symlinks(path)
 
         return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
 
@@ -723,24 +736,6 @@ class HgRepository(Repository):
         self.execute(cmd)
         # Clean cache
         self._last_revision = None
-
-    def get_object_hash(self, path):
-        """
-        Returns hash of object in the VCS.
-
-        TODO
-        """
-        # Resolve symlinks first
-        real_path = os.path.realpath(os.path.join(self.path, path))
-        repository_path = os.path.realpath(self.path)
-
-        if not real_path.startswith(repository_path):
-            print real_path, repository_path
-            raise ValueError('Too many symlinks or link outside tree')
-
-        real_path = real_path[len(repository_path):].lstrip('/')
-
-        return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
         """
