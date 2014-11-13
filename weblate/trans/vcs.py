@@ -34,6 +34,19 @@ class RepositoryException(Exception):
     """
     Error while working with a repository.
     """
+    def __init__(self, retcode, stderr, stdout):
+        self.retcode = retcode
+        self.stderr = stderr.strip()
+        self.stdout = stdout.strip()
+
+    def __str__(self):
+        if self.stderr:
+            message = self.stderr
+        else:
+            message = self.stdout
+        if self.retcode != 0:
+            return '{0} ({1})'.format(message, self.retcode)
+        return message
 
 
 class Repository(object):
@@ -87,7 +100,7 @@ class Repository(object):
         Executes the command using popen.
         '''
         if args is None:
-            raise RepositoryException('Not supported functionality')
+            raise RepositoryException(0, 'Not supported functionality', '')
         args = [cls._cmd] + args
         process = subprocess.Popen(
             args,
@@ -99,10 +112,7 @@ class Repository(object):
         output, output_err = process.communicate()
         retcode = process.poll()
         if retcode:
-            message = output_err.strip()
-            if not message:
-                message = output.strip()
-            raise RepositoryException(message)
+            raise RepositoryException(retcode, output_err, output)
         return output
 
     def execute(self, args):
