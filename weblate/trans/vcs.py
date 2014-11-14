@@ -26,6 +26,8 @@ import email.utils
 import re
 import ConfigParser
 import hashlib
+# For some reasons, this fails in PyLint sometimes...
+# pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
 from dateutil import parser
 from weblate.trans.util import get_clean_env, add_configuration_error
