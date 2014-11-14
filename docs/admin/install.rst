@@ -16,6 +16,8 @@ Translate-toolkit (>= 1.10.0)
     http://toolkit.translatehouse.org/
 Git (>= 1.6)
     http://git-scm.com/
+Mercurial (>= 2.8) (optional for Mercurial repositories support)
+    http://mercurial.selenic.com/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
 Whoosh (>= 2.5, 2.5.2 is recommended, 2.6.0 is broken)
