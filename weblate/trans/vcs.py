@@ -743,7 +743,7 @@ class HgRepository(Repository):
         commit_email: {email(author)}
         commit: {author}
         commitdate: {rfc822date(date)}
-        commit: {short(node)}
+        shortrevision: {short(node)}
         message:
         {desc}
         '''

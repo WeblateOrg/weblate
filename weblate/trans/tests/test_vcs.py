@@ -87,10 +87,19 @@ class VCSGitTest(RepoTestCase):
 
     def check_valid_info(self, info):
         self.assertTrue('summary' in info)
+        self.assertTrue(info['summary'] != '')
         self.assertTrue('author' in info)
+        self.assertTrue(info['author'] != '')
         self.assertTrue('authordate' in info)
+        self.assertTrue(info['authordate'] != '')
         self.assertTrue('commit' in info)
+        self.assertTrue(info['commit'] != '')
         self.assertTrue('commitdate' in info)
+        self.assertTrue(info['commitdate'] != '')
+        self.assertTrue('revision' in info)
+        self.assertTrue(info['revision'] != '')
+        self.assertTrue('shortrevision' in info)
+        self.assertTrue(info['shortrevision'] != '')
 
     def test_revision_info(self):
         # Latest commit
