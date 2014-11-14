@@ -83,6 +83,7 @@ def search(translation, request):
         # Check if we know the search
         if search_id not in request.session:
             messages.error(request, _('Invalid search string!'))
+            print 'Invalid search string!'
             return redirect(translation)
 
         return request.session[search_id]
@@ -130,6 +131,7 @@ def search(translation, request):
     # Check empty search results
     if len(unit_ids) == 0:
         messages.warning(request, _('No string matched your search!'))
+        print 'No string matched your search!'
         return redirect(translation)
 
     # Checksum unit access
@@ -140,6 +142,7 @@ def search(translation, request):
             offset = unit_ids.index(unit.id)
         except (Unit.DoesNotExist, IndexError):
             messages.warning(request, _('No string matched your search!'))
+            print 'No string matched your search!'
             return redirect(translation)
 
     # Remove old search results
@@ -488,6 +491,7 @@ def translate(request, project, subproject, lang):
         # Delete search
         del request.session['search_%s' % search_result['search_id']]
         # Redirect to translation
+        print 'You have reached end of translating.'
         return redirect(translation)
 
     # Some URLs we will most likely use
@@ -539,6 +543,7 @@ def translate(request, project, subproject, lang):
     except Unit.DoesNotExist:
         # Can happen when using SID for other translation
         messages.error(request, _('Invalid search string!'))
+        print 'Invalid search string!'
         return redirect(translation)
 
     # Show secondary languages for logged in users
