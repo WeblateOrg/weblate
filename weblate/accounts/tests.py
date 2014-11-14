@@ -25,6 +25,7 @@ Tests for user handling.
 import tempfile
 from unittest import TestCase as UnitTestCase
 from django.test import TestCase
+from django.utils.unittest import SkipTest
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser, User, Group
 from django.core import mail
@@ -45,6 +46,7 @@ from weblate.accounts.models import (
 from weblate.accounts.captcha import (
     hash_question, unhash_question, MathCaptcha
 )
+from weblate.accounts import avatar
 from weblate.accounts.middleware import RequireLoginMiddleware
 
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
@@ -239,7 +241,7 @@ class CommandTest(TestCase):
             call_command('importuserdata', output.name)
 
         profile = Profile.objects.get(user__username='testuser')
-        self.assertEquals(profile.translated, 2000)
+        self.assertEqual(profile.translated, 2000)
 
 
 class ViewTest(TestCase):
@@ -664,3 +666,60 @@ class MiddlewareTest(TestCase):
         self.assertIsNone(
             middleware.process_view(request, self.view_method, (), {})
         )
+
+
+class AvatarTest(ViewTestCase):
+    def setUp(self):
+        super(AvatarTest, self).setUp()
+        self.user.email = 'test@example.com'
+        self.user.save()
+
+    def assert_url(self):
+        url = avatar.avatar_for_email(self.user.email)
+        self.assertEqual(
+            'https://seccdn.libravatar.org/avatar/'
+            '55502f40dc8b7c769880b10874abc9d0',
+            url.split('?')[0]
+        )
+
+    def test_avatar_for_email_own(self):
+        backup = avatar.HAS_LIBRAVATAR
+        try:
+            avatar.HAS_LIBRAVATAR = False
+            self.assert_url()
+        finally:
+            avatar.HAS_LIBRAVATAR = backup
+
+    def test_avatar_for_email_libravatar(self):
+        if not avatar.HAS_LIBRAVATAR:
+            raise SkipTest('Libravatar not installed')
+        self.assert_url()
+
+    def test_avatar(self):
+        # Real user
+        response = self.client.get(
+            reverse(
+                'user_avatar',
+                kwargs={'user': self.user.username, 'size': 32}
+            )
+        )
+        self.assertPNG(response)
+        # Test caching
+        response = self.client.get(
+            reverse(
+                'user_avatar',
+                kwargs={'user': self.user.username, 'size': 32}
+            )
+        )
+        self.assertPNG(response)
+
+    def test_anonymous_avatar(self):
+        anonymous = User.objects.get(username='anonymous')
+        # Anonymous user
+        response = self.client.get(
+            reverse(
+                'user_avatar',
+                kwargs={'user': anonymous.username, 'size': 32}
+            )
+        )
+        self.assertPNG(response)
