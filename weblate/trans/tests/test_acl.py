@@ -22,9 +22,8 @@
 Tests for ACL management.
 """
 
-import re
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import Group, User
 from weblate.trans.tests.test_views import ViewTestCase
 
 
