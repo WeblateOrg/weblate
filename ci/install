@@ -3,9 +3,13 @@
 set -e
 set -x
 
-pip install $CI_DJANGO
-pip install https://github.com/SmileyChris/pyuca/archive/master.zip
-pip install \
+pip_install() {
+    pip install --download-cache ~/.pip-cache/ "$@"
+}
+
+pip_install $CI_DJANGO
+pip_install https://github.com/SmileyChris/pyuca/archive/master.zip
+pip_install \
     -r requirements-optional.txt \
     -r requirements-django-1.6.txt \
     -r ci/requirements-${CI_REQUIREMENTS}.txt \
