@@ -9,4 +9,4 @@ if [ "$CI_DATABASE" = sqlite ] ; then
 fi
 ./manage.py syncdb --noinput
 ./manage.py migrate --traceback
-coverage run --source=. ./manage.py test $CI_RUN_TESTS
+coverage run --source=. ./manage.py test -v 2 $CI_RUN_TESTS
