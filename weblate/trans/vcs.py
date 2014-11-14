@@ -64,6 +64,12 @@ class Repository(object):
     _cmd_push = None
     _cmd_status = ['status']
 
+    name = None
+    req_version = None
+
+    _is_supported = None
+    _version = None
+
     def __init__(self, path):
         self.path = path
         self.last_output = ''
@@ -221,14 +227,39 @@ class Repository(object):
         """
         Checks whether this VCS backend is supported.
         """
+        if cls._is_supported is not None:
+            return cls._is_supported
         try:
-            cls.get_version()
-            return True
+            version = cls.get_version()
         except OSError:
+            cls._is_supported = False
             return False
+        if cls.req_version is None:
+            cls._is_supported = True
+        elif LooseVersion(version) >= cls.req_version:
+            cls._is_supported = True
+        else:
+            cls._is_supported = False
+            add_configuration_error(
+                cls.name.lower(),
+                '{0} version is too old, please upgrade to {1}.'.format(
+                    cls.name,
+                    cls.req_version
+                )
+            )
+        return cls._is_supported
 
     @classmethod
     def get_version(cls):
+        """
+        Cached getting of version.
+        """
+        if cls._version is None:
+            cls._version = cls._get_version()
+        return cls._version
+
+    @classmethod
+    def _get_version(cls):
         """
         Returns VCS program version.
         """
@@ -295,6 +326,8 @@ class GitRepository(Repository):
     ]
     _cmd_update_remote = ['remote', 'update', 'origin']
     _cmd_push = ['push', 'origin']
+    name = 'Git'
+    req_version = '1.6'
 
     def is_valid(self):
         '''
@@ -446,18 +479,7 @@ class GitRepository(Repository):
         return self._log_revisions('origin/{0}..'.format(branch)) != ''
 
     @classmethod
-    def is_supported(cls):
-        """
-        Checks whether this VCS backend is supported.
-        """
-        try:
-            version = cls.get_version()
-            return LooseVersion(version) >= '1.6'
-        except OSError:
-            return False
-
-    @classmethod
-    def get_version(cls):
+    def _get_version(cls):
         """
         Returns VCS program version.
         """
@@ -564,6 +586,8 @@ class HgRepository(Repository):
     ]
     _cmd_update_remote = ['pull']
     _cmd_push = ['push']
+    name = 'Mercurial'
+    req_version = '2.8'
 
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
 
@@ -759,24 +783,7 @@ class HgRepository(Repository):
         return self.execute(['log', '-r', 'not public()']) != ''
 
     @classmethod
-    def is_supported(cls):
-        """
-        Checks whether this VCS backend is supported.
-        """
-        try:
-            version = cls.get_version()
-            if LooseVersion(version) >= '3.8':
-                return True
-            add_configuration_error(
-                'mercurial',
-                'Mercurial version is too old, please upgrade to 2.8.'
-            )
-            return False
-        except OSError:
-            return False
-
-    @classmethod
-    def get_version(cls):
+    def _get_version(cls):
         """
         Returns VCS program version.
         """
