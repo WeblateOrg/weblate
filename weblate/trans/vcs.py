@@ -28,7 +28,7 @@ import ConfigParser
 import hashlib
 from distutils.version import LooseVersion
 from dateutil import parser
-from weblate.trans.util import get_clean_env
+from weblate.trans.util import get_clean_env, add_configuration_error
 
 
 class RepositoryException(Exception):
@@ -765,7 +765,13 @@ class HgRepository(Repository):
         """
         try:
             version = cls.get_version()
-            return LooseVersion(version) >= '2.8'
+            if LooseVersion(version) >= '3.8':
+                return True
+            add_configuration_error(
+                'mercurial',
+                'Mercurial version is too old, please upgrade to 2.8.'
+            )
+            return False
         except OSError:
             return False
 
