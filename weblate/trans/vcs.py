@@ -30,6 +30,22 @@ from distutils.version import LooseVersion
 from dateutil import parser
 from weblate.trans.util import get_clean_env, add_configuration_error
 
+VCS_REGISTRY = {}
+VCS_CHOICES = []
+
+
+def register_vcs(vcs):
+    """
+    Registers VCS if it's supported.
+    """
+    if vcs.is_supported():
+        key = vcs.name.lower()
+        VCS_REGISTRY[key] = vcs
+        VCS_CHOICES.append(
+            (key, vcs.name)
+        )
+    return vcs
+
 
 class RepositoryException(Exception):
     """
@@ -313,6 +329,7 @@ class Repository(object):
         raise NotImplementedError()
 
 
+@register_vcs
 class GitRepository(Repository):
     """
     Repository implementation for Git.
@@ -573,6 +590,7 @@ class GitRepository(Repository):
         return self.execute(['describe', '--always']).strip()
 
 
+@register_vcs
 class HgRepository(Repository):
     """
     Repository implementation for Mercurial.
