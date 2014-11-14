@@ -53,15 +53,15 @@ def get_optional_versions():
     '''
     result = []
 
-    name = 'ICU'
-    url = 'https://pypi.python.org/pypi/PyICU'
-    mod = get_version_module('icu', name, url, True)
+    name = 'pyuca'
+    url = 'https://github.com/jtauber/pyuca'
+    mod = get_version_module('pyuca', name, url, True)
     if mod is not None:
         result.append((
             name,
             url,
-            mod.VERSION,
-            '1.0',
+            'N/A',
+            None,
         ))
 
     name = 'pyLibravatar'

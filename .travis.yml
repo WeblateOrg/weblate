@@ -21,8 +21,6 @@ before_install:
   - git clone --depth 1 --branch v0.1.2 https://github.com/ruleant/buildtime-trend.git $HOME/buildtime-trend 
   - source $HOME/buildtime-trend/init.sh
   - timestamp.sh packages
-  - sudo apt-get update -qq
-  - sudo apt-get install git libicu-dev
 # commands to install dependencies
 install:
   - timestamp.sh install
@@ -32,8 +30,6 @@ install:
 before_script:
   - timestamp.sh before_script
   - ./ci/setup-env
-  - echo -e "[server]\nmax_allowed_packet=64M\nwait_timeout=28800" | sudo tee -a /etc/mysql/conf.d/weblate.cnf
-  - sudo service mysql restart
 # commands to run tests
 script:
   - timestamp.sh tests
@@ -48,6 +44,7 @@ cache:
   apt: true
   directories:
     - $HOME/.pip-cache/
+sudo: false
 matrix:
   allow_failures:
     - python: "2.7"

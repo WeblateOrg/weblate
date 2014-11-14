@@ -34,10 +34,10 @@ import unicodedata
 import weblate
 
 try:
-    import icu  # pylint: disable=import-error
-    HAS_ICU = True
+    import pyuca  # pylint: disable=import-error
+    HAS_PYUCA = True
 except ImportError:
-    HAS_ICU = False
+    HAS_PYUCA = False
 
 
 def remove_accents(input_str):
@@ -53,20 +53,18 @@ def sort_choices(choices):
     '''
     Sorts choices alphabetically.
 
-    Either using cmp or ICU.
+    Either using cmp or pyuca.
     '''
-    if not HAS_ICU:
+    if not HAS_PYUCA:
         return sorted(
             choices,
-            key=lambda tup: remove_accents(tup[1])
+            key=lambda tup: remove_accents(tup[1]).lower()
         )
     else:
-        locale = icu.Locale(get_language())
-        collator = icu.Collator.createInstance(locale)
+        collator = pyuca.Collator()
         return sorted(
             choices,
-            key=lambda tup: tup[1],
-            cmp=collator.compare
+            key=lambda tup: collator.sort_key(unicode(tup[1]))
         )
 
 
