@@ -605,7 +605,6 @@ class HgRepository(Repository):
         'log', '--limit', '1', '--template', '{node}', '--branch', 'tip'
     ]
     _cmd_update_remote = ['pull']
-    _cmd_push = ['push']
     name = 'Mercurial'
     req_version = '2.8'
 
@@ -878,7 +877,7 @@ class HgRepository(Repository):
         Pushes given branch to remote repository.
         """
         try:
-            super(HgRepository, self).push(branch)
+            self.execute('push')
         except RepositoryException as error:
             if error.retcode == 1:
                 # No changes found
