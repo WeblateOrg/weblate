@@ -767,15 +767,18 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 return True
             except Exception as error:
                 # In case merge has failer recover
-                status = self.repository.status()
                 error = str(error)
-                method(abort=True)
+                status = self.repository.status()
 
-        # Log error
-        self.log_error(
-            'failed %s on repo',
-            self.merge_style,
-        )
+                # Log error
+                self.log_error(
+                    'failed %s on repo: %s',
+                    self.merge_style,
+                    error
+                )
+
+                # Reset repo back
+                method(abort=True)
 
         # Notify subscribers and admins
         self.notify_merge_failure(error, status)

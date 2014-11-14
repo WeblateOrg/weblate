@@ -800,9 +800,11 @@ class HgRepository(Repository):
         """
         Verbosely describes current revision.
         """
-        return self.execute(
-            ['log', '-r', '.', '--template', '{latesttag}-{latesttagdistance}-{node|short}']
-        ).strip()
+        return self.execute([
+            'log',
+            '-r', '.',
+            '--template', '{latesttag}-{latesttagdistance}-{node|short}'
+        ]).strip()
 
     def push(self, branch):
         """
