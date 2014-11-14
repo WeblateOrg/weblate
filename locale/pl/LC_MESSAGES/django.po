@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-14 14:53+0100\n"
+"POT-Creation-Date: 2014-11-14 16:36+0100\n"
 "PO-Revision-Date: 2014-10-15 22:50+0200\n"
 "Last-Translator: Rafał Michalski <rafal.michalski.pl@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/bootstrap/"
@@ -2230,77 +2230,77 @@ msgstr "Repozytorium Git z tłumaczeniami Weblate:"
 msgid "Repository details"
 msgstr "Status repozytorium"
 
-#: weblate/html/js/git-status.html:67
+#: weblate/html/js/git-status.html:63
 #, fuzzy
 #| msgid "Repository status"
 msgid "Repository tools"
 msgstr "Status repozytorium"
 
-#: weblate/html/js/git-status.html:74
+#: weblate/html/js/git-status.html:70
 msgid "Commit"
 msgstr "Prześlij"
 
-#: weblate/html/js/git-status.html:77
+#: weblate/html/js/git-status.html:73
 #, fuzzy
 #| msgid "Reset all changes in local repository"
 msgid "Commit pending changes to the local repository"
 msgstr "Zresetuj wszystkie zmiany w repozytorium lokalnym"
 
-#: weblate/html/js/git-status.html:83
+#: weblate/html/js/git-status.html:79
 msgid "Pull"
 msgstr "Pobierz"
 
-#: weblate/html/js/git-status.html:86
+#: weblate/html/js/git-status.html:82
 #, fuzzy
 #| msgid "Pull changes from remote repository"
 msgid "Pull changes from the remote repository"
 msgstr "Pobierz zmiany ze zdalnego repozytorium"
 
-#: weblate/html/js/git-status.html:91
+#: weblate/html/js/git-status.html:87
 msgid "Push"
 msgstr "Prześlij"
 
-#: weblate/html/js/git-status.html:94
+#: weblate/html/js/git-status.html:90
 #, fuzzy
 #| msgid "Push changes to remote repository"
 msgid "Push changes to the remote repository"
 msgstr "Prześlij zmiany do zdalnego repozytorium"
 
-#: weblate/html/js/git-status.html:99 weblate/trans/models/subproject.py:63
+#: weblate/html/js/git-status.html:95 weblate/trans/models/subproject.py:63
 msgid "Rebase"
 msgstr "Rebase"
 
-#: weblate/html/js/git-status.html:102
+#: weblate/html/js/git-status.html:98
 #, fuzzy
 #| msgid "Push changes to remote repository"
 msgid "Rebase local changes onto the remote repository"
 msgstr "Prześlij zmiany do zdalnego repozytorium"
 
-#: weblate/html/js/git-status.html:108
+#: weblate/html/js/git-status.html:104
 msgid "Reset"
 msgstr "Zresetuj"
 
-#: weblate/html/js/git-status.html:111
+#: weblate/html/js/git-status.html:107
 #, fuzzy
 #| msgid "Reset all changes in local repository"
 msgid "Reset all changes in the local repository"
 msgstr "Zresetuj wszystkie zmiany w repozytorium lokalnym"
 
-#: weblate/html/js/git-status.html:121 weblate/html/translation.html:219
+#: weblate/html/js/git-status.html:117 weblate/html/translation.html:219
 msgid "Unlock"
 msgstr "Odblokuj"
 
-#: weblate/html/js/git-status.html:124
+#: weblate/html/js/git-status.html:120
 #, fuzzy
 #| msgid "Allow changes in the repository"
 msgid "Allow changes in the local repository"
 msgstr "Pozwól na zmiany w repozytorium"
 
-#: weblate/html/js/git-status.html:130 weblate/html/translation.html:221
+#: weblate/html/js/git-status.html:126 weblate/html/translation.html:221
 msgid "Lock"
 msgstr "Zablokuj"
 
-#: weblate/html/js/git-status.html:133
+#: weblate/html/js/git-status.html:129
 #, fuzzy
 #| msgid "Prevent any changes in the repository"
 msgid "Prevent any changes in the local repository"
@@ -3764,13 +3764,13 @@ msgstr "Tagi XML niedopasowanie"
 msgid "XML tags in translation do not match source"
 msgstr "Tagi XML w tłumaczeniu nie pasują do źródła"
 
-#: weblate/trans/checks/same.py:963
+#: weblate/trans/checks/same.py:968
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "Tłumaczenie maszynowe"
 
-#: weblate/trans/checks/same.py:964
+#: weblate/trans/checks/same.py:969
 msgid "Source and translated strings are same"
 msgstr "Napisy: źródłowy i tłumaczenie są takie same"
 
@@ -4812,18 +4812,22 @@ msgstr ""
 msgid "License URL can not be used without license summary."
 msgstr "URL Licencji nie może być użyty bez podsumowania licencji."
 
-#: weblate/trans/models/subproject.py:1076
+#: weblate/trans/models/subproject.py:1079
+msgid "Changing version control system is not supported!"
+msgstr ""
+
+#: weblate/trans/models/subproject.py:1085
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1083
+#: weblate/trans/models/subproject.py:1092
 #, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
-msgid "Failed to update git: %s"
-msgstr "Nie udało się wygenerować klucza: %s"
+#| msgid "Failed to fetch git repository: %s"
+msgid "Failed to update repository: %s"
+msgstr "Pobranie repozytorium git nie powiodło się: %s"
 
-#: weblate/trans/models/subproject.py:1106
+#: weblate/trans/models/subproject.py:1115
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatyczne akceptowanie sugesti może działać tylko gdy głosowanie jest "
@@ -5538,6 +5542,11 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "przetłumaczone"
+
+#, fuzzy
+#~| msgid "Failed to generate key: %s"
+#~ msgid "Failed to update git: %s"
+#~ msgstr "Nie udało się wygenerować klucza: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

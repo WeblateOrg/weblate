@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-14 14:53+0100\n"
+"POT-Creation-Date: 2014-11-14 16:36+0100\n"
 "PO-Revision-Date: 2014-11-10 11:46+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -2201,63 +2201,63 @@ msgstr "Weblate çevirilerinin olduğu Git havuzu:"
 msgid "Repository details"
 msgstr "Havuz ayrıntıları"
 
-#: weblate/html/js/git-status.html:67
+#: weblate/html/js/git-status.html:63
 msgid "Repository tools"
 msgstr "Havuz araçları"
 
-#: weblate/html/js/git-status.html:74
+#: weblate/html/js/git-status.html:70
 msgid "Commit"
 msgstr "İşle"
 
-#: weblate/html/js/git-status.html:77
+#: weblate/html/js/git-status.html:73
 msgid "Commit pending changes to the local repository"
 msgstr "Bekleyen değişiklikleri yerel havuza işle"
 
-#: weblate/html/js/git-status.html:83
+#: weblate/html/js/git-status.html:79
 msgid "Pull"
 msgstr "Çek"
 
-#: weblate/html/js/git-status.html:86
+#: weblate/html/js/git-status.html:82
 msgid "Pull changes from the remote repository"
 msgstr "Uzak havuzdan değişiklikleri çek"
 
-#: weblate/html/js/git-status.html:91
+#: weblate/html/js/git-status.html:87
 msgid "Push"
 msgstr "Yolla"
 
-#: weblate/html/js/git-status.html:94
+#: weblate/html/js/git-status.html:90
 msgid "Push changes to the remote repository"
 msgstr "Uzak havuza değişiklikleri yolla"
 
-#: weblate/html/js/git-status.html:99 weblate/trans/models/subproject.py:63
+#: weblate/html/js/git-status.html:95 weblate/trans/models/subproject.py:63
 msgid "Rebase"
 msgstr "Yeniden Uyarla"
 
-#: weblate/html/js/git-status.html:102
+#: weblate/html/js/git-status.html:98
 msgid "Rebase local changes onto the remote repository"
 msgstr "Uzak havuz üzerinde yerel değişiklikleri yeniden uyarla"
 
-#: weblate/html/js/git-status.html:108
+#: weblate/html/js/git-status.html:104
 msgid "Reset"
 msgstr "Sıfırla"
 
-#: weblate/html/js/git-status.html:111
+#: weblate/html/js/git-status.html:107
 msgid "Reset all changes in the local repository"
 msgstr "Yerel havuzdaki tüm değişiklikleri sıfırla"
 
-#: weblate/html/js/git-status.html:121 weblate/html/translation.html:219
+#: weblate/html/js/git-status.html:117 weblate/html/translation.html:219
 msgid "Unlock"
 msgstr "Kilidi aç"
 
-#: weblate/html/js/git-status.html:124
+#: weblate/html/js/git-status.html:120
 msgid "Allow changes in the local repository"
 msgstr "Yerel havuzdaki değişikliklere izin ver"
 
-#: weblate/html/js/git-status.html:130 weblate/html/translation.html:221
+#: weblate/html/js/git-status.html:126 weblate/html/translation.html:221
 msgid "Lock"
 msgstr "Kilitle"
 
-#: weblate/html/js/git-status.html:133
+#: weblate/html/js/git-status.html:129
 msgid "Prevent any changes in the local repository"
 msgstr "Yerel havuzdaki herhangi bir değişikliği önle"
 
@@ -3637,13 +3637,13 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: weblate/trans/checks/same.py:963
+#: weblate/trans/checks/same.py:968
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "Makine çevirisi"
 
-#: weblate/trans/checks/same.py:964
+#: weblate/trans/checks/same.py:969
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
@@ -4601,17 +4601,22 @@ msgstr ""
 msgid "License URL can not be used without license summary."
 msgstr "Lisans URL'si lisans özeti olmadan kullanılamaz."
 
-#: weblate/trans/models/subproject.py:1076
+#: weblate/trans/models/subproject.py:1079
+msgid "Changing version control system is not supported!"
+msgstr ""
+
+#: weblate/trans/models/subproject.py:1085
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Desteklenmeyen dosya biçimi: {0}"
 
-#: weblate/trans/models/subproject.py:1083
-#, python-format
-msgid "Failed to update git: %s"
-msgstr "Git'i güncelleme başarısız: %s"
+#: weblate/trans/models/subproject.py:1092
+#, fuzzy, python-format
+#| msgid "Failed to fetch repository: %s"
+msgid "Failed to update repository: %s"
+msgstr "Havuza getirme başarısız: %s"
 
-#: weblate/trans/models/subproject.py:1106
+#: weblate/trans/models/subproject.py:1115
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Önerileri otomatik olarak kabul etme sadece oylama etkinleştirilmişse "
@@ -5282,6 +5287,9 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "çevrildi"
+
+#~ msgid "Failed to update git: %s"
+#~ msgstr "Git'i güncelleme başarısız: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

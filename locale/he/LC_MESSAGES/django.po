@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-14 14:53+0100\n"
+"POT-Creation-Date: 2014-11-14 16:36+0100\n"
 "PO-Revision-Date: 2014-10-06 14:55+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/bootstrap/"
@@ -2247,64 +2247,64 @@ msgstr "מאגר Git עם תרגומי Weblate:"
 msgid "Repository details"
 msgstr "סייר המאגרים"
 
-#: weblate/html/js/git-status.html:67
+#: weblate/html/js/git-status.html:63
 #, fuzzy
 msgid "Repository tools"
 msgstr "סייר המאגרים"
 
-#: weblate/html/js/git-status.html:74
+#: weblate/html/js/git-status.html:70
 msgid "Commit"
 msgstr ""
 
-#: weblate/html/js/git-status.html:77
+#: weblate/html/js/git-status.html:73
 msgid "Commit pending changes to the local repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:83
+#: weblate/html/js/git-status.html:79
 msgid "Pull"
 msgstr ""
 
-#: weblate/html/js/git-status.html:86
+#: weblate/html/js/git-status.html:82
 msgid "Pull changes from the remote repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:91
+#: weblate/html/js/git-status.html:87
 msgid "Push"
 msgstr ""
 
-#: weblate/html/js/git-status.html:94
+#: weblate/html/js/git-status.html:90
 msgid "Push changes to the remote repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:99 weblate/trans/models/subproject.py:63
+#: weblate/html/js/git-status.html:95 weblate/trans/models/subproject.py:63
 msgid "Rebase"
 msgstr "החלפת הבסיס"
 
-#: weblate/html/js/git-status.html:102
+#: weblate/html/js/git-status.html:98
 msgid "Rebase local changes onto the remote repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:108
+#: weblate/html/js/git-status.html:104
 msgid "Reset"
 msgstr ""
 
-#: weblate/html/js/git-status.html:111
+#: weblate/html/js/git-status.html:107
 msgid "Reset all changes in the local repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:121 weblate/html/translation.html:219
+#: weblate/html/js/git-status.html:117 weblate/html/translation.html:219
 msgid "Unlock"
 msgstr "שחרור"
 
-#: weblate/html/js/git-status.html:124
+#: weblate/html/js/git-status.html:120
 msgid "Allow changes in the local repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:130 weblate/html/translation.html:221
+#: weblate/html/js/git-status.html:126 weblate/html/translation.html:221
 msgid "Lock"
 msgstr "נעילה"
 
-#: weblate/html/js/git-status.html:133
+#: weblate/html/js/git-status.html:129
 msgid "Prevent any changes in the local repository"
 msgstr ""
 
@@ -3757,13 +3757,13 @@ msgstr "תגי ה־XML אינם תואמים"
 msgid "XML tags in translation do not match source"
 msgstr "תגי ה־XML בתרגום אינם תואמים למקור"
 
-#: weblate/trans/checks/same.py:963
+#: weblate/trans/checks/same.py:968
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "תרגום מכונה"
 
-#: weblate/trans/checks/same.py:964
+#: weblate/trans/checks/same.py:969
 msgid "Source and translated strings are same"
 msgstr "מחרוזות המקור והתרגום זהות"
 
@@ -4802,18 +4802,22 @@ msgstr "נא למלא את כתובת ההנחיות או להשתמש באפש�
 msgid "License URL can not be used without license summary."
 msgstr "לא ניתן להשתמש בכתובת רישיון ללא תקציר רישיון."
 
-#: weblate/trans/models/subproject.py:1076
+#: weblate/trans/models/subproject.py:1079
+msgid "Changing version control system is not supported!"
+msgstr ""
+
+#: weblate/trans/models/subproject.py:1085
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1083
+#: weblate/trans/models/subproject.py:1092
 #, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
-msgid "Failed to update git: %s"
-msgstr "יצירת המפתח נכשלה: %s"
+#| msgid "Failed to fetch git repository: %s"
+msgid "Failed to update repository: %s"
+msgstr "אחזור מאגר ה־git נכשל: %s"
 
-#: weblate/trans/models/subproject.py:1106
+#: weblate/trans/models/subproject.py:1115
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
@@ -5586,6 +5590,11 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "מתורגם"
+
+#, fuzzy
+#~| msgid "Failed to generate key: %s"
+#~ msgid "Failed to update git: %s"
+#~ msgstr "יצירת המפתח נכשלה: %s"
 
 #~ msgid "Not translated"
 #~ msgstr "אין תרגום"

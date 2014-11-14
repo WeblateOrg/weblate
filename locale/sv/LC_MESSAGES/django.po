@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-14 14:53+0100\n"
+"POT-Creation-Date: 2014-11-14 16:36+0100\n"
 "PO-Revision-Date: 2014-10-10 17:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
@@ -2275,77 +2275,77 @@ msgstr "Git-förråd med Weblate-översättningar:"
 msgid "Repository details"
 msgstr "Förrådsstatus"
 
-#: weblate/html/js/git-status.html:67
+#: weblate/html/js/git-status.html:63
 #, fuzzy
 #| msgid "Repository status"
 msgid "Repository tools"
 msgstr "Förrådsstatus"
 
-#: weblate/html/js/git-status.html:74
+#: weblate/html/js/git-status.html:70
 msgid "Commit"
 msgstr "Verkställ"
 
-#: weblate/html/js/git-status.html:77
+#: weblate/html/js/git-status.html:73
 #, fuzzy
 #| msgid "Reset all changes in local repository"
 msgid "Commit pending changes to the local repository"
 msgstr "Återställ alla ändringar i lokalt förråd"
 
-#: weblate/html/js/git-status.html:83
+#: weblate/html/js/git-status.html:79
 msgid "Pull"
 msgstr "Hämta"
 
-#: weblate/html/js/git-status.html:86
+#: weblate/html/js/git-status.html:82
 #, fuzzy
 #| msgid "Pull changes from remote repository"
 msgid "Pull changes from the remote repository"
 msgstr "Hämta ändringar från fjärrförrådet"
 
-#: weblate/html/js/git-status.html:91
+#: weblate/html/js/git-status.html:87
 msgid "Push"
 msgstr "Skicka"
 
-#: weblate/html/js/git-status.html:94
+#: weblate/html/js/git-status.html:90
 #, fuzzy
 #| msgid "Push changes to remote repository"
 msgid "Push changes to the remote repository"
 msgstr "Skicka ändringar till fjärrförrådet"
 
-#: weblate/html/js/git-status.html:99 weblate/trans/models/subproject.py:63
+#: weblate/html/js/git-status.html:95 weblate/trans/models/subproject.py:63
 msgid "Rebase"
 msgstr ""
 
-#: weblate/html/js/git-status.html:102
+#: weblate/html/js/git-status.html:98
 #, fuzzy
 #| msgid "Push changes to remote repository"
 msgid "Rebase local changes onto the remote repository"
 msgstr "Skicka ändringar till fjärrförrådet"
 
-#: weblate/html/js/git-status.html:108
+#: weblate/html/js/git-status.html:104
 msgid "Reset"
 msgstr "Återställ"
 
-#: weblate/html/js/git-status.html:111
+#: weblate/html/js/git-status.html:107
 #, fuzzy
 #| msgid "Reset all changes in local repository"
 msgid "Reset all changes in the local repository"
 msgstr "Återställ alla ändringar i lokalt förråd"
 
-#: weblate/html/js/git-status.html:121 weblate/html/translation.html:219
+#: weblate/html/js/git-status.html:117 weblate/html/translation.html:219
 msgid "Unlock"
 msgstr "Lås upp"
 
-#: weblate/html/js/git-status.html:124
+#: weblate/html/js/git-status.html:120
 #, fuzzy
 #| msgid "Allow changes in the repository"
 msgid "Allow changes in the local repository"
 msgstr "Tillåt ändringar i förrådet"
 
-#: weblate/html/js/git-status.html:130 weblate/html/translation.html:221
+#: weblate/html/js/git-status.html:126 weblate/html/translation.html:221
 msgid "Lock"
 msgstr "Lås"
 
-#: weblate/html/js/git-status.html:133
+#: weblate/html/js/git-status.html:129
 #, fuzzy
 #| msgid "Prevent any changes in the repository"
 msgid "Prevent any changes in the local repository"
@@ -3811,13 +3811,13 @@ msgstr "XML-taggar matchar ej"
 msgid "XML tags in translation do not match source"
 msgstr "XML-taggarna i översättningen matchar ej källan"
 
-#: weblate/trans/checks/same.py:963
+#: weblate/trans/checks/same.py:968
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "Maskinöversättning"
 
-#: weblate/trans/checks/same.py:964
+#: weblate/trans/checks/same.py:969
 msgid "Source and translated strings are same"
 msgstr "Strängar för källa och översättning är samma"
 
@@ -4821,18 +4821,23 @@ msgstr ""
 msgid "License URL can not be used without license summary."
 msgstr "Licens-URL kan inte användas utan en licenssammanfattning."
 
-#: weblate/trans/models/subproject.py:1076
+#: weblate/trans/models/subproject.py:1079
+msgid "Changing version control system is not supported!"
+msgstr ""
+
+#: weblate/trans/models/subproject.py:1085
 #, fuzzy, python-brace-format
 #| msgid "Support Weblate at {0}"
 msgid "Unsupported file format: {0}"
 msgstr "Stöd Weblate på {0}"
 
-#: weblate/trans/models/subproject.py:1083
-#, python-format
-msgid "Failed to update git: %s"
-msgstr "Misslyckades med att uppdatera git: %s"
+#: weblate/trans/models/subproject.py:1092
+#, fuzzy, python-format
+#| msgid "Failed to fetch git repository: %s"
+msgid "Failed to update repository: %s"
+msgstr "Kunde inte hämta git-förråd: %s"
 
-#: weblate/trans/models/subproject.py:1106
+#: weblate/trans/models/subproject.py:1115
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatiskt accepterande av förslag kan endast fungera då röstning är "
@@ -5521,6 +5526,9 @@ msgstr ""
 #: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
 msgid "translated"
 msgstr "översatt"
+
+#~ msgid "Failed to update git: %s"
+#~ msgstr "Misslyckades med att uppdatera git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "
