@@ -30,8 +30,6 @@ install:
 before_script:
   - timestamp.sh before_script
   - ./ci/setup-env
-  - echo -e "[server]\nmax_allowed_packet=64M\nwait_timeout=28800" | sudo tee -a /etc/mysql/conf.d/weblate.cnf
-  - sudo service mysql restart
 # commands to run tests
 script:
   - timestamp.sh tests
