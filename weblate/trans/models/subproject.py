@@ -1070,6 +1070,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             old = SubProject.objects.get(pk=self.id)
             self.check_rename(old)
 
+            if old.vcs != self.vcs:
+                # This could work, but the problem is that before changed
+                # object is saved the linked repos still see old vcs leading
+                # to horrible mess. Changing vcs from the manage.py shell
+                # works fine though.
+                raise ValidationError(
+                    _('Changing version control system is not supported!')
+                )
+
         # Check file format
         if self.file_format not in FILE_FORMATS:
             raise ValidationError(
