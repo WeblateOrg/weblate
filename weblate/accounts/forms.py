@@ -19,7 +19,7 @@
 #
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _, get_language
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import authenticate
 from crispy_forms.helper import FormHelper
 
