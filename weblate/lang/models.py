@@ -19,6 +19,7 @@
 #
 
 from django.db import models
+from django.db import transaction
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
@@ -295,7 +296,8 @@ def setup_lang(sender, app, **kwargs):
     Hook for creating basic set of languages on database migration.
     '''
     if app == 'lang' or getattr(app, '__name__', '') == 'weblate.lang.models':
-        Language.objects.setup(False)
+        with transaction.atomic():
+            Language.objects.setup(False)
 
 if 'south' in settings.INSTALLED_APPS:
     from south.signals import post_migrate
