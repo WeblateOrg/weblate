@@ -4,4 +4,8 @@ set -e
 set -x
 
 pip install $CI_DJANGO
-pip install -r requirements-optional.txt -r ci/requirements-${CI_REQUIREMENTS}.txt -r ci/requirements-${CI_DATABASE:-sqlite}.txt
+pip install \
+    -r requirements-optional.txt \
+    -r requirements-django-1.6.txt \
+    -r ci/requirements-${CI_REQUIREMENTS}.txt \
+    -r ci/requirements-${CI_DATABASE:-sqlite}.txt
