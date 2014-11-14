@@ -72,7 +72,7 @@ def get_optional_versions():
             name,
             url,
             'N/A',
-            '',
+            None,
         ))
 
     if HgRepository.is_supported():
@@ -208,7 +208,7 @@ def check_version(name, url, version, expected):
     Check for single module version.
     '''
     if expected is None:
-        return
+        return False
     looseversion = LooseVersion(version)
     if looseversion < expected:
         print '*** %s <%s> is too old! ***' % (name, url)
