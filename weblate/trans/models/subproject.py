@@ -769,6 +769,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 # In case merge has failer recover
                 status = self.repository.status()
                 error = str(error)
+                self.log_error(
+                    '%s failed: %s',
+                    self.merge_style,
+                    error
+                )
                 method(abort=True)
 
         # Log error
