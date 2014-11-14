@@ -1,8 +1,12 @@
 #!/bin/sh
 # Linter for our code
-set -e
 set -x
 ./scripts/generate-locales
 pep8 --exclude south_migrations,migrations weblate openshift
+pep_ret=$?
 pylint --rcfile=pylint.rc weblate
+pylint_ret=$?
 pyflakes `find . -name '*.py' -not -name '__init__.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'`
+pyflakes_ret=$?
+
+exit $(($pep_ret + $pylint_ret + $pyflakes_ret))
