@@ -75,15 +75,13 @@ def get_optional_versions():
             '',
         ))
 
-    try:
+    if HgRepository.is_supported():
         result.append((
             'Mercurial',
             'http://mercurial.selenic.com/',
             HgRepository.get_version(),
             '2.8',
         ))
-    except OSError:
-        pass
 
     return result
 
