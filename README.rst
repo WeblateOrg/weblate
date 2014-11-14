@@ -25,10 +25,10 @@ Weblate
     :alt: Flattr this
     :target: http://flattr.com/thing/571085/Weblate
 
-Weblate is a free web-based translation tool with tight Git integration. It
-features simple and clean user interface, propagation of translations across
-components within a project, quality checks and automatic linking to source
-files.
+Weblate is a free web-based translation tool with tight version control
+integration. It features simple and clean user interface, propagation of
+translations across components within a project, quality checks and automatic
+linking to source files.
 
 Weblate has it's website at http://weblate.org/.
 
@@ -37,13 +37,14 @@ Features
 
 * Easy web based translation
 * Propagation of translations across components (eg. branches) within projects
-* Tight git integration - every change is represented by Git commit
+* Tight git integration - every change is represented by version control commit
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
 * Links to source files for context
 * Message quality checks
 * Tunable access control
 * Wide range of supported translation formats (Gettext, Qt, Java, Windows, Symbian and more)
+* Supports Git and Mercurial
 
 Documentation
 -------------

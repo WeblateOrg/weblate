@@ -107,7 +107,7 @@ Recent edits
     List of people who have changed this message recently using Weblate.
 Project
     Project information like instructions for translators or information about
-    Git repository.
+    VCS repository.
 
 If translation format supports it, you can also follow links to source code
 which contains translated strings.

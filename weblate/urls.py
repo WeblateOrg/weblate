@@ -299,7 +299,7 @@ urlpatterns = patterns(
         name='comment',
     ),
 
-    # Git manipulation - commit
+    # VCS manipulation - commit
     url(
         r'^commit/' + PROJECT + '$',
         'weblate.trans.views.git.commit_project',
@@ -316,7 +316,7 @@ urlpatterns = patterns(
         name='commit_translation',
     ),
 
-    # Git manipulation - update
+    # VCS manipulation - update
     url(
         r'^update/' + PROJECT + '$',
         'weblate.trans.views.git.update_project',
@@ -333,7 +333,7 @@ urlpatterns = patterns(
         name='update_translation',
     ),
 
-    # Git manipulation - push
+    # VCS manipulation - push
     url(
         r'^push/' + PROJECT + '$',
         'weblate.trans.views.git.push_project',
@@ -350,7 +350,7 @@ urlpatterns = patterns(
         name='push_translation',
     ),
 
-    # Git manipulation - reset
+    # VCS manipulation - reset
     url(
         r'^reset/' + PROJECT + '$',
         'weblate.trans.views.git.reset_project',

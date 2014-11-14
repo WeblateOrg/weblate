@@ -8,17 +8,17 @@ Weblate's Web API
 Notification hooks
 ------------------
 
-Notification hooks allow external applications to notify Weblate that Git
+Notification hooks allow external applications to notify Weblate that VCS
 repository has been updated.
 
 .. http:get:: /hooks/update/(string:project)/(string:component)/
 
-   Triggers update of a component (pulling from Git and scanning for
+   Triggers update of a component (pulling from VCS and scanning for
    translation changes).
 
 .. http:get:: /hooks/update/(string:project)/
 
-   Triggers update of all components in a project (pulling from Git and
+   Triggers update of all components in a project (pulling from VCS and
    scanning for translation changes).
 
 .. http:post:: /hooks/github/

@@ -8,10 +8,10 @@ Weblate organizes translatable content into tree like structure. The toplevel
 object is :ref:`project`, which should hold all translations which belong
 together (for example translation of an application in several versions
 and/or documentation). On the next level, there is :ref:`component`, which is
-actually the component to translate. Here you define Git repository to use and
+actually the component to translate. Here you define VCS repository to use and
 mask of files to translate. Bellow :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
-files (matching mask defined in :ref:`component`) appear in Git repository.
+files (matching mask defined in :ref:`component`) appear in VCS repository.
 
 Administration
 --------------
@@ -23,7 +23,7 @@ which is available under :file:`/admin/` URL.
 Adding new components
 ---------------------
 
-All translation components need to be available as Git repositories and are
+All translation components need to be available as VCS repositories and are
 organized as project/component structure.
 
 Weblate supports wide range of translation formats supported by translate
@@ -64,8 +64,8 @@ maintaining of Translation-Team header.
 Component configuration
 -----------------------
 
-Component is real component for translating. You enter Git repository location
-and file mask which files to translate and Weblate automatically fetches the Git
+Component is real component for translating. You enter VCS repository location
+and file mask which files to translate and Weblate automatically fetches the VCS
 and finds all matching translatable files.
 
 Should the language definition for translation be missing, empty definition is
@@ -73,13 +73,13 @@ created and named as "cs_CZ (generated)". You should adjust the definition and
 report this back to Weblate authors so that missing language can be included in
 next release.
 
-The component contains all important parameters for working with Git and
+The component contains all important parameters for working with VCS and
 getting translations out of it:
 
 Source code repository
     VCS repository used to pull changes.
 
-    This can be either real Git URL or ``weblate://project/component``
+    This can be either real VCS URL or ``weblate://project/component``
     indicating that the repository should be shared with another component.
 Repository push URL
     Repository URL used for pushing, this is completely optional and push
@@ -185,7 +185,7 @@ strings in the message:
 Importing speed
 ---------------
 
-Fetching Git repository and importing translations to Weblate can be lengthy
+Fetching VCS repository and importing translations to Weblate can be lengthy
 process depending on size of your translations. Here are some tips to improve
 this situation:
 
@@ -269,12 +269,12 @@ address, not the default HTTPS address. It should start with 'git@github.com'
 Using proxy
 +++++++++++
 
-If you need to access http/https Git repositories using a proxy server, you
-need to configure Git to use it.
+If you need to access http/https VCS repositories using a proxy server, you
+need to configure VCS to use it.
 
 This can be configured using the ``http_proxy``, ``https_proxy``, and
 ``all_proxy`` environment variables (check cURL documentation for more details)
-or by enforcing it in Git configuration, for example:
+or by enforcing it in VCS configuration, for example:
 
 .. code-block:: sh
 
@@ -284,7 +284,7 @@ or by enforcing it in Git configuration, for example:
 
     The proxy setting needs to be done in context which is used to execute
     Weblate. For the environment it should be set for both server and cron
-    jobs. The Git configuration has to be set for the user which is running
+    jobs. The VCS configuration has to be set for the user which is running
     Weblate.
 
 .. seealso:: http://curl.haxx.se/docs/manpage.html, http://git-scm.com/docs/git-config

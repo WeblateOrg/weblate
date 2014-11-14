@@ -77,7 +77,7 @@ setup(
         ],
     },
     license='GPLv3+',
-    description='A web-based translation tool with tight Git integration',
+    description='A web-based translation tool with tight version control integration',
     long_description=README,
     url='http://weblate.org/',
     download_url='https://github.com/nijel/weblate',

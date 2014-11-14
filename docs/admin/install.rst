@@ -134,7 +134,7 @@ Filesystem permissions
 ----------------------
 
 Weblate process needs to be able to read and write to two directories where it
-keeps data. The :setting:`GIT_ROOT` is used for storing Git repositories and
+keeps data. The :setting:`GIT_ROOT` is used for storing VCS repositories and
 :setting:`WHOOSH_INDEX` is used for fulltext search data.
 
 The default configuration places them in same tree as Weblate sources, however
@@ -799,10 +799,10 @@ the database. The most straightforward one is to dump the database on one
 server and import it on the new one. Alternatively you can use replication in
 case your database supports it.
 
-Migrating Git repositories
+Migrating VCS repositories
 +++++++++++++++++++++++++++
 
-The Git repositories stored under :setting:`GIT_ROOT` need to be migrated as
+The VCS repositories stored under :setting:`GIT_ROOT` need to be migrated as
 well. You can simply copy them or use :command:`rsync` to do the migration
 more effectively.
 

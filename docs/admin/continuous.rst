@@ -123,7 +123,7 @@ Lazy commits
 Default behaviour (configured by :setting:`LAZY_COMMITS`) of Weblate is to group
 commits from same author into one if possible. This heavily reduces number of
 commits, however you might need to explicitly tell to do the commits in case
-you want to get Git repository in sync, eg. for merge (this is by default
+you want to get VCS repository in sync, eg. for merge (this is by default
 allowed for Managers group, see :ref:`privileges`).
 
 The changes are in this mode committed once any of following conditions is
@@ -174,7 +174,7 @@ Allow usage of the hook in the configuration
 
 To enable it, choose now :guilabel:`hook-generate-mo` as :guilabel:`Pre commit
 script`. You will also want to add path to generated files to be included in
-Git commit, for example ``po/%(language)s.mo`` as :guilabel:`Extra commit file`.
+VCS commit, for example ``po/%(language)s.mo`` as :guilabel:`Extra commit file`.
 
 
 You can find more example scripts in ``examples`` folder within Weblate sources,

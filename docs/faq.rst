@@ -318,11 +318,11 @@ Features
 
 .. _faq-vcs:
 
-Does Weblate support other VCS than Git?
-----------------------------------------
+Does Weblate support other VCS than Git and Mercurial?
+------------------------------------------------------
 
-Weblate currently does not have native support for anything else than Git, but
-it is possible to write backends for other VCSes.
+Weblate currently does not have native support for anything else than Git and
+Mercurial, but it is possible to write backends for other VCSes.
 
 You can also use Git `remote helpers`_ for supporting other VCS as well, but
 this usually leads to smaller or bigger problems, so be prepared to debug them.
@@ -350,15 +350,15 @@ For ``hello`` repository from selenic.com with Mercurial use::
 
 .. warning::
 
-    Please be prepared to some incovenience when using something else than Git,
+    Please be prepared to some incovenience when using Git remote helpers,
     for example with Mercurial, the remote helper sometimes tends to create new
     tip when pushing changes back.
 
 .. note::
     
     For native support of other VCS, Weblate requires distributed VCS and could
-    be probably adjusted to work with anything else than Git, but somebody has
-    to implement this support.
+    be probably adjusted to work with anything else than Git and Mercurial, but
+    somebody has to implement this support.
 
 How does Weblate credit translators?
 ------------------------------------

@@ -632,7 +632,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def get_git_blob_hash(self):
         '''
-        Returns current Git blob hash for file.
+        Returns current VCS blob hash for file.
         '''
         ret = self.repository.get_object_hash(self.get_filename())
 
@@ -965,7 +965,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.commit_pending(request, author)
             # save translation changes
             self.store.save()
-            # commit Git repo if needed
+            # commit VCS repo if needed
             self.git_commit(request, author, timezone.now(), sync=True)
 
         return True, pounit

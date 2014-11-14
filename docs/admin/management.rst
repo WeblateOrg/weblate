@@ -169,7 +169,7 @@ loadpo <project|project/component>
 
 .. django-admin:: loadpo
 
-Reloads translations from disk (eg. in case you did some updates in Git
+Reloads translations from disk (eg. in case you did some updates in VCS
 repository).
 
 You can use ``--force`` to force update even if the files should be up
@@ -196,7 +196,7 @@ pushgit <project|project/component>
 
 .. django-admin:: pushgit
 
-Pushes committed changes to upstream Git repository. With ``--force-commit``
+Pushes committed changes to upstream VCS repository. With ``--force-commit``
 it also commits any pending changes.
 
 You can either define which project or component to update (eg.
@@ -279,7 +279,7 @@ updategit <project|project/component>
 
 .. django-admin:: updategit
 
-Fetches remote Git repositories and updates internal cache.
+Fetches remote VCS repositories and updates internal cache.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.

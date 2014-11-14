@@ -61,15 +61,15 @@ Adding translation
    All you need to specify here is project name and it's website.
 
 #. Create component which is the real object for translating - it points to
-   Git repository and selects which files to translate. See :ref:`component`
+   VCS repository and selects which files to translate. See :ref:`component`
    for more details.
 
-   The important fields here being component name, Git repository address and
+   The important fields here being component name, VCS repository address and
    mask for finding translatable files. Weblate supports wide range of formats
    including Gettext PO files, Android resource strings, OS X string properties,
    Java properties or Qt Linguist files, see :ref:`formats` for more details.
 
 
 #. Once above is completed (it can be lengthy process depending on size of
-   your Git repository and number of messages to translate), you can start
+   your VCS repository and number of messages to translate), you can start
    translating.
