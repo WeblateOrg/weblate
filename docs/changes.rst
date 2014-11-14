@@ -4,6 +4,8 @@ Changes
 weblate 2.1
 -----------
 
+* Added support for Mercurial repositories.
+
 Released on ? 2014.
 
 weblate 2.0
