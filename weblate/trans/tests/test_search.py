@@ -117,7 +117,7 @@ class SearchViewTest(ViewTestCase):
 
     def test_search_links(self):
         response = self.do_search(
-            {'q': 'Weblate'},
+            {'q': 'Weblate', 'search': 'substring'},
             'Fulltext search for'
         )
         # Extract search ID
