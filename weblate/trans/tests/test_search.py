@@ -118,7 +118,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_links(self):
         response = self.do_search(
             {'q': 'Weblate', 'search': 'substring'},
-            'Fulltext search for'
+            'Substring search for'
         )
         # Extract search ID
         search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
