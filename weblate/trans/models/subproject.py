@@ -668,7 +668,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.repository.push(self.branch)
             return True
         except RepositoryException as error:
-            self.log_error('failed to push on repo')
+            self.log_error('failed to push on repo: %s', error)
             msg = 'Error:\n%s' % str(error)
             mail_admins(
                 'failed push on repo %s' % self.__unicode__(),
