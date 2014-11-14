@@ -32,8 +32,8 @@ dateutil
     http://labix.org/python-dateutil
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
-PyICU (optional for proper sorting of strings)
-    https://pypi.python.org/pypi/PyICU
+pyuca (optional for proper sorting of strings)
+    https://github.com/jtauber/pyuca
 babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
@@ -49,7 +49,7 @@ you can use apt-get:
 
     apt-get install python-django translate-toolkit \
         python-whoosh python-pil python-django-south python-libravatar \
-        python-pyicu python-babel
+        python-babel
 
     # Optional for database backend
 
@@ -80,7 +80,7 @@ All requirements are available either directly in openSUSE or in
 
 .. code-block:: sh
 
-    zypper install python-Django python-icu translate-toolkit \
+    zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow python-South python-python-social-auth \
         python-babel
 
@@ -414,16 +414,16 @@ you install `pyLibavatar`_, you will get proper support for federated avatars.
 .. _pyLibavatar: https://pypi.python.org/pypi/pyLibravatar
 
 
-.. _production-pyicu:
+.. _production-pyuca:
 
-PyICU library
+pyuca library
 +++++++++++++
 
-`PyICU`_ library is optionally used by Weblate to sort Unicode strings. This
+`pyuca`_ library is optionally used by Weblate to sort Unicode strings. This
 way language names are properly sorted even in non-ASCII languages like
 Japanese, Chinese or Arabic or for languages with accented letters.
 
-.. _PyICU: https://pypi.python.org/pypi/PyICU
+.. _pyuca: https://github.com/jtauber/pyuca
 
 .. _production-secret:
 

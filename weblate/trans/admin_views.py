@@ -28,7 +28,7 @@ from django.conf import settings
 from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
-from weblate.accounts.forms import HAS_ICU
+from weblate.accounts.forms import HAS_PYUCA
 from weblate.trans.util import get_configuration_errors, get_clean_env
 import weblate
 import django
@@ -138,11 +138,11 @@ def performance(request):
         HAS_LIBRAVATAR,
         'production-avatar',
     ))
-    # PyICU library
+    # pyuca library
     checks.append((
-        _('PyICU library'),
-        HAS_ICU,
-        'production-pyicu',
+        _('pyuca library'),
+        HAS_PYUCA,
+        'production-pyuca',
     ))
     # Cookie signing key
     checks.append((

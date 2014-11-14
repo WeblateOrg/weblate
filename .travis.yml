@@ -21,8 +21,6 @@ before_install:
   - git clone --depth 1 --branch v0.1.2 https://github.com/ruleant/buildtime-trend.git $HOME/buildtime-trend 
   - source $HOME/buildtime-trend/init.sh
   - timestamp.sh packages
-  - sudo apt-get update -qq
-  - sudo apt-get install git libicu-dev
 # commands to install dependencies
 install:
   - timestamp.sh install
@@ -48,6 +46,7 @@ cache:
   apt: true
   directories:
     - $HOME/.pip-cache/
+sudo: false
 matrix:
   allow_failures:
     - python: "2.7"
