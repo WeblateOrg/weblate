@@ -33,7 +33,7 @@ from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.util import is_repo_link, get_site_url, cleanup_repo_url
-from weblate.trans.vcs import GitRepository, RepositoryException
+from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
     validate_repoweb, validate_filemask,
@@ -89,6 +89,16 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     project = models.ForeignKey(
         'Project',
         verbose_name=ugettext_lazy('Project'),
+    )
+    vcs = models.CharField(
+        verbose_name=ugettext_lazy('Version control system'),
+        max_length=20,
+        help_text=ugettext_lazy(
+            'Version control system to use to access your '
+            'repository with translations.'
+        ),
+        choices=VCS_CHOICES,
+        default='git',
     )
     repo = models.CharField(
         verbose_name=ugettext_lazy('Source code repository'),
@@ -461,7 +471,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.repository
 
         if self._repository is None:
-            self._repository = GitRepository(self.get_path())
+            self._repository = VCS_REGISTRY[self.vcs](self.get_path())
 
         return self._repository
 
