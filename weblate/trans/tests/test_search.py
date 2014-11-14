@@ -135,6 +135,8 @@ class SearchViewTest(ViewTestCase):
             self.translate_url,
             {'sid': search_id, 'offset': 1}
         )
+        if response.status_code == 302:
+            print response.content
         self.assertContains(
             response,
             'Thank you for using Weblate.',
