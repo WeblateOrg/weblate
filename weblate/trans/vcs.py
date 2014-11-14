@@ -26,6 +26,7 @@ import email.utils
 import re
 import ConfigParser
 import hashlib
+from distutils.version import LooseVersion
 from dateutil import parser
 from weblate.trans.util import get_clean_env
 
@@ -214,6 +215,17 @@ class Repository(object):
         Returns dictionary with detailed revision information.
         """
         raise NotImplementedError()
+
+    @classmethod
+    def is_supported(cls):
+        """
+        Checks whether this VCS backend is supported.
+        """
+        try:
+            cls.get_version()
+            return True
+        except OSError:
+            return False
 
     @classmethod
     def get_version(cls):
@@ -432,6 +444,17 @@ class GitRepository(Repository):
         (has additional revisions).
         """
         return self._log_revisions('origin/{0}..'.format(branch)) != ''
+
+    @classmethod
+    def is_supported(cls):
+        """
+        Checks whether this VCS backend is supported.
+        """
+        try:
+            version = cls.get_version()
+            return LooseVersion(version) >= '1.6'
+        except OSError:
+            return False
 
     @classmethod
     def get_version(cls):
@@ -734,6 +757,17 @@ class HgRepository(Repository):
         (has additional revisions).
         """
         return self.execute(['log', '-r', 'not public()']) != ''
+
+    @classmethod
+    def is_supported(cls):
+        """
+        Checks whether this VCS backend is supported.
+        """
+        try:
+            version = cls.get_version()
+            return LooseVersion(version) >= '2.8'
+        except OSError:
+            return False
 
     @classmethod
     def get_version(cls):
