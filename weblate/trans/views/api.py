@@ -41,10 +41,10 @@ BITBUCKET_GIT_REPOS = (
 )
 
 BITBUCKET_HG_REPOS = (
+    'https://bitbucket.org/%(owner)s/%(slug)s',
+    'ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
     'hg::ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
     'hg::https://bitbucket.org/%(owner)s/%(slug)s',
-    'ssh://hg@bitbucket.org/%(owner)s/%(slug)s',
-    'https://bitbucket.org/%(owner)s/%(slug)s',
 )
 
 GITHUB_REPOS = (
