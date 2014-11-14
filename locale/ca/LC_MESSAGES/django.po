@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-11-10 11:03+0100\n"
-"PO-Revision-Date: 2014-11-13 18:32+0200\n"
+"PO-Revision-Date: 2014-11-14 12:14+0200\n"
 "Last-Translator: josep constanti <jconstanti@ovi.com>\n"
 "Language-Team: Catalan "
 "<https://hosted.weblate.org/projects/weblate/master/ca/>\n"
@@ -4004,10 +4004,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/project.py:123
-#, fuzzy
 #| msgid "Use this translation"
 msgid "Enable hooks"
-msgstr "Activa ganxos"
+msgstr "Activa punts de fixament"
 
 #: weblate/trans/models/project.py:126
 msgid "Whether to allow updating this repository by remote hooks."
@@ -4056,10 +4055,9 @@ msgid "Automatically add language file"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:59
-#, fuzzy
 #| msgid "New language"
 msgid "No adding of language"
-msgstr "No s'ha afegit cap llengua"
+msgstr "No es pot afegir cap llengua"
 
 #: weblate/trans/models/subproject.py:62
 msgid "Merge"
@@ -4076,10 +4074,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:102
-#, fuzzy
 #| msgid "Repository tools"
 msgid "Repository push URL"
-msgstr "URL push del repositori"
+msgstr "URL per afegir al dipòsit"
 
 #: weblate/trans/models/subproject.py:105
 msgid "URL of a push repository, pushing is disabled if empty."
@@ -4197,29 +4194,25 @@ msgid "Enable suggestions"
 msgstr "Habilita suggerències"
 
 #: weblate/trans/models/subproject.py:227
-#, fuzzy
 #| msgid "Failed translation"
 msgid "Whether to allow translation suggestions at all."
-msgstr "La traducció ha fallat"
+msgstr "Per permetre suggeriments de traducció en tot."
 
 #: weblate/trans/models/subproject.py:231
-#, fuzzy
 #| msgid "Suggestions"
 msgid "Suggestion voting"
-msgstr "Suggeriments"
+msgstr "Voteu els suggeriments"
 
 #: weblate/trans/models/subproject.py:234
-#, fuzzy
 #| msgid "There is %(count)s not translated string."
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "Whether users can vote for suggestions."
-msgstr "Hi ha %(count)s cadena no traduïda."
+msgstr "Per permetre que els usuaris puguin votar els suggeriments."
 
 #: weblate/trans/models/subproject.py:238
-#, fuzzy
 #| msgid "Use this translation"
 msgid "Autoaccept suggestions"
-msgstr "Usa aquesta traducció"
+msgstr "Acceptar automàticament els suggeriments"
 
 #: weblate/trans/models/subproject.py:241
 msgid ""
@@ -4227,10 +4220,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:247
-#, fuzzy
 #| msgid "Failing checks found"
 msgid "Quality checks flags"
-msgstr "S’han trobat comprovacions fallides"
+msgstr "Indicadors de verificació de qualitat"
 
 #: weblate/trans/models/subproject.py:250
 msgid ""
@@ -4269,10 +4261,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:297
-#, fuzzy
 #| msgid "Nearby messages"
 msgid "Commit message"
-msgstr "Missatges propers"
+msgstr "Missatge de publicació"
 
 #: weblate/trans/models/subproject.py:299
 msgid ""
@@ -4281,16 +4272,14 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:306
-#, fuzzy
 #| msgid "Your name"
 msgid "Committer name"
-msgstr "El vostre nom"
+msgstr "Nom de qui publica"
 
 #: weblate/trans/models/subproject.py:311
-#, fuzzy
 #| msgid "Your email"
 msgid "Committer email"
-msgstr "La vostra adreça"
+msgstr "Correu de qui publica"
 
 #: weblate/trans/models/subproject.py:558
 msgid ""
@@ -4299,10 +4288,10 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:562
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to fetch repository: %s"
-msgstr "Ha fallat la creació de la clau: %s"
+msgstr "Ha fallat la recuperació del dipòsit: %s"
 
 #: weblate/trans/models/subproject.py:634
 #, python-format
@@ -4409,10 +4398,10 @@ msgid "Format of translation base file could not be recognized."
 msgstr ""
 
 #: weblate/trans/models/subproject.py:1027
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed translation"
 msgid "Failed to parse translation base file: %s"
-msgstr "La traducció ha fallat"
+msgstr "Ha fallat l'anàlisi del arxiu base de traduccions: %s"
 
 #: weblate/trans/models/subproject.py:1032
 msgid "You can not use monolingual translation without base file!"
@@ -4434,10 +4423,10 @@ msgid "Unsupported file format: {0}"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:1070
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed translation"
 msgid "Failed to update git: %s"
-msgstr "La traducció ha fallat"
+msgstr "Ha fallat l'actualització git: %s"
 
 #: weblate/trans/models/subproject.py:1093
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -4483,10 +4472,9 @@ msgid "Message is fuzzy"
 msgstr "El missatge és dubtós"
 
 #: weblate/trans/models/unit.py:1037
-#, fuzzy
 #| msgid "Mailing list for translators:"
 msgid "Message is not translated"
-msgstr "Llista de correu pels traductors:"
+msgstr "El missatge no s'ha traduït"
 
 #: weblate/trans/models/unit.py:1042
 msgid "Message has failing checks"
@@ -4497,10 +4485,9 @@ msgid "Message is translated"
 msgstr ""
 
 #: weblate/trans/models/unit.py:1053
-#, fuzzy
 #| msgid "User comments"
 msgid "Message has comments"
-msgstr "Comentaris de l'usuari"
+msgstr "El missatge té comentaris"
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"
@@ -4515,10 +4502,10 @@ msgid "Insert horizontal ellipsis"
 msgstr ""
 
 #: weblate/trans/specialchars.py:436
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Insert tab character"
 msgid "Insert character {0}"
-msgstr "Insereix el caràcter de tabulació"
+msgstr "Inseriu caràcter {0}"
 
 #: weblate/trans/specialchars.py:441
 msgid "Opening double quote"
@@ -4533,10 +4520,9 @@ msgid "Opening single quote"
 msgstr ""
 
 #: weblate/trans/specialchars.py:444
-#, fuzzy
 #| msgid "Last name"
 msgid "Closing single quote"
-msgstr "Cognoms"
+msgstr "Tanqueu la cometa simple"
 
 #: weblate/trans/specialchars.py:447
 msgid "Hyphen"
@@ -4551,44 +4537,41 @@ msgid "Em dash"
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:52
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Good configuration"
-msgstr "Confirmació de la contrasenya nova"
+msgstr "Configuració correcta"
 
 #: weblate/trans/templatetags/translations.py:53
-#, fuzzy
 #| msgid "New password confirmation"
 msgid "Bad configuration"
-msgstr "Confirmació de la contrasenya nova"
+msgstr "Configuració dolenta"
 
 #: weblate/trans/templatetags/translations.py:54
 msgid "Possible configuration"
-msgstr ""
+msgstr "Configuració possible"
 
 #: weblate/trans/templatetags/translations.py:71
 msgid "Tab character"
-msgstr ""
+msgstr "Tabulació"
 
 #: weblate/trans/templatetags/translations.py:92
 msgid "New line"
-msgstr ""
+msgstr "Línia nova"
 
 #: weblate/trans/templatetags/translations.py:267
-#, fuzzy
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "a year ago"
-msgstr "fa una hora"
+msgstr "fa un any"
 
 #: weblate/trans/templatetags/translations.py:269
-#, fuzzy, python-format
+#, python-format
 #| msgid "an hour ago"
 #| msgid_plural "%(count)s hours ago"
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] "fa una hora"
-msgstr[1] "fa %(count)s hores"
+msgstr[0] "fa %(count)s d'any"
+msgstr[1] "fa %(count)s d'anys"
 
 #: weblate/trans/templatetags/translations.py:274
 #, fuzzy
