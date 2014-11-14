@@ -877,7 +877,7 @@ class HgRepository(Repository):
         Pushes given branch to remote repository.
         """
         try:
-            self.execute('push')
+            self.execute(['push'])
         except RepositoryException as error:
             if error.retcode == 1:
                 # No changes found
