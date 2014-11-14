@@ -120,23 +120,36 @@ class RepoTestCase(TestCase):
         self.addCleanup(shutil.rmtree, project.get_path(), True)
         return project
 
-    def _create_subproject(self, file_format, mask, template='', new_base=''):
+    def _create_subproject(self, file_format, mask, template='',
+                           new_base='', vcs='git'):
         """
         Creates real test subproject.
         """
         project = self.create_project()
+
+        if vcs == 'mercurial':
+            branch = 'default'
+            repo = self.hg_repo_path
+            push = self.hg_repo_path
+        else:
+            branch = 'master'
+            repo = self.git_repo_path
+            push = self.git_repo_path
+
         return SubProject.objects.create(
             name='Test',
             slug='test',
             project=project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
+            repo=repo,
+            push=push,
+            branch=branch,
             filemask=mask,
             template=template,
             file_format=file_format,
             repoweb=REPOWEB_URL,
             save_history=True,
             new_base=new_base,
+            vcs=vcs
         )
 
     def create_subproject(self):
@@ -152,6 +165,13 @@ class RepoTestCase(TestCase):
         return self._create_subproject(
             'po',
             'po/*.po',
+        )
+
+    def create_po_mercurial(self):
+        return self._create_subproject(
+            'po',
+            'po/*.po',
+            vcs='mercurial'
         )
 
     def create_po_new_base(self):
@@ -417,6 +437,10 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_po(self):
         project = self.create_po()
+        self.verify_subproject(project, 3, 'cs', 4)
+
+    def test_create_po_mercurial(self):
+        project = self.create_po_mercurial()
         self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_po_link(self):

@@ -334,6 +334,11 @@ class BasicResourceViewTest(BasicViewTest):
         return self.create_android()
 
 
+class BasicMercurialViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_po_mercurial()
+
+
 class BasicPoMonoViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_po_mono()
@@ -678,6 +683,11 @@ class EditResourceTest(EditTest):
 
     def create_subproject(self):
         return self.create_android()
+
+
+class EditMercurialTest(EditTest):
+    def create_subproject(self):
+        return self.create_po_mercurial()
 
 
 class EditPoMonoTest(EditTest):
