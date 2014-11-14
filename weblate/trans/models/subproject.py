@@ -668,7 +668,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.repository.push(self.branch)
             return True
         except RepositoryException as error:
-            self.log_error('failed to push on repo')
+            self.log_error('failed to push on repo: %s', error)
             msg = 'Error:\n%s' % str(error)
             mail_admins(
                 'failed push on repo %s' % self.__unicode__(),
@@ -1070,6 +1070,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             old = SubProject.objects.get(pk=self.id)
             self.check_rename(old)
 
+            if old.vcs != self.vcs:
+                # This could work, but the problem is that before changed
+                # object is saved the linked repos still see old vcs leading
+                # to horrible mess. Changing vcs from the manage.py shell
+                # works fine though.
+                raise ValidationError(
+                    _('Changing version control system is not supported!')
+                )
+
         # Check file format
         if self.file_format not in FILE_FORMATS:
             raise ValidationError(
@@ -1080,7 +1089,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         try:
             self.sync_git_repo(True)
         except RepositoryException as exc:
-            raise ValidationError(_('Failed to update git: %s') % exc)
+            raise ValidationError(_('Failed to update repository: %s') % exc)
 
         # Push repo is not used with link
         if self.is_repo_link:
