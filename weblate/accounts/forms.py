@@ -34,7 +34,7 @@ import unicodedata
 import weblate
 
 try:
-    import pyuca # pylint: disable=import-error
+    import pyuca  # pylint: disable=import-error
     HAS_PYUCA = True
 except ImportError:
     HAS_PYUCA = False
