@@ -47,14 +47,10 @@
         {% if object.subproject_set %}
         {% for sp in object.subproject_set.all %}
         <h4>{{ sp }}</h3>
-        <pre>
-{{ sp.repository.status }}
-        </pre>
+        <pre>{{ sp.repository.status }}</pre>
         {% endfor %}
         {% else %}
-        <pre>
-{{ object.repository.status }}
-        </pre>
+        <pre>{{ object.repository.status }}</pre>
         {% endif %}
       </div>
 </div>
