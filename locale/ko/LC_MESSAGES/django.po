@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-11-14 16:36+0100\n"
-"PO-Revision-Date: 2014-11-14 16:50+0200\n"
+"PO-Revision-Date: 2014-11-15 03:02+0200\n"
 "Last-Translator: youngminz <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean "
 "<https://hosted.weblate.org/projects/weblate/master/ko/>\n"
@@ -144,11 +144,11 @@ msgstr "암호"
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
-msgstr ""
+msgstr "올바른 사용자 이름과 비밀번호를 입력해주세요. 이는 대소문자를 구분합니다."
 
 #: weblate/accounts/forms.py:471
 msgid "This account is inactive."
-msgstr ""
+msgstr "이 계정은 비활성화된 계정입니다."
 
 #: weblate/accounts/forms.py:519 weblate/trans/models/project.py:72
 msgid "Project name"
@@ -160,10 +160,9 @@ msgid "Project website"
 msgstr "프로젝트 웹사이트"
 
 #: weblate/accounts/forms.py:522 weblate/trans/models/subproject.py:104
-#, fuzzy
 #| msgid "Status of repositories"
 msgid "Source code repository"
-msgstr "저장소 상태"
+msgstr "소스 코드 저장소"
 
 #: weblate/accounts/forms.py:524
 msgid "URL of source code repository for example Git or Mercurial."
@@ -243,10 +242,9 @@ msgid "Message has been sent to administrator."
 msgstr "관리자에게 메세지를 보냈습니다."
 
 #: weblate/accounts/views.py:137
-#, fuzzy
 #| msgid "You can not change demo profile on the demo server."
 msgid "You can not change demo account on the demo server."
-msgstr "데모 서버에서 데모 약력을 변경할 수 없습니다."
+msgstr "데모 서버에서 데모 계정을 변경할 수 없습니다."
 
 #: weblate/accounts/views.py:177
 msgid "Your profile has been updated."
@@ -311,7 +309,7 @@ msgstr "그렇지만 이 서버에서 다음 번역 프로젝트가 사용가능
 
 #: weblate/html/404.html:7
 msgid "The page you are looking for was not found."
-msgstr "요청하신 페이지를 찾을수 없습니다."
+msgstr "요청하신 페이지를 찾을 수 없습니다."
 
 #: weblate/html/500.html:5
 msgid "Server Error"
@@ -336,7 +334,6 @@ msgid "About Weblate"
 msgstr "Weblate에 대하여"
 
 #: weblate/html/about.html:17
-#, fuzzy
 #| msgid ""
 #| "Weblate is a web based translation tool with tight Git integration. It "
 #| "features simple and clean user interface, propagation of translations "
@@ -346,9 +343,8 @@ msgid ""
 "features simple and clean user interface, propagation of translations across "
 "components, quality checks and automatic linking to source files."
 msgstr ""
-"Weblate는 Git와 잘 연계된 웹 기반의 번역 도구입니다. 간결하고 깔끔한 사용자 "
-"인터페이스, 하위 프로젝트에 대한 번역 확대,품질 검사, 원본 파일에 대한 자동화"
-"된 연결을 제공합니다."
+"Weblate는 Git와 잘 연계된 웹 기반의 번역 도구입니다. 간결하고 깔끔한 사용자 인터페이스, 하위 컴포넌트에 대한 번역 확대, "
+"품질 검사, 원본 파일에 대한 자동화된 연결을 제공합니다."
 
 #: weblate/html/about.html:19 weblate/html/accounts/contact.html:14
 #, python-format
@@ -390,16 +386,12 @@ msgstr ""
 "다."
 
 #: weblate/html/about.html:39
-#, fuzzy
 #| msgid ""
 #| "We can host your project as well, if you are interested, please <a href="
 #| "\"%(contact_url)s?subject=Project hosting\">contact us</a>."
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
-msgstr ""
-"우리는 프로젝트를 호스팅할 수 있습니다. 뿐만 아니라, 귀하가 관심이 있다면, "
-"<a href=\"%(contact_url)s?subject=Project hosting\"> 저희에게 연락</a>을 바랍"
-"니다."
+msgstr "저희는 여러분의 프로젝트를 호스팅할 수 있습니다. 혹시 관심이 있다면, 저희에게 연락해 주십시오."
 
 #: weblate/html/about.html:43 weblate/html/accounts/hosting.html:21
 #: weblate/html/index.html:100
@@ -467,10 +459,9 @@ msgid "Registration"
 msgstr "등록"
 
 #: weblate/html/accounts/email-sent.html:12
-#, fuzzy
 #| msgid "Registration date"
 msgid "Registration almost complete"
-msgstr "가입일"
+msgstr "가입이 거의 완료되었습니다"
 
 #: weblate/html/accounts/email-sent.html:15
 msgid ""
@@ -485,7 +476,7 @@ msgstr ""
 msgid ""
 "Please note that the confirmation link has limited validity. In case it does "
 "not work, you retry the registration."
-msgstr ""
+msgstr "확인 링크에는 만료 시간이 있습니다. 만약 링크가 작동하지 않는다면, 다시 가입해주세요."
 
 #: weblate/html/accounts/email-sent.html:21
 #, python-format
@@ -500,13 +491,11 @@ msgstr ""
 
 #: weblate/html/accounts/email.html:11 weblate/html/accounts/register.html:20
 #: weblate/html/accounts/reset.html:17
-#, fuzzy
 #| msgid "Please fix errors in registration form."
 msgid "Please fix errors in the registration form."
 msgstr "등록 양식에서 오류를 수정하십시오."
 
 #: weblate/html/accounts/email.html:20 weblate/html/accounts/profile.html:251
-#, fuzzy
 #| msgid ""
 #| "By registering you agree to use your name and email in Git commits and "
 #| "provide your contribution under license defined by each translated "
@@ -515,8 +504,7 @@ msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"등록함으로서, 각각 번역된 프로젝트에의해 정의된 라이센스 아래 Git 커밋에서 이"
-"름과 이메일을 사용고 참여를 제공하는데 동의합니다."
+"등록함으로서, 각각 번역된 프로젝트에 의해 정의된 라이센스 아래 Git 커밋에서 이름과 이메일을 사용과 참여를 제공하는 데 동의합니다."
 
 #: weblate/html/accounts/email.html:22 weblate/html/accounts/register.html:37
 #: weblate/html/base.html:70
@@ -603,10 +591,9 @@ msgstr ""
 
 #: weblate/html/accounts/password.html:6 weblate/html/accounts/profile.html:9
 #: weblate/html/accounts/removal.html:7
-#, fuzzy
 #| msgid "Your public profile:"
 msgid "Your profile"
-msgstr "공개된 약력:"
+msgstr "당신의 프로필"
 
 #: weblate/html/accounts/password.html:16
 msgid ""
@@ -640,10 +627,9 @@ msgid "Authentication"
 msgstr "인증"
 
 #: weblate/html/accounts/profile.html:26
-#, fuzzy
 #| msgid "User profile"
 msgid "Profile"
-msgstr "사용자 프로파일"
+msgstr "프로필"
 
 #: weblate/html/accounts/profile.html:27
 #: weblate/html/accounts/profile.html:248
@@ -663,21 +649,20 @@ msgstr "저장"
 #: weblate/html/accounts/profile.html:184
 #: weblate/html/accounts/profile.html:230
 #: weblate/html/accounts/profile.html:283
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Description"
-msgstr "구독"
+msgstr "설명"
 
 #: weblate/html/accounts/profile.html:49
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
-msgstr ""
+msgstr "선호하는 언어를 선택해 주세요. 번역을 쉽게 선택할 수 있도록 대시보드에 보여질 것입니다."
 
 #: weblate/html/accounts/profile.html:52
 msgid ""
 "The secondary languages are shown next to the source string when translating."
-msgstr ""
+msgstr "두 번째 언어들은 번역할 때 원본 문자열 옆에 보여집니다."
 
 #: weblate/html/accounts/profile.html:56 weblate/html/accounts/profile.html:82
 #: weblate/html/accounts/profile.html:117
@@ -689,39 +674,36 @@ msgstr ""
 #: weblate/html/check_subproject.html:44 weblate/html/checks.html:36
 #: weblate/html/footer.html:9
 msgid "Documentation"
-msgstr "문서"
+msgstr "문서화"
 
 #: weblate/html/accounts/profile.html:79
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr "모든 귀하의 언어에 대해 이메일을 통해 선택된 알림을 받게됩니다."
+msgstr "선택한 모든 언어에 대한 알림을 이메일로 받게 됩니다."
 
 #: weblate/html/accounts/profile.html:86
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Subscription settings"
-msgstr "구독"
+msgstr "구독 설정"
 
 #: weblate/html/accounts/profile.html:114
-#, fuzzy
 #| msgid "Your name and email will appear as author on Git commits."
 msgid "Your name and email will appear as author on the commits."
-msgstr "이름과 이메일이 Git 커밋에서 저자로 나타납니다."
+msgstr "이름과 이메일이 커밋에서 저자로 나타날 것입니다."
 
 #: weblate/html/accounts/profile.html:127
 #, fuzzy
 #| msgid "User comments"
 msgid "User identities"
-msgstr "사용자 댓글"
+msgstr "사용자 신원"
 
 #: weblate/html/accounts/profile.html:129
-#, fuzzy
 #| msgid ""
 #| "You can manage third party identities which are associated to this "
 #| "account."
 msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
-msgstr "이 계정에 관련된 다른회사 아이디를 관리 할 수 있습니다."
+msgstr "이 계정과 이 계정으로 로그인할 수 있는 다른 계정들을 관리할 수 있습니다."
 
 #: weblate/html/accounts/profile.html:130
 msgid "Currently associated:"
