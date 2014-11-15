@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 #
 # Copyright © 2014 Daniel Tschan <tschan@puzzle.ch>
 #
@@ -37,6 +37,8 @@ find_script_dir() {
 }
 
 set -e
+set -o errtrace
+set -o pipefail
 trap "rm $OPENSHIFT_DATA_DIR/.install" EXIT
 trap 'echo -e "\nInstallation failed!"' ERR
 
@@ -55,6 +57,13 @@ sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 sed -e 's/Django[<>=]\+.*/Django>1.7,<1.8/' $OPENSHIFT_REPO_DIR/requirements-mandatory.txt >/tmp/requirements.txt
 
 sh "pip install -r /tmp/requirements.txt"
+
+# Install optional dependencies without failing if some can't be installed.
+while read line; do
+  if [[ $line != -r* ]]; then
+    sh "pip install $line" || true
+  fi
+done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
 if [ ! -s $OPENSHIFT_DATA_DIR/weblate.db ]; then
   rm -f ${OPENSHIFT_DATA_DIR}/.credentials
