@@ -54,7 +54,7 @@
 
 <div class="row">
 
-<div class="col-md-6">
+<div class="col-lg-6">
 
 
 <div class="panel panel-primary">
@@ -87,7 +87,7 @@
 
 </div>
 
-<div class="col-md-6">
+<div class="col-lg-6">
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
@@ -146,7 +146,7 @@
 {% if perms.trans.manage_acl and object.enable_acl %}
 <div class="tab-pane" id="acl">
 <div class="row">
-<div class="col-md-6">
+<div class="col-lg-6">
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Users" %}</h4></div>
@@ -184,7 +184,7 @@
 
 </div>
 
-<div class="col-md-6">
+<div class="col-lg-6">
 
 <form action="{% url "add-user" project=object.slug %}" method="post">
 {% csrf_token %}

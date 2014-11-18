@@ -10,7 +10,7 @@
 
 {% block content %}
 <div class="row">
-<div class="col-md-6">
+<div class="col-lg-6">
 
 {% url 'review_source' project=source.subproject.project.slug subproject=source.subproject.slug as review_url %}
 {% with source.get_source_checks as checks %}
@@ -30,7 +30,7 @@
 
 </div>
 
-<div class="col-md-6">
+<div class="col-lg-6">
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
