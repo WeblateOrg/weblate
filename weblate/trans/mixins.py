@@ -186,7 +186,7 @@ class PathMixin(LoggerMixin):
             )
             if os.path.exists(old_path) and not os.path.exists(new_path):
                 self.log_info(
-                    'tenaming "%s" to "%s"', old_path, new_path
+                    'renaming "%s" to "%s"', old_path, new_path
                 )
                 os.rename(old_path, new_path)
 
