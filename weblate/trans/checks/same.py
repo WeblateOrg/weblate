@@ -561,6 +561,7 @@ SAME_BLACKLIST = frozenset((
     'suggestions',
     'sum',
     'sunos',
+    'supermarket',
     'support',
     'suse',
     'svg',
