@@ -45,8 +45,11 @@ class WeblateCommand(BaseCommand):
         '''
         Returns list of units matching parameters.
         '''
-        translations = self.get_translations(*args, **options)
-        return Unit.objects.filter(translation__in=translations)
+        if options['all']:
+            return Unit.objects.all()
+        return Unit.objects.filter(
+            translation__subproject__in=self.get_subprojects(*args, **options)
+        )
 
     def get_translations(self, *args, **options):
         '''
@@ -117,6 +120,19 @@ class WeblateLangCommand(WeblateCommand):
             help='Limit only to given languages (comma separated list)'
         ),
     )
+
+    def get_units(self, *args, **options):
+        '''
+        Returns list of units matching parameters.
+        '''
+        if options['all']:
+            if options['lang'] is not None:
+                return Unit.objects.filter(
+                    translation__language__code=options['lang']
+                )
+            return Unit.objects.all()
+
+        return super(WeblateLangCommand, self).get_units(*args, **options)
 
     def get_translations(self, *args, **options):
         '''
