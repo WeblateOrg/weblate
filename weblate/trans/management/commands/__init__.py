@@ -68,7 +68,9 @@ class WeblateCommand(BaseCommand):
             result = SubProject.objects.all()
         elif len(args) == 0:
             # no argumets to filter projects
-            print 'Please specify either --all or <project/component>'
+            self.stderr.write(
+                'Please specify either --all or <project/component>'
+            )
             raise CommandError('Nothing to process!')
         else:
             # start with none and add found
@@ -88,7 +90,9 @@ class WeblateCommand(BaseCommand):
 
                 # warn on no match
                 if found.count() == 0:
-                    print '"%s" did not match any components' % arg
+                    self.stderr.write(
+                        '"%s" did not match any components' % arg
+                    )
                     raise CommandError('Nothing to process!')
 
                 # merge results
