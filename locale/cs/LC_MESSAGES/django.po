@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-19 11:05+0100\n"
+"POT-Creation-Date: 2014-11-19 11:40+0100\n"
 "PO-Revision-Date: 2014-11-19 11:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1179,7 +1179,7 @@ msgstr ""
 msgid "Hosting site"
 msgstr "Jméno služby"
 
-#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:111
+#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:114
 msgid "Note"
 msgstr "Poznámka"
 
@@ -2652,10 +2652,6 @@ msgstr "Nový překlad v %(translation)s"
 msgid "Change subscription settings:"
 msgstr "Změňte nastavení upozornění:"
 
-#: weblate/html/mail/signature.txt:5
-msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr "Více informací o Weblate naleznete na http://weblate.org/"
-
 #: weblate/html/paginator.html:6 weblate/html/translate.html:38
 #, python-format
 msgid "%(position)s / %(total)s"
@@ -3618,11 +3614,11 @@ msgstr "Neodpovídající XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: weblate/trans/checks/same.py:968
+#: weblate/trans/checks/same.py:978
 msgid "Unchanged translation"
 msgstr "Nezměněný překlad"
 
-#: weblate/trans/checks/same.py:969
+#: weblate/trans/checks/same.py:979
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
@@ -3963,53 +3959,65 @@ msgstr ""
 "Prosím zadejte uživatelské jméno nebo email. Uživatel musí mít aktivní účet "
 "ve Weblate."
 
-#: weblate/trans/models/advertisement.py:33
+#: weblate/trans/models/advertisement.py:34
 #, python-brace-format
 msgid "Donate to Weblate at {0}"
 msgstr "Přispějte na Weblate na {0}"
 
-#: weblate/trans/models/advertisement.py:34
+#: weblate/trans/models/advertisement.py:35
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr "Podpořte Weblate na {0}"
 
-#: weblate/trans/models/advertisement.py:37
+#: weblate/trans/models/advertisement.py:36
+#, fuzzy, python-brace-format
+#| msgid "More information about Weblate can be found at http://weblate.org/"
+msgid "More information about Weblate can be found at {0}"
+msgstr "Více informací o Weblate naleznete na http://weblate.org/"
+
+#: weblate/trans/models/advertisement.py:39
 msgid "Donate to Weblate"
 msgstr "Přispějte na Weblate"
 
-#: weblate/trans/models/advertisement.py:38
+#: weblate/trans/models/advertisement.py:40
 msgid "Support Weblate using GitTip"
 msgstr "Podpořte Weblate pomocí GitTipu"
 
-#: weblate/trans/models/advertisement.py:90
+#: weblate/trans/models/advertisement.py:41
+#, fuzzy
+#| msgid "More information"
+msgid "More information about Weblate"
+msgstr "Více informací"
+
+#: weblate/trans/models/advertisement.py:93
 msgid "Mail footer (text)"
 msgstr "Patička mailu (text)"
 
-#: weblate/trans/models/advertisement.py:91
+#: weblate/trans/models/advertisement.py:94
 msgid "Mail footer (HTML)"
 msgstr "Patička mailu (HTML)"
 
-#: weblate/trans/models/advertisement.py:96
+#: weblate/trans/models/advertisement.py:99
 msgid "Placement"
 msgstr "Umístění"
 
-#: weblate/trans/models/advertisement.py:99
+#: weblate/trans/models/advertisement.py:102
 msgid "Start date"
 msgstr "Počáteční datum"
 
-#: weblate/trans/models/advertisement.py:102
+#: weblate/trans/models/advertisement.py:105
 msgid "End date"
 msgstr "Koncové datum"
 
-#: weblate/trans/models/advertisement.py:105
+#: weblate/trans/models/advertisement.py:108
 msgid "Text"
 msgstr "Text"
 
-#: weblate/trans/models/advertisement.py:107
+#: weblate/trans/models/advertisement.py:110
 msgid "Depending on placement, HTML can be allowed."
 msgstr "V závislosti na umístění může být možné použít HTML."
 
-#: weblate/trans/models/advertisement.py:113
+#: weblate/trans/models/advertisement.py:116
 msgid "Free form note for your notes, not used within Weblate."
 msgstr "Můžete použít pro libovolnou poznámku, není použito ve Weblate."
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-19 11:05+0100\n"
+"POT-Creation-Date: 2014-11-19 11:40+0100\n"
 "PO-Revision-Date: 2014-11-04 17:03+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
 "Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
@@ -1137,7 +1137,7 @@ msgstr "Weblate 也支援從多個程式碼主機網站直接通知："
 msgid "Hosting site"
 msgstr "主機網站"
 
-#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:111
+#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:114
 msgid "Note"
 msgstr "備註"
 
@@ -2579,10 +2579,6 @@ msgstr "在 %(translation)s 中新的翻譯"
 msgid "Change subscription settings:"
 msgstr "更改訂閱設定："
 
-#: weblate/html/mail/signature.txt:5
-msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr "可以在 http://weblate.org/ 找到，有關 Weblate 更詳細的資訊"
-
 #: weblate/html/paginator.html:6 weblate/html/translate.html:38
 #, python-format
 msgid "%(position)s / %(total)s"
@@ -3527,13 +3523,13 @@ msgstr "XML 標籤不一致"
 msgid "XML tags in translation do not match source"
 msgstr "在翻譯中的 XML 標籤與來源不一致"
 
-#: weblate/trans/checks/same.py:968
+#: weblate/trans/checks/same.py:978
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "機器翻譯"
 
-#: weblate/trans/checks/same.py:969
+#: weblate/trans/checks/same.py:979
 msgid "Source and translated strings are same"
 msgstr "來源和翻譯的字串均相同"
 
@@ -3870,53 +3866,65 @@ msgid ""
 "in Weblate."
 msgstr "請提供使用者名稱或電子郵件。使用者需要在 Weblate 中有已經啟用的帳號。"
 
-#: weblate/trans/models/advertisement.py:33
+#: weblate/trans/models/advertisement.py:34
 #, python-brace-format
 msgid "Donate to Weblate at {0}"
 msgstr "在{0}贊助 Weblate"
 
-#: weblate/trans/models/advertisement.py:34
+#: weblate/trans/models/advertisement.py:35
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr "在 {0} 支援 Weblate"
 
-#: weblate/trans/models/advertisement.py:37
+#: weblate/trans/models/advertisement.py:36
+#, fuzzy, python-brace-format
+#| msgid "More information about Weblate can be found at http://weblate.org/"
+msgid "More information about Weblate can be found at {0}"
+msgstr "可以在 http://weblate.org/ 找到，有關 Weblate 更詳細的資訊"
+
+#: weblate/trans/models/advertisement.py:39
 msgid "Donate to Weblate"
 msgstr "贊助 Weblate"
 
-#: weblate/trans/models/advertisement.py:38
+#: weblate/trans/models/advertisement.py:40
 msgid "Support Weblate using GitTip"
 msgstr "支援 Weblate 使用 Git 提示"
 
-#: weblate/trans/models/advertisement.py:90
+#: weblate/trans/models/advertisement.py:41
+#, fuzzy
+#| msgid "More information"
+msgid "More information about Weblate"
+msgstr "更詳細的資訊"
+
+#: weblate/trans/models/advertisement.py:93
 msgid "Mail footer (text)"
 msgstr "郵件頁腳（文字）"
 
-#: weblate/trans/models/advertisement.py:91
+#: weblate/trans/models/advertisement.py:94
 msgid "Mail footer (HTML)"
 msgstr "郵件頁腳 (HTML)"
 
-#: weblate/trans/models/advertisement.py:96
+#: weblate/trans/models/advertisement.py:99
 msgid "Placement"
 msgstr "佈置"
 
-#: weblate/trans/models/advertisement.py:99
+#: weblate/trans/models/advertisement.py:102
 msgid "Start date"
 msgstr "開始日期"
 
-#: weblate/trans/models/advertisement.py:102
+#: weblate/trans/models/advertisement.py:105
 msgid "End date"
 msgstr "結束日期"
 
-#: weblate/trans/models/advertisement.py:105
+#: weblate/trans/models/advertisement.py:108
 msgid "Text"
 msgstr "文字"
 
-#: weblate/trans/models/advertisement.py:107
+#: weblate/trans/models/advertisement.py:110
 msgid "Depending on placement, HTML can be allowed."
 msgstr "依據配置而定，可以允許 HTML。"
 
-#: weblate/trans/models/advertisement.py:113
+#: weblate/trans/models/advertisement.py:116
 msgid "Free form note for your notes, not used within Weblate."
 msgstr "為您的記錄不受拘束的格式註釋，而不在 Weblate 裏面使用。"
 

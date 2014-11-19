@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-19 11:05+0100\n"
+"POT-Creation-Date: 2014-11-19 11:40+0100\n"
 "PO-Revision-Date: 2014-10-10 17:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -1269,7 +1269,7 @@ msgstr ""
 msgid "Hosting site"
 msgstr "Sítio de alojamento"
 
-#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:111
+#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:114
 msgid "Note"
 msgstr "Nota"
 
@@ -2782,11 +2782,6 @@ msgstr "Nova tradução em %(translation)s"
 msgid "Change subscription settings:"
 msgstr ""
 
-#: weblate/html/mail/signature.txt:5
-msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr ""
-"Pode encontrar mais informações acerca do Weblate em http://weblate.org/"
-
 #: weblate/html/paginator.html:6 weblate/html/translate.html:38
 #, python-format
 msgid "%(position)s / %(total)s"
@@ -3828,13 +3823,13 @@ msgstr "As tags XML não coincidem"
 msgid "XML tags in translation do not match source"
 msgstr "As tags XML na tradução não coincidem com as originais"
 
-#: weblate/trans/checks/same.py:968
+#: weblate/trans/checks/same.py:978
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "Tradução automática"
 
-#: weblate/trans/checks/same.py:969
+#: weblate/trans/checks/same.py:979
 msgid "Source and translated strings are same"
 msgstr "A cadeira original e traduzida são iguais"
 
@@ -4193,53 +4188,66 @@ msgid ""
 "in Weblate."
 msgstr ""
 
-#: weblate/trans/models/advertisement.py:33
+#: weblate/trans/models/advertisement.py:34
 #, python-brace-format
 msgid "Donate to Weblate at {0}"
 msgstr "Doar ao Weblate em {0}"
 
-#: weblate/trans/models/advertisement.py:34
+#: weblate/trans/models/advertisement.py:35
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr "Contribua para o Weblate em {0}"
 
-#: weblate/trans/models/advertisement.py:37
+#: weblate/trans/models/advertisement.py:36
+#, fuzzy, python-brace-format
+#| msgid "More information about Weblate can be found at http://weblate.org/"
+msgid "More information about Weblate can be found at {0}"
+msgstr ""
+"Pode encontrar mais informações acerca do Weblate em http://weblate.org/"
+
+#: weblate/trans/models/advertisement.py:39
 msgid "Donate to Weblate"
 msgstr "Doações para o Weblate"
 
-#: weblate/trans/models/advertisement.py:38
+#: weblate/trans/models/advertisement.py:40
 msgid "Support Weblate using GitTip"
 msgstr "Contribua para o Weblate usando o GitTip"
 
-#: weblate/trans/models/advertisement.py:90
+#: weblate/trans/models/advertisement.py:41
+#, fuzzy
+#| msgid "More information"
+msgid "More information about Weblate"
+msgstr "Mais informação"
+
+#: weblate/trans/models/advertisement.py:93
 msgid "Mail footer (text)"
 msgstr "Rodapé do correio (texto)"
 
-#: weblate/trans/models/advertisement.py:91
+#: weblate/trans/models/advertisement.py:94
 msgid "Mail footer (HTML)"
 msgstr "Rodapé do correio (HTML)"
 
-#: weblate/trans/models/advertisement.py:96
+#: weblate/trans/models/advertisement.py:99
 msgid "Placement"
 msgstr "Colocação"
 
-#: weblate/trans/models/advertisement.py:99
+#: weblate/trans/models/advertisement.py:102
 msgid "Start date"
 msgstr "Data de início"
 
-#: weblate/trans/models/advertisement.py:102
+#: weblate/trans/models/advertisement.py:105
 msgid "End date"
 msgstr "Data do fim"
 
-#: weblate/trans/models/advertisement.py:105
+#: weblate/trans/models/advertisement.py:108
 msgid "Text"
 msgstr "Texto"
 
-#: weblate/trans/models/advertisement.py:107
+#: weblate/trans/models/advertisement.py:110
 msgid "Depending on placement, HTML can be allowed."
 msgstr "Dependendo da colocação, pode ser possível utilizar HTML."
 
-#: weblate/trans/models/advertisement.py:113
+#: weblate/trans/models/advertisement.py:116
 msgid "Free form note for your notes, not used within Weblate."
 msgstr ""
 "Formulário livre para as suas notas, não é utilizado no âmbito do Weblate."

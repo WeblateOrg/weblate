@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-19 11:05+0100\n"
+"POT-Creation-Date: 2014-11-19 11:40+0100\n"
 "PO-Revision-Date: 2014-11-15 12:35+0200\n"
 "Last-Translator: youngminz <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -1169,7 +1169,7 @@ msgstr "또한 Weblate는 일부 코드 호스팅 사이트의 직접 알림을 
 msgid "Hosting site"
 msgstr "호스팅 사이트"
 
-#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:111
+#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:114
 msgid "Note"
 msgstr "공지"
 
@@ -2629,10 +2629,6 @@ msgstr "%(translation)s에서 새로운 번역"
 msgid "Change subscription settings:"
 msgstr ""
 
-#: weblate/html/mail/signature.txt:5
-msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr "Weblate에 대한 자세한 내용은 http://weblate.org/에서 찾을 수 있습니다"
-
 #: weblate/html/paginator.html:6 weblate/html/translate.html:38
 #, python-format
 msgid "%(position)s / %(total)s"
@@ -3591,11 +3587,11 @@ msgstr "XML 태그 불일치"
 msgid "XML tags in translation do not match source"
 msgstr "XML 태그가 원본과 일치하지 않습니다"
 
-#: weblate/trans/checks/same.py:968
+#: weblate/trans/checks/same.py:978
 msgid "Unchanged translation"
 msgstr "변경되지 않은 번역"
 
-#: weblate/trans/checks/same.py:969
+#: weblate/trans/checks/same.py:979
 msgid "Source and translated strings are same"
 msgstr "원본과 번역된 문자열이 같습니다"
 
@@ -3935,53 +3931,65 @@ msgid ""
 "in Weblate."
 msgstr ""
 
-#: weblate/trans/models/advertisement.py:33
+#: weblate/trans/models/advertisement.py:34
 #, python-brace-format
 msgid "Donate to Weblate at {0}"
 msgstr "{0} 에서 Weblate에 기부하기"
 
-#: weblate/trans/models/advertisement.py:34
+#: weblate/trans/models/advertisement.py:35
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr "{0}에서 Weblate를 지원"
 
-#: weblate/trans/models/advertisement.py:37
+#: weblate/trans/models/advertisement.py:36
+#, fuzzy, python-brace-format
+#| msgid "More information about Weblate can be found at http://weblate.org/"
+msgid "More information about Weblate can be found at {0}"
+msgstr "Weblate에 대한 자세한 내용은 http://weblate.org/에서 찾을 수 있습니다"
+
+#: weblate/trans/models/advertisement.py:39
 msgid "Donate to Weblate"
 msgstr "Weblate에 기부하기"
 
-#: weblate/trans/models/advertisement.py:38
+#: weblate/trans/models/advertisement.py:40
 msgid "Support Weblate using GitTip"
 msgstr "깃팁을 이용하여 Weblate를 지원"
 
-#: weblate/trans/models/advertisement.py:90
+#: weblate/trans/models/advertisement.py:41
+#, fuzzy
+#| msgid "More information"
+msgid "More information about Weblate"
+msgstr "자세한 정보"
+
+#: weblate/trans/models/advertisement.py:93
 msgid "Mail footer (text)"
 msgstr "메일 바닥글 (텍스트)"
 
-#: weblate/trans/models/advertisement.py:91
+#: weblate/trans/models/advertisement.py:94
 msgid "Mail footer (HTML)"
 msgstr "메일 바닥글 (HTML)"
 
-#: weblate/trans/models/advertisement.py:96
+#: weblate/trans/models/advertisement.py:99
 msgid "Placement"
 msgstr "배치"
 
-#: weblate/trans/models/advertisement.py:99
+#: weblate/trans/models/advertisement.py:102
 msgid "Start date"
 msgstr "시작일"
 
-#: weblate/trans/models/advertisement.py:102
+#: weblate/trans/models/advertisement.py:105
 msgid "End date"
 msgstr "종료일"
 
-#: weblate/trans/models/advertisement.py:105
+#: weblate/trans/models/advertisement.py:108
 msgid "Text"
 msgstr "글자"
 
-#: weblate/trans/models/advertisement.py:107
+#: weblate/trans/models/advertisement.py:110
 msgid "Depending on placement, HTML can be allowed."
 msgstr "배치에 따라 HTML은 허용될 수 있습니다."
 
-#: weblate/trans/models/advertisement.py:113
+#: weblate/trans/models/advertisement.py:116
 msgid "Free form note for your notes, not used within Weblate."
 msgstr "자유형식 메모는 Weblate에서 사용되지 않습니다."
 

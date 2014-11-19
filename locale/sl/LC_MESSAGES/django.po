@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-11-19 11:05+0100\n"
+"POT-Creation-Date: 2014-11-19 11:40+0100\n"
 "PO-Revision-Date: 2014-10-17 22:50+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
@@ -1243,7 +1243,7 @@ msgstr ""
 msgid "Hosting site"
 msgstr "Gostiteljska stran"
 
-#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:111
+#: weblate/html/data.html:110 weblate/trans/models/advertisement.py:114
 msgid "Note"
 msgstr "Beležka"
 
@@ -2760,10 +2760,6 @@ msgstr "Nov prevod %(translation)s"
 msgid "Change subscription settings:"
 msgstr "Spremenite nastavitve naročnine:"
 
-#: weblate/html/mail/signature.txt:5
-msgid "More information about Weblate can be found at http://weblate.org/"
-msgstr "Več informacij o Weblate lahko najdete na http://weblate.org/"
-
 #: weblate/html/paginator.html:6 weblate/html/translate.html:38
 #, python-format
 msgid "%(position)s / %(total)s"
@@ -3802,13 +3798,13 @@ msgstr "Neujemanje oznak XML"
 msgid "XML tags in translation do not match source"
 msgstr "Oznake XML v prevodu se ne ujemajo z izvirnikom"
 
-#: weblate/trans/checks/same.py:968
+#: weblate/trans/checks/same.py:978
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "Strojno prevajanje"
 
-#: weblate/trans/checks/same.py:969
+#: weblate/trans/checks/same.py:979
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
@@ -4163,53 +4159,65 @@ msgid ""
 "in Weblate."
 msgstr ""
 
-#: weblate/trans/models/advertisement.py:33
+#: weblate/trans/models/advertisement.py:34
 #, python-brace-format
 msgid "Donate to Weblate at {0}"
 msgstr "Prispevajte k Weblate na {0}"
 
-#: weblate/trans/models/advertisement.py:34
+#: weblate/trans/models/advertisement.py:35
 #, python-brace-format
 msgid "Support Weblate at {0}"
 msgstr "Podprite Weblate na {0}"
 
-#: weblate/trans/models/advertisement.py:37
+#: weblate/trans/models/advertisement.py:36
+#, fuzzy, python-brace-format
+#| msgid "More information about Weblate can be found at http://weblate.org/"
+msgid "More information about Weblate can be found at {0}"
+msgstr "Več informacij o Weblate lahko najdete na http://weblate.org/"
+
+#: weblate/trans/models/advertisement.py:39
 msgid "Donate to Weblate"
 msgstr "Donirajte Weblateu"
 
-#: weblate/trans/models/advertisement.py:38
+#: weblate/trans/models/advertisement.py:40
 msgid "Support Weblate using GitTip"
 msgstr "Podprite Weblate z GitTip"
 
-#: weblate/trans/models/advertisement.py:90
+#: weblate/trans/models/advertisement.py:41
+#, fuzzy
+#| msgid "More information"
+msgid "More information about Weblate"
+msgstr "Več informacij"
+
+#: weblate/trans/models/advertisement.py:93
 msgid "Mail footer (text)"
 msgstr "Noga pošte (besedilo)"
 
-#: weblate/trans/models/advertisement.py:91
+#: weblate/trans/models/advertisement.py:94
 msgid "Mail footer (HTML)"
 msgstr "Noga pošte (HTML)"
 
-#: weblate/trans/models/advertisement.py:96
+#: weblate/trans/models/advertisement.py:99
 msgid "Placement"
 msgstr "Postavitev"
 
-#: weblate/trans/models/advertisement.py:99
+#: weblate/trans/models/advertisement.py:102
 msgid "Start date"
 msgstr "Datum začetka"
 
-#: weblate/trans/models/advertisement.py:102
+#: weblate/trans/models/advertisement.py:105
 msgid "End date"
 msgstr "Datum konca"
 
-#: weblate/trans/models/advertisement.py:105
+#: weblate/trans/models/advertisement.py:108
 msgid "Text"
 msgstr "Besedilo"
 
-#: weblate/trans/models/advertisement.py:107
+#: weblate/trans/models/advertisement.py:110
 msgid "Depending on placement, HTML can be allowed."
 msgstr "Od postavitve je odvisno, ali je HTML dovoljen."
 
-#: weblate/trans/models/advertisement.py:113
+#: weblate/trans/models/advertisement.py:116
 msgid "Free form note for your notes, not used within Weblate."
 msgstr ""
 "Beležka proste oblike za vaše beležke; se ne uporablja znotraj Weblate."
