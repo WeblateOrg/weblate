@@ -292,6 +292,12 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'ts',
+        'Tsonga',
+        2,
+        '(n != 1)',
+    ),
 )
 
 # List of defaul languages - the ones, where using
