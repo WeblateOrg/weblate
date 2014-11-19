@@ -60,13 +60,22 @@ class WeblateCommand(BaseCommand):
 
         current = 0
         last = units.order_by('-pk')[0].pk
+        count = units.count()
+        done = 0
+        step = 1000
 
         # Iterate over chunks
         while current < last:
+            self.stdout.write(
+                'Processing {0:.1f}%'.format(done * 100.0 / count),
+            )
             with transaction.atomic():
-                for unit in units.filter(pk__gt=current)[:1000].iterator():
+                for unit in units.filter(pk__gt=current)[:step].iterator():
                     current = unit.pk
+                    done += 1
                     yield unit
+        self.stdout.write('Operation completed')
+
 
     def get_translations(self, *args, **options):
         '''
