@@ -38,9 +38,13 @@
 {% trans "This Weblate instance hosts translations for various free software projects." %}
 {% blocktrans %}We can host your project as well, if you are interested, please contact us.{% endblocktrans %}
 </p>
+  <p>
+    {% trans "Commercial hosting is possible as well, our price starts at 19 EUR per project and month, please get in touch with us for more details." %}
+  </p>
 </div>
   <div class="panel-footer">
   <a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
+  <a class="btn btn-default" href="{% url 'contact' %}?subject=Commercial hosting">{% trans "Contact us for commercial hosting" %}</a>
   </div>
 </div>
 </div>
