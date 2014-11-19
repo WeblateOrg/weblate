@@ -26,5 +26,4 @@ class Command(WeblateLangCommand):
 
     def handle(self, *args, **options):
         for unit in self.iterate_units(*args, **options):
-            print unit
             unit.run_checks()
