@@ -22,6 +22,7 @@ Helper classes for management commands.
 '''
 
 from django.core.management.base import BaseCommand, CommandError
+from django.db import transaction
 from optparse import make_option
 from weblate.trans.models import Unit, SubProject, Translation
 
@@ -50,6 +51,22 @@ class WeblateCommand(BaseCommand):
         return Unit.objects.filter(
             translation__subproject__in=self.get_subprojects(*args, **options)
         )
+
+    def iterate_units(self, *args, **options):
+        """
+        Memory effective iteration over units.
+        """
+        units = self.get_units(*args, **options).order_by('pk')
+
+        current = 0
+        last = units.order_by('-pk')[0].pk
+
+        # Iterate over chunks
+        while current < last:
+            with transaction.atomic():
+                for unit in units.filter(pk__gt=current)[:1000].iterator():
+                    current = unit.pk
+                    yield unit
 
     def get_translations(self, *args, **options):
         '''

@@ -19,21 +19,12 @@
 #
 
 from weblate.trans.management.commands import WeblateLangCommand
-from django.db import transaction
 
 
 class Command(WeblateLangCommand):
     help = 'updates checks for units'
 
     def handle(self, *args, **options):
-        units = self.get_units(*args, **options).order_by('pk')
-
-        current = 0
-        last = units.order_by('-pk')[0].pk
-
-        # Iterate over chunks
-        while current < last:
-            with transaction.atomic():
-                for unit in units.filter(pk__gt=current)[:1000].iterator():
-                    current = unit.pk
-                    unit.run_checks()
+        for unit in self.iterate_units(*args, **options):
+            print unit
+            unit.run_checks()
