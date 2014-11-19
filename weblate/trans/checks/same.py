@@ -38,6 +38,7 @@ SAME_BLACKLIST = frozenset((
     'addons',
     'address',
     'admin',
+    'administrator',
     'administration',
     'africa',
     'ah',

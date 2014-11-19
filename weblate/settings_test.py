@@ -32,7 +32,7 @@ if 'CI_DATABASE' in os.environ:
         DATABASES['default']['USER'] = 'root'
         DATABASES['default']['PASSWORD'] = ''
         DATABASES['default']['OPTIONS'] = {
-            'init_command': 'SET NAMES utf8',
+            'init_command': 'SET NAMES utf8, wait_timeout=28800',
         }
     elif os.environ['CI_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = \
