@@ -613,15 +613,12 @@ class FileFormat(object):
         return code
 
     @classmethod
-    def get_language_filename(cls, path, mask, code):
+    def get_language_filename(cls, mask, code):
         """
         Return full filename of a language file for given
         path, filemask and language code.
         """
-        return os.path.join(
-            path,
-            mask.replace('*', cls.get_language_code(code))
-        )
+        return mask.replace('*', cls.get_language_code(code))
 
     @staticmethod
     def add_language(filename, code, base):

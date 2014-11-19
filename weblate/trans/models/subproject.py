@@ -1277,18 +1277,18 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValueError('Not supported operation!')
 
         filename = self.file_format_cls.get_language_filename(
-            self.get_path(),
             self.filemask,
             language.code
         )
+        fullname = os.path.join(self.get_path(), filename)
 
         # Create directory for a translation
-        dirname = os.path.dirname(filename)
+        dirname = os.path.dirname(fullname)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
         self.file_format_cls.add_language(
-            filename,
+            fullname,
             language.code,
             base_filename
         )

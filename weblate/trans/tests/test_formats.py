@@ -41,7 +41,7 @@ class AutoFormatTest(TestCase):
     COUNT = 5
     MATCH = 'msgid_plural'
     MASK = 'po/*.po'
-    EXPECTED_PATH = '/path/po/cs_CZ.po'
+    EXPECTED_PATH = 'po/cs_CZ.po'
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -70,7 +70,7 @@ class AutoFormatTest(TestCase):
     def test_get_language_filename(self):
         self.assertEqual(
             self.FORMAT.get_language_filename(
-                '/path', self.MASK, 'cs_CZ'
+                self.MASK, 'cs_CZ'
             ),
             self.EXPECTED_PATH
         )
@@ -88,4 +88,4 @@ class AndroidFormatTest(AutoFormatTest):
     COUNT = 0
     MATCH = '<resources></resources>'
     MASK = 'res/values-*/strings.xml'
-    EXPECTED_PATH = '/path/res/values-cs-rCZ/strings.xml'
+    EXPECTED_PATH = 'res/values-cs-rCZ/strings.xml'
