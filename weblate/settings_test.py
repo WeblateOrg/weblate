@@ -25,8 +25,8 @@
 from weblate.settings_example import *
 import os
 
-if 'TRAVIS_DATABASE' in os.environ:
-    if os.environ['TRAVIS_DATABASE'] == 'mysql':
+if 'CI_DATABASE' in os.environ:
+    if os.environ['CI_DATABASE'] == 'mysql':
         DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
         DATABASES['default']['NAME'] = 'weblate'
         DATABASES['default']['USER'] = 'root'
@@ -34,7 +34,7 @@ if 'TRAVIS_DATABASE' in os.environ:
         DATABASES['default']['OPTIONS'] = {
             'init_command': 'SET NAMES utf8',
         }
-    elif os.environ['TRAVIS_DATABASE'] == 'postgresql':
+    elif os.environ['CI_DATABASE'] == 'postgresql':
         DATABASES['default']['ENGINE'] = \
             'django.db.backends.postgresql_psycopg2'
         DATABASES['default']['NAME'] = 'weblate'
