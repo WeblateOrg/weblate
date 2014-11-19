@@ -21,8 +21,11 @@
 from weblate.trans.management.commands import WeblateCommand
 from weblate.lang.models import Language
 from weblate.trans.search import (
-    update_index, create_source_index, create_target_index
+    create_source_index, create_target_index,
+    get_source_index, get_target_index,
+    update_source_unit_index, update_target_unit_index,
 )
+from whoosh.writing import BufferedWriter
 from optparse import make_option
 
 
@@ -45,6 +48,27 @@ class Command(WeblateCommand):
             for lang in Language.objects.have_translation():
                 create_target_index(lang=lang.code)
 
-        units = self.get_units(*args, **options)
+        # Open writer
+        source_writer = BufferedWriter(get_source_index())
+        target_writers = {}
 
-        update_index(units)
+        try:
+            # Process all units
+            for unit in self.iterate_units(*args, **options):
+                lang = unit.translation.language.code
+                # Lazy open writer
+                if lang not in target_writers:
+                    target_writers[lang] = BufferedWriter(
+                        get_target_index(lang)
+                    )
+                # Update target index
+                if unit.translation:
+                    update_target_unit_index(target_writers[lang], unit)
+                # Update source index
+                update_source_unit_index(source_writer, unit)
+
+        finally:
+            # Close all writers
+            source_writer.close()
+            for lang in target_writers:
+                target_writers[lang].close()
