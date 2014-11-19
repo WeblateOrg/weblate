@@ -286,6 +286,12 @@ EXTRALANGS = (
         2,
         '(n > 1)',
     ),
+    (
+        'os',
+        'Ossetian',
+        2,
+        '(n != 1)',
+    ),
 )
 
 # List of defaul languages - the ones, where using
