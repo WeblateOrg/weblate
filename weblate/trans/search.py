@@ -119,7 +119,7 @@ def update_index(units, source_units=None):
     '''
     Updates fulltext index for given set of units.
     '''
-    languages = Language.objects.all()
+    languages = Language.objects.have_translation()
 
     # Default to same set for both updates
     if source_units is None:
