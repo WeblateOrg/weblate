@@ -26,9 +26,14 @@ class Command(WeblateLangCommand):
     help = 'updates checks for units'
 
     def handle(self, *args, **options):
-        units = self.get_units(*args, **options)
+        units = self.get_units(*args, **options).order_by('pk')
 
-        # Invoke check for every unit
-        for unit in units.iterator():
+        current = 0
+        last = units.order_by('-pk')[0].pk
+
+        # Iterate over chunks
+        while current < last:
             with transaction.atomic():
-                unit.run_checks()
+                for unit in units.filter(pk__gt=current)[:1000].iterator():
+                    current = unit.pk
+                    unit.run_checks()
