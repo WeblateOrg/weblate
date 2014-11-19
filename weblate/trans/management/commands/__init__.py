@@ -76,7 +76,6 @@ class WeblateCommand(BaseCommand):
                     yield unit
         self.stdout.write('Operation completed')
 
-
     def get_translations(self, *args, **options):
         '''
         Returns list of translations matching parameters.
