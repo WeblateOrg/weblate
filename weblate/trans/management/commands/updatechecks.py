@@ -19,6 +19,7 @@
 #
 
 from weblate.trans.management.commands import WeblateLangCommand
+from django.db import transaction
 
 
 class Command(WeblateLangCommand):
@@ -29,4 +30,5 @@ class Command(WeblateLangCommand):
 
         # Invoke check for every unit
         for unit in units.iterator():
-            unit.run_checks()
+            with transaction.atomic():
+                unit.run_checks()
