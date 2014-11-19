@@ -298,6 +298,12 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'frp',
+        u'Franco-Provençal',
+        2,
+        '(n > 1)',
+    ),
 )
 
 # List of defaul languages - the ones, where using
