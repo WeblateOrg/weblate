@@ -63,6 +63,11 @@ class Command(BaseCommand):
             default='auto',
             help='File format type, defaults to autodetection',
         ),
+        make_option(
+            '--vcs',
+            default='git',
+            help='Version control system to use',
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -71,6 +76,7 @@ class Command(BaseCommand):
         self.file_format = None
         self.name_template = None
         self.base_file_template = None
+        self.vcs = None
         self.logger = weblate.logger
         self._mask_regexp = None
 
@@ -156,6 +162,7 @@ class Command(BaseCommand):
         repo = args[1]
         branch = args[2]
         self.filemask = args[3]
+        self.vcs = options['vcs']
         self.file_format = options['file_format']
         self.name_template = options['name_template']
         self.base_file_template = options['base_file_template']
@@ -260,6 +267,7 @@ class Command(BaseCommand):
             repo=repo,
             branch=branch,
             file_format=self.file_format,
+            vcs=self.vcs,
             template=template,
             filemask=self.filemask.replace('**', match)
         )

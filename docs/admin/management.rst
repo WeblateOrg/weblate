@@ -102,6 +102,9 @@ base file for monolingual translations.
 You can also specify file format to use (see :ref:`formats`) by the
 ``--file-format`` parameter. The default is autodetection.
 
+In case you need to specify version control system to use, you can do this using
+``--vcs`` parameter. The default version control is Git.
+
 To give you some examples, let's try importing two projects.
 
 As first we import The Debian Handbook translations, where each language has
