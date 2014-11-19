@@ -17,29 +17,18 @@ env:
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
-before_install:
-  - git clone --depth 1 --branch v0.1.2 https://github.com/ruleant/buildtime-trend.git $HOME/buildtime-trend 
-  - source $HOME/buildtime-trend/init.sh
-  - timestamp.sh packages
 # commands to install dependencies
 install:
-  - timestamp.sh install
   - ./ci/install
-  - pip install -r ${BUILD_TREND_HOME}/requirements.txt
 # create databases
 before_script:
-  - timestamp.sh before_script
   - ./ci/setup-env
 # commands to run tests
 script:
-  - timestamp.sh tests
   - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; else ./ci/run-lint ; fi
 after_script:
-  - timestamp.sh coveralls
   - if [ -z "$CI_LINT" ] ; then coveralls ; fi
   - if [ -z "$CI_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
-  - timestamp.sh done
-  - sync-buildtime-trend-with-gh-pages.sh
 cache:
   apt: true
   directories:
