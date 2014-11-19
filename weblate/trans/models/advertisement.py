@@ -33,12 +33,12 @@ class AdvertisementManager(models.Manager):
     _fallback_choices = (
         (_('Donate to Weblate at {0}'), DONATE),
         (_('Support Weblate at {0}'), GITTIP),
-        (_('More information about Weblate can be found at {0}', WEBLATE),
+        (_('More information about Weblate can be found at {0}'), WEBLATE),
     )
     _fallback_choices_html = (
         (_('Donate to Weblate'), DONATE),
         (_('Support Weblate using GitTip'), GITTIP),
-        (_('More information about Weblate', WEBLATE),
+        (_('More information about Weblate'), WEBLATE),
     )
 
     def get_advertisement(self, placement):
