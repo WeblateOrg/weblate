@@ -43,7 +43,45 @@ jQuery.fn.extend({
 });
 
 function init_editor(editors) {
-    editors.autosize();
+    /* Autosizing */
+    $('.translation-editor').autosize();
+
+    /* Copy source text */
+    $('.copy-text').click(function (e) {
+        var $this = $(this);
+        $this.button('loading');
+        $.get($this.data('href'), function (data) {
+            $this.parents('.translation-item').find('.translation-editor').val(data).trigger('autosize.resize');
+            $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
+            $this.button('reset');
+        });
+        e.preventDefault();
+    });
+
+    /* Direction toggling */
+    $('.direction-toggle').change(function (e) {
+        var $this = $(this);
+        $this.parents('.translation-item').find('.translation-editor').attr(
+            'dir',
+            $this.find('input').val()
+        );
+    });
+
+    /* Special characters */
+    $('.specialchar').click(function (e) {
+        var $this = $(this);
+        var text = $this.text();
+        if (text == '\\t') {
+            text = '\t';
+        } else if (text == '→') {
+            text = '\t';
+        } else if (text == '↵') {
+            text = '\r';
+        }
+        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
+        e.preventDefault();
+    });
+
 }
 
 function text_change(e) {
@@ -343,7 +381,7 @@ $(function () {
     if (translation_editor.length > 0) {
         $(document).on('change', '.translation-editor', text_change);
         $(document).on('keypress', '.translation-editor', text_change);
-        init_editor(translation_editor);
+        init_editor();
         translation_editor.get(0).focus();
         if ($('#button-first').length > 0) {
             Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
@@ -372,42 +410,6 @@ $(function () {
         $('.nav [href="' + href + '"]').click();
         $(window).scrollTop($(href).offset().top);
     })
-
-    /* Copy source text */
-    $('.copy-text').click(function (e) {
-        var $this = $(this);
-        $this.button('loading');
-        $.get($this.data('href'), function (data) {
-            $this.parents('.translation-item').find('.translation-editor').val(data).trigger('autosize.resize');
-            $('#id_fuzzy').prop('checked', true);
-            $this.button('reset');
-        });
-        e.preventDefault();
-    });
-
-    /* Direction toggling */
-    $('.direction-toggle').change(function (e) {
-        var $this = $(this);
-        $this.parents('.translation-item').find('.translation-editor').attr(
-            'dir',
-            $this.find('input').val()
-        );
-    });
-
-    /* Special characters */
-    $('.specialchar').click(function (e) {
-        var $this = $(this);
-        var text = $this.text();
-        if (text == '\\t') {
-            text = '\t';
-        } else if (text == '→') {
-            text = '\t';
-        } else if (text == '↵') {
-            text = '\r';
-        }
-        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
-        e.preventDefault();
-    });
 
     /* Copy from dictionary */
     $('.copydict').click(function (e) {
@@ -459,9 +461,7 @@ $(function () {
 
                         $('.zen tbody').append(data);
 
-                        var $editors = $('.translation-editor');
-
-                        init_editor($editors);
+                        init_editor();
                     }
                 );
             }

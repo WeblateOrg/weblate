@@ -63,6 +63,9 @@ PLURALS_TEMPLATE = u'''
 <p class="help-block pull-right flip"><a href="{0}">{1}</a></p>
 <p class="help-block">{2}</p>
 '''
+COPY_TEMPLATE = u'''
+data-loading-text="{0}" data-href="{1}" data-checksum="{2}"
+'''
 
 
 def escape_newline(value):
@@ -84,9 +87,10 @@ class PluralTextarea(forms.Textarea):
         """
         groups = []
         # Copy button
-        extra_params = u'data-loading-text="{0}" data-href="{1}"'.format(
+        extra_params = COPY_TEMPLATE.format(
             ugettext(u'Loading…'),
             reverse('js-get', kwargs={'checksum': checksum}),
+            checksum,
         )
         groups.append(
             GROUP_TEMPLATE.format(
