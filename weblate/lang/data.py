@@ -497,7 +497,7 @@ ONE_OTHER_ZERO_PLURALS = (
 )
 
 ZERO_ONE_TWO_THREE_SIX_OTHER = (
-    '(n==0) ? 0 : (n==1) ? 1  (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5',
+    '(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5',
 )
 
 # Plural types definition
