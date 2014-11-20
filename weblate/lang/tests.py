@@ -23,7 +23,8 @@ Tests for language manipulations.
 """
 
 from django.test import TestCase
-from weblate.lang.models import Language
+from weblate.lang.models import Language, get_plural_type
+from weblate.lang import data
 from django.core.management import call_command
 import os.path
 
@@ -204,3 +205,18 @@ class CommandTest(TestCase):
             'plurals.txt'
         )
         call_command('checklang', testfile)
+
+
+class VerifyPluralsTest(TestCase):
+    """
+    In database plural form verification.
+    """
+    def test_valid(self):
+        for language in Language.objects.all():
+            self.assertNotEqual(
+                get_plural_type(
+                    language.code,
+                    language.pluralequation
+                ),
+                data.PLURAL_UNKNOWN
+            )
