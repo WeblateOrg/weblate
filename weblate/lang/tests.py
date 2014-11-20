@@ -27,6 +27,7 @@ from weblate.lang.models import Language, get_plural_type
 from weblate.lang import data
 from django.core.management import call_command
 import os.path
+import gettext
 
 
 class LanguagesTest(TestCase):
@@ -212,6 +213,7 @@ class VerifyPluralsTest(TestCase):
     In database plural form verification.
     """
     def test_valid(self):
+        """Validates that we can name all plural equations"""
         for language in Language.objects.all():
             self.assertNotEqual(
                 get_plural_type(
@@ -219,4 +221,29 @@ class VerifyPluralsTest(TestCase):
                     language.pluralequation
                 ),
                 data.PLURAL_UNKNOWN
+            )
+
+    def test_equation(self):
+        """Validates that all equations can be parsed by gettext"""
+        # Verify we get an error on invalid syntax
+        self.assertRaises(
+            SyntaxError,
+            gettext.c2py,
+            'n==0 ? 1 2'
+        )
+        for language in Language.objects.all():
+            # Validate plurals can be parsed
+            plural = gettext.c2py(language.pluralequation)
+            # Get maximal plural
+            nplurals = max([plural(x) for x in range(200)]) + 1
+            # Check it matches ours
+            self.assertEquals(
+                nplurals,
+                language.nplurals,
+                'Invalid nplurals for {0}: {1} ({2}, {3})'.format(
+                    language.code,
+                    nplurals,
+                    language.nplurals,
+                    language.pluralequation
+                )
             )
