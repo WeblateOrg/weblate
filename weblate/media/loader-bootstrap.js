@@ -287,7 +287,6 @@ $(function () {
                     var $cell = $next_row.find('.details-content');
                     $cell.find('.glyphicon-spin').remove();
                     $cell.append(data);
-                    $cell.find('.button').button();
                 }
             );
         }
@@ -458,7 +457,7 @@ $(function () {
                     function (data) {
                         $('#loading-next').hide();
 
-                        $('.zen tbody').append(data).find('.button').button();
+                        $('.zen tbody').append(data);
 
                         var $editors = $('.translation-editor');
 
