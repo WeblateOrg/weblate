@@ -229,6 +229,10 @@ available under :file:`/admin/` URL.
 Managing per project access control
 +++++++++++++++++++++++++++++++++++
 
+.. note::
+
+    This feature only works for ACL controlled projects, see :ref:`acl`.
+
 Users with :guilabel:`Can manage ACL rules for a project` privilege (see
 :ref:`privileges`) can also manage users in projects with access control
 enabled on the project page.
