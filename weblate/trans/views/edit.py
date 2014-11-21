@@ -464,9 +464,10 @@ def translate(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
 
     # Check locks
-    project_locked, user_locked, own_lock = translation.is_locked(
+    project_locked, user_locked = translation.is_locked(
         request, True
     )
+    own_lock = self.lock_user == request.user
     locked = project_locked or user_locked
 
     # Search results

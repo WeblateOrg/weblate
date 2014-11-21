@@ -268,13 +268,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         prj_lock = self.subproject.locked
         usr_lock = self.is_user_locked(request)
-        own_lock = False
-        if request is not None and self.lock_user == request.user:
-            own_lock = True
 
         # Calculate return value
         if multi:
-            return (prj_lock, usr_lock, own_lock)
+            return (prj_lock, usr_lock)
         else:
             return prj_lock or usr_lock
 
