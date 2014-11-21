@@ -27,6 +27,8 @@ def create_permissions_compat(app, **kwargs):
 
     See http://south.aeracode.org/ticket/211
     '''
+    # This fails with Django 1.7, but the code is used only for 1.6
+    # pylint: disable=E0611
     from django.db.models import get_app, get_models
     from django.contrib.auth.management import create_permissions
     if app in ('trans', 'lang', 'accounts'):
