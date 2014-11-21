@@ -259,21 +259,16 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             }
         )
 
-    def is_locked(self, request=None, multi=False):
+    def is_locked(self, request=None):
         '''
         Check whether the translation is locked and
         possibly emits messages if request object is
         provided.
         '''
-
-        prj_lock = self.subproject.locked
-        usr_lock = self.is_user_locked(request)
-
-        # Calculate return value
-        if multi:
-            return (prj_lock, usr_lock)
-        else:
-            return prj_lock or usr_lock
+        return (
+            self.is_user_locked(request) or
+            self.subproject.locked
+        )
 
     def is_user_locked(self, request=None):
         '''
