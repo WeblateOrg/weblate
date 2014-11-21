@@ -291,12 +291,13 @@ def add_host_key(request):
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(),
             )
-            keys = [
-                line
-                for line in output.splitlines()
-                if ' ssh-rsa ' in line or ' ecdsa-sha2-nistp256 ' in line
-            ]
-            for key in keys:
+            keys = []
+            for key in output.splitlines():
+                if (' ssh-rsa ' not in key
+                        and ' ecdsa-sha2-nistp256 ' not in key
+                        and ' ssh-ed25519 ' not in key):
+                    continue
+                keys.append(key)
                 host, keytype, fingerprint = parse_hosts_line(key)
                 messages.warning(
                     request,
