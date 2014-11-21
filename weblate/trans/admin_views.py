@@ -326,6 +326,11 @@ def add_host_key(request):
                         'keytype': keytype,
                     }
                 )
+            if len(keys) == 0:
+                messages.error(
+                    request,
+                    _('Failed to fetch public key for a host!')
+                )
             with open(KNOWN_HOSTS_FILE, 'a') as handle:
                 for key in keys:
                     handle.write('%s\n' % key)
