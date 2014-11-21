@@ -45,6 +45,21 @@ KNOWN_HOSTS_FILE = os.path.expanduser('~/.ssh/known_hosts')
 RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
 
 
+def is_key_line(key):
+    """
+    Checks whether this line looks like a valid known_hosts line.
+    """
+    if not key:
+        return False
+    if key[0] == '#':
+        return False
+    return (
+        ' ssh-rsa ' in key
+        or ' ecdsa-sha2-nistp256 ' in key
+        or ' ssh-ed25519 ' in key
+    )
+
+
 @staff_member_required
 def report(request):
     """
@@ -214,7 +229,8 @@ def get_host_keys():
         result = []
         with open(KNOWN_HOSTS_FILE, 'r') as handle:
             for line in handle:
-                if ' ssh-rsa ' in line or ' ecdsa-sha2-nistp256 ' in line:
+                line = line.strip()
+                if is_key_line(line):
                     result.append(parse_hosts_line(line))
     except IOError:
         return []
@@ -291,12 +307,12 @@ def add_host_key(request):
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(),
             )
-            keys = [
-                line
-                for line in output.splitlines()
-                if ' ssh-rsa ' in line or ' ecdsa-sha2-nistp256 ' in line
-            ]
-            for key in keys:
+            keys = []
+            for key in output.splitlines():
+                key = key.strip()
+                if not is_key_line(key):
+                    continue
+                keys.append(key)
                 host, keytype, fingerprint = parse_hosts_line(key)
                 messages.warning(
                     request,
