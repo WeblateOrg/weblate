@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.tests.test_views import ViewTestCase
-import weblate.trans.admin_views
+import weblate.trans.ssh
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.unittest import SkipTest
@@ -54,8 +54,8 @@ class AdminTest(ViewTestCase):
         tempdir = tempfile.mkdtemp()
         rsafile = os.path.join(tempdir, 'id_rsa.pub')
         try:
-            backup = weblate.trans.admin_views.RSA_KEY_FILE
-            weblate.trans.admin_views.RSA_KEY_FILE = rsafile
+            backup = weblate.trans.ssh.RSA_KEY_FILE
+            weblate.trans.ssh.RSA_KEY_FILE = rsafile
 
             response = self.client.get(reverse('admin-ssh'))
             self.assertContains(response, 'Generate SSH key')
@@ -67,15 +67,15 @@ class AdminTest(ViewTestCase):
             self.assertContains(response, 'Created new SSH key')
 
         finally:
-            weblate.trans.admin_views.RSA_KEY_FILE = backup
+            weblate.trans.ssh.RSA_KEY_FILE = backup
             shutil.rmtree(tempdir)
 
     def test_ssh_add(self):
         tempdir = tempfile.mkdtemp()
         hostsfile = os.path.join(tempdir, 'known_hosts')
         try:
-            backup = weblate.trans.admin_views.KNOWN_HOSTS_FILE
-            weblate.trans.admin_views.KNOWN_HOSTS_FILE = hostsfile
+            backup = weblate.trans.ssh.KNOWN_HOSTS_FILE
+            weblate.trans.ssh.KNOWN_HOSTS_FILE = hostsfile
 
             # Verify there is button for adding
             response = self.client.get(reverse('admin-ssh'))
@@ -94,7 +94,7 @@ class AdminTest(ViewTestCase):
             with open(hostsfile) as handle:
                 self.assertIn('github.com', handle.read())
         finally:
-            weblate.trans.admin_views.KNOWN_HOSTS_FILE = backup
+            weblate.trans.ssh.KNOWN_HOSTS_FILE = backup
             shutil.rmtree(tempdir)
 
     def test_performace(self):
@@ -158,9 +158,9 @@ class AdminTest(ViewTestCase):
 class SSHKeysTest(TestCase):
     def test_parse(self):
         try:
-            backup = weblate.trans.admin_views.KNOWN_HOSTS_FILE
-            weblate.trans.admin_views.KNOWN_HOSTS_FILE = TEST_HOSTS
-            hosts = weblate.trans.admin_views.get_host_keys()
+            backup = weblate.trans.ssh.KNOWN_HOSTS_FILE
+            weblate.trans.ssh.KNOWN_HOSTS_FILE = TEST_HOSTS
+            hosts = weblate.trans.ssh.get_host_keys()
             self.assertEqual(len(hosts), 50)
         finally:
-            weblate.trans.admin_views.KNOWN_HOSTS_FILE = backup
+            weblate.trans.ssh.KNOWN_HOSTS_FILE = backup
