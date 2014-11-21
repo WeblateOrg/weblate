@@ -304,6 +304,13 @@ EXTRALANGS = (
         2,
         '(n > 1)',
     ),
+    # Wrong language code used by Java
+    (
+        'in',
+        'Indonesian',
+        1,
+        '0',
+    ),
 )
 
 # List of defaul languages - the ones, where using
@@ -344,6 +351,7 @@ DEFAULT_LANGS = (
     'hr_HR',
     'hu_HU',
     'id_ID',
+    'in_ID',
     'is_IS',
     'it_IT',
     'iu_CA',
