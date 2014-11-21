@@ -267,7 +267,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
 
         prj_lock = self.subproject.locked
-        usr_lock, own_lock = self.is_user_locked(request, True)
+        usr_lock = self.is_user_locked(request)
+        own_lock = False
+        if request is not None and self.lock_user == request.user:
+            own_lock = True
 
         # Calculate return value
         if multi:
@@ -275,32 +278,27 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         else:
             return prj_lock or usr_lock
 
-    def is_user_locked(self, request=None, multi=False):
+    def is_user_locked(self, request=None):
         '''
         Checks whether there is valid user lock on this translation.
         '''
         # Any user?
         if self.lock_user is None:
-            result = (False, False)
+            return False
 
         # Is lock still valid?
         elif self.lock_time < datetime.now():
             # Clear the lock
             self.create_lock(None)
 
-            result = (False, False)
+            return False
 
         # Is current user the one who has locked?
         elif request is not None and self.lock_user == request.user:
-            result = (False, True)
+            return False
 
         else:
-            result = (True, False)
-
-        if multi:
-            return result
-        else:
-            return result[0]
+            return True
 
     def create_lock(self, user, explicit=False):
         '''
