@@ -57,6 +57,8 @@ class WeblateCommand(BaseCommand):
         Memory effective iteration over units.
         """
         units = self.get_units(*args, **options).order_by('pk')
+        if not units:
+            return
 
         current = 0
         last = units.order_by('-pk')[0].pk
