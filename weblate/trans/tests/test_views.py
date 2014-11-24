@@ -309,18 +309,6 @@ class BasicViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
-    def test_review_source(self):
-        response = self.client.get(
-            reverse('review_source', kwargs=self.kw_subproject)
-        )
-        self.assertContains(response, 'Test/Test')
-
-    def test_view_source(self):
-        response = self.client.get(
-            reverse('show_source', kwargs=self.kw_subproject)
-        )
-        self.assertContains(response, 'Test/Test')
-
     def test_view_unit(self):
         unit = self.get_unit()
         response = self.client.get(
@@ -880,3 +868,33 @@ class HomeViewTest(ViewTestCase):
         appsettings.ENABLE_WHITEBOARD = False
         response = self.client.get(reverse('home'))
         self.assertNotContains(response, 'whiteboard')
+
+
+class SourceStringsTest(ViewTestCase):
+    def test_edit_priority(self):
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        source = self.get_unit().source_info
+        response = self.client.post(
+            reverse('edit_priority', kwargs={'pk': source.pk}),
+            {'priority': 60}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertEquals(unit.priority, 60)
+        self.assertEquals(unit.source_info.priority, 60)
+
+    def test_review_source(self):
+        response = self.client.get(
+            reverse('review_source', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Test/Test')
+
+    def test_view_source(self):
+        response = self.client.get(
+            reverse('show_source', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Test/Test')
