@@ -893,6 +893,14 @@ class SourceStringsTest(ViewTestCase):
         )
         self.assertContains(response, 'Test/Test')
 
+    def test_review_source_expand(self):
+        unit = self.get_unit()
+        response = self.client.get(
+            reverse('review_source', kwargs=self.kw_subproject),
+            {'checksum': unit.checksum}
+        )
+        self.assertContains(response, unit.checksum)
+
     def test_view_source(self):
         response = self.client.get(
             reverse('show_source', kwargs=self.kw_subproject)
