@@ -31,18 +31,23 @@ from weblate.trans.models import Translation, Source
 from weblate.trans.forms import PriorityForm
 
 
+def get_source(request, project, subproject):
+    """
+    Returns first translation in subproject
+    (this assumes all have same source strings).
+    """
+    obj = get_subproject(request, project, subproject)
+    try:
+        return obj, obj.translation_set.all()[0]
+    except Translation.DoesNotExist:
+        raise Http404('No translation exists in this component.')
+
+
 def review_source(request, project, subproject):
     """
     Listing of source strings to review.
     """
-    obj = get_subproject(request, project, subproject)
-
-    # Grab first translation in subproject
-    # (this assumes all have same source strings)
-    try:
-        source = obj.translation_set.all()[0]
-    except Translation.DoesNotExist:
-        raise Http404('No translation exists in this component.')
+    obj, source = get_source(request, project, subproject)
 
     # Grab search type and page number
     rqtype = request.GET.get('type', 'all')
@@ -89,14 +94,7 @@ def show_source(request, project, subproject):
     """
     Show source strings summary and checks.
     """
-    obj = get_subproject(request, project, subproject)
-
-    # Grab first translation in subproject
-    # (this assumes all have same source strings)
-    try:
-        source = obj.translation_set.all()[0]
-    except Translation.DoesNotExist:
-        raise Http404('No translation exists in this component.')
+    obj, source = get_source(request, project, subproject)
 
     return render(
         request,
