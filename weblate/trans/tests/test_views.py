@@ -739,7 +739,7 @@ class CommentViewTest(ViewTestCase):
         self.translation = self.subproject.translation_set.get(
             language_code='cs'
         )
-        self.translation.invalidate_cache('targetcomments')
+        self.translation.invalidate_cache('comments')
         self.translation.invalidate_cache('sourcecomments')
 
     def test_add_target_comment(self):
@@ -767,7 +767,7 @@ class CommentViewTest(ViewTestCase):
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(
-            translation.unit_set.count_type('targetcomments', translation),
+            translation.unit_set.count_type('comments', translation),
             1
         )
         self.assertEqual(
@@ -800,7 +800,7 @@ class CommentViewTest(ViewTestCase):
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(
-            translation.unit_set.count_type('targetcomments', translation),
+            translation.unit_set.count_type('comments', translation),
             1
         )
         self.assertEqual(
