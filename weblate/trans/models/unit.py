@@ -141,7 +141,7 @@ class UnitManager(models.Manager):
             )
             coms = coms.values_list('contentsum', flat=True)
             return self.filter(contentsum__in=coms)
-        elif rqtype == 'targetcomments':
+        elif rqtype == 'comments':
             return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)

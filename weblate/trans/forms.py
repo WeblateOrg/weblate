@@ -432,7 +432,7 @@ class SearchForm(forms.Form):
             ('translated', _('Translated strings')),
             ('fuzzy', _('Fuzzy strings')),
             ('suggestions', _('Strings with suggestions')),
-            ('targetcomments', _('Strings with comments')),
+            ('comments', _('Strings with comments')),
             ('allchecks', _('Strings with any failing checks')),
         ] + [
             (check, CHECKS[check].description)

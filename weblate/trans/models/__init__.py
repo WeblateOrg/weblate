@@ -115,7 +115,7 @@ def update_comment_flag(sender, instance, **kwargs):
         if instance.language is None:
             unit.translation.invalidate_cache('sourcecomments')
         else:
-            unit.translation.invalidate_cache('targetcomments')
+            unit.translation.invalidate_cache('comments')
 
 
 @receiver(post_delete, sender=Suggestion)
