@@ -61,7 +61,7 @@ class TranslationManager(models.Manager):
         translation, dummy = self.get_or_create(
             language=lang,
             language_code=code,
-            subproject=subproject
+            subproject=subproject,
             defaults={'filename': path},
         )
         if translation.filename != path:
