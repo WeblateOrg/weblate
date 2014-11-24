@@ -991,7 +991,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         for check in CHECKS:
             if not CHECKS[check].source:
                 continue
-            cnt = self.get_failing_checks(check)
+            cnt = self.unit_set.count_type(check, self)
             if cnt > 0:
                 result.append((
                     check,
@@ -1259,14 +1259,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ret = self.merge_suggestions(request, store)
 
         return ret, store.count_units()
-
-    def get_failing_checks(self, check):
-        '''
-        Returns number of units with failing checks.
-
-        By default for all checks or check type can be specified.
-        '''
-        return self.unit_set.count_type(check, self)
 
     def invalidate_cache(self, cache_type=None):
         '''
