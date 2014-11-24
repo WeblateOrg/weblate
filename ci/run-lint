@@ -1,13 +1,19 @@
 #!/bin/sh
+
+log() {
+    tput setf 6
+    echo "Running $1..."
+    tput sgr0
+}
 # Linter for our code
 ./scripts/generate-locales
-echo pep8
+log pep8
 pep8 --exclude south_migrations,migrations weblate openshift
 pep_ret=$?
-echo pylint
+log pylint
 pylint --rcfile=pylint.rc weblate
 pylint_ret=$?
-echo pyflakes
+log pyflakes
 pyflakes `find . -name '*.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py'`
 pyflakes_ret=$?
 
