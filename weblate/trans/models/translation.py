@@ -62,6 +62,7 @@ class TranslationManager(models.Manager):
             language=lang,
             language_code=code,
             subproject=subproject
+            defaults={'filename': path},
         )
         if translation.filename != path:
             force = True
