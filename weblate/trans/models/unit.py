@@ -40,6 +40,15 @@ from weblate.trans.util import (
 import weblate
 
 
+SIMPLE_FILTERS = {
+    'fuzzy': {'fuzzy': True},
+    'untranslated': {'translated': False},
+    'translated': {'translated': True},
+    'suggestions': {'has_suggestion': True},
+    'comments': {'has_comment': True},
+}
+
+
 class UnitManager(models.Manager):
     # pylint: disable=W0232
 
@@ -127,15 +136,8 @@ class UnitManager(models.Manager):
         """
         Basic filtering based on unit state or failed checks.
         """
-
-        if rqtype == 'fuzzy':
-            return self.filter(fuzzy=True)
-        elif rqtype == 'untranslated':
-            return self.filter(translated=False)
-        elif rqtype == 'translated':
-            return self.filter(translated=True)
-        elif rqtype == 'suggestions':
-            return self.filter(has_suggestion=True)
+        if rqtype in SIMPLE_FILTERS:
+            return self.filter(**SIMPLE_FILTERS[rqtype])
         elif rqtype == 'sourcecomments' and translation is not None:
             coms = Comment.objects.filter(
                 language=None,
@@ -143,8 +145,6 @@ class UnitManager(models.Manager):
             )
             coms = coms.values_list('contentsum', flat=True)
             return self.filter(contentsum__in=coms)
-        elif rqtype == 'comments':
-            return self.filter(has_comment=True)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)
         else:
