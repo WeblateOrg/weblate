@@ -153,20 +153,6 @@ class UnitManager(models.Manager):
         """
         Cached counting of failing checks (and other stats).
         """
-        # Use precalculated data if we can
-        if rqtype == 'all':
-            return translation.total
-        elif rqtype == 'fuzzy':
-            return translation.fuzzy
-        elif rqtype == 'untranslated':
-            return translation.total - translation.translated
-        elif rqtype == 'allchecks':
-            return translation.failing_checks
-        elif rqtype == 'suggestions':
-            return translation.have_suggestion
-        elif rqtype == 'comments':
-            return translation.have_comment
-
         # Try to get value from cache
         cache_key = 'counts-%s-%s-%s' % (
             translation.subproject.get_full_slug(),
