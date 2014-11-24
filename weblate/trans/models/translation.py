@@ -1022,7 +1022,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         ]
 
         # Untranslated strings
-        nottranslated = self.unit_set.count_type('untranslated', self)
+        nottranslated = self.total - self.translated
         if nottranslated > 0:
             result.append((
                 'untranslated',
@@ -1032,12 +1032,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ))
 
         # Fuzzy strings
-        fuzzy = self.unit_set.count_type('fuzzy', self)
-        if fuzzy > 0:
+        if self.fuzzy > 0:
             result.append((
                 'fuzzy',
                 _('Fuzzy strings'),
-                fuzzy,
+                self.fuzzy,
                 'danger',
             ))
 
