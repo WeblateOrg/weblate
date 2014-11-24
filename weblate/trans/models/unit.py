@@ -41,6 +41,8 @@ import weblate
 
 
 class UnitManager(models.Manager):
+    # pylint: disable=W0232
+
     def update_from_unit(self, translation, unit, pos):
         """
         Process translation toolkit unit and stores/updates database entry.

@@ -65,6 +65,8 @@ MERGE_CHOICES = (
 
 
 class SubProjectManager(models.Manager):
+    # pylint: disable=W0232
+
     def get_linked(self, val):
         '''
         Returns subproject for linked repo.

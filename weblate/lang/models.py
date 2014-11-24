@@ -69,6 +69,8 @@ def get_plural_type(code, pluralequation):
 
 
 class LanguageManager(models.Manager):
+    # pylint: disable=W0232
+
     _default_lang = None
 
     def get_default(self):

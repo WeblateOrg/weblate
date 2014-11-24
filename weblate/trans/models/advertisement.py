@@ -30,6 +30,8 @@ WEBLATE = 'http://weblate.org/',
 
 
 class AdvertisementManager(models.Manager):
+    # pylint: disable=W0232
+
     _fallback_choices = (
         (_('Donate to Weblate at {0}'), DONATE),
         (_('Support Weblate at {0}'), GITTIP),

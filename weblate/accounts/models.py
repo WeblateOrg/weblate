@@ -290,6 +290,8 @@ class ProfileManager(models.Manager):
     '''
     Manager providing shortcuts for subscription queries.
     '''
+    # pylint: disable=W0232
+
     def subscribed_any_translation(self, project, language, user):
         return self.filter(
             subscribe_any_translation=True,

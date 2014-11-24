@@ -51,6 +51,8 @@ from weblate.trans.util import get_clean_env
 
 
 class TranslationManager(models.Manager):
+    # pylint: disable=W0232
+
     def check_sync(self, subproject, code, path, force=False, request=None):
         '''
         Parses translation meta info and creates/updates translation object.

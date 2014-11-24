@@ -29,6 +29,8 @@ from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
 
 
 class DictionaryManager(models.Manager):
+    # pylint: disable=W0232
+
     def upload(self, request, project, language, fileobj, method):
         '''
         Handles dictionary update.

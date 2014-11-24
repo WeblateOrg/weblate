@@ -36,6 +36,8 @@ from weblate.trans.util import get_site_url
 
 
 class ProjectManager(models.Manager):
+    # pylint: disable=W0232
+
     def all_acl(self, user):
         """
         Returns list of projects user is allowed to access.

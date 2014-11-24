@@ -29,6 +29,8 @@ from weblate.accounts.models import notify_new_suggestion, notify_new_comment
 
 
 class SuggestionManager(models.Manager):
+    # pylint: disable=W0232
+
     def add(self, unit, target, request):
         '''
         Creates new suggestion for this unit.
@@ -171,6 +173,8 @@ class Vote(models.Model):
 
 
 class CommentManager(models.Manager):
+    # pylint: disable=W0232
+
     def add(self, unit, user, lang, text):
         '''
         Adds comment to this unit.

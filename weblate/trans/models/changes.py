@@ -28,6 +28,8 @@ from weblate.accounts.avatar import get_user_display
 
 
 class ChangeManager(models.Manager):
+    # pylint: disable=W0232
+
     def content(self, prefetch=False):
         '''
         Returns queryset with content changes.
