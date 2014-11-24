@@ -455,9 +455,9 @@ class Unit(models.Model):
                 unit=self,
             )
         if contentsum_changed:
-            self.update_has_failing_check(False)
-            self.update_has_comment()
-            self.update_has_suggestion()
+            self.update_has_failing_check(recurse=False, update_stats=False)
+            self.update_has_comment(update_stats=False)
+            self.update_has_suggestion(update_stats=False)
 
     def is_plural(self):
         """
@@ -881,7 +881,7 @@ class Unit(models.Model):
         if was_change or is_new or not same_content:
             self.update_has_failing_check(was_change)
 
-    def update_has_failing_check(self, recurse=False):
+    def update_has_failing_check(self, recurse=False, update_stats=True):
         """
         Updates flag counting failing checks.
         """
@@ -893,7 +893,8 @@ class Unit(models.Model):
             self.save(backend=True, same_content=True, same_state=True)
 
             # Update translation stats
-            self.translation.update_stats()
+            if update_stats:
+                self.translation.update_stats()
 
         # Invalidate checks cache if there was any change
         # (above code cares only about whether there is failing check
@@ -904,7 +905,7 @@ class Unit(models.Model):
             for unit in Unit.objects.same(self):
                 unit.update_has_failing_check(False)
 
-    def update_has_suggestion(self):
+    def update_has_suggestion(self, update_stats=True):
         """
         Updates flag counting suggestions.
         """
@@ -914,9 +915,10 @@ class Unit(models.Model):
             self.save(backend=True, same_content=True, same_state=True)
 
             # Update translation stats
-            self.translation.update_stats()
+            if update_stats:
+                self.translation.update_stats()
 
-    def update_has_comment(self):
+    def update_has_comment(self, update_stats=True):
         """
         Updates flag counting comments.
         """
@@ -926,7 +928,8 @@ class Unit(models.Model):
             self.save(backend=True, same_content=True, same_state=True)
 
             # Update translation stats
-            self.translation.update_stats()
+            if update_stats:
+                self.translation.update_stats()
 
     def nearby(self):
         """
