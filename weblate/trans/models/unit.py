@@ -111,11 +111,6 @@ class UnitManager(models.Manager):
         elif rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
             filter_translated = False
-        elif CHECKS[rqtype].source and CHECKS[rqtype].target:
-            checks = checks.filter(
-                Q(language=translation.language) | Q(language=None)
-            )
-            filter_translated = False
         elif CHECKS[rqtype].source:
             checks = checks.filter(language=None)
             filter_translated = False
