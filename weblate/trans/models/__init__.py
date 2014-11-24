@@ -96,9 +96,8 @@ def update_failed_check_flag(sender, instance, **kwargs):
     """
     Update related unit failed check flag.
     """
-    if instance.ignore:
-        for unit in get_related_units(instance):
-            unit.update_has_failing_check(False)
+    for unit in get_related_units(instance):
+        unit.update_has_failing_check(False)
 
 
 @receiver(post_delete, sender=Comment)
