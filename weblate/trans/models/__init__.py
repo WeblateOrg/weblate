@@ -96,7 +96,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
     """
     Update related unit failed check flag.
     """
-    for unit in get_related_units(instance):
+    for unit in get_related_units(instance).iterator():
         unit.update_has_failing_check(False)
 
 
@@ -106,7 +106,7 @@ def update_comment_flag(sender, instance, **kwargs):
     """
     Update related unit comment flags
     """
-    for unit in get_related_units(instance):
+    for unit in get_related_units(instance).iterator():
         # Update unit stats
         unit.update_has_comment()
 
@@ -121,6 +121,6 @@ def update_suggestion_flag(sender, instance, **kwargs):
     """
     Update related unit suggestion flags
     """
-    for unit in get_related_units(instance):
+    for unit in get_related_units(instance).iterator():
         # Update unit stats
         unit.update_has_suggestion()
