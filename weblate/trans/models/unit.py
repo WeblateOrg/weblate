@@ -429,6 +429,7 @@ class Unit(models.Model):
             checksum=self.checksum,
             subproject=self.translation.subproject
         )
+        contentsum_changed = self.contentsum != contentsum
 
         # Store updated values
         self.position = pos
@@ -456,6 +457,10 @@ class Unit(models.Model):
                 action=Change.ACTION_NEW_SOURCE,
                 unit=self,
             )
+        if contentsum_changed:
+            self.update_has_failing_check(False)
+            self.update_has_comment()
+            self.update_has_suggestion()
 
     def is_plural(self):
         """
