@@ -38,7 +38,7 @@ from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.unitdata import Check, Suggestion, Comment
+from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.util import (
     get_site_url, translation_percent, split_plural,
 )
@@ -445,60 +445,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 raise
         return self._store
 
-    def cleanup_deleted(self, deleted_contentsums):
-        '''
-        Removes stale checks/comments/suggestions for deleted units.
-        '''
-        for contentsum in deleted_contentsums:
-            units = Unit.objects.filter(
-                translation__language=self.language,
-                translation__subproject__project=self.subproject.project,
-                contentsum=contentsum
-            )
-            if units.exists():
-                # There are other units as well, but some checks
-                # (eg. consistency) needs update now
-                for unit in units:
-                    unit.run_checks()
-                continue
-
-            # Last unit referencing to these checks
-            Check.objects.filter(
-                project=self.subproject.project,
-                language=self.language,
-                contentsum=contentsum
-            ).delete()
-            # Delete suggestons referencing this unit
-            Suggestion.objects.filter(
-                project=self.subproject.project,
-                language=self.language,
-                contentsum=contentsum
-            ).delete()
-            # Delete translation comments referencing this unit
-            Comment.objects.filter(
-                project=self.subproject.project,
-                language=self.language,
-                contentsum=contentsum
-            ).delete()
-            # Check for other units with same source
-            other_units = Unit.objects.filter(
-                translation__subproject__project=self.subproject.project,
-                contentsum=contentsum
-            )
-            if not other_units.exists():
-                # Delete source comments as well if this was last reference
-                Comment.objects.filter(
-                    project=self.subproject.project,
-                    language=None,
-                    contentsum=contentsum
-                ).delete()
-                # Delete source checks as well if this was last reference
-                Check.objects.filter(
-                    project=self.subproject.project,
-                    language=None,
-                    contentsum=contentsum
-                ).delete()
-
     def check_sync(self, force=False, request=None, change=None):
         '''
         Checks whether database is in sync with git and possibly does update.
@@ -573,20 +519,16 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
         # We need to resolve this now as otherwise list will become empty after
         # delete
-        deleted_contentsums = list(
-            units_to_delete.values_list('contentsum', flat=True)
-        )
+        deleted_units = units_to_delete.count()
+
         # Actually delete units
         units_to_delete.delete()
-
-        # Cleanup checks for deleted units
-        self.cleanup_deleted(deleted_contentsums)
 
         # Update revision and stats
         self.update_stats()
 
         # Cleanup checks cache if there were some deleted units
-        if len(deleted_contentsums) > 0:
+        if deleted_units:
             self.invalidate_cache()
 
         # Store change entry

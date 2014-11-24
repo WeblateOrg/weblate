@@ -124,3 +124,61 @@ def update_suggestion_flag(sender, instance, **kwargs):
     for unit in get_related_units(instance).iterator():
         # Update unit stats
         unit.update_has_suggestion()
+
+
+@receiver(post_delete, sender=Unit)
+def cleanup_deleted(sender, instance, **kwargs):
+    '''
+    Removes stale checks/comments/suggestions for deleted units.
+    '''
+    project = instance.translation.subproject.project
+    language = instance.translation.language
+    contentsum = instance.translation
+    units = Unit.objects.filter(
+        translation__language=language,
+        translation__subproject__project=project,
+        contentsum=contentsum
+    )
+    if units.exists():
+        # There are other units as well, but some checks
+        # (eg. consistency) needs update now
+        for unit in units:
+            unit.run_checks()
+        return
+
+    # Last unit referencing to these checks
+    Check.objects.filter(
+        project=project,
+        language=language,
+        contentsum=contentsum
+    ).delete()
+    # Delete suggestons referencing this unit
+    Suggestion.objects.filter(
+        project=project,
+        language=language,
+        contentsum=contentsum
+    ).delete()
+    # Delete translation comments referencing this unit
+    Comment.objects.filter(
+        project=project,
+        language=language,
+        contentsum=contentsum
+    ).delete()
+    # Check for other units with same source
+    other_units = Unit.objects.filter(
+        translation__subproject__project=project,
+        contentsum=contentsum
+    )
+    if not other_units.exists():
+        # Delete source comments as well if this was last reference
+        Comment.objects.filter(
+            project=project,
+            language=None,
+            contentsum=contentsum
+        ).delete()
+        # Delete source checks as well if this was last reference
+        Check.objects.filter(
+            project=project,
+            language=None,
+            contentsum=contentsum
+        ).delete()
