@@ -127,6 +127,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     total_words = models.IntegerField(default=0)
     failing_checks = models.IntegerField(default=0, db_index=True)
     have_suggestion = models.IntegerField(default=0, db_index=True)
+    have_comment = models.IntegerField(default=0, db_index=True)
 
     enabled = models.BooleanField(default=True, db_index=True)
 
@@ -642,6 +643,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             BooleanSum('translated'),
             BooleanSum('has_failing_check'),
             BooleanSum('has_suggestion'),
+            BooleanSum('has_comment'),
             Count('id'),
         )
 
@@ -653,6 +655,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated = 0
             self.failing_checks = 0
             self.have_suggestion = 0
+            self.have_comment = 0
         else:
             self.total_words = stats['num_words__sum']
             self.total = stats['id__count']
@@ -660,6 +663,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated = int(stats['translated__sum'])
             self.failing_checks = int(stats['has_failing_check__sum'])
             self.have_suggestion = int(stats['has_suggestion__sum'])
+            self.have_comment = int(stats['has_comment__sum'])
 
         # Count translated words
         self.translated_words = self.unit_set.filter(
