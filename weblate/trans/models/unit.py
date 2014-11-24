@@ -164,6 +164,8 @@ class UnitManager(models.Manager):
             return translation.failing_checks
         elif rqtype == 'suggestions':
             return translation.have_suggestion
+        elif rqtype == 'comments':
+            return translation.have_comment
 
         # Try to get value from cache
         cache_key = 'counts-%s-%s-%s' % (

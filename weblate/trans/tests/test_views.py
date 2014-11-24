@@ -767,7 +767,7 @@ class CommentViewTest(ViewTestCase):
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(
-            translation.unit_set.count_type('comments', translation),
+            translation.have_comment,
             1
         )
         self.assertEqual(
@@ -800,7 +800,7 @@ class CommentViewTest(ViewTestCase):
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(
-            translation.unit_set.count_type('comments', translation),
+            translation.have_comment,
             1
         )
         self.assertEqual(

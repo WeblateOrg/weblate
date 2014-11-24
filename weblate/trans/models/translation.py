@@ -1076,12 +1076,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 ))
 
         # Grab comments
-        comments = self.unit_set.count_type('comments', self)
-        if comments > 0:
+        if self.have_comment > 0:
             result.append((
                 'comments',
                 _('Strings with comments'),
-                comments,
+                self.have_comment,
                 'info',
             ))
 
