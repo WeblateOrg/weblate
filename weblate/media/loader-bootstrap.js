@@ -179,7 +179,7 @@ function load_table_sorting() {
                 // Store index copy
                 var myIndex = thIndex;
                 // Add icon, title and class
-                th.attr('title', gettext("Sort this column")).addClass('sort-cell').append('<span class="sort-button glyphicon glyphicon-chevron-down sort-none" />');
+                th.attr('title', gettext("Sort this column")).addClass('sort-cell').append('<i class="sort-button fa fa-chevron-down sort-none" />');
 
                 // Click handler
                 th.click(function () {
@@ -194,11 +194,11 @@ function load_table_sorting() {
                         return this.parentNode;
 
                     });
-                    thead.find('span.sort-button').removeClass('glyphicon-chevron-down glyphicon-chevron-up').addClass('glyphicon-chevron-down sort-none');
+                    thead.find('i.sort-button').removeClass('fa-chevron-down fa-chevron-up').addClass('fa-chevron-down sort-none');
                     if (inverse == 1) {
-                        $(this).find('span.sort-button').addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up sort-none');
+                        $(this).find('i.sort-button').addClass('fa-chevron-down').removeClass('fa-chevron-up sort-none');
                     } else {
-                        $(this).find('span.sort-button').addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down sort-none');
+                        $(this).find('i.sort-button').addClass('fa-chevron-up').removeClass('fa-chevron-down sort-none');
                     }
 
                     inverse = inverse * -1;
@@ -230,15 +230,15 @@ function zen_editor(e) {
             loadingdiv.hide();
             statusdiv.show();
             if (messages.find('.alert-danger').length > 0) {
-                statusdiv.attr('class', 'glyphicon-remove-sign text-danger');
+                statusdiv.attr('class', 'fa-times-circle text-danger');
             } else if (messages.find('.alert-warning').length > 0) {
-                statusdiv.attr('class', 'glyphicon-exclamation-sign text-warning');
+                statusdiv.attr('class', 'fa-exclamation-circle text-warning');
             } else if (messages.find('.alert-info').length > 0) {
-                statusdiv.attr('class', 'glyphicon-ok-sign text-warning');
+                statusdiv.attr('class', 'fa-check-circle text-warning');
             } else {
-                statusdiv.attr('class', 'glyphicon-ok-sign text-success');
+                statusdiv.attr('class', 'fa-check-circle text-success');
             }
-            statusdiv.addClass('glyphicon').tooltip('destroy');
+            statusdiv.addClass('fa').tooltip('destroy');
             if (data.trim() !== '') {
                 statusdiv.tooltip({
                     'html': true,
@@ -314,7 +314,7 @@ $(function () {
         var $table_row = $this.closest('tr');
         var $next_row = $table_row.next();
         $next_row.toggle();
-        $table_row.find('.expand-icon').toggleClass('glyphicon-chevron-right').toggleClass('glyphicon-chevron-down');
+        $table_row.find('.expand-icon').toggleClass('fa-chevron-right').toggleClass('fa-chevron-down');
         var $loader = $next_row.find('.load-details');
         if ($loader.length > 0) {
             var url = $loader.attr('href');
@@ -323,7 +323,7 @@ $(function () {
                 url,
                 function (data) {
                     var $cell = $next_row.find('.details-content');
-                    $cell.find('.glyphicon-spin').remove();
+                    $cell.find('.fa-spin').remove();
                     $cell.append(data);
                 }
             );

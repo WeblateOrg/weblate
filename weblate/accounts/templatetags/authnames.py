@@ -27,12 +27,14 @@ from django.utils.html import escape
 register = template.Library()
 
 SOCIALS = {
-    'google': ('Google', ''),
-    'github': ('GitHub', ''),
-    'bitbucket': ('Bitbucket', ''),
-    'email': ('Email', ''),
-    'opensuse': ('openSUSE', ''),
+    'google': {'name': 'Google', 'icon': 'google'},
+    'github': {'name': 'GitHub', 'icon': 'github'},
+    'bitbucket': {'name': 'Bitbucket', 'icon': 'bitbucket'},
+    'email': {'name': 'Email'},
+    'opensuse': {'name': 'openSUSE'},
 }
+
+SOCIAL_TEPMPLATE = u'<i class="fa fa-lg fa-{icon}"></i> {name}'
 
 
 @register.simple_tag
@@ -42,11 +44,9 @@ def auth_name(auth):
     """
 
     if auth in SOCIALS:
-        return mark_safe(
-            '{0}{1}'.format(
-                SOCIALS[auth][1],
-                escape(SOCIALS[auth][0]),
-            )
-        )
+        auth_data = SOCIALS[auth]
+        if 'icon' in auth_data:
+            return mark_safe(SOCIAL_TEPMPLATE.format(**auth_data))
+        return mark_safe(auth_data['name'])
 
     return auth

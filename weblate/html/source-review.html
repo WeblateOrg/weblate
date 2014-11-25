@@ -30,10 +30,10 @@
 {% with source.get_source_comments as comments %}
 <tr>
 <td class="expander {% if expand %}auto-expand{% endif %}">
-<a><span class="glyphicon glyphicon-chevron-right expand-icon"></span></a>
+<a><i class="fa fa-chevron-right expand-icon"></i></a>
 </td>
 <td class="translatetext expander">{% format_translation source.source %}</td>
-<td>{{ source.source_info.get_priority_display }}{% if perms.trans.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><span class="glyphicon glyphicon-pencil"></span></a>{% endif %}</td>
+<td>{{ source.source_info.get_priority_display }}{% if perms.trans.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><i class="fa fa-pencil"></i></a>{% endif %}</td>
 <td class="source-checks">
 {% if ignored %}
 {% show_checks source.source_checks user %}
@@ -50,7 +50,7 @@
 </td>
 <td colspan="3" class="details-content">
 <a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}?next={{ request.get_full_path }}" class="load-details"></a>
-<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+<i class="fa fa-spinner fa-spin"></i>
 </td>
 </tr>
 {% endwith %}

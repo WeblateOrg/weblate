@@ -13,7 +13,7 @@
 {% endif %}
 </td>
 <td>
-<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?search_id={{ search_id }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><span class="glyphicon glyphicon-edit"></span> {% trans "Edit" %}</a>
+<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?search_id={{ search_id }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
 </td>
 </tr>
 <tr id="row-source-{{ item.unit.checksum }}">
@@ -22,8 +22,8 @@
 </tr>
 <tr id="row-edit-{{ item.unit.checksum }}">
 <td>
-<span id="loading-{{ item.unit.checksum }}"  class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none"></span>
-<span id="status-{{ item.unit.checksum }}"></span>
+<i id="loading-{{ item.unit.checksum }}" class="fa fa-spinner fa-spin" style="display: none"></i>
+<i id="status-{{ item.unit.checksum }}"></i>
 </td>
 <td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">

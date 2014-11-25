@@ -27,7 +27,7 @@
 <table class="zen table table-condensed">
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
-<span id="loading-next" class="glyphicon glyphicon-refresh glyphicon-spin" style="display: none"></span>
+<i id="loading-next" class="fa fa-spinner fa-spin" style="display: none"></i>
 <a href="{% url 'load_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?sid={{ search_id }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
 <a href="{% url 'js-lock' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="js-lock"></a>
 </td></tr>
