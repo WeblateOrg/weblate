@@ -7,6 +7,7 @@ weblate 2.1
 * Added support for Mercurial repositories.
 * Replaced Glyphicon font by Awesome.
 * Added icons for social authentication services.
+* Better consistency of button colors and icons.
 * Documentation improvements.
 * Various bugfixes.
 
