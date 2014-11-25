@@ -54,7 +54,7 @@ NAME_MAPPING = {
     None: ugettext_lazy('Possible configuration')
 }
 
-FLAG_TEMPLATE = u'<span title="{0}" class="glyphicon glyphicon-{1}"></span>'
+FLAG_TEMPLATE = u'<i title="{0}" class="fa fa-{1}"></i>'
 
 
 def fmt_whitespace(value):
@@ -463,22 +463,22 @@ def get_state_flags(unit):
     if unit.fuzzy:
         flags.append((
             _('Message is fuzzy'),
-            'question-sign text-danger'
+            'question-circle text-danger'
         ))
     elif not unit.translated:
         flags.append((
             _('Message is not translated'),
-            'remove-sign text-danger'
+            'times-circle text-danger'
         ))
     elif unit.has_failing_check:
         flags.append((
             _('Message has failing checks'),
-            'exclamation-sign text-warning'
+            'exclamation-circle text-warning'
         ))
     elif unit.translated:
         flags.append((
             _('Message is translated'),
-            'ok-sign text-success'
+            'check-circle text-success'
         ))
 
     if unit.has_comment:

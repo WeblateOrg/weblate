@@ -1,9 +1,9 @@
 {% load i18n %}
 
 <ul class="pagination">
-<li {% if page_obj.number == 1 %}class="disabled"{% endif %}><a href="?page=1&amp;{{ query_string }}"><span class="glyphicon glyphicon-step-backward"></span></a></li>
-<li {% if not page_obj.has_previous %}class="disabled"{% endif %}><a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}&amp;{{ query_string }}"{% endif %}><span class="glyphicon glyphicon-backward"></span></a></li>
+<li {% if page_obj.number == 1 %}class="disabled"{% endif %}><a href="?page=1&amp;{{ query_string }}"><i class="fa fa-step-backward"></i></a></li>
+<li {% if not page_obj.has_previous %}class="disabled"{% endif %}><a {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}&amp;{{ query_string }}"{% endif %}><i class="fa fa-backward"></i></a></li>
 <li><a>{% blocktrans with page_obj.number as position and page_obj.paginator.num_pages as total %}{{ position }} / {{ total }}{% endblocktrans %}</a></li>
-<li {% if not page_obj.has_next %}class="disabled"{% endif %}><a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}&amp;{{ query_string }}"{% endif %}><span class="glyphicon glyphicon-forward"></span></a></li>
-<li {% if page_obj.paginator.num_pages == page_obj.number %}class="disabled"{% endif %}><a href="?page={{ page_obj.paginator.num_pages }}&amp;{{ query_string }}"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+<li {% if not page_obj.has_next %}class="disabled"{% endif %}><a {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}&amp;{{ query_string }}"{% endif %}><i class="fa fa-forward"></i></a></li>
+<li {% if page_obj.paginator.num_pages == page_obj.number %}class="disabled"{% endif %}><a href="?page={{ page_obj.paginator.num_pages }}&amp;{{ query_string }}"><i class="fa fa-step-forward"></i></a></li>
 </ul>

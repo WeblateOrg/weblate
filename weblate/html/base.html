@@ -64,7 +64,7 @@
       <ul class="nav navbar-nav navbar-right flip">
         {% if user.is_authenticated %}
         <li><a class="button" id="profile-button" href="{% url 'profile' %}">{{ user.profile.get_user_display }}</a></li>
-        <li><a class="button" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><span class="glyphicon glyphicon-log-out"></span></a></li>
+        <li><a class="button" id="logout-button" href="{% url 'logout' %}" title="{% trans "Logout" %}"><i class="fa fa-sign-out"></i></a></li>
         {% else %}
         {% if registration_open %}
         <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>

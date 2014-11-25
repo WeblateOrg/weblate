@@ -36,7 +36,7 @@ from urllib import urlencode
 import weblate
 
 ICON_TEMPLATE = u'''
-<span class="glyphicon glyphicon-{0}"></span> {1}
+<i class="fa fa-{0}"></i> {1}
 '''
 BUTTON_TEMPLATE = u'''
 <button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
@@ -99,7 +99,7 @@ class PluralTextarea(forms.Textarea):
                     'copy-text',
                     ugettext('Fill in with source string'),
                     extra_params,
-                    ICON_TEMPLATE.format('transfer', ugettext('Copy'))
+                    ICON_TEMPLATE.format('clipboard', ugettext('Copy'))
                 )
             )
         )
