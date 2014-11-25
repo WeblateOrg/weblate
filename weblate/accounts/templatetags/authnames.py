@@ -32,6 +32,7 @@ SOCIALS = {
     'email': {'name': 'Email'},
     'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
     'ubuntu': {'name': 'Ubuntu', 'fl_icon': 'ubuntu'},
+    'fedora': {'name': 'Fedora', 'fl_icon': 'fedora'},
 }
 
 FA_SOCIAL_TEPMPLATE = u'<i class="fa fa-lg fa-{fa_icon}"></i> {name}'

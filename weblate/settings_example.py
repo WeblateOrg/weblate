@@ -178,6 +178,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.github.GithubOAuth2',
     # 'social.backends.suse.OpenSUSEOpenId',
     # 'social.backends.ubuntu.UbuntuOpenId',
+    # 'social.backends.fedora.FedoraOpenId',
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
