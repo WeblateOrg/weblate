@@ -13,5 +13,6 @@ Administrators guide
     checks
     machine
     config
+    sample
     management
     advertisement
