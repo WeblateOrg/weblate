@@ -179,6 +179,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.suse.OpenSUSEOpenId',
     # 'social.backends.ubuntu.UbuntuOpenId',
     # 'social.backends.fedora.FedoraOpenId',
+    # 'social.backends.facebook.FacebookOAuth2',
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
@@ -186,6 +187,14 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_GITHUB_KEY = ''
 SOCIAL_AUTH_GITHUB_SECRET = ''
 SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
+SOCIAL_AUTH_BITBUCKET_KEY = ''
+SOCIAL_AUTH_BITBUCKET_SECRET = ''
+SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (
