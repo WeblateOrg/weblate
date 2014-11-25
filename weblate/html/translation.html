@@ -123,6 +123,10 @@
 <th>{% trans "Translation file" %}</th>
 <td>
 {{ object.filename }}
+<a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}"><i class="fa fa-download"></i></a>
+{% if object.supports_language_pack %}
+<a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}"><i class="fa fa-cog"></i></a>
+{% endif %}
 </td>
 </tr>
 </table>
