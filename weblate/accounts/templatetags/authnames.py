@@ -26,14 +26,15 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 SOCIALS = {
-    'google': {'name': 'Google', 'icon': 'google'},
-    'github': {'name': 'GitHub', 'icon': 'github'},
-    'bitbucket': {'name': 'Bitbucket', 'icon': 'bitbucket'},
+    'google': {'name': 'Google', 'fa_icon': 'google'},
+    'github': {'name': 'GitHub', 'fa_icon': 'github'},
+    'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'email': {'name': 'Email'},
-    'opensuse': {'name': 'openSUSE'},
+    'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
 }
 
-SOCIAL_TEPMPLATE = u'<i class="fa fa-lg fa-{icon}"></i> {name}'
+FA_SOCIAL_TEPMPLATE = u'<i class="fa fa-lg fa-{fa_icon}"></i> {name}'
+FL_SOCIAL_TEPMPLATE = u'<span class="fl fa-lg fl-{fl_icon}"></span> {name}'
 
 
 @register.simple_tag
@@ -44,8 +45,10 @@ def auth_name(auth):
 
     if auth in SOCIALS:
         auth_data = SOCIALS[auth]
-        if 'icon' in auth_data:
-            return mark_safe(SOCIAL_TEPMPLATE.format(**auth_data))
+        if 'fa_icon' in auth_data:
+            return mark_safe(FA_SOCIAL_TEPMPLATE.format(**auth_data))
+        if 'fl_icon' in auth_data:
+            return mark_safe(FL_SOCIAL_TEPMPLATE.format(**auth_data))
         return mark_safe(auth_data['name'])
 
     return auth
