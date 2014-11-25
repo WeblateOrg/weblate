@@ -31,6 +31,7 @@ SOCIALS = {
     'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'email': {'name': 'Email'},
     'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
+    'ubuntu': {'name': 'Ubuntu', 'fl_icon': 'ubuntu'},
 }
 
 FA_SOCIAL_TEPMPLATE = u'<i class="fa fa-lg fa-{fa_icon}"></i> {name}'

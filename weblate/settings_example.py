@@ -177,6 +177,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.email.EmailAuth',
     # 'social.backends.github.GithubOAuth2',
     # 'social.backends.suse.OpenSUSEOpenId',
+    # 'social.backends.ubuntu.UbuntuOpenId',
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
