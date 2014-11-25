@@ -22,7 +22,7 @@ from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
 from social.pipeline.partial import partial
-from social.exceptions import AuthForbidden
+from social.exceptions import AuthForbidden, AuthMissingParameter
 
 from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
@@ -84,10 +84,12 @@ def verify_open(backend, user, **kwargs):
         raise AuthForbidden(backend)
 
 
-def store_email(strategy, user, social, details, **kwargs):
+def store_email(strategy, backend, user, social, details, **kwargs):
     '''
     Stores verified email.
     '''
+    if details['email'] is None:
+        raise AuthMissingParameter(backend, 'email')
     if 'email' in details:
         verified, dummy = VerifiedEmail.objects.get_or_create(social=social)
         if verified.email != details['email']:
