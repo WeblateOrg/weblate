@@ -29,7 +29,7 @@ SOCIALS = {
     'google': {'name': 'Google', 'fa_icon': 'google'},
     'github': {'name': 'GitHub', 'fa_icon': 'github'},
     'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
-    'email': {'name': 'Email'},
+    'email': {'name': 'Email', 'fa_icon': 'at'},
     'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
     'ubuntu': {'name': 'Ubuntu', 'fl_icon': 'ubuntu'},
     'fedora': {'name': 'Fedora', 'fl_icon': 'fedora'},
