@@ -50,14 +50,14 @@
 {% if perms.trans.change_dictionary %}
 <form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get" class="inlineform">
 <input type="hidden" name="id" value="{{ word.id }}" />
-<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-pencil"></i> {% trans "Edit" %}</button>
+<button type="submit" class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> {% trans "Edit" %}</button>
 </form>
 {% endif %}
 {% if perms.trans.delete_dictionary %}
 <form action="{% url 'delete_dictionary' project=project.slug lang=language.code %}" method="post" class="inlineform">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
-<button type="submit" class="btn btn-default btn-sm"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+<button type="submit" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
 </form>
 {% endif %}
 </td>
