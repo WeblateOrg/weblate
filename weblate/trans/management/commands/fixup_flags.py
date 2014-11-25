@@ -31,7 +31,7 @@ class Command(WeblateLangCommand):
             Q(has_comment=True) |
             Q(has_failing_check=True)
         )
-        for unit in units:
+        for unit in units.iterator():
             if unit.has_suggestion:
                 unit.update_has_suggestion()
             if unit.has_comment:
