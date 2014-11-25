@@ -176,6 +176,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.google.GoogleOpenId',
     'social.backends.email.EmailAuth',
     # 'social.backends.github.GithubOAuth2',
+    # 'social.backends.bitbucket.BitbucketOAuth',
     # 'social.backends.suse.OpenSUSEOpenId',
     # 'social.backends.ubuntu.UbuntuOpenId',
     # 'social.backends.fedora.FedoraOpenId',
