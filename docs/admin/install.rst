@@ -62,7 +62,6 @@ manually using pip:
 .. code-block:: sh
 
     # Dependencies for python-social-auth
-
     apt-get install python-requests-oauthlib python-six python-openid
 
     pip install python-social-auth
