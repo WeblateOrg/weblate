@@ -445,6 +445,9 @@ $(function () {
             var $this = $(this);
             columns_panel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
         });
+        columns_menu.find('a').on('click', function() {
+            $(this).find('input').click();
+        });
 
         if (width < 700) {
             columns_menu.find('#toggle-suggestions').click();
