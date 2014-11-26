@@ -73,6 +73,28 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 
     pip install pyuca
 
+Depending on how you intend to run Weblate and what you already have installed,
+you might need additional components:
+
+.. code-block:: sh
+
+    # Web server option 1: nginx and uwsgi
+    apt-get install nginx uwsgi uwsgi-plugin-python
+
+    # Web server option 2: Apache with mod_wsgi
+    apt-get install apache2 libapache2-mod-wsgi
+
+    # Caching backend: memcached
+    apt-get install memcached
+
+    # Database option 1: mariadb
+    apt-get install mariadb-server
+
+    # Database option 2: mysql
+    apt-get install mysql-server
+
+    # Database option 3: postgresql
+    apt-get install postgresql
 
 Requirements on openSUSE
 ++++++++++++++++++++++++
@@ -92,6 +114,29 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 .. code-block:: sh
 
     pip install pyuca
+
+Depending on how you intend to run Weblate and what you already have installed,
+you might need additional components:
+
+.. code-block:: sh
+
+    # Web server option 1: nginx and uwsgi
+    zypper install nginx uwsgi uwsgi-plugin-python
+
+    # Web server option 2: Apache with mod_wsgi
+    zypper install apache2 apache2-mod_wsgi
+
+    # Caching backend: memcached
+    zypper install memcached
+
+    # Database option 1: mariadb
+    zypper install mariadb
+
+    # Database option 2: mysql
+    zypper install mysql
+
+    # Database option 3: postgresql
+    zypper install postgresql
 
 Requirements on OSX
 +++++++++++++++++++
