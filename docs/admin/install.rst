@@ -77,15 +77,21 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 Requirements on openSUSE
 ++++++++++++++++++++++++
 
-All requirements are available either directly in openSUSE or in
+Most of requirements are available either directly in openSUSE or in
 ``devel:languages:python`` repository:
 
 .. code-block:: sh
 
     zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow python-South python-python-social-auth \
-        python-babel
+        python-babel Git mercurial
 
+    
+For proper sorting of a unicode strings, it is recommended to install pyuca:
+
+.. code-block:: sh
+
+    pip install pyuca
 
 Requirements on OSX
 +++++++++++++++++++
@@ -150,6 +156,46 @@ You should also take care when running :ref:`manage`, as they should be run
 under same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
+.. _database-setup:
+
+Creating database for Weblate
+-----------------------------
+
+It is recommended to run Weblate on some database server. Using SQLite backend
+is really good for testing purposes only.
+    
+.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/1.6/ref/databases/>`_
+
+Creating database in PostgreSQL
++++++++++++++++++++++++++++++++
+
+It is usually good idea to run Weblate in separate database and separate user:
+
+.. code-block:: sh
+
+    # If PostgreSQL was not installed before, set the master password
+    sudo -u postgres psql postgres -c "\password postgres"
+
+    # Create database user called "weblate"
+    sudo -u postgres createuser -D -A -P weblate
+
+    # Create database "weblate" owned by "weblate"
+    sudo -u postgres createdb -O weblate weblate
+
+
+Creating database in MySQL
+++++++++++++++++++++++++++
+
+When using MySQL, don't forget to create database with UTF-8 encoding:
+
+.. code-block:: mysql
+
+    # Grant all privileges to  weblate user
+    GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
+
+    # Create database    
+    CREATE DATABASE weblate CHARACTER SET utf8;
+
 .. _installation:
 
 Installation
@@ -182,16 +228,9 @@ options:
     Connectivity to database server, please check Django's documentation for more
     details.
 
-    .. note::
-
-        When using MySQL, don't forget to create database with UTF-8 encoding:
-
-        .. code-block:: sql
-
-            CREATE DATABASE <dbname> CHARACTER SET utf8;
-
     .. seealso:: 
-        
+       
+        :ref:`database-setup`
         https://docs.djangoproject.com/en/1.6/ref/settings/#databases, 
         https://docs.djangoproject.com/en/1.6/ref/databases/
 
