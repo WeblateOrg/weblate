@@ -201,6 +201,8 @@ When using MySQL, don't forget to create database with UTF-8 encoding:
 Installation
 ------------
 
+.. seealso:: :ref:`sample-configuration`
+
 Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
 adjust it to match your setup. You will probably want to adjust following
 options:

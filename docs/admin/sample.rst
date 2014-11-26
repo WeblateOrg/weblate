@@ -1,3 +1,5 @@
+.. _sample-configuration:
+
 Sample configuration
 ====================
 
