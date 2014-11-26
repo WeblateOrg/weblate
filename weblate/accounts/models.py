@@ -577,7 +577,7 @@ class Profile(models.Model):
         return self.user.first_name
 
 
-def set_lang(request, profile)
+def set_lang(request, profile):
     """
     Sets session language based on user preferences.
     """
