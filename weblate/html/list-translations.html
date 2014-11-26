@@ -7,11 +7,23 @@
 <th>{% if show_language == 1 %}{% trans "Language" %}{% else %}{% trans "Project" %}{% endif %}</th>
 <th></th>
 <th colspan="2">{% trans "Translated" %}</th>
-<th>{% trans "Words" context "Number of translated words" %}</th>
-<th>{% trans "Fuzzy" context "Number of fuzzy strings" %}</th>
-<th>{% trans "Checks" context "Number of failing checks" %}</th>
-<th>{% trans "Suggestions" context "Number of suggestions" %}</th>
-<th></th>
+<th class="col-words">{% trans "Words" context "Number of translated words" %}</th>
+<th class="col-fuzzy">{% trans "Fuzzy" context "Number of fuzzy strings" %}</th>
+<th class="col-checks">{% trans "Checks" context "Number of failing checks" %}</th>
+<th class="col-suggestions">{% trans "Suggestions" context "Number of suggestions" %}</th>
+<th class="sort-skip">
+<div class="btn-group">
+  <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" title="{% trans "Configure columns" %}">
+    <i class="fa fa-columns"></i>
+  </button>
+  <ul class="dropdown-menu" id="columns-menu" role="menu">
+    <li><label><input type="checkbox" id="toggle-words" checked="true"> {% trans "Words" context "Number of translated words" %}</label></li>
+    <li><label><input type="checkbox" id="toggle-fuzzy" checked="true"> {% trans "Fuzzy" context "Number of fuzzy strings" %}</label></li>
+    <li><label><input type="checkbox" id="toggle-checks" checked="true"> {% trans "Checks" context "Number of failing checks" %}</label></li>
+    <li><label><input type="checkbox" id="toggle-suggestions" checked="true"> {% trans "Suggestions" context "Number of suggestions" %}</label></li>
+  </ul>
+</div>
+</th>
 </tr>
 <tbody>
 {% for trans in translations %}
@@ -21,8 +33,8 @@
 <td>{% if trans.is_user_locked %}<i class="fa fa-lock html-tooltip" data-placement="bottom" data-toggle="tooltip" data-title='{{ trans.get_lock_display }}'></a>{% endif %}</td>
 <td class="progress-cell">{% translation_progress trans %}</td>
 <td class="percent">{{ percent }}%</td>
-<td class="percent" title="{% blocktrans count words=trans.untranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.get_words_percent }}%</td>
-<td class="percent">
+<td class="percent col-words" title="{% blocktrans count words=trans.untranslated_words %}{{ words }} word to translate!{% plural %}{{ words }} words to translate!{% endblocktrans %}" >{{ trans.get_words_percent }}%</td>
+<td class="percent col-fuzzy">
 {% if fuzzy > 0 %}
 <a href="{{ trans.get_translate_url }}?type=fuzzy" title="{% blocktrans count trans.fuzzy as count %}There is {{ count }} fuzzy string.{% plural %}There are {{ count }} fuzzy strings.{% endblocktrans %}">
 {{ fuzzy }}%
@@ -31,7 +43,7 @@
 {{ fuzzy }}%
 {% endif %}
 </td>
-<td class="number">
+<td class="number col-checks">
 {% if checks > 0 %}
 <a href="{{ trans.get_translate_url }}?type=allchecks" title="{% blocktrans count checks as count %}There is {{ count }} failing check.{% plural %}There are {{ count }} failing checks.{% endblocktrans %}">
 {{ checks }}
@@ -40,7 +52,7 @@
 {{ checks }}
 {% endif %}
 </td>
-<td class="number">
+<td class="number col-suggestions">
 {% if suggestions > 0 %}
 <a href="{{ trans.get_translate_url }}?type=suggestions" title="{% blocktrans count suggestions as count %}There is {{ count }} suggestion.{% plural %}There are {{ count }} suggestions.{% endblocktrans %}">
 {{ suggestions }}

@@ -10,6 +10,7 @@ weblate 2.1
 * Better consistency of button colors and icons.
 * Documentation improvements.
 * Various bugfixes.
+* Automatic hiding of columns in translation listing for small screens.
 
 Released on ? 2014.
 

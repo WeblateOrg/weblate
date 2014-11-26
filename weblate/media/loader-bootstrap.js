@@ -175,7 +175,7 @@ function load_table_sorting() {
                 thIndex += parseInt(th.attr('colspan'), 10) - 1;
             }
             // skip empty cells and cells with icon (probably already processed)
-            if (th.text() !== '' && ! th.hasClass('sort-cell')) {
+            if (th.text() !== '' && ! th.hasClass('sort-cell') && ! th.hasClass('sort-skip')) {
                 // Store index copy
                 var myIndex = thIndex;
                 // Add icon, title and class
@@ -431,6 +431,34 @@ $(function () {
 
     /* Table sorting */
     load_table_sorting();
+
+    /* Table column changing */
+    var columns_menu = $('#columns-menu');
+    if (columns_menu.length > 0) {
+        var columns_panel = columns_menu.closest('div.panel');
+        var width = columns_panel.width();
+
+        columns_menu.on('click', function(e) {
+            e.stopPropagation();
+        });
+        columns_menu.find('input').on('click', function() {
+            var $this = $(this);
+            columns_panel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
+        });
+
+        if (width < 700) {
+            columns_menu.find('#toggle-suggestions').click();
+        }
+        if (width < 600) {
+            columns_menu.find('#toggle-checks').click();
+        }
+        if (width < 500) {
+            columns_menu.find('#toggle-fuzzy').click();
+        }
+        if (width < 500) {
+            columns_menu.find('#toggle-words').click();
+        }
+    }
 
     /* Lock updates */
     if ($('#js-lock').length > 0) {
