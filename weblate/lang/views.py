@@ -48,6 +48,8 @@ def show_language(request, lang):
     projects = Project.objects.all_acl(request.user)
     translations = obj.translation_set.enabled().filter(
         subproject__project__in=projects
+    ).order_by(
+        'subproject__project__slug', 'subproject__slug'
     )
 
     return render(
