@@ -441,12 +441,15 @@ $(function () {
         columns_menu.on('click', function(e) {
             e.stopPropagation();
         });
-        columns_menu.find('input').on('click', function() {
+        columns_menu.find('input').on('click', function(e) {
             var $this = $(this);
             columns_panel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
+            e.stopPropagation();
         });
-        columns_menu.find('a').on('click', function() {
+        columns_menu.find('a').on('click', function(e) {
             $(this).find('input').click();
+            e.stopPropagation();
+            e.preventDefault();
         });
 
         if (width < 700) {
