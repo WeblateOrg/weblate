@@ -58,6 +58,10 @@ def send_validation(strategy, backend, code):
     if not strategy.request.session.session_key:
         strategy.request.session.create()
 
+    template = 'activation'
+    if strategy.request.session.pop('password_reset', False):
+        template = 'reset'
+
     url = '{}?verification_code={}&id={}'.format(
         reverse('social:complete', args=(backend.name,)),
         code.code,
@@ -67,7 +71,7 @@ def send_validation(strategy, backend, code):
     send_notification_email(
         None,
         code.email,
-        'activation',
+        template,
         info=code.code,
         context={
             'url': url

@@ -67,8 +67,8 @@ REGISTRATION_DATA = {
 class RegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
 
-    def assert_registration(self):
-        url = self.assert_registration_mailbox()
+    def assert_registration(self, match=None):
+        url = self.assert_registration_mailbox(match)
 
         if self.clear_cookie:
             del self.client.cookies['sessionid']
@@ -144,7 +144,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, reverse('email-sent'))
 
-        self.assert_registration()
+        self.assert_registration('[Weblate] Password reset on Weblate')
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()

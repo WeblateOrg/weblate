@@ -521,6 +521,9 @@ def reset_password(request):
             user = form.cleaned_data['email']
             user.set_unusable_password()
             user.save()
+            if not request.session.session_key:
+                request.session.create()
+            request.session['password_reset'] = True
             return complete(request, 'email')
     else:
         form = ResetForm()

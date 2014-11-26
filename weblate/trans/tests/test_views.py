@@ -44,12 +44,14 @@ class RegistrationTestMixin(object):
     """
     Helper to share code for registration testing.
     """
-    def assert_registration_mailbox(self):
+    def assert_registration_mailbox(self, match=None):
+        if match is None:
+            match = '[Weblate] Your registration on Weblate'
         # Check mailbox
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox[0].subject,
-            '[Weblate] Your registration on Weblate'
+            match
         )
 
         # Parse URL
