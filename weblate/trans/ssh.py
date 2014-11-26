@@ -21,6 +21,7 @@
 import subprocess
 import hashlib
 import os
+import stat
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 
@@ -30,6 +31,11 @@ from weblate.trans.util import get_clean_env
 KNOWN_HOSTS_FILE = os.path.expanduser('~/.ssh/known_hosts')
 RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
 WEBLATE_DIR = os.path.expanduser('~/.config/weblate')
+SSH_WRAPPER = os.path.join(WEBLATE_DIR, 'ssh-weblate-wrapper')
+
+SSH_WRAPPER_TEMPLATE = '''#!/bin/sh
+ssh -o UserKnownHostsFile={known_hosts} -o IdentityFile={identity} "$@"
+'''
 
 
 def is_key_line(key):
@@ -207,7 +213,7 @@ def can_generate_key():
         return False
 
 
-def create_weblate_dir()
+def create_weblate_dir():
     """
     Creates directory for weblate files.
     """
@@ -221,3 +227,15 @@ def create_ssh_wrapper():
     Creates wrapper for SSH to pass custom known hosts and key.
     """
     create_weblate_dir()
+
+    with open(SSH_WRAPPER, 'w') as handle:
+        handle.write(SSH_WRAPPER_TEMPLATE.format(
+            known_hosts=KNOWN_HOSTS_FILE,
+            identity=RSA_KEY_FILE,
+        ))
+
+    ssh_stat = os.stat(SSH_WRAPPER)
+    os.chmod(
+        SSH_WRAPPER,
+        ssh_stat.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
+    )
