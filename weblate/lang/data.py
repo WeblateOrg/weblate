@@ -95,6 +95,18 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
+        'en_CA',
+        'English (Canada)',
+        2,
+        'n != 1',
+    ),
+    (
+        'en_AU',
+        'English (Australia)',
+        2,
+        'n != 1',
+    ),
+    (
         'nb_NO',
         'Norwegian Bokmål',
         2,
