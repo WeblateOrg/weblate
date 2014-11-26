@@ -263,6 +263,9 @@ options:
 
     .. seealso:: `SERVER_EMAIL documentation`_
 
+Filling up the database
+-----------------------
+
 After your configuration is ready, you can run :samp:`./manage.py syncdb` and 
 :samp:`./manage.py migrate` to create database structure. Now you should be
 able to create translation projects using admin interface.
@@ -272,7 +275,12 @@ In case you want to run installation non interactively, you can use
 :djadmin:`createadmin` command.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
-default site name to match your domain.
+default site name to match your domain by clicking on :guilabel:`Sites` and there
+changing the :samp:`example.com` record to match your real domain name.
+
+Once you are done, you should also check :guilabel:`Performance report` in the
+admin interface which will give you hints for non optimal configuration on your
+site.
 
 .. note::
 
