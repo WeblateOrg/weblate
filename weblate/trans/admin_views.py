@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.models import SubProject
+from weblate.trans.models import SubProject, IndexUpdate
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
@@ -92,6 +92,13 @@ def performance(request):
         appsettings.OFFLOAD_INDEXING,
         'production-indexing',
     ))
+    if appsettings.OFFLOAD_INDEXING:
+        checks.append((
+            # Translators: Indexing is postponed to cron job
+            _('Indexing offloading processing'),
+            IndexUpdate.objects.count() < 20,
+            'production-indexing',
+        ))
     # Check for sane caching
     caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
     if caches in ['MemcachedCache', 'DatabaseCache']:
