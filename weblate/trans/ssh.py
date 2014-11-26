@@ -29,6 +29,7 @@ from weblate.trans.util import get_clean_env
 # SSH key files
 KNOWN_HOSTS_FILE = os.path.expanduser('~/.ssh/known_hosts')
 RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
+WEBLATE_DIR = os.path.expanduser('~/.config/weblate')
 
 
 def is_key_line(key):
@@ -182,6 +183,9 @@ def add_host_key(request):
 
 
 def is_home_writable():
+    """
+    Checks whether home directory is writable.
+    """
     return os.access(os.path.expanduser('~'), os.W_OK)
 
 
@@ -201,3 +205,19 @@ def can_generate_key():
         return False
     except subprocess.CalledProcessError:
         return False
+
+
+def create_weblate_dir()
+    """
+    Creates directory for weblate files.
+    """
+    os.makedirs(WEBLATE_DIR)
+    if not os.path.exists(WEBLATE_DIR):
+        os.makedirs(WEBLATE_DIR)
+
+
+def create_ssh_wrapper():
+    """
+    Creates wrapper for SSH to pass custom known hosts and key.
+    """
+    create_weblate_dir()
