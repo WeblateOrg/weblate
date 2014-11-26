@@ -49,27 +49,29 @@ you can use apt-get:
 
     apt-get install python-django translate-toolkit \
         python-whoosh python-pil python-django-south python-libravatar \
-        python-babel
+        python-babel Git mercurial python-social-auth
 
     # Optional for database backend
 
     apt-get install python-mysqldb   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
 
+For Debian 7.0 (wheezy) or older, you need to install python-social-auth
+manually using pip:
+
+.. code-block:: sh
+
     # Dependencies for python-social-auth
 
     apt-get install python-requests-oauthlib python-six python-openid
 
-If you are running Debian jessie or above, you can install python-social-auth
-by executing 
-
-    apt-get install python-social-auth
+    pip install python-social-auth
     
-For Debian 7.0 (wheezy) or older, it is recommended to install it using pip:
+For proper sorting of a unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
 
-    pip install python-social-auth
+    pip install pyuca
 
 
 Requirements on openSUSE
