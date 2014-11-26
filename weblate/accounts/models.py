@@ -577,8 +577,15 @@ class Profile(models.Model):
         return self.user.first_name
 
 
+def set_lang(request, profile)
+    """
+    Sets session language based on user preferences.
+    """
+    request.session[LANGUAGE_SESSION_KEY] = profile.language
+
+
 @receiver(user_logged_in)
-def set_lang(sender, request, user, **kwargs):
+def post_login_handler(sender, request, user, **kwargs):
     '''
     Signal handler for setting user language and
     migrating profile if needed.
@@ -605,8 +612,7 @@ def set_lang(sender, request, user, **kwargs):
         )
 
     # Set language for session based on preferences
-    lang_code = profile.language
-    request.session[LANGUAGE_SESSION_KEY] = lang_code
+    set_lang(request, profile)
 
 
 def create_groups(update):

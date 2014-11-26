@@ -164,7 +164,7 @@ def user_profile(request):
                 form.save()
 
             # Change language
-            set_lang(request.user, request=request, user=request.user)
+            set_lang(request, request.user.profile)
 
             # Redirect after saving (and possibly changing language)
             response = redirect('profile')
