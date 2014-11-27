@@ -159,6 +159,10 @@ REGISTRATION_OPEN = getvalue('REGISTRATION_OPEN', True)
 # Captcha for registrations
 REGISTRATION_CAPTCHA = getvalue('REGISTRATION_CAPTCHA', True)
 
+# Piwik
+PIWIK_SITE_ID = getvalue('PIWIK_SITE_ID', None)
+PIWIK_URL = getvalue('PIWIK_URL', None)
+
 # Source language
 SOURCE_LANGUAGE = getvalue('SOURCE_LANGUAGE', 'en')
 

@@ -338,6 +338,21 @@ This is recommended setup for production use.
 
 .. seealso:: :ref:`fulltext`
 
+.. setting:: PIWIK_SITE_ID
+
+PIWIK_SITE_ID
+-------------
+
+ID of a site in Piwik you want to track.
+
+.. setting:: PIWIK_URL
+
+PIWIK_URL
+---------
+
+URL of a Piwik installation you want to use to track Weblate users. For more
+information about Piwik see <http://piwik.org/>.
+
 .. setting:: PRE_COMMIT_SCRIPTS
 
 PRE_COMMIT_SCRIPTS
