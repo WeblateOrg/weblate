@@ -375,7 +375,6 @@ SAME_BLACKLIST = frozenset((
     'multiplayer',
     'musicbottle',
     'mv',
-    'n/a',
     'name',
     'namecoin',
     'namecoins',

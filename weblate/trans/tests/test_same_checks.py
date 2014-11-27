@@ -107,6 +107,15 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+        self.do_test(
+            False,
+            (
+                'n/a mm',
+                'n/a mm',
+                '',
+            )
+        )
+
     def test_same_copyright(self):
         self.do_test(
             False,
