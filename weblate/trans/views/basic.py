@@ -172,7 +172,7 @@ def show_engage(request, project, lang=None):
 
     context = {
         'object': obj,
-        'project': obj.name,
+        'project': obj,
         'languages': obj.get_language_count(),
         'total': obj.get_total(),
         'percent': obj.get_translated_percent(language),
