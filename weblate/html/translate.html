@@ -48,7 +48,12 @@
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Translate" %}</h4></div>
+
+  <div class="panel-heading"><span class="pull-right flip">
+  <i class="fa fa-keyboard-o html-tooltip" data-toggle="tooltip" data-placement="bottom"
+    data-title="{% trans "Keyboard shortcuts available:"%}<br />{% trans "Ctrl+Enter - Save" %}<br />{% trans "Alt+PageUp/PageDown/Home/End - Translation units navigation"%}" 
+  ></i>
+  </span><h4 class="panel-title">{% trans "Translate" %}</h4></div>
   <div class="panel-body">
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
