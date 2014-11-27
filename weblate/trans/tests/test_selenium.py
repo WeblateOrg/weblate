@@ -127,6 +127,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         password_input.send_keys('testpassword')
         self.driver.find_element_by_xpath('//input[@value="Login"]').click()
 
+        # Wait for submit
+        time.sleep(1)
+
         # Load profile
         self.driver.find_element_by_id('profile-button').click()
 
