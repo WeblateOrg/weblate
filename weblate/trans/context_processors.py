@@ -64,6 +64,9 @@ def weblate_context(request):
         'enable_avatars': appsettings.ENABLE_AVATARS,
         'enable_sharing': appsettings.ENABLE_SHARING,
 
+        'piwik_site_id': appsettings.PIWIK_SITE_ID,
+        'piwik_url': appsettings.PIWIK_URL,
+
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),
         'current_month': datetime.utcnow().strftime('%m'),

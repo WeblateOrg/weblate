@@ -239,6 +239,7 @@ def show_project(request, project):
         'project.html',
         {
             'object': obj,
+            'project': obj,
             'dicts': dicts,
             'last_changes': last_changes,
             'last_changes_rss': reverse(
@@ -267,6 +268,7 @@ def show_subproject(request, project, subproject):
         'subproject.html',
         {
             'object': obj,
+            'project': obj.project,
             'translations': obj.translation_set.enabled(),
             'show_language': 1,
             'last_changes': last_changes,
@@ -318,6 +320,7 @@ def show_translation(request, project, subproject, lang):
         'translation.html',
         {
             'object': obj,
+            'project': obj.subproject.project,
             'form': form,
             'autoform': autoform,
             'search_form': search_form,
@@ -439,6 +442,7 @@ def data_project(request, project):
         'data.html',
         {
             'object': obj,
+            'project': obj,
             'hooks_docs': weblate.get_doc_url('api', 'hooks'),
             'api_docs': weblate.get_doc_url('api', 'exports'),
             'rss_docs': weblate.get_doc_url('api', 'rss'),

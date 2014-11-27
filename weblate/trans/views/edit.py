@@ -568,6 +568,7 @@ def translate(request, project, subproject, lang):
             'next_unit_url': next_unit_url,
             'prev_unit_url': base_unit_url + str(offset - 1),
             'object': translation,
+            'project': translation.subproject.project,
             'unit': unit,
             'others': Unit.objects.same(unit).exclude(target=unit.target),
             'total': translation.unit_set.all().count(),
@@ -738,6 +739,7 @@ def zen(request, project, subproject, lang):
         'zen.html',
         {
             'object': translation,
+            'project': translation.subproject.project,
             'unitdata': unitdata,
             'search_query': search_result['query'],
             'filter_name': search_result['name'],
