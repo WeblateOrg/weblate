@@ -20,16 +20,12 @@
 
 from weblate.trans.tests.test_views import ViewTestCase
 import weblate.trans.ssh
-from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.unittest import SkipTest
-from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error
 import tempfile
 import shutil
 import os
-
-TEST_HOSTS = get_test_file('known_hosts')
 
 
 class AdminTest(ViewTestCase):
@@ -153,14 +149,3 @@ class AdminTest(ViewTestCase):
                 }
             )
             self.assertRedirects(response, url)
-
-
-class SSHKeysTest(TestCase):
-    def test_parse(self):
-        try:
-            backup = weblate.trans.ssh.KNOWN_HOSTS_FILE
-            weblate.trans.ssh.KNOWN_HOSTS_FILE = TEST_HOSTS
-            hosts = weblate.trans.ssh.get_host_keys()
-            self.assertEqual(len(hosts), 50)
-        finally:
-            weblate.trans.ssh.KNOWN_HOSTS_FILE = backup
