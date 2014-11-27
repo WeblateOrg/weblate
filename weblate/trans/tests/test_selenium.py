@@ -1,6 +1,7 @@
 from django.test import LiveServerTestCase
 from django.utils.unittest import SkipTest
 from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -188,7 +189,12 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
         # Delete all cookies
         if clear:
-            self.driver.delete_all_cookies()
+            try:
+                self.driver.delete_all_cookies()
+            except WebDriverException as error:
+                # This usually happens when browser fails to delete some
+                # of the cookies for whatever reason.
+                print 'Ignoring: {0}'.format(error)
 
         # Confirm account
         self.driver.get(url)
