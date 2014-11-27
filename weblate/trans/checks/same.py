@@ -364,7 +364,6 @@ SAME_BLACKLIST = frozenset((
     'model',
     'module',
     'modules',
-    'mon',
     'monitor',
     'monument',
     'motel',
@@ -694,6 +693,13 @@ SAME_BLACKLIST = frozenset((
     'fr',
     'sa',
     'su',
+    'mon',
+    'tue',
+    'wed',
+    'thu',
+    'fri',
+    'sat',
+    'sun',
 
     # Roman numbers
     'ii',
