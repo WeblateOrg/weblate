@@ -32,6 +32,7 @@ from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.trans.specialchars import get_special_chars
+from weblate.accounts.forms import sort_choices
 from urllib import urlencode
 import weblate
 
@@ -712,7 +713,9 @@ class NewLanguageForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(NewLanguageForm, self).__init__(*args, **kwargs)
-        choices = [(l.code, l.__unicode__()) for l in Language.objects.all()]
+        choices = sort_choices([
+            (l.code, l.__unicode__()) for l in Language.objects.all()
+        ])
         self.fields['lang'].choices = choices
 
 
