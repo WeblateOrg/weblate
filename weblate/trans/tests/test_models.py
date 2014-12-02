@@ -103,7 +103,6 @@ class RepoTestCase(TestCase):
         if os.path.exists(test_repo_path):
             shutil.rmtree(test_repo_path)
 
-
     def create_project(self):
         """
         Creates test project.
