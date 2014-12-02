@@ -31,6 +31,7 @@ import hashlib
 from distutils.version import LooseVersion
 from dateutil import parser
 from weblate.trans.util import get_clean_env, add_configuration_error
+from weblate.trans.ssh import ssh_file, SSH_WRAPPER
 
 VCS_REGISTRY = {}
 VCS_CHOICES = []
@@ -136,7 +137,7 @@ class Repository(object):
         process = subprocess.Popen(
             args,
             cwd=cwd,
-            env=get_clean_env(),
+            env=get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)}),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
