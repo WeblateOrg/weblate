@@ -46,30 +46,25 @@ class RepoTestCase(TestCase):
     Generic class for tests working with repositories.
     """
     def setUp(self):
-        if 'test-repos' in settings.GIT_ROOT:
-            test_dir = os.path.join(settings.GIT_ROOT, 'test')
-            if os.path.exists(test_dir):
-                shutil.rmtree(test_dir)
-
         # Path where to clone remote repo for tests
         self.git_base_repo_path = os.path.join(
-            settings.GIT_ROOT,
+            settings.DATA_DIR,
             'test-base-repo.git'
         )
         # Repository on which tests will be performed
         self.git_repo_path = os.path.join(
-            settings.GIT_ROOT,
+            settings.DATA_DIR,
             'test-repo.git'
         )
 
         # Path where to clone remote repo for tests
         self.hg_base_repo_path = os.path.join(
-            settings.GIT_ROOT,
+            settings.DATA_DIR,
             'test-base-repo.hg'
         )
         # Repository on which tests will be performed
         self.hg_repo_path = os.path.join(
-            settings.GIT_ROOT,
+            settings.DATA_DIR,
             'test-repo.hg'
         )
 
@@ -104,9 +99,10 @@ class RepoTestCase(TestCase):
         shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
 
         # Remove possibly existing project directory
-        test_repo_path = os.path.join(settings.GIT_ROOT, 'test')
+        test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
         if os.path.exists(test_repo_path):
             shutil.rmtree(test_repo_path)
+
 
     def create_project(self):
         """
@@ -280,8 +276,8 @@ class ProjectTest(RepoTestCase):
     def test_wrong_path(self):
         project = self.create_project()
 
-        backup = appsettings.GIT_ROOT
-        appsettings.GIT_ROOT = '/weblate-nonexisting-path'
+        backup = appsettings.DATA_DIR
+        appsettings.DATA_DIR = '/weblate-nonexisting-path'
 
         # Invalidate cache, pylint: disable=W0212
         project._dir_path = None
@@ -292,7 +288,7 @@ class ProjectTest(RepoTestCase):
             project.full_clean
         )
 
-        appsettings.GIT_ROOT = backup
+        appsettings.DATA_DIR = backup
 
     def test_acl(self):
         """

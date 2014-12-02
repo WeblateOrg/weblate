@@ -11,6 +11,7 @@ weblate 2.1
 * Documentation improvements.
 * Various bugfixes.
 * Automatic hiding of columns in translation listing for small screens.
+* Changed configuration of filesystem paths.
 
 Released on ? 2014.
 

@@ -40,6 +40,8 @@ DATABASES = {
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+DATA_DIR = os.environ['OPENSHIFT_DATA_DIR']
+
 TIME_ZONE = None
 
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'wsgi', 'static')

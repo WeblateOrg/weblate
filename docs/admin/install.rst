@@ -185,9 +185,8 @@ On openSUSE or SLES you can install them using:
 Filesystem permissions
 ----------------------
 
-Weblate process needs to be able to read and write to two directories where it
-keeps data. The :setting:`GIT_ROOT` is used for storing VCS repositories and
-:setting:`WHOOSH_INDEX` is used for fulltext search data.
+Weblate process needs to be able to read and write to the directory where it
+keeps data - :setting:`DATA_DIR`.
 
 The default configuration places them in same tree as Weblate sources, however
 you might prefer to move these to better location such as
@@ -755,7 +754,7 @@ After installation on OpenShift Weblate is ready to use and preconfigured as fol
 * Committing of pending changes if the cron cartridge is installed (commit_pending)
 * Weblate machine translations for suggestions bases on previous translations (MACHINE_TRANSLATION_SERVICES)
 * Source language for machine translations set to "en-us" (SOURCE_LANGUAGE)
-* Weblate directories (STATIC_ROOT, GIT_ROOT, TTF_PATH, WHOOSH_INDEX, HOME, Avatar cache) set according to OpenShift requirements/conventions
+* Weblate directories (STATIC_ROOT, DATA_DIR, TTF_PATH, Avatar cache) set according to OpenShift requirements/conventions
 * Django site name and ALLOWED_HOSTS set to DNS name of your OpenShift application
 * Email sender addresses set to no-reply@<OPENSHIFT_CLOUD_DOMAIN>, where <OPENSHIFT_CLOUD_DOMAIN> is the domain OpenShift runs under. In case of OpenShift Online it's rhcloud.com.
 
@@ -897,14 +896,14 @@ case your database supports it.
 Migrating VCS repositories
 +++++++++++++++++++++++++++
 
-The VCS repositories stored under :setting:`GIT_ROOT` need to be migrated as
+The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as
 well. You can simply copy them or use :command:`rsync` to do the migration
 more effectively.
 
 Migrating fulltext index
 ++++++++++++++++++++++++
 
-For the fulltext index (stored in :setting:`WHOOSH_INDEX`) it is better not to
+For the fulltext index (stored in :setting:`DATA_DIR`) it is better not to
 migrate it, but rather to generate fresh one using :djadmin:`rebuild_index`.
 
 Other notes

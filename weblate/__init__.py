@@ -24,6 +24,7 @@ from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
 )
 from weblate.trans.vcs import GitRepository, RepositoryException
+from weblate.trans.data import check_data_writable
 
 logger = logging.getLogger('weblate')
 
@@ -112,3 +113,4 @@ def get_versions_string():
 # Check for requirements
 
 check_requirements()
+check_data_writable()

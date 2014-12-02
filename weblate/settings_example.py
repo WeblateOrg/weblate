@@ -64,6 +64,9 @@ DATABASES = {
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+# Data directory
+DATA_DIR = os.path.join(BASE_DIR, '..', 'data')
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -402,9 +405,6 @@ MT_GOOGLE_KEY = None
 # tmserver URL
 MT_TMSERVER = None
 
-# Path where git repositories are stored, it needs to be writable
-GIT_ROOT = os.path.join(BASE_DIR, 'repos')
-
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
@@ -451,9 +451,6 @@ LOCK_TIME = 15 * 60
 
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-
-# Where to put Whoosh index
-WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh-index')
 
 # List of quality checks
 # CHECK_LIST = (

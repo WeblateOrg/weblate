@@ -102,6 +102,21 @@ For example you can enable only few of them:
 
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
 
+.. setting:: DATA_DIR
+
+DATA_DIR
+--------
+
+Directory where Weblate stores all data. This consists of VCS repositories,
+fulltext index and various configuration files for external tools.
+
+Following subdirectories usually exist:
+
+:file:`vcs`
+    Version control repositories.
+:file:`whoosh`
+    Fulltext search index using Whoosh engine.
+
 .. setting:: ENABLE_AVATARS
 
 ENABLE_AVATARS
@@ -144,6 +159,9 @@ Whether to show links to share translation progress on social networks.
 
 GIT_ROOT
 --------
+
+.. deprecated:: 2.1
+   This setting is no longer used, use :setting:`DATA_DIR` instead.
 
 Path where Weblate will store cloned VCS repositories. Defaults to
 :file:`repos` subdirectory.
@@ -462,5 +480,8 @@ achieved by setting ``WSGIScriptAlias``.
 
 WHOOSH_INDEX
 ------------
+
+.. deprecated:: 2.1
+   This setting is no longer used, use :setting:`DATA_DIR` instead.
 
 Directory where Whoosh fulltext indices will be stored. Defaults to :file:`whoosh-index` subdirectory.

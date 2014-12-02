@@ -19,7 +19,6 @@
 #
 
 from django.db import models
-from weblate import appsettings
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
@@ -33,6 +32,7 @@ import os.path
 from weblate.lang.models import Language
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.util import get_site_url
+from weblate.trans.data import data_dir
 
 
 class ProjectManager(models.Manager):
@@ -237,7 +237,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return max([subproject.locked for subproject in subprojects])
 
     def _get_path(self):
-        return os.path.join(appsettings.GIT_ROOT, self.slug)
+        return os.path.join(data_dir('vcs'), self.slug)
 
     def __unicode__(self):
         return self.name

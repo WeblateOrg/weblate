@@ -82,7 +82,7 @@ How to export Git repository weblate uses?
 ------------------------------------------
 
 There is nothing special about the repository, it lives under
-:setting:`GIT_ROOT` directory and is named as `project/component/`. If you
+:setting:`DATA_DIR` directory and is named as :file:`vcs/<project>/<component>/`. If you
 have SSH access to this machine, you can use the repository directly.
 
 For anonymous access you might want to run git server and let it serve the
@@ -249,8 +249,8 @@ The easiest way to do this is to run:
 
 .. code-block:: sh
 
-    # Go to GIT_ROOT directory
-    cd weblate/repos
+    # Go to DATA_DIR directory
+    cd data/vcs
     # Compress all Git repositories
     for d in */* ; do
         pushd $d
@@ -260,7 +260,7 @@ The easiest way to do this is to run:
 
 .. seealso::
 
-    :setting:`GIT_ROOT`
+    :setting:`DATA_DIR`
 
 .. _faq-ft-slow:
 
