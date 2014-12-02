@@ -32,7 +32,7 @@ from weblate.accounts.forms import HAS_PYUCA
 from weblate.trans.util import get_configuration_errors
 from weblate.trans.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
-    get_host_keys, can_generate_key, is_home_writable
+    get_host_keys, can_generate_key
 )
 import weblate
 import django
@@ -161,13 +161,6 @@ def performance(request):
             'production-hosts',
         ))
 
-    # Writable home directory
-    checks.append((
-        _('Home directory'),
-        is_home_writable(),
-        'production-home'
-    ))
-
     # Cached template loader
     checks.append((
         _('Cached template loader'),
@@ -201,13 +194,6 @@ def ssh(request):
     """
     # Check whether we can generate SSH key
     can_generate = can_generate_key()
-
-    if not is_home_writable():
-        can_generate = False
-        messages.error(
-            request,
-            _('Can not write to home directory, please check documentation.')
-        )
 
     # Grab action type
     action = request.POST.get('action', None)

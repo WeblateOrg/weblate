@@ -199,13 +199,6 @@ def add_host_key(request):
             )
 
 
-def is_home_writable():
-    """
-    Checks whether home directory is writable.
-    """
-    return os.access(os.path.expanduser('~'), os.W_OK)
-
-
 def can_generate_key():
     """
     Checks whether we can generate key.
@@ -217,9 +210,7 @@ def can_generate_key():
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
         )
-        if ret == 0 and not os.path.exists(ssh_file(RSA_KEY)):
-            return is_home_writable()
-        return False
+        return ret == 0
     except subprocess.CalledProcessError:
         return False
 
