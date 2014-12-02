@@ -549,6 +549,10 @@ configured your web server to serve them. Recommended setup is described in the
 Home directory
 ++++++++++++++
 
+.. versionchanged:: 2.1
+   This is no longer required, Weblate now stores all it's data in
+   :setting:`DATA_DIR`.
+
 The home directory for user which is running Weblate should be existing and
 writable by this user. This is especially needed if you want to use SSH to
 access private repositories, but Git might need to access this directory as
