@@ -29,12 +29,24 @@ from weblate.trans.util import get_clean_env
 from weblate.trans.data import data_dir
 
 # SSH key files
-KNOWN_HOSTS_FILE = os.path.expanduser('~/.ssh/known_hosts')
-RSA_KEY_FILE = os.path.expanduser('~/.ssh/id_rsa.pub')
+KNOWN_HOSTS = 'known_hosts'
+RSA_KEY = 'id_rsa.pub'
+SSH_WRAPPER = 'ssh-weblate-wrapper'
 
 SSH_WRAPPER_TEMPLATE = '''#!/bin/sh
 ssh -o UserKnownHostsFile={known_hosts} -o IdentityFile={identity} "$@"
 '''
+
+
+def ssh_file(filename):
+    """
+    Generates full path to SSH configuration file.
+    """
+    ssh_dir = data_dir('ssh')
+    if not os.path.exists(ssh_dir):
+        os.makedirs(ssh_dir)
+
+    return os.path.join(ssh_dir, filename)
 
 
 def is_key_line(key):
@@ -73,7 +85,7 @@ def get_host_keys():
     """
     try:
         result = []
-        with open(KNOWN_HOSTS_FILE, 'r') as handle:
+        with open(ssh_file(KNOWN_HOSTS), 'r') as handle:
             for line in handle:
                 line = line.strip()
                 if is_key_line(line):
@@ -89,8 +101,8 @@ def get_key_data():
     Parses host key and returns it.
     """
     # Read key data if it exists
-    if os.path.exists(RSA_KEY_FILE):
-        with open(RSA_KEY_FILE) as handle:
+    if os.path.exists(ssh_file(RSA_KEY)):
+        with open(ssh_file(RSA_KEY)) as handle:
             key_data = handle.read()
         key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
         return {
@@ -107,7 +119,7 @@ def generate_ssh_key(request):
     Generates SSH key.
     """
     # Create directory if it does not exist
-    key_dir = os.path.dirname(RSA_KEY_FILE)
+    key_dir = os.path.dirname(ssh_file(RSA_KEY))
 
     # Try generating key
     try:
@@ -120,7 +132,7 @@ def generate_ssh_key(request):
                 '-N', '',
                 '-C', 'Weblate',
                 '-t', 'rsa',
-                '-f', RSA_KEY_FILE[:-4]
+                '-f', ssh_file(RSA_KEY)[:-4]
             ],
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
@@ -177,7 +189,7 @@ def add_host_key(request):
                     request,
                     _('Failed to fetch public key for a host!')
                 )
-            with open(KNOWN_HOSTS_FILE, 'a') as handle:
+            with open(ssh_file(KNOWN_HOSTS), 'a') as handle:
                 for key in keys:
                     handle.write('%s\n' % key)
         except (subprocess.CalledProcessError, OSError) as exc:
@@ -205,7 +217,7 @@ def can_generate_key():
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
         )
-        if ret == 0 and not os.path.exists(RSA_KEY_FILE):
+        if ret == 0 and not os.path.exists(ssh_file(RSA_KEY)):
             return is_home_writable()
         return False
     except subprocess.CalledProcessError:
@@ -216,16 +228,12 @@ def create_ssh_wrapper():
     """
     Creates wrapper for SSH to pass custom known hosts and key.
     """
-    ssh_dir = data_dir('ssh')
-    if not os.path.exists(ssh_dir):
-        os.makedirs(ssh_dir)
-
-    ssh_wrapper = os.path.join(ssh_dir, 'ssh-weblate-wrapper')
+    ssh_wrapper = ssh_file(SSH_WRAPPER)
 
     with open(ssh_wrapper, 'w') as handle:
         handle.write(SSH_WRAPPER_TEMPLATE.format(
-            known_hosts=KNOWN_HOSTS_FILE,
-            identity=RSA_KEY_FILE,
+            known_hosts=ssh_file(KNOWN_HOSTS),
+            identity=ssh_file(RSA_KEY),
         ))
 
     ssh_stat = os.stat(ssh_wrapper)

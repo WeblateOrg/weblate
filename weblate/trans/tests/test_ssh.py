@@ -22,7 +22,7 @@ import tempfile
 import os
 import shutil
 from django.test import TestCase
-import weblate.trans.ssh
+from weblate.trans.ssh import get_host_keys, create_ssh_wrapper, ssh_file
 from weblate.trans.tests.utils import get_test_file
 from weblate import appsettings
 
@@ -46,25 +46,29 @@ class SSHTest(TestCase):
 
     def test_parse(self):
         try:
-            backup = weblate.trans.ssh.KNOWN_HOSTS_FILE
-            weblate.trans.ssh.KNOWN_HOSTS_FILE = TEST_HOSTS
-            hosts = weblate.trans.ssh.get_host_keys()
+            backup_dir = appsettings.DATA_DIR
+            tempdir = os.path.join(self._tempdir, 'ssh')
+            os.makedirs(tempdir)
+            shutil.copy(TEST_HOSTS, tempdir)
+            appsettings.DATA_DIR = self._tempdir
+            hosts = get_host_keys()
             self.assertEqual(len(hosts), 50)
         finally:
-            weblate.trans.ssh.KNOWN_HOSTS_FILE = backup
+            appsettings.DATA_DIR = backup_dir
 
     def test_create_ssh_wrapper(self):
         try:
             backup_dir = appsettings.DATA_DIR
-            appsettings.DATA_DIR = os.path.join(self._tempdir)
+            appsettings.DATA_DIR = self._tempdir
             filename = os.path.join(
                 appsettings.DATA_DIR, 'ssh', 'ssh-weblate-wrapper'
             )
-            weblate.trans.ssh.create_ssh_wrapper()
+            create_ssh_wrapper()
             with open(filename, 'r') as handle:
-                self.assertTrue(
-                    weblate.trans.ssh.KNOWN_HOSTS_FILE in handle.read()
-                )
+                data = handle.read()
+                self.assertTrue(ssh_file('known_hosts') in data)
+                self.assertTrue(ssh_file('id_rsa.pub') in data)
+                self.assertTrue(self._tempdir in data)
             self.assertTrue(
                 os.access(filename, os.X_OK)
             )
