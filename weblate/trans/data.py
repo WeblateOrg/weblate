@@ -47,7 +47,8 @@ def data_dir(component):
 
 def migrate_data_dirs(*args, **kwargs):
     """
-    Migrate data directory from old locations to new consolidated data directory.
+    Migrate data directory from old locations to new consolidated data
+    directory.
     """
     check_data_writable()
 
@@ -66,6 +67,9 @@ def migrate_data_dirs(*args, **kwargs):
 
 
 def unmigrate_data_dirs(*args, **kwargs):
+    """
+    Reverses data paths migration.
+    """
     vcs = data_dir('vcs')
     if not os.path.exists(appsettings.GIT_ROOT) and os.path.exists(vcs):
         shutil.move(vcs, appsettings.GIT_ROOT)
