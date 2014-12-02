@@ -53,7 +53,6 @@ def setup(app):
         indextemplate="pair: %s; django-admin command-line option",
         parse_node=parse_django_adminopt_node,
     )
-    app.add_builder(DjangoStandaloneHTMLBuilder)
 
     # register the snippet directive
     app.add_directive('snippet', SnippetWithFilename)
@@ -269,27 +268,3 @@ def parse_django_adminopt_node(env, sig, signode):
     if not firstname:
         raise ValueError
     return firstname
-
-
-class DjangoStandaloneHTMLBuilder(StandaloneHTMLBuilder):
-    """
-    Subclass to add some extra things we need.
-    """
-
-    name = 'djangohtml'
-
-    def finish(self):
-        super(DjangoStandaloneHTMLBuilder, self).finish()
-        self.info(bold("writing templatebuiltins.js..."))
-        xrefs = self.env.domaindata["std"]["objects"]
-        templatebuiltins = {
-            "ttags": [n for ((t, n), (l, a)) in xrefs.items()
-                      if t == "templatetag" and l == "ref/templates/builtins"],
-            "tfilters": [n for ((t, n), (l, a)) in xrefs.items()
-                         if t == "templatefilter" and l == "ref/templates/builtins"],
-        }
-        outfilename = os.path.join(self.outdir, "templatebuiltins.js")
-        with open(outfilename, 'w') as fp:
-            fp.write('var django_template_builtins = ')
-            json.dump(templatebuiltins, fp)
-            fp.write(';\n')
