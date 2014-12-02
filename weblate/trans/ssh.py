@@ -33,8 +33,12 @@ RSA_KEY = 'id_rsa'
 RSA_KEY_PUB = 'id_rsa.pub'
 SSH_WRAPPER = 'ssh-weblate-wrapper'
 
-SSH_WRAPPER_TEMPLATE = '''#!/bin/sh
-ssh -o UserKnownHostsFile={known_hosts} -o IdentityFile={identity} "$@"
+SSH_WRAPPER_TEMPLATE = r'''#!/bin/sh
+ssh \
+    -o UserKnownHostsFile={known_hosts} \
+    -o IdentityFile={identity} \
+    -o HashKnownHosts=no \
+    "$@"
 '''
 
 
