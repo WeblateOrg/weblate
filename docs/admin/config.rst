@@ -107,6 +107,10 @@ For example you can enable only few of them:
 DATA_DIR
 --------
 
+.. versionadded:: 2.1
+    In previous versions the directories were configured separately as
+    :setting:`GIT_ROOT` and :setting:`WHOOSH_INDEX`.
+
 Directory where Weblate stores all data. This consists of VCS repositories,
 fulltext index and various configuration files for external tools.
 
