@@ -94,6 +94,12 @@ class Repository(object):
         if not self.is_valid():
             self.init()
 
+    def check_config(self):
+        """
+        Checks VCS configuration.
+        """
+        return
+
     def is_valid(self):
         '''
         Checks whether this is a valid repository.
@@ -362,6 +368,13 @@ class GitRepository(Repository):
         Initializes the repository.
         '''
         self._popen(['init', self.path])
+
+    def check_config(self):
+        """
+        Checks VCS configuration.
+        """
+        # We directly set config as it takes same time as reading it
+        self.set_config('push.default', 'simple')
 
     @classmethod
     def clone(cls, source, target, bare=False):

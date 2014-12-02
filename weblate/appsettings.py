@@ -33,6 +33,9 @@ def getvalue(name, default):
 # Weblate installation root
 BASE_DIR = getvalue('BASE_DIR', os.path.dirname(os.path.abspath(__file__)))
 
+# Data directory
+DATA_DIR = getvalue('DATA_DIR', os.path.join(BASE_DIR, '..', 'data'))
+
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
@@ -56,9 +59,6 @@ MT_GOOGLE_KEY = getvalue('MT_GOOGLE_KEY', None)
 
 # tmserver URL
 MT_TMSERVER = getvalue('MT_TMSERVER', None)
-
-# Path where git repositories are stored, it needs to be writable
-GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
 
 # Title of site to use
 SITE_TITLE = getvalue('SITE_TITLE', 'Weblate')
@@ -94,9 +94,6 @@ OFFLOAD_INDEXING = getvalue('OFFLOAD_INDEXING', False)
 AUTO_LOCK = getvalue('AUTO_LOCK', True)
 AUTO_LOCK_TIME = getvalue('AUTO_LOCK_TIME', 60)
 LOCK_TIME = getvalue('LOCK_TIME', 15 * 60)
-
-# Where to put Whoosh index
-WHOOSH_INDEX = getvalue('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))
 
 # List of quality checks
 CHECK_LIST = getvalue('CHECK_LIST', (
@@ -192,3 +189,7 @@ HIDE_REPO_CREDENTIALS = getvalue('HIDE_REPO_CREDENTIALS', True)
 
 # Whiteboard
 ENABLE_WHITEBOARD = getvalue('ENABLE_WHITEBOARD', False)
+
+# Obsolete configs, needed for data migration
+GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
+WHOOSH_INDEX = getvalue('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))

@@ -191,6 +191,20 @@ This upgrade also requires you to upgrade python-social-auth from 0.1.x to
     If you are upgrading to Django 1.7 in same step, please consult
     :ref:`django-17`.
 
+Upgrade from 2.0 to 2.1
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The filesystem paths configuration has changed, the :setting:`GIT_ROOT` and
+:setting:`WHOOSH_INDEX` are gone and now all data resides in
+:setting:`DATA_DIR`. The existing data should be automatically migrated by
+supplied migration, but in case of non standard setup, you might need to move
+these manually.
+
+.. seealso::
+
+    If you are upgrading to Django 1.7 in same step, please consult
+    :ref:`django-17`.
+
 .. _django-17:
 
 Upgrading to Django 1.7

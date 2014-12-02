@@ -474,6 +474,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         if self._repository is None:
             self._repository = VCS_REGISTRY[self.vcs](self.get_path())
+            self._repository.check_config()
 
         return self._repository
 

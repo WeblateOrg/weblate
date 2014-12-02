@@ -193,8 +193,9 @@ Clone Git repository in advance
 +++++++++++++++++++++++++++++++
 
 You can put in place Git repository which will be used by Weblate. The
-repositories are stored in path defined by :setting:`GIT_ROOT` in
-:file:`settings.py` in :file:`<project>/<component>` directories.
+repositories are stored in :file:`vcs` directory in path defined by
+:setting:`DATA_DIR` in :file:`settings.py` in :file:`<project>/<component>`
+directories.
 
 This can be especially useful if you already have local clone of this
 repository and you can use ``--reference`` option while cloning:

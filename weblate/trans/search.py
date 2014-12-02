@@ -32,8 +32,9 @@ from weblate import appsettings
 from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
 from weblate.lang.models import Language
+from weblate.trans.data import data_dir
 
-STORAGE = FileStorage(appsettings.WHOOSH_INDEX)
+STORAGE = FileStorage(data_dir('whoosh'))
 
 
 class TargetSchema(SchemaClass):
