@@ -25,6 +25,7 @@ from weblate.requirements import (
 )
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.data import check_data_writable
+from weblate.trans.ssh import create_ssh_wrapper
 
 logger = logging.getLogger('weblate')
 
@@ -114,3 +115,4 @@ def get_versions_string():
 
 check_requirements()
 check_data_writable()
+create_ssh_wrapper()
