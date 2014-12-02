@@ -94,6 +94,12 @@ class Repository(object):
         if not self.is_valid():
             self.init()
 
+    def check_config(self):
+        """
+        Checks VCS configuration.
+        """
+        return
+
     def is_valid(self):
         '''
         Checks whether this is a valid repository.
