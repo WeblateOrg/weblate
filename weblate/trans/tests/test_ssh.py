@@ -24,6 +24,7 @@ import shutil
 from django.test import TestCase
 import weblate.trans.ssh
 from weblate.trans.tests.utils import get_test_file
+from weblate import appsettings
 
 
 TEST_HOSTS = get_test_file('known_hosts')
@@ -54,20 +55,18 @@ class SSHTest(TestCase):
 
     def test_create_ssh_wrapper(self):
         try:
-            backup_dir = weblate.trans.ssh.WEBLATE_DIR
-            backup_ssh_wrapper = weblate.trans.ssh.SSH_WRAPPER
-            weblate.trans.ssh.WEBLATE_DIR = os.path.join(self._tempdir, 'wl')
-            weblate.trans.ssh.SSH_WRAPPER = os.path.join(
-                weblate.trans.ssh.WEBLATE_DIR, 'ssh-wrapper'
+            backup_dir = appsettings.DATA_DIR
+            appsettings.DATA_DIR = os.path.join(self._tempdir)
+            filename = os.path.join(
+                appsettings.DATA_DIR, 'ssh', 'ssh-weblate-wrapper'
             )
             weblate.trans.ssh.create_ssh_wrapper()
-            with open(weblate.trans.ssh.SSH_WRAPPER, 'r') as handle:
+            with open(filename, 'r') as handle:
                 self.assertTrue(
                     weblate.trans.ssh.KNOWN_HOSTS_FILE in handle.read()
                 )
             self.assertTrue(
-                os.access(weblate.trans.ssh.SSH_WRAPPER, os.X_OK)
+                os.access(filename, os.X_OK)
             )
         finally:
-            weblate.trans.ssh.WEBLATE_DIR = backup_dir
-            weblate.trans.ssh.SSH_WRAPPER = backup_ssh_wrapper
+            appsettings.DATA_DIR = backup_dir

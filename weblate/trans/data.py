@@ -22,25 +22,27 @@ Data files helpers.
 """
 import shutil
 import os
-from weblate.appsettings import DATA_DIR, GIT_ROOT, WHOOSH_INDEX
+from weblate import appsettings
 
 
 def check_data_writable():
     """
     Check we can write to data dir.
     """
-    if not os.path.exists(DATA_DIR):
-        os.makedirs(DATA_DIR)
+    if not os.path.exists(appsettings.DATA_DIR):
+        os.makedirs(appsettings.DATA_DIR)
     else:
-        if not os.access(DATA_DIR, os.W_OK):
-            raise OSError('DATA_DIR {0} is not writable!'.format(DATA_DIR))
+        if not os.access(appsettings.DATA_DIR, os.W_OK):
+            raise OSError(
+                'DATA_DIR {0} is not writable!'.format(appsettings.DATA_DIR)
+            )
 
 
 def data_dir(component):
     """
     Returns path to data dir for given component.
     """
-    return os.path.join(DATA_DIR, component)
+    return os.path.join(appsettings.DATA_DIR, component)
 
 
 def migrate_data_dirs(*args, **kwargs):
@@ -50,12 +52,12 @@ def migrate_data_dirs(*args, **kwargs):
     check_data_writable()
 
     vcs = data_dir('vcs')
-    if os.path.exists(GIT_ROOT) and not os.path.exists(vcs):
-        shutil.move(GIT_ROOT, vcs)
+    if os.path.exists(appsettings.GIT_ROOT) and not os.path.exists(vcs):
+        shutil.move(appsettings.GIT_ROOT, vcs)
 
     whoosh = data_dir('whoosh')
-    if os.path.exists(WHOOSH_INDEX) and not os.path.exists(whoosh):
-        shutil.move(WHOOSH_INDEX, whoosh)
+    if os.path.exists(appsettings.WHOOSH_INDEX) and not os.path.exists(whoosh):
+        shutil.move(appsettings.WHOOSH_INDEX, whoosh)
 
     ssh_home = os.path.expanduser('~/.ssh')
     ssh = data_dir('ssh')
@@ -65,12 +67,12 @@ def migrate_data_dirs(*args, **kwargs):
 
 def unmigrate_data_dirs(*args, **kwargs):
     vcs = data_dir('vcs')
-    if not os.path.exists(GIT_ROOT) and os.path.exists(vcs):
-        shutil.move(vcs, GIT_ROOT)
+    if not os.path.exists(appsettings.GIT_ROOT) and os.path.exists(vcs):
+        shutil.move(vcs, appsettings.GIT_ROOT)
 
     whoosh = data_dir('whoosh')
     # This one gets autocreated
-    if os.path.exists(WHOOSH_INDEX):
-        os.rmdir(WHOOSH_INDEX)
+    if os.path.exists(appsettings.WHOOSH_INDEX):
+        os.rmdir(appsettings.WHOOSH_INDEX)
     if os.path.exists(whoosh):
-        shutil.move(whoosh, WHOOSH_INDEX)
+        shutil.move(whoosh, appsettings.WHOOSH_INDEX)
