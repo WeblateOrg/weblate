@@ -636,6 +636,13 @@ class HgRepository(Repository):
         '''
         self._popen(['init', self.path])
 
+    def check_config(self):
+        """
+        Checks VCS configuration.
+        """
+        # We directly set config as it takes same time as reading it
+        self.set_config('ui.ssh', ssh_file(SSH_WRAPPER))
+
     @classmethod
     def clone(cls, source, target, bare=False):
         """
