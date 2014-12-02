@@ -56,15 +56,15 @@ you can use apt-get:
     apt-get install python-mysqldb   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
 
-For Debian 7.0 (wheezy) or older, you need to install python-social-auth
-manually using pip:
+For Debian 7.0 (Wheezy) or older, you need to install several Python modules
+manually using pip as versions shipped in distribution are too old:
 
 .. code-block:: sh
 
     # Dependencies for python-social-auth
     apt-get install python-requests-oauthlib python-six python-openid
 
-    pip install python-social-auth
+    pip install python-social-auth Django Whoosh
     
 For proper sorting of a unicode strings, it is recommended to install pyuca:
 
