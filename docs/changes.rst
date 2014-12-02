@@ -12,6 +12,7 @@ weblate 2.1
 * Various bugfixes.
 * Automatic hiding of columns in translation listing for small screens.
 * Changed configuration of filesystem paths.
+* Improved SSH keys handling and storage.
 
 Released on ? 2014.
 
