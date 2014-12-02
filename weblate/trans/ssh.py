@@ -21,7 +21,6 @@
 import subprocess
 import hashlib
 import os
-import stat
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 
@@ -30,7 +29,8 @@ from weblate.trans.data import data_dir
 
 # SSH key files
 KNOWN_HOSTS = 'known_hosts'
-RSA_KEY = 'id_rsa.pub'
+RSA_KEY = 'id_rsa'
+RSA_KEY_PUB = 'id_rsa.pub'
 SSH_WRAPPER = 'ssh-weblate-wrapper'
 
 SSH_WRAPPER_TEMPLATE = '''#!/bin/sh
@@ -101,8 +101,8 @@ def get_key_data():
     Parses host key and returns it.
     """
     # Read key data if it exists
-    if os.path.exists(ssh_file(RSA_KEY)):
-        with open(ssh_file(RSA_KEY)) as handle:
+    if os.path.exists(ssh_file(RSA_KEY_PUB)):
+        with open(ssh_file(RSA_KEY_PUB)) as handle:
             key_data = handle.read()
         key_type, key_fingerprint, key_id = key_data.strip().split(None, 2)
         return {
@@ -132,7 +132,7 @@ def generate_ssh_key(request):
                 '-N', '',
                 '-C', 'Weblate',
                 '-t', 'rsa',
-                '-f', ssh_file(RSA_KEY)[:-4]
+                '-f', ssh_file(RSA_KEY)
             ],
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
@@ -236,8 +236,4 @@ def create_ssh_wrapper():
             identity=ssh_file(RSA_KEY),
         ))
 
-    ssh_stat = os.stat(ssh_wrapper)
-    os.chmod(
-        ssh_wrapper,
-        ssh_stat.st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
-    )
+    os.chmod(ssh_wrapper, 0755)

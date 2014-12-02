@@ -67,7 +67,7 @@ class SSHTest(TestCase):
             with open(filename, 'r') as handle:
                 data = handle.read()
                 self.assertTrue(ssh_file('known_hosts') in data)
-                self.assertTrue(ssh_file('id_rsa.pub') in data)
+                self.assertTrue(ssh_file('id_rsa') in data)
                 self.assertTrue(self._tempdir in data)
             self.assertTrue(
                 os.access(filename, os.X_OK)
