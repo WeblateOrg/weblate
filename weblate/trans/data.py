@@ -57,6 +57,12 @@ def migrate_data_dirs(*args, **kwargs):
     if os.path.exists(WHOOSH_INDEX) and not os.path.exists(whoosh):
         shutil.move(WHOOSH_INDEX, whoosh)
 
+    ssh_home = os.path.expanduser('~/.ssh')
+    ssh = data_dir('ssh')
+    if os.path.exists(ssh_home) and not os.path.exists(ssh):
+        shutil.copytree(ssh_home, ssh)
+
+
 def unmigrate_data_dirs(*args, **kwargs):
     vcs = data_dir('vcs')
     if not os.path.exists(GIT_ROOT) and os.path.exists(vcs):
