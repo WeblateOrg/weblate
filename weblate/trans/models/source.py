@@ -55,6 +55,7 @@ class Source(models.Model):
     def __init__(self, *args, **kwargs):
         super(Source, self).__init__(*args, **kwargs)
         self.priority_modified = False
+        self.check_flags_modified = False
 
     def __unicode__(self):
         return 'src:{0}'.format(self.checksum)
@@ -66,9 +67,11 @@ class Source(models.Model):
         """
         if force_insert:
             self.priority_modified = (self.priority != 100)
+            self.check_flags_modified = (self.check_flags != '')
         else:
             old = Source.objects.get(pk=self.pk)
             self.priority_modified = (old.priority != self.priority)
+            self.check_flags_modified = (old.check_flags != self.check_flags)
         super(Source, self).save(force_insert, **kwargs)
 
     @models.permalink
