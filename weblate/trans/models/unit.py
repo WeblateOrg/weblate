@@ -978,6 +978,7 @@ class Unit(models.Model):
                 + self.source_info.check_flags.split(',')
                 + self.translation.subproject.all_flags
             )
+            self._all_flags.discard('')
         return self._all_flags
 
     @property

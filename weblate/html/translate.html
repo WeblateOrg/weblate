@@ -386,7 +386,7 @@
     <th>{% trans "Flags" %}</th>
     </tr>
     <tr>
-    <td>{{ unit.flags }}</td>
+    <td>{{ unit.all_flags|join:", " }}</td>
     </tr>
     {% endif %}
     {% include "unit-details.html" %}
