@@ -144,6 +144,11 @@ urlpatterns = patterns(
         'weblate.trans.views.source.edit_priority',
         name='edit_priority'
     ),
+    url(
+        r'^source/(?P<pk>[0-9]+)/check_flags/$',
+        'weblate.trans.views.source.edit_check_flags',
+        name='edit_check_flags'
+    ),
 
     # Translation pages
     url(

@@ -28,7 +28,7 @@ from django.contrib import messages
 
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source
-from weblate.trans.forms import PriorityForm
+from weblate.trans.forms import PriorityForm, CheckFlagsForm
 
 
 def get_source(request, project, subproject):
@@ -120,4 +120,20 @@ def edit_priority(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change a priority!'))
+    return redirect(request.POST.get('next', source.get_absolute_url()))
+
+
+@require_POST
+@permission_required('edit_check_flags')
+def edit_check_flags(request, pk):
+    """
+    Change source string check flags.
+    """
+    source = get_object_or_404(Source, pk=pk)
+    form = CheckFlagsForm(request.POST)
+    if form.is_valid():
+        source.check_flags = form.cleaned_data['flags']
+        source.save()
+    else:
+        messages.error(request, _('Failed to change check flags!'))
     return redirect(request.POST.get('next', source.get_absolute_url()))

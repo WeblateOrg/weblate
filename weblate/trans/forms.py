@@ -729,6 +729,16 @@ class PriorityForm(forms.Form):
     )
 
 
+class CheckFlagsForm(forms.Form):
+    flags = forms.CharField(
+        label=_('Check flags'),
+        widget=forms.Textarea,
+        help_text=_(
+            'Please enter comma separated list of check flags.'
+        ),
+    )
+
+
 class AddUserForm(forms.Form):
     name = forms.CharField(
         label=_('User to add'),

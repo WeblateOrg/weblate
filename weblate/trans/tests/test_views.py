@@ -889,6 +889,21 @@ class SourceStringsTest(ViewTestCase):
         self.assertEquals(unit.priority, 60)
         self.assertEquals(unit.source_info.priority, 60)
 
+    def test_edit_check_flags(self):
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        source = self.get_unit().source_info
+        response = self.client.post(
+            reverse('edit_check_flags', kwargs={'pk': source.pk}),
+            {'flags': 'ignore-same'}
+        )
+        self.assertRedirects(response, source.get_absolute_url())
+
+        unit = self.get_unit()
+        self.assertEquals(unit.source_info.check_flags, 'ignore-same')
+
     def test_review_source(self):
         response = self.client.get(
             reverse('review_source', kwargs=self.kw_subproject)
