@@ -96,6 +96,8 @@ def validate_check_flags(val):
     '''
     Validates check influencing flags.
     '''
+    if not val:
+        return
     for flag in val.split(','):
         if flag in VALID_FLAGS:
             continue

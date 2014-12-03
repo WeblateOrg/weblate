@@ -32,6 +32,7 @@ from weblate.trans.models import Unit
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.trans.specialchars import get_special_chars
+from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
 from urllib import urlencode
 import weblate
@@ -741,6 +742,17 @@ class CheckFlagsForm(forms.Form):
             url=weblate.get_doc_url('admin/checks', 'custom-checks')
         )
     )
+
+    def clean_flags(self):
+        """
+        Be a little bit more tolerant on whitespaces.
+        """
+        flags = [
+            x.strip() for x in self.cleaned_data['flags'].strip().split(',')
+        ]
+        flags = ','.join([x for x in flags if x])
+        validate_check_flags(flags)
+        return flags
 
 
 class AddUserForm(forms.Form):
