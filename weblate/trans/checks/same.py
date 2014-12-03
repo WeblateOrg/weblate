@@ -350,6 +350,8 @@ SAME_BLACKLIST = frozenset((
     'messages',
     'meta',
     'metal',
+    'metre',
+    'metres',
     'mib',
     'micropayment',
     'micropayments',
