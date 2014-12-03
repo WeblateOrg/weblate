@@ -327,7 +327,7 @@ $(function () {
                     $cell.append(data);
                     $cell.find('[data-flag]').click(function (e) {
                         var $this = $(this);
-                        var $textarea = $this.closest('td').find('textarea');
+                        var $textarea = $this.closest('td').find('input[type="text"]');
                         if ($textarea.val().length > 0) {
                             $textarea.val($textarea.val() + ',' + $this.data('flag'));
                         } else {
