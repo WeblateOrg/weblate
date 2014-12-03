@@ -381,7 +381,7 @@
     <td>{% format_translation unit.context search_match=search_query simple=True %}</td>
     </tr>
     {% endif %}
-    {% if unit.flags %}
+    {% if unit.flags or perms.trans.edit_flags %}
     <tr>
     <th>{% trans "Flags" %}</th>
     </tr>
