@@ -29,7 +29,7 @@ from weblate.trans.decorators import any_permission_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-from weblate.trans.forms import PriorityForm
+from weblate.trans.forms import PriorityForm, CheckFlagsForm
 
 from urllib import urlencode
 import json
@@ -209,6 +209,9 @@ def get_detail(request, project, subproject, checksum):
             'next': request.GET.get('next', ''),
             'priority_form': PriorityForm(
                 initial={'priority': source.priority}
+            ),
+            'check_flags_form': CheckFlagsForm(
+                initial={'flags': source.check_flags}
             ),
 
         }

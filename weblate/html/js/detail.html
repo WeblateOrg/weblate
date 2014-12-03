@@ -29,6 +29,18 @@
 
 <div class="col-lg-6">
 <table class="table table-condensed">
+{% if perms.edit_check_flags %}
+<tr>
+<td>
+<form method="POST" action="{% url 'edit_check_flags' pk=source.pk %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}" />
+{{ check_flags_form|crispy }}
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</form>
+</td>
+</tr>
+{% endif %}
 {% if perms.edit_priority %}
 <tr>
 <td>
