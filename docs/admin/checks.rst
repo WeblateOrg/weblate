@@ -26,8 +26,8 @@ Customizing checks
 Fine tuning existing checks
 +++++++++++++++++++++++++++
 
-In :ref:`component` setup, you can fine tune some of the checks, here is
-current list of flags accepted:
+You can fine tune checks for each source strings or in the :ref:`component`,
+here is current list of flags accepted:
 
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.

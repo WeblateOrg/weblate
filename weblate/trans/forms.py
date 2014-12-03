@@ -735,8 +735,11 @@ class CheckFlagsForm(forms.Form):
         widget=forms.Textarea,
         required=False,
         help_text=_(
-            'Please enter comma separated list of check flags.'
-        ),
+            'Please enter comma separated list of check flags, '
+            'see <a href="{url}">documentation</a> for more details.'
+        ).format(
+            url=weblate.get_doc_url('admin/checks', 'custom-checks')
+        )
     )
 
 
