@@ -13,6 +13,7 @@ weblate 2.1
 * Automatic hiding of columns in translation listing for small screens.
 * Changed configuration of filesystem paths.
 * Improved SSH keys handling and storage.
+* Improved repository locking.
 
 Released on ? 2014.
 
