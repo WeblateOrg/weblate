@@ -44,7 +44,7 @@ def remove_accents(input_str):
     """
     Removes accents from a string.
     """
-    nkfd_form = unicodedata.normalize('NFKD', unicode(input_str))
+    nkfd_form = unicodedata.normalize('NFKD', force_unicode(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
     return only_ascii
 
@@ -64,7 +64,7 @@ def sort_choices(choices):
         collator = pyuca.Collator()
         return sorted(
             choices,
-            key=lambda tup: collator.sort_key(unicode(tup[1]))
+            key=lambda tup: collator.sort_key(force_unicode(tup[1]))
         )
 
 
