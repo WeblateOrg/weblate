@@ -190,6 +190,8 @@ Can manage ACL rules for a project [Managers]
     Can add users to ACL controlled projects (see :ref:`acl`)
 Can edit priority [Managers]
     Can adjust source string priority
+Can edit check flags [Managers]
+    Can adjust source string check flags
 
 .. _acl:
 

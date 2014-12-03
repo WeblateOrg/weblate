@@ -386,7 +386,10 @@
     <th>{% trans "Flags" %}</th>
     </tr>
     <tr>
-    <td>{{ unit.all_flags|join:", " }}</td>
+    <td>
+    {{ unit.all_flags|join:", " }}
+    {% if perms.trans.edit_flags %} <a class="button smallbutton" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    </td>
     </tr>
     {% endif %}
     {% include "unit-details.html" %}
