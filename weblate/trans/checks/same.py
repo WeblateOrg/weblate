@@ -108,6 +108,7 @@ SAME_BLACKLIST = frozenset((
     'color',
     'commit',
     'component',
+    'components',
     'compression',
     'console',
     'contact',
