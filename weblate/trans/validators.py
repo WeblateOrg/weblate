@@ -30,6 +30,8 @@ EXTRA_FLAGS = {
     'python-brace-format': ugettext_lazy('Python brace format string'),
 }
 
+IGNORE_CHECK_FLAGS = set([CHECKS[x].ignore_string for x in CHECKS])
+
 
 def validate_repoweb(val):
     '''
@@ -100,8 +102,6 @@ def validate_check_flags(val):
     if not val:
         return
     for flag in val.split(','):
-        if flag in EXTRA_FLAGS:
-            continue
-        if flag.startswith('ignore-') and flag[7:] in CHECKS:
+        if flag in EXTRA_FLAGS or flag in IGNORE_CHECK_FLAGS:
             continue
         raise ValidationError(_('Invalid check flag: "%s"') % flag)
