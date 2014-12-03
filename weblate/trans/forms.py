@@ -733,7 +733,6 @@ class PriorityForm(forms.Form):
 class CheckFlagsForm(forms.Form):
     flags = forms.CharField(
         label=_('Check flags'),
-        widget=forms.Textarea,
         required=False,
         help_text=_(
             'Please enter comma separated list of check flags, '
