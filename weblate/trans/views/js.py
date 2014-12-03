@@ -30,6 +30,8 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
+from weblate.trans.validators import EXTRA_FLAGS
+from weblate.trans.checks import CHECKS
 
 from urllib import urlencode
 import json
@@ -200,6 +202,11 @@ def get_detail(request, project, subproject, checksum):
     )
     source = units[0].source_info
 
+    check_flags = [
+        (CHECKS[x].ignore_string, CHECKS[x].name) for x in CHECKS
+    ]
+    extra_flags = [(x, EXTRA_FLAGS[x]) for x in EXTRA_FLAGS]
+
     return render(
         request,
         'js/detail.html',
@@ -213,6 +220,7 @@ def get_detail(request, project, subproject, checksum):
             'check_flags_form': CheckFlagsForm(
                 initial={'flags': source.check_flags}
             ),
-
+            'extra_flags': extra_flags,
+            'check_flags': check_flags,
         }
     )
