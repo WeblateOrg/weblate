@@ -14,6 +14,7 @@ weblate 2.1
 * Changed configuration of filesystem paths.
 * Improved SSH keys handling and storage.
 * Improved repository locking.
+* Customizable quality checks per source string.
 
 Released on ? 2014.
 
