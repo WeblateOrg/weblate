@@ -29,7 +29,9 @@ from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
 import shutil
 import os
-from weblate.trans.models import Project, SubProject, Unit, WhiteboardMessage
+from weblate.trans.models import (
+    Project, SubProject, Unit, WhiteboardMessage, Check, get_related_units,
+)
 from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests.utils import get_test_file
@@ -723,3 +725,15 @@ class SourceTest(RepoTestCase):
         source.save()
         unit2 = Unit.objects.get(pk=unit.pk)
         self.assertEqual(unit2.priority, 200)
+
+    def test_check_flags(self):
+        """
+        Setting of Source check_flags changes checks for related units.
+        """
+        self.assertEquals(Check.objects.count(), 1)
+        check = Check.objects.all()[0]
+        unit = get_related_units(check)[0]
+        source = unit.source_info
+        source.check_flags = 'ignore-{0}'.format(check.check)
+        source.save()
+        self.assertEquals(Check.objects.count(), 0)

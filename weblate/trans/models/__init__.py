@@ -63,17 +63,23 @@ def delete_object_dir(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Source)
-def update_string_pririties(sender, instance, **kwargs):
+def update_source(sender, instance, **kwargs):
     """
-    Updates unit score
+    Updates unit priority or checks based on source change.
     """
+    related_units = Unit.objects.filter(
+        checksum=instance.checksum,
+        translation__subproject=instance.subproject,
+    )
     if instance.priority_modified:
-        units = Unit.objects.filter(
-            checksum=instance.checksum
-        ).exclude(
+        units = related_units.exclude(
             priority=instance.priority
         )
         units.update(priority=instance.priority)
+
+    if instance.check_flags_modified:
+        for unit in related_units:
+            unit.run_checks()
 
 
 def get_related_units(unitdata):
