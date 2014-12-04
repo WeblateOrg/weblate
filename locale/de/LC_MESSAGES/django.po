@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-12-03 16:09+0100\n"
-"PO-Revision-Date: 2014-12-02 20:16+0200\n"
+"PO-Revision-Date: 2014-12-04 20:47+0200\n"
 "Last-Translator: Ann + J.M. <phpMyAdmin@ZweiSteinSoft.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
-">\n"
+"Language-Team: German "
+"<https://hosted.weblate.org/projects/weblate/master/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2960,15 +2960,15 @@ msgstr "Letzte"
 
 #: weblate/html/translate.html:54
 msgid "Keyboard shortcuts available:"
-msgstr ""
+msgstr "Verfügbare Tastenkürzel:"
 
 #: weblate/html/translate.html:54
 msgid "Ctrl+Enter - Save"
-msgstr ""
+msgstr "Strg+Enter - Speichern"
 
 #: weblate/html/translate.html:54
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
-msgstr ""
+msgstr "Alt+Bild-auf/Bild-ab/Pos1/Ende - Navigation in Übersetzungs-Einheiten"
 
 #: weblate/html/translate.html:70
 msgid "Source change"
@@ -3135,7 +3135,6 @@ msgid "Flags"
 msgstr "Markierungen"
 
 #: weblate/html/translate.html:397
-#, fuzzy
 #| msgid "Change string priority"
 msgid "String priority"
 msgstr "Priorität der Zeichenkette"
@@ -3488,7 +3487,6 @@ msgstr "Indizieren auslagern"
 
 #. Translators: Indexing is postponed to cron job
 #: weblate/trans/admin_views.py:97
-#, fuzzy
 #| msgid "Indexing offloading"
 msgid "Indexing offloading processing"
 msgstr "Indizieren auslagern"
@@ -4048,6 +4046,8 @@ msgid ""
 "Please enter comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
+"Bitte geben Sie eine kommagetrennte Liste von Prüfungs-Markierungen ein, "
+"siehe <a href=\"{url}\">Dokumentation</a> für mehr Details."
 
 #: weblate/trans/forms.py:759
 msgid "User to add"
@@ -4385,6 +4385,8 @@ msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Dateiname, der zum Anlegen neuer Übersetzungen verwendet wird. Für Gettext "
+".pot-Datei wählen."
 
 #: weblate/trans/models/subproject.py:181
 msgid "File format"
@@ -4393,10 +4395,12 @@ msgstr "Dateiformat"
 #: weblate/trans/models/subproject.py:186
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
+"Automatische Erkennung kann für manche Formate fehlschlagen und ist etwas "
+"langsamer."
 
 #: weblate/trans/models/subproject.py:191
 msgid "Additional commit file"
-msgstr ""
+msgstr "Zusätzliche Commit-Datei"
 
 #: weblate/trans/models/subproject.py:197
 msgid ""
@@ -4408,13 +4412,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:202
 msgid "Pre-commit script"
-msgstr ""
+msgstr "Pre-Commit-Skript"
 
 #: weblate/trans/models/subproject.py:208
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
+"Skript, das vor dem Committen der Übersetzung ausgeführt wird, siehe "
+"Dokumentation für mehr Details."
 
 #: weblate/trans/models/subproject.py:214
 msgid "Locked"
@@ -4436,6 +4442,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
+"Ob aktualisierte Übersetzungen in anderen Komponenten eine automatische "
+"Übersetzung in dieser Komponente bewirken"
 
 #: weblate/trans/models/subproject.py:229
 msgid "Save translation history"
@@ -4469,6 +4477,8 @@ msgstr "Vorschläge automatisch annehmen"
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
+"Vorschläge mit dieser Anzahl Stimmen automatisch annehmen, zum Deaktivieren "
+"0 eingeben."
 
 #: weblate/trans/models/subproject.py:259
 msgid "Quality checks flags"
@@ -4537,6 +4547,8 @@ msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Fehler beim Prüfen des SSH-Host-Schlüssels, bitte auf der SSH-Seite in der "
+"Admin-Oberfläche hinzufügen."
 
 #: weblate/trans/models/subproject.py:575
 #, python-format
@@ -4587,12 +4599,14 @@ msgstr ""
 "subproject."
 
 #: weblate/trans/models/subproject.py:920
+#, fuzzy
 msgid "Push URL is not used when repository is linked!"
-msgstr ""
+msgstr "Push-URL wird nicht verwendet, wenn Repository verlinkt ist!"
 
 #: weblate/trans/models/subproject.py:924
+#, fuzzy
 msgid "Export URL is not used when repository is linked!"
-msgstr ""
+msgstr "Export-URL wird nicht verwendet, wenn Repository verlinkt ist!"
 
 #: weblate/trans/models/subproject.py:932
 msgid "The mask did not match any files!"
@@ -4614,6 +4628,9 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
+"Mehrere Übersetzungen zeigen auf einen einzigen Sprach-Code (%s). Sie "
+"sollten SIMPLIFY_LANGUAGES deaktivieren, um zu verhindern, dass Weblate "
+"ähnliche Sprachen zu einer einzigen zusammenfasst."
 
 #: weblate/trans/models/subproject.py:967
 msgid "File does not seem to be valid!"
@@ -4634,6 +4651,8 @@ msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Gewähltes Dateiformat unterstützt kein Hinzufügen neuer Übersetzungen, wie "
+"in Projekt-Einstellungen ausgewählt."
 
 #: weblate/trans/models/subproject.py:1001
 msgid "Format of base file for new translations was not recognized!"
@@ -4642,13 +4661,14 @@ msgstr "Format der Übersetzungs-Vorlage konnte nicht erkannt werden!"
 #: weblate/trans/models/subproject.py:1006
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
+"Basis-Datei für neue Übersetzungen wird wegen Projekt-Einstellungen nicht "
+"verwendet."
 
 #: weblate/trans/models/subproject.py:1017
 #: weblate/trans/models/subproject.py:1023
-#, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You can not base file with bilingual translation!"
-msgstr "Sie haben nicht die Berechtigungen zum Speichern von Übersetzungen!"
+msgstr ""
 
 #: weblate/trans/models/subproject.py:1030
 msgid "Template file not found!"
@@ -4682,7 +4702,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1082
 msgid "Changing version control system is not supported!"
-msgstr ""
+msgstr "Ändern des Versionskontrollsystems wird nicht unterstützt!"
 
 #: weblate/trans/models/subproject.py:1088
 #, python-brace-format
@@ -4706,6 +4726,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
+"Dateiname %s nicht im Repository gefunden! Um eine neue Übersetzung "
+"hinzuzufügen, Sprachdatei im Repository anlegen."
 
 #: weblate/trans/models/translation.py:209
 #, python-format
@@ -4725,10 +4747,13 @@ msgstr "Diese Übersetzung ist von %(user)s gesperrt!"
 #: weblate/trans/models/unit.py:534
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
+"Fehler beim Speichern der Nachricht im Backend, Zeitüberschreitung bei "
+"Dateisperre!"
 
 #: weblate/trans/models/unit.py:546
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
+"Nachricht nicht in Backend-Speicher gefunden, wahrscheinlich beschädigt."
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"
@@ -4749,15 +4774,15 @@ msgstr "{0}-Zeichen einfügen"
 
 #: weblate/trans/specialchars.py:441
 msgid "Opening double quote"
-msgstr ""
+msgstr "Öffnendes doppeltes Anführungszeichen"
 
 #: weblate/trans/specialchars.py:442
 msgid "Closing double quote"
-msgstr ""
+msgstr "Schließendes doppeltes Anführungszeichen"
 
 #: weblate/trans/specialchars.py:443
 msgid "Opening single quote"
-msgstr ""
+msgstr "Öffnendes einfaches Anführungszeichen"
 
 #: weblate/trans/specialchars.py:444
 msgid "Closing single quote"
@@ -4765,20 +4790,20 @@ msgstr "Einfaches schließendes Anführungszeichen"
 
 #: weblate/trans/specialchars.py:447
 msgid "Hyphen"
-msgstr ""
+msgstr "Strich"
 
 #: weblate/trans/specialchars.py:450
 msgid "En dash"
-msgstr ""
+msgstr "Gedankenstrich"
 
 #: weblate/trans/specialchars.py:453
 msgid "Em dash"
-msgstr ""
+msgstr "Geviertstrich"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:83
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[Hostname gehasht]"
 
 #: weblate/trans/ssh.py:145
 msgid "Created new SSH key."
@@ -4799,6 +4824,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
+"Host-Schlüssel für %(host)s mit Fingerabdruck %(fingerprint)s (%(keytype)s) "
+"hinzugefügt, bitte die Korrektheit prüfen."
 
 #: weblate/trans/ssh.py:195
 msgid "Failed to fetch public key for a host!"
@@ -5014,34 +5041,29 @@ msgid "unit ID %s"
 msgstr "Eineitenkennung %s"
 
 #: weblate/trans/validators.py:26
-#, fuzzy
 #| msgid "RST code"
 msgid "RST text"
-msgstr "RST-Kode"
+msgstr "RST-Text"
 
 #: weblate/trans/validators.py:27
-#, fuzzy
 #| msgid "Python format"
 msgid "Python format string"
-msgstr "Python-Format"
+msgstr "Python-Format-Zeichenkette"
 
 #: weblate/trans/validators.py:28
-#, fuzzy
 #| msgid "Bad format string (%s)"
 msgid "C format string"
-msgstr "Fehler in Format-Zeichenkette (%s)"
+msgstr "C-Format-Zeichenkette"
 
 #: weblate/trans/validators.py:29
-#, fuzzy
 #| msgid "PHP format"
 msgid "PHP format string"
-msgstr "PHP-Format"
+msgstr "PHP-Format-Zeichenkette"
 
 #: weblate/trans/validators.py:30
-#, fuzzy
 #| msgid "Python brace format"
 msgid "Python brace format string"
-msgstr "Python-Klammer-Format"
+msgstr "Python-Klammer-Format-Zeichenkette"
 
 #: weblate/trans/validators.py:44 weblate/trans/validators.py:54
 #: weblate/trans/validators.py:74
@@ -5058,11 +5080,13 @@ msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
+"Wert von 1 ist für automatisches Akzeptieren nicht erlaubt, denn jeder "
+"Nutzer stimmt für seinen eigenen Vorschlag."
 
 #: weblate/trans/validators.py:107
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr ""
+msgstr "Ungültige Prüfungs-Markierung: \"%s\""
 
 #: weblate/trans/views/basic.py:66
 msgid ""
@@ -5134,11 +5158,11 @@ msgstr "Fehler beim Verarbeiten der Anfrage für eine neue Übersetzung!"
 
 #: weblate/trans/views/basic.py:499
 msgid "ACL not enabled for this project!"
-msgstr ""
+msgstr "ACL für dieses Projekt nicht aktiviert!"
 
 #: weblate/trans/views/basic.py:508
 msgid "User has been added to this project."
-msgstr ""
+msgstr "Nutzer wurde diesem Projekt hinzugefügt."
 
 #: weblate/trans/views/basic.py:511 weblate/trans/views/basic.py:541
 msgid "No matching user found!"
@@ -5146,7 +5170,7 @@ msgstr "Kein passender Nutzer gefunden!"
 
 #: weblate/trans/views/basic.py:513 weblate/trans/views/basic.py:543
 msgid "More users matched!"
-msgstr ""
+msgstr "Weitere Nutzer gefunden!"
 
 #: weblate/trans/views/basic.py:515 weblate/trans/views/basic.py:545
 msgid "Invalid user specified!"
@@ -5154,7 +5178,7 @@ msgstr "Ungültiger Nutzer angegeben!"
 
 #: weblate/trans/views/basic.py:538
 msgid "User has been removed from this project."
-msgstr ""
+msgstr "Nutzer wurde von diesem Projekt entfernt."
 
 #: weblate/trans/views/changes.py:98
 msgid "Failed to find matching project!"
@@ -5232,6 +5256,9 @@ msgid ""
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
+"Es gibt momentan keinen aktiven Übersetzer für diese Übersetzung, bitte "
+"erwägen Sie, ein Übersetzer zu werden, denn sonst könnte Ihr Vorschlag "
+"eventuell unbeachtet bleiben."
 
 #: weblate/trans/views/edit.py:238
 #, python-format
@@ -5336,6 +5363,7 @@ msgstr "Zusammenführung des Datei-Inhalts fehlgeschlagen: %s"
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation in progress."
 msgstr ""
+"Fehler beim Sperren des Repositorys, ein anderer Vorgang ist in Bearbeitung."
 
 #: weblate/trans/views/git.py:56
 msgid "All pending translations were committed."
@@ -5394,10 +5422,9 @@ msgid "Failed to change a priority!"
 msgstr "Fehler beim Ändern der Proirität!"
 
 #: weblate/trans/views/source.py:138
-#, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to change check flags!"
-msgstr "Fehler beim Verarbeiten von %d passenden Dateien!"
+msgstr "Fehler beim Ändern von Prüfungs-Markierungen!"
 
 #: weblate/trans/widgets.py:267
 #, python-format
