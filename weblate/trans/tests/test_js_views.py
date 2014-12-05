@@ -97,10 +97,9 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertContains(response, 'href="/exports/rss/')
 
-    def test_js_config(self):
-        response = self.client.get(reverse('js-config'))
+    def test_mt_services(self):
+        response = self.client.get(reverse('js-mt-services'))
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
         # Check we have dummy service listed
-        self.assertContains(
-            response,
-            "'dummy'"
-        )
+        self.assertIn('dummy', data)

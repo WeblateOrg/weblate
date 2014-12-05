@@ -421,6 +421,7 @@
 </div>
 
 <a href="{% url 'js-translate' unit_id=unit.id %}" class="hidden" id="js-translate"></a>
+<a href="{% url 'js-mt-services' %}" class="hidden" id="js-mt-services"></a>
 {% if update_lock %}
 <a href="{% url 'js-lock' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}" class="hidden" id="js-lock"></a>
 {% endif %}

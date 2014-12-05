@@ -173,21 +173,16 @@ def git_status_translation(request, project, subproject, lang):
     )
 
 
-def js_config(request):
+def mt_services(request):
     '''
-    Generates settings for javascript. Includes things like
-    translaiton services.
+    Generates list of installed machine translation services in JSON.
     '''
     # Machine translation
     machine_services = MACHINE_TRANSLATION_SERVICES.keys()
 
-    return render(
-        request,
-        'js/config.js',
-        {
-            'machine_services': machine_services,
-        },
-        content_type='application/javascript'
+    return HttpResponse(
+        json.dumps(machine_services),
+        content_type='application/json'
     )
 
 
