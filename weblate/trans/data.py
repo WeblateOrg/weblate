@@ -62,8 +62,12 @@ def migrate_data_dirs(*args, **kwargs):
 
     ssh_home = os.path.expanduser('~/.ssh')
     ssh = data_dir('ssh')
-    if os.path.exists(ssh_home) and not os.path.exists(ssh):
-        shutil.copytree(ssh_home, ssh)
+    for name in ('known_hosts', 'id_rsa', 'id_rsa.pub'):
+        source = os.path.join(ssh_home, name)
+        target = os.path.join(ssh, name)
+
+        if os.path.exists(source) and not os.path.exists(target):
+            shutil.copy(source, target)
 
 
 def unmigrate_data_dirs(*args, **kwargs):
