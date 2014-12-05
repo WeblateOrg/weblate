@@ -135,6 +135,19 @@ function failed_machine_translation(jqXHR, textStatus, errorThrown) {
     );
 }
 
+function load_mt_translations(data, textStatus, jqXHR) {
+    dec_loading();
+    data.forEach(function (el, idx, ar) {
+        inc_loading();
+        $.ajax({
+            url: $('#js-translate').attr('href') + '?service=' + el,
+            success: process_machine_translation,
+            error: failed_machine_translation,
+            dataType: 'json'
+        });
+    });
+}
+
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -280,14 +293,12 @@ $(function () {
             return;
         }
         mt_loaded = true;
-        MACHINE_TRANSLATION_SERVICES.forEach(function (el, idx, ar) {
-            inc_loading();
-            $.ajax({
-                url: $('#js-translate').attr('href') + '?service=' + el,
-                success: process_machine_translation,
-                error: failed_machine_translation,
-                dataType: 'json'
-            });
+        inc_loading();
+        $.ajax({
+            url: $('#js-mt-services').attr('href'),
+            success: load_mt_translations,
+            error: failed_machine_translation,
+            dataType: 'json'
         });
     });
 

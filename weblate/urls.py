@@ -587,9 +587,9 @@ urlpatterns = patterns(
         name='js-catalog'
     ),
     url(
-        r'^js/config/$',
-        'weblate.trans.views.js.js_config',
-        name='js-config',
+        r'^js/mt-services/$',
+        'weblate.trans.views.js.mt_services',
+        name='js-mt-services',
     ),
     url(
         r'^js/translate/(?P<unit_id>[0-9]+)/$',
