@@ -70,7 +70,7 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
 
-    pip install pyuca
+    pip install https://github.com/SmileyChris/pyuca/archive/master.zip
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
@@ -112,7 +112,7 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
 
-    pip install pyuca
+    pip install https://github.com/SmileyChris/pyuca/archive/master.zip
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
