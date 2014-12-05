@@ -4,6 +4,8 @@ Changes
 weblate 2.1
 -----------
 
+Released on Dec 5th 2014.
+
 * Added support for Mercurial repositories.
 * Replaced Glyphicon font by Awesome.
 * Added icons for social authentication services.
@@ -15,8 +17,6 @@ weblate 2.1
 * Improved SSH keys handling and storage.
 * Improved repository locking.
 * Customizable quality checks per source string.
-
-Released on ? 2014.
 
 weblate 2.0
 -----------
