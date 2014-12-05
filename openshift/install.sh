@@ -58,9 +58,6 @@ sed -e 's/Django[<>=]\+.*/Django>1.7,<1.8/' $OPENSHIFT_REPO_DIR/requirements-man
 
 sh "pip install -r /tmp/requirements.txt"
 
-# Use Python 2.7 compatible pyuca
-sh "pip install https://github.com/SmileyChris/pyuca/archive/master.zip"
-
 # Install optional dependencies without failing if some can't be installed.
 while read line; do
   if [[ $line != -r* ]]; then
