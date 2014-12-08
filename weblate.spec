@@ -43,9 +43,10 @@ BuildArch:      noarch
 %py_requires
 
 %description
-Weblate is a free web-based translation tool with tight Git integration. It
-features simple and clean user interface, propagation of translations across
-components, quality checks and automatic linking to source files.
+Weblate is a free web-based translation tool with tight version control
+integration. It features simple and clean user interface, propagation of
+translations across components, quality checks and automatic linking to source
+files.
 
 List of features includes:
 
