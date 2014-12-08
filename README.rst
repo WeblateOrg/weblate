@@ -37,7 +37,7 @@ Features
 
 * Easy web based translation
 * Propagation of translations across components (eg. branches) within projects
-* Tight git integration - every change is represented by version control commit
+* Tight VCS integration - every change is represented by version control commit
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
 * Links to source files for context

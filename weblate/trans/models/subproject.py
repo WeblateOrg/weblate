@@ -336,7 +336,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         permissions = (
             ('lock_subproject', "Can lock translation for translating"),
-            ('can_see_git_repository', "Can see git repository URL"),
+            ('can_see_git_repository', "Can see VCS repository URL"),
         )
         app_label = 'trans'
 
@@ -408,7 +408,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def _get_path(self):
         '''
-        Returns full path to subproject git repository.
+        Returns full path to subproject VCS repository.
         '''
         if self.is_repo_link:
             return self.linked_subproject.get_path()
@@ -521,7 +521,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_export_url(self):
         '''
-        Returns URL of exported git repository.
+        Returns URL of exported VCS repository.
         '''
         if self.is_repo_link:
             return self.linked_subproject.git_export
@@ -819,7 +819,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def create_translations(self, force=False, langs=None, request=None):
         '''
-        Loads translations from git.
+        Loads translations from VCS.
         '''
         translations = []
         matches = self.get_mask_matches()
@@ -878,7 +878,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def sync_git_repo(self, validate=False):
         '''
-        Brings git repo in sync with current model.
+        Brings VCS repo in sync with current model.
         '''
         if self.is_repo_link:
             return
@@ -1088,7 +1088,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('Unsupported file format: {0}').format(self.file_format)
             )
 
-        # Validate git repo
+        # Validate VCS repo
         try:
             self.sync_git_repo(True)
         except RepositoryException as exc:
@@ -1136,7 +1136,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Save wrapper which updates backend repository and regenerates
         translation data.
         '''
-        # Detect if git config has changed (so that we have to pull the repo)
+        # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
         if self.id:
             old = SubProject.objects.get(pk=self.id)
