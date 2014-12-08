@@ -105,12 +105,12 @@ def update_project(request, project):
 
 
 @csrf_exempt
-def git_service_hook(request, service):
+def vcs_service_hook(request, service):
     '''
-    Shared code between Git service hooks.
+    Shared code between VCS service hooks.
 
     Currently used for bitbucket_hook, github_hook and gitlab_hook, but should
-    be usable for other Git services (Google Code, custom coded sites, etc.)
+    be usable for other VCS services (Google Code, custom coded sites, etc.)
     too.
     '''
     # Check for enabled hooks
