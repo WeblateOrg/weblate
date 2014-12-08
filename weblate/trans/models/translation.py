@@ -154,7 +154,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ('commit_translation', "Can force commiting of translation"),
             ('update_translation', "Can update translation from VCS"),
             ('push_translation', "Can push translations to remote VCS"),
-            (   'reset_translation',
+            (
+                'reset_translation',
                 "Can reset translations to match remote VCS"
             ),
             ('automatic_translation', "Can do automatic translation"),
