@@ -121,7 +121,7 @@ logged in users.
 
 Basically `Users` are meant as regular translators and `Managers` for
 developers who need more control over the translation - they can force
-committing changes to git, push changes upstream (if Weblate is configured to do
+committing changes to VCS, push changes upstream (if Weblate is configured to do
 so) or disable translation (eg. when there are some major changes happening
 upstream). 
 
@@ -147,20 +147,20 @@ Can overwrite with translation upload [Users, Managers]
 Can define author of translation upload [Managers]
     Allows to define custom authorship when uploading translation file.
 Can force committing of translation [Managers]
-    Can force Git commit in the web interface.
-Can see git repository URL [Users, Managers, Guests]
-    Can see Git repository URL inside Weblate
-Can update translation from git [Managers]
-    Can force Git pull in the web interface.
-Can push translations to remote git [Managers]
-    Can force Git push in the web interface.
+    Can force VCS commit in the web interface.
+Can see VCS repository URL [Users, Managers, Guests]
+    Can see VCS repository URL inside Weblate
+Can update translation from VCS [Managers]
+    Can force VCS pull in the web interface.
+Can push translations to remote VCS [Managers]
+    Can force VCS push in the web interface.
 Can do automatic translation using other project strings [Managers]
     Can do automatic translation based on strings from other components
 Can lock whole translation project [Managers]
     Can lock translation for updates, useful while doing some major changes 
     in the project.
-Can reset translations to match remote git [Managers]
-    Can reset Git repository to match remote git.
+Can reset translations to match remote VCS [Managers]
+    Can reset VCS repository to match remote VCS.
 Can save translation [Users, Managers]
     Can save translation (might be disabled with :ref:`voting`).
 Can accept suggestion [Users, Managers]
