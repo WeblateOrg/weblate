@@ -735,7 +735,7 @@ class CheckFlagsForm(forms.Form):
         label=_('Check flags'),
         required=False,
         help_text=_(
-            'Please enter comma separated list of check flags, '
+            'Please enter a comma separated list of check flags, '
             'see <a href="{url}">documentation</a> for more details.'
         ).format(
             url=weblate.get_doc_url('admin/checks', 'custom-checks')
