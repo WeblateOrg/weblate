@@ -759,6 +759,6 @@ class AddUserForm(forms.Form):
         label=_('User to add'),
         help_text=_(
             'Please provide username or email. '
-            'User needs to have already active account in Weblate.'
+            'User needs to already have an active account in Weblate.'
         ),
     )
