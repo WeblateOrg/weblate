@@ -65,15 +65,15 @@ class UnitManager(models.Manager):
         created = False
 
         # Try getting existing unit
-        dbunit = None
         created = False
         try:
             dbunit = translation.unit_set.get(checksum=checksum)
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
-            dbunit = translation.unit_set.filter(checksum=checksum).delete()
+            translation.unit_set.filter(checksum=checksum).delete()
+            dbunit = None
         except Unit.DoesNotExist:
-            pass
+            dbunit = None
 
         # Create unit if it does not exist
         if dbunit is None:
@@ -189,15 +189,13 @@ class UnitManager(models.Manager):
         """
         High level wrapper for searching.
         """
-
+        base = self.all()
         if params['type'] != 'all':
             base = self.filter_type(
                 params['type'],
                 translation,
                 params['ignored']
             )
-        else:
-            base = self.all()
 
         if not params['q']:
             return base
@@ -205,9 +203,8 @@ class UnitManager(models.Manager):
         if params['search'] in ('exact', 'substring'):
             queries = []
 
-            if params['search'] == 'exact':
-                modifier = ''
-            else:
+            modifier = ''
+            if params['search'] != 'exact':
                 modifier = '__icontains'
 
             for param in SEARCH_FILTERS:
