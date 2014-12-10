@@ -57,12 +57,12 @@ class WeblateCommand(BaseCommand):
         Memory effective iteration over units.
         """
         units = self.get_units(*args, **options).order_by('pk')
-        if not units:
+        count = units.count()
+        if not count:
             return
 
         current = 0
         last = units.order_by('-pk')[0].pk
-        count = units.count()
         done = 0
         step = 1000
 
@@ -72,7 +72,14 @@ class WeblateCommand(BaseCommand):
                 'Processing {0:.1f}%'.format(done * 100.0 / count),
             )
             with transaction.atomic():
-                for unit in units.filter(pk__gt=current)[:step].iterator():
+                step_units = units.filter(
+                    pk__gt=current
+                )[:step].prefetch_related(
+                    'translation__language',
+                    'translation__subproject',
+                    'translation__subproject__project',
+                )
+                for unit in step_units:
                     current = unit.pk
                     done += 1
                     yield unit
