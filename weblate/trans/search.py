@@ -223,10 +223,12 @@ def fulltext_search(query, lang, params):
         'src': False,
         'ctx': False,
         'tgt': False,
+        'cmt': False,
+        'loc': False,
     }
     search.update(params)
 
-    if search['src'] or search['ctx']:
+    if search['src'] or search['ctx'] or search['cmt']:
         index = get_source_index()
         with index.searcher() as searcher:
             if search['src']:
@@ -237,13 +239,22 @@ def fulltext_search(query, lang, params):
                 checksums.update(
                     base_search(searcher, 'context', SourceSchema(), query)
                 )
+            if search['cmt']:
+                checksums.update(
+                    base_search(searcher, 'comment', SourceSchema(), query)
+                )
 
-    if search['tgt']:
+    if search['tgt'] or search['loc']:
         index = get_target_index(lang)
         with index.searcher() as searcher:
-            checksums.update(
-                base_search(searcher, 'target', TargetSchema(), query)
-            )
+            if search['tgt']:
+                checksums.update(
+                    base_search(searcher, 'target', TargetSchema(), query)
+                )
+            if search['loc']:
+                checksums.update(
+                    base_search(searcher, 'location', TargetSchema(), query)
+                )
 
     return checksums
 
