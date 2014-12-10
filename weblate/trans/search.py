@@ -43,6 +43,7 @@ class TargetSchema(SchemaClass):
     '''
     checksum = ID(stored=True, unique=True)
     target = TEXT()
+    comment = TEXT()
 
 
 class SourceSchema(SchemaClass):
@@ -52,6 +53,7 @@ class SourceSchema(SchemaClass):
     checksum = ID(stored=True, unique=True)
     source = TEXT()
     context = TEXT()
+    location = TEXT()
 
 
 @receiver(post_syncdb)
@@ -103,7 +105,12 @@ def get_source_index():
     '''
     if not STORAGE.index_exists('source'):
         create_source_index()
-    return STORAGE.open_index('source')
+    index = STORAGE.open_index('source')
+    if 'location' not in index.schema:
+        writer = index.writer()
+        writer.add_field('location', TEXT)
+        writer.commit()
+    return index
 
 
 def get_target_index(lang):
@@ -113,7 +120,12 @@ def get_target_index(lang):
     name = 'target-%s' % lang
     if not STORAGE.index_exists(name):
         create_target_index(lang)
-    return STORAGE.open_index(name)
+    index = STORAGE.open_index(name)
+    if 'comment' not in index.schema:
+        writer = index.writer()
+        writer.add_field('comment', TEXT)
+        writer.commit()
+    return index
 
 
 def update_index(units, source_units=None):
