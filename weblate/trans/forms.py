@@ -28,7 +28,7 @@ from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from crispy_forms.helper import FormHelper
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models.unit import Unit, SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.trans.specialchars import get_special_chars
@@ -410,27 +410,27 @@ class SearchForm(forms.Form):
         ),
         initial=False
     )
-    src = forms.BooleanField(
+    source = forms.BooleanField(
         label=_('Search in source strings'),
         required=False,
         initial=True
     )
-    tgt = forms.BooleanField(
+    target = forms.BooleanField(
         label=_('Search in target strings'),
         required=False,
         initial=True
     )
-    ctx = forms.BooleanField(
+    context = forms.BooleanField(
         label=_('Search in context strings'),
         required=False,
         initial=False
     )
-    loc = forms.BooleanField(
+    location = forms.BooleanField(
         label=_('Search in location strings'),
         required=False,
         initial=False
     )
-    cmt = forms.BooleanField(
+    comment = forms.BooleanField(
         label=_('Search in comment strings'),
         required=False,
         initial=False
@@ -471,13 +471,13 @@ class SearchForm(forms.Form):
             cleaned_data['type'] = 'all'
 
         # Default to source and target search
-        if (not cleaned_data['src']
-                and not cleaned_data['tgt']
-                and not cleaned_data['loc']
-                and not cleaned_data['cmt']
-                and not cleaned_data['ctx']):
-            cleaned_data['src'] = True
-            cleaned_data['tgt'] = True
+        if (not cleaned_data['source']
+                and not cleaned_data['target']
+                and not cleaned_data['location']
+                and not cleaned_data['comment']
+                and not cleaned_data['context']):
+            cleaned_data['source'] = True
+            cleaned_data['target'] = True
 
         return cleaned_data
 
@@ -490,7 +490,7 @@ class SearchForm(forms.Form):
         if self.cleaned_data['q']:
             query['q'] = self.cleaned_data['q'].encode('utf-8')
             query['search'] = self.cleaned_data['search']
-            for param in ('src', 'tgt', 'ctx', 'cmt', 'loc'):
+            for param in SEARCH_FILTERS:
                 if self.cleaned_data[param]:
                     query[param] = 'on'
 

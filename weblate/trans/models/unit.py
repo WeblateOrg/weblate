@@ -48,6 +48,8 @@ SIMPLE_FILTERS = {
     'comments': {'has_comment': True},
 }
 
+SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
+
 
 class UnitManager(models.Manager):
     # pylint: disable=W0232
@@ -208,16 +210,9 @@ class UnitManager(models.Manager):
             else:
                 modifier = '__icontains'
 
-            if params['src']:
-                queries.append('source')
-            if params['tgt']:
-                queries.append('target')
-            if params['ctx']:
-                queries.append('context')
-            if params['loc']:
-                queries.append('location')
-            if params['cmt']:
-                queries.append('comment')
+            for param in SEARCH_FILTERS:
+                if params[param]:
+                    queries.append(param)
 
             query = reduce(
                 lambda q, value:
@@ -244,7 +239,7 @@ class UnitManager(models.Manager):
         checksums = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
-            {'src': True}
+            {'source': True}
         )
 
         return self.filter(
@@ -264,7 +259,7 @@ class UnitManager(models.Manager):
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
-            {'src': True}
+            {'source': True}
         )
 
         checksums = more_results - same_results

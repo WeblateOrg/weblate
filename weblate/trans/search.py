@@ -220,41 +220,31 @@ def fulltext_search(query, lang, params):
     checksums = set()
 
     search = {
-        'src': False,
-        'ctx': False,
-        'tgt': False,
-        'cmt': False,
-        'loc': False,
+        'source': False,
+        'context': False,
+        'target': False,
+        'comment': False,
+        'location': False,
     }
     search.update(params)
 
-    if search['src'] or search['ctx'] or search['loc']:
+    if search['source'] or search['context'] or search['location']:
         index = get_source_index()
         with index.searcher() as searcher:
-            if search['src']:
-                checksums.update(
-                    base_search(searcher, 'source', SourceSchema(), query)
-                )
-            if search['ctx']:
-                checksums.update(
-                    base_search(searcher, 'context', SourceSchema(), query)
-                )
-            if search['loc']:
-                checksums.update(
-                    base_search(searcher, 'location', SourceSchema(), query)
-                )
+            for param in ('source', 'context', 'location'):
+                if search[param]:
+                    checksums.update(
+                        base_search(searcher, param, SourceSchema(), query)
+                    )
 
-    if search['tgt'] or search['cmt']:
+    if search['target'] or search['comment']:
         index = get_target_index(lang)
         with index.searcher() as searcher:
-            if search['tgt']:
-                checksums.update(
-                    base_search(searcher, 'target', TargetSchema(), query)
-                )
-            if search['cmt']:
-                checksums.update(
-                    base_search(searcher, 'comment', TargetSchema(), query)
-                )
+            for param in ('target', 'comment'):
+                if search[param]:
+                    checksums.update(
+                        base_search(searcher, param, TargetSchema(), query)
+                    )
 
     return checksums
 
