@@ -94,7 +94,11 @@ def get_related_units(unitdata):
         related_units = related_units.filter(
             translation__language=unitdata.language
         )
-    return related_units
+
+    return related_units.select_related(
+        'translation__subproject__project',
+        'translation__language'
+    )
 
 
 @receiver(post_save, sender=Check)
@@ -104,7 +108,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
     """
     if instance.language is None:
         return
-    for unit in get_related_units(instance).iterator():
+    for unit in get_related_units(instance):
         unit.update_has_failing_check(False)
 
 
@@ -114,7 +118,7 @@ def update_comment_flag(sender, instance, **kwargs):
     """
     Update related unit comment flags
     """
-    for unit in get_related_units(instance).iterator():
+    for unit in get_related_units(instance):
         # Update unit stats
         unit.update_has_comment()
 
@@ -129,7 +133,7 @@ def update_suggestion_flag(sender, instance, **kwargs):
     """
     Update related unit suggestion flags
     """
-    for unit in get_related_units(instance).iterator():
+    for unit in get_related_units(instance):
         # Update unit stats
         unit.update_has_suggestion()
 
