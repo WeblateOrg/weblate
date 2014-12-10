@@ -6,6 +6,8 @@ weblate 2.2
 
 Released on ? 2014.
 
+* Performance improvements.
+
 weblate 2.1
 -----------
 
