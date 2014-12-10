@@ -205,6 +205,21 @@ these manually.
     If you are upgrading to Django 1.7 in same step, please consult
     :ref:`django-17`.
 
+Upgrade from 2.1 to 2.2
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate now supports fulltext search on additional fields. In order to make it
+work on existing data you need to udpate fulltext index by:
+
+.. code-block:: sh
+
+    ./manage.py rebuild_index --clean --all
+
+.. seealso::
+
+    If you are upgrading to Django 1.7 in same step, please consult
+    :ref:`django-17`.
+
 .. _django-17:
 
 Upgrading to Django 1.7

@@ -7,6 +7,7 @@ weblate 2.2
 Released on ? 2014.
 
 * Performance improvements.
+* Fulltext search on location and comments fields.
 
 weblate 2.1
 -----------
