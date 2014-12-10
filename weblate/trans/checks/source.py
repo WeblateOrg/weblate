@@ -80,7 +80,5 @@ class MultipleFailingCheck(SourceCheck):
             language__isnull=True
         ).values(
             'language'
-        ).annotate(
-            Count('language')
-        )
-        return len(related) >= 2
+        ).distinct()
+        return related.count() >= 2
