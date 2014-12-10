@@ -425,6 +425,16 @@ class SearchForm(forms.Form):
         required=False,
         initial=False
     )
+    loc = forms.BooleanField(
+        label=_('Search in location strings'),
+        required=False,
+        initial=False
+    )
+    cmt = forms.BooleanField(
+        label=_('Search in comment strings'),
+        required=False,
+        initial=False
+    )
     type = forms.ChoiceField(
         label=_('Search filter'),
         required=False,
@@ -463,6 +473,8 @@ class SearchForm(forms.Form):
         # Default to source and target search
         if (not cleaned_data['src']
                 and not cleaned_data['tgt']
+                and not cleaned_data['loc']
+                and not cleaned_data['cmt']
                 and not cleaned_data['ctx']):
             cleaned_data['src'] = True
             cleaned_data['tgt'] = True
@@ -478,12 +490,9 @@ class SearchForm(forms.Form):
         if self.cleaned_data['q']:
             query['q'] = self.cleaned_data['q'].encode('utf-8')
             query['search'] = self.cleaned_data['search']
-            if self.cleaned_data['src']:
-                query['src'] = 'on'
-            if self.cleaned_data['tgt']:
-                query['tgt'] = 'on'
-            if self.cleaned_data['ctx']:
-                query['ctx'] = 'on'
+            for param in ('src', 'tgt', 'ctx', 'cmt', 'loc'):
+                if self.cleaned_data[param]:
+                    query[param] = 'on'
 
         if self.cleaned_data['type'] != 'all':
             query['type'] = self.cleaned_data['type']

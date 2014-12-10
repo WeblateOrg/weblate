@@ -214,6 +214,10 @@ class UnitManager(models.Manager):
                 queries.append('target')
             if params['ctx']:
                 queries.append('context')
+            if params['loc']:
+                queries.append('location')
+            if params['cmt']:
+                queries.append('comment')
 
             query = reduce(
                 lambda q, value:
