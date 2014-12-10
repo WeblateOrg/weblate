@@ -108,7 +108,10 @@ def update_failed_check_flag(sender, instance, **kwargs):
     """
     if instance.language is None:
         return
-    for unit in get_related_units(instance):
+    related = get_related_units(instance)
+    if instance.for_unit is not None:
+        related = related.exclude(pk=instance.for_unit)
+    for unit in related:
         unit.update_has_failing_check(False)
 
 

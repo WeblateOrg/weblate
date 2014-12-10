@@ -237,6 +237,16 @@ class Check(models.Model):
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
     ignore = models.BooleanField(db_index=True, default=False)
 
+    _for_unit = None
+
+    @property
+    def for_unit(self):
+        return self._for_unit
+
+    @for_unit.setter
+    def for_unit(self, value):
+        self._for_unit = value
+
     class Meta(object):
         permissions = (
             ('ignore_check', "Can ignore check results"),

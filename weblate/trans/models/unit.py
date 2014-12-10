@@ -854,7 +854,8 @@ class Unit(models.Model):
                         project=self.translation.subproject.project,
                         language=self.translation.language,
                         ignore=False,
-                        check=check
+                        check=check,
+                        for_unit=self.pk
                     )
                     was_change = True
             # Source check
