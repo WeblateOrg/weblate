@@ -189,15 +189,13 @@ class UnitManager(models.Manager):
         """
         High level wrapper for searching.
         """
-
+        base = self.all()
         if params['type'] != 'all':
             base = self.filter_type(
                 params['type'],
                 translation,
                 params['ignored']
             )
-        else:
-            base = self.all()
 
         if not params['q']:
             return base
@@ -205,9 +203,8 @@ class UnitManager(models.Manager):
         if params['search'] in ('exact', 'substring'):
             queries = []
 
-            if params['search'] == 'exact':
-                modifier = ''
-            else:
+            modifier = ''
+            if params['search'] != 'exact':
                 modifier = '__icontains'
 
             for param in SEARCH_FILTERS:
