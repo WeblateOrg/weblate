@@ -102,6 +102,8 @@ def update_failed_check_flag(sender, instance, **kwargs):
     """
     Update related unit failed check flag.
     """
+    if instance.language is None:
+        return
     for unit in get_related_units(instance).iterator():
         unit.update_has_failing_check(False)
 
