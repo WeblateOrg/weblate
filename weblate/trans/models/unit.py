@@ -228,24 +228,14 @@ class UnitManager(models.Manager):
 
             return base.filter(query)
         else:
+            lang = self.all()[0].translation.language.code
             return base.filter(
-                checksum__in=self.fulltext(
+                checksum__in=fulltext_search(
                     params['q'],
+                    lang,
                     params
                 )
             )
-
-    def fulltext(self, query, params):
-        """
-        Performs full text search on defined set of fields.
-
-        Returns queryset unless checksums is set.
-        """
-
-        lang = self.all()[0].translation.language.code
-        ret = fulltext_search(query, lang, params)
-
-        return ret
 
     def same_source(self, unit):
         """
