@@ -228,7 +228,7 @@ def fulltext_search(query, lang, params):
     }
     search.update(params)
 
-    if search['src'] or search['ctx'] or search['cmt']:
+    if search['src'] or search['ctx'] or search['loc']:
         index = get_source_index()
         with index.searcher() as searcher:
             if search['src']:
@@ -239,21 +239,21 @@ def fulltext_search(query, lang, params):
                 checksums.update(
                     base_search(searcher, 'context', SourceSchema(), query)
                 )
-            if search['cmt']:
+            if search['loc']:
                 checksums.update(
-                    base_search(searcher, 'comment', SourceSchema(), query)
+                    base_search(searcher, 'location', SourceSchema(), query)
                 )
 
-    if search['tgt'] or search['loc']:
+    if search['tgt'] or search['cmt']:
         index = get_target_index(lang)
         with index.searcher() as searcher:
             if search['tgt']:
                 checksums.update(
                     base_search(searcher, 'target', TargetSchema(), query)
                 )
-            if search['loc']:
+            if search['cmt']:
                 checksums.update(
-                    base_search(searcher, 'location', TargetSchema(), query)
+                    base_search(searcher, 'comment', TargetSchema(), query)
                 )
 
     return checksums
