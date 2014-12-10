@@ -3,7 +3,7 @@
 %define WLDATADIR %{_localstatedir}/lib/weblate
 %define WLETCDIR /%{_sysconfdir}/weblate
 Name:           weblate
-Version:        2.1
+Version:        2.2
 Release:        0
 Summary:        Web-based translation tool
 License:        GPL-3.0+
