@@ -231,13 +231,11 @@ class UnitManager(models.Manager):
             return base.filter(
                 checksum__in=self.fulltext(
                     params['q'],
-                    params['src'],
-                    params['ctx'],
-                    params['tgt']
+                    params
                 )
             )
 
-    def fulltext(self, query, source=True, context=True, translation=True):
+    def fulltext(self, query, params):
         """
         Performs full text search on defined set of fields.
 
@@ -245,7 +243,7 @@ class UnitManager(models.Manager):
         """
 
         lang = self.all()[0].translation.language.code
-        ret = fulltext_search(query, lang, source, context, translation)
+        ret = fulltext_search(query, lang, params)
 
         return ret
 
@@ -256,7 +254,7 @@ class UnitManager(models.Manager):
         checksums = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
-            True, False, False
+            {'src': True}
         )
 
         return self.filter(
@@ -276,7 +274,7 @@ class UnitManager(models.Manager):
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
-            True, False, False
+            {'src': True}
         )
 
         checksums = more_results - same_results

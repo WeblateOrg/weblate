@@ -199,25 +199,32 @@ def base_search(searcher, field, schema, query):
     return [result['checksum'] for result in searcher.search(parsed)]
 
 
-def fulltext_search(query, lang, source=True, context=True, target=True):
+def fulltext_search(query, lang, params):
     '''
     Performs fulltext search in given areas, returns set of checksums.
     '''
     checksums = set()
 
-    if source or context:
+    search = {
+        'src': False,
+        'ctx': False,
+        'tgt': False,
+    }
+    search.update(params)
+
+    if search['src'] or search['ctx']:
         index = get_source_index()
         with index.searcher() as searcher:
-            if source:
+            if search['src']:
                 checksums.update(
                     base_search(searcher, 'source', SourceSchema(), query)
                 )
-            if context:
+            if search['ctx']:
                 checksums.update(
                     base_search(searcher, 'context', SourceSchema(), query)
                 )
 
-    if target:
+    if search['tgt']:
         index = get_target_index(lang)
         with index.searcher() as searcher:
             checksums.update(
