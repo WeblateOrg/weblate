@@ -94,7 +94,6 @@ def update_target_unit_index(writer, unit):
     '''
     Updates target index for given unit.
     '''
-    print 'c', unit.comment
     writer.update_document(
         checksum=unicode(unit.checksum),
         target=unicode(unit.target),
