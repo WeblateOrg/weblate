@@ -29,4 +29,4 @@ class Command(BaseCommand):
         '''
         Prints versions of dependencies.
         '''
-        print get_versions_string()
+        self.stdout.write(get_versions_string())

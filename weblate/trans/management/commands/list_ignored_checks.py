@@ -63,4 +63,4 @@ class Command(BaseCommand):
                 }
         results = sorted(results.values(), key=lambda x: -x['count'])
         for result in results[:options['count']]:
-            print '%(count)5d %(check)20s %(source)s' % result
+            self.stdout.write('%(count)5d %(check)20s %(source)s' % result)
