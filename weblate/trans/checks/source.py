@@ -21,6 +21,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Count
 from weblate.trans.checks.base import SourceCheck
+from weblate.trans.models.unitdata import Check
 import re
 
 # Matches (s) not followed by alphanumeric chars or at the end
@@ -72,7 +73,6 @@ class MultipleFailingCheck(SourceCheck):
     severity = 'warning'
 
     def check_source(self, source, unit):
-        from weblate.trans.models.unitdata import Check
         related = Check.objects.filter(
             contentsum=unit.contentsum,
             project=unit.translation.subproject.project
