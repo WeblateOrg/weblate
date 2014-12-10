@@ -231,30 +231,20 @@ def fulltext_search(query, lang, params):
     if search['source'] or search['context'] or search['location']:
         index = get_source_index()
         with index.searcher() as searcher:
-            if search['source']:
-                checksums.update(
-                    base_search(searcher, 'source', SourceSchema(), query)
-                )
-            if search['context']:
-                checksums.update(
-                    base_search(searcher, 'context', SourceSchema(), query)
-                )
-            if search['location']:
-                checksums.update(
-                    base_search(searcher, 'location', SourceSchema(), query)
-                )
+            for param in ('source', 'context', 'location'):
+                if search[param]:
+                    checksums.update(
+                        base_search(searcher, param, SourceSchema(), query)
+                    )
 
     if search['target'] or search['comment']:
         index = get_target_index(lang)
         with index.searcher() as searcher:
-            if search['target']:
-                checksums.update(
-                    base_search(searcher, 'target', TargetSchema(), query)
-                )
-            if search['comment']:
-                checksums.update(
-                    base_search(searcher, 'comment', TargetSchema(), query)
-                )
+            for param in ('target', 'comment'):
+                if search[param]:
+                    checksums.update(
+                        base_search(searcher, param, TargetSchema(), query)
+                    )
 
     return checksums
 

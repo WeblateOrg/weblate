@@ -48,6 +48,8 @@ SIMPLE_FILTERS = {
     'comments': {'has_comment': True},
 }
 
+SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
+
 
 class UnitManager(models.Manager):
     # pylint: disable=W0232
@@ -208,16 +210,9 @@ class UnitManager(models.Manager):
             else:
                 modifier = '__icontains'
 
-            if params['source']:
-                queries.append('source')
-            if params['target']:
-                queries.append('target')
-            if params['context']:
-                queries.append('context')
-            if params['location']:
-                queries.append('location')
-            if params['comment']:
-                queries.append('comment')
+            for param in SEARCH_FILTERS:
+                if params[param]:
+                    queries.append(param)
 
             query = reduce(
                 lambda q, value:
