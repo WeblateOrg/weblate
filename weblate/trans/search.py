@@ -220,38 +220,38 @@ def fulltext_search(query, lang, params):
     checksums = set()
 
     search = {
-        'src': False,
-        'ctx': False,
-        'tgt': False,
-        'cmt': False,
-        'loc': False,
+        'source': False,
+        'context': False,
+        'target': False,
+        'comment': False,
+        'location': False,
     }
     search.update(params)
 
-    if search['src'] or search['ctx'] or search['loc']:
+    if search['source'] or search['context'] or search['location']:
         index = get_source_index()
         with index.searcher() as searcher:
-            if search['src']:
+            if search['source']:
                 checksums.update(
                     base_search(searcher, 'source', SourceSchema(), query)
                 )
-            if search['ctx']:
+            if search['context']:
                 checksums.update(
                     base_search(searcher, 'context', SourceSchema(), query)
                 )
-            if search['loc']:
+            if search['location']:
                 checksums.update(
                     base_search(searcher, 'location', SourceSchema(), query)
                 )
 
-    if search['tgt'] or search['cmt']:
+    if search['target'] or search['comment']:
         index = get_target_index(lang)
         with index.searcher() as searcher:
-            if search['tgt']:
+            if search['target']:
                 checksums.update(
                     base_search(searcher, 'target', TargetSchema(), query)
                 )
-            if search['cmt']:
+            if search['comment']:
                 checksums.update(
                     base_search(searcher, 'comment', TargetSchema(), query)
                 )

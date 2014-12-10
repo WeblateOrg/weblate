@@ -208,15 +208,15 @@ class UnitManager(models.Manager):
             else:
                 modifier = '__icontains'
 
-            if params['src']:
+            if params['source']:
                 queries.append('source')
-            if params['tgt']:
+            if params['target']:
                 queries.append('target')
-            if params['ctx']:
+            if params['context']:
                 queries.append('context')
-            if params['loc']:
+            if params['location']:
                 queries.append('location')
-            if params['cmt']:
+            if params['comment']:
                 queries.append('comment')
 
             query = reduce(
@@ -244,7 +244,7 @@ class UnitManager(models.Manager):
         checksums = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
-            {'src': True}
+            {'source': True}
         )
 
         return self.filter(
@@ -264,7 +264,7 @@ class UnitManager(models.Manager):
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
-            {'src': True}
+            {'source': True}
         )
 
         checksums = more_results - same_results
