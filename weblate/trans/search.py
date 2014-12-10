@@ -86,6 +86,7 @@ def update_source_unit_index(writer, unit):
         checksum=unicode(unit.checksum),
         source=unicode(unit.source),
         context=unicode(unit.context),
+        location=unicode(unit.location),
     )
 
 
@@ -95,7 +96,8 @@ def update_target_unit_index(writer, unit):
     '''
     writer.update_document(
         checksum=unicode(unit.checksum),
-        target=unicode(unit.target)
+        target=unicode(unit.target),
+        comment=unicode(unit.comment),
     )
 
 
