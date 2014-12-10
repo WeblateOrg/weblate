@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-12-07 12:53+0100\n"
-"PO-Revision-Date: 2014-12-09 13:24+0200\n"
+"PO-Revision-Date: 2014-12-10 14:30+0200\n"
 "Last-Translator: Dieter Adriaenssens <ruleant@users.sourceforge.net>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
 "\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.1\n"
+"X-Generator: Weblate 2.1-dev\n"
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -4048,6 +4048,8 @@ msgid ""
 "Please provide username or email. User needs to have already active account "
 "in Weblate."
 msgstr ""
+"Gelieve gebruikersnaam of E-mailadres op te geven. De gebruiker moet reeds "
+"een actieve account hebben in Weblate."
 
 #: weblate/trans/models/advertisement.py:36
 #, python-brace-format
@@ -4060,11 +4062,10 @@ msgid "Support Weblate at {0}"
 msgstr "Ondersteun Weblate op {0}"
 
 #: weblate/trans/models/advertisement.py:38
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "More information about Weblate can be found at http://weblate.org/"
 msgid "More information about Weblate can be found at {0}"
-msgstr ""
-"Meer informatie over Weblate kan gevonden worden op http://weblate.org/"
+msgstr "Meer informatie over Weblate kan gevonden worden op {0}"
 
 #: weblate/trans/models/advertisement.py:41
 msgid "Donate to Weblate"
@@ -4075,10 +4076,9 @@ msgid "Support Weblate using GitTip"
 msgstr "Ondersteun Weblate met GitTip"
 
 #: weblate/trans/models/advertisement.py:43
-#, fuzzy
 #| msgid "More information"
 msgid "More information about Weblate"
-msgstr "Meer informatie"
+msgstr "Meer informatie over Weblate"
 
 #: weblate/trans/models/advertisement.py:95
 msgid "Mail footer (text)"
@@ -4229,14 +4229,13 @@ msgstr ""
 "eerst de documentatie te bekijken alvorens dit in te schakelen."
 
 #: weblate/trans/models/project.py:125
-#, fuzzy
 #| msgid "Enable ACL"
 msgid "Enable hooks"
-msgstr "ACL inschakelen"
+msgstr "hooks inschakelen"
 
 #: weblate/trans/models/project.py:128
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr ""
+msgstr "Of dit repository door externe hooks bijgewerkt mag worden."
 
 #: weblate/trans/models/project.py:169
 #, python-format
@@ -4289,22 +4288,22 @@ msgid "Merge"
 msgstr "Samenvoegen"
 
 #: weblate/trans/models/subproject.py:82
-#, fuzzy
 #| msgid "Comment added"
 msgid "Component name"
-msgstr "Opmerking toegevoegd"
+msgstr "Naam van het onderdeel"
 
 #: weblate/trans/models/subproject.py:96
 msgid "Version control system"
-msgstr ""
+msgstr "Versiebeheersysteem"
 
 #: weblate/trans/models/subproject.py:99
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
+"Versiebeheersysteem dat gebruikt wordt om toegang te krijgen tot het "
+"repository met vertalingen."
 
 #: weblate/trans/models/subproject.py:109
-#, fuzzy
 #| msgid ""
 #| "URL of Git repository, use weblate://project/resource for sharing with "
 #| "other resource."
@@ -4312,20 +4311,18 @@ msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"URL van een Git repository, gebruik weblate://project/resource om te delen "
-"met een andere hulpbron."
+"URL van een repository, gebruik weblate://project/onderdeel om te delen met "
+"een ander onderdeel."
 
 #: weblate/trans/models/subproject.py:114
-#, fuzzy
 #| msgid "Repository status"
 msgid "Repository push URL"
-msgstr "Repository status"
+msgstr "Push URL van het repository"
 
 #: weblate/trans/models/subproject.py:117
-#, fuzzy
 #| msgid "URL of push Git repository, pushing is disabled if empty."
 msgid "URL of a push repository, pushing is disabled if empty."
-msgstr "URL van push Git repository, push is uitgeschakeld indien leeg."
+msgstr "URL van een push repository, push is uitgeschakeld indien leeg."
 
 #: weblate/trans/models/subproject.py:122
 msgid "Repository browser"
@@ -4341,18 +4338,15 @@ msgstr ""
 "als plaatsvervangers voor branch, bestandsnaam en regelnummer."
 
 #: weblate/trans/models/subproject.py:131
-#, fuzzy
 #| msgid "Exported Git URL"
 msgid "Exported repository URL"
-msgstr "Geëxporteerde Git URL"
+msgstr "Geëxporteerd repository URL"
 
 #: weblate/trans/models/subproject.py:134
-#, fuzzy
 #| msgid "URL of Git repository where users can fetch changes from Weblate"
 msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
-"URL van het Git repository waar gebruikers wijzigingen van Weblate kunnen "
-"afhalen"
+"URL van een repository waar gebruikers wijzigingen kunnen afhalen van Weblate"
 
 #: weblate/trans/models/subproject.py:139
 msgid "Source string bug report address"
@@ -4367,10 +4361,9 @@ msgstr ""
 "voor geen e-mails."
 
 #: weblate/trans/models/subproject.py:149
-#, fuzzy
 #| msgid "Git branch to translate"
 msgid "Repository branch to translate"
-msgstr "Git branch om te vertalen"
+msgstr "Repository branch om te vertalen"
 
 #: weblate/trans/models/subproject.py:162
 msgid "Monolingual base language file"
@@ -4434,17 +4427,15 @@ msgid "Locked"
 msgstr "Vergrendeld"
 
 #: weblate/trans/models/subproject.py:217
-#, fuzzy
 #| msgid "Whether resource is locked for translation updates."
 msgid "Whether component is locked for translation updates."
-msgstr "Of de hulpbron geblokkeerd is voor vertaalaanpassingen."
+msgstr "Of het onderdeel geblokkeerd is voor vertaalaanpassingen."
 
 #: weblate/trans/models/subproject.py:221
 msgid "Allow translation propagation"
 msgstr "Sta propageren van vertalingen toe"
 
 #: weblate/trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Whether translation updates in other resources will cause automatic "
 #| "translation in this one"
@@ -4452,8 +4443,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Of vertalingsaanpassingen in andere hulpbronnen resulteren in automatische "
-"vertaling in deze hulpbron"
+"Of vertalingsaanpassingen in andere onderdelen resulteren in automatische "
+"vertaling in dit onderdeel"
 
 #: weblate/trans/models/subproject.py:229
 msgid "Save translation history"
@@ -4623,7 +4614,6 @@ msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
 #: weblate/trans/models/subproject.py:940
-#, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
 #| "resources for translating different resources."
@@ -4632,7 +4622,7 @@ msgid ""
 "components for translating different resources."
 msgstr ""
 "Er is meer dan een bestand voor dezelfde taal, gelieve het selectiefilter "
-"aan te passen en hulpbronnen te gebruiken om verschillende hulpbronnen te "
+"aan te passen en onderdelen te gebruiken om verschillende onderdelen te "
 "vertalen."
 
 #: weblate/trans/models/subproject.py:946
@@ -4725,10 +4715,10 @@ msgid "Unsupported file format: {0}"
 msgstr "Niet ondersteund bestandsformaat: {0}"
 
 #: weblate/trans/models/subproject.py:1095
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed to update repository: %s"
-msgstr "Ophalen van repository is mislukt: %s"
+msgstr "Bijwerken van het repository is mislukt: %s"
 
 #: weblate/trans/models/subproject.py:1118
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -4802,10 +4792,9 @@ msgid "Opening single quote"
 msgstr ""
 
 #: weblate/trans/specialchars.py:444
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Closing single quote"
-msgstr "Hosting website"
+msgstr "Sluiten van enkelvoudig aanhalingsteken"
 
 #: weblate/trans/specialchars.py:447
 msgid "Hyphen"
@@ -4847,10 +4836,9 @@ msgstr ""
 "(%(keytype)s), gelieve na te gaan of deze correct is."
 
 #: weblate/trans/ssh.py:195
-#, fuzzy
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed to fetch public key for a host!"
-msgstr "Ophalen van repository is mislukt: %s"
+msgstr "Ophalen van de publieke sleutel voor een host is mislukt!"
 
 #: weblate/trans/ssh.py:203
 #, python-format
@@ -5062,34 +5050,29 @@ msgid "unit ID %s"
 msgstr "eenheid-ID %s"
 
 #: weblate/trans/validators.py:26
-#, fuzzy
 #| msgid "RST code"
 msgid "RST text"
-msgstr "RST-code"
+msgstr "RST-tekst"
 
 #: weblate/trans/validators.py:27
-#, fuzzy
 #| msgid "Python format"
 msgid "Python format string"
-msgstr "Python-formaat"
+msgstr "Python-formaat tekenreeks"
 
 #: weblate/trans/validators.py:28
-#, fuzzy
 #| msgid "Bad format string (%s)"
 msgid "C format string"
-msgstr "Verkeerd patroon (%s)"
+msgstr "C formaat tekenreeks"
 
 #: weblate/trans/validators.py:29
-#, fuzzy
 #| msgid "PHP format"
 msgid "PHP format string"
-msgstr "PHP-formaat"
+msgstr "PHP-formaat tekenreeks"
 
 #: weblate/trans/validators.py:30
-#, fuzzy
 #| msgid "Python brace format"
 msgid "Python brace format string"
-msgstr "Python-haakjesformaat"
+msgstr "Python-haakjesformaat tekenreeks"
 
 #: weblate/trans/validators.py:44 weblate/trans/validators.py:54
 #: weblate/trans/validators.py:74
@@ -5190,20 +5173,18 @@ msgid "User has been added to this project."
 msgstr ""
 
 #: weblate/trans/views/basic.py:511 weblate/trans/views/basic.py:541
-#, fuzzy
 #| msgid "No matching strings found!"
 msgid "No matching user found!"
-msgstr "Geen overeenkomstige tekenreeksen gevonden!"
+msgstr "Geen overeenkomstige gebruiker gevonden!"
 
 #: weblate/trans/views/basic.py:513 weblate/trans/views/basic.py:543
 msgid "More users matched!"
 msgstr ""
 
 #: weblate/trans/views/basic.py:515 weblate/trans/views/basic.py:545
-#, fuzzy
 #| msgid "Invalid search string!"
 msgid "Invalid user specified!"
-msgstr "Ongeldige zoekterm!"
+msgstr "Ongeldige gebruiker opgegeven!"
 
 #: weblate/trans/views/basic.py:538
 msgid "User has been removed from this project."
@@ -5417,16 +5398,14 @@ msgid "Translation is now open for translation updates."
 msgstr "Vertaling is nu open voor vertaalupdates."
 
 #: weblate/trans/views/lock.py:81
-#, fuzzy
 #| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
-msgstr "Het subproject is nu geblokkeerd voor vertaalaanpassingen!"
+msgstr "Het onderdeel is nu geblokkeerd voor vertaalaanpassingen!"
 
 #: weblate/trans/views/lock.py:97
-#, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
-msgstr "Het project is nu open voor vertaalupdates."
+msgstr "Het onderdeel is nu open voor vertaalupdates."
 
 #: weblate/trans/views/lock.py:116
 msgid "All subprojects are now locked for translation updates!"
@@ -5451,10 +5430,9 @@ msgid "Failed to change a priority!"
 msgstr "Prioriteit kon niet gewijzigd worden!"
 
 #: weblate/trans/views/source.py:138
-#, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to change check flags!"
-msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
+msgstr "Wijzigen van controlevlaggen is mislukt!"
 
 #: weblate/trans/widgets.py:267
 #, python-format
