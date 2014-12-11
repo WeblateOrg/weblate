@@ -43,6 +43,15 @@ ssh \
 '''
 
 
+def ensure_ssh_dir():
+    """
+    Ensures the ssh configuration directory exists.
+    """
+    ssh_dir = data_dir('ssh')
+    if not os.path.exists(ssh_dir):
+        os.makedirs(ssh_dir)
+
+
 def ssh_file(filename):
     """
     Generates full path to SSH configuration file.
@@ -122,14 +131,11 @@ def generate_ssh_key(request):
     """
     Generates SSH key.
     """
-    # Create directory if it does not exist
-    key_dir = os.path.dirname(ssh_file(RSA_KEY))
-
-    # Try generating key
     try:
-        if not os.path.exists(key_dir):
-            os.makedirs(key_dir)
+        # Create directory if it does not exist
+        ensure_ssh_dir()
 
+        # Actually generate the key
         subprocess.check_output(
             [
                 'ssh-keygen', '-q',
@@ -154,6 +160,7 @@ def add_host_key(request):
     """
     Adds host key for a host.
     """
+    ensure_ssh_dir()
     host = request.POST.get('host', '')
     port = request.POST.get('port', '')
     if len(host) == 0:
@@ -207,12 +214,10 @@ def can_generate_key():
     """
     Checks whether we can generate key.
     """
-    ssh_dir = data_dir('ssh')
-    if not os.path.exists(ssh_dir):
-        try:
-            os.makedirs(ssh_dir)
-        except OSError:
-            return False
+    try:
+        ensure_ssh_dir()
+    except OSError:
+        return False
 
     try:
         ret = subprocess.check_call(
@@ -230,9 +235,7 @@ def create_ssh_wrapper():
     """
     Creates wrapper for SSH to pass custom known hosts and key.
     """
-    ssh_dir = data_dir('ssh')
-    if not os.path.exists(ssh_dir):
-        os.makedirs(ssh_dir)
+    ensure_ssh_dir()
 
     ssh_wrapper = ssh_file(SSH_WRAPPER)
 
