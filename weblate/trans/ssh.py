@@ -47,11 +47,10 @@ def ssh_file(filename):
     """
     Generates full path to SSH configuration file.
     """
-    ssh_dir = data_dir('ssh')
-    if not os.path.exists(ssh_dir):
-        os.makedirs(ssh_dir)
-
-    return os.path.join(ssh_dir, filename)
+    return os.path.join(
+        data_dir('ssh'),
+        filename
+    )
 
 
 def is_key_line(key):
@@ -224,6 +223,10 @@ def create_ssh_wrapper():
     """
     Creates wrapper for SSH to pass custom known hosts and key.
     """
+    ssh_dir = data_dir('ssh')
+    if not os.path.exists(ssh_dir):
+        os.makedirs(ssh_dir)
+
     ssh_wrapper = ssh_file(SSH_WRAPPER)
 
     with open(ssh_wrapper, 'w') as handle:
