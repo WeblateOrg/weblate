@@ -207,6 +207,13 @@ def can_generate_key():
     """
     Checks whether we can generate key.
     """
+    ssh_dir = data_dir('ssh')
+    if not os.path.exists(ssh_dir):
+        try:
+            os.makedirs(ssh_dir)
+        except OSError:
+            return False
+
     try:
         ret = subprocess.check_call(
             ['which', 'ssh-keygen'],
