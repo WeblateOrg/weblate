@@ -382,6 +382,10 @@ if (os.environ.get('DJANGO_IS_MANAGEMENT_COMMAND', False)
         and 'console' not in LOGGING['loggers']['weblate']['handlers']):
     LOGGING['loggers']['weblate']['handlers'].append('console')
 
+# Remove syslog setup if it's not present
+if not os.path.exists('/dev/log'):
+    del LOGGING['handlers']['syslog']
+
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
