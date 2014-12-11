@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2014-12-07 12:53+0100\n"
+"POT-Creation-Date: 2014-12-11 12:48+0100\n"
 "PO-Revision-Date: 2014-12-03 22:14+0200\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -340,10 +340,16 @@ msgid "About Weblate"
 msgstr "Σχετικά με το Weblate"
 
 #: weblate/html/about.html:17
+#, fuzzy
+#| msgid ""
+#| "Weblate is a web based translation tool with tight Git integration. It "
+#| "features simple and clean user interface, propagation of translations "
+#| "across components, quality checks and automatic linking to source files."
 msgid ""
-"Weblate is a web based translation tool with tight Git integration. It "
-"features simple and clean user interface, propagation of translations across "
-"components, quality checks and automatic linking to source files."
+"Weblate is a web based translation tool with tight version control "
+"integration. It features simple and clean user interface, propagation of "
+"translations across components, quality checks and automatic linking to "
+"source files."
 msgstr ""
 "Το Weblate είναι ένα διαδικτυακό εργαλείο μετάφρασης με ενσωμάτωση Git. "
 "Διαθέτει καθαρό και απλό περιβάλλον χρήστη, διαμοιρασμός των μεταφράσεων "
@@ -1232,7 +1238,7 @@ msgstr "γλωσσάρια"
 
 #: weblate/html/dictionaries.html:15 weblate/html/js/detail.html:11
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:7
-#: weblate/trans/forms.py:711
+#: weblate/trans/forms.py:720
 msgid "Language"
 msgstr "Γλώσσα"
 
@@ -1267,14 +1273,14 @@ msgstr "Ιστορικό"
 #: weblate/html/dictionary.html:39 weblate/html/search.html:21
 #: weblate/html/source-review.html:23 weblate/html/translate.html:75
 #: weblate/html/translate.html.py:142 weblate/html/translate.html:263
-#: weblate/html/translate.html.py:344 weblate/trans/forms.py:589
+#: weblate/html/translate.html.py:344 weblate/trans/forms.py:598
 msgid "Source"
 msgstr "Προέλευση"
 
 #: weblate/html/dictionary.html:40 weblate/html/last-changes.html:17
 #: weblate/html/translate.html:142 weblate/html/translate.html.py:210
 #: weblate/html/translate.html:262 weblate/html/translate.html.py:345
-#: weblate/trans/forms.py:185 weblate/trans/forms.py:590
+#: weblate/trans/forms.py:185 weblate/trans/forms.py:599
 msgid "Translation"
 msgstr "Μετάφραση"
 
@@ -2849,7 +2855,7 @@ msgstr "κείμενα προέλευσης"
 msgid "review"
 msgstr "επισκόπηση"
 
-#: weblate/html/source-review.html:24 weblate/trans/forms.py:725
+#: weblate/html/source-review.html:24 weblate/trans/forms.py:734
 msgid "Priority"
 msgstr "Προτεραιότητα"
 
@@ -3079,7 +3085,7 @@ msgstr "Χρήση αυτής της μετάφρασης"
 msgid "Service"
 msgstr "Υπηρεσία"
 
-#: weblate/html/translate.html:295 weblate/trans/forms.py:663
+#: weblate/html/translate.html:295 weblate/trans/forms.py:672
 msgid "New comment"
 msgstr "Νέο σχόλιο"
 
@@ -3382,7 +3388,7 @@ msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: weblate/html/zen-units.html:42 weblate/trans/views/edit.py:490
+#: weblate/html/zen-units.html:42 weblate/trans/views/edit.py:487
 msgid "You have reached end of translating."
 msgstr "Ολοκληρώσατε τη μετάφραση."
 
@@ -3681,11 +3687,11 @@ msgstr "Οι ετικέτες XML δεν ταιριάζουν"
 msgid "XML tags in translation do not match source"
 msgstr "Οι ετικέτες XML στη μετάφραση δεν ταιριάζουν με την προέλευση"
 
-#: weblate/trans/checks/same.py:991
+#: weblate/trans/checks/same.py:997
 msgid "Unchanged translation"
 msgstr "Μη αλλαγμένη μετάφραση"
 
-#: weblate/trans/checks/same.py:992
+#: weblate/trans/checks/same.py:998
 msgid "Source and translated strings are same"
 msgstr "Το κείμενο προέλευσης και το μεταφρασμένο είναι ίδια"
 
@@ -3807,11 +3813,11 @@ msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "Ασαφές"
 
-#: weblate/trans/forms.py:337 weblate/trans/forms.py:598
+#: weblate/trans/forms.py:337 weblate/trans/forms.py:607
 msgid "File"
 msgstr "Αρχείο"
 
-#: weblate/trans/forms.py:339 weblate/trans/forms.py:605
+#: weblate/trans/forms.py:339 weblate/trans/forms.py:614
 msgid "Merge method"
 msgstr "Μέθοδος ένωσης"
 
@@ -3884,82 +3890,94 @@ msgid "Search in context strings"
 msgstr "Αναζήτηση στα συνοδευτικά κείμενα"
 
 #: weblate/trans/forms.py:429
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "Search in location strings"
+msgstr "Αναζήτηση στα συνοδευτικά κείμενα"
+
+#: weblate/trans/forms.py:434
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "Search in comment strings"
+msgstr "Αναζήτηση στα συνοδευτικά κείμενα"
+
+#: weblate/trans/forms.py:439
 msgid "Search filter"
 msgstr "Φίλτρο αναζήτησης"
 
-#: weblate/trans/forms.py:432 weblate/trans/models/translation.py:919
-#: weblate/trans/models/translation.py:967 weblate/trans/views/edit.py:126
+#: weblate/trans/forms.py:442 weblate/trans/models/translation.py:922
+#: weblate/trans/models/translation.py:970 weblate/trans/views/edit.py:125
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: weblate/trans/forms.py:433 weblate/trans/models/translation.py:978
+#: weblate/trans/forms.py:443 weblate/trans/models/translation.py:981
 msgid "Untranslated strings"
 msgstr "Αμετάφραστα κείμενα"
 
-#: weblate/trans/forms.py:434
+#: weblate/trans/forms.py:444
 msgid "Translated strings"
 msgstr "Μεταφρασμένα κείμενα"
 
-#: weblate/trans/forms.py:435 weblate/trans/models/translation.py:987
+#: weblate/trans/forms.py:445 weblate/trans/models/translation.py:990
 msgid "Fuzzy strings"
 msgstr "Ασαφή κείμενα"
 
-#: weblate/trans/forms.py:436 weblate/trans/models/translation.py:996
+#: weblate/trans/forms.py:446 weblate/trans/models/translation.py:999
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
 
-#: weblate/trans/forms.py:437 weblate/trans/models/translation.py:953
-#: weblate/trans/models/translation.py:1027
+#: weblate/trans/forms.py:447 weblate/trans/models/translation.py:956
+#: weblate/trans/models/translation.py:1030
 msgid "Strings with comments"
 msgstr "Κείμενα με σχόλια"
 
-#: weblate/trans/forms.py:438 weblate/trans/models/translation.py:930
-#: weblate/trans/models/translation.py:1005
+#: weblate/trans/forms.py:448 weblate/trans/models/translation.py:933
+#: weblate/trans/models/translation.py:1008
 msgid "Strings with any failing checks"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
-#: weblate/trans/forms.py:446
+#: weblate/trans/forms.py:456
 msgid "Show ignored checks as well"
 msgstr "Προβολή αγνοημένων ελέγχων επίσης"
 
-#: weblate/trans/forms.py:508
+#: weblate/trans/forms.py:517
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Αναζήτηση πλήρους κειμένου για το «%s»"
 
-#: weblate/trans/forms.py:510
+#: weblate/trans/forms.py:519
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Αναζήτηση γιατο ακριβές κείμενο «%s»"
 
-#: weblate/trans/forms.py:512
+#: weblate/trans/forms.py:521
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Αναζήτηση μερικού κειμένου για «%s»"
 
-#: weblate/trans/forms.py:523
+#: weblate/trans/forms.py:532
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
-#: weblate/trans/forms.py:553
+#: weblate/trans/forms.py:562
 msgid "Overwrite strings"
 msgstr "Αντικατάσταση κειμενων"
 
-#: weblate/trans/forms.py:558
+#: weblate/trans/forms.py:567
 msgid "Replace inconsistent"
 msgstr "Αντικατάσταση ασυνεπούς"
 
-#: weblate/trans/forms.py:563
+#: weblate/trans/forms.py:572
 msgid "Component to use"
 msgstr "Περιεχόμενο για χρήση"
 
-#: weblate/trans/forms.py:582
+#: weblate/trans/forms.py:591
 msgid "All subprojects"
 msgstr "Όλα τα υπόέργα"
 
-#: weblate/trans/forms.py:600
+#: weblate/trans/forms.py:609
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
@@ -3967,78 +3985,85 @@ msgstr ""
 "Μπορείτε να αποστείλλετε οποιαδήποτε μορφή, η οποία είναι κατανοητή από την "
 "Εργαλειοθήκη Μετάφρασης (περιλαμβάνει αρχεία TBX, CSV ή Gettext PO)."
 
-#: weblate/trans/forms.py:607
+#: weblate/trans/forms.py:616
 msgid "Keep current"
 msgstr "Διατήρηση υπάρχουσας"
 
-#: weblate/trans/forms.py:608
+#: weblate/trans/forms.py:617
 msgid "Overwrite existing"
 msgstr "Αντικατάσταση υπαρχόντων"
 
-#: weblate/trans/forms.py:609
+#: weblate/trans/forms.py:618
 msgid "Add as other translation"
 msgstr "Προσθήκη ως άλλη μετάφραση"
 
-#: weblate/trans/forms.py:620
+#: weblate/trans/forms.py:629
 msgid "Starting date"
 msgstr "Ημερομηνία εκκίνησης"
 
-#: weblate/trans/forms.py:643
+#: weblate/trans/forms.py:652
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Οποιοδήποτε"
 
-#: weblate/trans/forms.py:645
+#: weblate/trans/forms.py:654
 msgid "Starting letter"
 msgstr "Γράμμα εκκίνησης"
 
-#: weblate/trans/forms.py:666
+#: weblate/trans/forms.py:675
 msgid "Scope"
 msgstr "Σκοπός"
 
-#: weblate/trans/forms.py:668
+#: weblate/trans/forms.py:677
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 "Είναι το σχόλιό σας αποκλειστικά για αυτή τη μετάφραση ή γενικά για όλες;"
 
-#: weblate/trans/forms.py:674
+#: weblate/trans/forms.py:683
 msgid "Source string comment, suggestions to change this string"
 msgstr "Σχόλιο, προτάσεις κειμένου προέλευσης για αλλαγή αυτού του κειμένου"
 
-#: weblate/trans/forms.py:678
+#: weblate/trans/forms.py:687
 msgid "Translation comment, discussions with other translators"
 msgstr "Σχόλια, συζητήσεις μετάφρασης με άλλους μεταφραστές"
 
-#: weblate/trans/forms.py:691
+#: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "Ολόκληρο έργο"
 
-#: weblate/trans/forms.py:728
+#: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
 msgstr "Κείμενα με υψηλή προτεραιότητα προσφέρονται πρώτα στους μεταφραστές."
 
-#: weblate/trans/forms.py:735
+#: weblate/trans/forms.py:744
 msgid "Check flags"
 msgstr "Σημαίες ελέγχου"
 
-#: weblate/trans/forms.py:738
-#, python-brace-format
+#: weblate/trans/forms.py:747
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "Please enter comma separated list of check flags, see <a href="
+#| "\"{url}\">documentation</a> for more details."
 msgid ""
-"Please enter comma separated list of check flags, see <a href="
+"Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
 "Εισάγετε λίστα χωρισμένη με κόμμα των σημαιών ελέγχου, δείτε την <a href="
 "\"{url}\">τεκμηρίωση</a> για περισσότερες λεπτομέρειες."
 
-#: weblate/trans/forms.py:759
+#: weblate/trans/forms.py:768
 msgid "User to add"
 msgstr "Χρήστης για προσθήκη"
 
-#: weblate/trans/forms.py:761
+#: weblate/trans/forms.py:770
+#, fuzzy
+#| msgid ""
+#| "Please provide username or email. User needs to have already active "
+#| "account in Weblate."
 msgid ""
-"Please provide username or email. User needs to have already active account "
-"in Weblate."
+"Please provide username or email. User needs to already have an active "
+"account in Weblate."
 msgstr ""
 "Δώστε όνομα χρήστη ή ηλεκτρονική διεύθυνση. Ο/Η χρήστης χρειάζεται να έχει "
 "ήδη ενεργό λογαριασμό στο Weblate."
@@ -4705,7 +4730,7 @@ msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "Η αυτόματη αποδοχή προτάσεων λειτουργεί μόνο με ενεργές τις ψήφους!"
 
-#: weblate/trans/models/translation.py:200
+#: weblate/trans/models/translation.py:203
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -4714,26 +4739,26 @@ msgstr ""
 "Το όνομα αρχείου %s δεν βρέθηκε στο αποθετήριο! Για προσθήκη νέας "
 "μετάφρασης, προσθέστε αρχείο γλώσσας στο αποθετήριο."
 
-#: weblate/trans/models/translation.py:209
+#: weblate/trans/models/translation.py:212
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Η μορφή του %s δεν αναγνωρίζεται."
 
-#: weblate/trans/models/translation.py:214
+#: weblate/trans/models/translation.py:217
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:261
+#: weblate/trans/models/translation.py:264
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Αυτή η μετάφραση είναι κλειδωμένη από τον χρήστη %(user)s!"
 
-#: weblate/trans/models/unit.py:534
+#: weblate/trans/models/unit.py:518
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Αποτυχία αποθήκευσης μηνύματος στο παρασκήνιο, έληξε ο χρόνος!"
 
-#: weblate/trans/models/unit.py:546
+#: weblate/trans/models/unit.py:530
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Το μήνυμα δεν βρέθηκε στην αποθήκευση παρασκηνίου. Πιθανόν καταστράφηκε."
@@ -4784,24 +4809,24 @@ msgid "Em dash"
 msgstr "Παύλα em"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:83
+#: weblate/trans/ssh.py:91
 msgid "[hostname hashed]"
 msgstr "[hostname hashed]"
 
-#: weblate/trans/ssh.py:145
+#: weblate/trans/ssh.py:150
 msgid "Created new SSH key."
 msgstr "Δημιυργήθηκε νέο κλειδί SSH."
 
-#: weblate/trans/ssh.py:149
+#: weblate/trans/ssh.py:154
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Απέτυχε η δημιουργία κλειδιού: %s"
 
-#: weblate/trans/ssh.py:161
+#: weblate/trans/ssh.py:167
 msgid "Invalid host name given!"
 msgstr "Δόθηκε μη έγκυρο όνομα φιλοξενητή!"
 
-#: weblate/trans/ssh.py:183
+#: weblate/trans/ssh.py:189
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -4810,11 +4835,11 @@ msgstr ""
 "Προστέθηκε κλειδί φιλοξενίας για %(host)s με το αποτύπωμα %(fingerprint)s "
 "(%(keytype)s), επιβεβαιώστε ότι είναι σωστό."
 
-#: weblate/trans/ssh.py:195
+#: weblate/trans/ssh.py:201
 msgid "Failed to fetch public key for a host!"
 msgstr "Απέτυχε η λήψη δημοσίου κλειδιού για ένα φιλοξενητή!"
 
-#: weblate/trans/ssh.py:203
+#: weblate/trans/ssh.py:209
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Απέτυχε η λήψη κλειδιού φιλοξενητή: %s"
@@ -5192,7 +5217,7 @@ msgid "File upload has failed: %s"
 msgstr "Το ανέβασμα του αρχείου απέτυχε: %s"
 
 #: weblate/trans/views/dictionary.py:173 weblate/trans/views/dictionary.py:175
-#: weblate/trans/views/edit.py:653
+#: weblate/trans/views/edit.py:648
 msgid "Failed to process form!"
 msgstr "Απέτυχε η προώθηση της φόμρας!"
 
@@ -5201,32 +5226,32 @@ msgstr "Απέτυχε η προώθηση της φόμρας!"
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Σφάλμα στην παράμετρο %(field)s: %(error)s"
 
-#: weblate/trans/views/edit.py:85 weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:85 weblate/trans/views/edit.py:541
 msgid "Invalid search string!"
 msgstr "Μη έγκυρη αναζήτηση κειμένου!"
 
-#: weblate/trans/views/edit.py:107
+#: weblate/trans/views/edit.py:106
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Επισκόπηση μεταφράσεων από %s"
 
-#: weblate/trans/views/edit.py:133 weblate/trans/views/edit.py:144
+#: weblate/trans/views/edit.py:132 weblate/trans/views/edit.py:142
 msgid "No string matched your search!"
 msgstr "Κανένα κείμενο δεν ταιριάζει στην αναζήτησή σας!"
 
-#: weblate/trans/views/edit.py:175
+#: weblate/trans/views/edit.py:172
 msgid "Your suggestion is empty!"
 msgstr "Η πρότασή σας είναι άδεια!"
 
-#: weblate/trans/views/edit.py:182
+#: weblate/trans/views/edit.py:179
 msgid "You don't have privileges to add suggestions!"
 msgstr "Δεν έχετε δικαιώματα να προσθέσετε προτάσεις!"
 
-#: weblate/trans/views/edit.py:190
+#: weblate/trans/views/edit.py:187
 msgid "Suggestions are not allowed on this translation!"
 msgstr "Οι προτάσεις δεν επιτρέπονται σε αυτή τη μετάφραση!"
 
-#: weblate/trans/views/edit.py:202
+#: weblate/trans/views/edit.py:199
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -5235,70 +5260,70 @@ msgstr ""
 "Δεν υπάρχει ενεργός μεταφραστής για αυτή τη μετάφραση, σκεφτείτε να γίνετε "
 "ένας μεταφραστής καθώς η πρότασή σας μπορεί να μην ελεγχθεί."
 
-#: weblate/trans/views/edit.py:238
+#: weblate/trans/views/edit.py:235
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Οι ακόλουθες διορθώσεις εφαρμόστηκαν στη μετάφραση: %s"
 
-#: weblate/trans/views/edit.py:253
+#: weblate/trans/views/edit.py:250
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Ορισμένοι έλεγχοι απέτυχαν στη μετάφρασή σας: {0}"
 
-#: weblate/trans/views/edit.py:293 weblate/trans/views/edit.py:329
-#: weblate/trans/views/edit.py:370
+#: weblate/trans/views/edit.py:290 weblate/trans/views/edit.py:326
+#: weblate/trans/views/edit.py:367
 msgid "You don't have privileges to save translations!"
 msgstr "Δεν έχετε δικαιώματα για να αποθήκευση μεταφράσεων!"
 
-#: weblate/trans/views/edit.py:299
+#: weblate/trans/views/edit.py:296
 msgid "Only suggestions are allowed in this translation!"
 msgstr "Μόνο προτάσεις επιτρέπονται για αυτή τη μετάφραση!"
 
-#: weblate/trans/views/edit.py:337
+#: weblate/trans/views/edit.py:334
 msgid "Invalid merge request!"
 msgstr "Μη έγκυρο αίτημα ένωσης!"
 
-#: weblate/trans/views/edit.py:350
+#: weblate/trans/views/edit.py:347
 msgid "Can not merge different messages!"
 msgstr "Αδύνατη η ένωση διαφορετικών γλωσσών!"
 
-#: weblate/trans/views/edit.py:387
+#: weblate/trans/views/edit.py:384
 msgid "Can not revert to different unit!"
 msgstr "Αδύνατη η επαναφορά σε διαφοερετική μονάδα!"
 
-#: weblate/trans/views/edit.py:392
+#: weblate/trans/views/edit.py:389
 msgid "Can not revert to empty translation!"
 msgstr "Αδύνατη η επαναφορά σε άδεια μετάφραση!"
 
-#: weblate/trans/views/edit.py:423
+#: weblate/trans/views/edit.py:420
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Δεν έχει δικαίωμα να αποδεχτείτε προτάσεις!"
 
-#: weblate/trans/views/edit.py:432
+#: weblate/trans/views/edit.py:429
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Δεν έχετε δικαίωμα να διαγράψετε προτάσεις!"
 
-#: weblate/trans/views/edit.py:440 weblate/trans/views/edit.py:448
+#: weblate/trans/views/edit.py:437 weblate/trans/views/edit.py:445
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Δεν έχετε δικαίωμα να ψηφίσετε για προτάσεις!"
 
-#: weblate/trans/views/edit.py:454
+#: weblate/trans/views/edit.py:451
 msgid "Invalid suggestion!"
 msgstr "Μη έγκυρη πρόταση!"
 
-#: weblate/trans/views/edit.py:651
+#: weblate/trans/views/edit.py:646
 msgid "Automatic translation completed."
 msgstr "Ολοκλήρωση αυτόματης μετάφρασης."
 
-#: weblate/trans/views/edit.py:679
+#: weblate/trans/views/edit.py:674
 msgid "Posted new comment"
 msgstr "Δημοσιεύτηκε νέο σχόλιο"
 
-#: weblate/trans/views/edit.py:681
+#: weblate/trans/views/edit.py:676
 msgid "Failed to add comment!"
 msgstr "Απέτυχε η προσθήκη σχολίου!"
 
-#: weblate/trans/views/edit.py:784
+#: weblate/trans/views/edit.py:779
 msgid "Failed to save translation!"
 msgstr "Απέτυχε η αποθήκευση της μετάφρασης!"
 
