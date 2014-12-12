@@ -7,7 +7,7 @@ trap "rm -rf -- '$TMPDIR'" EXIT HUP INT TERM
 virtualenv --system-site-packages "$TMPDIR"
 . "$TMPDIR/bin/activate"
 
-pip install django==1.6.5
+pip install "Django>=1.6,<1.7"
 pip install south
 
 export PYTHONPATH=`pwd`
