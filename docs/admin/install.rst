@@ -33,7 +33,7 @@ dateutil
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (optional for proper sorting of strings)
-    https://github.com/jtauber/pyuca
+    https://github.com/SmileyChris/pyuca
 babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
