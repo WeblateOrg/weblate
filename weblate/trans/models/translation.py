@@ -1129,7 +1129,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # Grab database unit
             try:
                 dbunit = self.unit_set.filter(checksum=checksum)[0]
-            except Unit.DoesNotExist:
+            except (Unit.DoesNotExist, IndexError):
                 continue
 
             # Indicate something new
