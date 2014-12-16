@@ -39,7 +39,7 @@ def get_source(request, project, subproject):
     obj = get_subproject(request, project, subproject)
     try:
         return obj, obj.translation_set.all()[0]
-    except Translation.DoesNotExist:
+    except (Translation.DoesNotExist, IndexError):
         raise Http404('No translation exists in this component.')
 
 
