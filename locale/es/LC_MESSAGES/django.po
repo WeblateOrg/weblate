@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2014-12-11 12:48+0100\n"
-"PO-Revision-Date: 2014-12-20 23:59+0200\n"
+"PO-Revision-Date: 2014-12-21 00:19+0200\n"
 "Last-Translator: Luis García Sevillano <floss.dev@gmail.com>\n"
 "Language-Team: Spanish "
 "<https://hosted.weblate.org/projects/weblate/master/es/>\n"
@@ -2995,7 +2995,6 @@ msgid "Ctrl+Enter - Save"
 msgstr "Ctrl+Enter - Grabar"
 
 #: weblate/html/translate.html:54
-#, fuzzy
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
 msgstr "Alt+PageUp/PageDown/Home/End - Unidades de traducción de navegación"
 
@@ -4277,10 +4276,9 @@ msgstr ""
 "documentación antes de habilitarlo."
 
 #: weblate/trans/models/project.py:125
-#, fuzzy
 #| msgid "Enable ACL"
 msgid "Enable hooks"
-msgstr "Activar ACL"
+msgstr "Activar ganchos"
 
 #: weblate/trans/models/project.py:128
 msgid "Whether to allow updating this repository by remote hooks."
@@ -4337,22 +4335,22 @@ msgid "Merge"
 msgstr "Fusionar («merge»)"
 
 #: weblate/trans/models/subproject.py:82
-#, fuzzy
 #| msgid "Comment added"
 msgid "Component name"
-msgstr "Comentario agregado"
+msgstr "Nombre de componente"
 
 #: weblate/trans/models/subproject.py:96
 msgid "Version control system"
-msgstr ""
+msgstr "Sistema de control de versiones"
 
 #: weblate/trans/models/subproject.py:99
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
+"Sistema de control de versiones a emplear para acceder a su repositorio con "
+"traducciones."
 
 #: weblate/trans/models/subproject.py:109
-#, fuzzy
 #| msgid ""
 #| "URL of Git repository, use weblate://project/resource for sharing with "
 #| "other resource."
@@ -4360,21 +4358,19 @@ msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"URL del repositorio Git, utilice weblate://proyecto/recurso para compartirlo "
-"con otro recurso."
+"URL del repositorio. Utilice weblate://proyecto/componente para compartir "
+"con otro componente."
 
 #: weblate/trans/models/subproject.py:114
-#, fuzzy
 #| msgid "Repository status"
 msgid "Repository push URL"
-msgstr "Estado del repositorio"
+msgstr "URL de envío al repositorio"
 
 #: weblate/trans/models/subproject.py:117
-#, fuzzy
 #| msgid "URL of push Git repository, pushing is disabled if empty."
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
-"URL de repositorio Git remoto, se desactivará la capacidad de «push» si está "
+"URL de envio a repositorio. Se desactivará la capacidad de envío si está "
 "vacío."
 
 #: weblate/trans/models/subproject.py:122
@@ -4392,18 +4388,15 @@ msgstr ""
 "respectivamente."
 
 #: weblate/trans/models/subproject.py:131
-#, fuzzy
 #| msgid "Exported Git URL"
 msgid "Exported repository URL"
-msgstr "URL Git exportada"
+msgstr "URL de repositorio exportado"
 
 #: weblate/trans/models/subproject.py:134
-#, fuzzy
 #| msgid "URL of Git repository where users can fetch changes from Weblate"
 msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
-"URL del repositorio Git donde los usuarios pueden obtener los cambios de "
-"Weblate"
+"URL del repositorio donde los usuarios pueden obtener los cambios de Weblate"
 
 #: weblate/trans/models/subproject.py:139
 msgid "Source string bug report address"
@@ -4418,10 +4411,9 @@ msgstr ""
 "origen, si está vacío no se generarán correos."
 
 #: weblate/trans/models/subproject.py:149
-#, fuzzy
 #| msgid "Git branch to translate"
 msgid "Repository branch to translate"
-msgstr "Rama Git a traducir"
+msgstr "Rama de repositorio a traducir"
 
 #: weblate/trans/models/subproject.py:162
 msgid "Monolingual base language file"
@@ -4486,7 +4478,6 @@ msgid "Locked"
 msgstr "Bloqueado"
 
 #: weblate/trans/models/subproject.py:217
-#, fuzzy
 #| msgid "Whether resource is locked for translation updates."
 msgid "Whether component is locked for translation updates."
 msgstr "Si el recurso está bloqueado para actualizaciones de traducción."
@@ -4496,7 +4487,6 @@ msgid "Allow translation propagation"
 msgstr "Permitir propagación de traducciones"
 
 #: weblate/trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Whether translation updates in other resources will cause automatic "
 #| "translation in this one"
@@ -4504,8 +4494,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Si actualizar traducciones en otro recurso causará traducciones en este "
-"automáticamente"
+"Si actualizar traducciones en otro recurso causará traducciones automáticas "
+"en este"
 
 #: weblate/trans/models/subproject.py:229
 msgid "Save translation history"
@@ -4674,7 +4664,6 @@ msgid "The mask did not match any files!"
 msgstr "¡No se encontraron archivos en la ruta provista!"
 
 #: weblate/trans/models/subproject.py:940
-#, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
 #| "resources for translating different resources."
@@ -4682,8 +4671,8 @@ msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
 msgstr ""
-"Existen más archivos por idioma individual, ajuste la ruta y utilice "
-"recursos para traducir diferentes recursos."
+"Existen más archivos por idioma, ajuste la máscara y utilice componentes "
+"para traducir diferentes recursos."
 
 #: weblate/trans/models/subproject.py:946
 #, python-format
@@ -4768,7 +4757,7 @@ msgstr "No puede utilizar el URL de la licencia sin un resumen de la misma."
 
 #: weblate/trans/models/subproject.py:1082
 msgid "Changing version control system is not supported!"
-msgstr ""
+msgstr "¡El cambio de sistema de control de versiones no está soportado!"
 
 #: weblate/trans/models/subproject.py:1088
 #, python-brace-format
@@ -4776,10 +4765,10 @@ msgid "Unsupported file format: {0}"
 msgstr "Formato de archivo no compatible: {0}"
 
 #: weblate/trans/models/subproject.py:1095
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed to update repository: %s"
-msgstr "No se pudieron importar los cambios del repositorio: %s"
+msgstr "Falló la actualización del repositorio: %s"
 
 #: weblate/trans/models/subproject.py:1118
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -4842,33 +4831,32 @@ msgstr "Agregar caracter {0}"
 
 #: weblate/trans/specialchars.py:441
 msgid "Opening double quote"
-msgstr ""
+msgstr "Abriendo doble comilla"
 
 #: weblate/trans/specialchars.py:442
 msgid "Closing double quote"
-msgstr ""
+msgstr "Cerrando doble comilla"
 
 #: weblate/trans/specialchars.py:443
 msgid "Opening single quote"
-msgstr ""
+msgstr "Abriendo comilla simple"
 
 #: weblate/trans/specialchars.py:444
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Closing single quote"
-msgstr "Sitio de alojamiento"
+msgstr "Cerrando comilla simple"
 
 #: weblate/trans/specialchars.py:447
 msgid "Hyphen"
-msgstr ""
+msgstr "Guión"
 
 #: weblate/trans/specialchars.py:450
 msgid "En dash"
-msgstr ""
+msgstr "Guión corto"
 
 #: weblate/trans/specialchars.py:453
 msgid "Em dash"
-msgstr ""
+msgstr "Guión largo"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:91
@@ -4898,10 +4886,9 @@ msgstr ""
 "(%(keytype)s), verifique que sea correcta."
 
 #: weblate/trans/ssh.py:201
-#, fuzzy
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed to fetch public key for a host!"
-msgstr "No se pudieron importar los cambios del repositorio: %s"
+msgstr "¡Falló la recuperación de la clave pública de un equipo!"
 
 #: weblate/trans/ssh.py:209
 #, python-format
@@ -5113,31 +5100,26 @@ msgid "unit ID %s"
 msgstr "ID de unidad %s"
 
 #: weblate/trans/validators.py:26
-#, fuzzy
 #| msgid "RST code"
 msgid "RST text"
-msgstr "Código RST"
+msgstr "Texto RST"
 
 #: weblate/trans/validators.py:27
-#, fuzzy
 #| msgid "Python format"
 msgid "Python format string"
-msgstr "Formato Python"
+msgstr "Cadena con formato Python"
 
 #: weblate/trans/validators.py:28
-#, fuzzy
 #| msgid "Bad format string (%s)"
 msgid "C format string"
-msgstr "Cadena de formato inválido (%s)"
+msgstr "Cadena con formato C"
 
 #: weblate/trans/validators.py:29
-#, fuzzy
 #| msgid "PHP format"
 msgid "PHP format string"
-msgstr "Formato PHP"
+msgstr "Cadena con formato PHP"
 
 #: weblate/trans/validators.py:30
-#, fuzzy
 #| msgid "Python brace format"
 msgid "Python brace format string"
 msgstr "Formato de llaves Python"
@@ -5235,31 +5217,29 @@ msgstr "¡No se pudo procesar el pedido para una nueva traducción!"
 
 #: weblate/trans/views/basic.py:499
 msgid "ACL not enabled for this project!"
-msgstr ""
+msgstr "¡LCA no activa en este proyecto!"
 
 #: weblate/trans/views/basic.py:508
 msgid "User has been added to this project."
-msgstr ""
+msgstr "El usuario ha sido añadido a este proyecto."
 
 #: weblate/trans/views/basic.py:511 weblate/trans/views/basic.py:541
-#, fuzzy
 #| msgid "No matching strings found!"
 msgid "No matching user found!"
-msgstr "¡No se encontraron cadenas que coincidan!"
+msgstr "¡No se ha encontrado usuario coincidente!"
 
 #: weblate/trans/views/basic.py:513 weblate/trans/views/basic.py:543
 msgid "More users matched!"
-msgstr ""
+msgstr "¡Se encontraron más usuarios!"
 
 #: weblate/trans/views/basic.py:515 weblate/trans/views/basic.py:545
-#, fuzzy
 #| msgid "Invalid search string!"
 msgid "Invalid user specified!"
-msgstr "¡Cadena de búsqueda inválida!"
+msgstr "¡Usuario especificado no válido!"
 
 #: weblate/trans/views/basic.py:538
 msgid "User has been removed from this project."
-msgstr ""
+msgstr "El usuario ha sido eliminado de este proyecto."
 
 #: weblate/trans/views/changes.py:98
 msgid "Failed to find matching project!"
@@ -5440,7 +5420,7 @@ msgstr "Falló la fusión de contenido del archivo: %s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation in progress."
-msgstr ""
+msgstr "Falló el bloqueo del repositorio. Hay otra operación en curso."
 
 #: weblate/trans/views/git.py:56
 msgid "All pending translations were committed."
@@ -5467,16 +5447,14 @@ msgid "Translation is now open for translation updates."
 msgstr "El proyecto ahora acepta actualizaciones a las traducciones."
 
 #: weblate/trans/views/lock.py:81
-#, fuzzy
 #| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
-msgstr "¡El subproyecto tiene ahora las actualizaciones bloqueadas!"
+msgstr "¡El componente está bloqueado para actualizaciones de traducción!"
 
 #: weblate/trans/views/lock.py:97
-#, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
-msgstr "El proyecto ahora acepta actualizaciones a las traducciones."
+msgstr "El componente acepta la actualización de traducciones."
 
 #: weblate/trans/views/lock.py:116
 msgid "All subprojects are now locked for translation updates!"
@@ -5501,10 +5479,9 @@ msgid "Failed to change a priority!"
 msgstr "¡No se pudo cambiar la prioridad!"
 
 #: weblate/trans/views/source.py:138
-#, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to change check flags!"
-msgstr "¡No se pudieron procesar %d archivos encontrados!"
+msgstr "¡Falló el cambio de las marcas de validación!"
 
 #: weblate/trans/widgets.py:267
 #, python-format
