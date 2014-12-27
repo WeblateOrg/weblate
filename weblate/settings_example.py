@@ -93,6 +93,7 @@ LANGUAGES = (
     ('es', u'Español'),
     ('fi', u'Suomi'),
     ('fr', u'Français'),
+    ('fy', u'Frysk'),
     ('gl', u'Galego'),
     ('he', u'עברית'),
     ('hu', u'Magyar'),
