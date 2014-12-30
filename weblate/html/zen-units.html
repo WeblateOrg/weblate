@@ -30,7 +30,6 @@
 {% csrf_token %}
 {{ item.form.checksum }}
 {{ item.form.target }}
-<br />
 {{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
 </form>
 </td>
