@@ -8,7 +8,7 @@ from weblate.trans.data import migrate_data_dirs, unmigrate_data_dirs
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trans', '0013_auto_20151124_1036'),
+        ('trans', '0013_auto_20141124_1036'),
     ]
 
     operations = [
