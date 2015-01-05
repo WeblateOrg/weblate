@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2014 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <http://weblate.org/>
 #

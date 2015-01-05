@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2014 Daniel Tschan <tschan@puzzle.ch>
+# Copyright © 2015 Daniel Tschan <tschan@puzzle.ch>
 #
 # This file is part of Weblate <http://weblate.org/>
 #

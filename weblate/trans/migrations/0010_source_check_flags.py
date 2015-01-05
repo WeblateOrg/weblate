@@ -8,7 +8,7 @@ import weblate.trans.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trans', '0009_auto_20141110_1501'),
+        ('trans', '0009_auto_20151110_1501'),
     ]
 
     operations = [

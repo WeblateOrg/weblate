@@ -20,7 +20,7 @@ def fill_in_fields(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('trans', '0004_auto_20141021_1550'),
+        ('trans', '0004_auto_20151021_1550'),
     ]
 
     operations = [

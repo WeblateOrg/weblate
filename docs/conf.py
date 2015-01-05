@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Weblate'
-copyright = u'2012 - 2014, Michal Čihař'
+copyright = u'2012 - 2015, Michal Čihař'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -267,7 +267,7 @@ texinfo_documents = [
 epub_title = u'Weblate Documentationt'
 epub_author = u'Michal Čihař'
 epub_publisher = u'Michal Čihař'
-epub_copyright = u'2012 - 2014, Michal Čihař'
+epub_copyright = u'2012 - 2015, Michal Čihař'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'project'
