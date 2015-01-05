@@ -316,6 +316,18 @@ EXTRALANGS = (
         2,
         '(n > 1)',
     ),
+    (
+        'zh_Hant',
+        u'Traditional Chinese',
+        1,
+        '0',
+    ),
+    (
+        'zh_Hans',
+        u'Simplified Chinese',
+        1,
+        '0',
+    ),
     # Wrong language code used by Java
     (
         'in',
@@ -456,8 +468,6 @@ LANGUAGE_NAME_FIXUPS = {
     'oc': 'Occitan',
     'nb': 'Norwegian Bokmål',
     'pa': 'Punjabi',
-    'zh_CN': 'Simplified Chinese',
-    'zh_TW': 'Traditional Chinese',
     'ca@valencia': 'Valencian',
     'ky': 'Kyrgyz',
 }
