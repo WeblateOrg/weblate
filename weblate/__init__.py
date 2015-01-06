@@ -19,7 +19,9 @@
 #
 
 import os
+import re
 import logging
+import django.utils.translation.trans_real
 from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
 )
@@ -116,3 +118,10 @@ def get_versions_string():
 check_requirements()
 check_data_writable()
 create_ssh_wrapper()
+
+# Monkey patch locales, workaround for
+# https://code.djangoproject.com/ticket/24063
+django.utils.translation.trans_real.language_code_re = re.compile(
+    r'^[a-z]{1,8}(?:-[a-z0-9]{1,8})*(?:@[a-z0-9]{1,20})?$',
+    re.IGNORECASE
+)
