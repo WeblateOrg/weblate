@@ -171,7 +171,10 @@ def show_check_project(request, name, project):
             'contentsum', flat=True
         )
         for subproject in prj.subproject_set.all():
-            lang = subproject.translation_set.all()[0].language
+            try:
+                lang = subproject.translation_set.all()[0].language
+            except IndexError:
+                continue
             res = Unit.objects.filter(
                 contentsum__in=checks,
                 translation__language=lang,
