@@ -25,7 +25,7 @@ Tests for user handling.
 import tempfile
 from unittest import TestCase as UnitTestCase
 from django.test import TestCase
-from django.utils.unittest import SkipTest
+from unittest import SkipTest
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser, User, Group
 from django.core import mail

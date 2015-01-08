@@ -1,5 +1,5 @@
 from django.test import LiveServerTestCase
-from django.utils.unittest import SkipTest
+from unittest import SkipTest
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from django.core.urlresolvers import reverse

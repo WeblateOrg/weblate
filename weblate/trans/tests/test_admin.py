@@ -20,7 +20,7 @@
 
 from weblate.trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
-from django.utils.unittest import SkipTest
+from unittest import SkipTest
 from weblate.trans.util import add_configuration_error
 from weblate import appsettings
 import tempfile
