@@ -1,3 +1,4 @@
+{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
 
 {% blocktrans with user.first_name as username %}{{ username }} has just made a first contribution on {{ translation }} at {{ site_title }}.{% endblocktrans %}
 
