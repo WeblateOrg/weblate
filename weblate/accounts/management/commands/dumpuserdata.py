@@ -42,7 +42,11 @@ class Command(BaseCommand):
             'suggested',
         ) + Profile.SUBSCRIPTION_FIELDS
 
-        profiles = Profile.objects.select_related('user', 'subscriptions')
+        profiles = Profile.objects.select_related(
+            'user'
+        ).prefetch_related(
+            'subscriptions', 'languages', 'secondary_languages'
+        )
 
         for profile in profiles.iterator():
             if not profile.user.is_active:
