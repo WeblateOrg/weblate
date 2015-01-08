@@ -71,7 +71,7 @@ urlpatterns = patterns(
     ),
     url(
         r'^projects/$',
-        RedirectView.as_view(url='/')
+        RedirectView.as_view(url='/', permanent=False)
     ),
     url(
         r'^projects/' + PROJECT + '$',

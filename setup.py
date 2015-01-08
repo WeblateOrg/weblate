@@ -51,6 +51,9 @@ setup(
         'weblate.trans.south_migrations',
         'weblate.accounts.south_migrations',
         'weblate.lang.south_migrations',
+        'weblate.trans.migrations',
+        'weblate.accounts.migrations',
+        'weblate.lang.migrations',
     ],
     package_data={
         'weblate': [
