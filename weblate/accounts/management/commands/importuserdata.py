@@ -28,6 +28,7 @@ import json
 
 class Command(BaseCommand):
     help = 'imports userdata from JSON dump of database'
+    args = '<json-file>'
 
     def import_subscriptions(self, profile, userprofile):
         """

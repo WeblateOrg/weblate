@@ -25,6 +25,7 @@ import json
 
 class Command(BaseCommand):
     help = 'dumps user data to JSON file'
+    args = '<json-file>'
 
     def handle(self, *args, **options):
         '''

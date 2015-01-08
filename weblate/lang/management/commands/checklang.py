@@ -24,6 +24,7 @@ from weblate.lang.models import Language
 
 class Command(BaseCommand):
     help = 'Checks language definitions against rst/csv file'
+    args = '<test-file>'
 
     def handle(self, *args, **options):
         '''

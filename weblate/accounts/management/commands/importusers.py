@@ -25,6 +25,7 @@ import json
 
 class Command(BaseCommand):
     help = 'imports users from JSON dump of database'
+    args = '<json-file>'
 
     def handle(self, *args, **options):
         '''
