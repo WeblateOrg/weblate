@@ -101,22 +101,23 @@ pre {
   </div>
 </body>
 </html>''')
+    context = {}
 
     if os.path.exists(os.environ['OPENSHIFT_DATA_DIR'] + '/.installed'):
-        action1 = 'Updating'
-        action2 = 'updated'
-        log = ''
+        context['action1'] = 'Updating'
+        context['action2'] = 'updated'
+        context['log'] = ''
     else:
-        action1 = 'Installing'
-        action2 = 'installed'
+        context['action1'] = 'Installing'
+        context['action2'] = 'installed'
         log_msg = os.popen(
             r"cat ${OPENSHIFT_PYTHON_LOG_DIR}/install.log |"
             r" grep '^[^ ]\|setup.py install' |"
             r" sed 's,/var/lib/openshift/[a-z0-9]\{24\},~,g'"
         ).read()
-        log = '<pre>' + log_msg + '</pre>'
+        context['log'] = '<pre>' + log_msg + '</pre>'
 
-    response_body = response_body.substitute(locals())
+    response_body = response_body.substitute(context)
     status = '200 OK'
     response_headers = [
         ('Content-Type', ctype),
