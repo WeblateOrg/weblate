@@ -143,9 +143,9 @@ class DjangoTranslation(django_trans.DjangoTranslation):
         result = _EmptyClass()
         result.__class__ = self.__class__
         state = self.__dict__
+        state['_info'] = self._info.copy()
+        state['_catalog'] = self._catalog.copy()
         result.__dict__.update(state)
-        result._info = self._info.copy()
-        result._catalog = self._catalog.copy()
         return result
 
 
