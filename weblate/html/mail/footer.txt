@@ -1,4 +1,3 @@
-{% load url from future %}{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Translation summary:" %}
 
 {% trans "Total strings:" %} {{ translation.total }}
 {% trans "Translated strings:" %} {{ translation.translated }} ({{ translation.get_translated_percent }}%)

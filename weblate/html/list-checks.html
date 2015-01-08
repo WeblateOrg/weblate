@@ -1,4 +1,3 @@
-{% load url from future %}
 {% load i18n %}
 {% for check in checks %}
 <div data-href="{% url 'js-ignore-check' check_id=check.id %}" class="alert alert-{{ check.get_severity }} {% if perms_ignore_check %}alert-dismissable{% endif %} check tooltip-control" id="check-{{ check.id }}" title="{{ check.get_description }}">
