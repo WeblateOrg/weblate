@@ -29,7 +29,7 @@ import json
 class Command(BaseCommand):
     help = 'imports userdata from JSON dump of database'
 
-    def import_subscriptions(profile, userprofile):
+    def import_subscriptions(self, profile, userprofile):
         """
         Imports user subscriptions.
         """
