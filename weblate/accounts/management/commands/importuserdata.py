@@ -29,6 +29,23 @@ import json
 class Command(BaseCommand):
     help = 'imports userdata from JSON dump of database'
 
+    def import_subscriptions(profile, userprofile):
+        """
+        Imports user subscriptions.
+        """
+        # Add subscriptions
+        for subscription in userprofile['subscriptions']:
+            try:
+                profile.subscriptions.add(
+                    Project.objects.get(slug=subscription)
+                )
+            except Project.DoesNotExist:
+                continue
+
+        # Subscription settings
+        for field in Profile.SUBSCRIPTION_FIELDS:
+            setattr(profile, field, userprofile[field])
+
     def handle(self, *args, **options):
         '''
         Creates default set of groups and optionally updates them and moves
@@ -73,17 +90,7 @@ class Command(BaseCommand):
                         )
 
                 # Add subscriptions
-                for subscription in userprofile['subscriptions']:
-                    try:
-                        profile.subscriptions.add(
-                            Project.objects.get(slug=subscription)
-                        )
-                    except Project.DoesNotExist:
-                        continue
-
-                # Subscription settings
-                for field in Profile.SUBSCRIPTION_FIELDS:
-                    setattr(profile, field, userprofile[field])
+                self.import_subscriptions(profile, userprofile)
 
                 profile.save()
             except User.DoesNotExist:
