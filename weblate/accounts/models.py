@@ -277,7 +277,7 @@ class VerifiedEmail(models.Model):
     Storage for verified emails from auth backends.
     '''
     social = models.ForeignKey(UserSocialAuth)
-    email = models.EmailField()
+    email = models.EmailField(max_length=254)
 
     def __unicode__(self):
         return u'{0} - {1}'.format(

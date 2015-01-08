@@ -141,6 +141,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'Email address where errors in source string will be reported, '
             'keep empty for no emails.'
         ),
+        max_length=254,
         blank=True,
     )
     branch = models.CharField(
@@ -321,6 +322,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     )
     committer_email = models.EmailField(
         verbose_name=ugettext_lazy('Committer email'),
+        max_length=254,
         default='noreply@weblate.org'
     )
 
