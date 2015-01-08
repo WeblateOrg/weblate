@@ -13,6 +13,7 @@ env:
     - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=postgresql
     - CI_DJANGO="Django>=1.7,<1.8"
     - CI_DJANGO="Django>=1.6,<1.7"
+    - CI_DJANGO="https://github.com/django/django/zipball/master"
     - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
@@ -33,3 +34,7 @@ cache:
   directories:
     - $HOME/.pip-cache/
 sudo: false
+ matrix:
+   allow_failures:
+     - python: 2.7
+       env: CI_DJANGO="https://github.com/django/django/zipball/master"
