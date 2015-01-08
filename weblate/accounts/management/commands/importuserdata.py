@@ -46,6 +46,20 @@ class Command(BaseCommand):
         for field in Profile.SUBSCRIPTION_FIELDS:
             setattr(profile, field, userprofile[field])
 
+    def update_languages(self, profile, userprofile):
+        """
+        Updates user language preferences.
+        """
+        profile.language = userprofile['language']
+        for lang in userprofile['secondary_languages']:
+            profile.secondary_languages.add(
+                Language.objects.get(code=lang)
+            )
+        for lang in userprofile['languages']:
+            profile.languages.add(
+                Language.objects.get(code=lang)
+            )
+
     def handle(self, *args, **options):
         '''
         Creates default set of groups and optionally updates them and moves
@@ -79,15 +93,7 @@ class Command(BaseCommand):
 
                 # Update fields if we should
                 if update:
-                    profile.language = userprofile['language']
-                    for lang in userprofile['secondary_languages']:
-                        profile.secondary_languages.add(
-                            Language.objects.get(code=lang)
-                        )
-                    for lang in userprofile['languages']:
-                        profile.languages.add(
-                            Language.objects.get(code=lang)
-                        )
+                    self.update_languages(profile, userprofile)
 
                 # Add subscriptions
                 self.import_subscriptions(profile, userprofile)
