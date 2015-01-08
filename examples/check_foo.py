@@ -37,5 +37,5 @@ class FooCheck(TargetCheck):
     description = _('Your translation is foo')
 
     # Real check code
-    def check_single(self, source, target, unit):
+    def check_single(self, source, target, unit, cache_slot):
         return 'foo' in target
