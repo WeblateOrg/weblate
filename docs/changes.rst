@@ -8,6 +8,7 @@ Released on ? 2015.
 
 * Performance improvements.
 * Fulltext search on location and comments fields.
+* New SVG/javascript based activity charts.
 
 weblate 2.1
 -----------
