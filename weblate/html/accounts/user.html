@@ -40,11 +40,13 @@
 
 {% endif %}
 
-<h4>{% trans "Activity in last 30 days" %}</h4>
-<img src="{% url 'monthly_user_activity' user=page_user.username %}">
+<span class="hidden" id="load-activity" data-yearly="{% url 'json_yearly_activity' user=page_user.username %}" data-monthly="{% url 'json_monthly_activity' user=page_user.username %}"></span>
 
-<h4>{% trans "Activity in last year" %}</h4>
-<img src="{% url 'yearly_user_activity' user=page_user.username %}">
+<h3>{% trans "Activity in last 30 days" %}</h3>
+<div id="activity-month" class="ct-chart ct-double-octave"></div>
+
+<h3>{% trans "Activity in last year" %}</h3>
+<div id="activity-year" class="ct-chart ct-double-octave"></div>
 
 </div>
 </div>

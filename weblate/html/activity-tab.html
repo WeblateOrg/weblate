@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="tab-pane" id="activity">
+<div class="panel panel-primary">
+<div class="panel-heading">
+<h4 class="panel-title">
+{% trans "Activity" %}
+<i id="activity-loading" class="fa fa-spinner fa-spin pull-right flip"></i>
+</h4>
+</div>
+<div class="panel-body">
+<h3>{% trans "Activity in last 30 days" %}</h3>
+<div id="activity-month" class="ct-chart ct-double-octave"></div>
+
+<h3>{% trans "Activity in last year" %}</h3>
+<div id="activity-year" class="ct-chart ct-double-octave"></div>
+</div>
+
+</div>
+</div>

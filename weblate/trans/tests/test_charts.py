@@ -24,111 +24,92 @@ Tests for charts and widgets.
 
 from weblate.trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
+import json
 
 
 class ChartsTest(ViewTestCase):
     '''
     Testing of charts.
     '''
-    def test_activity_html(self):
-        '''
-        Test of html for activity charts.
-        '''
-        response = self.client.get(
-            reverse('view_activity')
-        )
-        self.assertContains(response, 'img src="/activity')
-
-        response = self.client.get(
-            reverse('view_activity_project', kwargs=self.kw_project)
-        )
-        self.assertContains(response, 'img src="/activity')
-
-        response = self.client.get(
-            reverse('view_activity_subproject', kwargs=self.kw_subproject)
-        )
-        self.assertContains(response, 'img src="/activity')
-
-        response = self.client.get(
-            reverse('view_activity_translation', kwargs=self.kw_translation)
-        )
-        self.assertContains(response, 'img src="/activity')
-
-        response = self.client.get(
-            reverse('view_language_activity', kwargs={'lang': 'cs'})
-        )
-        self.assertContains(response, 'img src="/activity')
+    def assert_json_chart_data(self, response):
+        """
+        Tests whether response has valid json chart data.
+        """
+        self.assertEquals(response.get('Content-Type'), 'application/json')
+        data = json.loads(response.content)
+        self.assertTrue('series' in data)
+        self.assertTrue('labels' in data)
 
     def test_activity_monthly(self):
         '''
         Test of monthly activity charts.
         '''
         response = self.client.get(
-            reverse('monthly_activity')
+            reverse('json_monthly_activity')
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity_project', kwargs=self.kw_project)
+            reverse('json_monthly_activity', kwargs=self.kw_project)
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity_subproject', kwargs=self.kw_subproject)
+            reverse('json_monthly_activity', kwargs=self.kw_subproject)
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity_translation', kwargs=self.kw_translation)
+            reverse('json_monthly_activity', kwargs=self.kw_translation)
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_language_activity', kwargs={'lang': 'cs'})
+            reverse('json_monthly_activity', kwargs={'lang': 'cs'})
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
             reverse(
-                'monthly_user_activity',
+                'json_monthly_activity',
                 kwargs={'user': self.user.username}
             )
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
     def test_activity_yearly(self):
         '''
         Test of yearly activity charts.
         '''
         response = self.client.get(
-            reverse('yearly_activity')
+            reverse('json_yearly_activity')
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_activity_project', kwargs=self.kw_project)
+            reverse('json_yearly_activity', kwargs=self.kw_project)
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_activity_subproject', kwargs=self.kw_subproject)
+            reverse('json_yearly_activity', kwargs=self.kw_subproject)
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_activity_translation', kwargs=self.kw_translation)
+            reverse('json_yearly_activity', kwargs=self.kw_translation)
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_language_activity', kwargs={'lang': 'cs'})
+            reverse('json_yearly_activity', kwargs={'lang': 'cs'})
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
 
         response = self.client.get(
             reverse(
-                'yearly_user_activity',
+                'json_yearly_activity',
                 kwargs={'user': self.user.username}
             )
         )
-        self.assertPNG(response)
+        self.assert_json_chart_data(response)
