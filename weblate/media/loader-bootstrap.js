@@ -1,17 +1,18 @@
 var loading = 0;
 var mt_loaded = false;
+var activity_loaded = false;
 
-function inc_loading() {
+function inc_loading(sel) {
     if (loading === 0) {
-        $('#mt-loading').show();
+        $(sel).show();
     }
     loading++;
 }
 
-function dec_loading() {
+function dec_loading(sel) {
     loading--;
     if (loading === 0) {
-        $('#mt-loading').hide();
+        $(sel).hide();
     }
 }
 
@@ -41,6 +42,33 @@ jQuery.fn.extend({
         });
     }
 });
+
+function load_activity(element) {
+    if (activity_loaded) {
+        return;
+    }
+    activity_loaded = true;
+
+    inc_loading('#activity-loading');
+    $.ajax({
+        url: element.data('monthly'),
+        success: function(data) {
+            new Chartist.Bar('#activity-month', data);
+            dec_loading('#activity-loading');
+        },
+        dataType: 'json'
+    });
+
+    inc_loading('#activity-loading');
+    $.ajax({
+        url: element.data('yearly'),
+        success: function(data) {
+            new Chartist.Bar('#activity-year', data);
+            dec_loading('#activity-loading');
+        },
+        dataType: 'json'
+    });
+}
 
 function init_editor(editors) {
     /* Autosizing */
@@ -92,7 +120,7 @@ function text_change(e) {
 }
 
 function process_machine_translation(data, textStatus, jqXHR) {
-    dec_loading();
+    dec_loading('#mt-loading');
     if (data.responseStatus == 200) {
         data.translations.forEach(function (el, idx, ar) {
             var new_row = $('<tr/>').data('quality', el.quality);
@@ -129,16 +157,16 @@ function process_machine_translation(data, textStatus, jqXHR) {
 }
 
 function failed_machine_translation(jqXHR, textStatus, errorThrown) {
-    dec_loading();
+    dec_loading('#mt-loading');
     $('#mt-errors').append(
         $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
     );
 }
 
 function load_mt_translations(data, textStatus, jqXHR) {
-    dec_loading();
+    dec_loading('#mt-loading');
     data.forEach(function (el, idx, ar) {
-        inc_loading();
+        inc_loading('#mt-loading');
         $.ajax({
             url: $('#js-translate').attr('href') + '?service=' + el,
             success: process_machine_translation,
@@ -287,13 +315,24 @@ $(function () {
         );
     });
 
+    /* Activity charts on tabs */
+    $(document).on('show.bs.tab', '[data-load="activity"]', function (e) {
+        load_activity($(this));
+    });
+
+    /* Automatic loading of activity charts on page load */
+    var auto_load_activity = $('#load-activity');
+    if (auto_load_activity.length > 0) {
+        load_activity(auto_load_activity);
+    }
+
     /* Machine translation */
     $(document).on('show.bs.tab', '[data-load="mt"]', function (e) {
         if (mt_loaded) {
             return;
         }
         mt_loaded = true;
-        inc_loading();
+        inc_loading('#mt-loading');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
             success: load_mt_translations,

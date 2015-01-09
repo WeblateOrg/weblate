@@ -12,7 +12,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-  <li><a href="#activity" data-toggle="tab" data-href="{% url 'view_language_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
+  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'json_yearly_activity' lang=object.code %}" data-monthly="{% url 'json_monthly_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
   <li><a href="#dicts" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -41,14 +41,7 @@
 {% include "last-changes.html" %}
 </div>
 
-<div class="tab-pane" id="activity">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Activity" %}</h4></div>
-<div class="panel-body">
-<p>{% trans "Loading…" %}</p>
-</div>
-</div>
-</div>
+{% include "activity-tab.html" %}
 
 <div class="tab-pane" id="dicts">
 <div class="panel panel-primary">

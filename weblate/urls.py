@@ -202,99 +202,68 @@ urlpatterns = patterns(
         name='delete-user',
     ),
 
-    # Activity HTML
-    url(
-        r'^activity/html/$',
-        'weblate.trans.views.charts.view_activity',
-        name='view_activity',
-    ),
-    url(
-        r'^activity/html/' + PROJECT + '$',
-        'weblate.trans.views.charts.view_activity',
-        name='view_activity_project',
-    ),
-    url(
-        r'^activity/html/' + SUBPROJECT + '$',
-        'weblate.trans.views.charts.view_activity',
-        name='view_activity_subproject',
-    ),
-    url(
-        r'^activity/html/' + TRANSLATION + '$',
-        'weblate.trans.views.charts.view_activity',
-        name='view_activity_translation',
-    ),
-
     # Monthly activity
     url(
-        r'^activity/month/$',
-        'weblate.trans.views.charts.monthly_activity',
-        name='monthly_activity',
+        r'^activity-json/month/$',
+        'weblate.trans.views.charts.json_monthly_activity',
+        name='json_monthly_activity',
     ),
     url(
-        r'^activity/month/' + PROJECT + '$',
-        'weblate.trans.views.charts.monthly_activity',
-        name='monthly_activity_project',
+        r'^activity-json/month/' + PROJECT + '$',
+        'weblate.trans.views.charts.json_monthly_activity',
+        name='json_monthly_activity',
     ),
     url(
-        r'^activity/month/' + SUBPROJECT + '$',
-        'weblate.trans.views.charts.monthly_activity',
-        name='monthly_activity_subproject',
+        r'^activity-json/month/' + SUBPROJECT + '$',
+        'weblate.trans.views.charts.json_monthly_activity',
+        name='json_monthly_activity',
     ),
     url(
-        r'^activity/month/' + TRANSLATION + '$',
-        'weblate.trans.views.charts.monthly_activity',
-        name='monthly_activity_translation',
+        r'^activity-json/month/' + TRANSLATION + '$',
+        'weblate.trans.views.charts.json_monthly_activity',
+        name='json_monthly_activity',
+    ),
+    url(
+        r'^activity-json/language/month/' + LANGUAGE + '/$',
+        'weblate.trans.views.charts.json_monthly_activity',
+        name='json_monthly_activity',
+    ),
+    url(
+        r'^activity/user/month/(?P<user>[^/]+)/$',
+        'weblate.trans.views.charts.json_monthly_activity',
+        name='json_monthly_activity',
     ),
 
     # Yearly activity
     url(
-        r'^activity/year/$',
-        'weblate.trans.views.charts.yearly_activity',
-        name='yearly_activity',
+        r'^activity-json/year/$',
+        'weblate.trans.views.charts.json_yearly_activity',
+        name='json_yearly_activity',
     ),
     url(
-        r'^activity/year/' + PROJECT + '$',
-        'weblate.trans.views.charts.yearly_activity',
-        name='yearly_activity_project',
+        r'^activity-json/year/' + PROJECT + '$',
+        'weblate.trans.views.charts.json_yearly_activity',
+        name='json_yearly_activity',
     ),
     url(
-        r'^activity/year/' + SUBPROJECT + '$',
-        'weblate.trans.views.charts.yearly_activity',
-        name='yearly_activity_subproject',
+        r'^activity-json/year/' + SUBPROJECT + '$',
+        'weblate.trans.views.charts.json_yearly_activity',
+        name='json_yearly_activity',
     ),
     url(
-        r'^activity/year/' + TRANSLATION + '$',
-        'weblate.trans.views.charts.yearly_activity',
-        name='yearly_activity_translation',
-    ),
-
-    # Per language activity
-    url(
-        r'^activity/language/html/' + LANGUAGE + '/$',
-        'weblate.trans.views.charts.view_language_activity',
-        name='view_language_activity',
+        r'^activity-json/year/' + TRANSLATION + '$',
+        'weblate.trans.views.charts.json_yearly_activity',
+        name='json_yearly_activity',
     ),
     url(
-        r'^activity/language/month/' + LANGUAGE + '/$',
-        'weblate.trans.views.charts.monthly_language_activity',
-        name='monthly_language_activity',
-    ),
-    url(
-        r'^activity/language/year/' + LANGUAGE + '/$',
-        'weblate.trans.views.charts.yearly_language_activity',
-        name='yearly_language_activity',
-    ),
-
-    # Per user activity
-    url(
-        r'^activity/user/month/(?P<user>[^/]+)/$',
-        'weblate.trans.views.charts.monthly_user_activity',
-        name='monthly_user_activity',
+        r'^activity-json/language/year/' + LANGUAGE + '/$',
+        'weblate.trans.views.charts.json_yearly_activity',
+        name='json_yearly_activity',
     ),
     url(
         r'^activity/user/year/(?P<user>[^/]+)/$',
-        'weblate.trans.views.charts.yearly_user_activity',
-        name='yearly_user_activity',
+        'weblate.trans.views.charts.json_yearly_activity',
+        name='json_yearly_activity',
     ),
 
     # Comments

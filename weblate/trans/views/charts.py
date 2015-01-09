@@ -24,288 +24,125 @@ Charting library for Weblate.
 from weblate.trans.models import Change
 from weblate.lang.models import Language
 from weblate.trans.views.helper import get_project_translation
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from cStringIO import StringIO
-from django.core.urlresolvers import reverse
-from PIL import Image, ImageDraw
-from weblate.trans.fonts import get_font
+from django.utils.translation import pgettext
+import json
 
 
-def render_activity(activity):
-    '''
-    Helper for rendering activity charts.
-    '''
-    # Preprocess data for chart
-    maximum = max([l[1] for l in activity] + [1])
-    step = 780.0 / len(activity)
-
-    # Prepare image
-    image = Image.new('RGB', (800, 100), 'white')
-    draw = ImageDraw.Draw(image)
-
-    # Render axises
-    draw.line(((15, 5), (15, 85), (795, 85)), fill='black')
-
-    # Load font
-    font = get_font(11)
-
-    # Create Y axis label
-    y_label = str(maximum)
-    text = Image.new('L', font.getsize(y_label), 'white')
-    draw_txt = ImageDraw.Draw(text)
-    draw_txt.text((0, 0), y_label, font=font, fill='black')
-    text = text.transpose(Image.ROTATE_90)
-
-    image.paste(text, (2, 5))
-    # Counter for rendering ticks
-    last = -40
-
-    # Render activity itself
-    for offset, value in enumerate(activity):
-        # Calculate position
-        current = offset * step
-
-        # Render bar
-        draw.rectangle(
-            (
-                20 + current,
-                84,
-                20 + current + (step / 2),
-                84 - value[1] * 78.0 / maximum
-            ),
-            fill=(0, 67, 118)
-        )
-
-        # Skip axis labels if they are too frequent
-        if current < last + 40:
-            continue
-        last = current
-
-        # X-Axis ticks
-        draw.text(
-            (15 + current, 86),
-            value[0].strftime('%m/%d'),
-            font=font, fill='black'
-        )
-
-    # Render surface to PNG
-    out = StringIO()
-    image.convert('P', palette=Image.ADAPTIVE).save(out, 'PNG')
-
-    # Return response
-    return HttpResponse(content_type='image/png', content=out.getvalue())
-
-
-def monthly_activity(request, project=None, subproject=None, lang=None):
-    '''
-    Show monthly activity chart.
-    '''
-
-    # Process parameters
-    project, subproject, translation = get_project_translation(
-        request,
-        project,
-        subproject,
-        lang
-    )
-
-    # Get actual stats
-    activity = Change.objects.month_stats(
-        project,
-        subproject,
-        translation
-    )
-
-    # Render chart
-    return render_activity(activity)
-
-
-def yearly_activity(request, project=None, subproject=None, lang=None):
-    '''
-    Show yearly activity chart.
-    '''
-
-    # Process parameters
-    project, subproject, translation = get_project_translation(
-        request,
-        project,
-        subproject,
-        lang
-    )
-
-    # Get actual stats
-    activity = Change.objects.year_stats(
-        project,
-        subproject,
-        translation
-    )
-
-    # Render chart
-    return render_activity(activity)
-
-
-def monthly_language_activity(request, lang):
-    '''
-    Show monthly activity chart.
-    '''
-
-    # Process parameters
-    language = get_object_or_404(Language, code=lang)
-
-    # Get actual stats
-    activity = Change.objects.month_stats(
-        language=language
-    )
-
-    # Render chart
-    return render_activity(activity)
-
-
-def yearly_language_activity(request, lang):
-    '''
-    Show yearly activity chart.
-    '''
-
-    # Process parameters
-    language = get_object_or_404(Language, code=lang)
-
-    # Get actual stats
-    activity = Change.objects.year_stats(
-        language=language
-    )
-
-    # Render chart
-    return render_activity(activity)
-
-
-def monthly_user_activity(request, user):
-    '''
-    Show monthly activity chart.
-    '''
-
-    # Process parameters
-    user = get_object_or_404(User, username=user)
-
-    # Get actual stats
-    activity = Change.objects.month_stats(
-        user=user
-    )
-
-    # Render chart
-    return render_activity(activity)
-
-
-def yearly_user_activity(request, user):
-    '''
-    Show yearly activity chart.
-    '''
-
-    # Process parameters
-    user = get_object_or_404(User, username=user)
-
-    # Get actual stats
-    activity = Change.objects.year_stats(
-        user=user
-    )
-
-    # Render chart
-    return render_activity(activity)
-
-
-def view_activity(request, project=None, subproject=None, lang=None):
-    '''
-    Show html with activity charts.
-    '''
-
-    # Process parameters
-    project, subproject, translation = get_project_translation(
-        request,
-        project,
-        subproject,
-        lang
-    )
-
-    if translation is not None:
-        kwargs = {
-            'project': project.slug,
-            'subproject': subproject.slug,
-            'lang': translation.language.code,
-        }
-        monthly_url = reverse(
-            'monthly_activity_translation',
-            kwargs=kwargs
-        )
-        yearly_url = reverse(
-            'yearly_activity_translation',
-            kwargs=kwargs
-        )
-    elif subproject is not None:
-        kwargs = {
-            'project': project.slug,
-            'subproject': subproject.slug,
-        }
-        monthly_url = reverse(
-            'monthly_activity_subproject',
-            kwargs=kwargs
-        )
-        yearly_url = reverse(
-            'yearly_activity_subproject',
-            kwargs=kwargs
-        )
-    elif project is not None:
-        kwargs = {
-            'project': project.slug,
-        }
-        monthly_url = reverse(
-            'monthly_activity_project',
-            kwargs=kwargs
-        )
-        yearly_url = reverse(
-            'yearly_activity_project',
-            kwargs=kwargs
-        )
+def get_json_stats(request, days, step, project=None, subproject=None,
+                   lang=None, user=None):
+    """
+    Parse json stats URL params.
+    """
+    if project is None and lang is None and user is None:
+        project = None
+        subproject = None
+        translation = None
+        language = None
+        user = None
+    elif user is not None:
+        project = None
+        subproject = None
+        translation = None
+        language = None
+        user = get_object_or_404(User, username=user)
+    elif project is None:
+        project = None
+        subproject = None
+        translation = None
+        language = get_object_or_404(Language, code=lang)
+        user = None
     else:
-        monthly_url = reverse(
-            'monthly_activity',
+        # Process parameters
+        project, subproject, translation = get_project_translation(
+            request,
+            project,
+            subproject,
+            lang
         )
-        yearly_url = reverse(
-            'yearly_activity',
-        )
+        language = None
+        user = None
 
-    return render(
-        request,
-        'js/activity.html',
-        {
-            'yearly_url': yearly_url,
-            'monthly_url': monthly_url,
-        }
+    # Get actual stats
+    return Change.objects.base_stats(
+        days,
+        step,
+        project,
+        subproject,
+        translation,
+        language,
+        user
     )
 
 
-def view_language_activity(request, lang):
-    '''
-    Show html with activity charts.
-    '''
-
-    # Process parameters
-    language = get_object_or_404(Language, code=lang)
-
-    monthly_url = reverse(
-        'monthly_language_activity',
-        kwargs={'lang': language.code},
-    )
-    yearly_url = reverse(
-        'yearly_language_activity',
-        kwargs={'lang': language.code},
+def json_yearly_activity(request, project=None, subproject=None, lang=None,
+                         user=None):
+    """
+    Returns yearly activity for matching changes as json.
+    """
+    activity = get_json_stats(
+        request, 365, 7,
+        project, subproject, lang
     )
 
-    return render(
-        request,
-        'js/activity.html',
-        {
-            'yearly_url': yearly_url,
-            'monthly_url': monthly_url,
-        }
+    # Format
+    serie = []
+    labels = []
+    month = -1
+    for item in activity:
+        serie.append(item[1])
+        if month != item[0].month:
+            labels.append(
+                pgettext(
+                    'Format string for yearly activity chart',
+                    '{month}/{year}'
+                ).format(
+                    month=item[0].month,
+                    year=item[0].year,
+                )
+            )
+            month = item[0].month
+        else:
+            labels.append('')
+
+    return HttpResponse(
+        content_type='application/json',
+        content=json.dumps({'series': [serie], 'labels': labels})
+    )
+
+
+def json_monthly_activity(request, project=None, subproject=None, lang=None,
+                          user=None):
+    """
+    Returns monthly activity for matching changes as json.
+    """
+    activity = get_json_stats(
+        request, 31, 1,
+        project, subproject, lang
+    )
+
+    # Format
+    serie = []
+    labels = []
+    for pos, item in enumerate(activity):
+        serie.append(item[1])
+        if pos % 5 == 0:
+            labels.append(
+                pgettext(
+                    'Format string for monthly activity chart',
+                    '{day}/{month}'
+                ).format(
+                    day=item[0].day,
+                    month=item[0].month,
+                    year=item[0].year,
+                )
+            )
+        else:
+            labels.append('')
+
+    return HttpResponse(
+        content_type='application/json',
+        content=json.dumps({'series': [serie], 'labels': labels})
     )
