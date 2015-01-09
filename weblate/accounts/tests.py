@@ -355,7 +355,7 @@ class ViewTest(TestCase):
         response = self.client.get(
             reverse('user_page', kwargs={'user': user.username})
         )
-        self.assertContains(response, 'src="/activity')
+        self.assertContains(response, '="/activity/')
 
     def test_login(self):
         self.get_user()
