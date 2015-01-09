@@ -9,6 +9,7 @@ Released on ? 2015.
 * Performance improvements.
 * Fulltext search on location and comments fields.
 * New SVG/javascript based activity charts.
+* Support for Django 1.8.
 
 weblate 2.1
 -----------
