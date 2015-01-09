@@ -17,7 +17,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'json_yearly_activity' project=object.project.slug subproject=object.slug %}" data-monthly="{% url 'json_monthly_activity' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
+  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug subproject=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Tools" %} <span class="caret"></span>

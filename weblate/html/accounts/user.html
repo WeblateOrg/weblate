@@ -40,7 +40,7 @@
 
 {% endif %}
 
-<span class="hidden" id="load-activity" data-yearly="{% url 'json_yearly_activity' user=page_user.username %}" data-monthly="{% url 'json_monthly_activity' user=page_user.username %}"></span>
+<span class="hidden" id="load-activity" data-yearly="{% url 'yearly_activity' user=page_user.username %}" data-monthly="{% url 'monthly_activity' user=page_user.username %}"></span>
 
 <h3>{% trans "Activity in last 30 days" %}</h3>
 <div id="activity-month" class="ct-chart ct-double-octave"></div>

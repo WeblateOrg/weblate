@@ -77,8 +77,8 @@ def get_json_stats(request, days, step, project=None, subproject=None,
     )
 
 
-def json_yearly_activity(request, project=None, subproject=None, lang=None,
-                         user=None):
+def yearly_activity(request, project=None, subproject=None, lang=None,
+                    user=None):
     """
     Returns yearly activity for matching changes as json.
     """
@@ -113,8 +113,8 @@ def json_yearly_activity(request, project=None, subproject=None, lang=None,
     )
 
 
-def json_monthly_activity(request, project=None, subproject=None, lang=None,
-                          user=None):
+def monthly_activity(request, project=None, subproject=None, lang=None,
+                     user=None):
     """
     Returns monthly activity for matching changes as json.
     """
