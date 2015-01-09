@@ -106,18 +106,6 @@ class ChangeManager(models.Manager):
 
         return self.count_stats(days, step, dtstart, base)
 
-    def month_stats(self, *args, **kwargs):
-        '''
-        Reports daily stats for changes.
-        '''
-        return self.base_stats(30, 1, *args, **kwargs)
-
-    def year_stats(self, *args, **kwargs):
-        '''
-        Reports monthly stats for changes.
-        '''
-        return self.base_stats(365, 7, *args, **kwargs)
-
     def prefetch(self):
         '''
         Fetches related fields in a big chungs to avoid loading them
