@@ -28,6 +28,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.utils.translation import pgettext
+from django.views.decorators.cache import cache_page
 import json
 
 
@@ -77,6 +78,7 @@ def get_json_stats(request, days, step, project=None, subproject=None,
     )
 
 
+@cache_page(3600)
 def yearly_activity(request, project=None, subproject=None, lang=None,
                     user=None):
     """
@@ -113,6 +115,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None,
     )
 
 
+@cache_page(3600)
 def monthly_activity(request, project=None, subproject=None, lang=None,
                      user=None):
     """
