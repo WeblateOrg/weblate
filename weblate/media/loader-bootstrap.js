@@ -429,10 +429,18 @@ $(function () {
 
     /* Load correct tab */
     if (location.hash !== '') {
+        /* From URL hash */
         var activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
         if (activeTab.length) {
             activeTab.tab('show');
             window.scrollTo(0, 0);
+        }
+    } else if ($('.translation-tabs').length > 0 && $.cookie('translate-tab')) {
+        /* From cookie */
+        console.log('switch ' + $.cookie('translate-tab'));
+        var activeTab = $('[data-toggle=tab][href=' + $.cookie('translate-tab') + ']');
+        if (activeTab.length) {
+            activeTab.tab('show');
         }
     }
 
@@ -441,6 +449,11 @@ $(function () {
         history.pushState(null, null, $(this).attr('href'));
         /* Remove focus on rows */
         $('.selectable-row').removeClass('active');
+    });
+
+    /* Store active translation tab in cookie */
+    $('.translation-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        $.cookie('translate-tab', $(this).attr('href'));
     });
 
     /* Navigate to a tab when the history changes */
