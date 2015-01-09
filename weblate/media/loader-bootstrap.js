@@ -43,6 +43,30 @@ jQuery.fn.extend({
     }
 });
 
+
+function configure_chart($chart) {
+    var $toolTip = $chart
+      .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
+      .find('.tooltip');
+
+    $chart.on('mouseenter', '.ct-bar', function() {
+        var $bar = $(this),
+            value = $bar.attr('ct:value'),
+            pos = $bar.offset();
+
+        $toolTip.find('.tooltip-inner').html(value);
+        pos.top = pos.top - $toolTip.outerHeight();
+        pos.left = pos.left - ($toolTip.outerWidth() / 2) + 7.5 /* stroke-width / 2 */;
+        $toolTip.offset(pos);
+        $toolTip.css('opacity', 1);
+    });
+
+    $chart.on('mouseleave', '.ct-bar', function() {
+        $toolTip.css('opacity', 0);
+    });
+}
+
+
 function load_activity(element) {
     if (activity_loaded) {
         return;
@@ -54,6 +78,7 @@ function load_activity(element) {
         url: element.data('monthly'),
         success: function(data) {
             new Chartist.Bar('#activity-month', data);
+            configure_chart($('#activity-month'));
             dec_loading('#activity-loading');
         },
         dataType: 'json'
@@ -64,6 +89,7 @@ function load_activity(element) {
         url: element.data('yearly'),
         success: function(data) {
             new Chartist.Bar('#activity-year', data);
+            configure_chart($('#activity-year'));
             dec_loading('#activity-loading');
         },
         dataType: 'json'
