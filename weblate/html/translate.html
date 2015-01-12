@@ -281,7 +281,9 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Comments" %}</h4></div>
   <div class="panel-body">
+  {% with this_unit_url as next_url %}
     {% include "list-comments.html" %}
+  {% endwith %}
   </div>
 </div>
 {% endif %}

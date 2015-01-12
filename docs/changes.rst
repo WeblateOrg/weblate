@@ -10,6 +10,7 @@ Released on ? 2015.
 * Fulltext search on location and comments fields.
 * New SVG/javascript based activity charts.
 * Support for Django 1.8.
+* Support for deleting comments.
 
 weblate 2.1
 -----------
