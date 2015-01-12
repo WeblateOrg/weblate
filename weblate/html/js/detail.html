@@ -76,7 +76,9 @@
 </tr>
 <tr>
 <td>
+{% with next as next_url %}
 {% include "list-comments.html" %}
+{% endwith %}
 </td>
 </tr>
 {% endif %}

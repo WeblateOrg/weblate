@@ -167,6 +167,8 @@ Can accept suggestion [Users, Managers]
     Can accept suggestion (might be disabled with :ref:`voting`).
 Can delete suggestion [Users, Managers]
     Can delete suggestion (might be disabled with :ref:`voting`).
+Can delete comment [Managers]
+    Can delete comment.
 Can vote for suggestion [Users, Managers]
     Can vote for suggestion (see :ref:`voting`).
 Can override suggestion state [Managers]

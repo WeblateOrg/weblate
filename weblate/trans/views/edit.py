@@ -19,6 +19,7 @@
 #
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
@@ -28,7 +29,8 @@ import uuid
 import time
 
 from weblate.trans.models import (
-    SubProject, Unit, Change, Comment, Suggestion, Dictionary
+    SubProject, Unit, Change, Comment, Suggestion, Dictionary,
+    get_related_units,
 )
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
@@ -676,6 +678,27 @@ def comment(request, pk):
         messages.error(request, _('Failed to add comment!'))
 
     return redirect(request.POST.get('next', translation))
+
+
+@login_required
+@require_POST
+def delete_comment(request, pk):
+    """
+    Deletes comment.
+    """
+    comment = get_object_or_404(Comment, pk=pk)
+    comment.project.check_acl(request)
+
+    units = get_related_units(comment)
+    if units.exists():
+        fallback_url = units[0].get_absolute_url()
+    else:
+        fallback_url = comment.project.get_absolute_url()
+
+    comment.delete()
+    messages.info(request, _('Translation comment has been deleted.'))
+
+    return redirect(request.POST.get('next', fallback_url))
 
 
 def get_zen_unitdata(translation, request):

@@ -272,6 +272,11 @@ urlpatterns = patterns(
         'weblate.trans.views.edit.comment',
         name='comment',
     ),
+    url(
+        r'^comment/(?P<pk>[0-9]+)/delete/$',
+        'weblate.trans.views.edit.delete_comment',
+        name='delete-comment',
+    ),
 
     # VCS manipulation - commit
     url(

@@ -13,6 +13,14 @@
 {% endif %}
 </span>
 </div>
+{% if perms.trans.delete_comment %}
+<form method="POST" action="{% url 'delete-comment' pk=comment.pk %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next_url }}" />
+<button class="btn btn-danger btn-xs pull-right flip"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</form>
+<div class="clearfix"></div>
+{% endif %}
 <div class="list-group">
 <div class="list-group-item" dir="auto">{{ comment.comment }}</div>
 </div>
