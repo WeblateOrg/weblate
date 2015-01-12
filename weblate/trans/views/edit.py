@@ -686,16 +686,16 @@ def delete_comment(request, pk):
     """
     Deletes comment.
     """
-    comment = get_object_or_404(Comment, pk=pk)
-    comment.project.check_acl(request)
+    comment_obj = get_object_or_404(Comment, pk=pk)
+    comment_obj.project.check_acl(request)
 
-    units = get_related_units(comment)
+    units = get_related_units(comment_obj)
     if units.exists():
         fallback_url = units[0].get_absolute_url()
     else:
-        fallback_url = comment.project.get_absolute_url()
+        fallback_url = comment_obj.project.get_absolute_url()
 
-    comment.delete()
+    comment_obj.delete()
     messages.info(request, _('Translation comment has been deleted.'))
 
     return redirect(request.POST.get('next', fallback_url))
