@@ -6,11 +6,11 @@ function increaseLoading(sel) {
     if (loading === 0) {
         $(sel).show();
     }
-    loading++;
+    loading = loading + 1;
 }
 
 function decreaseLoading(sel) {
-    loading--;
+    loading = loading - 1;
     if (loading === 0) {
         $(sel).hide();
     }
