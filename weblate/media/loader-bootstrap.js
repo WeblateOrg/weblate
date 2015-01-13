@@ -1,15 +1,15 @@
 var loading = 0;
-var mt_loaded = false;
-var activity_loaded = false;
+var machineTranslationLoaded = false;
+var activityDataLoaded = false;
 
-function inc_loading(sel) {
+function increaseLoading(sel) {
     if (loading === 0) {
         $(sel).show();
     }
     loading++;
 }
 
-function dec_loading(sel) {
+function decreaseLoading(sel) {
     loading--;
     if (loading === 0) {
         $(sel).hide();
@@ -44,7 +44,7 @@ jQuery.fn.extend({
 });
 
 
-function configure_chart($chart) {
+function configureChart($chart) {
     var $toolTip = $chart
       .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
       .find('.tooltip');
@@ -67,36 +67,36 @@ function configure_chart($chart) {
 }
 
 
-function load_activity(element) {
-    if (activity_loaded) {
+function loadActivityChart(element) {
+    if (activityDataLoaded) {
         return;
     }
-    activity_loaded = true;
+    activityDataLoaded = true;
 
-    inc_loading('#activity-loading');
+    increaseLoading('#activity-loading');
     $.ajax({
         url: element.data('monthly'),
         success: function(data) {
             new Chartist.Bar('#activity-month', data);
-            configure_chart($('#activity-month'));
-            dec_loading('#activity-loading');
+            configureChart($('#activity-month'));
+            decreaseLoading('#activity-loading');
         },
         dataType: 'json'
     });
 
-    inc_loading('#activity-loading');
+    increaseLoading('#activity-loading');
     $.ajax({
         url: element.data('yearly'),
         success: function(data) {
             new Chartist.Bar('#activity-year', data);
-            configure_chart($('#activity-year'));
-            dec_loading('#activity-loading');
+            configureChart($('#activity-year'));
+            decreaseLoading('#activity-loading');
         },
         dataType: 'json'
     });
 }
 
-function init_editor(editors) {
+function initEditor(editors) {
     /* Autosizing */
     $('.translation-editor').autosize();
 
@@ -138,32 +138,32 @@ function init_editor(editors) {
 
 }
 
-function text_change(e) {
+function testChangeHandler(e) {
     if (e.key && e.key == 'Tab') {
         return;
     }
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
-function process_machine_translation(data, textStatus, jqXHR) {
-    dec_loading('#mt-loading');
+function processMachineTranslation(data, textStatus, jqXHR) {
+    decreaseLoading('#mt-loading');
     if (data.responseStatus == 200) {
         data.translations.forEach(function (el, idx, ar) {
-            var new_row = $('<tr/>').data('quality', el.quality);
+            var newRow = $('<tr/>').data('quality', el.quality);
             var done = false;
-            new_row.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
-            new_row.append($('<td/>').text(el.source));
-            new_row.append($('<td/>').text(el.service));
+            newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
+            newRow.append($('<td/>').text(el.source));
+            newRow.append($('<td/>').text(el.service));
             /* Translators: Verb for copy operation */
-            new_row.append($('<td><a class="copymt btn btn-xs btn-default">' + gettext('Copy') + '</a></td>'));
+            newRow.append($('<td><a class="copymt btn btn-xs btn-default">' + gettext('Copy') + '</a></td>'));
             $('#machine-translations').children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality && !done) {
-                    $(this).before(new_row);
+                    $(this).before(newRow);
                     done = true;
                 }
             });
             if (! done) {
-                $('#machine-translations').append(new_row);
+                $('#machine-translations').append(newRow);
             }
         });
         $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
@@ -182,21 +182,21 @@ function process_machine_translation(data, textStatus, jqXHR) {
     }
 }
 
-function failed_machine_translation(jqXHR, textStatus, errorThrown) {
-    dec_loading('#mt-loading');
+function failedMachineTranslation(jqXHR, textStatus, errorThrown) {
+    decreaseLoading('#mt-loading');
     $('#mt-errors').append(
         $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + '</li>')
     );
 }
 
-function load_mt_translations(data, textStatus, jqXHR) {
-    dec_loading('#mt-loading');
+function loadMachineTranslations(data, textStatus, jqXHR) {
+    decreaseLoading('#mt-loading');
     data.forEach(function (el, idx, ar) {
-        inc_loading('#mt-loading');
+        increaseLoading('#mt-loading');
         $.ajax({
             url: $('#js-translate').attr('href') + '?service=' + el,
-            success: process_machine_translation,
-            error: failed_machine_translation,
+            success: processMachineTranslation,
+            error: failedMachineTranslation,
             dataType: 'json'
         });
     });
@@ -206,7 +206,7 @@ function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function cell_cmp(a, b) {
+function compareCells(a, b) {
     if (a.indexOf('%') != -1 && b.indexOf('%') != -1) {
         a = parseFloat(a.replace(',', '.'));
         b = parseFloat(b.replace(',', '.'));
@@ -226,7 +226,7 @@ function cell_cmp(a, b) {
     return -1;
 }
 
-function load_table_sorting() {
+function loadTableSorting() {
     $('table.sort').each(function () {
         var table = $(this),
             tbody = table.find('tbody'),
@@ -254,7 +254,7 @@ function load_table_sorting() {
                     tbody.find('td,th').filter(function () {
                         return $(this).index() === myIndex;
                     }).sortElements(function (a, b) {
-                        return inverse * cell_cmp($.text([a]), $.text([b]));
+                        return inverse * compareCells($.text([a]), $.text([b]));
                     }, function () {
 
                         // parentNode is the element we want to move
@@ -279,7 +279,7 @@ function load_table_sorting() {
     });
 }
 
-function zen_editor(e) {
+function zenEditor(e) {
     var $this = $(this);
     var $row = $this.parents('tr');
     var checksum = $row.find('[name=checksum]').val();
@@ -336,33 +336,33 @@ $(function () {
                     $content.html( msg + " "  + xhr.status + " " + xhr.statusText );
                 }
                 $target.data('loaded', 1);
-                load_table_sorting();
+                loadTableSorting();
             }
         );
     });
 
     /* Activity charts on tabs */
     $(document).on('show.bs.tab', '[data-load="activity"]', function (e) {
-        load_activity($(this));
+        loadActivityChart($(this));
     });
 
     /* Automatic loading of activity charts on page load */
-    var auto_load_activity = $('#load-activity');
-    if (auto_load_activity.length > 0) {
-        load_activity(auto_load_activity);
+    var autoLoadActivity = $('#load-activity');
+    if (autoLoadActivity.length > 0) {
+        loadActivityChart(autoLoadActivity);
     }
 
     /* Machine translation */
     $(document).on('show.bs.tab', '[data-load="mt"]', function (e) {
-        if (mt_loaded) {
+        if (machineTranslationLoaded) {
             return;
         }
-        mt_loaded = true;
-        inc_loading('#mt-loading');
+        machineTranslationLoaded = true;
+        increaseLoading('#mt-loading');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
-            success: load_mt_translations,
-            error: failed_machine_translation,
+            success: loadMachineTranslations,
+            error: failedMachineTranslation,
             dataType: 'json'
         });
     });
@@ -387,18 +387,18 @@ $(function () {
     $('.expander').click(function () {
         var $this = $(this);
         console.log($this);
-        var $table_row = $this.closest('tr');
-        var $next_row = $table_row.next();
-        $next_row.toggle();
-        $table_row.find('.expand-icon').toggleClass('fa-chevron-right').toggleClass('fa-chevron-down');
-        var $loader = $next_row.find('.load-details');
+        var $tableRow = $this.closest('tr');
+        var $nextRow = $tableRow.next();
+        $nextRow.toggle();
+        $tableRow.find('.expand-icon').toggleClass('fa-chevron-right').toggleClass('fa-chevron-down');
+        var $loader = $nextRow.find('.load-details');
         if ($loader.length > 0) {
             var url = $loader.attr('href');
             $loader.remove();
             $.get(
                 url,
                 function (data) {
-                    var $cell = $next_row.find('.details-content');
+                    var $cell = $nextRow.find('.details-content');
                     $cell.find('.fa-spin').remove();
                     $cell.append(data);
                     $cell.find('[data-flag]').click(function (e) {
@@ -469,21 +469,21 @@ $(function () {
     });
 
     /* Activate tab with error */
-    var form_errors = $('div.has-error');
-    if (form_errors.length > 0) {
-        var tab = form_errors.closest('div.tab-pane');
+    var formErrors = $('div.has-error');
+    if (formErrors.length > 0) {
+        var tab = formErrors.closest('div.tab-pane');
         if (tab.length > 0) {
             $('[data-toggle=tab][href=#' + tab.attr('id')+ ']').tab('show');
         }
     }
 
     /* Translation editor */
-    var translation_editor = $('.translation-editor');
-    if (translation_editor.length > 0) {
-        $(document).on('change', '.translation-editor', text_change);
-        $(document).on('keypress', '.translation-editor', text_change);
-        init_editor();
-        translation_editor.get(0).focus();
+    var translationEditor = $('.translation-editor');
+    if (translationEditor.length > 0) {
+        $(document).on('change', '.translation-editor', testChangeHandler);
+        $(document).on('keypress', '.translation-editor', testChangeHandler);
+        initEditor();
+        translationEditor.get(0).focus();
         if ($('#button-first').length > 0) {
             Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
@@ -531,49 +531,49 @@ $(function () {
     });
 
     /* Table sorting */
-    load_table_sorting();
+    loadTableSorting();
 
     /* Table column changing */
-    var columns_menu = $('#columns-menu');
-    if (columns_menu.length > 0) {
-        var columns_panel = columns_menu.closest('div.panel');
-        var width = columns_panel.width();
+    var columnsMenu = $('#columns-menu');
+    if (columnsMenu.length > 0) {
+        var columnsPanel = columnsMenu.closest('div.panel');
+        var width = columnsPanel.width();
 
-        columns_menu.on('click', function(e) {
+        columnsMenu.on('click', function(e) {
             e.stopPropagation();
         });
-        columns_menu.find('input').on('click', function(e) {
+        columnsMenu.find('input').on('click', function(e) {
             var $this = $(this);
-            columns_panel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
+            columnsPanel.find('.' + $this.attr('id').replace('toggle-', 'col-')).toggle($this.attr('checked'));
             e.stopPropagation();
         });
-        columns_menu.find('a').on('click', function(e) {
+        columnsMenu.find('a').on('click', function(e) {
             $(this).find('input').click();
             e.stopPropagation();
             e.preventDefault();
         });
 
         if (width < 700) {
-            columns_menu.find('#toggle-suggestions').click();
+            columnsMenu.find('#toggle-suggestions').click();
         }
         if (width < 600) {
-            columns_menu.find('#toggle-checks').click();
+            columnsMenu.find('#toggle-checks').click();
         }
         if (width < 500) {
-            columns_menu.find('#toggle-fuzzy').click();
+            columnsMenu.find('#toggle-fuzzy').click();
         }
         if (width < 500) {
-            columns_menu.find('#toggle-words').click();
+            columnsMenu.find('#toggle-words').click();
         }
     }
 
     /* Lock updates */
     if ($('#js-lock').length > 0) {
-        var js_lock_update = window.setInterval(function () {
+        var jsLockUpdate = window.setInterval(function () {
             $.get($('#js-lock').attr('href'));
         }, 19000);
         window.setInterval(function () {
-            window.clearInterval(js_lock_update);
+            window.clearInterval(jsLockUpdate);
         }, 3600000);
     };
 
@@ -596,14 +596,14 @@ $(function () {
 
                         $('.zen tbody').append(data);
 
-                        init_editor();
+                        initEditor();
                     }
                 );
             }
         });
 
-        $(document).on('change', '.translation-editor', zen_editor);
-        $(document).on('change', '.fuzzy_checkbox', zen_editor);
+        $(document).on('change', '.translation-editor', zenEditor);
+        $(document).on('change', '.fuzzy_checkbox', zenEditor);
 
         $(window).on('beforeunload', function(){
             if ($('.translation-modified').length > 0) {
