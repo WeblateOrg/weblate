@@ -458,8 +458,18 @@ class FileFormat(object):
         # Find is broken for propfile, ignore results
         if len(found_units) > 0 and not isinstance(self.store, propfile):
             for ttkit_unit in found_units:
+                # XLIFF is special in ttkit - it uses locations for what
+                # is context in other formats
+                if isinstance(ttkit_unit, xliffunit):
+                    ttkit_unit_context = ttkit_unit.getlocations()
+                    if len(ttkit_unit.getlocations()) == 0:
+                        ttkit_unit_context =  ''
+                    else:
+                        ttkit_unit_context = ttkit_unit.getlocations()[0]
+                else:
+                    ttkit_unit_context = ttkit_unit.getcontext()
                 # Does context match?
-                if ttkit_unit.getcontext() == context:
+                if ttkit_unit_context == context:
                     return (FileUnit(ttkit_unit), False)
         else:
             # Fallback to manual find for value based files
