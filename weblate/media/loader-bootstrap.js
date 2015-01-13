@@ -426,7 +426,7 @@ $(function () {
 
     /* Auto expand expander */
     $('.auto-expand').each(function () {
-        $(this).click()
+        $(this).click();
     });
 
     var activeTab;
@@ -512,7 +512,7 @@ $(function () {
         e.preventDefault();
         $('.nav [href="' + href + '"]').click();
         $window.scrollTop($(href).offset().top);
-    })
+    });
 
     /* Copy from dictionary */
     $('.copydict').click(function (e) {
