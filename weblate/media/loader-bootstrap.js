@@ -590,7 +590,7 @@ $(function () {
                 $loadingNext.show();
 
                 var loader = $('#zen-load');
-                loader.data('offset', 20 + parseInt(loader.data('offset')));
+                loader.data('offset', 20 + parseInt(loader.data('offset'), 10));
 
                 $.get(
                     loader.attr('href') + '&offset=' + loader.data('offset'),
