@@ -77,7 +77,7 @@ function loadActivityChart(element) {
     $.ajax({
         url: element.data('monthly'),
         success: function(data) {
-            new Chartist.Bar('#activity-month', data);
+            Chartist.Bar('#activity-month', data);
             configureChart($('#activity-month'));
             decreaseLoading('#activity-loading');
         },
@@ -88,7 +88,7 @@ function loadActivityChart(element) {
     $.ajax({
         url: element.data('yearly'),
         success: function(data) {
-            new Chartist.Bar('#activity-year', data);
+            Chartist.Bar('#activity-year', data);
             configureChart($('#activity-year'));
             decreaseLoading('#activity-loading');
         },
