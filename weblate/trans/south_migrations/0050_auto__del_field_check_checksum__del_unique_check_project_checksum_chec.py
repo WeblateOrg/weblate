@@ -41,21 +41,8 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        # Removing unique constraint on 'Check', fields ['project', 'contentsum', 'check', 'language']
-        db.delete_unique(u'trans_check', ['project_id', 'contentsum', 'check', 'language_id'])
-
-
         # User chose to not deal with backwards NULL issues for 'Check.checksum'
         raise RuntimeError("Cannot reverse this migration. 'Check.checksum' and its values cannot be restored.")
-        # Adding unique constraint on 'Check', fields ['project', 'checksum', 'check', 'language']
-        db.create_unique(u'trans_check', ['project_id', 'checksum', 'check', 'language_id'])
-
-
-        # User chose to not deal with backwards NULL issues for 'Suggestion.checksum'
-        raise RuntimeError("Cannot reverse this migration. 'Suggestion.checksum' and its values cannot be restored.")
-
-        # User chose to not deal with backwards NULL issues for 'Comment.checksum'
-        raise RuntimeError("Cannot reverse this migration. 'Comment.checksum' and its values cannot be restored.")
 
     models = {
         u'auth.group': {
