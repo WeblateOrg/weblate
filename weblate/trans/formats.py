@@ -463,7 +463,7 @@ class FileFormat(object):
                 if isinstance(ttkit_unit, xliffunit):
                     ttkit_unit_context = ttkit_unit.getlocations()
                     if len(ttkit_unit.getlocations()) == 0:
-                        ttkit_unit_context =  ''
+                        ttkit_unit_context = ''
                     else:
                         ttkit_unit_context = ttkit_unit.getlocations()[0]
                 else:
