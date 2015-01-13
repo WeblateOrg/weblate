@@ -156,14 +156,15 @@ function processMachineTranslation(data, textStatus, jqXHR) {
             newRow.append($('<td/>').text(el.service));
             /* Translators: Verb for copy operation */
             newRow.append($('<td><a class="copymt btn btn-xs btn-default">' + gettext('Copy') + '</a></td>'));
-            $('#machine-translations').children('tr').each(function (idx) {
+            var $machineTranslations = $('#machine-translations');
+            $machineTranslations.children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality && !done) {
                     $(this).before(newRow);
                     done = true;
                 }
             });
             if (! done) {
-                $('#machine-translations').append(newRow);
+                $machineTranslations.append(newRow);
             }
         });
         $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
@@ -581,11 +582,12 @@ $(function () {
     /* Zen mode handling */
     if ($('.zen').length > 0) {
         $window.scroll(function(){
+            var $loadingNext = $('#loading-next');
             if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
-                if ($('#last-section').length > 0 || $('#loading-next').css('display') != 'none') {
+                if ($('#last-section').length > 0 || $loadingNext.css('display') != 'none') {
                     return;
                 }
-                $('#loading-next').show();
+                $loadingNext.show();
 
                 var loader = $('#zen-load');
                 loader.data('offset', 20 + parseInt(loader.data('offset')));
@@ -593,7 +595,7 @@ $(function () {
                 $.get(
                     loader.attr('href') + '&offset=' + loader.data('offset'),
                     function (data) {
-                        $('#loading-next').hide();
+                        $loadingNext.hide();
 
                         $('.zen tbody').append(data);
 
