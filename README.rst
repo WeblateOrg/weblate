@@ -17,6 +17,10 @@ Weblate
     :alt: Code Health
     :target: https://landscape.io/github/nijel/weblate/master
 
+.. image:: https://www.codacy.com/project/badge/394a22d396414d48abb6a85054f4415e
+    :alt: Codacy Badge
+    :target: https://www.codacy.com/public/michal_2/weblate
+
 .. image:: https://www.bountysource.com/badge/tracker?tracker_id=253393
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
