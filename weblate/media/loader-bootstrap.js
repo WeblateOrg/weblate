@@ -25,7 +25,7 @@ jQuery.fn.extend({
                 var sel = document.selection.createRange();
                 sel.text = myValue;
                 this.focus();
-            } else if (this.selectionStart || this.selectionStart == '0') {
+            } else if (this.selectionStart || this.selectionStart === 0) {
                 //For browsers like Firefox and Webkit based
                 var startPos = this.selectionStart;
                 var endPos = this.selectionEnd;
@@ -125,11 +125,11 @@ function initEditor(editors) {
     $('.specialchar').click(function (e) {
         var $this = $(this);
         var text = $this.text();
-        if (text == '\\t') {
+        if (text === '\\t') {
             text = '\t';
-        } else if (text == '→') {
+        } else if (text === '→') {
             text = '\t';
-        } else if (text == '↵') {
+        } else if (text === '↵') {
             text = '\r';
         }
         $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
@@ -139,7 +139,7 @@ function initEditor(editors) {
 }
 
 function testChangeHandler(e) {
-    if (e.key && e.key == 'Tab') {
+    if (e.key && e.key === 'Tab') {
         return;
     }
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
@@ -147,7 +147,7 @@ function testChangeHandler(e) {
 
 function processMachineTranslation(data, textStatus, jqXHR) {
     decreaseLoading('#mt-loading');
-    if (data.responseStatus == 200) {
+    if (data.responseStatus === 200) {
         data.translations.forEach(function (el, idx, ar) {
             var newRow = $('<tr/>').data('quality', el.quality);
             var done = false;
@@ -208,7 +208,7 @@ function isNumber(n) {
 }
 
 function compareCells(a, b) {
-    if (a.indexOf('%') != -1 && b.indexOf('%') != -1) {
+    if (a.indexOf('%') !== -1 && b.indexOf('%') !== -1) {
         a = parseFloat(a.replace(',', '.'));
         b = parseFloat(b.replace(',', '.'));
     } else if (isNumber(a) && isNumber(b)) {
@@ -263,7 +263,7 @@ function loadTableSorting() {
 
                     });
                     thead.find('i.sort-button').removeClass('fa-chevron-down fa-chevron-up').addClass('fa-chevron-down sort-none');
-                    if (inverse == 1) {
+                    if (inverse === 1) {
                         $(this).find('i.sort-button').addClass('fa-chevron-down').removeClass('fa-chevron-up sort-none');
                     } else {
                         $(this).find('i.sort-button').addClass('fa-chevron-up').removeClass('fa-chevron-down sort-none');
@@ -333,7 +333,7 @@ $(function () {
         $content.load(
             $target.data('href'),
             function (response, status, xhr) {
-                if ( status == "error" ) {
+                if ( status === "error" ) {
                     var msg = gettext('Error while loading page:');
                     $content.html( msg + " "  + xhr.status + " " + xhr.statusText );
                 }
@@ -584,7 +584,7 @@ $(function () {
         $window.scroll(function(){
             var $loadingNext = $('#loading-next');
             if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
-                if ($('#last-section').length > 0 || $loadingNext.css('display') != 'none') {
+                if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
                     return;
                 }
                 $loadingNext.show();
