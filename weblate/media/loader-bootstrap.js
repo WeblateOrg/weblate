@@ -318,8 +318,9 @@ function zenEditor(e) {
 }
 
 $(function () {
+    var $window = $(window), $document = $(document);
     /* AJAX loading of tabs/pills */
-    $(document).on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
+    $document.on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
         var $target = $(e.target);
         var $content = $($target.attr('href'));
         if ($target.data('loaded')) {
@@ -342,7 +343,7 @@ $(function () {
     });
 
     /* Activity charts on tabs */
-    $(document).on('show.bs.tab', '[data-load="activity"]', function (e) {
+    $document.on('show.bs.tab', '[data-load="activity"]', function (e) {
         loadActivityChart($(this));
     });
 
@@ -353,7 +354,7 @@ $(function () {
     }
 
     /* Machine translation */
-    $(document).on('show.bs.tab', '[data-load="mt"]', function (e) {
+    $document.on('show.bs.tab', '[data-load="mt"]', function (e) {
         if (machineTranslationLoaded) {
             return;
         }
@@ -368,7 +369,7 @@ $(function () {
     });
 
     /* Git commit tooltip */
-    $(document).tooltip({
+    $document.tooltip({
         selector: '.html-tooltip',
         html: true
     });
@@ -480,8 +481,8 @@ $(function () {
     /* Translation editor */
     var translationEditor = $('.translation-editor');
     if (translationEditor.length > 0) {
-        $(document).on('change', '.translation-editor', testChangeHandler);
-        $(document).on('keypress', '.translation-editor', testChangeHandler);
+        $document.on('change', '.translation-editor', testChangeHandler);
+        $document.on('keypress', '.translation-editor', testChangeHandler);
         initEditor();
         translationEditor.get(0).focus();
         if ($('#button-first').length > 0) {
@@ -505,11 +506,11 @@ $(function () {
     });
 
     /* Check link clicking */
-    $(document).on('click', '.check [data-toggle="tab"]', function (e) {
+    $document.on('click', '.check [data-toggle="tab"]', function (e) {
         var href = $(this).attr('href');
         e.preventDefault();
         $('.nav [href="' + href + '"]').click();
-        $(window).scrollTop($(href).offset().top);
+        $window.scrollTop($(href).offset().top);
     })
 
     /* Copy from dictionary */
@@ -579,8 +580,8 @@ $(function () {
 
     /* Zen mode handling */
     if ($('.zen').length > 0) {
-        $(window).scroll(function(){
-            if ($(window).scrollTop() >= $(document).height() - (2 * $(window).height())) {
+        $window.scroll(function(){
+            if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
                 if ($('#last-section').length > 0 || $('#loading-next').css('display') != 'none') {
                     return;
                 }
@@ -602,10 +603,10 @@ $(function () {
             }
         });
 
-        $(document).on('change', '.translation-editor', zenEditor);
-        $(document).on('change', '.fuzzy_checkbox', zenEditor);
+        $document.on('change', '.translation-editor', zenEditor);
+        $document.on('change', '.fuzzy_checkbox', zenEditor);
 
-        $(window).on('beforeunload', function(){
+        $window.on('beforeunload', function(){
             if ($('.translation-modified').length > 0) {
                 return gettext('There are some unsaved changes, are you sure you want to leave?');
             }
