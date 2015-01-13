@@ -167,7 +167,7 @@ function processMachineTranslation(data, textStatus, jqXHR) {
                 $machineTranslations.append(newRow);
             }
         });
-        $('a.copymt').button({text: true, icons: { primary: "ui-icon-copy" }}).click(function () {
+        $('a.copymt').button({text: true, icons: { primary: 'ui-icon-copy' }}).click(function () {
             var text = $(this).parent().parent().find('.target').text();
             $('.translation-editor').val(text).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', true);
@@ -247,7 +247,7 @@ function loadTableSorting() {
                 // Store index copy
                 var myIndex = thIndex;
                 // Add icon, title and class
-                th.attr('title', gettext("Sort this column")).addClass('sort-cell').append('<i class="sort-button fa fa-chevron-down sort-none" />');
+                th.attr('title', gettext('Sort this column')).addClass('sort-cell').append('<i class="sort-button fa fa-chevron-down sort-none" />');
 
                 // Click handler
                 th.click(function () {
@@ -333,9 +333,9 @@ $(function () {
         $content.load(
             $target.data('href'),
             function (response, status, xhr) {
-                if ( status === "error" ) {
+                if ( status === 'error' ) {
                     var msg = gettext('Error while loading page:');
-                    $content.html( msg + " "  + xhr.status + " " + xhr.statusText );
+                    $content.html( msg + ' '  + xhr.status + ' ' + xhr.statusText );
                 }
                 $target.data('loaded', 1);
                 loadTableSorting();
@@ -381,8 +381,8 @@ $(function () {
     $('#div_id_content').hide();
 
     /* Form automatic submission */
-    $("form.autosubmit select").change(function () {
-        $("form.autosubmit").submit();
+    $('form.autosubmit select').change(function () {
+        $('form.autosubmit').submit();
     });
 
     /* Row expander */
@@ -461,7 +461,7 @@ $(function () {
     });
 
     /* Navigate to a tab when the history changes */
-    window.addEventListener("popstate", function(e) {
+    window.addEventListener('popstate', function(e) {
         activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
         if (activeTab.length) {
             activeTab.tab('show');
