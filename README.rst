@@ -9,7 +9,7 @@ Weblate
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
 
-.. image:: https://img.shields.io/coveralls/nijel/weblate.svg
+.. image:: https://coveralls.io/repos/nijel/weblate/badge.svg
     :alt: Coverage Status
     :target: https://coveralls.io/r/nijel/weblate?branch=master
 
