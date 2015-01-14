@@ -7,7 +7,7 @@
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
 
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=object.slug widget='shields' color='badge' extension='svg' %}" />
+<img src="{% url 'widget-image' project=object.slug widget='svg' color='badge' extension='svg' %}" />
 </a>
 {% endblock %}
 

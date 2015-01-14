@@ -8,7 +8,7 @@
 <li><a href="{{ object.subproject.get_absolute_url }}">{{ object.subproject.name }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image-lang' project=object.subproject.project.slug widget='shields' color='badge' lang=object.language.code extension='svg' %}" />
+<img src="{% url 'widget-image-lang' project=object.subproject.project.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}" />
 </a>
 {% endblock %}
 
