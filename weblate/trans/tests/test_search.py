@@ -139,6 +139,15 @@ class SearchViewTest(ViewTestCase):
             response,
             'Thank you for using Weblate.',
         )
+        # Invalid offset
+        response = self.client.get(
+            self.translate_url,
+            {'sid': search_id, 'offset': 'bug'}
+        )
+        self.assertContains(
+            response,
+            'http://demo.weblate.org/',
+        )
         # Go to end
         response = self.client.get(
             self.translate_url,
