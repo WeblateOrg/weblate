@@ -25,6 +25,7 @@ Tests for comment views.
 from django.core.urlresolvers import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.models import Comment
 
 
 class CommentViewTest(ViewTestCase):
@@ -101,3 +102,21 @@ class CommentViewTest(ViewTestCase):
             translation.unit_set.count_type('sourcecomments', translation),
             1
         )
+
+    def test_delete_comment(self):
+        unit = self.get_unit()
+
+        # Add comment
+        response = self.client.post(
+            reverse('comment', kwargs={'pk': unit.id}),
+            {
+                'comment': 'New target testing comment',
+                'scope': 'translation',
+            }
+        )
+
+        comment = Comment.objects.all()[0]
+        response = self.client.post(
+            reverse('delete-comment', kwargs={'pk': comment.pk})
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
