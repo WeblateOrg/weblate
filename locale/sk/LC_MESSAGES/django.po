@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-01-13 15:23+0100\n"
+"POT-Creation-Date: 2015-01-14 14:20+0100\n"
 "PO-Revision-Date: 2015-01-13 16:00+0200\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
-"Language-Team: Slovak "
-"<https://hosted.weblate.org/projects/weblate/master/sk/>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
+">\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3113,9 +3113,9 @@ msgstr "Zamykanie"
 msgid "Automatic translation"
 msgstr "Automatický preklad"
 
-#: weblate/html/translation.html:77 weblate/html/widgets.html:59
-#: weblate/html/widgets.html.py:67 weblate/html/widgets.html:74
-#: weblate/html/widgets.html.py:82
+#: weblate/html/translation.html:77 weblate/html/widgets.html:60
+#: weblate/html/widgets.html.py:68 weblate/html/widgets.html:75
+#: weblate/html/widgets.html.py:83
 msgid "Translation status"
 msgstr "Stav prekladu"
 
@@ -3317,6 +3317,10 @@ msgstr "RST kód"
 #: weblate/html/widgets.html:51
 msgid "Textile code"
 msgstr "Textile kód"
+
+#: weblate/html/widgets.html:52
+msgid "Image URL"
+msgstr ""
 
 #: weblate/html/zen-units.html:15
 msgid "Open in full editor"
@@ -4232,7 +4236,6 @@ msgstr ""
 "komponentom."
 
 #: weblate/trans/models/subproject.py:114
-#| msgid "Repository status"
 msgid "Repository push URL"
 msgstr "URL pre odosielanie repozitára"
 
@@ -4493,19 +4496,16 @@ msgid "Failed to merge remote branch into %s."
 msgstr "Nepodarilo sa zlúčiť vzdialenú vetvu do %s."
 
 #: weblate/trans/models/subproject.py:905
-#| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Neplatný odkaz na projekt, pretože nemožno odkázať na repozitár, ktorý už je "
 "odkazom!"
 
 #: weblate/trans/models/subproject.py:912
-#| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Neplatný odkaz na Weblate projekt, nemožno odkazovať na seba!"
 
 #: weblate/trans/models/subproject.py:919
-#| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgstr ""
 "Neplatný odkaz pre projekt Weblate, použite weblate://project/subproject."
@@ -4523,9 +4523,6 @@ msgid "The mask did not match any files!"
 msgstr "Maske nezodpovedajú žiadne súbory!"
 
 #: weblate/trans/models/subproject.py:945
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "subprojects for translating different resources."
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -4614,13 +4611,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1093
 #, python-brace-format
-#| msgid "Support Weblate at {0}"
 msgid "Unsupported file format: {0}"
 msgstr "Nepodporovaný formát súboru: {0}"
 
 #: weblate/trans/models/subproject.py:1100
 #, python-format
-#| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update repository: %s"
 msgstr "Nepodarilo sa aktualizovať repozitár: %s"
 
@@ -4677,7 +4672,6 @@ msgstr "Vložiť výpustku"
 
 #: weblate/trans/specialchars.py:436
 #, python-brace-format
-#| msgid "Insert tab character"
 msgid "Insert character {0}"
 msgstr "Vložiť znak {0}"
 
@@ -4694,7 +4688,6 @@ msgid "Opening single quote"
 msgstr ""
 
 #: weblate/trans/specialchars.py:444
-#| msgid "Hosting site"
 msgid "Closing single quote"
 msgstr "Uzatváracia jednoduchá uvodzovka"
 
@@ -4738,7 +4731,6 @@ msgstr ""
 "(%(keytype)s), overte prosím, že je tento odtlačok správny."
 
 #: weblate/trans/ssh.py:201
-#| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch public key for a host!"
 msgstr "Nepodarilo sa stiahnuť verejný kľúč!"
 
@@ -4966,22 +4958,18 @@ msgid "unit ID %s"
 msgstr "ID jednotky %s"
 
 #: weblate/trans/validators.py:26
-#| msgid "RST code"
 msgid "RST text"
 msgstr "RST text"
 
 #: weblate/trans/validators.py:27
-#| msgid "Python format"
 msgid "Python format string"
 msgstr "Formátovací reťazec Pythonu"
 
 #: weblate/trans/validators.py:28
-#| msgid "Bad format string (%s)"
 msgid "C format string"
 msgstr "Formátovací reťazec C"
 
 #: weblate/trans/validators.py:29
-#| msgid "PHP format"
 msgid "PHP format string"
 msgstr "Formátovací reťazec PHP"
 
@@ -5375,7 +5363,7 @@ msgstr "Nepodarilo sa nájsť zodpovedajúci projekt!"
 msgid "Failed to change check flags!"
 msgstr "Nepodarilo zo spracovať %d súborov!"
 
-#: weblate/trans/widgets.py:267
+#: weblate/trans/widgets.py:271
 #, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
@@ -5385,7 +5373,7 @@ msgstr ""
 "%(percent)d%% je dokončených, pomôžte nám to vylepšiť!"
 
 #. Translators: please use your language name instead of English
-#: weblate/trans/widgets.py:271
+#: weblate/trans/widgets.py:275
 #, python-format
 msgid ""
 "translating %(count)d strings into English\n"
@@ -5394,7 +5382,7 @@ msgstr ""
 "prekladáme %(count)d reťazcov do slovenčiny\n"
 "%(percent)d%% je dokončených, pomôžte nám to vylepšiť!"
 
-#: weblate/trans/widgets.py:292
+#: weblate/trans/widgets.py:296
 #, python-format
 msgid ""
 "translation\n"
@@ -5404,7 +5392,7 @@ msgstr ""
 "%(percent)d%% je dokončených"
 
 #. Translators: please use your language name instead of English
-#: weblate/trans/widgets.py:294
+#: weblate/trans/widgets.py:298
 #, python-format
 msgid ""
 "English translation\n"
@@ -5413,7 +5401,8 @@ msgstr ""
 "slovenský preklad\n"
 "%(percent)d%% je dokončených"
 
-#: weblate/trans/widgets.py:323 weblate/trans/widgets.py:360
+#: weblate/trans/widgets.py:327 weblate/trans/widgets.py:364
+#: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "preložené"
 
