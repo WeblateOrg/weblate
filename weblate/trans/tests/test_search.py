@@ -167,6 +167,16 @@ class SearchViewTest(ViewTestCase):
             self.translation.get_absolute_url()
         )
 
+    def test_invalid_sid(self):
+        response = self.client.get(
+            self.translate_url,
+            {'sid': 'invalid'}
+        )
+        self.assertRedirects(
+            response,
+            self.translation.get_absolute_url()
+        )
+
     def test_seach_checksum(self):
         unit = self.translation.unit_set.get(
             source='Try Weblate at <http://demo.weblate.org/>!\n'
