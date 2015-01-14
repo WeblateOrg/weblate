@@ -25,6 +25,7 @@ Tests for translation views.
 import time
 from urlparse import urlsplit
 from cStringIO import StringIO
+from xml.dom import minidom
 
 from django.test.client import RequestFactory
 from django.contrib.auth.models import User
@@ -172,6 +173,15 @@ class ViewTestCase(RepoTestCase):
         # Try to load PNG with PIL
         image = Image.open(StringIO(response.content))
         self.assertEqual(image.format, 'PNG')
+
+    def assertSVG(self, response):
+        """
+        Checks whether response is a SVG image.
+        """
+        # Check response status code
+        self.assertEqual(response.status_code, 200)
+        dom = minidom.parseString(response.content)
+        self.assertEquals(dom.firstChild.nodeName, 'svg')
 
     def assertBackend(self, expected_translated):
         '''

@@ -11,6 +11,7 @@ Released on ? 2015.
 * New SVG/javascript based activity charts.
 * Support for Django 1.8.
 * Support for deleting comments.
+* Added own SVG badge.
 
 weblate 2.1
 -----------

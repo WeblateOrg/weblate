@@ -62,6 +62,14 @@ class WidgetsTest(ViewTestCase):
         )
         self.assertContains(response, 'Test')
 
+    def assert_widget(self, widget, response):
+        if hasattr(WIDGETS[widget], 'redirect'):
+            self.assertEqual(response.status_code, 302)
+        elif 'svg' in WIDGETS[widget].content_type:
+            self.assertSVG(response)
+        else:
+            self.assertPNG(response)
+
     def test_view_widget_image(self):
         for widget in WIDGETS:
             for color in WIDGETS[widget].colors:
@@ -77,10 +85,7 @@ class WidgetsTest(ViewTestCase):
                     )
                 )
 
-                if hasattr(WIDGETS[widget], 'redirect'):
-                    self.assertEqual(response.status_code, 302)
-                else:
-                    self.assertPNG(response)
+                self.assert_widget(widget, response)
 
     def test_view_widget_image_lang(self):
         for widget in WIDGETS:
@@ -98,7 +103,4 @@ class WidgetsTest(ViewTestCase):
                     )
                 )
 
-                if hasattr(WIDGETS[widget], 'redirect'):
-                    self.assertEqual(response.status_code, 302)
-                else:
-                    self.assertPNG(response)
+                self.assert_widget(widget, response)
