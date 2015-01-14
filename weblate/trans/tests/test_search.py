@@ -35,14 +35,13 @@ class SearchViewTest(ViewTestCase):
         )
         self.translate_url = self.translation.get_translate_url()
 
-    def do_search(self, params, expected):
+    def do_search(self, params, expected, url=None):
         '''
         Helper method for performing search test.
         '''
-        response = self.client.get(
-            self.translate_url,
-            params,
-        )
+        if url is None:
+            url = self.translate_url
+        response = self.client.get(url, params)
         if expected is None:
             self.assertRedirects(
                 response,
@@ -171,6 +170,28 @@ class SearchViewTest(ViewTestCase):
         response = self.client.get(
             self.translate_url,
             {'sid': 'invalid'}
+        )
+        self.assertRedirects(
+            response,
+            self.translation.get_absolute_url()
+        )
+
+    def test_mixed_sid(self):
+        """
+        Tests using SID from other translation.
+        """
+        translation = self.subproject.translation_set.get(
+            language_code='de'
+        )
+        response = self.do_search(
+            {'q': 'Weblate', 'search': 'substring'},
+            'Substring search for',
+            url=translation.get_translate_url()
+        )
+        search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
+        response = self.client.get(
+            self.translate_url,
+            {'sid': search_id, 'offset': 0}
         )
         self.assertRedirects(
             response,
