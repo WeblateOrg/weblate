@@ -49,6 +49,7 @@
 <option value="{{ widget.name }}-mdk-code">{% trans "Markdown code" %}</option>
 <option value="{{ widget.name }}-rst-code">{% trans "RST code" %}</option>
 <option value="{{ widget.name }}-textile-code">{% trans "Textile code" %}</option>
+<option value="{{ widget.name }}-url-code">{% trans "Image URL" %}</option>
 </select>
 
 <div class="tab-content">
@@ -90,6 +91,14 @@
 !{{ color.url }}!:{{ engage_url_track }}</textarea>
 {% endfor %}
 </div>
+
+<div class="tab-pane" id="{{ widget.name }}-url-code">
+{% for color in widget.colors %}
+<textarea class="code-example form-control">
+{{ color.url }}</textarea>
+{% endfor %}
+</div>
+
 </div>
 
 </div>
