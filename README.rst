@@ -5,7 +5,7 @@ Weblate
     :alt: Build status
     :target: https://travis-ci.org/nijel/weblate
 
-.. image:: http://hosted.weblate.org/widgets/weblate-shields-badge.svg
+.. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
 
