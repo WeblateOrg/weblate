@@ -387,7 +387,7 @@ class SVGBadgeWidget(Widget):
         font = get_font(11, False, is_base(translated_text))
         translated_width = font.getsize(translated_text)[0] + 12
 
-        percent_text = self.get_text('%(percent)s%%')
+        percent_text = '{0}%'.format(int(self.percent))
         font = get_font(11, False, is_base(percent_text))
         percent_width = font.getsize(percent_text)[0] + 7
 
