@@ -602,6 +602,7 @@ SAME_BLACKLIST = frozenset((
     'tags',
     'taiwan',
     'tbx',
+    'technology',
     'tent',
     'termbase',
     'test',
