@@ -299,6 +299,10 @@ class UnLockTranslationTest(CheckGitTest):
     command_name = 'unlock_translation'
 
 
+class FixupFlagsTest(CheckGitTest):
+    command_name = 'fixup_flags'
+
+
 class LockingCommandTest(RepoTestCase):
     '''
     Test locking and unlocking.
