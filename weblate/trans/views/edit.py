@@ -787,6 +787,7 @@ def load_zen(request, project, subproject, lang):
             'object': translation,
             'unitdata': unitdata,
             'search_query': search_result['query'],
+            'search_id': search_result['search_id'],
             'last_section': search_result['last_section'],
         }
     )
