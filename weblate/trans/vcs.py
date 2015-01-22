@@ -375,7 +375,7 @@ class GitRepository(Repository):
         Checks VCS configuration.
         """
         # We directly set config as it takes same time as reading it
-        self.set_config('push.default', 'simple')
+        self.set_config('push.default', 'current')
 
     @classmethod
     def clone(cls, source, target, bare=False):
