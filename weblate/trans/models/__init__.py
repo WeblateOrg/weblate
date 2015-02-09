@@ -18,12 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__all__ = [
-    'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
-    'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
-    'Advertisement', 'WhiteboardMessage',
-]
-
 import os
 import shutil
 
@@ -43,6 +37,12 @@ from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
+
+__all__ = [
+    'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
+    'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
+    'Advertisement', 'WhiteboardMessage',
+]
 
 
 @receiver(post_delete, sender=Project)

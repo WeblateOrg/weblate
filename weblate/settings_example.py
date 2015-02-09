@@ -18,11 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import django
+import os
+from logging.handlers import SysLogHandler
+
 #
 # Safety check for running with too old Django version
 #
 
-import django
 if django.VERSION < (1, 4, 0):
     raise Exception(
         'Weblate needs Django 1.4 or newer, you are using %s!' %
@@ -32,9 +35,6 @@ if django.VERSION < (1, 4, 0):
 #
 # Django settings for Weblate project.
 #
-
-import os
-from logging.handlers import SysLogHandler
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
