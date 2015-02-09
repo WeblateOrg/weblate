@@ -129,7 +129,7 @@ Why are all commits committed by Weblate <noreply@weblate.org>?
 This is default commiter name configured when you create translation component.
 You can also change it in the administration at any time.
 
-The author of every commit (when underlaying VCS supports it) is still recorder
+The author of every commit (when underlaying VCS supports it) is still recorded
 correctly as an user who has made the translation.
 
 .. seealso:: :ref:`component`
