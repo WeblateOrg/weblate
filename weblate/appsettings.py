@@ -160,6 +160,9 @@ REGISTRATION_CAPTCHA = getvalue('REGISTRATION_CAPTCHA', True)
 PIWIK_SITE_ID = getvalue('PIWIK_SITE_ID', None)
 PIWIK_URL = getvalue('PIWIK_URL', None)
 
+# Google Analytics
+GOOGLE_ANALYTICS_ID = getvalue('GOOGLE_ANALYTICS_ID', None)
+
 # Source language
 SOURCE_LANGUAGE = getvalue('SOURCE_LANGUAGE', 'en')
 

@@ -12,6 +12,7 @@ Released on ? 2015.
 * Support for Django 1.8.
 * Support for deleting comments.
 * Added own SVG badge.
+* Added support for Google Analytics.
 
 weblate 2.1
 -----------

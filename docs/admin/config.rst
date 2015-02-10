@@ -170,6 +170,13 @@ GIT_ROOT
 Path where Weblate will store cloned VCS repositories. Defaults to
 :file:`repos` subdirectory.
 
+.. setting:: GOOGLE_ANALYTICS_ID
+
+GOOGLE_ANALYTICS_ID
+-------------------
+
+Google Analytics ID to enable monitoring of Weblate using Google Analytics.
+
 .. setting:: HIDE_REPO_CREDENTIALS
 
 HIDE_REPO_CREDENTIALS

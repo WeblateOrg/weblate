@@ -66,6 +66,7 @@ def weblate_context(request):
 
         'piwik_site_id': appsettings.PIWIK_SITE_ID,
         'piwik_url': appsettings.PIWIK_URL,
+        'google_analytics_id': appsettings.GOOGLE_ANALYTICS_ID,
 
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),
