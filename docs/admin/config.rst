@@ -367,6 +367,8 @@ PIWIK_SITE_ID
 
 ID of a site in Piwik you want to track.
 
+.. seealso:: :setting:`PIWIK_URL`
+
 .. setting:: PIWIK_URL
 
 PIWIK_URL
@@ -374,6 +376,8 @@ PIWIK_URL
 
 URL of a Piwik installation you want to use to track Weblate users. For more
 information about Piwik see <http://piwik.org/>.
+
+.. seealso:: :setting:`PIWIK_SITE_ID`
 
 .. setting:: PRE_COMMIT_SCRIPTS
 
