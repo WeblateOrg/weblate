@@ -648,6 +648,7 @@ PLURAL_NAMES = {
 }
 
 LOCALE_ALIASES = {
+    # Windows
     'chinese_chs': 'zh_CN',
     'chinese_zh': 'zh_TW',
     'dutch_be': 'nl_BE',
@@ -655,4 +656,6 @@ LOCALE_ALIASES = {
     'portuguese_br': 'pt_BR',
     'portuguese_portugal': 'pt_PT',
     'serbo-croatian': 'sh',
+    # Android
+    'be-rBY': 'be@latin',
 }
