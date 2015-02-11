@@ -465,8 +465,7 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_json_mono(self):
         project = self.create_json_mono()
-        # This is wrong, should be just 4 in this case
-        self.verify_subproject(project, 1, 'cs', 8)
+        self.verify_subproject(project, 1, 'cs', 4)
 
     def test_create_java(self):
         project = self.create_java()

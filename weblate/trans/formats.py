@@ -242,8 +242,8 @@ class FileUnit(object):
                 return context[0]
         elif (isinstance(self.mainunit, (pounit, JsonUnit))
               and self.template is not None):
-            # Monolingual PO files
-            return self.template.source
+            # Monolingual JSON files
+            return self.template.getid()
         else:
             context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
@@ -439,6 +439,11 @@ class FileFormat(object):
         template_ttkit_unit = self.template_store.findid(context)
         # We search by ID when using template
         ttkit_unit = self.store.findid(context)
+        # Do not use findid as it does not work for empty translations
+        if ttkit_unit is None:
+            for search_unit in self.store.units:
+                if search_unit.getid() == context:
+                    ttkit_unit = search_unit
         # We always need new unit to translate
         if ttkit_unit is None:
             ttkit_unit = template_ttkit_unit
@@ -856,14 +861,6 @@ class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
     loader = ('jsonl10n', 'JsonFile')
-
-    def _find_unit_template(self, context):
-        """
-        We need to prepend . here to get proper ID.
-        """
-        return super(JSONFormat, self)._find_unit_template(
-            '.' + context
-        )
 
 
 FILE_FORMAT_CHOICES = [

@@ -709,6 +709,13 @@ class EditJSONTest(EditTest):
         return self.create_json()
 
 
+class EditJSONMonoTest(EditTest):
+    has_plurals = False
+
+    def create_subproject(self):
+        return self.create_json_mono()
+
+
 class EditJavaTest(EditTest):
     has_plurals = False
 
