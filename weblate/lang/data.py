@@ -658,6 +658,8 @@ LOCALE_ALIASES = {
     'portuguese_br': 'pt_BR',
     'portuguese_portugal': 'pt_PT',
     'serbo-croatian': 'sh',
+    'indonesian': 'id',
+    'norwegian': 'nb',
     # Android
     'be-rBY': 'be@latin',
 }
