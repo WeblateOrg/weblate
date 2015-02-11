@@ -649,6 +649,7 @@ PLURAL_NAMES = {
 
 LOCALE_ALIASES = {
     # Windows
+    'arabic': 'ar',
     'chinese_chs': 'zh_CN',
     'chinese_zh': 'zh_TW',
     'dutch_be': 'nl_BE',
