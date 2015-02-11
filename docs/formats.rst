@@ -249,6 +249,12 @@ Javascript.
 JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
 
+.. note::
+   
+    Weblate currently supports only simple JSON files with key value mappings,
+    more complex formats like the ones used by Chrome extensions are currently
+    not supported by translate-toolkit and will produce invalid results.
+
 .. seealso::
 
    `JSON in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/json.html>`_

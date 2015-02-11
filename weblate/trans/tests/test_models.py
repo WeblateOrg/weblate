@@ -216,6 +216,13 @@ class RepoTestCase(TestCase):
             'json/*.json',
         )
 
+    def create_json_mono(self):
+        return self._create_subproject(
+            'json',
+            'json-mono/*.json',
+            'json-mono/en.json',
+        )
+
     def create_java(self):
         return self._create_subproject(
             'properties',
@@ -455,6 +462,11 @@ class SubProjectTest(RepoTestCase):
     def test_create_json(self):
         project = self.create_json()
         self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_json_mono(self):
+        project = self.create_json_mono()
+        # This is wrong, should be just 4 in this case
+        self.verify_subproject(project, 1, 'cs', 8)
 
     def test_create_java(self):
         project = self.create_java()
