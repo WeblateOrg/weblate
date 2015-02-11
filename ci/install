@@ -3,12 +3,8 @@
 set -e
 set -x
 
-pip_install() {
-    pip install --download-cache ~/.pip-cache/ "$@"
-}
-
-pip_install $CI_DJANGO
-pip_install \
+pip install $CI_DJANGO
+pip install \
     -r requirements-optional.txt \
     -r requirements-django-1.6.txt \
     -r ci/requirements-${CI_REQUIREMENTS}.txt \

@@ -32,7 +32,7 @@ after_script:
   - if [ -z "$CI_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
 cache:
   directories:
-    - $HOME/.pip-cache/
+    - $HOME/.cache/pip
 sudo: false
 matrix:
   allow_failures:
