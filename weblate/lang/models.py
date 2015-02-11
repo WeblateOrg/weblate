@@ -87,7 +87,7 @@ class LanguageManager(models.Manager):
         '''
         try:
             return self.get(**kwargs)
-        except Language.DoesNotExist:
+        except (Language.DoesNotExist, Language.MultipleObjectsReturned):
             return None
 
     def parse_lang_country(self, code):
