@@ -328,6 +328,18 @@ EXTRALANGS = (
         1,
         '0',
     ),
+    (
+        'sh',
+        u'Serbo-Croatian',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'nl_BE',
+        u'Dutch (Belgium)',
+        2,
+        '(n != 1)',
+    ),
     # Wrong language code used by Java
     (
         'in',
@@ -633,4 +645,14 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Many'),
         pgettext_lazy('Plural form description', 'Other'),
     ),
+}
+
+LOCALE_ALIASES = {
+    'chinese_chs': 'zh_CN',
+    'chinese_zh': 'zh_TW',
+    'dutch_be': 'nl_BE',
+    'english-uk': 'en_GB',
+    'portuguese_br': 'pt_BR',
+    'portuguese_portugal': 'pt_PT',
+    'serbo-croatian': 'sh',
 }

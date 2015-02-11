@@ -57,6 +57,12 @@ class LanguagesTest(TestCase):
             'n != 1',
         ),
         (
+            'portuguese_portugal',
+            'pt_PT',
+            'ltr',
+            'n > 1',
+        ),
+        (
             'pt-rBR',
             'pt_BR',
             'ltr',

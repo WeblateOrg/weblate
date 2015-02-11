@@ -81,12 +81,12 @@ class LanguageManager(models.Manager):
             self._default_lang = self.get(code='en')
         return self._default_lang
 
-    def try_get(self, code):
+    def try_get(self, **kwargs):
         '''
         Tries to get language by code.
         '''
         try:
-            return self.get(code=code)
+            return self.get(**kwargs)
         except Language.DoesNotExist:
             return None
 
@@ -117,9 +117,21 @@ class LanguageManager(models.Manager):
         '''
 
         # First try getting langauge as is
-        ret = self.try_get(code)
+        ret = self.try_get(code=code)
         if ret is not None:
             return ret
+
+        # Try using name
+        ret = self.try_get(name=code.lower())
+        if ret is not None:
+            return ret
+
+        # Handle aliases
+        if code in data.LOCALE_ALIASES:
+            code = data.LOCALE_ALIASES[code]
+            ret = self.try_get(name=code)
+            if ret is not None:
+                return ret
 
         # Parse the string
         lang, country = self.parse_lang_country(code)
@@ -139,13 +151,13 @@ class LanguageManager(models.Manager):
         else:
             newcode = lang.lower()
 
-        ret = self.try_get(newcode)
+        ret = self.try_get(code=newcode)
         if ret is not None:
             return ret
 
         # Try canonical variant
         if SIMPLIFY_LANGUAGES and newcode in data.DEFAULT_LANGS:
-            ret = self.try_get(lang.lower())
+            ret = self.try_get(code=lang.lower())
             if ret is not None:
                 return ret
 
@@ -170,12 +182,12 @@ class LanguageManager(models.Manager):
         # Check for different variant
         if baselang is None and '@' in code:
             parts = code.split('@')
-            baselang = self.try_get(parts[0])
+            baselang = self.try_get(code=parts[0])
 
         # Check for different country
         if baselang is None and '_' in code or '-' in code:
             parts = code.replace('-', '_').split('_')
-            baselang = self.try_get(parts[0])
+            baselang = self.try_get(code=parts[0])
 
         if baselang is not None:
             lang.name = baselang.name
