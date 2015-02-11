@@ -122,7 +122,7 @@ class LanguageManager(models.Manager):
             return ret
 
         # Try using name
-        ret = self.try_get(name=code.lower())
+        ret = self.try_get(name__iexact=code.lower())
         if ret is not None:
             return ret
 

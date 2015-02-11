@@ -39,6 +39,12 @@ class LanguagesTest(TestCase):
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
         ),
         (
+            'czech',
+            'cs',
+            'ltr',
+            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        ),
+        (
             'cs_CZ@hantec',
             'cs_CZ@hantec',
             'ltr',
@@ -165,7 +171,7 @@ class LanguagesTest(TestCase):
             self.assertEqual(
                 lang.code,
                 expected,
-                'Invalid code for %s' % original
+                'Invalid code for %s: %s' % (original, lang.code)
             )
             # Check direction
             self.assertEqual(
