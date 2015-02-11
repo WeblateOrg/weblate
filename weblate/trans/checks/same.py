@@ -337,6 +337,7 @@ SAME_BLACKLIST = frozenset((
     'longitude',
     'lord',
     'ltr',
+    'lua',
     'mah',
     'manager',
     'mandrake',
