@@ -40,7 +40,12 @@
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', '{{ google_analytics_id }}', 'auto');
-  ga('send', 'pageview');
+  ga('send', 'pageview', {
+  {% if project %}
+    'dimension2':  '{{ project.name }}',
+  {% endif %}
+    'dimension1':  '{{ LANGUAGE_CODE }}'
+  });
 
 </script>
 {% endif %}
