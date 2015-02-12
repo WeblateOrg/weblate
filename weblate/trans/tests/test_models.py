@@ -72,6 +72,11 @@ class RepoTestCase(TestCase):
 
         # Clone repo for testing
         if not os.path.exists(self.git_base_repo_path):
+            print(
+                'Cloning test repository to {0}...'.format(
+                    self.git_base_repo_path
+                )
+            )
             GitRepository.clone(
                 GIT_URL,
                 self.git_base_repo_path,
