@@ -662,6 +662,18 @@ class SubProjectTest(RepoTestCase):
         # With correct format it should validate
         subproject.full_clean()
 
+    def test_change_to_mono(self):
+        """Test swtiching to monolingual format on the fly."""
+        component = self._create_subproject(
+            'po',
+            'po-mono/*.po',
+        )
+        self.assertEqual(component.translation_set.count(), 4)
+        component.file_format = 'po-mono'
+        component.template = 'po-mono/en.po'
+        component.save()
+        self.assertEqual(component.translation_set.count(), 3)
+
 
 class TranslationTest(RepoTestCase):
     """

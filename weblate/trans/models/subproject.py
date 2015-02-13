@@ -1143,12 +1143,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
+        changed_setup = False
         if self.id:
             old = SubProject.objects.get(pk=self.id)
             changed_git = (
                 (old.repo != self.repo)
                 or (old.branch != self.branch)
                 or (old.filemask != self.filemask)
+            )
+            changed_setup = (
+                (old.file_format != self.file_format)
+                or (old.template != self.template)
             )
             # Detect slug changes and rename git repo
             self.check_rename(old)
@@ -1170,7 +1175,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
-        if changed_git:
+        if changed_setup:
+            self.create_translations(force=True)
+        elif changed_git:
             self.create_translations()
 
     def _get_percents(self):
@@ -1208,7 +1215,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns file format object.
         '''
-        if self._file_format is None:
+        if (self._file_format is None
+                or self._file_format.name != self.file_format):
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
