@@ -458,11 +458,11 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_po_mono(self):
         project = self.create_po_mono()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_subproject(project, 4, 'cs', 4)
 
     def test_create_android(self):
         project = self.create_android()
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_json(self):
         project = self.create_json()
@@ -470,11 +470,11 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_json_mono(self):
         project = self.create_json_mono()
-        self.verify_subproject(project, 1, 'cs', 4)
+        self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_java(self):
         project = self.create_java()
-        self.verify_subproject(project, 2, 'cs', 4)
+        self.verify_subproject(project, 3, 'cs', 4)
 
     def test_create_xliff(self):
         project = self.create_xliff()
@@ -672,7 +672,7 @@ class SubProjectTest(RepoTestCase):
         component.file_format = 'po-mono'
         component.template = 'po-mono/en.po'
         component.save()
-        self.assertEqual(component.translation_set.count(), 3)
+        self.assertEqual(component.translation_set.count(), 4)
 
 
 class TranslationTest(RepoTestCase):

@@ -817,9 +817,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         prefix = os.path.join(self.get_path(), '')
         matches = glob(os.path.join(self.get_path(), self.filemask))
         matches = [f.replace(prefix, '') for f in matches]
-        # Template can have possibly same name as translations
-        if self.has_template() and self.template in matches:
-            matches.remove(self.template)
+        # We want to list template among translations as well
+        if self.has_template() and self.template not in matches:
+            matches.append(self.template)
         return matches
 
     def create_translations(self, force=False, langs=None, request=None):
@@ -873,6 +873,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # No * in mask?
         if len(parts) == 1:
             return 'INVALID'
+        # Assume English language for template if we can not parse it
+        if (not path.startswith(parts[0])
+                and not path.endswith(parts[1])
+                and path == self.template):
+            return 'en'
         # Get part matching to first wildcard
         if len(parts[1]) == 0:
             code = path[len(parts[0]):].split('/')[0]
