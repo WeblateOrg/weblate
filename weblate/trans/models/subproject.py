@@ -1326,3 +1326,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             force=True,
             request=request
         )
+
+    def do_lock(self, user):
+        """Locks component."""
+        self.locked = True
+        self.save()
+
+    def do_unlock(self, user):
+        """Locks component."""
+        self.locked = False
+        self.save()

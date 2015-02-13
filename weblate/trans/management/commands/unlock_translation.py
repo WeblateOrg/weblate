@@ -27,5 +27,4 @@ class Command(WeblateCommand):
     def handle(self, *args, **options):
         for subproject in self.get_subprojects(*args, **options):
             if subproject.locked:
-                subproject.locked = False
-                subproject.save()
+                subproject.do_unlock(None)
