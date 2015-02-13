@@ -514,7 +514,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Following query can get huge, so we should find better way
         # to delete stale units, probably sort of garbage collection
 
-        # We should also do cleanup on source stings tracking objects
+        # We should also do cleanup on source strings tracking objects
 
         # Get lists of stale units to delete
         units_to_delete = self.unit_set.exclude(
