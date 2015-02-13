@@ -149,6 +149,8 @@ class Change(models.Model):
     ACTION_DICTIONARY_EDIT = 11
     ACTION_DICTIONARY_UPLOAD = 12
     ACTION_NEW_SOURCE = 13
+    ACTION_LOCK = 14
+    ACTION_UNLOCK = 15
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -165,6 +167,8 @@ class Change(models.Model):
         (ACTION_DICTIONARY_EDIT, ugettext_lazy('Glossary updated')),
         (ACTION_DICTIONARY_UPLOAD, ugettext_lazy('Glossary uploaded')),
         (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
+        (ACTION_LOCK, ugettext_lazy('Component locked')),
+        (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
     )
 
     unit = models.ForeignKey('Unit', null=True)
