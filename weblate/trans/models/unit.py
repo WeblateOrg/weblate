@@ -35,7 +35,8 @@ from weblate.accounts.models import (
 )
 from weblate.trans.filelock import FileLockException
 from weblate.trans.util import (
-    is_plural, split_plural, join_plural, get_distinct_translations
+    is_plural, split_plural, join_plural, get_distinct_translations,
+    calculate_checksum,
 )
 import weblate
 
@@ -606,11 +607,11 @@ class Unit(models.Model):
             context=self.context,
         )
         same_source.update(
-            source=self.target
+            source=self.target,
+            contentsum = calculate_checksum(self.source, self.context),
         )
         # TODO:
         # - update fulltext index
-        # - update checksums as well
 
     def generate_change(self, request, author, oldunit, change_action):
         """
