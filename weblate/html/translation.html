@@ -77,6 +77,10 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translation status" %}</h4></div>
   <div class="panel-body">
 
+{% if object.is_template %}
+{% show_message "info" _("This translation is being used as source strings within this component.") %}
+{% endif %}
+
 <table class="table">
 <tr>
 <th>{% trans "Strings" %}<span class="badge pull-right flip">{{ object.total }}</span></th>
@@ -92,6 +96,7 @@
 </table>
 
 {% include "legend.html" %}
+
 </div>
 </div>
 
