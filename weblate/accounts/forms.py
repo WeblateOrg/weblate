@@ -81,16 +81,16 @@ class NoStripEmailField(forms.EmailField):
 
 class UsernameField(forms.RegexField):
     def __init__(self, *args, **kwargs):
+        help_text = _(
+            'Username may contain only letters, '
+            'numbers and following characters: @ . + - _'
+        )
         kwargs['max_length'] = 30
-        kwargs['min_length'] = 4
         kwargs['regex'] = r'^[\w.@+-]+$'
-        kwargs['help_text'] = _('At least four characters long.')
+        kwargs['help_text'] = help_text
         kwargs['label'] = _('Username')
         kwargs['error_messages'] = {
-            'invalid': _(
-                'This value may contain only letters, '
-                'numbers and following characters: @ . + - _'
-            )
+            'invalid': help_text,
         }
         kwargs['required'] = True
         self.valid = None

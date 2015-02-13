@@ -148,14 +148,14 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
-        data['username'] = 'u'
+        data['username'] = ''
         response = self.client.post(
             reverse('register'),
             data
         )
         self.assertContains(
             response,
-            'Ensure this value has at least 4 characters (it has 1).'
+            'This field is required.',
         )
 
     def test_wrong_mail(self):
