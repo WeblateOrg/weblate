@@ -25,8 +25,18 @@ from django.shortcuts import resolve_url
 from importlib import import_module
 import os
 import urlparse
+import hashlib
 
 PLURAL_SEPARATOR = '\x1e\x1e'
+
+
+def calculate_checksum(source, context):
+    """Calculates checksum identifying translation."""
+    md5 = hashlib.md5()
+    if source is not None:
+        md5.update(source.encode('utf-8'))
+    md5.update(context.encode('utf-8'))
+    return md5.hexdigest()
 
 
 def is_plural(text):

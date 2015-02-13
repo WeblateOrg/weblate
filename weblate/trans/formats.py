@@ -34,12 +34,11 @@ from translate.storage import mo
 from translate.storage import factory
 from weblate.trans.util import get_string, join_plural, add_configuration_error
 from translate.misc import quote
-from weblate.trans.util import get_clean_env
+from weblate.trans.util import get_clean_env, calculate_checksum
 import weblate
 import subprocess
 import os.path
 import re
-import hashlib
 import traceback
 import importlib
 import __builtin__
@@ -265,11 +264,14 @@ class FileUnit(object):
         We use MD5 as it is faster than SHA1.
         '''
         if self.checksum is None:
-            md5 = hashlib.md5()
             if self.template is None:
-                md5.update(self.get_source().encode('utf-8'))
-            md5.update(self.get_context().encode('utf-8'))
-            self.checksum = md5.hexdigest()
+                self.checksum = calculate_checksum(
+                    self.get_source(), self.get_context()
+                )
+            else:
+                self.checksum = calculate_checksum(
+                    None, self.get_context()
+                )
 
         return self.checksum
 
@@ -283,10 +285,9 @@ class FileUnit(object):
             return self.get_checksum()
 
         if self.contentsum is None:
-            md5 = hashlib.md5()
-            md5.update(self.get_source().encode('utf-8'))
-            md5.update(self.get_context().encode('utf-8'))
-            self.contentsum = md5.hexdigest()
+            self.contentsum = calculate_checksum(
+                self.get_source(), self.get_context()
+            )
 
         return self.contentsum
 
