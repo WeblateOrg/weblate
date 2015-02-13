@@ -209,7 +209,10 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(
             translated,
             expected_translated,
-            'Did not found expected number of translations.'
+            'Did not found expected number of ' +
+            'translations ({0} != {1}).'.format(
+                translated, expected_translated
+            )
         )
 
 
@@ -676,6 +679,36 @@ class EditTest(ViewTestCase):
 
 class EditResourceTest(EditTest):
     has_plurals = False
+
+    def create_subproject(self):
+        return self.create_android()
+
+
+class EditResourceSourceTest(ViewTestCase):
+    """Source strings (template) editing."""
+    has_plurals = False
+
+    def test_edit(self):
+        translation = self.get_translation()
+        translate_url = translation.get_translate_url()
+
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should get to second message
+        self.assertRedirectsOffset(response, translate_url, 1)
+        unit = self.get_unit('Nazdar svete!\n')
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertBackend(4)
+
+    def get_translation(self):
+        return self.subproject.translation_set.get(
+            language_code='en'
+        )
 
     def create_subproject(self):
         return self.create_android()
