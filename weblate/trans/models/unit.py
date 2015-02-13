@@ -585,11 +585,32 @@ class Unit(models.Model):
                 author=user
             )
 
+        # Update related source strings if working on a template
+        if self.translation.filename == self.translation.subproject.template:
+            self.update_source_units()
+
         # Propagate to other projects
         if propagate:
             self.propagate(request, change_action)
 
         return True
+
+    def update_source_units(self):
+        """Updates source for units withing same component.
+
+        This is needed when editing template translation for monolingual
+        formats.
+        """
+        same_source = Unit.objects.filter(
+            translation__subproject=self.translation.subproject,
+            context=self.context,
+        )
+        same_source.update(
+            source=self.target
+        )
+        # TODO:
+        # - update fulltext index
+        # - update checksums as well
 
     def generate_change(self, request, author, oldunit, change_action):
         """
