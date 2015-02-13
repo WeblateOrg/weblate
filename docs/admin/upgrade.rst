@@ -215,10 +215,20 @@ work on existing data you need to udpate fulltext index by:
 
     ./manage.py rebuild_index --clean --all
 
+If you have some monolingual translations, Weblate now allows to edit template
+(source) strings as well. To see them, you need to reload translations, what
+will either happen automatically on next repository update or you can force it
+manually:
+
+.. code-block:: sh
+
+    ./manage.py loadpo --all
+
 .. seealso::
 
     If you are upgrading to Django 1.7 in same step, please consult
     :ref:`django-17`.
+
 
 .. _django-17:
 
