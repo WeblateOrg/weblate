@@ -187,9 +187,7 @@ class ViewTestCase(RepoTestCase):
         '''
         Checks that backend has correct data.
         '''
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.get_translation()
         store = translation.subproject.file_format_cls(
             translation.get_filename(),
             None
@@ -377,9 +375,7 @@ class EditTest(ViewTestCase):
 
     def setUp(self):
         super(EditTest, self).setUp()
-        self.translation = self.subproject.translation_set.get(
-            language_code='cs'
-        )
+        self.translation = self.get_translation()
         self.translate_url = self.translation.get_translate_url()
 
     def test_edit(self):
