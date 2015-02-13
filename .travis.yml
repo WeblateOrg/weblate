@@ -1,10 +1,16 @@
-language: python
-python:
-  - "2.7"
+#
+# Weblate testsuite for Travis-CI
+#
 # - Test against all supported Django versions with sqlite
 # - Test against all supported databases with current Django
 # - Run Selenium tests on current Django
 # - Run pylint/pep8 checker
+#
+language: python
+# only python 2.7 is supported
+python:
+  - "2.7"
+# build matrix configuration
 env:
   matrix:
     - CI_DJANGO="Django>=1.6,<1.7" CI_LINT=1
@@ -14,11 +20,15 @@ env:
     - CI_DJANGO="Django>=1.7,<1.8"
     - CI_DJANGO="Django>=1.6,<1.7"
     - CI_DJANGO="https://github.com/django/django/archive/stable/1.8.x.zip"
-    - CI_DJANGO="https://github.com/django/django/zipball/master"
     - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
+    - CI_DJANGO="https://github.com/django/django/zipball/master"
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
+matrix:
+  allow_failures:
+    - python: "2.7"
+      env: CI_DJANGO="https://github.com/django/django/zipball/master"
 # commands to install dependencies
 install:
   - ./ci/install
@@ -28,14 +38,13 @@ before_script:
 # commands to run tests
 script:
   - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; else ./ci/run-lint ; fi
+# upload coverage
 after_script:
   - if [ -z "$CI_LINT" ] ; then coveralls ; fi
   - if [ -z "$CI_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
+# cache configuration
 cache:
   directories:
     - $HOME/.cache/pip
+# use docker based faster build
 sudo: false
-matrix:
-  allow_failures:
-    - python: "2.7"
-      env: CI_DJANGO="https://github.com/django/django/zipball/master"
