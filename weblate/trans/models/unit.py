@@ -602,16 +602,19 @@ class Unit(models.Model):
         This is needed when editing template translation for monolingual
         formats.
         """
+        # Find relevant units
         same_source = Unit.objects.filter(
             translation__subproject=self.translation.subproject,
             context=self.context,
         )
+        # Update source and contentsum
         same_source.update(
             source=self.target,
             contentsum = calculate_checksum(self.source, self.context),
         )
-        # TODO:
-        # - update fulltext index
+        # Update source index, it's enough to do it for one as we index by
+        # checksum which is same for all
+        update_index_unit(self, True)
 
     def generate_change(self, request, author, oldunit, change_action):
         """
