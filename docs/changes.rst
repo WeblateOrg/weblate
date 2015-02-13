@@ -13,6 +13,9 @@ Released on ? 2015.
 * Support for deleting comments.
 * Added own SVG badge.
 * Added support for Google Analytics.
+* Improved handling of translation file names.
+* Added support for monolingual JSON translations.
+* Record component locking in a history.
 
 weblate 2.1
 -----------
