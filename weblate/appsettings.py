@@ -63,7 +63,7 @@ MT_TMSERVER = getvalue('MT_TMSERVER', None)
 # Title of site to use
 SITE_TITLE = getvalue('SITE_TITLE', 'Weblate')
 
-# Whether to offer hosting
+# Whether this is hosted.weblate.org
 OFFER_HOSTING = getvalue('OFFER_HOSTING', False)
 
 # Demo server tweaks
