@@ -19,7 +19,6 @@
 #
 
 from django.core.exceptions import ImproperlyConfigured
-from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
@@ -69,6 +68,7 @@ def get_site_url(url=''):
     Returns root url of current site with domain.
     '''
     from weblate.appsettings import ENABLE_HTTPS
+    from django.contrib.sites.models import Site
     site = Site.objects.get_current()
     return '{0}://{1}{2}'.format(
         'https' if ENABLE_HTTPS else 'http',
