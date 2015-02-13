@@ -1103,6 +1103,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             self.clean_repo_link()
 
+        # Template validation
+        self.clean_template()
+
         matches = self.get_mask_matches()
 
         # Verify language codes
@@ -1110,9 +1113,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Try parsing files
         self.clean_files(matches)
-
-        # Template validation
-        self.clean_template()
 
         # New language options
         self.clean_new_lang()
