@@ -587,7 +587,7 @@ class Unit(models.Model):
             )
 
         # Update related source strings if working on a template
-        if self.translation.filename == self.translation.subproject.template:
+        if self.translation.is_template():
             self.update_source_units()
 
         # Propagate to other projects

@@ -192,6 +192,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         self.subproject.project.check_acl(request)
 
+    def is_template(self):
+        """Checks whether this is template translation
+
+        This means that translations should be propagated as sources to others.
+        """
+        return self.filename == self.subproject.template
+
     def clean(self):
         '''
         Validates that filename exists and can be opened using
