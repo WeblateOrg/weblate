@@ -16,6 +16,7 @@ Released on ? 2015.
 * Improved handling of translation file names.
 * Added support for monolingual JSON translations.
 * Record component locking in a history.
+* Support for editing source (template) language for monolingual translations.
 
 weblate 2.1
 -----------
