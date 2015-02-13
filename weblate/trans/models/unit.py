@@ -610,7 +610,7 @@ class Unit(models.Model):
         # Update source and contentsum
         same_source.update(
             source=self.target,
-            contentsum = calculate_checksum(self.source, self.context),
+            contentsum=calculate_checksum(self.source, self.context),
         )
         # Update source index, it's enough to do it for one as we index by
         # checksum which is same for all
