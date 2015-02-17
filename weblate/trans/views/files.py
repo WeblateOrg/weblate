@@ -93,9 +93,9 @@ def upload_translation(request, project, subproject, lang):
 
     # Create author name
     author = None
-    if (request.user.has_perm('trans.author_translation')
-            and form.cleaned_data['author_name'] != ''
-            and form.cleaned_data['author_email'] != ''):
+    if (request.user.has_perm('trans.author_translation') and
+            form.cleaned_data['author_name'] != '' and
+            form.cleaned_data['author_email'] != ''):
         author = '%s <%s>' % (
             form.cleaned_data['author_name'],
             form.cleaned_data['author_email']

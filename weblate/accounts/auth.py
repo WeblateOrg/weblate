@@ -82,6 +82,6 @@ def disable_anon_user_password_save(sender, **kwargs):
     Blocks setting password for anonymous user.
     '''
     instance = kwargs['instance']
-    if (instance.username == ANONYMOUS_USER_NAME
-            and instance.has_usable_password()):
+    if (instance.username == ANONYMOUS_USER_NAME and
+            instance.has_usable_password()):
         raise ValueError('Anonymous user can not have usable password!')

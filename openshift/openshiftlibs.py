@@ -77,8 +77,8 @@ def openshift_secure(default_keys, secure_function='make_secure_key'):
             base = os.getenv('OPENSHIFT_REPO_DIR')
             calling_file.replace(base, '')
         sys.stderr.write(
-            "OPENSHIFT WARNING: Using default values for secure variables, "
-            + "please manually modify in " + calling_file + "\n"
+            "OPENSHIFT WARNING: Using default values for secure variables, " +
+            "please manually modify in " + calling_file + "\n"
         )
 
     return my_list

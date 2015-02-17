@@ -592,16 +592,16 @@ def post_login_handler(sender, request, user, **kwargs):
     '''
 
     # Warning about setting password
-    if (getattr(user, 'backend', '') == 'social.backends.email.EmailAuth'
-            and not user.has_usable_password()):
+    if (getattr(user, 'backend', '') == 'social.backends.email.EmailAuth' and
+            not user.has_usable_password()):
         request.session['show_set_password'] = True
 
     # Ensure user has a profile
     profile = Profile.objects.get_or_create(user=user)[0]
 
     # Migrate django-registration based verification to python-social-auth
-    if (user.has_usable_password()
-            and not user.social_auth.filter(provider='email').exists()):
+    if (user.has_usable_password() and
+            not user.social_auth.filter(provider='email').exists()):
         social = user.social_auth.create(
             provider='email',
             uid=user.email,

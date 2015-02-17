@@ -296,8 +296,8 @@ def handle_translate(translation, request, user_locked,
             request,
             _('You don\'t have privileges to save translations!')
         )
-    elif (unit.only_vote_suggestions()
-          and not request.user.has_perm('trans.override_suggestion')):
+    elif (unit.only_vote_suggestions() and not
+          request.user.has_perm('trans.override_suggestion')):
         messages.error(
             request,
             _('Only suggestions are allowed in this translation!')
@@ -510,10 +510,10 @@ def translate(request, project, subproject, lang):
     if request.method == 'POST' and not project_locked:
 
         # Handle accepting/deleting suggestions
-        if ('accept' not in request.POST
-                and 'delete' not in request.POST
-                and 'upvote' not in request.POST
-                and 'downvote' not in request.POST):
+        if ('accept' not in request.POST and
+                'delete' not in request.POST and
+                'upvote' not in request.POST and
+                'downvote' not in request.POST):
             response = handle_translate(
                 translation, request, user_locked,
                 this_unit_url, next_unit_url

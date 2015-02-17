@@ -101,8 +101,8 @@ class MathCaptcha(object):
         Validates answer.
         '''
         return (
-            self.result == answer
-            and self.timestamp + TIMEDELTA > time.time()
+            self.result == answer and
+            self.timestamp + TIMEDELTA > time.time()
         )
 
     @property

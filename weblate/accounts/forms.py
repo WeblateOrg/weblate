@@ -371,8 +371,8 @@ class CaptchaRegistrationForm(RegistrationForm):
         '''
         Validation for captcha.
         '''
-        if (self.tampering
-                or not self.captcha.validate(self.cleaned_data['captcha'])):
+        if (self.tampering or
+                not self.captcha.validate(self.cleaned_data['captcha'])):
             raise forms.ValidationError(
                 _('Please check your math and try again.')
             )
