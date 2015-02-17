@@ -82,7 +82,7 @@ class ChangeManager(models.Manager):
         '''
 
         # Get range (actually start)
-        dtend = timezone.now().date() - timezone.timedelta(days=1)
+        dtend = timezone.now().date()
         dtstart = dtend - timezone.timedelta(days=days + 1)
 
         # Base for filtering
