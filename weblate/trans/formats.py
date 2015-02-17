@@ -387,9 +387,9 @@ class FileFormat(object):
         """
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
-        module = importlib.import_module(
-            'translate.storage.%s' % module_name
-        )
+        if '.' not in module_name:
+            module_name = 'translate.storage.{0}'.format(module_name)
+        module = importlib.import_module(module_name)
 
         # Get the class
         return getattr(module, class_name)
@@ -861,7 +861,7 @@ class AndroidFormat(FileFormat):
 class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
-    loader = ('jsonl10n', 'JsonFile')
+    loader = ('weblate.trans.aresource', 'JsonFile')
 
     @classmethod
     def supports_new_language(cls):
