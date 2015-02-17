@@ -154,6 +154,17 @@ def format_translation(value, language=None, diff=None, search_match=None,
 
 
 @register.simple_tag
+def check_severity(check):
+    '''
+    Returns check severity, or it's id if check is not known.
+    '''
+    try:
+        return CHECKS[check].severity
+    except KeyError:
+        return 'info'
+
+
+@register.simple_tag
 def check_name(check):
     '''
     Returns check name, or it's id if check is not known.
