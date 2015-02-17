@@ -362,7 +362,9 @@ class Language(models.Model, PercentMixin):
 
     def __unicode__(self):
         if self.show_language_code:
-            return '%s (%s)' % (_(self.name), self.code)
+            return u'{0} ({1})'.format(
+                _(self.name), self.code
+            )
         return _(self.name)
 
     @property
