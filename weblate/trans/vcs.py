@@ -360,8 +360,8 @@ class GitRepository(Repository):
         Checks whether this is a valid repository.
         '''
         return (
-            os.path.exists(os.path.join(self.path, '.git', 'config'))
-            or os.path.exists(os.path.join(self.path, 'config'))
+            os.path.exists(os.path.join(self.path, '.git', 'config')) or
+            os.path.exists(os.path.join(self.path, 'config'))
         )
 
     def init(self):
@@ -677,8 +677,8 @@ class HgRepository(Repository):
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
-        if (config.has_option(section, key)
-                and config.get(section, key) == value):
+        if (config.has_option(section, key) and
+                config.get(section, key) == value):
             return
         config.set(section, key, value)
         with open(filename, 'wb') as handle:

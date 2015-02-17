@@ -35,8 +35,8 @@ def microsoft_translation_supported():
     Checks whether service is supported.
     '''
     return (
-        appsettings.MT_MICROSOFT_ID is not None
-        and appsettings.MT_MICROSOFT_SECRET is not None
+        appsettings.MT_MICROSOFT_ID is not None and
+        appsettings.MT_MICROSOFT_SECRET is not None
     )
 
 

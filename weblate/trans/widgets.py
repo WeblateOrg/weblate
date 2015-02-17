@@ -164,8 +164,8 @@ class Widget(object):
                 (
                     self.progress['x'],
                     self.progress['y'],
-                    self.progress['x']
-                    + self.progress['width'] / 100.0 * self.percent,
+                    self.progress['x'] +
+                    self.progress['width'] / 100.0 * self.percent,
                     self.progress['y'] + self.progress['height']
                 ),
                 fill=COLOR_DATA[self.color]['bar'],

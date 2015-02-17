@@ -629,10 +629,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.create_translations(request=request)
 
         # Push after possible merge
-        if (self.git_needs_push()
-                and ret
-                and self.project.push_on_commit
-                and self.can_push()):
+        if (self.git_needs_push() and
+                ret and
+                self.project.push_on_commit and
+                self.can_push()):
             self.do_push(request, force_commit=False, do_update=False)
 
         return ret
@@ -874,8 +874,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if len(parts) == 1:
             return 'INVALID'
         # Assume English language for template if we can not parse it
-        if ((not path.startswith(parts[0]) or not path.endswith(parts[1]))
-                and path == self.template):
+        if ((not path.startswith(parts[0]) or not path.endswith(parts[1])) and
+                path == self.template):
             return 'en'
         # Get part matching to first wildcard
         if len(parts[1]) == 0:
@@ -1151,13 +1151,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.id:
             old = SubProject.objects.get(pk=self.id)
             changed_git = (
-                (old.repo != self.repo)
-                or (old.branch != self.branch)
-                or (old.filemask != self.filemask)
+                (old.repo != self.repo) or
+                (old.branch != self.branch) or
+                (old.filemask != self.filemask)
             )
             changed_setup = (
-                (old.file_format != self.file_format)
-                or (old.template != self.template)
+                (old.file_format != self.file_format) or
+                (old.template != self.template)
             )
             # Detect slug changes and rename git repo
             self.check_rename(old)
@@ -1219,8 +1219,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Returns file format object.
         '''
-        if (self._file_format is None
-                or self._file_format.name != self.file_format):
+        if (self._file_format is None or
+                self._file_format.name != self.file_format):
             self._file_format = FILE_FORMATS[self.file_format]
         return self._file_format
 
@@ -1230,9 +1230,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         monolingual = self.file_format_cls.monolingual
         return (
-            (monolingual or monolingual is None)
-            and len(self.template) > 0
-            and not self.template.endswith('.pot')
+            (monolingual or monolingual is None) and
+            len(self.template) > 0 and
+            not self.template.endswith('.pot')
         )
 
     def load_template_store(self):
@@ -1277,8 +1277,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         if self._all_flags is None:
             self._all_flags = (
-                self.check_flags.split(',')
-                + list(self.file_format_cls.check_flags)
+                self.check_flags.split(',') +
+                list(self.file_format_cls.check_flags)
             )
         return self._all_flags
 

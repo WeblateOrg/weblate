@@ -100,10 +100,10 @@ class FileUnit(object):
         '''
         # XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if (isinstance(self.mainunit, xliffunit)
-                or isinstance(self.mainunit, javafile)
-                or isinstance(self.mainunit, javautf8file)
-                or isinstance(self.mainunit, phpunit)):
+        if (isinstance(self.mainunit, xliffunit) or
+                isinstance(self.mainunit, javafile) or
+                isinstance(self.mainunit, javautf8file) or
+                isinstance(self.mainunit, phpunit)):
             return ''
         result = ', '.join(self.mainunit.getlocations())
         # Do not try to handle relative locations in Qt TS, see
@@ -165,18 +165,18 @@ class FileUnit(object):
         reason do not correctly set source/target attributes.
         '''
         return (
-            hasattr(self.mainunit, 'name')
-            and hasattr(self.mainunit, 'value')
-            and hasattr(self.mainunit, 'translation')
+            hasattr(self.mainunit, 'name') and
+            hasattr(self.mainunit, 'value') and
+            hasattr(self.mainunit, 'translation')
         )
 
     def get_source(self):
         '''
         Returns source string from a ttkit unit.
         '''
-        if (isinstance(self.mainunit, tsunit)
-                and self.template is None
-                and self.mainunit.hasplural()):
+        if (isinstance(self.mainunit, tsunit) and
+                self.template is None and
+                self.mainunit.hasplural()):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             return join_plural([
@@ -208,9 +208,9 @@ class FileUnit(object):
         '''
         if self.unit is None:
             return ''
-        if (isinstance(self.unit, tsunit)
-                and not self.unit.isreview()
-                and not self.unit.istranslated()):
+        if (isinstance(self.unit, tsunit) and
+                not self.unit.isreview() and
+                not self.unit.istranslated()):
             # For Qt ts, empty translated string means source should be used
             return self.get_source()
         if self.is_unit_key_value():
@@ -239,8 +239,8 @@ class FileUnit(object):
                 return ''
             else:
                 return context[0]
-        elif (isinstance(self.mainunit, (pounit, JsonUnit))
-              and self.template is not None):
+        elif (isinstance(self.mainunit, (pounit, JsonUnit)) and
+              self.template is not None):
             # Monolingual JSON files
             return self.template.getid()
         else:
@@ -370,8 +370,8 @@ class FileFormat(object):
         '''
         # Workaround for _ created by interactive interpreter and
         # later used instead of gettext by ttkit
-        if ('_' in __builtin__.__dict__
-                and not callable(__builtin__.__dict__['_'])):
+        if ('_' in __builtin__.__dict__ and
+                not callable(__builtin__.__dict__['_'])):
             del __builtin__.__dict__['_']
 
         # Add missing mode attribute to Django file wrapper
@@ -421,8 +421,8 @@ class FileFormat(object):
         # Remember template
         self.template_store = template_store
         # Set language (needed for some which do not include this)
-        if (language_code is not None
-                and self.store.gettargetlanguage() is None):
+        if (language_code is not None and
+                self.store.gettargetlanguage() is None):
             self.store.settargetlanguage(language_code)
 
     @property
@@ -431,8 +431,8 @@ class FileFormat(object):
         Checks whether class is using template.
         '''
         return (
-            (self.monolingual or self.monolingual is None)
-            and self.template_store is not None
+            (self.monolingual or self.monolingual is None) and
+            self.template_store is not None
         )
 
     def _find_unit_template(self, context):
@@ -518,9 +518,9 @@ class FileFormat(object):
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()
-        if ('Content-Type' not in header
-                or 'charset=CHARSET' in header['Content-Type']
-                or 'charset=ASCII' in header['Content-Type']):
+        if ('Content-Type' not in header or
+                'charset=CHARSET' in header['Content-Type'] or
+                'charset=ASCII' in header['Content-Type']):
             kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
 
         self.store.updateheader(**kwargs)

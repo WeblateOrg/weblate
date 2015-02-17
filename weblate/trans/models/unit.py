@@ -385,13 +385,12 @@ class Unit(models.Model):
 
         # Update checks on fuzzy update or on content change
         same_content = (
-            target == self.target
-            and source == self.source
+            target == self.target and source == self.source
         )
         same_state = (
-            fuzzy == self.fuzzy
-            and translated == self.translated
-            and not created
+            fuzzy == self.fuzzy and
+            translated == self.translated and
+            not created
         )
 
         # Check if we actually need to change anything
@@ -542,9 +541,9 @@ class Unit(models.Model):
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
-        if (not saved
-                and oldunit.fuzzy == self.fuzzy
-                and oldunit.target == self.target):
+        if (not saved and
+                oldunit.fuzzy == self.fuzzy and
+                oldunit.target == self.target):
             # Propagate if we should
             if propagate:
                 self.propagate(request, change_action)
@@ -576,8 +575,8 @@ class Unit(models.Model):
             self.generate_change(request, user, oldunit, change_action)
 
         # Force commiting on completing translation
-        if (old_translated < self.translation.translated
-                and self.translation.translated == self.translation.total):
+        if (old_translated < self.translation.translated and
+                self.translation.translated == self.translation.total):
             self.translation.commit_pending(request)
             Change.objects.create(
                 translation=self.translation,
@@ -962,8 +961,8 @@ class Unit(models.Model):
         Whether we can vote for suggestions.
         """
         return (
-            self.translation.subproject.suggestion_voting
-            and self.translation.subproject.suggestion_autoaccept > 0
+            self.translation.subproject.suggestion_voting and
+            self.translation.subproject.suggestion_autoaccept > 0
         )
 
     def translate(self, request, new_target, new_fuzzy):
@@ -984,9 +983,9 @@ class Unit(models.Model):
         """
         if self._all_flags is None:
             self._all_flags = set(
-                self.flags.split(',')
-                + self.source_info.check_flags.split(',')
-                + self.translation.subproject.all_flags
+                self.flags.split(',') +
+                self.source_info.check_flags.split(',') +
+                self.translation.subproject.all_flags
             )
             self._all_flags.discard('')
         return self._all_flags

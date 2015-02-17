@@ -495,13 +495,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             # Check if unit is new and untranslated
             was_new = (
-                was_new
-                or (is_new and not newunit.translated)
-                or (
-                    not newunit.translated
-                    and newunit.translated != newunit.old_translated
-                )
-                or (newunit.fuzzy and newunit.fuzzy != newunit.old_fuzzy)
+                was_new or
+                (is_new and not newunit.translated) or
+                (
+                    not newunit.translated and
+                    newunit.translated != newunit.old_translated
+                ) or
+                (newunit.fuzzy and newunit.fuzzy != newunit.old_fuzzy)
             )
 
             # Update position
@@ -831,9 +831,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.__git_commit(author, timestamp, sync)
 
         # Push if we should
-        if (self.subproject.project.push_on_commit
-                and not skip_push
-                and self.can_push()):
+        if (self.subproject.project.push_on_commit and
+                not skip_push and
+                self.can_push()):
             self.subproject.do_push(request, force_commit=False)
 
         return True
@@ -857,9 +857,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 return False, None
 
             # Check for changes
-            if (not add
-                    and unit.target == pounit.get_target()
-                    and unit.fuzzy == pounit.is_fuzzy()):
+            if (not add and
+                    unit.target == pounit.get_target() and
+                    unit.fuzzy == pounit.is_fuzzy()):
                 return False, pounit
 
             # Store translations
@@ -880,8 +880,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             # Update po file header
             po_revision_date = (
-                datetime.now().strftime('%Y-%m-%d %H:%M')
-                + poheader.tzstring()
+                datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
             )
 
             # Prepare headers to update

@@ -462,11 +462,11 @@ class SearchForm(forms.Form):
             cleaned_data['type'] = 'all'
 
         # Default to source and target search
-        if (not cleaned_data['source']
-                and not cleaned_data['target']
-                and not cleaned_data['location']
-                and not cleaned_data['comment']
-                and not cleaned_data['context']):
+        if (not cleaned_data['source'] and
+                not cleaned_data['target'] and
+                not cleaned_data['location'] and
+                not cleaned_data['comment'] and
+                not cleaned_data['context']):
             cleaned_data['source'] = True
             cleaned_data['target'] = True
 

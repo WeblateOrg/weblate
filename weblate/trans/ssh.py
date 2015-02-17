@@ -71,9 +71,9 @@ def is_key_line(key):
     if key[0] == '#':
         return False
     return (
-        ' ssh-rsa ' in key
-        or ' ecdsa-sha2-nistp256 ' in key
-        or ' ssh-ed25519 ' in key
+        ' ssh-rsa ' in key or
+        ' ecdsa-sha2-nistp256 ' in key or
+        ' ssh-ed25519 ' in key
     )
 
 

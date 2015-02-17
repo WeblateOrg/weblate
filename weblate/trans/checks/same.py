@@ -1026,9 +1026,9 @@ class SameCheck(TargetCheck):
         lower_source = source.lower()
 
         # Check special things like 1:4 1/2 or copyright
-        if (len(source.strip('0123456789:/,.')) <= 1
-                or '(c) copyright' in lower_source
-                or u'©' in source):
+        if (len(source.strip('0123456789:/,.')) <= 1 or
+                '(c) copyright' in lower_source or
+                u'©' in source):
             result = True
         else:
             # Strip format strings

@@ -129,8 +129,8 @@ def performance(request):
     checks.append((
         _('Email addresses'),
         (
-            settings.SERVER_EMAIL not in default_mails
-            and settings.DEFAULT_FROM_EMAIL not in default_mails
+            settings.SERVER_EMAIL not in default_mails and
+            settings.DEFAULT_FROM_EMAIL not in default_mails
         ),
         'production-email',
     ))
