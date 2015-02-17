@@ -70,15 +70,6 @@ data-loading-text="{0}" data-href="{1}" data-checksum="{2}"
 '''
 
 
-def escape_newline(value):
-    '''
-    Escapes newlines so that they are not lost in <textarea>.
-    '''
-    if len(value) >= 1 and value[0] == '\n':
-        return '\n' + value
-    return value
-
-
 class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
@@ -177,7 +168,7 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super(PluralTextarea, self).render(
                 fieldname,
-                escape_newline(val),
+                val,
                 attrs
             )
             # Label for plural
