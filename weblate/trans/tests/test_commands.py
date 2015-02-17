@@ -27,7 +27,6 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.models import SubProject
 from django.core.management import call_command
 from django.core.management.base import CommandError
-import django
 
 
 class ImportProjectTest(RepoTestCase):

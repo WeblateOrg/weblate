@@ -34,7 +34,6 @@ from weblate.trans.ssh import (
     get_host_keys, can_generate_key
 )
 import weblate
-import django
 
 # List of default domain names on which warn user
 DEFAULT_DOMAINS = ('example.net', 'example.com')
