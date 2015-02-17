@@ -221,7 +221,11 @@ def perform_translation(unit, form, request):
     )
 
     # Run AutoFixes on user input
-    new_target, fixups = fix_target(form.cleaned_data['target'], unit)
+    if not unit.translation.is_template():
+        new_target, fixups = fix_target(form.cleaned_data['target'], unit)
+    else:
+        new_target = form.cleaned_data['target']
+        fixups = []
 
     # Save
     saved = unit.translate(
