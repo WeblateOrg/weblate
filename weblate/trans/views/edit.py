@@ -49,9 +49,10 @@ def cleanup_session(session):
     '''
     now = int(time.time())
     for key in session.keys():
+        if not key.startswith('search_'):
+            continue
         value = session[key]
-        if (key.startswith('search_')
-                and (not isinstance(value, dict) or value['ttl'] < now)):
+        if not isinstance(value, dict) or value['ttl'] < now:
             del session[key]
 
 
