@@ -29,12 +29,6 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 import django
 
-# Django 1.5 changes behavior here
-if django.VERSION >= (1, 5):
-    COMMAND_EXCEPTION = CommandError
-else:
-    COMMAND_EXCEPTION = SystemExit
-
 
 class ImportProjectTest(RepoTestCase):
     def test_import(self):
@@ -65,7 +59,7 @@ class ImportProjectTest(RepoTestCase):
     def test_import_invalid(self):
         project = self.create_project()
         self.assertRaises(
-            COMMAND_EXCEPTION,
+            CommandError,
             call_command,
             'import_project',
             'test',
@@ -149,7 +143,7 @@ class ImportProjectTest(RepoTestCase):
         Test of correct handling of missing project.
         '''
         self.assertRaises(
-            COMMAND_EXCEPTION,
+            CommandError,
             call_command,
             'import_project',
             'test',
@@ -164,7 +158,7 @@ class ImportProjectTest(RepoTestCase):
         '''
         self.create_project()
         self.assertRaises(
-            COMMAND_EXCEPTION,
+            CommandError,
             call_command,
             'import_project',
             'test',
@@ -244,14 +238,14 @@ class CheckGitTest(RepoTestCase):
 
     def test_nonexisting_project(self):
         self.assertRaises(
-            COMMAND_EXCEPTION,
+            CommandError,
             self.do_test,
             'notest',
         )
 
     def test_nonexisting_subproject(self):
         self.assertRaises(
-            COMMAND_EXCEPTION,
+            CommandError,
             self.do_test,
             'test/notest',
         )
