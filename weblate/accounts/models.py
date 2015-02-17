@@ -747,8 +747,8 @@ def sync_create_groups(sender, app, **kwargs):
     '''
     Create groups on syncdb.
     '''
-    if (app == 'accounts'
-            or getattr(app, '__name__', '') == 'weblate.accounts.models'):
+    if (app == 'accounts' or
+            getattr(app, '__name__', '') == 'weblate.accounts.models'):
         create_groups(False)
 
 if 'south' in settings.INSTALLED_APPS:

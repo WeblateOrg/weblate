@@ -108,8 +108,8 @@ def user_full_name(strategy, details, user=None, **kwargs):
     if user:
         full_name = details.get('fullname', '').strip()
 
-        if (not full_name
-                and ('first_name' in details or 'last_name' in details)):
+        if (not full_name and
+                ('first_name' in details or 'last_name' in details)):
             first_name = details.get('first_name', '')
             last_name = details.get('last_name', '')
 
