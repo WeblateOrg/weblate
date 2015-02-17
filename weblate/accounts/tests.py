@@ -167,12 +167,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(
             response,
-            'Enter'
-        )
-        # Error message has changed in Django 1.5
-        self.assertTrue(
-            'Enter a valid e-mail address.' in response.content
-            or 'Enter a valid email address.' in response.content
+            'Enter a valid email address.'
         )
 
     def test_spam(self):
