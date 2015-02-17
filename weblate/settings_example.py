@@ -516,7 +516,7 @@ SERVER_EMAIL = 'noreply@weblate.org'
 # the site managers. Used for registration emails.
 DEFAULT_FROM_EMAIL = 'noreply@weblate.org'
 
-# List of URLs your site is supposed to serve, required since Django 1.5
+# List of URLs your site is supposed to serve
 ALLOWED_HOSTS = []
 
 # Example configuration to use memcached for caching

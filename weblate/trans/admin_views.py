@@ -152,13 +152,12 @@ def performance(request):
         settings.SECRET_KEY != settings_example.SECRET_KEY,
         'production-secret',
     ))
-    # Allowed hosts for Django 1.5
-    if django.VERSION > (1, 5):
-        checks.append((
-            _('Allowed hosts'),
-            len(settings.ALLOWED_HOSTS) > 0,
-            'production-hosts',
-        ))
+    # Allowed hosts
+    checks.append((
+        _('Allowed hosts'),
+        len(settings.ALLOWED_HOSTS) > 0,
+        'production-hosts',
+    ))
 
     # Cached template loader
     checks.append((
