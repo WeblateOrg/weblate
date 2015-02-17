@@ -33,8 +33,7 @@ class SQLSum(BaseSQLSum):
         '''
         Adds type casting to boolean values for PostgreSQL.
         '''
-        if (settings.DATABASES['default']['ENGINE']
-                == 'django.db.backends.postgresql_psycopg2'):
+        if 'psycopg2' in settings.DATABASES['default']['ENGINE']:
             return '%(function)s(%(field)s::int)'
         return '%(function)s(%(field)s)'
 
