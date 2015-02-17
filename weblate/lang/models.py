@@ -361,11 +361,19 @@ class Language(models.Model, PercentMixin):
         self._percents = None
 
     def __unicode__(self):
-        if ('(' not in self.name
-                and ('_' in self.code or '-' in self.code)
-                and self.code not in ('zh_TW', 'zh_CN')):
+        if self.show_language_code:
             return '%s (%s)' % (_(self.name), self.code)
         return _(self.name)
+
+    @property
+    def show_language_code(self):
+        if '(' in self.name:
+            return False
+
+        if self.code in ('zh_TW', 'zh_CN'):
+            return False
+
+        return '_' in self.code or '-' in self.code
 
     def get_plural_form(self):
         '''
