@@ -34,6 +34,7 @@ class JsonFile(JsonFileTT):
         # This is really broken for many reasons, but works for
         # simple JSON files.
         for unit in self.units:
+            # pylint: disable=W0212
             data[unit._id.lstrip('.')] = unit.source
         return json.dumps(
             data, sort_keys=True, indent=4, ensure_ascii=False
