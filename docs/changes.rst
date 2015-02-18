@@ -17,6 +17,7 @@ Released on ? 2015.
 * Added support for monolingual JSON translations.
 * Record component locking in a history.
 * Support for editing source (template) language for monolingual translations.
+* Added basic support for Gerrit.
 
 weblate 2.1
 -----------
