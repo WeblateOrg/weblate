@@ -19,7 +19,8 @@
 #
 
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.vcs import GitRepository, HgRepository, RepositoryException
+from weblate.trans.vcs import GitRepository, HgRepository, \
+    RepositoryException, GitWithGerritRepository
 
 import tempfile
 import shutil
@@ -226,6 +227,12 @@ class VCSGitTest(RepoTestCase):
             self.repo.configure_branch,
             'branch'
         )
+
+
+class VCSGerritTest(VCSGitTest):
+    _class = GitWithGerritRepository
+    _vcs = 'git'
+    _branch = 'master'
 
 
 class VCSHgTest(VCSGitTest):

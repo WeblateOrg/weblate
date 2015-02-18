@@ -607,6 +607,21 @@ class GitRepository(Repository):
 
 
 @register_vcs
+class GitWithGerritRepository(GitRepository):
+
+    name = 'Gerrit'
+
+    def push(self, branch):
+        try:
+            self.execute(['review'])
+        except RepositoryException as error:
+            if error.retcode == 1:
+                # Nothing to push
+                return
+            raise
+
+
+@register_vcs
 class HgRepository(Repository):
     """
     Repository implementation for Mercurial.
