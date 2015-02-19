@@ -83,7 +83,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None,
     Returns yearly activity for matching changes as json.
     """
     activity = get_json_stats(
-        request, 365, 7,
+        request, 364, 7,
         project, subproject, lang
     )
 
