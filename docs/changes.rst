@@ -4,7 +4,7 @@ Changes
 weblate 2.2
 -----------
 
-Released on ? 2015.
+Released on Feb 19th 2015.
 
 * Performance improvements.
 * Fulltext search on location and comments fields.
