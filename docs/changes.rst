@@ -6,6 +6,8 @@ weblate 2.3
 
 Released on ? 2015.
 
+* Dropped support for Django 1.6 and South migrations.
+
 weblate 2.2
 -----------
 
