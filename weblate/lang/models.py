@@ -19,11 +19,8 @@
 #
 
 from django.db import models
-from django.db import transaction
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-from django.dispatch import receiver
-from django.db.models.signals import post_migrate
 
 from translate.lang.data import languages
 
@@ -301,16 +298,6 @@ class LanguageManager(models.Manager):
                     )
 
         return errors
-
-
-@receiver(post_migrate)
-def setup_lang(sender, **kwargs):
-    '''
-    Hook for creating basic set of languages on database migration.
-    '''
-    if sender.label == 'lang':
-        with transaction.atomic():
-            Language.objects.setup(False)
 
 
 class Language(models.Model, PercentMixin):
