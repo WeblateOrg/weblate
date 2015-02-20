@@ -26,7 +26,6 @@ Installing from sources
 
    .. code-block:: sh
 
-        ./manage.py syncdb
         ./manage.py migrate
         ./scripts/generate-locales # If you are using Git checkout
 
