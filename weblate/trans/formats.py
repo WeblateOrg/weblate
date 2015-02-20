@@ -277,7 +277,7 @@ class FileUnit(object):
 
     def get_contentsum(self):
         '''
-        Returns checksum of source string and conntext, used for quick lookup.
+        Returns checksum of source string and context, used for quick lookup.
 
         We use MD5 as it is faster than SHA1.
         '''
