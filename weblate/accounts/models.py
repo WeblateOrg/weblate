@@ -29,7 +29,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group, User, Permission
-from django.db.models.signals import post_syncdb
+from django.db.models.signals import post_migrate
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
@@ -742,7 +742,7 @@ def remove_user(user):
     user.social_auth.all().delete()
 
 
-@receiver(post_syncdb)
+@receiver(post_migrate)
 def sync_create_groups(sender, app, **kwargs):
     '''
     Create groups on syncdb.

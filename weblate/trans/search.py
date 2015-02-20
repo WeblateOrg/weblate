@@ -25,7 +25,7 @@ Whoosh based full text search.
 from whoosh.fields import SchemaClass, TEXT, ID
 from whoosh.filedb.filestore import FileStorage
 from whoosh import qparser
-from django.db.models.signals import post_syncdb
+from django.db.models.signals import post_migrate
 from django.db.utils import IntegrityError
 from django.db import transaction
 from weblate import appsettings
@@ -56,7 +56,7 @@ class SourceSchema(SchemaClass):
     location = TEXT()
 
 
-@receiver(post_syncdb)
+@receiver(post_migrate)
 def create_index(sender=None, **kwargs):
     '''
     Automatically creates storage directory.
