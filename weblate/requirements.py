@@ -24,7 +24,6 @@ from distutils.version import LooseVersion
 from weblate.trans.vcs import GitRepository, HgRepository
 import importlib
 import sys
-import django
 
 
 def get_version_module(module, name, url, optional=False):

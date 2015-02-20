@@ -23,7 +23,6 @@ from django.db import transaction
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
-from django.conf import settings
 from django.db.models.signals import post_migrate
 
 from translate.lang.data import languages
