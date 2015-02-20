@@ -229,6 +229,13 @@ manually:
     If you are upgrading to Django 1.7 in same step, please consult
     :ref:`django-17`.
 
+Upgrade from 2.2 to 2.3
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If you have not yet performed upgrade to Django 1.7 and newer, first upgrade to
+2.2 following instructions above. Weblate 2.3 no longer supports migration from
+Django 1.6.
+
 
 .. _django-17:
 
