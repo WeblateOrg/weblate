@@ -209,7 +209,7 @@ Upgrade from 2.1 to 2.2
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Weblate now supports fulltext search on additional fields. In order to make it
-work on existing data you need to udpate fulltext index by:
+work on existing data you need to update fulltext index by:
 
 .. code-block:: sh
 
