@@ -3,7 +3,7 @@
 set -e
 set -x
 
-./manage.py validate
+./manage.py check
 if [ "$CI_DATABASE" = sqlite -o -z "$CI_DATABASE" ] ; then 
     ./ci/migrate-testing
 fi
