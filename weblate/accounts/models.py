@@ -32,13 +32,7 @@ from django.contrib.auth.models import Group, User, Permission
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
-try:
-    # Not supported in Django 1.6
-    # pylint: disable=E0611
-    from django.utils.translation import LANGUAGE_SESSION_KEY
-except ImportError:
-    # Fallback for Django 1.6
-    LANGUAGE_SESSION_KEY = 'django_language'
+from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from social.apps.django_app.default.models import UserSocialAuth
 

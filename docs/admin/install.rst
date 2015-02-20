@@ -10,7 +10,7 @@ Requirements
 
 Python (2.7)
     https://www.python.org/
-Django (>= 1.6)
+Django (>= 1.7)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.10.0)
     http://toolkit.translatehouse.org/
