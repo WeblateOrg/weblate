@@ -5,6 +5,6 @@ set -x
 
 for app in trans lang accounts ; do 
     rm -f weblate.db
-    ./manage.py migrate --noinput --settings weblate.settings_test auth sessions sites admin
+    ./manage.py migrate --noinput --settings weblate.settings_test sessions
     ./manage.py migrate --settings weblate.settings_test --traceback $app
 done
