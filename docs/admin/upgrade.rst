@@ -26,7 +26,6 @@ To upgrade database structure, you should run following commands:
 
 .. code-block:: sh
 
-    ./manage.py syncdb
     ./manage.py migrate
 
 To upgrade default set of privileges definitions (optional), run:

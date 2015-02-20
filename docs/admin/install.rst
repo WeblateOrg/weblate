@@ -309,12 +309,12 @@ options:
 Filling up the database
 -----------------------
 
-After your configuration is ready, you can run :samp:`./manage.py syncdb` and 
+After your configuration is ready, you can run 
 :samp:`./manage.py migrate` to create database structure. Now you should be
 able to create translation projects using admin interface.
 
 In case you want to run installation non interactively, you can use 
-:samp:`./manage.py syncdb --noinput` and then create admin user using 
+:samp:`./manage.py migrate --noinput` and then create admin user using 
 :djadmin:`createadmin` command.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
@@ -874,7 +874,6 @@ as older versions don't include the necessary configuration files.
 The update script takes care of the following update steps as described under :ref:`generic-upgrade-instructions`.
 
 * Install any new requirements
-* manage.py syncdb
 * manage.py migrate
 * manage.py setupgroups --move
 * manage.py setuplang
