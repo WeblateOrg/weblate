@@ -149,17 +149,6 @@ def get_versions():
     except OSError:
         raise Exception('Failed to run git, please install it.')
 
-    name = 'South'
-    url = 'http://south.aeracode.org/'
-    if django.VERSION < (1, 7, 0):
-        mod = get_version_module('south', name, url)
-        result.append((
-            name,
-            url,
-            mod.__version__,
-            '1.0',
-        ))
-
     name = 'Pillow (PIL)'
     url = 'http://python-imaging.github.io/'
     mod = get_version_module('PIL.Image', name, url)

@@ -8,7 +8,7 @@ log() {
 # Linter for our code
 ./scripts/generate-locales
 log pep8
-pep8 --exclude south_migrations,migrations weblate openshift
+pep8 --exclude migrations weblate openshift
 pep_ret=$?
 log pylint
 pylint --rcfile=pylint.rc weblate

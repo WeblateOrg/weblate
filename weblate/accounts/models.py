@@ -751,10 +751,6 @@ def sync_create_groups(sender, app, **kwargs):
             getattr(app, '__name__', '') == 'weblate.accounts.models'):
         create_groups(False)
 
-if 'south' in settings.INSTALLED_APPS:
-    from south.signals import post_migrate
-    post_migrate.connect(sync_create_groups)
-
 
 @receiver(post_save, sender=User)
 def create_profile_callback(sender, instance, created=False, **kwargs):

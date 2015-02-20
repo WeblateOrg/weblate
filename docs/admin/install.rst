@@ -26,8 +26,6 @@ PIL or Pillow library
     https://python-pillow.github.io/
 lxml (>= 3.1.0)
     http://lxml.de/
-South (>= 1.0) (needed for Django 1.6)
-    http://south.aeracode.org/
 dateutil
     http://labix.org/python-dateutil
 libravatar (optional for federated avatar support)

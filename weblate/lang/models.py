@@ -313,10 +313,6 @@ def setup_lang(sender, app, **kwargs):
         with transaction.atomic():
             Language.objects.setup(False)
 
-if 'south' in settings.INSTALLED_APPS:
-    from south.signals import post_migrate
-    post_migrate.connect(setup_lang)
-
 
 class Language(models.Model, PercentMixin):
     PLURAL_CHOICES = (

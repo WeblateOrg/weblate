@@ -274,12 +274,6 @@ INSTALLED_APPS = (
     'weblate',
 )
 
-# South setup for Django < 1.7
-if django.VERSION < (1, 7, 0):
-    INSTALLED_APPS += (
-        'south',
-    )
-
 LOCALE_PATHS = (os.path.join(BASE_DIR, '..', 'locale'), )
 
 
