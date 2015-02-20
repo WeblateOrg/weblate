@@ -305,11 +305,11 @@ class LanguageManager(models.Manager):
 
 
 @receiver(post_migrate)
-def setup_lang(sender, app, **kwargs):
+def setup_lang(sender, **kwargs):
     '''
     Hook for creating basic set of languages on database migration.
     '''
-    if app == 'lang' or getattr(app, '__name__', '') == 'weblate.lang.models':
+    if sender.label == 'lang':
         with transaction.atomic():
             Language.objects.setup(False)
 

@@ -26,10 +26,9 @@ from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_migrate
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group, User, Permission
-from django.db.models.signals import post_migrate
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
@@ -743,12 +742,11 @@ def remove_user(user):
 
 
 @receiver(post_migrate)
-def sync_create_groups(sender, app, **kwargs):
+def sync_create_groups(sender, **kwargs):
     '''
     Create groups on syncdb.
     '''
-    if (app == 'accounts' or
-            getattr(app, '__name__', '') == 'weblate.accounts.models'):
+    if sender.label == 'accounts':
         create_groups(False)
 
 
