@@ -22,7 +22,7 @@ import urllib2
 import urllib
 import hashlib
 import os.path
-from django.core.cache import get_cache, InvalidCacheBackendError
+from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
@@ -50,7 +50,7 @@ def avatar_for_email(email, size=80):
 
     # Retrieve from cache
     cache_key = 'avatar-{0}-{1}'.format(email, size)
-    cache = get_cache('default')
+    cache = caches['default']
     url = cache.get(cache_key)
     if url is not None:
         return url
@@ -117,9 +117,9 @@ def get_avatar_image(user, size):
 
     # Try using avatar specific cache if available
     try:
-        cache = get_cache('avatar')
+        cache = caches['avatar']
     except InvalidCacheBackendError:
-        cache = get_cache('default')
+        cache = caches['default']
 
     image = cache.get(cache_key)
     if image is None:
