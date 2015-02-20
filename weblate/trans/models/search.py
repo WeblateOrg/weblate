@@ -22,7 +22,7 @@ from django.db import models
 
 
 class IndexUpdate(models.Model):
-    unit = models.ForeignKey('Unit', unique=True)
+    unit = models.OneToOneField('Unit')
     source = models.BooleanField(default=True)
 
     class Meta(object):
