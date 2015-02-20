@@ -276,7 +276,7 @@ class UnitManager(models.Manager):
         """
         project = unit.translation.subproject.project
         return self.filter(
-            checksum=unit.checksum,
+            contentsum=unit.contentsum,
             translation__subproject__project=project,
             translation__language=unit.translation.language
         ).exclude(
