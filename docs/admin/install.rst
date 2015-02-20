@@ -46,7 +46,7 @@ you can use apt-get:
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit \
-        python-whoosh python-pil python-django-south python-libravatar \
+        python-whoosh python-pil python-libravatar \
         python-babel Git mercurial python-social-auth
 
     # Optional for database backend
