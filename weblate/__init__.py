@@ -48,7 +48,7 @@ def is_running_git():
     return os.path.exists(os.path.join(get_root_dir(), '.git', 'config'))
 
 # Weblate version
-VERSION = '2.2'
+VERSION = '2.3'
 
 # Version string without suffix
 VERSION_BASE = VERSION
