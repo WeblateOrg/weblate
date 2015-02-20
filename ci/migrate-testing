@@ -1,0 +1,10 @@
+#!/bin/sh
+# Migration ordering testing
+set -e
+set -x
+
+for app in trans lang accounts ; do 
+    rm -f weblate.db
+    ./manage.py migrate --noinput --settings weblate.settings_test sites
+    ./manage.py migrate --settings weblate.settings_test --traceback $app
+done
