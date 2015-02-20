@@ -13,12 +13,10 @@ python:
 # build matrix configuration
 env:
   matrix:
-    - CI_DJANGO="Django>=1.6,<1.7" CI_LINT=1
     - CI_DJANGO="Django>=1.7,<1.8" CI_LINT=1
     - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=mysql
     - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=postgresql
     - CI_DJANGO="Django>=1.7,<1.8"
-    - CI_DJANGO="Django>=1.6,<1.7"
     - CI_DJANGO="https://www.djangoproject.com/download/1.8a1/tarball/"
     - CI_DJANGO="Django>=1.7,<1.8" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
     - CI_DJANGO="https://github.com/django/django/zipball/master"
