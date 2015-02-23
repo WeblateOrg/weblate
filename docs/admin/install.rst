@@ -20,8 +20,8 @@ Mercurial (>= 2.8) (optional for Mercurial repositories support)
     http://mercurial.selenic.com/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
-Whoosh (>= 2.5, 2.5.2 is recommended, 2.6.0 is broken)
-    http://bitbucket.org/mchaput/whoosh/
+Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
+    https://bitbucket.org/mchaput/whoosh/wiki/Home
 PIL or Pillow library
     https://python-pillow.github.io/
 lxml (>= 3.1.0)
@@ -709,40 +709,51 @@ You should also adjust some settings to match your environment, namely:
 Weblate on OpenShift
 --------------------
 
-This repository contains a configuration for the OpenShift platform as a service product, which facilitates easy installation
-of Weblate on OpenShift Online (https://openshift.com), OpenShift Enterprise (https://www.openshift.com/products/enterprise)
-and OpenShift Origin (https://www.openshift.com/products/origin).
+This repository contains a configuration for the OpenShift platform as a
+service product, which facilitates easy installation of Weblate on OpenShift
+Online (https://www.openshift.com/), OpenShift Enterprise
+(https://www.openshift.com/products/enterprise) and OpenShift Origin
+(https://www.openshift.com/products/origin).
 
 Prerequisites
 +++++++++++++
 
 1. OpenShift Account
 
-   You need an account for OpenShift Online (https://openshift.com) or another OpenShift installation you have access to.
+   You need an account for OpenShift Online (https://www.openshift.com/) or
+   another OpenShift installation you have access to.
 
-   You can register a free account on OpenShift Online, which allows you to host up to 3 applications free of charge.
+   You can register a free account on OpenShift Online, which allows you to
+   host up to 3 applications free of charge.
 
 2. OpenShift Client Tools
 
-   In order to follow the examples given in this documentation you need to have the OpenShift Client Tools (RHC) installed:
-   https://developers.openshift.com/en/getting-started-client-tools.html.
+   In order to follow the examples given in this documentation you need to have
+   the OpenShift Client Tools (RHC) installed:
+   https://developers.openshift.com/en/managing-client-tools.html
 
-   While there are other possibilities to create and configure OpenShift applications, this documentation is based
-   on the OpenShift Client Tools (RHC) because they provide a consistent interface for all described operations.
+   While there are other possibilities to create and configure OpenShift
+   applications, this documentation is based on the OpenShift Client Tools
+   (RHC) because they provide a consistent interface for all described
+   operations.
 
 Installation
 ++++++++++++
 
-You can install Weblate on OpenShift directly from Weblate's github repository with the following command:
+You can install Weblate on OpenShift directly from Weblate's github repository
+with the following command:
 
 .. parsed-literal::
 
     rhc -aweblate app create -t python-2.7 --from-code \https://github.com/nijel/weblate.git#weblate-|version| --no-git
 
-The ``-a`` option defines the name of your weblate installation, ``weblate`` in this instance. You are free to specify a different name.
-The identifier right of the ``#`` sign identifies the version of Weblate to install.  For a list of available versions see here:
-https://github.com/nijel/weblate/tags. Please note that only version 2.0 and newer can be installed on OpenShift,
-as older versions don't include the necessary configuration files. The ``--no-git`` option skips the creation of a local git repository.
+The ``-a`` option defines the name of your weblate installation, ``weblate`` in
+this instance. You are free to specify a different name.  The identifier right
+of the ``#`` sign identifies the version of Weblate to install.  For a list of
+available versions see here: https://github.com/nijel/weblate/tags. Please note
+that only version 2.0 and newer can be installed on OpenShift, as older
+versions don't include the necessary configuration files. The ``--no-git``
+option skips the creation of a local git repository.
 
 Default Configuration
 +++++++++++++++++++++

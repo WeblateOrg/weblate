@@ -26,7 +26,6 @@ from weblate.trans.machine.base import MachineTranslationError
 from weblate.trans.machine.dummy import DummyTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
-from weblate.trans.machine.opentran import OpenTranTranslation
 from weblate.trans.machine.apertium import ApertiumTranslation
 from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import MicrosoftTranslation
@@ -112,16 +111,6 @@ GOOGLE_JSON = u'''
     null,null,[],2
 ]
 '''.encode('utf-8')
-OPENTRAN_JSON = u'''
-[{
-    "count":4,
-    "projects":[{
-        "count":4,"flags":0,"name":"KDE","orig_phrase":"	World",
-        "path":"K/step_qt"
-    }],
-    "text":"Svět","value":1
-}]
-'''.encode('utf-8')
 
 
 class MachineTranslationTest(TestCase):
@@ -173,54 +162,6 @@ class MachineTranslationTest(TestCase):
         )
         machine = MyMemoryTranslation()
         self.assertTranslate(machine)
-
-    @httpretty.activate
-    def test_opentran(self):
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://open-tran.eu/json/supported',
-            body='["en","cs"]'
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://en.cs.open-tran.eu/json/suggest/world',
-            body=OPENTRAN_JSON
-        )
-        machine = OpenTranTranslation()
-        self.assertTranslate(machine)
-
-    @httpretty.activate
-    def test_opentran_wrong_lang(self):
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://open-tran.eu/json/supported',
-            body='["en","cs"'
-        )
-        machine = OpenTranTranslation()
-        # Prevent cache issues
-        machine.mtid += 'wrong_lang'
-        self.assertTranslate(machine, empty=True)
-
-    @httpretty.activate
-    def test_opentran_wrong(self):
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://open-tran.eu/json/supported',
-            body='["en","cs"]'
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://en.cs.open-tran.eu/json/suggest/world',
-            body='['
-        )
-        machine = OpenTranTranslation()
-        # Prevent cache issues
-        machine.mtid += 'wrong'
-        self.assertRaises(
-            MachineTranslationError,
-            self.assertTranslate,
-            machine
-        )
 
     @httpretty.activate
     def test_apertium(self):

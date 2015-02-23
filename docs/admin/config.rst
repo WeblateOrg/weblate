@@ -264,7 +264,6 @@ List of enabled machine translation services to use.
         'weblate.trans.machine.google.GoogleTranslation',
         'weblate.trans.machine.microsoft.MicrosoftTranslation',
         'weblate.trans.machine.mymemory.MyMemoryTranslation',
-        'weblate.trans.machine.opentran.OpenTranTranslation',
         'weblate.trans.machine.tmserver.TMServerTranslation',
         'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
         'weblate.trans.machine.weblatetm.WeblateTranslation',
@@ -286,7 +285,7 @@ API key for Apertium Web Service, you can register at http://api.apertium.org/re
 MT_GOOGLE_KEY
 -------------
 
-API key for Google Translate API, you can register at https://developers.google.com/translate/
+API key for Google Translate API, you can register at https://cloud.google.com/translate/docs
 
 .. seealso:: :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 

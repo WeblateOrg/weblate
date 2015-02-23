@@ -39,7 +39,7 @@ To enable this service, add ``trans.machine.apertium.ApertiumTranslation`` to
 
 .. seealso::
 
-    :setting:`MT_APERTIUM_KEY`, http://www.apertium.org/
+    :setting:`MT_APERTIUM_KEY`, https://www.apertium.org/
 
 Glosbe
 ++++++
@@ -55,7 +55,7 @@ To enable this service, add ``trans.machine.glosbe.GlosbeTranslation`` to
 
 .. seealso::
 
-    http://glosbe.com/
+    https://glosbe.com/
 
 .. _google-translate:
 
@@ -73,7 +73,7 @@ To enable this service, add ``trans.machine.google.GoogleTranslation`` to
 .. seealso::
 
     :setting:`MT_GOOGLE_KEY`,
-    https://developers.google.com/translate/
+    https://cloud.google.com/translate/docs
 
 Google Web Translate
 ++++++++++++++++++++
@@ -128,18 +128,6 @@ To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
     :setting:`MT_MYMEMORY_USER`,
     :setting:`MT_MYMEMORY_KEY`,
     http://mymemory.translated.net/
-
-Open-Tran
-+++++++++
-
-Database of open source translations.
-
-To enable this service, add ``trans.machine.opentran.OpenTranTranslation`` to
-:setting:`MACHINE_TRANSLATION_SERVICES`.
-
-.. seealso::
-
-    http://www.open-tran.eu/
 
 .. _tmserver:
 
