@@ -22,9 +22,7 @@ File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
-from translate.storage.properties import (
-    propunit, propfile, javafile, javautf8file
-)
+from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
@@ -101,8 +99,7 @@ class FileUnit(object):
         # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
         if (isinstance(self.mainunit, xliffunit) or
-                isinstance(self.mainunit, javafile) or
-                isinstance(self.mainunit, javautf8file) or
+                isinstance(self.mainunit, propunit) or
                 isinstance(self.mainunit, JsonUnit) or
                 isinstance(self.mainunit, phpunit)):
             return ''
