@@ -22,7 +22,6 @@ import httpretty
 from django.test import TestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unit import Unit
-from weblate.trans.machine.base import MachineTranslationError
 from weblate.trans.machine.dummy import DummyTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
