@@ -129,18 +129,6 @@ To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
     :setting:`MT_MYMEMORY_KEY`,
     http://mymemory.translated.net/
 
-Open-Tran
-+++++++++
-
-Database of open source translations.
-
-To enable this service, add ``trans.machine.opentran.OpenTranTranslation`` to
-:setting:`MACHINE_TRANSLATION_SERVICES`.
-
-.. seealso::
-
-    http://www.open-tran.eu/
-
 .. _tmserver:
 
 tmserver

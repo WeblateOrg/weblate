@@ -496,7 +496,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.machine.google.GoogleWebTranslation',
 #     'weblate.trans.machine.microsoft.MicrosoftTranslation',
 #     'weblate.trans.machine.mymemory.MyMemoryTranslation',
-#     'weblate.trans.machine.opentran.OpenTranTranslation',
 #     'weblate.trans.machine.tmserver.AmagamaTranslation',
 #     'weblate.trans.machine.tmserver.TMServerTranslation',
 #     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
