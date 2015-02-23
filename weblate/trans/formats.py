@@ -98,11 +98,12 @@ class FileUnit(object):
         '''
         Returns comma separated list of locations.
         '''
-        # XLIFF and PHP are special in ttkit - it uses locations for what
+        # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
         if (isinstance(self.mainunit, xliffunit) or
                 isinstance(self.mainunit, javafile) or
                 isinstance(self.mainunit, javautf8file) or
+                isinstance(self.mainunit, JsonUnit) or
                 isinstance(self.mainunit, phpunit)):
             return ''
         result = ', '.join(self.mainunit.getlocations())
