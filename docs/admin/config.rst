@@ -285,7 +285,7 @@ API key for Apertium Web Service, you can register at http://api.apertium.org/re
 MT_GOOGLE_KEY
 -------------
 
-API key for Google Translate API, you can register at https://developers.google.com/translate/
+API key for Google Translate API, you can register at https://cloud.google.com/translate/docs
 
 .. seealso:: :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
