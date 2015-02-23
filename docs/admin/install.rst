@@ -20,7 +20,7 @@ Mercurial (>= 2.8) (optional for Mercurial repositories support)
     http://mercurial.selenic.com/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
-Whoosh (>= 2.5, 2.5.2 is recommended, 2.6.0 is broken)
+Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
     http://bitbucket.org/mchaput/whoosh/
 PIL or Pillow library
     https://python-pillow.github.io/
