@@ -144,7 +144,11 @@ class Repository(object):
         output, output_err = process.communicate()
         retcode = process.poll()
         if retcode:
-            raise RepositoryException(retcode, output_err, output)
+            raise RepositoryException(
+                retcode,
+                output_err.decode('utf-8'),
+                output.decode('utf-8')
+            )
         return output
 
     def execute(self, args):
