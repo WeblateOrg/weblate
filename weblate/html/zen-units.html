@@ -7,7 +7,7 @@
 <td>{{ item.unit.position }}</td>
 <td>
 {% get_location_links item.unit %}
-{% if item.unit.context %}
+{% if item.unit.context and not item.unit.translation.subproject.has_template %}
 {% format_translation item.unit.context search_match=search_query %}
 {% endif %}
 </td>
