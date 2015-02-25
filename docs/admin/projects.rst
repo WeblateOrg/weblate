@@ -117,6 +117,9 @@ Allow translation propagation
     You can disable propagation of translations to this component from other
     components within same project. This really depends on what you are
     translating, sometimes it's desirable to have same string used.
+
+    It's usually good idea to disable this for monolingual translations unless
+    you are using same IDs across whole project.
 Pre-commit script
     One of scripts defined in :setting:`PRE_COMMIT_SCRIPTS` which is executed
     before commit. This can be used to generate some metadata about translation
