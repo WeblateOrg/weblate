@@ -367,7 +367,7 @@ class Language(models.Model, PercentMixin):
         if '(' in self.name:
             return False
 
-        if self.code in ('zh_TW', 'zh_CN'):
+        if self.code in ('zh_TW', 'zh_CN', 'zh_Hant', 'zh_Hans'):
             return False
 
         return '_' in self.code or '-' in self.code
