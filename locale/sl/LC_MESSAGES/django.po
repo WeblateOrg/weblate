@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-02-20 11:45+0100\n"
-"PO-Revision-Date: 2015-02-23 14:43+0200\n"
+"PO-Revision-Date: 2015-03-01 14:38+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian "
 "<https://hosted.weblate.org/projects/weblate/master/sl/>\n"
@@ -2250,10 +2250,9 @@ msgid "Rebase"
 msgstr "Prebaziraj"
 
 #: weblate/html/js/git-status.html:97
-#, fuzzy
 #| msgid "Push changes to remote repository"
 msgid "Rebase local changes onto the remote repository"
-msgstr "Potisni spremembe v oddaljeno shrambo"
+msgstr "Poosnovi (rebase) lokalne spremembe na oddaljeno shrambo"
 
 #: weblate/html/js/git-status.html:103
 msgid "Reset"
@@ -2954,7 +2953,7 @@ msgstr "Ctrl+Enter – Shrani"
 
 #: weblate/html/translate.html:53
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
-msgstr ""
+msgstr "Alt+PageUp/PageDown/Home/End - Navigacija po prevajalskih enotah"
 
 #: weblate/html/translate.html:69
 msgid "Source change"
@@ -3468,14 +3467,13 @@ msgstr "Skrbnik strani"
 #. Translators: Indexing is postponed to cron job
 #: weblate/trans/admin_views.py:89
 msgid "Indexing offloading"
-msgstr "Občasno asinhrono indeksiranje"
+msgstr "Preusmeritev indeksiranja"
 
 #. Translators: Indexing is postponed to cron job
 #: weblate/trans/admin_views.py:96
-#, fuzzy
 #| msgid "Indexing offloading"
 msgid "Indexing offloading processing"
-msgstr "Občasno asinhrono indeksiranje"
+msgstr "Obdelovanje preusmeritve indeksiranja"
 
 #: weblate/trans/admin_views.py:112
 msgid "Django caching"
@@ -3998,7 +3996,7 @@ msgstr "Je vaša pripomba specifična za ta prevod ali splošna za vse prevode?"
 
 #: weblate/trans/forms.py:674
 msgid "Source string comment, suggestions to change this string"
-msgstr ""
+msgstr "Pripomba izvirnega niza; predlogi za spremembo niza"
 
 #: weblate/trans/forms.py:678
 msgid "Translation comment, discussions with other translators"
@@ -4013,10 +4011,9 @@ msgid "Strings with higher priority are offered first to translators."
 msgstr "Nizi z višjo prioriteto bodo prevajalcem prikazani najprej."
 
 #: weblate/trans/forms.py:735
-#, fuzzy
 #| msgid "Checks"
 msgid "Check flags"
-msgstr "Preverjanja"
+msgstr "Zastavice preverjanj"
 
 #: weblate/trans/forms.py:738
 #, python-brace-format
@@ -4024,16 +4021,20 @@ msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
+"Prosimo, vnesite seznam zastavic preverjanj, ločenih z vejico; za več "
+"podrobnosti si oglejte <a href=\"{url}\">dokumentacijo</a>."
 
 #: weblate/trans/forms.py:759
 msgid "User to add"
-msgstr ""
+msgstr "Dodaj uporabnika"
 
 #: weblate/trans/forms.py:761
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
+"Prosimo, navedite uporabniško ime ali e-poštni naslov. Uporabnik že mora "
+"imeti dejaven račun na Weblate."
 
 #: weblate/trans/models/advertisement.py:36
 #, python-brace-format
@@ -4144,16 +4145,14 @@ msgid "New source string"
 msgstr "Nov izvirni niz"
 
 #: weblate/trans/models/changes.py:169
-#, fuzzy
 #| msgid "Component to use"
 msgid "Component locked"
-msgstr "Uporabljena komponenta"
+msgstr "Zaklenitev komponente"
 
 #: weblate/trans/models/changes.py:170
-#, fuzzy
 #| msgid "Component name"
 msgid "Component unlocked"
-msgstr "Ime komponente"
+msgstr "Odklenitev komponente"
 
 #: weblate/trans/models/changes.py:192
 #, python-format
@@ -4227,7 +4226,7 @@ msgstr "Omogoči zanke"
 
 #: weblate/trans/models/project.py:129
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr ""
+msgstr "Ali naj bo dovoljeno posodabljanje shrambe z oddaljenimi zankami."
 
 #: weblate/trans/models/project.py:170
 #, python-format
@@ -4291,6 +4290,8 @@ msgstr "Sistem nadzora različic"
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
+"Sistem za nadzor različic, ki ga naj uporabljamo za dostop do vaše shrambe s "
+"prevodi."
 
 #: weblate/trans/models/subproject.py:109
 msgid ""
@@ -5151,7 +5152,7 @@ msgstr "ACL ni omogočen za ta projekt!"
 
 #: weblate/trans/views/basic.py:508
 msgid "User has been added to this project."
-msgstr ""
+msgstr "Uporabnika smo dodali k projektu."
 
 #: weblate/trans/views/basic.py:511 weblate/trans/views/basic.py:541
 msgid "No matching user found!"
@@ -5159,7 +5160,7 @@ msgstr "Nisem našel ujemajočih uporabnikov!"
 
 #: weblate/trans/views/basic.py:513 weblate/trans/views/basic.py:543
 msgid "More users matched!"
-msgstr ""
+msgstr "Ujema se več uporabnikov!"
 
 #: weblate/trans/views/basic.py:515 weblate/trans/views/basic.py:545
 msgid "Invalid user specified!"
@@ -5167,7 +5168,7 @@ msgstr "Navedli ste neveljavnega uporabnika!"
 
 #: weblate/trans/views/basic.py:538
 msgid "User has been removed from this project."
-msgstr ""
+msgstr "Uporabnika smo odstranili od projekta."
 
 #: weblate/trans/views/changes.py:98
 msgid "Failed to find matching project!"
@@ -5185,13 +5186,13 @@ msgstr "Nisem uspel najti ujemajočega uporabnika!"
 #, python-brace-format
 msgctxt "Format string for yearly activity chart"
 msgid "{month}/{year}"
-msgstr ""
+msgstr "{month}. {year}"
 
 #: weblate/trans/views/charts.py:135
 #, python-brace-format
 msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
-msgstr ""
+msgstr "{day}. {month}."
 
 #: weblate/trans/views/dictionary.py:44
 #, python-format
@@ -5366,7 +5367,7 @@ msgstr "Združitev vsebine datoteke je spodletelo: %s"
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation in progress."
-msgstr ""
+msgstr "Zaklepanje shrambe je spodletelo – v teku je drug poseg."
 
 #: weblate/trans/views/git.py:56
 msgid "All pending translations were committed."
@@ -5423,10 +5424,9 @@ msgid "Failed to change a priority!"
 msgstr "Nisem uspel spremeniti prioritete!"
 
 #: weblate/trans/views/source.py:138
-#, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to change check flags!"
-msgstr "Nisem uspel razčleniti %d ujemajočih se datotek!"
+msgstr "Spreminjanje zastavic preverjanj je spodletelo!"
 
 #: weblate/trans/widgets.py:271
 #, python-format
