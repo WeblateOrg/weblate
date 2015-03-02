@@ -20,6 +20,7 @@
 
 from django.db import models
 from django.db.models import Q
+from django.utils.encoding import force_unicode
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.models.project import Project
@@ -137,7 +138,9 @@ class DictionaryManager(models.Manager):
         # Extract words from all plurals and from context
         for text in unit.get_source_plurals() + [unit.context]:
             for analyzer in analyzers:
-                words = words.union([token.text for token in analyzer(text)])
+                words = words.union(
+                    [token.text for token in analyzer(force_unicode(text))]
+                )
 
         # Grab all words in the dictionary
         dictionary = self.filter(
