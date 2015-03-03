@@ -27,7 +27,7 @@ for Weblate itself are show below.
 
 Shields.IO badge often used to quickly see status of a project:
 
-.. image:: ../images/weblate-shields-badge.svg
+.. image:: ../images/weblate-shields-badge.*
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
 
