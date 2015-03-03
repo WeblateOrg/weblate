@@ -23,11 +23,12 @@ File format specific behavior.
 import tempfile
 from unittest import TestCase
 from weblate.trans.formats import (
-    AutoFormat, PoFormat, AndroidFormat,
+    AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
 )
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_POT = get_test_file('hello.pot')
 
@@ -42,6 +43,8 @@ class AutoFormatTest(TestCase):
     MATCH = 'msgid_plural'
     MASK = 'po/*.po'
     EXPECTED_PATH = 'po/cs_CZ.po'
+    FIND = u'Hello, world!\n'
+    MATCH = u'Ahoj světe!\n'
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -51,12 +54,12 @@ class AutoFormatTest(TestCase):
 
     def test_find(self):
         storage = self.FORMAT(self.FILE)
-        unit, add = storage.find_unit('', 'Hello, world!\n')
+        unit, add = storage.find_unit('', self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
             self.assertTrue(unit is None)
         else:
-            self.assertEqual(unit.get_target(), u'Ahoj světe!\n')
+            self.assertEqual(unit.get_target(), self.MATCH)
 
     def test_add(self):
         if self.FORMAT.supports_new_language():
@@ -78,6 +81,18 @@ class AutoFormatTest(TestCase):
 
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
+
+
+class PropertiesFormatTest(AutoFormatTest):
+    FORMAT = PropertiesFormat
+    FILE = TEST_PROPERTIES
+    MIME = 'text/plain'
+    COUNT = 12
+    EXT = 'properties'
+    MASK = 'java/swing_messages_*.properties'
+    EXPECTED_PATH = 'java/swing_messages_cs_CZ.properties'
+    FIND = 'IGNORE'
+    MATCH = 'Ignore'
 
 
 class AndroidFormatTest(AutoFormatTest):
