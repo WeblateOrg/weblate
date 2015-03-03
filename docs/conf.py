@@ -15,6 +15,9 @@
 import sys
 import os
 
+# Detect build on readthedocs.org
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -35,6 +38,8 @@ extensions = ['djangodocs', 'sphinxcontrib.httpdomain']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+if on_rtd:
+    templates_path.insert(0, '_rtd_templates')
 
 # The suffix of source filenames.
 source_suffix = '.rst'
