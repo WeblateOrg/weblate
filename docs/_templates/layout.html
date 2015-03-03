@@ -2,6 +2,7 @@
 
 {% block footer %}
 {{ super() }}
+{% if READTHEDOCS %}
 <!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];
@@ -17,4 +18,6 @@
 </script>
 <noscript><p><img src="//stats.cihar.com/piwik.php?idsite=17" style="border:0;" alt="" /></p></noscript>
 <!-- End Piwik Code -->
+{% endif %}
+FOOTER
 {% endblock %}
