@@ -792,6 +792,21 @@ class PropertiesUtf8Format(FileFormat):
     loader = ('properties', 'javautf8file')
     monolingual = True
 
+    @classmethod
+    def supports_new_language(cls):
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        with open(filename, 'w') as output:
+            output.write('\n')
+
 
 @register_fileformat
 class PropertiesFormat(PropertiesUtf8Format):
