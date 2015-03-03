@@ -7,6 +7,7 @@ weblate 2.3
 Released on ? 2015.
 
 * Dropped support for Django 1.6 and South migrations.
+* Support for adding new translations when using Java Property files
 
 weblate 2.2
 -----------
