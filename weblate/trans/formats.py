@@ -786,11 +786,18 @@ class StringsUtf8Format(FileFormat):
 
 
 @register_fileformat
-class PropertiesFormat(FileFormat):
+class PropertiesUtf8Format(FileFormat):
+    name = _('Java Properties (UTF-8)')
+    format_id = 'properties-utf8'
+    loader = ('properties', 'javautf8file')
+    monolingual = True
+
+
+@register_fileformat
+class PropertiesFormat(PropertiesUtf8Format):
     name = _('Java Properties')
     format_id = 'properties'
     loader = ('properties', 'javafile')
-    monolingual = True
 
     @classmethod
     def fixup(cls, store):
@@ -800,14 +807,6 @@ class PropertiesFormat(FileFormat):
         '''
         store.encoding = 'iso-8859-1'
         return store
-
-
-@register_fileformat
-class PropertiesUtf8Format(FileFormat):
-    name = _('Java Properties (UTF-8)')
-    format_id = 'properties-utf8'
-    loader = ('properties', 'javautf8file')
-    monolingual = True
 
 
 @register_fileformat
