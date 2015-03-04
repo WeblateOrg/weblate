@@ -890,6 +890,20 @@ class JSONFormat(FileFormat):
         with open(filename, 'w') as output:
             output.write('{}\n')
 
+    @property
+    def mimetype(self):
+        '''
+        Returns most common mime type for format.
+        '''
+        return 'application/json'
+
+    @property
+    def extension(self):
+        '''
+        Returns most common file extension for format.
+        '''
+        return 'json'
+
 
 FILE_FORMAT_CHOICES = [
     (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
