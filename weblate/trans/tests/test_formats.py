@@ -24,10 +24,12 @@ import tempfile
 from unittest import TestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
+    JSONFormat,
 )
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_JSON = get_test_file('cs.json')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_POT = get_test_file('hello.pot')
@@ -94,6 +96,17 @@ class PropertiesFormatTest(AutoFormatTest):
     FIND = 'IGNORE'
     FIND_MATCH = 'Ignore'
     MATCH = '\n'
+
+
+class JSONFormatTest(AutoFormatTest):
+    FORMAT = JSONFormat
+    FILE = TEST_JSON
+    MIME = 'application/json'
+    COUNT = 4
+    EXT = 'json'
+    MASK = 'json/*.json'
+    EXPECTED_PATH = 'json/cs_CZ.json'
+    MATCH = '{}\n'
 
 
 class AndroidFormatTest(AutoFormatTest):
