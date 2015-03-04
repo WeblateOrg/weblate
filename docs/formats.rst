@@ -3,9 +3,9 @@
 Supported formats
 =================
 
-Weblate supports any format understood by Translate-toolkit, however each
-format being slightly different, there might be some issues with not well
-tested formats.
+Weblate supports any translation format understood by Translate-toolkit,
+however each format being slightly different, there might be some issues with
+not well tested formats.
 
 .. seealso:: `Supported formats in translate-toolkit`_
 
