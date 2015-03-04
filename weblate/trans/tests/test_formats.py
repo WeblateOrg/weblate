@@ -93,6 +93,7 @@ class PropertiesFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'java/swing_messages_cs_CZ.properties'
     FIND = 'IGNORE'
     FIND_MATCH = 'Ignore'
+    MATCH = '\n'
 
 
 class AndroidFormatTest(AutoFormatTest):
