@@ -20,12 +20,12 @@
 
 from django.core.management.base import BaseCommand
 from django.db.models import Count
-from optparse import make_option
 from weblate.trans.models import Check, get_related_units
 
 
 class Command(BaseCommand):
     help = 'lists top not translated failing checks'
+
     def handle(self, *args, **options):
         results = Check.objects.filter(
             check='same'
