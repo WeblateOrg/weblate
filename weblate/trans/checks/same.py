@@ -439,6 +439,7 @@ SAME_BLACKLIST = frozenset((
     'parameter',
     'parameters',
     'park',
+    'parking',
     'partition',
     'party',
     'password',
