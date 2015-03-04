@@ -25,6 +25,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from urllib import urlencode
 
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source
@@ -56,6 +57,9 @@ def review_source(request, project, subproject):
     checksum = request.GET.get('checksum', '')
     ignored = 'ignored' in request.GET
     expand = False
+    query_string = {'type': rqtype}
+    if ignored:
+        query_string['ignored'] = 'true'
 
     # Filter units:
     if checksum:
@@ -82,7 +86,7 @@ def review_source(request, project, subproject):
             'object': obj,
             'source': source,
             'page_obj': sources,
-            'rqtype': rqtype,
+            'query_string': urlencode(query_string),
             'ignored': ignored,
             'expand': expand,
             'title': _('Review source strings in %s') % obj.__unicode__(),
