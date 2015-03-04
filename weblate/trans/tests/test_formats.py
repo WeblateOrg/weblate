@@ -44,7 +44,7 @@ class AutoFormatTest(TestCase):
     MASK = 'po/*.po'
     EXPECTED_PATH = 'po/cs_CZ.po'
     FIND = u'Hello, world!\n'
-    MATCH = u'Ahoj světe!\n'
+    FIND_MATCH = u'Ahoj světe!\n'
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -59,7 +59,7 @@ class AutoFormatTest(TestCase):
         if self.COUNT == 0:
             self.assertTrue(unit is None)
         else:
-            self.assertEqual(unit.get_target(), self.MATCH)
+            self.assertEqual(unit.get_target(), self.FIND_MATCH)
 
     def test_add(self):
         if self.FORMAT.supports_new_language():
@@ -92,7 +92,7 @@ class PropertiesFormatTest(AutoFormatTest):
     MASK = 'java/swing_messages_*.properties'
     EXPECTED_PATH = 'java/swing_messages_cs_CZ.properties'
     FIND = 'IGNORE'
-    MATCH = 'Ignore'
+    FIND_MATCH = 'Ignore'
 
 
 class AndroidFormatTest(AutoFormatTest):
