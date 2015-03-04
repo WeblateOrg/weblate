@@ -124,7 +124,10 @@ Native Java format for translations.
 
 Java properties are usually used as monolingual.
 
-This format supports creating new languages. When a new languages is created, a new empty file will be added to the repository. Only keys that are defined will be written to the newly created file. The WebLate maintainer needs to make sure that this is the expected behaviour with the framework in use.
+This format supports creating new languages. When a new languages is created, a
+new empty file will be added to the repository. Only keys that are defined will
+be written to the newly created file. The WebLate maintainer needs to make sure
+that this is the expected behaviour with the framework in use.
 
 .. seealso::
 
