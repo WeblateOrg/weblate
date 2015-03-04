@@ -201,6 +201,11 @@ class PeriodicCommandTest(RepoTestCase):
             count=10
         )
 
+    def test_list_same_checks(self):
+        call_command(
+            'list_same_checks'
+        )
+
 
 class CheckGitTest(RepoTestCase):
     '''
