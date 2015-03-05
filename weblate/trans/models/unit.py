@@ -377,11 +377,13 @@ class Unit(models.Model):
                 if previous_source == '':
                     previous_source = self.source
                 fuzzy = True
+                translated = False
             else:
                 # We should keep calculated flags if translation was
                 # not changed outside
                 previous_source = self.previous_source
                 fuzzy = self.fuzzy
+                translated = self.translated
 
         # Update checks on fuzzy update or on content change
         same_content = (
