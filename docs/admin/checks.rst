@@ -36,8 +36,57 @@ list of flags accepted:
     Treats all string like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`, 
     :ref:`check-python-brace-format`, :ref:`check-same`.
-``ignore-*``
-    Ignores given check for a component.
+``ignore-end-space``
+    Skip the "Trailing space" quality check.
+``ignore-inconsistent``
+    Skip the "Inconsistent" quality check.
+``ignore-begin-newline``
+    Skip the "Starting newline" quality check.
+``ignore-zero-width-space``
+    Skip the "Zero-width space" quality check.
+``ignore-escaped-newline``
+    Skip the "Mismatched \n" quality check.
+``ignore-same``
+    Skip the "Unchanged translation" quality check.
+``ignore-end-question``
+    Skip the "Trailing question" quality check.
+``ignore-end-ellipsis``
+    Skip the "Trailing ellipsis" quality check.
+``ignore-ellipsis``
+    Skip the "Ellipsis" quality check.
+``ignore-python-brace-format``
+    Skip the "Python brace format" quality check.
+``ignore-end-newline``
+    Skip the "Trailing newline" quality check.
+``ignore-c-format``
+    Skip the "C format" quality check.
+``ignore-optional-plural``
+    Skip the "Optional plural" quality check.
+``ignore-end-exclamation``
+    Skip the "Trailing exclamation" quality check.
+``ignore-end-colon``
+    Skip the "Trailing colon" quality check.
+``ignore-xml-tags``
+    Skip the "XML tags mismatch" quality check.
+``ignore-python-format``
+    Skip the "Python format" quality check.
+``ignore-plurals``
+    Skip the "Missing plurals" quality check.
+``ignore-begin-space``
+    Skip the "Starting spaces" quality check.
+``ignore-bbcode``
+    Skip the "Mismatched BBcode" quality check.
+``ignore-multiple-failures``
+    Skip the "Multiple failing checks" quality check.
+``ignore-php-format``
+    Skip the "PHP format" quality check.
+``ignore-end-stop``
+    Skip the "Trailing stop" quality check.
+
+.. note::
+
+    Generally the rule is named ``ignore-*`` for any check, using it's
+    identifier, so you can use this even for your custom checks.
 
 These flags are understood both in :ref:`component` settings, per source string
 settings and in translation file itself (eg. in GNU Gettext).
