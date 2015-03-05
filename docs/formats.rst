@@ -264,6 +264,21 @@ file with English strings.
 
    `JSON in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/json.html>`_
 
+.Net Resource files
+-------------------
+
+.. index:: single: RESX; files
+
+.. versionadded:: 2.3
+
+.Net Resource (.resx) file is a monolingual XML file format used in Microsoft
+.Net Applications.
+
+.. note::
+
+    As of writing this documentation, you need translate-toolkit from Git to
+    support this format.
+
 Others
 ------
 

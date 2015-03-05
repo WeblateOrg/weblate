@@ -832,6 +832,14 @@ class PhpFormat(FileFormat):
 
 
 @register_fileformat
+class RESXFormat(FileFormat):
+    name = _('.Net resource file')
+    format_id = 'resx'
+    loader = ('resx', 'RESXFile')
+    monolingual = True
+
+
+@register_fileformat
 class AndroidFormat(FileFormat):
     name = _('Android String Resource')
     format_id = 'aresource'
