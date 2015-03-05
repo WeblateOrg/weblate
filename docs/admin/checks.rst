@@ -26,8 +26,9 @@ Customizing checks
 Fine tuning existing checks
 +++++++++++++++++++++++++++
 
-You can fine tune checks for each source strings or in the :ref:`component`
-(:guilabel:`Quality checks flags`), here is current list of flags accepted:
+You can fine tune checks for each source string (in source strings review) or
+in the :ref:`component` (:guilabel:`Quality checks flags`), here is current
+list of flags accepted:
 
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
@@ -38,8 +39,8 @@ You can fine tune checks for each source strings or in the :ref:`component`
 ``ignore-*``
     Ignores given check for a component.
 
-These flags are understood both in :ref:`component` settings and in
-translation file itself (eg. in GNU Gettext).
+These flags are understood both in :ref:`component` settings, per source string
+settings and in translation file itself (eg. in GNU Gettext).
 
 Writing own checks
 ++++++++++++++++++
