@@ -439,10 +439,10 @@ def get_advertisement_html_mail():
 
 def translation_progress_data(translated, fuzzy, checks):
     return {
-        'good': '{0:f}'.format(translated - checks),
-        'checks': '{0:f}'.format(checks),
-        'fuzzy': '{0:f}'.format(fuzzy),
-        'percent': '{0:f}'.format(translated),
+        'good': '{0:.1f}'.format(translated - checks),
+        'checks': '{0:.1f}'.format(checks),
+        'fuzzy': '{0:.1f}'.format(fuzzy),
+        'percent': '{0:.1f}'.format(translated),
     }
 
 
