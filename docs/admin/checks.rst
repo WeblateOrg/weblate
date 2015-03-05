@@ -26,8 +26,8 @@ Customizing checks
 Fine tuning existing checks
 +++++++++++++++++++++++++++
 
-You can fine tune checks for each source strings or in the :ref:`component`,
-here is current list of flags accepted:
+You can fine tune checks for each source strings or in the :ref:`component`
+(:guilabel:`Quality checks flags`), here is current list of flags accepted:
 
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
