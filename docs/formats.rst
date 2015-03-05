@@ -28,7 +28,9 @@ naming might vary in your application.
 GNU Gettext
 -----------
 
-.. index:: single: Gettext; Gettext po
+.. index::
+    pair: Gettext; file format
+    pair: PO; file format
 
 Most widely used format in translating free software. This was first format
 supported by Weblate and still has best support.
@@ -103,7 +105,8 @@ While the base language file will be:
 XLIFF
 -----
 
-.. index:: single: XLIFF; file format
+.. index::
+    pair: XLIFF; file format
 
 XML based format created to standardize translation files, but in the end it
 is one of many standards in this area.
@@ -118,7 +121,8 @@ XLIFF is usually used as bilingual.
 Java properties
 ---------------
 
-.. index:: single: Java; properties
+.. index::
+    pair: Java properties; file format
 
 Native Java format for translations.
 
@@ -137,7 +141,9 @@ that this is the expected behaviour with the framework in use.
 Qt Linguist .ts
 ---------------
 
-.. index:: single: Qt; file format
+.. index::
+    pair: Qt; file format
+    pair: TS; file format
 
 Translation format used in Qt based applications.
 
@@ -153,7 +159,9 @@ Qt Linguist files are used as both bilingual and monolingual.
 Android string resources
 ------------------------
 
-.. index:: single: Android; string resources
+.. index::
+    pair: Android; file format
+    pair: string resources; file format
 
 Android specific file format for translating applications.
 
@@ -199,7 +207,8 @@ location than others :file:`res/values/strings.xml`.
 Apple OS X strings
 ------------------
 
-.. index:: single: Apple; strings
+.. index::
+    pair: Apple strings; file format
 
 Apple specific file format for translating applications, used for both OS X
 and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
@@ -217,12 +226,13 @@ Apple OS X strings are usually used as bilingual.
     generate corrupted files while saving), please use Git snapshot for
     handling these.
 
-PHP files
----------
+PHP strings
+-----------
 
-.. index:: single: PHP; files
+.. index::
+   pair: PHP strings; file format
 
-PHP files can be processed directly, though currently Translate-toolkit has
+PHP strings can be processed directly, though currently Translate-toolkit has
 some problems writing them properly, so please double check that your files
 won't get corrupted.
 
@@ -244,7 +254,8 @@ Sample file which should work:
 JSON files
 ----------
 
-.. index:: single: JSON; files
+.. index::
+    pair: JSON; file format
 
 .. versionadded:: 2.0
 
@@ -267,7 +278,9 @@ file with English strings.
 .Net Resource files
 -------------------
 
-.. index:: single: RESX; files
+.. index::
+    pair: RESX; file format
+    pair: .Net Resource; file format
 
 .. versionadded:: 2.3
 
