@@ -96,8 +96,28 @@ For example you can enable only few of them:
 
     CHECK_LIST = (
         'weblate.trans.checks.same.SameCheck',
+        'weblate.trans.checks.chars.BeginNewlineCheck',
+        'weblate.trans.checks.chars.EndNewlineCheck',
+        'weblate.trans.checks.chars.BeginSpaceCheck',
+        'weblate.trans.checks.chars.EndSpaceCheck',
+        'weblate.trans.checks.chars.EndStopCheck',
+        'weblate.trans.checks.chars.EndColonCheck',
+        'weblate.trans.checks.chars.EndQuestionCheck',
+        'weblate.trans.checks.chars.EndExclamationCheck',
+        'weblate.trans.checks.chars.EndEllipsisCheck',
+        'weblate.trans.checks.format.PythonFormatCheck',
+        'weblate.trans.checks.format.PythonBraceFormatCheck',
+        'weblate.trans.checks.format.PHPFormatCheck',
         'weblate.trans.checks.format.CFormatCheck',
+        'weblate.trans.checks.consistency.PluralsCheck',
+        'weblate.trans.checks.consistency.ConsistencyCheck',
+        'weblate.trans.checks.chars.NewlineCountingCheck',
+        'weblate.trans.checks.markup.BBCodeCheck',
         'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
+        'weblate.trans.checks.markup.XMLTagsCheck',
+        'weblate.trans.checks.source.OptionalPluralCheck',
+        'weblate.trans.checks.source.EllipsisCheck',
+        'weblate.trans.checks.source.MultipleFailingCheck',
     )
 
 .. seealso:: :ref:`checks`, :ref:`custom-checks`
