@@ -26,15 +26,13 @@ class Command(WeblateLangCommand):
     help = 'fixes flags for units'
 
     def handle(self, *args, **options):
-        units = self.get_units(*args, **options).filter(
-            Q(has_suggestion=True) |
-            Q(has_comment=True) |
-            Q(has_failing_check=True)
-        )
-        for unit in units.iterator():
+        for unit in self.iterate_units(*args, **options):
             if unit.has_suggestion:
                 unit.update_has_suggestion()
             if unit.has_comment:
                 unit.update_has_comment()
             if unit.has_failing_check:
                 unit.update_has_failing_check()
+            if unit.fuzzy and unit.translated:
+                unit.translated = False
+                unit.save(backend=True, same_content=True)
