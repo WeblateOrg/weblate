@@ -22,7 +22,7 @@ Weblate does wide range of quality checks on messages. The following section
 describes them in more detail. The checks take account also special rules for
 different languages, so if you think the result is wrong, please report a bug.
 
-.. seealso:: :setting:`CHECK_LIST`
+.. seealso:: :setting:`CHECK_LIST`, :ref:`custom-checks`
 
 Translation checks
 ++++++++++++++++++
