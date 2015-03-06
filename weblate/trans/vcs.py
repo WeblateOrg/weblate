@@ -85,6 +85,7 @@ class Repository(object):
 
     name = None
     req_version = None
+    default_branch = ''
 
     _is_supported = None
     _version = None
@@ -358,6 +359,7 @@ class GitRepository(Repository):
     _cmd_push = ['push', 'origin']
     name = 'Git'
     req_version = '1.6'
+    default_branch = 'master'
 
     def is_valid(self):
         '''
@@ -640,6 +642,7 @@ class HgRepository(Repository):
     _cmd_update_remote = ['pull']
     name = 'Mercurial'
     req_version = '2.8'
+    default_branch = 'default'
 
     VERSION_RE = re.compile(r'.*\(version ([^)]*)\).*')
 
