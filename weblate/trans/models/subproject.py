@@ -1097,6 +1097,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('Unsupported file format: {0}').format(self.file_format)
             )
 
+        # Set default VCS branch if empty
+        if self.branch == '':
+            self.branch = self.vcs.default_branch
+
         # Validate VCS repo
         try:
             self.sync_git_repo(True)
