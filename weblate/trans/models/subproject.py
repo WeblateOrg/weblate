@@ -1149,7 +1149,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Set default VCS branch if empty
         if self.branch == '':
-            self.branch = self.vcs.default_branch
+            self.branch = VCS_REGISTRY[self.vcs].default_branch
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
