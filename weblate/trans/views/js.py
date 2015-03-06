@@ -19,7 +19,7 @@
 #
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 
@@ -195,7 +195,10 @@ def get_detail(request, project, subproject, checksum):
         checksum=checksum,
         translation__subproject=subproject
     )
-    source = units[0].source_info
+    try:
+        source = units[0].source_info
+    except IndexError:
+        raise Http404('Non existing unit!')
 
     check_flags = [
         (CHECKS[x].ignore_string, CHECKS[x].name) for x in CHECKS
