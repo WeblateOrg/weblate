@@ -148,7 +148,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Repository branch'),
         max_length=50,
         help_text=ugettext_lazy('Repository branch to translate'),
-        default='master'
+        default='',
+        blank=True
     )
     filemask = models.CharField(
         verbose_name=ugettext_lazy('File mask'),
