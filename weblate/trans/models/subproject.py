@@ -1098,10 +1098,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 _('Unsupported file format: {0}').format(self.file_format)
             )
 
-        # Set default VCS branch if empty
-        if self.branch == '':
-            self.branch = self.vcs.default_branch
-
         # Validate VCS repo
         try:
             self.sync_git_repo(True)
@@ -1150,6 +1146,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Save wrapper which updates backend repository and regenerates
         translation data.
         '''
+
+        # Set default VCS branch if empty
+        if self.branch == '':
+            self.branch = self.vcs.default_branch
+
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
         changed_setup = False
