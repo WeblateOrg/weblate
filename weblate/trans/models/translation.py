@@ -450,7 +450,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 )
                 self.subproject.notify_merge_failure(
                     str(exc),
-                    ''.join(traceback.format_stack()),
+                    u''.join(traceback.format_stack()),
                 )
                 raise
         return self._store
