@@ -235,6 +235,13 @@ If you have not yet performed upgrade to Django 1.7 and newer, first upgrade to
 2.2 following instructions above. Weblate 2.3 no longer supports migration from
 Django 1.6.
 
+Previous Weblate releases contained bug which made some monolingual
+translations behave inconsistently for fuzzy and not translated strings, if you
+have such, it is recommended to run:
+
+.. code-block:: sh
+
+    ./manage.py fixup_flags --all
 
 .. _django-17:
 
