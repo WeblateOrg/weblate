@@ -402,14 +402,16 @@ def handle_revert(translation, request, next_unit_url):
         return HttpResponseRedirect(next_unit_url)
 
 
-def handle_suggestions(translation, request, this_unit_url):
+def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     '''
     Handles suggestion deleting/accepting.
     '''
     sugid = ''
+    params = ('accept', 'accept-edit', 'delete', 'upvote', 'downvote')
+    redirect_url = this_unit_url
 
     # Parse suggestion ID
-    for param in ('accept', 'delete', 'upvote', 'downvote'):
+    for param in params:
         if param in request.POST:
             sugid = request.POST[param]
             break
@@ -418,7 +420,7 @@ def handle_suggestions(translation, request, this_unit_url):
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
 
-        if 'accept' in request.POST:
+        if 'accept' in request.POST or 'accept-edit' in request.POST:
             # Accept suggesion
             if not request.user.has_perm('trans.accept_suggestion'):
                 messages.error(
@@ -427,6 +429,8 @@ def handle_suggestions(translation, request, this_unit_url):
                 )
                 return HttpResponseRedirect(this_unit_url)
             suggestion.accept(translation, request)
+            if 'accept' in request.POST:
+                redirect_url = next_unit_url
         elif 'delete' in request.POST:
             # Delete suggestion
             if not request.user.has_perm('trans.delete_suggestion'):
@@ -456,8 +460,7 @@ def handle_suggestions(translation, request, this_unit_url):
     except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
 
-    # Redirect to same entry for possible editing
-    return HttpResponseRedirect(this_unit_url)
+    return HttpResponseRedirect(redirect_url)
 
 
 def translate(request, project, subproject, lang):
@@ -511,6 +514,7 @@ def translate(request, project, subproject, lang):
 
         # Handle accepting/deleting suggestions
         if ('accept' not in request.POST and
+                'accept-edit' not in request.POST and
                 'delete' not in request.POST and
                 'upvote' not in request.POST and
                 'downvote' not in request.POST):
@@ -520,7 +524,7 @@ def translate(request, project, subproject, lang):
             )
         elif not locked:
             response = handle_suggestions(
-                translation, request, this_unit_url
+                translation, request, this_unit_url, next_unit_url,
             )
 
     # Handle translation merging
