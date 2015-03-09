@@ -126,7 +126,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             accept=suggestions[1],
         )
-        self.assertRedirectsOffset(response, translate_url, 0)
+        self.assertRedirectsOffset(response, translate_url, 1)
 
         # Reload from database
         unit = self.get_unit()
