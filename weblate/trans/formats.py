@@ -353,6 +353,7 @@ class FileFormat(object):
     loader = (None, None)
     monolingual = None
     check_flags = ()
+    unit_class = FileUnit
 
     @classmethod
     def fixup(cls, store):
@@ -454,7 +455,7 @@ class FileFormat(object):
         else:
             add = False
 
-        return (FileUnit(ttkit_unit, template_ttkit_unit), add)
+        return (self.unit_class(ttkit_unit, template_ttkit_unit), add)
 
     def _find_unit_bilingual(self, context, source):
         # Find all units with same source
@@ -474,11 +475,11 @@ class FileFormat(object):
                     ttkit_unit_context = ttkit_unit.getcontext()
                 # Does context match?
                 if ttkit_unit_context == context:
-                    return (FileUnit(ttkit_unit), False)
+                    return (self.unit_class(ttkit_unit), False)
         else:
             # Fallback to manual find for value based files
             for ttkit_unit in self.store.units:
-                ttkit_unit = FileUnit(ttkit_unit)
+                ttkit_unit = self.unit_class(ttkit_unit)
                 if ttkit_unit.get_source() == source:
                     return (ttkit_unit, False)
         return (None, False)
@@ -537,12 +538,12 @@ class FileFormat(object):
             for tt_unit in self.store.units:
 
                 # Create wrapper object
-                yield FileUnit(tt_unit)
+                yield self.unit_class(tt_unit)
         else:
             for template_unit in self.template_store.units:
 
                 # Create wrapper object (not translated)
-                yield FileUnit(
+                yield self.unit_class(
                     self.store.findid(template_unit.getid()),
                     template_unit
                 )
