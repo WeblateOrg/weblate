@@ -13,24 +13,24 @@ python:
 # build matrix configuration
 env:
   matrix:
-    - CI_DEPS="Django>=1.7,<1.8" CI_LINT=1
-    - CI_DEPS="Django>=1.7,<1.8" CI_DATABASE=mysql
-    - CI_DEPS="Django>=1.7,<1.8" CI_DATABASE=postgresql
-    - CI_DEPS="Django>=1.7,<1.8"
-    - CI_DEPS="https://www.djangoproject.com/download/1.8b2/tarball/"
-    - CI_DEPS="Django>=1.7,<1.8" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
-    - CI_DEPS="https://github.com/django/django/zipball/master"
-    - CI_DEPS="https://github.com/translate/translate/zipball/master"
+    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_LINT=1
+    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_DATABASE=mysql
+    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_DATABASE=postgresql
+    - CI_PIP_DEPS="Django>=1.7,<1.8"
+    - CI_PIP_DEPS="https://www.djangoproject.com/download/1.8b2/tarball/"
+    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
+    - CI_PIP_DEPS="https://github.com/django/django/zipball/master"
+    - CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
 matrix:
   allow_failures:
     - python: "2.7"
-      env: CI_DEPS="https://github.com/django/django/zipball/master"
+      env: CI_PIP_DEPS="https://github.com/django/django/zipball/master"
   allow_failures:
     - python: "2.7"
-      env: CI_DEPS="https://github.com/translate/translate/zipball/master"
+      env: CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
 # commands to install dependencies
 install:
   - ./ci/install
