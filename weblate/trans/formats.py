@@ -27,7 +27,6 @@ from translate.storage.xliff import xliffunit
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
 from translate.storage.ts2 import tsunit
-from translate.storage.jsonl10n import JsonUnit
 from translate.storage import mo
 from translate.storage import factory
 from weblate.trans.util import get_string, join_plural, add_configuration_error
@@ -100,7 +99,6 @@ class FileUnit(object):
         # is context in other formats
         if (isinstance(self.mainunit, xliffunit) or
                 isinstance(self.mainunit, propunit) or
-                isinstance(self.mainunit, JsonUnit) or
                 isinstance(self.mainunit, phpunit)):
             return ''
         result = ', '.join(self.mainunit.getlocations())
@@ -181,8 +179,6 @@ class FileUnit(object):
                 self.unit.source,
                 self.unit.source,
             ])
-        if isinstance(self.mainunit, JsonUnit) and self.template is None:
-            return self.mainunit.getid().lstrip('.')
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.mainunit, propunit):
@@ -237,10 +233,6 @@ class FileUnit(object):
                 return ''
             else:
                 return context[0]
-        elif (isinstance(self.mainunit, (pounit, JsonUnit)) and
-              self.template is not None):
-            # Monolingual JSON files
-            return self.template.getid()
         else:
             context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
@@ -324,8 +316,6 @@ class FileUnit(object):
         For some reason, blank string does not mean non translatable
         unit in some formats (XLIFF), so lets skip those as well.
         '''
-        if isinstance(self.mainunit, JsonUnit):
-            return True
         return self.mainunit.istranslatable() and not self.mainunit.isblank()
 
     def set_target(self, target):
@@ -344,7 +334,30 @@ class FileUnit(object):
         self.unit.markfuzzy(fuzzy)
 
 
+class JSONUnit(FileUnit):
+    def get_locations(self):
+        return ''
+
+    def get_source(self):
+        if self.template is None:
+            return self.mainunit.getid().lstrip('.')
+        return get_string(self.template.target)
+
+    def get_context(self):
+        if self.template is not None:
+            # Monolingual JSON files
+            return self.template.getid()
+        else:
+            return self.mainunit.getcontext()
+
+    def is_translatable(self):
+        return True
+
+
 class RESXUnit(FileUnit):
+    def get_locations(self):
+        return ''
+
     def get_context(self):
         return self.unit.getid()
 
@@ -894,6 +907,7 @@ class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
     loader = ('weblate.trans.aresource', 'JsonFile')
+    unit_class = JSONUnit
 
     @classmethod
     def supports_new_language(cls):
