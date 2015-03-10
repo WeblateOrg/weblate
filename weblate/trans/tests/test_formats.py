@@ -24,7 +24,8 @@ import tempfile
 from unittest import TestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
-    JSONFormat,
+    JSONFormat, RESXFormat,
+    FILE_FORMATS,
 )
 from weblate.trans.tests.utils import get_test_file
 
@@ -33,6 +34,7 @@ TEST_JSON = get_test_file('cs.json')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_POT = get_test_file('hello.pot')
+TEST_RESX = get_test_file('cs.resx')
 
 
 class AutoFormatTest(TestCase):
@@ -118,3 +120,16 @@ class AndroidFormatTest(AutoFormatTest):
     MATCH = '<resources></resources>'
     MASK = 'res/values-*/strings.xml'
     EXPECTED_PATH = 'res/values-cs-rCZ/strings.xml'
+
+
+if 'resx' in FILE_FORMATS:
+    class RESXFormat(AutoFormatTest):
+        FORMAT = RESXFormat
+        FILE = TEST_RESX
+        MIME = 'text/microsoft-resx'
+        EXT = 'resx'
+        COUNT = 4
+        MASK = 'resx/*.resx'
+        EXPECTED_PATH = 'resx/cs_CZ.resx'
+        FIND = u'Hello'
+        FIND_MATCH = u''
