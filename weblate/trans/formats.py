@@ -344,6 +344,16 @@ class FileUnit(object):
         self.unit.markfuzzy(fuzzy)
 
 
+class RESXUnit(FileUnit):
+    def get_context(self):
+        return self.unit.getid()
+
+    def get_source(self):
+        if self.template is None:
+            return self.mainunit.getid()
+        return get_string(self.template.target)
+
+
 class FileFormat(object):
     '''
     Generic object defining file format loader.
@@ -838,6 +848,7 @@ class RESXFormat(FileFormat):
     format_id = 'resx'
     loader = ('resx', 'RESXFile')
     monolingual = True
+    unit_class = RESXUnit
 
 
 @register_fileformat
