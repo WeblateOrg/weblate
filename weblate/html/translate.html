@@ -292,7 +292,7 @@
 {% if perms.trans.add_comment %}
 <form method="post" action="{% url 'comment' pk=unit.id %}">
 {% csrf_token %}
-<input type="hidden" name="next" value="{{ this_unit_url }}" />
+<input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
   <div class="panel-body">
