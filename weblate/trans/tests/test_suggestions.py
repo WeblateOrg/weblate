@@ -110,6 +110,22 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions()), 1)
 
+    def test_accept_edit(self):
+        translate_url = self.get_translation().get_translate_url()
+        # Create suggestion
+        self.add_suggestion_1()
+
+        # Get ids of created suggestions
+        suggestion = self.get_unit().suggestions()[0].pk
+
+        # Accept one of suggestions
+        response = self.edit_unit(
+            'Hello, world!\n',
+            '',
+            accept_edit=suggestion,
+        )
+        self.assertRedirectsOffset(response, translate_url, 0)
+
     def test_accept(self):
         translate_url = self.get_translation().get_translate_url()
         # Create two suggestions
@@ -164,7 +180,7 @@ class SuggestionsTest(ViewTestCase):
             '',
             accept=suggestions[0].pk,
         )
-        self.assertRedirectsOffset(response, translate_url, 0)
+        self.assertRedirectsOffset(response, translate_url, 1)
 
         # Reload from database
         unit = self.get_unit()

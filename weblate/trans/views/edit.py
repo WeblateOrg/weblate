@@ -407,7 +407,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     Handles suggestion deleting/accepting.
     '''
     sugid = ''
-    params = ('accept', 'accept-edit', 'delete', 'upvote', 'downvote')
+    params = ('accept', 'accept_edit', 'delete', 'upvote', 'downvote')
     redirect_url = this_unit_url
 
     # Parse suggestion ID
@@ -420,7 +420,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
 
-        if 'accept' in request.POST or 'accept-edit' in request.POST:
+        if 'accept' in request.POST or 'accept_edit' in request.POST:
             # Accept suggesion
             if not request.user.has_perm('trans.accept_suggestion'):
                 messages.error(
@@ -514,7 +514,7 @@ def translate(request, project, subproject, lang):
 
         # Handle accepting/deleting suggestions
         if ('accept' not in request.POST and
-                'accept-edit' not in request.POST and
+                'accept_edit' not in request.POST and
                 'delete' not in request.POST and
                 'upvote' not in request.POST and
                 'downvote' not in request.POST):
