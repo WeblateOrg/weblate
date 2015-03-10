@@ -233,6 +233,10 @@ class FileUnit(object):
                 return ''
             else:
                 return context[0]
+                 return context[0]
+        elif isinstance(self.mainunit, pounit) and self.template is not None:
+            # Monolingual JSON files
+            return self.template.getid()
         else:
             context = self.mainunit.getcontext()
         if self.is_unit_key_value() and context == '':
