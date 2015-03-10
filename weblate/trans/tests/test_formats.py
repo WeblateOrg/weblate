@@ -123,7 +123,7 @@ class AndroidFormatTest(AutoFormatTest):
 
 
 if 'resx' in FILE_FORMATS:
-    class RESXFormat(AutoFormatTest):
+    class RESXFormatTest(AutoFormatTest):
         FORMAT = RESXFormat
         FILE = TEST_RESX
         MIME = 'text/microsoft-resx'
