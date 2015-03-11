@@ -681,12 +681,13 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
+        print 'path', path
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         config = ConfigParser.RawConfigParser()
         config.read(filename)
         if config.has_option(section, option):
-            return config.get(section, option)
+            return config.get(section, option).decode('utf-8')
         return None
 
     def set_config(self, path, value):
