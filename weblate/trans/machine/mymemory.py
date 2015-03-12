@@ -46,7 +46,7 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         Reformats match to (translation, quality) tuple.
         '''
-        if type(match['quality']) is int:
+        if isinstance(match['quality'], int):
             quality = match['quality']
         elif match['quality'] is not None and match['quality'].isdigit():
             quality = int(match['quality'])
