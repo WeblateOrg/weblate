@@ -168,7 +168,7 @@ class BaseFormatCheck(TargetCheck):
         src_matches = self.get_cache(unit, cache_slot)
 
         # New style cache
-        if type(src_matches) is tuple:
+        if isinstance(src_matches, tuple):
             uses_position, src_matches = src_matches
         else:
             src_matches = None
