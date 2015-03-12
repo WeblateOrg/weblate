@@ -681,7 +681,6 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
-        print 'path', path
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         config = ConfigParser.RawConfigParser()
