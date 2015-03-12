@@ -681,28 +681,29 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
-        try:
-            return self.execute(['config', path]).strip().decode('utf-8')
-        except RepositoryException as error:
-            if error.retcode == 1:
-                return ''
-            raise
+        section, option = path.split('.', 1)
+        filename = os.path.join(self.path, '.hg', 'hgrc')
+        config = ConfigParser.RawConfigParser()
+        config.read(filename)
+        if config.has_option(section, option):
+            return config.get(section, option).decode('utf-8')
+        return None
 
     def set_config(self, path, value):
         """
         Set entry in local configuration.
         """
-        section, key = path.split('.', 1)
+        section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         value = value.encode('utf-8')
         config = ConfigParser.RawConfigParser()
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
-        if (config.has_option(section, key) and
-                config.get(section, key) == value):
+        if (config.has_option(section, option) and
+                config.get(section, option) == value):
             return
-        config.set(section, key, value)
+        config.set(section, option, value)
         with open(filename, 'wb') as handle:
             config.write(handle)
 
