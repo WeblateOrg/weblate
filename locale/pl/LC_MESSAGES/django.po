@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-03-09 17:45+0100\n"
-"PO-Revision-Date: 2015-01-08 12:39+0200\n"
-"Last-Translator: Krystian Biesaga <krystian4842@gmail.com>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"PO-Revision-Date: 2015-03-17 09:29+0200\n"
+"Last-Translator: Łukasz Wileński <lukas.the.best@poczta.fm>\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.2-dev\n"
+"X-Generator: Weblate 2.3-dev\n"
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -26,7 +26,6 @@ msgid "None"
 msgstr "Brak"
 
 #: weblate/accounts/forms.py:85
-#, fuzzy
 #| msgid ""
 #| "This value may contain only letters, numbers and following characters: "
 #| "@ . + - _"
@@ -34,7 +33,8 @@ msgid ""
 "Username may contain only letters, numbers and following characters: @ . + - "
 "_"
 msgstr ""
-"Ta wartość może zawierać tylko litery, liczby, i następujace znaki: @ . + - _"
+"Nazwa użytkownika może zawierać tylko litery, liczby, i następujace znaki: @ "
+". + - _"
 
 #: weblate/accounts/forms.py:91 weblate/html/project.html:148
 msgid "Username"
@@ -146,6 +146,8 @@ msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
 msgstr ""
+"Należy wprowadzić poprawną nazwę użytkownika i hasło. Oba pola mogą używać "
+"dużych i małych znaków."
 
 #: weblate/accounts/forms.py:471
 msgid "This account is inactive."
@@ -166,7 +168,7 @@ msgstr "Repozytorium kodu źródłowego"
 
 #: weblate/accounts/forms.py:524
 msgid "URL of source code repository for example Git or Mercurial."
-msgstr ""
+msgstr "Adres URL kodu źródłowego repozytorium, na przykład Git lub Mercurial."
 
 #: weblate/accounts/forms.py:529 weblate/trans/models/subproject.py:155
 msgid "File mask"
@@ -1487,10 +1489,9 @@ msgid "Chinese (Taiwan)"
 msgstr "chiński (Taiwan)"
 
 #: weblate/html/i18n.html:50
-#, fuzzy
 #| msgid "Slovenian"
 msgid "Colognian"
-msgstr "słoweński"
+msgstr "koloński"
 
 #: weblate/html/i18n.html:51
 msgid "Cornish"
@@ -1813,10 +1814,9 @@ msgid "Northern Sami"
 msgstr ""
 
 #: weblate/html/i18n.html:131
-#, fuzzy
 #| msgid "Norwegian Bokmål"
 msgid "Norwegian (old code)"
-msgstr "norweski (Bokmål)"
+msgstr "norweski (stary kod)"
 
 #: weblate/html/i18n.html:132
 msgid "Norwegian Bokmål"
@@ -1915,10 +1915,9 @@ msgid "Serbian (latin)"
 msgstr "serbski (łacina)"
 
 #: weblate/html/i18n.html:156
-#, fuzzy
 #| msgid "Croatian"
 msgid "Serbo-Croatian"
-msgstr "chorwacki"
+msgstr "serbsko-chorwacki"
 
 #: weblate/html/i18n.html:157
 msgid "Simplified Chinese"
@@ -2362,10 +2361,9 @@ msgid "This translation is being used as source strings within this component."
 msgstr ""
 
 #: weblate/html/list-translations.html:33
-#, fuzzy
 #| msgid "source"
 msgid "source"
-msgstr "Źródło"
+msgstr "źródło"
 
 #: weblate/html/list-translations.html:38
 #, python-format
@@ -3732,10 +3730,9 @@ msgid "PHP strings"
 msgstr "Ciągi znaków PHP"
 
 #: weblate/trans/formats.py:836
-#, fuzzy
 #| msgid "New source string"
 msgid ".Net resource file"
-msgstr "Źródłowy ciąg znaków"
+msgstr "Źródłowy plik .Net"
 
 #: weblate/trans/formats.py:844
 msgid "Android String Resource"
@@ -4126,16 +4123,14 @@ msgid "New source string"
 msgstr "Źródłowy ciąg znaków"
 
 #: weblate/trans/models/changes.py:169
-#, fuzzy
 #| msgid "Component to use"
 msgid "Component locked"
-msgstr "Komponent do wykorzystania"
+msgstr "Komponent zablokowany"
 
 #: weblate/trans/models/changes.py:170
-#, fuzzy
 #| msgid "Component name"
 msgid "Component unlocked"
-msgstr "Nazwa komponentu"
+msgstr "Komponent odblokowany"
 
 #: weblate/trans/models/changes.py:192
 #, python-format
@@ -4573,14 +4568,12 @@ msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "Nie można połączyć się z repozytorium odsyłającym!"
 
 #: weblate/trans/models/subproject.py:917
-#, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
-"Niepoprawny link do projektu Weblate, użyj weblate://project/subproject."
+"Niepoprawny odnośnik do projektu Weblate, nie można odwoływać się do siebie."
 
 #: weblate/trans/models/subproject.py:924
-#, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgstr ""
@@ -4599,7 +4592,6 @@ msgid "The mask did not match any files!"
 msgstr "Maska nie pasuje do żadnych plików!"
 
 #: weblate/trans/models/subproject.py:950
-#, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
 #| "subprojects for translating different resources."
@@ -4608,7 +4600,7 @@ msgid ""
 "components for translating different resources."
 msgstr ""
 "Istnieje więcej plików dla jednego języka, proszę poprawić maskę i używać "
-"podprojektów do tłumaczenia różnych zasobów."
+"komponentów do tłumaczenia różnych zasobów."
 
 #: weblate/trans/models/subproject.py:956
 #, python-format
@@ -5315,10 +5307,9 @@ msgid "Can not revert to different unit!"
 msgstr "Nie można scalić różnych komunikatów!"
 
 #: weblate/trans/views/edit.py:395
-#, fuzzy
 #| msgid "Copy word to translation"
 msgid "Can not revert to empty translation!"
-msgstr "Skopiuj słowo do tłumaczenia"
+msgstr "Nie można przywrócić pustego tłumaczenia."
 
 #: weblate/trans/views/edit.py:428
 msgid "You do not have privilege to accept suggestions!"
@@ -5349,10 +5340,9 @@ msgid "Failed to add comment!"
 msgstr "Nie udało się dodać komentarza!"
 
 #: weblate/trans/views/edit.py:707
-#, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Translation comment has been deleted."
-msgstr "Tłumaczenie zostało zapisane!"
+msgstr "Komentarz tłumaczenia został zapisany."
 
 #: weblate/trans/views/edit.py:811
 msgid "Failed to save translation!"
@@ -5418,16 +5408,14 @@ msgid "Translation is now open for translation updates."
 msgstr "Tłumaczenie teraz otwarte dla aktualizacji tłumaczenia."
 
 #: weblate/trans/views/lock.py:80
-#, fuzzy
 #| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
-msgstr "Podprojekt jest teraz zablokowany do aktualizacji tłumaczenia!"
+msgstr "Komponent jest obecnie zablokowany do aktualizacji tłumaczenia!"
 
 #: weblate/trans/views/lock.py:95
-#, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
-msgstr "Projekt jest teraz otwarty do aktualizacji tłumaczenia."
+msgstr "Komponent jest obecnie gotowy do aktualizacji tłumaczenia."
 
 #: weblate/trans/views/lock.py:113
 msgid "All subprojects are now locked for translation updates!"
