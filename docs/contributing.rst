@@ -16,6 +16,14 @@ functionality and verify that it works. You can see current test results on
 Travis <https://travis-ci.org/nijel/weblate> and coverage on Coveralls
 <https://coveralls.io/r/nijel/weblate>.
 
+Starting with our codebase
+--------------------------
+
+If you are looking for some bugs which should be good for starting with our
+codebase, you can find them labelled with :guilabel:`newbie` tag:
+
+https://github.com/nijel/weblate/labels/newbie
+
 Translating
 -----------
 
