@@ -528,6 +528,7 @@ ONE_TWO_FEW_OTHER_PLURALS = (
 
 ONE_TWO_FEW_MANY_OTHER_PLURALS = (
     'n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4',
+    'n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>6 && n<11) ? 3 : 4',
 )
 
 ONE_FEW_MANY_OTHER_PLURALS = (
