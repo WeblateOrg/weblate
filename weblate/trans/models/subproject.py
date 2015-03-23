@@ -898,6 +898,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.update_remote_branch()
         self.update_branch()
 
+    def set_default_branch(self):
+        '''
+        Set default VCS branch if empty
+        '''
+        if self.branch == '':
+            self.branch = VCS_REGISTRY[self.vcs].default_branch
+
     def clean_repo_link(self):
         '''
         Validates repository link.
@@ -1078,6 +1085,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.project_id is None:
             return
 
+        self.set_default_branch()
+
         # Check if we should rename
         if self.id:
             old = SubProject.objects.get(pk=self.id)
@@ -1146,10 +1155,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Save wrapper which updates backend repository and regenerates
         translation data.
         '''
-
-        # Set default VCS branch if empty
-        if self.branch == '':
-            self.branch = VCS_REGISTRY[self.vcs].default_branch
+        self.set_default_branch()
 
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
