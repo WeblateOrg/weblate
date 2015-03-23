@@ -232,7 +232,11 @@ class VerifyPluralsTest(TestCase):
                     language.code,
                     language.pluralequation
                 ),
-                data.PLURAL_UNKNOWN
+                data.PLURAL_UNKNOWN,
+                'Can not guess plural type for {0} ({1})'.format(
+                    language.code,
+                    language.pluralequation
+                )
             )
 
     def test_equation(self):
