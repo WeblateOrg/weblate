@@ -333,7 +333,7 @@ def handle_merge(translation, request, next_unit_url):
     Handles unit merging.
     '''
     if (translation.is_template() and not
-          request.user.has_perm('trans.save_template')):
+       request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
@@ -383,7 +383,7 @@ def handle_merge(translation, request, next_unit_url):
 
 def handle_revert(translation, request, next_unit_url):
     if (translation.is_template() and not
-          request.user.has_perm('trans.save_template')):
+       request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
@@ -453,6 +453,14 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
                     _('You do not have privilege to accept suggestions!')
                 )
                 return HttpResponseRedirect(this_unit_url)
+            elif (translation.is_template() and not
+                  request.user.has_perm('trans.save_template')):
+                # Need privilege to save
+                messages.error(
+                    request,
+                    _('You don\'t have privileges to save templates!')
+                )
+                return HttpResponseRedirect(this_unit_url)
             suggestion.accept(translation, request)
             if 'accept' in request.POST:
                 redirect_url = next_unit_url
@@ -462,6 +470,14 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
                 messages.error(
                     request,
                     _('You do not have privilege to delete suggestions!')
+                )
+                return HttpResponseRedirect(this_unit_url)
+            elif (translation.is_template() and not
+                  request.user.has_perm('trans.save_template')):
+                # Need privilege to save
+                messages.error(
+                    request,
+                    _('You don\'t have privileges to save templates!')
                 )
                 return HttpResponseRedirect(this_unit_url)
             suggestion.delete()

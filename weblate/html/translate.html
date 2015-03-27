@@ -189,12 +189,14 @@
 <button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}
 {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
+{% if perms.trans.save_template or not object.is_template %}
 {% if perms.trans.accept_suggestion %}
 <button type="submit" class="btn btn-success btn-xs" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
 <button type="submit" class="btn btn-warning btn-xs" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
 {% endif %}
 {% if perms.trans.delete_suggestion %}
 <button type="submit" class="btn btn-danger btn-xs" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+{% endif %}
 {% endif %}
 {% endif %}
 </div>
