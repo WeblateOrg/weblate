@@ -66,6 +66,19 @@ For example, enabling authentication against GitHub:
 
 .. seealso:: http://psa.matiasaguirre.net/docs/backends/index.html
 
+Google OAuth2
+~~~~~~~~~~~~~
+
+For using Google OAuth2, you need to register application on
+<https://console.developers.google.com/> and enable Google+ API.
+
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
+
+.. code-block:: python
+
+    SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
+    SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
+
 LDAP authentication
 +++++++++++++++++++
 
