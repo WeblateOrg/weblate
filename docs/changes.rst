@@ -9,6 +9,10 @@ Released on ? 2015.
 * Dropped support for Django 1.6 and South migrations.
 * Support for adding new translations when using Java Property files
 * Allow to accept suggestion without editing.
+* Improved support for Google OAuth2.
+* Added support for Microsoft .resx files.
+* Tuned default robots.txt to disallow big crawling of translations.
+* Simplified workflow for accepting suggestions.
 
 weblate 2.2
 -----------
