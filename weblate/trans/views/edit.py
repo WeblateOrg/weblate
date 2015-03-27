@@ -333,7 +333,7 @@ def handle_merge(translation, request, next_unit_url):
     Handles unit merging.
     '''
     if (translation.is_template() and not
-       request.user.has_perm('trans.save_template')):
+            request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
@@ -383,7 +383,7 @@ def handle_merge(translation, request, next_unit_url):
 
 def handle_revert(translation, request, next_unit_url):
     if (translation.is_template() and not
-       request.user.has_perm('trans.save_template')):
+            request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
