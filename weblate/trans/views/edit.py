@@ -290,12 +290,13 @@ def handle_translate(translation, request, user_locked,
 
     if 'suggest' in request.POST:
         go_next = perform_suggestion(unit, form, request)
-    elif translation.is_template and not request.user.has_perm('trans.save_template'):
+    elif (translation.is_template() and not
+          request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
             _('You don\'t have privileges to save templates!')
-        )    
+        )
     elif not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -331,14 +332,15 @@ def handle_merge(translation, request, next_unit_url):
     '''
     Handles unit merging.
     '''
-    if translation.is_template and not request.user.has_perm('trans.save_template'):
+    if (translation.is_template() and not
+          request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
             _('You don\'t have privileges to save templates!')
         )
         return
-    
+
     if not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -380,14 +382,15 @@ def handle_merge(translation, request, next_unit_url):
 
 
 def handle_revert(translation, request, next_unit_url):
-    if translation.is_template and not request.user.has_perm('trans.save_template'):
+    if (translation.is_template() and not
+          request.user.has_perm('trans.save_template')):
         # Need privilege to save
         messages.error(
             request,
             _('You don\'t have privileges to save templates!')
         )
         return
-    
+
     if not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
