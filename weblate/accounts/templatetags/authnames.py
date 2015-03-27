@@ -27,6 +27,7 @@ register = template.Library()
 
 SOCIALS = {
     'google': {'name': 'Google', 'fa_icon': 'google'},
+    'google-oauth2': {'name': 'Google', 'fa_icon': 'google'},
     'github': {'name': 'GitHub', 'fa_icon': 'github'},
     'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'email': {'name': 'Email', 'fa_icon': 'at'},
