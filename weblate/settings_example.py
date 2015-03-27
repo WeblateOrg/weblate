@@ -179,8 +179,8 @@ TEMPLATE_LOADERS = (
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
-    'social.backends.google.GoogleOpenId',
     'social.backends.email.EmailAuth',
+    # 'social.backends.google.GoogleOAuth2',
     # 'social.backends.github.GithubOAuth2',
     # 'social.backends.bitbucket.BitbucketOAuth',
     # 'social.backends.suse.OpenSUSEOpenId',
@@ -202,6 +202,9 @@ SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
 SOCIAL_AUTH_FACEBOOK_KEY = ''
 SOCIAL_AUTH_FACEBOOK_SECRET = ''
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (
