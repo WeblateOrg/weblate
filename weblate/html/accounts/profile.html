@@ -18,7 +18,7 @@
 {% csrf_token %}
 
 <ul class="nav nav-pills">
-<li class="active"><a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a></li>
+<li class="active"><a data-toggle="tab" href="#languages">{% trans "Languages" %}</a></li>
 <li><a data-toggle="tab" href="#subscriptions">{% trans "Subscriptions" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
 <li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
@@ -27,11 +27,11 @@
 </ul>
 
 <div class="tab-content">
-<div class="tab-pane active" id="preferences">
+<div class="tab-pane active" id="languages">
 <div class="row">
 <div class="col-lg-6">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Preferences" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Languages" %}</h4></div>
   <div class="panel-body">
     {{ form|crispy }}
   </div>
