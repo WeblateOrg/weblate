@@ -20,8 +20,8 @@ User profile
 User profile contains your preferences, name and email. Name and email
 are being used in VCS commits, so keep this information accurate.
 
-Languages
-+++++++++
+Translated languages
+++++++++++++++++++++
 
 Choose here which languages you prefer to translate. These will be offered to
 you on main page to have easier access to translations.

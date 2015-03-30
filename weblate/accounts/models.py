@@ -371,8 +371,9 @@ class Profile(models.Model):
     )
     languages = models.ManyToManyField(
         Language,
-        verbose_name=_('Languages'),
+        verbose_name=_('Translated languages'),
         blank=True,
+        help_text=_('Choose languages to which you can translate.')
     )
     secondary_languages = models.ManyToManyField(
         Language,
