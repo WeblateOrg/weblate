@@ -28,7 +28,9 @@ from weblate.trans.models import (
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks']
+    list_display = (
+        'name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks'
+    )
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
     actions = ['update_from_git', 'update_checks', 'force_commit']
