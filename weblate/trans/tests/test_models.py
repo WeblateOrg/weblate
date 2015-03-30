@@ -73,7 +73,7 @@ class RepoTestCase(TestCase):
         # Clone repo for testing
         if not os.path.exists(self.git_base_repo_path):
             print(
-                'Cloning test repository to {0}...'.format(
+                'Cloning Git test repository to {0}...'.format(
                     self.git_base_repo_path
                 )
             )
@@ -92,6 +92,11 @@ class RepoTestCase(TestCase):
 
         # Clone repo for testing
         if not os.path.exists(self.hg_base_repo_path):
+            print(
+                'Cloning Mercurial test repository to {0}...'.format(
+                    self.hg_base_repo_path
+                )
+            )
             HgRepository.clone(
                 HG_URL,
                 self.hg_base_repo_path,
