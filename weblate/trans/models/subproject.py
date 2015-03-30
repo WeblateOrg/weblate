@@ -1180,6 +1180,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
             changed_setup = (
                 (old.file_format != self.file_format) or
+                (old.edit_template != self.edit_template) or
                 (old.template != self.template)
             )
             # Detect slug changes and rename git repo
