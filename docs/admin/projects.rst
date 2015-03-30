@@ -104,6 +104,8 @@ File mask
     ``locale/*/LC_MESSAGES/django.po``.
 Monolingual base language file
     Base file containing strings definition for :ref:`monolingual`.
+Edit base file
+    Whether to allow editing of base file for :ref:`monolingual`.
 Base file for new translations
     Base file used to generate new translations, eg. ``.pot`` file with Gettext.
 File format

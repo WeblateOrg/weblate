@@ -170,6 +170,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'for monolingual translation formats.'
         )
     )
+    edit_template = models.BooleanField(
+        verbose_name=ugettext_lazy('Edit base file'),
+        default=True,
+        help_text=ugettext_lazy(
+            'Whether users will be able to edit base file '
+            'for monolingual translations.'
+        )
+    )
     new_base = models.CharField(
         verbose_name=ugettext_lazy('Base file for new translations'),
         max_length=200,
@@ -817,11 +825,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         prefix = os.path.join(self.get_path(), '')
         matches = glob(os.path.join(self.get_path(), self.filemask))
-        matches = [f.replace(prefix, '') for f in matches]
+        matches = set([f.replace(prefix, '') for f in matches])
         # We want to list template among translations as well
-        if self.has_template() and self.template not in matches:
-            matches.append(self.template)
-        return matches
+        if self.has_template():
+            if self.edit_template:
+                matches.add(self.template)
+            else:
+                matches.discard(self.template)
+        return sorted(matches)
 
     def create_translations(self, force=False, langs=None, request=None):
         '''

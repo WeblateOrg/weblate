@@ -14,6 +14,7 @@ Released on ? 2015.
 * Tuned default robots.txt to disallow big crawling of translations.
 * Simplified workflow for accepting suggestions.
 * Added project owners who always receive important notifications.
+* Allow to disable editing of monolingual template.
 
 weblate 2.2
 -----------
