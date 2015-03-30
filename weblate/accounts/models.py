@@ -384,6 +384,11 @@ class Profile(models.Model):
     suggested = models.IntegerField(default=0, db_index=True)
     translated = models.IntegerField(default=0, db_index=True)
 
+    hide_completed = models.BooleanField(
+        verbose_name=_('Hide completed translations on dashboard'),
+        default=False
+    )
+
     subscriptions = models.ManyToManyField(
         'trans.Project',
         verbose_name=_('Subscribed projects'),

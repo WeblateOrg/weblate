@@ -19,6 +19,7 @@
 
 <ul class="nav nav-pills">
 <li class="active"><a data-toggle="tab" href="#languages">{% trans "Languages" %}</a></li>
+<li><a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a></li>
 <li><a data-toggle="tab" href="#subscriptions">{% trans "Subscriptions" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
 <li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
@@ -53,6 +54,34 @@
   </div>
   <div class="panel-footer">
   <a class="btn btn-default" href="{% documentation 'user/profile' 'languages' %}">{% trans "Documentation" %}</a>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<div class="tab-pane" id="preferences">
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Preferences" %}</h4></div>
+  <div class="panel-body">
+    {{ usersettingsform|crispy }}
+  </div>
+  <div class="panel-footer">
+    <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+  </div>
+</div>
+</div>
+<div class="col-lg-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    <p>
+      {% blocktrans %}Customize Weblate behavior to match your personal preferences.{% endblocktrans %}
+    </p>
+  </div>
+  <div class="panel-footer">
+  <a class="btn btn-default" href="{% documentation 'user/profile' 'preferences' %}">{% trans "Documentation" %}</a>
   </div>
 </div>
 </div>

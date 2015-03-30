@@ -50,6 +50,7 @@ Released on Dec 5th 2014.
 * Improved SSH keys handling and storage.
 * Improved repository locking.
 * Customizable quality checks per source string.
+* Allow to hide completed translations from dashboard.
 
 weblate 2.0
 -----------

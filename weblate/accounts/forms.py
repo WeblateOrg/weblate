@@ -213,6 +213,15 @@ class SubscriptionSettingsForm(forms.ModelForm):
         fields = Profile.SUBSCRIPTION_FIELDS
 
 
+class UserSettingsForm(forms.ModelForm):
+    '''
+    User subscription management.
+    '''
+    class Meta(object):
+        model = Profile
+        fields = ('hide_completed', )
+
+
 class UserForm(forms.ModelForm):
     '''
     User information form.

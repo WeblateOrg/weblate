@@ -52,7 +52,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Your translations" %}</h4></div>
   <div class="panel-body">
 {% if usertranslations %}
-{% with usertranslations as translations and 2 as show_language %}
+{% with usertranslations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
 {% endwith %}
 {% else %}
@@ -60,7 +60,7 @@
 {% endif %}
   </div>
   <div class="panel-footer">
-  <a class="btn btn-default" href="{% url 'profile' %}#preferences">{% trans "Manage your translations" %}</a>
+  <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a>
   </div>
 </div>
 </div>
