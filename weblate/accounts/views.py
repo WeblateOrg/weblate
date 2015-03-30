@@ -152,7 +152,7 @@ def user_profile(request):
         if appsettings.DEMO_SERVER and request.user.username == 'demo':
             return deny_demo(request)
 
-        if min([form.is_valid() for form in forms]):
+        if all([form.is_valid() for form in forms]):
             # Save changes
             for form in forms:
                 form.save()
