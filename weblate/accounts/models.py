@@ -93,8 +93,15 @@ def notify_new_language(subproject, language, user):
         subproject.project,
         user
     )
+    users = set()
     for subscription in subscriptions:
         subscription.notify_new_language(subproject, language, user)
+        users.add(subscription.user_id)
+
+    if subproject.project.owner and subproject.project.owner_id not in users:
+        subproject.project.owner.profile.notify_new_language(
+            subproject, language, user
+        )
 
     # Notify admins
     send_notification_email(

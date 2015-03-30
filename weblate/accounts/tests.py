@@ -486,10 +486,11 @@ class NotificationTest(ViewTestCase):
         )
 
     def test_notify_new_language(self):
+        second_user = self.second_user()
         notify_new_language(
             self.subproject,
             Language.objects.filter(code='de'),
-            self.second_user()
+            second_user
         )
 
         # Check mail (second one is for admin)
@@ -498,6 +499,17 @@ class NotificationTest(ViewTestCase):
             mail.outbox[0].subject,
             '[Weblate] New language request in Test/Test'
         )
+
+        # Add project owner
+        self.subproject.project.owner = second_user
+        notify_new_language(
+            self.subproject,
+            Language.objects.filter(code='de'),
+            second_user,
+        )
+
+        # Check mail (second one is for admin)
+        self.assertEqual(len(mail.outbox), 5)
 
     def test_notify_new_contributor(self):
         unit = self.get_unit()
