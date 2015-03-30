@@ -47,6 +47,9 @@ You can subscribe to various notifications on :guilabel:`Subscriptions` tab.
 You will receive notifications for selected events on chosen projects for
 languages you have indicated for translation (see above).
 
+If you are an owner of some project, you will always receive some important
+notifications, like merge failures or new language requests.
+
 .. note::
 
     You will not receive notifications for actions you've done.

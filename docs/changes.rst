@@ -13,6 +13,7 @@ Released on ? 2015.
 * Added support for Microsoft .resx files.
 * Tuned default robots.txt to disallow big crawling of translations.
 * Simplified workflow for accepting suggestions.
+* Added project owners who always receive important notifications.
 
 weblate 2.2
 -----------
