@@ -23,7 +23,7 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Group
 from django.core.cache import cache
@@ -127,6 +127,15 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         default=True,
         help_text=ugettext_lazy(
             'Whether to allow updating this repository by remote hooks.'
+        )
+    )
+    owner = models.ForeignKey(
+        User,
+        null=True,
+        db_index=True,
+        blank=True,
+        help_text=ugettext_lazy(
+            'Owner of the project.'
         )
     )
 
