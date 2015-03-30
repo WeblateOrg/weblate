@@ -50,8 +50,15 @@ def notify_merge_failure(subproject, error, status):
     subscriptions = Profile.objects.subscribed_merge_failure(
         subproject.project,
     )
+    users = set()
     for subscription in subscriptions:
         subscription.notify_merge_failure(subproject, error, status)
+        users.add(subscription.user_id)
+
+    if subproject.project.owner and subproject.project.owner_id not in users:
+        subproject.project.owner.profile.notify_merge_failure(
+            subproject, error, status
+        )
 
     # Notify admins
     send_notification_email(
