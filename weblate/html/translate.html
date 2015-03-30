@@ -57,22 +57,22 @@
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
     {% if secondary %}
-    {% for unit in secondary %}
+    {% for secondary_unit in secondary %}
     <div class="form-group">
-    <label>{{ unit.translation.language }}</label>
-    {% format_translation unit.target unit.translation.language %}
+    <label>{{ secondary_unit.translation.language }}</label>
+    {% format_translation secondary_unit.target secondary_unit.translation.language %}
     </div>
     {% endfor %}
     {% endif %}
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
-    {% format_translation unit.source unit.translation.language unit.previous_source %}
+    {% format_translation unit.source diff=unit.previous_source num_plurals=unit.translation.language.nplurals %}
     </div>
     {% endif %}
     <div class="form-group">
     <label>{% trans "Source" %}</label>
-    {% format_translation unit.source search_match=search_query %}
+    {% format_translation unit.source search_match=search_query num_plurals=unit.translation.language.nplurals %}
     </div>
     {{ form|crispy }}
   </div>
