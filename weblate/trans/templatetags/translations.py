@@ -90,7 +90,7 @@ def format_translation(value, language=None, diff=None, search_match=None,
     plurals = split_plural(value)
 
     # Show plurals?
-    if num_plurals > 1:
+    if num_plurals <= 1:
         plurals = plurals[:1]
 
     # Newline concatenator
