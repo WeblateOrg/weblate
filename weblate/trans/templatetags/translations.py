@@ -78,7 +78,7 @@ def fmt_whitespace(value):
 
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language=None, diff=None, search_match=None,
-                       simple=False):
+                       simple=False, num_plurals=2):
     """
     Nicely formats translation text possibly handling plurals or diff.
     """
@@ -88,6 +88,10 @@ def format_translation(value, language=None, diff=None, search_match=None,
 
     # Split plurals to separate strings
     plurals = split_plural(value)
+
+    # Show plurals?
+    if num_plurals > 1:
+        plurals = plurals[:1]
 
     # Newline concatenator
     newline = u'<span class="hlspace" title="{0}">↵</span><br />'.format(
