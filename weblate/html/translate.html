@@ -57,10 +57,10 @@
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
     {% if secondary %}
-    {% for unit in secondary %}
+    {% for secondary_unit in secondary %}
     <div class="form-group">
-    <label>{{ unit.translation.language }}</label>
-    {% format_translation unit.target unit.translation.language %}
+    <label>{{ secondary_unit.translation.language }}</label>
+    {% format_translation secondary_unit.target secondary_unit.translation.language %}
     </div>
     {% endfor %}
     {% endif %}
