@@ -26,7 +26,7 @@ from weblate import appsettings
 
 DONATE = 'http://weblate.org/donate/'
 GITTIP = 'https://www.gittip.com/nijel/'
-WEBLATE = 'http://weblate.org/',
+WEBLATE = 'http://weblate.org/'
 
 
 class AdvertisementManager(models.Manager):
