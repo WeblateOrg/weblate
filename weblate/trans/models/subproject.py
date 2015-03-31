@@ -960,7 +960,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(
                 _(
                     'Invalid link to a Weblate project, '
-                    'use weblate://project/subproject.'
+                    'use weblate://project/component.'
                 )
             )
         if self.push != '':

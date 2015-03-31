@@ -217,7 +217,7 @@
     <td>{% get_state_flags item %}</td>
     <td>
     {% if perms.trans.save_translation %}
-    <a class="mergebutton small-button btn btn-default" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all subprojects" %}">{% trans "Use this translation" %}</a>
+    <a class="mergebutton small-button btn btn-default" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}">{% trans "Use this translation" %}</a>
     {% endif %}
     </td>
     </tr>

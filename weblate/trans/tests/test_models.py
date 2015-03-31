@@ -598,7 +598,7 @@ class SubProjectTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             'Invalid link to a Weblate project, '
-            'use weblate://project/subproject.',
+            'use weblate://project/component.',
             project.full_clean
         )
 
@@ -608,7 +608,7 @@ class SubProjectTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             'Invalid link to a Weblate project, '
-            'use weblate://project/subproject.',
+            'use weblate://project/component.',
             project.full_clean
         )
 

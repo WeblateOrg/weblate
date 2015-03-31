@@ -579,7 +579,7 @@ class AutoForm(forms.Form):
         super(AutoForm, self).__init__(*args, **kwargs)
 
         self.fields['subproject'].choices = \
-            [('', _('All subprojects'))] + choices
+            [('', _('All components'))] + choices
 
 
 class WordForm(forms.Form):

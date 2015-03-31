@@ -51,7 +51,7 @@ files.
 List of features includes:
 
 * Easy web based translation
-* Propagation of translations across sub-projects (for different branches)
+* Propagation of translations across components (for different branches)
 * Tight git integration - every change is represented by Git commit
 * Usage of Django's admin interface
 * Upload and automatic merging of po files
