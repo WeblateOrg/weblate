@@ -726,7 +726,8 @@ class HgRepository(Repository):
         """
         self.set_config('extensions.strip', '')
         self.execute(['revert', '-a', '--no-backup'])
-        self.execute(['strip', branch])
+        if self.needs_push(branch):
+            self.execute(['strip', 'roots(outgoing())'])
         self._last_revision = None
 
     def rebase(self, branch=None, abort=False):

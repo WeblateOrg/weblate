@@ -297,7 +297,3 @@ class VCSHgTest(VCSGitTest):
     def test_status(self):
         status = self.repo.status()
         self.assertEqual(status, '')
-
-    def test_reset(self):
-        # currently broken
-        self.assertTrue(True)
