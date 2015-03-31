@@ -419,6 +419,7 @@ class GitRepository(Repository):
         Resets working copy to match remote branch.
         """
         self.execute(['reset', '--hard', 'origin/{0}'.format(branch)])
+        self._last_revision = None
 
     def rebase(self, branch=None, abort=False):
         """
@@ -726,6 +727,7 @@ class HgRepository(Repository):
         self.set_config('extensions.strip', '')
         self.execute(['revert', '-a', '--no-backup'])
         self.execute(['strip', branch])
+        self._last_revision = None
 
     def rebase(self, branch=None, abort=False):
         """
