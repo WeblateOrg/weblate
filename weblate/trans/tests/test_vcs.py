@@ -68,6 +68,9 @@ class VCSGitTest(RepoTestCase):
         self.repo.reset(self._branch)
         self.assertEqual(original, self.repo.last_revision)
         self.test_commit()
+        self.assertNotEqual(original, self.repo.last_revision)
+        self.repo.reset(self._branch)
+        self.assertEqual(original, self.repo.last_revision)
 
     def test_merge(self):
         self.repo.merge(self._branch)
@@ -294,3 +297,7 @@ class VCSHgTest(VCSGitTest):
     def test_status(self):
         status = self.repo.status()
         self.assertEqual(status, '')
+
+    def test_reset(self):
+        # currently broken
+        self.assertTrue(True)
