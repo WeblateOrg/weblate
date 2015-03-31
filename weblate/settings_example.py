@@ -488,6 +488,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # )
 
 # List of scripts to use in custom processing
+# POST_UPDATE_SCRIPTS = (
+# )
 # PRE_COMMIT_SCRIPTS = (
 # )
 

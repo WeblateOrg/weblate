@@ -44,7 +44,10 @@ from weblate.trans.validators import (
     validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
-from weblate.appsettings import PRE_COMMIT_SCRIPT_CHOICES, HIDE_REPO_CREDENTIALS
+from weblate.appsettings import (
+    PRE_COMMIT_SCRIPT_CHOICES, POST_UPDATE_SCRIPT_CHOICES,
+    HIDE_REPO_CREDENTIALS,
+)
 from weblate.accounts.models import notify_merge_failure
 from weblate.trans.models.changes import Change
 
@@ -210,6 +213,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'Additional file to include in commits; please check '
             'documentation for more details.',
         )
+    )
+    post_update_script = models.CharField(
+        verbose_name=ugettext_lazy('Post-update script'),
+        max_length=200,
+        default='',
+        blank=True,
+        choices=POST_UPDATE_SCRIPT_CHOICES,
+        help_text=ugettext_lazy(
+            'Script to be executed afrer receiving repository update, '
+            'please check documentation for more details.'
+        ),
     )
     pre_commit_script = models.CharField(
         verbose_name=ugettext_lazy('Pre-commit script'),
@@ -636,6 +650,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # update remote branch
         ret = self.update_branch(request, method=method)
+
+        # run post update hook
+        self.run_hook(self.post_update_script)
 
         # create translation objects for all files
         self.create_translations(request=request)

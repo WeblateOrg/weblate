@@ -405,6 +405,16 @@ information about Piwik see <http://piwik.org/>.
 
 .. seealso:: :setting:`PIWIK_SITE_ID`
 
+.. setting:: POST_UPDATE_SCRIPTS
+
+POST_UPDATE_SCRIPTS
+-------------------
+
+.. versionadded:: 2.3
+
+List of scripts which are allowed as post update scripts. The script needs to be
+later enabled in component configuration.
+
 .. setting:: PRE_COMMIT_SCRIPTS
 
 PRE_COMMIT_SCRIPTS

@@ -139,6 +139,10 @@ MACHINE_TRANSLATION_SERVICES = getvalue('MACHINE_TRANSLATION_SERVICES', (
 MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
 
 # List of scripts to use in custom processing
+POST_UPDATE_SCRIPTS = getvalue('POST_UPDATE_SCRIPTS', ())
+POST_UPDATE_SCRIPT_CHOICES = [
+    (script, get_script_name(script)) for script in POST_UPDATE_SCRIPTS
+] + [('', '')]
 PRE_COMMIT_SCRIPTS = getvalue('PRE_COMMIT_SCRIPTS', ())
 PRE_COMMIT_SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
