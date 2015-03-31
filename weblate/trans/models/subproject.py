@@ -29,10 +29,13 @@ from django.utils import timezone
 from glob import glob
 import os
 import time
+import subprocess
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
-from weblate.trans.util import is_repo_link, get_site_url, cleanup_repo_url
+from weblate.trans.util import (
+    is_repo_link, get_site_url, cleanup_repo_url, get_clean_env,
+)
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -41,7 +44,7 @@ from weblate.trans.validators import (
     validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
-from weblate.appsettings import SCRIPT_CHOICES, HIDE_REPO_CREDENTIALS
+from weblate.appsettings import PRE_COMMIT_SCRIPT_CHOICES, HIDE_REPO_CREDENTIALS
 from weblate.accounts.models import notify_merge_failure
 from weblate.trans.models.changes import Change
 
@@ -213,7 +216,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=200,
         default='',
         blank=True,
-        choices=SCRIPT_CHOICES,
+        choices=PRE_COMMIT_SCRIPT_CHOICES,
         help_text=ugettext_lazy(
             'Script to be executed before committing translation, '
             'please check documentation for more details.'
@@ -1376,3 +1379,29 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 user=user,
                 action=Change.ACTION_UNLOCK,
             )
+
+    def run_pre_commit_script(self, filename):
+        """
+        Pre commit hook
+        """
+        self.run_hook(self.pre_commit_script, filename)
+
+    def run_hook(self, script, *args):
+        """
+        Generic script hook executor.
+        """
+        if script:
+            command = [script]
+            if args:
+                command.extend(args)
+            try:
+                subprocess.check_call(
+                    command,
+                    env=get_clean_env(),
+                )
+            except (OSError, subprocess.CalledProcessError) as err:
+                self.log_error(
+                    'failed to run hook script %s: %s',
+                    script,
+                    err
+                )

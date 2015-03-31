@@ -140,7 +140,7 @@ MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
 
 # List of scripts to use in custom processing
 PRE_COMMIT_SCRIPTS = getvalue('PRE_COMMIT_SCRIPTS', ())
-SCRIPT_CHOICES = [
+PRE_COMMIT_SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
 ] + [('', '')]
 
