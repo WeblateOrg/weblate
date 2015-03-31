@@ -413,7 +413,7 @@ POST_UPDATE_SCRIPTS
 .. versionadded:: 2.3
 
 List of scripts which are allowed as post update scripts. The script needs to be
-later enabled in component configuration.
+later enabled in the :ref:`component`.
 
 .. setting:: PRE_COMMIT_SCRIPTS
 
@@ -421,7 +421,7 @@ PRE_COMMIT_SCRIPTS
 ------------------
 
 List of scripts which are allowed as pre commit scripts. The script needs to be
-later enabled in component configuration.
+later enabled in the :ref:`component`.
 
 For example you can allow script which does some cleanup:
 

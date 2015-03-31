@@ -236,6 +236,10 @@ the :command:`msgmerge` tool:
 
     msgmerge -U locale/cs/LC_MESSAGES/django.mo locale/django.pot
 
+In case you can want to do the update automatically, you can add custom script
+to handle this to :setting:`POST_UPDATE_SCRIPTS` and enable it in the
+:ref:`component`.
+
 Troubleshooting
 +++++++++++++++
 
