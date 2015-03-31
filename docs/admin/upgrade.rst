@@ -19,6 +19,11 @@ Generic upgrade instructions
     Since version 1.9, Weblate also supports Django 1.7 migrations, please check
     :ref:`django-17` for more information.
 
+.. versionchanged:: 2.3
+
+    Since version 2.3, Weblate supports only Django native migrations, South is
+    no longer supported, please check :ref:`django-17` for more information.
+
 Before upgrading, please check current :ref:`requirements` as they might have
 changed.
 
