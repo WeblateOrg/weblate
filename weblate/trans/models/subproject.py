@@ -221,7 +221,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         blank=True,
         choices=POST_UPDATE_SCRIPT_CHOICES,
         help_text=ugettext_lazy(
-            'Script to be executed afrer receiving repository update, '
+            'Script to be executed after receiving a repository update, '
             'please check documentation for more details.'
         ),
     )
