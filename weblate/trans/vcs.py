@@ -742,6 +742,7 @@ class HgRepository(Repository):
                 self.execute(['rebase'])
             except RepositoryException as error:
                 if error.retcode == 1:
+                    self.execute(['update'])
                     # nothing to rebase
                     return
                 raise
@@ -836,17 +837,14 @@ class HgRepository(Repository):
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
-        missing_revs = self.execute(
-            ['log', '--branch', 'tip', '--prune', '.']
-        )
-        return missing_revs != ''
+        return self.execute(['log', '-r', 'only(tip,.)']) != ''
 
     def needs_push(self, branch):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
         """
-        return self.execute(['log', '-r', 'not public()']) != ''
+        return self.execute(['log', '-r', 'outgoing()']) != ''
 
     @classmethod
     def _get_version(cls):
