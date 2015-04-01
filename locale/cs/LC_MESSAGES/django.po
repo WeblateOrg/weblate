@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-04-01 10:32+0200\n"
-"PO-Revision-Date: 2015-03-13 11:36+0200\n"
+"PO-Revision-Date: 2015-04-01 13:21+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -187,26 +187,23 @@ msgid "Interface Language"
 msgstr "Jazyk rozhraní"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
 #| msgid "Used languages"
 msgid "Translated languages"
-msgstr "Používaných jazyků"
+msgstr "Překládané jazyky"
 
 #: weblate/accounts/models.py:376
-#, fuzzy
 #| msgid "Please choose the language into which you would like to translate."
 msgid "Choose languages to which you can translate."
-msgstr "Prosím zvolte jazyk, do kterého chcete překládat."
+msgstr "Prosím zvolte jazyky, do kterých můžete překládat."
 
 #: weblate/accounts/models.py:380
 msgid "Secondary languages"
 msgstr "Alternativní jazyky"
 
 #: weblate/accounts/models.py:388
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Hide completed translations on dashboard"
-msgstr "Stáhnout zkompilovaný překlad"
+msgstr "Skýt z nástěnky kompletní překlady"
 
 #: weblate/accounts/models.py:394 weblate/html/accounts/profile.html:109
 msgid "Subscribed projects"
@@ -689,18 +686,18 @@ msgstr "Dokumentace"
 
 #: weblate/html/accounts/profile.html:80
 msgid "Customize Weblate behavior to match your personal preferences."
-msgstr ""
+msgstr "Přizpůsobte si chování Weblate podle vašich zvyklostí."
 
 #: weblate/html/accounts/profile.html:96
-#, fuzzy
 #| msgid "Hosting projects"
 msgid "Managed projects"
-msgstr "Hostování překladů"
+msgstr "Spravované projekty"
 
 #: weblate/html/accounts/profile.html:103
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr ""
+"Pro spravované projekty budete automaticky dostávat důležitá upozornění."
 
 #: weblate/html/accounts/profile.html:122
 msgid "You will receive chosen notifications via email for all your languages."
@@ -1191,7 +1188,7 @@ msgstr ""
 "k výše uvedeným URL."
 
 #: weblate/html/data.html:50
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Translation statistics for every subproject in JSON format allow you to "
 #| "use these data in other websites or tools. Format of the data is "
@@ -1201,7 +1198,7 @@ msgid ""
 "use these data in other websites or tools. Format of the data is described "
 "in <a href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
-"Statistiky překladů pro každý podprojekt ve formátu JSON umožňují použít "
+"Statistiky překladů pro každou komponentu ve formátu JSON umožňují použít "
 "tyto údaje v jiných webové stránkách nebo nástrojích. Formát dat je popsán v "
 "<a href=\"%(api_docs)s\">dokumentaci</a>."
 
@@ -3086,10 +3083,9 @@ msgid "Accept and edit"
 msgstr "Přijmout a upravit"
 
 #: weblate/html/translate.html:229
-#, fuzzy
 #| msgid "Use this translation for all subprojects"
 msgid "Use this translation for all components"
-msgstr "Použít tento překlad pro všechny podprojekty"
+msgstr "Použít tento překlad pro všechny komponenty"
 
 #: weblate/html/translate.html:229
 msgid "Use this translation"
@@ -3970,10 +3966,9 @@ msgid "Component to use"
 msgstr "Použité komponenty"
 
 #: weblate/trans/forms.py:582
-#, fuzzy
 #| msgid "Components"
 msgid "All components"
-msgstr "Komponenty"
+msgstr "Všechny komponenty"
 
 #: weblate/trans/forms.py:600
 msgid ""
@@ -4248,10 +4243,9 @@ msgid "Whether to allow updating this repository by remote hooks."
 msgstr "Jestli má jít aktualizovat repozitář pomocí vzdálených háčků."
 
 #: weblate/trans/models/project.py:138
-#, fuzzy
 #| msgid "Main website of translated project."
 msgid "Owner of the project."
-msgstr "Webové stránky překládaného projektu."
+msgstr "Vlastník projektu."
 
 #: weblate/trans/models/project.py:179
 #, python-format
@@ -4373,7 +4367,7 @@ msgstr "Větev repozitáře k překladu"
 
 #: weblate/trans/models/subproject.py:170
 msgid "Monolingual base language file"
-msgstr "Základní soubor pro monolinguální překlady"
+msgstr "Základní soubor pro jednojazyčné překlady"
 
 #: weblate/trans/models/subproject.py:174
 msgid ""
@@ -4385,14 +4379,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:180
 msgid "Edit base file"
-msgstr ""
+msgstr "Upravovat základní soubor"
 
 #: weblate/trans/models/subproject.py:183
-#, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
-msgstr "Nelze použít základní soubor pro dvoujazyčný překlad!"
+msgstr ""
+"Jestli budou uživatelé mít možnost upravit základní soubor pro jednojazyčný "
+"překlad."
 
 #: weblate/trans/models/subproject.py:188
 msgid "Base file for new translations"
@@ -4430,10 +4425,9 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:218
 msgid "Post-update script"
-msgstr ""
+msgstr "Skript po aktualizaci"
 
 #: weblate/trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -4441,7 +4435,7 @@ msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
-"Skript, který bude spuštěn před zapsáním změn do repozitáře, více informací "
+"Skript, který bude spuštěn po přijmutí změn v repozitáři, více informací "
 "naleznete v dokumentaci."
 
 #: weblate/trans/models/subproject.py:229
@@ -4622,10 +4616,9 @@ msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Neplatný odkaz na projekt, nelze odkázat na sebe sama!"
 
 #: weblate/trans/models/subproject.py:962
-#, fuzzy
 #| msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
-msgstr "Neplatný odkaz na projekt, použijte weblate://projekt/podprojekt."
+msgstr "Neplatný odkaz na projekt, použijte weblate://projekt/komponenta."
 
 #: weblate/trans/models/subproject.py:968
 msgid "Push URL is not used when repository is linked!"
@@ -5307,10 +5300,9 @@ msgstr "Na vašem překladu selhaly některé kontroly: {0}"
 
 #: weblate/trans/views/edit.py:298 weblate/trans/views/edit.py:340
 #: weblate/trans/views/edit.py:390 weblate/trans/views/edit.py:439
-#, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You don't have privileges to save templates!"
-msgstr "Pro ukládání překladů nemáte oprávnění!"
+msgstr "Pro změnu šablony nemáte oprávnění!"
 
 #: weblate/trans/views/edit.py:304 weblate/trans/views/edit.py:348
 #: weblate/trans/views/edit.py:398
