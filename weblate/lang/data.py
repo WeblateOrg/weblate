@@ -666,6 +666,7 @@ LOCALE_ALIASES = {
     'french': 'fr',
     # Android
     'be-rBY': 'be@latin',
-    # Misc
+    # Misc invalid codes
     'val_ES': 'ca@valencia',
+    'jp': 'ja',
 }
