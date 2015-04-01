@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-03-31 17:24+0200\n"
-"PO-Revision-Date: 2015-03-10 08:58+0200\n"
+"PO-Revision-Date: 2015-04-01 09:08+0200\n"
 "Last-Translator: Emese Ban <emese.kovacs@gmail.com>\n"
-"Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
-"hu/>\n"
+"Language-Team: Hungarian "
+"<https://hosted.weblate.org/projects/weblate/master/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -188,13 +188,11 @@ msgid "Interface Language"
 msgstr "Felhasználói felület nyelve"
 
 #: weblate/accounts/models.py:374
-#, fuzzy
 #| msgid "Used languages"
 msgid "Translated languages"
-msgstr "Használt nyelvek"
+msgstr "Lefordított nyelvek"
 
 #: weblate/accounts/models.py:376
-#, fuzzy
 #| msgid "Please choose the language into which you would like to translate."
 msgid "Choose languages to which you can translate."
 msgstr "Kérem válassza ki, hogy milyen nyelven kíván fordítani."
@@ -204,10 +202,9 @@ msgid "Secondary languages"
 msgstr "Másodlagos nyelvek"
 
 #: weblate/accounts/models.py:388
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Hide completed translations on dashboard"
-msgstr "Összes fordítás letöltése"
+msgstr "Lefordított szövegek elrejtése az Áttekintő oldalról"
 
 #: weblate/accounts/models.py:394 weblate/html/accounts/profile.html:109
 msgid "Subscribed projects"
@@ -697,18 +694,19 @@ msgstr "Dokumentáció"
 
 #: weblate/html/accounts/profile.html:80
 msgid "Customize Weblate behavior to match your personal preferences."
-msgstr ""
+msgstr "A Weblate viselkedésének testre szabása."
 
 #: weblate/html/accounts/profile.html:96
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Managed projects"
-msgstr "Elhelyezést biztosító oldal"
+msgstr "Menedzselt projektek"
 
 #: weblate/html/accounts/profile.html:103
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr ""
+"Automatikus értesítést küldünk a menedzselt projektek fonotosabb "
+"eseményeiről."
 
 #: weblate/html/accounts/profile.html:122
 msgid "You will receive chosen notifications via email for all your languages."
@@ -1205,7 +1203,7 @@ msgstr ""
 "hozzáfűzi."
 
 #: weblate/html/data.html:50
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Translation statistics for every subproject in JSON format allow you to "
 #| "use these data in other websites or tools. Format of the data is "
@@ -1215,7 +1213,7 @@ msgid ""
 "use these data in other websites or tools. Format of the data is described "
 "in <a href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
-"A JSON formátumú, minden alprojektre elérhető fordítási statisztikákkal más "
+"A JSON formátumú, minden összetevőre elérhető fordítási statisztikákkal más "
 "weboldalakon és eszközökben is elérhetők ezek az adatok. Az adatok "
 "formátumát a <a href=\"%(api_docs)s\">dokumentáció</a> tartalmazza."
 
@@ -3107,7 +3105,6 @@ msgid "Accept and edit"
 msgstr "Elfogad és szerkeszt"
 
 #: weblate/html/translate.html:220
-#, fuzzy
 #| msgid "Use this translation for all subprojects"
 msgid "Use this translation for all components"
 msgstr "E fordítás használata minden összetevőben"
@@ -4006,10 +4003,9 @@ msgid "Component to use"
 msgstr "Használandó összetevő"
 
 #: weblate/trans/forms.py:582
-#, fuzzy
 #| msgid "Components"
 msgid "All components"
-msgstr "Összetevők"
+msgstr "Minden összetevő"
 
 #: weblate/trans/forms.py:600
 msgid ""
@@ -4290,10 +4286,9 @@ msgid "Whether to allow updating this repository by remote hooks."
 msgstr "E tároló frissítésének engedélyezáse távoli horgokon keresztül."
 
 #: weblate/trans/models/project.py:138
-#, fuzzy
 #| msgid "Main website of translated project."
 msgid "Owner of the project."
-msgstr "A lefordított projekt főoldala."
+msgstr "A projekt tulajdonosa."
 
 #: weblate/trans/models/project.py:179
 #, python-format
@@ -4427,14 +4422,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:180
 msgid "Edit base file"
-msgstr ""
+msgstr "Alapfájl szerkesztése"
 
 #: weblate/trans/models/subproject.py:183
-#, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
-msgstr "Nem használhat alapfájlt kétnyelvű fordításhoz!"
+msgstr ""
+"Ez befolyásolja, hogy a felhasználók szerkeszthetik-e vagy nem az egynyelvű "
+"fordítások alapfájljait."
 
 #: weblate/trans/models/subproject.py:188
 msgid "Base file for new translations"
@@ -4471,10 +4467,9 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:218
 msgid "Post-update script"
-msgstr ""
+msgstr "Frissítés után futtatandó szkriptek"
 
 #: weblate/trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -4482,7 +4477,7 @@ msgid ""
 "Script to be executed afrer receiving repository update, please check "
 "documentation for more details."
 msgstr ""
-"A fordítás kommitálása előtt lefutó szkript. Keresse fel a dokumentációt "
+"A tárból frissítés után futtatandó szkript. Keresse fel a dokumentációt "
 "további részletekért."
 
 #: weblate/trans/models/subproject.py:229
@@ -4665,7 +4660,6 @@ msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Hibás Weblate projekt hivatkozás, nem hivatkozhat önmagára!"
 
 #: weblate/trans/models/subproject.py:962
-#, fuzzy
 #| msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
