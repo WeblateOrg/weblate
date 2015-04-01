@@ -115,6 +115,8 @@ class LanguageManager(models.Manager):
         It also handles Android special naming of regional locales like pt-rBR
         '''
 
+        code = code.replace(' ', '_')
+
         # First try getting langauge as is
         ret = self.try_get(code=code)
         if ret is not None:
