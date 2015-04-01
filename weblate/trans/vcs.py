@@ -742,6 +742,7 @@ class HgRepository(Repository):
                 self.execute(['rebase'])
             except RepositoryException as error:
                 if error.retcode == 1:
+                    self.execute(['update'])
                     # nothing to rebase
                     return
                 raise
