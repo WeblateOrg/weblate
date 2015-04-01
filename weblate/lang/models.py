@@ -107,6 +107,15 @@ class LanguageManager(models.Manager):
 
         return lang, country
 
+    def sanitize_code(self, code):
+        """
+        Language code sanitization.
+        """
+        code = code.replace(' ', '').replace('(', '').replace(')', '')
+        while code[-1].isdigit():
+            code = code[:-1]
+        return code
+
     def auto_get_or_create(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
@@ -114,10 +123,7 @@ class LanguageManager(models.Manager):
 
         It also handles Android special naming of regional locales like pt-rBR
         '''
-
-        code = code.replace(' ', '').replace('(', '').replace(')', '')
-        while code[-1].isdigit():
-            code = code[:-1]
+        code = self.sanitize_code(code)
 
         # First try getting langauge as is
         ret = self.try_get(code=code)
