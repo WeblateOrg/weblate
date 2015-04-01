@@ -51,11 +51,10 @@ from weblate.trans.models.changes import Change
 class TranslationManager(models.Manager):
     # pylint: disable=W0232
 
-    def check_sync(self, subproject, code, path, force=False, request=None):
+    def check_sync(self, subproject, lang, code, path, force=False, request=None):
         '''
         Parses translation meta info and creates/updates translation object.
         '''
-        lang = Language.objects.auto_get_or_create(code=code)
         translation, dummy = self.get_or_create(
             language=lang,
             language_code=code,

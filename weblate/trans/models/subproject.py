@@ -872,8 +872,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 pos + 1,
                 len(matches)
             )
+            lang = Language.objects.auto_get_or_create(code=code)
             translation = Translation.objects.check_sync(
-                self, code, path, force, request=request
+                self, lang, code, path, force, request=request
             )
             translations.append(translation.id)
 
