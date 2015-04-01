@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-04-01 10:32+0200\n"
-"PO-Revision-Date: 2015-04-01 10:41+0200\n"
+"PO-Revision-Date: 2015-04-01 19:14+0200\n"
 "Last-Translator: Viktar Palstsiuk <vipals@gmail.com>\n"
 "Language-Team: Belarusian "
 "<https://hosted.weblate.org/projects/weblate/master/be/>\n"
@@ -202,10 +202,9 @@ msgid "Secondary languages"
 msgstr "Мовы, зь якіх перакладаеце"
 
 #: weblate/accounts/models.py:388
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Hide completed translations on dashboard"
-msgstr "Сцягнуць скампіляваны пераклад"
+msgstr "Прыбраць скончаныя пераклады з прыборнай панэлі"
 
 #: weblate/accounts/models.py:394 weblate/html/accounts/profile.html:109
 msgid "Subscribed projects"
@@ -697,17 +696,18 @@ msgstr "Дакументацыя"
 #: weblate/html/accounts/profile.html:80
 msgid "Customize Weblate behavior to match your personal preferences."
 msgstr ""
+"Наладзьце паводзіны Weblate ў адпаведнасці з вашымі асабістымі пажаданнямі."
 
 #: weblate/html/accounts/profile.html:96
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Managed projects"
-msgstr "Сайт хаста"
+msgstr "Кіруемыя праекты"
 
 #: weblate/html/accounts/profile.html:103
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr ""
+"Вы будзеце аўтаматычна атрымліваць важныя паведамленні пра кіруемыя праекты."
 
 #: weblate/html/accounts/profile.html:122
 msgid "You will receive chosen notifications via email for all your languages."
@@ -1201,7 +1201,7 @@ msgstr ""
 "дадаўшы ідэнтыфікатар мовы да вышпаданых URL-аў."
 
 #: weblate/html/data.html:50
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Translation statistics for every subproject in JSON format allow you to "
 #| "use these data in other websites or tools. Format of the data is "
@@ -1211,7 +1211,7 @@ msgid ""
 "use these data in other websites or tools. Format of the data is described "
 "in <a href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
-"Статыстыка перакладаў для кожнага падпраекта ў фармаце JSON дазваляе "
+"Статыстыка перакладаў для кожнага кампанента ў фармаце JSON дазваляе "
 "выкарыстоўваць гэтыя звесткі з іншымі сайтамі альбо інструментамі. Фармат "
 "звестак апісаны ў <a href=\"%(api_docs)s\">дакументацыі</a>."
 
@@ -3095,10 +3095,9 @@ msgid "Accept and edit"
 msgstr "Прыняць і рэдагаваць"
 
 #: weblate/html/translate.html:229
-#, fuzzy
 #| msgid "Use this translation for all subprojects"
 msgid "Use this translation for all components"
-msgstr "Ужыць пераклад для ўсіх падпраектаў"
+msgstr "Ужыць пераклад для ўсіх кампанентаў"
 
 #: weblate/html/translate.html:229
 msgid "Use this translation"
@@ -4267,10 +4266,9 @@ msgid "Whether to allow updating this repository by remote hooks."
 msgstr "Ці дазваляць абнаўленне гэтага рэпазіторыя аддаленымі крукамі."
 
 #: weblate/trans/models/project.py:138
-#, fuzzy
 #| msgid "Main website of translated project."
 msgid "Owner of the project."
-msgstr "Галоўны сайт перакладанага праекта."
+msgstr "Уладальнік праекта."
 
 #: weblate/trans/models/project.py:179
 #, python-format
@@ -4406,14 +4404,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:180
 msgid "Edit base file"
-msgstr ""
+msgstr "Рэдагаваць базавы файл"
 
 #: weblate/trans/models/subproject.py:183
-#, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
-msgstr "Немагчыма ўжываць базавы файл для дзвюхмоўнага перакладу!"
+msgstr ""
+"Ці будуць карыстальнікі мець магчымасць рэдагаваць базавы файл для "
+"тлумачальных перакладаў."
 
 #: weblate/trans/models/subproject.py:188
 msgid "Base file for new translations"
@@ -4451,10 +4450,9 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:218
 msgid "Post-update script"
-msgstr ""
+msgstr "Скрыпт пасля абнаўлення"
 
 #: weblate/trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -4462,7 +4460,7 @@ msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
-"Скрыпт, які выконваецца перад запісам рэвізіі перакладу. Калі ласка, "
+"Скрыпт, які выконваецца пасля атрымання абнаўлення рэпазіторыя. Калі ласка, "
 "звярніцеся да дакументацыі па падрабязнасці."
 
 #: weblate/trans/models/subproject.py:229
@@ -4647,11 +4645,10 @@ msgstr ""
 "самога сябе!"
 
 #: weblate/trans/models/subproject.py:962
-#, fuzzy
 #| msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
-"Нядзейсная спасылка на праект Weblate. Ужывайце weblate://праект/падпраект."
+"Нядзейсная спасылка на праект Weblate. Ужывайце weblate://праект/кампанент."
 
 #: weblate/trans/models/subproject.py:968
 msgid "Push URL is not used when repository is linked!"
@@ -5334,10 +5331,9 @@ msgstr "Ваш пераклад не прайшоў некаторых прав�
 
 #: weblate/trans/views/edit.py:298 weblate/trans/views/edit.py:340
 #: weblate/trans/views/edit.py:390 weblate/trans/views/edit.py:439
-#, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You don't have privileges to save templates!"
-msgstr "Вам не дастае правоў для захавання перакладу!"
+msgstr "Вам не стае правоў для захавання шаблону!"
 
 #: weblate/trans/views/edit.py:304 weblate/trans/views/edit.py:348
 #: weblate/trans/views/edit.py:398
