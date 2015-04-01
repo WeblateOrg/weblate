@@ -362,7 +362,10 @@ class RESXUnit(FileUnit):
         return ''
 
     def get_context(self):
-        return self.unit.getid()
+        if self.template is not None:
+            return self.template.getid()
+        else:
+            return self.unit.getid()
 
     def get_source(self):
         if self.template is None:
