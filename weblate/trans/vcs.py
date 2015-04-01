@@ -898,7 +898,7 @@ class HgRepository(Repository):
         # We also enable some necessary extensions here
         self.set_config('extensions.strip', '')
         self.set_config('extensions.rebase', '')
-        self.set_config('experimental.evolveopts', 'all')
+        self.set_config('experimental.evolution', 'all')
 
     def configure_branch(self, branch):
         """
