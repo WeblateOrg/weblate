@@ -858,7 +858,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Loads translations from VCS.
         '''
-        translations = []
+        translations = set()
         matches = self.get_mask_matches()
         for pos, path in enumerate(matches):
             code = self.get_lang_code(path)
@@ -876,7 +876,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             translation = Translation.objects.check_sync(
                 self, lang, code, path, force, request=request
             )
-            translations.append(translation.id)
+            translations.add(translation.id)
 
         # Delete possibly no longer existing translations
         if langs is None:
