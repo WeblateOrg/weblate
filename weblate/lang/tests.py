@@ -39,6 +39,12 @@ class LanguagesTest(TestCase):
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
         ),
         (
+            'cs (2)',
+            'cs',
+            'ltr',
+            '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+        ),
+        (
             'czech',
             'cs',
             'ltr',
