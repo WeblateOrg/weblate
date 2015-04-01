@@ -28,7 +28,13 @@
 {% if c.target %}
 <tr>
 <td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
-<td>{% if perms.trans.save_translation and c.unit and c.target != c.unit.target %}<a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>{% endif %}</td>
+<td>
+{% if perms.trans.save_translation and c.unit and c.target != c.unit.target %}
+{% if perms.trans.save_template or not trans.is_template %}
+<a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
+{% endif %}
+{% endif %}
+</td>
 </tr>
 {% endif %}
 {% empty %}

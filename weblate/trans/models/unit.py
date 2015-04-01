@@ -312,6 +312,7 @@ class Unit(models.Model):
     class Meta(object):
         permissions = (
             ('save_translation', "Can save translation"),
+            ('save_template', "Can save template"),
         )
         ordering = ['priority', 'position']
         app_label = 'trans'

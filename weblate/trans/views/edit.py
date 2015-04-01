@@ -290,6 +290,13 @@ def handle_translate(translation, request, user_locked,
 
     if 'suggest' in request.POST:
         go_next = perform_suggestion(unit, form, request)
+    elif (translation.is_template() and not
+          request.user.has_perm('trans.save_template')):
+        # Need privilege to save
+        messages.error(
+            request,
+            _('You don\'t have privileges to save templates!')
+        )
     elif not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -325,6 +332,15 @@ def handle_merge(translation, request, next_unit_url):
     '''
     Handles unit merging.
     '''
+    if (translation.is_template() and not
+            request.user.has_perm('trans.save_template')):
+        # Need privilege to save
+        messages.error(
+            request,
+            _('You don\'t have privileges to save templates!')
+        )
+        return
+
     if not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -366,6 +382,15 @@ def handle_merge(translation, request, next_unit_url):
 
 
 def handle_revert(translation, request, next_unit_url):
+    if (translation.is_template() and not
+            request.user.has_perm('trans.save_template')):
+        # Need privilege to save
+        messages.error(
+            request,
+            _('You don\'t have privileges to save templates!')
+        )
+        return
+
     if not request.user.has_perm('trans.save_translation'):
         # Need privilege to save
         messages.error(
@@ -402,6 +427,42 @@ def handle_revert(translation, request, next_unit_url):
         return HttpResponseRedirect(next_unit_url)
 
 
+def check_suggestion_permissions(request, mode, translation):
+    """
+    Checks permission for suggestion handling.
+    """
+    if (translation.is_template() and not
+            request.user.has_perm('trans.save_template')):
+        # Need privilege to save
+        messages.error(
+            request,
+            _('You don\'t have privileges to save templates!')
+        )
+        return False
+    if mode in ('accept', 'accept_edit'):
+        if not request.user.has_perm('trans.accept_suggestion'):
+            messages.error(
+                request,
+                _('You do not have privilege to accept suggestions!')
+            )
+            return False
+    elif mode == 'delete':
+        if not request.user.has_perm('trans.delete_suggestion'):
+            messages.error(
+                request,
+                _('You do not have privilege to delete suggestions!')
+            )
+            return False
+    elif mode in ('upvode', 'downvote'):
+        if not request.user.has_perm('trans.vote_suggestion'):
+            messages.error(
+                request,
+                _('You do not have privilege to vote for suggestions!')
+            )
+            return False
+    return True
+
+
 def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     '''
     Handles suggestion deleting/accepting.
@@ -409,52 +470,33 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     sugid = ''
     params = ('accept', 'accept_edit', 'delete', 'upvote', 'downvote')
     redirect_url = this_unit_url
+    mode = None
 
     # Parse suggestion ID
     for param in params:
         if param in request.POST:
             sugid = request.POST[param]
+            mode = param
             break
 
+    # Permissions check
+    if not check_suggestion_permissions(request, mode, translation):
+        return HttpResponseRedirect(this_unit_url)
+
+    # Perform operation
     try:
         sugid = int(sugid)
         suggestion = Suggestion.objects.get(pk=sugid)
 
         if 'accept' in request.POST or 'accept_edit' in request.POST:
-            # Accept suggesion
-            if not request.user.has_perm('trans.accept_suggestion'):
-                messages.error(
-                    request,
-                    _('You do not have privilege to accept suggestions!')
-                )
-                return HttpResponseRedirect(this_unit_url)
             suggestion.accept(translation, request)
             if 'accept' in request.POST:
                 redirect_url = next_unit_url
         elif 'delete' in request.POST:
-            # Delete suggestion
-            if not request.user.has_perm('trans.delete_suggestion'):
-                messages.error(
-                    request,
-                    _('You do not have privilege to delete suggestions!')
-                )
-                return HttpResponseRedirect(this_unit_url)
             suggestion.delete()
         elif 'upvote' in request.POST:
-            if not request.user.has_perm('trans.vote_suggestion'):
-                messages.error(
-                    request,
-                    _('You do not have privilege to vote for suggestions!')
-                )
-                return HttpResponseRedirect(this_unit_url)
             suggestion.add_vote(translation, request, True)
         elif 'downvote' in request.POST:
-            if not request.user.has_perm('trans.vote_suggestion'):
-                messages.error(
-                    request,
-                    _('You do not have privilege to vote for suggestions!')
-                )
-                return HttpResponseRedirect(this_unit_url)
             suggestion.add_vote(translation, request, False)
 
     except (Suggestion.DoesNotExist, ValueError):
