@@ -14,11 +14,12 @@ python:
 env:
   matrix:
     - CI_PIP_DEPS="Django>=1.7,<1.8" CI_LINT=1
-    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_DATABASE=mysql
-    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_DATABASE=postgresql
+    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_LINT=1
+    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=mysql
+    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql
     - CI_PIP_DEPS="Django>=1.7,<1.8"
-    - CI_PIP_DEPS="https://www.djangoproject.com/download/1.8c1/tarball/"
-    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
+    - CI_PIP_DEPS="Django>=1.8,<1.9"
+    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
     - CI_PIP_DEPS="https://github.com/django/django/zipball/master"
     - CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
   global:
