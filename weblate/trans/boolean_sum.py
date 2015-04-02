@@ -37,7 +37,6 @@ def get_template():
 
 
 class SQLSum(BaseSQLSum):
-    # pylint: disable=W0223
     @property
     def sql_template(self):
         """
@@ -50,6 +49,7 @@ class BooleanSum(Sum):
     '''
     Sum for boolean fields.
     '''
+    # pylint: disable=W0223
     def add_to_query(self, query, alias, col, source, is_summary):
         '''
         Generates query to use SQLSum class with type casting.
