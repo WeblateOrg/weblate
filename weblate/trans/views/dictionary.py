@@ -231,7 +231,7 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
         store.addunit(unit)
 
     # Save to response
-    store.savefile(response)
+    response.write(str(store))
 
     return response
 
