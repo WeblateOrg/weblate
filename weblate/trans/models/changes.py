@@ -150,7 +150,7 @@ class Change(models.Model):
     ACTION_NEW_SOURCE = 13
     ACTION_LOCK = 14
     ACTION_UNLOCK = 15
-    ACTION_FOUND_DUPLICATE = 16
+    ACTION_DUPLICATE_STRING = 16
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -169,7 +169,7 @@ class Change(models.Model):
         (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
         (ACTION_LOCK, ugettext_lazy('Component locked')),
         (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
-        (ACTION_FOUND_DUPLICATE, ugettext_lazy('Detected duplicate string')),
+        (ACTION_DUPLICATE_STRING, ugettext_lazy('Detected duplicate string')),
     )
 
     unit = models.ForeignKey('Unit', null=True)
