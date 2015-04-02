@@ -233,3 +233,15 @@ class Change(models.Model):
                 self.dictionary.language
             )
         return None
+
+    def can_revert(self):
+        return (
+            self.unit is not None and
+            self.target and
+            self.action in (
+                Change.ACTION_ACCEPT,
+                Change.ACTION_REVERT,
+                Change.ACTION_CHANGE,
+                Change.ACTION_NEW
+            )
+        )

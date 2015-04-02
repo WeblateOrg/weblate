@@ -25,7 +25,7 @@
 <td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
 <td></td>
 </tr>
-{% if c.target and c.unit %}
+{% if c.can_revert %}
 <tr>
 <td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
 <td>
