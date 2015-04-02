@@ -48,9 +48,6 @@ ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, '..', 'data-test')
 
-# Avoid migrating during testsuite
-SOUTH_TESTS_MIGRATE = False
-
 # Fake access to Microsoft Translator
 MT_MICROSOFT_ID = 'ID'
 MT_MICROSOFT_SECRET = 'SECRET'
