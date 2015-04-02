@@ -22,7 +22,7 @@ from django.utils.translation import ugettext as _, ungettext
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.http import Http404
 
 from weblate.trans.forms import get_upload_form
@@ -70,7 +70,6 @@ def download_language_pack(request, project, subproject, lang):
     return response
 
 
-@login_required
 @permission_required('trans.upload_translation')
 def upload_translation(request, project, subproject, lang):
     '''

@@ -29,7 +29,6 @@ from weblate.trans.views.helper import (
 )
 
 
-@login_required
 @permission_required('trans.lock_translation')
 def lock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
@@ -51,7 +50,6 @@ def update_lock(request, project, subproject, lang):
     return HttpResponse('ok')
 
 
-@login_required
 @permission_required('trans.lock_translation')
 def unlock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
@@ -66,7 +64,6 @@ def unlock_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
-@login_required
 @permission_required('trans.lock_subproject')
 def lock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
@@ -83,7 +80,6 @@ def lock_subproject(request, project, subproject):
     return redirect(obj)
 
 
-@login_required
 @permission_required('trans.lock_subproject')
 def unlock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
@@ -98,7 +94,6 @@ def unlock_subproject(request, project, subproject):
     return redirect(obj)
 
 
-@login_required
 @permission_required('trans.lock_subproject')
 def lock_project(request, project):
     obj = get_project(request, project)
@@ -116,7 +111,6 @@ def lock_project(request, project):
     return redirect(obj)
 
 
-@login_required
 @permission_required('trans.lock_subproject')
 def unlock_project(request, project):
     obj = get_project(request, project)

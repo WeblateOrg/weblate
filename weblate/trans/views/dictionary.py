@@ -22,7 +22,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
@@ -64,7 +64,6 @@ def show_dictionaries(request, project):
     )
 
 
-@login_required
 @permission_required('trans.change_dictionary')
 def edit_dictionary(request, project, lang):
     prj = get_project(request, project)
@@ -116,7 +115,6 @@ def edit_dictionary(request, project, lang):
     )
 
 
-@login_required
 @permission_required('trans.delete_dictionary')
 def delete_dictionary(request, project, lang):
     prj = get_project(request, project)
@@ -137,7 +135,6 @@ def delete_dictionary(request, project, lang):
     )
 
 
-@login_required
 @permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
