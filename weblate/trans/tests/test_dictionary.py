@@ -37,6 +37,8 @@ class DictionaryTest(ViewTestCase):
     '''
     Testing of dictionary manipulations.
     '''
+    def setUp(self):
+        super(DictionaryTest, self).setUp()
 
     def get_url(self, url):
         return reverse(url, kwargs={
