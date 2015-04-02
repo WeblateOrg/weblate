@@ -37,6 +37,7 @@ def get_template():
 
 
 class SQLSum(BaseSQLSum):
+    # pylint: disable=W0223
     @property
     def sql_template(self):
         """
