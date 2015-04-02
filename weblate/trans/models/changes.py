@@ -150,6 +150,10 @@ class Change(models.Model):
     ACTION_NEW_SOURCE = 13
     ACTION_LOCK = 14
     ACTION_UNLOCK = 15
+    ACTION_DUPLICATE_STRING = 16
+    ACTION_COMMIT = 17
+    ACTION_PUSH = 18
+    ACTION_RESET = 19
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -168,6 +172,10 @@ class Change(models.Model):
         (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
         (ACTION_LOCK, ugettext_lazy('Component locked')),
         (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
+        (ACTION_DUPLICATE_STRING, ugettext_lazy('Detected duplicate string')),
+        (ACTION_COMMIT, ugettext_lazy('Commited changes')),
+        (ACTION_PUSH, ugettext_lazy('Pushed changes')),
+        (ACTION_RESET, ugettext_lazy('Reset repository')),
     )
 
     unit = models.ForeignKey('Unit', null=True)
@@ -233,3 +241,15 @@ class Change(models.Model):
                 self.dictionary.language
             )
         return None
+
+    def can_revert(self):
+        return (
+            self.unit is not None and
+            self.target and
+            self.action in (
+                Change.ACTION_ACCEPT,
+                Change.ACTION_REVERT,
+                Change.ACTION_CHANGE,
+                Change.ACTION_NEW
+            )
+        )

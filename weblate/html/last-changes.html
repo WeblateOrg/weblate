@@ -25,11 +25,11 @@
 <td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
 <td></td>
 </tr>
-{% if c.target %}
+{% if c.can_revert %}
 <tr>
 <td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
 <td>
-{% if perms.trans.save_translation and c.unit and c.target != c.unit.target %}
+{% if perms.trans.save_translation and c.target != c.unit.target %}
 {% if perms.trans.save_template or not trans.is_template %}
 <a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
 {% endif %}
