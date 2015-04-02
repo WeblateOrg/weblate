@@ -818,6 +818,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.filename,
             author
         )
+        Change.objects.create(
+            action=Change.ACTION_COMMIT,
+            translation=self,
+        )
         with self.subproject.repository_lock:
             self.__git_commit(author, timestamp, sync)
 

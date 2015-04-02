@@ -151,6 +151,7 @@ class Change(models.Model):
     ACTION_LOCK = 14
     ACTION_UNLOCK = 15
     ACTION_DUPLICATE_STRING = 16
+    ACTION_COMMIT = 17
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -170,6 +171,7 @@ class Change(models.Model):
         (ACTION_LOCK, ugettext_lazy('Component locked')),
         (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
         (ACTION_DUPLICATE_STRING, ugettext_lazy('Detected duplicate string')),
+        (ACTION_COMMIT, ugettext_lazy('Commited changes')),
     )
 
     unit = models.ForeignKey('Unit', null=True)
