@@ -703,6 +703,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.log_info('pushing to remote repo')
             with self.repository_lock:
                 self.repository.push(self.branch)
+
+            if self.translation_set.exists():
+                Change.objects.create(
+                    action=Change.ACTION_PUSH,
+                    translation=self.translation_set.all()[0],
+                )
+
             return True
         except RepositoryException as error:
             self.log_error('failed to push on repo: %s', error)
