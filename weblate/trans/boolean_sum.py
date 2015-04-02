@@ -27,15 +27,22 @@ from django.db.models.aggregates import Sum
 from django.db.models.sql.aggregates import Sum as BaseSQLSum
 
 
+def get_template():
+    '''
+    Adds type casting to boolean values for PostgreSQL.
+    '''
+    if 'psycopg2' in settings.DATABASES['default']['ENGINE']:
+        return '%(function)s(%(field)s::int)'
+    return '%(function)s(%(field)s)'
+
+
 class SQLSum(BaseSQLSum):
     @property
     def sql_template(self):
-        '''
-        Adds type casting to boolean values for PostgreSQL.
-        '''
-        if 'psycopg2' in settings.DATABASES['default']['ENGINE']:
-            return '%(function)s(%(field)s::int)'
-        return '%(function)s(%(field)s)'
+        """
+        Returns template for the SQL
+        """
+        return get_template()
 
 
 class BooleanSum(Sum):
@@ -45,8 +52,25 @@ class BooleanSum(Sum):
     def add_to_query(self, query, alias, col, source, is_summary):
         '''
         Generates query to use SQLSum class with type casting.
+
+        Used for Django 1.7
         '''
         aggregate = SQLSum(
             col, source=source, is_summary=is_summary, **self.extra
         )
         query.aggregates[alias] = aggregate
+
+    def _patch_aggregate(self, query):
+        """
+        Wrapper to disable compatibility layer in Django 1.8
+        """
+        return
+
+    @property
+    def template(self):
+        """
+        Returns template for the SQL
+
+        Used for Django 1.8 and newer
+        """
+        return get_template()
