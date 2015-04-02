@@ -153,6 +153,7 @@ class Change(models.Model):
     ACTION_DUPLICATE_STRING = 16
     ACTION_COMMIT = 17
     ACTION_PUSH = 18
+    ACTION_RESET = 19
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -174,6 +175,7 @@ class Change(models.Model):
         (ACTION_DUPLICATE_STRING, ugettext_lazy('Detected duplicate string')),
         (ACTION_COMMIT, ugettext_lazy('Commited changes')),
         (ACTION_PUSH, ugettext_lazy('Pushed changes')),
+        (ACTION_RESET, ugettext_lazy('Reset repository')),
     )
 
     unit = models.ForeignKey('Unit', null=True)

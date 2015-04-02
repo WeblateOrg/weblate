@@ -741,6 +741,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.log_info('reseting to remote repo')
             with self.repository_lock:
                 self.repository.reset(self.branch)
+
+            if self.translation_set.exists():
+                Change.objects.create(
+                    action=Change.ACTION_RESET,
+                    translation=self.translation_set.all()[0],
+                )
         except RepositoryException as error:
             self.log_error('failed to reset on repo')
             msg = 'Error:\n%s' % str(error)
