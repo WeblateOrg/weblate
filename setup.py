@@ -89,6 +89,7 @@ setup(
         'A web-based translation tool with tight version control integration'
     ),
     long_description=README,
+    keywords='i18n l10n gettext git mercurial translate',
     url='http://weblate.org/',
     download_url='https://github.com/nijel/weblate',
     author='Michal Čihař',
