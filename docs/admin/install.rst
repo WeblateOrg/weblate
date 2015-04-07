@@ -102,7 +102,7 @@ Most of requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-Django translate-toolkit \
-        python-Whoosh python-Pillow python-South python-python-social-auth \
+        python-Whoosh python-Pillow python-python-social-auth \
         python-babel Git mercurial
 
     
