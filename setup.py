@@ -25,6 +25,9 @@ from setuptools import setup
 with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
     README = readme.read()
 
+with open('requirements.txt') as requirements:
+    REQUIRES = requirements.read().splitlines()
+
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
@@ -90,6 +93,15 @@ setup(
     download_url='https://github.com/nijel/weblate',
     author='Michal Čihař',
     author_email='michal@cihar.com',
+    install_requires=REQUIRES,
+    extras_require={
+        'Mercurial': ['Mercurial>=2.8'],
+        'Unicode': [
+            'https://github.com/SmileyChris/pyuca/archive/master.zip'
+        ],
+        'Avatars': ['pyLibravatar', 'pydns'],
+        'Android': ['babel'],
+    },
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
