@@ -566,11 +566,12 @@ class GitRepository(Repository):
             name, url = remote.split('\t')
             if name != 'origin':
                 continue
-            url, kind = url.rsplit(' ', 1)
-            if kind == '(fetch)':
-                old_pull = url
-            elif kind == '(push)':
-                old_push = url
+            if ' ' in url:
+                url, kind = url.rsplit(' ', 1)
+                if kind == '(fetch)':
+                    old_pull = url
+                elif kind == '(push)':
+                    old_push = url
 
         if old_pull is None:
             # No origin existing
