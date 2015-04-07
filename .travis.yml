@@ -20,7 +20,7 @@ env:
     - CI_PIP_DEPS="Django>=1.7,<1.8"
     - CI_PIP_DEPS="Django>=1.8,<1.9"
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
-    - CI_PIP_DEPS="git+git://github.com/django/django.git"
+    - CI_PIP_DEPS="git+git://github.com/django/django.git git+git://github.com/omab/python-social-auth.git"
     - CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
@@ -28,7 +28,7 @@ env:
 matrix:
   allow_failures:
     - python: "2.7"
-      env: CI_PIP_DEPS="git+git://github.com/django/django.git"
+      env: CI_PIP_DEPS="git+git://github.com/django/django.git git+git://github.com/omab/python-social-auth.git"
     - python: "2.7"
       env: CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
 # commands to install dependencies
