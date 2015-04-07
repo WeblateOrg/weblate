@@ -34,7 +34,7 @@ from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.util import (
-    is_repo_link, get_site_url, cleanup_repo_url, get_clean_env,
+    is_repo_link, get_site_url, cleanup_repo_url, get_clean_env, cleanup_path,
 )
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
 from weblate.trans.models.translation import Translation
@@ -1230,12 +1230,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.sync_git_repo()
 
         # Remove leading ./ from paths
-        if self.filemask.startswith('./'):
-            self.filemask = self.filemask[2:]
-        if self.template.startswith('./'):
-            self.template = self.template[2:]
-        if self.extra_commit_file.startswith('./'):
-            self.extra_commit_file = self.extra_commit_file[2:]
+        self.filemask = cleanup_path(self.filemask)
+        self.template = cleanup_path(self.template)
+        self.extra_commit_file = cleanup_path(self.extra_commit_file)
 
         # Save/Create object
         super(SubProject, self).save(*args, **kwargs)

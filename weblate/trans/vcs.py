@@ -851,8 +851,13 @@ class HgRepository(Repository):
         """
         Returns VCS program version.
         """
-        output = cls._popen(['version'])
-        return cls.VERSION_RE.match(output).group(1)
+        output = cls._popen(['version', '-q'])
+        matches = cls.VERSION_RE.match(output)
+        if matches is None:
+            raise OSError(
+                u'Failed to parse version string: {0}'.format(output)
+            )
+        return matches.group(1)
 
     def commit(self, message, author=None, timestamp=None, files=None):
         """

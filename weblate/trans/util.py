@@ -195,3 +195,14 @@ def redirect_param(location, params, *args, **kwargs):
     return HttpResponseRedirect(
         resolve_url(location, *args, **kwargs) + params
     )
+
+
+def cleanup_path(path):
+    """
+    Removes leading ./ or / from path.
+    """
+    if path.startswith('./'):
+        path = path[2:]
+    if path.startswith('/'):
+        path = path[1:]
+    return path
