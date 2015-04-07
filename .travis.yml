@@ -31,6 +31,9 @@ matrix:
       env: CI_PIP_DEPS="git+git://github.com/django/django.git git+git://github.com/omab/python-social-auth.git"
     - python: "2.7"
       env: CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
+    - python: "3.3"
+  include:
+    - python: "3.3"
 # commands to install dependencies
 install:
   - ./ci/install
