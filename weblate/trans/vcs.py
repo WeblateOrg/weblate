@@ -739,7 +739,7 @@ class HgRepository(Repository):
             self.execute(['rebase', '--abort'])
         else:
             try:
-                self.execute(['rebase'])
+                self.execute(['rebase', '--tool', 'internal:merge'])
             except RepositoryException as error:
                 if error.retcode == 1:
                     self.execute(['update'])
