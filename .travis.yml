@@ -20,8 +20,8 @@ env:
     - CI_PIP_DEPS="Django>=1.7,<1.8"
     - CI_PIP_DEPS="Django>=1.8,<1.9"
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql CI_RUN_TESTS="-p test_selenium.py" CI_SELENIUM=1
-    - CI_PIP_DEPS="https://github.com/django/django/zipball/master"
     - CI_PIP_DEPS="git+git://github.com/django/django.git"
+    - CI_PIP_DEPS="https://github.com/translate/translate/zipball/master"
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
