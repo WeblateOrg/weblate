@@ -28,4 +28,7 @@
   <link rel="apple-touch-icon" href="{% get_media_prefix %}weblate-128.png"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="robots" content="index, follow" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
+  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_profile %}{{ page_profile.get_user_name }}{% else %}{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}{% endif %}{% endif %}{% endif %}" />
+  <meta property="og:description" content="{% trans "This site runs Weblate for translating various software projects." %}" />
