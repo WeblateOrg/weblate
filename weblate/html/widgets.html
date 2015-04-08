@@ -6,10 +6,6 @@
 <li><a href="{% url 'widgets' project=object.slug %}">{% trans "widgets" %}</a></li>
 {% endblock %}
 
-{% block extra_meta %}
-  <link rel="image_src" type="image/png" href="{{ image_src }}" />
-{% endblock %}
-
 {% block content %}
 
 <h2>{% trans "Promoting translation projects" %}</h2>
