@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <http://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+import argparse
+import re
+
+SPLITTER = re.compile(r'[ =\t]')
+
+
+def sort_key(line):
+    prefix = SPLITTER.split(line, 1)[0]
+    return prefix.lower()
+
+
+def fix_newlines(lines):
+    for i in range(len(lines)):
+        if lines[i].endswith('\r\n'):
+            lines[i] = lines[i][:-2] + '\n'
+        elif lines[i].endswith('\r'):
+            lines[i] = lines[i][:-1] + '\n'
+
+
+def format_file(filename):
+    with open(filename, 'r') as handle:
+        lines = handle.readlines()
+
+    result = sorted(lines, key=sort_key)
+
+    fix_newlines(result)
+
+    if lines != result:
+        with open(filename, 'w') as handle:
+            handle.writelines(result)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description='Formats Java properties translation'
+    )
+    parser.add_argument(
+        'files', metavar='FILE', type=str, nargs='+',
+        help='Files to process'
+    )
+    args = parser.parse_args()
+    for filename in args.files:
+        format_file(filename)
+
+
+if __name__ == '__main__':
+    main()
