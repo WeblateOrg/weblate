@@ -69,10 +69,12 @@ class ProjectAdmin(admin.ModelAdmin):
 
 
 class SubProjectAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'project', 'repo', 'branch']
+    list_display = [
+        'name', 'slug', 'project', 'repo', 'branch', 'vcs', 'file_format'
+    ]
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'repo', 'branch']
-    list_filter = ['project']
+    list_filter = ['project', 'vcs', 'file_format']
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def update_from_git(self, request, queryset):
