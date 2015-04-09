@@ -437,6 +437,8 @@ Weblate comes with few example hook scripts which you might find useful:
     Generates MO file from a PO file
 :file:`examples/hook-unwrap-po`
     Unwraps lines in a PO file.
+:file:`examples/hook-sort-properties`
+    Sort and cleanups Java properties file.
 
 .. note:: 
    
