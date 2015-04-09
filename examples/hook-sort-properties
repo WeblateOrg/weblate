@@ -18,19 +18,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""
+This is reimplementation of
+https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
+src/main/java/org/freeplane/ant/FormatTranslation.java
+"""
 
 import argparse
 import re
 
-SPLITTER = re.compile(r'[ =\t]')
+SPLITTER = re.compile(r'\s*=\s*')
+UNICODE = re.compile(r'\\[uU][0-9a-fA-F]{4}')
 
 
 def sort_key(line):
+    """
+    Sort key for properties.
+    """
     prefix = SPLITTER.split(line, 1)[0]
     return prefix.lower()
 
 
+def unicode_format(match):
+    """
+    Callback for re.sub for formatting unicode chars.
+    """
+    return '\\u{0}'.format(match.group(0)[2:].upper())
+
+
 def fix_newlines(lines):
+    """
+    Converts newlines to unix.
+    """
     for i in range(len(lines)):
         if lines[i].endswith('\r\n'):
             lines[i] = lines[i][:-2] + '\n'
@@ -38,13 +57,93 @@ def fix_newlines(lines):
             lines[i] = lines[i][:-1] + '\n'
 
 
+def format_unicode(lines):
+    """
+    Standard formatting for unicode chars.
+    """
+    for i in range(len(lines)):
+        if UNICODE.findall(lines[i]) is None:
+            continue
+        lines[i] = UNICODE.sub(unicode_format, lines[i])
+
+
+def value_quality(value):
+    """
+    Calculates value quality.
+    """
+    if not value:
+        return 0
+    if '[translate me]' in value:
+        return 1
+    if '[auto]' in value:
+        return 2
+    return 3
+
+
+def filter_lines(lines):
+    """
+    Filters comments, empty lines and duplicate strings.
+    """
+    result = []
+    lastkey = None
+    lastvalue = None
+
+    for line in lines:
+        # Skip comments and blank lines
+        if line[0] == '#' or line.strip() == '':
+            continue
+        parts = SPLITTER.split(line, 1)
+
+        # Missing = or empty key
+        if len(parts) != 2 or not parts[0]:
+            continue
+
+        key, value = parts
+        # Strip trailing \n in value
+        value = value[:-1]
+
+        # Empty translation
+        if value in ('', '[auto]', '[translate me]'):
+            continue
+
+        # Check for duplicate key
+        if key == lastkey:
+            # Skip duplicate
+            if value == lastvalue:
+                continue
+
+            quality = value_quality(value)
+            lastquality = value_quality(lastvalue)
+
+            if quality > lastquality:
+                # Replace lower quality with new one
+                result.pop()
+            elif lastquality > quality:
+                # Drop lower quality one
+                continue
+            elif quality < 4:
+                # Drop one of lower quality items
+                continue
+
+        result.append(line)
+        lastkey = key
+        lastvalue = value
+
+    return result
+
+
 def format_file(filename):
+    """
+    Formats single properties file.
+    """
     with open(filename, 'r') as handle:
         lines = handle.readlines()
 
     result = sorted(lines, key=sort_key)
 
     fix_newlines(result)
+    format_unicode(result)
+    result = filter_lines(result)
 
     if lines != result:
         with open(filename, 'w') as handle:
@@ -52,6 +151,9 @@ def format_file(filename):
 
 
 def main():
+    """
+    Command line interface.
+    """
     parser = argparse.ArgumentParser(
         description='Formats Java properties translation'
     )
