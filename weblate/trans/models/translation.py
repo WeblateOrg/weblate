@@ -519,7 +519,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 Change.objects.create(
                     unit=newunit,
                     translation=self,
-                    action=Change.ACTION_FOUND_DUPLICATE,
+                    action=Change.ACTION_DUPLICATE_STRING,
                     user=user,
                     author=user
                 )
