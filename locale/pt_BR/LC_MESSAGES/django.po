@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-04-08 12:24+0200\n"
-"PO-Revision-Date: 2015-04-04 21:42+0200\n"
+"PO-Revision-Date: 2015-04-10 05:02+0200\n"
 "Last-Translator: Thiago Casotti <thiago.casotti@uol.com.br>\n"
-"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
-"weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<https://hosted.weblate.org/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2735,14 +2735,11 @@ msgid "Change subscription settings:"
 msgstr "Mudar configurações de assinatura:"
 
 #: weblate/html/meta-header.html:35
-#, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
 #| "projects."
 msgid "This site runs Weblate for translating various software projects."
-msgstr ""
-"Esta instância do Weblate hospeda traduções de vários projetos de software "
-"livre."
+msgstr "Este site executa o Weblate para traduzir vários projetos de software."
 
 #: weblate/html/paginator.html:6 weblate/html/translate.html:39
 #, python-format
@@ -4198,22 +4195,19 @@ msgid "Detected duplicate string"
 msgstr ""
 
 #: weblate/trans/models/changes.py:176
-#, fuzzy
 #| msgid "Commit pending changes"
 msgid "Commited changes"
-msgstr "Publicar as modificações pendentes"
+msgstr "Modificações publicadas"
 
 #: weblate/trans/models/changes.py:177
-#, fuzzy
 #| msgid "Browse changes"
 msgid "Pushed changes"
-msgstr "Visualizar mudanças"
+msgstr "Modificações enviadas"
 
 #: weblate/trans/models/changes.py:178
-#, fuzzy
 #| msgid "Git repository"
 msgid "Reset repository"
-msgstr "Repositório Git"
+msgstr "Repositório reiniciado"
 
 #: weblate/trans/models/changes.py:200
 #, python-format
@@ -4479,7 +4473,6 @@ msgid "Post-update script"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:224
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -4487,8 +4480,8 @@ msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
-"Script a ser executado antes do commit da tradução, favor olhar a "
-"documentação para mais detalhes."
+"Script para ser executado depois de receber uma atualização de repositório, "
+"por favor verificar a documentação para mais detalhes."
 
 #: weblate/trans/models/subproject.py:229
 msgid "Pre-commit script"
@@ -4507,17 +4500,15 @@ msgid "Locked"
 msgstr "Travado"
 
 #: weblate/trans/models/subproject.py:244
-#, fuzzy
 #| msgid "Whether subproject is locked for translation updates."
 msgid "Whether component is locked for translation updates."
-msgstr "Quando um subprojeto está com atualização bloqueada."
+msgstr "Se um componente está bloqueado para atualizações de tradução."
 
 #: weblate/trans/models/subproject.py:248
 msgid "Allow translation propagation"
 msgstr "Permitir propagação de tradução"
 
 #: weblate/trans/models/subproject.py:251
-#, fuzzy
 #| msgid ""
 #| "Whether translation updates in other subproject will cause automatic "
 #| "translation in this project"
@@ -4525,7 +4516,7 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Define se atualizações de tradução em outros subprojetos causarão traduções "
+"Define se atualizações de tradução em outros componentes causarão traduções "
 "automáticas neste projeto"
 
 #: weblate/trans/models/subproject.py:256
@@ -4537,16 +4528,14 @@ msgid "Whether Weblate should keep history of translations"
 msgstr "Define se o Weblate deve manter um histórico de traduções"
 
 #: weblate/trans/models/subproject.py:263
-#, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Enable suggestions"
-msgstr "Sugestão inválida!"
+msgstr "Sugestões habilitadas"
 
 #: weblate/trans/models/subproject.py:266
-#, fuzzy
 #| msgid "Machine translation suggestions"
 msgid "Whether to allow translation suggestions at all."
-msgstr "Sugestões de tradução do sistema"
+msgstr "Se permitir sugestões de tradução de algum modo."
 
 #: weblate/trans/models/subproject.py:270
 msgid "Suggestion voting"
@@ -4640,10 +4629,10 @@ msgstr ""
 "interface do administrador."
 
 #: weblate/trans/models/subproject.py:606
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch repository: %s"
-msgstr "Falha ao importar do repositório Git: %s"
+msgstr "Falhou ao buscar repositório Git: %s"
 
 #: weblate/trans/models/subproject.py:681
 #, python-format
@@ -4671,24 +4660,21 @@ msgid "Failed to merge remote branch into %s."
 msgstr "Falhou em mesclar o branch remoto em %s."
 
 #: weblate/trans/models/subproject.py:967
-#, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
-msgstr "Não se pode vincular ao repositório associado!"
+msgstr ""
+"Vínculo inválido para o projeto Weblate. Não se pode vincular ao repositório "
+"associado!"
 
 #: weblate/trans/models/subproject.py:974
-#, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, can not link to self!"
-msgstr ""
-"Link inválido para o projeto Weblate, use weblate://projeto/subprojeto."
+msgstr "Link inválido para o projeto Weblate, não pode vincular para ele mesmo!"
 
 #: weblate/trans/models/subproject.py:981
-#, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
-msgstr ""
-"Link inválido para o projeto Weblate, use weblate://projeto/subprojeto."
+msgstr "Link inválido para o projeto Weblate, use weblate://projeto/componente."
 
 #: weblate/trans/models/subproject.py:987
 msgid "Push URL is not used when repository is linked!"
@@ -4703,7 +4689,6 @@ msgid "The mask did not match any files!"
 msgstr "Não foram encontrados arquivos com a máscara dada!"
 
 #: weblate/trans/models/subproject.py:1007
-#, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
 #| "subprojects for translating different resources."
@@ -4712,7 +4697,7 @@ msgid ""
 "components for translating different resources."
 msgstr ""
 "Existem mais arquivos para um único idioma, por favor, ajuste a máscara e "
-"use os subprojetos para traduzir recursos diferentes."
+"use os componentes para traduzir recursos diferentes."
 
 #: weblate/trans/models/subproject.py:1013
 #, python-format
@@ -4796,16 +4781,16 @@ msgid "Changing version control system is not supported!"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:1157
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Support Weblate at {0}"
 msgid "Unsupported file format: {0}"
-msgstr "Suporte Weblate em {0}"
+msgstr "Formato de arquivo não suportado: {0}"
 
 #: weblate/trans/models/subproject.py:1164
-#, fuzzy, python-format
+#, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update repository: %s"
-msgstr "Falha ao importar do repositório Git: %s"
+msgstr "Falha ao atualizar repositório: %s"
 
 #: weblate/trans/models/subproject.py:1187
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -4860,10 +4845,10 @@ msgid "Insert horizontal ellipsis"
 msgstr "Inserir reticências"
 
 #: weblate/trans/specialchars.py:436
-#, fuzzy, python-brace-format
+#, python-brace-format
 #| msgid "Insert tab character"
 msgid "Insert character {0}"
-msgstr "Inserir caractere tab"
+msgstr "Inserir caractere {0}"
 
 #: weblate/trans/specialchars.py:441
 msgid "Opening double quote"
@@ -4878,10 +4863,9 @@ msgid "Opening single quote"
 msgstr ""
 
 #: weblate/trans/specialchars.py:444
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Closing single quote"
-msgstr "Site de hospedagem"
+msgstr "Fechar aspas simples"
 
 #: weblate/trans/specialchars.py:447
 msgid "Hyphen"
@@ -4923,10 +4907,9 @@ msgstr ""
 "%(fingerprint)s (%(keytype)s), favor verificar se está correto."
 
 #: weblate/trans/ssh.py:201
-#, fuzzy
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch public key for a host!"
-msgstr "Falha ao importar do repositório Git: %s"
+msgstr "Falha ao buscar chave pública para um host!"
 
 #: weblate/trans/ssh.py:209
 #, python-format
@@ -5138,10 +5121,9 @@ msgid "unit ID %s"
 msgstr "ID de unidade %s"
 
 #: weblate/trans/validators.py:26
-#, fuzzy
 #| msgid "RST code"
 msgid "RST text"
-msgstr "Código RST"
+msgstr "Texto RST"
 
 #: weblate/trans/validators.py:27
 #, fuzzy
