@@ -50,7 +50,7 @@ The set the base URL of your Weblate installation (for example
 ``https://hosted.weblate.org``) and Weblate will be notified about every push
 to GitHub repository.
 
-.. seealso:: :http:post:`/hooks/github/`
+.. seealso:: :http:post:`/hooks/github/`, :ref:`hosted-push`
 
 .. _bitbucket-setup:
 
@@ -61,7 +61,7 @@ Weblate has support for Bitbucket hooks, all you need to do is add POST hook
 with destination to ``/hooks/bitbucket/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/bitbucket/``).
 
-.. seealso:: :http:post:`/hooks/bitbucket/`
+.. seealso:: :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
 
 .. _gitlab-setup:
 
@@ -72,7 +72,7 @@ Weblate has support for GitLab hooks, all you need to do is add project web hook
 with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/gitlab/``).
 
-.. seealso:: :http:post:`/hooks/gitlab/`
+.. seealso:: :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
 
 .. _push-changes:
 
@@ -92,6 +92,18 @@ via the admin interface first, otherwise pushing will fail.
    project configuration.
 
 .. seealso:: :ref:`private` for setting up SSH keys
+
+
+.. _hosted-push:
+
+Pushing changes from Hosted Weblate
++++++++++++++++++++++++++++++++++++
+
+For Hosted Weblate there is dedicated push user registered on GitHub, Bitbucket
+and GitLab (with username :guilabel:`weblate` and named 
+:guilabel:`Weblate push user`). You need to add this user as a collabolator and
+give him permissions to push to your repository. Let us know when you've done
+so and we will enable pushing changes from Hosted Weblate for you.
 
 .. _merge-rebase:
 
