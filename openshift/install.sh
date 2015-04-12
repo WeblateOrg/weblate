@@ -51,8 +51,8 @@ source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
 cd ${OPENSHIFT_REPO_DIR}
 
-# Pin Django version to 1.7 to avoid surprises when 1.8 comes out.
-sed -e 's/Django[<>=]\+.*/Django>1.7,<1.8/' $OPENSHIFT_REPO_DIR/requirements.txt >/tmp/requirements.txt
+# Pin Django version to 1.8 to avoid surprises when 1.9 comes out.
+sed -e 's/Django[<>=]\+.*/Django>=1.8,<1.9/' $OPENSHIFT_REPO_DIR/requirements.txt >/tmp/requirements.txt
 
 sh "pip install -U -r /tmp/requirements.txt"
 
