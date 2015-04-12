@@ -203,10 +203,15 @@ def add_host_key(request):
             with open(ssh_file(KNOWN_HOSTS), 'a') as handle:
                 for key in keys:
                     handle.write('%s\n' % key)
-        except (subprocess.CalledProcessError, OSError) as exc:
+        except subprocess.CalledProcessError as exc:
             messages.error(
                 request,
                 _('Failed to get host key: %s') % exc.output
+            )
+        except OSError as exc:
+            messages.error(
+                request,
+                _('Failed to get host key: %s') % str(exc)
             )
 
 
