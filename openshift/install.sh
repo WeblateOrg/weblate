@@ -51,19 +51,19 @@ source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
 cd ${OPENSHIFT_REPO_DIR}
 
-sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
-
 # Pin Django version to 1.7 to avoid surprises when 1.8 comes out.
-sed -e 's/Django[<>=]\+.*/Django>1.7,<1.8/' $OPENSHIFT_REPO_DIR/requirements-mandatory.txt >/tmp/requirements.txt
+sed -e 's/Django[<>=]\+.*/Django>1.7,<1.8/' $OPENSHIFT_REPO_DIR/requirements.txt >/tmp/requirements.txt
 
-sh "pip install -r /tmp/requirements.txt"
+sh "pip install -U -r /tmp/requirements.txt"
 
 # Install optional dependencies without failing if some can't be installed.
 while read line; do
-  if [[ $line != -r* ]]; then
+  if [[ $line != -r* ]] && [[ $line != \#* ]]; then
     sh "pip install $line" || true
   fi
 done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
+
+sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
 if [ ! -s $OPENSHIFT_DATA_DIR/weblate.db ]; then
   rm -f ${OPENSHIFT_DATA_DIR}/.credentials
