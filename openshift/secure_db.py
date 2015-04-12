@@ -19,11 +19,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
-
-# Django must be configured before imports, or some will fail with ImproperlyConfigured exception.
-settings.configure()
-
 import os
 import sqlite3
 from openshift.openshiftlibs import make_secure_key, get_openshift_secret_token
