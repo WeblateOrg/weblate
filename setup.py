@@ -94,7 +94,9 @@ setup(
     download_url='https://github.com/nijel/weblate',
     author='Michal Čihař',
     author_email='michal@cihar.com',
-    dependency_links = ['git+https://github.com/SmileyChris/pyuca@555292b#egg=pyuca-1.0'],
+    dependency_links=[
+        'git+https://github.com/SmileyChris/pyuca@555292b#egg=pyuca-1.0',
+    ],
     install_requires=REQUIRES,
     extras_require={
         'Mercurial': ['Mercurial>=2.8'],
