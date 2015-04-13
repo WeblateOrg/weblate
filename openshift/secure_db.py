@@ -19,8 +19,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
-
 import os
 import sqlite3
 from openshift.openshiftlibs import make_secure_key, get_openshift_secret_token
@@ -29,9 +27,6 @@ from django.contrib.auth.hashers import make_password
 
 
 def secure_db():
-    # Use default Django settings
-    settings.configure()
-
     new_pass = make_secure_key({
         'hash': sha256(get_openshift_secret_token()).hexdigest(),
         'original': '0' * 12,

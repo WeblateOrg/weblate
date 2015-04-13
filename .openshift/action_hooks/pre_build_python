@@ -19,12 +19,10 @@
 #
 
 # Don't let OpenShift install weblate and its dependencies directly as this leads to timeouts during gear creation and deploys
+export OPENSHIFT_PYTHON_REQUIREMENTS_PATH=no_such_file
+
 if [ -e $OPENSHIFT_REPO_DIR/setup.py ]; then
   mv $OPENSHIFT_REPO_DIR/setup.py $OPENSHIFT_REPO_DIR/setup_weblate.py
-fi
-
-if [ -e $OPENSHIFT_REPO_DIR/requirements.txt ]; then
-	mv $OPENSHIFT_REPO_DIR/requirements.txt $OPENSHIFT_REPO_DIR/requirements-mandatory.txt
 fi
 
 # Show install/update page, will be replaced with app by install.sh
