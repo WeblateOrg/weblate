@@ -115,4 +115,6 @@ gear stop
 ln -sf ../openshift/wsgi.py $OPENSHIFT_REPO_DIR/wsgi/application
 touch $OPENSHIFT_DATA_DIR/.installed
 
+ln -sf ../openshift/htaccess $OPENSHIFT_REPO_DIR/wsgi/.htaccess
+
 gear start
