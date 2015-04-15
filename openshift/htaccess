@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/(robots.txt|favicon.ico)$
+RewriteRule .* media%{REQUEST_URI} [L]
