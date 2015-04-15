@@ -707,6 +707,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if self.translation_set.exists():
                 Change.objects.create(
                     action=Change.ACTION_PUSH,
+                    user=request.user if request else None,
                     translation=self.translation_set.all()[0],
                 )
 
@@ -745,6 +746,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if self.translation_set.exists():
                 Change.objects.create(
                     action=Change.ACTION_RESET,
+                    user=request.user if request else None,
                     translation=self.translation_set.all()[0],
                 )
         except RepositoryException as error:
