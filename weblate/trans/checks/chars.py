@@ -167,7 +167,7 @@ class EndColonCheck(TargetCheck):
         'Source and translation do not both end with a colon '
         'or colon is not correctly spaced'
     )
-    colon_fr = (' :', '&nbsp;:', u' :')
+    colon_fr = (' :', '&nbsp;:', u'\u00A0:', u'\u202F:')
     severity = 'warning'
 
     def _check_fr(self, source, target):
@@ -225,7 +225,12 @@ class EndQuestionCheck(TargetCheck):
         'Source and translation do not both end with a question mark '
         'or it is not correctly spaced'
     )
-    question_fr = (' ?', ' ? ', '&nbsp;? ', '&nbsp;?', u' ?', u' ? ')
+    question_fr = (
+        ' ?', ' ? ',
+        '&nbsp;?', '&nbsp;? ',
+        u'\u00A0?', u'\u00A0? ',
+        u'\u202F?', u'\u202F? '
+    )
     question_el = ('?', ';', u';')
     severity = 'warning'
 
@@ -277,7 +282,12 @@ class EndExclamationCheck(TargetCheck):
         'Source and translation do not both end with an exclamation mark '
         'or it is not correctly spaced'
     )
-    exclamation_fr = (' !', '&nbsp;!', u' !', ' ! ', '&nbsp;! ', u' ! ')
+    exclamation_fr = (
+        ' !', ' ! ',
+        '&nbsp;!', '&nbsp;! ',
+        u'\u00A0!', u'\u00A0! ',
+        u'\u202F!', u'\u202F! ',
+    )
     severity = 'warning'
 
     def _check_fr(self, source, target):
