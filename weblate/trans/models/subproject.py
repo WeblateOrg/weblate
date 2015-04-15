@@ -825,7 +825,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.merge_style,
                 )
                 return True
-            except Exception as error:
+            except RepositoryException as error:
                 # In case merge has failer recover
                 error = str(error)
                 status = self.repository.status()
