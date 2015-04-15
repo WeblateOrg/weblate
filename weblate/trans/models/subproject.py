@@ -309,6 +309,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         default='',
         help_text=ugettext_lazy('Optional URL with license details.'),
     )
+    agreement = models.TextField(
+        verbose_name=ugettext_lazy('Contributor agreement'),
+        blank=True,
+        default='',
+        help_text=ugettext_lazy(
+            'Agreement which needs to be approved before user can '
+            'translate this component.'
+        )
+    )
 
     # Adding new language
     new_lang = models.CharField(
