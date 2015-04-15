@@ -154,6 +154,10 @@ class Change(models.Model):
     ACTION_COMMIT = 17
     ACTION_PUSH = 18
     ACTION_RESET = 19
+    ACTION_MERGE = 20
+    ACTION_REBASE = 21
+    ACTION_FAILED_MERGE = 22
+    ACTION_FAILED_REBASE = 23
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -176,6 +180,10 @@ class Change(models.Model):
         (ACTION_COMMIT, ugettext_lazy('Commited changes')),
         (ACTION_PUSH, ugettext_lazy('Pushed changes')),
         (ACTION_RESET, ugettext_lazy('Reset repository')),
+        (ACTION_MERGE, ugettext_lazy('Merged repository')),
+        (ACTION_REBASE, ugettext_lazy('Rebased repository')),
+        (ACTION_FAILED_MERGE, ugettext_lazy('Failed merge on repository')),
+        (ACTION_FAILED_REBASE, ugettext_lazy('Failed rebase on repository')),
     )
 
     ACTIONS_SUBPROJECT = set((
@@ -185,6 +193,10 @@ class Change(models.Model):
         ACTION_DUPLICATE_STRING,
         ACTION_PUSH,
         ACTION_RESET,
+        ACTION_MERGE,
+        ACTION_REBASE,
+        ACTION_FAILED_MERGE,
+        ACTION_FAILED_REBASE,
     ))
 
     unit = models.ForeignKey('Unit', null=True)

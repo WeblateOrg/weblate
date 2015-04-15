@@ -814,9 +814,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if method == 'rebase':
             method = self.repository.rebase
             error_msg = _('Failed to rebase our branch onto remote branch %s.')
+            action = Change.ACTION_REBASE
+            action_failed = Change.ACTION_FAILED_REBASE
         else:
             method = self.repository.merge
             error_msg = _('Failed to merge remote branch into %s.')
+            action = Change.ACTION_MERGE
+            action_failed = Change.ACTION_FAILED_MERGE
 
         with self.repository_lock:
             try:
@@ -825,6 +829,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.log_info(
                     '%s remote into repo',
                     self.merge_style,
+                )
+                Change.objects.create(
+                    translation=self.translation_set.all()[0],
+                    user=request.user if request else None,
+                    action=action,
                 )
                 return True
             except RepositoryException as error:
@@ -841,6 +850,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
                 # Reset repo back
                 method(abort=True)
+
+        Change.objects.create(
+            translation=self.translation_set.all()[0],
+            user=request.user if request else None,
+            action=action_failed,
+            target=str(error),
+        )
 
         # Notify subscribers and admins
         self.notify_merge_failure(error, status)

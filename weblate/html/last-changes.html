@@ -36,6 +36,11 @@
 {% endif %}
 </td>
 </tr>
+{% elif c.target %}
+<tr>
+<td colspan="4"><pre>{{ c.target }}</td>
+<td></td>
+</tr>
 {% endif %}
 {% empty %}
 <tr><td colspan="4" class="tablenotice">
