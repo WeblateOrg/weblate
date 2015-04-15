@@ -927,8 +927,12 @@ class JSONFormat(FileFormat):
         '''
         Adds new language file.
         '''
+        content = '{}\n'
+        if base:
+            with open(base, 'r') as handle:
+                content = handle.read()
         with open(filename, 'w') as output:
-            output.write('{}\n')
+            output.write(content)
 
     @property
     def mimetype(self):
