@@ -292,3 +292,10 @@ class Change(models.Model):
             self.target and
             self.action in self.ACTIONS_REVERTABLE
         )
+
+    def save(self, *args, **kwargs):
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.translation:
+            self.subproject = self.translation.subproject
+        super(Change, self).save(*args, **kwargs)
