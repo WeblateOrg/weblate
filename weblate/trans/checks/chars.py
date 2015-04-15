@@ -167,19 +167,18 @@ class EndColonCheck(TargetCheck):
         'Source and translation do not both end with a colon '
         'or colon is not correctly spaced'
     )
-    colon_fr = (' :', '&nbsp;:', u'\u00A0:', u'\u202F:')
+    colon_fr = (
+        ' :', ' : ',
+        '&nbsp;:', '&nbsp;: ',
+        u'\u00A0:', u'\u00A0: ',
+        u'\u202F:' u'\u202F: '
+    )
     severity = 'warning'
 
     def _check_fr(self, source, target):
-        if source[-1] == ':':
-            # Accept variant with trailing space as well
-            if target[-1] == ' ':
-                check_string = target[-3:-1]
-            else:
-                check_string = target[-2:]
-            if check_string not in self.colon_fr:
-                return True
-        return False
+        if source[-1] != ':':
+            return False
+        return not self.check_ends(target, self.colon_fr)
 
     def _check_hy(self, source, target):
         if source[-1] == ':':
@@ -237,7 +236,7 @@ class EndQuestionCheck(TargetCheck):
     def _check_fr(self, source, target):
         if source[-1] != '?':
             return False
-        return target[-2:] not in self.question_fr
+        return not self.check_ends(target, self.question_fr)
 
     def _check_hy(self, source, target):
         if source[-1] == '?':
@@ -291,10 +290,9 @@ class EndExclamationCheck(TargetCheck):
     severity = 'warning'
 
     def _check_fr(self, source, target):
-        if source[-1] == '!':
-            if target[-2:] not in self.exclamation_fr:
-                return True
-        return False
+        if source[-1] != '!':
+            return False
+        return not self.check_ends(target, self.exclamation_fr)
 
     def check_single(self, source, target, unit, cache_slot):
         if not source or not target:

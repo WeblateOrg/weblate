@@ -94,6 +94,15 @@ class Check(object):
             (src not in chars and tgt in chars)
         )
 
+    def check_ends(self, target, ends):
+        """
+        Check whether target ends with one of given ends.
+        """
+        for end in ends:
+            if target.endswith(end):
+                return True
+        return False
+
     def is_language(self, unit, vals):
         '''
         Detects whether language is in given list, ignores language
