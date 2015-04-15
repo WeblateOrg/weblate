@@ -206,6 +206,7 @@ SAME_BLACKLIST = frozenset((
     'filter',
     'filters',
     'finance',
+    'finalisation',
     'fingerprint',
     'firewall',
     'firmware',
