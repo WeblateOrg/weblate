@@ -1456,3 +1456,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     script,
                     err
                 )
+
+    def get_editable_template(self):
+        if not self.edit_template or not self.has_template():
+            return None
+        return self.translation_set.get(filename=self.template)
