@@ -208,7 +208,6 @@ class Change(models.Model):
     ))
 
     ACTIONS_REPOSITORY = set((
-        ACTION_COMMIT,
         ACTION_PUSH,
         ACTION_RESET,
         ACTION_MERGE,
