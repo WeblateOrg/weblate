@@ -150,6 +150,8 @@ class EndQuestionCheckTest(CheckTestCase):
 
     def test_french(self):
         self.do_test(False, ('Text?', u'Texte ?', ''), 'fr')
+        self.do_test(False, ('Text?', u'Texte\u202F?', ''), 'fr')
+        self.do_test(False, ('Text?', u'Texte&nbsp;?', ''), 'fr')
 
     def test_french_ignore(self):
         self.do_test(False, ('Text', u'Texte', ''), 'fr')
