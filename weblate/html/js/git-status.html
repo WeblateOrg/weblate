@@ -65,7 +65,7 @@
         <td>{{ change.get_user_display }}</td>
         <td>{{ change.get_action_display }}</td>
         <td>
-        {% if not change.is_subproject %}
+        {% if change.translation %}
             <a href="{{ change.get_translation_url }}">{{ change.translation.language }}</a>
         {% endif %}
         </td>

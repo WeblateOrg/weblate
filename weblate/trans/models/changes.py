@@ -180,7 +180,6 @@ class Change(models.Model):
     )
 
     ACTIONS_SUBPROJECT = set((
-        ACTION_NEW_SOURCE,
         ACTION_LOCK,
         ACTION_UNLOCK,
         ACTION_DUPLICATE_STRING,
@@ -245,9 +244,6 @@ class Change(models.Model):
             'user': self.get_user_display(False),
         }
 
-    def is_subproject(self):
-        return self.action in self.ACTIONS_SUBPROJECT
-
     def get_user_display(self, icon=True):
         return get_user_display(self.user, icon, link=True)
 
@@ -268,9 +264,9 @@ class Change(models.Model):
         Returns URL for translation.
         '''
         if self.translation is not None:
-            if self.is_subproject():
-                return self.translation.subproject.get_absolute_url()
             return self.translation.get_absolute_url()
+        elif self.subproject is not None:
+            return self.subproject.get_absolute_url()
         elif self.dictionary is not None:
             return self.dictionary.get_parent_url()
         return None
@@ -280,9 +276,9 @@ class Change(models.Model):
         Returns display name for translation.
         '''
         if self.translation is not None:
-            if self.is_subproject():
-                return unicode(self.translation.subproject)
             return unicode(self.translation)
+        elif self.subproject is not None:
+            return unicode(self.subproject)
         elif self.dictionary is not None:
             return '%s/%s' % (
                 self.dictionary.project,

@@ -139,8 +139,8 @@ def git_status_project(request, project):
         {
             'object': obj,
             'changes': Change.objects.filter(
+                subproject__project=obj,
                 action__in=Change.ACTIONS_REPOSITORY,
-                translation__subproject__project=obj,
             )[:10],
         }
     )
@@ -160,7 +160,7 @@ def git_status_subproject(request, project, subproject):
             'object': obj,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
-                translation__subproject=obj,
+                subproject=obj,
             )[:10],
         }
     )
@@ -180,7 +180,7 @@ def git_status_translation(request, project, subproject, lang):
             'object': obj,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
-                translation__subproject=obj.subproject,
+                subproject=obj.subproject,
             )[:10],
         }
     )

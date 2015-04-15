@@ -704,12 +704,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             with self.repository_lock:
                 self.repository.push(self.branch)
 
-            if self.translation_set.exists():
-                Change.objects.create(
-                    action=Change.ACTION_PUSH,
-                    user=request.user if request else None,
-                    translation=self.translation_set.all()[0],
-                )
+            Change.objects.create(
+                action=Change.ACTION_PUSH,
+                user=request.user if request else None,
+                subproject=self,
+            )
 
             return True
         except RepositoryException as error:
@@ -743,12 +742,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             with self.repository_lock:
                 self.repository.reset(self.branch)
 
-            if self.translation_set.exists():
-                Change.objects.create(
-                    action=Change.ACTION_RESET,
-                    user=request.user if request else None,
-                    translation=self.translation_set.all()[0],
-                )
+            Change.objects.create(
+                action=Change.ACTION_RESET,
+                user=request.user if request else None,
+                subproject=self,
+            )
         except RepositoryException as error:
             self.log_error('failed to reset on repo')
             msg = 'Error:\n%s' % str(error)
@@ -831,7 +829,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.merge_style,
                 )
                 Change.objects.create(
-                    translation=self.translation_set.all()[0],
+                    subproject=self,
                     user=request.user if request else None,
                     action=action,
                 )
@@ -852,7 +850,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 method(abort=True)
 
         Change.objects.create(
-            translation=self.translation_set.all()[0],
+            subproject=self,
             user=request.user if request else None,
             action=action_failed,
             target=str(error),
@@ -1415,7 +1413,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.save()
         if self.translation_set.exists():
             Change.objects.create(
-                translation=self.translation_set.all()[0],
+                subproject=self,
                 user=user,
                 action=Change.ACTION_LOCK,
             )
@@ -1426,7 +1424,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.save()
         if self.translation_set.exists():
             Change.objects.create(
-                translation=self.translation_set.all()[0],
+                subproject=self,
                 user=user,
                 action=Change.ACTION_UNLOCK,
             )
