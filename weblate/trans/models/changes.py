@@ -219,6 +219,7 @@ class Change(models.Model):
     ))
 
     unit = models.ForeignKey('Unit', null=True)
+    subproject = models.ForeignKey('SubProject', null=True)
     translation = models.ForeignKey('Translation', null=True)
     dictionary = models.ForeignKey('Dictionary', null=True)
     user = models.ForeignKey(User, null=True)
