@@ -828,11 +828,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     '%s remote into repo',
                     self.merge_style,
                 )
-                Change.objects.create(
-                    subproject=self,
-                    user=request.user if request else None,
-                    action=action,
-                )
+                if self.id:
+                    Change.objects.create(
+                        subproject=self,
+                        user=request.user if request else None,
+                        action=action,
+                    )
                 return True
             except RepositoryException as error:
                 # In case merge has failer recover
@@ -849,12 +850,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 # Reset repo back
                 method(abort=True)
 
-        Change.objects.create(
-            subproject=self,
-            user=request.user if request else None,
-            action=action_failed,
-            target=str(error),
-        )
+        if self.id:
+            Change.objects.create(
+                subproject=self,
+                user=request.user if request else None,
+                action=action_failed,
+                target=str(error),
+            )
 
         # Notify subscribers and admins
         self.notify_merge_failure(error, status)
