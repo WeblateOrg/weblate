@@ -9,16 +9,24 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository status" %}</h4></div>
 <div class="panel-body">
 {% if needs_commit %}
-<p>{% trans "There are some not committed changes!" %}</p>
+<div class="alert alert-info" role="alert">{% trans "There are some not committed changes!" %}</div>
 {% endif %}
+{% if changes.0.is_merge_failure %}
+<div class="alert alert-danger" role="alert">
+<p>{% trans "There has been a merge failure on the repository:" %}</p>
+<pre>{{ changes.0.target }}</pre>
+<p><a href="{% documentation "faq" "merge" %}">{% trans "Check our FAQ for information how to resolve this." %}</a></p>
+</div>
+{% else %}
 {% if object.git_needs_merge %}
-<p>{% trans "The remote repository needs to be merged!" %}</p>
+<div class="alert alert-warning" role="alert">{% trans "The remote repository needs to be merged!" %}</div>
 {% endif %}
 {% if object.git_needs_push %}
-<p>{% trans "There are some new commits in the local repository!" %}</p>
+<div class="alert alert-warning" role="alert">{% trans "There are some new commits in the local repository!" %}</div>
 {% endif %}
 {% if not needs_commit and not object.git_needs_merge and not object.git_needs_push %}
-<p>{% trans "The local repository is up to date." %}</p>
+<div class="alert alert-success" role="alert">{% trans "The local repository is up to date." %}</div>
+{% endif %}
 {% endif %}
 
 {% if object.subproject_set %}

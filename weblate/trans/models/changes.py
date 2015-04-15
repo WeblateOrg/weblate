@@ -216,6 +216,11 @@ class Change(models.Model):
         ACTION_FAILED_REBASE,
     ))
 
+    ACTIONS_MERGE_FAILURE = set((
+        ACTION_FAILED_MERGE,
+        ACTION_FAILED_REBASE,
+    ))
+
     unit = models.ForeignKey('Unit', null=True)
     subproject = models.ForeignKey('SubProject', null=True)
     translation = models.ForeignKey('Translation', null=True)
@@ -242,6 +247,9 @@ class Change(models.Model):
             'translation': self.translation,
             'user': self.get_user_display(False),
         }
+
+    def is_merge_failure(self):
+        return self.action in self.ACTIONS_MERGE_FAILURE
 
     def get_user_display(self, icon=True):
         return get_user_display(self.user, icon, link=True)
