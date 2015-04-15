@@ -767,12 +767,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         return True
 
+    def get_repo_link_url(self):
+        return 'weblate://%s/%s' % (self.project.slug, self.slug)
+
     def get_linked_childs(self):
         '''
         Returns list of subprojects which link repository to us.
         '''
         return SubProject.objects.filter(
-            repo='weblate://%s/%s' % (self.project.slug, self.slug)
+            repo=self.get_repo_link_url()
         )
 
     def commit_pending(self, request, from_link=False, skip_push=False):

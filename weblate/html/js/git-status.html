@@ -52,14 +52,12 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository details" %}</h4></div>
       <div class="panel-body">
-        {% if object.subproject_set %}
-        {% for sp in object.subproject_set.all %}
-        <h4>{{ sp }}</h3>
-        <pre>{{ sp.repository.status }}</pre>
-        {% endfor %}
-        {% else %}
-        <pre>{{ object.repository.status }}</pre>
+        {% for status in statuses %}
+        {% if status.0 %}
+        <h4>{{ status.0 }}</h4>
         {% endif %}
+        <pre>{{ status.1 }}</pre>
+        {% endfor %}
       </div>
 </div>
 

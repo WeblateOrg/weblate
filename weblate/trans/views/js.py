@@ -132,6 +132,25 @@ def ignore_check(request, check_id):
 def git_status_project(request, project):
     obj = get_project(request, project)
 
+    statuses = []
+    included = set()
+
+    not_linked = obj.subproject_set.exclude(repo__startswith='weblate://')
+    linked = obj.subproject_set.filter(repo__startswith='weblate://')
+
+    for subproject in not_linked:
+        statuses.append((
+            subproject.__unicode__(),
+            subproject.repository.status,
+        ))
+        included.add(subproject.get_repo_link_url())
+
+    for subproject in linked.exclude(repo__in=included):
+        statuses.append((
+            subproject.__unicode__(),
+            subproject.repository.status,
+        ))
+
     return render(
         request,
         'js/git-status.html',
@@ -141,6 +160,7 @@ def git_status_project(request, project):
                 subproject__project=obj,
                 action__in=Change.ACTIONS_REPOSITORY,
             )[:10],
+            'statuses': statuses,
         }
     )
 
@@ -161,6 +181,7 @@ def git_status_subproject(request, project, subproject):
                 action__in=Change.ACTIONS_REPOSITORY,
                 subproject=obj,
             )[:10],
+            'statuses': [(None, obj.repository.status)],
         }
     )
 
@@ -181,6 +202,7 @@ def git_status_translation(request, project, subproject, lang):
                 action__in=Change.ACTIONS_REPOSITORY,
                 subproject=obj.subproject,
             )[:10],
+            'statuses': [(None, obj.subproject.repository.status)],
         }
     )
 
