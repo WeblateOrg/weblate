@@ -109,6 +109,7 @@ class JSONFormatTest(AutoFormatTest):
     MASK = 'json/*.json'
     EXPECTED_PATH = 'json/cs_CZ.json'
     MATCH = '{}\n'
+    BASE = ''
 
 
 class AndroidFormatTest(AutoFormatTest):
