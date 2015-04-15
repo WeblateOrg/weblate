@@ -23,7 +23,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 
-from weblate.trans.models import Unit, Check
+from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.decorators import any_permission_required
 from weblate.trans.views.helper import (
@@ -131,12 +131,17 @@ def ignore_check(request, check_id):
 )
 def git_status_project(request, project):
     obj = get_project(request, project)
+    ACTIONS_REPOSITORY
 
     return render(
         request,
         'js/git-status.html',
         {
             'object': obj,
+            'changes': Change.objects.filter(
+                action__in=Change.ACTIONS_REPOSITORY,
+                translation__subproject__project=obj,
+            )[:10],
         }
     )
 
@@ -153,6 +158,10 @@ def git_status_subproject(request, project, subproject):
         'js/git-status.html',
         {
             'object': obj,
+            'changes': Change.objects.filter(
+                action__in=Change.ACTIONS_REPOSITORY,
+                translation__subproject=obj,
+            )[:10],
         }
     )
 
@@ -169,6 +178,10 @@ def git_status_translation(request, project, subproject, lang):
         'js/git-status.html',
         {
             'object': obj,
+            'changes': Change.objects.filter(
+                action__in=Change.ACTIONS_REPOSITORY,
+                translation__subproject=obj.subproject,
+            )[:10],
         }
     )
 

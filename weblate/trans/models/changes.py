@@ -208,6 +208,16 @@ class Change(models.Model):
         ACTION_UPLOAD,
     ))
 
+    ACTIONS_REPOSITORY = set((
+        ACTION_COMMIT,
+        ACTION_PUSH,
+        ACTION_RESET,
+        ACTION_MERGE,
+        ACTION_REBASE,
+        ACTION_FAILED_MERGE,
+        ACTION_FAILED_REBASE,
+    ))
+
     unit = models.ForeignKey('Unit', null=True)
     translation = models.ForeignKey('Translation', null=True)
     dictionary = models.ForeignKey('Dictionary', null=True)
@@ -234,6 +244,9 @@ class Change(models.Model):
             'user': self.get_user_display(False),
         }
 
+    def is_subproject(self):
+        return self.action in self.ACTIONS_SUBPROJECT
+
     def get_user_display(self, icon=True):
         return get_user_display(self.user, icon, link=True)
 
@@ -254,7 +267,7 @@ class Change(models.Model):
         Returns URL for translation.
         '''
         if self.translation is not None:
-            if self.action in self.ACTIONS_SUBPROJECT:
+            if self.is_subproject():
                 return self.translation.subproject.get_absolute_url()
             return self.translation.get_absolute_url()
         elif self.dictionary is not None:
@@ -266,7 +279,7 @@ class Change(models.Model):
         Returns display name for translation.
         '''
         if self.translation is not None:
-            if self.action in self.ACTIONS_SUBPROJECT:
+            if self.is_subproject():
                 return unicode(self.translation.subproject)
             return unicode(self.translation)
         elif self.dictionary is not None:
