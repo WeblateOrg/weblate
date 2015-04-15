@@ -131,7 +131,6 @@ def ignore_check(request, check_id):
 )
 def git_status_project(request, project):
     obj = get_project(request, project)
-    ACTIONS_REPOSITORY
 
     return render(
         request,
