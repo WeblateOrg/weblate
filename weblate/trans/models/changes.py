@@ -38,14 +38,7 @@ class ChangeManager(models.Manager):
         if prefetch:
             base = base.prefetch()
         return base.filter(
-            action__in=(
-                Change.ACTION_CHANGE,
-                Change.ACTION_NEW,
-                Change.ACTION_AUTO,
-                Change.ACTION_ACCEPT,
-                Change.ACTION_REVERT,
-                Change.ACTION_UPLOAD,
-            ),
+            action__in=Change.ACTIONS_CONTENT,
             user__isnull=False,
         )
 
@@ -199,6 +192,22 @@ class Change(models.Model):
         ACTION_FAILED_REBASE,
     ))
 
+    ACTIONS_REVERTABLE = set((
+        ACTION_ACCEPT,
+        ACTION_REVERT,
+        ACTION_CHANGE,
+        ACTION_NEW,
+    ))
+
+    ACTIONS_CONTENT = set((
+        ACTION_CHANGE,
+        ACTION_NEW,
+        ACTION_AUTO,
+        ACTION_ACCEPT,
+        ACTION_REVERT,
+        ACTION_UPLOAD,
+    ))
+
     unit = models.ForeignKey('Unit', null=True)
     translation = models.ForeignKey('Translation', null=True)
     dictionary = models.ForeignKey('Dictionary', null=True)
@@ -271,10 +280,5 @@ class Change(models.Model):
         return (
             self.unit is not None and
             self.target and
-            self.action in (
-                Change.ACTION_ACCEPT,
-                Change.ACTION_REVERT,
-                Change.ACTION_CHANGE,
-                Change.ACTION_NEW
-            )
+            self.action in self.ACTIONS_REVERTABLE
         )
