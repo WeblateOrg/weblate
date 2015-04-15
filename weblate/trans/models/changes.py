@@ -178,6 +178,15 @@ class Change(models.Model):
         (ACTION_RESET, ugettext_lazy('Reset repository')),
     )
 
+    ACTIONS_SUBPROJECT = set((
+        ACTION_NEW_SOURCE,
+        ACTION_LOCK,
+        ACTION_UNLOCK,
+        ACTION_DUPLICATE_STRING,
+        ACTION_PUSH,
+        ACTION_RESET,
+    ))
+
     unit = models.ForeignKey('Unit', null=True)
     translation = models.ForeignKey('Translation', null=True)
     dictionary = models.ForeignKey('Dictionary', null=True)
@@ -224,6 +233,8 @@ class Change(models.Model):
         Returns URL for translation.
         '''
         if self.translation is not None:
+            if self.action in self.ACTIONS_SUBPROJECT:
+                return self.translation.subproject.get_absolute_url()
             return self.translation.get_absolute_url()
         elif self.dictionary is not None:
             return self.dictionary.get_parent_url()
@@ -234,6 +245,8 @@ class Change(models.Model):
         Returns display name for translation.
         '''
         if self.translation is not None:
+            if self.action in self.ACTIONS_SUBPROJECT:
+                return unicode(self.translation.subproject)
             return unicode(self.translation)
         elif self.dictionary is not None:
             return '%s/%s' % (
