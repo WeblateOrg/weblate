@@ -5,6 +5,7 @@
 {% load crispy_forms_tags %}
 {% load permissions %}
 {% can_translate request.user unit.translation as user_can_translate %}
+{% can_suggest request.user unit.translation as user_can_suggest %}
 
 
 {% block extra_meta %}
@@ -94,12 +95,10 @@
     {% endwith %}
     {% endif %}
 
-    {% if unit.translation.subproject.enable_suggestions %}
-    {% if perms.trans.add_suggestion %}
+    {% if user_can_suggest %}
     <input class="btn btn-default" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
     {% else %}
     {% trans "No privileges for adding suggestions!" %}
-    {% endif %}
     {% endif %}
 
     {% if user_can_translate %}
@@ -362,7 +361,7 @@
         <td>{{ item.source }}</td>
         <td class="target">{% format_translation item.target unit.translation.language simple=True %}</td>
         <td>
-        {% if user_can_translate or perms.trans.add_suggestion %}
+        {% if user_can_translate or user_can_suggest %}
         <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word to translation" %}">{% trans "Copy" %}</a>
         {% endif %}
         </td>

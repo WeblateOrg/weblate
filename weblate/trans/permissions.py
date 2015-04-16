@@ -36,3 +36,14 @@ def can_translate(user, translation):
             user.has_perm('trans.override_suggestion')):
         return False
     return True
+
+
+def can_suggest(user, translation):
+    """
+    Checks whether user can add suggestions to given translation.
+    """
+    if not translation.subproject.enable_suggestions:
+        return False
+    if not user.has_perm('trans.add_translation'):
+        return False
+    return True

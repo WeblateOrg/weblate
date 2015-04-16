@@ -28,3 +28,10 @@ def can_translate(user, translation):
     return weblate.trans.permissions.can_translate(
         user, translation
     )
+
+
+@register.assignment_tag
+def can_suggest(user, translation):
+    return weblate.trans.permissions.can_suggest(
+        user, translation
+    )
