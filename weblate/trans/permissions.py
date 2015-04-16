@@ -26,7 +26,7 @@ def can_edit(user, translation, permission):
     """
     Generic checker for changing translation.
     """
-    if translation is None:
+    if translation is None or user is None:
         return False
     if translation.subproject.locked:
         return False
@@ -52,7 +52,7 @@ def can_suggest(user, translation):
     """
     Checks whether user can add suggestions to given translation.
     """
-    if translation is None:
+    if translation is None or user is None:
         return False
     if not translation.subproject.enable_suggestions:
         return False
