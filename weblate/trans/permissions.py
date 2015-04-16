@@ -26,6 +26,8 @@ def can_translate(user, translation):
     """
     Checks whether user can translate given translation.
     """
+    if translation is None:
+        return False
     if translation.subproject.locked:
         return False
     if not user.has_perm('trans.save_translation'):
@@ -42,6 +44,8 @@ def can_suggest(user, translation):
     """
     Checks whether user can add suggestions to given translation.
     """
+    if translation is None:
+        return False
     if not translation.subproject.enable_suggestions:
         return False
     if not user.has_perm('trans.add_translation'):
