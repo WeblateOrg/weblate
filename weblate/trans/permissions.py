@@ -75,7 +75,7 @@ def can_delete_suggestion(user, translation):
     return can_edit(user, translation, 'trans.delete_suggestion')
 
 
-def can_vote_suggestions(user, translation):
+def can_vote_suggestion(user, translation):
     """
     Checks whether user can vote suggestions on given translation.
     """

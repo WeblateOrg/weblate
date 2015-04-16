@@ -181,13 +181,13 @@
 {% endif %}
 </strong></h5>
 {% format_translation suggestion.target unit.translation.language unit.target %}
-{% if user_can_vote_suggestions %}
+{% if user_can_vote_suggestion %}
 <p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
 </p>
 {% endif %}
 <div class="pull-right flip">
-{% if user_can_vote_suggestions %}
+{% if user_can_vote_suggestion %}
 <button type="submit" class="btn btn-success btn-xs" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
 <button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}
