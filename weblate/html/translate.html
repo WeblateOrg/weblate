@@ -4,8 +4,8 @@
 {% load translations %}
 {% load crispy_forms_tags %}
 {% load permissions %}
-{% can_translate request.user unit.translation as user_can_translate %}
-{% can_suggest request.user unit.translation as user_can_suggest %}
+{% can_translate user unit.translation as user_can_translate %}
+{% can_suggest user unit.translation as user_can_suggest %}
 
 
 {% block extra_meta %}
