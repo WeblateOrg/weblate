@@ -20,6 +20,7 @@
 """
 Permissions abstract layer for Weblate.
 """
+from weblate import appsettings
 
 
 def can_edit(user, translation, permission):
@@ -90,3 +91,14 @@ def can_vote_suggestion(user, translation):
     if translation.is_template() and not user.has_perm('trans.save_template'):
         return False
     return True
+
+
+def can_use_mt(user, translation):
+    """
+    Checks whether user can use machine translation.
+    """
+    if not appsettings.MACHINE_TRANSLATION_ENABLED:
+        return False
+    if not user.has_perm('trans.use_mt'):
+        return False
+    return can_translate(user, translation) or can_suggest(user, translation)

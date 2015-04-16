@@ -56,3 +56,8 @@ def can_vote_suggestion(user, translation):
     return weblate.trans.permissions.can_vote_suggestion(
         user, translation
     )
+
+
+@register.assignment_tag
+def can_use_mt(user, translation):
+    return weblate.trans.permissions.can_use_mt(user, translation)
