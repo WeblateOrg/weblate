@@ -21,6 +21,33 @@
 Permissions abstract layer for Weblate.
 """
 from weblate import appsettings
+from django.core.cache import cache
+
+
+def cache_permission(func):
+    """
+    Caching for permissions check.
+    """
+    def wrapper(user, translation):
+        if user is None:
+            userid = 0
+        else:
+            userid = user.id
+        if translation is None:
+            translationid = 0
+        else:
+            translationid = translation.id
+        key = 'permission-{0}-{1}-{2}'.format(
+            func.__name__, userid, translationid
+        )
+        result = cache.get(key)
+        if result is not None:
+            return result
+        result = func(user, translation)
+        cache.set(key, result)
+        return result
+
+    return wrapper
 
 
 def can_edit(user, translation, permission):
@@ -42,6 +69,7 @@ def can_edit(user, translation, permission):
     return True
 
 
+@cache_permission
 def can_translate(user, translation):
     """
     Checks whether user can translate given translation.
@@ -49,6 +77,7 @@ def can_translate(user, translation):
     return can_edit(user, translation, 'trans.save_translation')
 
 
+@cache_permission
 def can_suggest(user, translation):
     """
     Checks whether user can add suggestions to given translation.
@@ -62,6 +91,7 @@ def can_suggest(user, translation):
     return True
 
 
+@cache_permission
 def can_accept_suggestion(user, translation):
     """
     Checks whether user can accept suggestions to given translation.
@@ -69,6 +99,7 @@ def can_accept_suggestion(user, translation):
     return can_edit(user, translation, 'trans.accept_suggestion')
 
 
+@cache_permission
 def can_delete_suggestion(user, translation):
     """
     Checks whether user can delete suggestions to given translation.
@@ -76,6 +107,7 @@ def can_delete_suggestion(user, translation):
     return can_edit(user, translation, 'trans.delete_suggestion')
 
 
+@cache_permission
 def can_vote_suggestion(user, translation):
     """
     Checks whether user can vote suggestions on given translation.
@@ -93,6 +125,7 @@ def can_vote_suggestion(user, translation):
     return True
 
 
+@cache_permission
 def can_use_mt(user, translation):
     """
     Checks whether user can use machine translation.
