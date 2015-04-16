@@ -73,3 +73,20 @@ def can_delete_suggestion(user, translation):
     Checks whether user can delete suggestions to given translation.
     """
     return can_edit(user, translation, 'trans.delete_suggestion')
+
+
+def can_vote_suggestions(user, translation):
+    """
+    Checks whether user can vote suggestions on given translation.
+    """
+    if translation is None or user is None:
+        return False
+    if not translation.subproject.suggestion_voting:
+        return False
+    if translation.subproject.locked:
+        return False
+    if not user.has_perm('trans.vote_suggestion'):
+        return False
+    if translation.is_template() and not user.has_perm('trans.save_template'):
+        return False
+    return True

@@ -49,3 +49,10 @@ def can_delete_suggestion(user, translation):
     return weblate.trans.permissions.can_delete_suggestion(
         user, translation
     )
+
+
+@register.assignment_tag
+def can_vote_suggestion(user, translation):
+    return weblate.trans.permissions.can_vote_suggestion(
+        user, translation
+    )

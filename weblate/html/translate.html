@@ -8,6 +8,7 @@
 {% can_suggest user unit.translation as user_can_suggest %}
 {% can_accept_suggestion user unit.translation as user_can_accept_suggestion %}
 {% can_delete_suggestion user unit.translation as user_can_delete_suggestion %}
+{% can_vote_suggestion user unit.translation as user_can_vote_suggestion %}
 
 
 {% block extra_meta %}
@@ -180,13 +181,13 @@
 {% endif %}
 </strong></h5>
 {% format_translation suggestion.target unit.translation.language unit.target %}
-{% if unit.can_vote_suggestions %}
+{% if user_can_vote_suggestions %}
 <p class="help-block">
 {% blocktrans count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktrans %}
 </p>
 {% endif %}
 <div class="pull-right flip">
-{% if unit.can_vote_suggestions and perms.trans.vote_suggestion %}
+{% if user_can_vote_suggestions %}
 <button type="submit" class="btn btn-success btn-xs" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
 <button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}

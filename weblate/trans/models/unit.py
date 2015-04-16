@@ -953,12 +953,6 @@ class Unit(models.Model):
             position__lte=self.position + appsettings.NEARBY_MESSAGES,
         ).select_related()
 
-    def can_vote_suggestions(self):
-        """
-        Whether we can vote for suggestions.
-        """
-        return self.translation.subproject.suggestion_voting
-
     def translate(self, request, new_target, new_fuzzy):
         """
         Stores new translation of a unit.

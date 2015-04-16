@@ -24,6 +24,7 @@ from django.contrib.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.changes import Change
+from weblate.trans.permissions import can_vote_suggestion
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import notify_new_suggestion, notify_new_comment
 
@@ -60,7 +61,7 @@ class SuggestionManager(models.Manager):
         )
 
         # Add unit vote
-        if user is not None and unit.can_vote_suggestions():
+        if can_vote_suggestion(user, unit.translation):
             suggestion.add_vote(
                 unit.translation,
                 request,
