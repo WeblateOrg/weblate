@@ -23,6 +23,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.views.decorators.http import require_POST
 from django.http import Http404
 
 from weblate.trans.forms import get_upload_form
@@ -70,6 +71,7 @@ def download_language_pack(request, project, subproject, lang):
     return response
 
 
+@require_POST
 @permission_required('trans.upload_translation')
 def upload_translation(request, project, subproject, lang):
     '''
@@ -78,7 +80,7 @@ def upload_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
     # Check method and lock
-    if obj.is_locked(request.user) or request.method != 'POST':
+    if obj.is_locked(request.user):
         messages.error(request, _('Access denied.'))
         return redirect(obj)
 
