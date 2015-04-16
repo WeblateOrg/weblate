@@ -5,13 +5,6 @@
 {% load crispy_forms_tags %}
 {% load permissions %}
 
-{% can_translate user unit.translation as user_can_translate %}
-{% can_suggest user unit.translation as user_can_suggest %}
-{% can_accept_suggestion user unit.translation as user_can_accept_suggestion %}
-{% can_delete_suggestion user unit.translation as user_can_delete_suggestion %}
-{% can_vote_suggestion user unit.translation as user_can_vote_suggestion %}
-{% can_use_mt user unit.translation as user_can_use_mt %}
-
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
 {% endblock %}
@@ -24,6 +17,13 @@
 {% endblock %}
 
 {% block content %}
+
+{% can_translate user unit.translation as user_can_translate %}
+{% can_suggest user unit.translation as user_can_suggest %}
+{% can_accept_suggestion user unit.translation as user_can_accept_suggestion %}
+{% can_delete_suggestion user unit.translation as user_can_delete_suggestion %}
+{% can_vote_suggestion user unit.translation as user_can_vote_suggestion %}
+{% can_use_mt user unit.translation as user_can_use_mt %}
 
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
