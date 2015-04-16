@@ -291,7 +291,7 @@ def show_translation(request, project, subproject, lang):
     )[:10]
 
     # Check locks
-    obj.is_locked(request)
+    obj.is_locked(request.user)
 
     # Get form
     form = get_upload_form(request)()
