@@ -278,11 +278,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         provided.
         '''
         return (
-            self.is_user_locked(request) or
+            self.is_user_locked(request.user) or
             self.subproject.locked
         )
 
-    def is_user_locked(self, request=None):
+    def is_user_locked(self, user=None):
         '''
         Checks whether there is valid user lock on this translation.
         '''
@@ -298,7 +298,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             return False
 
         # Is current user the one who has locked?
-        elif request is not None and self.lock_user == request.user:
+        elif user is not None and self.lock_user == user:
             return False
 
         else:

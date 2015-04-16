@@ -33,7 +33,7 @@ from weblate.trans.views.helper import (
 def lock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if not obj.is_user_locked(request):
+    if not obj.is_user_locked(request.user):
         obj.create_lock(request.user, True)
         messages.success(request, _('Translation is now locked for you.'))
 
@@ -44,7 +44,7 @@ def lock_translation(request, project, subproject, lang):
 def update_lock(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if not obj.is_user_locked(request):
+    if not obj.is_user_locked(request.user):
         obj.update_lock_time()
 
     return HttpResponse('ok')
@@ -54,7 +54,7 @@ def update_lock(request, project, subproject, lang):
 def unlock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if not obj.is_user_locked(request):
+    if not obj.is_user_locked(request.user):
         obj.create_lock(None)
         messages.success(
             request,
