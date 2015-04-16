@@ -651,7 +651,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.update_remote_branch()
 
         # do we have something to merge?
-        if not self.git_needs_merge() and method != 'rebase':
+        if not self.repo_needs_merge() and method != 'rebase':
             return True
 
         # commit possible pending changes
@@ -667,7 +667,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.create_translations(request=request)
 
         # Push after possible merge
-        if (self.git_needs_push() and
+        if (self.repo_needs_push() and
                 ret and
                 self.project.push_on_commit and
                 self.can_push()):
@@ -696,7 +696,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.commit_pending(request, skip_push=True)
 
         # Do we have anything to push?
-        if not self.git_needs_push():
+        if not self.repo_needs_push():
             return False
 
         if do_update:
@@ -704,7 +704,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.do_update(request)
 
             # Were all changes merged?
-            if self.git_needs_merge():
+            if self.repo_needs_merge():
                 return False
 
         # Do actual push
@@ -1282,28 +1282,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         return self.translation_set.get_percents()
 
-    def git_needs_commit(self):
+    def repo_needs_commit(self):
         '''
         Checks whether there are some not committed changes.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.git_needs_commit()
+            return self.linked_subproject.repo_needs_commit()
         return self.repository.needs_commit()
 
-    def git_needs_merge(self):
+    def repo_needs_merge(self):
         '''
         Checks whether there is something to merge from remote repository.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.git_needs_merge()
+            return self.linked_subproject.repo_needs_merge()
         return self.repository.needs_merge(self.branch)
 
-    def git_needs_push(self):
+    def repo_needs_push(self):
         '''
         Checks whether there is something to push to remote repository.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.git_needs_push()
+            return self.linked_subproject.repo_needs_push()
         return self.repository.needs_push(self.branch)
 
     @property

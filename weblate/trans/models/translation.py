@@ -777,17 +777,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if sync:
             self.store_hash()
 
-    def git_needs_commit(self):
+    def repo_needs_commit(self):
         '''
         Checks whether there are some not committed changes.
         '''
         return self.repository.needs_commit(self.filename)
 
-    def git_needs_merge(self):
-        return self.subproject.git_needs_merge()
+    def repo_needs_merge(self):
+        return self.subproject.repo_needs_merge()
 
-    def git_needs_push(self):
-        return self.subproject.git_needs_push()
+    def repo_needs_push(self):
+        return self.subproject.repo_needs_push()
 
     def git_commit(self, request, author, timestamp, force_commit=False,
                    sync=False, skip_push=False):
@@ -800,7 +800,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         translation rescan will be needed)
         '''
         # Is there something for commit?
-        if not self.git_needs_commit():
+        if not self.repo_needs_commit():
             return False
 
         # Can we delay commit?
