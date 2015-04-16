@@ -76,7 +76,8 @@
     {% endif %}
     <div class="form-group">
     {% with unit.translation.subproject.get_editable_template as edit_template %}
-    {% if edit_template and perms.trans.save_template %}
+    {% can_translate user edit_template as user_can_edit_template %}
+    {% if user_can_edit_template %}
     <a class="pull-right flip" title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% endwith %}
