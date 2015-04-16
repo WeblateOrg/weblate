@@ -1239,12 +1239,3 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         Returns URL of exported git repository.
         '''
         return self.subproject.get_export_url()
-
-    def only_vote_suggestions(self):
-        """
-        Whether we can vote for suggestions.
-        """
-        return (
-            self.subproject.suggestion_voting and
-            self.subproject.suggestion_autoaccept > 0
-        )

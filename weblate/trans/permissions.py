@@ -34,8 +34,9 @@ def can_edit(user, translation, permission):
         return False
     if translation.is_template() and not user.has_perm('trans.save_template'):
         return False
-    if (translation.only_vote_suggestions() and not
-            user.has_perm('trans.override_suggestion')):
+    if (translation.subproject.suggestion_voting and
+            translation.subproject.suggestion_autoaccept > 0 and
+            not user.has_perm('trans.override_suggestion')):
         return False
     return True
 
