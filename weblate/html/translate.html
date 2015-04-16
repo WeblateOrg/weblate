@@ -3,6 +3,9 @@
 {% load static %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load permissions %}
+{% can_translate request.user unit.translation as user_can_translate %}
+
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
@@ -17,10 +20,8 @@
 
 {% block content %}
 
-{% if perms.trans.save_translation %}
-{% if perms.trans.save_template or not object.is_template %}
+{% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
-{% endif %}
 {% endif %}
 
 {% with unit.translation as object %}
@@ -84,17 +85,13 @@
     {{ form|crispy }}
   </div>
   <div class="panel-footer">
-    {% if not unit.translation.only_vote_suggestions or perms.trans.override_suggestion %}
-    {% if perms.trans.save_translation %}
-    {% if perms.trans.save_template or not object.is_template %}
+    {% if user_can_translate %}
     <input class="btn btn-default" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
-    {% endif %}
     {% elif not user.is_authenticated %}
     {% url 'login' as login_url %}
     {% with unit.translation.get_translate_url as translate_url %}
     {% blocktrans %}<a href="{{ login_url }}?next={{ translate_url }}">Log in</a> for saving translations.{% endblocktrans %}
     {% endwith %}
-    {% endif %}
     {% endif %}
 
     {% if unit.translation.subproject.enable_suggestions %}
@@ -105,8 +102,7 @@
     {% endif %}
     {% endif %}
 
-    {% if perms.trans.save_translation %}
-    {% if perms.trans.save_template or not object.is_template %}
+    {% if user_can_translate %}
     <div class="pull-right flip hidden-xs">
     {% trans "Commit message:" %} 
     <input type="text" name="commit_message" class="tooltip-control" 
@@ -117,7 +113,6 @@
         title="{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}"
     />
     </div>
-    {% endif %}
     {% endif %}
   </div>
 </div>
@@ -229,10 +224,8 @@
     <td><a href="{{ item.get_absolute_url }}">{% format_translation item.target item.translation.language unit.target %}</a></td>
     <td>{% get_state_flags item %}</td>
     <td>
-    {% if perms.trans.save_translation %}
-    {% if perms.trans.save_template or not object.is_template %}
+    {% if user_can_translate %}
     <a class="mergebutton small-button btn btn-default" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}">{% trans "Use this translation" %}</a>
-    {% endif %}
     {% endif %}
     </td>
     </tr>
@@ -369,10 +362,8 @@
         <td>{{ item.source }}</td>
         <td class="target">{% format_translation item.target unit.translation.language simple=True %}</td>
         <td>
-        {% if perms.trans.save_translation %}
-        {% if perms.trans.save_template or not object.is_template %}
+        {% if user_can_translate or perms.trans.add_suggestion %}
         <a class="copydict btn btn-default btn-xs" title="{% trans "Copy word to translation" %}">{% trans "Copy" %}</a>
-        {% endif %}
         {% endif %}
         </td>
         </tr>

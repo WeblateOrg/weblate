@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
+
 <div class="panel panel-primary">
 <div class="panel-heading">
 <h4 class="panel-title">{% if history_title %}{{ history_title }}{% else %}{% trans "History" %}{% endif %}</h4>
@@ -29,10 +31,9 @@
 <tr>
 <td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
 <td>
-{% if perms.trans.save_translation and c.target != c.unit.target %}
-{% if perms.trans.save_template or not trans.is_template %}
+{% can_translate request.user c.translation as user_can_translate %}
+{% if user_can_translate %}
 <a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
-{% endif %}
 {% endif %}
 </td>
 </tr>
