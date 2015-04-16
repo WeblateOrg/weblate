@@ -41,6 +41,7 @@ from weblate.trans.forms import (
 from weblate.trans.views.helper import get_translation
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
+from weblate.trans.permissions import can_translate
 
 
 def cleanup_session(session):
@@ -290,24 +291,10 @@ def handle_translate(translation, request, user_locked,
 
     if 'suggest' in request.POST:
         go_next = perform_suggestion(unit, form, request)
-    elif (translation.is_template() and not
-          request.user.has_perm('trans.save_template')):
-        # Need privilege to save
-        messages.error(
-            request,
-            _('You don\'t have privileges to save templates!')
-        )
-    elif not request.user.has_perm('trans.save_translation'):
-        # Need privilege to save
+    elif not can_translate(request.user, unit.translation):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
-        )
-    elif (unit.translation.only_vote_suggestions() and not
-          request.user.has_perm('trans.override_suggestion')):
-        messages.error(
-            request,
-            _('Only suggestions are allowed in this translation!')
         )
     elif not user_locked:
         # Custom commit message
@@ -332,17 +319,7 @@ def handle_merge(translation, request, next_unit_url):
     '''
     Handles unit merging.
     '''
-    if (translation.is_template() and not
-            request.user.has_perm('trans.save_template')):
-        # Need privilege to save
-        messages.error(
-            request,
-            _('You don\'t have privileges to save templates!')
-        )
-        return
-
-    if not request.user.has_perm('trans.save_translation'):
-        # Need privilege to save
+    if not can_translate(request.user, translation):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
@@ -382,17 +359,7 @@ def handle_merge(translation, request, next_unit_url):
 
 
 def handle_revert(translation, request, next_unit_url):
-    if (translation.is_template() and not
-            request.user.has_perm('trans.save_template')):
-        # Need privilege to save
-        messages.error(
-            request,
-            _('You don\'t have privileges to save templates!')
-        )
-        return
-
-    if not request.user.has_perm('trans.save_translation'):
-        # Need privilege to save
+    if not can_translate(request.user, translation):
         messages.error(
             request,
             _('You don\'t have privileges to save translations!')
@@ -842,14 +809,18 @@ def load_zen(request, project, subproject, lang):
     )
 
 
-@permission_required('trans.save_translation')
 def save_zen(request, project, subproject, lang):
     '''
     Save handler for zen mode.
     '''
     translation = get_translation(request, project, subproject, lang)
     form = TranslationForm(translation, None, request.POST)
-    if not form.is_valid():
+    if not can_translate(request.user, translation):
+        messages.error(
+            request,
+            _('You don\'t have privileges to save translations!')
+        )
+    elif not form.is_valid():
         messages.error(request, _('Failed to save translation!'))
     else:
         unit = form.cleaned_data['unit']
