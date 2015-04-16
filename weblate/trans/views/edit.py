@@ -842,6 +842,7 @@ def load_zen(request, project, subproject, lang):
     )
 
 
+@permission_required('trans.save_translation')
 def save_zen(request, project, subproject, lang):
     '''
     Save handler for zen mode.
