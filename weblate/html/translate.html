@@ -84,7 +84,7 @@
     {{ form|crispy }}
   </div>
   <div class="panel-footer">
-    {% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
+    {% if not unit.translation.only_vote_suggestions or perms.trans.override_suggestion %}
     {% if perms.trans.save_translation %}
     {% if perms.trans.save_template or not object.is_template %}
     <input class="btn btn-default" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
@@ -193,7 +193,7 @@
 <button type="submit" class="btn btn-success btn-xs" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
 <button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}
-{% if not unit.only_vote_suggestions or perms.trans.override_suggestion %}
+{% if not unit.translation.only_vote_suggestions or perms.trans.override_suggestion %}
 {% if perms.trans.save_template or not object.is_template %}
 {% if perms.trans.accept_suggestion %}
 <button type="submit" class="btn btn-success btn-xs" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>

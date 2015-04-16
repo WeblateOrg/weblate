@@ -959,15 +959,6 @@ class Unit(models.Model):
         """
         return self.translation.subproject.suggestion_voting
 
-    def only_vote_suggestions(self):
-        """
-        Whether we can vote for suggestions.
-        """
-        return (
-            self.translation.subproject.suggestion_voting and
-            self.translation.subproject.suggestion_autoaccept > 0
-        )
-
     def translate(self, request, new_target, new_fuzzy):
         """
         Stores new translation of a unit.
