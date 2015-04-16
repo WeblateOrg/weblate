@@ -23,11 +23,28 @@ Permissions abstract layer for Weblate.
 from weblate import appsettings
 from django.core.cache import cache
 
+ALL_CACHES = set()
+KEY_TEMPLATE = 'permission-{0}-{1}-{2}'
+
+
+def clear_cache(user, translation):
+    """
+    Helper to clear permissions cache.
+    """
+    for key in ALL_CACHES:
+        cache.delete(
+            KEY_TEMPLATE.format(
+                key, user.id, translation.id
+            )
+        )
+
 
 def cache_permission(func):
     """
     Caching for permissions check.
     """
+    ALL_CACHES.add(func.__name__)
+
     def wrapper(user, translation):
         if user is None:
             userid = 0
@@ -37,7 +54,7 @@ def cache_permission(func):
             translationid = 0
         else:
             translationid = translation.id
-        key = 'permission-{0}-{1}-{2}'.format(
+        key = KEY_TEMPLATE.format(
             func.__name__, userid, translationid
         )
         result = cache.get(key)
