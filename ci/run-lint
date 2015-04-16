@@ -8,10 +8,10 @@ log() {
 # Linter for our code
 ./scripts/generate-locales
 log pep8
-pep8 --exclude migrations weblate openshift
+pep8 --exclude migrations weblate openshift examples *.py
 pep_ret=$?
 log pylint
-pylint --rcfile=pylint.rc weblate
+pylint --rcfile=pylint.rc weblate openshift *.py
 pylint_ret=$?
 log pyflakes
 pyflakes `find . -name '*.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py' -not -path './data/*'`
