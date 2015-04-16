@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2014 Daniel Tschan <tschan@puzzle.ch>
@@ -20,15 +19,12 @@
 #
 
 import os
-import sys
-from django.core.wsgi import get_wsgi_application
-from .virtualenv import activate
 
-sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'weblate'))
-sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'openshift'))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'weblate.settings_openshift'
-
-activate()
-
-application = get_wsgi_application()
+def activate():
+    virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
+    virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+    try:
+        execfile(virtualenv, dict(__file__=virtualenv))
+    except IOError:
+        pass
