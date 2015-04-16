@@ -266,6 +266,15 @@ options:
 
     .. seealso:: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-ALLOWED_HOSTS
 
+``SESSION_ENGINE``
+
+    Configure how your sessions will be stored. In case you keep default
+    database backed engine you should schedule
+    :command:`./manage.py clearsessions` to remove stale session data from the
+    database.
+
+    .. seealso:: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#configuring-sessions
+
 ``DATABASES``
 
     Connectivity to database server, please check Django's documentation for more
