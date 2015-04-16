@@ -151,7 +151,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 
 .. seealso::
 
-    `Qt Linguist manual <http://qt-project.org/doc/qt-4.8/linguist-manual.html>`_,
+    `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,
     `Qt .ts in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/ts.html>`_
 
 .. _aresource:
