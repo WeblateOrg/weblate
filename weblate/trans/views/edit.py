@@ -402,14 +402,14 @@ def check_suggestion_permissions(request, mode, translation):
         )
         return False
     if mode in ('accept', 'accept_edit'):
-        if not can_accept_suggestion(request.user, translation)
+        if not can_accept_suggestion(request.user, translation):
             messages.error(
                 request,
                 _('You do not have privilege to accept suggestions!')
             )
             return False
     elif mode == 'delete':
-        if not can_delete_suggestion(request.user, translation)
+        if not can_delete_suggestion(request.user, translation):
             messages.error(
                 request,
                 _('You do not have privilege to delete suggestions!')
