@@ -608,25 +608,25 @@ class EditTest(ViewTestCase):
         )
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
-        self.assertTrue(self.translation.git_needs_commit())
-        self.assertTrue(self.subproject.git_needs_commit())
-        self.assertTrue(self.subproject.project.git_needs_commit())
+        self.assertTrue(self.translation.repo_needs_commit())
+        self.assertTrue(self.subproject.repo_needs_commit())
+        self.assertTrue(self.subproject.project.repo_needs_commit())
 
         self.translation.commit_pending(self.get_request('/'))
 
-        self.assertFalse(self.translation.git_needs_commit())
-        self.assertFalse(self.subproject.git_needs_commit())
-        self.assertFalse(self.subproject.project.git_needs_commit())
+        self.assertFalse(self.translation.repo_needs_commit())
+        self.assertFalse(self.subproject.repo_needs_commit())
+        self.assertFalse(self.subproject.project.repo_needs_commit())
 
-        self.assertTrue(self.translation.git_needs_push())
-        self.assertTrue(self.subproject.git_needs_push())
-        self.assertTrue(self.subproject.project.git_needs_push())
+        self.assertTrue(self.translation.repo_needs_push())
+        self.assertTrue(self.subproject.repo_needs_push())
+        self.assertTrue(self.subproject.project.repo_needs_push())
 
         self.translation.do_push(self.get_request('/'))
 
-        self.assertFalse(self.translation.git_needs_push())
-        self.assertFalse(self.subproject.git_needs_push())
-        self.assertFalse(self.subproject.project.git_needs_push())
+        self.assertFalse(self.translation.repo_needs_push())
+        self.assertFalse(self.subproject.repo_needs_push())
+        self.assertFalse(self.subproject.project.repo_needs_push())
 
     def test_auto(self):
         '''

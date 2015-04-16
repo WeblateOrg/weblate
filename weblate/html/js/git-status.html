@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load translations %}
-{% with object.git_needs_commit as needs_commit %}
+{% with object.repo_needs_commit as needs_commit %}
 
 <div class="row">
 <div class="col-md-8">
@@ -18,13 +18,13 @@
 <p><a href="{% documentation "faq" "merge" %}">{% trans "Check our FAQ for information how to resolve this." %}</a></p>
 </div>
 {% else %}
-{% if object.git_needs_merge %}
+{% if object.repo_needs_merge %}
 <div class="alert alert-warning" role="alert">{% trans "The remote repository needs to be merged!" %}</div>
 {% endif %}
-{% if object.git_needs_push %}
+{% if object.repo_needs_push %}
 <div class="alert alert-warning" role="alert">{% trans "There are some new commits in the local repository!" %}</div>
 {% endif %}
-{% if not needs_commit and not object.git_needs_merge and not object.git_needs_push %}
+{% if not needs_commit and not object.repo_needs_merge and not object.repo_needs_push %}
 <div class="alert alert-success" role="alert">{% trans "The local repository is up to date." %}</div>
 {% endif %}
 {% endif %}

@@ -42,7 +42,7 @@ class Command(WeblateLangCommand):
         age = timezone.now() - timedelta(hours=options['age'])
 
         for translation in self.get_translations(*args, **options):
-            if not translation.git_needs_commit():
+            if not translation.repo_needs_commit():
                 continue
 
             last_change = translation.last_change
