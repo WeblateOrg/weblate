@@ -35,3 +35,17 @@ def can_suggest(user, translation):
     return weblate.trans.permissions.can_suggest(
         user, translation
     )
+
+
+@register.assignment_tag
+def can_accept_suggestion(user, translation):
+    return weblate.trans.permissions.can_accept_suggestion(
+        user, translation
+    )
+
+
+@register.assignment_tag
+def can_delete_suggestion(user, translation):
+    return weblate.trans.permissions.can_delete_suggestion(
+        user, translation
+    )

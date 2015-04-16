@@ -41,7 +41,9 @@ from weblate.trans.forms import (
 from weblate.trans.views.helper import get_translation
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
-from weblate.trans.permissions import can_translate, can_suggest
+from weblate.trans.permissions import (
+    can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
+)
 
 
 def cleanup_session(session):
@@ -399,14 +401,14 @@ def check_suggestion_permissions(request, mode, translation):
         )
         return False
     if mode in ('accept', 'accept_edit'):
-        if not request.user.has_perm('trans.accept_suggestion'):
+        if not can_accept_suggestion(request.user, translation)
             messages.error(
                 request,
                 _('You do not have privilege to accept suggestions!')
             )
             return False
     elif mode == 'delete':
-        if not request.user.has_perm('trans.delete_suggestion'):
+        if not can_delete_suggestion(request.user, translation)
             messages.error(
                 request,
                 _('You do not have privilege to delete suggestions!')

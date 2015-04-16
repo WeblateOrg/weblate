@@ -22,15 +22,15 @@ Permissions abstract layer for Weblate.
 """
 
 
-def can_translate(user, translation):
+def can_edit(user, translation, permission):
     """
-    Checks whether user can translate given translation.
+    Generic checker for changing translation.
     """
     if translation is None:
         return False
     if translation.subproject.locked:
         return False
-    if not user.has_perm('trans.save_translation'):
+    if not user.has_perm(permission):
         return False
     if translation.is_template() and not user.has_perm('trans.save_template'):
         return False
@@ -38,6 +38,13 @@ def can_translate(user, translation):
             user.has_perm('trans.override_suggestion')):
         return False
     return True
+
+
+def can_translate(user, translation):
+    """
+    Checks whether user can translate given translation.
+    """
+    return can_edit(user, translation, 'trans.save_translation')
 
 
 def can_suggest(user, translation):
@@ -51,3 +58,17 @@ def can_suggest(user, translation):
     if not user.has_perm('trans.add_translation'):
         return False
     return True
+
+
+def can_accept_suggestion(user, translation):
+    """
+    Checks whether user can accept suggestions to given translation.
+    """
+    return can_edit(user, translation, 'trans.accept_suggestion')
+
+
+def can_delete_suggestion(user, translation):
+    """
+    Checks whether user can delete suggestions to given translation.
+    """
+    return can_edit(user, translation, 'trans.delete_suggestion')
