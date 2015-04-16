@@ -43,6 +43,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
+    can_vote_suggestion,
 )
 
 
@@ -415,7 +416,7 @@ def check_suggestion_permissions(request, mode, translation):
             )
             return False
     elif mode in ('upvode', 'downvote'):
-        if not request.user.has_perm('trans.vote_suggestion'):
+        if not can_vote_suggestion(request.user, translation):
             messages.error(
                 request,
                 _('You do not have privilege to vote for suggestions!')
