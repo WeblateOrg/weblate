@@ -661,40 +661,46 @@ def create_groups(update):
             Permission.objects.get(codename='use_mt'),
         )
 
+    owner_permissions = (
+        Permission.objects.get(codename='author_translation'),
+        Permission.objects.get(codename='upload_translation'),
+        Permission.objects.get(codename='overwrite_translation'),
+        Permission.objects.get(codename='commit_translation'),
+        Permission.objects.get(codename='update_translation'),
+        Permission.objects.get(codename='push_translation'),
+        Permission.objects.get(codename='automatic_translation'),
+        Permission.objects.get(codename='save_translation'),
+        Permission.objects.get(codename='save_template'),
+        Permission.objects.get(codename='accept_suggestion'),
+        Permission.objects.get(codename='vote_suggestion'),
+        Permission.objects.get(codename='override_suggestion'),
+        Permission.objects.get(codename='delete_comment'),
+        Permission.objects.get(codename='delete_suggestion'),
+        Permission.objects.get(codename='ignore_check'),
+        Permission.objects.get(codename='upload_dictionary'),
+        Permission.objects.get(codename='add_dictionary'),
+        Permission.objects.get(codename='change_dictionary'),
+        Permission.objects.get(codename='delete_dictionary'),
+        Permission.objects.get(codename='lock_subproject'),
+        Permission.objects.get(codename='reset_translation'),
+        Permission.objects.get(codename='lock_translation'),
+        Permission.objects.get(codename='can_see_git_repository'),
+        Permission.objects.get(codename='add_comment'),
+        Permission.objects.get(codename='delete_comment'),
+        Permission.objects.get(codename='add_suggestion'),
+        Permission.objects.get(codename='use_mt'),
+        Permission.objects.get(codename='edit_priority'),
+        Permission.objects.get(codename='edit_flags'),
+        Permission.objects.get(codename='manage_acl'),
+    )
+
     group, created = Group.objects.get_or_create(name='Managers')
     if created or update:
-        group.permissions.add(
-            Permission.objects.get(codename='author_translation'),
-            Permission.objects.get(codename='upload_translation'),
-            Permission.objects.get(codename='overwrite_translation'),
-            Permission.objects.get(codename='commit_translation'),
-            Permission.objects.get(codename='update_translation'),
-            Permission.objects.get(codename='push_translation'),
-            Permission.objects.get(codename='automatic_translation'),
-            Permission.objects.get(codename='save_translation'),
-            Permission.objects.get(codename='save_template'),
-            Permission.objects.get(codename='accept_suggestion'),
-            Permission.objects.get(codename='vote_suggestion'),
-            Permission.objects.get(codename='override_suggestion'),
-            Permission.objects.get(codename='delete_comment'),
-            Permission.objects.get(codename='delete_suggestion'),
-            Permission.objects.get(codename='ignore_check'),
-            Permission.objects.get(codename='upload_dictionary'),
-            Permission.objects.get(codename='add_dictionary'),
-            Permission.objects.get(codename='change_dictionary'),
-            Permission.objects.get(codename='delete_dictionary'),
-            Permission.objects.get(codename='lock_subproject'),
-            Permission.objects.get(codename='reset_translation'),
-            Permission.objects.get(codename='lock_translation'),
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_comment'),
-            Permission.objects.get(codename='delete_comment'),
-            Permission.objects.get(codename='add_suggestion'),
-            Permission.objects.get(codename='use_mt'),
-            Permission.objects.get(codename='edit_priority'),
-            Permission.objects.get(codename='edit_flags'),
-            Permission.objects.get(codename='manage_acl'),
-        )
+        group.permissions.add(*owner_permissions)
+
+    group, created = Group.objects.get_or_create(name='Owners')
+    if created or update:
+        group.permissions.add(*owner_permissions)
 
     created = True
     try:
