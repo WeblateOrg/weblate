@@ -28,19 +28,19 @@ def cache_permission(func):
     Caching for permissions check.
     """
 
-    def wrapper(user, translation):
-        if translation is None:
-            return func(user, translation)
+    def wrapper(user, target_object):
+        if target_object is None:
+            return func(user, target_object)
         if user is None:
             userid = 0
         else:
             userid = user.id
         key = (func.__name__, userid)
 
-        if key not in translation.permissions_cache:
-            translation.permissions_cache[key] = func(user, translation)
+        if key not in target_object.permissions_cache:
+            target_object.permissions_cache[key] = func(user, target_object)
 
-        return translation.permissions_cache[key]
+        return target_object.permissions_cache[key]
 
     return wrapper
 
@@ -130,3 +130,16 @@ def can_use_mt(user, translation):
     if not user.has_perm('trans.use_mt'):
         return False
     return can_translate(user, translation) or can_suggest(user, translation)
+
+
+@cache_permission
+def can_see_repository_status(user, project):
+    """
+    Checks whether user can view repository status.
+    """
+    if user is None or project is None:
+        return False
+    return (
+        user.has_perm('trans.commit_translation') or
+        user.has_perm('trans.update_translation')
+    )

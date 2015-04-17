@@ -155,6 +155,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Constructor to initialize some cache properties.
         """
         super(Project, self).__init__(*args, **kwargs)
+        self.permissions_cache = {}
 
     def has_acl(self, user):
         """
