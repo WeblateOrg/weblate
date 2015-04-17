@@ -32,7 +32,9 @@ from weblate.trans.views.helper import (
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
 from weblate.trans.checks import CHECKS
-from weblate.trans.permissions import can_use_mt, can_see_repository_status
+from weblate.trans.permissions import (
+    can_use_mt, can_see_repository_status, can_ignore_check,
+)
 
 from urllib import urlencode
 import json
