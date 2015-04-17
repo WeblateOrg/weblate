@@ -21,6 +21,17 @@
 Permissions abstract layer for Weblate.
 """
 from weblate import appsettings
+from django.contrib.auth.models import Group
+
+
+def check_owner(user, project, permission):
+    """
+    Checks whether owner group has given permission.
+    """
+    if user != project.owner:
+        return False
+    group = Group.objects.get(name='Owner')
+    return group.has_perm(permission)
 
 
 def cache_permission(func):
@@ -53,6 +64,8 @@ def can_edit(user, translation, permission):
         return False
     if translation.subproject.locked:
         return False
+    if check_owner(user, translation.subproject.project, permission):
+        return True
     if not user.has_perm(permission):
         return False
     if translation.is_template() and not user.has_perm('trans.save_template'):
@@ -81,6 +94,8 @@ def can_suggest(user, translation):
         return False
     if not translation.subproject.enable_suggestions:
         return False
+    if check_owner(user, translation.subproject.project, 'trans.add_suggestion'):
+        return True
     if not user.has_perm('trans.add_sugestion'):
         return False
     return True
@@ -113,6 +128,8 @@ def can_vote_suggestion(user, translation):
         return False
     if translation.subproject.locked:
         return False
+    if check_owner(user, translation.subproject.project, 'trans.vote_suggestion'):
+        return True
     if not user.has_perm('trans.vote_suggestion'):
         return False
     if translation.is_template() and not user.has_perm('trans.save_template'):
@@ -129,6 +146,8 @@ def can_use_mt(user, translation):
         return False
     if not user.has_perm('trans.use_mt'):
         return False
+    if check_owner(user, translation.subproject.project, 'trans.use_mt'):
+        return True
     return can_translate(user, translation) or can_suggest(user, translation)
 
 
@@ -139,6 +158,9 @@ def can_see_repository_status(user, project):
     """
     if user is None or project is None:
         return False
+    if (check_owner(user, project, 'trans.commit_translation') or
+            check_owner(user, project, 'trans.update_translation')):
+        return True
     return (
         user.has_perm('trans.commit_translation') or
         user.has_perm('trans.update_translation')
