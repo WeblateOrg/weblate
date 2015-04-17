@@ -13,7 +13,6 @@ python:
 # build matrix configuration
 env:
   matrix:
-    - CI_PIP_DEPS="Django>=1.7,<1.8" CI_LINT=1
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_LINT=1
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=mysql
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql
