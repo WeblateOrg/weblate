@@ -89,7 +89,6 @@
 </div>
 
 <div class="col-md-4">
-{% if perms.trans.commit_translation or perms.trans.update_translation %}
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository tools" %}</h4></div>
 <div class="panel-body">
@@ -98,7 +97,7 @@
 
 <tr>
 <td>
-<a href="{{ object.get_commit_url }}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
+<a href="{{ object.get_commit_url }}" class="btn btn-default{% if not perms.trans.commit_translation or not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
 </td>
 <td>
 <p class="helptext">{% trans "Commit pending changes to the local repository" %}</p>
@@ -168,7 +167,6 @@
 
 </div>
 
-{% endif %}
 </div>
 </div>
 {% endwith %}
