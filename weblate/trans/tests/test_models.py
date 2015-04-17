@@ -679,6 +679,15 @@ class SubProjectTest(RepoTestCase):
         component.save()
         self.assertEqual(component.translation_set.count(), 4)
 
+    def test_run_hook(self):
+        subproject = self.create_subproject()
+        self.assertFalse(
+            subproject.run_hook('false')
+        )
+        self.assertTrue(
+            subproject.run_hook('true')
+        )
+
 
 class TranslationTest(RepoTestCase):
     """

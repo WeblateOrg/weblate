@@ -1464,12 +1464,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     command,
                     env=get_clean_env(),
                 )
+                return True
             except (OSError, subprocess.CalledProcessError) as err:
                 self.log_error(
                     'failed to run hook script %s: %s',
                     script,
                     err
                 )
+                return False
 
     def get_editable_template(self):
         if not self.edit_template or not self.has_template():
