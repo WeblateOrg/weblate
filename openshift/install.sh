@@ -65,10 +65,6 @@ done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
-if [ ! -s $OPENSHIFT_DATA_DIR/weblate.db ]; then
-  rm -f ${OPENSHIFT_DATA_DIR}/.credentials
-fi
-
 if [ ! -s $OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json ]; then
   mkdir -p $OPENSHIFT_REPO_DIR/weblate/fixtures
   cat <<-EOF >$OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json
