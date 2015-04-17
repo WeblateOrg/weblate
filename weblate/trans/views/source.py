@@ -112,7 +112,7 @@ def show_source(request, project, subproject):
 
 
 @require_POST
-@permission_required('edit_priority')
+@permission_required('trans.edit_priority')
 def edit_priority(request, pk):
     """
     Change source string priority.
@@ -128,7 +128,7 @@ def edit_priority(request, pk):
 
 
 @require_POST
-@permission_required('edit_check_flags')
+@permission_required('trans.edit_check_flags')
 def edit_check_flags(request, pk):
     """
     Change source string check flags.
