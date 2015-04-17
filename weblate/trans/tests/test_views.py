@@ -824,6 +824,22 @@ class ZenViewTest(ViewTestCase):
             'You have reached end of translating.'
         )
 
+    def test_save_zen(self):
+        unit = self.get_unit()
+        params = {
+            'checksum': unit.checksum,
+            'target_0': 'Zen translation'
+        }
+        response = self.client.post(
+            reverse('save_zen', kwargs=self.kw_translation),
+            params
+        )
+        self.assertContains(
+            response,
+            'Following fixups were applied to translation: '
+            'Trailing and leading whitespace'
+        )
+
 
 class HomeViewTest(ViewTestCase):
     """Tests for home/inidex view."""
