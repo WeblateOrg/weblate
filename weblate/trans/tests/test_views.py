@@ -28,7 +28,7 @@ from cStringIO import StringIO
 from xml.dom import minidom
 
 from django.test.client import RequestFactory
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -105,6 +105,13 @@ class ViewTestCase(RepoTestCase):
         self.translation_url = self.get_translation().get_absolute_url()
         self.project_url = self.project.get_absolute_url()
         self.subproject_url = self.subproject.get_absolute_url()
+
+    def make_manager(self):
+        """
+        Makes user a Manager.
+        """
+        group = Group.objects.get(name='Managers')
+        self.user.groups.add(group)
 
     def get_request(self, *args, **kwargs):
         '''

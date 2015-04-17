@@ -23,7 +23,7 @@ Tests for ACL management.
 """
 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import User
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -38,13 +38,6 @@ class ACLViewTest(ViewTestCase):
         Adds user to ACL.
         """
         self.project.add_user(self.user)
-
-    def make_admin(self):
-        """
-        Makes user a Manager.
-        """
-        group = Group.objects.get(name='Managers')
-        self.user.groups.add(group)
 
     def test_acl_denied(self):
         """No access to the project without ACL.
@@ -67,7 +60,7 @@ class ACLViewTest(ViewTestCase):
         """Manager should have access to user management.
         """
         self.add_acl()
-        self.make_admin()
+        self.make_manager()
         response = self.client.get(
             reverse('project', kwargs=self.kw_project)
         )
@@ -77,7 +70,7 @@ class ACLViewTest(ViewTestCase):
         """Adding and removing user from the ACL project.
         """
         self.add_acl()
-        self.make_admin()
+        self.make_manager()
         project_url = reverse('project', kwargs=self.kw_project)
         second_user = User.objects.create_user(
             'seconduser',
