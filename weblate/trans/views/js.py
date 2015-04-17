@@ -33,7 +33,7 @@ from weblate.trans.views.helper import (
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
 from weblate.trans.checks import CHECKS
-from weblate.trans.permissions import can_use_mt
+from weblate.trans.permissions import can_use_mt, can_see_repository_status
 
 from urllib import urlencode
 import json
@@ -56,7 +56,7 @@ def translate(request, unit_id):
     AJAX handler for translating.
     '''
     if not can_use_mt(request.user):
-        raise PermissionDenied
+        raise PermissionDenied()
     unit = get_object_or_404(Unit, pk=int(unit_id))
     unit.check_acl(request)
 
@@ -128,12 +128,11 @@ def ignore_check(request, check_id):
     return HttpResponse('ok')
 
 
-@any_permission_required(
-    'trans.commit_translation',
-    'trans.update_translation'
-)
 def git_status_project(request, project):
     obj = get_project(request, project)
+
+    if not can_see_repository_status(request.user, obj):
+        raise PermissionDenied()
 
     statuses = []
     included = set()
@@ -168,12 +167,11 @@ def git_status_project(request, project):
     )
 
 
-@any_permission_required(
-    'trans.commit_translation',
-    'trans.update_translation'
-)
 def git_status_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
+
+    if not can_see_repository_status(request.user, obj.project):
+        raise PermissionDenied()
 
     return render(
         request,
@@ -189,12 +187,11 @@ def git_status_subproject(request, project, subproject):
     )
 
 
-@any_permission_required(
-    'trans.commit_translation',
-    'trans.update_translation'
-)
 def git_status_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_see_repository_status(request.user, obj.subproject.project):
+        raise PermissionDenied()
 
     return render(
         request,
