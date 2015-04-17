@@ -96,3 +96,8 @@ def can_lock_subproject(user, project):
 @register.assignment_tag
 def can_edit_flags(user, project):
     return weblate.trans.permissions.can_edit_flags(user, project)
+
+
+@register.assignment_tag
+def can_edit_priority(user, project):
+    return weblate.trans.permissions.can_edit_priority(user, project)

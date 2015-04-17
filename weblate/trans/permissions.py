@@ -208,3 +208,11 @@ def can_edit_flags(user, project):
     Checks whether user can edit translation flags.
     """
     return check_permission(user, project, 'trans.edit_flags')
+
+
+@cache_permission
+def can_edit_priority(user, project):
+    """
+    Checks whether user can edit translation priority.
+    """
+    return check_permission(user, project, 'trans.edit_priority')

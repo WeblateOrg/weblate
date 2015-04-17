@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
+{% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
 
 <div class="row">
 <div class="col-lg-6">
@@ -57,7 +58,7 @@
 </td>
 </tr>
 {% endif %}
-{% if perms.trans.edit_priority %}
+{% if user_can_edit_priority %}
 <tr>
 <td>
 <form method="POST" action="{% url 'edit_priority' pk=source.pk %}">
