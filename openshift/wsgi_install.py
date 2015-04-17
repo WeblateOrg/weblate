@@ -22,12 +22,9 @@
 import os
 from string import Template
 
-virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
-virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
-try:
-    execfile(virtualenv, dict(__file__=virtualenv))
-except IOError:
-    pass
+execfile(os.path.join(
+    os.environ['OPENSHIFT_REPO_DIR'], 'openshift', 'virtualenv.py'
+))
 
 
 def application(environ, start_response):
