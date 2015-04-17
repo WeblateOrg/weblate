@@ -114,7 +114,7 @@ def commit_project(request, project):
 def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if not can_commit_translation(request.user, obj.subproject):
+    if not can_commit_translation(request.user, obj.project):
         raise PermissionDenied()
 
     return perform_commit(request, obj)
@@ -144,7 +144,7 @@ def update_project(request, project):
 def update_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if not can_update_translation(request.user, obj.subproject):
+    if not can_update_translation(request.user, obj.project):
         raise PermissionDenied()
 
     return perform_update(request, obj)
@@ -174,7 +174,7 @@ def push_project(request, project):
 def push_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if not can_push_translation(request.user, obj.subproject):
+    if not can_push_translation(request.user, obj.project):
         raise PermissionDenied()
 
     return perform_push(request, obj)
@@ -204,7 +204,7 @@ def reset_project(request, project):
 def reset_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if not can_reset_translation(request.user, obj.subproject):
+    if not can_reset_translation(request.user, obj.project):
         raise PermissionDenied()
 
     return perform_reset(request, obj)
