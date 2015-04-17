@@ -160,10 +160,31 @@ def can_see_repository_status(user, project):
     """
     if user is None or project is None:
         return False
-    if (check_owner(user, project, 'trans.commit_translation') or
-            check_owner(user, project, 'trans.update_translation')):
-        return True
     return (
-        user.has_perm('trans.commit_translation') or
-        user.has_perm('trans.update_translation')
+        can_commit_translation(user, project) or
+        can_update_translation(user, project)
     )
+
+
+@cache_permission
+def can_commit_translation(user, project):
+    """
+    Checks whether user can commit to translation repository.
+    """
+    if user is None or project is None:
+        return False
+    if check_owner(user, project, 'trans.commit_translation'):
+        return True
+    return user.has_perm('trans.commit_translation')
+
+
+@cache_permission
+def can_update_translation(user, project):
+    """
+    Checks whether user can update translation repository.
+    """
+    if user is None or project is None:
+        return False
+    if check_owner(user, project, 'trans.update_translation'):
+        return True
+    return user.has_perm('trans.update_translation')

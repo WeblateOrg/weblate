@@ -1,6 +1,10 @@
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
 {% with object.repo_needs_commit as needs_commit %}
+
+{% can_commit_translation user project as user_can_commit_translation %}
+
 
 <div class="row">
 <div class="col-md-8">
@@ -95,14 +99,16 @@
 
 <table class="table table-condensed">
 
+{% if user_can_commit_translation %}
 <tr>
 <td>
-<a href="{{ object.get_commit_url }}" class="btn btn-default{% if not perms.trans.commit_translation or not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
+<a href="{{ object.get_commit_url }}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
 </td>
 <td>
 <p class="helptext">{% trans "Commit pending changes to the local repository" %}</p>
 </td>
 </tr>
+{% endif %}
 
 <tr>
 <td>

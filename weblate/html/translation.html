@@ -15,6 +15,7 @@
 
 {% block content %}
 {% can_see_repository_status user object.subproject.project as user_can_see_repository_status %}
+{% can_commit_translation user object.subproject.project as user_can_commit_translation %}
 
 {% include "show-lock.html" %}
 
@@ -45,7 +46,7 @@
     <ul class="dropdown-menu">
       <li><a href="{% url 'data_project' project=object.subproject.project.slug  %}">{% trans "Data exports" %}</a></li>
       <li><a href="#locking" data-toggle="tab">{% trans "Locking" %}</a></li>
-      {% if perms.trans.commit_translation %}
+      {% if user_can_commit_translation %}
       <li><a href="{{ object.get_commit_url }}">{% trans "Commit" %}</a></li>
       {% endif %}
       {% if user_can_see_repository_status %}

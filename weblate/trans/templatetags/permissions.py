@@ -66,3 +66,13 @@ def can_use_mt(user, translation):
 @register.assignment_tag
 def can_see_repository_status(user, project):
     return weblate.trans.permissions.can_see_repository_status(user, project)
+
+
+@register.assignment_tag
+def can_commit_translation(user, project):
+    return weblate.trans.permissions.can_commit_translation(user, project)
+
+
+@register.assignment_tag
+def can_update_translation(user, project):
+    return weblate.trans.permissions.can_update_translation(user, project)

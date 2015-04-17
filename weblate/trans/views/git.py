@@ -21,11 +21,13 @@
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import PermissionDenied
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
 from weblate.trans.filelock import FileLockException
 from weblate.trans.util import redirect_param
+from weblate.trans.permissions import can_commit_translation
 
 
 def execute_locked(request, obj, message, call, *args, **kwargs):
@@ -95,23 +97,29 @@ def perform_reset(request, obj):
     )
 
 
-@permission_required('trans.commit_translation')
 def commit_project(request, project):
     obj = get_project(request, project)
 
+    if not can_commit_translation(request.user, obj):
+        raise PermissionDenied()
+
     return perform_commit(request, obj)
 
 
-@permission_required('trans.commit_translation')
 def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
+    if not can_commit_translation(request.user, obj.subproject):
+        raise PermissionDenied()
+
     return perform_commit(request, obj)
 
 
-@permission_required('trans.commit_translation')
 def commit_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_commit_translation(request.user, obj.subproject.translation):
+        raise PermissionDenied()
 
     return perform_commit(request, obj)
 

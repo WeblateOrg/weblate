@@ -157,6 +157,7 @@ def git_status_project(request, project):
         'js/git-status.html',
         {
             'object': obj,
+            'project': obj,
             'changes': Change.objects.filter(
                 subproject__project=obj,
                 action__in=Change.ACTIONS_REPOSITORY,
@@ -177,6 +178,7 @@ def git_status_subproject(request, project, subproject):
         'js/git-status.html',
         {
             'object': obj,
+            'project': obj.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
                 subproject=obj,
@@ -197,6 +199,7 @@ def git_status_translation(request, project, subproject, lang):
         'js/git-status.html',
         {
             'object': obj,
+            'project': obj.subproject.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
                 subproject=obj.subproject,
