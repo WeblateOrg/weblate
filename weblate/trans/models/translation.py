@@ -168,6 +168,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         super(Translation, self).__init__(*args, **kwargs)
         self._store = None
+        self.permissions_cache = {}
 
     @property
     def log_prefix(self):
