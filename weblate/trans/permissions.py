@@ -52,7 +52,8 @@ def cache_permission(func):
     def wrapper(user, target_object):
         if target_object is None or user is None:
             return False
-        key = (func.__name__, userid)
+
+        key = (func.__name__, user.id)
 
         if key not in target_object.permissions_cache:
             target_object.permissions_cache[key] = func(user, target_object)
