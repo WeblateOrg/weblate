@@ -81,7 +81,7 @@ def can_suggest(user, translation):
         return False
     if not translation.subproject.enable_suggestions:
         return False
-    if not user.has_perm('trans.add_translation'):
+    if not user.has_perm('trans.add_sugestion'):
         return False
     return True
 
