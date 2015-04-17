@@ -119,9 +119,13 @@ def get_unit_changes(request, unit_id):
     )
 
 
-@permission_required('trans.ignore_check')
+@login_required
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
+
+    if not can_ignore_check(request.user, obj.project):
+        raise PermissionDenied()
+
     obj.project.check_acl(request)
     # Mark check for ignoring
     obj.set_ignore()

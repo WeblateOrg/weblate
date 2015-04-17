@@ -216,3 +216,11 @@ def can_edit_priority(user, project):
     Checks whether user can edit translation priority.
     """
     return check_permission(user, project, 'trans.edit_priority')
+
+
+@cache_permission
+def can_ignore_check(user, project):
+    """
+    Checks whether user can edit translation priority.
+    """
+    return check_permission(user, project, 'trans.ignore_check')

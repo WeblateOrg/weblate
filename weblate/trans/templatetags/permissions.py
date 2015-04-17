@@ -101,3 +101,8 @@ def can_edit_flags(user, project):
 @register.assignment_tag
 def can_edit_priority(user, project):
     return weblate.trans.permissions.can_edit_priority(user, project)
+
+
+@register.assignment_tag
+def can_ignore_check(user, project):
+    return weblate.trans.permissions.can_ignore_check(user, project)
