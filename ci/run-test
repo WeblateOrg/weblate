@@ -5,4 +5,9 @@ set -x
 
 ./manage.py check
 ./manage.py migrate --noinput --traceback
+if [ "$CI_SELENIUM" = 1 ] ; then
+    CI_RUN_TESTS="-p test_selenium.py"
+else
+    CI_RUN_TESTS=""
+fi
 coverage run --source=. ./manage.py test -v 2 $CI_RUN_TESTS
