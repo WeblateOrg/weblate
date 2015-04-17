@@ -248,6 +248,16 @@ class SearchViewTest(ViewTestCase):
             '1 / 4'
         )
 
+    def test_search_errors(self):
+        self.do_search(
+            {'type': 'nonexisting-type'},
+            'nonexisting-type is not one of the available choices'
+        )
+        self.do_search(
+            {'date': 'nonexisting'},
+            'date: Enter a valid date.'
+        )
+
     def test_search_plural(self):
         response = self.do_search(
             {'q': 'banana'},

@@ -100,18 +100,25 @@ def search(translation, request):
     review_form = ReviewForm(request.GET)
 
     search_query = None
-    if review_form.is_valid():
-        # Review
-        allunits = translation.unit_set.review(
-            review_form.cleaned_data['date'],
-            request.user
-        )
+    if 'date' in request.GET:
+        if review_form.is_valid():
+            # Review
+            allunits = translation.unit_set.review(
+                review_form.cleaned_data['date'],
+                request.user
+            )
 
-        formatted_date = formats.date_format(
-            review_form.cleaned_data['date'],
-            'SHORT_DATE_FORMAT'
-        )
-        name = _('Review of translations since %s') % formatted_date
+            formatted_date = formats.date_format(
+                review_form.cleaned_data['date'],
+                'SHORT_DATE_FORMAT'
+            )
+            name = _('Review of translations since %s') % formatted_date
+        else:
+            show_form_errors(request, review_form)
+
+            # Filtering by type
+            allunits = translation.unit_set.all()
+            name = _('All strings')
     elif search_form.is_valid():
         # Apply search conditions
         allunits = translation.unit_set.search(
@@ -123,10 +130,7 @@ def search(translation, request):
         name = search_form.get_name()
     else:
         # Error reporting
-        if 'date' in request.GET:
-            show_form_errors(request, review_form)
-        elif 'q' in request.GET or 'type' in request.GET:
-            show_form_errors(request, search_form)
+        show_form_errors(request, search_form)
 
         # Filtering by type
         allunits = translation.unit_set.all()
