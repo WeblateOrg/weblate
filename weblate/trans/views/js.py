@@ -26,7 +26,6 @@ from django.core.exceptions import PermissionDenied
 
 from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.decorators import any_permission_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
