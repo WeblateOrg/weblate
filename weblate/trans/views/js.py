@@ -22,6 +22,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
+from django.core.exceptions import PermissionDenied
 
 from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -32,6 +33,7 @@ from weblate.trans.views.helper import (
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
 from weblate.trans.checks import CHECKS
+from weblate.trans.permissions import can_use_mt
 
 from urllib import urlencode
 import json
@@ -49,11 +51,12 @@ def get_string(request, checksum):
     return HttpResponse(units[0].get_source_plurals()[0])
 
 
-@permission_required('trans.use_mt')
 def translate(request, unit_id):
     '''
     AJAX handler for translating.
     '''
+    if not can_use_mt(request.user):
+        raise PermissionDenied
     unit = get_object_or_404(Unit, pk=int(unit_id))
     unit.check_acl(request)
 
