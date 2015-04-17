@@ -94,7 +94,8 @@ def can_suggest(user, translation):
         return False
     if not translation.subproject.enable_suggestions:
         return False
-    if check_owner(user, translation.subproject.project, 'trans.add_suggestion'):
+    project = translation.subproject.project
+    if check_owner(user, project, 'trans.add_suggestion'):
         return True
     if not user.has_perm('trans.add_sugestion'):
         return False
@@ -128,7 +129,8 @@ def can_vote_suggestion(user, translation):
         return False
     if translation.subproject.locked:
         return False
-    if check_owner(user, translation.subproject.project, 'trans.vote_suggestion'):
+    project = translation.subproject.project
+    if check_owner(user, project, 'trans.vote_suggestion'):
         return True
     if not user.has_perm('trans.vote_suggestion'):
         return False
