@@ -105,7 +105,7 @@ class CommentViewTest(ViewTestCase):
 
     def test_delete_comment(self):
         unit = self.get_unit()
-        self.make_admin()
+        self.make_manager()
 
         # Add comment
         response = self.client.post(
