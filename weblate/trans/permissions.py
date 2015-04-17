@@ -179,6 +179,14 @@ def can_update_translation(user, project):
 
 
 @cache_permission
+def can_push_translation(user, project):
+    """
+    Checks whether user can push translation repository.
+    """
+    return check_permission(user, project, 'trans.push_translation')
+
+
+@cache_permission
 def can_reset_translation(user, project):
     """
     Checks whether user can reset translation repository.

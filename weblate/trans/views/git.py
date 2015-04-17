@@ -20,7 +20,6 @@
 
 from django.utils.translation import ugettext as _
 from django.contrib import messages
-from django.contrib.auth.decorators import permission_required
 from django.core.exceptions import PermissionDenied
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
@@ -29,6 +28,7 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.util import redirect_param
 from weblate.trans.permissions import (
     can_commit_translation, can_update_translation, can_reset_translation,
+    can_push_translation,
 )
 
 
@@ -153,23 +153,29 @@ def update_translation(request, project, subproject, lang):
     return perform_update(request, obj)
 
 
-@permission_required('trans.push_translation')
 def push_project(request, project):
     obj = get_project(request, project)
 
+    if not can_push_translation(request.user, obj):
+        raise PermissionDenied()
+
     return perform_push(request, obj)
 
 
-@permission_required('trans.push_translation')
 def push_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
+    if not can_push_translation(request.user, obj.subproject):
+        raise PermissionDenied()
+
     return perform_push(request, obj)
 
 
-@permission_required('trans.push_translation')
 def push_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_push_translation(request.user, obj.subproject.translation):
+        raise PermissionDenied()
 
     return perform_push(request, obj)
 

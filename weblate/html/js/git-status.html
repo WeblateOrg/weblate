@@ -5,6 +5,7 @@
 
 {% can_commit_translation user project as user_can_commit_translation %}
 {% can_update_translation user project as user_can_update_translation %}
+{% can_push_translation user project as user_can_push_translation %}
 {% can_reset_translation user project as user_can_reset_translation %}
 
 
@@ -123,14 +124,16 @@
 </tr>
 {% endif %}
 
+{% if user_can_push_translation %}
 <tr>
 <td>
-<a href="{{ object.get_push_url }}" class="btn btn-default{% if not perms.trans.push_translation or not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
+<a href="{{ object.get_push_url }}" class="btn btn-default{% if not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
 </td>
 <td>
 <p class="helptext">{% trans "Push changes to the remote repository" %}</p>
 </td>
 </tr>
+{% endif %}
 
 {% if user_can_update_translation %}
 <tr>
