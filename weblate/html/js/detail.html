@@ -28,7 +28,7 @@
 
 <div class="col-lg-6">
 <table class="table table-condensed">
-{% if perms.edit_check_flags %}
+{% if perms.trans.edit_flags %}
 <tr>
 <td>
 <div class="btn-group pull-right flip">
@@ -55,7 +55,7 @@
 </td>
 </tr>
 {% endif %}
-{% if perms.edit_priority %}
+{% if perms.trans.edit_priority %}
 <tr>
 <td>
 <form method="POST" action="{% url 'edit_priority' pk=source.pk %}">
