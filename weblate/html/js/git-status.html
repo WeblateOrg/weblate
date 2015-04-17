@@ -4,6 +4,7 @@
 {% with object.repo_needs_commit as needs_commit %}
 
 {% can_commit_translation user project as user_can_commit_translation %}
+{% can_update_translation user project as user_can_update_translation %}
 
 
 <div class="row">
@@ -110,14 +111,17 @@
 </tr>
 {% endif %}
 
+{% if user_can_update_translation %}
 <tr>
 <td>
-<a href="{{ object.get_update_url }}" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Pull" %}</a>
+<a href="{{ object.get_update_url }}" class="btn btn-default">{% trans "Pull" %}</a>
 </td>
 <td>
 <p class="helptext">{% trans "Pull changes from the remote repository" %}</p>
 </td>
 </tr>
+{% endif %}
+
 <tr>
 <td>
 <a href="{{ object.get_push_url }}" class="btn btn-default{% if not perms.trans.push_translation or not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
@@ -126,14 +130,18 @@
 <p class="helptext">{% trans "Push changes to the remote repository" %}</p>
 </td>
 </tr>
+
+{% if user_can_update_translation %}
 <tr>
 <td>
-<a href="{{ object.get_update_url }}?method=rebase" class="btn btn-default{% if not perms.trans.update_translation %} disabled{% endif %}">{% trans "Rebase" %}</a>
+<a href="{{ object.get_update_url }}?method=rebase" class="btn btn-default">{% trans "Rebase" %}</a>
 </td>
 <td>
 <p class="helptext">{% trans "Rebase local changes onto the remote repository" %}</p>
 </td>
 </tr>
+{% endif %}
+
 {% if perms.trans.reset_translation %}
 <tr>
 <td>

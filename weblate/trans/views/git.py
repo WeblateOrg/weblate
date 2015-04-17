@@ -124,23 +124,29 @@ def commit_translation(request, project, subproject, lang):
     return perform_commit(request, obj)
 
 
-@permission_required('trans.update_translation')
 def update_project(request, project):
     obj = get_project(request, project)
 
+    if not can_update_translation(request.user, obj):
+        raise PermissionDenied()
+
     return perform_update(request, obj)
 
 
-@permission_required('trans.update_translation')
 def update_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
+    if not can_update_translation(request.user, obj.subproject):
+        raise PermissionDenied()
+
     return perform_update(request, obj)
 
 
-@permission_required('trans.update_translation')
 def update_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_update_translation(request.user, obj.subproject.translation):
+        raise PermissionDenied()
 
     return perform_update(request, obj)
 
