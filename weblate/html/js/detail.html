@@ -1,9 +1,10 @@
 {% load translations %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load permissions %}
 
-{% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
-{% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
+{% can_edit_flags user project as user_can_edit_flags %}
+{% can_edit_priority user project as user_can_edit_priority %}
 
 <div class="row">
 <div class="col-lg-6">
@@ -21,7 +22,7 @@
 <tr>
 <th>{{ unit.translation.language }}</th>
 <td>{% get_state_flags unit %}</td>
-<td>{% show_checks unit.checks user %}</td>
+<td>{% show_checks unit.translation.subproject.project unit.checks user %}</td>
 <td><a href="{{ unit.get_absolute_url }}" class="button small-button">{% trans "Edit" %}</a></td>
 </tr>
 {% endfor %}

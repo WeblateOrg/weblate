@@ -337,7 +337,7 @@
   {% if others %}
   <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
   {% endif %}
-  {% show_checks checks user %}
+  {% show_checks unit.translation.subproject.project checks user %}
   {% if comments %}
   <div class="alert alert-info check"><a href="#comments" data-toggle="tab" class="alert-link">{% trans "Comments" %}</a> <span class="badge pull-right flip">{{ comments.count }}</span></div>
   {% endif %}
@@ -420,7 +420,7 @@
     <th>{% trans "Failing checks" %}</th>
     </tr>
     <tr>
-    <td>{% show_checks checks user %}</td>
+    <td>{% show_checks unit.translation.subproject.project checks user %}</td>
     </tr>
     {% endif %}
     {% endwith %}

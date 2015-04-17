@@ -35,9 +35,9 @@
 <td>{{ source.source_info.get_priority_display }}{% if perms.trans.edit_priority %} <a class="button smallbutton edit-priority" href="{% url 'edit_priority' pk=source.source_info.pk %}" data-priority="{{ source.source_info.priority }}"><i class="fa fa-pencil"></i></a>{% endif %}</td>
 <td class="source-checks">
 {% if ignored %}
-{% show_checks source.source_checks user %}
+{% show_checks source.translation.subproject.project source.source_checks user %}
 {% else %}
-{% show_checks source.active_source_checks user %}
+{% show_checks source.translation.subproject.project source.active_source_checks user %}
 {% endif %}
 {% if comments %}
 <div class="alert alert-info check">{% trans "Comment" %}</div>
