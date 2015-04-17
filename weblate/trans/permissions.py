@@ -34,6 +34,16 @@ def check_owner(user, project, permission):
     return group.has_perm(permission)
 
 
+def check_permission(user, project, permission):
+    """
+    Generic check for permission with owner fallback.
+    """
+    return (
+        check_owner(user, project, permission) or
+        user.has_perm(permission)
+    )
+
+
 def cache_permission(func):
     """
     Caching for permissions check.
@@ -86,12 +96,9 @@ def can_suggest(user, translation):
     """
     if not translation.subproject.enable_suggestions:
         return False
-    project = translation.subproject.project
-    if check_owner(user, project, 'trans.add_suggestion'):
-        return True
-    if not user.has_perm('trans.add_sugestion'):
-        return False
-    return True
+    return check_permission(
+        user, translation.subproject.project, 'trans.add_suggestion'
+    )
 
 
 @cache_permission
@@ -159,9 +166,7 @@ def can_commit_translation(user, project):
     """
     Checks whether user can commit to translation repository.
     """
-    if check_owner(user, project, 'trans.commit_translation'):
-        return True
-    return user.has_perm('trans.commit_translation')
+    return check_permission(user, project, 'trans.commit_translation')
 
 
 @cache_permission
@@ -169,6 +174,4 @@ def can_update_translation(user, project):
     """
     Checks whether user can update translation repository.
     """
-    if check_owner(user, project, 'trans.update_translation'):
-        return True
-    return user.has_perm('trans.update_translation')
+    return check_permission(user, project, 'trans.update_translation')
