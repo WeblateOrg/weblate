@@ -40,12 +40,8 @@ def cache_permission(func):
     """
 
     def wrapper(user, target_object):
-        if target_object is None:
-            return func(user, target_object)
-        if user is None:
-            userid = 0
-        else:
-            userid = user.id
+        if target_object is None or user is None:
+            return False
         key = (func.__name__, userid)
 
         if key not in target_object.permissions_cache:
@@ -60,8 +56,6 @@ def can_edit(user, translation, permission):
     """
     Generic checker for changing translation.
     """
-    if translation is None or user is None:
-        return False
     if translation.subproject.locked:
         return False
     if check_owner(user, translation.subproject.project, permission):
@@ -90,8 +84,6 @@ def can_suggest(user, translation):
     """
     Checks whether user can add suggestions to given translation.
     """
-    if translation is None or user is None:
-        return False
     if not translation.subproject.enable_suggestions:
         return False
     project = translation.subproject.project
@@ -123,8 +115,6 @@ def can_vote_suggestion(user, translation):
     """
     Checks whether user can vote suggestions on given translation.
     """
-    if translation is None or user is None:
-        return False
     if not translation.subproject.suggestion_voting:
         return False
     if translation.subproject.locked:
@@ -158,8 +148,6 @@ def can_see_repository_status(user, project):
     """
     Checks whether user can view repository status.
     """
-    if user is None or project is None:
-        return False
     return (
         can_commit_translation(user, project) or
         can_update_translation(user, project)
@@ -171,8 +159,6 @@ def can_commit_translation(user, project):
     """
     Checks whether user can commit to translation repository.
     """
-    if user is None or project is None:
-        return False
     if check_owner(user, project, 'trans.commit_translation'):
         return True
     return user.has_perm('trans.commit_translation')
@@ -183,8 +169,6 @@ def can_update_translation(user, project):
     """
     Checks whether user can update translation repository.
     """
-    if user is None or project is None:
-        return False
     if check_owner(user, project, 'trans.update_translation'):
         return True
     return user.has_perm('trans.update_translation')
