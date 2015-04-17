@@ -192,3 +192,11 @@ def can_reset_translation(user, project):
     Checks whether user can reset translation repository.
     """
     return check_permission(user, project, 'trans.reset_translation')
+
+
+@cache_permission
+def can_lock_subproject(user, project):
+    """
+    Checks whether user can lock translation subproject.
+    """
+    return check_permission(user, project, 'trans.lock_subproject')

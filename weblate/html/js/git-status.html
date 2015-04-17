@@ -7,6 +7,7 @@
 {% can_update_translation user project as user_can_update_translation %}
 {% can_push_translation user project as user_can_push_translation %}
 {% can_reset_translation user project as user_can_reset_translation %}
+{% can_lock_subproject user project as user_can_lock_subproject %}
 
 
 <div class="row">
@@ -158,7 +159,7 @@
 {% endif %}
 
 
-{% if perms.trans.lock_subproject and object.is_lockable %}
+{% if user_can_lock_subproject and object.is_lockable %}
 {% if object.locked %}
 <tr>
 <td>

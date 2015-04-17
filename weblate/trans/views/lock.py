@@ -22,22 +22,13 @@ from django.utils.translation import ugettext as _
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-
-
-@permission_required('trans.lock_translation')
-def lock_translation(request, project, subproject, lang):
-    obj = get_translation(request, project, subproject, lang)
-
-    if not obj.is_user_locked(request.user):
-        obj.create_lock(request.user, True)
-        messages.success(request, _('Translation is now locked for you.'))
-
-    return redirect(obj)
+from weblate.trans.permissions import can_lock_subproject
 
 
 @login_required
@@ -50,9 +41,24 @@ def update_lock(request, project, subproject, lang):
     return HttpResponse('ok')
 
 
-@permission_required('trans.lock_translation')
+def lock_translation(request, project, subproject, lang):
+    obj = get_translation(request, project, subproject, lang)
+
+    if not can_lock_subproject(request.user, obj.subproject.project):
+        raise PermissionDenied()
+
+    if not obj.is_user_locked(request.user):
+        obj.create_lock(request.user, True)
+        messages.success(request, _('Translation is now locked for you.'))
+
+    return redirect(obj)
+
+
 def unlock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_lock_subproject(request.user, obj.subproject.project):
+        raise PermissionDenied()
 
     if not obj.is_user_locked(request.user):
         obj.create_lock(None)
@@ -64,9 +70,11 @@ def unlock_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
-@permission_required('trans.lock_subproject')
 def lock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
+
+    if not can_lock_subproject(request.user, obj.project):
+        raise PermissionDenied()
 
     obj.commit_pending(request)
 
@@ -80,9 +88,11 @@ def lock_subproject(request, project, subproject):
     return redirect(obj)
 
 
-@permission_required('trans.lock_subproject')
 def unlock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
+
+    if not can_lock_subproject(request.user, obj.project):
+        raise PermissionDenied()
 
     obj.do_unlock(request.user)
 
@@ -94,9 +104,11 @@ def unlock_subproject(request, project, subproject):
     return redirect(obj)
 
 
-@permission_required('trans.lock_subproject')
 def lock_project(request, project):
     obj = get_project(request, project)
+
+    if not can_lock_subproject(request.user, obj):
+        raise PermissionDenied()
 
     obj.commit_pending(request)
 
@@ -111,9 +123,11 @@ def lock_project(request, project):
     return redirect(obj)
 
 
-@permission_required('trans.lock_subproject')
 def unlock_project(request, project):
     obj = get_project(request, project)
+
+    if not can_lock_subproject(request.user, obj):
+        raise PermissionDenied()
 
     for subproject in obj.subproject_set.all():
         subproject.do_unlock(request.user)
