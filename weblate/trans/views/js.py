@@ -54,10 +54,10 @@ def translate(request, unit_id):
     '''
     AJAX handler for translating.
     '''
-    if not can_use_mt(request.user):
-        raise PermissionDenied()
     unit = get_object_or_404(Unit, pk=int(unit_id))
     unit.check_acl(request)
+    if not can_use_mt(request.user, unit.translation):
+        raise PermissionDenied()
 
     service_name = request.GET.get('service', 'INVALID')
 
