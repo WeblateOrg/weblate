@@ -393,14 +393,6 @@ def check_suggestion_permissions(request, mode, translation):
     """
     Checks permission for suggestion handling.
     """
-    if (translation.is_template() and not
-            request.user.has_perm('trans.save_template')):
-        # Need privilege to save
-        messages.error(
-            request,
-            _('You don\'t have privileges to save templates!')
-        )
-        return False
     if mode in ('accept', 'accept_edit'):
         if not can_accept_suggestion(request.user, translation):
             messages.error(
