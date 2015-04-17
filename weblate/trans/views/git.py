@@ -27,7 +27,9 @@ from weblate.trans.views.helper import (
 )
 from weblate.trans.filelock import FileLockException
 from weblate.trans.util import redirect_param
-from weblate.trans.permissions import can_commit_translation
+from weblate.trans.permissions import (
+    can_commit_translation, can_update_translation, can_reset_translation,
+)
 
 
 def execute_locked(request, obj, message, call, *args, **kwargs):
@@ -172,22 +174,28 @@ def push_translation(request, project, subproject, lang):
     return perform_push(request, obj)
 
 
-@permission_required('trans.reset_translation')
 def reset_project(request, project):
     obj = get_project(request, project)
 
+    if not can_reset_translation(request.user, obj):
+        raise PermissionDenied()
+
     return perform_reset(request, obj)
 
 
-@permission_required('trans.reset_translation')
 def reset_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
+    if not can_reset_translation(request.user, obj.subproject):
+        raise PermissionDenied()
+
     return perform_reset(request, obj)
 
 
-@permission_required('trans.reset_translation')
 def reset_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_reset_translation(request.user, obj.subproject.translation):
+        raise PermissionDenied()
 
     return perform_reset(request, obj)

@@ -5,6 +5,7 @@
 
 {% can_commit_translation user project as user_can_commit_translation %}
 {% can_update_translation user project as user_can_update_translation %}
+{% can_reset_translation user project as user_can_reset_translation %}
 
 
 <div class="row">
@@ -142,7 +143,7 @@
 </tr>
 {% endif %}
 
-{% if perms.trans.reset_translation %}
+{% if user_can_reset_translation %}
 <tr>
 <td>
 <a href="{{ object.get_reset_url }}" class="btn btn-default confirm-reset">{% trans "Reset" %}</a>

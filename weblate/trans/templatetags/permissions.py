@@ -76,3 +76,8 @@ def can_commit_translation(user, project):
 @register.assignment_tag
 def can_update_translation(user, project):
     return weblate.trans.permissions.can_update_translation(user, project)
+
+
+@register.assignment_tag
+def can_reset_translation(user, project):
+    return weblate.trans.permissions.can_reset_translation(user, project)
