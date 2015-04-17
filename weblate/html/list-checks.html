@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load permissions %}
+
 {% can_ignore_check user check.project as user_can_ignore_check %}
 
 {% for check in checks %}

@@ -106,3 +106,8 @@ def can_edit_priority(user, project):
 @register.assignment_tag
 def can_ignore_check(user, project):
     return weblate.trans.permissions.can_ignore_check(user, project)
+
+
+@register.assignment_tag
+def can_delete_comment(user, project):
+    return weblate.trans.permissions.can_delete_comment(user, project)

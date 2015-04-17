@@ -25,6 +25,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import formats
+from django.core.exceptions import PermissionDenied
 import uuid
 import time
 
@@ -43,7 +44,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
-    can_vote_suggestion,
+    can_vote_suggestion, can_delete_comment,
 )
 
 
@@ -692,6 +693,9 @@ def delete_comment(request, pk):
     """
     comment_obj = get_object_or_404(Comment, pk=pk)
     comment_obj.project.check_acl(request)
+
+    if not can_delete_comment(request.user, comment_obj.project):
+        raise PermissionDenied()
 
     units = get_related_units(comment_obj)
     if units.exists():
