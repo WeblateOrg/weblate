@@ -24,6 +24,7 @@
 {% can_delete_suggestion user unit.translation as user_can_delete_suggestion %}
 {% can_vote_suggestion user unit.translation as user_can_vote_suggestion %}
 {% can_use_mt user unit.translation as user_can_use_mt %}
+{% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
 
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
@@ -391,14 +392,14 @@
     <td>{% format_translation unit.context search_match=search_query simple=True %}</td>
     </tr>
     {% endif %}
-    {% if unit.flags or perms.trans.edit_flags %}
+    {% if unit.flags or user_can_edit_flags %}
     <tr>
     <th>{% trans "Flags" %}</th>
     </tr>
     <tr>
     <td>
     {{ unit.all_flags|join:", " }}
-    {% if perms.trans.edit_flags %} <a class="button smallbutton" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_flags %} <a class="button smallbutton" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     </td>
     </tr>
     {% endif %}

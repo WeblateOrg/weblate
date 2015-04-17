@@ -91,3 +91,8 @@ def can_reset_translation(user, project):
 @register.assignment_tag
 def can_lock_subproject(user, project):
     return weblate.trans.permissions.can_lock_subproject(user, project)
+
+
+@register.assignment_tag
+def can_edit_flags(user, project):
+    return weblate.trans.permissions.can_edit_flags(user, project)

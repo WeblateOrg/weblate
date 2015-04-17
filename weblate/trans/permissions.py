@@ -200,3 +200,11 @@ def can_lock_subproject(user, project):
     Checks whether user can lock translation subproject.
     """
     return check_permission(user, project, 'trans.lock_subproject')
+
+
+@cache_permission
+def can_edit_flags(user, project):
+    """
+    Checks whether user can edit translation flags.
+    """
+    return check_permission(user, project, 'trans.edit_flags')
