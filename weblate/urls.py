@@ -193,12 +193,12 @@ urlpatterns = patterns(
     ),
     url(
         r'^add-user/' + PROJECT + '$',
-        'weblate.trans.views.basic.add_user',
+        'weblate.trans.views.acl.add_user',
         name='add-user',
     ),
     url(
         r'^delete-user/' + PROJECT + '$',
-        'weblate.trans.views.basic.delete_user',
+        'weblate.trans.views.acl.delete_user',
         name='delete-user',
     ),
 
