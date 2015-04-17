@@ -180,7 +180,7 @@ def perform_suggestion(unit, form, request):
         messages.error(request, _('Your suggestion is empty!'))
         # Stay on same entry
         return False
-    elif can_suggest(request.user, unit.translation):
+    elif not can_suggest(request.user, unit.translation):
         # Need privilege to add
         messages.error(
             request,
