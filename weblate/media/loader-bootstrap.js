@@ -388,7 +388,6 @@ $(function () {
     /* Row expander */
     $('.expander').click(function () {
         var $this = $(this);
-        console.log($this);
         var $tableRow = $this.closest('tr');
         var $nextRow = $tableRow.next();
         $nextRow.toggle();
@@ -441,7 +440,6 @@ $(function () {
         }
     } else if ($('.translation-tabs').length > 0 && $.cookie('translate-tab')) {
         /* From cookie */
-        console.log('switch ' + $.cookie('translate-tab'));
         activeTab = $('[data-toggle=tab][href=' + $.cookie('translate-tab') + ']');
         if (activeTab.length) {
             activeTab.tab('show');
