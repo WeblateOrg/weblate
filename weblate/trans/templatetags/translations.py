@@ -264,7 +264,6 @@ def show_message(tags, message):
 def show_checks(checks, user):
     return {
         'checks': checks,
-        'perms_ignore_check': user.has_perm('trans.ignore_check'),
     }
 
 
