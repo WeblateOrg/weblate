@@ -23,6 +23,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, Http404
 from django.contrib.auth.decorators import permission_required
 from django.core.urlresolvers import reverse
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 
 from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -50,6 +51,7 @@ def get_string(request, checksum):
     return HttpResponse(units[0].get_source_plurals()[0])
 
 
+@login_required
 def translate(request, unit_id):
     '''
     AJAX handler for translating.
@@ -127,6 +129,7 @@ def ignore_check(request, check_id):
     return HttpResponse('ok')
 
 
+@login_required
 def git_status_project(request, project):
     obj = get_project(request, project)
 
@@ -167,6 +170,7 @@ def git_status_project(request, project):
     )
 
 
+@login_required
 def git_status_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -188,6 +192,7 @@ def git_status_subproject(request, project, subproject):
     )
 
 
+@login_required
 def git_status_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 

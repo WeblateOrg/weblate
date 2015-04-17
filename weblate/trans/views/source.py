@@ -21,6 +21,7 @@
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
@@ -112,6 +113,7 @@ def show_source(request, project, subproject):
 
 
 @require_POST
+@login_required
 @permission_required('trans.edit_priority')
 def edit_priority(request, pk):
     """
@@ -128,6 +130,7 @@ def edit_priority(request, pk):
 
 
 @require_POST
+@login_required
 @permission_required('trans.edit_check_flags')
 def edit_check_flags(request, pk):
     """

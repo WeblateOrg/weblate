@@ -593,6 +593,7 @@ def translate(request, project, subproject, lang):
     )
 
 
+@login_required
 @permission_required('trans.automatic_translation')
 def auto_translation(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
@@ -796,6 +797,8 @@ def load_zen(request, project, subproject, lang):
     )
 
 
+@login_required
+@require_POST
 def save_zen(request, project, subproject, lang):
     '''
     Save handler for zen mode.

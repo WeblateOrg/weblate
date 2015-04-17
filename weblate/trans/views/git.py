@@ -21,6 +21,7 @@
 from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
@@ -99,6 +100,7 @@ def perform_reset(request, obj):
     )
 
 
+@login_required
 def commit_project(request, project):
     obj = get_project(request, project)
 
@@ -108,6 +110,7 @@ def commit_project(request, project):
     return perform_commit(request, obj)
 
 
+@login_required
 def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -117,6 +120,7 @@ def commit_subproject(request, project, subproject):
     return perform_commit(request, obj)
 
 
+@login_required
 def commit_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
@@ -126,6 +130,7 @@ def commit_translation(request, project, subproject, lang):
     return perform_commit(request, obj)
 
 
+@login_required
 def update_project(request, project):
     obj = get_project(request, project)
 
@@ -135,6 +140,7 @@ def update_project(request, project):
     return perform_update(request, obj)
 
 
+@login_required
 def update_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -144,6 +150,7 @@ def update_subproject(request, project, subproject):
     return perform_update(request, obj)
 
 
+@login_required
 def update_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
@@ -153,6 +160,7 @@ def update_translation(request, project, subproject, lang):
     return perform_update(request, obj)
 
 
+@login_required
 def push_project(request, project):
     obj = get_project(request, project)
 
@@ -162,6 +170,7 @@ def push_project(request, project):
     return perform_push(request, obj)
 
 
+@login_required
 def push_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -171,6 +180,7 @@ def push_subproject(request, project, subproject):
     return perform_push(request, obj)
 
 
+@login_required
 def push_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
@@ -180,6 +190,7 @@ def push_translation(request, project, subproject, lang):
     return perform_push(request, obj)
 
 
+@login_required
 def reset_project(request, project):
     obj = get_project(request, project)
 
@@ -189,6 +200,7 @@ def reset_project(request, project):
     return perform_reset(request, obj)
 
 
+@login_required
 def reset_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -198,6 +210,7 @@ def reset_subproject(request, project, subproject):
     return perform_reset(request, obj)
 
 
+@login_required
 def reset_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 

@@ -41,6 +41,7 @@ def update_lock(request, project, subproject, lang):
     return HttpResponse('ok')
 
 
+@login_required
 def lock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
@@ -54,6 +55,7 @@ def lock_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
+@login_required
 def unlock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
@@ -70,6 +72,7 @@ def unlock_translation(request, project, subproject, lang):
     return redirect(obj)
 
 
+@login_required
 def lock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -88,6 +91,7 @@ def lock_subproject(request, project, subproject):
     return redirect(obj)
 
 
+@login_required
 def unlock_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -104,6 +108,7 @@ def unlock_subproject(request, project, subproject):
     return redirect(obj)
 
 
+@login_required
 def lock_project(request, project):
     obj = get_project(request, project)
 
@@ -123,6 +128,7 @@ def lock_project(request, project):
     return redirect(obj)
 
 
+@login_required
 def unlock_project(request, project):
     obj = get_project(request, project)
 
