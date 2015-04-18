@@ -29,9 +29,9 @@ class Command(BaseCommand):
     help = 'setups admin user with admin password (INSECURE!)'
 
     def make_password(self, length) :
-	chars = string.ascii_letters + string.digits + '!@#$%^&*()'
-	random.seed = (os.urandom(1024))
-	return ''.join(random.choice(chars) for i in range(length))
+        chars = string.ascii_letters + string.digits + '!@#$%^&*()'
+        random.seed = (os.urandom(1024))
+        return ''.join(random.choice(chars) for i in range(length))
 
     def handle(self, *args, **options):
         '''
@@ -40,12 +40,9 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         '''
-       
 
-	password = self.make_password(13);
- 
-        self.stdout.write('Creating user admin with password ' + password )
-
+        password = self.make_password(13)
+        self.stdout.write('Creating user admin with password ' + password)
         user = User.objects.create_user('admin', 'admin@example.com', password)
         user.first_name = 'Weblate Admin'
         user.last_name = ''
