@@ -28,7 +28,8 @@ import random
 class Command(BaseCommand):
     help = 'setups admin user with admin password (INSECURE!)'
 
-    def make_password(self, length):
+    @staticmethod
+    def make_password(length):
         chars = string.ascii_letters + string.digits + '!@#$%^&*()'
         random.seed = (os.urandom(1024))
         return ''.join(random.choice(chars) for i in range(length))
