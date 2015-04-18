@@ -20,10 +20,18 @@
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+import string
+import os
+import random
 
 
 class Command(BaseCommand):
     help = 'setups admin user with admin password (INSECURE!)'
+
+    def make_password(self, length) :
+        chars = string.ascii_letters + string.digits + '!@#$%^&*()'
+        random.seed = (os.urandom(1024))
+        return ''.join(random.choice(chars) for i in range(length))
 
     def handle(self, *args, **options):
         '''
@@ -32,9 +40,10 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         '''
-        self.stderr.write('Warning: Creating user admin with password admin!')
-        self.stderr.write('Please change password immediatelly!')
-        user = User.objects.create_user('admin', 'admin@example.com', 'admin')
+
+        password = self.make_password(13)
+        self.stdout.write('Creating user admin with password ' + password)
+        user = User.objects.create_user('admin', 'admin@example.com', password)
         user.first_name = 'Weblate Admin'
         user.last_name = ''
         user.is_superuser = True

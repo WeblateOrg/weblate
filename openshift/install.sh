@@ -65,10 +65,6 @@ done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
-if [ ! -s $OPENSHIFT_DATA_DIR/weblate.db ]; then
-  rm -f ${OPENSHIFT_DATA_DIR}/.credentials
-fi
-
 if [ ! -s $OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json ]; then
   mkdir -p $OPENSHIFT_REPO_DIR/weblate/fixtures
   cat <<-EOF >$OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json
@@ -99,8 +95,7 @@ sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py collectstatic --noinput"
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
   echo "Generating Weblate admin credentials and writing them to ${OPENSHIFT_DATA_DIR}/.credentials"
-  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py createadmin"
-  DJANGO_SETTINGS_MODULE='weblate.settings_openshift' sh "python ${OPENSHIFT_REPO_DIR}/openshift/secure_db.py | tee ${OPENSHIFT_DATA_DIR}/.credentials"
+  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py createadmin" |  tee ${OPENSHIFT_DATA_DIR}/.credentials
 fi
 
 if find_script_dir; then
