@@ -814,6 +814,21 @@ class StringsUtf8Format(FileFormat):
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
 
+    @classmethod
+    def supports_new_language(cls):
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        with open(filename, 'w') as output:
+            output.write('\n')
+
 
 @register_fileformat
 class PropertiesUtf8Format(FileFormat):
@@ -869,6 +884,21 @@ class RESXFormat(FileFormat):
     monolingual = True
     unit_class = RESXUnit
 
+    @classmethod
+    def supports_new_language(cls):
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @staticmethod
+    def add_language(filename, code, base):
+        '''
+        Adds new language file.
+        '''
+        with open(filename, 'w') as output:
+            output.write('''<?xml version='1.0' encoding='utf-8'?>
+<root></root>''')
 
 @register_fileformat
 class AndroidFormat(FileFormat):
