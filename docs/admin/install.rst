@@ -764,6 +764,16 @@ that only version 2.0 and newer can be installed on OpenShift, as older
 versions don't include the necessary configuration files. The ``--no-git``
 option skips the creation of a local git repository.
 
+You can also specify which database you want to use:
+
+.. code-block:: sh
+
+    # For MySQL
+    rhc -aweblate app create -t python-2.7 -t mysql-5.5 --from-code https://github.com/paulpach/weblate.git --no-git
+
+    # For PostgreSQL
+    rhc -aweblate app create -t python-2.7 -t postgresql-9.2 --from-code https://github.com/paulpach/weblate.git --no-git
+
 Default Configuration
 +++++++++++++++++++++
 
