@@ -674,7 +674,7 @@ class FileFormat(object):
             raise ValueError('Not supported')
 
         with open(filename, 'w') as output:
-            output.write()
+            output.write(cls.new_translation)
 
 
 @register_fileformat
