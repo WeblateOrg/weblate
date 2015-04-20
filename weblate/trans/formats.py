@@ -383,6 +383,7 @@ class FileFormat(object):
     monolingual = None
     check_flags = ()
     unit_class = FileUnit
+    new_translation = None
 
     @classmethod
     def fixup(cls, store):
@@ -640,7 +641,7 @@ class FileFormat(object):
         '''
         Whether it supports creating new translation.
         '''
-        return False
+        return cls.new_translation is not None
 
     @staticmethod
     def is_valid_base_for_new(base):
@@ -664,12 +665,16 @@ class FileFormat(object):
         """
         return mask.replace('*', cls.get_language_code(code))
 
-    @staticmethod
-    def add_language(filename, code, base):
+    @classmethod
+    def add_language(cls, filename, code, base):
         '''
         Adds new language file.
         '''
-        raise ValueError('Not supported')
+        if cls.new_translation is None:
+            raise ValueError('Not supported')
+
+        with open(filename, 'w') as output:
+            output.write()
 
 
 @register_fileformat
@@ -760,8 +765,8 @@ class PoFormat(FileFormat):
         except Exception:
             return False
 
-    @staticmethod
-    def add_language(filename, code, base):
+    @classmethod
+    def add_language(cls, filename, code, base):
         '''
         Adds new language file.
         '''
@@ -806,6 +811,7 @@ class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
+    new_translation = '\n'
 
 
 @register_fileformat
@@ -813,21 +819,7 @@ class StringsUtf8Format(FileFormat):
     name = _('OS X Strings (UTF-8)')
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
-
-    @classmethod
-    def supports_new_language(cls):
-        '''
-        Checks whether we can create new language file.
-        '''
-        return True
-
-    @staticmethod
-    def add_language(filename, code, base):
-        '''
-        Adds new language file.
-        '''
-        with open(filename, 'w') as output:
-            output.write('\n')
+    new_translation = '\n'
 
 
 @register_fileformat
@@ -836,21 +828,7 @@ class PropertiesUtf8Format(FileFormat):
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
     monolingual = True
-
-    @classmethod
-    def supports_new_language(cls):
-        '''
-        Checks whether we can create new language file.
-        '''
-        return True
-
-    @staticmethod
-    def add_language(filename, code, base):
-        '''
-        Adds new language file.
-        '''
-        with open(filename, 'w') as output:
-            output.write('\n')
+    new_translation = '\n'
 
 
 @register_fileformat
@@ -883,22 +861,10 @@ class RESXFormat(FileFormat):
     loader = ('resx', 'RESXFile')
     monolingual = True
     unit_class = RESXUnit
+    new_translation = (
+        '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+    )
 
-    @classmethod
-    def supports_new_language(cls):
-        '''
-        Checks whether we can create new language file.
-        '''
-        return True
-
-    @staticmethod
-    def add_language(filename, code, base):
-        '''
-        Adds new language file.
-        '''
-        with open(filename, 'w') as output:
-            output.write('''<?xml version='1.0' encoding='utf-8'?>
-<root></root>''')
 
 @register_fileformat
 class AndroidFormat(FileFormat):
@@ -913,13 +879,9 @@ class AndroidFormat(FileFormat):
         'ignore-begin-newline',
         'ignore-end-newline',
     )
-
-    @classmethod
-    def supports_new_language(cls):
-        '''
-        Checks whether we can create new language file.
-        '''
-        return True
+    new_translation = (
+        '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
+    )
 
     @staticmethod
     def get_language_code(code):
@@ -927,15 +889,6 @@ class AndroidFormat(FileFormat):
         Does any possible formatting needed for language code.
         """
         return code.replace('_', '-r')
-
-    @staticmethod
-    def add_language(filename, code, base):
-        '''
-        Adds new language file.
-        '''
-        with open(filename, 'w') as output:
-            output.write('''<?xml version="1.0" encoding="utf-8"?>
-<resources></resources>''')
 
 
 @register_fileformat
@@ -952,8 +905,8 @@ class JSONFormat(FileFormat):
         '''
         return True
 
-    @staticmethod
-    def add_language(filename, code, base):
+    @classmethod
+    def add_language(cls, filename, code, base):
         '''
         Adds new language file.
         '''
