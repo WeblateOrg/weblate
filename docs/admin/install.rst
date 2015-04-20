@@ -752,7 +752,7 @@ Installation
 You can install Weblate on OpenShift directly from Weblate's github repository
 with the following command:
 
-.. parsed-literal::
+.. code-block:: sh
 
     rhc -aweblate app create -t python-2.7 --from-code \https://github.com/nijel/weblate.git#weblate-|version| --no-git
 
@@ -883,7 +883,7 @@ Visit the newly given URL with a browser and wait for the install/update page to
 
 You can update your Weblate installation on OpenShift directly from Weblate's github repository by executing:
 
-.. parsed-literal::
+.. code-block:: sh
 
     rhc -aweblate2 ssh update \https://github.com/nijel/weblate.git#weblate-|version|
 
@@ -893,7 +893,7 @@ Please note that the update process will not work if you modified the git reposi
 You can force an update by specifying the ``--force`` option to the update script. However any changes you made to the
 git repository of your installation will be discarded:
 
-.. parsed-literal::
+.. code-block:: sh
 
    rhc -aweblate2 ssh update --force \https://github.com/nijel/weblate.git#weblate-|version|
 
