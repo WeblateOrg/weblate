@@ -43,7 +43,7 @@ mysql -u root --execute="CREATE DATABASE weblate CHARACTER SET utf8;"
 # Database setup
 su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py migrate --noinput'
 su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py migrate'
-su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py createadmin'
+su - wwwrun -s /bin/bash -c '/usr/share/weblate/manage.py createadmin --password=admin'
 
 # Stop MySQL
 rcmysql stop
