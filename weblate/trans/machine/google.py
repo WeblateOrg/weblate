@@ -97,16 +97,17 @@ class GoogleWebTranslation(MachineTranslation):
         Downloads list of possible translations from a service.
         '''
         response = self.json_req(
-            'http://translate.google.com/translate_a/t',
+            'http://translate.google.com/translate_a/single',
             client='t',
-            text=text.encode('utf-8'),
+            q=text.encode('utf-8'),
             sl=appsettings.SOURCE_LANGUAGE,
             tl=language,
             ie='UTF-8',
-            oe='UTF-8'
+            oe='UTF-8',
+            dt='t'
         )
 
-        translation = ' '.join([sentence[0] for sentence in response[0]])
-        source = ' '.join([sentence[1] for sentence in response[0]])
+        translation = response[0][0][0]
+        source = response[0][0][1]
 
         return [(translation, 100, self.name, source)]
