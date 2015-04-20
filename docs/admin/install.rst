@@ -786,11 +786,11 @@ After installation on OpenShift Weblate is ready to use and preconfigured as fol
 * SQLite embedded database (DATABASES)
 * Random admin password
 * Random Django secret key (SECRET_KEY)
-* Indexing offloading if the cron cartridge is installed (OFFLOAD_INDEXING)
+* Indexing offloading if the cron cartridge is installed (:setting:`OFFLOAD_INDEXING`)
 * Committing of pending changes if the cron cartridge is installed (commit_pending)
-* Weblate machine translations for suggestions bases on previous translations (MACHINE_TRANSLATION_SERVICES)
-* Source language for machine translations set to "en-us" (SOURCE_LANGUAGE)
-* Weblate directories (STATIC_ROOT, DATA_DIR, TTF_PATH, Avatar cache) set according to OpenShift requirements/conventions
+* Weblate machine translations for suggestions bases on previous translations (:setting:`MACHINE_TRANSLATION_SERVICES`)
+* Source language for machine translations set to "en-us" (:setting:`SOURCE_LANGUAGE`)
+* Weblate directories (STATIC_ROOT, :setting:`DATA_DIR`, :setting:`TTF_PATH`, Avatar cache) set according to OpenShift requirements/conventions
 * Django site name and ALLOWED_HOSTS set to DNS name of your OpenShift application
 * Email sender addresses set to no-reply@<OPENSHIFT_CLOUD_DOMAIN>, where <OPENSHIFT_CLOUD_DOMAIN> is the domain OpenShift runs under. In case of OpenShift Online it's rhcloud.com.
 
