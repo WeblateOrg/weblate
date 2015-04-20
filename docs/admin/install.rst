@@ -754,15 +754,19 @@ with the following command:
 
 .. code-block:: sh
 
-    rhc -aweblate app create -t python-2.7 --from-code \https://github.com/nijel/weblate.git#weblate-|version| --no-git
+    rhc -aweblate app create -t python-2.7 --from-code https://github.com/nijel/weblate.git --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
-this instance. You are free to specify a different name.  The identifier right
-of the ``#`` sign identifies the version of Weblate to install.  For a list of
-available versions see here: https://github.com/nijel/weblate/tags. Please note
-that only version 2.0 and newer can be installed on OpenShift, as older
-versions don't include the necessary configuration files. The ``--no-git``
-option skips the creation of a local git repository.
+this instance. You are free to specify a different name. 
+
+Optionally you can specify tag identifier right of the ``#`` sign to identify
+the version of Weblate to install (for example specify
+``https://github.com/nijel/weblate.git#weblate-2.0`` to install Weblate 2.0).
+For a list of available versions see here:
+https://github.com/nijel/weblate/tags. Please note that only version 2.0 and
+newer can be installed on OpenShift, as older versions don't include the
+necessary configuration files. The ``--no-git`` option skips the creation of a
+local git repository.
 
 You can also specify which database you want to use:
 
@@ -885,7 +889,7 @@ You can update your Weblate installation on OpenShift directly from Weblate's gi
 
 .. code-block:: sh
 
-    rhc -aweblate2 ssh update \https://github.com/nijel/weblate.git#weblate-|version|
+    rhc -aweblate2 ssh update https://github.com/nijel/weblate.git
 
 The identifier right of the ``#`` sign identifies the version of Weblate to install.
 For a list of available versions see here: https://github.com/nijel/weblate/tags.
@@ -895,7 +899,7 @@ git repository of your installation will be discarded:
 
 .. code-block:: sh
 
-   rhc -aweblate2 ssh update --force \https://github.com/nijel/weblate.git#weblate-|version|
+   rhc -aweblate2 ssh update --force https://github.com/nijel/weblate.git
 
 The ``--force`` option is also needed when downgrading to an older version.
 Please note that only version 2.0 and newer can be installed on OpenShift,
