@@ -20,13 +20,22 @@
 
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+from optparse import make_option
 import string
 import os
 import random
 
 
 class Command(BaseCommand):
-    help = 'setups admin user with admin password (INSECURE!)'
+    help = 'setups admin user with random password'
+    option_list = BaseCommand.option_list + (
+        make_option(
+            '--password',
+            dest='password',
+            default=None,
+            help='Password to set, random is generated if not specified'
+        ),
+    )
 
     @staticmethod
     def make_password(length):
@@ -41,9 +50,13 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         '''
+        if options['password']:
+            password = options['password']
+            self.stdout.write('Creating user admin')
+        else:
+            password = self.make_password(13)
+            self.stdout.write('Creating user admin with password ' + password)
 
-        password = self.make_password(13)
-        self.stdout.write('Creating user admin with password ' + password)
         user = User.objects.create_user('admin', 'admin@example.com', password)
         user.first_name = 'Weblate Admin'
         user.last_name = ''
