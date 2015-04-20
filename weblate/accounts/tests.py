@@ -196,12 +196,14 @@ class CommandTest(TestCase):
         user = User.objects.get(username='admin')
         self.assertEqual(user.first_name, 'Weblate Admin')
         self.assertEqual(user.last_name, '')
+        self.assertFalse(user.check_password('admin'))
 
     def test_createadmin_password(self):
         call_command('createadmin', password='admin')
         user = User.objects.get(username='admin')
         self.assertEqual(user.first_name, 'Weblate Admin')
         self.assertEqual(user.last_name, '')
+        self.assertTrue(user.check_password('admin'))
 
     def test_setupgroups(self):
         call_command('setupgroups')
