@@ -119,7 +119,7 @@ class ChangeManager(models.Manager):
         acl_projects, filtered = Project.objects.get_acl_status(user)
         if filtered:
             result = result.filter(
-                Q(translation__subproject__project__in=acl_projects) |
+                Q(subproject__project__in=acl_projects) |
                 Q(dictionary__project__in=acl_projects)
             )
 
