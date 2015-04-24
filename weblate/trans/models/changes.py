@@ -260,11 +260,7 @@ class Change(models.Model):
         '''
         if self.unit is not None:
             return self.unit.get_absolute_url()
-        elif self.translation is not None:
-            return self.translation.get_absolute_url()
-        elif self.dictionary is not None:
-            return self.dictionary.get_absolute_url()
-        return None
+        return self.get_translation_url()
 
     def get_translation_url(self):
         '''
