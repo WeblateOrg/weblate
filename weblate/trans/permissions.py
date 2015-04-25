@@ -30,7 +30,7 @@ def check_owner(user, project, permission):
     """
     if user != project.owner:
         return False
-    group = Group.objects.get(name='Owner')
+    group = Group.objects.get(name='Owners')
     return group.has_perm(permission)
 
 
