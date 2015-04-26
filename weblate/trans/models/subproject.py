@@ -1230,6 +1230,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Creates absolute filename for base file for new translations.
         '''
+        if not self.new_base:
+            return None
         return os.path.join(self.get_path(), self.new_base)
 
     def save(self, *args, **kwargs):
