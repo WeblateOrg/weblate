@@ -31,7 +31,10 @@ def check_owner(user, project, permission):
     if user != project.owner:
         return False
     group = Group.objects.get(name='Owners')
-    return group.has_perm(permission)
+    app, perm = permission.split('.')
+    return group.permissions.filter(
+        content_type__app_label=app, codename=perm
+    ).exists()
 
 
 def check_permission(user, project, permission):
