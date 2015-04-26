@@ -21,15 +21,57 @@
 from django.contrib.auth.models import User, Group
 from django.test import TestCase
 from weblate.trans.models import Project
-from weblate.trans.permissions import check_owner
+from weblate.trans.permissions import (
+    check_owner, check_permission, can_delete_comment
+)
 
 
 class PermissionsTest(TestCase):
-    def test_owner(self):
-        user = User.objects.create_user('user', 'test@example.com', 'x')
-        owner = User.objects.create_user('owner', 'test@example.com', 'x')
-        owner.groups.add(Group.objects.get(name='Owners'))
-        project = Project.objects.create(slug='test', owner=owner)
-        self.assertTrue(check_owner(owner, project, 'trans.author_translation'))
-        self.assertFalse(check_owner(owner, project, 'trans.delete_translation'))
-        self.assertFalse(check_owner(user, project, 'trans.author_translation'))
+    def setUp(self):
+        self.user = User.objects.create_user('user', 'test@example.com', 'x')
+        self.owner = User.objects.create_user('owner', 'test@example.com', 'x')
+        self.owner.groups.add(Group.objects.get(name='Owners'))
+        self.project = Project.objects.create(slug='test', owner=self.owner)
+
+    def test_owner_owned(self):
+        self.assertTrue(
+            check_owner(self.owner, self.project, 'trans.author_translation')
+        )
+
+    def test_owner_no_perm(self):
+        self.assertFalse(
+            check_owner(self.owner, self.project, 'trans.delete_translation')
+        )
+
+    def test_owner_user(self):
+        self.assertFalse(
+            check_owner(self.user, self.project, 'trans.author_translation')
+        )
+
+    def test_check_owner(self):
+        self.assertTrue(
+            check_permission(
+                self.owner, self.project, 'trans.author_translation'
+            )
+        )
+
+    def test_check_user(self):
+        self.assertFalse(
+            check_permission(
+                self.user, self.project, 'trans.author_translation'
+            )
+        )
+
+    def test_delete_comment_owner(self):
+        self.assertTrue(can_delete_comment(self.owner, self.project))
+
+    def test_delete_comment_user(self):
+        self.assertFalse(can_delete_comment(self.user, self.project))
+
+    def test_cache(self):
+        key = ('can_delete_comment', self.user.id)
+        self.assertNotIn(key, self.project.permissions_cache)
+        self.assertFalse(can_delete_comment(self.user, self.project))
+        self.assertFalse(self.project.permissions_cache[key])
+        self.project.permissions_cache[key] = True
+        self.assertTrue(can_delete_comment(self.user, self.project))
