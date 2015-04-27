@@ -812,6 +812,8 @@ def save_zen(request, project, subproject, lang):
     Save handler for zen mode.
     '''
     translation = get_translation(request, project, subproject, lang)
+    user_locked = translation.is_user_locked(request.user)
+
     form = TranslationForm(translation, None, request.POST)
     if not can_translate(request.user, translation):
         messages.error(
@@ -820,7 +822,7 @@ def save_zen(request, project, subproject, lang):
         )
     elif not form.is_valid():
         messages.error(request, _('Failed to save translation!'))
-    else:
+    elif not user_locked:
         unit = form.cleaned_data['unit']
 
         perform_translation(unit, form, request)
