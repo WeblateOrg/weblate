@@ -33,6 +33,7 @@ from distutils.version import LooseVersion
 from dateutil import parser
 from weblate.trans.util import get_clean_env, add_configuration_error
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
+from weblate import appsettings
 
 VCS_REGISTRY = {}
 VCS_CHOICES = []
@@ -636,19 +637,7 @@ class GithubRepository(GitRepository):
     name = 'GitHub'
 
     _cmd = 'hub'
-    _hub_config_file = os.path.join(os.path.expanduser('~'),
-                                    '.config/hub')
-    _hub_user_prefix = '- user: '
-
-    _hub_user = None
-    if 'GITHUB_USER' in os.environ:
-        _hub_user = os.environ['GITHUB_USER']
-    elif os.path.isfile(_hub_config_file):
-        with open(_hub_config_file) as config_file:
-            for line in config_file.read().splitlines():
-                if line.startswith(_hub_user_prefix):
-                    _hub_user = line[len(_hub_user_prefix):]
-                    break
+    _hub_user = appsettings.GITHUB_USERNAME
 
     if _hub_user is None:
         _is_supported = False
