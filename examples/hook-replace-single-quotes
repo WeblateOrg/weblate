@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Example Weblate hook to replace single quotes with ''
+
+sed "s/\([^']\|^\)'\([^']\|$\)/\1''\2/g" -i ${1%.po}

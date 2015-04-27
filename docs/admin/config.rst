@@ -439,6 +439,8 @@ Weblate comes with few example hook scripts which you might find useful:
     Unwraps lines in a PO file.
 :file:`examples/hook-sort-properties`
     Sort and cleanups Java properties file.
+:file:`examples/hook-replace-single-quotes`
+    Replaces single quotes in a file.
 
 .. note:: 
    
