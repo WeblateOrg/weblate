@@ -80,6 +80,7 @@
     {% format_translation unit.source diff=unit.previous_source num_plurals=unit.translation.language.nplurals %}
     </div>
     {% endif %}
+    {% if not user.profile.hide_source_secondary or not secondary %}
     <div class="form-group">
     {% with unit.translation.subproject.get_editable_template as edit_template %}
     {% can_translate user edit_template as user_can_edit_template %}
@@ -90,6 +91,7 @@
     <label>{% trans "Source" %}</label>
     {% format_translation unit.source search_match=search_query num_plurals=unit.translation.language.nplurals %}
     </div>
+    {% endif %}
     {{ form|crispy }}
   </div>
   <div class="panel-footer">

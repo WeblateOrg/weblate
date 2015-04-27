@@ -19,6 +19,7 @@ Released on ? 2015.
 * Direct link for editing template when changing translation.
 * Allow to add more permissions to project owners.
 * Allow to show secondary language in zen mode.
+* Support for hiding source string in favor of secondary language.
 
 weblate 2.2
 -----------
