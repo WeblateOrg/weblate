@@ -430,6 +430,20 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertBackend(1)
 
+    def test_edit_locked(self):
+        self.subproject.locked = True
+        self.subproject.save()
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should get to second message
+        self.assertContains(
+            response,
+            'This translation is currently locked for updates!'
+        )
+        self.assertBackend(0)
+
     def test_plurals(self):
         '''
         Test plural editing.
@@ -838,6 +852,23 @@ class ZenViewTest(ViewTestCase):
             response,
             'Following fixups were applied to translation: '
             'Trailing and leading whitespace'
+        )
+
+    def test_save_zen_lock(self):
+        self.subproject.locked = True
+        self.subproject.save()
+        unit = self.get_unit()
+        params = {
+            'checksum': unit.checksum,
+            'target_0': 'Zen translation'
+        }
+        response = self.client.post(
+            reverse('save_zen', kwargs=self.kw_translation),
+            params
+        )
+        self.assertContains(
+            response,
+            'You don&#39;t have privileges to save translations!',
         )
 
 
