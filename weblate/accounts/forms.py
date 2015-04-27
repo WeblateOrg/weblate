@@ -222,6 +222,7 @@ class UserSettingsForm(forms.ModelForm):
         fields = (
             'hide_completed',
             'secondary_in_zen',
+            'hide_source_secondary',
         )
 
 
