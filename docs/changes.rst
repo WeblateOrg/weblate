@@ -18,6 +18,7 @@ Released on ? 2015.
 * More detailed repository status view.
 * Direct link for editing template when changing translation.
 * Allow to add more permissions to project owners.
+* Allow to show secondary language in zen mode.
 
 weblate 2.2
 -----------
