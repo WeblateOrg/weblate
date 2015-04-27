@@ -27,6 +27,14 @@
 <td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
+{% if item.secondary %}
+{% for unit in item.secondary %}
+<div class="form-group">
+<label>{{ unit.translation.language }}</label>
+{% format_translation unit.target unit.translation.language %}
+</div>
+{% endfor %}
+{% endif %}
 {{ item.form.checksum }}
 {{ item.form.target }}
 {{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>

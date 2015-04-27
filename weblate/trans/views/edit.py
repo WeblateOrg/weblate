@@ -740,6 +740,7 @@ def get_zen_unitdata(translation, request):
     unitdata = [
         {
             'unit': unit,
+            'secondary' : (unit.get_secondary_units(request.user) if request.user.is_authenticated() else None),
             'form': TranslationForm(
                 translation,
                 unit,
