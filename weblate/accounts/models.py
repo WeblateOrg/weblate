@@ -392,6 +392,10 @@ class Profile(models.Model):
         verbose_name=_('Show secondary translations in zen mode'),
         default=True
     )
+    hide_source_secondary = models.BooleanField(
+        verbose_name=_('Hide source if there is secondary language'),
+        default=False
+    )
 
     subscriptions = models.ManyToManyField(
         'trans.Project',
