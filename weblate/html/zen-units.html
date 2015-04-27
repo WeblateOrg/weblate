@@ -17,7 +17,17 @@
 </tr>
 <tr id="row-source-{{ item.unit.checksum }}">
 <td></td>
-<td colspan="2" class="translatetext">{% format_translation item.unit.source search_match=search_query num_plurals=unit.translation.language.nplurals %}</td>
+<td colspan="2" class="translatetext">
+{% format_translation item.unit.source search_match=search_query num_plurals=unit.translation.language.nplurals %}
+{% if item.secondary %}
+{% for unit in item.secondary %}
+<div class="form-group">
+<label>{{ unit.translation.language }}</label>
+{% format_translation unit.target unit.translation.language %}
+</div>
+{% endfor %}
+{% endif %}
+</td>
 </tr>
 <tr id="row-edit-{{ item.unit.checksum }}">
 <td>
@@ -27,14 +37,6 @@
 <td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
-{% if item.secondary %}
-{% for unit in item.secondary %}
-<div class="form-group">
-<label>{{ unit.translation.language }}</label>
-{% format_translation unit.target unit.translation.language %}
-</div>
-{% endfor %}
-{% endif %}
 {{ item.form.checksum }}
 {{ item.form.target }}
 {{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Fuzzy" context "Message is fuzzy" %}</label>
