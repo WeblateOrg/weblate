@@ -388,6 +388,10 @@ class Profile(models.Model):
         verbose_name=_('Hide completed translations on dashboard'),
         default=False
     )
+    secondary_in_zen = models.BooleanField(
+        verbose_name=_('Show secondary translations in zen mode'),
+        default=True
+    )
 
     subscriptions = models.ManyToManyField(
         'trans.Project',

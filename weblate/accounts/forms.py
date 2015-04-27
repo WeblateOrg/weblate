@@ -219,7 +219,10 @@ class UserSettingsForm(forms.ModelForm):
     '''
     class Meta(object):
         model = Profile
-        fields = ('hide_completed', )
+        fields = (
+            'hide_completed',
+            'secondary_in_zen',
+        )
 
 
 class UserForm(forms.ModelForm):
