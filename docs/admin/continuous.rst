@@ -98,6 +98,19 @@ via the admin interface first, otherwise pushing will fail.
 .. seealso:: :ref:`private` for setting up SSH keys
 
 
+.. _github-push:
+
+Pushing changes to GitHub as pull request
++++++++++++++++++++++++++++++++++++++++++
+
+If you are translating a project that's hosted on GitHub and don't want to
+push translations to the repository, you can have them sent as a pull request instead.
+
+You need to configure the :guilabel:`hub` command line tool and set :setting:`GITHUB_USERNAME` for this to work.
+
+.. seealso:: :setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions
+
+
 .. _hosted-push:
 
 Pushing changes from Hosted Weblate
