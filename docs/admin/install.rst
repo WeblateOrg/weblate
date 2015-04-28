@@ -36,6 +36,8 @@ babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
     Any database supported in Django will work, check their documentation for more details.
+hub (optional for sending pull requests to GitHub)
+    https://hub.github.com/
 
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
@@ -93,6 +95,10 @@ you might need additional components:
     # Database option 3: postgresql
     apt-get install postgresql
 
+    # GitHub PR support: hub
+    # See https://hub.github.com/
+
+
 Requirements on openSUSE
 ++++++++++++++++++++++++
 
@@ -135,6 +141,9 @@ you might need additional components:
     # Database option 3: postgresql
     zypper install postgresql
 
+    # GitHub PR support: hub
+    # See https://hub.github.com/
+
 Requirements on OSX
 +++++++++++++++++++
 
@@ -145,7 +154,7 @@ your :file:`.bash_profile` file or executed somehow:
 
     export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
 
-This configuration make available the installed libraries to python
+This configuration makes the installed libraries available to Python.
 
 
 Requirements using pip installer
@@ -234,8 +243,28 @@ When using MySQL, don't forget to create database with UTF-8 encoding:
     # Grant all privileges to  weblate user
     GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
 
-    # Create database    
+    # Create database
     CREATE DATABASE weblate CHARACTER SET utf8;
+
+.. _hub-setup:
+
+Setting up hub
+++++++++++++++
+
+:ref:`github-push` requires a configured :guilabel:`hub` installation on
+your server. Follow the installation instructions at https://hub.github.com
+and perform an action with :guilabel:`hub` to finish the configuration,
+for example:
+
+.. code-block:: sh
+
+    hub clone octocat/Spoon-Knife
+
+:guilabel:`hub` will ask you for your GitHub credentials, retrieve a token and store it into :file:`~/.config/hub`.
+
+.. note::
+
+    Use the username you configured :guilabel:`hub` with as :setting:`GITHUB_USERNAME`.
 
 .. _installation:
 

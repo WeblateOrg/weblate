@@ -190,6 +190,16 @@ GIT_ROOT
 Path where Weblate will store cloned VCS repositories. Defaults to
 :file:`repos` subdirectory.
 
+.. setting:: GITHUB_USERNAME
+
+GITHUB_USERNAME
+---------------
+
+GitHub username that will be used to send pull requests for translation
+updates.
+
+.. seealso:: :ref:`github-push`
+
 .. setting:: GOOGLE_ANALYTICS_ID
 
 GOOGLE_ANALYTICS_ID

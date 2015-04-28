@@ -21,6 +21,7 @@
 Minimal distributed version control system abstraction for Weblate needs.
 """
 import subprocess
+import os
 import os.path
 import email.utils
 import re
@@ -32,6 +33,7 @@ from distutils.version import LooseVersion
 from dateutil import parser
 from weblate.trans.util import get_clean_env, add_configuration_error
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
+from weblate import appsettings
 
 VCS_REGISTRY = {}
 VCS_CHOICES = []
@@ -625,6 +627,63 @@ class GitWithGerritRepository(GitRepository):
         except RepositoryException as error:
             if error.retcode == 1:
                 # Nothing to push
+                return
+            raise
+
+
+@register_vcs
+class GithubRepository(GitRepository):
+
+    name = 'GitHub'
+
+    _cmd = 'hub'
+    _hub_user = appsettings.GITHUB_USERNAME
+
+    if _hub_user is None:
+        _is_supported = False
+    else:
+        _cmd_push = ['push', _hub_user]
+
+    def create_pull_request(self, origin_branch, fork_branch):
+        """
+        Creates pull request to merge branch in forked repository into
+        branch of remote repository.
+        """
+        cmd = [
+            'pull-request',
+            '-h', '{0}:{1}'.format(self._hub_user, fork_branch),
+            '-b', origin_branch,
+            '-m', 'Update from Weblate.'.encode('utf-8'),
+        ]
+        self.execute(cmd)
+
+    def push_to_fork(self, local_branch, fork_branch):
+        """
+        Pushes given local branch to branch in forked repository.
+        """
+        self.execute(self._cmd_push + ['{0}:{1}'.format(local_branch,
+                                                        fork_branch)])
+
+    def fork(self):
+        """
+        Creates fork of original repository if one doesn't exist yet.
+        """
+        if self._hub_user not in self.execute(['remote']).splitlines():
+            self.execute(['fork'])
+
+    def push(self, branch):
+        """
+        Forks repository on Github, pushes changes to *-weblate branch
+        on fork and creates pull request against original repository.
+        """
+        self.fork()
+        fork_branch = '{0}-weblate'.format(branch)
+        self.push_to_fork(branch, fork_branch)
+        try:
+            self.create_pull_request(branch, fork_branch)
+        except RepositoryException as error:
+            if error.retcode == 1:
+                # Pull request already exists.
                 return
             raise
 
