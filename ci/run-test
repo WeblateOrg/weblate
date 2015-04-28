@@ -1,12 +1,32 @@
 #!/bin/sh
 # Testsuite executor
-set -e
 set -x
 
+check() {
+    RET=$?
+    if [ $RET -ne 0 ] ; then
+        exit $RET
+    fi
+}
+
 ./manage.py check
+check
+
 ./manage.py migrate --noinput --traceback
+check
+
 if [ "$CI_SELENIUM" = 1 ] ; then
-    travis_retry coverage run --source=. ./manage.py test -v 2 -p test_selenium.py
+    # We retry Selenium tests to workaroud occasional failures
+    # in connection to SauceLabs
+    RETRIES=3
+    RET=1
+    while [ $RET -ne 0 -a $RETRIES -gt 0 ] ; do
+        coverage run --source=. ./manage.py test -v 2 -p test_selenium.py
+        RET=$?
+        RETRIES=$(($RETRIES - 1))
+    done
+    exit $RET
 else
-    coverage run --source=. ./manage.py test -v 2 $CI_RUN_TESTS
+    coverage run --source=. ./manage.py test -v 2
+    check
 fi
