@@ -36,7 +36,6 @@ from weblate.trans.machine.google import (
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
-from weblate.trans.search import get_source_index
 
 GLOSBE_JSON = u'''
 {
