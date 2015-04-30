@@ -52,7 +52,7 @@ SIMPLE_FILTERS = {
 
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
 
-WORKER_POOL = multiprocessing.Pool(processes=4)
+WORKER_POOL = None
 
 
 class UnitManager(models.Manager):
@@ -255,6 +255,8 @@ class UnitManager(models.Manager):
         """
         Finds closely similar units.
         """
+        if WORKER_POOL is None:
+            WORKER_POOL = multiprocessing.Pool(processes=4)
         result = WORKER_POOL.apply_async(
             more_like, (unit.checksum, unit.source, top)
         )
