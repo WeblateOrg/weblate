@@ -255,6 +255,7 @@ class UnitManager(models.Manager):
         """
         Finds closely similar units.
         """
+        global WORKER_POOL
         if WORKER_POOL is None:
             WORKER_POOL = multiprocessing.Pool(processes=4)
         result = WORKER_POOL.apply_async(
