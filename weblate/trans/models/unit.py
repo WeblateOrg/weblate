@@ -261,7 +261,7 @@ class UnitManager(models.Manager):
 
         try:
             more_results = result.get(timeout=5)
-        except TimeoutError:
+        except multiprocessing.TimeoutError:
             weblate.logger.error('failed more_like for unit %d', unit.pk)
             return self.none()
 
