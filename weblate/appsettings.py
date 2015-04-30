@@ -60,6 +60,9 @@ MT_GOOGLE_KEY = getvalue('MT_GOOGLE_KEY', None)
 # tmserver URL
 MT_TMSERVER = getvalue('MT_TMSERVER', None)
 
+# Limit (in seconds) for Weblate machine translation
+MT_WEBLATE_LIMIT = getvalue('MT_WEBLATE_LIMIT', 5)
+
 # Title of site to use
 SITE_TITLE = getvalue('SITE_TITLE', 'Weblate')
 

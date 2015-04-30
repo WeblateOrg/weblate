@@ -52,7 +52,12 @@ SIMPLE_FILTERS = {
 
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
 
-WORKER_POOL = None
+
+def more_like_queue(checksum, source, top, queue):
+    """
+    Multiprocess wrapper around more_like.
+    """
+    queue.put(more_like(checksum, source, top))
 
 
 class UnitManager(models.Manager):
@@ -255,18 +260,20 @@ class UnitManager(models.Manager):
         """
         Finds closely similar units.
         """
-        global WORKER_POOL
-        if WORKER_POOL is None:
-            WORKER_POOL = multiprocessing.Pool(processes=4)
-        result = WORKER_POOL.apply_async(
-            more_like, (unit.checksum, unit.source, top)
+        queue = multiprocessing.Queue()
+        proc = multiprocessing.Process(
+            target=more_like_queue,
+            args=(unit.checksum, unit.source, top, queue)
         )
+        proc.start()
+        proc.join(appsettings.MT_WEBLATE_LIMIT)
+        if proc.is_alive():
+            proc.terminate()
 
-        try:
-            more_results = result.get(timeout=5)
-        except multiprocessing.TimeoutError:
-            weblate.logger.error('failed more_like for unit %d', unit.pk)
-            return self.none()
+        if queue.empty():
+            raise Exception('Request timed out.')
+
+        more_results = queue.get()
 
         same_results = fulltext_search(
             unit.get_source_plurals()[0],

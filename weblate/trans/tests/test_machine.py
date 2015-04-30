@@ -20,8 +20,10 @@
 
 import httpretty
 from django.test import TestCase
+from weblate import appsettings
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unit import Unit
+from weblate.trans.machine.base import MachineTranslationError
 from weblate.trans.machine.dummy import DummyTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
@@ -259,3 +261,20 @@ class WeblateTranslationTest(ViewTestCase):
             self.user
         )
         self.assertEqual(results, [])
+
+    def test_similar_timeout(self):
+        backup = appsettings.MT_WEBLATE_LIMIT
+        try:
+            appsettings.MT_WEBLATE_LIMIT = 0
+            machine = WeblateSimilarTranslation()
+            unit = Unit.objects.all()[0]
+            self.assertRaises(
+                MachineTranslationError,
+                machine.translate,
+                unit.translation.language.code,
+                unit.get_source_plurals()[0],
+                unit,
+                self.user
+            )
+        finally:
+            appsettings.MT_WEBLATE_LIMIT = backup
