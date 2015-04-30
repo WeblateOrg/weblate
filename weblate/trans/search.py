@@ -56,6 +56,15 @@ class SourceSchema(SchemaClass):
     location = TEXT()
 
 
+def clean_indexes():
+    """
+    Cleans all indexes.
+    """
+    create_source_index()
+    for lang in Language.objects.have_translation():
+        create_target_index(lang=lang.code)
+
+
 @receiver(post_migrate)
 def create_index(sender=None, **kwargs):
     '''

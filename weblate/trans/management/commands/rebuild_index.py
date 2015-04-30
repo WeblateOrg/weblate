@@ -19,11 +19,10 @@
 #
 
 from weblate.trans.management.commands import WeblateCommand
-from weblate.lang.models import Language
 from weblate.trans.search import (
-    create_source_index, create_target_index,
     get_source_index, get_target_index,
     update_source_unit_index, update_target_unit_index,
+    clean_indexes,
 )
 from optparse import make_option
 
@@ -43,9 +42,7 @@ class Command(WeblateCommand):
     def handle(self, *args, **options):
         # Optionally rebuild indices from scratch
         if options['clean']:
-            create_source_index()
-            for lang in Language.objects.have_translation():
-                create_target_index(lang=lang.code)
+            clean_indexes()
 
         # Open writer
         source_writer = get_source_index().writer()

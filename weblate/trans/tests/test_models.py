@@ -36,6 +36,7 @@ from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.vcs import GitRepository, HgRepository
+from weblate.trans.search import clean_indexes
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
@@ -114,6 +115,9 @@ class RepoTestCase(TestCase):
         test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
         if os.path.exists(test_repo_path):
             shutil.rmtree(test_repo_path)
+
+        # Remove indexes
+        clean_indexes()
 
     def create_project(self):
         """
