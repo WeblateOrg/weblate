@@ -36,6 +36,7 @@ from weblate.trans.machine.google import (
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
+from weblate.trans.search import get_source_index
 
 GLOSBE_JSON = u'''
 {
@@ -265,6 +266,8 @@ class WeblateTranslationTest(ViewTestCase):
     def test_similar_timeout(self):
         backup = appsettings.MT_WEBLATE_LIMIT
         try:
+            # Ensure the index exists, it might be corrupted otherwise here
+            get_source_index()
             appsettings.MT_WEBLATE_LIMIT = 0
             machine = WeblateSimilarTranslation()
             unit = Unit.objects.all()[0]
