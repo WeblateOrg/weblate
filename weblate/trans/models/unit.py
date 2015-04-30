@@ -25,6 +25,7 @@ from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.core.cache import cache
 import traceback
+import multiprocessing
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
 from weblate.trans.models.unitdata import Check, Comment, Suggestion
@@ -50,6 +51,8 @@ SIMPLE_FILTERS = {
 }
 
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
+
+WORKER_POOL = multiprocessing.Pool(processes=4)
 
 
 class UnitManager(models.Manager):
@@ -252,7 +255,15 @@ class UnitManager(models.Manager):
         """
         Finds closely similar units.
         """
-        more_results = more_like(unit.checksum, unit.source, top)
+        result = WORKER_POOL.apply_async(
+            more_like, (unit.checksum, unit.source, top)
+        )
+
+        try:
+            more_results = result.get(timeout=5)
+        except TimeoutError:
+            weblate.logger.error('failed more_like for unit %d', unit.pk)
+            return self.none()
 
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
