@@ -79,7 +79,7 @@ def send_validation(strategy, backend, code):
     )
 
 
-def verify_open(backend, user, **kwargs):
+def verify_open(strategy, user=None, **kwargs):
     '''
     Checks whether it is possible to create new user.
     '''
