@@ -29,7 +29,7 @@ from unittest import SkipTest
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser, User, Group
 from django.core import mail
-from django.conf import settings
+from django.test.utils import override_settings
 from django.core.management import call_command
 from django.http import HttpRequest, HttpResponseRedirect
 
@@ -713,10 +713,8 @@ class MiddlewareTest(TestCase):
             middleware.process_view(request, self.view_method, (), {})
         )
 
+    @override_settings(LOGIN_REQUIRED_URLS=(r'/project/(.*)$',))
     def test_protect_project(self):
-        settings.LOGIN_REQUIRED_URLS = (
-            r'/project/(.*)$',
-        )
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
         request.user = User()
