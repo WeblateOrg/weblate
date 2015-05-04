@@ -23,8 +23,7 @@ from django.core.urlresolvers import reverse
 from unittest import SkipTest
 from weblate.trans.util import add_configuration_error
 from weblate import appsettings
-import tempfile
-import shutil
+from weblate.trans.tests import OverrideSettings
 import os
 
 
@@ -32,18 +31,11 @@ class AdminTest(ViewTestCase):
     '''
     Tests for customized admin interface.
     '''
-    _tempdir = None
-
     def setUp(self):
         super(AdminTest, self).setUp()
         self.user.is_staff = True
         self.user.is_superuser = True
         self.user.save()
-        self._tempdir = tempfile.mkdtemp()
-
-    def tearDown(self):
-        if self._tempdir is not None:
-            shutil.rmtree(self._tempdir)
 
     def test_index(self):
         response = self.client.get(reverse('admin:index'))
@@ -53,47 +45,36 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse('admin-ssh'))
         self.assertContains(response, 'SSH keys')
 
+    @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_ssh_generate(self):
-        try:
-            backup_dir = appsettings.DATA_DIR
-            appsettings.DATA_DIR = self._tempdir
+        response = self.client.get(reverse('admin-ssh'))
+        self.assertContains(response, 'Generate SSH key')
 
-            response = self.client.get(reverse('admin-ssh'))
-            self.assertContains(response, 'Generate SSH key')
+        response = self.client.post(
+            reverse('admin-ssh'),
+            {'action': 'generate'}
+        )
+        self.assertContains(response, 'Created new SSH key')
 
-            response = self.client.post(
-                reverse('admin-ssh'),
-                {'action': 'generate'}
-            )
-            self.assertContains(response, 'Created new SSH key')
-
-        finally:
-            appsettings.DATA_DIR = backup_dir
-
+    @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_ssh_add(self):
-        try:
-            backup_dir = appsettings.DATA_DIR
-            appsettings.DATA_DIR = self._tempdir
+        # Verify there is button for adding
+        response = self.client.get(reverse('admin-ssh'))
+        self.assertContains(response, 'Add host key')
 
-            # Verify there is button for adding
-            response = self.client.get(reverse('admin-ssh'))
-            self.assertContains(response, 'Add host key')
+        # Add the key
+        response = self.client.post(
+            reverse('admin-ssh'),
+            {'action': 'add-host', 'host': 'github.com'}
+        )
+        if 'Name or service not known' in response.content:
+            raise SkipTest('Network error')
+        self.assertContains(response, 'Added host key for github.com')
 
-            # Add the key
-            response = self.client.post(
-                reverse('admin-ssh'),
-                {'action': 'add-host', 'host': 'github.com'}
-            )
-            if 'Name or service not known' in response.content:
-                raise SkipTest('Network error')
-            self.assertContains(response, 'Added host key for github.com')
-
-            # Check the file contains it
-            hostsfile = os.path.join(self._tempdir, 'ssh', 'known_hosts')
-            with open(hostsfile) as handle:
-                self.assertIn('github.com', handle.read())
-        finally:
-            appsettings.DATA_DIR = backup_dir
+        # Check the file contains it
+        hostsfile = os.path.join(appsettings.DATA_DIR, 'ssh', 'known_hosts')
+        with open(hostsfile) as handle:
+            self.assertIn('github.com', handle.read())
 
     def test_performace(self):
         response = self.client.get(reverse('admin-performance'))
