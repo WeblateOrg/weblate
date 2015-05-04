@@ -48,6 +48,7 @@ from weblate.accounts.captcha import (
 )
 from weblate.accounts import avatar
 from weblate.accounts.middleware import RequireLoginMiddleware
+from weblate.accounts.models import VerifiedEmail
 
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import get_test_file
@@ -180,6 +181,43 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertContains(
             response,
             'Invalid value'
+        )
+
+    def test_add_mail(self):
+        # Create user
+        self.test_register()
+        mail.outbox.pop()
+
+        # Check adding email page
+        response = self.client.get(
+            reverse('email_login')
+        )
+        self.assertContains(response, 'Register email')
+
+        # Add email account
+        response = self.client.post(
+            reverse('social:complete', kwargs={'backend': 'email'}),
+            {'email': 'second@example.net'},
+            follow=True,
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+
+        # Verify confirmation mail
+        url = self.assert_registration_mailbox()
+        response = self.client.get(url, follow=True)
+        self.assertRedirects(
+            response, '{0}#auth'.format(reverse('profile'))
+        )
+
+        # Check database models
+        user = User.objects.get(username='username')
+        self.assertEquals(
+            VerifiedEmail.objects.filter(social__user=user).count(), 2
+        )
+        self.assertTrue(
+            VerifiedEmail.objects.filter(
+                social__user=user, email='second@example.net'
+            ).exists()
         )
 
 
