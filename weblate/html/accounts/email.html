@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
-<h2>{% trans "Register email" %}</h2>
 
 {% if form.errors %}
 {% show_message "error" _("Please fix errors in the registration form.") %}
 {% endif %}
 
 <form action="{% url 'social:complete' "email" %}" method="post" accept-charset="utf-8">
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Register email" %}</h4></div>
+  <div class="panel-body">
+
 {% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
+{{ form|crispy }}
 <p>
 {% trans "By registering you agree to use your name and email in the commits and provide your contribution under license defined by each translated project." %}
 </p>
-<p><input type="submit" value="{% trans 'Register' %}" class="button" /></p>
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans 'Register' %}" class="btn btn-default" />
+</div>
+</div>
 </form>
 
 {% endblock %}
