@@ -94,6 +94,21 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Please check your math and try again.'
         )
 
+    def test_register_closed(self):
+        # Disable registration
+        appsettings.REGISTRATION_OPEN = False
+        try:
+            response = self.client.post(
+                reverse('register'),
+                REGISTRATION_DATA
+            )
+            self.assertContains(
+                response,
+                'Sorry, but registrations on this site are disabled.'
+            )
+        finally:
+            appsettings.REGISTRATION_OPEN = True
+
     def test_register(self):
         # Disable captcha
         appsettings.REGISTRATION_CAPTCHA = False
