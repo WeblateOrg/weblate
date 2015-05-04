@@ -25,34 +25,34 @@ Tests for translation models.
 from django.test import TestCase
 from django.utils import timezone
 from weblate.trans.models import Advertisement
-from weblate import appsettings
+from weblate.trans.tests import OverrideSettings
 import datetime
 
 
 class AdvertisementTest(TestCase):
+    @OverrideSettings(SELF_ADVERTISEMENT=False)
     def test_none(self):
-        appsettings.SELF_ADVERTISEMENT = False
         adv = Advertisement.objects.get_advertisement(
             Advertisement.PLACEMENT_MAIL_TEXT
         )
         self.assertIsNone(adv)
 
+    @OverrideSettings(SELF_ADVERTISEMENT=True)
     def test_self(self):
-        appsettings.SELF_ADVERTISEMENT = True
         adv = Advertisement.objects.get_advertisement(
             Advertisement.PLACEMENT_MAIL_TEXT
         )
         self.assertTrue('Weblate' in adv.text)
 
+    @OverrideSettings(SELF_ADVERTISEMENT=True)
     def test_self_html(self):
-        appsettings.SELF_ADVERTISEMENT = True
         adv = Advertisement.objects.get_advertisement(
             Advertisement.PLACEMENT_MAIL_HTML
         )
         self.assertTrue('Weblate' in adv.text)
 
+    @OverrideSettings(SELF_ADVERTISEMENT=False)
     def test_existing(self):
-        appsettings.SELF_ADVERTISEMENT = False
         adv_created = Advertisement.objects.create(
             placement=Advertisement.PLACEMENT_MAIL_TEXT,
             date_start=timezone.now(),
@@ -67,8 +67,8 @@ class AdvertisementTest(TestCase):
             adv
         )
 
+    @OverrideSettings(SELF_ADVERTISEMENT=False)
     def test_outdated(self):
-        appsettings.SELF_ADVERTISEMENT = False
         Advertisement.objects.create(
             placement=Advertisement.PLACEMENT_MAIL_TEXT,
             date_start=timezone.now() - datetime.timedelta(days=1),

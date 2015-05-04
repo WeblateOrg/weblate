@@ -17,3 +17,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from weblate import appsettings
+
+
+class OverrideSettings(object):
+    """
+    makes a context manager also act as decorator
+    """
+    def __init__(self, **values):
+        self._values = values
+        self._backup = {}
+
+    def __enter__(self):
+        for name, value in self._values.items():
+            self._backup[name] = getattr(appsettings, name)
+            setattr(appsettings, name, value)
+        return self
+
+    def __exit__(self, *args, **kwds):
+        for name in self._values.keys():
+            setattr(appsettings, name, self._backup[name])
+
+    def __call__(self, func):
+        def wrapper(*args, **kwds):
+            with self:
+                return func(*args, **kwds)
+        return wrapper

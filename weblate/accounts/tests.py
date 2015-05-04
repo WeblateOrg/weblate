@@ -52,9 +52,9 @@ from weblate.accounts.models import VerifiedEmail
 
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.tests import OverrideSettings
 from weblate.trans.models.unitdata import Suggestion, Comment
 from weblate.lang.models import Language
-from weblate import appsettings
 
 REGISTRATION_DATA = {
     'username': 'username',
@@ -81,9 +81,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             reverse('password')
         )
 
+    @OverrideSettings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha(self):
         # Enable captcha
-        appsettings.REGISTRATION_CAPTCHA = True
 
         response = self.client.post(
             reverse('register'),
@@ -94,25 +94,21 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Please check your math and try again.'
         )
 
+    @OverrideSettings(REGISTRATION_OPEN=False)
     def test_register_closed(self):
         # Disable registration
-        appsettings.REGISTRATION_OPEN = False
-        try:
-            response = self.client.post(
-                reverse('register'),
-                REGISTRATION_DATA
-            )
-            self.assertContains(
-                response,
-                'Sorry, but registrations on this site are disabled.'
-            )
-        finally:
-            appsettings.REGISTRATION_OPEN = True
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA
+        )
+        self.assertContains(
+            response,
+            'Sorry, but registrations on this site are disabled.'
+        )
 
+    @OverrideSettings(REGISTRATION_CAPTCHA=False)
     def test_register(self):
         # Disable captcha
-        appsettings.REGISTRATION_CAPTCHA = False
-
         response = self.client.post(
             reverse('register'),
             REGISTRATION_DATA
@@ -142,9 +138,6 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertTrue(user.is_active)
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First Last')
-
-        # Restore settings
-        appsettings.REGISTRATION_CAPTCHA = True
 
     def test_reset(self):
         '''
@@ -343,17 +336,19 @@ class ViewTest(TestCase):
             '[Weblate] Message from dark side'
         )
 
-    def test_hosting(self):
+    @OverrideSettings(OFFER_HOSTING=False)
+    def test_hosting_disabled(self):
         '''
-        Test for contact form.
+        Test for hosting form with disabled hosting
         '''
-        # Disabled hosting
-        appsettings.OFFER_HOSTING = False
         response = self.client.get(reverse('hosting'))
         self.assertRedirects(response, reverse('home'))
 
-        # Enabled
-        appsettings.OFFER_HOSTING = True
+    @OverrideSettings(OFFER_HOSTING=True)
+    def test_hosting(self):
+        '''
+        Test for hosting form with enabled hosting.
+        '''
         response = self.client.get(reverse('hosting'))
         self.assertContains(response, 'id="id_message"')
 

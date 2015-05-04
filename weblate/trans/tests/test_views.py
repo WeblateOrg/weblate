@@ -34,11 +34,11 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 from PIL import Image
 
-from weblate import appsettings
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.models.changes import Change
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
+from weblate.trans.tests import OverrideSettings
 
 
 class RegistrationTestMixin(object):
@@ -878,11 +878,8 @@ class HomeViewTest(ViewTestCase):
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')
 
+    @OverrideSettings(ENABLE_WHITEBOARD=True)
     def test_home_with_whiteboard(self):
-        # @override_settings decorator does not work becase
-        # appsettings.ENABLE_WHITEBOARD is just a constant that is being
-        # assigned during first import
-        appsettings.ENABLE_WHITEBOARD = True
         msg = WhiteboardMessage(message='test_message')
         msg.save()
 
@@ -890,8 +887,8 @@ class HomeViewTest(ViewTestCase):
         self.assertContains(response, 'whiteboard')
         self.assertContains(response, 'test_message')
 
+    @OverrideSettings(ENABLE_WHITEBOARD=False)
     def test_home_without_whiteboard(self):
-        appsettings.ENABLE_WHITEBOARD = False
         response = self.client.get(reverse('home'))
         self.assertNotContains(response, 'whiteboard')
 

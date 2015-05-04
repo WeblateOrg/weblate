@@ -34,6 +34,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.models.source import Source
 from weblate import appsettings
+from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.vcs import GitRepository, HgRepository
 from weblate.trans.search import clean_indexes
@@ -298,19 +299,15 @@ class ProjectTest(RepoTestCase):
     def test_wrong_path(self):
         project = self.create_project()
 
-        backup = appsettings.DATA_DIR
-        appsettings.DATA_DIR = '/weblate-nonexisting-path'
+        with OverrideSettings(DATA_DIR='/weblate-nonexisting-path'):
+            # Invalidate cache, pylint: disable=W0212
+            project._dir_path = None
 
-        # Invalidate cache, pylint: disable=W0212
-        project._dir_path = None
-
-        self.assertRaisesMessage(
-            ValidationError,
-            'Could not create project directory',
-            project.full_clean
-        )
-
-        appsettings.DATA_DIR = backup
+            self.assertRaisesMessage(
+                ValidationError,
+                'Could not create project directory',
+                project.full_clean
+            )
 
     def test_acl(self):
         """

@@ -13,8 +13,8 @@ import json
 import httplib
 import base64
 
-from weblate import appsettings
 from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.trans.tests import OverrideSettings
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
@@ -181,13 +181,11 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             (self.live_server_url, self.assert_registration_mailbox())
         )
 
+    @OverrideSettings(REGISTRATION_CAPTCHA=False)
     def test_register(self, clear=False):
         """
         Test registration.
         """
-        # We don't want captcha
-        appsettings.REGISTRATION_CAPTCHA = False
-
         url = self.register_user()
 
         # Delete all cookies
@@ -213,8 +211,6 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             'You have activated' in
             self.driver.find_element_by_tag_name('body').text
         )
-        # Restore
-        appsettings.REGISTRATION_CAPTCHA = True
 
     def test_register_nocookie(self):
         """

@@ -24,7 +24,7 @@ Tests for notification hooks.
 
 from django.core.urlresolvers import reverse
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate import appsettings
+from weblate.trans.tests import OverrideSettings
 
 GITHUB_PAYLOAD = '''
 {
@@ -211,9 +211,9 @@ BITBUCKET_PAYLOAD_HG_NO_COMMIT = '''
 
 
 class HooksViewTest(ViewTestCase):
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_project(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.get(
             reverse('hook-project', kwargs={
                 'project': self.subproject.project.slug
@@ -221,9 +221,9 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_subproject(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.get(
             reverse('hook-subproject', kwargs={
                 'project': self.subproject.project.slug,
@@ -232,56 +232,56 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_github(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_gitlab(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-gitlab'), GITLAB_PAYLOAD,
             content_type="application/json"
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_bitbucket_git(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_bitbucket_hg(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG}
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_bitbucket_hg_no_commit(self):
-        appsettings.BACKGROUND_HOOKS = False
-        appsettings.ENABLE_HOOKS = True
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
         )
         self.assertContains(response, 'update triggered')
 
+    @OverrideSettings(ENABLE_HOOKS=False)
     def test_disabled(self):
         '''
         Test for hooks disabling.
         '''
-        appsettings.ENABLE_HOOKS = False
         response = self.client.get(
             reverse('hook-project', kwargs={
                 'project': self.subproject.project.slug
