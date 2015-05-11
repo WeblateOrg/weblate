@@ -801,9 +801,8 @@ class HgRepository(Repository):
             try:
                 self.execute(['rebase', '--tool', 'internal:merge'])
             except RepositoryException as error:
-                if error.retcode == 1:
+                if error.retcode == 1 and 'nothing to rebase' in error.stdout:
                     self.execute(['update'])
-                    # nothing to rebase
                     return
                 raise
 
