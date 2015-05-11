@@ -964,6 +964,7 @@ class HgRepository(Repository):
         self.set_config('extensions.strip', '')
         self.set_config('extensions.rebase', '')
         self.set_config('experimental.evolution', 'all')
+        self.set_config('phases.publish', 'False')
 
     def configure_branch(self, branch):
         """
