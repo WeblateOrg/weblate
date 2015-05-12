@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-VERSION=`python -c 'import weblate; print weblate.VERSION'`
-
-git tag -s weblate-$VERSION -m "Version $VERSION"
