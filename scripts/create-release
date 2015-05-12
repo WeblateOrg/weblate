@@ -3,7 +3,7 @@
 set -e
 
 if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
-    echo "Usage: ./scripts/create-release [--tag|TREE-ISH]"
+    echo "Usage: ./scripts/create-release [--tag]"
     exit 1
 fi
 
@@ -12,48 +12,16 @@ version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import webla
 namever=weblate-$version
 
 # What are we going to build?
-if [ -z "$1" ] ; then
-    rev=HEAD
-else
-    if [ "x$1" = "x--tag" ] ; then
-        rev=$namever
-        git tag -s $rev -m "Version $VERSION"
-    else
-        rev=$1
-    fi
+if [ "x$1" = "x--tag" ] ; then
+    rev=$namever
+    git tag -s $rev -m "Version $VERSION"
 fi
 
-# Configure build dir
-build_dir=build/weblate
-mkdir -p $build_dir
-
-# Export files
-git archive --format=tar $rev | tar xf - -C $build_dir
-
-cd $build_dir
-
-# Include repos and whoosh dirs
-mkdir weblate/repos weblate/whoosh-index
-
 # Compile po files
-cp weblate/settings_example.py weblate/settings.py
-../../scripts/generate-locales
-rm weblate/settings.py
+./scripts/generate-locales
 
-# Cleanup possible byte compiled files (from above step)
-find . -name '*.py[co]' -delete
-
-cd ..
-
-# Correct name of directory
-mv weblate $namever
+# Create tarball
+./setup.py sdist --formats bztar,gztar,zip
 
 # Build tarballs
-tar cf $namever.tar $namever
-gzip < $namever.tar > ../$namever.tar.gz
-bzip2 < $namever.tar > ../$namever.tar.bz2
-xz < $namever.tar > ../$namever.tar.xz
-
-# Remove build directory
-cd ..
-rm -rf build
+zcat dist/$namever.tar.gz | xz > dist/$namever.tar.xz
