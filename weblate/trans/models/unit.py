@@ -260,23 +260,20 @@ class UnitManager(models.Manager):
         """
         Finds closely similar units.
         """
-        more_results = more_like(unit.checksum, unit.source, top)
+        queue = multiprocessing.Queue()
+        proc = multiprocessing.Process(
+            target=more_like_queue,
+            args=(unit.checksum, unit.source, top, queue)
+        )
+        proc.start()
+        proc.join(appsettings.MT_WEBLATE_LIMIT)
+        if proc.is_alive():
+            proc.terminate()
 
-        if False:
-            queue = multiprocessing.Queue()
-            proc = multiprocessing.Process(
-                target=more_like_queue,
-                args=(unit.checksum, unit.source, top, queue)
-            )
-            proc.start()
-            proc.join(appsettings.MT_WEBLATE_LIMIT)
-            if proc.is_alive():
-                proc.terminate()
+        if queue.empty():
+            raise Exception('Request timed out.')
 
-            if queue.empty():
-                raise Exception('Request timed out.')
-
-            more_results = queue.get()
+        more_results = queue.get()
 
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
