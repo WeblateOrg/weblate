@@ -32,7 +32,7 @@ with open('requirements.txt') as requirements:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='Weblate',
+    name='weblate',
     version='2.3',
     packages=[
         'weblate',
