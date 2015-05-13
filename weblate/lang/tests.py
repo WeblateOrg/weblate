@@ -189,7 +189,9 @@ class LanguagesTest(TestCase):
             self.assertEqual(
                 lang.pluralequation,
                 plurals,
-                'Invalid plural for %s' % original
+                'Invalid plural for {0} (expected {1}, got {2})'.format(
+                    original, plurals, lang.pluralequation,
+                )
             )
             # Check whether html contains both language code and direction
             self.assertIn(direction, lang.get_html())
