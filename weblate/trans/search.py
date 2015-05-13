@@ -60,9 +60,7 @@ def clean_indexes():
     """
     Cleans all indexes.
     """
-    create_source_index()
-    for lang in Language.objects.have_translation():
-        create_target_index(lang=lang.code)
+    STORAGE.clean()
 
 
 @receiver(post_migrate)
