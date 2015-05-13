@@ -25,6 +25,9 @@ Tests for search views.
 import re
 from django.core.urlresolvers import reverse
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests import OverrideSettings
+from weblate.trans.search import update_index_unit
+from weblate.trans.models import IndexUpdate
 
 
 class SearchViewTest(ViewTestCase):
@@ -274,3 +277,23 @@ class SearchViewTest(ViewTestCase):
             response,
             self.get_translation().get_absolute_url()
         )
+
+
+class SearchBackendTest(ViewTestCase):
+    def do_index_update(self):
+        translation = self.subproject.translation_set.get(language_code='cs')
+        unit = translation.unit_set.get(
+            source='Try Weblate at <http://demo.weblate.org/>!\n'
+        )
+        update_index_unit(unit, True)
+        update_index_unit(unit, False)
+
+    @OverrideSettings(OFFLOAD_INDEXING=False)
+    def test_add(self):
+        self.do_index_update()
+        self.assertEqual(IndexUpdate.objects.count(), 0)
+
+    @OverrideSettings(OFFLOAD_INDEXING=True)
+    def test_add_offload(self):
+        self.do_index_update()
+        self.assertEqual(IndexUpdate.objects.count(), 1)
