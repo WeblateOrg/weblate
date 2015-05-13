@@ -134,3 +134,4 @@ if 'resx' in FILE_FORMATS:
         EXPECTED_PATH = 'resx/cs_CZ.resx'
         FIND = u'Hello'
         FIND_MATCH = u''
+        MATCH = '<root></root>'
