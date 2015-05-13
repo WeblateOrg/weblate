@@ -67,6 +67,7 @@ setup(
             'html/js/*.js',
             'html/mail/*.html',
             'html/mail/*.txt',
+            'html/trans/*.html',
             'ttf/*',
             'media/*.js',
             'media/*.ico',
