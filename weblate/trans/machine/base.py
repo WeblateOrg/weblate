@@ -28,6 +28,7 @@ import json
 import urllib
 import urllib2
 import weblate
+import traceback
 
 
 class MachineTranslationError(Exception):
