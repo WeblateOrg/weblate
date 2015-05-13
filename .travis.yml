@@ -34,6 +34,7 @@ script:
 # upload coverage
 after_script:
   - if [ -z "$CI_LINT" ] ; then coveralls ; fi
+  - if [ -z "$CI_LINT" ] ; then codecov ; fi
   - if [ -z "$CI_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
 # cache configuration
 cache:
