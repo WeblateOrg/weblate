@@ -40,7 +40,7 @@ class Command(BaseCommand):
     @staticmethod
     def make_password(length):
         chars = string.ascii_letters + string.digits + '!@#$%^&*()'
-        random.seed = (os.urandom(1024))
+        random.seed()
         return ''.join(random.choice(chars) for i in range(length))
 
     def handle(self, *args, **options):
