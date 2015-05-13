@@ -33,6 +33,7 @@ from whoosh.writing import AsyncWriter, BufferedWriter
 from django.dispatch import receiver
 from weblate.lang.models import Language
 from weblate.trans.data import data_dir
+import shutil
 
 STORAGE = FileStorage(data_dir('whoosh'))
 
@@ -60,7 +61,8 @@ def clean_indexes():
     """
     Cleans all indexes.
     """
-    STORAGE.clean()
+    shutil.rmtree(data_dir('whoosh'))
+    STORAGE.create()
 
 
 @receiver(post_migrate)
