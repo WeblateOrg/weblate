@@ -28,8 +28,6 @@ import json
 import urllib
 import urllib2
 import weblate
-import traceback
-import sys
 
 
 class MachineTranslationError(Exception):
@@ -235,11 +233,6 @@ class MachineTranslation(object):
                 self.request_url,
                 self.request_params,
             )
-            traceback.print_exc()
-            print sys.modules['random']
-            import random
-            print random
-            print random.seed
             raise MachineTranslationError('{}: {}'.format(
                 exc.__class__.__name__,
                 str(exc)
