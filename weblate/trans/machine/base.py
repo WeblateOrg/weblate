@@ -237,6 +237,9 @@ class MachineTranslation(object):
             )
             traceback.print_exc()
             print sys.modules['random']
+            import random
+            print random
+            print random.seed
             raise MachineTranslationError('{}: {}'.format(
                 exc.__class__.__name__,
                 str(exc)
