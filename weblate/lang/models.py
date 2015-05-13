@@ -468,3 +468,6 @@ class Language(models.Model, PercentMixin):
             # not have
             self.nplurals = 2
             self.pluralequation = 'n != 1'
+        elif self.code == 'pt_BR':
+            self.nplurals = 2
+            self.pluralequation = 'n > 1'

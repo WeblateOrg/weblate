@@ -78,7 +78,7 @@ class LanguagesTest(TestCase):
             'pt-rBR',
             'pt_BR',
             'ltr',
-            'n != 1',
+            'n > 1',
         ),
         (
             'sr_RS@latin',
