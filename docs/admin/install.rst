@@ -30,8 +30,8 @@ dateutil
     http://labix.org/python-dateutil
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
-pyuca (optional for proper sorting of strings)
-    https://github.com/SmileyChris/pyuca
+pyuca (>= 1.1) (optional for proper sorting of strings)
+    https://github.com/jtauber/pyuca
 babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
@@ -70,7 +70,7 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
 
-    pip install https://github.com/SmileyChris/pyuca/archive/master.zip
+    pip install pyuca
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
@@ -116,7 +116,7 @@ For proper sorting of a unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
 
-    pip install https://github.com/SmileyChris/pyuca/archive/master.zip
+    pip install pyuca
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
