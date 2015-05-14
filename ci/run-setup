@@ -22,5 +22,5 @@ BIN_DIR=`find $INSTALL_DIR -name 'bin' -type d`
 diff -ruNp weblate/html $INSTALLED_DIR/weblate/html
 check
 
-PYTHONPATH=$INSTALLED_DIR:$PYTHONPATH coverage run --source $INSTALLED_DIR --append $BIN_DIR/weblate check
+PYTHONPATH=$INSTALLED_DIR:$PYTHONPATH $BIN_DIR/weblate test
 check
