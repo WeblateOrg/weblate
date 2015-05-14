@@ -129,7 +129,7 @@ class VCSGitTest(RepoTestCase):
         self.test_commit()
         self.test_merge()
 
-    def test_rebase_nothing(self):
+    def test_rebase_commit(self):
         self.test_commit()
         self.test_rebase()
 
