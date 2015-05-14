@@ -397,7 +397,7 @@ class Language(models.Model, PercentMixin):
         except (IndexError, KeyError):
             if idx == 0:
                 return _('Singular')
-            elif idx == 0:
+            elif idx == 1:
                 return _('Plural')
             return _('Plural form %d') % idx
 
