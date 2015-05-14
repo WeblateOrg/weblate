@@ -29,21 +29,26 @@ import os.path
 import datetime
 
 
-class NonExistingRepository(GitRepository):
-    _cmd = 'nonexisting-command'
-
-
 class GitTestRepository(GitRepository):
     _is_supported = None
+    _version = None
+
+
+class NonExistingRepository(GitRepository):
+    _is_supported = None
+    _version = None
+    _cmd = 'nonexisting-command'
 
 
 class GitVersionRepository(GitRepository):
     _is_supported = None
+    _version = None
     req_version = '200000'
 
 
 class GitNoVersionRepository(GitRepository):
     _is_supported = None
+    _version = None
     req_version = None
 
 
