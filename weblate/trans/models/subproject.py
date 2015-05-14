@@ -518,14 +518,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         return self._repository
 
-    def clear_repo_cache(self):
-        """
-        Clears cached information on repository update.
-        """
-        cache.delete(
-            '{0}-last-commit'.format(self.get_full_slug())
-        )
-
     def get_last_remote_commit(self):
         '''
         Returns latest remote commit we know.
