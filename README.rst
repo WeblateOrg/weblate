@@ -13,6 +13,10 @@ Weblate
     :alt: Coverage Status
     :target: https://coveralls.io/r/nijel/weblate?branch=master
 
+.. image:: http://codecov.io/github/nijel/weblate/coverage.svg?branch=master
+    :alt: Codecov Coverage Status
+    :target: http://codecov.io/github/nijel/weblate?branch=master
+
 .. image:: https://landscape.io/github/nijel/weblate/master/landscape.png
     :alt: Code Health
     :target: https://landscape.io/github/nijel/weblate/master
