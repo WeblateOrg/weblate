@@ -35,4 +35,7 @@ if [ "$CI_SELENIUM" = 1 ] ; then
 else
     run_coverage ./manage.py test -v 2
     check
+
+    run_coverage ./setup.py build
+    check
 fi
