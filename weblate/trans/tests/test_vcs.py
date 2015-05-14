@@ -72,6 +72,14 @@ class VCSGitTest(RepoTestCase):
         self.repo.reset(self._branch)
         self.assertEqual(original, self.repo.last_revision)
 
+    def test_merge_commit(self):
+        self.test_commit()
+        self.test_merge()
+
+    def test_rebase_nothing(self):
+        self.test_commit()
+        self.test_rebase()
+
     def test_merge(self):
         self.repo.merge(self._branch)
 
