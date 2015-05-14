@@ -20,13 +20,20 @@
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.vcs import GitRepository, HgRepository, \
-    RepositoryException, GitWithGerritRepository
+    RepositoryException, GitWithGerritRepository, GithubRepository
+from weblate.trans.tests.utils import get_test_file
 
 from django.test import TestCase
 import tempfile
 import shutil
 import os.path
 import datetime
+
+
+class GithubFakeRepository(GithubRepository):
+    _is_supported = None
+    _version = None
+    _cmd = get_test_file('hub')
 
 
 class GitTestRepository(GitRepository):
@@ -295,6 +302,12 @@ class VCSGitTest(RepoTestCase):
 
 class VCSGerritTest(VCSGitTest):
     _class = GitWithGerritRepository
+    _vcs = 'git'
+    _branch = 'master'
+
+
+class VCSGithubTest(VCSGitTest):
+    _class = GithubFakeRepository
     _vcs = 'git'
     _branch = 'master'
 
