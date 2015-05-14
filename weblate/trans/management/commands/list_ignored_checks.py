@@ -36,7 +36,7 @@ class Command(BaseCommand):
         make_option(
             '--list-all',
             action='store_true',
-            dest='all',
+            dest='list_all',
             default=False,
             help='List all checks (not only ignored)',
         ),
@@ -44,7 +44,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         results = {}
-        if options['all']:
+        if options['list_all']:
             checks = Check.objects.all()
         else:
             checks = Check.objects.filter(ignore=True)
