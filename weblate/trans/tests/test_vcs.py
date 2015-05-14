@@ -20,12 +20,49 @@
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.vcs import GitRepository, HgRepository, \
-    RepositoryException, GitWithGerritRepository
+    RepositoryException, GitWithGerritRepository, Repository
 
+from django.test import TestCase
 import tempfile
 import shutil
 import os.path
 import datetime
+
+
+class NonExistingRepository(Repository):
+    _cmd = 'nonexisting-command'
+
+
+class GitTestRepository(GitRepository):
+    _is_supported = None
+
+
+class GitVersionRepository(GitRepository):
+    _is_supported = None
+    req_version = '200000'
+
+
+class GitNoVersionRepository(GitRepository):
+    _is_supported = None
+    req_version = None
+
+
+class RepositoryTest(TestCase):
+    def test_not_supported(self):
+        self.assertFalse(NonExistingRepository.is_supported())
+
+    def test_not_supported_version(self):
+        self.assertFalse(GitVersionRepository.is_supported())
+
+    def test_is_supported(self):
+        self.assertTrue(GitTestRepository.is_supported())
+
+    def test_is_supported_no_version(self):
+        self.assertTrue(GitNoVersionRepository.is_supported())
+
+    def test_is_supported_cache(self):
+        GitTestRepository.is_supported()
+        self.assertTrue(GitTestRepository.is_supported())
 
 
 class VCSGitTest(RepoTestCase):
