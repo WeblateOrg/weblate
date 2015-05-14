@@ -1,0 +1,17 @@
+#!/bin/sh
+# Selenium testsuite executor
+
+. ci/lib
+
+export CI_SELENIUM=1
+
+# We retry Selenium tests to workaroud occasional failures
+# in connection to SauceLabs
+RETRIES=3
+RET=1
+while [ $RET -ne 0 -a $RETRIES -gt 0 ] ; do
+    run_coverage ./manage.py test -v 2 -p test_selenium.py
+    RET=$?
+    RETRIES=$(($RETRIES - 1))
+done
+exit $RET
