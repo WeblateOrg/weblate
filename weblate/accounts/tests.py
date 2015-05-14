@@ -439,6 +439,41 @@ class ViewTest(TestCase):
             User.objects.filter(username='testuser').exists()
         )
 
+    def test_password(self):
+        # Create user
+        self.get_user()
+        # Login
+        self.client.login(username='testuser', password='testpassword')
+        # Change without data
+        response = self.client.post(
+            reverse('password')
+        )
+        self.assertContains(response, 'This field is required.')
+        # Change with wrong password
+        response = self.client.post(
+            reverse('password'),
+            {
+                'password': '123456',
+                'password1': '123456',
+                'password2': '123456'
+            }
+        )
+        self.assertContains(response, 'You have entered an invalid password.')
+        # Change
+        response = self.client.post(
+            reverse('password'),
+            {
+                'password': 'testpassword',
+                'password1': '123456',
+                'password2': '123456'
+            }
+        )
+
+        self.assertRedirects(response, reverse('profile'))
+        self.assertTrue(
+            User.objects.get(username='testuser').check_password('123456')
+        )
+
 
 class ProfileTest(ViewTestCase):
     def test_profile(self):
