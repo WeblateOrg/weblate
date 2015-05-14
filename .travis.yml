@@ -13,7 +13,7 @@ python:
 # build matrix configuration
 env:
   matrix:
-    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_LINT=1
+    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_MODE=lint
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=mysql
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql
     - CI_PIP_DEPS="Django>=1.7,<1.8"
@@ -22,6 +22,7 @@ env:
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
+    - CI_MODE=test
 # commands to install dependencies
 install:
   - ./ci/install
@@ -30,7 +31,7 @@ before_script:
   - ./ci/setup-env
 # commands to run tests
 script:
-  - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; else ./ci/run-lint ; fi
+  - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
   - if [ -f ".coverage" ] ; then coveralls ; fi
