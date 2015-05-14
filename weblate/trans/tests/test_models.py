@@ -785,7 +785,7 @@ class SourceTest(ModelTestCase):
         """
         Setting of Source check_flags changes checks for related units.
         """
-        self.assertEqual(Check.objects.count(), 1)
+        self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
         unit = get_related_units(check)[0]
         source = unit.source_info
