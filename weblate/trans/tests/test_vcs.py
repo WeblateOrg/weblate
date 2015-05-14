@@ -187,6 +187,10 @@ class VCSGitTest(RepoTestCase):
         self.assertFalse(self.repo.needs_merge(self._branch))
         self.assertFalse(self.repo.needs_push(self._branch))
 
+    def test_needs_commit(self):
+        self.test_commit()
+        self.assertTrue(self.repo.needs_push(self._branch))
+
     def test_is_supported(self):
         self.assertTrue(self._class.is_supported())
 
