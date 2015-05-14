@@ -34,6 +34,16 @@ class ChecksViewTest(ViewTestCase):
         response = self.client.get(reverse('checks'))
         self.assertContains(response, '/same/')
 
+        response = self.client.get(reverse('checks'), {'language': 'de'})
+        self.assertContains(response, '/same/')
+
+        response = self.client.get(
+            reverse('checks'),
+            {'project': self.project.slug}
+        )
+        self.assertContains(response, '/same/')
+
+    def test_check(self):
         response = self.client.get(
             reverse('show_check', kwargs={'name': 'same'})
         )
@@ -49,11 +59,21 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_project(self):
         response = self.client.get(
             reverse(
                 'show_check_project',
                 kwargs={'name': 'same', 'project': self.project.slug}
             )
+        )
+        self.assertContains(response, '/same/')
+
+        response = self.client.get(
+            reverse(
+                'show_check_project',
+                kwargs={'name': 'same', 'project': self.project.slug}
+            ),
+            {'language': 'cs'}
         )
         self.assertContains(response, '/same/')
 
@@ -73,6 +93,7 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+    def test_subproject(self):
         response = self.client.get(
             reverse(
                 'show_check_subproject',
