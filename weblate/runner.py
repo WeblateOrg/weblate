@@ -22,13 +22,15 @@ import os
 import sys
 
 
-def main():
+def main(argv=None):
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
     os.environ['DJANGO_IS_MANAGEMENT_COMMAND'] = '1'
 
     from django.core.management import execute_from_command_line
 
-    execute_from_command_line(sys.argv)
+    if argv is None:
+        argv = sys.argv
+    execute_from_command_line(argv)
 
 
 if __name__ == "__main__":
