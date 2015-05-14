@@ -16,5 +16,7 @@ check
 run_coverage ./setup.py sdist
 check
 
-diff -ruNp weblate/html $INSTALL_DIR/usr/lib/python*/*-packages/weblate/html
+INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`
+
+diff -ruNp weblate/html $INSTALLED_DIR/weblate/html
 check
