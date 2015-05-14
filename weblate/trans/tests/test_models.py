@@ -30,9 +30,9 @@ from django.core.exceptions import ValidationError
 import shutil
 import os
 from weblate.trans.models import (
-    Project, SubProject, Unit, WhiteboardMessage, Check, get_related_units,
+    Project, SubProject, Source, Unit, WhiteboardMessage, Check,
+    get_related_units,
 )
-from weblate.trans.models.source import Source
 from weblate import appsettings
 from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file
@@ -732,6 +732,16 @@ class TranslationTest(RepoTestCase):
         project = self.create_subproject()
         translation = project.translation_set.get(language_code='cs')
         translation.full_clean()
+
+    def test_update_stats(self):
+        """
+        Check update stats with no units.
+        """
+        project = self.create_subproject()
+        translation = project.translation_set.get(language_code='cs')
+        translation.update_stats()
+        translation.unit_set.all().delete()
+        translation.update_stats()
 
 
 class WhiteboardMessageTest(TestCase):
