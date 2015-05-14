@@ -775,13 +775,13 @@ class SourceTest(ModelTestCase):
         """
         Setting of Source check_flags changes checks for related units.
         """
-        self.assertEquals(Check.objects.count(), 1)
+        self.assertEqual(Check.objects.count(), 1)
         check = Check.objects.all()[0]
         unit = get_related_units(check)[0]
         source = unit.source_info
         source.check_flags = 'ignore-{0}'.format(check.check)
         source.save()
-        self.assertEquals(Check.objects.count(), 0)
+        self.assertEqual(Check.objects.count(), 0)
 
 
 class UnitTest(ModelTestCase):

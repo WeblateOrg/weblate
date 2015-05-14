@@ -208,7 +208,7 @@ class VCSGitTest(RepoTestCase):
             ['testfile']
         )
         # Check we have new revision
-        self.assertNotEquals(
+        self.assertNotEqual(
             oldrev,
             self.repo.last_revision
         )

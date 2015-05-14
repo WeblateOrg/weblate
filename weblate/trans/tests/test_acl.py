@@ -45,7 +45,7 @@ class ACLViewTest(ViewTestCase):
         response = self.client.get(
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_acl(self):
         """Regular user should not have access to user management.

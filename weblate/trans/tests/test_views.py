@@ -188,7 +188,7 @@ class ViewTestCase(RepoTestCase):
         # Check response status code
         self.assertEqual(response.status_code, 200)
         dom = minidom.parseString(response.content)
-        self.assertEquals(dom.firstChild.nodeName, 'svg')
+        self.assertEqual(dom.firstChild.nodeName, 'svg')
 
     def assertBackend(self, expected_translated):
         '''
@@ -907,8 +907,8 @@ class SourceStringsTest(ViewTestCase):
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
-        self.assertEquals(unit.priority, 60)
-        self.assertEquals(unit.source_info.priority, 60)
+        self.assertEqual(unit.priority, 60)
+        self.assertEqual(unit.source_info.priority, 60)
 
     def test_edit_check_flags(self):
         # Need extra power
@@ -923,7 +923,7 @@ class SourceStringsTest(ViewTestCase):
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
-        self.assertEquals(unit.source_info.check_flags, 'ignore-same')
+        self.assertEqual(unit.source_info.check_flags, 'ignore-same')
 
     def test_review_source(self):
         response = self.client.get(
