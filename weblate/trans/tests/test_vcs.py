@@ -86,14 +86,36 @@ class VCSGitTest(RepoTestCase):
     def setUp(self):
         super(VCSGitTest, self).setUp()
         self._tempdir = tempfile.mkdtemp()
-        self.repo = self._class.clone(
+        self.repo = self.clone_repo(self._tempdir)
+
+    def clone_repo(self, path):
+        return self._class.clone(
             getattr(self, '{0}_repo_path'.format(self._vcs)),
-            self._tempdir
+            path,
         )
 
     def tearDown(self):
         if self._tempdir is not None:
             shutil.rmtree(self._tempdir)
+
+    def add_remote_commit(self):
+        tempdir = tempfile.mkdtemp()
+        try:
+            repo = self.clone_repo(tempdir)
+            repo.set_committer('Second Bar', 'second@example.net')
+            # Create test file
+            with open(os.path.join(self._tempdir, 'test2'), 'w') as handle:
+                handle.write('TEST FILE\n')
+
+            # Commit it
+            self.repo.commit(
+                'Test commit',
+                'Foo Bar <foo@bar.com>',
+                datetime.datetime.now(),
+                ['test2']
+            )
+        finally:
+            shutil.rmtree(tempdir)
 
     def test_clone(self):
         self.assertTrue(os.path.exists(
@@ -131,6 +153,14 @@ class VCSGitTest(RepoTestCase):
 
     def test_rebase_commit(self):
         self.test_commit()
+        self.test_rebase()
+
+    def test_merge_remote(self):
+        self.add_remote_commit()
+        self.test_merge()
+
+    def test_rebase_remote(self):
+        self.add_remote_commit()
         self.test_rebase()
 
     def test_merge(self):
