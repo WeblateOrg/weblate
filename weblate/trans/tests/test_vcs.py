@@ -82,6 +82,7 @@ class VCSGitTest(RepoTestCase):
     _class = GitRepository
     _vcs = 'git'
     _branch = 'master'
+    _can_push = True
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
@@ -98,22 +99,29 @@ class VCSGitTest(RepoTestCase):
         if self._tempdir is not None:
             shutil.rmtree(self._tempdir)
 
-    def add_remote_commit(self):
+    def add_remote_commit(self, conflict=False):
         tempdir = tempfile.mkdtemp()
         try:
             repo = self.clone_repo(tempdir)
             repo.set_committer('Second Bar', 'second@example.net')
+            if conflict:
+                filename = 'testfile'
+            else:
+                filename = 'test2'
             # Create test file
-            with open(os.path.join(self._tempdir, 'test2'), 'w') as handle:
-                handle.write('TEST FILE\n')
+            with open(os.path.join(tempdir, filename), 'w') as handle:
+                handle.write('SECOND TEST FILE\n')
 
             # Commit it
-            self.repo.commit(
+            repo.commit(
                 'Test commit',
                 'Foo Bar <foo@bar.com>',
                 datetime.datetime.now(),
-                ['test2']
+                [filename]
             )
+
+            # Push it
+            repo.push(self._branch)
         finally:
             shutil.rmtree(tempdir)
 
@@ -173,10 +181,28 @@ class VCSGitTest(RepoTestCase):
         self.test_commit()
         self.test_rebase()
 
+    def test_merge_conflict(self):
+        self.add_remote_commit(conflict=True)
+        self.test_commit()
+        if self._can_push:
+            self.assertRaises(RepositoryException, self.test_merge)
+        else:
+            self.test_merge()
+
+    def test_rebase_conflict(self):
+        self.add_remote_commit(conflict=True)
+        self.test_commit()
+        if self._can_push:
+            self.assertRaises(RepositoryException, self.test_rebase)
+        else:
+            self.test_rebase()
+
     def test_merge(self):
+        self.test_update_remote()
         self.repo.merge(self._branch)
 
     def test_rebase(self):
+        self.test_update_remote()
         self.repo.rebase(self._branch)
 
     def test_status(self):
@@ -344,12 +370,14 @@ class VCSGerritTest(VCSGitTest):
     _class = GitWithGerritRepository
     _vcs = 'git'
     _branch = 'master'
+    _can_push = False
 
 
 class VCSGithubTest(VCSGitTest):
     _class = GithubFakeRepository
     _vcs = 'git'
     _branch = 'master'
+    _can_push = False
 
 
 class VCSHgTest(VCSGitTest):
