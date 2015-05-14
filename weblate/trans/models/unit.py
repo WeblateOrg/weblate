@@ -40,7 +40,6 @@ from weblate.trans.util import (
     calculate_checksum,
 )
 import weblate
-import time
 
 
 SIMPLE_FILTERS = {
