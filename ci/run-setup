@@ -3,13 +3,18 @@
 
 . ci/lib
 
+INSTALL_DIR=`mktemp -d`
+
+trap "rm -rf $INSTALL_DIR" EXIT
+
 run_coverage ./setup.py build
 check
 
-INSTALL_DIR=`mktemp -d`
 run_coverage ./setup.py install --root="$INSTALL_DIR"
 check
-rm -rf "$INSTALL_DIR"
 
 run_coverage ./setup.py sdist
+check
+
+diff -ruNp weblate/html $INSTALL_DIR/usr/lib/python*/*-packages/weblate/html
 check
