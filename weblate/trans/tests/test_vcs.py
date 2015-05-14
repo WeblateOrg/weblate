@@ -163,6 +163,16 @@ class VCSGitTest(RepoTestCase):
         self.add_remote_commit()
         self.test_rebase()
 
+    def test_merge_both(self):
+        self.add_remote_commit()
+        self.test_commit()
+        self.test_merge()
+
+    def test_rebase_both(self):
+        self.add_remote_commit()
+        self.test_commit()
+        self.test_rebase()
+
     def test_merge(self):
         self.repo.merge(self._branch)
 
