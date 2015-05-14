@@ -20,7 +20,7 @@
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.vcs import GitRepository, HgRepository, \
-    RepositoryException, GitWithGerritRepository, Repository
+    RepositoryException, GitWithGerritRepository
 
 from django.test import TestCase
 import tempfile
@@ -29,7 +29,7 @@ import os.path
 import datetime
 
 
-class NonExistingRepository(Repository):
+class NonExistingRepository(GitRepository):
     _cmd = 'nonexisting-command'
 
 
