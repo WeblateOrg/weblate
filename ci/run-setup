@@ -17,6 +17,10 @@ run_coverage ./setup.py sdist
 check
 
 INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`
+BIN_DIR=`find $INSTALL_DIR -name 'bin' -type d`
 
 diff -ruNp weblate/html $INSTALLED_DIR/weblate/html
+check
+
+PYTHONPATH=$INSTALLED_DIR:$PYTHONPATH coverage run --source $INSTALLED_DIR --append $BIN_DIR/weblate check
 check
