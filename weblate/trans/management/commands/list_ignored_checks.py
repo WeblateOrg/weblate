@@ -49,7 +49,7 @@ class Command(BaseCommand):
         else:
             checks = Check.objects.filter(ignore=True)
         for check in checks:
-            name = '%s-%s' % (check.check, check.checksum)
+            name = '%s-%s' % (check.check, check.contentsum)
             units = get_related_units(check)
             if not units.exists():
                 continue
