@@ -1,0 +1,15 @@
+#!/bin/sh
+# Setup test executor
+
+. ci/lib
+
+run_coverage ./setup.py build
+check
+
+INSTALL_DIR=`mktemp -d`
+run_coverage ./setup.py install --root="$INSTALL_DIR"
+check
+rm -rf "$INSTALL_DIR"
+
+run_coverage ./setup.py dist
+check

@@ -1,0 +1,16 @@
+# shell library to help executing tests
+
+set -x
+coverate erase
+
+check() {
+    RET=$?
+    if [ $RET -ne 0 ] ; then
+        exit $RET
+    fi
+}
+
+run_coverage() {
+    coverage run --source . --append "$@"
+}
+

@@ -14,6 +14,7 @@ python:
 env:
   matrix:
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_MODE=lint
+    - CI_PIP_DEPS="Django>=1.8,<1.9" CI_MODE=setup
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=mysql
     - CI_PIP_DEPS="Django>=1.8,<1.9" CI_DATABASE=postgresql
     - CI_PIP_DEPS="Django>=1.7,<1.8"

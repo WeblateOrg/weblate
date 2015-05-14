@@ -1,19 +1,7 @@
 #!/bin/sh
 # Testsuite executor
-set -x
 
-check() {
-    RET=$?
-    if [ $RET -ne 0 ] ; then
-        exit $RET
-    fi
-}
-
-run_coverage() {
-    coverage run --source . --append "$@"
-}
-
-coverate erase
+. ci/lib
 
 run_coverage ./manage.py check
 check
@@ -34,16 +22,5 @@ if [ "$CI_SELENIUM" = 1 ] ; then
     exit $RET
 else
     run_coverage ./manage.py test -v 2
-    check
-
-    run_coverage ./setup.py build
-    check
-
-    INSTALL_DIR=`mktemp -d`
-    run_coverage ./setup.py install --root="$INSTALL_DIR"
-    check
-    rm -rf "$INSTALL_DIR"
-
-    run_coverage ./setup.py dist
     check
 fi
