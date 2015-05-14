@@ -105,6 +105,10 @@ class VCSGitTest(RepoTestCase):
     def test_push(self):
         self.repo.push(self._branch)
 
+    def test_push_commit(self):
+        self.test_commit()
+        self.test_push()
+
     def test_reset(self):
         original = self.repo.last_revision
         self.repo.reset(self._branch)
