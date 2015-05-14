@@ -219,7 +219,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Check database models
         user = User.objects.get(username='username')
-        self.assertEquals(
+        self.assertEqual(
             VerifiedEmail.objects.filter(social__user=user).count(), 2
         )
         self.assertTrue(

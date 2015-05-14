@@ -261,7 +261,7 @@ class VerifyPluralsTest(TestCase):
             # Get maximal plural
             nplurals = max([plural(x) for x in range(200)]) + 1
             # Check it matches ours
-            self.assertEquals(
+            self.assertEqual(
                 nplurals,
                 language.nplurals,
                 'Invalid nplurals for {0}: {1} ({2}, {3})'.format(

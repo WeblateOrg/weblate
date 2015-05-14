@@ -745,14 +745,16 @@ class WhiteboardMessageTest(TestCase):
         WhiteboardMessage()
 
 
-class SourceTest(RepoTestCase):
+class ModelTestCase(RepoTestCase):
+    def setUp(self):
+        super(ModelTestCase, self).setUp()
+        self.create_subproject()
+
+
+class SourceTest(ModelTestCase):
     """
     Source objects testing.
     """
-    def setUp(self):
-        super(SourceTest, self).setUp()
-        self.create_subproject()
-
     def test_exists(self):
         self.assertTrue(Source.objects.exists())
 
@@ -773,10 +775,29 @@ class SourceTest(RepoTestCase):
         """
         Setting of Source check_flags changes checks for related units.
         """
-        self.assertEquals(Check.objects.count(), 1)
+        self.assertEqual(Check.objects.count(), 1)
         check = Check.objects.all()[0]
         unit = get_related_units(check)[0]
         source = unit.source_info
         source.check_flags = 'ignore-{0}'.format(check.check)
         source.save()
-        self.assertEquals(Check.objects.count(), 0)
+        self.assertEqual(Check.objects.count(), 0)
+
+
+class UnitTest(ModelTestCase):
+    @OverrideSettings(MT_WEBLATE_LIMIT=15)
+    def test_more_like(self):
+        unit = Unit.objects.all()[0]
+        self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
+
+    @OverrideSettings(MT_WEBLATE_LIMIT=0)
+    def test_more_like_timeout(self):
+        unit = Unit.objects.all()[0]
+        self.assertRaisesMessage(
+            Exception, 'Request timed out.', Unit.objects.more_like_this, unit
+        )
+
+    @OverrideSettings(MT_WEBLATE_LIMIT=-1)
+    def test_more_like_no_fork(self):
+        unit = Unit.objects.all()[0]
+        self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
