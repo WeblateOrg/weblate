@@ -9,10 +9,16 @@ check() {
     fi
 }
 
-./manage.py check
+run_coverage() {
+    coverage run --source . --append "$@"
+}
+
+coverate erase
+
+run_coverage ./manage.py check
 check
 
-./manage.py migrate --noinput --traceback
+run_coverage ./manage.py migrate --noinput --traceback
 check
 
 if [ "$CI_SELENIUM" = 1 ] ; then
@@ -21,12 +27,12 @@ if [ "$CI_SELENIUM" = 1 ] ; then
     RETRIES=3
     RET=1
     while [ $RET -ne 0 -a $RETRIES -gt 0 ] ; do
-        coverage run --source=. ./manage.py test -v 2 -p test_selenium.py
+        run_coverage ./manage.py test -v 2 -p test_selenium.py
         RET=$?
         RETRIES=$(($RETRIES - 1))
     done
     exit $RET
 else
-    coverage run --source=. ./manage.py test -v 2
+    run_coverage ./manage.py test -v 2
     check
 fi
