@@ -58,11 +58,8 @@ def more_like_queue(checksum, source, top, queue):
     """
     Multiprocess wrapper around more_like.
     """
-    print 'more_start', time.time()
     result = more_like(checksum, source, top)
-    print 'more_put', time.time()
     queue.put(result)
-    print 'more_end', time.time()
 
 
 class UnitManager(models.Manager):
@@ -270,18 +267,12 @@ class UnitManager(models.Manager):
             target=more_like_queue,
             args=(unit.checksum, unit.source, top, queue)
         )
-        print 'begin', time.time()
         proc.start()
-        print 'start', time.time()
         proc.join(appsettings.MT_WEBLATE_LIMIT)
-        print 'join', time.time()
         if proc.is_alive():
-            print 'is_alive', time.time()
             proc.terminate()
-            print 'terminate', time.time()
 
         if queue.empty():
-            print 'empty', time.time()
             raise Exception('Request timed out.')
 
         more_results = queue.get()
