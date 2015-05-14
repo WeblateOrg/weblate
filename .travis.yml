@@ -33,9 +33,9 @@ script:
   - if [ -z "$CI_LINT" ] ; then ./ci/run-test ; else ./ci/run-lint ; fi
 # upload coverage
 after_script:
-  - if [ -z "$CI_LINT" ] ; then coveralls ; fi
-  - if [ -z "$CI_LINT" ] ; then codecov ; fi
-  - if [ -z "$CI_LINT" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
+  - if [ -f ".coverage" ] ; then coveralls ; fi
+  - if [ -f ".coverage" ] ; then codecov ; fi
+  - if [ -f ".coverage" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
 # cache configuration
 cache:
   directories:
