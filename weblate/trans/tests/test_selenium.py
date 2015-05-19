@@ -106,14 +106,19 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         if DO_SELENIUM:
             cls.driver.quit()
 
-    def click(self, element, navbar=False):
+    def expand_navbar(self):
+        """Expand navbar if exists"""
+        try:
+            navbar = self.driver.find_element_by_id('navbar-toggle')
+            navbar.click()
+        except ElementNotVisibleException:
+            return
+
+    def click(self, element):
         """Wrapper to scroll into element for click"""
         try:
             element.click()
         except ElementNotVisibleException:
-            if navbar:
-                navbar = self.driver.find_element_by_id('navbar-toggle')
-                navbar.click()
             self.actions.move_to_element(element).perform()
             element.click()
 
@@ -122,9 +127,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
 
         # login page
+        self.expand_navbar()
         self.click(
             self.driver.find_element_by_id('login-button'),
-            navbar=True
         )
 
         username_input = self.driver.find_element_by_id('id_username')
@@ -175,9 +180,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
 
         # registration page
+        self.expand_navbar()
         self.click(
             self.driver.find_element_by_id('register-button'),
-            navbar=True
         )
 
         # Fill in registration form
