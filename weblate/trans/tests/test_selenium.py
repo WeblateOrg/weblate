@@ -103,18 +103,26 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         if DO_SELENIUM:
             cls.driver.quit()
 
+    def click(self, element):
+        """Wrapper to scroll into element for click"""
+        element.click()
+
     def test_login(self):
         # open home page
         self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
 
         # login page
-        self.driver.find_element_by_id('login-button').click()
+        self.click(
+            self.driver.find_element_by_id('login-button')
+        )
 
         username_input = self.driver.find_element_by_id('id_username')
         username_input.send_keys('testuser')
         password_input = self.driver.find_element_by_id('id_password')
         password_input.send_keys('secret')
-        self.driver.find_element_by_xpath('//input[@value="Login"]').click()
+        self.click(
+            self.driver.find_element_by_xpath('//input[@value="Login"]')
+        )
 
         # We should end up on login page as user was invalid
         self.driver.find_element_by_name('username')
@@ -128,19 +136,25 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         )
         password_input = self.driver.find_element_by_id('id_password')
         password_input.send_keys('testpassword')
-        self.driver.find_element_by_xpath('//input[@value="Login"]').click()
+        self.click(
+            self.driver.find_element_by_xpath('//input[@value="Login"]')
+        )
 
         # Wait for submit
         time.sleep(1)
 
         # Load profile
-        self.driver.find_element_by_id('profile-button').click()
+        self.click(
+            self.driver.find_element_by_id('profile-button')
+        )
 
         # Wait for profile to load
         self.driver.find_element_by_id('subscriptions')
 
         # Finally logout
-        self.driver.find_element_by_id('logout-button').click()
+        self.click(
+            self.driver.find_element_by_id('logout-button')
+        )
 
         # We should be back on login page
         self.driver.find_element_by_id('id_username')
@@ -150,7 +164,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
 
         # registration page
-        self.driver.find_element_by_id('register-button').click()
+        self.click(
+            self.driver.find_element_by_id('register-button')
+        )
 
         # Fill in registration form
         self.driver.find_element_by_id(
@@ -168,9 +184,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         ).send_keys(
             'Test Example'
         )
-        self.driver.find_element_by_xpath(
-            '//input[@value="Register"]'
-        ).click()
+        self.click(
+            self.driver.find_element_by_xpath('//input[@value="Register"]')
+        )
 
         # Wait for registration email
         loops = 0
