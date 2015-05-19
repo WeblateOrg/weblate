@@ -27,8 +27,8 @@ DO_SELENIUM = (
 class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
     caps = {
         'browserName': 'firefox',
-        'version': '19',
-        'platform': 'LINUX',
+        'version': '37.0',
+        'platform': 'Linux',
     }
 
     def set_test_status(self, passed=True):
