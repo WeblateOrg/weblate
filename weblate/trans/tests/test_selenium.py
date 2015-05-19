@@ -169,11 +169,13 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         self.driver.find_element_by_id('subscriptions')
 
         # Finally logout
+        self.expand_navbar()
         self.click(
             self.driver.find_element_by_id('logout-button')
         )
 
         # We should be back on login page
+        self.expand_navbar()
         self.driver.find_element_by_id('id_username')
 
     def register_user(self):
