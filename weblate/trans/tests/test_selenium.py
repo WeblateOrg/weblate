@@ -272,11 +272,6 @@ EXTRA_PLATFORMS = {
         'platform': "Windows 8.1",
         'version': "11.0",
     },
-    'MSIE10': {
-        'browserName': 'internet explorer',
-        'version': '10',
-        'platform': 'WIN8',
-    },
     'MSIE9': {
         'browserName': 'internet explorer',
         'version': '9',
