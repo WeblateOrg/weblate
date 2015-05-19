@@ -232,6 +232,11 @@ EXTRA_PLATFORMS = {
         'browserName': 'opera',
         'platform': 'WIN7',
     },
+    'MSIE11': {
+        'browserName': "internet explorer",
+        'platform': "Windows 8.1",
+        'version': "11.0",
+    },
     'MSIE10': {
         'browserName': 'internet explorer',
         'version': '10',
@@ -241,6 +246,20 @@ EXTRA_PLATFORMS = {
         'browserName': 'internet explorer',
         'version': '9',
         'platform': 'VISTA',
+    },
+    'Safari': {
+        'browserName': 'safari',
+        'platform': 'OS X 10.10',
+    },
+    'IPhone': {
+        'browserName': "iPhone",
+        'deviceName': "iPhone Simulator",
+        'device-orientation': "portrait",
+    },
+    'Android': {
+        'browserName': "android",
+        'deviceName': "Android Emulator",
+        'device-orientation': "portrait",
     },
 }
 
