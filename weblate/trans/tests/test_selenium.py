@@ -1,7 +1,9 @@
 from django.test import LiveServerTestCase
 from unittest import SkipTest
 from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import (
+    WebDriverException, ElementNotVisibleException
+)
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -105,7 +107,11 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
     def click(self, element):
         """Wrapper to scroll into element for click"""
-        element.click()
+        try:
+            element.click()
+        except ElementNotVisibleException:
+            # TODO: scroll
+            element.click()
 
     def test_login(self):
         # open home page
