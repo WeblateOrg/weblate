@@ -160,6 +160,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         time.sleep(1)
 
         # Load profile
+        self.expand_navbar()
         self.click(
             self.driver.find_element_by_id('profile-button')
         )
@@ -237,6 +238,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         self.driver.get(url)
 
         # Check we're logged in
+        self.expand_navbar()
         self.assertTrue(
             'Test Example' in
             self.driver.find_element_by_id('profile-button').text
