@@ -18,7 +18,7 @@ from weblate.trans.tests import OverrideSettings
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
-    ('DO_SELENIUM' in os.environ or 'CI_SELENIUM' in os.environ) and
+    'DO_SELENIUM' in os.environ and
     'SAUCE_USERNAME' in os.environ and
     'SAUCE_ACCESS_KEY' in os.environ
 )
