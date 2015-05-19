@@ -18,7 +18,7 @@ from weblate.trans.tests import OverrideSettings
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
-    ('DO_SELENIUM' in os.environ or 'CI_SELENIUM' in os.environ) and
+    'DO_SELENIUM' in os.environ and
     'SAUCE_USERNAME' in os.environ and
     'SAUCE_ACCESS_KEY' in os.environ
 )
@@ -79,7 +79,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             cls.sauce_auth = base64.encodestring(
                 '{}:{}'.format(cls.username, cls.key)
             )[:-1]
-            hub_url = "{}:{}@localhost:4445".format(cls.username, cls.key)
+            hub_url = "{}:{}@ondemand.saucelabs.com".format(cls.username, cls.key)
             cls.driver = webdriver.Remote(
                 desired_capabilities=cls.caps,
                 command_executor="http://{}/wd/hub".format(hub_url)
