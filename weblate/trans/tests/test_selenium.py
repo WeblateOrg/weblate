@@ -106,11 +106,14 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         if DO_SELENIUM:
             cls.driver.quit()
 
-    def click(self, element):
+    def click(self, element, navbar=False):
         """Wrapper to scroll into element for click"""
         try:
             element.click()
         except ElementNotVisibleException:
+            if navbar:
+                navbar = self.driver.find_element_by_id('navbar-toggle')
+                navbar.click()
             self.actions.move_to_element(element).perform()
             element.click()
 
@@ -120,7 +123,8 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
         # login page
         self.click(
-            self.driver.find_element_by_id('login-button')
+            self.driver.find_element_by_id('login-button'),
+            navbar=True
         )
 
         username_input = self.driver.find_element_by_id('id_username')
@@ -172,7 +176,8 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
         # registration page
         self.click(
-            self.driver.find_element_by_id('register-button')
+            self.driver.find_element_by_id('register-button'),
+            navbar=True
         )
 
         # Fill in registration form
