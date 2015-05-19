@@ -7,5 +7,19 @@ mysql -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;' -
 psql -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
 psql -c 'CREATE DATABASE weblate;' -U postgres
 if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then
-    curl -L https://gist.githubusercontent.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash 
+    mkdir -p ~/.cache/sauce
+    NAME=sc-4.3.8-linux.tar.gz
+    if [ ! -f ~/.cache/sauce/$NAME ] ; then
+        wget -O ~/.cache/sauce/$NAME https://saucelabs.com/downloads/$NAME
+    fi
+    SC_TEMP=`mktemp -d -t sc.XXXX`
+    tar -x -f ~/.cache/sauce/$NAME -C $SC_TEMP
+    $SC_TEMP/*/bin/sc \
+        -i ${TRAVIS_JOB_NUMBER} \
+        -f $SC_TEMP/ready \
+        -l $SC_TEMP/log &
+    echo "Waiting for Sauce Connect readyfile"
+    while [ ! -f $SC_TEMP/ready ]; do
+        sleep .5
+    done
 fi
