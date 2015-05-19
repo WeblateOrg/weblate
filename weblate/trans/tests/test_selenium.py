@@ -279,10 +279,6 @@ EXTRA_PLATFORMS = {
         'version': '9',
         'platform': 'VISTA',
     },
-    'Safari': {
-        'browserName': 'safari',
-        'platform': 'OS X 10.10',
-    },
     'IPhone': {
         'browserName': "iPhone",
         'deviceName': "iPhone Simulator",
