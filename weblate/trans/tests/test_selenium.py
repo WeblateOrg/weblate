@@ -110,7 +110,11 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         try:
             element.click()
         except ElementNotVisibleException:
-            # TODO: scroll
+            webdriver.ActionChains(
+                self.driver
+            ).move_to_element(
+                element
+            ).perform()
             element.click()
 
     def test_login(self):
