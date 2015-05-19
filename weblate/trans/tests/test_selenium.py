@@ -90,6 +90,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
                 )
             )
             cls.driver.implicitly_wait(10)
+            cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
             print 'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
         super(SeleniumTests, cls).setUpClass()
@@ -110,11 +111,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         try:
             element.click()
         except ElementNotVisibleException:
-            webdriver.ActionChains(
-                self.driver
-            ).move_to_element(
-                element
-            ).perform()
+            self.actions.move_to_element(element).perform()
             element.click()
 
     def test_login(self):
