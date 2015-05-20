@@ -37,11 +37,6 @@ script:
 # upload coverage
 after_script:
   - if [ -f ".coverage" ] ; then codecov ; fi
-# cache configuration
-#cache:
-#  directories:
-#    - $HOME/.cache/pip
-#    - $HOME/.cache/sauce
 # use docker based faster build
 sudo: false
 # trigger Buildtime Trend Service to parse Travis CI log
