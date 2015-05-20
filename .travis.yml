@@ -36,9 +36,7 @@ script:
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
-  - if [ -f ".coverage" ] ; then coveralls ; fi
   - if [ -f ".coverage" ] ; then codecov ; fi
-  - if [ -f ".coverage" ] ; then ocular --data-file ".coverage" --config-file ".coveragerc" ; fi
 # cache configuration
 cache:
   directories:
