@@ -13,8 +13,8 @@ are welcome as well. The code should follow PEP-8 coding guidelines.
 
 We do write testsuite for our code, so please add testcases for any new
 functionality and verify that it works. You can see current test results on
-Travis <https://travis-ci.org/nijel/weblate> and coverage on Coveralls
-<https://coveralls.io/r/nijel/weblate>.
+Travis <https://travis-ci.org/nijel/weblate> and coverage on Codecov
+<https://codecov.io/github/nijel/weblate>.
 
 Starting with our codebase
 --------------------------
