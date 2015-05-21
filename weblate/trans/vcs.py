@@ -816,6 +816,13 @@ class HgRepository(Repository):
             try:
                 # First try update
                 self.execute(['update'])
+
+                # Figure out if we did not create multiple heads
+                heads = self.execute(['heads', '-T', '{node}\n']).split()
+                if len(heads) > 1:
+                    # Fall back to merge
+                    raise RepositoryException(0, 'multiple heads', '')
+
             except RepositoryException as error:
                 # Fallback to merge
                 try:
