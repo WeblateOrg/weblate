@@ -1111,7 +1111,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Special case for Gettext
         if self.template.endswith('.pot') and self.filemask.endswith('.po'):
             raise ValidationError(
-                _('You can not use base file with bilingual translation!')
+                _('Using .pot file as base file is not supported!')
             )
 
         # Validate template loading
