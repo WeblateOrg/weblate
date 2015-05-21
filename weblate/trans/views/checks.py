@@ -25,10 +25,19 @@ from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.db.models import Count
 
-from weblate.trans.models import Unit, Check
+from weblate.trans.models import Unit, Check, Project
 from weblate.trans.checks import CHECKS
 from weblate.trans.views.helper import get_project, get_subproject
 from weblate.trans.util import redirect_param
+
+
+def acl_checks(user):
+    """Filter checks by ACL."""
+    acl_projects, filtered = Project.objects.get_acl_status(user)
+    if filtered:
+        return Check.objects.filter(project__in=acl_projects)
+    else:
+        return Check.objects.all()
 
 
 def encode_optional(params):
@@ -48,7 +57,7 @@ def show_checks(request):
     if ignore:
         url_params['ignored'] = 'true'
 
-    allchecks = Check.objects.filter(
+    allchecks = acl_checks(request.user).filter(
         ignore=ignore,
     )
 
@@ -89,7 +98,7 @@ def show_check(request, name):
     if ignore:
         url_params['ignored'] = 'true'
 
-    checks = Check.objects.filter(
+    checks = acl_checks(request.user).filter(
         check=name,
         ignore=ignore,
     )
@@ -134,7 +143,7 @@ def show_check_project(request, name, project):
 
     url_params = {}
 
-    allchecks = Check.objects.filter(
+    allchecks = acl_checks(request.user).filter(
         check=name,
         project=prj,
         ignore=ignore,
@@ -230,7 +239,7 @@ def show_check_subproject(request, name, project, subproject):
     ignore = ('ignored' in request.GET)
     url_params = {}
 
-    allchecks = Check.objects.filter(
+    allchecks = acl_checks(request.user).filter(
         check=name,
         project=subprj.project,
         ignore=ignore,
