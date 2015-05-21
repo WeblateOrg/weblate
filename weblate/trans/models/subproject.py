@@ -594,6 +594,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.log_info('update took %.2f seconds:', timediff)
                 for line in self.repository.last_output.splitlines():
                     self.log_debug('update: %s', line)
+            return True
         except RepositoryException as error:
             error_text = str(error)
             self.log_error('failed to update repository: %s', error_text)
@@ -606,6 +607,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 raise ValidationError(
                     _('Failed to fetch repository: %s') % error_text
                 )
+            return False
 
     def configure_repo(self, validate=False):
         '''
@@ -640,7 +642,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.do_update(request)
 
         # pull remote
-        self.update_remote_branch()
+        if not self.update_remote_branch():
+            return False
 
         # do we have something to merge?
         if not self.repo_needs_merge() and method != 'rebase':
