@@ -138,6 +138,12 @@ class MultiRepoTest(ViewTestCase):
         )
         self.assertEqual(translation.translated, 1)
 
+    def test_rebase(self):
+        """Testing of rebase"""
+        self.subproject2.merge_style = 'rebase'
+        self.subproject2.save()
+        self.test_update()
+
     def test_conflict(self):
         '''
         Tests conflict handling.
