@@ -1105,13 +1105,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Test for unexpected template usage
         if self.template != '' and self.file_format_cls.monolingual is False:
             raise ValidationError(
-                _('You can not base file with bilingual translation!')
+                _('You can not use base file with bilingual translation!')
             )
 
         # Special case for Gettext
         if self.template.endswith('.pot') and self.filemask.endswith('.po'):
             raise ValidationError(
-                _('You can not base file with bilingual translation!')
+                _('You can not use base file with bilingual translation!')
             )
 
         # Validate template loading
