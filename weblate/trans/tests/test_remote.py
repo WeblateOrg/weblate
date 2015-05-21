@@ -58,9 +58,11 @@ class MultiRepoTest(ViewTestCase):
     '''
     Tests handling of remote changes, conflicts and so on.
     '''
-    def setUp(self, vcs='git'):
+    _vcs = 'git'
+
+    def setUp(self):
         super(MultiRepoTest, self).setUp()
-        if vcs == 'git':
+        if self._vcs == 'git':
             repo = self.git_repo_path
             push = self.git_repo_path
         else:
@@ -72,7 +74,7 @@ class MultiRepoTest(ViewTestCase):
             project=self.project,
             repo=repo,
             push=push,
-            vcs=vcs,
+            vcs=self._vcs,
             filemask='po/*.po',
             template='',
             file_format='po',
@@ -232,8 +234,7 @@ class MultiRepoTest(ViewTestCase):
 
 
 class MercurialMultiRepoTest(MultiRepoTest):
-    def setUp(self):
-        super(MercurialMultiRepoTest, self).setUp(vcs='mercurial')
+    _vcs = 'mercurial'
 
     def create_subproject(self):
         return self.create_po_mercurial()
