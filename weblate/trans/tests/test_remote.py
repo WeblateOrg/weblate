@@ -222,3 +222,25 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         self.assertEqual(translation.total, 1)
+
+
+class MercurialMultiRepoTest(MultiRepoTest):
+    def setUp(self):
+        super(MultiRepoTest, self).setUp()
+        self.subproject2 = SubProject.objects.create(
+            name='Test 2',
+            slug='test-2',
+            project=self.project,
+            repo=self.hg_repo_path,
+            push=self.hg_repo_path,
+            filemask='po/*.po',
+            template='',
+            file_format='po',
+            vcs='mercurial',
+            repoweb=REPOWEB_URL,
+            new_base='',
+        )
+        self.request = self.get_request('/')
+
+    def create_subproject(self):
+        return self.create_po_mercurial()
