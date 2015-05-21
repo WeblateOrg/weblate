@@ -169,6 +169,8 @@ class MultiRepoTest(ViewTestCase):
 
         self.assertFalse(translation.do_update(self.request))
 
+        self.assertFalse(translation.do_push(self.request))
+
     def test_more_changes(self):
         '''
         Test more string changes in remote repo.
