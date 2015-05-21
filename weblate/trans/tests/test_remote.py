@@ -24,6 +24,8 @@ from weblate.trans.models import SubProject
 from weblate.trans.tests.test_models import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
 from django.utils import timezone
+import shutil
+import os
 
 EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
@@ -127,6 +129,17 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         self.assertEqual(translation.translated, 1)
+
+    def test_failed_update(self):
+        """Test failed remote update."""
+        if os.path.exists(self.git_repo_path):
+            shutil.rmtree(self.git_repo_path)
+        if os.path.exists(self.hg_repo_path):
+            shutil.rmtree(self.hg_repo_path)
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        self.assertFalse(translation.do_update(self.request))
 
     def test_update(self):
         '''
