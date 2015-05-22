@@ -460,7 +460,11 @@ $(function () {
 
     /* Navigate to a tab when the history changes */
     window.addEventListener('popstate', function(e) {
-        activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
+        if (location.hash !== '') {
+            activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
+        } else {
+            activeTab = Array();
+        }
         if (activeTab.length) {
             activeTab.tab('show');
         } else {
