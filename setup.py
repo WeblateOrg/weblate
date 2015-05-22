@@ -32,7 +32,7 @@ with open('requirements.txt') as requirements:
     REQUIRES = requirements.read().splitlines()
 
 setup(
-    name='weblate',
+    name='Weblate',
     version='2.3',
     packages=[
         'weblate',
