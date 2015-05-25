@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-21 16:03+0200\n"
+"POT-Creation-Date: 2015-05-25 09:25+0200\n"
 "PO-Revision-Date: 2015-05-21 18:54+0200\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
-"\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
+">\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -285,7 +285,7 @@ msgid "Hosting"
 msgstr "Φιλοξενία"
 
 #: weblate/accounts/views.py:378 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html:41 weblate/html/base.html:71
+#: weblate/html/accounts/login.html:41 weblate/html/base.html:102
 msgid "Login"
 msgstr "Σύνδεση"
 
@@ -534,7 +534,7 @@ msgstr ""
 "που ορίζεται από κάθε μεταφραστικό έργο."
 
 #: weblate/html/accounts/email.html:26 weblate/html/accounts/register.html:36
-#: weblate/html/base.html:69
+#: weblate/html/base.html:100
 msgid "Register"
 msgstr "Εγγραφή"
 
@@ -704,7 +704,7 @@ msgstr ""
 #: weblate/html/accounts/profile.html:232
 #: weblate/html/accounts/profile.html:278
 #: weblate/html/admin/performance.html:23
-#: weblate/html/admin/performance.html:31 weblate/html/base.html:61
+#: weblate/html/admin/performance.html:31 weblate/html/base.html:92
 #: weblate/html/check.html:42 weblate/html/check_project.html:43
 #: weblate/html/check_subproject.html:44 weblate/html/checks.html:36
 #: weblate/html/footer.html:8
@@ -902,7 +902,7 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Επαναφορά του κωδικού μου"
 
-#: weblate/html/accounts/user.html:34 weblate/html/base.html:54
+#: weblate/html/accounts/user.html:34 weblate/html/base.html:85
 #: weblate/html/index.html:27 weblate/html/index.html.py:29
 #: weblate/html/index.html:73 weblate/html/language.html:31
 msgid "Projects"
@@ -1082,22 +1082,34 @@ msgstr ""
 "\"%(url)s\">την τεκμηρίωσή μας</a> για πληροφορίες για το πως να τη "
 "βελτιώσετε."
 
-#: weblate/html/base.html:31
+#: weblate/html/base.html:48
+msgid "This site runs Weblate for translating various software projects."
+msgstr ""
+"Αυτή η ιστοσελίδα τρέχει Weblate για μεταφράσεις διαφόρων έργων λογισμικού."
+
+#: weblate/html/base.html:62
 msgid "Toggle navigation"
 msgstr "Εναλλαγή πλοήγησης"
 
-#: weblate/html/base.html:42 weblate/html/base.html.py:80
+#: weblate/html/base.html:73 weblate/html/base.html.py:111
 msgid "Dashboard"
 msgstr "Κεντρικός πίνακας"
 
-#: weblate/html/base.html:45 weblate/html/index.html:26
+#: weblate/html/base.html:76 weblate/html/index.html:26
 #: weblate/html/index.html.py:52
 msgid "Your translations"
 msgstr "Οι μεταφράσεις σας"
 
-#: weblate/html/base.html:66
+#: weblate/html/base.html:97
 msgid "Logout"
 msgstr "Αποσύνδεση"
+
+#: weblate/html/base.html:119
+msgid ""
+"Weblate does not support Microsoft Internet Explorer 8 and older, please use "
+"some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
+"\">Firefox</a>."
+msgstr ""
 
 #: weblate/html/check.html:6 weblate/html/check_project.html:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html:6
@@ -1367,12 +1379,12 @@ msgstr "λεξικά"
 msgid "Change word"
 msgstr "Αλλαγή λέξης"
 
-#: weblate/html/engage.html:10 weblate/html/engage.html.py:23
+#: weblate/html/engage.html:10 weblate/html/engage.html.py:38
 #, python-format
 msgid "Get involved in %(project)s!"
 msgstr "Συμμετέχετε στο %(project)s!"
 
-#: weblate/html/engage.html:11
+#: weblate/html/engage.html:11 weblate/html/engage.html.py:12
 #, python-format
 msgid ""
 "Get involved in %(project)s, which is currently being translated into "
@@ -1381,11 +1393,11 @@ msgstr ""
 "Συμμετέχετε %(project)s, που μεταφράζεται σήμερα σε %(languages)s γλώσσες "
 "χρησιμοποιώντας το Weblate."
 
-#: weblate/html/engage.html:26
+#: weblate/html/engage.html:41
 msgid "Hi, and thank you for your interest!"
 msgstr "Γεια σας, και ευχαριστούμε για το ενδιαφέρον σας!"
 
-#: weblate/html/engage.html:29
+#: weblate/html/engage.html:44
 #, python-format
 msgid ""
 "%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
@@ -1396,7 +1408,7 @@ msgstr ""
 "\">Weblate</a>, ένα διαδικτυακό εργαλείο που έχει σχεδιαστεί για να "
 "διευκολύνουν τη μετάφραση για προγραμματιστές και για μεταφραστές."
 
-#: weblate/html/engage.html:36
+#: weblate/html/engage.html:51
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -1405,7 +1417,7 @@ msgstr ""
 "Αν θα θέλατε να συμβάλετε στη μετάφραση του %(project)s, πρέπει να <a href="
 "\"%(reg_url)s\">εγγραφείτε σε αυτόν το διακομιστή</a>."
 
-#: weblate/html/engage.html:40
+#: weblate/html/engage.html:55
 msgid ""
 "This translation is open only to limited group of translators, if you want "
 "to contribute please get in touch with project maintainers."
@@ -1413,7 +1425,7 @@ msgstr ""
 "Η μετάφραση είναι ανοιχτή μόνο σε περιορισμένη ομάδα μεταφραστών, αν θέλετε "
 "να συνεισφέρετε, επικοινωνήστε με τους συντηρητές των έργων."
 
-#: weblate/html/engage.html:44
+#: weblate/html/engage.html:59
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -2372,7 +2384,7 @@ msgstr "Γλωσσάρια"
 
 #: weblate/html/language.html:22 weblate/html/project.html:36
 #: weblate/html/source-review.html:24 weblate/html/translate.html:423
-#: weblate/trans/views/checks.py:70
+#: weblate/trans/views/checks.py:79
 msgid "Failing checks"
 msgstr "Αποτυχημένοι έλεγχοι"
 
@@ -2777,11 +2789,6 @@ msgstr "Επαναφορά κωδικού στο %(site_title)s"
 #: weblate/html/mail/signature.txt:4
 msgid "Change subscription settings:"
 msgstr "Αλλαγή ρυθμίσεων συνδρομής:"
-
-#: weblate/html/meta-header.html:35
-msgid "This site runs Weblate for translating various software projects."
-msgstr ""
-"Αυτή η ιστοσελίδα τρέχει Weblate για μεταφράσεις διαφόρων έργων λογισμικού."
 
 #: weblate/html/paginator.html:6 weblate/html/translate.html:47
 #, python-format
@@ -4701,7 +4708,7 @@ msgstr "Όνομα πράττοντος"
 msgid "Committer email"
 msgstr "Ηλεκτρονική διευθυνση πράττοντος"
 
-#: weblate/trans/models/subproject.py:603
+#: weblate/trans/models/subproject.py:604
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -4709,67 +4716,67 @@ msgstr ""
 "Αδύνατη η επιβεβαίωση του κλειδιού φιλοξενίας SSH, προσθέστε τα στη σελίδα "
 "SSH στο περιβάλλον διαχείρισης."
 
-#: weblate/trans/models/subproject.py:607
+#: weblate/trans/models/subproject.py:608
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Απέτυχε η λήψη του αποθετηρίου: %s"
 
-#: weblate/trans/models/subproject.py:682
+#: weblate/trans/models/subproject.py:685
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Η προώθηση είναι απενεργοποιημένη για το %s."
 
-#: weblate/trans/models/subproject.py:725
+#: weblate/trans/models/subproject.py:728
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Απέτυχε η προώθηση στον απομακρυσμένο κλάδο στο %s."
 
-#: weblate/trans/models/subproject.py:761
+#: weblate/trans/models/subproject.py:764
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Απέτυχε η επαναφορά στον απομακρυσμένο κλάδο στο %s."
 
-#: weblate/trans/models/subproject.py:818
+#: weblate/trans/models/subproject.py:821
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 "Απέτυχε η αναβαθμίστε του υποκαταστήματός μας σε απομακρυσμένο υποκατάστημα "
 "%s."
 
-#: weblate/trans/models/subproject.py:823
+#: weblate/trans/models/subproject.py:826
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Απέτυχε η ένωση του απομακρυσμένου κλάδου στο %s."
 
-#: weblate/trans/models/subproject.py:991
+#: weblate/trans/models/subproject.py:994
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Μη έγκυρος σύνδεσμος έργου Weblate, αδύνατη η σύνδεση με το συνδεδεμένο "
 "αποθετήριο!"
 
-#: weblate/trans/models/subproject.py:998
+#: weblate/trans/models/subproject.py:1001
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "Μη έγκυρος σύνδεσμος για το έργο Weblate, αδύνατη η σύνδεση με αυτό!"
 
-#: weblate/trans/models/subproject.py:1005
+#: weblate/trans/models/subproject.py:1008
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Μη έγκυρος σύνδεσμος σε ένα έργο Weblate, χρησιμοποιείστε το weblate://"
 "project/component."
 
-#: weblate/trans/models/subproject.py:1011
+#: weblate/trans/models/subproject.py:1014
 msgid "Push URL is not used when repository is linked!"
 msgstr "Η προώθηση URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: weblate/trans/models/subproject.py:1015
+#: weblate/trans/models/subproject.py:1018
 msgid "Export URL is not used when repository is linked!"
 msgstr "Η εξαγωγή URL δεν χρησιμοποιείται όταν το αποθετήριο έχει συνδεθεί!"
 
-#: weblate/trans/models/subproject.py:1023
+#: weblate/trans/models/subproject.py:1026
 msgid "The mask did not match any files!"
 msgstr "Η μάσκα δεν ταιριάζει με κανένα αρχείο!"
 
-#: weblate/trans/models/subproject.py:1031
+#: weblate/trans/models/subproject.py:1034
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -4777,7 +4784,7 @@ msgstr ""
 "Υπάρχουν περισσότερα αρχεία για μονή γλώσσα, προσαρμόστε τη μάσκα και "
 "χρησιμοποιήστε περιεχόμενα για μετάφραση διαφορετικών προελεύσεων."
 
-#: weblate/trans/models/subproject.py:1037
+#: weblate/trans/models/subproject.py:1040
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -4788,21 +4795,21 @@ msgstr ""
 "απενεργοποιήσετε το SIMPLIFY_LANGUAGES για να αποτρέψετε το Weblate να "
 "χαρτογραφεί παρόμοιες γλώσσες σε μία."
 
-#: weblate/trans/models/subproject.py:1058
+#: weblate/trans/models/subproject.py:1061
 msgid "File does not seem to be valid!"
 msgstr "Το αρχείο δεν φαίνεται να είναι έγκυρο!"
 
-#: weblate/trans/models/subproject.py:1066
+#: weblate/trans/models/subproject.py:1069
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Η μορφή %d αρχείων που ταιριάζουν δεν αναγνωρίζεται."
 
-#: weblate/trans/models/subproject.py:1075
+#: weblate/trans/models/subproject.py:1078
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Απέτυχε η ανάλυση %d αρχείων που ταιριάζουν!"
 
-#: weblate/trans/models/subproject.py:1086
+#: weblate/trans/models/subproject.py:1089
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -4810,45 +4817,43 @@ msgstr ""
 "Η επιλεγμένη μορφή αρχείου δεν υποστηρίζει νέες μεταφράσεις όπως επιλέχτηκε "
 "στις ρυθμίσεις του έργου."
 
-#: weblate/trans/models/subproject.py:1092
+#: weblate/trans/models/subproject.py:1095
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Η μορφή του αρχείου βάσης για νέες μεταφράσεις δεν αναγνωρίστηκε!"
 
-#: weblate/trans/models/subproject.py:1097
+#: weblate/trans/models/subproject.py:1100
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 "Το αρχείο βάσης για νέες μεταφράσεις δεν χρησιμοποιείται λόγω των ρυθμίσεων "
 "του έργου."
 
-#: weblate/trans/models/subproject.py:1108
-#| msgid "You can not base file with bilingual translation!"
+#: weblate/trans/models/subproject.py:1111
 msgid "You can not use base file with bilingual translation!"
 msgstr "Δεν μπορείτε να χρησιμοποιήσετε αρχείο βάσης με μονόγλωσση μετάφραση!"
 
-#: weblate/trans/models/subproject.py:1114
-#| msgid "Changing version control system is not supported!"
+#: weblate/trans/models/subproject.py:1117
 msgid "Using .pot file as base file is not supported!"
 msgstr "Η χρήση αρχείου .pot ως αρχείου βάσης δεν υποστηρίζεται!"
 
-#: weblate/trans/models/subproject.py:1121
+#: weblate/trans/models/subproject.py:1124
 msgid "Template file not found!"
 msgstr "Το αρχείο προτύπου δεν βρέθηκε!"
 
-#: weblate/trans/models/subproject.py:1128
+#: weblate/trans/models/subproject.py:1131
 msgid "Format of translation base file could not be recognized."
 msgstr "Η μορφή της βάσης μετάφρασης δεν μπορεί να αναγνωριστεί."
 
-#: weblate/trans/models/subproject.py:1134
+#: weblate/trans/models/subproject.py:1137
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετάφρασης: %s"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1142
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 "Δεν μπορείτε να χρησιμοποιήσετε μονόγλωσση μετάφραση χωρίς αρχείο βάσης!"
 
-#: weblate/trans/models/subproject.py:1149
+#: weblate/trans/models/subproject.py:1152
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -4856,26 +4861,26 @@ msgstr ""
 "Είτε συμπληρώστε το URL οδηγιών ή χρησιμοποιήστε διαφορετική επιλογή για "
 "προσθήκη νέας γλώσσας."
 
-#: weblate/trans/models/subproject.py:1155
+#: weblate/trans/models/subproject.py:1158
 msgid "License URL can not be used without license summary."
 msgstr ""
 "Το URL της άδειας μπορεί να χρησιμοποιηθεί χωρίς την περίληψη της άδειας."
 
-#: weblate/trans/models/subproject.py:1175
+#: weblate/trans/models/subproject.py:1178
 msgid "Changing version control system is not supported!"
 msgstr "Η αλλαγή του συστήματος ελέγχου έκδοσης δεν υποστηρίζεται!"
 
-#: weblate/trans/models/subproject.py:1181
+#: weblate/trans/models/subproject.py:1184
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Μη υποστηριζόμενη μορφή αρχείου {0}"
 
-#: weblate/trans/models/subproject.py:1188
+#: weblate/trans/models/subproject.py:1191
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 
-#: weblate/trans/models/subproject.py:1211
+#: weblate/trans/models/subproject.py:1214
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "Η αυτόματη αποδοχή προτάσεων λειτουργεί μόνο με ενεργές τις ψήφους!"
 

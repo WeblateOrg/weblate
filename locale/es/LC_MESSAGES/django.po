@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-21 16:03+0200\n"
+"POT-Creation-Date: 2015-05-25 09:25+0200\n"
 "PO-Revision-Date: 2015-05-21 19:36+0200\n"
 "Last-Translator: Franco <fulanodetal.github@openaliasbox.org>\n"
-"Language-Team: Spanish "
-"<https://hosted.weblate.org/projects/weblate/master/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
+"es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,7 +282,7 @@ msgid "Hosting"
 msgstr "Alojamiento"
 
 #: weblate/accounts/views.py:378 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html:41 weblate/html/base.html:71
+#: weblate/html/accounts/login.html:41 weblate/html/base.html:102
 msgid "Login"
 msgstr "Iniciar sesión"
 
@@ -527,7 +527,7 @@ msgstr ""
 "por cada proyecto traducido."
 
 #: weblate/html/accounts/email.html:26 weblate/html/accounts/register.html:36
-#: weblate/html/base.html:69
+#: weblate/html/base.html:100
 msgid "Register"
 msgstr "Registrarse"
 
@@ -695,7 +695,7 @@ msgstr ""
 #: weblate/html/accounts/profile.html:232
 #: weblate/html/accounts/profile.html:278
 #: weblate/html/admin/performance.html:23
-#: weblate/html/admin/performance.html:31 weblate/html/base.html:61
+#: weblate/html/admin/performance.html:31 weblate/html/base.html:92
 #: weblate/html/check.html:42 weblate/html/check_project.html:43
 #: weblate/html/check_subproject.html:44 weblate/html/checks.html:36
 #: weblate/html/footer.html:8
@@ -890,7 +890,7 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Reinicializar mi contraseña"
 
-#: weblate/html/accounts/user.html:34 weblate/html/base.html:54
+#: weblate/html/accounts/user.html:34 weblate/html/base.html:85
 #: weblate/html/index.html:27 weblate/html/index.html.py:29
 #: weblate/html/index.html:73 weblate/html/language.html:31
 msgid "Projects"
@@ -1068,22 +1068,33 @@ msgstr ""
 "Importar una traducción nueva puede tomar tiempo, revise <a href=\"%(url)s"
 "\">nuestra documentación</a> en busca de información sobre cómo mejorar esto."
 
-#: weblate/html/base.html:31
+#: weblate/html/base.html:48
+msgid "This site runs Weblate for translating various software projects."
+msgstr "Este sitio ejecuta Weblate para traducir varios proyectos de software."
+
+#: weblate/html/base.html:62
 msgid "Toggle navigation"
 msgstr "Cambiar navegación"
 
-#: weblate/html/base.html:42 weblate/html/base.html.py:80
+#: weblate/html/base.html:73 weblate/html/base.html.py:111
 msgid "Dashboard"
 msgstr "Panel"
 
-#: weblate/html/base.html:45 weblate/html/index.html:26
+#: weblate/html/base.html:76 weblate/html/index.html:26
 #: weblate/html/index.html.py:52
 msgid "Your translations"
 msgstr "Sus traducciones"
 
-#: weblate/html/base.html:66
+#: weblate/html/base.html:97
 msgid "Logout"
 msgstr "Cerrar sesión"
+
+#: weblate/html/base.html:119
+msgid ""
+"Weblate does not support Microsoft Internet Explorer 8 and older, please use "
+"some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
+"\">Firefox</a>."
+msgstr ""
 
 #: weblate/html/check.html:6 weblate/html/check_project.html:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html:6
@@ -1351,12 +1362,12 @@ msgstr "diccionarios"
 msgid "Change word"
 msgstr "Cambiar palabra"
 
-#: weblate/html/engage.html:10 weblate/html/engage.html.py:23
+#: weblate/html/engage.html:10 weblate/html/engage.html.py:38
 #, python-format
 msgid "Get involved in %(project)s!"
 msgstr "¡Involúcrate en %(project)s!"
 
-#: weblate/html/engage.html:11
+#: weblate/html/engage.html:11 weblate/html/engage.html.py:12
 #, python-format
 msgid ""
 "Get involved in %(project)s, which is currently being translated into "
@@ -1365,11 +1376,11 @@ msgstr ""
 "Involúcrate en %(project)s, que está siendo traducido a %(languages)s "
 "idiomas utilizando Weblate."
 
-#: weblate/html/engage.html:26
+#: weblate/html/engage.html:41
 msgid "Hi, and thank you for your interest!"
 msgstr "¡Hola y gracias por tu interés!"
 
-#: weblate/html/engage.html:29
+#: weblate/html/engage.html:44
 #, python-format
 msgid ""
 "%(project)s is being translated using <a href=\"%(weblate_url)s\">Weblate</"
@@ -1380,7 +1391,7 @@ msgstr ""
 "una herramienta diseñada para facilitar la traducción tanto a "
 "desarrolladores como a traductores."
 
-#: weblate/html/engage.html:36
+#: weblate/html/engage.html:51
 #, python-format
 msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
@@ -1389,7 +1400,7 @@ msgstr ""
 "Si quiere contribuir a la traducción de %(project)s, necesita <a href="
 "\"%(reg_url)s\">registrarse en este servidor</a>."
 
-#: weblate/html/engage.html:40
+#: weblate/html/engage.html:55
 msgid ""
 "This translation is open only to limited group of translators, if you want "
 "to contribute please get in touch with project maintainers."
@@ -1398,7 +1409,7 @@ msgstr ""
 "favor, si desea colaborar, póngase en contacto con los mantenedores del "
 "proyecto."
 
-#: weblate/html/engage.html:44
+#: weblate/html/engage.html:59
 #, python-format
 msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -2357,7 +2368,7 @@ msgstr "Glosarios"
 
 #: weblate/html/language.html:22 weblate/html/project.html:36
 #: weblate/html/source-review.html:24 weblate/html/translate.html:423
-#: weblate/trans/views/checks.py:70
+#: weblate/trans/views/checks.py:79
 msgid "Failing checks"
 msgstr "Chequeos fallidos"
 
@@ -2762,10 +2773,6 @@ msgstr "Su contraseña en %(site_title)s"
 #: weblate/html/mail/signature.txt:4
 msgid "Change subscription settings:"
 msgstr "Modificar configuración de subscripción:"
-
-#: weblate/html/meta-header.html:35
-msgid "This site runs Weblate for translating various software projects."
-msgstr "Este sitio ejecuta Weblate para traducir varios proyectos de software."
 
 #: weblate/html/paginator.html:6 weblate/html/translate.html:47
 #, python-format
@@ -4476,7 +4483,6 @@ msgid "Edit base file"
 msgstr "Editar archivo base"
 
 #: weblate/trans/models/subproject.py:183
-#| msgid "You can not base file with bilingual translation!"
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
@@ -4671,7 +4677,7 @@ msgstr "Nombre de quien hace el «commit»"
 msgid "Committer email"
 msgstr "Correo electrónico de quien hace el «commit»"
 
-#: weblate/trans/models/subproject.py:603
+#: weblate/trans/models/subproject.py:604
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -4679,66 +4685,66 @@ msgstr ""
 "No se pudo verificar la llave de servidor SSH, agrégela en en la interfaz de "
 "administración."
 
-#: weblate/trans/models/subproject.py:607
+#: weblate/trans/models/subproject.py:608
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "No se pudieron importar los cambios del repositorio: %s"
 
-#: weblate/trans/models/subproject.py:682
+#: weblate/trans/models/subproject.py:685
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "«Push» desactivado para %s."
 
-#: weblate/trans/models/subproject.py:725
+#: weblate/trans/models/subproject.py:728
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "No se pudieron guardar los cambios a la rama remota en %s."
 
-#: weblate/trans/models/subproject.py:761
+#: weblate/trans/models/subproject.py:764
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "No se pudieron deshacer los cambios a la rama remota en %s."
 
-#: weblate/trans/models/subproject.py:818
+#: weblate/trans/models/subproject.py:821
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "No se pudo cambiar la base sobre la rama remota %s."
 
-#: weblate/trans/models/subproject.py:823
+#: weblate/trans/models/subproject.py:826
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: weblate/trans/models/subproject.py:991
+#: weblate/trans/models/subproject.py:994
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Enlace inválido a un proyecto Weblate, ¡no se puede enlazar al repositorio "
 "asociado!"
 
-#: weblate/trans/models/subproject.py:998
+#: weblate/trans/models/subproject.py:1001
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Enlace inválido a un proyecto de Weblate, ¡no se puede enlazar a sí mismo!"
 
-#: weblate/trans/models/subproject.py:1005
+#: weblate/trans/models/subproject.py:1008
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Enlace inválido a un proyecto de Weblate, utilice weblate://proyecto/"
 "componente."
 
-#: weblate/trans/models/subproject.py:1011
+#: weblate/trans/models/subproject.py:1014
 msgid "Push URL is not used when repository is linked!"
 msgstr "¡No se utiliza la URL de «Push» cuando se enlaza el repositorio!"
 
-#: weblate/trans/models/subproject.py:1015
+#: weblate/trans/models/subproject.py:1018
 msgid "Export URL is not used when repository is linked!"
 msgstr "¡No se utiliza la URL de exportación cuando se enlaza el repositorio!"
 
-#: weblate/trans/models/subproject.py:1023
+#: weblate/trans/models/subproject.py:1026
 msgid "The mask did not match any files!"
 msgstr "¡No se encontraron archivos en la ruta provista!"
 
-#: weblate/trans/models/subproject.py:1031
+#: weblate/trans/models/subproject.py:1034
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -4746,7 +4752,7 @@ msgstr ""
 "Existen más archivos por idioma, ajuste la máscara y utilice componentes "
 "para traducir diferentes recursos."
 
-#: weblate/trans/models/subproject.py:1037
+#: weblate/trans/models/subproject.py:1040
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -4757,21 +4763,21 @@ msgstr ""
 "desactivar SIMPLIFY_LANGUAGES para evitar que Weblate asocie idiomas "
 "similares en uno solo."
 
-#: weblate/trans/models/subproject.py:1058
+#: weblate/trans/models/subproject.py:1061
 msgid "File does not seem to be valid!"
 msgstr "¡El archivo no parece ser válido!"
 
-#: weblate/trans/models/subproject.py:1066
+#: weblate/trans/models/subproject.py:1069
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "No se reconoció el formato de %d archivos encontrados."
 
-#: weblate/trans/models/subproject.py:1075
+#: weblate/trans/models/subproject.py:1078
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "¡No se pudieron procesar %d archivos encontrados!"
 
-#: weblate/trans/models/subproject.py:1086
+#: weblate/trans/models/subproject.py:1089
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -4779,47 +4785,45 @@ msgstr ""
 "El formato de archivo seleccionado no es compatible con la forma de agregar "
 "nuevas traducciones en la configuración del proyecto."
 
-#: weblate/trans/models/subproject.py:1092
+#: weblate/trans/models/subproject.py:1095
 msgid "Format of base file for new translations was not recognized!"
 msgstr "¡No se reconoció el formato del archivo base para nuevas traducciones!"
 
-#: weblate/trans/models/subproject.py:1097
+#: weblate/trans/models/subproject.py:1100
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 "No se utilizó el archivo base para nuevas traducciones debido a la "
 "configuración del proyecto."
 
-#: weblate/trans/models/subproject.py:1108
-#| msgid "You can not base file with bilingual translation!"
+#: weblate/trans/models/subproject.py:1111
 msgid "You can not use base file with bilingual translation!"
 msgstr ""
 "¡No puede utilizar un archivo de traducción base con una traducción bilingüe!"
 
-#: weblate/trans/models/subproject.py:1114
-#| msgid "Changing version control system is not supported!"
+#: weblate/trans/models/subproject.py:1117
 msgid "Using .pot file as base file is not supported!"
 msgstr "¡El uso del archivo .pot como base no está soportado!"
 
-#: weblate/trans/models/subproject.py:1121
+#: weblate/trans/models/subproject.py:1124
 msgid "Template file not found!"
 msgstr "¡No se encontró el archivo de plantilla!"
 
-#: weblate/trans/models/subproject.py:1128
+#: weblate/trans/models/subproject.py:1131
 msgid "Format of translation base file could not be recognized."
 msgstr "No se reconoció el formato del archivo de traducción base."
 
-#: weblate/trans/models/subproject.py:1134
+#: weblate/trans/models/subproject.py:1137
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "No se pudo procesar el archivo de traducción base: %s"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1142
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 "¡No puede utilizar una traducción monoidioma sin un archivo de traducción "
 "base!"
 
-#: weblate/trans/models/subproject.py:1149
+#: weblate/trans/models/subproject.py:1152
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -4827,25 +4831,25 @@ msgstr ""
 "Complete la URL de instrucciones o utilice una opción diferente para agregar "
 "un idioma."
 
-#: weblate/trans/models/subproject.py:1155
+#: weblate/trans/models/subproject.py:1158
 msgid "License URL can not be used without license summary."
 msgstr "No puede utilizar el URL de la licencia sin un resumen de la misma."
 
-#: weblate/trans/models/subproject.py:1175
+#: weblate/trans/models/subproject.py:1178
 msgid "Changing version control system is not supported!"
 msgstr "¡El cambio de sistema de control de versiones no está soportado!"
 
-#: weblate/trans/models/subproject.py:1181
+#: weblate/trans/models/subproject.py:1184
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Formato de archivo no compatible: {0}"
 
-#: weblate/trans/models/subproject.py:1188
+#: weblate/trans/models/subproject.py:1191
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Falló la actualización del repositorio: %s"
 
-#: weblate/trans/models/subproject.py:1211
+#: weblate/trans/models/subproject.py:1214
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "¡La aceptación automática de sugerencias sólo funcionará cuando active los "
