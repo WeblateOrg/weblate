@@ -9,8 +9,23 @@
 
   <title>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</title>
   <meta name="description" content="{% blocktrans %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
+  <meta property="og:description" content="{% blocktrans %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
+  <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="image_src" type="image/png" href="{% get_media_prefix %}weblate-128.png"/>
+  <link rel="apple-touch-icon" href="{% get_media_prefix %}weblate-128.png"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index, follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 {% include 'meta-header.html' %}
+  <link rel="stylesheet" type="text/css" href="{% get_media_prefix %}bootstrap/css/bootstrap.min.css" />
+{% if LANGUAGE_BIDI %}
+  <link rel="stylesheet" type="text/css" href="{% get_media_prefix %}bootstrap/css/bootstrap-rtl.min.css" />
+{% endif %}
+  <link rel="stylesheet" type="text/css" href="{% get_media_prefix %}bootstrap/css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" type="text/css" href="{% get_media_prefix %}style-bootstrap.css" />
   
  </head>
 
