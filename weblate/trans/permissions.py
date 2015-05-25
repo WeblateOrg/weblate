@@ -198,6 +198,14 @@ def can_reset_translation(user, project):
 
 
 @cache_permission
+def can_lock_translation(user, project):
+    """
+    Checks whether user can lock translation.
+    """
+    return check_permission(user, project, 'trans.lock_translation')
+
+
+@cache_permission
 def can_lock_subproject(user, project):
     """
     Checks whether user can lock translation subproject.

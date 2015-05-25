@@ -28,7 +28,9 @@ from django.core.exceptions import PermissionDenied
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-from weblate.trans.permissions import can_lock_subproject
+from weblate.trans.permissions import (
+    can_lock_subproject, can_lock_translation
+)
 
 
 @login_required
@@ -45,7 +47,7 @@ def update_lock(request, project, subproject, lang):
 def lock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if not can_lock_subproject(request.user, obj.subproject.project):
+    if not can_lock_translation(request.user, obj.subproject.project):
         raise PermissionDenied()
 
     if not obj.is_user_locked(request.user):
@@ -59,7 +61,7 @@ def lock_translation(request, project, subproject, lang):
 def unlock_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if not can_lock_subproject(request.user, obj.subproject.project):
+    if not can_lock_translation(request.user, obj.subproject.project):
         raise PermissionDenied()
 
     if not obj.is_user_locked(request.user):
