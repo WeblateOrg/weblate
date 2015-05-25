@@ -115,6 +115,9 @@
 </header>
 
 <div class="content">
+<!--[if lte IE 8]>
+{% show_message "error" _("Weblate does not support Microsoft Internet Explorer 8 and older, please use some more recent browser.") %}
+<![endif]-->
 {% if messages %}
 {% for message in messages %}
 {% show_message message.tags message %}
