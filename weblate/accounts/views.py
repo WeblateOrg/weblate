@@ -274,6 +274,7 @@ def contact(request):
     )
 
 
+@login_required
 def hosting(request):
     '''
     Form for hosting request.
