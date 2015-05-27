@@ -341,6 +341,8 @@ class ViewTest(TestCase):
         '''
         Test for hosting form with disabled hosting
         '''
+        self.get_user()
+        self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('hosting'))
         self.assertRedirects(response, reverse('home'))
 
@@ -349,6 +351,8 @@ class ViewTest(TestCase):
         '''
         Test for hosting form with enabled hosting.
         '''
+        self.get_user()
+        self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('hosting'))
         self.assertContains(response, 'id="id_message"')
 
