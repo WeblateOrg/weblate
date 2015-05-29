@@ -258,6 +258,7 @@ def show_check_subproject(request, name, project, subproject):
         )
 
     if 'language' in request.GET:
+        url_params['type'] = check.check_id
         return redirect_param(
             'translate',
             encode_optional(url_params),
