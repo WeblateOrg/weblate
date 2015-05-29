@@ -790,19 +790,6 @@ class EditTSTest(EditTest):
         return self.create_ts()
 
 
-class LanguagesViewTest(ViewTestCase):
-    def test_languages(self):
-        response = self.client.get(reverse('languages'))
-        self.assertContains(response, 'Czech')
-
-        response = self.client.get(reverse(
-            'show_language',
-            kwargs={'lang': 'cs'}
-        ))
-        self.assertContains(response, 'Czech')
-        self.assertContains(response, 'Test/Test')
-
-
 class ZenViewTest(ViewTestCase):
     def test_zen(self):
         response = self.client.get(

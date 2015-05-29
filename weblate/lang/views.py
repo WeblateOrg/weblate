@@ -18,9 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Dictionary, Change
 from urllib import urlencode
@@ -38,7 +39,14 @@ def show_languages(request):
 
 
 def show_language(request, lang):
-    obj = get_object_or_404(Language, code=lang)
+    try:
+        obj = Language.objects.get(code=lang)
+    except Language.DoesNotExist:
+        obj = Language.objects.fuzzy_get(lang)
+        if obj is None:
+            raise Http404('No Language matches the given query.')
+        return redirect(obj)
+
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj
     )[:10]

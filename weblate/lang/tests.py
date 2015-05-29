@@ -22,12 +22,14 @@
 Tests for language manipulations.
 """
 
-from django.test import TestCase
-from weblate.lang.models import Language, get_plural_type
-from weblate.lang import data
-from django.core.management import call_command
 import os.path
 import gettext
+from django.test import TestCase
+from django.core.urlresolvers import reverse
+from django.core.management import call_command
+from weblate.lang.models import Language, get_plural_type
+from weblate.lang import data
+from weblate.trans.tests.test_views import ViewTestCase
 
 
 class LanguagesTest(TestCase):
@@ -284,3 +286,30 @@ class VerifyPluralsTest(TestCase):
                     language.pluralequation
                 )
             )
+
+
+class LanguagesViewTest(ViewTestCase):
+    def test_languages(self):
+        response = self.client.get(reverse('languages'))
+        self.assertContains(response, 'Czech')
+
+    def test_language(self):
+        response = self.client.get(reverse(
+            'show_language',
+            kwargs={'lang': 'cs'}
+        ))
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, 'Test/Test')
+
+    def test_language_redirect(self):
+        response = self.client.get(reverse(
+            'show_language',
+            kwargs={'lang': 'cs_CZ'}
+        ))
+        self.assertRedirects(
+            response,
+            reverse(
+                'show_language',
+                kwargs={'lang': 'cs'}
+            )
+        )
