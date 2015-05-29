@@ -116,10 +116,10 @@ class LanguageManager(models.Manager):
             code = code[:-1]
         return code
 
-    def auto_get_or_create(self, code):
+    def fuzzy_get(self, code, retcode=False):
         '''
         Gets matching language for code (the code does not have to be exactly
-        same, cs_CZ is same as cs-CZ) or creates new one.
+        same, cs_CZ is same as cs-CZ) or returns None
 
         It also handles Android special naming of regional locales like pt-rBR
         '''
@@ -170,8 +170,20 @@ class LanguageManager(models.Manager):
             if ret is not None:
                 return ret
 
+        if retcode:
+            return newcode
+        return None
+
+    def auto_get_or_create(self, code):
+        '''
+        Try to get language using fuzzy_get and create it if that fails.
+        '''
+        ret = self.fuzzy_get(code, True)
+        if isinstance(ret, Language):
+            return ret
+
         # Create new one
-        return self.auto_create(newcode)
+        return self.auto_create(ret)
 
     def auto_create(self, code):
         '''
