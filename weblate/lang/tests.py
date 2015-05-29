@@ -313,3 +313,10 @@ class LanguagesViewTest(ViewTestCase):
                 kwargs={'lang': 'cs'}
             )
         )
+
+    def test_language_nonexisting(self):
+        response = self.client.get(reverse(
+            'show_language',
+            kwargs={'lang': 'nonexisting'}
+        ))
+        self.assertEqual(response.status_code, 404)
