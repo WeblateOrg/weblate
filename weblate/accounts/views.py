@@ -312,7 +312,7 @@ def user_page(request, user):
     User details page.
     '''
     user = get_object_or_404(User, username=user)
-    profile = get_object_or_404(Profile, user=user)
+    profile = Profile.objects.get_or_create(user=user)[0]
 
     # Filter all user activity
     all_changes = Change.objects.last_changes(request.user).filter(
