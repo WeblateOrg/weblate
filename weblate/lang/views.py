@@ -43,9 +43,9 @@ def show_language(request, lang):
         obj = Language.objects.get(code=lang)
     except Language.DoesNotExist:
         obj = Language.objects.fuzzy_get(lang)
-        if obj is None:
-            raise Http404('No Language matches the given query.')
-        return redirect(obj)
+        if isinstance(obj, Language):
+            return redirect(obj)
+        raise Http404('No Language matches the given query.')
 
     last_changes = Change.objects.last_changes(request.user).filter(
         translation__language=obj

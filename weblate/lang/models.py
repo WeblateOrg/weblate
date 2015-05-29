@@ -116,7 +116,7 @@ class LanguageManager(models.Manager):
             code = code[:-1]
         return code
 
-    def fuzzy_get(self, code, retcode=False):
+    def fuzzy_get(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
         same, cs_CZ is same as cs-CZ) or returns None
@@ -170,15 +170,13 @@ class LanguageManager(models.Manager):
             if ret is not None:
                 return ret
 
-        if retcode:
-            return newcode
-        return None
+        return newcode
 
     def auto_get_or_create(self, code):
         '''
         Try to get language using fuzzy_get and create it if that fails.
         '''
-        ret = self.fuzzy_get(code, True)
+        ret = self.fuzzy_get(code)
         if isinstance(ret, Language):
             return ret
 
