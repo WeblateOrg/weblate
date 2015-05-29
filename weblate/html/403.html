@@ -7,18 +7,12 @@
 {% trans "You don't have privileges to display this page." %}
 </p>
 
-{% if projects %}
+{% if acl_projects %}
 <p>{% trans "However the following translation projects are available on this server:" %}</p>
 
 <ul>
 {% for p in acl_projects %}
-    <li><a href="{{ p.get_absolute_url }}">{{ p }}</a>
-        <ul>
-        {% for s in p.subproject_set.all %}
-            <li><a href="{{ s.get_absolute_url }}">{{ s.name }}</a></li>
-        {% endfor %}
-        </ul>
-    </li>
+    <li><a href="{{ p.get_absolute_url }}">{{ p }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}
