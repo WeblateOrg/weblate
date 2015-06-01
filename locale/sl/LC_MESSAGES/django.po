@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2015-04-30 22:21+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -313,24 +313,38 @@ msgstr "Spremeni geslo"
 msgid "Password reset"
 msgstr "Ponastavitev gesla"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr "Dovoljenje zavrnjeno"
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "Nimate pravic za prikaz te strani."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Kakor koli, na strežniku so na voljo naslednji prevajalski projekti:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "Strani ni mogoče najti"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "Strani, ki ste jo iskali, ni bilo mogoče najti."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Napaka strežnika"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Napaka strežnika"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -343,7 +357,7 @@ msgid "About"
 msgstr "O aplikaciji"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -622,7 +636,7 @@ msgstr "Prosimo, odpravite napake na obrazcu."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Jeziki"
 
@@ -3496,15 +3510,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tri"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Ednina"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Množina"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Množinska oblika %d"
@@ -3728,11 +3742,11 @@ msgstr "Neujemanje oznak XML"
 msgid "XML tags in translation do not match source"
 msgstr "Oznake XML v prevodu se ne ujemajo z izvirnikom"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 msgid "Unchanged translation"
 msgstr "Nespremenjen prevod"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
@@ -5287,24 +5301,16 @@ msgstr ""
 "<a href=\"%(url)s\">Prevajalski projekt za %(project)s</a> v Slovenščino "
 "trenutno vsebuje %(total)s nizov za prevajanje in je %(percent)s-%% končan."
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "Strani ni mogoče najti"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr "Dovoljenje zavrnjeno"
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr "Izbrani prevod že obstaja v tem projektu!"
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Prošnjo za nov prevod smo poslali vzdrževalcem projekta."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "Nisem uspel obdelati prošnje za nov prevod!"
 

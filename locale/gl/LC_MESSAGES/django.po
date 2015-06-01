@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2014-10-11 00:14+0200\n"
 "Last-Translator: Xosé Calvo <xosecalvo@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
@@ -317,25 +317,39 @@ msgstr "Cambiar o contrasinal"
 msgid "Password reset"
 msgstr "Restabelecer o contrasinal"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr ""
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "Non ten permisos para mostrar esta páxina."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
 "No entanto, hai os seguintes proxectos de tradución dispoñíbeis no servidor:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "Non se atopou a páxina"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "A páxina que está a buscar non se atopou."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Erro do servidor"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Erro do servidor"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -348,7 +362,7 @@ msgid "About"
 msgstr ""
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "Sobre o Weblate"
 
@@ -632,7 +646,7 @@ msgstr "Arranxe os erros do formulario."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -3781,15 +3795,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr ""
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Singular"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Plural"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -4025,13 +4039,13 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr "O formato da cadea non casa coa orixe"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 #, fuzzy
 #| msgid "Failed translation"
 msgid "Unchanged translation"
 msgstr "Fallou a tradución"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "As cadeas de orixe e as traducidas son as mesmas"
 
@@ -5734,26 +5748,18 @@ msgstr ""
 "tradución e <a href=\"%(url)s\">está a se traducir en %(languages)s idiomas</"
 "a>. A media desas traducións acada un %(percent)s%% do total."
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "Non se atopou a páxina"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr ""
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 #, fuzzy
 #| msgid "The request for machine translation has failed."
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Fallou a solicitude á máquina de tradución automática."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 #, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to process new translation request!"

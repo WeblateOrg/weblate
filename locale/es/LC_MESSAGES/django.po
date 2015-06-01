@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2015-05-27 16:35+0200\n"
 "Last-Translator: Laura Arjona Reina <larjona@larjona.net>\n"
-"Language-Team: Spanish "
-"<https://hosted.weblate.org/projects/weblate/master/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
+"es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -312,26 +312,40 @@ msgstr "Cambiar contraseña"
 msgid "Password reset"
 msgstr "Reinicializar contraseña"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr "Permiso denegado"
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "No posee suficientes permisos para acceder a esta página."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
 "Sin embargo, los siguientes proyectos de traducción se encuentran "
 "disponibles en este servidor:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "Página no encontrada"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "No se encontró la página que está buscando."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Error del servidor"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Error del servidor"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -344,7 +358,7 @@ msgid "About"
 msgstr "Acerca de"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "Acerca de Weblate"
 
@@ -509,8 +523,8 @@ msgid ""
 "subject=Registration problems\">contact us</a>."
 msgstr ""
 "Si no lo recibe en breve, revise su carpeta de correo no deseado o intente "
-"registrarse nuevamente. Si el problema persiste, <a href=\""
-"%(contact_url)s?subject=Registration problems\">contáctenos</a>."
+"registrarse nuevamente. Si el problema persiste, <a href=\"%(contact_url)s?"
+"subject=Registration problems\">contáctenos</a>."
 
 #: weblate/html/accounts/email.html:10 weblate/html/accounts/register.html:19
 #: weblate/html/accounts/reset.html:16
@@ -626,7 +640,7 @@ msgstr "Por favor, corrija los errores en el formulario."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Idiomas"
 
@@ -1096,8 +1110,8 @@ msgid ""
 "\">Firefox</a>."
 msgstr ""
 "Weblate no soporta Microsoft Internet Explorer 8 o anterior, por favor use "
-"un navegador más reciente como <a href=\"https://www.mozilla.org/firefox/\""
-">Firefox</a>."
+"un navegador más reciente como <a href=\"https://www.mozilla.org/firefox/"
+"\">Firefox</a>."
 
 #: weblate/html/check.html:6 weblate/html/check_project.html:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html:6
@@ -3510,15 +3524,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tres"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Singular"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Plural"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -3746,11 +3760,11 @@ msgid "XML tags in translation do not match source"
 msgstr ""
 "Las etiquetas XML en la traducción no coincide con aquellas en el original"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 msgid "Unchanged translation"
 msgstr "Traducción no modificada"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "La cadena original y la traducida son iguales"
 
@@ -5292,26 +5306,18 @@ msgstr ""
 "español actualmente contiene %(total)s cadenas para traducción y está "
 "%(percent)s%% completo."
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "Página no encontrada"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr "Permiso denegado"
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr "¡La traducción seleccionada ya existe en este proyecto!"
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 "Se envió una solicitud para una nueva traducción a los administradores del "
 "proyecto."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "¡No se pudo procesar el pedido para una nueva traducción!"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2014-04-17 11:26+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -328,25 +328,39 @@ msgstr "Ubah sandilewat"
 msgid "Password reset"
 msgstr "Tata ulang sandilewat"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr "Izin ditolak"
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "Anda tidak memiliki kewenangan untuk menampilkan halaman ini."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
 "Berikut ada beberapa proyek-proyek terjemahan yang tersedia pada server ini:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "Halaman tidak ditemukan"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "Halaman yang Anda cari tidak ditemukan."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Server Galat"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Server Galat"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -361,7 +375,7 @@ msgid "About"
 msgstr "tentang"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "Tentang Weblate"
 
@@ -663,7 +677,7 @@ msgstr "Harap perbaiki kesalahan dalam formulir."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Bahasa"
 
@@ -3725,15 +3739,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tiga"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Tunggal"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Jamak"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Bentuk jamak %d"
@@ -3960,13 +3974,13 @@ msgstr "Tag XML tidak cocok"
 msgid "XML tags in translation do not match source"
 msgstr "Tag XML didalam penerjemahan tidak cocok dengan sumber"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "Mesin penerjemah"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "Sumber dan string yang diterjemahkan sama persis"
 
@@ -5603,25 +5617,17 @@ msgstr ""
 "Inggris saat ini telah berisi %(total)s string untuk diterjemahankan dan ini "
 "adalah %(percent)s%% lengkap."
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "Halaman tidak ditemukan"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr "Izin ditolak"
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr "Penerjemahan yang dipilih sudah ada dalam proyek ini!"
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 "Permintaan untuk penerjemahan baru telah dikirim ke pengelolaan proyek."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "Gagal untuk memproses permintaan penerjemahan baru!"
 

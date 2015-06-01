@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2014-10-10 17:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Simplified Chinese <https://hosted.weblate.org/projects/"
@@ -324,26 +324,40 @@ msgstr "修改密码"
 msgid "Password reset"
 msgstr "重设密码"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr ""
+
+#: weblate/html/403.html:11
 #, fuzzy
 #| msgid "You don't have privileges to save translations!"
 msgid "You don't have privileges to display this page."
 msgstr "您没有保存译文的权限！"
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "此服务器上还有以下翻译项目："
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "页面未找到"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "没有找到您要访问的页面。"
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "服务器错误"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "服务器错误"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -357,7 +371,7 @@ msgid "About"
 msgstr "关于"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "关于 Weblate"
 
@@ -654,7 +668,7 @@ msgstr "请更正表单中的错误。"
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "语言"
 
@@ -3672,15 +3686,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "三个"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "单数形式"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "复数形式"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "复数形式 %d"
@@ -3902,13 +3916,13 @@ msgstr "XML 标签不一致"
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "机器翻译"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "源条目和已翻译条目相同"
 
@@ -5484,24 +5498,16 @@ msgstr ""
 "<a href=\"%(url)s\">翻译项目 %(project)s</a>到简体中文当前有 %(total)s 个条"
 "目，已完成 %(percent)s%%。"
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "页面未找到"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr ""
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr "您所选取的翻译已在本项目中存在！"
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增翻译的请求已发送给项目维护者。"
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "处理新翻译请求失败！"
 

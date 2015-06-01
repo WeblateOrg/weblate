@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2015-05-26 21:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
@@ -310,24 +310,38 @@ msgstr "Změna hesla"
 msgid "Password reset"
 msgstr "Obnovení hesla"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr "Přístup zamítnut"
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "Pro zobrazení této stránky nemáte oprávnění."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Na tomto serveru se nicméně překládají následující projekty:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "Stránka nenalezena"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "Stránka nebyla nalezena."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Chyba serveru"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Chyba serveru"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -340,7 +354,7 @@ msgid "About"
 msgstr "Informace"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -614,7 +628,7 @@ msgstr "Prosím opravte chyby ve formuláři."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -3483,15 +3497,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tři"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Jednotné číslo"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Množné číslo"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Množný tvar %d"
@@ -3709,11 +3723,11 @@ msgstr "Neodpovídající XML"
 msgid "XML tags in translation do not match source"
 msgstr "XML značky v překladu neodpovídají zdroji"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 msgid "Unchanged translation"
 msgstr "Nezměněný překlad"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "Přeložený řetězec je stejný jako zdroj"
 
@@ -5244,24 +5258,16 @@ msgstr ""
 "<a href=\"%(url)s\">Překlad projektu %(project)s</a> do češtiny v současné "
 "době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "Stránka nenalezena"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr "Přístup zamítnut"
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr "Vybraný překlad již v projektu existuje!"
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Správcům projektu byl odeslán požadavek na přidání překladu."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "Nepodařilo se zpracovat požadavek o nový překlad!"
 

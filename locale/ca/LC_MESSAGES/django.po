@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2015-02-14 07:43+0200\n"
 "Last-Translator: josep constanti <jconstanti@yahoo.es>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -316,26 +316,40 @@ msgstr "Canvia la contrasenya"
 msgid "Password reset"
 msgstr "Reinicialització de la contrasenya"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr ""
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "No teniu els privilegis per accedir a aquesta pàgina."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
 "Tot i això, les següent projectes de traduccció es troben disponibles en "
 "aquest servidor:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr ""
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "La pàgina que esteu cercant no existeix."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Error del servidor"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Error del servidor"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -348,7 +362,7 @@ msgid "About"
 msgstr "Quant a"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "Quant al Weblate"
 
@@ -634,7 +648,7 @@ msgstr "Esmeneu els errors al formulari, si us plau."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Llengües"
 
@@ -3490,15 +3504,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tres"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Singular"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Plural"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -3716,11 +3730,11 @@ msgstr ""
 msgid "XML tags in translation do not match source"
 msgstr ""
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 msgid "Unchanged translation"
 msgstr "Traducció no modificada"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr ""
 
@@ -5187,25 +5201,17 @@ msgid ""
 "complete."
 msgstr ""
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr ""
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr ""
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 "S'ha enviat una petició de nova traducció als responsables del projecte."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "Error en processar una petició de nova traducció!"
 

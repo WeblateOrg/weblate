@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-05-27 09:38+0200\n"
+"POT-Creation-Date: 2015-06-01 10:45+0200\n"
 "PO-Revision-Date: 2015-05-27 12:00+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish "
-"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -312,24 +312,38 @@ msgstr "Parolayı değiştir"
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
-#: weblate/html/403.html:7
+#: weblate/html/403.html:5 weblate/trans/views/basic.py:366
+msgid "Permission Denied"
+msgstr "İzin Verilmedi"
+
+#: weblate/html/403.html:11
 msgid "You don't have privileges to display this page."
 msgstr "Bu sayfayı görüntülemek için yetkileriniz yok."
 
-#: weblate/html/403.html:11 weblate/html/404.html:11
+#: weblate/html/403.html:15 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Ancak aşağıdaki çeviri projeleri bu sunucuda mevcuttur:"
 
-#: weblate/html/404.html:7
+#: weblate/html/404.html:5 weblate/trans/views/basic.py:351
+msgid "Page Not Found"
+msgstr "Sayfa Bulunamadı"
+
+#: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
 msgstr "Aradığınız sayfa bulunamadı."
 
-#: weblate/html/500.html:5
+#: weblate/html/500.html:5 weblate/trans/views/basic.py:382
+#, fuzzy
+#| msgid "Server Error"
+msgid "Internal Server Error"
+msgstr "Sunucu Hatası"
+
+#: weblate/html/500.html:9
 msgid "Server Error"
 msgstr "Sunucu Hatası"
 
-#: weblate/html/500.html:8
+#: weblate/html/500.html:12
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -342,7 +356,7 @@ msgid "About"
 msgstr "Hakkında"
 
 #: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:403
+#: weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "Weblate hakkında"
 
@@ -624,7 +638,7 @@ msgstr "Lütfen formdaki hataları düzeltin."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:35
+#: weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Diller"
 
@@ -3506,15 +3520,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Üç"
 
-#: weblate/lang/models.py:399
+#: weblate/lang/models.py:409
 msgid "Singular"
 msgstr "Tekil"
 
-#: weblate/lang/models.py:401
+#: weblate/lang/models.py:411
 msgid "Plural"
 msgstr "Çoğul"
 
-#: weblate/lang/models.py:402
+#: weblate/lang/models.py:412
 #, python-format
 msgid "Plural form %d"
 msgstr "Çoğul biçim %d"
@@ -3736,11 +3750,11 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: weblate/trans/checks/same.py:1055
+#: weblate/trans/checks/same.py:1070
 msgid "Unchanged translation"
 msgstr "Değiştirilmemiş çeviri"
 
-#: weblate/trans/checks/same.py:1056
+#: weblate/trans/checks/same.py:1071
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
@@ -5262,24 +5276,16 @@ msgstr ""
 "Türkçe dilinde <a href=\"%(url)s\">%(project)s çeviri projesi</a>, çeviri "
 "için şu anda %(total)s satır içeriyor ve %%%(percent)s tamamlandı."
 
-#: weblate/trans/views/basic.py:351
-msgid "Page Not Found"
-msgstr "Sayfa Bulunamadı"
-
-#: weblate/trans/views/basic.py:366
-msgid "Permission Denied"
-msgstr "İzin Verilmedi"
-
-#: weblate/trans/views/basic.py:462
+#: weblate/trans/views/basic.py:466
 msgid "Chosen translation already exists in this project!"
 msgstr "Seçilen çeviri bu projede zaten var!"
 
-#: weblate/trans/views/basic.py:469
+#: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni bir çeviri için istek projenin geliştiricilerine gönderildi."
 
-#: weblate/trans/views/basic.py:478
+#: weblate/trans/views/basic.py:482
 msgid "Failed to process new translation request!"
 msgstr "Yeni çeviri isteğini işleme başarısız!"
 
