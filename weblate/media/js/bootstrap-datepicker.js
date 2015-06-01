@@ -1558,10 +1558,10 @@
 	var dates = $.fn.datepicker.dates = {
 		en: {
 			days: [gettext("Sunday"), gettext("Monday"), gettext("Tuesday"), gettext("Wednesday"), gettext("Thursday"), gettext("Friday"), gettext("Saturday"), gettext("Sunday")],
-			daysShort: [gettext("Sun"), gettext("Mon"), gettext("Tue"), gettext("Wed"), gettext("Thu"), gettext("Fri"), gettext("Sat"), gettext("Sun")],
-			daysMin: [gettext("Su"), gettext("Mo"), gettext("Tu"), gettext("We"), gettext("Th"), gettext("Fr"), gettext("Sa"), gettext("Su")],
+			daysShort: [pgettext("Short (eg. three letter) name of day in week", "Sun"), pgettext("Short (eg. three letter) name of day in week", "Mon"), pgettext("Short (eg. three letter) name of day in week", "Tue"), pgettext("Short (eg. three letter) name of day in week", "Wed"), pgettext("Short (eg. three letter) name of day in week", "Thu"), pgettext("Short (eg. three letter) name of day in week", "Fri"), pgettext("Short (eg. three letter) name of day in week", "Sat"), pgettext("Short (eg. three letter) name of day in week", "Sun")],
+			daysMin: [pgettext("Minimal (eg. two letter) name of day in week", "Su"), pgettext("Minimal (eg. two letter) name of day in week", "Mo"), pgettext("Minimal (eg. two letter) name of day in week", "Tu"), pgettext("Minimal (eg. two letter) name of day in week", "We"), pgettext("Minimal (eg. two letter) name of day in week", "Th"), pgettext("Minimal (eg. two letter) name of day in week", "Fr"), pgettext("Minimal (eg. two letter) name of day in week", "Sa"), pgettext("Minimal (eg. two letter) name of day in week", "Su")],
 			months: [gettext("January"), gettext("February"), gettext("March"), gettext("April"), gettext("May"), gettext("June"), gettext("July"), gettext("August"), gettext("September"), gettext("October"), gettext("November"), gettext("December")],
-			monthsShort: [gettext("Jan"), gettext("Feb"), gettext("Mar"), gettext("Apr"), gettext("May"), gettext("Jun"), gettext("Jul"), gettext("Aug"), gettext("Sep"), gettext("Oct"), gettext("Nov"), gettext("Dec")],
+			monthsShort: [pgettext("Short name of month", "Jan"), pgettext("Short name of month", "Feb"), pgettext("Short name of month", "Mar"), pgettext("Short name of month", "Apr"), pgettext("Short name of month", "May"), pgettext("Short name of month", "Jun"), pgettext("Short name of month", "Jul"), pgettext("Short name of month", "Aug"), pgettext("Short name of month", "Sep"), pgettext("Short name of month", "Oct"), pgettext("Short name of month", "Nov"), pgettext("Short name of month", "Dec")],
 			today: gettext("Today"),
 			clear: gettext("Clear"),
 			weekStart: django.formats.FIRST_DAY_OF_WEEK
