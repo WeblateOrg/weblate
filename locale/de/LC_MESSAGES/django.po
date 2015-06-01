@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-01 10:45+0200\n"
+"POT-Creation-Date: 2015-06-01 11:25+0200\n"
 "PO-Revision-Date: 2015-05-18 09:24+0200\n"
 "Last-Translator: Denny Sandner <dennysandner@googlemail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -685,7 +685,7 @@ msgstr "Lizenzen"
 #: weblate/html/accounts/profile.html:134
 #: weblate/html/accounts/profile.html:149 weblate/html/edit_dictionary.html:23
 #: weblate/html/js/detail.html:57 weblate/html/js/detail.html.py:69
-#: weblate/html/translate.html:100 weblate/html/translate.html.py:316
+#: weblate/html/translate.html:109 weblate/html/translate.html.py:325
 msgid "Save"
 msgstr "Speichern"
 
@@ -1327,20 +1327,20 @@ msgstr "Glossar exportieren"
 #: weblate/html/dictionary.html:23 weblate/html/index.html:32
 #: weblate/html/language.html:14 weblate/html/last-changes.html:7
 #: weblate/html/project.html:22 weblate/html/subproject.html:23
-#: weblate/html/translate.html:145 weblate/html/translation.html:25
+#: weblate/html/translate.html:154 weblate/html/translation.html:25
 msgid "History"
 msgstr "Verlauf"
 
 #: weblate/html/dictionary.html:38 weblate/html/search.html:20
-#: weblate/html/source-review.html:22 weblate/html/translate.html:92
-#: weblate/html/translate.html.py:156 weblate/html/translate.html:276
-#: weblate/html/translate.html.py:359 weblate/trans/forms.py:589
+#: weblate/html/source-review.html:22 weblate/html/translate.html:101
+#: weblate/html/translate.html.py:165 weblate/html/translate.html:285
+#: weblate/html/translate.html.py:368 weblate/trans/forms.py:589
 msgid "Source"
 msgstr "Ursprung"
 
 #: weblate/html/dictionary.html:39 weblate/html/last-changes.html:18
-#: weblate/html/translate.html:156 weblate/html/translate.html.py:223
-#: weblate/html/translate.html:275 weblate/html/translate.html.py:360
+#: weblate/html/translate.html:165 weblate/html/translate.html.py:232
+#: weblate/html/translate.html:284 weblate/html/translate.html.py:369
 #: weblate/trans/forms.py:176 weblate/trans/forms.py:590
 msgid "Translation"
 msgstr "Übersetzung"
@@ -1351,7 +1351,7 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 #: weblate/html/dictionary.html:59 weblate/html/list-comments.html:23
-#: weblate/html/translate.html:205
+#: weblate/html/translate.html:214
 msgid "Delete"
 msgstr "Löschen"
 
@@ -2212,8 +2212,8 @@ msgstr ""
 
 #: weblate/html/index.html:31 weblate/html/search-form.html:6
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
-#: weblate/html/translate.html:144 weblate/html/translate.html.py:248
-#: weblate/html/translate.html:253 weblate/html/translation.html:24
+#: weblate/html/translate.html:153 weblate/html/translate.html.py:257
+#: weblate/html/translate.html:262 weblate/html/translation.html:24
 #: weblate/html/translation.html.py:252 weblate/html/translation.html:257
 msgid "Search"
 msgstr "Suchen"
@@ -2397,7 +2397,7 @@ msgid "Glossaries"
 msgstr "Wortverzeichnisse"
 
 #: weblate/html/language.html:22 weblate/html/project.html:36
-#: weblate/html/source-review.html:24 weblate/html/translate.html:423
+#: weblate/html/source-review.html:24 weblate/html/translate.html:432
 #: weblate/trans/views/checks.py:79
 msgid "Failing checks"
 msgstr "Fehler-Prüfungen"
@@ -2698,6 +2698,7 @@ msgid "there has been a new comment on %(subproject)s at %(site_title)s."
 msgstr "Es gibt einen neuen Kommentar über %(subproject)s bei %(site_title)s."
 
 #: weblate/html/mail/new_comment.html:28 weblate/html/mail/new_comment.txt:9
+#: weblate/html/translate.html:97
 msgid "Comment:"
 msgstr "Kommentar:"
 
@@ -2860,7 +2861,7 @@ msgstr "Status-Widgets"
 msgid "Components"
 msgstr "Komponente"
 
-#: weblate/html/project.html:75 weblate/html/translate.html:223
+#: weblate/html/project.html:75 weblate/html/translate.html:232
 msgid "Component"
 msgstr "Komponente"
 
@@ -2878,7 +2879,7 @@ msgid "Manage all glossaries"
 msgstr "Alle Glossare verwalten"
 
 #: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:260 weblate/html/translation.html:218
+#: weblate/html/translate.html:269 weblate/html/translation.html:218
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Wird geladen…"
@@ -3063,7 +3064,13 @@ msgstr "Änderung"
 msgid "Edit source string"
 msgstr "bearbeite Quell-Zeichenkette"
 
-#: weblate/html/translate.html:104
+#: weblate/html/translate.html:94
+#, fuzzy
+#| msgid "Context"
+msgid "Context:"
+msgstr "Kontext"
+
+#: weblate/html/translate.html:113
 #, python-format
 msgid ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Log in</a> for saving "
@@ -3072,23 +3079,23 @@ msgstr ""
 "<a href=\"%(login_url)s?next=%(translate_url)s\">Anmelden</a> zum Speichern "
 "von Übersetzungen."
 
-#: weblate/html/translate.html:109
+#: weblate/html/translate.html:118
 msgid "Suggest"
 msgstr "Vorschlagen"
 
-#: weblate/html/translate.html:111
+#: weblate/html/translate.html:120
 msgid "No privileges for adding suggestions!"
 msgstr "Sie haben nicht die Berechtigung, Vorschläge hinzu zufügen!"
 
-#: weblate/html/translate.html:116
+#: weblate/html/translate.html:125
 msgid "Commit message:"
 msgstr "Text speichern:"
 
-#: weblate/html/translate.html:119
+#: weblate/html/translate.html:128
 msgid "Additional text to include in the commit message."
 msgstr "Zusätzlicher Text für die Commit-Nachricht."
 
-#: weblate/html/translate.html:122
+#: weblate/html/translate.html:131
 msgid ""
 "You can leave this empty in most cases as Weblate generates basic commit "
 "messages automatically."
@@ -3096,94 +3103,94 @@ msgstr ""
 "Sie können dies leer lassen, da Weblate in den meisten Fällen eine einfache "
 "Commit-Meldung automatisch erzeugt."
 
-#: weblate/html/translate.html:131
+#: weblate/html/translate.html:140
 msgid "Messages placed around this one"
 msgstr "Nachrichten rund um diese Nachricht"
 
-#: weblate/html/translate.html:131 weblate/html/translate.html.py:152
+#: weblate/html/translate.html:140 weblate/html/translate.html.py:161
 msgid "Nearby messages"
 msgstr "Ähnliche Nachrichten"
 
-#: weblate/html/translate.html:133 weblate/html/translate.html.py:178
-#: weblate/html/translate.html:338
+#: weblate/html/translate.html:142 weblate/html/translate.html.py:187
+#: weblate/html/translate.html:347
 msgid "Suggestions"
 msgstr "Vorschläge"
 
-#: weblate/html/translate.html:136 weblate/html/translate.html.py:219
-#: weblate/html/translate.html:341
+#: weblate/html/translate.html:145 weblate/html/translate.html.py:228
+#: weblate/html/translate.html:350
 msgid "Other translations"
 msgstr "Andere Übersetzungen"
 
-#: weblate/html/translate.html:139 weblate/html/translate.html.py:296
-#: weblate/html/translate.html:345 weblate/html/unit-details.html:13
+#: weblate/html/translate.html:148 weblate/html/translate.html.py:305
+#: weblate/html/translate.html:354 weblate/html/unit-details.html:13
 msgid "Comments"
 msgstr "Kommentare"
 
-#: weblate/html/translate.html:142
+#: weblate/html/translate.html:151
 msgid "Machine translation suggestions"
 msgstr "Vorschläge aus automatischer Übersetzung"
 
-#: weblate/html/translate.html:142 weblate/html/translate.html.py:268
+#: weblate/html/translate.html:151 weblate/html/translate.html.py:277
 msgid "Machine translation"
 msgstr "Automatische Übersetzung"
 
-#: weblate/html/translate.html:145
+#: weblate/html/translate.html:154
 msgid "List of recent changes done in Weblate"
 msgstr "Liste der letzten Änderungen in Weblate"
 
-#: weblate/html/translate.html:156 weblate/html/translate.html.py:223
+#: weblate/html/translate.html:165 weblate/html/translate.html.py:232
 msgid "State"
 msgstr "Status"
 
-#: weblate/html/translate.html:184
+#: weblate/html/translate.html:193
 #, python-format
 msgid "%(user)s has suggested"
 msgstr "vorgeschlagen von %(user)s"
 
-#: weblate/html/translate.html:186
+#: weblate/html/translate.html:195
 msgid "Anonymous user has suggested"
 msgstr "vorgeschlagen von anonymem Nutzer"
 
-#: weblate/html/translate.html:192
+#: weblate/html/translate.html:201
 #, python-format
 msgid "%(count)s vote"
 msgid_plural "%(count)s votes"
 msgstr[0] "%(count)s Stimme"
 msgstr[1] "%(count)s Stimmen"
 
-#: weblate/html/translate.html:197
+#: weblate/html/translate.html:206
 msgid "Vote for"
 msgstr "Mit Ja stimmen"
 
-#: weblate/html/translate.html:198
+#: weblate/html/translate.html:207
 msgid "Vote against"
 msgstr "Mit Nein stimmen"
 
-#: weblate/html/translate.html:201
+#: weblate/html/translate.html:210
 msgid "Accept"
 msgstr "Akzeptieren"
 
-#: weblate/html/translate.html:202
+#: weblate/html/translate.html:211
 msgid "Accept and edit"
 msgstr "Akzeptieren und bearbeiten"
 
-#: weblate/html/translate.html:233
+#: weblate/html/translate.html:242
 msgid "Use this translation for all components"
 msgstr "Diese Übersetzung für alle Komponenten verwenden"
 
-#: weblate/html/translate.html:233
+#: weblate/html/translate.html:242
 msgid "Use this translation"
 msgstr "Diese Übersetzung verwenden"
 
-#: weblate/html/translate.html:277
+#: weblate/html/translate.html:286
 msgid "Service"
 msgstr "Dienst"
 
-#: weblate/html/translate.html:310 weblate/trans/forms.py:663
+#: weblate/html/translate.html:319 weblate/trans/forms.py:663
 msgid "New comment"
 msgstr "Neuer Kommentar"
 
-#: weblate/html/translate.html:312
+#: weblate/html/translate.html:321
 msgid ""
 "You can share comments about this string with other translators and "
 "developers."
@@ -3191,43 +3198,43 @@ msgstr ""
 "Sie können Kommentare über diese Zeichenkette mit anderen Übersetzern und "
 "Entwicklern austauschen."
 
-#: weblate/html/translate.html:335
+#: weblate/html/translate.html:344
 msgid "Things to check"
 msgstr "Folgendes prüfen"
 
-#: weblate/html/translate.html:353
+#: weblate/html/translate.html:362
 msgid "Glossary"
 msgstr "Glossar"
 
-#: weblate/html/translate.html:371
+#: weblate/html/translate.html:380
 msgid "Copy word to translation"
 msgstr "Wort in Übersetzung kopieren"
 
-#: weblate/html/translate.html:371 weblate/trans/forms.py:95
+#: weblate/html/translate.html:380 weblate/trans/forms.py:95
 msgid "Copy"
 msgstr "Kopieren"
 
-#: weblate/html/translate.html:379
+#: weblate/html/translate.html:388
 msgid "No related strings were found in the glossary."
 msgstr "Es wurden keine ähnlichen Zeichenketten im Glossar gefunden."
 
-#: weblate/html/translate.html:383
+#: weblate/html/translate.html:392
 msgid "Manage glossary"
 msgstr "Glossar verwalten"
 
-#: weblate/html/translate.html:388
+#: weblate/html/translate.html:397
 msgid "Source information"
 msgstr "Quell-Informationen"
 
-#: weblate/html/translate.html:393
+#: weblate/html/translate.html:402
 msgid "Context"
 msgstr "Kontext"
 
-#: weblate/html/translate.html:401
+#: weblate/html/translate.html:410
 msgid "Flags"
 msgstr "Markierungen"
 
-#: weblate/html/translate.html:412
+#: weblate/html/translate.html:421
 msgid "String priority"
 msgstr "Priorität der Zeichenkette"
 
