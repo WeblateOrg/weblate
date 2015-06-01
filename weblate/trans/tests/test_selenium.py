@@ -265,10 +265,6 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'Opera': {
-        'browserName': 'opera',
-        'platform': 'WIN7',
-    },
     'MSIE11': {
         'browserName': "internet explorer",
         'platform': "Windows 8.1",
