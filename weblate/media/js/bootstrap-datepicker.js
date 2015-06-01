@@ -1563,7 +1563,8 @@
 			months: [gettext("January"), gettext("February"), gettext("March"), gettext("April"), gettext("May"), gettext("June"), gettext("July"), gettext("August"), gettext("September"), gettext("October"), gettext("November"), gettext("December")],
 			monthsShort: [gettext("Jan"), gettext("Feb"), gettext("Mar"), gettext("Apr"), gettext("May"), gettext("Jun"), gettext("Jul"), gettext("Aug"), gettext("Sep"), gettext("Oct"), gettext("Nov"), gettext("Dec")],
 			today: gettext("Today"),
-			clear: gettext("Clear")
+			clear: gettext("Clear"),
+			weekStart: django.formats.FIRST_DAY_OF_WEEK
 		}
 	};
 
