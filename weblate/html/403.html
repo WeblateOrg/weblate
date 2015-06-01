@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block breadcrumbs %}
+<li><a href="{% url 'home' %}">{% trans "Permission Denied" %}</a></li>
+{% endblock %}
+
 {% block content %}
 
 <p>

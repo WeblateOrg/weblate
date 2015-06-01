@@ -377,7 +377,11 @@ def server_error(request):
         return render(
             request,
             '500.html',
-            status=500
+            {
+                'request_path': request.path,
+                'title': _('Internal Server Error'),
+            },
+            status=500,
         )
     except Exception:
         return django.views.defaults.server_error(request)
