@@ -376,6 +376,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             ('can_see_git_repository', "Can see VCS repository URL"),
         )
         app_label = 'trans'
+        verbose_name = ugettext_lazy('Component')
+        verbose_name_plural = ugettext_lazy('Components')
 
     def __init__(self, *args, **kwargs):
         '''

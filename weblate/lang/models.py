@@ -367,6 +367,8 @@ class Language(models.Model, PercentMixin):
 
     class Meta(object):
         ordering = ['name']
+        verbose_name = ugettext_lazy('Language')
+        verbose_name_plural = ugettext_lazy('Languages')
 
     def __init__(self, *args, **kwargs):
         '''
