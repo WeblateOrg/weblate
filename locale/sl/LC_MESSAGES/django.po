@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-02 15:43+0200\n"
+"POT-Creation-Date: 2015-06-02 16:08+0200\n"
 "PO-Revision-Date: 2015-04-30 22:21+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -352,12 +352,8 @@ msgstr ""
 "Strežnik je med obdelavo vaše zahteve naletel na resne težave. Pravkar smo "
 "odposlali naše izurjene opice, da odpravijo napako."
 
-#: weblate/html/about.html:5
-msgid "About"
-msgstr "O aplikaciji"
-
-#: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:407
+#: weblate/html/about.html:5 weblate/html/about.html.py:14
+#: weblate/html/footer.html:6 weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -390,31 +386,31 @@ msgstr ""
 "Weblate je prosto programje, ki ga ustvarjajo prostovoljci, a jih lahko "
 "kljub temu finančno podprete."
 
-#: weblate/html/about.html:25
+#: weblate/html/about.html:26
 msgid "Fund Weblate!"
 msgstr "Financirajte Weblate!"
 
-#: weblate/html/about.html:26 weblate/html/footer.html:9
+#: weblate/html/about.html:28 weblate/html/footer.html:9
 msgid "Donate to Weblate!"
 msgstr "Prispevajte k Weblate!"
 
-#: weblate/html/about.html:35
+#: weblate/html/about.html:37
 msgid "Hosting translations"
 msgstr "Gostovanje prevodov"
 
-#: weblate/html/about.html:38
+#: weblate/html/about.html:40
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
 "Ta postavitev Weblate gosti prevode različnih odprtokodnih programskih "
 "projektov."
 
-#: weblate/html/about.html:39
+#: weblate/html/about.html:41
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
 msgstr "Gostujemo lahko tudi vaš projekt; če se zanimate za to, nam pišite."
 
-#: weblate/html/about.html:42 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -422,58 +418,58 @@ msgstr ""
 "Na voljo je tudi komercialno gostovanje, naše cene se pričnejo pri 19 EUR na "
 "projekt in mesec; prosimo, stopite v stik z nami za več podrobnosti."
 
-#: weblate/html/about.html:46 weblate/html/accounts/hosting.html:20
+#: weblate/html/about.html:48 weblate/html/accounts/hosting.html:20
 #: weblate/html/index.html:99
 msgid "Ask for project hosting"
 msgstr "Zaprosite za gostovanje projekta"
 
-#: weblate/html/about.html:47 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
 msgid "Contact us for commercial hosting"
 msgstr "Za poslovno gostovanje stopite v stik z nami"
 
-#: weblate/html/about.html:58
+#: weblate/html/about.html:60
 msgid "Versions"
 msgstr "Različice"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:63
 msgid "This site is built using following projects:"
 msgstr "Stran je zgrajena z uporabo naslednjih projektov:"
 
-#: weblate/html/about.html:80 weblate/html/data.html:47
+#: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
 #: weblate/html/translation.html.py:291
 msgid "Statistics"
 msgstr "Statistika"
 
-#: weblate/html/about.html:85
+#: weblate/html/about.html:87
 msgid "Strings to translate"
 msgstr "Nizi za prevajanje"
 
-#: weblate/html/about.html:89
+#: weblate/html/about.html:91
 msgid "Words to translate"
 msgstr "Besede za prevajanje"
 
-#: weblate/html/about.html:93
+#: weblate/html/about.html:95
 msgid "Used languages"
 msgstr "Uporabljeni jeziki"
 
-#: weblate/html/about.html:97
+#: weblate/html/about.html:99
 msgid "Registered users"
 msgstr "Registrirani uporabniki"
 
-#: weblate/html/about.html:101 weblate/html/user-activity.html:3
+#: weblate/html/about.html:103 weblate/html/user-activity.html:3
 msgid "Suggestions made"
 msgstr "Oddani predlogi"
 
-#: weblate/html/about.html:105 weblate/html/user-activity.html:7
+#: weblate/html/about.html:107 weblate/html/user-activity.html:7
 msgid "Translations made"
 msgstr "Oddani prevodi"
 
-#: weblate/html/about.html:109
+#: weblate/html/about.html:111
 msgid "Failing checks found"
 msgstr "Nekatera preverjanja niso uspela"
 
-#: weblate/html/about.html:113 weblate/html/language.html:23
+#: weblate/html/about.html:115 weblate/html/language.html:23
 #: weblate/html/project.html:37
 msgid "Ignored checks"
 msgstr "Prezrta preverjanja"
@@ -3473,6 +3469,12 @@ msgstr "zen"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Trenutni filter: %(filter_name)s (%(filter_count)s)"
 
+#: weblate/lang/apps.py:28
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Weblate languages"
+msgstr "Prevedeni jeziki"
+
 #: weblate/lang/data.py:582 weblate/lang/data.py:586 weblate/lang/data.py:592
 #: weblate/lang/data.py:600 weblate/lang/data.py:604 weblate/lang/data.py:609
 #: weblate/lang/data.py:615 weblate/lang/data.py:621 weblate/lang/data.py:626
@@ -3593,6 +3595,12 @@ msgstr "Predpomnjen nalagalnik predlog"
 #: weblate/trans/admin_views.py:171
 msgid "Admin static files"
 msgstr "Administratorske statične datoteke"
+
+#: weblate/trans/apps.py:28
+#, fuzzy
+#| msgid "Other translations"
+msgid "Weblate translations"
+msgstr "Drugi prevodi"
 
 #: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:323
 msgid "Trailing ellipsis"
@@ -5634,6 +5642,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "prevedeno"
+
+#~ msgid "About"
+#~ msgstr "O aplikaciji"
 
 #~ msgid "Suggestions are not allowed on this translation!"
 #~ msgstr "Pri tem prevodu predlogi niso dovoljeni!"

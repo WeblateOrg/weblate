@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-02 15:43+0200\n"
+"POT-Creation-Date: 2015-06-02 16:08+0200\n"
 "PO-Revision-Date: 2015-05-25 20:46+0200\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -349,12 +349,8 @@ msgstr ""
 "Server mal vážne problémy so spracovaním vašej požiadavky. Práve sme vyslali "
 "cvičené opice, aby problém opravili."
 
-#: weblate/html/about.html:5
-msgid "About"
-msgstr "Informácie"
-
-#: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:407
+#: weblate/html/about.html:5 weblate/html/about.html.py:14
+#: weblate/html/footer.html:6 weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "O Weblate"
 
@@ -387,30 +383,30 @@ msgstr ""
 "Weblate je slobodný softvér vytvorený dobrovoľníkmi, ktorý stále môžete "
 "podporiť finančne."
 
-#: weblate/html/about.html:25
+#: weblate/html/about.html:26
 msgid "Fund Weblate!"
 msgstr "Financujte Weblate!"
 
-#: weblate/html/about.html:26 weblate/html/footer.html:9
+#: weblate/html/about.html:28 weblate/html/footer.html:9
 msgid "Donate to Weblate!"
 msgstr "Prispejte na Weblate!"
 
-#: weblate/html/about.html:35
+#: weblate/html/about.html:37
 msgid "Hosting translations"
 msgstr "Hostovanie prekladov"
 
-#: weblate/html/about.html:38
+#: weblate/html/about.html:40
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr "Táto inštalácia Weblate Vám umožní prekladať váš slobodný softvér."
 
-#: weblate/html/about.html:39
+#: weblate/html/about.html:41
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
 msgstr ""
 "Ak máte záujem, môžeme hostovať aj váš projekt. Kontaktujte nás prosím."
 
-#: weblate/html/about.html:42 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -418,58 +414,58 @@ msgstr ""
 "Môžeme hostovať aj komerčné preklady. Naša cena začína od 19 EUR na projekt "
 "a mesiac. Kontaktujte nás prosím pre viac informácií."
 
-#: weblate/html/about.html:46 weblate/html/accounts/hosting.html:20
+#: weblate/html/about.html:48 weblate/html/accounts/hosting.html:20
 #: weblate/html/index.html:99
 msgid "Ask for project hosting"
 msgstr "Požiadať o hostovanie projektu"
 
-#: weblate/html/about.html:47 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
 msgid "Contact us for commercial hosting"
 msgstr "Kontaktovať nás ohľadne komerčného hosťovania"
 
-#: weblate/html/about.html:58
+#: weblate/html/about.html:60
 msgid "Versions"
 msgstr "Verzie"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:63
 msgid "This site is built using following projects:"
 msgstr "Tieto stránky sú vybudované s použitím nasledujúcich projektov:"
 
-#: weblate/html/about.html:80 weblate/html/data.html:47
+#: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
 #: weblate/html/translation.html.py:291
 msgid "Statistics"
 msgstr "Štatistika"
 
-#: weblate/html/about.html:85
+#: weblate/html/about.html:87
 msgid "Strings to translate"
 msgstr "Reťazcov na preklad"
 
-#: weblate/html/about.html:89
+#: weblate/html/about.html:91
 msgid "Words to translate"
 msgstr "Slov na preklad"
 
-#: weblate/html/about.html:93
+#: weblate/html/about.html:95
 msgid "Used languages"
 msgstr "Používaných jazykov"
 
-#: weblate/html/about.html:97
+#: weblate/html/about.html:99
 msgid "Registered users"
 msgstr "Registrovaných užívateľov"
 
-#: weblate/html/about.html:101 weblate/html/user-activity.html:3
+#: weblate/html/about.html:103 weblate/html/user-activity.html:3
 msgid "Suggestions made"
 msgstr "Návrhov"
 
-#: weblate/html/about.html:105 weblate/html/user-activity.html:7
+#: weblate/html/about.html:107 weblate/html/user-activity.html:7
 msgid "Translations made"
 msgstr "Prekladov"
 
-#: weblate/html/about.html:109
+#: weblate/html/about.html:111
 msgid "Failing checks found"
 msgstr "Nevyhovujúcich kontrol"
 
-#: weblate/html/about.html:113 weblate/html/language.html:23
+#: weblate/html/about.html:115 weblate/html/language.html:23
 #: weblate/html/project.html:37
 msgid "Ignored checks"
 msgstr "Ignorovaných kontrol"
@@ -3459,6 +3455,12 @@ msgstr "zen"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Filter: %(filter_name)s (%(filter_count)s)"
 
+#: weblate/lang/apps.py:28
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Weblate languages"
+msgstr "Preložené jazyky"
+
 #: weblate/lang/data.py:582 weblate/lang/data.py:586 weblate/lang/data.py:592
 #: weblate/lang/data.py:600 weblate/lang/data.py:604 weblate/lang/data.py:609
 #: weblate/lang/data.py:615 weblate/lang/data.py:621 weblate/lang/data.py:626
@@ -3579,6 +3581,12 @@ msgstr "Načítanie templatu z vyrovnávacej pamäte"
 #: weblate/trans/admin_views.py:171
 msgid "Admin static files"
 msgstr "Statické súbory administrácie"
+
+#: weblate/trans/apps.py:28
+#, fuzzy
+#| msgid "Other translations"
+msgid "Weblate translations"
+msgstr "Iné preklady"
 
 #: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:323
 msgid "Trailing ellipsis"
@@ -5598,6 +5606,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "preložené"
+
+#~ msgid "About"
+#~ msgstr "Informácie"
 
 #~ msgid "Suggestions are not allowed on this translation!"
 #~ msgstr "V tomto preklade nie sú povolené návrhy!"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-02 15:43+0200\n"
+"POT-Creation-Date: 2015-06-02 16:08+0200\n"
 "PO-Revision-Date: 2015-04-09 19:33+0200\n"
 "Last-Translator: TWS <tablettws@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -357,12 +357,8 @@ msgstr ""
 "O servidor teve sérios problemas com o seu pedido. Já enviámos os nossos "
 "macaquinhos amestrados para resolver o problema."
 
-#: weblate/html/about.html:5
-msgid "About"
-msgstr "Sobre"
-
-#: weblate/html/about.html:14 weblate/html/footer.html:6
-#: weblate/trans/views/basic.py:407
+#: weblate/html/about.html:5 weblate/html/about.html.py:14
+#: weblate/html/footer.html:6 weblate/trans/views/basic.py:407
 msgid "About Weblate"
 msgstr "Acerca do Weblate"
 
@@ -395,35 +391,35 @@ msgstr ""
 "O Weblate é um software gratuito criado por voluntários, porém também o pode "
 "suportar financeiramente."
 
-#: weblate/html/about.html:25
+#: weblate/html/about.html:26
 #, fuzzy
 #| msgid "Flattr Weblate!"
 msgid "Fund Weblate!"
 msgstr "Flattr Weblate!"
 
-#: weblate/html/about.html:26 weblate/html/footer.html:9
+#: weblate/html/about.html:28 weblate/html/footer.html:9
 msgid "Donate to Weblate!"
 msgstr "Doar ao Weblate!"
 
-#: weblate/html/about.html:35
+#: weblate/html/about.html:37
 msgid "Hosting translations"
 msgstr "Traduções de alojamento"
 
-#: weblate/html/about.html:38
+#: weblate/html/about.html:40
 msgid ""
 "This Weblate instance hosts translations for various free software projects."
 msgstr ""
 "Esta instância do Weblate hospeda traduções de vários projetos de software "
 "livre."
 
-#: weblate/html/about.html:39
+#: weblate/html/about.html:41
 msgid ""
 "We can host your project as well, if you are interested, please contact us."
 msgstr ""
 "Também podemos hospedar seu projeto. Se estiver interessado, por favor, "
 "contacte-nos."
 
-#: weblate/html/about.html:42 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -431,58 +427,58 @@ msgstr ""
 "Disponibilizamos alojamento comercial, com planos a partir de 19 EUR por "
 "projeto e mês. Por favor contacte-nos para saber mais detalhes."
 
-#: weblate/html/about.html:46 weblate/html/accounts/hosting.html:20
+#: weblate/html/about.html:48 weblate/html/accounts/hosting.html:20
 #: weblate/html/index.html:99
 msgid "Ask for project hosting"
 msgstr "Pedir alojamento para um projeto"
 
-#: weblate/html/about.html:47 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
 msgid "Contact us for commercial hosting"
 msgstr "Contacte-nos para alojamento comercial"
 
-#: weblate/html/about.html:58
+#: weblate/html/about.html:60
 msgid "Versions"
 msgstr "Versões"
 
-#: weblate/html/about.html:61
+#: weblate/html/about.html:63
 msgid "This site is built using following projects:"
 msgstr "Este portal é construído utilizando os seguintes projetos:"
 
-#: weblate/html/about.html:80 weblate/html/data.html:47
+#: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
 #: weblate/html/translation.html.py:291
 msgid "Statistics"
 msgstr "Estatísticas"
 
-#: weblate/html/about.html:85
+#: weblate/html/about.html:87
 msgid "Strings to translate"
 msgstr "Cadeias para traduzir"
 
-#: weblate/html/about.html:89
+#: weblate/html/about.html:91
 msgid "Words to translate"
 msgstr "Palavras para traduzir"
 
-#: weblate/html/about.html:93
+#: weblate/html/about.html:95
 msgid "Used languages"
 msgstr "Idiomas utilizados"
 
-#: weblate/html/about.html:97
+#: weblate/html/about.html:99
 msgid "Registered users"
 msgstr "Utilizadores registados"
 
-#: weblate/html/about.html:101 weblate/html/user-activity.html:3
+#: weblate/html/about.html:103 weblate/html/user-activity.html:3
 msgid "Suggestions made"
 msgstr "Sugestões feitas"
 
-#: weblate/html/about.html:105 weblate/html/user-activity.html:7
+#: weblate/html/about.html:107 weblate/html/user-activity.html:7
 msgid "Translations made"
 msgstr "Traduções feitas"
 
-#: weblate/html/about.html:109
+#: weblate/html/about.html:111
 msgid "Failing checks found"
 msgstr "Foram detetados erros de verificação"
 
-#: weblate/html/about.html:113 weblate/html/language.html:23
+#: weblate/html/about.html:115 weblate/html/language.html:23
 #: weblate/html/project.html:37
 msgid "Ignored checks"
 msgstr "Verificações ignoradas"
@@ -3494,6 +3490,12 @@ msgstr "zen"
 msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgstr "Filtro atual: %(filter_name)s (%(filter_count)s)"
 
+#: weblate/lang/apps.py:28
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Weblate languages"
+msgstr "Línguas com tradução"
+
 #: weblate/lang/data.py:582 weblate/lang/data.py:586 weblate/lang/data.py:592
 #: weblate/lang/data.py:600 weblate/lang/data.py:604 weblate/lang/data.py:609
 #: weblate/lang/data.py:615 weblate/lang/data.py:621 weblate/lang/data.py:626
@@ -3614,6 +3616,12 @@ msgstr "Carregador de modelos em cache"
 #: weblate/trans/admin_views.py:171
 msgid "Admin static files"
 msgstr "Ficheiros estáticos do administrador"
+
+#: weblate/trans/apps.py:28
+#, fuzzy
+#| msgid "Other translations"
+msgid "Weblate translations"
+msgstr "Outras traduções"
 
 #: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:323
 msgid "Trailing ellipsis"
@@ -5656,6 +5664,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "traduzido"
+
+#~ msgid "About"
+#~ msgstr "Sobre"
 
 #~ msgid "Suggestions are not allowed on this translation!"
 #~ msgstr "Não são aceites sugestões nesta tradução!"
