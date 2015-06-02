@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-01 11:25+0200\n"
+"POT-Creation-Date: 2015-06-02 15:43+0200\n"
 "PO-Revision-Date: 2015-06-01 12:08+0200\n"
 "Last-Translator: Viktar Palstsiuk <vipals@gmail.com>\n"
-"Language-Team: Belarusian "
-"<https://hosted.weblate.org/projects/weblate/master/be/>\n"
+"Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
+"master/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.3-dev\n"
 
 #: weblate/accounts/avatar.py:163
@@ -637,7 +637,7 @@ msgstr "Калі ласка, папраўце памылкі ў фармуляр
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:36
+#: weblate/lang/models.py:371 weblate/lang/views.py:36
 msgid "Languages"
 msgstr "Мовы, на якія перакладаеце"
 
@@ -827,7 +827,7 @@ msgstr "Наступныя пераклады ясна пазначылі іх �
 #: weblate/html/accounts/profile.html:301 weblate/html/data.html:25
 #: weblate/html/data.html.py:56 weblate/html/data.html:82
 #: weblate/html/index.html:78 weblate/html/list-translations.html:7
-#: weblate/trans/models/subproject.py:99
+#: weblate/trans/models/project.py:152 weblate/trans/models/subproject.py:99
 msgid "Project"
 msgstr "Праект"
 
@@ -900,6 +900,7 @@ msgstr "Скінуць пароль"
 #: weblate/html/accounts/user.html:34 weblate/html/base.html:85
 #: weblate/html/index.html:27 weblate/html/index.html.py:29
 #: weblate/html/index.html:73 weblate/html/language.html:31
+#: weblate/trans/models/project.py:153
 msgid "Projects"
 msgstr "Праекты"
 
@@ -1275,7 +1276,7 @@ msgstr "гласарыі"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:7
-#: weblate/trans/forms.py:711
+#: weblate/lang/models.py:370 weblate/trans/forms.py:711
 msgid "Language"
 msgstr "Мова"
 
@@ -2826,11 +2827,12 @@ msgstr "Затвітайце гэты пераклад!"
 msgid "Status widgets"
 msgstr "Віджэты-стану"
 
-#: weblate/html/project.html:69
+#: weblate/html/project.html:69 weblate/trans/models/subproject.py:380
 msgid "Components"
 msgstr "Кампаненты"
 
 #: weblate/html/project.html:75 weblate/html/translate.html:232
+#: weblate/trans/models/subproject.py:379
 msgid "Component"
 msgstr "Кампанент"
 
@@ -3033,7 +3035,6 @@ msgid "Edit source string"
 msgstr "Правіць зыходны радок"
 
 #: weblate/html/translate.html:94
-#| msgid "Context"
 msgid "Context:"
 msgstr "Кантэкст:"
 
@@ -3518,15 +3519,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Тры"
 
-#: weblate/lang/models.py:409
+#: weblate/lang/models.py:411
 msgid "Singular"
 msgstr "Адзіночны лік"
 
-#: weblate/lang/models.py:411
+#: weblate/lang/models.py:413
 msgid "Plural"
 msgstr "Множны лік"
 
-#: weblate/lang/models.py:412
+#: weblate/lang/models.py:414
 #, python-format
 msgid "Plural form %d"
 msgstr "Форма множнага ліку %d"
@@ -4182,6 +4183,14 @@ msgstr "Залежна ад разьмяшчэння, можна дазволі�
 msgid "Free form note for your notes, not used within Weblate."
 msgstr "Вольнае месца для нататак, їх не ўжывацьме Вэблате."
 
+#: weblate/trans/models/advertisement.py:130
+msgid "Advertisement"
+msgstr ""
+
+#: weblate/trans/models/advertisement.py:131
+msgid "Advertisements"
+msgstr ""
+
 #: weblate/trans/models/changes.py:156
 msgid "Resource update"
 msgstr "Абнаўленне рэсурсаў"
@@ -4348,12 +4357,12 @@ msgstr "Ці дазваляць абнаўленне гэтага рэпазіт
 msgid "Owner of the project."
 msgstr "Уладальнік праекта."
 
-#: weblate/trans/models/project.py:180
+#: weblate/trans/models/project.py:182
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "Вы не маеце доступу да праекта %s."
 
-#: weblate/trans/models/project.py:210
+#: weblate/trans/models/project.py:212
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "Не ўдалося стварыць дырэкторыю праекта: %s"
@@ -4680,7 +4689,7 @@ msgstr "Імя аўтара рэвізіі"
 msgid "Committer email"
 msgstr "Эл. пошта аўтара рэвізіі"
 
-#: weblate/trans/models/subproject.py:604
+#: weblate/trans/models/subproject.py:606
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -4688,66 +4697,66 @@ msgstr ""
 "Не ўдалося верыфікаваць SSH-ключ хаста. Калі ласка, дадайце іх на старонцы "
 "SSH у інтэрфейсе адміністратара."
 
-#: weblate/trans/models/subproject.py:608
+#: weblate/trans/models/subproject.py:610
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Не ўдалося сцягнуць рэпазіторый: %s"
 
-#: weblate/trans/models/subproject.py:685
+#: weblate/trans/models/subproject.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Адсыланне выключана для %s."
 
-#: weblate/trans/models/subproject.py:728
+#: weblate/trans/models/subproject.py:730
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Не ўдалося адаслаць у аддаленую ветку рэпазіторыя %s."
 
-#: weblate/trans/models/subproject.py:764
+#: weblate/trans/models/subproject.py:766
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Не ўдалося скінуць на аддаленую ветку %s."
 
-#: weblate/trans/models/subproject.py:821
+#: weblate/trans/models/subproject.py:823
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Не ўдалося перабазіраваць змены ў аддаленую ветку %s."
 
-#: weblate/trans/models/subproject.py:826
+#: weblate/trans/models/subproject.py:828
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Не ўдалося зліць аддаленыя веткі з %s."
 
-#: weblate/trans/models/subproject.py:994
+#: weblate/trans/models/subproject.py:996
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Няправільная спасылка на праект Weblate, немагчыма стварыць спасылку на "
 "звязаны рэпазітар!"
 
-#: weblate/trans/models/subproject.py:1001
+#: weblate/trans/models/subproject.py:1003
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Некарэктная спасылка на праект Weblate, немагчыма стварыць спасылку на "
 "самога сябе!"
 
-#: weblate/trans/models/subproject.py:1008
+#: weblate/trans/models/subproject.py:1010
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Нядзейсная спасылка на праект Weblate. Ужывайце weblate://праект/кампанент."
 
-#: weblate/trans/models/subproject.py:1014
+#: weblate/trans/models/subproject.py:1016
 msgid "Push URL is not used when repository is linked!"
 msgstr "URL для адсылання не выкарыстоўваецца для звязанага рэпазіторыя!"
 
-#: weblate/trans/models/subproject.py:1018
+#: weblate/trans/models/subproject.py:1020
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL экспарту не выкарыстоўваецца для звязанага рэпазіторыя!"
 
-#: weblate/trans/models/subproject.py:1026
+#: weblate/trans/models/subproject.py:1028
 msgid "The mask did not match any files!"
 msgstr "Маска не вылучыла ніводнага файла!"
 
-#: weblate/trans/models/subproject.py:1034
+#: weblate/trans/models/subproject.py:1036
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -4755,7 +4764,7 @@ msgstr ""
 "Знойдзена некалькі файлаў для адной мовы. Калі ласка, адрэгулюйце маску і "
 "выкарыстоўвайце кампаненты для перакладу розных файлаў."
 
-#: weblate/trans/models/subproject.py:1040
+#: weblate/trans/models/subproject.py:1042
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -4765,21 +4774,21 @@ msgstr ""
 "Шмат перакладаў прызначаны аднаму моўнаму коду (%s). Патрэбна вымкнуць "
 "SIMPLIFY_LANGUAGES, каб ня зьмешваліся падобныя мовы."
 
-#: weblate/trans/models/subproject.py:1061
+#: weblate/trans/models/subproject.py:1063
 msgid "File does not seem to be valid!"
 msgstr "Выдае на тое, што файл невалідны!"
 
-#: weblate/trans/models/subproject.py:1069
+#: weblate/trans/models/subproject.py:1071
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Фармат %d трапных файлаў не распазнаны."
 
-#: weblate/trans/models/subproject.py:1078
+#: weblate/trans/models/subproject.py:1080
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Не ўдалося прачытаць %d трапных файлаў!"
 
-#: weblate/trans/models/subproject.py:1089
+#: weblate/trans/models/subproject.py:1091
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -4787,42 +4796,42 @@ msgstr ""
 "Выбраны фармат файлу не дазваляе дадаваць новыя пераклады, як выбрана ў "
 "настаўленнях праекта."
 
-#: weblate/trans/models/subproject.py:1095
+#: weblate/trans/models/subproject.py:1097
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Не ўдалося распазнаць фармат базавага файла для новага перакладу!"
 
-#: weblate/trans/models/subproject.py:1100
+#: weblate/trans/models/subproject.py:1102
 msgid "Base file for new translations is not used because of project settings."
 msgstr ""
 "Базавы файл для новых перакладаў не выкарыстоўваецца праз настаўленні "
 "праекту."
 
-#: weblate/trans/models/subproject.py:1111
+#: weblate/trans/models/subproject.py:1113
 msgid "You can not use base file with bilingual translation!"
 msgstr "Немагчыма ўжываць базавы файл для дзвюхмоўнага перакладу!"
 
-#: weblate/trans/models/subproject.py:1117
+#: weblate/trans/models/subproject.py:1119
 msgid "Using .pot file as base file is not supported!"
 msgstr "Выкарыстанне .pot файла ў якасці базавага не падтрымліваецца!"
 
-#: weblate/trans/models/subproject.py:1124
+#: weblate/trans/models/subproject.py:1126
 msgid "Template file not found!"
 msgstr "Файл шаблона не знойдзены!"
 
-#: weblate/trans/models/subproject.py:1131
+#: weblate/trans/models/subproject.py:1133
 msgid "Format of translation base file could not be recognized."
 msgstr "Не ўдалося распазнаць фармат базавага файла перакладу."
 
-#: weblate/trans/models/subproject.py:1137
+#: weblate/trans/models/subproject.py:1139
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Не ўдалося прачытаць базавы файл перакладу: %s"
 
-#: weblate/trans/models/subproject.py:1142
+#: weblate/trans/models/subproject.py:1144
 msgid "You can not use monolingual translation without base file!"
 msgstr "Немагчыма выкарыстоўваць аднамоўны пераклад без базавага файла!"
 
-#: weblate/trans/models/subproject.py:1152
+#: weblate/trans/models/subproject.py:1154
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -4830,25 +4839,25 @@ msgstr ""
 "Альбо задайце URL з інструкцыямі, альбо скарыстайце з іншага спосабу дадання "
 "новай мовы."
 
-#: weblate/trans/models/subproject.py:1158
+#: weblate/trans/models/subproject.py:1160
 msgid "License URL can not be used without license summary."
 msgstr "Не можна задаваць URL ліцэнзіі без сціслага яе апісання."
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1180
 msgid "Changing version control system is not supported!"
 msgstr "Змяненне сістэмы кіравання версіямі не падтрымліваецца!"
 
-#: weblate/trans/models/subproject.py:1184
+#: weblate/trans/models/subproject.py:1186
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Непадтрымліваемы фармат файла: {0}"
 
-#: weblate/trans/models/subproject.py:1191
+#: weblate/trans/models/subproject.py:1193
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Не ўдалося абнавіць рэпазіторый: %s"
 
-#: weblate/trans/models/subproject.py:1214
+#: weblate/trans/models/subproject.py:1216
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Аўтаматычнае прыняццё прапаноў працуе толькі з дазволеным галасаваннем!"
@@ -4885,6 +4894,18 @@ msgstr ""
 #: weblate/trans/models/unit.py:558
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Радок не знойдзены на серверы. Магчыма, ён пашкоджаны."
+
+#: weblate/trans/models/whiteboard.py:32
+#, fuzzy
+#| msgid "Additional message"
+msgid "Whiteboard message"
+msgstr "Дадатковае паведамленне"
+
+#: weblate/trans/models/whiteboard.py:33
+#, fuzzy
+#| msgid "Nearby messages"
+msgid "Whiteboard messages"
+msgstr "Вакольныя радкі"
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"

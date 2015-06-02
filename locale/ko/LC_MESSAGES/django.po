@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-01 11:25+0200\n"
+"POT-Creation-Date: 2015-06-02 15:43+0200\n"
 "PO-Revision-Date: 2015-02-22 17:11+0200\n"
 "Last-Translator: Koo Young Min <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -631,7 +631,7 @@ msgstr "양식의 오류를 수정하세요."
 
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
-#: weblate/lang/views.py:36
+#: weblate/lang/models.py:371 weblate/lang/views.py:36
 msgid "Languages"
 msgstr "언어"
 
@@ -817,7 +817,7 @@ msgstr "다음 번역은 명시적으로 라이센스와 저작권 조건을 지
 #: weblate/html/accounts/profile.html:301 weblate/html/data.html:25
 #: weblate/html/data.html.py:56 weblate/html/data.html:82
 #: weblate/html/index.html:78 weblate/html/list-translations.html:7
-#: weblate/trans/models/subproject.py:99
+#: weblate/trans/models/project.py:152 weblate/trans/models/subproject.py:99
 msgid "Project"
 msgstr "프로젝트"
 
@@ -888,6 +888,7 @@ msgstr "내 암호 재설정"
 #: weblate/html/accounts/user.html:34 weblate/html/base.html:85
 #: weblate/html/index.html:27 weblate/html/index.html.py:29
 #: weblate/html/index.html:73 weblate/html/language.html:31
+#: weblate/trans/models/project.py:153
 msgid "Projects"
 msgstr "프로젝트"
 
@@ -1269,7 +1270,7 @@ msgstr "용어집"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:7
-#: weblate/trans/forms.py:711
+#: weblate/lang/models.py:370 weblate/trans/forms.py:711
 msgid "Language"
 msgstr "언어"
 
@@ -2807,11 +2808,12 @@ msgstr "이 번역을 트윗하기!"
 msgid "Status widgets"
 msgstr "상태 위젯"
 
-#: weblate/html/project.html:69
+#: weblate/html/project.html:69 weblate/trans/models/subproject.py:380
 msgid "Components"
 msgstr "컴포넌트"
 
 #: weblate/html/project.html:75 weblate/html/translate.html:232
+#: weblate/trans/models/subproject.py:379
 msgid "Component"
 msgstr "컴포넌트"
 
@@ -3498,15 +3500,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "세 개"
 
-#: weblate/lang/models.py:409
+#: weblate/lang/models.py:411
 msgid "Singular"
 msgstr "단수형"
 
-#: weblate/lang/models.py:411
+#: weblate/lang/models.py:413
 msgid "Plural"
 msgstr "복수형"
 
-#: weblate/lang/models.py:412
+#: weblate/lang/models.py:414
 #, python-format
 msgid "Plural form %d"
 msgstr "복수형의 %d"
@@ -4159,6 +4161,14 @@ msgstr "배치에 따라 HTML은 허용될 수 있습니다."
 msgid "Free form note for your notes, not used within Weblate."
 msgstr "자유형식 메모는 Weblate에서 사용되지 않습니다."
 
+#: weblate/trans/models/advertisement.py:130
+msgid "Advertisement"
+msgstr ""
+
+#: weblate/trans/models/advertisement.py:131
+msgid "Advertisements"
+msgstr ""
+
 #: weblate/trans/models/changes.py:156
 msgid "Resource update"
 msgstr "자원 업데이트"
@@ -4341,12 +4351,12 @@ msgstr "이 저장소가 원격 훅에 의해 갱신되는지를 나타냅니다
 msgid "Owner of the project."
 msgstr "번역된 프로젝트의 주요 웹사이트입니다."
 
-#: weblate/trans/models/project.py:180
+#: weblate/trans/models/project.py:182
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "프로젝트 %s를 접근할 수 없습니다."
 
-#: weblate/trans/models/project.py:210
+#: weblate/trans/models/project.py:212
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "프로젝트 디렉토리를 생성할수 없습니다: %s"
@@ -4664,7 +4674,7 @@ msgstr "참여자 이름"
 msgid "Committer email"
 msgstr "참여자 이메일"
 
-#: weblate/trans/models/subproject.py:604
+#: weblate/trans/models/subproject.py:606
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -4672,47 +4682,47 @@ msgstr ""
 "SSH 호스트 키를 확인하는데 실패했습니다, 관리자 인터페이스의 SSH 페이지에서 "
 "그것들을 추가 해주십시오."
 
-#: weblate/trans/models/subproject.py:608
+#: weblate/trans/models/subproject.py:610
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "저장소를 가져오는데 실패하였습니다: %s"
 
-#: weblate/trans/models/subproject.py:685
+#: weblate/trans/models/subproject.py:687
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "밀기는 %s에 대해 비활성화 되었습니다."
 
-#: weblate/trans/models/subproject.py:728
+#: weblate/trans/models/subproject.py:730
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "%s의 원격 분기로 밀기가 실패했습니다."
 
-#: weblate/trans/models/subproject.py:764
+#: weblate/trans/models/subproject.py:766
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "%s의 원격 분기 재 설정 실패."
 
-#: weblate/trans/models/subproject.py:821
+#: weblate/trans/models/subproject.py:823
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "%s의 원격 분기로 우리의 분기를 리베이스 하는데 실패."
 
-#: weblate/trans/models/subproject.py:826
+#: weblate/trans/models/subproject.py:828
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "%s로 원격 분기 병합 실패."
 
-#: weblate/trans/models/subproject.py:994
+#: weblate/trans/models/subproject.py:996
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "잘못된 Weblate 프로젝트의 링크입니다. 링크하신 저장소에 링크할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1001
+#: weblate/trans/models/subproject.py:1003
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Weblate 프로젝트의 링크가 잘못되었습니다. 자기 자신을 링크할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1008
+#: weblate/trans/models/subproject.py:1010
 #, fuzzy
 #| msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -4720,19 +4730,19 @@ msgstr ""
 "Weblate 프로젝트의 링크가 잘못되었습니다. 사용법은 weblate://프로젝트/컴포넌"
 "트입니다."
 
-#: weblate/trans/models/subproject.py:1014
+#: weblate/trans/models/subproject.py:1016
 msgid "Push URL is not used when repository is linked!"
 msgstr "저장소가 연결될때 URL 밀기는 사용될수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1018
+#: weblate/trans/models/subproject.py:1020
 msgid "Export URL is not used when repository is linked!"
 msgstr "저장소가 연결될때 URL 내보내기는 사용할수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1026
+#: weblate/trans/models/subproject.py:1028
 msgid "The mask did not match any files!"
 msgstr "마스크는 어떠한 파일과 일치하지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1034
+#: weblate/trans/models/subproject.py:1036
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -4740,7 +4750,7 @@ msgstr ""
 "하나의 언어에 대한 더 많은 파일이 있습니다, 다른 자원을 변환하기 위해 마스크"
 "를 조정하고 컴포넌트를 사용하십시오."
 
-#: weblate/trans/models/subproject.py:1040
+#: weblate/trans/models/subproject.py:1042
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -4750,64 +4760,64 @@ msgstr ""
 "여러 번역들은 단일 언어 코드 (%s)와 연결됩니다. 비슷한 언어들이 하나와 연결하"
 "는 Weblate를 방지하려면 SIMPLIFY_LANGUAGES를 비활성화 하십시오."
 
-#: weblate/trans/models/subproject.py:1061
+#: weblate/trans/models/subproject.py:1063
 msgid "File does not seem to be valid!"
 msgstr "파일이 올바르지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1069
+#: weblate/trans/models/subproject.py:1071
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d개의 일치하는 파일의 형식을 인식할수 없습니다."
 
-#: weblate/trans/models/subproject.py:1078
+#: weblate/trans/models/subproject.py:1080
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d개의 일치하는 파일 구문 분석 실패!"
 
-#: weblate/trans/models/subproject.py:1089
+#: weblate/trans/models/subproject.py:1091
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr "선택한 파일 형식은 프로젝트 설정에서 새로운 번역을 추가할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1095
+#: weblate/trans/models/subproject.py:1097
 msgid "Format of base file for new translations was not recognized!"
 msgstr "새로운 번역에 대한 기본 파일의 형식을 인식할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1100
+#: weblate/trans/models/subproject.py:1102
 msgid "Base file for new translations is not used because of project settings."
 msgstr "프로젝트 설정때문에 새로운 번역에 대한 기본 파일을 사용할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1111
+#: weblate/trans/models/subproject.py:1113
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "기본 파일을 2개국어 번역으로 할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1117
+#: weblate/trans/models/subproject.py:1119
 #, fuzzy
 #| msgid "Changing version control system is not supported!"
 msgid "Using .pot file as base file is not supported!"
 msgstr "버전 관리 시스템을 변경하는 것은 지원되지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1124
+#: weblate/trans/models/subproject.py:1126
 msgid "Template file not found!"
 msgstr "서식 파일을 찾을 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1131
+#: weblate/trans/models/subproject.py:1133
 msgid "Format of translation base file could not be recognized."
 msgstr "번역 기본 파일의 형식을 인식할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1137
+#: weblate/trans/models/subproject.py:1139
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "번역 기본 파일 분석 실패: %s"
 
-#: weblate/trans/models/subproject.py:1142
+#: weblate/trans/models/subproject.py:1144
 msgid "You can not use monolingual translation without base file!"
 msgstr "기본 파일없이 단일 언어 번역을 사용할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1152
+#: weblate/trans/models/subproject.py:1154
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -4815,25 +4825,25 @@ msgstr ""
 "지침 URL를 입력하거나 또는 새로운 언어를 추가하기 위한 다른 옵션을 사용하십시"
 "오."
 
-#: weblate/trans/models/subproject.py:1158
+#: weblate/trans/models/subproject.py:1160
 msgid "License URL can not be used without license summary."
 msgstr "라이센스 URL는 라이센스 요약 없이 사용할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1180
 msgid "Changing version control system is not supported!"
 msgstr "버전 관리 시스템을 변경하는 것은 지원되지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1184
+#: weblate/trans/models/subproject.py:1186
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "{0}은(는) 지원하지 않는 파일 형식입니다"
 
-#: weblate/trans/models/subproject.py:1191
+#: weblate/trans/models/subproject.py:1193
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "저장소를 업데이트하는 데 실패하였습니다: %s"
 
-#: weblate/trans/models/subproject.py:1214
+#: weblate/trans/models/subproject.py:1216
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "투표하기의 활성화로 자동으로 제안을 받아들이는것을 할 수 있습니다!"
 
@@ -4869,6 +4879,18 @@ msgstr ""
 #: weblate/trans/models/unit.py:558
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "백엔드 저장소에서 메세지를 찾을수 없습니다, 아마도 손상된것 같습니다."
+
+#: weblate/trans/models/whiteboard.py:32
+#, fuzzy
+#| msgid "Additional message"
+msgid "Whiteboard message"
+msgstr "추가 메세지"
+
+#: weblate/trans/models/whiteboard.py:33
+#, fuzzy
+#| msgid "Nearby messages"
+msgid "Whiteboard messages"
+msgstr "근처 메세지"
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"
