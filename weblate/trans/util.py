@@ -87,24 +87,30 @@ def get_site_url(url=''):
     )
 
 
-def load_class(name):
+def load_class(name, setting):
     '''
     Imports module and creates class given by name in string.
     '''
-    module, attr = name.rsplit('.', 1)
+    try:
+        module, attr = name.rsplit('.', 1)
+    except ValueError as error:
+        raise ImproperlyConfigured(
+            'Error importing class %s in %s: "%s"' %
+            (name, setting, error)
+        )
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
-            'Error importing module %s: "%s"' %
-            (module, error)
+            'Error importing module %s in %s: "%s"' %
+            (module, setting, error)
         )
     try:
         cls = getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured(
-            'Module "%s" does not define a "%s" class' %
-            (module, attr)
+            'Module "%s" does not define a "%s" class in %s' %
+            (module, attr, setting)
         )
     return cls
 

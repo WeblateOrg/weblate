@@ -24,5 +24,5 @@ from weblate.trans.util import load_class
 # Initialize checks list
 CHECKS = {}
 for path in appsettings.CHECK_LIST:
-    cls = load_class(path)
+    cls = load_class(path, 'CHECK_LIST')
     CHECKS[cls.check_id] = cls()

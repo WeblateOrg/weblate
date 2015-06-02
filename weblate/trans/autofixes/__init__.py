@@ -27,7 +27,7 @@ from weblate.trans.util import load_class
 
 autofixes = []
 for path in appsettings.AUTOFIX_LIST:
-    autofixes.append(load_class(path)())
+    autofixes.append(load_class(path, 'AUTOFIX_LIST')())
 
 
 def fix_target(target, unit):
