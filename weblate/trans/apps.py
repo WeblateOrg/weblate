@@ -17,4 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-default_app_config = 'weblate.trans.apps.TransConfig'
+
+from django.apps import AppConfig
+from django.utils.translation import ugettext_lazy as _
+
+
+class TransConfig(AppConfig):
+    name = 'weblate.trans'
+    label = 'trans'
+    verbose_name = _('Weblate translations')
