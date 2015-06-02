@@ -21,6 +21,7 @@
 """Whiteboard model."""
 
 from django.db import models
+from django.utils.translation import ugettext_lazy
 
 
 class WhiteboardMessage(models.Model):

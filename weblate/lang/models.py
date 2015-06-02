@@ -20,7 +20,7 @@
 
 from django.db import models
 from django.db import transaction
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
 from django.db.models.signals import post_migrate

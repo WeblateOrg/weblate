@@ -127,8 +127,8 @@ class Advertisement(models.Model):
         index_together = [
             ('placement', 'date_start', 'date_end'),
         ]
-        verbose_name = ugettext_lazy('Advertisement')
-        verbose_name_plural = ugettext_lazy('Advertisements')
+        verbose_name = _('Advertisement')
+        verbose_name_plural = _('Advertisements')
 
     def __unicode__(self):
         return self.text
