@@ -28,6 +28,8 @@ class WhiteboardMessage(models.Model):
 
     class Meta(object):
         app_label = 'trans'
+        verbose_name = ugettext_lazy('Whiteboard message')
+        verbose_name_plural = ugettext_lazy('Whiteboard messages')
 
     def __unicode__(self):
         return self.message

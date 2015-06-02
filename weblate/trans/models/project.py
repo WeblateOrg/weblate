@@ -149,6 +149,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         permissions = (
             ('manage_acl', 'Can manage ACL rules for a project'),
         )
+        verbose_name = ugettext_lazy('Project')
+        verbose_name_plural = ugettext_lazy('Projects')
 
     def __init__(self, *args, **kwargs):
         """
