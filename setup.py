@@ -33,7 +33,7 @@ with open('requirements.txt') as requirements:
 
 setup(
     name='Weblate',
-    version='2.3',
+    version='2.4',
     packages=[
         'weblate',
         'weblate.accounts',
