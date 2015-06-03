@@ -40,17 +40,45 @@ Adding new components
 All translation components need to be available as VCS repositories and are
 organized as project/component structure.
 
-Weblate supports wide range of translation formats supported by translate
-toolkit, see :ref:`formats` for more information.
+Weblate supports wide range of translation formats (both bilingual and
+monolingua) supported by translate toolkit, see :ref:`formats` for more
+information.
+
+Adding project
+++++++++++++++
+
+First you have to add project, which will serve as container for all
+components. Usually you create one project for one piece of software or book
+(see :ref:`project` for information on individual parameters):
+
+.. image:: ../images/add-project.png
+
+.. seealso:: :ref:`project`
+
+.. _bilingual:
+
+Bilingual components
+++++++++++++++++++++
+
+Once you have added a project, you can add translation compontents to it
+(see :ref:`component` for information on individual parameters):
+
+.. image:: ../images/add-component.png
+
+.. seealso:: :ref:`component`
 
 .. _monolingual:
 
 Monolingual components
 ++++++++++++++++++++++
 
-Weblate does support both multilingual and monolingual formats. For easier
-translating of monolingual formats, you should provide template file, which
-contains mapping of message IDs to source language (usually English).
+For easier translating of monolingual formats, you should provide template
+file, which contains mapping of message IDs to source language (usually
+English) (see :ref:`component` for information on individual parameters):
+
+.. image:: ../images/add-component-mono.png
+
+.. seealso:: :ref:`component`
 
 .. _project:
 
@@ -65,6 +93,10 @@ project (unless disabled in component configuration).
 
 The project has only few attributes giving translators information about
 project.
+
+You can also configure project owner, who will always get important
+notifications about project and will have additional privileges to control
+translations within this project (see :ref:`privileges`).
 
 Adjusting interaction
 +++++++++++++++++++++
