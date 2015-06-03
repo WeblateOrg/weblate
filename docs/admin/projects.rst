@@ -147,7 +147,8 @@ Translation license
 License URL
     URL where users can find full text of a license.
 New language
-    How new language requests are handled.
+    How to handle requests for creating new languages. Please note that
+    availability of choices depends on the file format, see :ref:`formats`.
 Merge style
     You can configure how the updates from upstream repository are handled.
     This might not be supported for some VCS. See :ref:`merge-rebase` for 
