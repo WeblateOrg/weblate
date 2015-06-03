@@ -92,11 +92,28 @@ translations are automatically propagated through the all component in single
 project (unless disabled in component configuration).
 
 The project has only few attributes giving translators information about
-project.
+project:
 
-You can also configure project owner, who will always get important
-notifications about project and will have additional privileges to control
-translations within this project (see :ref:`privileges`).
+Project website
+    URL where translators can find more information about the project.
+Mailing list
+    Mailing list where translators can discuss or comment translations.
+Translation instructions
+    URL where you have more detailed instructions for translators.
+Push on commit
+    Whether any committed changes should be automatically pushed to upstream
+    repository.
+Set Translation-Team header
+    Whether Weblate should manage Translation-Team header (this is
+    :ref:`gettext` only feature right now).
+Enable ACL
+    Enable per project access control, see :ref:`acl` for more details.
+Enable hooks
+    Whether unauthenticated :ref:`hooks` will be enabled for this repository.
+Owner
+    You can also configure project owner, who will always get important
+    notifications about project and will have additional privileges to control
+    translations within this project (see :ref:`privileges`).
 
 Adjusting interaction
 +++++++++++++++++++++
