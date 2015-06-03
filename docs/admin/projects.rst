@@ -22,6 +22,17 @@ proper privileges, you can access it using wrench icon in top navigation:
 
 .. image:: ../images/admin-wrench.png
 
+Here you can manage objects stored in the database, such as users, translations
+and other settings:
+
+.. image:: ../images/admin.png
+
+In the :guilabel:`Reports` section you can check status of your site, tweak
+it for :ref:`production` or manage SSH keys to access :ref:`private`.
+
+All sections below you can manage database objects. The most interesting one is
+probably :guilabel:`Weblate translations`, where you can manage translatable
+projects, see :ref:`project` and :ref:`component`.
 
 Adding new components
 ---------------------
