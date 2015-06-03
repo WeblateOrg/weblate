@@ -251,13 +251,11 @@ PHP strings
 PHP translations are usually monolingual, so it is recommended to specify base
 file with English strings.
 
-Sample file which should work:
+Example file:
 
-.. code-block:: php
-
-    <?php
-
-    $string['foo'] = 'This is foo string';
+.. literalinclude:: ../weblate/trans/tests/data/cs.php
+    :language: php
+    :encoding: utf-8
 
 .. note::
 
@@ -289,6 +287,12 @@ file with English strings.
     Weblate currently supports only simple JSON files with key value mappings,
     more complex formats like the ones used by Chrome extensions are currently
     not supported by translate-toolkit and will produce invalid results.
+
+Example file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs.json
+    :language: json
+    :encoding: utf-8
 
 .. seealso::
 
