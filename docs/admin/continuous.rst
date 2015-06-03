@@ -48,7 +48,9 @@ repository settings (:guilabel:`Webhooks & Services`) as shown on the image belo
 
 The set the base URL of your Weblate installation (for example
 ``https://hosted.weblate.org``) and Weblate will be notified about every push
-to GitHub repository.
+to GitHub repository:
+
+.. image:: ../images/github-settings-edit.png 
 
 You can also use generic :guilabel:`Webhook`, in that case the
 :guilabel:`Payload URL` would have to be full path to the handler, for example
