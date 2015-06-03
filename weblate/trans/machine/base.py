@@ -107,8 +107,8 @@ class MachineTranslation(object):
             '\r', '\\r'
         )
         # Needed for Google
-        while ',,' in text:
-            text = text.replace(',,', ',null,')
+        while ',,' in text or '[,' in text:
+            text = text.replace(',,', ',null,').replace('[,','[')
 
         # Parse JSON
         response = json.loads(text)
