@@ -17,7 +17,10 @@ Administration
 --------------
 
 Administration of Weblate is done through standard Django admin interface,
-which is available under :file:`/admin/` URL.
+which is available under :file:`/admin/` URL. Once logged in as user with
+proper privileges, you can access it using wrench icon in top navigation:
+
+.. image:: ../images/admin-wrench.png
 
 
 Adding new components
