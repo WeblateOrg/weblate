@@ -312,8 +312,7 @@ Example file:
 
 .. note::
 
-    As of writing this documentation, you need translate-toolkit from Git to
-    support this format.
+    You need translate-toolkit 1.13.0 or newer to include support for this format.
 
 Others
 ------
