@@ -98,10 +98,12 @@ Repository branch
     Which branch to checkout from the VCS and where to look for translations.
 File mask
     Mask of files to translate including path. It should include one *
-    replacing language code. In case your repository contains more than one
-    translation files (eg. more Gettext domains), you need to create separate
-    component for each. For example ``po/*.po`` or
-    ``locale/*/LC_MESSAGES/django.po``.
+    replacing language code (Weblate can handle language names as well, but it
+    is recommended to use ISO 639-1 language codes). In case your repository
+    contains more than one translation files (eg. more Gettext domains), you
+    need to create separate component for each. 
+    
+    For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 Monolingual base language file
     Base file containing strings definition for :ref:`monolingual`.
 Edit base file
