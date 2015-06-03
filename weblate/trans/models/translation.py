@@ -175,7 +175,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return '{0}/{1}/{2}: '.format(
             self.subproject.project.slug,
             self.subproject.slug,
-            self.language_code,
+            self.language.code,
         )
 
     def has_acl(self, user):
