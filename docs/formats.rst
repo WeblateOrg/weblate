@@ -23,6 +23,13 @@ containing complete list of strings to translate with their source - this file
 is called :guilabel:`Monolingual base language file` within Weblate, though the
 naming might vary in your application.
 
+Automatic detection
+-------------------
+
+Weblate can automatically detect several widely spread file formats, but this
+detection can harm your performance and will limit features specific to given
+file format (for example automatic adding of new translations).
+
 .. _gettext:
 
 GNU Gettext
@@ -113,6 +120,10 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual.
 
+.. note::
+
+    This file format does not supporting automatically adding new translations.
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
@@ -148,6 +159,10 @@ Qt Linguist .ts
 Translation format used in Qt based applications.
 
 Qt Linguist files are used as both bilingual and monolingual.
+
+.. note::
+
+    This file format does not supporting automatically adding new translations.
 
 .. seealso::
 
@@ -246,6 +261,10 @@ Sample file which should work:
     <?php
 
     $string['foo'] = 'This is foo string';
+
+.. note::
+
+    This file format does not supporting automatically adding new translations.
 
 .. seealso::
 
