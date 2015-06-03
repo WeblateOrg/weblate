@@ -130,6 +130,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         )
     )
     owner = models.ForeignKey(
+        verbose_name=ugettext_lazy('Owner'),
         User,
         null=True,
         db_index=True,
