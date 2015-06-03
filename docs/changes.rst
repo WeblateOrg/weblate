@@ -6,6 +6,8 @@ weblate 2.4
 
 Released on ? 2015.
 
+* Improved support for PHP files.
+
 weblate 2.3
 -----------
 

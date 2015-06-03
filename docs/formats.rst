@@ -247,9 +247,6 @@ PHP strings
 .. index::
    pair: PHP strings; file format
 
-PHP strings can be processed directly, though currently Translate-toolkit has
-some problems writing them properly, so please double check that your files
-won't get corrupted.
 
 PHP translations are usually monolingual, so it is recommended to specify base
 file with English strings.
@@ -264,7 +261,10 @@ Sample file which should work:
 
 .. note::
 
-    This file format does not supporting automatically adding new translations.
+    Translate-toolkit currently has some limitations in processing PHP files,
+    so please double check that your files won't get corrupted  before using
+    Weblate in production setup.
+
 
 .. seealso::
 
@@ -285,7 +285,7 @@ JSON translations are usually monolingual, so it is recommended to specify base
 file with English strings.
 
 .. note::
-   
+
     Weblate currently supports only simple JSON files with key value mappings,
     more complex formats like the ones used by Chrome extensions are currently
     not supported by translate-toolkit and will produce invalid results.

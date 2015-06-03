@@ -852,6 +852,21 @@ class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'
     loader = ('php', 'phpfile')
+    new_translation = '<?php\n'
+
+    @property
+    def mimetype(self):
+        '''
+        Returns most common mime type for format.
+        '''
+        return 'text/x-php'
+
+    @property
+    def extension(self):
+        '''
+        Returns most common file extension for format.
+        '''
+        return 'php'
 
 
 @register_fileformat

@@ -24,13 +24,14 @@ import tempfile
 from unittest import TestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
-    JSONFormat, RESXFormat,
+    JSONFormat, RESXFormat, PhpFormat,
     FILE_FORMATS,
 )
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_JSON = get_test_file('cs.json')
+TEST_PHP = get_test_file('cs.php')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_POT = get_test_file('hello.pot')
@@ -110,6 +111,19 @@ class JSONFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'json/cs_CZ.json'
     MATCH = '{}\n'
     BASE = ''
+
+
+class PhpFormatTest(AutoFormatTest):
+    FORMAT = PhpFormat
+    FILE = TEST_PHP
+    MIME = 'text/x-php'
+    COUNT = 4
+    EXT = 'php'
+    MASK = 'php/*/admin.php'
+    EXPECTED_PATH = 'php/cs_CZ/admin.php'
+    MATCH = '<?php\n'
+    FIND = '$LANG[\'foo\']'
+    FIND_MATCH = 'bar'
 
 
 class AndroidFormatTest(AutoFormatTest):
