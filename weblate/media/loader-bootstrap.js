@@ -2,6 +2,10 @@ var loading = 0;
 var machineTranslationLoaded = false;
 var activityDataLoaded = false;
 
+if (window.location.hash && window.location.hash == '#_=_') {
+    window.location.hash = '';
+}
+
 function increaseLoading(sel) {
     if (loading === 0) {
         $(sel).show();
