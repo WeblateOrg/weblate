@@ -237,9 +237,8 @@ Apple OS X strings are usually used as bilingual.
 
 .. note::
 
-    Apple OS X strings are half broken in translate-toolkit 1.9.0 (it will
-    generate corrupted files while saving), please use Git snapshot for
-    handling these.
+    You need translate-toolkit 1.12.0 or newer for proper support of Apple OS X
+    strings. Older versions might produce corrupted files.
 
 PHP strings
 -----------
