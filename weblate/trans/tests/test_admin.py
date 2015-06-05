@@ -121,7 +121,7 @@ class AdminTest(ViewTestCase):
         '''
         response = self.client.get(url)
         self.assertContains(
-            response, 'Update from git'
+            response, 'Update VCS repository'
         )
         for action in 'force_commit', 'update_checks', 'update_from_git':
             response = self.client.post(
