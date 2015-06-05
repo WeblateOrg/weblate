@@ -60,6 +60,7 @@ class ProjectAdmin(admin.ModelAdmin):
         for project in queryset:
             project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
+    update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
         """
@@ -73,6 +74,7 @@ class ProjectAdmin(admin.ModelAdmin):
             unit.run_checks()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
+    update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
         """
@@ -84,6 +86,7 @@ class ProjectAdmin(admin.ModelAdmin):
             request,
             "Flushed changes in %d git repos." % queryset.count()
         )
+    force_commit.short_description = _('Commit pending changes')
 
 
 class SubProjectAdmin(admin.ModelAdmin):
@@ -102,6 +105,7 @@ class SubProjectAdmin(admin.ModelAdmin):
         for project in queryset:
             project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
+    update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
         """
@@ -118,6 +122,7 @@ class SubProjectAdmin(admin.ModelAdmin):
             request,
             "Updated checks for %d units." % cnt
         )
+    update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
         """
@@ -129,6 +134,7 @@ class SubProjectAdmin(admin.ModelAdmin):
             request,
             "Flushed changes in %d git repos." % queryset.count()
         )
+    force_commit.short_description = _('Commit pending changes')
 
 
 class TranslationAdmin(admin.ModelAdmin):
