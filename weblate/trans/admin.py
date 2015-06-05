@@ -20,6 +20,7 @@
 
 from django.contrib import admin
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change,
@@ -29,11 +30,28 @@ from weblate.trans.models import (
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks'
+        'name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks',
+        'num_vcs', 'num_strings', 'num_words', 'num_langs',
     )
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
     actions = ['update_from_git', 'update_checks', 'force_commit']
+
+    def num_vcs(self, obj):
+        return obj.subproject_set.exclude(repo__startswith='weblate:/').count()
+    num_vcs.short_description = _('VCS repositories')
+
+    def num_strings(self, obj):
+        return obj.get_total()
+    num_strings.short_description = _('Source strings')
+
+    def num_words(self, obj):
+        return obj.get_total_words()
+    num_words.short_description = _('Source words')
+
+    def num_langs(self, obj):
+        return obj.get_language_count()
+    num_langs.short_description = _('Languages')
 
     def update_from_git(self, request, queryset):
         """

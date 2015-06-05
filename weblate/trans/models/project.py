@@ -333,6 +333,20 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                 pass
         return total
 
+    def get_total_words(self):
+        """
+        Calculates total number of words to translate. This is done based on
+        assumption that all languages have same number of strings.
+        """
+        from weblate.trans.models.translation import Translation
+        total = 0
+        for component in self.subproject_set.all():
+            try:
+                total += component.translation_set.all()[0].total_words
+            except (Translation.DoesNotExist, IndexError):
+                pass
+        return total
+
     def get_languages(self):
         """
         Returns list of all languages used in project.
