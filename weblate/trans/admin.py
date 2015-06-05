@@ -20,6 +20,7 @@
 
 from django.contrib import admin
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change,
@@ -29,11 +30,28 @@ from weblate.trans.models import (
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks'
+        'name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks',
+        'num_vcs', 'num_strings', 'num_words', 'num_langs',
     )
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
     actions = ['update_from_git', 'update_checks', 'force_commit']
+
+    def num_vcs(self, obj):
+        return obj.subproject_set.exclude(repo__startswith='weblate:/').count()
+    num_vcs.short_description = _('VCS repositories')
+
+    def num_strings(self, obj):
+        return obj.get_total()
+    num_strings.short_description = _('Source strings')
+
+    def num_words(self, obj):
+        return obj.get_total_words()
+    num_words.short_description = _('Source words')
+
+    def num_langs(self, obj):
+        return obj.get_language_count()
+    num_langs.short_description = _('Languages')
 
     def update_from_git(self, request, queryset):
         """
@@ -42,6 +60,7 @@ class ProjectAdmin(admin.ModelAdmin):
         for project in queryset:
             project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
+    update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
         """
@@ -55,6 +74,7 @@ class ProjectAdmin(admin.ModelAdmin):
             unit.run_checks()
             cnt += 1
         self.message_user(request, "Updated checks for %d units." % cnt)
+    update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
         """
@@ -66,6 +86,7 @@ class ProjectAdmin(admin.ModelAdmin):
             request,
             "Flushed changes in %d git repos." % queryset.count()
         )
+    force_commit.short_description = _('Commit pending changes')
 
 
 class SubProjectAdmin(admin.ModelAdmin):
@@ -84,6 +105,7 @@ class SubProjectAdmin(admin.ModelAdmin):
         for project in queryset:
             project.do_update(request)
         self.message_user(request, "Updated %d git repos." % queryset.count())
+    update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
         """
@@ -100,6 +122,7 @@ class SubProjectAdmin(admin.ModelAdmin):
             request,
             "Updated checks for %d units." % cnt
         )
+    update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
         """
@@ -111,6 +134,7 @@ class SubProjectAdmin(admin.ModelAdmin):
             request,
             "Flushed changes in %d git repos." % queryset.count()
         )
+    force_commit.short_description = _('Commit pending changes')
 
 
 class TranslationAdmin(admin.ModelAdmin):
