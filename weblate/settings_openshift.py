@@ -69,7 +69,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 DATA_DIR = os.environ['OPENSHIFT_DATA_DIR']
 
-TIME_ZONE = None
+TIME_ZONE = 'Europe/Prague'
 
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'wsgi', 'static')
 
