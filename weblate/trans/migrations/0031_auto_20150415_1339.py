@@ -12,7 +12,7 @@ def fill_in_subproject(apps, schema_editor):
     for change in Change.objects.all():
         if change.subproject:
             continue
-        if change.action in actions:
+        if change.action in actions and change.translation:
             change.subproject = change.translation.subproject
             change.translation = None
             change.save()
