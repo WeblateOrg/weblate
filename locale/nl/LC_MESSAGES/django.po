@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-03 14:50+0200\n"
+"POT-Creation-Date: 2015-06-09 13:20+0000\n"
 "PO-Revision-Date: 2015-06-08 17:28+0200\n"
 "Last-Translator: Dieter Adriaenssens <dieter.adriaenssens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
-"\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
+">\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -412,7 +412,7 @@ msgstr ""
 "Wij kunnen uw project ook huisvesten, als u geïnteresseerd bent, neem dan "
 "contact met ons op."
 
-#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:48
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -425,7 +425,7 @@ msgstr ""
 msgid "Ask for project hosting"
 msgstr "Aanvraag voor het hosten van een project"
 
-#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:53
 msgid "Contact us for commercial hosting"
 msgstr "Neem contact met ons op voor Commerciële hosting"
 
@@ -638,6 +638,7 @@ msgstr "Gelieve de fouten in het formulier te verbeteren."
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 #: weblate/lang/models.py:371 weblate/lang/views.py:36
+#: weblate/trans/admin.py:54
 msgid "Languages"
 msgstr "Talen"
 
@@ -1100,7 +1101,6 @@ msgid "Your translations"
 msgstr "Uw vertalingen"
 
 #: weblate/html/base.html:98
-#| msgid "Registration"
 msgid "Administration"
 msgstr "Beheer"
 
@@ -3559,6 +3559,42 @@ msgstr "Meervoud"
 msgid "Plural form %d"
 msgstr "Meervoudsvorm %d"
 
+#: weblate/trans/admin.py:42
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "VCS repositories"
+msgstr "Status van de repositories"
+
+#: weblate/trans/admin.py:46
+#, fuzzy
+#| msgid "Source string:"
+msgid "Source strings"
+msgstr "Brontekenreeks:"
+
+#: weblate/trans/admin.py:50
+#, fuzzy
+#| msgid "Source"
+msgid "Source words"
+msgstr "Bron"
+
+#: weblate/trans/admin.py:63 weblate/trans/admin.py:108
+#, fuzzy
+#| msgid "Rebased repository"
+msgid "Update VCS repository"
+msgstr "Repository opnieuw ingesteld (rebase)"
+
+#: weblate/trans/admin.py:77 weblate/trans/admin.py:125
+#, fuzzy
+#| msgid "Quality checks flags"
+msgid "Update quality checks"
+msgstr "Kwaliteitscontrolevlaggen"
+
+#: weblate/trans/admin.py:89 weblate/trans/admin.py:137
+#, fuzzy
+#| msgid "Commited changes"
+msgid "Commit pending changes"
+msgstr "ingediende wijzigingen"
+
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
 msgstr "Foutopsporingsmodus"
@@ -5404,17 +5440,20 @@ msgstr "Woordenboeken"
 msgid "No words to import found in file."
 msgstr "Er werden geen te importeren woorden gevonden in het bestand."
 
-#: weblate/trans/views/dictionary.py:162
-#, python-format
-msgid "Imported %d words from file."
-msgstr "%d woorden werden geïmporteerd uit het bestand."
+#: weblate/trans/views/dictionary.py:163
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Imported %d word from the uploaded file."
+msgid_plural "Imported %d words from the uploaded file."
+msgstr[0] "%d woorden werden geïmporteerd uit het bestand."
+msgstr[1] "%d woorden werden geïmporteerd uit het bestand."
 
-#: weblate/trans/views/dictionary.py:167
+#: weblate/trans/views/dictionary.py:171
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Bestand uploaden is mislukt : %s"
 
-#: weblate/trans/views/dictionary.py:170 weblate/trans/views/dictionary.py:172
+#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
 #: weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Het formulier kon niet verwerkt worden!"

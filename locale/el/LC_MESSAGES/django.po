@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-03 14:50+0200\n"
+"POT-Creation-Date: 2015-06-09 13:20+0000\n"
 "PO-Revision-Date: 2015-06-04 07:19+0200\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
-"\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
+">\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -414,7 +414,7 @@ msgstr ""
 "Μπορείτε, επίσης, να φιλοξενήσετε το έργο σας, αν ενδιαφέρεστε, "
 "επικοινωνήστε μαζί μας."
 
-#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:48
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -427,7 +427,7 @@ msgstr ""
 msgid "Ask for project hosting"
 msgstr "Ρωτήστε για φιλοξενία έργου"
 
-#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:53
 msgid "Contact us for commercial hosting"
 msgstr "Επικοινωνήστε μαζί μας για εμπορική φιλοξενία"
 
@@ -643,6 +643,7 @@ msgstr "Διορθώστε σφάλματα στη φόρμα."
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 #: weblate/lang/models.py:371 weblate/lang/views.py:36
+#: weblate/trans/admin.py:54
 msgid "Languages"
 msgstr "Γλώσσες"
 
@@ -1110,7 +1111,6 @@ msgid "Your translations"
 msgstr "Οι μεταφράσεις σας"
 
 #: weblate/html/base.html:98
-#| msgid "Registration"
 msgid "Administration"
 msgstr "Διαχείριση"
 
@@ -3565,6 +3565,42 @@ msgstr "Πληθυντικός"
 msgid "Plural form %d"
 msgstr "Μορφή πληθυντικού %d"
 
+#: weblate/trans/admin.py:42
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "VCS repositories"
+msgstr "Κατάσταση αποθετηρίων"
+
+#: weblate/trans/admin.py:46
+#, fuzzy
+#| msgid "Source string:"
+msgid "Source strings"
+msgstr "Κείμενο προέλευσης:"
+
+#: weblate/trans/admin.py:50
+#, fuzzy
+#| msgid "Source"
+msgid "Source words"
+msgstr "Προέλευση"
+
+#: weblate/trans/admin.py:63 weblate/trans/admin.py:108
+#, fuzzy
+#| msgid "Rebased repository"
+msgid "Update VCS repository"
+msgstr "Επαναβασισμένο αποθετήριο"
+
+#: weblate/trans/admin.py:77 weblate/trans/admin.py:125
+#, fuzzy
+#| msgid "Quality checks flags"
+msgid "Update quality checks"
+msgstr "Σημαίες ελέγχων ποιότητας"
+
+#: weblate/trans/admin.py:89 weblate/trans/admin.py:137
+#, fuzzy
+#| msgid "Commited changes"
+msgid "Commit pending changes"
+msgstr "Διαπραχθείσες αλλαγές"
+
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
 msgstr "Κατάσταση αποσφαλμάτωσης"
@@ -5419,17 +5455,20 @@ msgstr "Λεξικά"
 msgid "No words to import found in file."
 msgstr "Καμιά λέξη για εισαγωγή δεν βρέθηκε στο αρχείο."
 
-#: weblate/trans/views/dictionary.py:162
-#, python-format
-msgid "Imported %d words from file."
-msgstr "Εισήχθησαν %d λέξεις από το αρχείο."
+#: weblate/trans/views/dictionary.py:163
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Imported %d word from the uploaded file."
+msgid_plural "Imported %d words from the uploaded file."
+msgstr[0] "Εισήχθησαν %d λέξεις από το αρχείο."
+msgstr[1] "Εισήχθησαν %d λέξεις από το αρχείο."
 
-#: weblate/trans/views/dictionary.py:167
+#: weblate/trans/views/dictionary.py:171
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Το ανέβασμα του αρχείου απέτυχε: %s"
 
-#: weblate/trans/views/dictionary.py:170 weblate/trans/views/dictionary.py:172
+#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
 #: weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Απέτυχε η προώθηση της φόμρας!"

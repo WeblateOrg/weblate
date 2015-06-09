@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-03 14:50+0200\n"
+"POT-Creation-Date: 2015-06-09 13:20+0000\n"
 "PO-Revision-Date: 2015-02-22 17:11+0200\n"
 "Last-Translator: Koo Young Min <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -412,7 +412,7 @@ msgstr ""
 "저희는 여러분의 프로젝트를 호스팅할 수 있습니다. 혹시 관심이 있으시다면, 저희"
 "에게 연락하세요."
 
-#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:48
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -425,7 +425,7 @@ msgstr ""
 msgid "Ask for project hosting"
 msgstr "프로젝트 호스팅을 문의하기"
 
-#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:53
 msgid "Contact us for commercial hosting"
 msgstr "영리 목적으로 호스팅을 하시기 위해서는 연락해 주세요"
 
@@ -628,6 +628,7 @@ msgstr "양식의 오류를 수정하세요."
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 #: weblate/lang/models.py:371 weblate/lang/views.py:36
+#: weblate/trans/admin.py:54
 msgid "Languages"
 msgstr "언어"
 
@@ -3521,6 +3522,42 @@ msgstr "복수형"
 msgid "Plural form %d"
 msgstr "복수형의 %d"
 
+#: weblate/trans/admin.py:42
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "VCS repositories"
+msgstr "저장소 상태"
+
+#: weblate/trans/admin.py:46
+#, fuzzy
+#| msgid "Source string:"
+msgid "Source strings"
+msgstr "원본 문자열:"
+
+#: weblate/trans/admin.py:50
+#, fuzzy
+#| msgid "Source"
+msgid "Source words"
+msgstr "번역 원본"
+
+#: weblate/trans/admin.py:63 weblate/trans/admin.py:108
+#, fuzzy
+#| msgid "Git repository"
+msgid "Update VCS repository"
+msgstr "Git 저장소"
+
+#: weblate/trans/admin.py:77 weblate/trans/admin.py:125
+#, fuzzy
+#| msgid "Quality checks flags"
+msgid "Update quality checks"
+msgstr "품질 검사 플래그"
+
+#: weblate/trans/admin.py:89 weblate/trans/admin.py:137
+#, fuzzy
+#| msgid "Commit pending changes"
+msgid "Commit pending changes"
+msgstr "보류중인 변경 사항을 커밋"
+
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
 msgstr "디버그 모드"
@@ -5343,17 +5380,19 @@ msgstr "사전"
 msgid "No words to import found in file."
 msgstr "파일에서 가져올 수 있는 단어가 없습니다."
 
-#: weblate/trans/views/dictionary.py:162
-#, python-format
-msgid "Imported %d words from file."
-msgstr "파일에서 %d 개의 단어를 불러오기 하였습니다."
+#: weblate/trans/views/dictionary.py:163
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Imported %d word from the uploaded file."
+msgid_plural "Imported %d words from the uploaded file."
+msgstr[0] "파일에서 %d 개의 단어를 불러오기 하였습니다."
 
-#: weblate/trans/views/dictionary.py:167
+#: weblate/trans/views/dictionary.py:171
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "파일 업로드 실패: %s"
 
-#: weblate/trans/views/dictionary.py:170 weblate/trans/views/dictionary.py:172
+#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
 #: weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "양식을 처리 할 수 없습니다!"
