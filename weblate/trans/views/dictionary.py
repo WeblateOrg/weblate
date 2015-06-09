@@ -19,7 +19,7 @@
 #
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ungettext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
@@ -159,7 +159,11 @@ def upload_dictionary(request, project, lang):
                 else:
                     messages.success(
                         request,
-                        _('Imported %d words from file.') % count
+                        ungettext(
+                            'Imported %d word from the uploaded file.',
+                            'Imported %d words from the uploaded file.',
+                            count
+                        ) % count
                     )
             except Exception as error:
                 messages.error(
