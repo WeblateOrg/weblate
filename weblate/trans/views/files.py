@@ -117,27 +117,18 @@ def upload_translation(request, project, subproject, lang):
             merge_header=form.cleaned_data['merge_header'],
             method=form.cleaned_data['method']
         )
-        if ret:
-            messages.success(
+        messages.info(
+            request,
+            ungettext(
+                'Processed %d string from the uploaded files.',
+                'Processed %d strings from the uploaded files.',
+                count
+            ) % count
+        )
+        if not ret:
+            messages.warning(
                 request,
-                ungettext(
-                    'File content successfully merged into translation, '
-                    'processed %d string.',
-                    'File content successfully merged into translation, '
-                    'processed %d strings.',
-                    count
-                ) % count
-            )
-        else:
-            messages.info(
-                request,
-                ungettext(
-                    'There were no new strings in uploaded file, '
-                    'processed %d string.',
-                    'There were no new strings in uploaded file, '
-                    'processed %d strings.',
-                    count
-                ) % count
+                _('There were no new strings in uploaded file!')
             )
     except Exception as error:
         messages.error(
