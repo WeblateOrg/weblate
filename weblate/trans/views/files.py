@@ -141,8 +141,7 @@ def upload_translation(request, project, subproject, lang):
             )
     except Exception as error:
         messages.error(
-            request,
-            _('File content merge failed: %s' % unicode(error))
+            request, _('File content merge failed: %s') % unicode(error)
         )
 
     return redirect(obj)
