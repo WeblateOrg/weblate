@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-09 13:20+0000\n"
+"POT-Creation-Date: 2015-06-09 14:41+0000\n"
 "PO-Revision-Date: 2015-04-09 19:33+0200\n"
 "Last-Translator: TWS <tablettws@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -5458,11 +5458,11 @@ msgstr "Dicionário %(language)s para %(project)s"
 msgid "Dictionaries"
 msgstr "Dicionários"
 
-#: weblate/trans/views/dictionary.py:157
+#: weblate/trans/views/dictionary.py:156
 msgid "No words to import found in file."
 msgstr "Não foram encontradas palavras no ficheiro para importar."
 
-#: weblate/trans/views/dictionary.py:163
+#: weblate/trans/views/dictionary.py:162
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
@@ -5470,13 +5470,12 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Importadas %d palavras do ficheiro."
 msgstr[1] "Importadas %d palavras do ficheiro."
 
-#: weblate/trans/views/dictionary.py:171
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Falha no upload de ficheiro: %s"
 
-#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
-#: weblate/trans/views/edit.py:659
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Falha ao processar o formulário!"
 
@@ -5586,27 +5585,23 @@ msgstr "Falha ao guardar a tradução!"
 msgid "Access denied."
 msgstr "Acesso negado."
 
-#: weblate/trans/views/files.py:124
-#, python-format
-msgid "File content successfully merged into translation, processed %d string."
-msgid_plural ""
-"File content successfully merged into translation, processed %d strings."
-msgstr[0] ""
-"O conteúdo do arquivo foi fundido na tradução com sucesso, processadas %d "
-"frase."
-msgstr[1] ""
-"O conteúdo do arquivo foi fundido na tradução com sucesso, processadas %d "
-"frases."
+#: weblate/trans/views/files.py:123
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Processed %d string from the uploaded files."
+msgid_plural "Processed %d strings from the uploaded files."
+msgstr[0] "Importadas %d palavras do ficheiro."
+msgstr[1] "Importadas %d palavras do ficheiro."
+
+#: weblate/trans/views/files.py:131
+#, fuzzy
+#| msgid "There were no new strings in uploaded file, processed %d string."
+#| msgid_plural ""
+#| "There were no new strings in uploaded file, processed %d strings."
+msgid "There were no new strings in uploaded file!"
+msgstr "Não há novas frases no arquivo enviado, processada %d frase."
 
 #: weblate/trans/views/files.py:135
-#, python-format
-msgid "There were no new strings in uploaded file, processed %d string."
-msgid_plural ""
-"There were no new strings in uploaded file, processed %d strings."
-msgstr[0] "Não há novas frases no arquivo enviado, processada %d frase."
-msgstr[1] "Não há novas frases no arquivo enviado, processadas %d frases."
-
-#: weblate/trans/views/files.py:145
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao fundir o conteúdo do arquivo: %s"
@@ -5716,6 +5711,17 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "traduzido"
+
+#~ msgid ""
+#~ "File content successfully merged into translation, processed %d string."
+#~ msgid_plural ""
+#~ "File content successfully merged into translation, processed %d strings."
+#~ msgstr[0] ""
+#~ "O conteúdo do arquivo foi fundido na tradução com sucesso, processadas %d "
+#~ "frase."
+#~ msgstr[1] ""
+#~ "O conteúdo do arquivo foi fundido na tradução com sucesso, processadas %d "
+#~ "frases."
 
 #~ msgid "How to handle requests for creating new languages."
 #~ msgstr "Como lidar com os pedidos de criação de novos idiomas."

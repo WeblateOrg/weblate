@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-09 13:20+0000\n"
+"POT-Creation-Date: 2015-06-09 14:41+0000\n"
 "PO-Revision-Date: 2015-06-03 15:30+0200\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
@@ -5390,11 +5390,11 @@ msgstr "%(language)s-ordbog for %(project)s"
 msgid "Dictionaries"
 msgstr "Ordbøger"
 
-#: weblate/trans/views/dictionary.py:157
+#: weblate/trans/views/dictionary.py:156
 msgid "No words to import found in file."
 msgstr "Fandt ingen ord i fil til import."
 
-#: weblate/trans/views/dictionary.py:163
+#: weblate/trans/views/dictionary.py:162
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
@@ -5402,13 +5402,12 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Importerede %d ord fra fil."
 msgstr[1] "Importerede %d ord fra fil."
 
-#: weblate/trans/views/dictionary.py:171
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Filoverførsel mislykkedes: %s"
 
-#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
-#: weblate/trans/views/edit.py:659
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Kunne ikke behandle formular!"
 
@@ -5518,23 +5517,23 @@ msgstr "Kunne ikke gemme oversættelse!"
 msgid "Access denied."
 msgstr "Adgang nægtet."
 
-#: weblate/trans/views/files.py:124
-#, python-format
-msgid "File content successfully merged into translation, processed %d string."
-msgid_plural ""
-"File content successfully merged into translation, processed %d strings."
-msgstr[0] "Filindhold er flettet ind i oversættelse, behandlede %d streng."
-msgstr[1] "Filindhold er flettet ind i oversættelse, behandlede %d strenge."
+#: weblate/trans/views/files.py:123
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Processed %d string from the uploaded files."
+msgid_plural "Processed %d strings from the uploaded files."
+msgstr[0] "Importerede %d ord fra fil."
+msgstr[1] "Importerede %d ord fra fil."
+
+#: weblate/trans/views/files.py:131
+#, fuzzy
+#| msgid "There were no new strings in uploaded file, processed %d string."
+#| msgid_plural ""
+#| "There were no new strings in uploaded file, processed %d strings."
+msgid "There were no new strings in uploaded file!"
+msgstr "Der var ingen nye strenge i overført fil, behandlede %d streng."
 
 #: weblate/trans/views/files.py:135
-#, python-format
-msgid "There were no new strings in uploaded file, processed %d string."
-msgid_plural ""
-"There were no new strings in uploaded file, processed %d strings."
-msgstr[0] "Der var ingen nye strenge i overført fil, behandlede %d streng."
-msgstr[1] "Der var ingen nye strenge i overført fil, behandlede %d strenge."
-
-#: weblate/trans/views/files.py:145
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Fletning af filindhold mislykkedes: %s"
@@ -5643,6 +5642,13 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "oversat"
+
+#~ msgid ""
+#~ "File content successfully merged into translation, processed %d string."
+#~ msgid_plural ""
+#~ "File content successfully merged into translation, processed %d strings."
+#~ msgstr[0] "Filindhold er flettet ind i oversættelse, behandlede %d streng."
+#~ msgstr[1] "Filindhold er flettet ind i oversættelse, behandlede %d strenge."
 
 #~ msgid "How to handle requests for creating new languages."
 #~ msgstr "Hvorledes forespørgsler om oprettelse af nye sprog håndteres."

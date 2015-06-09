@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-09 13:20+0000\n"
+"POT-Creation-Date: 2015-06-09 14:41+0000\n"
 "PO-Revision-Date: 2015-01-24 14:12+0200\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
 "Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
@@ -5324,24 +5324,23 @@ msgstr "%(language)s 的字典用於 %(project)s"
 msgid "Dictionaries"
 msgstr "字典"
 
-#: weblate/trans/views/dictionary.py:157
+#: weblate/trans/views/dictionary.py:156
 msgid "No words to import found in file."
 msgstr "沒有在檔案中找到匯入的單字。"
 
-#: weblate/trans/views/dictionary.py:163
+#: weblate/trans/views/dictionary.py:162
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "已從檔案中匯入 %d 個單字。"
 
-#: weblate/trans/views/dictionary.py:171
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "檔案上傳失敗：%s"
 
-#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
-#: weblate/trans/views/edit.py:659
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "處理表單失敗！"
 
@@ -5453,21 +5452,22 @@ msgstr "儲存翻譯失敗！"
 msgid "Access denied."
 msgstr "拒絕存取。"
 
-#: weblate/trans/views/files.py:124
-#, python-format
-msgid "File content successfully merged into translation, processed %d string."
-msgid_plural ""
-"File content successfully merged into translation, processed %d strings."
-msgstr[0] "檔案內容成功的合併到翻譯，已處理 %d 字串。"
+#: weblate/trans/views/files.py:123
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Processed %d string from the uploaded files."
+msgid_plural "Processed %d strings from the uploaded files."
+msgstr[0] "已從檔案中匯入 %d 個單字。"
+
+#: weblate/trans/views/files.py:131
+#, fuzzy
+#| msgid "There were no new strings in uploaded file, processed %d string."
+#| msgid_plural ""
+#| "There were no new strings in uploaded file, processed %d strings."
+msgid "There were no new strings in uploaded file!"
+msgstr "在已上傳的檔案中，沒有新的字串，已處理 %d 字串。"
 
 #: weblate/trans/views/files.py:135
-#, python-format
-msgid "There were no new strings in uploaded file, processed %d string."
-msgid_plural ""
-"There were no new strings in uploaded file, processed %d strings."
-msgstr[0] "在已上傳的檔案中，沒有新的字串，已處理 %d 字串。"
-
-#: weblate/trans/views/files.py:145
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "檔案內容合併失敗：%s"
@@ -5578,6 +5578,12 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "已翻譯"
+
+#~ msgid ""
+#~ "File content successfully merged into translation, processed %d string."
+#~ msgid_plural ""
+#~ "File content successfully merged into translation, processed %d strings."
+#~ msgstr[0] "檔案內容成功的合併到翻譯，已處理 %d 字串。"
 
 #~ msgid "How to handle requests for creating new languages."
 #~ msgstr "如何處理建立新語言的請求。"

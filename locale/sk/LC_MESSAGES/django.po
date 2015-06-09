@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-09 13:20+0000\n"
+"POT-Creation-Date: 2015-06-09 14:41+0000\n"
 "PO-Revision-Date: 2015-06-02 21:28+0200\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -5388,11 +5388,11 @@ msgstr "Slovník pre %(project)s - %(language)s"
 msgid "Dictionaries"
 msgstr "Slovníky"
 
-#: weblate/trans/views/dictionary.py:157
+#: weblate/trans/views/dictionary.py:156
 msgid "No words to import found in file."
 msgstr "V súbore neboli nájdené žiadne slová na import."
 
-#: weblate/trans/views/dictionary.py:163
+#: weblate/trans/views/dictionary.py:162
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
@@ -5401,13 +5401,12 @@ msgstr[0] "Zo súboru bolo importovaných %d slov."
 msgstr[1] "Zo súboru bolo importovaných %d slov."
 msgstr[2] "Zo súboru bolo importovaných %d slov."
 
-#: weblate/trans/views/dictionary.py:171
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Zlyhalo nahranie obsahu súboru: %s"
 
-#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
-#: weblate/trans/views/edit.py:659
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Nepodarilo sa spracovať formulár!"
 
@@ -5517,31 +5516,24 @@ msgstr "Nepodarilo sa uložiť preklad!"
 msgid "Access denied."
 msgstr "Nedovolený prístup."
 
-#: weblate/trans/views/files.py:124
-#, python-format
-msgid "File content successfully merged into translation, processed %d string."
-msgid_plural ""
-"File content successfully merged into translation, processed %d strings."
-msgstr[0] ""
-"Obsah súboru bol úspešne pridaný do prekladu, spracovaný %d reťazec."
-msgstr[1] ""
-"Obsah súboru bol úspešne pridaný do prekladu, spracované %d reťazce."
-msgstr[2] ""
-"Obsah súboru bol úspešne pridaný do prekladu, spracovaných %d reťazcov."
+#: weblate/trans/views/files.py:123
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Processed %d string from the uploaded files."
+msgid_plural "Processed %d strings from the uploaded files."
+msgstr[0] "Zo súboru bolo importovaných %d slov."
+msgstr[1] "Zo súboru bolo importovaných %d slov."
+msgstr[2] "Zo súboru bolo importovaných %d slov."
+
+#: weblate/trans/views/files.py:131
+#, fuzzy
+#| msgid "There were no new strings in uploaded file, processed %d string."
+#| msgid_plural ""
+#| "There were no new strings in uploaded file, processed %d strings."
+msgid "There were no new strings in uploaded file!"
+msgstr "V nahranom súbore neboli žiadne nové reťazce, spracovaný %d reťazec."
 
 #: weblate/trans/views/files.py:135
-#, python-format
-msgid "There were no new strings in uploaded file, processed %d string."
-msgid_plural ""
-"There were no new strings in uploaded file, processed %d strings."
-msgstr[0] ""
-"V nahranom súbore neboli žiadne nové reťazce, spracovaný %d reťazec."
-msgstr[1] ""
-"V nahranom súbore neboli žiadne nové reťazce, spracované %d reťazce."
-msgstr[2] ""
-"V nahranom súbore neboli žiadne nové reťazce, spracovaných %d reťazcov."
-
-#: weblate/trans/views/files.py:145
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Zlyhalo zlúčenie obsahu súboru: %s"
@@ -5650,6 +5642,17 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "preložené"
+
+#~ msgid ""
+#~ "File content successfully merged into translation, processed %d string."
+#~ msgid_plural ""
+#~ "File content successfully merged into translation, processed %d strings."
+#~ msgstr[0] ""
+#~ "Obsah súboru bol úspešne pridaný do prekladu, spracovaný %d reťazec."
+#~ msgstr[1] ""
+#~ "Obsah súboru bol úspešne pridaný do prekladu, spracované %d reťazce."
+#~ msgstr[2] ""
+#~ "Obsah súboru bol úspešne pridaný do prekladu, spracovaných %d reťazcov."
 
 #~ msgid "How to handle requests for creating new languages."
 #~ msgstr "Ako sa majú riešiť požiadavky na nové preklady."
