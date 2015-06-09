@@ -140,37 +140,34 @@ def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
-    if request.method == 'POST':
-        form = DictUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                count = Dictionary.objects.upload(
+    form = DictUploadForm(request.POST, request.FILES)
+    if form.is_valid():
+        try:
+            count = Dictionary.objects.upload(
+                request,
+                prj,
+                lang,
+                request.FILES['file'],
+                form.cleaned_data['method']
+            )
+            if count == 0:
+                messages.warning(
                     request,
-                    prj,
-                    lang,
-                    request.FILES['file'],
-                    form.cleaned_data['method']
+                    _('No words to import found in file.')
                 )
-                if count == 0:
-                    messages.warning(
-                        request,
-                        _('No words to import found in file.')
-                    )
-                else:
-                    messages.success(
-                        request,
-                        ungettext(
-                            'Imported %d word from the uploaded file.',
-                            'Imported %d words from the uploaded file.',
-                            count
-                        ) % count
-                    )
-            except Exception as error:
-                messages.error(
-                    request, _('File upload has failed: %s') % unicode(error)
+            else:
+                messages.success(
+                    request,
+                    ungettext(
+                        'Imported %d word from the uploaded file.',
+                        'Imported %d words from the uploaded file.',
+                        count
+                    ) % count
                 )
-        else:
-            messages.error(request, _('Failed to process form!'))
+        except Exception as error:
+            messages.error(
+                request, _('File upload has failed: %s') % unicode(error)
+            )
     else:
         messages.error(request, _('Failed to process form!'))
     return redirect(
