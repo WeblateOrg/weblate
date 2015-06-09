@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-03 14:50+0200\n"
+"POT-Creation-Date: 2015-06-09 13:20+0000\n"
 "PO-Revision-Date: 2015-03-14 15:06+0200\n"
 "Last-Translator: Andriy Golovin <andygol@ua.fm>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -435,7 +435,7 @@ msgstr ""
 "ласка, <a href=\"%(contact_url)s?subject=Project hosting\">зв'яжіться з "
 "нами</a>."
 
-#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:48
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -446,7 +446,7 @@ msgstr ""
 msgid "Ask for project hosting"
 msgstr ""
 
-#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:53
 #, fuzzy
 #| msgid "Commercial hosting"
 msgid "Contact us for commercial hosting"
@@ -666,6 +666,7 @@ msgstr "Будь ласка, виправте помилки у формі."
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 #: weblate/lang/models.py:371 weblate/lang/views.py:36
+#: weblate/trans/admin.py:54
 msgid "Languages"
 msgstr "Мови"
 
@@ -3763,6 +3764,42 @@ msgstr "Множина"
 msgid "Plural form %d"
 msgstr "Форма множини %d"
 
+#: weblate/trans/admin.py:42
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "VCS repositories"
+msgstr "Стан репозиторіїв"
+
+#: weblate/trans/admin.py:46
+#, fuzzy
+#| msgid "Source string:"
+msgid "Source strings"
+msgstr "Початковий рядок:"
+
+#: weblate/trans/admin.py:50
+#, fuzzy
+#| msgid "Source"
+msgid "Source words"
+msgstr "Джерело"
+
+#: weblate/trans/admin.py:63 weblate/trans/admin.py:108
+#, fuzzy
+#| msgid "Git repository"
+msgid "Update VCS repository"
+msgstr "Репозиторій Git"
+
+#: weblate/trans/admin.py:77 weblate/trans/admin.py:125
+#, fuzzy
+#| msgid "Quality checks flags"
+msgid "Update quality checks"
+msgstr "Прапорець контролю якості"
+
+#: weblate/trans/admin.py:89 weblate/trans/admin.py:137
+#, fuzzy
+#| msgid "Commit pending changes"
+msgid "Commit pending changes"
+msgstr "Записати чергу змін"
+
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
 msgstr "Режим налагодження"
@@ -5723,17 +5760,21 @@ msgstr "Словники"
 msgid "No words to import found in file."
 msgstr "Не знайдено слів для імпорту у файлі."
 
-#: weblate/trans/views/dictionary.py:162
-#, python-format
-msgid "Imported %d words from file."
-msgstr "Імпортовано %d слів з файлу."
+#: weblate/trans/views/dictionary.py:163
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Imported %d word from the uploaded file."
+msgid_plural "Imported %d words from the uploaded file."
+msgstr[0] "Імпортовано %d слів з файлу."
+msgstr[1] "Імпортовано %d слів з файлу."
+msgstr[2] "Імпортовано %d слів з файлу."
 
-#: weblate/trans/views/dictionary.py:167
+#: weblate/trans/views/dictionary.py:171
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Не вдалося завантажити файл: %s"
 
-#: weblate/trans/views/dictionary.py:170 weblate/trans/views/dictionary.py:172
+#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
 #: weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Не вдалося обробити форму!"

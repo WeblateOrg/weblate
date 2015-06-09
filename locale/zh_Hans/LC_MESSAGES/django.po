@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-03 14:50+0200\n"
+"POT-Creation-Date: 2015-06-09 13:20+0000\n"
 "PO-Revision-Date: 2014-10-10 17:29+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Simplified Chinese <https://hosted.weblate.org/projects/"
@@ -435,7 +435,7 @@ msgstr ""
 "我们也能为您的项目提供托管，若您有兴趣，请<a href=\"%(contact_url)s?subject="
 "托管项目\">联系我们</a>。"
 
-#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:48
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -446,7 +446,7 @@ msgstr ""
 msgid "Ask for project hosting"
 msgstr ""
 
-#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:53
 #, fuzzy
 #| msgid "Commercial hosting"
 msgid "Contact us for commercial hosting"
@@ -663,6 +663,7 @@ msgstr "请更正表单中的错误。"
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 #: weblate/lang/models.py:371 weblate/lang/views.py:36
+#: weblate/trans/admin.py:54
 msgid "Languages"
 msgstr "语言"
 
@@ -3714,6 +3715,42 @@ msgstr "复数形式"
 msgid "Plural form %d"
 msgstr "复数形式 %d"
 
+#: weblate/trans/admin.py:42
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "VCS repositories"
+msgstr "代码库状态"
+
+#: weblate/trans/admin.py:46
+#, fuzzy
+#| msgid "Source string:"
+msgid "Source strings"
+msgstr "源条目："
+
+#: weblate/trans/admin.py:50
+#, fuzzy
+#| msgid "Source"
+msgid "Source words"
+msgstr "源条目"
+
+#: weblate/trans/admin.py:63 weblate/trans/admin.py:108
+#, fuzzy
+#| msgid "Git repository"
+msgid "Update VCS repository"
+msgstr "Git 代码库"
+
+#: weblate/trans/admin.py:77 weblate/trans/admin.py:125
+#, fuzzy
+#| msgid "Quality checks flags"
+msgid "Update quality checks"
+msgstr "品质检查标记"
+
+#: weblate/trans/admin.py:89 weblate/trans/admin.py:137
+#, fuzzy
+#| msgid "Commit pending changes"
+msgid "Commit pending changes"
+msgstr "提交挂起的修改"
+
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
 msgstr "调试模式"
@@ -5595,17 +5632,19 @@ msgstr "词典"
 msgid "No words to import found in file."
 msgstr "在此文件中未找到要导入的单词。"
 
-#: weblate/trans/views/dictionary.py:162
-#, python-format
-msgid "Imported %d words from file."
-msgstr "从文件中已导入 %d 个单词。"
+#: weblate/trans/views/dictionary.py:163
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Imported %d word from the uploaded file."
+msgid_plural "Imported %d words from the uploaded file."
+msgstr[0] "从文件中已导入 %d 个单词。"
 
-#: weblate/trans/views/dictionary.py:167
+#: weblate/trans/views/dictionary.py:171
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "文件上传失败：%s"
 
-#: weblate/trans/views/dictionary.py:170 weblate/trans/views/dictionary.py:172
+#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
 #: weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "处理表单失败！"

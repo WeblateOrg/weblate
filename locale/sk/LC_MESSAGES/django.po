@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-06-03 14:50+0200\n"
+"POT-Creation-Date: 2015-06-09 13:20+0000\n"
 "PO-Revision-Date: 2015-06-02 21:28+0200\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -404,7 +404,7 @@ msgid ""
 msgstr ""
 "Ak máte záujem, môžeme hostovať aj váš projekt. Kontaktujte nás prosím."
 
-#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:47
+#: weblate/html/about.html:44 weblate/html/accounts/hosting.html:48
 msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
@@ -417,7 +417,7 @@ msgstr ""
 msgid "Ask for project hosting"
 msgstr "Požiadať o hostovanie projektu"
 
-#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:51
+#: weblate/html/about.html:49 weblate/html/accounts/hosting.html:53
 msgid "Contact us for commercial hosting"
 msgstr "Kontaktovať nás ohľadne komerčného hosťovania"
 
@@ -621,6 +621,7 @@ msgstr "Prosím opravte chyby vo formulári."
 #: weblate/html/accounts/profile.html:21 weblate/html/accounts/profile.html:35
 #: weblate/html/language.html:6 weblate/html/languages.html:6
 #: weblate/lang/models.py:371 weblate/lang/views.py:36
+#: weblate/trans/admin.py:54
 msgid "Languages"
 msgstr "Jazyky"
 
@@ -3523,6 +3524,42 @@ msgstr "Množné číslo"
 msgid "Plural form %d"
 msgstr "Množný tvar %d"
 
+#: weblate/trans/admin.py:42
+#, fuzzy
+#| msgid "Status of repositories"
+msgid "VCS repositories"
+msgstr "Stav Git repozitára"
+
+#: weblate/trans/admin.py:46
+#, fuzzy
+#| msgid "Source string:"
+msgid "Source strings"
+msgstr "Zdrojový reťazec:"
+
+#: weblate/trans/admin.py:50
+#, fuzzy
+#| msgid "Source"
+msgid "Source words"
+msgstr "Zdroj"
+
+#: weblate/trans/admin.py:63 weblate/trans/admin.py:108
+#, fuzzy
+#| msgid "Rebased repository"
+msgid "Update VCS repository"
+msgstr "Obnovený repozitár"
+
+#: weblate/trans/admin.py:77 weblate/trans/admin.py:125
+#, fuzzy
+#| msgid "Quality checks flags"
+msgid "Update quality checks"
+msgstr "Značky pre kontrolu kvality"
+
+#: weblate/trans/admin.py:89 weblate/trans/admin.py:137
+#, fuzzy
+#| msgid "Commited changes"
+msgid "Commit pending changes"
+msgstr "Zapísané zmeny"
+
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
 msgstr "Ladiaci režim"
@@ -5355,17 +5392,21 @@ msgstr "Slovníky"
 msgid "No words to import found in file."
 msgstr "V súbore neboli nájdené žiadne slová na import."
 
-#: weblate/trans/views/dictionary.py:162
-#, python-format
-msgid "Imported %d words from file."
-msgstr "Zo súboru bolo importovaných %d slov."
+#: weblate/trans/views/dictionary.py:163
+#, fuzzy, python-format
+#| msgid "Imported %d words from file."
+msgid "Imported %d word from the uploaded file."
+msgid_plural "Imported %d words from the uploaded file."
+msgstr[0] "Zo súboru bolo importovaných %d slov."
+msgstr[1] "Zo súboru bolo importovaných %d slov."
+msgstr[2] "Zo súboru bolo importovaných %d slov."
 
-#: weblate/trans/views/dictionary.py:167
+#: weblate/trans/views/dictionary.py:171
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Zlyhalo nahranie obsahu súboru: %s"
 
-#: weblate/trans/views/dictionary.py:170 weblate/trans/views/dictionary.py:172
+#: weblate/trans/views/dictionary.py:174 weblate/trans/views/dictionary.py:176
 #: weblate/trans/views/edit.py:659
 msgid "Failed to process form!"
 msgstr "Nepodarilo sa spracovať formulár!"
