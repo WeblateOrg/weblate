@@ -533,7 +533,7 @@ class GitRepository(Repository):
         """
         # Add files
         if files is not None:
-            self.execute(['add', '--'] + files)
+            self.execute(['add', '--force', '--'] + files)
 
         # Build the commit command
         cmd = [
