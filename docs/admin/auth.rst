@@ -48,6 +48,23 @@ authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
 
+OpenID authentication
+~~~~~~~~~~~~~~~~~~~~~
+
+For OpenID based services it's usually just matter of enabling them. Following
+section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.email.EmailAuth',
+        'social.backends.suse.OpenSUSEOpenId',
+        'social.backends.ubuntu.UbuntuOpenId',
+        'social.backends.fedora.FedoraOpenId',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
