@@ -791,7 +791,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return self.subproject.repo_needs_push()
 
     def git_commit(self, request, author, timestamp, force_commit=False,
-                   sync=False, skip_push=False):
+                   sync=False, skip_push=False, force_new=False):
         '''
         Wrapper for commiting translation to git.
 
@@ -801,7 +801,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         translation rescan will be needed)
         '''
         # Is there something for commit?
-        if not self.repo_needs_commit():
+        if not self.repo_needs_commit() and not force_new:
             return False
 
         # Can we delay commit?

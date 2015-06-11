@@ -1417,6 +1417,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             translation.get_author_name(request.user),
             timezone.now(),
             force_commit=True,
+            force_new=True,
         )
         translation.check_sync(
             force=True,
