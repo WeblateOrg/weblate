@@ -48,7 +48,27 @@ authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
 
-For example, enabling authentication against GitHub:
+OpenID authentication
+~~~~~~~~~~~~~~~~~~~~~
+
+For OpenID based services it's usually just matter of enabling them. Following
+section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.email.EmailAuth',
+        'social.backends.suse.OpenSUSEOpenId',
+        'social.backends.ubuntu.UbuntuOpenId',
+        'social.backends.fedora.FedoraOpenId',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+GitHub authentication
+~~~~~~~~~~~~~~~~~~~~~
+
+You need to register application on GitHub and then tell Weblate all the secrets:
 
 .. code-block:: python
     
@@ -76,8 +96,37 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 
 .. code-block:: python
 
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.google.GoogleOAuth2',
+        'social.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
+
+Facebook OAuth2
+~~~~~~~~~~~~~~~
+
+As usual with OAuth2 services, you need to register your application with
+Facebook. Once this is done, you can configure Weblate to use it:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.facebook.FacebookOAuth2',
+        'social.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_FACEBOOK_KEY = 'key'
+    SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+
 
 LDAP authentication
 +++++++++++++++++++
