@@ -96,6 +96,14 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 
 .. code-block:: python
 
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.google.GoogleOAuth2',
+        'social.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
