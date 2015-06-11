@@ -107,6 +107,27 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
+Facebook OAuth2
+~~~~~~~~~~~~~~~
+
+As usual with OAuth2 services, you need to register your application with
+Facebook. Once this is done, you can configure Weblate to use it:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.facebook.FacebookOAuth2',
+        'social.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_FACEBOOK_KEY = 'key'
+    SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+
+
 LDAP authentication
 +++++++++++++++++++
 
