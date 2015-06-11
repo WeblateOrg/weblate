@@ -48,7 +48,10 @@ authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit users contributions.
 
-For example, enabling authentication against GitHub:
+GitHub authentication
+~~~~~~~~~~~~~~~~~~~~~
+
+You need to register application on GitHub and then tell Weblate all the secrets:
 
 .. code-block:: python
     
