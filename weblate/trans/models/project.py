@@ -19,13 +19,14 @@
 #
 
 from django.db import models
+from django.dispatch import receiver
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import Permission, User
+from django.db.models.signals import m2m_changed
+from django.contrib.auth.models import Permission, User, Group
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import Group
 from django.core.cache import cache
 import os
 import os.path
@@ -436,3 +437,22 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         if not changes:
             return None
         return max(changes)
+
+
+@receiver(m2m_changed, sender=User.user_permissions.through)
+def user_permissions_changed(sender, instance, action, **kwargs):
+    """Clear ACL cache once permissions are changed."""
+    cache.delete('acl-project-{0}'.format(instance.id))
+
+
+@receiver(m2m_changed, sender=User.groups.through)
+def user_group_changed(sender, instance, action, **kwargs):
+    """Clear ACL cache once group is changed."""
+    cache.delete('acl-project-{0}'.format(instance.id))
+
+
+@receiver(m2m_changed, sender=Group.permissions.through)
+def group_permissions_changed(sender, instance, action, **kwargs):
+    """Clear ACL cache once permissions are changed."""
+    for user in instance.user_set.all():
+        cache.delete('acl-project-{0}'.format(user.id))
