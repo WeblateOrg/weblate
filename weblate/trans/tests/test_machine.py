@@ -84,32 +84,7 @@ MYMEMORY_JSON = u'''
 AMAGAMA_JSON = u'''
 [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
 '''.encode('utf-8')
-GOOGLE_JSON = u'''
-[
-    [["svět","world","",""]],
-    [[
-        "noun",["svět","země","společnost","lidstvo"],
-        [
-            ["svět",["world","earth"],null,0.465043187],
-            ["země",["country","land","ground","nation","soil","world"]
-            ,null,0.000656803953],
-            ["lidstvo",["humanity","mankind","humankind","people","world"]
-            ,null,0.000148860636]
-        ],
-        "world",1
-    ]],
-    "en",null,
-    [["svět",[4],1,0,1000,0,1,0]],
-    [[
-        "world",4,[["svět",1000,1,0],
-        ["World",0,1,0],
-        ["Světová",0,1,0],
-        ["světě",0,1,0],
-        ["světa",0,1,0]],
-        [[0,5]],"world"]],
-    null,null,[],2
-]
-'''.encode('utf-8')
+GOOGLE_JSON = '[[["violation","contravention"]]]'
 
 
 class MachineTranslationTest(TestCase):
@@ -205,7 +180,7 @@ class MachineTranslationTest(TestCase):
     def test_googleweb(self):
         httpretty.register_uri(
             httpretty.GET,
-            'http://translate.google.com/translate_a/t',
+            'http://translate.google.com/translate_a/single',
             body=GOOGLE_JSON
         )
         machine = GoogleWebTranslation()
