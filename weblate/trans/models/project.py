@@ -169,7 +169,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         if not self.enable_acl:
             return True
 
-        if user is None or not user.is_authenticated():
+        if user is None:
             return False
 
         return user.has_perm('trans.weblate_acl_%s' % self.slug)
