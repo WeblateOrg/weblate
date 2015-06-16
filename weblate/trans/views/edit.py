@@ -529,9 +529,9 @@ def translate(request, project, subproject, lang):
                 translation, request, this_unit_url, next_unit_url,
             )
 
-        # 'Add term to glossary' form
-        if ('addword' in request.POST and
-              request.user.has_perm('trans.add_dictionary')):
+    # 'Add term to glossary' form
+    if ('addword' in request.POST and
+        request.user.has_perm('trans.add_dictionary')):
         addwordform = TinyWordForm(request.POST)
         if addwordform.is_valid():
             Dictionary.objects.create(
