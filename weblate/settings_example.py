@@ -109,6 +109,7 @@ LANGUAGES = (
     ('ru', u'Русский'),
     ('sk', u'Slovenčina'),
     ('sl', u'Slovenščina'),
+    ('sr', u'Српски'),
     ('sv', u'Svenska'),
     ('tr', u'Türkçe'),
     ('uk', u'Українська'),
