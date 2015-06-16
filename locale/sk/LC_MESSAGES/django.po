@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-06-09 14:41+0000\n"
-"PO-Revision-Date: 2015-06-02 21:28+0200\n"
+"PO-Revision-Date: 2015-06-16 07:24+0200\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
-"Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
-">\n"
+"Language-Team: Slovak "
+"<https://hosted.weblate.org/projects/weblate/master/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 2.3-dev\n"
+"X-Generator: Weblate 2.4-dev\n"
 
 #: weblate/accounts/avatar.py:163
 msgctxt "No known user"
@@ -1077,10 +1077,9 @@ msgid "Your translations"
 msgstr "Vaše preklady"
 
 #: weblate/html/base.html:98
-#, fuzzy
 #| msgid "Registration"
 msgid "Administration"
-msgstr "Registrácia"
+msgstr "Administrácia"
 
 #: weblate/html/base.html:100
 msgid "Logout"
@@ -3525,40 +3524,34 @@ msgid "Plural form %d"
 msgstr "Množný tvar %d"
 
 #: weblate/trans/admin.py:42
-#, fuzzy
 #| msgid "Status of repositories"
 msgid "VCS repositories"
-msgstr "Stav Git repozitára"
+msgstr "VCS repozitáre"
 
 #: weblate/trans/admin.py:46
-#, fuzzy
 #| msgid "Source string:"
 msgid "Source strings"
-msgstr "Zdrojový reťazec:"
+msgstr "Zdrojové reťazce"
 
 #: weblate/trans/admin.py:50
-#, fuzzy
 #| msgid "Source"
 msgid "Source words"
-msgstr "Zdroj"
+msgstr "Zdrojové slová"
 
 #: weblate/trans/admin.py:63 weblate/trans/admin.py:108
-#, fuzzy
 #| msgid "Rebased repository"
 msgid "Update VCS repository"
-msgstr "Obnovený repozitár"
+msgstr "Aktualizovať VCS repozitár"
 
 #: weblate/trans/admin.py:77 weblate/trans/admin.py:125
-#, fuzzy
 #| msgid "Quality checks flags"
 msgid "Update quality checks"
-msgstr "Značky pre kontrolu kvality"
+msgstr "Aktualizovať kontroly kvality"
 
 #: weblate/trans/admin.py:89 weblate/trans/admin.py:137
-#, fuzzy
 #| msgid "Commited changes"
 msgid "Commit pending changes"
-msgstr "Zapísané zmeny"
+msgstr "Zapísať čakajúce zmeny"
 
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
@@ -4304,10 +4297,9 @@ msgid "Failed merge on repository"
 msgstr "Chyba pri  zlučovaní repozitára"
 
 #: weblate/trans/models/changes.py:179
-#, fuzzy
 #| msgid "Failed to update repository: %s"
 msgid "Failed rebase on repository"
-msgstr "Nepodarilo sa aktualizovať repozitár: %s"
+msgstr "Chyba pri preskládaní repozitára"
 
 #: weblate/trans/models/changes.py:244
 #, python-format
@@ -4387,7 +4379,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:134
 msgid "Owner"
-msgstr ""
+msgstr "Vlastník"
 
 #: weblate/trans/models/project.py:139
 msgid "Owner of the project."
@@ -4689,6 +4681,8 @@ msgid ""
 "How to handle requests for creating new languages. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
+"Ako sa majú riešiť požiadavky na vytvorenie nového jazykového prekladu. "
+"Dostupnosť možností je závislá na formáte súboru."
 
 #: weblate/trans/models/subproject.py:336
 msgid "Merge style"
@@ -5393,12 +5387,12 @@ msgid "No words to import found in file."
 msgstr "V súbore neboli nájdené žiadne slová na import."
 
 #: weblate/trans/views/dictionary.py:162
-#, fuzzy, python-format
+#, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
-msgstr[0] "Zo súboru bolo importovaných %d slov."
-msgstr[1] "Zo súboru bolo importovaných %d slov."
+msgstr[0] "Zo súboru bolo importované %d slovo."
+msgstr[1] "Zo súboru boli importované %d slová."
 msgstr[2] "Zo súboru bolo importovaných %d slov."
 
 #: weblate/trans/views/dictionary.py:169
@@ -5517,21 +5511,20 @@ msgid "Access denied."
 msgstr "Nedovolený prístup."
 
 #: weblate/trans/views/files.py:123
-#, fuzzy, python-format
+#, python-format
 #| msgid "Imported %d words from file."
 msgid "Processed %d string from the uploaded files."
 msgid_plural "Processed %d strings from the uploaded files."
-msgstr[0] "Zo súboru bolo importovaných %d slov."
-msgstr[1] "Zo súboru bolo importovaných %d slov."
-msgstr[2] "Zo súboru bolo importovaných %d slov."
+msgstr[0] "Zo súboru bolo spracované %d slovo."
+msgstr[1] "Zo súboru boli spracované %d slová."
+msgstr[2] "Zo súboru bolo spracovaných %d slov."
 
 #: weblate/trans/views/files.py:131
-#, fuzzy
 #| msgid "There were no new strings in uploaded file, processed %d string."
 #| msgid_plural ""
 #| "There were no new strings in uploaded file, processed %d strings."
 msgid "There were no new strings in uploaded file!"
-msgstr "V nahranom súbore neboli žiadne nové reťazce, spracovaný %d reťazec."
+msgstr "V nahranom súbore neboli žiadne nové reťazce!"
 
 #: weblate/trans/views/files.py:135
 #, python-format
