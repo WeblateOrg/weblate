@@ -546,7 +546,6 @@ def translate(request, project, subproject, lang):
                 translation, request, this_unit_url, next_unit_url,
             )
 
-
     # Handle translation merging
     elif 'merge' in request.GET and not locked:
         response = handle_merge(

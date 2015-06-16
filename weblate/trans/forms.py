@@ -607,10 +607,8 @@ class TinyWordForm(WordForm):
             PrependedText('source', _('Source')),
             PrependedText('target', _('Translation')),
             FormActions(Submit(
-                'submit',
-                _('Add'),
-                css_class='btn btn-default btn-xs pull-right'))
-            )
+                'submit', _('Add'),
+                css_class='btn btn-default btn-xs pull-right')))
 
 
 class DictUploadForm(forms.Form):
