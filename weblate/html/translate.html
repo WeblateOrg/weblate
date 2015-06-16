@@ -383,7 +383,13 @@
     {% else %}
     <p>{% trans "No related strings were found in the glossary." %}</p>
     {% endif %}
-
+     {% if perms.trans.add_dictionary %}
+       <div class="panel-body">
+          <form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
+                  {% crispy addwordform %}
+          </form>
+       </div>
+     {% endif %}
   </div>
 
 
