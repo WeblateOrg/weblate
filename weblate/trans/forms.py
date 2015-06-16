@@ -606,8 +606,10 @@ class TinyWordForm(WordForm):
         self.helper.layout = Layout(
             PrependedText('source', _('Source')),
             PrependedText('target', _('Translation')),
-            FormActions(Submit('submit', _('Add'),
-                css_class='btn btn-default btn-xs pull-right')),
+            FormActions(Submit(
+                'submit',
+                _('Add'),
+                css_class='btn btn-default btn-xs pull-right'))
             )
 
 

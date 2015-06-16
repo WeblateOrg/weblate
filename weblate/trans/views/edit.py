@@ -511,6 +511,23 @@ def translate(request, project, subproject, lang):
 
     response = None
 
+    # 'Add term to glossary' form
+    if ('addword' in request.POST and
+            request.user.has_perm('trans.add_dictionary')):
+        addwordform = TinyWordForm(request.POST)
+        if addwordform.is_valid():
+            Dictionary.objects.create(
+                request,
+                project=project,
+                language=lang,
+                source=addwordform.cleaned_data['source'],
+                target=addwordform.cleaned_data['target']
+            )
+            return HttpResponseRedirect(this_unit_url)
+
+    else:
+        addwordform = TinyWordForm()
+
     # Any form submitted?
     if request.method == 'POST' and not project_locked:
 
@@ -528,23 +545,6 @@ def translate(request, project, subproject, lang):
             response = handle_suggestions(
                 translation, request, this_unit_url, next_unit_url,
             )
-
-    # 'Add term to glossary' form
-    if ('addword' in request.POST and
-        request.user.has_perm('trans.add_dictionary')):
-        addwordform = TinyWordForm(request.POST)
-        if addwordform.is_valid():
-            Dictionary.objects.create(
-                request,
-                project=project,
-                language=lang,
-                source=addwordform.cleaned_data['source'],
-                target=addwordform.cleaned_data['target']
-            )
-            return HttpResponseRedirect(this_unit_url)
-
-    else:
-        addwordform = TinyWordForm()
 
 
     # Handle translation merging
