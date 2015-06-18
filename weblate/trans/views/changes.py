@@ -182,7 +182,7 @@ class ChangesCSVView(ChangesView):
     paginate_by = None
 
     def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
+        object_list = self.get_queryset()
 
         # Always output in english
         activate('en')
@@ -195,7 +195,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in self.object_list[:2000].iterator():
+        for change in object_list[:2000].iterator():
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),
