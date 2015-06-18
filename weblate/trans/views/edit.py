@@ -598,7 +598,6 @@ def translate(request, project, subproject, lang):
     )
 
 
-@login_required
 @permission_required('trans.automatic_translation')
 def auto_translation(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
