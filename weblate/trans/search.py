@@ -182,6 +182,8 @@ def update_index_unit(unit, source=True):
     # Should this happen in background?
     if appsettings.OFFLOAD_INDEXING:
         from weblate.trans.models.search import IndexUpdate
+        if not unit.target and not source:
+            return
         try:
             with transaction.atomic():
                 IndexUpdate.objects.create(
