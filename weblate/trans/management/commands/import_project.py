@@ -157,7 +157,7 @@ class Command(BaseCommand):
             if name:
                 names.add(name)
         self.logger.info('Found %d subprojects', len(names))
-        return names
+        return sorted(names)
 
     def handle(self, *args, **options):
         '''
