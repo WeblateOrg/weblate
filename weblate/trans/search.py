@@ -207,7 +207,7 @@ def update_index_unit(unit, source=True):
             update_source_unit_index(writer, unit)
 
     # Update target
-    if unit.target != '':
+    if unit.target:
         index = get_target_index(unit.translation.language.code)
         with AsyncWriter(index) as writer:
             update_target_unit_index(writer, unit)
