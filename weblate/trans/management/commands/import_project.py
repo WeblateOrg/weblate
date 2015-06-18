@@ -102,7 +102,7 @@ class Command(BaseCommand):
         '''
         if self._mask_regexp is None:
             match = fnmatch.translate(self.filemask)
-            match = match.replace('.*.*', '(?P<name>.*.*)')
+            match = match.replace('.*.*', '(?P<name>.*)')
             self._mask_regexp = re.compile(match)
         return self._mask_regexp
 
