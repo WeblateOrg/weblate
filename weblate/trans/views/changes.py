@@ -195,7 +195,7 @@ class ChangesCSVView(ChangesView):
         # Add header
         writer.writerow(('timestamp', 'action', 'user', 'url'))
 
-        for change in self.object_list.iterator():
+        for change in self.object_list[:2000].iterator():
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),
