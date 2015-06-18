@@ -912,8 +912,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 continue
 
             self.log_info(
-                'checking %s [%d/%d]',
+                'checking %s (%s) [%d/%d]',
                 path,
+                code,
                 pos + 1,
                 len(matches)
             )
