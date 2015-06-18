@@ -679,6 +679,7 @@ class GithubRepository(GitRepository):
         """
         self.fork()
         fork_branch = '{0}-weblate'.format(branch)
+        self.push_to_fork(branch, branch)
         self.push_to_fork(branch, fork_branch)
         try:
             self.create_pull_request(branch, fork_branch)
