@@ -651,6 +651,7 @@ class GithubRepository(GitRepository):
         """
         cmd = [
             'pull-request',
+            '-f',
             '-h', '{0}:{1}'.format(self._hub_user, fork_branch),
             '-b', origin_branch,
             '-m', 'Update from Weblate.'.encode('utf-8'),
