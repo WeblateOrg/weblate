@@ -102,7 +102,7 @@ class Command(BaseCommand):
         """
         matches = self.match_regexp.match(path)
         if matches is None:
-            self.logger.warning('Skipping {0}'.format(path))
+            self.logger.warning('Skipping %s', path)
             return None
         return matches.group('name')
 
