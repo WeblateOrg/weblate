@@ -139,6 +139,19 @@ folder:
         master \
         web-app/tgol-web-app/src/main/resources/i18n/**-I18N_*.properties
 
+Example of more complex parsing of filenames to get correct component and
+language out of file name like
+``src/security/Numerous_security_holes_in_0.10.1.de.po``:
+
+.. code-block:: sh
+
+    ./manage.py import_project \
+        --component-regexp 'wiki/src/security/(?P<name>.*)\.([^.]*)\.po$' \
+        tails \
+        git://git.tails.boum.org/tails master \
+        'wiki/src/security/**.*.po'
+
+
 importuserdata <file.json>
 --------------------------
 
