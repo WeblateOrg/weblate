@@ -38,6 +38,7 @@ import os.path
 import re
 import traceback
 import importlib
+from cStringIO import StringIO
 import __builtin__
 from StringIO import StringIO
 
@@ -770,18 +771,31 @@ class PoFormat(FileFormat):
         '''
         Adds new language file.
         '''
-        subprocess.check_call(
+        with open(base, 'r') as handle:
+            data = handle.read()
+        # Assume input is UTF-8 if not specified
+        if 'Content-Type: text/plain; charset=CHARSET' in data:
+            data = data.replace(
+                'Content-Type: text/plain; charset=CHARSET',
+                'Content-Type: text/plain; charset=UTF-8'
+            )
+        process = subprocess.Popen(
             [
                 'msginit',
-                '-i', base,
+                '-i', '-',
                 '-o', filename,
                 '--no-translator',
                 '-l', code
             ],
+            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
+            stderr=subprocess.PIPE,
             env=get_clean_env(),
         )
+        output, output_err = process.communicate(input=data)
+        retcode = process.poll()
+        if retcode:
+            raise ValueError(output_err if output_err else output)
 
 
 @register_fileformat

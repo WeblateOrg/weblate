@@ -35,6 +35,7 @@ TEST_PHP = get_test_file('cs.php')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_POT = get_test_file('hello.pot')
+TEST_POT_UNICODE = get_test_file('unicode.pot')
 TEST_RESX = get_test_file('cs.resx')
 
 
@@ -86,6 +87,13 @@ class AutoFormatTest(TestCase):
 
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
+
+    def test_add_encoding(self):
+        out = tempfile.NamedTemporaryFile()
+        self.FORMAT.add_language(out.name, 'cs', TEST_POT_UNICODE)
+        data = out.read().decode('utf-8')
+        self.assertTrue(u'Michal Čihař' in data)
+        out.close()
 
 
 class PropertiesFormatTest(AutoFormatTest):
