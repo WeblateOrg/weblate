@@ -38,9 +38,8 @@ import os.path
 import re
 import traceback
 import importlib
-from cStringIO import StringIO
-import __builtin__
 from StringIO import StringIO
+import __builtin__
 
 
 FILE_FORMATS = {}
