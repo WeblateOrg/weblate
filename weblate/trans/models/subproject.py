@@ -966,7 +966,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         else:
             code = path[len(parts[0]):-len(parts[1])].split('/')[0]
         # Remove possible encoding part
-        return code.split('.')[0]
+        if '.' in code and ('.utf' in code.lower() or '.iso' in code.lower()):
+            return code.split('.')[0]
+        return code
 
     def sync_git_repo(self, validate=False):
         '''
