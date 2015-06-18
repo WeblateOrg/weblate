@@ -782,10 +782,10 @@ class PoFormat(FileFormat):
         process = subprocess.Popen(
             [
                 'msginit',
-                '-i', '-',
-                '-o', filename,
+                '--input', '-',
+                '--output', filename,
                 '--no-translator',
-                '-l', code
+                '--locale', code
             ],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
