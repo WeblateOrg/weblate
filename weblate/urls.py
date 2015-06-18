@@ -27,7 +27,7 @@ from weblate.trans.feeds import (
     TranslationChangesFeed, SubProjectChangesFeed,
     ProjectChangesFeed, ChangesFeed, LanguageChangesFeed
 )
-from weblate.trans.views.changes import ChangesView
+from weblate.trans.views.changes import ChangesView, ChangesCSVView
 from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
 
@@ -417,6 +417,11 @@ urlpatterns = patterns(
         r'^changes/$',
         ChangesView.as_view(),
         name='changes',
+    ),
+    url(
+        r'^changes/csv/$',
+        ChangesCSVView.as_view(),
+        name='changes-csv',
     ),
 
     # Notification hooks

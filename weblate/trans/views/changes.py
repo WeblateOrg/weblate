@@ -19,15 +19,16 @@
 #
 
 from django.views.generic.list import ListView
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, activate
 from django.db.models import Q
 from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
 from urllib import urlencode
+import csv
 
 
 class ChangesView(ListView):
@@ -174,3 +175,32 @@ class ChangesView(ListView):
             )
 
         return result
+
+
+class ChangesCSVView(ChangesView):
+    """CSV renderer for changes view"""
+    paginate_by = None
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+
+        # Always output in english
+        activate('en')
+
+        response = HttpResponse(content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename=changes.csv'
+
+        writer = csv.writer(response)
+
+        # Add header
+        writer.writerow(('timestamp', 'action', 'user', 'url'))
+
+        for change in self.object_list.iterator():
+            writer.writerow((
+                change.timestamp.isoformat(),
+                change.get_action_display().encode('utf8'),
+                change.user.username if change.user else '',
+                change.get_absolute_url(),
+            ))
+
+        return response

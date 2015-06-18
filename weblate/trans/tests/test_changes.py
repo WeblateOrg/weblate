@@ -31,6 +31,10 @@ class ChangesTest(ViewTestCase):
         response = self.client.get(reverse('changes'))
         self.assertContains(response, 'Resource update')
 
+    def test_basic_csv(self):
+        response = self.client.get(reverse('changes-csv'))
+        self.assertContains(response, 'timestamp,')
+
     def test_filter(self):
         response = self.client.get(
             reverse('changes'),
