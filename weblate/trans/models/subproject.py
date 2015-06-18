@@ -918,6 +918,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 pos + 1,
                 len(matches)
             )
+            if '.' in code:
+                self.log_info('skipping language: {0}'.format(code))
+                continue
             lang = Language.objects.auto_get_or_create(code=code)
             if lang.code in languages:
                 self.log_error('duplicate language found: %s', lang.code)
