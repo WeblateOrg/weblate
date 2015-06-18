@@ -48,6 +48,42 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
+    def test_import_re(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            component_regexp=r'(?P<name>[^/-]*)/.*\.po'
+        )
+        self.assertEqual(project.subproject_set.count(), 1)
+
+    def test_import_re_missing(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            component_regexp=r'(?P<xname>[^/-]*)/.*\.po'
+        )
+
+    def test_import_re_wrong(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            component_regexp=r'(?P<xname>[^/-]*'
+        )
+
     def test_import_po(self):
         project = self.create_project()
         call_command(

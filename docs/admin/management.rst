@@ -106,6 +106,12 @@ You can also specify file format to use (see :ref:`formats`) by the
 In case you need to specify version control system to use, you can do this using
 ``--vcs`` parameter. The default version control is Git.
 
+You can override parsing of component name from matched files by
+``--component-regexp``. This is a regular expression which will be matched
+against file name (as matched by `<filemask>`) and has to contain named group
+`name`. This can be also used for excluding files in case they do not match
+this expression. For example: ``.*/(?P<name>[^-]*)\.po``
+
 To give you some examples, let's try importing two projects.
 
 As first we import The Debian Handbook translations, where each language has

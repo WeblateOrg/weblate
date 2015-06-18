@@ -8,6 +8,7 @@ Released on ? 2015.
 
 * Improved support for PHP files.
 * Ability to add ACL to anonymous user.
+* Improved configurability of import_project command.
 
 weblate 2.3
 -----------

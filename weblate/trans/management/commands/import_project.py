@@ -51,6 +51,13 @@ class Command(BaseCommand):
             )
         ),
         make_option(
+            '--component-regexp',
+            default=None,
+            help=(
+                'Regular expression to match component out of filename'
+            )
+        ),
+        make_option(
             '--base-file-template',
             default='',
             help=(
@@ -73,6 +80,7 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
         self.filemask = None
+        self.component_re = None
         self.file_format = None
         self.name_template = None
         self.base_file_template = None
@@ -93,6 +101,9 @@ class Command(BaseCommand):
         Returns file name from patch based on filemask.
         """
         matches = self.match_regexp.match(path)
+        if matches is None:
+            self.logger.warning('Skipping {0}'.format(path))
+            return None
         return matches.group('name')
 
     @property
@@ -100,6 +111,8 @@ class Command(BaseCommand):
         '''
         Returns regexp for file matching
         '''
+        if self.component_re is not None:
+            return self.component_re
         if self._mask_regexp is None:
             match = fnmatch.translate(self.filemask)
             match = match.replace('.*.*', '(?P<name>.*)')
@@ -140,7 +153,9 @@ class Command(BaseCommand):
         # Parse subproject names out of them
         names = set()
         for match in matches:
-            names.add(self.get_name(match))
+            name = self.get_name(match)
+            if name:
+                names.add(name)
         self.logger.info('Found %d subprojects', len(names))
         return names
 
@@ -166,6 +181,22 @@ class Command(BaseCommand):
         self.file_format = options['file_format']
         self.name_template = options['name_template']
         self.base_file_template = options['base_file_template']
+        if options['component_regexp']:
+            try:
+                self.component_re = re.compile(
+                    options['component_regexp'],
+                    re.MULTILINE | re.DOTALL
+                )
+            except re.error as error:
+                raise CommandError(
+                    'Failed to compile regullar expression "{0}": {1}'.format(
+                        options['component_regexp'], error
+                    )
+                )
+            if 'name' not in self.component_re.groupindex:
+                raise CommandError(
+                    'Component regullar expression lacks named group "name"'
+                )
 
         # Try to get project
         try:
