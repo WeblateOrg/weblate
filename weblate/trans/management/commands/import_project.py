@@ -93,7 +93,7 @@ class Command(BaseCommand):
         Returns file name from patch based on filemask.
         """
         matches = self.match_regexp.match(path)
-        return matches.group(1)
+        return matches.group('name')
 
     @property
     def match_regexp(self):
@@ -102,7 +102,7 @@ class Command(BaseCommand):
         '''
         if self._mask_regexp is None:
             match = fnmatch.translate(self.filemask)
-            match = match.replace('.*.*', '(.*.*)')
+            match = match.replace('.*.*', '(?P<name>.*.*)')
             self._mask_regexp = re.compile(match)
         return self._mask_regexp
 
