@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-06-09 14:41+0000\n"
-"PO-Revision-Date: 2015-06-13 12:01+0200\n"
+"PO-Revision-Date: 2015-06-20 19:14+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian "
 "<https://hosted.weblate.org/projects/weblate/master/sl/>\n"
@@ -1100,6 +1100,9 @@ msgid ""
 "some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
 "\">Firefox</a>."
 msgstr ""
+"Weblate ne podpira Microsoft Internet Explorerja 8 in starejših; prosimo, "
+"uporabite novejši brskalnik, kot je <a href=\""
+"https://www.mozilla.org/firefox/\">Firefox</a>."
 
 #: weblate/html/check.html:6 weblate/html/check_project.html:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html:6
@@ -3563,10 +3566,9 @@ msgid "Update quality checks"
 msgstr "Posodobi preverjanja kakovosti"
 
 #: weblate/trans/admin.py:89 weblate/trans/admin.py:137
-#, fuzzy
 #| msgid "Commited changes"
 msgid "Commit pending changes"
-msgstr "Objavljene spremembe"
+msgstr "Potrdi spremembe v teku"
 
 #: weblate/trans/admin_views.py:64
 msgid "Debug mode"
@@ -3631,10 +3633,9 @@ msgid "Admin static files"
 msgstr "Administratorske statične datoteke"
 
 #: weblate/trans/apps.py:28
-#, fuzzy
 #| msgid "Other translations"
 msgid "Weblate translations"
-msgstr "Drugi prevodi"
+msgstr "Prevodi Weblate"
 
 #: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:323
 msgid "Trailing ellipsis"
@@ -4227,11 +4228,11 @@ msgstr ""
 
 #: weblate/trans/models/advertisement.py:130
 msgid "Advertisement"
-msgstr ""
+msgstr "Oglas"
 
 #: weblate/trans/models/advertisement.py:131
 msgid "Advertisements"
-msgstr ""
+msgstr "Oglasi"
 
 #: weblate/trans/models/changes.py:156
 msgid "Resource update"
@@ -4397,7 +4398,7 @@ msgstr "Ali naj bo dovoljeno posodabljanje shrambe z oddaljenimi zankami."
 
 #: weblate/trans/models/project.py:134
 msgid "Owner"
-msgstr ""
+msgstr "Lastnik"
 
 #: weblate/trans/models/project.py:139
 msgid "Owner of the project."
@@ -4699,6 +4700,8 @@ msgid ""
 "How to handle requests for creating new languages. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
+"Kako ravnati z zahtevami za ustvarjanje novih jezikov. Pomnite, da je "
+"razpoložljivost možnosti odvisna od oblike datoteke."
 
 #: weblate/trans/models/subproject.py:336
 msgid "Merge style"
@@ -4852,16 +4855,14 @@ msgstr ""
 "Temeljne datoteke za nove prevode ne uporabljamo zaradi nastavitev projekta."
 
 #: weblate/trans/models/subproject.py:1114
-#, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use base file with bilingual translation!"
-msgstr "Ne morete utemeljiti datoteke z dvojezičnim prevodom!"
+msgstr "Ne morete uporabiti temeljne datoteke z dvojezičnim prevodom!"
 
 #: weblate/trans/models/subproject.py:1120
-#, fuzzy
 #| msgid "Changing version control system is not supported!"
 msgid "Using .pot file as base file is not supported!"
-msgstr "Spreminjanje sistema za nadzor različic ni podprto!"
+msgstr "Uporaba datoteke .pot kot temeljne datoteke ni podprto!"
 
 #: weblate/trans/models/subproject.py:1127
 msgid "Template file not found!"
@@ -4944,16 +4945,14 @@ msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Sporočila nisem našel v zaledni shrambi; najverjetneje je pokvarjeno."
 
 #: weblate/trans/models/whiteboard.py:32
-#, fuzzy
 #| msgid "Additional message"
 msgid "Whiteboard message"
-msgstr "Dodatno sporočilo"
+msgstr "Sporočilo na tabli"
 
 #: weblate/trans/models/whiteboard.py:33
-#, fuzzy
 #| msgid "Nearby messages"
 msgid "Whiteboard messages"
-msgstr "Bližnja sporočila"
+msgstr "Sporočila na tabli"
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"
@@ -5429,13 +5428,13 @@ msgid "No words to import found in file."
 msgstr "V datoteki nisem našel nobene besede za uvoz."
 
 #: weblate/trans/views/dictionary.py:162
-#, fuzzy, python-format
+#, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
-msgstr[0] "Iz datoteke sem uvozil %d besed."
-msgstr[1] "Iz datoteke sem uvozil %d besed."
-msgstr[2] "Iz datoteke sem uvozil %d besed."
+msgstr[0] "Iz datoteke sem uvozil %d besedo."
+msgstr[1] "Iz datoteke sem uvozil %d besedi."
+msgstr[2] "Iz datoteke sem uvozil %d besede."
 msgstr[3] "Iz datoteke sem uvozil %d besed."
 
 #: weblate/trans/views/dictionary.py:169
@@ -5554,22 +5553,21 @@ msgid "Access denied."
 msgstr "Dostop zavrnjen."
 
 #: weblate/trans/views/files.py:123
-#, fuzzy, python-format
+#, python-format
 #| msgid "Imported %d words from file."
 msgid "Processed %d string from the uploaded files."
 msgid_plural "Processed %d strings from the uploaded files."
-msgstr[0] "Iz datoteke sem uvozil %d besed."
-msgstr[1] "Iz datoteke sem uvozil %d besed."
-msgstr[2] "Iz datoteke sem uvozil %d besed."
-msgstr[3] "Iz datoteke sem uvozil %d besed."
+msgstr[0] "Iz naloženih datotek sem obdelal %d niz."
+msgstr[1] "Iz naloženih datotek sem obdelal %d niza."
+msgstr[2] "Iz naloženih datotek sem obdelal %d nize."
+msgstr[3] "Iz naloženih datotek sem obdelal %d nizov."
 
 #: weblate/trans/views/files.py:131
-#, fuzzy
 #| msgid "There were no new strings in uploaded file, processed %d string."
 #| msgid_plural ""
 #| "There were no new strings in uploaded file, processed %d strings."
 msgid "There were no new strings in uploaded file!"
-msgstr "V naloženi datoteki ni bilo novih nizov; obdelal sem %d niz."
+msgstr "V naloženi datoteki ni bilo novih nizov!"
 
 #: weblate/trans/views/files.py:135
 #, python-format
