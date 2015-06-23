@@ -199,7 +199,7 @@ class ChangesCSVView(ChangesView):
             writer.writerow((
                 change.timestamp.isoformat(),
                 change.get_action_display().encode('utf8'),
-                change.user.username if change.user else '',
+                change.user.username.encode('utf8') if change.user else '',
                 change.get_absolute_url(),
             ))
 
