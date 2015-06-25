@@ -105,7 +105,7 @@ LANGUAGES = (
     ('nl', u'Nederlands'),
     ('pl', u'Polski'),
     ('pt', u'Português'),
-    ('pt_BR', u'Português brasileiro'),
+    ('pt-BR', u'Português brasileiro'),
     ('ru', u'Русский'),
     ('sk', u'Slovenčina'),
     ('sl', u'Slovenščina'),
