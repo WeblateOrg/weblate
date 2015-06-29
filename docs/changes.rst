@@ -10,6 +10,7 @@ Released on ? 2015.
 * Ability to add ACL to anonymous user.
 * Improved configurability of import_project command.
 * Added CSV dump of history.
+* Avoid copy/paste errors with whitespace chars.
 
 weblate 2.3
 -----------

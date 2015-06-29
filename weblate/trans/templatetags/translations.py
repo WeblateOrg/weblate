@@ -69,7 +69,7 @@ def fmt_whitespace(value):
     # Highlight tabs
     value = value.replace(
         '\t',
-        u'<span class="hlspace space-tab" title="%s">→</span>' % (
+        u'<span class="hlspace space-tab" title="%s"></span>' % (
             _('Tab character')
         )
     )
@@ -94,7 +94,7 @@ def format_translation(value, language=None, diff=None, search_match=None,
         plurals = plurals[:1]
 
     # Newline concatenator
-    newline = u'<span class="hlspace" title="{0}">↵</span><br />'.format(
+    newline = u'<span class="hlspace space-nl" title="{0}"></span><br />'.format(
         _('New line')
     )
 
