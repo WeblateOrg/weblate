@@ -40,6 +40,9 @@ from weblate.trans.checks import CHECKS
 
 register = template.Library()
 
+SPACE_NL = u'<span class="hlspace space-nl" title="{0}"></span><br />'
+SPACE_TAB = u'<span class="hlspace space-tab" title="{0}"></span>'
+
 WHITESPACE_RE = re.compile(r'(  +| $|^ )')
 NEWLINES_RE = re.compile(r'\r\n|\r|\n')
 TYPE_MAPPING = {
@@ -69,9 +72,7 @@ def fmt_whitespace(value):
     # Highlight tabs
     value = value.replace(
         '\t',
-        u'<span class="hlspace space-tab" title="%s"></span>' % (
-            _('Tab character')
-        )
+        SPACE_TAB.format(_('Tab character'))
     )
     return value
 
@@ -94,9 +95,7 @@ def format_translation(value, language=None, diff=None, search_match=None,
         plurals = plurals[:1]
 
     # Newline concatenator
-    newline = u'<span class="hlspace space-nl" title="{0}"></span><br />'.format(
-        _('New line')
-    )
+    newline = SPACE_NL.format(_('New line'))
 
     # Split diff plurals
     if diff is not None:
