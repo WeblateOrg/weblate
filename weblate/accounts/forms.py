@@ -19,7 +19,7 @@
 #
 
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
 from crispy_forms.helper import FormHelper
 
@@ -82,8 +82,8 @@ class NoStripEmailField(forms.EmailField):
 class UsernameField(forms.RegexField):
     def __init__(self, *args, **kwargs):
         help_text = _(
-            'Username may contain only letters, '
-            'numbers and following characters: @ . + - _'
+            'Username may only contain letters, '
+            'numbers or the following characters: @ . + - _'
         )
         kwargs['max_length'] = 30
         kwargs['regex'] = r'^[\w.@+-]+$'
@@ -234,7 +234,7 @@ class UserForm(forms.ModelForm):
     email = forms.ChoiceField(
         label=_('E-mail'),
         help_text=_(
-            'You can add another emails on Authentication tab.'
+            'You can add another email address on the Authentication tab.'
         ),
         choices=(
             ('', ''),
@@ -377,7 +377,11 @@ class CaptchaRegistrationForm(RegistrationForm):
                 self.tampering = True
 
         # Set correct label
-        self.fields['captcha'].label = _('What is %s?') % self.captcha.display
+        self.fields['captcha'].label = pgettext(
+            'Question for a mathematics-based CAPTCHA, '
+            'the %s is an arithmetic problem',
+            'What is %s?'
+        ) % self.captcha.display
         self.fields['captcha_id'].initial = self.captcha.hashed
 
     def clean_captcha(self):
