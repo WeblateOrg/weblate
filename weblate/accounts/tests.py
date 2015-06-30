@@ -139,6 +139,30 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First Last')
 
+    @OverrideSettings(REGISTRATION_CAPTCHA=False)
+    def test_register_missing(self):
+        # Disable captcha
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA
+        )
+        # Check we did succeed
+        self.assertRedirects(response, reverse('email-sent'))
+
+        # Confirm account
+        url = self.assert_registration_mailbox()
+
+        # Remove session ID from URL
+        url = url.split('&id=')[0]
+
+        # Delete session ID from cookies
+        del self.client.cookies['sessionid']
+
+        # Confirm account
+        response = self.client.get(url, follow=True)
+        self.assertRedirects(response, reverse('login'))
+        self.assertContains(response, 'Failed to verify your registration')
+
     def test_reset(self):
         '''
         Test for password reset.

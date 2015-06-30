@@ -20,11 +20,37 @@
 
 from weblate.appsettings import ANONYMOUS_USER_NAME
 
+import social.backends.email
+from social.exceptions import AuthMissingParameter
+
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
+from django.utils.translation import ugettext as _
 
 from django.contrib.auth.backends import ModelBackend
+
+
+class EmailAuth(social.backends.email.EmailAuth):
+    """Social auth handler to better report errors."""
+    def auth_complete(self, *args, **kwargs):
+        try:
+            return super(EmailAuth, self).auth_complete(*args, **kwargs)
+        except AuthMissingParameter as error:
+            if error.parameter == 'email':
+                messages.error(
+                    self.strategy.request,
+                    _(
+                        'Failed to verify your registration! '
+                        'Probably the verification token has expired. '
+                        'Please try the registration again.'
+                    )
+                )
+                return redirect(reverse('login'))
+            raise
 
 
 class WeblateUserBackend(ModelBackend):

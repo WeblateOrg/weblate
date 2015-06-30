@@ -613,7 +613,7 @@ def post_login_handler(sender, request, user, **kwargs):
     '''
 
     # Warning about setting password
-    if (getattr(user, 'backend', '') == 'social.backends.email.EmailAuth' and
+    if (getattr(user, 'backend', '').endswith('.EmailAuth') and
             not user.has_usable_password()):
         request.session['show_set_password'] = True
 
