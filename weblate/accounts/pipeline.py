@@ -92,13 +92,12 @@ def store_email(strategy, backend, user, social, details, **kwargs):
     '''
     Stores verified email.
     '''
-    if details['email'] is None:
+    if 'email' not in details or details['email'] is None:
         raise AuthMissingParameter(backend, 'email')
-    if 'email' in details:
-        verified, dummy = VerifiedEmail.objects.get_or_create(social=social)
-        if verified.email != details['email']:
-            verified.email = details['email']
-            verified.save()
+    verified, dummy = VerifiedEmail.objects.get_or_create(social=social)
+    if verified.email != details['email']:
+        verified.email = details['email']
+        verified.save()
 
 
 def user_full_name(strategy, details, user=None, **kwargs):
