@@ -248,6 +248,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     allow_translation_propagation = models.BooleanField(
         verbose_name=ugettext_lazy('Allow translation propagation'),
         default=True,
+        db_index=True,
         help_text=ugettext_lazy(
             'Whether translation updates in other components '
             'will cause automatic translation in this one'
