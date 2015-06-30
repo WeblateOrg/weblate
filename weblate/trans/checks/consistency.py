@@ -65,19 +65,18 @@ class ConsistencyCheck(TargetCheck):
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False
-        related = Unit.objects.same(unit)
-        if not related.exists():
-            return False
+        related = Unit.objects.same(
+            unit
+        ).exclude(
+            target=unit.target
+        ).filter(
+            translation__subproject__allow_translation_propagation=True
+        )
 
         if not unit.translated:
             related = related.filter(translated=True)
 
-        for unit2 in related.iterator():
-            if unit2.target != unit.target:
-                if unit2.translation.subproject.allow_translation_propagation:
-                    return True
-
-        return False
+        return related.exists()
 
     def check_single(self, source, target, unit, cache_slot):
         '''
