@@ -319,7 +319,7 @@ class Unit(models.Model):
     flags = models.TextField(default='', blank=True)
     source = models.TextField()
     previous_source = models.TextField(default='', blank=True)
-    target = models.TextField(default='', blank=True, db_index=True)
+    target = models.TextField(default='', blank=True)
     fuzzy = models.BooleanField(default=False, db_index=True)
     translated = models.BooleanField(default=False, db_index=True)
     position = models.IntegerField(db_index=True)
