@@ -214,6 +214,8 @@ For Gettext PO files, you have to pass parameter ``--previous`` to
 For monolingual translations, Weblate can find the previous string by ID, so it
 shows the differences automatically.
 
+.. _translations-update:
+
 Why does Weblate still shows old translation strings when I've updated the template?
 ------------------------------------------------------------------------------------
 

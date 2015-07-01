@@ -7,6 +7,36 @@ Weblate provides you great infrastructure for translation to closely follow
 your development. This way translators can work on translations whole time and
 are not forced to translate huge amount of new texts before release.
 
+The complete process can be described in following steps:
+
+1. Developers make some changes and push them to the VCS repository.
+2. Optionally the translation files are updated (this depends on the file format, see :ref:`translations-update`).
+3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.
+4. Once Weblate detects changes in translations, translators will be notified based on their subscription settings.
+5. Translators make translations using Weblate web interface.
+6. Once translators are done, Weblate commits the changes to the local repository (see :ref:`lazy-commit`) and pushes them back if it has permissions to do that (see :ref:`push-changes`).
+
+.. graphviz::
+
+    digraph translations {
+        "Developers" [shape=box, fillcolor=lightgreen, style=filled];
+        "Translators" [shape=box, fillcolor=lightgreen, style=filled];
+
+        "Developers" -> "VCS repository" [label=" 1. Push "];
+
+        "VCS repository" -> "VCS repository" [label=" 2. Updating translations ", style=dotted];
+
+        "VCS repository" -> "Weblate" [label=" 3. Pull "];
+
+        "Weblate" -> "Translators" [label=" 4. Notification "];
+
+        "Translators" -> "Weblate" [label=" 5. Translate "];
+
+        "Weblate" -> "VCS repository" [label=" 6. Push "];
+    }
+
+.. _update-vcs:
+
 Updating repositories
 ---------------------
 
