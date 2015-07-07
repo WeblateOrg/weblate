@@ -135,6 +135,11 @@ via the admin interface first, otherwise pushing will fail.
 Pushing changes to GitHub as pull request
 +++++++++++++++++++++++++++++++++++++++++
 
+.. note:: 
+
+    This feature is currently not available on Hosted Weblate due to technical
+    limitations. See :ref:`hosted-push` for available options.
+
 If you are translating a project that's hosted on GitHub and don't want to
 push translations to the repository, you can have them sent as a pull request instead.
 
