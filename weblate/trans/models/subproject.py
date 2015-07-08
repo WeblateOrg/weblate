@@ -956,10 +956,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Parses language code from path.
         '''
-        parts = self.filemask.split('*', 1)
         # No * in mask?
-        if len(parts) == 1:
+        if '*' not in self.filemask:
             return 'INVALID'
+        parts = self.filemask.split('*', 1)
         # Assume English language for template
         if path == self.template:
             return 'en'
