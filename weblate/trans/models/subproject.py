@@ -960,9 +960,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # No * in mask?
         if len(parts) == 1:
             return 'INVALID'
-        # Assume English language for template if we can not parse it
-        if ((not path.startswith(parts[0]) or not path.endswith(parts[1])) and
-                path == self.template):
+        # Assume English language for template
+        if path == self.template:
             return 'en'
         # Get part matching to first wildcard
         if len(parts[1]) == 0:
