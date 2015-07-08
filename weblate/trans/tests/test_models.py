@@ -691,10 +691,10 @@ class SubProjectTest(RepoTestCase):
 
     def test_lang_code(self):
         subproject = SubProject()
-        subproject.filemask = 'Solution/Project/Resources*.resx'
+        subproject.filemask = 'Solution/Project/Resources.*.resx'
         self.assertEqual(
             subproject.get_lang_code('Solution/Project/Resources.es-mx.resx'),
-            '.es-mx'
+            'es-mx'
         )
         self.assertEqual(
             subproject.get_lang_code('Solution/Project/Resources.resx'),
@@ -713,6 +713,15 @@ class SubProjectTest(RepoTestCase):
                 'Solution/Project/Resources.fr.resx',
                 'Solution/Project/Resources.fr-fr.resx',
             ]
+        )
+
+    def test_lang_code_template(self):
+        subproject = SubProject()
+        subproject.filemask = 'Solution/Project/Resources.*.resx'
+        subproject.template = 'Solution/Project/Resources.resx'
+        self.assertEqual(
+            subproject.get_lang_code('Solution/Project/Resources.resx'),
+            'en'
         )
 
 

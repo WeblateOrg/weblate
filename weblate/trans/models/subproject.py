@@ -30,6 +30,8 @@ from glob import glob
 import os
 import time
 import subprocess
+import fnmatch
+import re
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
@@ -393,6 +395,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._all_flags = None
         self._linked_subproject = None
         self._repository = None
+        self._filemask_re = None
+
+    @property
+    def filemask_re(self):
+        if self._filemask_re is None:
+            self._filemask_re = re.compile(
+                fnmatch.translate(self.filemask).replace('.*', '(.*)')
+            )
+        return self._filemask_re
 
     @property
     def log_prefix(self):
@@ -958,16 +969,19 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         # No * in mask?
         if '*' not in self.filemask:
-            return 'INVALID'
-        parts = self.filemask.split('*', 1)
-        # Assume English language for template
-        if path == self.template:
-            return 'en'
-        # Get part matching to first wildcard
-        if len(parts[1]) == 0:
-            code = path[len(parts[0]):].split('/')[0]
-        else:
-            code = path[len(parts[0]):-len(parts[1])].split('/')[0]
+            return ''
+
+        # Parse filename
+        matches = self.filemask_re.match(path)
+
+        if not matches:
+            # Assume English language for template
+            if path == self.template:
+                return 'en'
+            return ''
+
+        code = matches.group(1)
+
         # Remove possible encoding part
         if '.' in code and ('.utf' in code.lower() or '.iso' in code.lower()):
             return code.split('.')[0]
