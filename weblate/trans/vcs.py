@@ -555,7 +555,12 @@ class GitRepository(Repository):
         """
         real_path = self.resolve_symlinks(path)
 
-        return self.execute(['ls-tree', 'HEAD', real_path]).split()[2]
+        git_hash = self.execute(['ls-tree', 'HEAD', real_path])
+
+        if not git_hash:
+            return super(GitRepository, self).get_object_hash(path)
+
+        return git_hash.split()[2]
 
     def configure_remote(self, pull_url, push_url, branch):
         """
