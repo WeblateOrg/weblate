@@ -1039,6 +1039,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         translated_langs = set()
         for match in matches:
             code = self.get_lang_code(match)
+            if not code:
+                raise ValidationError(_(
+                    'Got empty language code for %s, please check filemask!'
+                ) % match)
             lang = Language.objects.auto_get_or_create(code=code)
             if code in langs:
                 raise ValidationError(_(

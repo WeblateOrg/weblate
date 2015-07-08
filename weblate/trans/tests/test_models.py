@@ -689,6 +689,32 @@ class SubProjectTest(RepoTestCase):
             subproject.run_hook('true')
         )
 
+    def test_lang_code(self):
+        subproject = SubProject()
+        subproject.filemask = 'Solution/Project/Resources*.resx'
+        self.assertEqual(
+            subproject.get_lang_code('Solution/Project/Resources.es-mx.resx'),
+            '.es-mx'
+        )
+        self.assertEqual(
+            subproject.get_lang_code('Solution/Project/Resources.resx'),
+            ''
+        )
+        self.assertRaisesMessage(
+            ValidationError,
+            'Got empty language code for '
+            'Solution/Project/Resources.resx, please check filemask!',
+            subproject.clean_lang_codes,
+            [
+                'Solution/Project/Resources.resx',
+                'Solution/Project/Resources.de.resx',
+                'Solution/Project/Resources.es.resx',
+                'Solution/Project/Resources.es-mx.resx',
+                'Solution/Project/Resources.fr.resx',
+                'Solution/Project/Resources.fr-fr.resx',
+            ]
+        )
+
 
 class TranslationTest(RepoTestCase):
     """
