@@ -967,14 +967,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Parses language code from path.
         '''
-        # No * in mask?
-        if '*' not in self.filemask:
-            return ''
-
         # Parse filename
         matches = self.filemask_re.match(path)
 
-        if not matches:
+        if not matches or not matches.lastindex:
             # Assume English language for template
             if path == self.template:
                 return 'en'
