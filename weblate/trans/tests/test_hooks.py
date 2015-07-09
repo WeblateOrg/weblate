@@ -209,6 +209,86 @@ BITBUCKET_PAYLOAD_HG_NO_COMMIT = '''
 }
 '''
 
+BITBUCKET_PAYLOAD_WEBHOOK = r'''
+{
+  "actor": {
+    "username": "emmap1",
+    "display_name": "Emma",
+    "uuid": "{a54f16da-24e9-4d7f-a3a7-b1ba2cd98aa3}",
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/api/2.0/users/emmap1"
+      },
+      "html": {
+        "href": "https://api.bitbucket.org/emmap1"
+      },
+      "avatar": {
+        "href": "https://bitbucket-api-assetroot/emmap1-avatar_avatar.png"
+      }
+    }
+  },
+  "repository": {
+    "links": {
+      "self": {
+        "href": "https://api.bitbucket.org/api/2.0/repositories/bitbucket/bit"
+      },
+      "html": {
+        "href": "https://api.bitbucket.org/bitbucket/bitbucket"
+      },
+      "avatar": {
+        "href": "https://api-staging-assetroot/2629490769-3_avatar.png"
+      }
+    },
+    "uuid": "{673a6070-3421-46c9-9d48-90745f7bfe8e}",
+    "full_name": "team_name/repo_name",
+    "name": "repo_name"
+  },
+  "push": {
+    "changes": [
+      {
+        "new": {
+          "type": "branch",
+          "name": "name-of-branch",
+          "target": {
+            "type": "commit",
+            "hash": "709d658dc5b6d6afcd46049c2f332ee3f515a67d",
+            "author": {},
+            "message": "new commit message\n",
+            "date": "2015-06-09T03:34:49+00:00",
+            "parents": [
+              {
+              "hash": "1e65c05c1d5171631d92438a13901ca7dae9618c",
+              "type": "commit"
+              }
+            ]
+          }
+        },
+        "old": {
+          "type": "branch",
+          "name": "name-of-branch",
+          "target": {
+            "type": "commit",
+            "hash": "1e65c05c1d5171631d92438a13901ca7dae9618c",
+            "author": {},
+            "message": "old commit message\n",
+            "date": "2015-06-08T21:34:56+00:00",
+            "parents": [
+              {
+              "hash": "e0d0c2041e09746be5ce4b55067d5a8e3098c843",
+              "type": "commit"
+              }
+            ]
+          }
+        },
+        "created": false,
+        "forced": false,
+        "closed": false
+      }
+    ]
+  }
+}
+'''
+
 
 class HooksViewTest(ViewTestCase):
     @OverrideSettings(ENABLE_HOOKS=True)
@@ -274,6 +354,15 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
+        )
+        self.assertContains(response, 'update triggered')
+
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
+    def test_view_hook_bitbucket_webhook(self):
+        response = self.client.post(
+            reverse('hook-bitbucket'),
+            {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
         )
         self.assertContains(response, 'update triggered')
 

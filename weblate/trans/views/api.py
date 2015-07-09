@@ -47,6 +47,16 @@ BITBUCKET_HG_REPOS = (
     'hg::https://bitbucket.org/%(owner)s/%(slug)s',
 )
 
+BITBUCKET_REPOS = (
+    'ssh://git@bitbucket.org/%(full_name)s.git',
+    'git@bitbucket.org:%(full_name)s.git',
+    'https://bitbucket.org/%(full_name)s.git',
+    'https://bitbucket.org/%(full_name)s',
+    'ssh://hg@bitbucket.org/%(full_name)s',
+    'hg::ssh://hg@bitbucket.org/%(full_name)s',
+    'hg::https://bitbucket.org/%(full_name)s',
+)
+
 GITHUB_REPOS = (
     'git://github.com/%(owner)s/%(slug)s.git',
     'https://github.com/%(owner)s/%(slug)s.git',
@@ -144,6 +154,7 @@ def vcs_service_hook(request, service):
     try:
         service_data = hook_helper(data)
     except KeyError:
+        weblate.logger.error('failed to parse service %s data', service)
         return HttpResponseBadRequest('Invalid data in json payload!')
 
     # Log data
@@ -175,11 +186,28 @@ def vcs_service_hook(request, service):
     return HttpResponse('update triggered')
 
 
+def bitbucket_webhook_helper(data):
+    """API to handle webhooks from Bitbucket"""
+    repos = [
+        repo % {'full_name': data['repository']['full_name']}
+        for repo in BITBUCKET_REPOS
+    ]
+
+    return {
+        'service_long_name': 'Bitbucket',
+        'repos': repos,
+        'branch': data['push']['changes'][-1]['new']['name']
+    }
+
+
 @register_hook
 def bitbucket_hook_helper(data):
     '''
-    API to handle commit hooks from Bitbucket.
+    API to handle service hooks from Bitbucket.
     '''
+    if 'push' in data:
+        return bitbucket_webhook_helper(data)
+
     # Parse owner, branch and repository name
     owner = data['repository']['owner']
     slug = data['repository']['slug']

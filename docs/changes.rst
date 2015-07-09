@@ -11,6 +11,7 @@ Released on ? 2015.
 * Improved configurability of import_project command.
 * Added CSV dump of history.
 * Avoid copy/paste errors with whitespace chars.
+* Added support for Bitbucket webhooks.
 
 weblate 2.3
 -----------
