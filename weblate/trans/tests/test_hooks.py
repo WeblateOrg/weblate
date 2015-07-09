@@ -83,7 +83,7 @@ GITLAB_PAYLOAD = '''
     "description": "",
     "homepage": "http://example.com/mike/diaspora",
     "git_http_url":"http://example.com/mike/diaspora.git",
-    "git_ssh_url":"git@example.com:mike/diaspora.git",
+    "git_ssh_url":"git@example.com:mike/diaspora.git"
   },
   "commits": [
     {

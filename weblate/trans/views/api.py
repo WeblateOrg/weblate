@@ -160,11 +160,12 @@ def vcs_service_hook(request, service):
     # Log data
     service_long_name = service_data['service_long_name']
     repos = service_data['repos']
+    repo_url = service_data['repo_url']
     branch = service_data['branch']
 
     weblate.logger.info(
         'received %s notification on repository %s, branch %s',
-        service_long_name, repos[0], branch
+        service_long_name, repo_url, branch
     )
 
     subprojects = SubProject.objects.filter(repo__in=repos)
@@ -195,6 +196,7 @@ def bitbucket_webhook_helper(data):
 
     return {
         'service_long_name': 'Bitbucket',
+        'repo_url': data['repository']['links']['html']['href'],
         'repos': repos,
         'branch': data['push']['changes'][-1]['new']['name']
     }
@@ -231,6 +233,9 @@ def bitbucket_hook_helper(data):
 
     return {
         'service_long_name': 'Bitbucket',
+        'repo_url': ''.join([
+            data['canon_url'], data['repository']['absolute_url']
+        ]),
         'repos': repos,
         'branch': branch,
     }
@@ -246,11 +251,14 @@ def github_hook_helper(data):
     slug = data['repository']['name']
     branch = re.sub(r'^refs/heads/', '', data['ref'])
 
+    params = {'owner': owner, 'slug': slug}
+
     # Construct possible repository URLs
-    repos = [repo % {'owner': owner, 'slug': slug} for repo in GITHUB_REPOS]
+    repos = [repo % params for repo in GITHUB_REPOS]
 
     return {
         'service_long_name': 'GitHub',
+        'repo_url': data['repository']['url'],
         'repos': repos,
         'branch': branch,
     }
@@ -275,6 +283,7 @@ def gitlab_hook_helper(data):
 
     return {
         'service_long_name': 'GitLab',
+        'repo_url': data['repository']['homepage'],
         'repos': repos,
         'branch': branch,
     }
