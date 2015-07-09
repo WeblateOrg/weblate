@@ -79,9 +79,11 @@ GITLAB_PAYLOAD = '''
   "project_id": 15,
   "repository": {
     "name": "Diaspora",
-    "url": "git@example.com:diaspora.git",
+    "url": "git@example.com:mike/diasporadiaspora.git",
     "description": "",
-    "homepage": "http://example.com/diaspora"
+    "homepage": "http://example.com/mike/diaspora",
+    "git_http_url":"http://example.com/mike/diaspora.git",
+    "git_ssh_url":"git@example.com:mike/diaspora.git",
   },
   "commits": [
     {

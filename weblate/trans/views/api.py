@@ -266,7 +266,12 @@ def gitlab_hook_helper(data):
     branch = re.sub(r'^refs/heads/', '', data['ref'])
 
     # Construct possible repository URLs
-    repos = [ssh_url, http_url]
+    repos = [
+        ssh_url,
+        http_url,
+        data['repository']['git_http_url'],
+        data['repository']['git_ssh_url'],
+    ]
 
     return {
         'service_long_name': 'GitLab',
