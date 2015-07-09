@@ -93,9 +93,12 @@ You can also use generic :guilabel:`Webhook`, in that case the
 Automatically receiving changes from Bitbucket
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-Weblate has support for Bitbucket hooks, all you need to do is add POST hook
-with destination to ``/hooks/bitbucket/`` URL on your Weblate installation
-(for example ``https://hosted.weblate.org/hooks/bitbucket/``).
+Weblate has support for Bitbucket webhooks, all you need to do is add webhook
+which triggers on repository push with destination to ``/hooks/bitbucket/`` URL
+on your Weblate installation (for example
+``https://hosted.weblate.org/hooks/bitbucket/``).
+
+.. image:: ../images/bitbucket-settings.png 
 
 .. seealso:: :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
 
