@@ -267,7 +267,12 @@ virtualenv and :file:`examples/migrate-south` script:
 
     examples/migrate-south --settings weblate.settings
 
-Once you have done that, you can run Django 1.7 migrations and work as usual.
+Once you have done that, you can run Django migrations and work as usual. For
+the initial setup, you might need to fake some of the migrations though:
+
+.. code-block:: sh
+
+    ./manage.py migrate --fake-initial
 
 .. _pootle-migration:
 
