@@ -395,15 +395,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self._all_flags = None
         self._linked_subproject = None
         self._repository = None
-        self._filemask_re = None
 
     @property
     def filemask_re(self):
-        if self._filemask_re is None:
-            self._filemask_re = re.compile(
-                fnmatch.translate(self.filemask).replace('.*', '(.*)')
-            )
-        return self._filemask_re
+        return re.compile(
+            fnmatch.translate(self.filemask).replace('.*', '(.*)')
+        )
 
     @property
     def log_prefix(self):
@@ -967,14 +964,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Parses language code from path.
         '''
-        # No * in mask?
-        if '*' not in self.filemask:
-            return ''
-
         # Parse filename
         matches = self.filemask_re.match(path)
 
-        if not matches:
+        if not matches or not matches.lastindex:
             # Assume English language for template
             if path == self.template:
                 return 'en'
