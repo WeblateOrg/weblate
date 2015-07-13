@@ -331,6 +331,7 @@ SAME_BLACKLIST = frozenset((
     'join',
     'joins',
     'jpeg',
+    'jpg',
     'karaoke',
     'kernel',
     'kib',
