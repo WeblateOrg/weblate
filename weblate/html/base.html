@@ -45,7 +45,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
   <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_profile %}{{ page_profile.get_user_name }}{% else %}{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}{% endif %}{% endif %}{% endif %}" />
+  {% if offer_hosting %}
+  <meta property="og:description" content="{% trans "Hosted Weblate, the place to translate your software project." %}" />
+  {% else %}
   <meta property="og:description" content="{% trans "This site runs Weblate for translating various software projects." %}" />
+  {% endif %}
 
 {% block extra_meta %}
 {% endblock %}
