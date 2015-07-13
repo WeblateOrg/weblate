@@ -463,7 +463,7 @@ Weblate comes with few example hook scripts which you might find useful:
 POST_COMMIT_SCRIPTS
 -------------------
 
-.. versionadded:: 2.5
+.. versionadded:: 2.4
 
 List of scripts which are allowed as post commit scripts. The script needs to be
 later enabled in the :ref:`component`.
@@ -473,7 +473,7 @@ later enabled in the :ref:`component`.
 POST_PUSH_SCRIPTS
 -------------------
 
-.. versionadded:: 2.5
+.. versionadded:: 2.4
 
 List of scripts which are allowed as post push scripts. The script needs to be
 later enabled in the :ref:`component`.
