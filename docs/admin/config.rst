@@ -458,6 +458,26 @@ Weblate comes with few example hook scripts which you might find useful:
 
 .. seealso:: :ref:`processing`
 
+.. setting:: POST_COMMIT_SCRIPTS
+
+POST_COMMIT_SCRIPTS
+-------------------
+
+.. versionadded:: 2.5
+
+List of scripts which are allowed as post commit scripts. The script needs to be
+later enabled in the :ref:`component`.
+
+.. setting:: POST_PUSH_SCRIPTS
+
+POST_PUSH_SCRIPTS
+-------------------
+
+.. versionadded:: 2.5
+
+List of scripts which are allowed as post push scripts. The script needs to be
+later enabled in the :ref:`component`.
+
 .. setting:: REGISTRATION_CAPTCHA
 
 REGISTRATION_CAPTCHA

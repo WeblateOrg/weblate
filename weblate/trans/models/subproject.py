@@ -48,6 +48,7 @@ from weblate.trans.validators import (
 from weblate.lang.models import Language
 from weblate.appsettings import (
     PRE_COMMIT_SCRIPT_CHOICES, POST_UPDATE_SCRIPT_CHOICES,
+    POST_COMMIT_SCRIPT_CHOICES, POST_PUSH_SCRIPT_CHOICES,
     HIDE_REPO_CREDENTIALS,
 )
 from weblate.accounts.models import notify_merge_failure
@@ -236,6 +237,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         choices=PRE_COMMIT_SCRIPT_CHOICES,
         help_text=ugettext_lazy(
             'Script to be executed before committing translation, '
+            'please check documentation for more details.'
+        ),
+    )
+    post_commit_script = models.CharField(
+        verbose_name=ugettext_lazy('Post-commit script'),
+        max_length=200,
+        default='',
+        blank=True,
+        choices=POST_COMMIT_SCRIPT_CHOICES,
+        help_text=ugettext_lazy(
+            'Script to be executed after committing translation, '
+            'please check documentation for more details.'
+        ),
+    )
+    post_push_script = models.CharField(
+        verbose_name=ugettext_lazy('Post-push script'),
+        max_length=200,
+        default='',
+        blank=True,
+        choices=POST_PUSH_SCRIPT_CHOICES,
+        help_text=ugettext_lazy(
+            'Script to be executed after pushing translation to remote, '
             'please check documentation for more details.'
         ),
     )
@@ -726,6 +749,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 user=request.user if request else None,
                 subproject=self,
             )
+
+            self.run_hook(self.post_push_script)
 
             return True
         except RepositoryException as error:
@@ -1469,6 +1494,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Pre commit hook
         """
         self.run_hook(self.pre_commit_script, filename)
+
+    def run_post_commit_script(self, filename):
+        """
+        Post commit hook
+        """
+        self.run_hook(self.post_commit_script, filename)
 
     def run_hook(self, script, *args):
         """

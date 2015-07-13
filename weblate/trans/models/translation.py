@@ -774,6 +774,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             msg, author, timestamp, files
         )
 
+        # Post commit hook
+        self.subproject.run_post_commit_script(self.get_filename())
+
         # Optionally store updated hash
         if sync:
             self.store_hash()

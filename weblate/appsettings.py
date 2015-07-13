@@ -150,6 +150,14 @@ PRE_COMMIT_SCRIPTS = getvalue('PRE_COMMIT_SCRIPTS', ())
 PRE_COMMIT_SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
 ] + [('', '')]
+POST_COMMIT_SCRIPTS = getvalue('POST_COMMIT_SCRIPTS', ())
+POST_COMMIT_SCRIPT_CHOICES = [
+    (script, get_script_name(script)) for script in POST_COMMIT_SCRIPTS
+] + [('', '')]
+POST_PUSH_SCRIPTS = getvalue('POST_PUSH_SCRIPTS', ())
+POST_PUSH_SCRIPT_CHOICES = [
+    (script, get_script_name(script)) for script in POST_PUSH_SCRIPTS
+] + [('', '')]
 
 # Font for charts and widgets
 TTF_PATH = getvalue('TTF_PATH', os.path.join(BASE_DIR, 'ttf'))
