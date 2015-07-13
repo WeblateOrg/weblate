@@ -81,7 +81,11 @@ fi
 
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py migrate --noinput"
 
-sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setupgroups --move"
+if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
+  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setupgroups --move"
+else
+  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setupgroups --no-privs-update"
+fi
 
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setuplang"
 
