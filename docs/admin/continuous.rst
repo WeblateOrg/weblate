@@ -44,6 +44,9 @@ You should set up some way how backend repositories are updated from their
 source. You can either use hooks (see :ref:`hooks`) or just regularly run
 :djadmin:`updategit --all`.
 
+Whenever Weblate updates the repository, the :guilabel:`Post-update script`
+hooks are executed.
+
 With Gettext po files, you might be often bitten by conflict in PO file
 headers. To avoid it, you can use shipped merge driver
 (:file:`examples/git-merge-gettext-po`). To use it just put following
