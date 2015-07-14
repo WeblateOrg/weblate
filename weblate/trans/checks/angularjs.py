@@ -41,11 +41,11 @@ class AngularJSInterpolationCheck(TargetCheck):
     '''
     Check for AngularJS interpolation string
     '''
-    check_id = 'angularjs_interpolate'
+    check_id = 'angularjs_format'
     name = _('AngularJS interpolation string')
     description = _('AngularJS interpolation strings do not match source')
     severity = 'danger'
-    flag = 'angularjs-interpolate'
+    flag = 'angularjs-format'
 
     def check_single(self, source, target, unit, cache_slot):
         # Verify unit is properly flagged
