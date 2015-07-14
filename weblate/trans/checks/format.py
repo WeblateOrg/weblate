@@ -105,16 +105,13 @@ class BaseFormatCheck(TargetCheck):
     '''
     flag = None
     regexp = None
+    default_disabled = True
     severity = 'danger'
 
     def check_target_unit(self, sources, targets, unit):
         '''
         Checks single unit, handling plurals.
         '''
-        # Verify unit is properly flagged
-        if self.flag not in unit.all_flags:
-            return False
-
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
             return self.check_format(
