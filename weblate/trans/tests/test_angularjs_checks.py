@@ -36,7 +36,7 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             'strins',
             'string',
-            MockUnit('angularjs_no_format'),
+            MockUnit('angularjs_no_format', flags='angularjs-format'),
             0
         ))
 
@@ -44,7 +44,7 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             u'{{name}} string {{other}}',
             u'{{name}} {{other}} string',
-            MockUnit('angularjs_format'),
+            MockUnit('angularjs_format', flags='angularjs-format'),
             0
         ))
 
@@ -52,7 +52,7 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             u'{{name}} string {{other}}',
             u'{{other}} string {{name}}',
-            MockUnit('angularjs_format_ignore_position'),
+            MockUnit('angularjs_format_ignore_position', flags='angularjs-format'),
             0
         ))
 
@@ -60,7 +60,7 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             u'{{ name   }} string',
             u'{{name}} string',
-            MockUnit('angularjs_different_whitespace'),
+            MockUnit('angularjs_different_whitespace', flags='angularjs-format'),
             0
         ))
 
@@ -68,14 +68,14 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertTrue(self.check.check_single(
             u'{{name}} string',
             u'string',
-            MockUnit('angularjs_missing_format'),
+            MockUnit('angularjs_missing_format', flags='angularjs-format'),
             0
         ))
 
     def test_wrong_value(self):
         self.assertTrue(self.check.check_single(
             u'{{name}} string',
-            u'{{notname}} string',
-            MockUnit('angularjs_wrong_value'),
+            u'{{nameerror}} string',
+            MockUnit('angularjs_wrong_value', flags='angularjs-format'),
             0
         ))
