@@ -1040,17 +1040,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return result
 
     def merge_translations(self, request, author, store2, overwrite,
-                           add_fuzzy):
+                           add_fuzzy, fuzzy):
         """
         Merges translation unit wise, needed for template based translations to
         add new strings.
         """
 
-        for unit2 in store2.all_units():
-            # No translated -> skip
-            if not unit2.is_translated() or unit2.unit.isheader():
-                continue
-
+        for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
                 unit = self.unit_set.get(
                     source=unit2.get_source(),
@@ -1062,11 +1058,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             unit.translate(
                 request,
                 split_plural(unit2.get_target()),
-                add_fuzzy or unit2.is_fuzzy()
+                add_fuzzy or set_fuzzy
             )
 
     def merge_store(self, request, author, store2, overwrite, merge_header,
-                    add_fuzzy):
+                    add_fuzzy, fuzzy):
         '''
         Merges translate-toolkit store into current translation.
         '''
@@ -1076,14 +1072,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             store1 = self.store.store
             store1.require_index()
 
-            for unit2 in store2.all_units():
-                # No translated -> skip
-                if not unit2.is_translated():
-                    continue
-
+            for set_fuzzy, unit2 in store2.iterate_merge(fuzzy, merge_header):
                 # Optionally merge header
                 if unit2.unit.isheader():
-                    if merge_header and isinstance(store1, poheader.poheader):
+                    if isinstance(store1, poheader.poheader):
                         store1.mergeheaders(store2)
                     continue
 
@@ -1106,7 +1098,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 unit1.merge(unit2.unit, overwrite=True, comments=False)
 
                 # Handle
-                if add_fuzzy:
+                if add_fuzzy or set_fuzzy:
                     unit1.markfuzzy()
 
             # Write to backend and commit
@@ -1117,17 +1109,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         return ret
 
-    def merge_suggestions(self, request, store):
+    def merge_suggestions(self, request, store, fuzzy):
         '''
         Merges content of translate-toolkit store as a suggestions.
         '''
         ret = False
-        for unit in store.all_units():
-
-            # Skip headers or not translated
-            if not unit.is_translatable() or not unit.is_translated():
-                continue
-
+        for dummy, unit in store.iterate_merge(fuzzy):
             # Calculate unit checksum
             checksum = unit.get_checksum()
 
@@ -1150,7 +1137,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     merge_header=True, method=''):
+                     merge_header=True, method='', fuzzy=''):
         '''
         Top level handler for file uploads.
         '''
@@ -1193,7 +1180,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     author,
                     store,
                     overwrite,
-                    (method == 'fuzzy')
+                    (method == 'fuzzy'),
+                    fuzzy
                 )
             else:
                 # Merge on file level
@@ -1204,11 +1192,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                         store,
                         overwrite,
                         merge_header,
-                        (method == 'fuzzy')
+                        (method == 'fuzzy'),
+                        fuzzy
                     )
         else:
             # Add as sugestions
-            ret = self.merge_suggestions(request, store)
+            ret = self.merge_suggestions(request, store, fuzzy)
 
         return ret, store.count_units()
 

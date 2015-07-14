@@ -676,6 +676,34 @@ class FileFormat(object):
         with open(filename, 'w') as output:
             output.write(cls.new_translation)
 
+    def iterate_merge(self, fuzzy, header=False):
+        """Iterates over units for merging.
+
+        Note: This can change fuzzy state of units!
+        """
+        for unit in self.all_units():
+            # Handle header
+            if unit.unit and unit.unit.isheader():
+                if header:
+                    yield False, unit
+                continue
+
+            # Skip fuzzy (if asked for that)
+            if unit.is_fuzzy():
+                if not fuzzy:
+                    continue
+            elif not unit.is_translated():
+                continue
+
+            # Unmark unit as fuzzy (to allow merge)
+            set_fuzzy = False
+            if fuzzy and unit.is_fuzzy():
+                unit.mark_fuzzy(False)
+                if fuzzy != 'approve':
+                    set_fuzzy = True
+
+            yield set_fuzzy, unit
+
 
 @register_fileformat
 class AutoFormat(FileFormat):

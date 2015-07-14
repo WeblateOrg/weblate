@@ -335,6 +335,15 @@ class SimpleUploadForm(forms.Form):
         ),
         required=False
     )
+    fuzzy = forms.ChoiceField(
+        label=_('Fuzzy strings processing'),
+        choices=(
+            ('', _('Do not import')),
+            ('process', _('Import as fuzzy')),
+            ('approve', _('Import as translated')),
+        ),
+        required=False
+    )
     merge_header = forms.BooleanField(
         label=_('Merge file header'),
         help_text=_('Merges content of file header into the translation.'),

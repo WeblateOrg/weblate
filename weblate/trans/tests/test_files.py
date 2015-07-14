@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
 TEST_MO = get_test_file('cs.mo')
 TEST_ANDROID = get_test_file('strings-cs.xml')
 
@@ -34,14 +35,14 @@ TRANSLATION_OURS = u'Nazdar světe!\n'
 TRANSLATION_PO = u'Ahoj světe!\n'
 
 
-class ImportTest(ViewTestCase):
+class ImportBaseTest(ViewTestCase):
     '''
-    Testing of file imports.
+    Base test of file imports.
     '''
     test_file = TEST_PO
 
     def setUp(self):
-        super(ImportTest, self).setUp()
+        super(ImportBaseTest, self).setUp()
         # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
@@ -60,6 +61,13 @@ class ImportTest(ViewTestCase):
                 ),
                 params
             )
+
+
+class ImportTest(ImportBaseTest):
+    '''
+    Testing of file imports.
+    '''
+    test_file = TEST_PO
 
     def test_import_normal(self):
         '''
@@ -164,6 +172,58 @@ class ImportTest(ViewTestCase):
             translation.have_suggestion,
             1
         )
+
+
+class ImportFuzzyTest(ImportBaseTest):
+    '''
+    Testing of fuzzy file imports.
+    '''
+    test_file = TEST_FUZZY_PO
+
+    def test_import_normal(self):
+        '''
+        Test importing normally.
+        '''
+        response = self.do_import(
+            fuzzy=''
+        )
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 0)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
+
+    def test_import_process(self):
+        '''
+        Test importing normally.
+        '''
+        response = self.do_import(
+            fuzzy='process'
+        )
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 0)
+        self.assertEqual(translation.fuzzy, 1)
+        self.assertEqual(translation.total, 4)
+
+    def test_import_approve(self):
+        '''
+        Test importing normally.
+        '''
+        response = self.do_import(
+            fuzzy='approve'
+        )
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
 
 
 class ImportMoTest(ImportTest):

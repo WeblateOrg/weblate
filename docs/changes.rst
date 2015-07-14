@@ -12,6 +12,7 @@ Released on ? 2015.
 * Added CSV dump of history.
 * Avoid copy/paste errors with whitespace chars.
 * Added support for Bitbucket webhooks.
+* Tigher control on fuzzy strings on translation upload.
 
 weblate 2.3
 -----------

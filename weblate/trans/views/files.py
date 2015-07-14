@@ -115,7 +115,8 @@ def upload_translation(request, project, subproject, lang):
             overwrite,
             author,
             merge_header=form.cleaned_data['merge_header'],
-            method=form.cleaned_data['method']
+            method=form.cleaned_data['method'],
+            fuzzy=form.cleaned_data['fuzzy'],
         )
         messages.info(
             request,
