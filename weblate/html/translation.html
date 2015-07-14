@@ -176,9 +176,7 @@
 <div class="panel-body">
 <p>{% trans "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}</p>
 {% csrf_token %}
-<table>
-{{ autoform.as_table }}
-</table>
+{{ autoform|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
@@ -200,9 +198,7 @@
 <p>{% trans "Uploaded file will be merged with current translation." %}</p>
 {% endif %}
 {% csrf_token %}
-<table>
-{{ form.as_table }}
-</table>
+{{ form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Upload" %}" class="btn btn-default" />
