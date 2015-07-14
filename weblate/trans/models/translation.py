@@ -1045,6 +1045,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         Merges translation unit wise, needed for template based translations to
         add new strings.
         """
+        ret = False
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -1055,11 +1056,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             except Unit.DoesNotExist:
                 continue
 
+            ret = True
+
             unit.translate(
                 request,
                 split_plural(unit2.get_target()),
                 add_fuzzy or set_fuzzy
             )
+
+        return ret
 
     def merge_store(self, request, author, store2, overwrite, merge_header,
                     add_fuzzy, fuzzy):
@@ -1175,7 +1180,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # Do actual merge
             if self.subproject.has_template():
                 # Merge on units level
-                self.merge_translations(
+                ret = self.merge_translations(
                     request,
                     author,
                     store,
