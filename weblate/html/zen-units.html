@@ -6,10 +6,10 @@
 <tr id="row-status-{{ item.unit.checksum }}">
 <td>{{ item.unit.position }}</td>
 <td>
+{% with item.unit as unit %}
+    {% include "unit-context.html" %}
+{% endwith %}
 {% get_location_links item.unit %}
-{% if item.unit.context and not object.subproject.has_template %}
-{% format_translation item.unit.context search_match=search_query %}
-{% endif %}
 </td>
 <td>
 <a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?sid={{ search_id }}&amp;offset={{ item.offset }}" class="btn btn-xs btn-default pull-right flip" title="{% trans "Open in full editor" %}"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>

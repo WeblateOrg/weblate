@@ -91,15 +91,7 @@
     {% endif %}
     {% endif %}
     {% endwith %}
-	<div class="pull-right flip">
-	{% if unit.context %}
-    <label>{% trans "Context:" %}</label>
-	{{ unit.context }}
-	{% elif unit.comment %}
-    <label>{% trans "Comment:" %}</label>
-	{{ unit.comment }}
-    {% endif %}
-	</div>
+    {% include "unit-context.html" %}
     <label>{% trans "Source" %}</label>
     {% format_translation unit.source search_match=search_query num_plurals=unit.translation.language.nplurals %}
     </div>

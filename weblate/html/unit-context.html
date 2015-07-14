@@ -1,0 +1,11 @@
+{% load i18n %}
+
+<div class="pull-right flip">
+{% if unit.context %}
+<label>{% trans "Context:" %}</label>
+{{ unit.context }}
+{% elif unit.comment %}
+<label>{% trans "Comment:" %}</label>
+{{ unit.comment }}
+{% endif %}
+</div>
