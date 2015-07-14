@@ -103,7 +103,6 @@ class BaseFormatCheck(TargetCheck):
     '''
     Base class for fomat string checks.
     '''
-    flag = None
     regexp = None
     default_disabled = True
     severity = 'danger'
@@ -222,7 +221,6 @@ class PythonFormatCheck(BaseFormatCheck):
     check_id = 'python_format'
     name = _('Python format')
     description = _('Format string does not match source')
-    flag = 'python-format'
     regexp = PYTHON_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -236,7 +234,6 @@ class PHPFormatCheck(BaseFormatCheck):
     check_id = 'php_format'
     name = _('PHP format')
     description = _('Format string does not match source')
-    flag = 'php-format'
     regexp = PHP_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -250,7 +247,6 @@ class CFormatCheck(BaseFormatCheck):
     check_id = 'c_format'
     name = _('C format')
     description = _('Format string does not match source')
-    flag = 'c-format'
     regexp = C_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -264,7 +260,6 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     check_id = 'python_brace_format'
     name = _('Python brace format')
     description = _('Format string does not match source')
-    flag = 'python-brace-format'
     regexp = PYTHON_BRACE_MATCH
 
     def is_position_based(self, string):
