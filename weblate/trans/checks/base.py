@@ -46,7 +46,7 @@ class Check(object):
         Checks target strings.
         '''
         # Is this disabled by default
-        if self.default_disabled and not self.enable_string in unit.all_flags:
+        if self.default_disabled and self.enable_string not in unit.all_flags:
             return False
         # Is this check ignored
         if self.ignore_string in unit.all_flags:

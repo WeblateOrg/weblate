@@ -21,8 +21,11 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _, ugettext_lazy
 from weblate.trans.checks import CHECKS
 
-EXTRA_FLAGS = {v.enable_string: v.name for k, v in CHECKS.iteritems() \
-    if v.default_disabled}
+EXTRA_FLAGS = {
+    v.enable_string: v.name
+    for k, v in CHECKS.iteritems()
+    if v.default_disabled
+}
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
 
