@@ -22,6 +22,10 @@ import re
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.autofixes.base import AutoFix
 
+NEWLINES = re.compile(r'\r\n|\r|\n')
+START = re.compile(r'^(\s+)', re.UNICODE)
+END = re.compile(r'(\s+)$', re.UNICODE)
+
 
 class SameBookendingWhitespace(AutoFix):
     '''
@@ -32,11 +36,11 @@ class SameBookendingWhitespace(AutoFix):
 
     def fix_single_target(self, target, source, unit):
         # normalize newlines of source
-        source = re.compile(r'\r\n|\r|\n').sub('\n', source)
+        source = NEWLINES.sub('\n', source)
 
         # capture preceding and tailing whitespace
-        start = re.compile(r'^(\s+)').search(source)
-        end = re.compile(r'(\s+)$').search(source)
+        start = START.search(source)
+        end = END.search(source)
         head = start.group() if start else ''
         tail = end.group() if end else ''
 
