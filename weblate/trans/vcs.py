@@ -407,7 +407,7 @@ class GitRepository(Repository):
         """
         Set entry in local configuration.
         """
-        self.execute(['config', path, value])
+        self.execute(['config', path, value.encode('utf-8')])
 
     def set_committer(self, name, mail):
         """
