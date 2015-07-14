@@ -270,7 +270,7 @@ setupgroups
 Configures default groups and (if called with ``--move``) assigns all users
 to default group.
 
-The option ``--no-update`` disables update of existing groups (only adds
+The option ``--no-privs-update`` disables update of existing groups (only adds
 new ones).
 
 .. seealso:: :ref:`privileges`
@@ -306,5 +306,3 @@ Fetches remote VCS repositories and updates internal cache.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
-
-
