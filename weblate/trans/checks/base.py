@@ -32,17 +32,22 @@ class Check(object):
     target = False
     source = False
     ignore_untranslated = True
+    default_disabled = False
     severity = 'info'
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
         self.doc_id = 'check-%s' % id_dash
+        self.enable_string = id_dash
         self.ignore_string = 'ignore-%s' % id_dash
 
     def check_target(self, sources, targets, unit):
         '''
         Checks target strings.
         '''
+        # Is this disabled by default
+        if self.default_disabled and not self.enable_string in unit.all_flags:
+            return False
         # Is this check ignored
         if self.ignore_string in unit.all_flags:
             return False

@@ -21,14 +21,10 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _, ugettext_lazy
 from weblate.trans.checks import CHECKS
 
+EXTRA_FLAGS = {v.enable_string: v.name for k, v in CHECKS.iteritems() \
+    if v.default_disabled}
 
-EXTRA_FLAGS = {
-    'rst-text': ugettext_lazy('RST text'),
-    'python-format': ugettext_lazy('Python format string'),
-    'c-format': ugettext_lazy('C format string'),
-    'php-format': ugettext_lazy('PHP format string'),
-    'python-brace-format': ugettext_lazy('Python brace format string'),
-}
+EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
 
 IGNORE_CHECK_FLAGS = set([CHECKS[x].ignore_string for x in CHECKS])
 

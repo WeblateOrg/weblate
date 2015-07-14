@@ -103,18 +103,14 @@ class BaseFormatCheck(TargetCheck):
     '''
     Base class for fomat string checks.
     '''
-    flag = None
     regexp = None
+    default_disabled = True
     severity = 'danger'
 
     def check_target_unit(self, sources, targets, unit):
         '''
         Checks single unit, handling plurals.
         '''
-        # Verify unit is properly flagged
-        if self.flag not in unit.all_flags:
-            return False
-
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
             return self.check_format(
@@ -225,7 +221,6 @@ class PythonFormatCheck(BaseFormatCheck):
     check_id = 'python_format'
     name = _('Python format')
     description = _('Format string does not match source')
-    flag = 'python-format'
     regexp = PYTHON_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -239,7 +234,6 @@ class PHPFormatCheck(BaseFormatCheck):
     check_id = 'php_format'
     name = _('PHP format')
     description = _('Format string does not match source')
-    flag = 'php-format'
     regexp = PHP_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -253,7 +247,6 @@ class CFormatCheck(BaseFormatCheck):
     check_id = 'c_format'
     name = _('C format')
     description = _('Format string does not match source')
-    flag = 'c-format'
     regexp = C_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -267,7 +260,6 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     check_id = 'python_brace_format'
     name = _('Python brace format')
     description = _('Format string does not match source')
-    flag = 'python-brace-format'
     regexp = PYTHON_BRACE_MATCH
 
     def is_position_based(self, string):
