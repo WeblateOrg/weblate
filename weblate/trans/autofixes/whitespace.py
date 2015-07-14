@@ -43,6 +43,6 @@ class SameBookendingWhitespace(AutoFix):
         # add the whitespace around the target translation (ignore blanks)
         stripped = target.strip()
         if stripped:
-            newtarget = '%s%s%s' % (head, stripped, tail)
+            newtarget = u''.join((head, stripped, tail))
             return newtarget, newtarget != target
         return target, False
