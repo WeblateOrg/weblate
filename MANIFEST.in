@@ -19,8 +19,8 @@ include docs/Makefile
 include docs/make.bat
 include docs/requirements.txt
 include docs/_ext/*.py
-include docs/_static/*
-include docs/_templates/*
+include docs/_static/*.png
+include docs/_templates/*.html
 recursive-include examples *
 recursive-include locale *.po
 recursive-include locale *.mo
@@ -28,3 +28,4 @@ include weblate/trans/tests/data/*
 include weblate/lang/plurals.txt
 exclude weblate/settings.py
 prune docs/_build
+global-exclude *.swp *.swo

@@ -10,15 +10,19 @@ License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
 Url:            http://weblate.org/
 Source:         %{name}-%{version}.tar.bz2
-Source1:        test-base-repo.git.tar.bz2
+Source1:        test-base-repo.tar.bz2
+# PATCH-FIX-UPSTREAM 0001-Use-mock-data-for-testing-Google-web-translation.patch -- fixed testsuite without network
+Patch1:         0001-Use-mock-data-for-testing-Google-web-translation.patch
 BuildRequires:  bitstream-vera
 BuildRequires:  git
 BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
+BuildRequires:  mercurial
 BuildRequires:  python-Babel
 BuildRequires:  python-Django >= 1.7
 BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
+BuildRequires:  python-alabaster
 BuildRequires:  python-dateutil
 BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-httpretty
@@ -63,10 +67,11 @@ List of features includes:
 
 %prep
 %setup -q
-mkdir weblate/test-repos/
-cd weblate/test-repos/
+%patch1 -p1
+mkdir data-test
+cd data-test
 tar xvf %{SOURCE1}
-cd ../..
+cd ..
 
 %build
 make -C docs html
@@ -83,6 +88,10 @@ install -d %{buildroot}/%{WLETCDIR}
 
 # Copy all files
 cp -a . %{buildroot}/%{WLDIR}
+# Remove test data
+rm -rf %{buildroot}/%{WLDIR}/data-test
+# Remove junk from upstream
+find %{buildroot}/%{WLDIR} -type f -name '*.swp' | xargs rm
 
 # We ship this separately
 rm -rf %{buildroot}/%{WLDIR}/docs
@@ -112,10 +121,9 @@ install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d
 
 # Whoosh index dir
 install -d %{buildroot}/%{WLDATADIR}
-install -d %{buildroot}/%{WLDATADIR}/whoosh-index
-install -d %{buildroot}/%{WLDATADIR}/repos
 
 %check
+export LANG=en_US.UTF-8
 ./manage.py test --settings=weblate.settings_test -v 2
 
 %files
@@ -126,7 +134,5 @@ install -d %{buildroot}/%{WLDATADIR}/repos
 %config(noreplace) /%{_sysconfdir}/apache2
 %{WLDIR}
 %attr(0755,wwwrun,www) %{WLDATADIR}
-%attr(0755,wwwrun,www) %{WLDATADIR}/whoosh-index
-%attr(0755,wwwrun,www) %{WLDATADIR}/repos
 
 %changelog
