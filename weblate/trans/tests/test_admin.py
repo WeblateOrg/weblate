@@ -20,10 +20,10 @@
 
 from weblate.trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
-from unittest import SkipTest
 from weblate.trans.util import add_configuration_error
 from weblate import appsettings
 from weblate.trans.tests import OverrideSettings
+from weblate.trans.tests.utils import get_test_file
 import os
 
 
@@ -58,18 +58,23 @@ class AdminTest(ViewTestCase):
 
     @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_ssh_add(self):
-        # Verify there is button for adding
-        response = self.client.get(reverse('admin-ssh'))
-        self.assertContains(response, 'Add host key')
+        try:
+            oldpath = os.environ['PATH']
+            os.environ['PATH'] = ':'.join(
+                (get_test_file(''), os.environ['PATH'])
+            )
+            # Verify there is button for adding
+            response = self.client.get(reverse('admin-ssh'))
+            self.assertContains(response, 'Add host key')
 
-        # Add the key
-        response = self.client.post(
-            reverse('admin-ssh'),
-            {'action': 'add-host', 'host': 'github.com'}
-        )
-        if 'Name or service not known' in response.content:
-            raise SkipTest('Network error')
-        self.assertContains(response, 'Added host key for github.com')
+            # Add the key
+            response = self.client.post(
+                reverse('admin-ssh'),
+                {'action': 'add-host', 'host': 'github.com'}
+            )
+            self.assertContains(response, 'Added host key for github.com')
+        finally:
+            os.environ['PATH'] = oldpath
 
         # Check the file contains it
         hostsfile = os.path.join(appsettings.DATA_DIR, 'ssh', 'known_hosts')
