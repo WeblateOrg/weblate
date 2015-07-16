@@ -671,11 +671,11 @@ class FileFormat(object):
         Adds new language file.
         '''
         # Create directory for a translation
-        dirname = os.path.dirname(fullname)
+        dirname = os.path.dirname(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        self.create_new_file(filename, code, base)
+        cls.create_new_file(filename, code, base)
 
     @classmethod
     def create_new_file(cls, filename, code, base):
