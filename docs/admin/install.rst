@@ -114,6 +114,10 @@ Most of requirements are available either directly in openSUSE or in
         python-Whoosh python-Pillow python-python-social-auth \
         python-babel Git mercurial
 
+    # Optional for database backend
+    zypper install python-MySQL-python  # For MySQL
+    zypper install python-psycopg2      # For PostgreSQL
+
     
 For proper sorting of a unicode strings, it is recommended to install pyuca:
 
