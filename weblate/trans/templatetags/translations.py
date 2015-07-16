@@ -162,7 +162,7 @@ def check_severity(check):
     Returns check severity, or it's id if check is not known.
     '''
     try:
-        return CHECKS[check].severity
+        return escape(CHECKS[check].severity)
     except KeyError:
         return 'info'
 
@@ -173,9 +173,9 @@ def check_name(check):
     Returns check name, or it's id if check is not known.
     '''
     try:
-        return CHECKS[check].name
+        return escape(CHECKS[check].name)
     except KeyError:
-        return check
+        return escape(check)
 
 
 @register.simple_tag
@@ -184,9 +184,9 @@ def check_description(check):
     Returns check description, or it's id if check is not known.
     '''
     try:
-        return CHECKS[check].description
+        return escape(CHECKS[check].description)
     except KeyError:
-        return check
+        return escape(check)
 
 
 @register.simple_tag
@@ -194,7 +194,7 @@ def project_name(prj):
     '''
     Gets project name based on slug.
     '''
-    return Project.objects.get(slug=prj).__unicode__()
+    return escape(Project.objects.get(slug=prj).__unicode__())
 
 
 @register.simple_tag
@@ -202,7 +202,9 @@ def subproject_name(prj, subprj):
     '''
     Gets subproject name based on slug.
     '''
-    return SubProject.objects.get(project__slug=prj, slug=subprj).__unicode__()
+    return escape(
+        SubProject.objects.get(project__slug=prj, slug=subprj).__unicode__()
+    )
 
 
 @register.simple_tag
@@ -210,7 +212,7 @@ def language_name(code):
     '''
     Gets language name based on it's code.
     '''
-    return Language.objects.get(code=code).__unicode__()
+    return escape(Language.objects.get(code=code).__unicode__())
 
 
 @register.simple_tag
