@@ -102,7 +102,11 @@
 <p class="help-block"><a href="{% url 'contact' %}?subject=New+language+request+for+{{ object }}">{% trans "Can not find your language in above list?" %}</a></p>
 </div>
 <div class="panel-footer">
+{% if object.new_lang == 'contact' %}
+<input class="btn btn-default" type="submit" value="{% trans "Request new translation" %}" />
+{% else %}
 <input class="btn btn-default" type="submit" value="{% trans "Start new translation" %}" />
+{% endif %}
 {% endif %}
 </div>
 </div>
