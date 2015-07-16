@@ -95,6 +95,9 @@ you might need additional components:
     # Database option 3: postgresql
     apt-get install postgresql
 
+    # SMTP server
+    apt-get install exim4
+
     # GitHub PR support: hub
     # See https://hub.github.com/
 
@@ -140,6 +143,9 @@ you might need additional components:
 
     # Database option 3: postgresql
     zypper install postgresql
+
+    # SMTP server
+    zypper install postfix
 
     # GitHub PR support: hub
     # See https://hub.github.com/
