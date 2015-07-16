@@ -17,7 +17,7 @@ Translate-toolkit (>= 1.10.0)
 Git (>= 1.6)
     http://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
-    http://mercurial.selenic.com/
+    https://mercurial.selenic.com/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
 Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
@@ -768,8 +768,8 @@ Weblate on OpenShift
 This repository contains a configuration for the OpenShift platform as a
 service product, which facilitates easy installation of Weblate on OpenShift
 Online (https://www.openshift.com/), OpenShift Enterprise
-(https://www.openshift.com/products/enterprise) and OpenShift Origin
-(https://www.openshift.com/products/origin).
+(https://enterprise.openshift.com/) and OpenShift Origin
+(https://www.openshift.org/).
 
 Prerequisites
 +++++++++++++
