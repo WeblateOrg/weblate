@@ -112,18 +112,11 @@ Most of requirements are available either directly in openSUSE or in
 
     zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow python-python-social-auth \
-        python-babel Git mercurial
+        python-babel Git mercurial python-pyuca
 
     # Optional for database backend
     zypper install python-MySQL-python  # For MySQL
     zypper install python-psycopg2      # For PostgreSQL
-
-    
-For proper sorting of a unicode strings, it is recommended to install pyuca:
-
-.. code-block:: sh
-
-    pip install pyuca
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
