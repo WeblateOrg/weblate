@@ -1437,11 +1437,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         fullname = os.path.join(self.get_path(), filename)
 
-        # Create directory for a translation
-        dirname = os.path.dirname(fullname)
-        if not os.path.exists(dirname):
-            os.makedirs(dirname)
-
         self.file_format_cls.add_language(
             fullname,
             language.code,

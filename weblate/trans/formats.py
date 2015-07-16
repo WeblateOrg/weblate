@@ -670,6 +670,16 @@ class FileFormat(object):
         '''
         Adds new language file.
         '''
+        # Create directory for a translation
+        dirname = os.path.dirname(fullname)
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
+        self.create_new_file(filename, code, base)
+
+    @classmethod
+    def create_new_file(cls, filename, code, base):
+        """Handles creation of new translation file."""
         if cls.new_translation is None:
             raise ValueError('Not supported')
 
@@ -794,10 +804,8 @@ class PoFormat(FileFormat):
             return False
 
     @classmethod
-    def add_language(cls, filename, code, base):
-        '''
-        Adds new language file.
-        '''
+    def create_new_file(cls, filename, code, base):
+        """Handles creation of new translation file."""
         with open(base, 'r') as handle:
             data = handle.read()
         # Assume input is UTF-8 if not specified
@@ -962,10 +970,8 @@ class JSONFormat(FileFormat):
         return True
 
     @classmethod
-    def add_language(cls, filename, code, base):
-        '''
-        Adds new language file.
-        '''
+    def create_new_file(cls, filename, code, base):
+        """Handles creation of new translation file."""
         content = '{}\n'
         if base:
             with open(base, 'r') as handle:
