@@ -159,8 +159,8 @@ importuserdata <file.json>
 
 Imports userdata from file created by :djadmin:`dumpuserdata`
 
-importusers --checck <file.json>
---------------------------------
+importusers --check <file.json>
+-------------------------------
 
 .. django-admin:: importusers
 
