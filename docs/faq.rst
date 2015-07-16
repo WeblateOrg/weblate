@@ -121,7 +121,7 @@ database. Please open admin interface and edit default site name and domain
 (you can do that directly at ``/admin/sites/site/1/`` URL under your Weblate
 installation).
 
-.. seealso:: https://docs.djangoproject.com/en/1.8/ref/contrib/sites/
+.. seealso:: https://docs.djangoproject.com/en/stable/ref/contrib/sites/
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
 ---------------------------------------------------------------
@@ -317,7 +317,7 @@ This can happen with SQLite database as it is not powerful enough for some
 relations used within Weblate. The only way to fix this is to use some more
 capable database, see :ref:`production-database` for more information.
 
-.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/1.8/ref/databases/>`_
+.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 Features
 ++++++++

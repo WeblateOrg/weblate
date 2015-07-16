@@ -17,7 +17,7 @@ Translate-toolkit (>= 1.10.0)
 Git (>= 1.6)
     http://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
-    http://mercurial.selenic.com/
+    https://mercurial.selenic.com/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
 Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
@@ -214,7 +214,7 @@ Creating database for Weblate
 It is recommended to run Weblate on some database server. Using SQLite backend
 is really good for testing purposes only.
     
-.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/1.8/ref/databases/>`_
+.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 Creating database in PostgreSQL
 +++++++++++++++++++++++++++++++
@@ -245,6 +245,24 @@ When using MySQL, don't forget to create database with UTF-8 encoding:
 
     # Create database
     CREATE DATABASE weblate CHARACTER SET utf8;
+
+Other configurations
+--------------------
+
+.. _out-mail:
+
+Outgoing mail
++++++++++++++
+
+Weblate sends out emails on various occasions - for account activation and on
+various notifications configured by users. For this it needs access to the SMTP
+server, which will handle this.
+
+The mail server setup is configured using settings ``EMAIL_HOST``,
+``EMAIL_HOST_PASSWORD``, ``EMAIL_HOST_USER`` and ``EMAIL_PORT``.
+Their names are quite self-explaining, but you can find our more information in the
+`Django documentation on them <https://docs.djangoproject.com/en/stable/ref/settings/#email-host>`_.
+
 
 .. _hub-setup:
 
@@ -282,7 +300,7 @@ options:
     List of site administrators to receive notifications when something goes
     wrong, for example notifications on failed merge or Django errors.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.8/ref/settings/#admins
+    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#admins
 
 ``ALLOWED_HOSTS``
 
@@ -293,7 +311,7 @@ options:
 
         ALLOWED_HOSTS = ['demo.weblate.org']
 
-    .. seealso:: https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-ALLOWED_HOSTS
+    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS
 
 ``SESSION_ENGINE``
 
@@ -302,7 +320,7 @@ options:
     :command:`./manage.py clearsessions` to remove stale session data from the
     database.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.8/topics/http/sessions/#configuring-sessions
+    .. seealso:: https://docs.djangoproject.com/en/stable/topics/http/sessions/#configuring-sessions
 
 ``DATABASES``
 
@@ -312,8 +330,8 @@ options:
     .. seealso:: 
        
         :ref:`database-setup`
-        https://docs.djangoproject.com/en/1.8/ref/settings/#databases, 
-        https://docs.djangoproject.com/en/1.8/ref/databases/
+        https://docs.djangoproject.com/en/stable/ref/settings/#databases, 
+        https://docs.djangoproject.com/en/stable/ref/databases/
 
 ``DEBUG``
 
@@ -324,7 +342,7 @@ options:
     Debug mode also slows down Weblate as Django stores much more information
     internally in this case.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.8/ref/settings/#debug
+    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#debug
 
 ``DEFAULT_FROM_EMAIL``
 
@@ -452,7 +470,7 @@ environment), for example setup for MySQL:
         }
     }
 
-.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/1.8/ref/databases/>`_
+.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 .. _production-cache:
 
@@ -471,7 +489,7 @@ variable, for example:
         }
     }
 
-.. seealso:: :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/1.8/topics/cache/>`_
+.. seealso:: :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-cache-avatar:
 
@@ -498,7 +516,7 @@ recommended to use separate, file backed cache for this purpose:
             },
         }
 
-.. seealso:: :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/1.8/topics/cache/>`_
+.. seealso:: :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-email:
 
@@ -519,8 +537,8 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
     `DEFAULT_FROM_EMAIL documentation`_,
     `SERVER_EMAIL documentation`_
 
-.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/1.8/ref/settings/#default-from-email
-.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/1.8/ref/settings/#server-email
+.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/stable/ref/settings/#default-from-email
+.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/stable/ref/settings/#server-email
 
 
 .. _production-hosts:
@@ -531,7 +549,7 @@ Allowed hosts setup
 Django 1.5 and newer require ``ALLOWED_HOSTS`` to hold list of domain names
 your site is allowed to serve, having it empty will block any request.
 
-.. seealso:: https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-ALLOWED_HOSTS
+.. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS
 
 .. _production-avatar:
 
@@ -566,7 +584,7 @@ really use own value rather than using the one coming from example setup.
 You can generate new key using :file:`examples/generate-secret-key` shipped
 with Weblate.
 
-    .. seealso:: https://docs.djangoproject.com/en/1.8/ref/settings/#std:setting-SECRET_KEY
+    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SECRET_KEY
 
 .. _production-admin-files:
 
@@ -629,7 +647,7 @@ configure it using following snippet:
         )),
     )
 
-.. seealso:: `Django documentation on template loading <https://docs.djangoproject.com/en/1.8/ref/templates/api/#django.template.loaders.cached.Loader>`_
+.. seealso:: `Django documentation on template loading <https://docs.djangoproject.com/en/stable/ref/templates/api/#django.template.loaders.cached.Loader>`_
 
 .. _server:
 
@@ -661,7 +679,7 @@ use that for following paths:
 Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
 as :file:`favicon.ico`.
 
-.. seealso:: https://docs.djangoproject.com/en/1.8/howto/deployment/
+.. seealso:: https://docs.djangoproject.com/en/stable/howto/deployment/
 
 Sample configuration for Lighttpd
 +++++++++++++++++++++++++++++++++
@@ -750,8 +768,8 @@ Weblate on OpenShift
 This repository contains a configuration for the OpenShift platform as a
 service product, which facilitates easy installation of Weblate on OpenShift
 Online (https://www.openshift.com/), OpenShift Enterprise
-(https://www.openshift.com/products/enterprise) and OpenShift Origin
-(https://www.openshift.com/products/origin).
+(https://enterprise.openshift.com/) and OpenShift Origin
+(https://www.openshift.org/).
 
 Prerequisites
 +++++++++++++
