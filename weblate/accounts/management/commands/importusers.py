@@ -20,12 +20,20 @@
 
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
+from optparse import make_option
 import json
 
 
 class Command(BaseCommand):
     help = 'imports users from JSON dump of database'
     args = '<json-file>'
+    option_list = BaseCommand.option_list + (
+        make_option(
+            '--check',
+            action='store_true',
+            help='Only check import, do not actually create users'
+        ),
+    )
 
     def handle(self, *args, **options):
         '''
@@ -41,14 +49,23 @@ class Command(BaseCommand):
             if 'fields' in line:
                 line = line['fields']
 
+            if 'is_active' in line and not line['is_active']:
+                continue
+
+            if not line['email'] or not line['username']:
+                self.stderr.write(
+                    'Skipping {}, has blank username or email'.format(line)
+                )
+                continue
+
             if User.objects.filter(username=line['username']).exists():
-                self.stdout.write(
+                self.stderr.write(
                     'Skipping {}, username exists'.format(line['username'])
                 )
                 continue
 
             if User.objects.filter(email=line['email']).exists():
-                self.stdout.write(
+                self.stderr.write(
                     'Skipping {}, email exists'.format(line['email'])
                 )
                 continue
@@ -61,10 +78,11 @@ class Command(BaseCommand):
             else:
                 full_name = line['first_name']
 
-            User.objects.create(
-                username=line['username'],
-                first_name=full_name,
-                last_name='',
-                password=line['password'],
-                email=line['email']
-            )
+            if not options['check']:
+                User.objects.create(
+                    username=line['username'],
+                    first_name=full_name,
+                    last_name='',
+                    password=line['password'],
+                    email=line['email']
+                )

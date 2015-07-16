@@ -159,12 +159,15 @@ importuserdata <file.json>
 
 Imports userdata from file created by :djadmin:`dumpuserdata`
 
-importusers <file.json>
------------------------
+importusers --checck <file.json>
+--------------------------------
 
 .. django-admin:: importusers
 
 Imports users from JSON dump of Django auth_users database.
+
+With ``--check`` it will just check whether given file can be imported and
+report possible conflicts on usernames or emails.
 
 You can dump users from existing Django installation using:
 
