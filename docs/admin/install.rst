@@ -246,6 +246,24 @@ When using MySQL, don't forget to create database with UTF-8 encoding:
     # Create database
     CREATE DATABASE weblate CHARACTER SET utf8;
 
+Other configurations
+--------------------
+
+.. _out-mail:
+
+Outgoing mail
++++++++++++++
+
+Weblate sends out emails on various occasions - for account activation and on
+various notifications configured by users. For this it needs access to the SMTP
+server, which will handle this.
+
+The mail server setup is configured using settings ``EMAIL_HOST``,
+``EMAIL_HOST_PASSWORD``, ``EMAIL_HOST_USER`` and ``EMAIL_PORT``.
+Their names are quite self-explaining, but you can find our more information in the
+`Django documentation on them <https://docs.djangoproject.com/en/1.8/ref/settings/#email-host>`_.
+
+
 .. _hub-setup:
 
 Setting up hub
