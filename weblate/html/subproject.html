@@ -98,6 +98,9 @@
 <p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</p>
 {% else %}
 <p>{% trans "Please choose the language into which you would like to translate." %}</p>
+{% if object.new_lang == 'contact' %}
+<p>{% trans "Project maintainers will get notified about this request and will add the language manually." %}</p>
+{% endif %}
 {{ new_lang_form|crispy }}
 <p class="help-block"><a href="{% url 'contact' %}?subject=New+language+request+for+{{ object }}">{% trans "Can not find your language in above list?" %}</a></p>
 </div>
