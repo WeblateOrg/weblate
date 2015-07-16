@@ -479,7 +479,10 @@ def new_language(request, project, subproject):
     else:
         messages.error(
             request,
-            _('Failed to process new translation request!')
+            _(
+                'Please choose the language into which '
+                'you would like to translate.'
+            )
         )
 
     return redirect(

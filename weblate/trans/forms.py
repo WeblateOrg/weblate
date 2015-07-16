@@ -723,7 +723,7 @@ class NewLanguageForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(NewLanguageForm, self).__init__(*args, **kwargs)
-        choices = sort_choices([
+        choices = sort_choices([('', _('Please select'))] + [
             (l.code, l.__unicode__()) for l in Language.objects.all()
         ])
         self.fields['lang'].choices = choices
