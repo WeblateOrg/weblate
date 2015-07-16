@@ -254,7 +254,9 @@ When using MySQL, don't forget to create database with UTF-8 encoding:
     GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
 
     # Create database
-    CREATE DATABASE weblate CHARACTER SET utf8;
+    CREATE DATABASE weblate CHARACTER SET utf8mb4;
+    # Use utf8 if above fails:
+    # CREATE DATABASE weblate CHARACTER SET utf8;
 
 Other configurations
 --------------------
