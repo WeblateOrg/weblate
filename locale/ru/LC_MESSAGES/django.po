@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2015-06-22 12:28+0200\n"
 "Last-Translator: Roman Imankulov <roman.imankulov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -458,7 +458,7 @@ msgstr "Этот сайт построен с использованием пр�
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "Статистика"
 
@@ -1267,7 +1267,7 @@ msgid "Language"
 msgstr "Язык"
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr "Слова"
 
@@ -2162,7 +2162,7 @@ msgstr ""
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr "Поиск"
 
@@ -2198,7 +2198,7 @@ msgstr "Управление Вашими переводами"
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr "Переведено"
 
@@ -2320,7 +2320,7 @@ msgstr "Сброс"
 msgid "Reset all changes in the local repository"
 msgstr "Сбросить все изменения в локальном репозитории"
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr "Разблокировать"
 
@@ -2328,7 +2328,7 @@ msgstr "Разблокировать"
 msgid "Allow changes in the local repository"
 msgstr "Разрешить изменения в локальном репозитории"
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr "Заблокировать"
 
@@ -2679,11 +2679,18 @@ msgid ""
 "%(site_title)s."
 msgstr ""
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr "Требуемый язык:"
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "Запрашивающий пользователь:"
 
@@ -2822,8 +2829,8 @@ msgstr "В данный момент отсутствуют глоссарии �
 msgid "Manage all glossaries"
 msgstr "Управление глоссариями"
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Загрузка…"
@@ -2917,15 +2924,27 @@ msgid ""
 "\">translator instructions</a>."
 msgstr ""
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 msgid "Please choose the language into which you would like to translate."
 msgstr "Пожалуйста выберите язык на который вы желаете переводить."
 
 #: weblate/html/subproject.html:102
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
+msgstr ""
+
+#: weblate/html/subproject.html:105
 msgid "Can not find your language in above list?"
 msgstr "Не можете найти Ваш язык в списке?"
 
-#: weblate/html/subproject.html:105
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Request new translation"
+msgstr "Начните новый перевод"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr "Начните новый перевод"
 
@@ -3197,7 +3216,7 @@ msgstr "Загрузка скомпилированного перевода"
 msgid "Upload translation"
 msgstr "Загрузить перевод (на сайт)"
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr "Заблокировать"
 
@@ -3212,7 +3231,7 @@ msgstr "Автоматический перевод"
 msgid "Translation status"
 msgstr "Состояние перевода"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr "Строки"
 
@@ -3232,15 +3251,15 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr "Процесс"
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr "Загрузка (на сайт)"
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3249,65 +3268,65 @@ msgstr ""
 "хотите перезаписать уже переведенные строки, не забудьте включить эту "
 "функцию."
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr "Загруженный файл будет совмещен с текущим переводом."
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 "Блокировка перевода приведёт к невозможности работы других пользователей с "
 "переводом."
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr "Заблокировано:"
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr "Срок блокировки:"
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr "Перевод сейчас не заблокирован."
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "Отзывы"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr "Обзор переводов, сделанных другими пользователями."
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr "Начать обзор"
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr "Процент"
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr "Итого"
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 msgid "Fuzzy"
 msgstr "Нечётко"
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr "Неудачная проверка"
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 msgid "Last activity"
 msgstr "Последняя активность"
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 msgid "Last change"
 msgstr "Последнее изменение"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 msgid "Last author"
 msgstr "Последний автор"
 
@@ -3808,57 +3827,57 @@ msgstr "Недавние изменения в %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Все недавние изменения, внесенные с помощью Weblate, в %s."
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr "Автоматическое обнаружение"
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr "Файл Gettext PO"
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr "Файл Gettext PO (один язык)"
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr "Файл Qt Linguist Translation"
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr "Файл XLIFF Translation"
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr "Строки OS X"
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 msgid "OS X Strings (UTF-8)"
 msgstr "Строки OS X (UTF-8)"
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr "Свойства Java (UTF-8)"
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr "Свойства Java"
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr "PHP-строки"
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 #, fuzzy
 #| msgid "Download source file"
 msgid ".Net resource file"
 msgstr "Загрузить исходный файл"
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr "Строковый ресурс Android"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr "Файл JSON"
 
@@ -4135,6 +4154,10 @@ msgstr "Комментарии к переводу, обсуждение с др
 #: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "Весь проект"
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
+msgstr ""
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -5383,10 +5406,6 @@ msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запрос на новый перевод отправлен сопровождающему проекта."
 
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
-msgstr "Не удалось обработать новый запрос на перевод!"
-
 #: weblate/trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr ""
@@ -5672,6 +5691,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "Переведено"
+
+#~ msgid "Failed to process new translation request!"
+#~ msgstr "Не удалось обработать новый запрос на перевод!"
 
 #~ msgid "Python format string"
 #~ msgstr "Форматирование строки python"

@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2015-07-14 20:19+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish "
-"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -447,7 +447,7 @@ msgstr "Bu site aşağıdaki projeler kullanılarak yapılmıştır:"
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "İstatistikler"
 
@@ -1295,7 +1295,7 @@ msgid "Language"
 msgstr "Dil"
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr "Kelime"
 
@@ -2206,7 +2206,7 @@ msgstr ""
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr "Ara"
 
@@ -2242,7 +2242,7 @@ msgstr "Çevirilerinizi yönetin"
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr "Çevrilen"
 
@@ -2362,7 +2362,7 @@ msgstr "Sıfırla"
 msgid "Reset all changes in the local repository"
 msgstr "Yerel havuzdaki tüm değişiklikleri sıfırla"
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr "Kilidi aç"
 
@@ -2370,7 +2370,7 @@ msgstr "Kilidi aç"
 msgid "Allow changes in the local repository"
 msgstr "Yerel havuzdaki değişikliklere izin ver"
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr "Kilitle"
 
@@ -2724,11 +2724,18 @@ msgstr ""
 "%(site_title)s sitesinde %(translation)s projesinde yeni dil için bir istek "
 "oldu."
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr "İstenen dil:"
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "İsteyen kullanıcı:"
 
@@ -2872,8 +2879,8 @@ msgstr "Şu anda bu proje için tanımlanmış hiç terimler sözlüğü yok."
 msgid "Manage all glossaries"
 msgstr "Tüm terimler sözlüklerini yönet"
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Yükleniyor…"
@@ -2973,15 +2980,27 @@ msgstr ""
 "Diliniz eksik mi, lütfen <a href=\"%(url)s\">çevirmen talimatlarını</a> "
 "takip edin."
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 msgid "Please choose the language into which you would like to translate."
 msgstr "Lütfen çevirmek istediğiniz dili seçin."
 
 #: weblate/html/subproject.html:102
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
+msgstr ""
+
+#: weblate/html/subproject.html:105
 msgid "Can not find your language in above list?"
 msgstr "Yukarıdaki listede dilinizi bulamıyor musunuz?"
 
-#: weblate/html/subproject.html:105
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Request new translation"
+msgstr "Yeni çeviri başlat"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr "Yeni çeviri başlat"
 
@@ -3250,7 +3269,7 @@ msgstr "Derlenmiş çeviriyi indir"
 msgid "Upload translation"
 msgstr "Çevirileri gönder"
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr "Kilitleme"
 
@@ -3265,7 +3284,7 @@ msgstr "Otomatik Çeviri"
 msgid "Translation status"
 msgstr "Çeviri durumu"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr "Satır"
 
@@ -3289,15 +3308,15 @@ msgstr ""
 "onarmak için ya da çeviri belleğini kullanarak yeni bir bileşeni çevirmek "
 "için kullanılabilir."
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr "İşlem"
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr "Gönder"
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3306,64 +3325,64 @@ msgstr ""
 "satırların üzerine yazmak istediğiniz takdirde, bunu etkinleştirmeyi "
 "unutmayın."
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr "Gönderilen dosya şu anki çeviri ile birleştirilecektir."
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 "Çeviriyi kilitlemek diğerlerinin çeviri üzerinde çalışmasını önleyecektir."
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr "Kilitleyen:"
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr "Kilitleme sona erme:"
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr "Çeviri şu an kilitli değil."
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "Gözden Geçirme"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr "Diğer kullanıcılar tarafından dokunulan çevirileri gözden geçir."
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr "Gözden geçirmeyi başlat"
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr "Yüzde"
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr "Toplam"
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 msgid "Fuzzy"
 msgstr "Belirsiz"
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr "Başarısız kontrolü"
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 msgid "Last activity"
 msgstr "Son etkinlik"
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 msgid "Last change"
 msgstr "Son değiştirme"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 msgid "Last author"
 msgstr "Son hazırlayan"
 
@@ -3850,55 +3869,55 @@ msgstr "%s içindeki son değişiklikler"
 msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr "Otomatik algılama"
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr "Gettext PO dosyası"
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO dosyası (tek dilli)"
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist Çeviri Dosyası"
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr "XLIFF Çeviri Dosyası"
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr "OS X Satırları"
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X Satırları (UTF-8)"
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr "Java Özellikleri (UTF-8)"
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr "Java Özellikleri"
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr "PHP satırlar"
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 msgid ".Net resource file"
 msgstr ".Net kaynak dosyası"
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr "Android Dizgi Kaynağı"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr "JSON dosyası"
 
@@ -3955,7 +3974,6 @@ msgid "Add as fuzzy translation"
 msgstr "Belirsiz çeviri olarak ekle"
 
 #: weblate/trans/forms.py:339
-#| msgid "Fuzzy strings"
 msgid "Fuzzy strings processing"
 msgstr "Belirsiz satırları işleme"
 
@@ -3964,12 +3982,10 @@ msgid "Do not import"
 msgstr "İçe aktarma"
 
 #: weblate/trans/forms.py:342
-#| msgid "Import glossary"
 msgid "Import as fuzzy"
 msgstr "Belirsiz olarak içe aktar"
 
 #: weblate/trans/forms.py:343
-#| msgid "Not translated"
 msgid "Import as translated"
 msgstr "Çevrilmiş olarak içe aktar"
 
@@ -4167,6 +4183,10 @@ msgstr "Çeviri yorumu, diğer çevirmenler ile tartışmalar"
 #: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "Bütün projeler"
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
+msgstr ""
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -5397,10 +5417,6 @@ msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Yeni bir çeviri için istek projenin geliştiricilerine gönderildi."
 
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
-msgstr "Yeni çeviri isteğini işleme başarısız!"
-
 #: weblate/trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr "Eşleşen proje bulma başarısız!"
@@ -5680,6 +5696,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "çevrildi"
+
+#~ msgid "Failed to process new translation request!"
+#~ msgstr "Yeni çeviri isteğini işleme başarısız!"
 
 #~ msgid "Python format string"
 #~ msgstr "Python biçimi dizgisi"

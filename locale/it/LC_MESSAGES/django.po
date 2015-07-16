@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2015-07-15 19:53+0200\n"
 "Last-Translator: Massimiliano Caniparoli <massic80@gmail.com>\n"
-"Language-Team: Italian "
-"<https://hosted.weblate.org/projects/weblate/master/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
+"it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,15 +31,12 @@ msgid "None"
 msgstr "Nessuno"
 
 #: weblate/accounts/forms.py:85
-#| msgid ""
-#| "Username may contain only letters, numbers and following characters: @ . "
-#| "+ - _"
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Il nome utente può contenere solo lettere, numeri o i seguenti caratteri: @ "
-". + - _"
+"Il nome utente può contenere solo lettere, numeri o i seguenti caratteri: "
+"@ . + - _"
 
 #: weblate/accounts/forms.py:91 weblate/html/project.html:159
 msgid "Username"
@@ -55,9 +52,9 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: weblate/accounts/forms.py:237
-#| msgid "You can add another emails on Authentication tab."
 msgid "You can add another email address on the Authentication tab."
-msgstr "Puoi aggiungere un altro indirizzo e-mail nella sezione Autenticazione."
+msgstr ""
+"Puoi aggiungere un altro indirizzo e-mail nella sezione Autenticazione."
 
 #: weblate/accounts/forms.py:264 weblate/accounts/forms.py:342
 #: weblate/html/project.html:160
@@ -102,7 +99,6 @@ msgstr ""
 
 #: weblate/accounts/forms.py:383
 #, python-format
-#| msgid "What is %s?"
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
@@ -351,7 +347,6 @@ msgid "The page you are looking for was not found."
 msgstr "La pagina che stavi cercando non è stata trovata."
 
 #: weblate/html/500.html:5 weblate/trans/views/basic.py:382
-#| msgid "Server Error"
 msgid "Internal Server Error"
 msgstr "Errore interno del server"
 
@@ -450,7 +445,7 @@ msgstr "Questo sito è stato realizzato utilizzando i seguenti progetti:"
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "Statistiche"
 
@@ -1242,7 +1237,7 @@ msgid "Language"
 msgstr ""
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr ""
 
@@ -2132,7 +2127,7 @@ msgstr ""
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr ""
 
@@ -2166,7 +2161,7 @@ msgstr ""
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr ""
 
@@ -2288,7 +2283,7 @@ msgstr ""
 msgid "Reset all changes in the local repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr ""
 
@@ -2296,7 +2291,7 @@ msgstr ""
 msgid "Allow changes in the local repository"
 msgstr ""
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr ""
 
@@ -2637,11 +2632,18 @@ msgid ""
 "%(site_title)s."
 msgstr ""
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr ""
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr ""
 
@@ -2779,8 +2781,8 @@ msgstr ""
 msgid "Manage all glossaries"
 msgstr ""
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Caricamento…"
@@ -2874,15 +2876,27 @@ msgid ""
 "\">translator instructions</a>."
 msgstr ""
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 msgid "Please choose the language into which you would like to translate."
 msgstr ""
 
 #: weblate/html/subproject.html:102
-msgid "Can not find your language in above list?"
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
 msgstr ""
 
 #: weblate/html/subproject.html:105
+msgid "Can not find your language in above list?"
+msgstr ""
+
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Hosting translations"
+msgid "Request new translation"
+msgstr "Hosting delle traduzioni"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr ""
 
@@ -3147,7 +3161,7 @@ msgstr ""
 msgid "Upload translation"
 msgstr ""
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr ""
 
@@ -3162,7 +3176,7 @@ msgstr ""
 msgid "Translation status"
 msgstr "Stato della Traduzione"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr ""
 
@@ -3182,77 +3196,77 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr ""
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr ""
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
 msgstr ""
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr ""
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr ""
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr ""
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr ""
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "Revisione"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr ""
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr ""
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr ""
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr ""
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 msgid "Fuzzy"
 msgstr ""
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr ""
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 msgid "Last activity"
 msgstr ""
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 msgid "Last change"
 msgstr "Cognome"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 msgid "Last author"
 msgstr "Ultimo Autore"
 
@@ -3738,55 +3752,55 @@ msgstr ""
 msgid "All recent changes made using Weblate in %s."
 msgstr ""
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr ""
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr ""
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr ""
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr ""
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr ""
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr ""
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 msgid "OS X Strings (UTF-8)"
 msgstr ""
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr ""
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr ""
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 msgid ".Net resource file"
 msgstr ""
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr ""
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr ""
 
@@ -4052,6 +4066,10 @@ msgstr ""
 
 #: weblate/trans/forms.py:700
 msgid "Whole project"
+msgstr ""
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
 msgstr ""
 
 #: weblate/trans/forms.py:737
@@ -5217,10 +5235,6 @@ msgstr ""
 #: weblate/trans/views/basic.py:473
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr ""
-
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
 msgstr ""
 
 #: weblate/trans/views/changes.py:99

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2015-07-05 08:47+0200\n"
 "Last-Translator: Cecilia <omo818@gmail.com>\n"
 "Language-Team: Simplified Chinese <https://hosted.weblate.org/projects/"
@@ -469,7 +469,7 @@ msgstr "此站点使用以下项目编译："
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "统计"
 
@@ -1362,7 +1362,7 @@ msgid "Language"
 msgstr "语言"
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr "单词"
 
@@ -2276,7 +2276,7 @@ msgstr "您需要登录才能翻译，否则您只能提出建议。"
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr "搜索"
 
@@ -2312,7 +2312,7 @@ msgstr "分享您的翻译"
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr "已翻译"
 
@@ -2456,7 +2456,7 @@ msgstr "重设"
 msgid "Reset all changes in the local repository"
 msgstr "重设本地代码库的所有修改"
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr "解锁"
 
@@ -2466,7 +2466,7 @@ msgstr "解锁"
 msgid "Allow changes in the local repository"
 msgstr "允许代码库的修改"
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr "锁定"
 
@@ -2831,11 +2831,18 @@ msgid ""
 "%(site_title)s."
 msgstr "%(site_title)s 上的 %(translation)s 有新语言申请。"
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr "申请语言："
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 #, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
@@ -2989,8 +2996,8 @@ msgstr ""
 msgid "Manage all glossaries"
 msgstr "管理所有词汇表"
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "正在加载…"
@@ -3095,17 +3102,29 @@ msgid ""
 "\">translator instructions</a>."
 msgstr "如果没有您的语言，请查阅<a href=\"%(url)s\">翻译说明</a>。"
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 #, fuzzy
 #| msgid "Please choose language into which you would like to translate."
 msgid "Please choose the language into which you would like to translate."
 msgstr "请选择您想翻译的语言。"
 
 #: weblate/html/subproject.html:102
-msgid "Can not find your language in above list?"
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
 msgstr ""
 
 #: weblate/html/subproject.html:105
+msgid "Can not find your language in above list?"
+msgstr ""
+
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Request new translation"
+msgstr "开始新翻译"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr "开始新翻译"
 
@@ -3403,7 +3422,7 @@ msgstr "复制单词到翻译"
 msgid "Upload translation"
 msgstr "我的翻译项目"
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr "锁定"
 
@@ -3418,7 +3437,7 @@ msgstr "自动翻译"
 msgid "Translation status"
 msgstr "翻译状态"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr "条目"
 
@@ -3450,15 +3469,15 @@ msgstr ""
 "自动翻译会将此项目中现有的译文应用到当前的子项目中。它可以用来将译文推送至不"
 "同的分支，修复不一致的翻译或翻译新的子项目。"
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr "开始"
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr "上传"
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3466,70 +3485,70 @@ msgstr ""
 "已上传的文件将与当前译文合并。若您想要改写已翻译过的条目，不要忘了勾选下面的 "
 "“改写现有译文” 复选框。"
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr "已上传的文件将与当前译文合并。"
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr "锁定可以防止其他人与您同时翻译。"
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr "锁定者:"
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr "锁定过期："
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr "翻译未被锁定。"
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "复查"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr "复查由其他用户动过的译文。"
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr "开始复查"
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr "百分比"
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr "总数"
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 #, fuzzy
 #| msgctxt "Checkbox for marking translation fuzzy"
 #| msgid "Fuzzy"
 msgid "Fuzzy"
 msgstr "模糊"
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr "未通过检查"
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 #, fuzzy
 #| msgid "Activity"
 msgid "Last activity"
 msgstr "动态"
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 #, fuzzy
 #| msgid "Last name"
 msgid "Last change"
 msgstr "姓氏"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 #, fuzzy
 #| msgid "Last name"
 msgid "Last author"
@@ -4039,59 +4058,59 @@ msgstr "%s 的最近变化"
 msgid "All recent changes made using Weblate in %s."
 msgstr "所有最近通过 Weblate 对 %s 作出的修改。"
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr "自动检测"
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr "Gettext PO 文件"
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr "Gettext PO 文件（单语）"
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr "Qt Linguist 翻译文件"
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr "XLIFF 翻译文件"
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr "OS X 字符串"
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 #, fuzzy
 #| msgid "OS X Strings"
 msgid "OS X Strings (UTF-8)"
 msgstr "OS X 字符串"
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr "Java 属性 (UTF-8)"
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr "Java 属性"
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr "PHP 字符串"
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 #, fuzzy
 #| msgid "Source string:"
 msgid ".Net resource file"
 msgstr "源条目："
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr ""
 
@@ -4382,6 +4401,10 @@ msgstr "您可以分享关于此条目的注释给其它翻译。"
 #: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "整个项目"
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
+msgstr ""
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -5642,10 +5665,6 @@ msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增翻译的请求已发送给项目维护者。"
 
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
-msgstr "处理新翻译请求失败！"
-
 #: weblate/trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr "无法选择匹配的项目！"
@@ -5946,6 +5965,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "已翻译"
+
+#~ msgid "Failed to process new translation request!"
+#~ msgstr "处理新翻译请求失败！"
 
 #, fuzzy
 #~| msgid "Python format"

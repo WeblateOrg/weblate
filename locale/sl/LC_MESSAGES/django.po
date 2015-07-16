@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2015-07-10 23:50+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -445,7 +445,7 @@ msgstr "Stran je zgrajena z uporabo naslednjih projektov:"
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "Statistika"
 
@@ -1296,7 +1296,7 @@ msgid "Language"
 msgstr "Jezik"
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr "Besede"
 
@@ -2202,7 +2202,7 @@ msgstr ""
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr "Iskanje"
 
@@ -2238,7 +2238,7 @@ msgstr "Upravljajte svoje prevode"
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr "Prevedeno"
 
@@ -2358,7 +2358,7 @@ msgstr "Ponastavi"
 msgid "Reset all changes in the local repository"
 msgstr "Ponastavi vse spremembe v lokalni shrambi"
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr "Odkleni"
 
@@ -2366,7 +2366,7 @@ msgstr "Odkleni"
 msgid "Allow changes in the local repository"
 msgstr "Dovoli spremembe v lokalni shrambi"
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr "Zakleni"
 
@@ -2726,11 +2726,18 @@ msgid ""
 "%(site_title)s."
 msgstr "na %(site_title)s je prošnja za nov jezik %(translation)s."
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr "Zaprošen jezik:"
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "Zaproševalec:"
 
@@ -2874,8 +2881,8 @@ msgstr "Za ta projekt trenutno ni opredeljenih nobenih slovarjev."
 msgid "Manage all glossaries"
 msgstr "Upravljaj vse slovarje"
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Nalaganje…"
@@ -2974,15 +2981,27 @@ msgid ""
 msgstr ""
 "Če vaš jezik manjka, sledite <a href=\"%(url)s\">navodilom za prevajalce</a>."
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 msgid "Please choose the language into which you would like to translate."
 msgstr "Prosimo, izberite jezik, v katerega želite prevajati."
 
 #: weblate/html/subproject.html:102
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
+msgstr ""
+
+#: weblate/html/subproject.html:105
 msgid "Can not find your language in above list?"
 msgstr "Ne najdete svojega jezika na zgornjem seznamu?"
 
-#: weblate/html/subproject.html:105
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Request new translation"
+msgstr "Začni nov prevod"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr "Začni nov prevod"
 
@@ -3251,7 +3270,7 @@ msgstr "Prenesi preveden prevod"
 msgid "Upload translation"
 msgstr "Naloži prevod"
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr "Zaklepanje"
 
@@ -3266,7 +3285,7 @@ msgstr "Samodejni prevod"
 msgid "Translation status"
 msgstr "Stanje prevoda"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr "Nizi"
 
@@ -3290,15 +3309,15 @@ msgstr ""
 "drugo podvejo, za usklajevanje prevodov ali za prevajanje nove komponente s "
 "pomočjo pomnilnika prevodov."
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr "Obdelaj"
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr "Naloži"
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3306,63 +3325,63 @@ msgstr ""
 "Naložena datoteka bo združena s trenutnim prevodom. Če želite prepisati že "
 "prevedene nize, tega ne pozabite omogočiti."
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr "Naloženo datoteko bomo združili s trenutnim prevodom."
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr "Zaklep prevoda bo drugim onemogočil sodelovanje pri prevajanju."
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr "Zaklenil:"
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr "Zaklep poteče:"
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr "Prevod trenutno ni zaklenjen."
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "Pregled"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr "Preglej prevode, ki so jih spreminjali drugi uporabniki."
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr "Začni pregledovati"
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr "Odstotek"
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr "Skupaj"
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 msgid "Fuzzy"
 msgstr "Neurejeno"
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr "Spodletelo preverjanje"
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 msgid "Last activity"
 msgstr "Zadnja dejavnost"
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 msgid "Last change"
 msgstr "Zadnja sprememba"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 msgid "Last author"
 msgstr "Zadnji avtor"
 
@@ -3851,55 +3870,55 @@ msgstr "Nedavne spremembe v %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Vse nedavne spremembe, narejene z Weblate, v %s."
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr "Samodejno zaznavanje"
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr "Datoteka Gettext PO"
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr "Datoteka Gettext PO (enojezična)"
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr "Datoteka s prevodom Qt Linguist"
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr "Datoteka s prevodom XLIFF"
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr "Nizi OS X"
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 msgid "OS X Strings (UTF-8)"
 msgstr "Nizi OS X (UTF-8)"
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr "Lastnosti Java (UTF-8)"
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr "Lastnosti Java"
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr "Nizi PHP"
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 msgid ".Net resource file"
 msgstr "Datoteka vira .Net"
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr "Vir nizov Android"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr "Datoteka JSON"
 
@@ -4171,6 +4190,10 @@ msgstr "Pripomba prevoda, razprave z drugimi prevajalci"
 #: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "Celoten projekt"
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
+msgstr ""
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -5442,10 +5465,6 @@ msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Prošnjo za nov prevod smo poslali vzdrževalcem projekta."
 
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
-msgstr "Nisem uspel obdelati prošnje za nov prevod!"
-
 #: weblate/trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr "Nisem uspel najti ujemajočega projekta!"
@@ -5729,6 +5748,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "prevedeno"
+
+#~ msgid "Failed to process new translation request!"
+#~ msgstr "Nisem uspel obdelati prošnje za nov prevod!"
 
 #~ msgid "Python format string"
 #~ msgstr "Oblika niza Python"

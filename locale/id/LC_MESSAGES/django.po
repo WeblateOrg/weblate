@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2014-04-17 11:26+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -480,7 +480,7 @@ msgstr "Situs ini dibangun menggunakan proyek berikut:"
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -1394,7 +1394,7 @@ msgid "Language"
 msgstr "Bahasa"
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr "Kata"
 
@@ -2314,7 +2314,7 @@ msgstr ""
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr "Cari"
 
@@ -2350,7 +2350,7 @@ msgstr "Berbagi penerjemahan anda"
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr "Diterjemahkan"
 
@@ -2495,7 +2495,7 @@ msgstr "Tata ulang"
 msgid "Reset all changes in the local repository"
 msgstr "Tata ulang semua perubahan dalam repositori lokal"
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr "Buka"
 
@@ -2505,7 +2505,7 @@ msgstr "Buka"
 msgid "Allow changes in the local repository"
 msgstr "Membolehkan perubahan dalam repositori"
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr "Kunci"
 
@@ -2872,11 +2872,18 @@ msgstr ""
 "telah ada sebuah permintaan untuk bahasa baru dalam %(translation)s di "
 "%(site_title)s."
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr "Bahasa yang diminta:"
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "Pemintaan pengguna:"
 
@@ -3031,8 +3038,8 @@ msgstr ""
 msgid "Manage all glossaries"
 msgstr "Mengelola semua glosarium"
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Sedang memuat…"
@@ -3144,17 +3151,29 @@ msgstr ""
 "Bahasa Anda tidak ada, silakan ikuti <a href=\"%(url)s\">petunjuk "
 "penerjemah</a>."
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 #, fuzzy
 #| msgid "Please choose language into which you would like to translate."
 msgid "Please choose the language into which you would like to translate."
 msgstr "Silahkan pilih bahasa yang mana Anda ingin menerjemahkan."
 
 #: weblate/html/subproject.html:102
-msgid "Can not find your language in above list?"
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
 msgstr ""
 
 #: weblate/html/subproject.html:105
+msgid "Can not find your language in above list?"
+msgstr ""
+
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Request new translation"
+msgstr "Mulai penerjemahan baru"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr "Mulai penerjemahan baru"
 
@@ -3455,7 +3474,7 @@ msgstr "Salin kata ke penerjemahan"
 msgid "Upload translation"
 msgstr "Terjemahan Anda"
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr "Mengunci"
 
@@ -3470,7 +3489,7 @@ msgstr "Penerjemahan otomatis"
 msgid "Translation status"
 msgstr "Status penerjemahan"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr "String"
 
@@ -3505,15 +3524,15 @@ msgstr ""
 "penerjemahan tidak konsisten, atau untuk menerjemahkan subproyek baru dengan "
 "menggunakan memori penerjemahan."
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr "Proses"
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr "Unggah"
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3522,68 +3541,68 @@ msgstr ""
 "ingin menimpa penerjemahan string yang sudah ada, jangan lupa untuk "
 "mengaktifkannya."
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr "Berkas yang diunggah akan digabungkan dengan terjemahan saat ini."
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr ""
 "Penguncian terjemahan akan mencegah orang lain untuk bekerja pada terjemahan."
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr "Dikunci oleh:"
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr "Penguncian daluarsa:"
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr "Terjemahan tidak dikunci."
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "Peninjauan"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr "Peninjauan terjemahan dilakukan oleh pengguna lain."
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr "Mulai meninjau"
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr "Persen"
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr "Total"
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 msgid "Fuzzy"
 msgstr "Samar"
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr "Periksa kegagalan"
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 #, fuzzy
 #| msgid "Activity"
 msgid "Last activity"
 msgstr "Aktivitas"
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 #, fuzzy
 #| msgid "Last name"
 msgid "Last change"
 msgstr "Nama belakang"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 #, fuzzy
 #| msgid "Last name"
 msgid "Last author"
@@ -4103,59 +4122,59 @@ msgstr "Perubahan terbaru dalam %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Semua perubahan terbaru yang dibuat Weblate dalam %s."
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr "Deteksi otomatis"
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr "Berkas gettext PO"
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr "Berkas gettext PO (monolingual)"
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr "Berkas penerjemahan Qt Linguist"
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr "Berkas penerjemahan XLIFF"
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr "String OS X"
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 #, fuzzy
 #| msgid "OS X Strings"
 msgid "OS X Strings (UTF-8)"
 msgstr "String OS X"
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr "Properti Java (UTF-8)"
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr "Properti Java"
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr "String PHP"
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 #, fuzzy
 #| msgid "New source string"
 msgid ".Net resource file"
 msgstr "String sumber baru"
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr "Sumber String Android"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr ""
 
@@ -4451,6 +4470,10 @@ msgstr ""
 #: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "Semua proyek"
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
+msgstr ""
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -5774,10 +5797,6 @@ msgid ""
 msgstr ""
 "Permintaan untuk penerjemahan baru telah dikirim ke pengelolaan proyek."
 
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
-msgstr "Gagal untuk memproses permintaan penerjemahan baru!"
-
 #: weblate/trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr "Gagal menemukan proyek yang cocok!"
@@ -6073,6 +6092,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "telah diterjemahkan"
+
+#~ msgid "Failed to process new translation request!"
+#~ msgstr "Gagal untuk memproses permintaan penerjemahan baru!"
 
 #, fuzzy
 #~| msgid "Python format"

@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-07-14 15:24+0000\n"
+"POT-Creation-Date: 2015-07-16 09:35+0000\n"
 "PO-Revision-Date: 2015-07-15 23:18+0200\n"
 "Last-Translator: Viktar Palstsiuk <vipals@gmail.com>\n"
-"Language-Team: Belarusian "
-"<https://hosted.weblate.org/projects/weblate/master/be/>\n"
+"Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
+"master/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.4-dev\n"
 
 #: weblate/accounts/auth.py:47
@@ -448,7 +448,7 @@ msgstr "Сайт збудаваны пры дапамозе гэткіх пра�
 
 #: weblate/html/about.html:82 weblate/html/data.html:47
 #: weblate/html/index.html:34 weblate/html/translation.html:27
-#: weblate/html/translation.html.py:291
+#: weblate/html/translation.html.py:287
 msgid "Statistics"
 msgstr "Статыстыка"
 
@@ -1298,7 +1298,7 @@ msgid "Language"
 msgstr "Мова"
 
 #: weblate/html/dictionaries.html:15 weblate/html/translation.html:99
-#: weblate/html/translation.html.py:299
+#: weblate/html/translation.html.py:295
 msgid "Words"
 msgstr "Словы"
 
@@ -2204,7 +2204,7 @@ msgstr ""
 #: weblate/html/search-form.html.py:11 weblate/html/search.html:6
 #: weblate/html/translate.html:147 weblate/html/translate.html.py:251
 #: weblate/html/translate.html:256 weblate/html/translation.html:24
-#: weblate/html/translation.html.py:252 weblate/html/translation.html:257
+#: weblate/html/translation.html.py:248 weblate/html/translation.html:253
 msgid "Search"
 msgstr "Пошук"
 
@@ -2240,7 +2240,7 @@ msgstr "Кіраванне Вашымі перакладамі"
 
 #: weblate/html/index.html:79 weblate/html/index.html.py:124
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
-#: weblate/html/project.html:76 weblate/html/translation.html:310
+#: weblate/html/project.html:76 weblate/html/translation.html:306
 msgid "Translated"
 msgstr "Перакладзена"
 
@@ -2361,7 +2361,7 @@ msgstr "Скінуць"
 msgid "Reset all changes in the local repository"
 msgstr "Скінуць усе змены ў лакальным рэпазіторыі"
 
-#: weblate/html/js/git-status.html:166 weblate/html/translation.html:235
+#: weblate/html/js/git-status.html:166 weblate/html/translation.html:231
 msgid "Unlock"
 msgstr "Разблакіраваць"
 
@@ -2369,7 +2369,7 @@ msgstr "Разблакіраваць"
 msgid "Allow changes in the local repository"
 msgstr "Дазволіць змены ў лакальным рэпазіторыі"
 
-#: weblate/html/js/git-status.html:175 weblate/html/translation.html:237
+#: weblate/html/js/git-status.html:175 weblate/html/translation.html:233
 msgid "Lock"
 msgstr "Блакіраваць"
 
@@ -2723,11 +2723,18 @@ msgid ""
 msgstr ""
 "у перакладзе %(translation)s на %(site_title)s была запытаная новая мова."
 
-#: weblate/html/mail/new_language.html:18 weblate/html/mail/new_language.txt:5
+#: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
+msgid ""
+"Please add the language file to VCS, Weblate will automatically discover it "
+"on next update."
+msgstr ""
+
+#: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
 msgstr "Запытаная мова:"
 
-#: weblate/html/mail/new_language.html:29 weblate/html/mail/new_language.txt:9
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "Карыстальнік:"
 
@@ -2870,8 +2877,8 @@ msgstr "У дадзены момант адсутнічаюць гласарыі
 msgid "Manage all glossaries"
 msgstr "Кіраваць усімі гласарыямі"
 
-#: weblate/html/project.html:143 weblate/html/subproject.html:129
-#: weblate/html/translate.html:263 weblate/html/translation.html:218
+#: weblate/html/project.html:143 weblate/html/subproject.html:136
+#: weblate/html/translate.html:263 weblate/html/translation.html:214
 #: weblate/trans/forms.py:84
 msgid "Loading…"
 msgstr "Загрузка…"
@@ -2970,15 +2977,27 @@ msgstr ""
 "Калі вашай мовы няма, калі ласка, пільнуйцеся <a href=\"%(url)s\">інструкцый "
 "для перакладчыкаў</a>."
 
-#: weblate/html/subproject.html:100
+#: weblate/html/subproject.html:100 weblate/trans/views/basic.py:483
 msgid "Please choose the language into which you would like to translate."
 msgstr "Калі ласка, абярыце мову, на якую хочаце перакладаць."
 
 #: weblate/html/subproject.html:102
+msgid ""
+"Project maintainers will get notified about this request and will add the "
+"language manually."
+msgstr ""
+
+#: weblate/html/subproject.html:105
 msgid "Can not find your language in above list?"
 msgstr "Не знайшлі сваю мову ў вышэйшым сьпісе?"
 
-#: weblate/html/subproject.html:105
+#: weblate/html/subproject.html:109
+#, fuzzy
+#| msgid "Start new translation"
+msgid "Request new translation"
+msgstr "Пачаць новы пераклад"
+
+#: weblate/html/subproject.html:111
 msgid "Start new translation"
 msgstr "Пачаць новы пераклад"
 
@@ -3248,7 +3267,7 @@ msgstr "Сцягнуць скампіляваны пераклад"
 msgid "Upload translation"
 msgstr "Укласці пераклад"
 
-#: weblate/html/translation.html:48 weblate/html/translation.html.py:224
+#: weblate/html/translation.html:48 weblate/html/translation.html.py:220
 msgid "Locking"
 msgstr "Блакіраванне"
 
@@ -3263,7 +3282,7 @@ msgstr "Аўтаматычны пераклад"
 msgid "Translation status"
 msgstr "Стан перакладу"
 
-#: weblate/html/translation.html:93 weblate/html/translation.html.py:298
+#: weblate/html/translation.html:93 weblate/html/translation.html.py:294
 msgid "Strings"
 msgstr "Радкі"
 
@@ -3287,15 +3306,15 @@ msgstr ""
 "паправіць неадпаведныя пераклады альбо перакласці новы капанент пры дапамозе "
 "памяці перакладу."
 
-#: weblate/html/translation.html:184
+#: weblate/html/translation.html:182
 msgid "Process"
 msgstr "Працэс"
 
-#: weblate/html/translation.html:195 weblate/html/translation.html.py:208
+#: weblate/html/translation.html:193 weblate/html/translation.html.py:204
 msgid "Upload"
 msgstr "Укласці"
 
-#: weblate/html/translation.html:198
+#: weblate/html/translation.html:196
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -3303,63 +3322,63 @@ msgstr ""
 "Загружаны файлы будзе з’яднаны з бягучым перакладам. Калі жадаеце "
 "перазапісаць раней перакладзеныя радкі, не забудзьце гэта пазначыць."
 
-#: weblate/html/translation.html:200
+#: weblate/html/translation.html:198
 msgid "Uploaded file will be merged with current translation."
 msgstr "Загружаны файл будзе з’яднаны з бягучым перакладам."
 
-#: weblate/html/translation.html:226
+#: weblate/html/translation.html:222
 msgid "Locking the translation will prevent others to work on translation."
 msgstr "Блакіроўка забараняе астатнім працаваць над перакладам."
 
-#: weblate/html/translation.html:228
+#: weblate/html/translation.html:224
 msgid "Locked by:"
 msgstr "Заблакіравана карыстальнікам:"
 
-#: weblate/html/translation.html:229
+#: weblate/html/translation.html:225
 msgid "Lock expires:"
 msgstr "Блакаванне канчаецца:"
 
-#: weblate/html/translation.html:231
+#: weblate/html/translation.html:227
 msgid "Translation is currently not locked."
 msgstr "Пераклад не заблакіраваны."
 
-#: weblate/html/translation.html:268
+#: weblate/html/translation.html:264
 msgid "Review"
 msgstr "Прагляд"
 
-#: weblate/html/translation.html:270
+#: weblate/html/translation.html:266
 msgid "Review translations touched by other users."
 msgstr "Праглядзець пераклады, рэдагаваныя іншымі карыстальнікамі."
 
-#: weblate/html/translation.html:274
+#: weblate/html/translation.html:270
 msgid "Start review"
 msgstr "Пачаць прагляд"
 
-#: weblate/html/translation.html:297
+#: weblate/html/translation.html:293
 msgid "Percent"
 msgstr "Працэнт"
 
-#: weblate/html/translation.html:304
+#: weblate/html/translation.html:300
 msgid "Total"
 msgstr "Агулам"
 
-#: weblate/html/translation.html:316
+#: weblate/html/translation.html:312
 msgid "Fuzzy"
 msgstr "Няпэўны"
 
-#: weblate/html/translation.html:322
+#: weblate/html/translation.html:318
 msgid "Failing check"
 msgstr "Няпройдзеная праверка"
 
-#: weblate/html/translation.html:338
+#: weblate/html/translation.html:334
 msgid "Last activity"
 msgstr "Апошняя актыўнасць"
 
-#: weblate/html/translation.html:343
+#: weblate/html/translation.html:339
 msgid "Last change"
 msgstr "Апошнія змены"
 
-#: weblate/html/translation.html:347
+#: weblate/html/translation.html:343
 msgid "Last author"
 msgstr "Апошні аўтар"
 
@@ -3848,55 +3867,55 @@ msgstr "Нядаўнія змены ў %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Усе нядаўнія змены, зробленыя цераз Weblate у %s."
 
-#: weblate/trans/formats.py:710
+#: weblate/trans/formats.py:720
 msgid "Automatic detection"
 msgstr "Аўтаматычнае выяўленне"
 
-#: weblate/trans/formats.py:727
+#: weblate/trans/formats.py:737
 msgid "Gettext PO file"
 msgstr "Файл PO для Gettext"
 
-#: weblate/trans/formats.py:830
+#: weblate/trans/formats.py:838
 msgid "Gettext PO file (monolingual)"
 msgstr "Файл PO для Gettext (аднамоўны)"
 
-#: weblate/trans/formats.py:838
+#: weblate/trans/formats.py:846
 msgid "Qt Linguist Translation File"
 msgstr "Файл перакладу Qt Linguist"
 
-#: weblate/trans/formats.py:845
+#: weblate/trans/formats.py:853
 msgid "XLIFF Translation File"
 msgstr "Файл перакладу XLIFF"
 
-#: weblate/trans/formats.py:852
+#: weblate/trans/formats.py:860
 msgid "OS X Strings"
 msgstr "Радкі OS X"
 
-#: weblate/trans/formats.py:860
+#: weblate/trans/formats.py:868
 msgid "OS X Strings (UTF-8)"
 msgstr "Радкі OS X (UTF-8)"
 
-#: weblate/trans/formats.py:868
+#: weblate/trans/formats.py:876
 msgid "Java Properties (UTF-8)"
 msgstr "Уласцівасці Явы (UTF-8)"
 
-#: weblate/trans/formats.py:877
+#: weblate/trans/formats.py:885
 msgid "Java Properties"
 msgstr "Уласцівасці Явы"
 
-#: weblate/trans/formats.py:893
+#: weblate/trans/formats.py:901
 msgid "PHP strings"
 msgstr "Радкі PHP"
 
-#: weblate/trans/formats.py:915
+#: weblate/trans/formats.py:923
 msgid ".Net resource file"
 msgstr "Зыходны файл .Net"
 
-#: weblate/trans/formats.py:927
+#: weblate/trans/formats.py:935
 msgid "Android String Resource"
 msgstr "Радковыя рэсурсы Android"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:960
 msgid "JSON file"
 msgstr "Файл JSON"
 
@@ -3954,7 +3973,6 @@ msgid "Add as fuzzy translation"
 msgstr "Дадаць як няпэўны пераклад"
 
 #: weblate/trans/forms.py:339
-#| msgid "Fuzzy strings"
 msgid "Fuzzy strings processing"
 msgstr "Апрацоўка няпэўных радкоў"
 
@@ -3963,12 +3981,10 @@ msgid "Do not import"
 msgstr "Не імпартаваць"
 
 #: weblate/trans/forms.py:342
-#| msgid "Import glossary"
 msgid "Import as fuzzy"
 msgstr "Імпартаваць няпэўным"
 
 #: weblate/trans/forms.py:343
-#| msgid "Not translated"
 msgid "Import as translated"
 msgstr "Імпартаваць перакладзеным"
 
@@ -4166,6 +4182,10 @@ msgstr "Каментар перакладу, абмеркаванні з інш�
 #: weblate/trans/forms.py:700
 msgid "Whole project"
 msgstr "Увесь праект"
+
+#: weblate/trans/forms.py:726
+msgid "Please select"
+msgstr ""
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -5413,10 +5433,6 @@ msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запытанне на новы пераклад адпраўлена даглядчыкам праекта."
 
-#: weblate/trans/views/basic.py:482
-msgid "Failed to process new translation request!"
-msgstr "Не ўдалося апрацаваць запрос на новы пераклад!"
-
 #: weblate/trans/views/changes.py:99
 msgid "Failed to find matching project!"
 msgstr "Не ўдалося знайсці адпаведнага праекту!"
@@ -5699,6 +5715,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "перакладзена"
+
+#~ msgid "Failed to process new translation request!"
+#~ msgstr "Не ўдалося апрацаваць запрос на новы пераклад!"
 
 #~ msgid "Python format string"
 #~ msgstr "Фарматаванне радка Python"
