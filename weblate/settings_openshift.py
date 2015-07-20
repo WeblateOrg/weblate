@@ -20,10 +20,7 @@
 
 import os
 import sys
-import re
-import ast
-from string import Template
-from weblate.opneshiftlib import get_openshift_secret_key
+from weblate.openshiftlib import get_openshift_secret_key, import_env_vars
 
 # Import example settings file to get default values for Weblate settings.
 from weblate.settings_example import *
@@ -126,18 +123,4 @@ os.environ['HOME'] = os.environ['OPENSHIFT_DATA_DIR']
 
 
 # Import environment variables prefixed with WEBLATE_ as weblate settings
-_this_module = sys.modules[__name__]
-
-weblate_var = re.compile('^WEBLATE_[A-Za-z0-9_]+$')
-for name, value in os.environ.items():
-    if weblate_var.match(name):
-        try:
-            setattr(_this_module, name[8:],
-                    ast.literal_eval(Template(value).substitute(os.environ)))
-        except ValueError as e:
-            if not e.args:
-                e.args = ('',)
-                e.args = (
-                    "Error parsing %s = '%s': %s" % (name, value, e.args[0]),
-                ) + e.args[1:]
-            raise
+import_env_vars(os.environ, sys.modules[__name__])

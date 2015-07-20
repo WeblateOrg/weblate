@@ -21,7 +21,11 @@
 
 from unittest import TestCase
 import os
-from weblate.openshiftlib import get_openshift_secret_key
+from weblate.openshiftlib import get_openshift_secret_key, import_env_vars
+
+
+class FakeStorage(object):
+    pass
 
 
 class OpenShiftTest(TestCase):
@@ -50,3 +54,28 @@ class OpenShiftTest(TestCase):
         )
         del os.environ['OPENSHIFT_APP_NAME']
         del os.environ['OPENSHIFT_APP_UUID']
+
+    def test_import_env_string(self):
+        storage = FakeStorage()
+        import_env_vars({'WEBLATE_FOO': '"bar"'}, storage)
+        self.assertEquals(storage.FOO, 'bar')
+
+    def test_import_env_int(self):
+        storage = FakeStorage()
+        import_env_vars({'WEBLATE_FOO': '1234'}, storage)
+        self.assertEquals(storage.FOO, 1234)
+
+    def test_import_env_tuple(self):
+        storage = FakeStorage()
+        import_env_vars({'WEBLATE_FOO': '(1, 2)'}, storage)
+        self.assertEquals(storage.FOO, (1, 2))
+
+    def test_import_env_env(self):
+        storage = FakeStorage()
+        import_env_vars({'WEBLATE_FOO': '"$BAR"', 'BAR': 'baz'}, storage)
+        self.assertEquals(storage.FOO, 'baz')
+
+    def test_import_env_raw(self):
+        storage = FakeStorage()
+        import_env_vars({'WEBLATE_FOO': '(r"/project/(.*)$$",)'}, storage)
+        self.assertEquals(storage.FOO, ('/project/(.*)$',))
