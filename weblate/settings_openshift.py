@@ -23,7 +23,7 @@ import sys
 import re
 import ast
 from string import Template
-from openshift.openshiftlibs import openshift_secure
+from weblate.opneshiftlib import get_openshift_secret_key
 
 # Import example settings file to get default values for Weblate settings.
 from weblate.settings_example import *
@@ -71,12 +71,12 @@ DATA_DIR = os.environ['OPENSHIFT_DATA_DIR']
 
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'wsgi', 'static')
 
-default_keys = {'SECRET_KEY': SECRET_KEY}
-
 # Replace default keys with dynamic values if we are in OpenShift
-use_keys = openshift_secure(default_keys)
-
-SECRET_KEY = use_keys['SECRET_KEY']
+try:
+    SECRET_KEY = get_openshift_secret_key()
+except ValueError:
+    # We keep the default value if nothing better is available
+    pass
 
 CACHES = {
     'default': {
