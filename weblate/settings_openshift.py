@@ -74,7 +74,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, '..', 'wsgi', 'static')
 default_keys = {'SECRET_KEY': SECRET_KEY}
 
 # Replace default keys with dynamic values if we are in OpenShift
-use_keys = default_keys
 use_keys = openshift_secure(default_keys)
 
 SECRET_KEY = use_keys['SECRET_KEY']
