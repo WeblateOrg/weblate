@@ -888,8 +888,13 @@ parameter by setting the environment variable WEBLATE_PENDING_AGE to the desired
 Customize Weblate Configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can customize the configuration of your Weblate installation on OpenShift through environment variables.
-Override any of Weblate's setting documented under :ref:`config` using ``rhc env set`` by prepending the settings name with ``WEBLATE_``.
+You can customize the configuration of your Weblate installation on OpenShift
+through environment variables.  Override any of Weblate's setting documented
+under :ref:`config` using ``rhc env set`` by prepending the settings name with
+``WEBLATE_``. The variable is parsed as Python string, after replacing
+environment variables in it (eg. ``$PATH``). To put literal ``$`` you need to
+escape it as ``$$``.
+
 For example override the ``ADMINS`` setting like this:
 
 .. code-block:: sh
