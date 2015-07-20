@@ -103,22 +103,22 @@ urlpatterns = patterns(
         name='show_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'upload/$',
+        r'^upload-dictionaries/' + PROJECT_LANG + '$',
         'weblate.trans.views.dictionary.upload_dictionary',
         name='upload_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'delete/$',
+        r'^delete-dictionaries/' + PROJECT_LANG + '$',
         'weblate.trans.views.dictionary.delete_dictionary',
         name='delete_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'edit/$',
+        r'^edit-dictionaries/' + PROJECT_LANG + '$',
         'weblate.trans.views.dictionary.edit_dictionary',
         name='edit_dictionary',
     ),
     url(
-        r'^dictionaries/' + PROJECT_LANG + 'download/$',
+        r'^download-dictionaries/' + PROJECT_LANG + '$',
         'weblate.trans.views.dictionary.download_dictionary',
         name='download_dictionary',
     ),
@@ -157,32 +157,32 @@ urlpatterns = patterns(
         name='translation',
     ),
     url(
-        r'^projects/' + TRANSLATION + 'translate/$',
+        r'^translate/' + TRANSLATION + '$',
         'weblate.trans.views.edit.translate',
         name='translate',
     ),
     url(
-        r'^projects/' + TRANSLATION + 'zen/$',
+        r'^zen/' + TRANSLATION + '$',
         'weblate.trans.views.edit.zen',
         name='zen',
     ),
     url(
-        r'^projects/' + TRANSLATION + 'download/$',
+        r'^download/' + TRANSLATION + '$',
         'weblate.trans.views.files.download_translation',
         name='download_translation',
     ),
     url(
-        r'^projects/' + TRANSLATION + 'language_pack/$',
+        r'^language-pack/' + TRANSLATION + '$',
         'weblate.trans.views.files.download_language_pack',
         name='download_language_pack',
     ),
     url(
-        r'^projects/' + TRANSLATION + 'upload/$',
+        r'^upload/' + TRANSLATION + '$',
         'weblate.trans.views.files.upload_translation',
         name='upload_translation',
     ),
     url(
-        r'^projects/' + TRANSLATION + 'auto/$',
+        r'^auto-translate/' + TRANSLATION + '$',
         'weblate.trans.views.edit.auto_translation',
         name='auto_translation',
     ),
@@ -663,6 +663,89 @@ urlpatterns = patterns(
         'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': SITEMAPS}
     ),
+
+    # Compatibility redirects
+    url(
+        r'^projects/' + TRANSLATION + 'translate/$',
+        RedirectView.as_view(
+            url='/translate/%(project)s/%(subproject)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^projects/' + TRANSLATION + 'zen/$',
+        RedirectView.as_view(
+            url='/zen/%(project)s/%(subproject)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^projects/' + TRANSLATION + 'download/$',
+        RedirectView.as_view(
+            url='/download/%(project)s/%(subproject)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^projects/' + TRANSLATION + 'language_pack/$',
+        RedirectView.as_view(
+            url='/language-pack/%(project)s/%(subproject)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^projects/' + TRANSLATION + 'upload/$',
+        RedirectView.as_view(
+            url='/upload/%(project)s/%(subproject)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^projects/' + TRANSLATION + 'auto/$',
+        RedirectView.as_view(
+            url='/auto-translate/%(project)s/%(subproject)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+
+    url(
+        r'^dictionaries/' + PROJECT_LANG + 'upload/$',
+        RedirectView.as_view(
+            url='/upload-dictionaries/%(project)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^dictionaries/' + PROJECT_LANG + 'delete/$',
+        RedirectView.as_view(
+            url='/delete-dictionaries/%(project)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^dictionaries/' + PROJECT_LANG + 'edit/$',
+        RedirectView.as_view(
+            url='/edit-dictionaries/%(project)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
+    url(
+        r'^dictionaries/' + PROJECT_LANG + 'download/$',
+        RedirectView.as_view(
+            url='/download-dictionaries/%(project)s/%(lang)s/',
+            permanent=True,
+            query_string=True
+        )
+     ),
 
     # Media files
     url(
