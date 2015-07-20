@@ -672,7 +672,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^projects/' + TRANSLATION + 'zen/$',
         RedirectView.as_view(
@@ -680,7 +680,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^projects/' + TRANSLATION + 'download/$',
         RedirectView.as_view(
@@ -688,7 +688,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^projects/' + TRANSLATION + 'language_pack/$',
         RedirectView.as_view(
@@ -696,7 +696,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^projects/' + TRANSLATION + 'upload/$',
         RedirectView.as_view(
@@ -704,7 +704,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^projects/' + TRANSLATION + 'auto/$',
         RedirectView.as_view(
@@ -712,7 +712,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
 
     url(
         r'^dictionaries/' + PROJECT_LANG + 'upload/$',
@@ -721,7 +721,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^dictionaries/' + PROJECT_LANG + 'delete/$',
         RedirectView.as_view(
@@ -729,7 +729,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^dictionaries/' + PROJECT_LANG + 'edit/$',
         RedirectView.as_view(
@@ -737,7 +737,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
     url(
         r'^dictionaries/' + PROJECT_LANG + 'download/$',
         RedirectView.as_view(
@@ -745,7 +745,7 @@ urlpatterns = patterns(
             permanent=True,
             query_string=True
         )
-     ),
+    ),
 
     # Media files
     url(
