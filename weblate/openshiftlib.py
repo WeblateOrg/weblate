@@ -59,10 +59,9 @@ def import_env_vars(environ, target):
             try:
                 setattr(target, name[8:],
                         ast.literal_eval(Template(value).substitute(environ)))
-            except ValueError as e:
-                if not e.args:
-                    e.args = ('',)
-                    e.args = (
-                        "Error parsing %s = '%s': %s" % (name, value, e.args[0]),
-                    ) + e.args[1:]
+            except ValueError as err:
+                if not err.args:
+                    err.args = (
+                        "Error parsing %s = '%s': %s" % (name, value, err),
+                    )
                 raise
