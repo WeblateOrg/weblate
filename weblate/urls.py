@@ -647,7 +647,7 @@ urlpatterns = patterns(
 
     # Avatars
     url(
-        r'^user/(?P<user>[^/]+)/avatar/(?P<size>(32|128))/$',
+        r'^avatar/(?P<user>[^/]+)/(?P<size>(32|128))/$',
         'weblate.accounts.views.user_avatar',
         name='user_avatar',
     ),
