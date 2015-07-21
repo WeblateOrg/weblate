@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-07-16 09:35+0000\n"
-"PO-Revision-Date: 2015-06-30 14:56+0200\n"
+"PO-Revision-Date: 2015-07-21 12:26+0200\n"
 "Last-Translator: Dieter Adriaenssens <dieter.adriaenssens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
-">\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
+"\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1092,14 +1092,11 @@ msgstr ""
 "\"%(url)s\">onze documentatie</a> voor informatie over hoe dit te verbeteren."
 
 #: weblate/html/base.html:49
-#, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
 #| "projects."
 msgid "Hosted Weblate, the place to translate your software project."
-msgstr ""
-"Deze Weblate installatie huisvest vertalingen voor verschillende vrije "
-"software projecten."
+msgstr "Gehoste Weblate, de plek om je software project te vertalen."
 
 #: weblate/html/base.html:51
 msgid "This site runs Weblate for translating various software projects."
@@ -2748,6 +2745,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "on next update."
 msgstr ""
+"Voeg het taalbestand toe aan versiecontrole, Weblate zal het automatisch "
+"ontdekken bij de volgende update."
 
 #: weblate/html/mail/new_language.html:22 weblate/html/mail/new_language.txt:7
 msgid "Requested language:"
@@ -3008,16 +3007,17 @@ msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
 msgstr ""
+"De projectbeheerders krijgen een melding van dit verzoek en zullen de taal "
+"handmatig toevoegen."
 
 #: weblate/html/subproject.html:105
 msgid "Can not find your language in above list?"
 msgstr "Kan je je taal niet vinden in bovenstaande lijst?"
 
 #: weblate/html/subproject.html:109
-#, fuzzy
 #| msgid "Start new translation"
 msgid "Request new translation"
-msgstr "Start nieuwe vertaling"
+msgstr "Vraag een nieuwe vertaling aan"
 
 #: weblate/html/subproject.html:111
 msgid "Start new translation"
@@ -4002,26 +4002,23 @@ msgid "Add as fuzzy translation"
 msgstr "Voeg toe als vage vertaling"
 
 #: weblate/trans/forms.py:339
-#, fuzzy
 #| msgid "Fuzzy strings"
 msgid "Fuzzy strings processing"
-msgstr "Vage tekenreeksen"
+msgstr "Vage tekenreeksen worden verwerkt"
 
 #: weblate/trans/forms.py:341
 msgid "Do not import"
-msgstr ""
+msgstr "Niet importeren"
 
 #: weblate/trans/forms.py:342
-#, fuzzy
 #| msgid "Import glossary"
 msgid "Import as fuzzy"
-msgstr "Woordenlijst importeren"
+msgstr "Importeren als vage tekenreeksen"
 
 #: weblate/trans/forms.py:343
-#, fuzzy
 #| msgid "Not translated"
 msgid "Import as translated"
-msgstr "Niet vertaald"
+msgstr "Importeren als vertaald"
 
 #: weblate/trans/forms.py:348
 msgid "Merge file header"
@@ -4222,7 +4219,7 @@ msgstr "Volledig project"
 
 #: weblate/trans/forms.py:726
 msgid "Please select"
-msgstr ""
+msgstr "Gelieve te selecteren"
 
 #: weblate/trans/forms.py:737
 msgid "Strings with higher priority are offered first to translators."
@@ -4692,13 +4689,11 @@ msgstr ""
 "documentatie te bekijken voor verdere details."
 
 #: weblate/trans/models/subproject.py:244
-#, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-commit script"
-msgstr "Pre-commit script"
+msgstr "Script na commit"
 
 #: weblate/trans/models/subproject.py:250
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -4706,17 +4701,15 @@ msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
 msgstr ""
-"Script dat uitgevoerd wordt alvorens een vertaling te committen, gelieve de "
+"Script dat uitgevoerd wordt nadat een vertaling gecommit werd, gelieve de "
 "documentatie te bekijken voor verdere details."
 
 #: weblate/trans/models/subproject.py:255
-#, fuzzy
 #| msgid "Post-update script"
 msgid "Post-push script"
-msgstr "Script na bijwerken"
+msgstr "Script na doorsturen"
 
 #: weblate/trans/models/subproject.py:261
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -4724,8 +4717,9 @@ msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
 msgstr ""
-"Script dat uitgevoerd wordt alvorens een vertaling te committen, gelieve de "
-"documentatie te bekijken voor verdere details."
+"Script dat uitgevoerd wordt nadat een vertaling is doorgestuurd naar het "
+"centraal repo (push), gelieve de documentatie te bekijken voor verdere "
+"details."
 
 #: weblate/trans/models/subproject.py:267
 msgid "Locked"
@@ -4933,15 +4927,15 @@ msgstr "Het masker komt met geen enkel bestand overeen!"
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
+"Een lege taalcode ontvangen voor %s, gelieve het bestandsmasker na te kijken!"
 
 #: weblate/trans/models/subproject.py:1080
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
 msgstr ""
-"Er is meer dan een bestand voor dezelfde taal, gelieve het selectiefilter "
-"aan te passen en onderdelen te gebruiken om verschillende onderdelen te "
-"vertalen."
+"Er is meer dan een bestand voor dezelfde taal, gelieve het masker aan te "
+"passen en onderdelen te gebruiken om verschillende onderdelen te vertalen."
 
 #: weblate/trans/models/subproject.py:1086
 #, python-format
