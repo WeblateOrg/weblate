@@ -560,6 +560,7 @@ SAME_BLACKLIST = frozenset((
     'rich-text',
     'richtext',
     'roadmap',
+    'robot',
     'role',
     'route',
     'routine',
