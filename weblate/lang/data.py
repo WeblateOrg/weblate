@@ -341,6 +341,12 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'ba',
+        u'Bashkir',
+        2,
+        '(n != 1)',
+    ),
     # Wrong language code used by Java
     (
         'in',
