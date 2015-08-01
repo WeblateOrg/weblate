@@ -128,7 +128,7 @@ def deny_demo(request):
     """
     messages.warning(
         request,
-        _('You can not change demo account on the demo server.')
+        _('You cannot change demo account on the demo server.')
     )
     return redirect('profile')
 
