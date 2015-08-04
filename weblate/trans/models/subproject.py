@@ -1504,10 +1504,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             command = [script]
             if args:
                 command.extend(args)
+            environment = get_clean_env()
             try:
                 subprocess.check_call(
                     command,
-                    env=get_clean_env(),
+                    env=environment
                 )
                 return True
             except (OSError, subprocess.CalledProcessError) as err:
