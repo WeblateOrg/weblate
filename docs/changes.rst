@@ -14,6 +14,7 @@ Released on ? 2015.
 * Added support for Bitbucket webhooks.
 * Tigher control on fuzzy strings on translation upload.
 * Several URLs have changed, you might have to update your bookmarks.
+* Hook scripts are executed with VCS root as current directory.
 
 weblate 2.3
 -----------

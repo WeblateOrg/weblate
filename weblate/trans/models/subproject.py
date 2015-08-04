@@ -1508,7 +1508,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             try:
                 subprocess.check_call(
                     command,
-                    env=environment
+                    env=environment,
+                    cwd=self.get_path(),
                 )
                 return True
             except (OSError, subprocess.CalledProcessError) as err:

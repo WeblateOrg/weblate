@@ -224,6 +224,9 @@ Their naming quite clearly tells when given script is executed. The commit
 related scripts always get one parameter with full path to the translation file
 which has been changed.
 
+The script is executed with the current directory set to root of VCS repository
+for given component.
+
 .. seealso::
 
     :setting:`POST_UPDATE_SCRIPTS`,
