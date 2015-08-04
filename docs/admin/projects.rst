@@ -147,6 +147,11 @@ Source code repository
 Repository push URL
     Repository URL used for pushing, this is completely optional and push
     support will be disabled when this is empty.
+
+    .. note::
+       
+        Weblate currently does not support HTTP authentication on push URLs
+
 Repository browser
     URL of repository browser to display source files (location where messages
     are used). When empty no such links will be generated.
