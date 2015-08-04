@@ -29,7 +29,7 @@ DO_SELENIUM = (
 class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
     caps = {
         'browserName': 'firefox',
-        'version': '37.0',
+        'version': '39.0',
         'platform': 'Linux',
     }
 
