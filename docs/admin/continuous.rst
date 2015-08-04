@@ -212,8 +212,28 @@ delay, see :djadmin:`commit_pending`.
 
 .. _processing:
 
+Processing repository with scripts
+----------------------------------
+
+You can customize way how Weblate manipulates with repository by set of
+scripts. These include :guilabel:`Post-update script`, :guilabel:`Pre-commit
+script`, :guilabel:`Post-commit script` and :guilabel:`Post-push script` and
+are briefly described in :ref:`component`.
+
+Their naming quite clearly tells when given script is executed. The commit
+related scripts always get one parameter with full path to the translation file
+which has been changed.
+
+.. seealso::
+
+    :setting:`POST_UPDATE_SCRIPTS`,
+    :setting:`PRE_COMMIT_SCRIPTS`,
+    :setting:`POST_COMMIT_SCRIPTS`,
+    :setting:`POST_PUSH_SCRIPTS`,
+    :ref:`component`
+
 Pre commit processing of translations
--------------------------------------
++++++++++++++++++++++++++++++++++++++
 
 In many cases you might want to automatically do some changes to translation
 before it is committed to the repository. The pre commit script is exactly the

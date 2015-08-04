@@ -425,6 +425,8 @@ POST_UPDATE_SCRIPTS
 List of scripts which are allowed as post update scripts. The script needs to be
 later enabled in the :ref:`component`.
 
+.. seealso:: :ref:`processing`
+
 .. setting:: PRE_COMMIT_SCRIPTS
 
 PRE_COMMIT_SCRIPTS
@@ -468,6 +470,8 @@ POST_COMMIT_SCRIPTS
 List of scripts which are allowed as post commit scripts. The script needs to be
 later enabled in the :ref:`component`.
 
+.. seealso:: :ref:`processing`
+
 .. setting:: POST_PUSH_SCRIPTS
 
 POST_PUSH_SCRIPTS
@@ -477,6 +481,8 @@ POST_PUSH_SCRIPTS
 
 List of scripts which are allowed as post push scripts. The script needs to be
 later enabled in the :ref:`component`.
+
+.. seealso:: :ref:`processing`
 
 .. setting:: REGISTRATION_CAPTCHA
 
