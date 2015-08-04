@@ -227,6 +227,19 @@ which has been changed.
 The script is executed with the current directory set to root of VCS repository
 for given component.
 
+Additionally following environment variables are available:
+
+``WL_VCS``
+    Used version control system.
+``WL_REPO``
+    Upstream repository URL.
+``WL_PATH``
+    Absolute path to VCS repository.
+``WL_FILEMASK``
+    File mask for current component.
+``WL_FILE_FORMAT``
+    File format used in current component.
+
 .. seealso::
 
     :setting:`POST_UPDATE_SCRIPTS`,

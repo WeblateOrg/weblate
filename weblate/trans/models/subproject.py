@@ -1505,6 +1505,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if args:
                 command.extend(args)
             environment = get_clean_env()
+            if self.is_repo_link:
+                target = self.linked_subproject
+            else:
+                target = self
+            environment['WL_VCS'] = target.vcs
+            environment['WL_REPO'] = target.repo
+            environment['WL_PATH'] = target.get_path()
+            environment['WL_FILEMASK'] = self.filemask
+            environment['WL_FILE_FORMAT'] = self.file_format
             try:
                 subprocess.check_call(
                     command,

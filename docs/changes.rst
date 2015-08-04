@@ -15,6 +15,7 @@ Released on ? 2015.
 * Tigher control on fuzzy strings on translation upload.
 * Several URLs have changed, you might have to update your bookmarks.
 * Hook scripts are executed with VCS root as current directory.
+* Hook scripts are executed with environment variables descriping current component.
 
 weblate 2.3
 -----------
