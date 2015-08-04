@@ -79,7 +79,7 @@ repository settings (:guilabel:`Webhooks & Services`) as shown on the image belo
 
 .. image:: ../images/github-settings.png
 
-The set the base URL of your Weblate installation (for example
+To set the base URL of your Weblate installation (for example
 ``https://hosted.weblate.org``) and Weblate will be notified about every push
 to GitHub repository:
 
