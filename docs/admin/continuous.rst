@@ -11,7 +11,7 @@ The complete process can be described in following steps:
 
 1. Developers make some changes and push them to the VCS repository.
 2. Optionally the translation files are updated (this depends on the file format, see :ref:`translations-update`).
-3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.
+3. Weblate pulls changes from the VCS repository, see :ref:`update-vcs`.The set the base URL of y
 4. Once Weblate detects changes in translations, translators will be notified based on their subscription settings.
 5. Translators make translations using Weblate web interface.
 6. Once translators are done, Weblate commits the changes to the local repository (see :ref:`lazy-commit`) and pushes them back if it has permissions to do that (see :ref:`push-changes`).
@@ -79,7 +79,7 @@ repository settings (:guilabel:`Webhooks & Services`) as shown on the image belo
 
 .. image:: ../images/github-settings.png
 
-The set the base URL of your Weblate installation (for example
+To set the base URL of your Weblate installation (for example
 ``https://hosted.weblate.org``) and Weblate will be notified about every push
 to GitHub repository:
 
