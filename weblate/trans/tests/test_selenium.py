@@ -109,8 +109,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
     def expand_navbar(self):
         """Expand navbar if exists"""
         try:
-            navbar = self.driver.find_element_by_id('navbar-toggle')
-            navbar.click()
+            self.driver.find_element_by_id('navbar-toggle').click()
         except ElementNotVisibleException:
             return
 
