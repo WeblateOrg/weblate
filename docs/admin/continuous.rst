@@ -243,7 +243,6 @@ Before using any scripts, you need to list them in
 :setting:`PRE_COMMIT_SCRIPTS` configuration variable. Then you can enable them
 at :ref:`component` configuration as :guilabel:`Pre commit script`.
 
-The hook script is executed using system() call, so it is evaluated in a shell.
 It is passed single parameter consisting of file name of current translation.
 
 The script can also generate additional file to be included in the commit. This

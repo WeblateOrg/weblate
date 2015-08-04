@@ -454,10 +454,6 @@ Weblate comes with few example hook scripts which you might find useful:
 :file:`examples/hook-replace-single-quotes`
     Replaces single quotes in a file.
 
-.. note:: 
-   
-    The hook is executed using system() call, so it is evaluated in a shell.
-
 .. seealso:: :ref:`processing`
 
 .. setting:: POST_COMMIT_SCRIPTS
