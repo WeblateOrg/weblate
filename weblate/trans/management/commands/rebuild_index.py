@@ -24,6 +24,7 @@ from weblate.trans.search import (
     update_source_unit_index, update_target_unit_index,
     clean_indexes,
 )
+from weblate.lang.models import Language
 from optparse import make_option
 
 
@@ -37,9 +38,25 @@ class Command(WeblateCommand):
             default=False,
             help='removes also all words from database'
         ),
+        make_option(
+            '--optimize',
+            action='store_true',
+            dest='optimize',
+            default=False,
+            help='optimize index without rebuilding it'
+        ),
     )
 
     def handle(self, *args, **options):
+        # Optimize index
+        if options['optimize']:
+            index = get_source_index()
+            index.optimize()
+            languages = Language.objects.have_translation()
+            for lang in languages:
+                index = get_target_index(lang.code)
+                index.optimize()
+            return
         # Optionally rebuild indices from scratch
         if options['clean']:
             clean_indexes()

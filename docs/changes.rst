@@ -16,6 +16,7 @@ Released on ? 2015.
 * Several URLs have changed, you might have to update your bookmarks.
 * Hook scripts are executed with VCS root as current directory.
 * Hook scripts are executed with environment variables descriping current component.
+* Add management command to optimize fulltext index.
 
 weblate 2.3
 -----------

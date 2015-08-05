@@ -238,6 +238,10 @@ have huge set of translation units.
 
 You can use ``--clean`` to remove all words from database prior updating.
 
+With ``--optimize`` the index will not be processed again, only it's content
+will be optimized (removing stale entries and merging possibly split index
+files).
+
 .. seealso:: :ref:`fulltext`
 
 update_index
