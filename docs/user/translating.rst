@@ -146,7 +146,8 @@ Add as fuzzy translation
     for review as well.
 
 Additionally, when adding as a translation, you can choose whether to overwrite
-already translated strings or not.
+already translated strings or not or how to handle fuzzy strings in imported
+file.
 
 .. image:: ../images/export-import.png
 
