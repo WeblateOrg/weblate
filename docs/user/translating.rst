@@ -126,6 +126,9 @@ Weblate supports both export and import of translation files. This allows you
 to work offline and then merge changes back. Your changes will be merged within
 existing translation (even if it has been changed meanwhile).
 
+For some formats you can also download compiled file to use withing application
+(eg. ``.mo`` files for GNU Gettext).
+
 .. note::
 
     This ability might be limited by :ref:`privileges`.
