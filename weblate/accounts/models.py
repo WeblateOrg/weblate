@@ -31,7 +31,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group, User, Permission
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from social.apps.django_app.default.models import UserSocialAuth
@@ -43,6 +43,15 @@ import weblate
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
 
+def send_mails(mails):
+    """Sends multiple mails in single connection."""
+    try:
+        connection = get_connection()
+        connection.send_messages(mails)
+    except SMTPException as error:
+        weblate.logger.error('Failed to send email: %s', error)
+
+
 def notify_merge_failure(subproject, error, status):
     '''
     Notification on merge failure.
@@ -51,128 +60,168 @@ def notify_merge_failure(subproject, error, status):
         subproject.project,
     )
     users = set()
+    mails = []
     for subscription in subscriptions:
-        subscription.notify_merge_failure(subproject, error, status)
+        mails.append(
+            subscription.notify_merge_failure(subproject, error, status)
+        )
         users.add(subscription.user_id)
 
     if subproject.project.owner and subproject.project.owner_id not in users:
-        subproject.project.owner.profile.notify_merge_failure(
-            subproject, error, status
+        mails.append(
+            subproject.project.owner.profile.notify_merge_failure(
+                subproject, error, status
+            )
         )
 
     # Notify admins
-    send_notification_email(
-        'en',
-        'ADMINS',
-        'merge_failure',
-        subproject,
-        {
-            'subproject': subproject,
-            'status': status,
-            'error': error,
-        }
+    mails.append(
+        get_notification_email(
+            'en',
+            'ADMINS',
+            'merge_failure',
+            subproject,
+            {
+                'subproject': subproject,
+                'status': status,
+                'error': error,
+            }
+        )
     )
+    send_mails(mails)
 
 
 def notify_new_string(translation):
     '''
     Notification on new string to translate.
     '''
+    mails = []
     subscriptions = Profile.objects.subscribed_new_string(
         translation.subproject.project, translation.language
     )
     for subscription in subscriptions:
-        subscription.notify_new_string(translation)
+        mails.append(
+            subscription.notify_new_string(translation)
+        )
+
+    send_mails(mails)
 
 
 def notify_new_language(subproject, language, user):
     '''
     Notify subscribed users about new language requests
     '''
+    mails = []
     subscriptions = Profile.objects.subscribed_new_language(
         subproject.project,
         user
     )
     users = set()
     for subscription in subscriptions:
-        subscription.notify_new_language(subproject, language, user)
+        mails.append(
+            subscription.notify_new_language(subproject, language, user)
+        )
         users.add(subscription.user_id)
 
     if subproject.project.owner and subproject.project.owner_id not in users:
-        subproject.project.owner.profile.notify_new_language(
-            subproject, language, user
+        mails.append(
+            subproject.project.owner.profile.notify_new_language(
+                subproject, language, user
+            )
         )
 
     # Notify admins
-    send_notification_email(
-        'en',
-        'ADMINS',
-        'new_language',
-        subproject,
-        {
-            'language': language,
-            'user': user,
-        },
-        user=user,
+    mails.append(
+        get_notification_email(
+            'en',
+            'ADMINS',
+            'new_language',
+            subproject,
+            {
+                'language': language,
+                'user': user,
+            },
+            user=user,
+        )
     )
+
+    send_mails(mails)
 
 
 def notify_new_translation(unit, oldunit, user):
     '''
     Notify subscribed users about new translation
     '''
+    mails = []
     subscriptions = Profile.objects.subscribed_any_translation(
         unit.translation.subproject.project,
         unit.translation.language,
         user
     )
     for subscription in subscriptions:
-        subscription.notify_any_translation(unit, oldunit)
+        mails.append(
+            subscription.notify_any_translation(unit, oldunit)
+        )
+
+    send_mails(mails)
 
 
 def notify_new_contributor(unit, user):
     '''
     Notify about new contributor.
     '''
+    mails = []
     subscriptions = Profile.objects.subscribed_new_contributor(
         unit.translation.subproject.project,
         unit.translation.language,
         user
     )
     for subscription in subscriptions:
-        subscription.notify_new_contributor(
-            unit.translation, user
+        mails.append(
+            subscription.notify_new_contributor(
+                unit.translation, user
+            )
         )
+
+    send_mails(mails)
 
 
 def notify_new_suggestion(unit, suggestion, user):
     '''
     Notify about new suggestion.
     '''
+    mails = []
     subscriptions = Profile.objects.subscribed_new_suggestion(
         unit.translation.subproject.project,
         unit.translation.language,
         user
     )
     for subscription in subscriptions:
-        subscription.notify_new_suggestion(
-            unit.translation,
-            suggestion,
-            unit
+        mails.append(
+            subscription.notify_new_suggestion(
+                unit.translation,
+                suggestion,
+                unit
+            )
         )
+
+    send_mails(mails)
 
 
 def notify_new_comment(unit, comment, user, report_source_bugs):
     '''
     Notify about new comment.
     '''
+    mails = []
     subscriptions = Profile.objects.subscribed_new_comment(
         unit.translation.subproject.project,
         comment.language,
         user
     )
     for subscription in subscriptions:
-        subscription.notify_new_comment(unit, comment, user)
+        mails.append(
+            subscription.notify_new_comment(unit, comment, user)
+        )
 
     # Notify upstream
     if comment.language is None and report_source_bugs != '':
@@ -188,6 +237,8 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
             },
             user=user,
         )
+
+    send_mails(mails)
 
 
 def get_notification_email(language, email, notification,
@@ -500,7 +551,7 @@ class Profile(models.Model):
         if not translation_obj.has_acl(self.user):
             return
         # Actually send notification
-        send_notification_email(
+        return get_notification_email(
             self.language,
             self.user.email,
             notification,
@@ -518,7 +569,7 @@ class Profile(models.Model):
             template = 'changed_translation'
         else:
             template = 'new_translation'
-        self.notify_user(
+        return self.notify_user(
             template,
             unit.translation,
             {
@@ -531,7 +582,7 @@ class Profile(models.Model):
         '''
         Sends notification on new language request.
         '''
-        self.notify_user(
+        return self.notify_user(
             'new_language',
             subproject,
             {
@@ -545,7 +596,7 @@ class Profile(models.Model):
         '''
         Sends notification on new strings to translate.
         '''
-        self.notify_user(
+        return self.notify_user(
             'new_string',
             translation,
         )
@@ -554,7 +605,7 @@ class Profile(models.Model):
         '''
         Sends notification on new suggestion.
         '''
-        self.notify_user(
+        return self.notify_user(
             'new_suggestion',
             translation,
             {
@@ -567,7 +618,7 @@ class Profile(models.Model):
         '''
         Sends notification on new contributor.
         '''
-        self.notify_user(
+        return self.notify_user(
             'new_contributor',
             translation,
             {
@@ -579,7 +630,7 @@ class Profile(models.Model):
         '''
         Sends notification about new comment.
         '''
-        self.notify_user(
+        return self.notify_user(
             'new_comment',
             unit.translation,
             {
@@ -594,7 +645,7 @@ class Profile(models.Model):
         '''
         Sends notification on merge failure.
         '''
-        self.notify_user(
+        return self.notify_user(
             'merge_failure',
             subproject,
             {
