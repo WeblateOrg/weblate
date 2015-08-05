@@ -190,11 +190,11 @@ def notify_new_comment(unit, comment, user, report_source_bugs):
         )
 
 
-def send_notification_email(language, email, notification,
-                            translation_obj=None, context=None, headers=None,
-                            user=None, info=None):
+def get_notification_email(language, email, notification,
+                           translation_obj=None, context=None, headers=None,
+                           user=None, info=None):
     '''
-    Renders and sends notification email.
+    Renders notification email.
     '''
     cur_language = django_translation.get_language()
     context = context or {}
@@ -271,12 +271,26 @@ def send_notification_email(language, email, notification,
             'text/html'
         )
 
-        # Send it out
+        # Return the mail
+        return email
+    finally:
+        django_translation.activate(cur_language)
+
+
+def send_notification_email(language, email, notification,
+                            translation_obj=None, context=None, headers=None,
+                            user=None, info=None):
+    '''
+    Renders and sends notification email.
+    '''
+    try:
+        email = get_notification_email(
+            language, email, notification, translation_obj, context, headers,
+            user, info
+        )
         email.send(fail_silently=False)
     except SMTPException as error:
         weblate.logger.error('Failed to send email: %s', error)
-    finally:
-        django_translation.activate(cur_language)
 
 
 class VerifiedEmail(models.Model):
