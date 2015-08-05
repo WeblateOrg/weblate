@@ -118,9 +118,7 @@ def get_source_index():
         create_source_index()
     index = STORAGE.open_index('source')
     if 'location' not in index.schema:
-        writer = index.writer()
-        writer.add_field('location', TEXT)
-        writer.commit()
+        index.add_field('location', TEXT)
     return index
 
 
@@ -133,9 +131,7 @@ def get_target_index(lang):
         create_target_index(lang)
     index = STORAGE.open_index(name)
     if 'comment' not in index.schema:
-        writer = index.writer()
-        writer.add_field('comment', TEXT)
-        writer.commit()
+        index.add_field('comment', TEXT)
     return index
 
 
