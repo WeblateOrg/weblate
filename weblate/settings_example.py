@@ -418,7 +418,7 @@ MT_GOOGLE_KEY = None
 MT_TMSERVER = None
 
 # Title of site to use
-SITE_TITLE = 'Weblate'
+SITE_TITLE = u'Weblate'
 
 # URL of login
 LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
@@ -436,7 +436,7 @@ ANONYMOUS_USER_NAME = 'anonymous'
 EMAIL_SEND_HTML = False
 
 # Subject of emails includes site title
-EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_TITLE
+EMAIL_SUBJECT_PREFIX = u'[{0}] '.format(SITE_TITLE)
 
 # Enable remote hooks
 ENABLE_HOOKS = True
