@@ -34,6 +34,7 @@ from weblate.trans.views.helper import get_project
 import weblate
 
 import csv
+import sys
 from urllib import urlencode
 
 
