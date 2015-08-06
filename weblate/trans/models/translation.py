@@ -1081,7 +1081,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 # Optionally merge header
                 if unit2.unit.isheader():
                     if isinstance(store1, poheader.poheader):
-                        store1.mergeheaders(store2)
+                        store1.mergeheaders(store2.store)
                     continue
 
                 # Find unit by ID

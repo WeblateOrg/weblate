@@ -86,6 +86,25 @@ class ImportTest(ImportBaseTest):
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
 
+    def test_import_header(self):
+        '''
+        Test importing with header merge.
+        '''
+        response = self.do_import(
+            merge_header='1',
+        )
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.fuzzy, 0)
+        self.assertEqual(translation.total, 4)
+
+        # Verify unit
+        unit = self.get_unit()
+        self.assertEqual(unit.target, TRANSLATION_PO)
+
     def test_import_author(self):
         '''
         Test importing normally.
