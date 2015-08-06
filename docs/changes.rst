@@ -17,6 +17,7 @@ Released on ? 2015.
 * Hook scripts are executed with VCS root as current directory.
 * Hook scripts are executed with environment variables descriping current component.
 * Add management command to optimize fulltext index.
+* Added support for error reporting to Rollbar.
 
 weblate 2.3
 -----------
