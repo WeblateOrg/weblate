@@ -337,14 +337,11 @@ def send_notification_email(language, email, notification,
     '''
     Renders and sends notification email.
     '''
-    try:
-        email = get_notification_email(
-            language, email, notification, translation_obj, context, headers,
-            user, info
-        )
-        email.send(fail_silently=False)
-    except SMTPException as error:
-        weblate.logger.error('Failed to send email: %s', error)
+    email = get_notification_email(
+        language, email, notification, translation_obj, context, headers,
+        user, info
+    )
+    send_mails([email])
 
 
 class VerifiedEmail(models.Model):
