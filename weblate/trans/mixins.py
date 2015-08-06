@@ -190,6 +190,10 @@ class PathMixin(LoggerMixin):
                 )
                 os.rename(old_path, new_path)
 
+            # Clean subproject cache on rename
+            if hasattr(self, '_linked_subproject'):
+                self._linked_subproject = None
+
     def create_path(self):
         """
         Create filesystem directory for storing data
