@@ -178,10 +178,11 @@ class PathMixin(LoggerMixin):
         Detects slug changes and possibly renames underlaying directory.
         """
         old_path = old.get_path()
+        # Invalidate path cache (otherwise we would still get old path)
+        self._dir_path = None
         new_path = self.get_path()
+
         if old_path != new_path:
-            # Invalidate cache
-            self._dir_path = None
             self.log_info(
                 'path changed from %s to %s', old_path, new_path
             )
