@@ -22,10 +22,18 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
+from django.conf import settings
 from importlib import import_module
 import os
 import urlparse
 import hashlib
+import weblate
+
+try:
+    import rollbar
+    HAS_ROLLBAR = True
+except ImportError:
+    HAS_ROLLBAR = False
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
@@ -214,3 +222,19 @@ def cleanup_path(path):
     if path.startswith('/'):
         path = path[1:]
     return path
+
+
+def report_error(error, exc_info, request=None, extra_data=None):
+    """Wrapper for error reporting
+
+    This can be used for store exceptions in error reporting solutions as
+    rollbar while handling error gracefully and giving user cleaner message.
+    """
+    if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
+        rollbar.report_exc_info(exc_info, request, extra_data=extra_data)
+
+    weblate.logger.error(
+        'Handled exception %s: %s',
+        error.__class__.__name__,
+        str(error)
+    )
