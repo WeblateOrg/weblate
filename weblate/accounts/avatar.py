@@ -19,6 +19,7 @@
 #
 
 import urllib2
+import sys
 import urllib
 import hashlib
 import os.path
@@ -31,6 +32,7 @@ from django.conf import settings
 
 import weblate
 from weblate import appsettings
+from weblate.trans.util import report_error
 
 try:
     import libravatar  # pylint: disable=import-error
@@ -127,6 +129,10 @@ def get_avatar_image(user, size):
             image = download_avatar_image(user, size)
             cache.set(cache_key, image)
         except IOError as error:
+            report_error(
+                error, sys.exc_info(),
+                extra_data={'avatar': user.username}
+            )
             weblate.logger.error(
                 'Failed to fetch avatar for %s: %s',
                 user.username,

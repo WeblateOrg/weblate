@@ -19,6 +19,7 @@
 #
 
 import os
+import sys
 import binascii
 from smtplib import SMTPException
 
@@ -39,6 +40,7 @@ from social.apps.django_app.default.models import UserSocialAuth
 from weblate.lang.models import Language
 from weblate.trans.util import get_site_url
 from weblate.accounts.avatar import get_user_display
+from weblate.trans.util import report_error
 import weblate
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
@@ -50,6 +52,7 @@ def send_mails(mails):
         connection.send_messages(mails)
     except SMTPException as error:
         weblate.logger.error('Failed to send email: %s', error)
+        report_error(error, sys.exc_info())
 
 
 def notify_merge_failure(subproject, error, status):

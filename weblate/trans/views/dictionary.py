@@ -28,7 +28,7 @@ from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language
-from weblate.trans.util import get_site_url
+from weblate.trans.util import get_site_url, report_error
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.trans.views.helper import get_project
 import weblate
@@ -165,6 +165,7 @@ def upload_dictionary(request, project, lang):
                     ) % count
                 )
         except Exception as error:
+            report_error(error, sys.exc_info(), request)
             messages.error(
                 request, _('File upload has failed: %s') % unicode(error)
             )

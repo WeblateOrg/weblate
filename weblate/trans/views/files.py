@@ -25,7 +25,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.http import require_POST
 from django.http import Http404
+import sys
 
+from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import get_translation
 
@@ -135,5 +137,6 @@ def upload_translation(request, project, subproject, lang):
         messages.error(
             request, _('File content merge failed: %s') % unicode(error)
         )
+        report_error(error, sys.exc_info(), request)
 
     return redirect(obj)

@@ -24,10 +24,12 @@ Base code for machine translation services.
 from django.core.cache import cache
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+import sys
 import json
 import urllib
 import urllib2
 import weblate
+from weblate.trans.util import report_error
 
 
 class MachineTranslationError(Exception):
@@ -171,11 +173,13 @@ class MachineTranslation(object):
         try:
             languages = self.download_languages()
         except Exception as exc:
+            report_error(
+                exc, sys.exc_info(),
+                {'mt_url': self.request_url, 'mt_params': self.request_params}
+            )
             weblate.logger.error(
-                'Failed to fetch languages from %s, using defaults (%s: %s)',
+                'Failed to fetch languages from %s, using defaults',
                 self.name,
-                exc.__class__.__name__,
-                str(exc)
             )
             weblate.logger.error(
                 'Last fetched URL: %s, params: %s',
@@ -222,11 +226,13 @@ class MachineTranslation(object):
                 for trans in translations
             ]
         except Exception as exc:
+            report_error(
+                exc, sys.exc_info(),
+                {'mt_url': self.request_url, 'mt_params': self.request_params}
+            )
             weblate.logger.error(
-                'Failed to fetch translations from %s (%s: %s)',
+                'Failed to fetch translations from %s',
                 self.name,
-                exc.__class__.__name__,
-                str(exc)
             )
             weblate.logger.error(
                 'Last fetched URL: %s, params: %s',
