@@ -550,7 +550,7 @@ class Profile(models.Model):
         # Check whether user is still allowed to access this project
         if not translation_obj.has_acl(self.user):
             return
-        # Actually send notification
+        # Generate notification
         return get_notification_email(
             self.language,
             self.user.email,
