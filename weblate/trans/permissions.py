@@ -232,7 +232,7 @@ def can_edit_priority(user, project):
 @cache_permission
 def can_ignore_check(user, project):
     """
-    Checks whether user can edit translation priority.
+    Checks whether user can ignore check.
     """
     return check_permission(user, project, 'trans.ignore_check')
 
@@ -240,7 +240,7 @@ def can_ignore_check(user, project):
 @cache_permission
 def can_delete_comment(user, project):
     """
-    Checks whether user can edit translation priority.
+    Checks whether user can delete comment on given project.
     """
     return check_permission(user, project, 'trans.delete_comment')
 
