@@ -243,3 +243,14 @@ def can_delete_comment(user, project):
     Checks whether user can edit translation priority.
     """
     return check_permission(user, project, 'trans.delete_comment')
+
+
+@cache_permission
+def can_manage_acl(user, project):
+    """
+    Checks whether user can manage ACL on given project.
+    """
+    if not project.enable_acl:
+        return False
+
+    return check_permission(user, project, 'trans.manage_acl')

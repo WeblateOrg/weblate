@@ -111,3 +111,8 @@ def can_ignore_check(user, project):
 @register.assignment_tag
 def can_delete_comment(user, project):
     return weblate.trans.permissions.can_delete_comment(user, project)
+
+
+@register.assignment_tag
+def can_manage_acl(user, project):
+    return weblate.trans.permissions.can_manage_acl(user, project)
