@@ -16,6 +16,7 @@
 
 {% can_see_repository_status user object as user_can_see_repository_status %}
 {% can_commit_translation user object as user_can_commit_translation %}
+{% can_manage_acl user object as user_can_manage_acl %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
@@ -35,7 +36,7 @@
       {% endif %}
       <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
-      {% if perms.trans.manage_acl and object.enable_acl %}
+      {% if user_can_manage_acl %}
       <li><a href="#acl" data-toggle="tab">{% trans "Manage users" %}</a></li>
       {% endif %}
     </ul>
@@ -145,7 +146,7 @@
 </div>
 {% endif %}
 
-{% if perms.trans.manage_acl and object.enable_acl %}
+{% if user_can_manage_acl %}
 <div class="tab-pane" id="acl">
 <div class="container-fluid">
 <div class="row">

@@ -19,27 +19,30 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.core.exceptions import PermissionDenied
 
 from weblate.trans.util import redirect_param
 from weblate.trans.forms import AddUserForm
 from weblate.trans.views.helper import get_project
+from weblate.trans.permissions import can_manage_acl
 
 
 @require_POST
-@permission_required('trans.manage_acl')
+@login_required
 def add_user(request, project):
     obj = get_project(request, project)
 
+    if not can_manage_acl(request.user, obj):
+        raise PermissionDenied()
+
     form = AddUserForm(request.POST)
 
-    if not obj.enable_acl:
-        messages.error(request, _('ACL not enabled for this project!'))
-    elif form.is_valid():
+    if form.is_valid():
         try:
             user = User.objects.get(
                 Q(username=form.cleaned_data['name']) |
@@ -64,9 +67,12 @@ def add_user(request, project):
 
 
 @require_POST
-@permission_required('trans.manage_acl')
+@login_required
 def delete_user(request, project):
     obj = get_project(request, project)
+
+    if not can_manage_acl(request.user, obj):
+        raise PermissionDenied()
 
     form = AddUserForm(request.POST)
 
