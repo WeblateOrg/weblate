@@ -31,7 +31,8 @@ class PermissionsTest(TestCase):
         self.user = User.objects.create_user('user', 'test@example.com', 'x')
         self.owner = User.objects.create_user('owner', 'test@example.com', 'x')
         self.owner.groups.add(Group.objects.get(name='Owners'))
-        self.project = Project.objects.create(slug='test', owner=self.owner)
+        self.project = Project.objects.create(slug='test')
+        self.project.owners.add(self.owner)
 
     def test_owner_owned(self):
         self.assertTrue(

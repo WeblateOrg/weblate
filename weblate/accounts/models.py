@@ -70,9 +70,9 @@ def notify_merge_failure(subproject, error, status):
         )
         users.add(subscription.user_id)
 
-    if subproject.project.owner and subproject.project.owner_id not in users:
+    for owner in subproject.project.owners.all():
         mails.append(
-            subproject.project.owner.profile.notify_merge_failure(
+            owner.profile.notify_merge_failure(
                 subproject, error, status
             )
         )
@@ -126,9 +126,9 @@ def notify_new_language(subproject, language, user):
         )
         users.add(subscription.user_id)
 
-    if subproject.project.owner and subproject.project.owner_id not in users:
+    for owner in subproject.project.owners.all():
         mails.append(
-            subproject.project.owner.profile.notify_new_language(
+            owner.profile.notify_new_language(
                 subproject, language, user
             )
         )
