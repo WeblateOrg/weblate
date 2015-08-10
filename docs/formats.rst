@@ -122,7 +122,8 @@ XLIFF is usually used as bilingual.
 
 .. note::
 
-    This file format does not supporting automatically adding new translations.
+    Weblate does not support adding new language to the translations using this
+    format. This has to be done manually in the VCS.
 
 .. seealso::
 
@@ -162,7 +163,8 @@ Qt Linguist files are used as both bilingual and monolingual.
 
 .. note::
 
-    This file format does not supporting automatically adding new translations.
+    Weblate does not support adding new language to the translations using this
+    format. This has to be done manually in the VCS.
 
 .. seealso::
 
