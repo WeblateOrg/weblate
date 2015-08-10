@@ -30,12 +30,16 @@ from weblate.trans.models import (
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'slug', 'web', 'owner', 'enable_acl', 'enable_hooks',
+        'name', 'slug', 'web', 'list_owners', 'enable_acl', 'enable_hooks',
         'num_vcs', 'num_strings', 'num_words', 'num_langs',
     )
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
     actions = ['update_from_git', 'update_checks', 'force_commit']
+
+    def list_owners(self, obj):
+        return ', '.join(obj.owners.values_list('username', flat=True))
+    list_owners.short_description = _('Owners')
 
     def num_vcs(self, obj):
         return obj.subproject_set.exclude(repo__startswith='weblate:/').count()
