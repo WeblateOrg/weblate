@@ -171,7 +171,10 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         if user is None:
             return False
 
-        return user.has_perm('trans.weblate_acl_%s' % self.slug)
+        if user.has_perm('trans.weblate_acl_%s' % self.slug):
+            return True
+
+        return self.owners.filter(id=user.id).exists()
 
     def check_acl(self, request):
         """
