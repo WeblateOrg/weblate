@@ -96,7 +96,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Managed projects" %}</h4></div>
   <div class="panel-body">
     <div class="list-group">
-{% for project in user.project_set.all %}
+{% for project in managed_projects %}
       <a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
 {% endfor %}
     </div>
