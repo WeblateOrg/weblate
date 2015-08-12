@@ -171,6 +171,7 @@
   <td>{{ user.first_name }}</td>
   <td>{{ user.email }}</td>
   <td>
+{% if owner_count > 1 %}
 <form action="{% url "delete-user" project=object.slug %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="name" value="{{ user.username }}" />
@@ -179,7 +180,6 @@
 {% trans "Remove" %}
 </button>
 </form>
-{% if owner_count > 1 %}
 <form action="{% url "revoke-owner" project=object.slug %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="name" value="{{ user.username }}" />

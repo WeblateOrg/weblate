@@ -109,10 +109,18 @@ def delete_user(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        obj.remove_user(form.cleaned_data['user'])
-        messages.success(
-            request, _('User has been removed from this project.')
-        )
+        is_owner = obj.owners.filter(
+            id=form.cleaned_data['user'].id
+        ).exists()
+        if is_owner and obj.owners.count() <= 1:
+            messages.error(request, _('You can not remove last owner!'))
+        else:
+            if is_owner:
+                obj.owners.remove(form.cleaned_data['user'])
+            obj.remove_user(form.cleaned_data['user'])
+            messages.success(
+                request, _('User has been removed from this project.')
+            )
 
     return redirect_param(
         'project',
