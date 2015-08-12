@@ -825,6 +825,28 @@ class ZenViewTest(ViewTestCase):
             'You have reached end of translating.'
         )
 
+    def test_load_zen_offset(self):
+        response = self.client.get(
+            reverse('load_zen', kwargs=self.kw_translation),
+            {'offset': '1'}
+        )
+        self.assertNotContains(
+            response,
+            'Hello, world'
+        )
+        self.assertContains(
+            response,
+            'Orangutan has %d bananas'
+        )
+        response = self.client.get(
+            reverse('load_zen', kwargs=self.kw_translation),
+            {'offset': 'bug'}
+        )
+        self.assertContains(
+            response,
+            'Hello, world'
+        )
+
     def test_save_zen(self):
         unit = self.get_unit()
         params = {
