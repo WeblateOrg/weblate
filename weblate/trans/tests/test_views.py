@@ -808,6 +808,17 @@ class ZenViewTest(ViewTestCase):
             'You have reached end of translating.'
         )
 
+    def test_zen_invalid(self):
+        response = self.client.get(
+            reverse('zen', kwargs=self.kw_translation),
+            {'type': 'nonexisting-type'},
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'nonexisting-type is not one of the available choices'
+        )
+
     def test_load_zen(self):
         response = self.client.get(
             reverse('load_zen', kwargs=self.kw_translation)
