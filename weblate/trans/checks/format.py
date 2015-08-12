@@ -253,6 +253,14 @@ class CFormatCheck(BaseFormatCheck):
         return True
 
 
+class JavascriptFormatCheck(CFormatCheck):
+    '''
+    Check for Javascript format string
+    '''
+    check_id = 'javascript_format'
+    name = _('Javascript format')
+
+
 class PythonBraceFormatCheck(BaseFormatCheck):
     '''
     Check for Python format string

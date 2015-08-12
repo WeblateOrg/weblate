@@ -477,6 +477,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.checks.format.PythonBraceFormatCheck',
 #     'weblate.trans.checks.format.PHPFormatCheck',
 #     'weblate.trans.checks.format.CFormatCheck',
+#     'weblate.trans.checks.format.JavascriptFormatCheck',
 #     'weblate.trans.checks.consistency.PluralsCheck',
 #     'weblate.trans.checks.consistency.ConsistencyCheck',
 #     'weblate.trans.checks.chars.NewlineCountingCheck',

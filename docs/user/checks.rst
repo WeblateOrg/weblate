@@ -146,6 +146,7 @@ when the original string was using that as well.
 .. _check-python-brace-format:
 .. _check-php-format:
 .. _check-c-format:
+.. _check-javascript-format:
 
 Format strings
 ~~~~~~~~~~~~~~
@@ -156,6 +157,7 @@ Format string does not match source. Weblate supports following formats:
 * Python brace format
 * PHP format
 * C format
+* Javascript format
 
 Omitting format string from translation usually cause severe problems, so you
 should really keep the format string matching the original one.

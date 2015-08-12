@@ -20,6 +20,7 @@ Released on ? 2015.
 * Added support for error reporting to Rollbar.
 * Projects now can have multiple owners.
 * Project owners can manage themselves.
+* Added support for javascript-format used in Gettext PO.
 
 weblate 2.3
 -----------

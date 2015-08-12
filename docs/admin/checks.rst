@@ -32,10 +32,10 @@ list of flags accepted:
 
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
-``python-format``, ``c-format``, ``php-format``, ``python-brace-format``
+``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``
     Treats all string like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`, 
-    :ref:`check-python-brace-format`, :ref:`check-same`.
+    :ref:`check-python-brace-format`, :ref:`javascript-format`, :ref:`check-same`.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
 ``ignore-inconsistent``
@@ -60,6 +60,8 @@ list of flags accepted:
     Skip the "Trailing newline" quality check.
 ``ignore-c-format``
     Skip the "C format" quality check.
+``ignore-javascript-format``
+    Skip the "Javascript format" quality check.
 ``ignore-optional-plural``
     Skip the "Optional plural" quality check.
 ``ignore-end-exclamation``
