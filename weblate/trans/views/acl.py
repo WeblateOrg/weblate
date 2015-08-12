@@ -20,8 +20,6 @@
 
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied

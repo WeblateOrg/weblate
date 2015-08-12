@@ -113,7 +113,7 @@ class ACLViewTest(ViewTestCase):
         """Adding and removing owner from the ACL project.
         """
         self.add_user()
-        response = self.client.post(
+        self.client.post(
             reverse('make-owner', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
@@ -122,7 +122,7 @@ class ACLViewTest(ViewTestCase):
                 username=self.second_user.username
             ).exists()
         )
-        response = self.client.post(
+        self.client.post(
             reverse('revoke-owner', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
@@ -137,7 +137,7 @@ class ACLViewTest(ViewTestCase):
         """Adding and deleting owner from the ACL project.
         """
         self.add_user()
-        response = self.client.post(
+        self.client.post(
             reverse('make-owner', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
