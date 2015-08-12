@@ -55,7 +55,7 @@ def make_owner(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        pass
+        obj.owners.add(form.cleaned_data['user'])
 
     return redirect_param(
         'project',
@@ -73,7 +73,10 @@ def revoke_owner(request, project):
         if obj.owners.count() <= 1:
             messages.error(request, _('You can not remove last owner!'))
         else:
-            pass
+            # Ensure owner stays within project
+            obj.add_user(form.cleaned_data['user'])
+
+            obj.owners.remove(form.cleaned_data['user'])
 
     return redirect_param(
         'project',
