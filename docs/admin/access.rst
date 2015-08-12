@@ -130,7 +130,8 @@ Managing per project access control
 
 Users with :guilabel:`Can manage ACL rules for a project` privilege (see
 :ref:`privileges`) can also manage users in projects with access control
-enabled on the project page.
+enabled on the project page. You can add or remove users to the project or make
+them owners.
 
 The user management is available in :guilabel:`Tools` menu of a project:
 
