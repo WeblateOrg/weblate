@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-08-10 14:26+0000\n"
+"POT-Creation-Date: 2015-08-12 09:34+0000\n"
 "PO-Revision-Date: 2015-02-22 17:11+0200\n"
 "Last-Translator: Koo Young Min <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -299,7 +299,7 @@ msgid "Hosting"
 msgstr "호스팅"
 
 #: weblate/accounts/views.py:379 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html:41 weblate/html/base.html:109
+#: weblate/html/accounts/login.html.py:41 weblate/html/base.html:109
 msgid "Login"
 msgstr "로그인"
 
@@ -325,7 +325,7 @@ msgid "Change password"
 msgstr "암호 변경"
 
 #: weblate/accounts/views.py:532 weblate/html/accounts/reset.html:7
-#: weblate/html/accounts/reset.html:21
+#: weblate/html/accounts/reset.html.py:21
 msgid "Password reset"
 msgstr "암호 초기화"
 
@@ -657,8 +657,7 @@ msgstr "환경설정"
 msgid "Subscriptions"
 msgstr "구독"
 
-#: weblate/html/accounts/profile.html:24
-#: weblate/html/accounts/profile.html:144
+#: weblate/html/accounts/profile.html:24 weblate/html/accounts/profile.html:144
 msgid "Account"
 msgstr "계정"
 
@@ -670,8 +669,7 @@ msgstr "인증"
 msgid "Profile"
 msgstr "프로필"
 
-#: weblate/html/accounts/profile.html:27
-#: weblate/html/accounts/profile.html:291
+#: weblate/html/accounts/profile.html:27 weblate/html/accounts/profile.html:291
 msgid "Licenses"
 msgstr "라이센스"
 
@@ -789,8 +787,7 @@ msgstr "새로운 연결을 추가:"
 msgid "Removal"
 msgstr "제거"
 
-#: weblate/html/accounts/profile.html:217
-#: weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/profile.html:217 weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
 msgstr "회원 탈퇴를 하시면 모든 개인 데이터를 삭제하게 됩니다."
 
@@ -935,8 +932,7 @@ msgid "SSH keys"
 msgstr "SSH 키"
 
 #: weblate/html/admin/custom-index.html:25
-#: weblate/html/admin/performance.html:6
-#: weblate/html/admin/performance.html:15
+#: weblate/html/admin/performance.html:6 weblate/html/admin/performance.html:15
 msgid "Performance report"
 msgstr "성능 보고"
 
@@ -1300,7 +1296,7 @@ msgstr "용어집"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:7
-#: weblate/lang/models.py:370 weblate/trans/forms.py:720
+#: weblate/lang/models.py:370 weblate/trans/forms.py:722
 msgid "Language"
 msgstr "언어"
 
@@ -1335,14 +1331,14 @@ msgstr "역사"
 #: weblate/html/dictionary.html:38 weblate/html/search.html:20
 #: weblate/html/source-review.html:22 weblate/html/translate.html:95
 #: weblate/html/translate.html.py:159 weblate/html/translate.html:279
-#: weblate/html/translate.html.py:362 weblate/trans/forms.py:598
+#: weblate/html/translate.html.py:362 weblate/trans/forms.py:600
 msgid "Source"
 msgstr "번역 원본"
 
 #: weblate/html/dictionary.html:39 weblate/html/last-changes.html:21
 #: weblate/html/translate.html:159 weblate/html/translate.html.py:226
 #: weblate/html/translate.html:278 weblate/html/translate.html.py:363
-#: weblate/trans/forms.py:176 weblate/trans/forms.py:599
+#: weblate/trans/forms.py:178 weblate/trans/forms.py:601
 msgid "Translation"
 msgstr "번역"
 
@@ -1361,7 +1357,7 @@ msgid "No words found!"
 msgstr "단어를 찾을 수 없습니다!"
 
 #: weblate/html/dictionary.html:83 weblate/html/js/detail.html:40
-#: weblate/html/project.html:201
+#: weblate/html/project.html:238
 msgid "Add"
 msgstr "추가"
 
@@ -2532,9 +2528,8 @@ msgstr "번역하기"
 #: weblate/html/mail/activation.html:7 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:7
 #: weblate/html/mail/changed_translation.txt:1
-#: weblate/html/mail/merge_failure.html:7
-#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:7
-#: weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/merge_failure.html:7 weblate/html/mail/merge_failure.txt:1
+#: weblate/html/mail/new_comment.html:7 weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:7
 #: weblate/html/mail/new_contributor.txt:1
 #: weblate/html/mail/new_language.html:7 weblate/html/mail/new_language.txt:1
@@ -2733,8 +2728,7 @@ msgstr ""
 msgid "Requested language:"
 msgstr "요청된 언어:"
 
-#: weblate/html/mail/new_language.html:33
-#: weblate/html/mail/new_language.txt:11
+#: weblate/html/mail/new_language.html:33 weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "요청하는 사용자:"
 
@@ -2882,7 +2876,7 @@ msgstr "모든 용어집 관리"
 
 #: weblate/html/project.html:145 weblate/html/subproject.html:137
 #: weblate/html/translate.html:263 weblate/html/translation.html:215
-#: weblate/trans/forms.py:84
+#: weblate/trans/forms.py:86
 msgid "Loading…"
 msgstr "로드 중…"
 
@@ -2890,11 +2884,23 @@ msgstr "로드 중…"
 msgid "Users"
 msgstr "사용자"
 
-#: weblate/html/project.html:178
+#: weblate/html/project.html:170
+msgid "Owner"
+msgstr ""
+
+#: weblate/html/project.html:180 weblate/html/project.html.py:207
 msgid "Remove"
 msgstr "제거"
 
-#: weblate/html/project.html:196
+#: weblate/html/project.html:188
+msgid "Revoke ownership"
+msgstr ""
+
+#: weblate/html/project.html:215
+msgid "Make owner"
+msgstr ""
+
+#: weblate/html/project.html:233
 msgid "Add new user"
 msgstr "새로운 사용자 추가"
 
@@ -2944,7 +2950,7 @@ msgstr "원본 문자열"
 msgid "review"
 msgstr "검토"
 
-#: weblate/html/source-review.html:23 weblate/trans/forms.py:734
+#: weblate/html/source-review.html:23 weblate/trans/forms.py:736
 msgid "Priority"
 msgstr "우선 순위"
 
@@ -3198,7 +3204,7 @@ msgstr "이 번역을 사용"
 msgid "Service"
 msgstr "서비스"
 
-#: weblate/html/translate.html:313 weblate/trans/forms.py:672
+#: weblate/html/translate.html:313 weblate/trans/forms.py:674
 msgid "New comment"
 msgstr "새로운 댓글"
 
@@ -3220,7 +3226,7 @@ msgstr "용어집"
 msgid "Copy word to translation"
 msgstr "번역란으로 단어 복사"
 
-#: weblate/html/translate.html:374 weblate/trans/forms.py:95
+#: weblate/html/translate.html:374 weblate/trans/forms.py:97
 msgid "Copy"
 msgstr "복사"
 
@@ -3939,224 +3945,224 @@ msgstr "안드로이드 문자열 리소스"
 msgid "JSON file"
 msgstr "JSON 파일"
 
-#: weblate/trans/forms.py:93
+#: weblate/trans/forms.py:95
 msgid "Fill in with source string"
 msgstr "원본 문자열을 채우기"
 
-#: weblate/trans/forms.py:121 weblate/trans/forms.py:129
+#: weblate/trans/forms.py:123 weblate/trans/forms.py:131
 msgid "Toggle text direction"
 msgstr "글자 배열 방향 전환"
 
-#: weblate/trans/forms.py:193
+#: weblate/trans/forms.py:195
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
 "이 방정식은 복수형이 주어진 갯수(N)를 기반으로하여 사용되는 식별합니다."
 
-#: weblate/trans/forms.py:196
+#: weblate/trans/forms.py:198
 msgid "Plural equation"
 msgstr "복수의 공식"
 
-#: weblate/trans/forms.py:201
+#: weblate/trans/forms.py:203
 msgid "Documentation for plurals."
 msgstr "복수를 위한 문서화."
 
-#: weblate/trans/forms.py:272
+#: weblate/trans/forms.py:274
 msgid "Message you wanted to translate is no longer available!"
 msgstr "번역할 메세지는 더 이상 사용할 수 없습니다!"
 
-#: weblate/trans/forms.py:284
+#: weblate/trans/forms.py:286
 msgctxt "Checkbox for marking translation fuzzy"
 msgid "Fuzzy"
 msgstr "흐트러짐"
 
-#: weblate/trans/forms.py:328 weblate/trans/forms.py:607
+#: weblate/trans/forms.py:330 weblate/trans/forms.py:609
 msgid "File"
 msgstr "파일"
 
-#: weblate/trans/forms.py:330 weblate/trans/forms.py:614
+#: weblate/trans/forms.py:332 weblate/trans/forms.py:616
 msgid "Merge method"
 msgstr "합치기 방법"
 
-#: weblate/trans/forms.py:332
+#: weblate/trans/forms.py:334
 msgid "Add as translation"
 msgstr "번역으로서 추가"
 
-#: weblate/trans/forms.py:333
+#: weblate/trans/forms.py:335
 msgid "Add as a suggestion"
 msgstr "제안으로 추가"
 
-#: weblate/trans/forms.py:334
+#: weblate/trans/forms.py:336
 msgid "Add as fuzzy translation"
 msgstr "애매한 번역으로 추가"
 
-#: weblate/trans/forms.py:339
+#: weblate/trans/forms.py:341
 #, fuzzy
 #| msgid "Fuzzy strings"
 msgid "Fuzzy strings processing"
 msgstr "흐트러진 문자열"
 
-#: weblate/trans/forms.py:341
+#: weblate/trans/forms.py:343
 msgid "Do not import"
 msgstr ""
 
-#: weblate/trans/forms.py:342
+#: weblate/trans/forms.py:344
 #, fuzzy
 #| msgid "Import glossary"
 msgid "Import as fuzzy"
 msgstr "용어집 가져오기"
 
-#: weblate/trans/forms.py:343
+#: weblate/trans/forms.py:345
 #, fuzzy
 #| msgid "Not translated"
 msgid "Import as translated"
 msgstr "미번역"
 
-#: weblate/trans/forms.py:348
+#: weblate/trans/forms.py:350
 msgid "Merge file header"
 msgstr "합치기 파일 헤더"
 
-#: weblate/trans/forms.py:349
+#: weblate/trans/forms.py:351
 msgid "Merges content of file header into the translation."
 msgstr "번역으로 파일 헤더의 내용을 병합하십시오."
 
-#: weblate/trans/forms.py:360
+#: weblate/trans/forms.py:362
 msgid "Overwrite existing translations"
 msgstr "기존 번역 덮어쓰기"
 
-#: weblate/trans/forms.py:370
+#: weblate/trans/forms.py:372
 msgid "Author name"
 msgstr "제작자 이름"
 
-#: weblate/trans/forms.py:372 weblate/trans/forms.py:377
+#: weblate/trans/forms.py:374 weblate/trans/forms.py:379
 msgid "Keep empty for using currently logged in user."
 msgstr "현재 로그인한 사용자를 이용하여 없음을 유지하십시오."
 
-#: weblate/trans/forms.py:375
+#: weblate/trans/forms.py:377
 msgid "Author email"
 msgstr "제작자 이메일"
 
-#: weblate/trans/forms.py:399
+#: weblate/trans/forms.py:401
 msgid "Query"
 msgstr "질의"
 
-#: weblate/trans/forms.py:404
+#: weblate/trans/forms.py:406
 msgid "Search type"
 msgstr "검색 유형"
 
-#: weblate/trans/forms.py:407
+#: weblate/trans/forms.py:409
 msgid "Fulltext"
 msgstr "전체 글자"
 
-#: weblate/trans/forms.py:408
+#: weblate/trans/forms.py:410
 msgid "Exact match"
 msgstr "정확히 일치"
 
-#: weblate/trans/forms.py:409
+#: weblate/trans/forms.py:411
 msgid "Substring"
 msgstr "부분 문자열"
 
-#: weblate/trans/forms.py:414
+#: weblate/trans/forms.py:416
 msgid "Search in source strings"
 msgstr "원본 문자열에서 검색"
 
-#: weblate/trans/forms.py:419
+#: weblate/trans/forms.py:421
 msgid "Search in target strings"
 msgstr "대상 문자열에서 검색"
 
-#: weblate/trans/forms.py:424
+#: weblate/trans/forms.py:426
 msgid "Search in context strings"
 msgstr "상황에 맞는 정보 문자열 검색"
 
-#: weblate/trans/forms.py:429
+#: weblate/trans/forms.py:431
 msgid "Search in location strings"
 msgstr "위치 문자열에서 검색"
 
-#: weblate/trans/forms.py:434
+#: weblate/trans/forms.py:436
 msgid "Search in comment strings"
 msgstr "댓글 문자열에서 검색"
 
-#: weblate/trans/forms.py:439
+#: weblate/trans/forms.py:441
 msgid "Search filter"
 msgstr "검색 필터"
 
-#: weblate/trans/forms.py:442 weblate/trans/models/translation.py:927
+#: weblate/trans/forms.py:444 weblate/trans/models/translation.py:927
 #: weblate/trans/models/translation.py:975 weblate/trans/views/edit.py:121
 #: weblate/trans/views/edit.py:137
 msgid "All strings"
 msgstr "모든 문자열"
 
-#: weblate/trans/forms.py:443 weblate/trans/models/translation.py:986
+#: weblate/trans/forms.py:445 weblate/trans/models/translation.py:986
 msgid "Untranslated strings"
 msgstr "번역 안된 문자열"
 
-#: weblate/trans/forms.py:444
+#: weblate/trans/forms.py:446
 msgid "Translated strings"
 msgstr "번역된 문자열"
 
-#: weblate/trans/forms.py:445 weblate/trans/models/translation.py:995
+#: weblate/trans/forms.py:447 weblate/trans/models/translation.py:995
 msgid "Fuzzy strings"
 msgstr "흐트러진 문자열"
 
-#: weblate/trans/forms.py:446 weblate/trans/models/translation.py:1004
+#: weblate/trans/forms.py:448 weblate/trans/models/translation.py:1004
 msgid "Strings with suggestions"
 msgstr "제안된 문자열"
 
-#: weblate/trans/forms.py:447 weblate/trans/models/translation.py:961
+#: weblate/trans/forms.py:449 weblate/trans/models/translation.py:961
 #: weblate/trans/models/translation.py:1035
 msgid "Strings with comments"
 msgstr "문자열에 대한 댓글"
 
-#: weblate/trans/forms.py:448 weblate/trans/models/translation.py:938
+#: weblate/trans/forms.py:450 weblate/trans/models/translation.py:938
 #: weblate/trans/models/translation.py:1013
 msgid "Strings with any failing checks"
 msgstr "실패 검사에 걸린 문자열"
 
-#: weblate/trans/forms.py:456
+#: weblate/trans/forms.py:458
 msgid "Show ignored checks as well"
 msgstr "무시된 검사들도 함께 보기"
 
-#: weblate/trans/forms.py:517
+#: weblate/trans/forms.py:519
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "\"%s\" 에 대한 전체 텍스트 검색"
 
-#: weblate/trans/forms.py:519
+#: weblate/trans/forms.py:521
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "정확한 문자열 \"%s\" 를 검색"
 
-#: weblate/trans/forms.py:521
+#: weblate/trans/forms.py:523
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "하위 문자열 \"%s\" 를 검색"
 
-#: weblate/trans/forms.py:532
+#: weblate/trans/forms.py:534
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
-#: weblate/trans/forms.py:562
+#: weblate/trans/forms.py:564
 msgid "Overwrite strings"
 msgstr "문자열 덮어쓰기"
 
-#: weblate/trans/forms.py:567
+#: weblate/trans/forms.py:569
 msgid "Replace inconsistent"
 msgstr "일관성 없음을 바꾸기"
 
-#: weblate/trans/forms.py:572
+#: weblate/trans/forms.py:574
 msgid "Component to use"
 msgstr "사용하기 위한 컴포넌트"
 
-#: weblate/trans/forms.py:591
+#: weblate/trans/forms.py:593
 #, fuzzy
 #| msgid "Components"
 msgid "All components"
 msgstr "컴포넌트"
 
-#: weblate/trans/forms.py:609
+#: weblate/trans/forms.py:611
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
@@ -4164,66 +4170,66 @@ msgstr ""
 "번역 툴킷에 의해 인식가능한 형식(TBX, CSV, Gettext PO 파일 포함)을 업로드 할 "
 "수 있습니다."
 
-#: weblate/trans/forms.py:616
+#: weblate/trans/forms.py:618
 msgid "Keep current"
 msgstr "현재 사항을 유지"
 
-#: weblate/trans/forms.py:617
+#: weblate/trans/forms.py:619
 msgid "Overwrite existing"
 msgstr "기존의 것을 덮어씌우기"
 
-#: weblate/trans/forms.py:618
+#: weblate/trans/forms.py:620
 msgid "Add as other translation"
 msgstr "다른 번역으로서 추가"
 
-#: weblate/trans/forms.py:629
+#: weblate/trans/forms.py:631
 msgid "Starting date"
 msgstr "시작일"
 
-#: weblate/trans/forms.py:652
+#: weblate/trans/forms.py:654
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "아무것"
 
-#: weblate/trans/forms.py:654
+#: weblate/trans/forms.py:656
 msgid "Starting letter"
 msgstr "시작 문자"
 
-#: weblate/trans/forms.py:675
+#: weblate/trans/forms.py:677
 msgid "Scope"
 msgstr "범위"
 
-#: weblate/trans/forms.py:677
+#: weblate/trans/forms.py:679
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 "이 댓글은 이 번역에 특정되어 있나요, 아니면 전체적으로 포괄하고 있나요?"
 
-#: weblate/trans/forms.py:683
+#: weblate/trans/forms.py:685
 msgid "Source string comment, suggestions to change this string"
 msgstr "이 문자열을 변경하기 위한 제안 사항, 원본 문자열 댓글"
 
-#: weblate/trans/forms.py:687
+#: weblate/trans/forms.py:689
 msgid "Translation comment, discussions with other translators"
 msgstr "번역 댓글, 다른 번역가와의 토론"
 
-#: weblate/trans/forms.py:700
+#: weblate/trans/forms.py:702
 msgid "Whole project"
 msgstr "모든 프로젝트"
 
-#: weblate/trans/forms.py:726
+#: weblate/trans/forms.py:728
 msgid "Please select"
 msgstr ""
 
-#: weblate/trans/forms.py:737
+#: weblate/trans/forms.py:739
 msgid "Strings with higher priority are offered first to translators."
 msgstr "우선순위가 높은 문자열은 번역가가 먼저 볼 수 있게 제공됩니다."
 
-#: weblate/trans/forms.py:744
+#: weblate/trans/forms.py:746
 msgid "Check flags"
 msgstr "검사 플래그"
 
-#: weblate/trans/forms.py:747
+#: weblate/trans/forms.py:749
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
@@ -4232,17 +4238,25 @@ msgstr ""
 "검사 플래그의 목록을 쉼표로 구분해 입력해 주세요. 더 자세한 내용은 <a href="
 "\"{url}\">문서</a>를 참조하세요."
 
-#: weblate/trans/forms.py:768
+#: weblate/trans/forms.py:770
 msgid "User to add"
 msgstr "추가할 사용자"
 
-#: weblate/trans/forms.py:770
+#: weblate/trans/forms.py:772
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
 "사용자 이름 혹은 메일 주소를 입력해 주세요. 이 계정은 Weblate에서 이미 활성화"
 "된 계정이어야 합니다."
+
+#: weblate/trans/forms.py:784
+msgid "No matching user found!"
+msgstr "일치하는 사용자를 찾을 수 없습니다!"
+
+#: weblate/trans/forms.py:786
+msgid "More users matched!"
+msgstr "여러 사용자가 발견되었습니다!"
 
 #: weblate/trans/models/advertisement.py:36
 #, python-brace-format
@@ -4493,12 +4507,12 @@ msgstr "이 저장소가 원격 훅에 의해 갱신되는지를 나타냅니다
 msgid "Owners of the project."
 msgstr "번역된 프로젝트의 주요 웹사이트입니다."
 
-#: weblate/trans/models/project.py:183
+#: weblate/trans/models/project.py:186
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "프로젝트 %s를 접근할 수 없습니다."
 
-#: weblate/trans/models/project.py:213
+#: weblate/trans/models/project.py:218
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "프로젝트 디렉토리를 생성할수 없습니다: %s"
@@ -5375,23 +5389,15 @@ msgstr ""
 msgid "Invalid check flag: \"%s\""
 msgstr "잘못된 검색 플래그: \"%s\""
 
-#: weblate/trans/views/acl.py:53
+#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
+msgid "You can not remove last owner!"
+msgstr ""
+
+#: weblate/trans/views/acl.py:94
 msgid "User has been added to this project."
 msgstr "사용자가 이 프로젝트에 추가되었습니다."
 
-#: weblate/trans/views/acl.py:56 weblate/trans/views/acl.py:89
-msgid "No matching user found!"
-msgstr "일치하는 사용자를 찾을 수 없습니다!"
-
-#: weblate/trans/views/acl.py:58 weblate/trans/views/acl.py:91
-msgid "More users matched!"
-msgstr "여러 사용자가 발견되었습니다!"
-
-#: weblate/trans/views/acl.py:60 weblate/trans/views/acl.py:93
-msgid "Invalid user specified!"
-msgstr "잘못된 사용자 정보입니다!"
-
-#: weblate/trans/views/acl.py:86
+#: weblate/trans/views/acl.py:120
 msgid "User has been removed from this project."
 msgstr "사용자가 이 프로젝트에서 제거되었습니다."
 
@@ -5731,6 +5737,9 @@ msgstr ""
 #: weblate/trans/widgets.py:386
 msgid "translated"
 msgstr "번역"
+
+#~ msgid "Invalid user specified!"
+#~ msgstr "잘못된 사용자 정보입니다!"
 
 #~ msgid "ACL not enabled for this project!"
 #~ msgstr "이 프로젝트를 위한 ACL이 활성화되지 않았습니다!"
