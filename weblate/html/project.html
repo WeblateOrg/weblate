@@ -184,7 +184,7 @@
 {% csrf_token %}
 <input type="hidden" name="name" value="{{ user.username }}" />
 <button type="submit" class="btn btn-warning btn-xs">
-<i class="fa fa-trash"></i>
+<i class="fa fa-user-times"></i>
 {% trans "Revoke ownership" %}
 </button>
 </form>
@@ -210,8 +210,8 @@
 <form action="{% url "make-owner" project=object.slug %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-warning btn-xs">
-<i class="fa fa-trash"></i>
+<button type="submit" class="btn btn-success btn-xs">
+<i class="fa fa-user-plus"></i>
 {% trans "Make owner" %}
 </button>
 </form>
