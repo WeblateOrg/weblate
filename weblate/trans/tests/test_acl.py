@@ -169,3 +169,13 @@ class ACLViewTest(ViewTestCase):
                 username=self.user.username
             ).exists()
         )
+
+    def test_nonexisting_user(self):
+        """Test adding non existing user."""
+        self.project.owners.add(self.user)
+        response = self.client.post(
+            reverse('add-user', kwargs=self.kw_project),
+            {'name': 'nonexisging'},
+            follow=True
+        )
+        self.assertContains(response, 'No matching user found!')
