@@ -763,7 +763,7 @@ class CheckFlagsForm(forms.Form):
         return flags
 
 
-class AddUserForm(forms.Form):
+class UserManageForm(forms.Form):
     name = forms.CharField(
         label=_('User to add'),
         help_text=_(

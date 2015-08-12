@@ -27,7 +27,7 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 
 from weblate.trans.util import redirect_param
-from weblate.trans.forms import AddUserForm
+from weblate.trans.forms import UserManageForm
 from weblate.trans.views.helper import get_project
 from weblate.trans.permissions import can_manage_acl
 
@@ -40,7 +40,7 @@ def make_owner(request, project):
     if not can_manage_acl(request.user, obj):
         raise PermissionDenied()
 
-    form = AddUserForm(request.POST)
+    form = UserManageForm(request.POST)
 
     if form.is_valid():
         pass
@@ -62,7 +62,7 @@ def revoke_owner(request, project):
     if not can_manage_acl(request.user, obj):
         raise PermissionDenied()
 
-    form = AddUserForm(request.POST)
+    form = UserManageForm(request.POST)
 
     if form.is_valid():
         pass
@@ -84,7 +84,7 @@ def add_user(request, project):
     if not can_manage_acl(request.user, obj):
         raise PermissionDenied()
 
-    form = AddUserForm(request.POST)
+    form = UserManageForm(request.POST)
 
     if form.is_valid():
         try:
@@ -118,7 +118,7 @@ def delete_user(request, project):
     if not can_manage_acl(request.user, obj):
         raise PermissionDenied()
 
-    form = AddUserForm(request.POST)
+    form = UserManageForm(request.POST)
 
     if form.is_valid():
         try:
