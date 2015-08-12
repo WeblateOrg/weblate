@@ -43,7 +43,9 @@ def check_user_form(request, project):
     if form.is_valid():
         return obj, form
     else:
-        messages.error(request, _('Invalid user specified!'))
+        for error in form.errors:
+            for message in form.errors[error]:
+                messages.error(request, message)
         return obj, None
 
 
@@ -86,19 +88,10 @@ def add_user(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        try:
-            user = User.objects.get(
-                Q(username=form.cleaned_data['name']) |
-                Q(email=form.cleaned_data['name'])
-            )
-            obj.add_user(user)
-            messages.success(
-                request, _('User has been added to this project.')
-            )
-        except User.DoesNotExist:
-            messages.error(request, _('No matching user found!'))
-        except User.MultipleObjectsReturned:
-            messages.error(request, _('More users matched!'))
+        obj.add_user(form.cleaned_data['user'])
+        messages.success(
+            request, _('User has been added to this project.')
+        )
 
     return redirect_param(
         'project',
@@ -113,18 +106,10 @@ def delete_user(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        try:
-            user = User.objects.get(
-                username=form.cleaned_data['name']
-            )
-            obj.remove_user(user)
-            messages.success(
-                request, _('User has been removed from this project.')
-            )
-        except User.DoesNotExist:
-            messages.error(request, _('No matching user found!'))
-        except User.MultipleObjectsReturned:
-            messages.error(request, _('More users matched!'))
+        obj.remove_user(form.cleaned_data['user'])
+        messages.success(
+            request, _('User has been removed from this project.')
+        )
 
     return redirect_param(
         'project',

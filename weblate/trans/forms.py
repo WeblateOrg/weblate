@@ -26,6 +26,8 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_unicode
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from weblate.lang.models import Language
 from weblate.trans.models.unit import Unit, SEARCH_FILTERS
@@ -771,3 +773,14 @@ class UserManageForm(forms.Form):
             'User needs to already have an active account in Weblate.'
         ),
     )
+
+    def clean(self):
+        try:
+            self.cleaned_data['user'] = User.objects.get(
+                Q(username=self.cleaned_data['name']) |
+                Q(email=self.cleaned_data['name'])
+            )
+        except User.DoesNotExist:
+            raise ValidationError(_('No matching user found!'))
+        except User.MultipleObjectsReturned:
+            raise ValidationError(_('More users matched!'))
