@@ -147,3 +147,25 @@ class ACLViewTest(ViewTestCase):
                 username=self.second_user.username
             ).exists()
         )
+
+    def test_denied_owner_delete(self):
+        """Test that deleting last owner does not work."""
+        self.project.owners.add(self.user)
+        self.client.post(
+            reverse('revoke-owner', kwargs=self.kw_project),
+            {'name': self.second_user.username}
+        )
+        self.assertTrue(
+            self.project.owners.filter(
+                username=self.user.username
+            ).exists()
+        )
+        self.client.post(
+            reverse('delete-user', kwargs=self.kw_project),
+            {'name': self.second_user.username}
+        )
+        self.assertTrue(
+            self.project.owners.filter(
+                username=self.user.username
+            ).exists()
+        )
