@@ -76,7 +76,7 @@ class ACLViewTest(ViewTestCase):
 
     def add_user(self):
         self.add_acl()
-        self.make_manager()
+        self.project.owners.add(self.user)
 
         # Add user
         response = self.client.post(
@@ -108,3 +108,42 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_user()
         self.remove_user()
+
+    def test_add_owner(self):
+        """Adding and removing owner from the ACL project.
+        """
+        self.add_user()
+        response = self.client.post(
+            reverse('make-owner', kwargs=self.kw_project),
+            {'name': self.second_user.username}
+        )
+        self.assertTrue(
+            self.project.owners.filter(
+                username=self.second_user.username
+            ).exists()
+        )
+        response = self.client.post(
+            reverse('revoke-owner', kwargs=self.kw_project),
+            {'name': self.second_user.username}
+        )
+        self.assertFalse(
+            self.project.owners.filter(
+                username=self.second_user.username
+            ).exists()
+        )
+        self.remove_user()
+
+    def test_delete_owner(self):
+        """Adding and deleting owner from the ACL project.
+        """
+        self.add_user()
+        response = self.client.post(
+            reverse('make-owner', kwargs=self.kw_project),
+            {'name': self.second_user.username}
+        )
+        self.remove_user()
+        self.assertFalse(
+            self.project.owners.filter(
+                username=self.second_user.username
+            ).exists()
+        )
