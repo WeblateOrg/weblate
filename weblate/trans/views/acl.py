@@ -32,9 +32,7 @@ from weblate.trans.views.helper import get_project
 from weblate.trans.permissions import can_manage_acl
 
 
-@require_POST
-@login_required
-def make_owner(request, project):
+def check_user_form(request, project):
     obj = get_project(request, project)
 
     if not can_manage_acl(request.user, obj):
@@ -43,9 +41,19 @@ def make_owner(request, project):
     form = UserManageForm(request.POST)
 
     if form.is_valid():
-        pass
+        return obj, form
     else:
         messages.error(request, _('Invalid user specified!'))
+        return obj, None
+
+
+@require_POST
+@login_required
+def make_owner(request, project):
+    obj, form = check_user_form(request, project)
+
+    if form is not None:
+        pass
 
     return redirect_param(
         'project',
@@ -57,17 +65,10 @@ def make_owner(request, project):
 @require_POST
 @login_required
 def revoke_owner(request, project):
-    obj = get_project(request, project)
+    obj, form = check_user_form(request, project)
 
-    if not can_manage_acl(request.user, obj):
-        raise PermissionDenied()
-
-    form = UserManageForm(request.POST)
-
-    if form.is_valid():
+    if form is not None:
         pass
-    else:
-        messages.error(request, _('Invalid user specified!'))
 
     return redirect_param(
         'project',
@@ -79,14 +80,9 @@ def revoke_owner(request, project):
 @require_POST
 @login_required
 def add_user(request, project):
-    obj = get_project(request, project)
+    obj, form = check_user_form(request, project)
 
-    if not can_manage_acl(request.user, obj):
-        raise PermissionDenied()
-
-    form = UserManageForm(request.POST)
-
-    if form.is_valid():
+    if form is not None:
         try:
             user = User.objects.get(
                 Q(username=form.cleaned_data['name']) |
@@ -100,8 +96,6 @@ def add_user(request, project):
             messages.error(request, _('No matching user found!'))
         except User.MultipleObjectsReturned:
             messages.error(request, _('More users matched!'))
-    else:
-        messages.error(request, _('Invalid user specified!'))
 
     return redirect_param(
         'project',
@@ -113,14 +107,9 @@ def add_user(request, project):
 @require_POST
 @login_required
 def delete_user(request, project):
-    obj = get_project(request, project)
+    obj, form = check_user_form(request, project)
 
-    if not can_manage_acl(request.user, obj):
-        raise PermissionDenied()
-
-    form = UserManageForm(request.POST)
-
-    if form.is_valid():
+    if form is not None:
         try:
             user = User.objects.get(
                 username=form.cleaned_data['name']
@@ -133,8 +122,6 @@ def delete_user(request, project):
             messages.error(request, _('No matching user found!'))
         except User.MultipleObjectsReturned:
             messages.error(request, _('More users matched!'))
-    else:
-        messages.error(request, _('Invalid user specified!'))
 
     return redirect_param(
         'project',
