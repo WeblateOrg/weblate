@@ -32,6 +32,12 @@ class ACLViewTest(ViewTestCase):
         super(ACLViewTest, self).setUp()
         self.project.enable_acl = True
         self.project.save()
+        self.project_url = reverse('project', kwargs=self.kw_project)
+        self.second_user = User.objects.create_user(
+            'seconduser',
+            'noreply@example.org',
+            'testpassword'
+        )
 
     def add_acl(self):
         """
@@ -42,18 +48,14 @@ class ACLViewTest(ViewTestCase):
     def test_acl_denied(self):
         """No access to the project without ACL.
         """
-        response = self.client.get(
-            reverse('project', kwargs=self.kw_project)
-        )
+        response = self.client.get(self.project_url)
         self.assertEqual(response.status_code, 403)
 
     def test_acl(self):
         """Regular user should not have access to user management.
         """
         self.add_acl()
-        response = self.client.get(
-            reverse('project', kwargs=self.kw_project)
-        )
+        response = self.client.get(self.project_url)
         self.assertNotContains(response, 'Manage users')
 
     def test_edit_acl(self):
@@ -61,43 +63,48 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_acl()
         self.make_manager()
-        response = self.client.get(
-            reverse('project', kwargs=self.kw_project)
-        )
+        response = self.client.get(self.project_url)
         self.assertContains(response, 'Manage users')
 
-    def test_add_acl(self):
-        """Adding and removing user from the ACL project.
+    def test_edit_acl_owner(self):
+        """Owner should have access to user management.
         """
         self.add_acl()
+        self.project.owners.add(self.user)
+        response = self.client.get(self.project_url)
+        self.assertContains(response, 'Manage users')
+
+    def add_user(self):
+        self.add_acl()
         self.make_manager()
-        project_url = reverse('project', kwargs=self.kw_project)
-        second_user = User.objects.create_user(
-            'seconduser',
-            'noreply@example.org',
-            'testpassword'
-        )
 
         # Add user
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
-            {'name': second_user.username}
+            {'name': self.second_user.username}
         )
-        self.assertRedirects(response, '{0}#acl'.format(project_url))
+        self.assertRedirects(response, '{0}#acl'.format(self.project_url))
 
         # Ensure user is now listed
-        response = self.client.get(project_url)
-        self.assertContains(response, second_user.username)
-        self.assertContains(response, second_user.email)
+        response = self.client.get(self.project_url)
+        self.assertContains(response, self.second_user.username)
+        self.assertContains(response, self.second_user.email)
 
+    def remove_user(self):
         # Remove user
         response = self.client.post(
             reverse('delete-user', kwargs=self.kw_project),
-            {'name': second_user.username}
+            {'name': self.second_user.username}
         )
-        self.assertRedirects(response, '{0}#acl'.format(project_url))
+        self.assertRedirects(response, '{0}#acl'.format(self.project_url))
 
         # Ensure user is now not listed
-        response = self.client.get(project_url)
-        self.assertNotContains(response, second_user.username)
-        self.assertNotContains(response, second_user.email)
+        response = self.client.get(self.project_url)
+        self.assertNotContains(response, self.second_user.username)
+        self.assertNotContains(response, self.second_user.email)
+
+    def test_add_acl(self):
+        """Adding and removing user from the ACL project.
+        """
+        self.add_user()
+        self.remove_user()
