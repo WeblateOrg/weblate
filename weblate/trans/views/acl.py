@@ -34,6 +34,50 @@ from weblate.trans.permissions import can_manage_acl
 
 @require_POST
 @login_required
+def make_owner(request, project):
+    obj = get_project(request, project)
+
+    if not can_manage_acl(request.user, obj):
+        raise PermissionDenied()
+
+    form = AddUserForm(request.POST)
+
+    if form.is_valid():
+        pass
+    else:
+        messages.error(request, _('Invalid user specified!'))
+
+    return redirect_param(
+        'project',
+        '#acl',
+        project=obj.slug,
+    )
+
+
+@require_POST
+@login_required
+def revoke_owner(request, project):
+    obj = get_project(request, project)
+
+    if not can_manage_acl(request.user, obj):
+        raise PermissionDenied()
+
+    form = AddUserForm(request.POST)
+
+    if form.is_valid():
+        pass
+    else:
+        messages.error(request, _('Invalid user specified!'))
+
+    return redirect_param(
+        'project',
+        '#acl',
+        project=obj.slug,
+    )
+
+
+@require_POST
+@login_required
 def add_user(request, project):
     obj = get_project(request, project)
 
