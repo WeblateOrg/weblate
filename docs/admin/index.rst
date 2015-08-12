@@ -7,6 +7,7 @@ Administrators guide
     install
     upgrade
     auth
+    access
     projects
     continuous
     translating
