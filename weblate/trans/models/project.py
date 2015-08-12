@@ -192,7 +192,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Returns all users having ACL on this project.
         """
         group = Group.objects.get(name=self.name)
-        return group.user_set.all()
+        return group.user_set.exclude(
+            id__in=self.owners.values_list('id', flat=True)
+        )
 
     def add_user(self, user):
         """

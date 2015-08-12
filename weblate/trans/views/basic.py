@@ -37,7 +37,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm,
     AutoForm, ReviewForm, NewLanguageForm,
-    AddUserForm,
+    UserManageForm,
 )
 from weblate.accounts.models import Profile, notify_new_language
 from weblate.trans.views.helper import (
@@ -246,7 +246,7 @@ def show_project(request, project):
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),
-            'add_user_form': AddUserForm(),
+            'add_user_form': UserManageForm(),
         }
     )
 

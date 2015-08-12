@@ -201,6 +201,16 @@ urlpatterns = patterns(
         'weblate.trans.views.acl.delete_user',
         name='delete-user',
     ),
+    url(
+        r'^make-owner/' + PROJECT + '$',
+        'weblate.trans.views.acl.make_owner',
+        name='make-owner',
+    ),
+    url(
+        r'^revoke-owner/' + PROJECT + '$',
+        'weblate.trans.views.acl.revoke_owner',
+        name='revoke-owner',
+    ),
 
     # Monthly activity
     url(

@@ -19,6 +19,7 @@ Released on ? 2015.
 * Add management command to optimize fulltext index.
 * Added support for error reporting to Rollbar.
 * Projects now can have multiple owners.
+* Project owners can manage themselves.
 
 weblate 2.3
 -----------

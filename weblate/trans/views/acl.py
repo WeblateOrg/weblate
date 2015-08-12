@@ -27,37 +27,74 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 
 from weblate.trans.util import redirect_param
-from weblate.trans.forms import AddUserForm
+from weblate.trans.forms import UserManageForm
 from weblate.trans.views.helper import get_project
 from weblate.trans.permissions import can_manage_acl
 
 
-@require_POST
-@login_required
-def add_user(request, project):
+def check_user_form(request, project):
     obj = get_project(request, project)
 
     if not can_manage_acl(request.user, obj):
         raise PermissionDenied()
 
-    form = AddUserForm(request.POST)
+    form = UserManageForm(request.POST)
 
     if form.is_valid():
-        try:
-            user = User.objects.get(
-                Q(username=form.cleaned_data['name']) |
-                Q(email=form.cleaned_data['name'])
-            )
-            obj.add_user(user)
-            messages.success(
-                request, _('User has been added to this project.')
-            )
-        except User.DoesNotExist:
-            messages.error(request, _('No matching user found!'))
-        except User.MultipleObjectsReturned:
-            messages.error(request, _('More users matched!'))
+        return obj, form
     else:
-        messages.error(request, _('Invalid user specified!'))
+        for error in form.errors:
+            for message in form.errors[error]:
+                messages.error(request, message)
+        return obj, None
+
+
+@require_POST
+@login_required
+def make_owner(request, project):
+    obj, form = check_user_form(request, project)
+
+    if form is not None:
+        obj.owners.add(form.cleaned_data['user'])
+
+    return redirect_param(
+        'project',
+        '#acl',
+        project=obj.slug,
+    )
+
+
+@require_POST
+@login_required
+def revoke_owner(request, project):
+    obj, form = check_user_form(request, project)
+
+    if form is not None:
+        if obj.owners.count() <= 1:
+            messages.error(request, _('You can not remove last owner!'))
+        else:
+            # Ensure owner stays within project
+            obj.add_user(form.cleaned_data['user'])
+
+            obj.owners.remove(form.cleaned_data['user'])
+
+    return redirect_param(
+        'project',
+        '#acl',
+        project=obj.slug,
+    )
+
+
+@require_POST
+@login_required
+def add_user(request, project):
+    obj, form = check_user_form(request, project)
+
+    if form is not None:
+        obj.add_user(form.cleaned_data['user'])
+        messages.success(
+            request, _('User has been added to this project.')
+        )
 
     return redirect_param(
         'project',
@@ -69,28 +106,21 @@ def add_user(request, project):
 @require_POST
 @login_required
 def delete_user(request, project):
-    obj = get_project(request, project)
+    obj, form = check_user_form(request, project)
 
-    if not can_manage_acl(request.user, obj):
-        raise PermissionDenied()
-
-    form = AddUserForm(request.POST)
-
-    if form.is_valid():
-        try:
-            user = User.objects.get(
-                username=form.cleaned_data['name']
-            )
-            obj.remove_user(user)
+    if form is not None:
+        is_owner = obj.owners.filter(
+            id=form.cleaned_data['user'].id
+        ).exists()
+        if is_owner and obj.owners.count() <= 1:
+            messages.error(request, _('You can not remove last owner!'))
+        else:
+            if is_owner:
+                obj.owners.remove(form.cleaned_data['user'])
+            obj.remove_user(form.cleaned_data['user'])
             messages.success(
                 request, _('User has been removed from this project.')
             )
-        except User.DoesNotExist:
-            messages.error(request, _('No matching user found!'))
-        except User.MultipleObjectsReturned:
-            messages.error(request, _('More users matched!'))
-    else:
-        messages.error(request, _('Invalid user specified!'))
 
     return redirect_param(
         'project',
