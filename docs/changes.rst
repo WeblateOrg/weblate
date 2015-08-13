@@ -22,6 +22,7 @@ Released on ? 2015.
 * Project owners can manage themselves.
 * Added support for javascript-format used in Gettext PO.
 * Support for adding new translations in XLIFF.
+* Improved file format autodetection.
 
 weblate 2.3
 -----------

@@ -43,6 +43,7 @@ import __builtin__
 
 
 FILE_FORMATS = {}
+FILE_DETECT = []
 FLAGS_RE = re.compile(r'\b[-\w]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 
@@ -64,6 +65,8 @@ def register_fileformat(fileformat):
     try:
         fileformat.get_class()
         FILE_FORMATS[fileformat.format_id] = fileformat
+        for autoload in fileformat.autoload:
+            FILE_DETECT.append((autoload, fileformat))
     except (AttributeError, ImportError):
         add_configuration_error(
             'File format: {0}'.format(fileformat.format_id),
@@ -384,6 +387,12 @@ class FileFormat(object):
     check_flags = ()
     unit_class = FileUnit
     new_translation = None
+    autoload = ()
+
+    @classmethod
+    def parse(cls, storefile, template_store=None, language_code=None):
+        """Parses store and returns FileFormat instance."""
+        return cls(storefile, template_store, language_code)
 
     @classmethod
     def fixup(cls, store):
@@ -721,6 +730,22 @@ class AutoFormat(FileFormat):
     format_id = 'auto'
 
     @classmethod
+    def parse(cls, storefile, template_store=None, language_code=None):
+        """Parses store and returns FileFormat instance.
+
+        First attempt own autodetection, then fallback to ttkit.
+        """
+        filename = getattr(storefile, 'name', None)
+        if filename is not None:
+            name = os.path.basename(filename)
+            for autoload, storeclass in FILE_DETECT:
+                if not isinstance(autoload, tuple) and name.endswith(autoload):
+                    return storeclass(storefile, template_store, language_code)
+                elif name.startswith(autoload[0]) and name.endswith(autoload[1]):
+                    return storeclass(storefile, template_store, language_code)
+        return cls(storefile, template_store, language_code)
+
+    @classmethod
     def parse_store(cls, storefile):
         '''
         Directly loads using translate-toolkit.
@@ -739,6 +764,7 @@ class PoFormat(FileFormat):
     loader = ('po', 'pofile')
     monolingual = False
     msginit_found = None
+    autoload = ('.po', '.pot')
 
     def get_language_pack(self):
         '''
@@ -846,6 +872,7 @@ class TSFormat(FileFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
     loader = ('ts2', 'tsfile')
+    autoload = ('.ts',)
 
 
 @register_fileformat
@@ -853,6 +880,7 @@ class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
     loader = ('xliff', 'xlifffile')
+    autoload = ('.xlf', '.xliff')
 
     @classmethod
     def supports_new_language(cls):
@@ -886,6 +914,7 @@ class StringsFormat(FileFormat):
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
     new_translation = '\n'
+    autoload = ('.strings',)
 
 
 @register_fileformat
@@ -903,6 +932,7 @@ class PropertiesUtf8Format(FileFormat):
     loader = ('properties', 'javautf8file')
     monolingual = True
     new_translation = '\n'
+    autoload = ('.properties',)
 
 
 @register_fileformat
@@ -927,6 +957,7 @@ class PhpFormat(FileFormat):
     format_id = 'php'
     loader = ('php', 'phpfile')
     new_translation = '<?php\n'
+    autoload = ('.php',)
 
     @property
     def mimetype(self):
@@ -953,6 +984,7 @@ class RESXFormat(FileFormat):
     new_translation = (
         '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
     )
+    autoload = ('.resx',)
 
 
 @register_fileformat
@@ -971,6 +1003,7 @@ class AndroidFormat(FileFormat):
     new_translation = (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     )
+    autoload = (('strings', '.xml'),)
 
     @staticmethod
     def get_language_code(code):
@@ -986,6 +1019,7 @@ class JSONFormat(FileFormat):
     format_id = 'json'
     loader = ('weblate.trans.aresource', 'JsonFile')
     unit_class = JSONUnit
+    autoload = ('.json',)
 
     @classmethod
     def supports_new_language(cls):

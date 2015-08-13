@@ -422,7 +422,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Loads translate-toolkit storage from disk.
         '''
-        return self.subproject.file_format_cls(
+        return self.subproject.file_format_cls.parse(
             self.get_filename(),
             self.subproject.template_store,
             language_code=self.language_code
@@ -1151,13 +1151,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Load backend file
         try:
             # First try using own loader
-            store = self.subproject.file_format_cls(
+            store = self.subproject.file_format_cls.parse(
                 StringIOMode(fileobj.name, filecopy),
                 self.subproject.template_store
             )
         except Exception:
             # Fallback to automatic detection
-            store = AutoFormat(
+            store = AutoFormat.parse(
                 StringIOMode(fileobj.name, filecopy),
             )
 
