@@ -52,7 +52,7 @@ def avatar_for_email(email, size=80):
 
     # Retrieve from cache
     cache_key = 'avatar-{0}-{1}'.format(
-        email.encode('base64'),
+        email.encode('base64').strip(),
         size
     )
     cache = caches['default']
