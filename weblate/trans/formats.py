@@ -741,7 +741,8 @@ class AutoFormat(FileFormat):
             for autoload, storeclass in FILE_DETECT:
                 if not isinstance(autoload, tuple) and name.endswith(autoload):
                     return storeclass(storefile, template_store, language_code)
-                elif name.startswith(autoload[0]) and name.endswith(autoload[1]):
+                elif (name.startswith(autoload[0]) and
+                      name.endswith(autoload[1])):
                     return storeclass(storefile, template_store, language_code)
         return cls(storefile, template_store, language_code)
 
