@@ -48,6 +48,18 @@ jQuery.fn.extend({
 });
 
 
+function submitForm(evt) {
+    var $target = $(evt.target);
+    var $form = $target.parents('form');
+    if ($form.length == 0) {
+        $form = $('.translation-form');
+    }
+    if ($form.length > 0) {
+        $form.find('input[type="submit"]')[0].click();
+    }
+    return false;
+}
+
 function configureChart($chart) {
     var $toolTip = $chart
       .append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>')
@@ -486,6 +498,8 @@ $(function () {
     }
 
     /* Translation editor */
+    Mousetrap.bindGlobal('alt+enter', submitForm);
+    Mousetrap.bindGlobal('ctrl+enter', submitForm);
     var translationEditor = $('.translation-editor');
     if (translationEditor.length > 0) {
         $document.on('change', '.translation-editor', testChangeHandler);
@@ -497,8 +511,6 @@ $(function () {
             Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
-            Mousetrap.bindGlobal('alt+enter', function(e) {$('.translation-form').submit(); return false;});
-            Mousetrap.bindGlobal('ctrl+enter', function(e) {$('.translation-form').submit(); return false;});
         }
     }
 
