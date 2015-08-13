@@ -517,6 +517,43 @@ $(function () {
                 ['ctrl+shift+enter', 'command+shift+enter'],
                 function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
             );
+            Mousetrap.bindGlobal(
+                'alt+e',
+                function(e) {
+                    $('.translation-editor').get(0).focus();
+                    return false;
+                }
+            );
+            Mousetrap.bindGlobal(
+                'alt+s',
+                function(e) {
+                    $('.nav [href="#search"]').click();
+                    $('input[name="q"]').focus();
+                    return false;
+                }
+            );
+            Mousetrap.bindGlobal(
+                'alt+c',
+                function(e) {
+                    $('.nav [href="#comments"]').click();
+                    $('textarea[name="comment"]').focus();
+                    return false;
+                }
+            );
+            Mousetrap.bindGlobal(
+                'alt+n',
+                function(e) {
+                    $('.nav [href="#nearby"]').click();
+                    return false;
+                }
+            );
+            Mousetrap.bindGlobal(
+                'alt+m',
+                function(e) {
+                    $('.nav [href="#machine"]').click();
+                    return false;
+                }
+            );
         }
     }
 

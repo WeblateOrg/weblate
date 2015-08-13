@@ -23,6 +23,7 @@ Released on ? 2015.
 * Added support for javascript-format used in Gettext PO.
 * Support for adding new translations in XLIFF.
 * Improved file format autodetection.
+* Extended keyboard shortcuts.
 
 weblate 2.3
 -----------
