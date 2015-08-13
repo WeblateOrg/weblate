@@ -498,8 +498,10 @@ $(function () {
     }
 
     /* Translation editor */
-    Mousetrap.bindGlobal('alt+enter', submitForm);
-    Mousetrap.bindGlobal('ctrl+enter', submitForm);
+    Mousetrap.bindGlobal(
+        ['alt+enter', 'ctrl+enter', 'command+enter'],
+        submitForm
+    );
     var translationEditor = $('.translation-editor');
     if (translationEditor.length > 0) {
         $document.on('change', '.translation-editor', testChangeHandler);
@@ -511,7 +513,10 @@ $(function () {
             Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
-            Mousetrap.bindGlobal('ctrl+shift+enter', function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);});
+            Mousetrap.bindGlobal(
+                ['ctrl+shift+enter', 'command+shift+enter'],
+                function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
+            );
         }
     }
 
