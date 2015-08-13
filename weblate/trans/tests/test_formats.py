@@ -40,6 +40,36 @@ TEST_POT_UNICODE = get_test_file('unicode.pot')
 TEST_RESX = get_test_file('cs.resx')
 
 
+class AutoLoadTest(TestCase):
+    def single_test(self, filename, fileclass):
+        with open(filename, 'r') as handle:
+            store = AutoFormat.parse(handle)
+            self.assertIsInstance(store, fileclass)
+
+    def test_po(self):
+        self.single_test(TEST_PO, PoFormat)
+        self.single_test(TEST_POT, PoFormat)
+
+    def test_json(self):
+        self.single_test(TEST_JSON, JSONFormat)
+
+    def test_php(self):
+        self.single_test(TEST_PHP, PhpFormat)
+
+    def test_properties(self):
+        self.single_test(TEST_PROPERTIES, PropertiesFormat)
+
+    def test_android(self):
+        self.single_test(TEST_ANDROID, AndroidFormat)
+
+    def test_xliff(self):
+        self.single_test(TEST_XLIFF, XliffFormat)
+
+    def test_resx(self):
+        if 'resx' in FILE_FORMATS:
+            self.single_test(TEST_RESX, RESXFormat)
+
+
 class AutoFormatTest(TestCase):
     FORMAT = AutoFormat
     FILE = TEST_PO
