@@ -21,6 +21,7 @@ Released on ? 2015.
 * Projects now can have multiple owners.
 * Project owners can manage themselves.
 * Added support for javascript-format used in Gettext PO.
+* Support for adding new translations in XLIFF.
 
 weblate 2.3
 -----------

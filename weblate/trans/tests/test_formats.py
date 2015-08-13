@@ -24,7 +24,7 @@ import tempfile
 from unittest import TestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
-    JSONFormat, RESXFormat, PhpFormat,
+    JSONFormat, RESXFormat, PhpFormat, XliffFormat,
     FILE_FORMATS,
 )
 from weblate.trans.tests.utils import get_test_file
@@ -34,6 +34,7 @@ TEST_JSON = get_test_file('cs.json')
 TEST_PHP = get_test_file('cs.php')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
+TEST_XLIFF = get_test_file('cs.xliff')
 TEST_POT = get_test_file('hello.pot')
 TEST_POT_UNICODE = get_test_file('unicode.pot')
 TEST_RESX = get_test_file('cs.resx')
@@ -143,6 +144,19 @@ class AndroidFormatTest(AutoFormatTest):
     MATCH = '<resources></resources>'
     MASK = 'res/values-*/strings.xml'
     EXPECTED_PATH = 'res/values-cs-rCZ/strings.xml'
+
+
+class XliffFormatTest(AutoFormatTest):
+    FORMAT = XliffFormat
+    FILE = TEST_XLIFF
+    BASE = TEST_XLIFF
+    MIME = 'application/x-xliff'
+    EXT = 'xlf'
+    COUNT = 4
+    MATCH = '<file target-language="cs">'
+    FIND_MATCH = u''
+    MASK = 'loc/*/default.xliff'
+    EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
 
 
 if 'resx' in FILE_FORMATS:

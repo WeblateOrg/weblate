@@ -120,11 +120,6 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual.
 
-.. note::
-
-    Weblate does not support adding new language to the translations using this
-    format. This has to be done manually in the VCS.
-
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,

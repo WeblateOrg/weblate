@@ -23,7 +23,7 @@ File format specific behavior.
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
-from translate.storage.xliff import xliffunit
+from translate.storage.xliff import xliffunit, xlifffile
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
 from translate.storage.ts2 import tsunit
@@ -853,6 +853,31 @@ class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
     loader = ('xliff', 'xlifffile')
+
+    @classmethod
+    def supports_new_language(cls):
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @staticmethod
+    def is_valid_base_for_new(base):
+        '''
+        Checks whether base is valid.
+        '''
+        try:
+            xlifffile.parsefile(base)
+            return True
+        except Exception:
+            return False
+
+    @classmethod
+    def create_new_file(cls, filename, code, base):
+        """Handles creation of new translation file."""
+        content = xlifffile.parsefile(base)
+        content.settargetlanguage(code)
+        content.savefile(filename)
 
 
 @register_fileformat
