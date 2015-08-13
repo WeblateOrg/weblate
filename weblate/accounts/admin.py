@@ -38,7 +38,9 @@ admin.site.register(Profile, ProfileAdmin)
 
 class VerifiedEmailAdmin(admin.ModelAdmin):
     list_display = ('social', 'email')
-    search_fields = ('email', )
+    search_fields = (
+        'email', 'social__user__username', 'social__user__email'
+    )
     raw_id_fields = ('social',)
 
 admin.site.register(VerifiedEmail, VerifiedEmailAdmin)
