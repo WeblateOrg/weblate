@@ -51,7 +51,10 @@ def avatar_for_email(email, size=80):
         email = 'noreply@weblate.org'
 
     # Retrieve from cache
-    cache_key = 'avatar-{0}-{1}'.format(email, size)
+    cache_key = 'avatar-{0}-{1}'.format(
+        email.encode('base64'),
+        size
+    )
     cache = caches['default']
     url = cache.get(cache_key)
     if url is not None:
