@@ -511,6 +511,7 @@ $(function () {
             Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
+            Mousetrap.bindGlobal('ctrl+shift+enter', function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);});
         }
     }
 

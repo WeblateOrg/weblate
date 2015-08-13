@@ -83,6 +83,8 @@ While translating you can use following keyboard shortcuts:
     Navigates to next translation in current search.
 :kbd:`Alt+Enter` or :kbd:`Ctrl+Enter`
     Saves current translation.
+:kbd:`Ctrl+Shift+Enter`
+    Umarks translation as fuzzy and submits it.
 
 Translation context
 +++++++++++++++++++
