@@ -8,7 +8,7 @@ Installation instructions
 Requirements
 ------------
 
-Python (2.7)
+Python (2.7, 3 is not supported)
     https://www.python.org/
 Django (>= 1.7)
     https://www.djangoproject.com/
