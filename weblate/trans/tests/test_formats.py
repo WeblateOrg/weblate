@@ -21,6 +21,7 @@
 File format specific behavior.
 '''
 import tempfile
+from StringIO import StringIO
 from unittest import TestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
@@ -28,6 +29,7 @@ from weblate.trans.formats import (
     FILE_FORMATS,
 )
 from weblate.trans.tests.utils import get_test_file
+from translate.storage.po import pofile
 
 TEST_PO = get_test_file('cs.po')
 TEST_JSON = get_test_file('cs.json')
@@ -68,6 +70,16 @@ class AutoLoadTest(TestCase):
     def test_resx(self):
         if 'resx' in FILE_FORMATS:
             self.single_test(TEST_RESX, RESXFormat)
+
+    def test_content(self):
+        """Test content based guess from ttkit"""
+        with open(TEST_PO, 'r') as handle:
+            data = handle.read()
+
+        handle = StringIO(data)
+        store = AutoFormat.parse(handle)
+        self.assertIsInstance(store, AutoFormat)
+        self.assertIsInstance(store.store, pofile)
 
 
 class AutoFormatTest(TestCase):
