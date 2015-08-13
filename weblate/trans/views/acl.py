@@ -88,7 +88,7 @@ def revoke_owner(request, project):
 def add_user(request, project):
     obj, form = check_user_form(request, project)
 
-    if form is not None:
+    if form is not None and obj.enable_acl:
         obj.add_user(form.cleaned_data['user'])
         messages.success(
             request, _('User has been added to this project.')
@@ -106,7 +106,7 @@ def add_user(request, project):
 def delete_user(request, project):
     obj, form = check_user_form(request, project)
 
-    if form is not None:
+    if form is not None and obj.enable_acl:
         is_owner = obj.owners.filter(
             id=form.cleaned_data['user'].id
         ).exists()
