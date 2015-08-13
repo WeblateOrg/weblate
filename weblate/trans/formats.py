@@ -413,7 +413,8 @@ class FileFormat(object):
             del __builtin__.__dict__['_']
 
         # Add missing mode attribute to Django file wrapper
-        if not isinstance(storefile, basestring):
+        if (not isinstance(storefile, basestring) and
+                not hasattr(storefile, 'mode')):
             storefile.mode = 'r'
 
         return cls.parse_store(storefile)
