@@ -989,6 +989,16 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 'danger',
             ))
 
+        # Untranslated words, the link is same, just to show number of words
+        nottranslated = self.total_words - self.translated_words
+        if nottranslated > 0:
+            result.append((
+                'untranslated',
+                _('Untranslated words'),
+                nottranslated,
+                'danger',
+            ))
+
         # Fuzzy strings
         if self.fuzzy > 0:
             result.append((
