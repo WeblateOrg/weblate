@@ -37,6 +37,13 @@ from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
+from weblate.trans.signals import (
+    vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
+)
+from weblate.trans.scripts import (
+    run_post_push_script, run_post_update_script, run_pre_commit_script,
+    run_post_commit_script,
+)
 
 __all__ = [
     'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
@@ -197,3 +204,23 @@ def cleanup_deleted(sender, instance, **kwargs):
             language=None,
             contentsum=contentsum
         ).delete()
+
+
+@receiver(vcs_post_push)
+def post_push(sender, component, **kwargs):
+    run_post_push_script(component)
+
+
+@receiver(vcs_post_update)
+def post_update(sender, component, **kwargs):
+    run_post_update_script(component)
+
+
+@receiver(vcs_pre_commit)
+def pre_commit(sender, translation, **kwargs):
+    run_pre_commit_script(translation.subproject, translation.get_filename())
+
+
+@receiver(vcs_post_commit)
+def post_commit(sender, translation, **kwargs):
+    run_post_commit_script(translation.subproject, translation.get_filename())

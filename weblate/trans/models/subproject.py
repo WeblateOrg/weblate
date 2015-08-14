@@ -29,14 +29,13 @@ from django.utils import timezone
 from glob import glob
 import os
 import time
-import subprocess
 import fnmatch
 import re
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.util import (
-    is_repo_link, get_site_url, cleanup_repo_url, get_clean_env, cleanup_path,
+    is_repo_link, get_site_url, cleanup_repo_url, cleanup_path,
 )
 from weblate.trans.signals import vcs_post_push, vcs_post_update
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
@@ -693,7 +692,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ret = self.update_branch(request, method=method)
 
         # run post update hook
-        self.run_hook(self.post_update_script)
         vcs_post_update.send(sender=self.__class__, subproject=self)
 
         # create translation objects for all files
@@ -752,7 +750,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 subproject=self,
             )
 
-            self.run_hook(self.post_push_script)
             vcs_post_push.send(sender=self.__class__, subproject=self)
 
             return True
@@ -1486,51 +1483,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 user=user,
                 action=Change.ACTION_UNLOCK,
             )
-
-    def run_pre_commit_script(self, filename):
-        """
-        Pre commit hook
-        """
-        self.run_hook(self.pre_commit_script, filename)
-
-    def run_post_commit_script(self, filename):
-        """
-        Post commit hook
-        """
-        self.run_hook(self.post_commit_script, filename)
-
-    def run_hook(self, script, *args):
-        """
-        Generic script hook executor.
-        """
-        if script:
-            command = [script]
-            if args:
-                command.extend(args)
-            environment = get_clean_env()
-            if self.is_repo_link:
-                target = self.linked_subproject
-            else:
-                target = self
-            environment['WL_VCS'] = target.vcs
-            environment['WL_REPO'] = target.repo
-            environment['WL_PATH'] = target.get_path()
-            environment['WL_FILEMASK'] = self.filemask
-            environment['WL_FILE_FORMAT'] = self.file_format
-            try:
-                subprocess.check_call(
-                    command,
-                    env=environment,
-                    cwd=self.get_path(),
-                )
-                return True
-            except (OSError, subprocess.CalledProcessError) as err:
-                self.log_error(
-                    'failed to run hook script %s: %s',
-                    script,
-                    err
-                )
-                return False
 
     def get_editable_template(self):
         if not self.edit_template or not self.has_template():

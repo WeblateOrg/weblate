@@ -18,8 +18,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""Hook scripts handling"""
 
 import os.path
+import subprocess
+from weblate.trans.util import get_clean_env
 
 
 def get_script_name(name):
@@ -28,3 +31,61 @@ def get_script_name(name):
     parameters.
     '''
     return os.path.basename(name).split()[0]
+
+
+def run_post_push_script(component):
+    """Run post push hook"""
+    run_hook(component, component.post_push_script)
+
+
+def run_post_update_script(component):
+    """Run post update hook"""
+    run_hook(component, component.post_update_script)
+
+
+def run_pre_commit_script(component, filename):
+    """
+    Pre commit hook
+    """
+    run_hook(component, component.pre_commit_script, filename)
+
+
+def run_post_commit_script(component, filename):
+    """
+    Post commit hook
+    """
+    run_hook(component, component.post_commit_script, filename)
+
+
+def run_hook(component, script, *args):
+    """
+    Generic script hook executor.
+    """
+    if script:
+        command = [script]
+        if args:
+            command.extend(args)
+        environment = get_clean_env()
+        if component.is_repo_link:
+            target = component.linked_subproject
+        else:
+            target = component
+        environment['WL_VCS'] = target.vcs
+        environment['WL_REPO'] = target.repo
+        environment['WL_PATH'] = target.get_path()
+        environment['WL_FILEMASK'] = component.filemask
+        environment['WL_FILE_FORMAT'] = component.file_format
+        try:
+            subprocess.check_call(
+                command,
+                env=environment,
+                cwd=component.get_path(),
+            )
+            return True
+        except (OSError, subprocess.CalledProcessError) as err:
+            component.log_error(
+                'failed to run hook script %s: %s',
+                script,
+                err
+            )
+            return False

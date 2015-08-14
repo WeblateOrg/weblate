@@ -755,7 +755,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         msg = self.get_commit_message()
 
         # Pre commit hook
-        self.subproject.run_pre_commit_script(self.get_filename())
         vcs_pre_commit.send(sender=self.__class__, translation=self)
 
         # Create list of files to commit
@@ -777,7 +776,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
         # Post commit hook
-        self.subproject.run_post_commit_script(self.get_filename())
         vcs_post_commit.send(sender=self.__class__, translation=self)
 
         # Optionally store updated hash
