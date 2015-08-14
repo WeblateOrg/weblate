@@ -38,6 +38,7 @@ from weblate.trans.filelock import FileLock
 from weblate.trans.util import (
     is_repo_link, get_site_url, cleanup_repo_url, get_clean_env, cleanup_path,
 )
+from weblate.trans.signals import vcs_post_push, vcs_post_update
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -693,6 +694,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # run post update hook
         self.run_hook(self.post_update_script)
+        vcs_post_update.send(sender=self.__class__, subproject=self)
 
         # create translation objects for all files
         self.create_translations(request=request)
@@ -751,6 +753,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
             self.run_hook(self.post_push_script)
+            vcs_post_push.send(sender=self.__class__, subproject=self)
 
             return True
         except RepositoryException as error:

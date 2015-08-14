@@ -38,6 +38,7 @@ from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Suggestion
+from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.trans.util import (
     get_site_url, translation_percent, split_plural,
 )
@@ -755,6 +756,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Pre commit hook
         self.subproject.run_pre_commit_script(self.get_filename())
+        vcs_pre_commit.send(sender=self.__class__, translation=self)
 
         # Create list of files to commit
         files = [self.filename]
@@ -776,6 +778,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Post commit hook
         self.subproject.run_post_commit_script(self.get_filename())
+        vcs_post_commit.send(sender=self.__class__, translation=self)
 
         # Optionally store updated hash
         if sync:
