@@ -124,6 +124,8 @@ maintaining of Translation-Team header.
 
 .. _component:
 
+.. _subproject:
+
 Component configuration
 -----------------------
 
