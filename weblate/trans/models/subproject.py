@@ -692,7 +692,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ret = self.update_branch(request, method=method)
 
         # run post update hook
-        vcs_post_update.send(sender=self.__class__, subproject=self)
+        vcs_post_update.send(sender=self.__class__, component=self)
 
         # create translation objects for all files
         self.create_translations(request=request)
@@ -750,7 +750,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 subproject=self,
             )
 
-            vcs_post_push.send(sender=self.__class__, subproject=self)
+            vcs_post_push.send(sender=self.__class__, component=self)
 
             return True
         except RepositoryException as error:
