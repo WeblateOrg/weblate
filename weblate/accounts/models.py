@@ -38,7 +38,7 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans.util import get_site_url
+from weblate.trans.util import get_site_url, get_site_domain
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.util import report_error
 import weblate
@@ -253,6 +253,19 @@ def get_notification_email(language, email, notification,
     cur_language = django_translation.get_language()
     context = context or {}
     headers = headers or {}
+    references = None
+    if 'unit' in context:
+        unit = context['unit']
+        references = '{0}/{1}/{2}/{3}'.format(
+            unit.translation.subproject.project.slug,
+            unit.translation.subproject.slug,
+            unit.translation.language.code,
+            unit.id
+        )
+    if references is not None:
+        references = '<{0}@{1}>'.format(references, get_site_domain())
+        headers['In-Reply-To'] = references
+        headers['References'] = references
     try:
         if info is None:
             info = translation_obj.__unicode__()
