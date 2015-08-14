@@ -979,12 +979,31 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
         ]
 
+        # Count of translated strings
+        if self.translated > 0:
+            result.append((
+                'translated',
+                _('Translated strings'),
+                self.translated,
+                'success',
+            ))
+
         # Untranslated strings
         nottranslated = self.total - self.translated
         if nottranslated > 0:
             result.append((
                 'untranslated',
                 _('Untranslated strings'),
+                nottranslated,
+                'danger',
+            ))
+
+        # Untranslated words, the link is same, just to show number of words
+        nottranslated = self.total_words - self.translated_words
+        if nottranslated > 0:
+            result.append((
+                'untranslated',
+                _('Untranslated words'),
                 nottranslated,
                 'danger',
             ))
