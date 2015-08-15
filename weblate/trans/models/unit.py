@@ -633,8 +633,6 @@ class Unit(models.Model):
         same_source = Unit.objects.filter(
             translation__subproject=self.translation.subproject,
             context=self.context,
-        ).exclude(
-            id=self.id
         )
         if not same_source.exists():
             return
@@ -644,7 +642,11 @@ class Unit(models.Model):
             source=self.target,
             contentsum=calculate_checksum(self.source, self.context),
         )
-        same_source.filter(translated=True).update(
+        same_source.filter(
+            translated=True
+        ).exclude(
+            id=self.id
+        ).update(
             translated=False,
             fuzzy=True,
             previous_source=previous_source,
