@@ -26,7 +26,10 @@ from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.models.project import Project
 from translate.storage.csvl10n import csvfile
 from django.core.urlresolvers import reverse
-from whoosh.analysis import StandardAnalyzer, StemmingAnalyzer
+from whoosh.analysis import (
+    LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer
+)
+from whoosh.lang import has_stemmer
 
 
 class DictionaryManager(models.Manager):
@@ -133,7 +136,17 @@ class DictionaryManager(models.Manager):
         # Prepare analyzers
         # - standard analyzer simply splits words
         # - stemming extracts stems, to catch things like plurals
-        analyzers = (StandardAnalyzer(), StemmingAnalyzer())
+        analyzers = [
+            StandardAnalyzer(),
+            StemmingAnalyzer(),
+        ]
+        lang_code = unit.translation.language.base_code()
+        # Add per language analyzer if Whoosh has it
+        if has_stemmer(lang_code):
+            analyzers.append(LanguageAnalyzer(lang_code))
+        # Add ngram analyzer for languages like Chinese or Japanese
+        if unit.translation.language.uses_ngram():
+            analyzers.append(NGramAnalyzer())
 
         # Extract words from all plurals and from context
         for text in unit.get_source_plurals() + [unit.context]:

@@ -483,3 +483,10 @@ class Language(models.Model, PercentMixin):
         elif self.code == 'pt_BR':
             self.nplurals = 2
             self.pluralequation = 'n > 1'
+
+    def base_code(self):
+        return self.code.replace('_', '-').split('-')[0]
+
+    def uses_ngram(self):
+        code = self.base_code()
+        return code in ('ja', 'zh', 'ko')

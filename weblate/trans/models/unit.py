@@ -634,10 +634,18 @@ class Unit(models.Model):
             translation__subproject=self.translation.subproject,
             context=self.context,
         )
+        if not same_source.exists():
+            return
         # Update source and contentsum
+        previous_source = same_source[0].source
         same_source.update(
             source=self.target,
             contentsum=calculate_checksum(self.source, self.context),
+        )
+        same_source.filter(translated=True).udpdate(
+            translated=False,
+            fuzzy=True,
+            previous_source=previous_source,
         )
         # Update source index, it's enough to do it for one as we index by
         # checksum which is same for all
