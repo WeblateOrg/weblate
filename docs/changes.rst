@@ -24,6 +24,7 @@ Released on ? 2015.
 * Support for adding new translations in XLIFF.
 * Improved file format autodetection.
 * Extended keyboard shortcuts.
+* Improved dictionary matching for several languages.
 
 weblate 2.3
 -----------
