@@ -634,8 +634,6 @@ class Unit(models.Model):
             translation__subproject=self.translation.subproject,
             context=self.context,
         )
-        if not same_source.exists():
-            return
         # Update source and contentsum
         previous_source = same_source[0].source
         same_source.update(
