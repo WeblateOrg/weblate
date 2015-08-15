@@ -642,7 +642,7 @@ class Unit(models.Model):
             source=self.target,
             contentsum=calculate_checksum(self.source, self.context),
         )
-        same_source.filter(translated=True).udpdate(
+        same_source.filter(translated=True).update(
             translated=False,
             fuzzy=True,
             previous_source=previous_source,
