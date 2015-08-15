@@ -146,7 +146,7 @@ class DictionaryManager(models.Manager):
             analyzers.append(LanguageAnalyzer(lang_code))
         # Add ngram analyzer for languages like Chinese or Japanese
         if unit.translation.language.uses_ngram():
-            analyzers.append(NGramAnalyzer())
+            analyzers.append(NgramAnalyzer())
 
         # Extract words from all plurals and from context
         for text in unit.get_source_plurals() + [unit.context]:
