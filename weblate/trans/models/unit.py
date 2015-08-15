@@ -633,6 +633,8 @@ class Unit(models.Model):
         same_source = Unit.objects.filter(
             translation__subproject=self.translation.subproject,
             context=self.context,
+        ).exclude(
+            id=self.id
         )
         if not same_source.exists():
             return
