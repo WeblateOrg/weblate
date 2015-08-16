@@ -21,11 +21,38 @@
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 
+import urllib2
+import json
+
 from social.pipeline.partial import partial
 from social.exceptions import AuthForbidden, AuthMissingParameter
 
 from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
+import weblate
+
+
+def get_github_email(access_token):
+    """Get real email from GitHub"""
+
+    request = urllib2.Request('https://api.github.com/user/emails')
+    request.timeout = 1.0
+    request.add_header('User-Agent', weblate.USER_AGENT)
+    request.add_header(
+        'Authorization',
+        'token {0}'.format(access_token)
+    )
+    handle = urllib2.urlopen(request)
+    data = json.load(handle)
+    email = None
+    for entry in data:
+        # Skip not verified ones
+        if not entry['verified']:
+            continue
+        email = entry['email']
+        if entry['primary']:
+            break
+    return email
 
 
 @partial
@@ -34,6 +61,12 @@ def require_email(strategy, backend, details, user=None, is_new=False,
     '''
     Forces entering email for backends which don't provide it.
     '''
+
+    if backend.name == 'github':
+        email = get_github_email(kwargs['response']['access_token'])
+        if email is not None:
+            details['email'] = email
+
     if user and user.email:
         # Force validation of new email address
         if backend.name == 'email':
