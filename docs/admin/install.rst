@@ -765,6 +765,61 @@ You should also adjust some settings to match your environment, namely:
 * :ref:`production-site`
 * :ref:`production-email`
 
+.. _docker:
+
+Weblate and Docker
+------------------
+
+With dockerized weblate deployment you can get your personal weblate instance
+up an running in seconds. All of weblate's dependencies are already included.
+MySQL is configured default database.
+
+Deployment
+++++++++++
+
+Example for Mac OS, similar on Windows, Linux, ...
+
+1. Install docker
+2. Install docker-compose
+3. clone weblate-docker repo
+
+.. code-block:: sh
+
+    git clone https://github.com/nijel/weblate-docker.git
+
+4. cd to weblate-docker
+
+.. code-block:: sh
+
+    cd weblate-docker
+
+5. start docker
+
+.. code-block:: sh
+
+    boot2docker up
+
+6. build weblate containers
+
+.. code-block:: sh
+
+    docker-compose build
+
+7. start weblate containers
+
+.. code-block:: sh
+
+    docker-compose up
+
+Enjoy your weblate deployment.
+
+Select your machine - local or cloud providers
+++++++++++++++++++++++++++++++++++++++++++++++
+
+With docker-machine you can create your weblate deployment either on your local
+machine or on any large number of cloud-based deployments on e.g. Amazon AWS,
+Digitalocean and many more.providers.
+
 .. _openshift:
 
 Weblate on OpenShift
