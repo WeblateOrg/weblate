@@ -21,8 +21,8 @@
 
 {% include "paginator.html" %}
 
-{% with object_list as last_changes and True as hide_browse %}
-{% include "last-changes.html" %}
+{% with object_list as last_changes %}
+{% include "last-changes-content.html" %}
 {% endwith %}
 
 {% endblock %}

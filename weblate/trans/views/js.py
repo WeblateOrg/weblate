@@ -108,7 +108,7 @@ def get_unit_changes(request, unit_id):
 
     return render(
         request,
-        'last-changes.html',
+        'last-changes-content.html',
         {
             'last_changes': unit.change_set.all()[:10],
             'last_changes_rss': reverse(

@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>{% trans "When" %}</th>
+<th>{% trans "User" %}</th>
+<th>{% trans "Action" %}</th>
+<th>{% trans "Translation" %}</th>
+<th></th>
+</tr>
+<tbody>
+{% for c in last_changes %}
+<tr>
+<td>{{ c.timestamp|naturaltime }}</td>
+<td>{{ c.get_user_display }}</td>
+<td><a href="{{ c.get_absolute_url }}">{{ c.get_action_display }}</a></td>
+<td><a href="{{ c.get_translation_url }}">{{ c.get_translation_display }}</a></td>
+<td></td>
+</tr>
+{% if c.can_revert %}
+<tr>
+<td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
+<td>
+{% can_translate request.user c.translation as user_can_translate %}
+{% if user_can_translate %}
+<a class="historybutton small-button" href="{{ c.translation.get_translate_url}}?{% if search_id %}sid={{ search_id }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ c.unit.checksum }}&amp;revert={{ c.id }}" title="{% trans "Revert to this translation" %}">{% trans "Revert" %}</a>
+{% endif %}
+</td>
+</tr>
+{% elif c.target %}
+<tr>
+<td colspan="4"><pre>{{ c.target }}</td>
+<td></td>
+</tr>
+{% endif %}
+{% empty %}
+<tr><td colspan="4" class="tablenotice">
+{% if not hide_browse %}
+{% trans "No recent activity has been recorded." %}
+{% else %}
+{% trans "No matching activity has been found." %}
+{% endif %}
+</td></tr>
+{% endfor %}
+</tbody>
+</table>
