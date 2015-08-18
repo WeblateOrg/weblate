@@ -159,9 +159,6 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="nearby">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Nearby messages" %}</h4></div>
-  <div class="panel-body">
 <table class="table table-condensed">
 <thead>
 <tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
@@ -178,16 +175,11 @@
 </tbody>
 </table>
 </div>
-</div>
-</div>
 
 {% if unit.suggestions %}
 <div class="tab-pane" id="suggestions">
 <form action="{{ this_unit_url }}" method="post">
     {% csrf_token %}
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
-  <div class="panel-body">
 
 {% for suggestion in unit.suggestions %}
 <h5><strong>
@@ -218,17 +210,12 @@
 </div>
 <div class="clearfix"></div>
 {% endfor %}
-  </div>
-</div>
 </form>
 </div>
 {% endif %}
 
 {% if others %}
 <div class="tab-pane" id="others">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Other translations" %}</h4></div>
-  <div class="panel-body">
 <table class="table table-condensed">
     <thead>
     <tr><th>{% trans "Component" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th><th></th></tr>
@@ -248,22 +235,13 @@
     {% endfor %}
     </tbody>
     </table>
-  </div>
-</div>
 </div>
 {% endif %}
 
 <div class="tab-pane" id="search">
 <form action="{{ unit.translation.get_translate_url }}" method="GET">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
-  <div class="panel-body">
 {{ search_form|crispy }}
-</div>
-<div class="panel-footer">
 <input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
-</div>
-</div>
 </form>
 </div>
 
@@ -273,13 +251,7 @@
 
 {% if user_can_use_mt %}
 <div class="tab-pane" id="machine">
-<div class="panel panel-primary">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% trans "Machine translation" %}
-    <i id="mt-loading" class="fa fa-spinner fa-spin pull-right flip"></i>
-  </h4></div>
-  <div class="panel-body">
+<i id="mt-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
 <table class="table table-compact table-striped">
 <thead>
 <tr>
@@ -295,22 +267,15 @@
 <ul id="mt-errors">
 </ul>
 </div>
-</div>
-</div>
 {% endif %}
 
 {% if comments or perms.trans.add_comment %}
 <div class="tab-pane" id="comments">
 
 {% if comments %}
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Comments" %}</h4></div>
-  <div class="panel-body">
   {% with this_unit_url as next_url %}
     {% include "list-comments.html" %}
   {% endwith %}
-  </div>
-</div>
 {% endif %}
 
 {% if perms.trans.add_comment %}
