@@ -243,7 +243,8 @@ Committer email
 Language filter
     Regullar expression which is used to filter translation when scanning for
     file mask. This can be used to limit list of languages mnaged by Weblate
-    (eg. ``^(cs|de|es)$`` will include only those there languages.
+    (eg. ``^(cs|de|es)$`` will include only those there languages. Please note
+    that you need to list language codes as they appear in the filename.
 
 .. _commit-message:
 
