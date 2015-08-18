@@ -95,7 +95,6 @@ def home(request):
             'top_translations': top_translations.select_related('user'),
             'top_suggestions': top_suggestions.select_related('user'),
             'last_changes': last_changes,
-            'last_changes_rss': reverse('rss'),
             'last_changes_url': '',
             'search_form': SearchForm(),
             'whiteboard_messages': wb_messages,
@@ -239,10 +238,6 @@ def show_project(request, project):
             'project': obj,
             'dicts': dicts,
             'last_changes': last_changes,
-            'last_changes_rss': reverse(
-                'rss-project',
-                kwargs={'project': obj.slug}
-            ),
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),
@@ -269,10 +264,6 @@ def show_subproject(request, project, subproject):
             'translations': obj.translation_set.enabled(),
             'show_language': 1,
             'last_changes': last_changes,
-            'last_changes_rss': reverse(
-                'rss-subproject',
-                kwargs={'subproject': obj.slug, 'project': obj.project.slug}
-            ),
             'last_changes_url': urlencode(
                 {'subproject': obj.slug, 'project': obj.project.slug}
             ),
@@ -324,10 +315,6 @@ def show_translation(request, project, subproject, lang):
             'review_form': review_form,
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
-            'last_changes_rss': reverse(
-                'rss-translation',
-                kwargs=obj.get_kwargs(),
-            ),
             'show_only_component': True,
             'other_translations': Translation.objects.filter(
                 subproject__project=obj.subproject.project,

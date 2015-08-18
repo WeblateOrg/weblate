@@ -66,9 +66,6 @@ def show_language(request, lang):
         {
             'object': obj,
             'last_changes': last_changes,
-            'last_changes_rss': reverse(
-                'rss-language', kwargs={'lang': obj.code}
-            ),
             'last_changes_url': urlencode({'lang': obj.code}),
             'dicts': projects.filter(id__in=dicts),
             'translations': translations,
