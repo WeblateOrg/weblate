@@ -95,7 +95,7 @@ class JSViewsTest(ViewTestCase):
         response = self.client.get(
             reverse('js-unit-changes', kwargs={'unit_id': unit.id}),
         )
-        self.assertContains(response, 'href="/exports/rss/')
+        self.assertContains(response, 'href="/changes/?')
 
     def test_mt_services(self):
         response = self.client.get(reverse('js-mt-services'))
