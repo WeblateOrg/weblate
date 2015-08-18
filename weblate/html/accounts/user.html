@@ -8,10 +8,6 @@
 
 {% block content %}
 
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{{ page_profile.get_user_name }}</h4></div>
-  <div class="panel-body">
-
 <div class="row">
 {% if enable_avatars %}
 <div class="col-lg-2">
@@ -31,7 +27,7 @@
 
 {% if user_projects %}
 
-<h4>{% trans "Projects" %}</h4>
+<h3>{% trans "Projects" %}</h3>
 <div class="list-group">
 {% for project in user_projects %}
 <a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
@@ -48,9 +44,11 @@
 <h3>{% trans "Activity in last year" %}</h3>
 <div id="activity-year" class="ct-chart ct-double-octave"></div>
 
-</div>
-</div>
 
-{% include "last-changes.html" %}
+<h3>{% trans "Recent changes" %}</h3>
+
+{% include "last-changes-content.html" %}
+
+<a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes for user" %}</a>
 
 {% endblock %}
