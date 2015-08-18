@@ -93,6 +93,9 @@ class ChangesView(ListView):
         if self.glossary:
             url['glossary'] = 1
 
+        if len(url) == 0:
+            context['changes_rss'] = reverse('rss')
+
         context['query_string'] = urlencode(url)
 
         return context
