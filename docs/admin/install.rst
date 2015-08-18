@@ -771,54 +771,57 @@ Weblate and Docker
 ------------------
 
 With dockerized weblate deployment you can get your personal weblate instance
-up an running in seconds. All of weblate's dependencies are already included.
-MySQL is configured default database.
+up an running in seconds. All of Weblate's dependencies are already included.
+MariaDB is configured default database, but you can switch it to MySQL or
+PostgreSQL.
 
 Deployment
 ++++++++++
 
 Example for Mac OS, similar on Windows, Linux, ...
 
-1. Install docker
-2. Install docker-compose
-3. clone weblate-docker repo
-
-.. code-block:: sh
-
-    git clone https://github.com/nijel/weblate-docker.git
-
-4. cd to weblate-docker
-
-.. code-block:: sh
-
-    cd weblate-docker
-
-5. start docker
+1. Install docker and docker-compose
+2. Start docker:
 
 .. code-block:: sh
 
     boot2docker up
 
-6. build weblate containers
+3. Clone weblate-docker repo:
+
+.. code-block:: sh
+
+    git clone https://github.com/nijel/weblate-docker.git
+    cd weblate-docker
+
+4. Optionally change the database provider in :file:`docker-compose.yml`.
+   Following options were tested, but other versions will most likely work as
+   well: ``mysql:5.6``, ``mariadb:10.0``, ``postgres:9.4`` or ``busybox`` if
+   you want to use SQLite.
+
+   It might be also good idea to change predefined passwords for the database
+   in the :file:`docker-compose.yml`.
+
+5. Build Weblate containers:
 
 .. code-block:: sh
 
     docker-compose build
 
-7. start weblate containers
+6. Start weblate containers:
 
 .. code-block:: sh
 
     docker-compose up
 
-Enjoy your weblate deployment.
+Enjoy your Weblate deployment, it's accessible on port 8000.
 
 Select your machine - local or cloud providers
 ++++++++++++++++++++++++++++++++++++++++++++++
 
-With docker-machine you can create your weblate deployment either on your local
+With docker-machine you can create your Weblate deployment either on your local
 machine or on any large number of cloud-based deployments on e.g. Amazon AWS,
-Digitalocean and many more.providers.
+Digitalocean and many more providers.
 
 .. _openshift:
 
