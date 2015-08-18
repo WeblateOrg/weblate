@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% include "last-changes-content.html" %}
+
+<a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes in component" %}</a>

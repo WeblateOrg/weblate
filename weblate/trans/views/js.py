@@ -108,13 +108,9 @@ def get_unit_changes(request, unit_id):
 
     return render(
         request,
-        'last-changes-content.html',
+        'js/changes.html',
         {
             'last_changes': unit.change_set.all()[:10],
-            'last_changes_rss': reverse(
-                'rss-translation',
-                kwargs=unit.translation.get_kwargs(),
-            ),
             'last_changes_url': urlencode(unit.translation.get_kwargs()),
         }
     )
