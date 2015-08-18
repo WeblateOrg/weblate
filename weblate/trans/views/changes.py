@@ -23,6 +23,7 @@ from django.http import Http404, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, activate
+from django.core.urlresolvers import reverse
 from django.db.models import Q
 from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
@@ -61,14 +62,30 @@ class ChangesView(ListView):
             url['lang'] = self.translation.language.code
             url['subproject'] = self.translation.subproject.slug
             url['project'] = self.translation.subproject.project.slug
+            context['changes_rss'] = reverse(
+                'rss-translation',
+                kwargs=url,
+            )
         elif self.subproject is not None:
             url['subproject'] = self.subproject.slug
             url['project'] = self.subproject.project.slug
+            context['changes_rss'] = reverse(
+                'rss-subproject',
+                kwargs=url,
+            )
         elif self.project is not None:
             url['project'] = self.project.slug
+            context['changes_rss'] = reverse(
+                'rss-project',
+                kwargs=url,
+            )
 
         if self.language is not None:
             url['lang'] = self.language.code
+            context['changes_rss'] = reverse(
+                'rss-language',
+                kwargs=url,
+            )
 
         if self.user is not None:
             url['user'] = self.user.username.encode('utf-8')
