@@ -772,8 +772,8 @@ Weblate and Docker
 
 With dockerized weblate deployment you can get your personal weblate instance
 up an running in seconds. All of Weblate's dependencies are already included.
-MariaDB is configured default database, but you can switch it to MySQL or
-PostgreSQL.
+PostgreSQL is configured default database, but you can switch it to MySQL or
+MariaDB.
 
 Deployment
 ++++++++++
