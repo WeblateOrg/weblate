@@ -796,8 +796,7 @@ Example for Mac OS, similar on Windows, Linux, ...
 
 4. Optionally change the database provider in :file:`docker-compose.yml`.
    Following options were tested, but other versions will most likely work as
-   well: ``mysql:5.6``, ``mariadb:10.0``, ``postgres:9.4`` or ``busybox`` if
-   you want to use SQLite.
+   well: ``mysql:5.6``, ``mariadb:10.0``, ``postgres:9.4``
 
    It might be also good idea to change predefined passwords for the database
    in the :file:`docker-compose.yml`.
