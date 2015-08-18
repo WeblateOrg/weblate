@@ -8,6 +8,8 @@
 
 {% block content %}
 
+<a class="pull-right flip" href="{% url 'changes-csv' %}?{{ request.GET.urlencode }}" title="{% trans "Download all changes as CSV" %}"><i class="fa fa-download"></i></a>
+
 {% include "paginator.html" %}
 
 {% with object_list as last_changes and True as hide_browse %}
