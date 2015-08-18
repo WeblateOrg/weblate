@@ -82,10 +82,11 @@ class ChangesView(ListView):
 
         if self.language is not None:
             url['lang'] = self.language.code
-            context['changes_rss'] = reverse(
-                'rss-language',
-                kwargs=url,
-            )
+            if 'changes_rss' not in context:
+                context['changes_rss'] = reverse(
+                    'rss-language',
+                    kwargs=url,
+                )
 
         if self.user is not None:
             url['user'] = self.user.username.encode('utf-8')
