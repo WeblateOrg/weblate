@@ -26,27 +26,19 @@
 </ul>
 
 <div class="tab-content">
+
 <div class="tab-pane active" id="overview">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Projects" %}</h4></div>
-  <div class="panel-body">
-
 {% include "list-translations.html" %}
-
-  </div>
-</div>
 </div>
 
 <div class="tab-pane" id="history">
-{% include "last-changes.html" %}
+{% include "last-changes-content.html" %}
+<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
 </div>
 
 {% include "activity-tab.html" %}
 
 <div class="tab-pane" id="dicts">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Glossaries" %}</h4></div>
-<div class="panel-body">
 {% if dicts %}
 <div class="list-group">
 {% for dict in dicts %}
@@ -56,8 +48,6 @@
 {% else %}
 {% show_message "info" _("There are no glossaries defined for this language.") %}
 {% endif %}
-</div>
-</div>
 </div>
 
 </div>
