@@ -127,7 +127,8 @@
 
 
 <div class="tab-pane" id="history">
-{% include "last-changes.html" %}
+{% include "last-changes-content.html" %}
+<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
 
 {% include "activity-tab.html" %}
