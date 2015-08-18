@@ -5,7 +5,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading">
 <h4 class="panel-title">
-<a class="pull-right flip" href="{% url 'changes-csv' %}?{{ request.GET.urlencode }}" title="{% trans "Download all changes as CSV" %}"><i class="fa fa-download"></i></a>
+<a class="pull-right flip" href="{% url 'changes-csv' %}?{% if last_changes_url %}{{ last_changes_url }}{% else %}{{ request.GET.urlencode }}{% endif %}" title="{% trans "Download all changes as CSV" %}"><i class="fa fa-download"></i></a>
 {% trans "History" %}
 </h4>
 </div>
