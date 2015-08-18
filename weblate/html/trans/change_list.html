@@ -8,7 +8,16 @@
 
 {% block content %}
 
-<a class="pull-right flip" href="{% url 'changes-csv' %}?{{ request.GET.urlencode }}" title="{% trans "Download all changes as CSV" %}"><i class="fa fa-download"></i></a>
+<ul class="pagination pull-right flip">
+<li>
+<a href="{% url 'changes-csv' %}?{{ request.GET.urlencode }}" title="{% trans "Download all changes as CSV" %}"><i class="fa fa-download"></i></a>
+</li>
+{% if changes_rss %}
+<li>
+<a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}"><i class="fa fa-rss"></i></a>
+</li>
+{% endif %}
+</ul>
 
 {% include "paginator.html" %}
 
