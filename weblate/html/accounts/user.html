@@ -38,12 +38,7 @@
 
 <span class="hidden" id="load-activity" data-yearly="{% url 'yearly_activity' user=page_user.username %}" data-monthly="{% url 'monthly_activity' user=page_user.username %}"></span>
 
-<h3>{% trans "Activity in last 30 days" %}</h3>
-<div id="activity-month" class="ct-chart ct-double-octave"></div>
-
-<h3>{% trans "Activity in last year" %}</h3>
-<div id="activity-year" class="ct-chart ct-double-octave"></div>
-
+{% include "activity-tab.html" %}
 
 <h3>{% trans "Recent changes" %}</h3>
 
