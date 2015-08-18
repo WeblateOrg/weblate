@@ -44,6 +44,8 @@ SAME_BLACKLIST = frozenset((
     'agenda',
     'alarm',
     'album',
+    'alias',
+    'aliases',
     'aliasing',
     'alt',
     'altitude',
