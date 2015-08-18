@@ -19,7 +19,6 @@
 #
 
 from django.db.models.fields import CharField
-from django.db.models import SubfieldBase
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 import re
