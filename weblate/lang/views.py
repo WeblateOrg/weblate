@@ -20,7 +20,6 @@
 
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Dictionary, Change
