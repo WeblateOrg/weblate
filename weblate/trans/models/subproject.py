@@ -691,9 +691,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # update remote branch
         ret = self.update_branch(request, method=method)
 
-        # run post update hook
-        vcs_post_update.send(sender=self.__class__, component=self)
-
         # create translation objects for all files
         self.create_translations(request=request)
 
@@ -879,6 +876,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                         user=request.user if request else None,
                         action=action,
                     )
+
+                    # run post update hook
+                    vcs_post_update.send(sender=self.__class__, component=self)
                 return True
             except RepositoryException as error:
                 # In case merge has failer recover
