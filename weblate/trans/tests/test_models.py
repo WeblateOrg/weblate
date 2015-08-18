@@ -133,7 +133,7 @@ class RepoTestCase(TestCase):
         return project
 
     def _create_subproject(self, file_format, mask, template='',
-                           new_base='', vcs='git'):
+                           new_base='', vcs='git', **kwargs):
         """
         Creates real test subproject.
         """
@@ -161,7 +161,8 @@ class RepoTestCase(TestCase):
             repoweb=REPOWEB_URL,
             save_history=True,
             new_base=new_base,
-            vcs=vcs
+            vcs=vcs,
+            **kwargs
         )
 
     def create_subproject(self):
@@ -442,6 +443,14 @@ class SubProjectTest(RepoTestCase):
         )
         self.verify_subproject(project, 3, 'cs', 4, fail=True)
 
+    def test_create_filtered(self):
+        project = self._create_subproject(
+            'po',
+            'po/*.po',
+            language_regex='^cs$',
+        )
+        self.verify_subproject(project, 1, 'cs', 4)
+
     def test_create_auto_pot(self):
         project = self._create_subproject(
             'auto',
@@ -633,6 +642,15 @@ class SubProjectTest(RepoTestCase):
             ValidationError,
             'Template file not found!',
             project.full_clean
+        )
+
+    def test_validation_languge_re(self):
+        subproject = self.create_subproject()
+        subproject.language_regex = '[-'
+        self.assertRaisesMessage(
+            ValidationError,
+            'Failed to compile: unexpected end of regular expression',
+            subproject.full_clean
         )
 
     def test_validation_newlang(self):

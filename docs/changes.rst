@@ -27,6 +27,7 @@ Released on ? 2015.
 * Improved dictionary matching for several languages.
 * Improved layout of most of pages.
 * Support for adding words to dictionary while translating.
+* Added support for filtering languages to be managed by Weblate.
 
 weblate 2.3
 -----------

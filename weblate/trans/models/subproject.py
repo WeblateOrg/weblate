@@ -34,6 +34,7 @@ import re
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
+from weblate.trans.fields import RegexField
 from weblate.trans.util import (
     is_repo_link, get_site_url, cleanup_repo_url, cleanup_path,
 )
@@ -387,6 +388,16 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('Committer email'),
         max_length=254,
         default='noreply@weblate.org'
+    )
+
+    language_regex = RegexField(
+        verbose_name=ugettext_lazy('Language filter'),
+        max_length=200,
+        default='^[^.]+$',
+        help_text=ugettext_lazy(
+            'Regullar expression which is used to filter '
+            'translation when scanning for file mask.'
+        ),
     )
 
     objects = SubProjectManager()
@@ -939,10 +950,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         translations = set()
         languages = set()
         matches = self.get_mask_matches()
+        language_re = re.compile(self.language_regex)
         for pos, path in enumerate(matches):
             code = self.get_lang_code(path)
             if langs is not None and code not in langs:
                 self.log_info('skipping %s', path)
+                continue
+            if not language_re.match(code):
+                self.log_info('skipping language %s', code)
                 continue
 
             self.log_info(
@@ -952,9 +967,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 pos + 1,
                 len(matches)
             )
-            if '.' in code:
-                self.log_info('skipping language: {0}'.format(code))
-                continue
             lang = Language.objects.auto_get_or_create(code=code)
             if lang.code in languages:
                 self.log_error('duplicate language found: %s', lang.code)

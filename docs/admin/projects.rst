@@ -240,6 +240,10 @@ Committer name
 Committer email
     Email of commiter used on Weblate commits, the author will be always the
     real translator. On some VCS this might be not supported.
+Language filter
+    Regullar expression which is used to filter translation when scanning for
+    file mask. This can be used to limit list of languages mnaged by Weblate
+    (eg. ``^(cs|de|es)$`` will include only those there languages.
 
 .. _commit-message:
 
