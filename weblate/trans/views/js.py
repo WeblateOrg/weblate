@@ -39,16 +39,19 @@ from urllib import urlencode
 import json
 
 
-def get_string(request, checksum):
+def get_string(request, unit_id):
     '''
     AJAX handler for getting raw string.
     '''
-    units = Unit.objects.filter(checksum=checksum)
-    if units.count() == 0:
-        return HttpResponse('')
-    units[0].check_acl(request)
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    unit.check_acl(request)
 
-    return HttpResponse(units[0].get_source_plurals()[0])
+    try:
+        plural = int(request.GET.get('plural', '0'))
+    except ValueError:
+        plural = 0
+
+    return HttpResponse(unit.get_source_plurals()[plural])
 
 
 @login_required

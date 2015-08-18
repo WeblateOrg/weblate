@@ -76,16 +76,23 @@ class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
     '''
-    def get_toolbar(self, language, fieldname, checksum):
+    def get_toolbar(self, language, fieldname, unit, idx):
         """
         Returns toolbar HTML code.
         """
         groups = []
+        if idx:
+            append = '?plural=1'
+        else:
+            append = ''
         # Copy button
         extra_params = COPY_TEMPLATE.format(
             ugettext(u'Loading…'),
-            reverse('js-get', kwargs={'checksum': checksum}),
-            checksum,
+            ''.join((
+                reverse('js-get', kwargs={'unit_id': unit.id}),
+                append,
+            )),
+            unit.checksum,
         )
         groups.append(
             GROUP_TEMPLATE.format(
@@ -144,11 +151,12 @@ class PluralTextarea(forms.Textarea):
 
         return TOOLBAR_TEMPLATE.format(u'\n'.join(groups))
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, unit, attrs=None):
         '''
         Renders all textareas with correct plural labels.
         '''
-        lang, value, checksum = value
+        values = unit.get_target_plurals()
+        lang = unit.translation.language
         tabindex = self.attrs['tabindex']
 
         # Need to add extra class
@@ -159,8 +167,8 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
-        base_id = 'id_{0}'.format(checksum)
-        for idx, val in enumerate(value):
+        base_id = 'id_{0}'.format(unit.checksum)
+        for idx, val in enumerate(values):
             # Generate ID
             fieldname = '{0}_{1}'.format(name, idx)
             fieldid = '{0}_{1}'.format(base_id, idx)
@@ -174,13 +182,13 @@ class PluralTextarea(forms.Textarea):
                 attrs
             )
             # Label for plural
-            if len(value) == 1:
+            if len(values) == 1:
                 label = ugettext('Translation')
             else:
                 label = lang.get_plural_label(idx)
             ret.append(
                 EDITOR_TEMPLATE.format(
-                    self.get_toolbar(lang, fieldid, checksum),
+                    self.get_toolbar(lang, fieldid, unit, idx),
                     fieldid,
                     label,
                     textarea
@@ -189,7 +197,7 @@ class PluralTextarea(forms.Textarea):
 
         # Show plural equation for more strings
         pluralmsg = ''
-        if len(value) > 1:
+        if len(values) > 1:
             pluralinfo = u'<abbr title="{0}">{1}</abbr>: {2}'.format(
                 ugettext(
                     'This equation identifies which plural form '
@@ -292,11 +300,7 @@ class TranslationForm(ChecksumForm):
         if unit is not None:
             kwargs['initial'] = {
                 'checksum': unit.checksum,
-                'target': (
-                    unit.translation.language,
-                    unit.get_target_plurals(),
-                    unit.checksum
-                ),
+                'target': unit,
                 'fuzzy': unit.fuzzy,
             }
             kwargs['auto_id'] = 'id_{0}_%s'.format(unit.checksum)

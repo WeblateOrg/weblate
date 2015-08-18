@@ -555,7 +555,7 @@ urlpatterns = patterns(
 
     # AJAX/JS backends
     url(
-        r'^js/get/(?P<checksum>[^/]+)/$',
+        r'^js/get/(?P<unit_id>[0-9]+)/$',
         'weblate.trans.views.js.get_string',
         name='js-get',
     ),

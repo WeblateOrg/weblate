@@ -124,6 +124,9 @@ function initEditor(editors) {
             $this.parents('.translation-item').find('.translation-editor').val(data).trigger('autosize.resize');
             $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
             $this.button('reset');
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            $this.button('reset');
+            console.log('Failed to fetch ' + $this.data('href') + ': ' + textStatus);
         });
         e.preventDefault();
     });

@@ -35,16 +35,15 @@ class JSViewsTest(ViewTestCase):
     def test_get_string(self):
         unit = self.get_unit()
         response = self.client.get(
-            reverse('js-get', kwargs={'checksum': unit.checksum}),
+            reverse('js-get', kwargs={'unit_id': unit.id}),
         )
         self.assertContains(response, 'Hello')
         self.assertEqual(response.content, unit.get_source_plurals()[0])
 
         response = self.client.get(
-            reverse('js-get', kwargs={'checksum': 'x'}),
+            reverse('js-get', kwargs={'unit_id': 0}),
         )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, '')
+        self.assertEqual(response.status_code, 404)
 
     def test_get_detail(self):
         unit = self.get_unit()
