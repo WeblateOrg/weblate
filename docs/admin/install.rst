@@ -807,7 +807,13 @@ Example for Mac OS, similar on Windows, Linux, ...
 
     docker-compose build
 
-6. Start weblate containers:
+6. Create Weblate database:
+
+.. code-block:: sh
+
+    docker-compose run migrate
+
+7. Start weblate containers:
 
 .. code-block:: sh
 
