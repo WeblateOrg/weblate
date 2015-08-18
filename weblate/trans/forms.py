@@ -605,6 +605,15 @@ class WordForm(forms.Form):
     target = forms.CharField(label=_('Translation'))
 
 
+class InlineWordForm(WordForm):
+    """Inline rendered form for adding words."""
+    def __init__(self, *args, **kwargs):
+        super(InlineWordForm, self).__init__(*args, **kwargs)
+        for field in ('source', 'target'):
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
+            self.fields[field].widget.attrs['size'] = 10
+
+
 class DictUploadForm(forms.Form):
     '''
     Uploading file to a dictionary.

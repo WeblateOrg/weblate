@@ -333,7 +333,9 @@
   </h4>
   </div>
   <div class="panel-body">
-    {% if glossary %}
+<form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ this_unit_url }}" />
     <table class="table table-condensed table-striped">
         <thead>
         <tr>
@@ -353,12 +355,24 @@
         {% endif %}
         </td>
         </tr>
+    {% empty %}
+        <tr>
+        <td colspan="3">
+    {% trans "No related strings were found in the glossary." %}
+        </td>
+        </tr>
     {% endfor %}
         </tbody>
+        <tfoot>
+        <tr class="form-inline">
+        <td>{{ addword_form.source }}</td>
+        <td>{{ addword_form.target }}</td>
+        <td>
+        <input type="submit" class="btn btn-default btn-xs" title="{% trans "Add word to glossary" %}" value="{% trans "Add" %}" />
+        <td>
+        </tfoot>
     </table>
-    {% else %}
-    <p>{% trans "No related strings were found in the glossary." %}</p>
-    {% endif %}
+</form>
   </div>
 </div>
 

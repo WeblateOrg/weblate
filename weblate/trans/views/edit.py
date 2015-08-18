@@ -35,7 +35,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
-    TranslationForm, SearchForm,
+    TranslationForm, SearchForm, InlineWordForm,
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm, RevertForm
 )
@@ -594,6 +594,7 @@ def translate(request, project, subproject, lang):
             'user_locked': user_locked,
             'project_locked': project_locked,
             'glossary': Dictionary.objects.get_words(unit),
+            'addword_form': InlineWordForm(),
         }
     )
 

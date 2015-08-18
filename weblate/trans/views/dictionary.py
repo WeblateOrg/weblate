@@ -295,7 +295,9 @@ def show_dictionary(request, project, lang):
                 source=form.cleaned_data['source'],
                 target=form.cleaned_data['target']
             )
-        return HttpResponseRedirect(request.get_full_path())
+        return HttpResponseRedirect(
+            request.POST.get('next', request.get_full_path())
+        )
     else:
         form = WordForm()
 

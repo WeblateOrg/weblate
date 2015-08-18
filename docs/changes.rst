@@ -26,6 +26,7 @@ Released on ? 2015.
 * Extended keyboard shortcuts.
 * Improved dictionary matching for several languages.
 * Improved layout of most of pages.
+* Support for adding words to dictionary while translating.
 
 weblate 2.3
 -----------
