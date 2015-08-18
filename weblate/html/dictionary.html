@@ -73,16 +73,9 @@
 <div class="tab-pane" id="add">
 
 <form action="{% url 'show_dictionary' project=project.slug lang=language.code %}" method="POST">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add new word" %}</h4></div>
-  <div class="panel-body">
 {% csrf_token %}
 {{ form|crispy }}
-</div>
-  <div class="panel-footer">
 <input type="submit" value="{% trans "Add" %}" class="btn btn-default" />
-</div>
-</div>
 </form>
 
 </div>
@@ -91,17 +84,10 @@
 {% if perms.trans.upload_dictionary %}
 <div class="tab-pane" id="import">
 <form action="{% url 'upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Import glossary" %}</h4></div>
-  <div class="panel-body">
 
 {% csrf_token %}
 {{ uploadform|crispy }}
-</div>
-  <div class="panel-footer">
 <input type="submit" class="btn btn-default" value="{% trans "Import" %}" />
-</div>
-</div>
 </form>
 
 </div>
@@ -109,9 +95,6 @@
 
 <div class="tab-pane" id="export">
 
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Export glossary" %}</h4></div>
-  <div class="panel-body">
 <p>{% trans "You can download glossary in following formats:" %}</p>
 
 <ul>
@@ -120,11 +103,10 @@
 <li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
 </div>
-</div>
-</div>
 
 <div class="tab-pane" id="changes">
-{% include "last-changes.html" %}
+{% include "last-changes-content.html" %}
+<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all glossary changes" %}</a>
 </div>
 
 </div>
