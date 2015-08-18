@@ -25,6 +25,7 @@ Released on ? 2015.
 * Improved file format autodetection.
 * Extended keyboard shortcuts.
 * Improved dictionary matching for several languages.
+* Improved layout of most of pages.
 
 weblate 2.3
 -----------
