@@ -29,6 +29,8 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout
+from crispy_forms.bootstrap import PrependedText, FormActions
 from weblate.lang.models import Language
 from weblate.trans.models.unit import Unit, SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
@@ -599,6 +601,25 @@ class WordForm(forms.Form):
     '''
     source = forms.CharField(label=_('Source'))
     target = forms.CharField(label=_('Translation'))
+
+
+class TinyWordForm(WordForm):
+    '''
+    Just like WordForm but for the translation page
+    '''
+    def __init__(self, *args, **kwargs):
+        super(TinyWordForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_style = 'inline'
+        self.helper.form_show_labels = False
+        self.helper.form_id = 'addword'
+        self.helper.field_template = 'bootstrap3/layout/inline_field.html'
+        self.helper.layout = Layout(
+            PrependedText('source', _('Source')),
+            PrependedText('target', _('Translation')),
+            FormActions(Submit(
+                'submit', _('Add'),
+                css_class='btn btn-default btn-xs pull-right')))
 
 
 class DictUploadForm(forms.Form):

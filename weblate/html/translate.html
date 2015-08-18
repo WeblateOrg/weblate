@@ -160,7 +160,6 @@
 
 <div class="tab-pane active" id="nearby">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Nearby messages" %}</h4></div>
   <div class="panel-body">
 <table class="table table-condensed">
 <thead>
@@ -186,7 +185,6 @@
 <form action="{{ this_unit_url }}" method="post">
     {% csrf_token %}
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Suggestions" %}</h4></div>
   <div class="panel-body">
 
 {% for suggestion in unit.suggestions %}
@@ -227,7 +225,6 @@
 {% if others %}
 <div class="tab-pane" id="others">
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Other translations" %}</h4></div>
   <div class="panel-body">
 <table class="table table-condensed">
     <thead>
@@ -256,7 +253,6 @@
 <div class="tab-pane" id="search">
 <form action="{{ unit.translation.get_translate_url }}" method="GET">
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search" %}</h4></div>
   <div class="panel-body">
 {{ search_form|crispy }}
 </div>
@@ -274,12 +270,8 @@
 {% if user_can_use_mt %}
 <div class="tab-pane" id="machine">
 <div class="panel panel-primary">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% trans "Machine translation" %}
-    <i id="mt-loading" class="fa fa-spinner fa-spin pull-right flip"></i>
-  </h4></div>
   <div class="panel-body">
+    <i id="mt-loading" class="fa fa-spinner fa-spin pull-right flip"></i>
 <table class="table table-compact table-striped">
 <thead>
 <tr>
@@ -304,7 +296,6 @@
 
 {% if comments %}
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Comments" %}</h4></div>
   <div class="panel-body">
   {% with this_unit_url as next_url %}
     {% include "list-comments.html" %}
@@ -318,7 +309,6 @@
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
   <div class="panel-body">
   <p class="help-block">{% trans "You can share comments about this string with other translators and developers." %}</p>
 {{ comment_form|crispy }}
@@ -361,7 +351,13 @@
 {% endwith %}
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Glossary" %}</h4></div>
+  <div class="panel-heading">
+<span class="pull-right flip">
+ <a href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" class="btn  btn-default btn-xs">{% trans "Manage" %}</a>
+</span>
+
+<h5 class="panel-title">{% trans "Glossary" %}</h5>
+  </div>
   <div class="panel-body">
     {% if glossary %}
     <table class="table table-condensed table-striped">
@@ -389,10 +385,16 @@
     {% else %}
     <p>{% trans "No related strings were found in the glossary." %}</p>
     {% endif %}
+     {% if perms.trans.add_dictionary %}
+       <div class="panel-body">
+          <form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
+                  {% crispy addwordform %}
+          </form>
+       </div>
+     {% endif %}
   </div>
-  <div class="panel-footer">
-    <a href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" class="btn btn-default">{% trans "Manage glossary" %}</a>
-  </div>
+
+
 </div>
 
 <div class="panel panel-primary">
@@ -442,6 +444,7 @@
   </div>
 </div>
 
+</div>
 </div>
 
 </div>
