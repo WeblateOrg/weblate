@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -48,9 +49,6 @@
 <div class="tab-content">
 {% if user.is_authenticated %}
 <div class="tab-pane active" id="your">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Your translations" %}</h4></div>
-  <div class="panel-body">
 {% if usertranslations %}
 {% with usertranslations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
@@ -58,20 +56,15 @@
 {% else %}
 <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages." %}</p>
 {% endif %}
-  </div>
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a>
-  </div>
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a></p>
 </div>
-</div>
+
+
 <div class="tab-pane" id="projects">
 {% else %}
 <div class="tab-pane active" id="projects">
 {% endif %}
 
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Projects" %}</h4></div>
-  <div class="panel-body">
 <table class="sort table">
 <thead>
 <tr>
@@ -91,20 +84,21 @@
 </tbody>
 </table>
 
+<p>
 {% include "legend.html" %}
+</p>
 
-  </div>
 {% if offer_hosting %}
-  <div class="panel-footer">
-  <a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
-  </div>
+<p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
 {% endif %}
-</div>
 </div>
 
 <div class="tab-pane" id="search">
 
-{% include "search-form.html" %}
+<form action="{% url 'search' %}" method="GET">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
 
 </div>
 
@@ -165,7 +159,8 @@
 </div>
 
 <div class="tab-pane" id="history">
-{% include "last-changes.html" %}
+{% include "last-changes-content.html" %}
+<a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes" %}</a>
 </div>
 
 </div>
