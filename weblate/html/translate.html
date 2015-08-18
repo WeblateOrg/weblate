@@ -326,7 +326,12 @@
 {% endwith %}
 
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Glossary" %}</h4></div>
+  <div class="panel-heading">
+  <h4 class="panel-title">
+    <a class="pull-right flip" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}"><i class="fa fa-pencil-square-o"></i></a>
+    {% trans "Glossary" %}
+  </h4>
+  </div>
   <div class="panel-body">
     {% if glossary %}
     <table class="table table-condensed table-striped">
@@ -354,9 +359,6 @@
     {% else %}
     <p>{% trans "No related strings were found in the glossary." %}</p>
     {% endif %}
-  </div>
-  <div class="panel-footer">
-    <a href="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" class="btn btn-default">{% trans "Manage glossary" %}</a>
   </div>
 </div>
 
