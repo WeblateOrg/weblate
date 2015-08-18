@@ -80,7 +80,8 @@ def performance(request):
     # Check configured admins
     checks.append((
         _('Site administrator'),
-        len(settings.ADMINS) > 0,
+        len(settings.ADMINS) > 0 or
+        'noreply@weblate.org' in [x[1] for x in settings.ADMINS],
         'production-admins',
     ))
     # Check offloading indexing
