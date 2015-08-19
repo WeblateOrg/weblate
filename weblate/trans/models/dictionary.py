@@ -155,7 +155,7 @@ class DictionaryManager(models.Manager):
             for analyzer in analyzers:
                 # Some Whoosh analyzers break on unicode
                 try:
-                    words = words.union(
+                    words.update(
                         [token.text for token in analyzer(force_unicode(text))]
                     )
                 except UnicodeDecodeError as error:
