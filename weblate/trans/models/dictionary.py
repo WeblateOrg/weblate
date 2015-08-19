@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import sys
 from django.db import models
 from django.db.models import Q
 from django.utils.encoding import force_unicode
@@ -25,6 +26,7 @@ from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode
 from weblate.trans.models.project import Project
 from translate.storage.csvl10n import csvfile
+from weblate.trans.util import report_error
 from django.core.urlresolvers import reverse
 from whoosh.analysis import (
     LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer
@@ -151,9 +153,13 @@ class DictionaryManager(models.Manager):
         # Extract words from all plurals and from context
         for text in unit.get_source_plurals() + [unit.context]:
             for analyzer in analyzers:
-                words = words.union(
-                    [token.text for token in analyzer(force_unicode(text))]
-                )
+                # Some Whoosh analyzers break on unicode
+                try:
+                    words = words.union(
+                        [token.text for token in analyzer(force_unicode(text))]
+                    )
+                except UnicodeDecodeError as error:
+                    report_error(error, sys.exc_info())
 
         # Grab all words in the dictionary
         dictionary = self.filter(
