@@ -55,7 +55,10 @@ function submitForm(evt) {
         $form = $('.translation-form');
     }
     if ($form.length > 0) {
-        $form.find('input[type="submit"]')[0].click();
+        var submits = $form.find('input[type="submit"]');
+        if (submits.length > 0) {
+            submits[0].click();
+        }
     }
     return false;
 }
