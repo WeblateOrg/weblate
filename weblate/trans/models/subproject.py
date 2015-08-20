@@ -699,7 +699,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # commit possible pending changes
         self.commit_pending(request)
 
-        # update remote branch
+        # update local branch
         ret = self.update_branch(request, method=method)
 
         # create translation objects for all files
