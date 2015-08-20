@@ -807,17 +807,23 @@ Example for Mac OS, similar on Windows, Linux, ...
 
     docker-compose build
 
-6. Create Weblate database:
-
-.. code-block:: sh
-
-    docker-compose run migrate
-
-7. Start weblate containers:
+6. Start Weblate containers:
 
 .. code-block:: sh
 
     docker-compose up
+
+7. Create Weblate database:
+
+.. code-block:: sh
+
+    docker-compose run weblate-web migrate
+
+8. Create admin user:
+
+.. code-block:: sh
+
+    docker-compose run weblate-web createadmin
 
 Enjoy your Weblate deployment, it's accessible on port 8000.
 
