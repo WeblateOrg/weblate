@@ -778,54 +778,49 @@ MariaDB.
 Deployment
 ++++++++++
 
-Example for Mac OS, similar on Windows, Linux, ...
+Following examples assume you have working Docker environment, with
+docker-compose installed. Please check Docker documentation for instructions on
+this.
 
-1. Install docker and docker-compose
-2. Start docker:
-
-.. code-block:: sh
-
-    boot2docker up
-
-3. Clone weblate-docker repo:
+1. Clone weblate-docker repo:
 
 .. code-block:: sh
 
     git clone https://github.com/nijel/weblate-docker.git
     cd weblate-docker
 
-4. Optionally change the database provider in :file:`docker-compose.yml`.
+2. Optionally change the database provider in :file:`docker-compose.yml`.
    Following options were tested, but other versions will most likely work as
    well: ``mysql:5.6``, ``mariadb:10.0``, ``postgres:9.4``
 
    It might be also good idea to change predefined passwords for the database
    in the :file:`docker-compose.yml`.
 
-5. Build Weblate containers:
+3. Build Weblate containers:
 
 .. code-block:: sh
 
     docker-compose build
 
-6. Start Weblate containers:
+4. Start Weblate containers:
 
 .. code-block:: sh
 
     docker-compose up
 
-7. Create Weblate database:
+5. Create Weblate database:
 
 .. code-block:: sh
 
     docker-compose run weblate-web migrate
 
-8. Create admin user:
+6. Create admin user:
 
 .. code-block:: sh
 
     docker-compose run weblate-web createadmin
 
-Enjoy your Weblate deployment, it's accessible on port 8000.
+Enjoy your Weblate deployment, it's accessible on port 8000 of the container.
 
 Select your machine - local or cloud providers
 ++++++++++++++++++++++++++++++++++++++++++++++
