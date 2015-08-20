@@ -23,6 +23,8 @@ Tests for AJAX/JS views.
 """
 
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.util import load_class
+from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from django.core.urlresolvers import reverse
 import json
 
@@ -31,6 +33,13 @@ class JSViewsTest(ViewTestCase):
     '''
     Testing of AJAX/JS views.
     '''
+    def ensure_dummy_mt(self):
+        """Ensures we have dummy mt installed"""
+        if 'dummy' in MACHINE_TRANSLATION_SERVICES:
+            return
+        name = 'weblate.trans.machine.dummy.DummyTranslation'
+        service = load_class(name, 'TEST')()
+        MACHINE_TRANSLATION_SERVICES[service.mtid] = service
 
     def test_get_string(self):
         unit = self.get_unit()
@@ -57,6 +66,7 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'Czech')
 
     def test_translate(self):
+        self.ensure_dummy_mt()
         unit = self.get_unit()
         response = self.client.get(
             reverse('js-translate', kwargs={'unit_id': unit.id}),
@@ -97,6 +107,7 @@ class JSViewsTest(ViewTestCase):
         self.assertContains(response, 'href="/changes/?')
 
     def test_mt_services(self):
+        self.ensure_dummy_mt()
         response = self.client.get(reverse('js-mt-services'))
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content)
