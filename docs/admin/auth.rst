@@ -163,6 +163,7 @@ Once you have the package installed, you can hook it to Django authentication:
     # AUTH_LDAP_USER_DN_TEMPLATE = 'ou=users,dc=example,dc=com'
 
     # List of attributes to import from LDAP on login
+    # Weblate stores full user name in the first_name attribute
     AUTH_LDAP_USER_ATTR_MAP = {
         'first_name': 'name',
         'email': 'mail',
