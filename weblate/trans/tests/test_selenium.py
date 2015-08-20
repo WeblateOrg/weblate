@@ -1,9 +1,13 @@
 from django.test import LiveServerTestCase
 from unittest import SkipTest
-from selenium import webdriver
-from selenium.common.exceptions import (
-    WebDriverException, ElementNotVisibleException
-)
+try:
+    from selenium import webdriver
+    from selenium.common.exceptions import (
+        WebDriverException, ElementNotVisibleException
+    )
+    HAS_SELENIUM = True
+except ImportError:
+    HAS_SELENIUM = False
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -22,7 +26,8 @@ from weblate.trans.tests import OverrideSettings
 DO_SELENIUM = (
     'DO_SELENIUM' in os.environ and
     'SAUCE_USERNAME' in os.environ and
-    'SAUCE_ACCESS_KEY' in os.environ
+    'SAUCE_ACCESS_KEY' in os.environ and
+    HAS_SELENIUM
 )
 
 
