@@ -1026,7 +1026,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.configure_repo(validate)
         self.commit_pending(None)
         self.configure_branch()
-        self.update_remote_branch()
         self.update_branch()
 
     def set_default_branch(self):
