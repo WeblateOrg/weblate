@@ -662,7 +662,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         remote.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.configure_repo(validate)
+            return
 
         self.repository.configure_remote(self.repo, self.push, self.branch)
         self.repository.set_committer(
@@ -677,7 +677,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Ensures local tracking branch exists and is checkouted.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.configure_branch()
+            return
 
         self.repository.configure_branch(self.branch)
 
