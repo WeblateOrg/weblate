@@ -21,9 +21,35 @@
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.scripts import run_hook
+import tempfile
+import os
+import stat
 
 
 class ScriptTest(RepoTestCase):
+    output = None
+    script = None
+
+    def setUp(self):
+        super(ScriptTest, self).setUp()
+        self.output = tempfile.NamedTemporaryFile(delete=False)
+        self.script = tempfile.NamedTemporaryFile(delete=False)
+        self.output.close()
+        self.script.write('#!/bin/sh\n')
+        self.script.write('echo "$WL_PATH" >> {0}\n'.format(self.output.name))
+        self.script.close()
+        st = os.stat(self.script.name)
+        os.chmod(self.script.name, st.st_mode | stat.S_IEXEC)
+
+    def tearDown(self):
+        super(ScriptTest, self).tearDown()
+        if self.output is not None:
+            os.unlink(self.output.name)
+            self.output = None
+        if self.script is not None:
+            os.unlink(self.script.name)
+            self.script = None
+
     def test_run_hook(self):
         subproject = self.create_subproject()
         self.assertFalse(
@@ -32,3 +58,25 @@ class ScriptTest(RepoTestCase):
         self.assertTrue(
             run_hook(subproject, 'true')
         )
+
+    def assert_content(self, subproject):
+        """Checks file content and cleans it."""
+        with open(self.output.name, 'r') as handle:
+            data = handle.read()
+            self.assertIn(subproject.get_path(), data)
+
+        with open(self.output.name, 'w') as handle:
+            handle.write('')
+
+    def test_post_update(self):
+        subproject = self._create_subproject(
+            'po',
+            'po/*.po',
+            post_update_script=self.script.name
+        )
+        # Hook should fire on creation
+        self.assert_content(subproject)
+
+        subproject.update_branch()
+        # Hook should fire on update
+        self.assert_content(subproject)
