@@ -150,7 +150,7 @@ Once you have the package installed, you can hook it to Django authentication:
     # even without LDAP for admin account
     AUTHENTICATION_BACKENDS = (
         'django_auth_ldap.backend.LDAPBackend',
-        'django.contrib.auth.backends.ModelBackend',
+        'weblate.accounts.auth.WeblateUserBackend',
     )
 
     # LDAP server address
