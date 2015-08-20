@@ -38,8 +38,8 @@ class ScriptTest(RepoTestCase):
         self.script.write('#!/bin/sh\n')
         self.script.write('echo "$WL_PATH" >> {0}\n'.format(self.output.name))
         self.script.close()
-        st = os.stat(self.script.name)
-        os.chmod(self.script.name, st.st_mode | stat.S_IEXEC)
+        file_stat = os.stat(self.script.name)
+        os.chmod(self.script.name, file_stat.st_mode | stat.S_IEXEC)
 
     def tearDown(self):
         super(ScriptTest, self).tearDown()
