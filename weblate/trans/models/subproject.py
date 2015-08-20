@@ -1311,10 +1311,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             # Detect slug changes and rename git repo
             self.check_rename(old)
 
-        # Configure git repo if there were changes
-        if changed_git:
-            self.sync_git_repo()
-
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
         self.template = cleanup_path(self.template)
@@ -1322,6 +1318,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Save/Create object
         super(SubProject, self).save(*args, **kwargs)
+
+        # Configure git repo if there were changes
+        if changed_git:
+            self.sync_git_repo()
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
