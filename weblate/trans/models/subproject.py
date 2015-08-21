@@ -1408,7 +1408,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self._template_store = self.load_template_store()
             except Exception as exc:
                 report_error(exc, sys.exc_info())
-                self.subproject.notify_merge_failure(
+                self.notify_merge_failure(
                     str(exc),
                     u''.join(traceback.format_stack()),
                 )
