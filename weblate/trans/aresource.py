@@ -28,6 +28,8 @@ from translate.storage.jsonl10n import JsonFile as JsonFileTT
 class JsonFile(JsonFileTT):
     """
     Workaround ttkit bug on not including added units in saved file.
+
+    This is fixed in 1.13.0
     """
     def __str__(self):
         data = {}
