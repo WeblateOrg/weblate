@@ -28,6 +28,8 @@ from django.core.cache import cache
 from django.utils import timezone
 from glob import glob
 import os
+import traceback
+import sys
 import time
 import fnmatch
 import re
@@ -36,7 +38,7 @@ from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.fields import RegexField
 from weblate.trans.util import (
-    is_repo_link, get_site_url, cleanup_repo_url, cleanup_path,
+    is_repo_link, get_site_url, cleanup_repo_url, cleanup_path, report_error,
 )
 from weblate.trans.signals import vcs_post_push, vcs_post_update
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
@@ -1399,7 +1401,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return None
 
         if self._template_store is None:
-            self._template_store = self.load_template_store()
+            try:
+                self._template_store = self.load_template_store()
+            except Exception as exc:
+                report_error(exc, sys.exc_info())
+                self.subproject.notify_merge_failure(
+                    str(exc),
+                    u''.join(traceback.format_stack()),
+                )
+                raise
 
         return self._template_store
 
