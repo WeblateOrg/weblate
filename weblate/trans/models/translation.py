@@ -29,6 +29,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
 import traceback
+import codecs
 from translate.storage import poheader
 from datetime import datetime, timedelta
 
@@ -1168,6 +1169,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         filecopy = fileobj.read()
         fileobj.close()
+
+        # Strip possible UTF-8 BOM
+        if filecopy[:3] == codecs.BOM_UTF8:
+            filecopy = filecopy[3:]
+
         # Load backend file
         try:
             # First try using own loader

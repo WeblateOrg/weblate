@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_PO_BOM = get_test_file('cs-bom.po')
 TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
 TEST_MO = get_test_file('cs.mo')
 TEST_ANDROID = get_test_file('strings-cs.xml')
@@ -191,6 +192,10 @@ class ImportTest(ImportBaseTest):
             translation.have_suggestion,
             1
         )
+
+
+class BOMImportTest(ImportTest):
+    test_file = TEST_PO_BOM
 
 
 class ImportFuzzyTest(ImportBaseTest):
