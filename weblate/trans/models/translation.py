@@ -28,6 +28,7 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
+import sys
 import traceback
 import codecs
 from translate.storage import poheader
@@ -41,7 +42,7 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.trans.util import (
-    get_site_url, translation_percent, split_plural,
+    get_site_url, translation_percent, split_plural, report_error,
 )
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
@@ -445,10 +446,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             try:
                 self._store = self.load_store()
             except Exception as exc:
-                self.log_warning(
-                    'failed parsing store: %s',
-                    str(exc)
-                )
+                report_error(exc, sys.exc_info())
                 self.subproject.notify_merge_failure(
                     str(exc),
                     u''.join(traceback.format_stack()),
