@@ -33,7 +33,7 @@ import sys
 import time
 import fnmatch
 import re
-from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS
+from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.fields import RegexField
@@ -705,7 +705,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ret = self.update_branch(request, method=method)
 
         # create translation objects for all files
-        self.create_translations(request=request)
+        try:
+            self.create_translations(request=request)
+        except ParseError:
+            ret = False
 
         # Push after possible merge
         if (self.repo_needs_push() and
@@ -1409,7 +1412,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     str(exc),
                     u''.join(traceback.format_stack()),
                 )
-                raise
+                raise ParseError(str(exc))
 
         return self._template_store
 

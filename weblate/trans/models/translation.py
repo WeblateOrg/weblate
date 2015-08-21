@@ -36,7 +36,7 @@ from datetime import datetime, timedelta
 
 from weblate import appsettings
 from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat, StringIOMode
+from weblate.trans.formats import AutoFormat, StringIOMode, ParseError
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Suggestion
@@ -445,13 +445,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if self._store is None:
             try:
                 self._store = self.load_store()
+            except ParseError:
+                raise
             except Exception as exc:
                 report_error(exc, sys.exc_info())
                 self.subproject.notify_merge_failure(
                     str(exc),
                     u''.join(traceback.format_stack()),
                 )
-                raise
+                raise ParseError(str(exc))
         return self._store
 
     def check_sync(self, force=False, request=None, change=None):

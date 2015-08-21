@@ -48,6 +48,10 @@ FLAGS_RE = re.compile(r'\b[-\w]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 
 
+class ParseError(Exception):
+    """Generic error for parsing."""
+
+
 class StringIOMode(StringIO):
     """
     StringIO with mode attribute to make ttkit happy.
