@@ -36,6 +36,7 @@ import weblate
 import subprocess
 import os.path
 import re
+import csv
 import traceback
 import importlib
 from StringIO import StringIO
@@ -1057,6 +1058,61 @@ class JSONFormat(FileFormat):
         Returns most common file extension for format.
         '''
         return 'json'
+
+
+@register_fileformat
+class CSVFormat(FileFormat):
+    name = _('CSV file')
+    format_id = 'csv'
+    loader = ('csvl10n', 'csvfile')
+    unit_class = JSONUnit
+    autoload = ('.csv',)
+
+    @property
+    def mimetype(self):
+        '''
+        Returns most common mime type for format.
+        '''
+        return 'text/csv'
+
+    @property
+    def extension(self):
+        '''
+        Returns most common file extension for format.
+        '''
+        return 'csv'
+
+    @classmethod
+    def parse_store(cls, storefile):
+        """
+        Parses the store.
+        """
+        storeclass = cls.get_class()
+
+        # Read content for fixups
+        content = storefile.read()
+        storefile.seek(0)
+
+        # Parse file
+        store = storeclass.parsefile(storefile)
+
+        # Did headers detection work?
+        if store.fieldnames != ['location', 'source', 'target']:
+            return store
+
+        fileobj = StringIOMode(storefile.name, content)
+
+        # Try reading header
+        reader = csv.reader(fileobj, store.dialect)
+        header = reader.next()
+
+        # We seem to have match
+        if len(header) != 2:
+            fileobj.close()
+            return store
+
+        fileobj.seek(0)
+        return storeclass(fileobj, ['source', 'target'])
 
 
 FILE_FORMAT_CHOICES = [

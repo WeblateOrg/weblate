@@ -310,6 +310,23 @@ Example file:
 
     You need translate-toolkit 1.13.0 or newer to include support for this format.
 
+CSV files
+---------
+
+.. index::
+    pair: CSV; file format
+    pair: Comma separated values; file format
+
+.. versionadded:: 2.4
+
+CSV files can contain simple list of source and translation. Weblate supports
+following files:
+
+* Files with header defining fields (source, translation, location, ...)
+* Files with two fileld - source and translation (in this order)
+* Files with fields as defined by translate-toolkit: location, source,
+  target, id, fuzzy, context, translator_comments, developer_comments
+
 Others
 ------
 
