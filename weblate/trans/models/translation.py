@@ -28,8 +28,6 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
-import sys
-import traceback
 import codecs
 from translate.storage import poheader
 from datetime import datetime, timedelta
@@ -42,7 +40,7 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.trans.util import (
-    get_site_url, translation_percent, split_plural, report_error,
+    get_site_url, translation_percent, split_plural,
 )
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
@@ -448,12 +446,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             except ParseError:
                 raise
             except Exception as exc:
-                report_error(exc, sys.exc_info())
-                self.subproject.notify_merge_failure(
-                    str(exc),
-                    u''.join(traceback.format_stack()),
-                )
-                raise ParseError(str(exc))
+                self.handle_parse_error(exc)
         return self._store
 
     def check_sync(self, force=False, request=None, change=None):

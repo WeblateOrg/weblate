@@ -856,6 +856,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Notify subscribed users about failure
         notify_merge_failure(self, error, status)
 
+    def handle_parse_error(self, error):
+        """Handler for parse error."""
+        report_error(error, sys.exc_info())
+        self.notify_merge_failure(
+            str(error),
+            u''.join(traceback.format_stack()),
+        )
+        raise ParseError(str(error))
+
     def update_branch(self, request=None, method=None):
         '''
         Updates current branch to match remote (if possible).
@@ -1407,12 +1416,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             try:
                 self._template_store = self.load_template_store()
             except Exception as exc:
-                report_error(exc, sys.exc_info())
-                self.notify_merge_failure(
-                    str(exc),
-                    u''.join(traceback.format_stack()),
-                )
-                raise ParseError(str(exc))
+                self.handle_parse_error(exc)
 
         return self._template_store
 
