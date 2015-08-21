@@ -27,6 +27,7 @@ from django.core.urlresolvers import reverse
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
+TEST_CSV = get_test_file('cs.csv')
 TEST_PO_BOM = get_test_file('cs-bom.po')
 TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
 TEST_MO = get_test_file('cs.mo')
@@ -286,6 +287,25 @@ class AndroidImportTest(ViewTestCase):
         self.assertEqual(translation.translated, 2)
         self.assertEqual(translation.fuzzy, 0)
         self.assertEqual(translation.total, 4)
+
+
+class CSVImportTest(ViewTestCase):
+    def test_import(self):
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 0)
+        self.assertEqual(translation.fuzzy, 0)
+        with open(TEST_CSV) as handle:
+            self.client.post(
+                reverse(
+                    'upload_translation',
+                    kwargs=self.kw_translation
+                ),
+                {'file': handle}
+            )
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.fuzzy, 0)
 
 
 class ExportTest(ViewTestCase):
