@@ -38,29 +38,17 @@ class DictionaryManager(models.Manager):
 
     def upload(self, request, project, language, fileobj, method):
         '''
-        Handles dictionary update.
-        '''
-        store = AutoFormat.parse(fileobj)
-
-        ret, skipped = self.import_store(
-            request, project, language, store.store, method
-        )
-
-        return ret
-
-    def import_store(self, request, project, language, store, method):
-        '''
-        Actual importer
+        Handles dictionary upload.
         '''
         from weblate.trans.models.changes import Change
+        store = AutoFormat.parse(fileobj)
+
         ret = 0
-        skipped = 0
 
         # process all units
         for unit in store.units:
             # We care only about translated things
             if not unit.istranslatable() or not unit.istranslated():
-                skipped += 1
                 continue
 
             # Ignore too long words
@@ -98,7 +86,7 @@ class DictionaryManager(models.Manager):
 
             ret += 1
 
-        return ret, skipped
+        return ret
 
     def create(self, request, **kwargs):
         '''
