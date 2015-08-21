@@ -46,26 +46,28 @@ class DictionaryManager(models.Manager):
         ret = 0
 
         # process all units
-        for unit in store.units:
-            # We care only about translated things
-            if not unit.istranslatable() or not unit.istranslated():
-                continue
+        for dummy, unit in store.iterate_merge(False):
+            source = unit.get_source()
+            target = unit.get_target()
 
             # Ignore too long words
-            if len(unit.source) > 200 or len(unit.target) > 200:
+            if len(source) > 200 or len(target) > 200:
                 continue
 
             # Get object
             word, created = self.get_or_create(
                 project=project,
                 language=language,
-                source=unit.source
+                source=source,
+                defaults={
+                    'target': target,
+                },
             )
 
             # Already existing entry found
             if not created:
                 # Same as current -> ignore
-                if unit.target == word.target:
+                if target == word.target:
                     continue
                 if method == 'add':
                     # Add word
@@ -74,15 +76,13 @@ class DictionaryManager(models.Manager):
                         action=Change.ACTION_DICTIONARY_UPLOAD,
                         project=project,
                         language=language,
-                        source=unit.source
+                        source=source,
+                        target=target
                     )
-                elif method != 'overwrite':
-                    # No overwriting or adding
-                    continue
-
-            # Store word
-            word.target = unit.target
-            word.save()
+                elif method == 'overwrite':
+                    # Update word
+                    word.target = target
+                    word.save()
 
             ret += 1
 
