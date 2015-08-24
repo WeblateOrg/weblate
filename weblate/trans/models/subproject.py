@@ -1196,7 +1196,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
             try:
                 self.load_template_store()
-            except ValueError:
+            except ValueError as exc:
+                self.handle_parse_error(exc)
                 raise ValidationError(
                     _(
                         'Format of translation base file '
@@ -1204,6 +1205,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     )
                 )
             except Exception as exc:
+                self.handle_parse_error(exc)
                 raise ValidationError(
                     _('Failed to parse translation base file: %s') % str(exc)
                 )
