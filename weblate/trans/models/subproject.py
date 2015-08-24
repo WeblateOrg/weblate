@@ -1195,17 +1195,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 raise ValidationError(_('Template file not found!'))
 
             try:
-                self.load_template_store()
-            except ValueError as exc:
-                self.handle_parse_error(exc)
-                raise ValidationError(
-                    _(
-                        'Format of translation base file '
-                        'could not be recognized.'
-                    )
-                )
-            except Exception as exc:
-                self.handle_parse_error(exc)
+                dummy = self.template_store
+            except ParseError as exc:
                 raise ValidationError(
                     _('Failed to parse translation base file: %s') % str(exc)
                 )
