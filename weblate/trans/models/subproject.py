@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db import models
+from django.db import models, transaction
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
@@ -966,40 +966,42 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         matches = self.get_mask_matches()
         language_re = re.compile(self.language_regex)
         for pos, path in enumerate(matches):
-            code = self.get_lang_code(path)
-            if langs is not None and code not in langs:
-                self.log_info('skipping %s', path)
-                continue
-            if not language_re.match(code):
-                self.log_info('skipping language %s', code)
-                continue
+            with transaction.atomic():
+                code = self.get_lang_code(path)
+                if langs is not None and code not in langs:
+                    self.log_info('skipping %s', path)
+                    continue
+                if not language_re.match(code):
+                    self.log_info('skipping language %s', code)
+                    continue
 
-            self.log_info(
-                'checking %s (%s) [%d/%d]',
-                path,
-                code,
-                pos + 1,
-                len(matches)
-            )
-            lang = Language.objects.auto_get_or_create(code=code)
-            if lang.code in languages:
-                self.log_error('duplicate language found: %s', lang.code)
-                continue
-            translation = Translation.objects.check_sync(
-                self, lang, code, path, force, request=request
-            )
-            translations.add(translation.id)
-            languages.add(lang.code)
+                self.log_info(
+                    'checking %s (%s) [%d/%d]',
+                    path,
+                    code,
+                    pos + 1,
+                    len(matches)
+                )
+                lang = Language.objects.auto_get_or_create(code=code)
+                if lang.code in languages:
+                    self.log_error('duplicate language found: %s', lang.code)
+                    continue
+                translation = Translation.objects.check_sync(
+                    self, lang, code, path, force, request=request
+                )
+                translations.add(translation.id)
+                languages.add(lang.code)
 
         # Delete possibly no longer existing translations
         if langs is None:
             todelete = self.translation_set.exclude(id__in=translations)
             if todelete.exists():
-                self.log_info(
-                    'removing stale translations: %s',
-                    ','.join([trans.language.code for trans in todelete])
-                )
-                todelete.delete()
+                with transaction.atomic():
+                    self.log_info(
+                        'removing stale translations: %s',
+                        ','.join([trans.language.code for trans in todelete])
+                    )
+                    todelete.delete()
 
         # Process linked repos
         for subproject in self.get_linked_childs():
