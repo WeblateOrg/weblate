@@ -20,7 +20,6 @@
 
 from weblate.trans.management.commands import WeblateLangCommand
 from optparse import make_option
-from django.db import transaction
 
 
 class Command(WeblateLangCommand):
@@ -40,5 +39,4 @@ class Command(WeblateLangCommand):
         if options['lang'] is not None:
             langs = options['lang'].split(',')
         for subproject in self.get_subprojects(*args, **options):
-            with transaction.atomic():
-                subproject.create_translations(options['force'], langs)
+            subproject.create_translations(options['force'], langs)
