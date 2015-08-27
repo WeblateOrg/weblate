@@ -26,15 +26,22 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 SOCIALS = {
+    'amazon': {'name': 'Amazon', 'fa_icon': 'amazon'},
     'google': {'name': 'Google', 'fa_icon': 'google'},
     'google-oauth2': {'name': 'Google', 'fa_icon': 'google'},
+    'google-plus': {'name': 'Google+', 'fa_icon': 'google-plus'},
     'github': {'name': 'GitHub', 'fa_icon': 'github'},
+    'github-enterprise': {'name': 'GitHub Enterprise', 'fa_icon': 'github'},
     'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
+    'bitbucket-oauth2': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
+    'coinbase': {'name': 'Coinbase', 'fa_icon': 'bitcoin'},
     'email': {'name': 'Email', 'fa_icon': 'at'},
     'opensuse': {'name': 'openSUSE', 'fl_icon': 'opensuse'},
     'ubuntu': {'name': 'Ubuntu', 'fl_icon': 'ubuntu'},
     'fedora': {'name': 'Fedora', 'fl_icon': 'fedora'},
     'facebook': {'name': 'Facebook', 'fa_icon': 'facebook'},
+    'twitter': {'name': 'Twitter', 'fa_icon': 'twitter'},
+    'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
 }
 
 FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg fa-4x fa-wl-social fa-{fa_icon}"></i><br />{name}'
