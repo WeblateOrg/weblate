@@ -21,10 +21,21 @@
 from django.core.management.base import BaseCommand
 from weblate.trans.models import IndexUpdate, Unit
 from weblate.trans.search import update_index
+from optparse import make_option
 
 
 class Command(BaseCommand):
     help = 'updates index for fulltext search'
+    option_list = BaseCommand.option_list + (
+        make_option(
+            '--limit',
+            action='store',
+            type='int',
+            dest='limit',
+            default=1000,
+            help='number of updates to process in one run'
+        ),
+    )
 
     def handle(self, *args, **options):
         indexupdates = set()
@@ -32,7 +43,7 @@ class Command(BaseCommand):
         source_unit_ids = set()
 
         # Grab all updates from the database
-        for update in IndexUpdate.objects.iterator():
+        for update in IndexUpdate.objects.all()[:options['limit']].iterator():
             indexupdates.add(update.pk)
             unit_ids.add(update.unit_id)
 
