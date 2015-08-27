@@ -28,6 +28,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
+from django.utils.cache import patch_response_headers
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
@@ -352,10 +353,14 @@ def user_avatar(request, user, size):
     if user.email == 'noreply@weblate.org':
         return redirect(get_fallback_avatar_url(size))
 
-    return HttpResponse(
+    response = HttpResponse(
         content_type='image/png',
         content=get_avatar_image(user, size)
     )
+
+    patch_response_headers(response, 3600 * 24 * 7)
+
+    return response
 
 
 def weblate_login(request):
