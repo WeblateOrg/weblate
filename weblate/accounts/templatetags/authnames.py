@@ -44,26 +44,29 @@ SOCIALS = {
     'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
 }
 
-FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg fa-4x fa-wl-social fa-{fa_icon}"></i><br />{name}'
-FL_SOCIAL_TEMPLATE = u'<span class="fl fa-lg fa-4x fl-{fl_icon}"></span><br />{name}'
+FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg {extra_class} fa-wl-social fa-{fa_icon}"></i>{separator}{name}'
+FL_SOCIAL_TEMPLATE = u'<span class="fl fa-lg {extra_class} fl-{fl_icon}"></span>{separator}{name}'
 
 
 @register.simple_tag
-def auth_name(auth):
+def auth_name(auth, extra_class='fa-4x', separator='<br />'):
     """
     Creates HTML markup for social authentication method.
     """
 
+    params = {
+        'name': auth,
+        'extra_class': extra_class,
+        'separator': separator,
+        'fa_icon': 'key',
+    }
+
     if auth in SOCIALS:
-        auth_data = SOCIALS[auth]
-        if 'fa_icon' in auth_data:
-            return mark_safe(FA_SOCIAL_TEMPLATE.format(**auth_data))
-        elif 'fl_icon' in auth_data:
-            return mark_safe(FL_SOCIAL_TEMPLATE.format(**auth_data))
+        params.update(SOCIALS[auth])
 
-        auth = auth_data['name']
+    if 'fl_icon' in params:
+        template = FL_SOCIAL_TEMPLATE
+    else:
+        template = FA_SOCIAL_TEMPLATE
 
-    return mark_safe(FA_SOCIAL_TEMPLATE.format(
-        fa_icon='key',
-        name=auth,
-    ))
+    return mark_safe(template.format(**params))
