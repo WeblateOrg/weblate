@@ -342,7 +342,7 @@ def user_page(request, user):
     )
 
 
-@cache_page(3600 * 24)
+@cache_page(3600 * 24 * 7)
 def user_avatar(request, user, size):
     '''
     User avatar page.
