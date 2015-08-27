@@ -44,8 +44,16 @@ SOCIALS = {
     'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
 }
 
-FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg {extra_class} fa-wl-social fa-{fa_icon}"></i>{separator}{name}'
-FL_SOCIAL_TEMPLATE = u'<span class="fl fa-lg {extra_class} fl-{fl_icon}"></span>{separator}{name}'
+FA_SOCIAL_TEMPLATE = u'''
+<i class="fa fa-lg {extra_class} fa-wl-social fa-{fa_icon}"></i>
+{separator}
+{name}
+'''
+FL_SOCIAL_TEMPLATE = u'''
+<span class="fl fa-lg {extra_class} fl-{fl_icon}"></span>
+{separator}
+{name}
+'''
 
 
 @register.simple_tag
