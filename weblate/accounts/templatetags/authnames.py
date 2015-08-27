@@ -51,8 +51,12 @@ def auth_name(auth):
         auth_data = SOCIALS[auth]
         if 'fa_icon' in auth_data:
             return mark_safe(FA_SOCIAL_TEPMPLATE.format(**auth_data))
-        if 'fl_icon' in auth_data:
+        elif 'fl_icon' in auth_data:
             return mark_safe(FL_SOCIAL_TEPMPLATE.format(**auth_data))
-        return mark_safe(auth_data['name'])
 
-    return auth
+        auth = auth_data['name']
+
+    return mark_safe(FA_SOCIAL_TEPMPLATE.format(
+        fa_icon='key',
+        name=auth,
+    ))
