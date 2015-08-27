@@ -37,8 +37,8 @@ SOCIALS = {
     'facebook': {'name': 'Facebook', 'fa_icon': 'facebook'},
 }
 
-FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg fa-{fa_icon}"></i> {name}'
-FL_SOCIAL_TEMPLATE = u'<span class="fl fa-lg fl-{fl_icon}"></span> {name}'
+FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg fa-4x fa-wl-social fa-{fa_icon}"></i><br />{name}'
+FL_SOCIAL_TEMPLATE = u'<span class="fl fa-lg fa-4x fl-{fl_icon}"></span><br />{name}'
 
 
 @register.simple_tag
