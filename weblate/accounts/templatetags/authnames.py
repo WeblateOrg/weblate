@@ -37,8 +37,8 @@ SOCIALS = {
     'facebook': {'name': 'Facebook', 'fa_icon': 'facebook'},
 }
 
-FA_SOCIAL_TEPMPLATE = u'<i class="fa fa-lg fa-{fa_icon}"></i> {name}'
-FL_SOCIAL_TEPMPLATE = u'<span class="fl fa-lg fl-{fl_icon}"></span> {name}'
+FA_SOCIAL_TEMPLATE = u'<i class="fa fa-lg fa-{fa_icon}"></i> {name}'
+FL_SOCIAL_TEMPLATE = u'<span class="fl fa-lg fl-{fl_icon}"></span> {name}'
 
 
 @register.simple_tag
@@ -50,13 +50,13 @@ def auth_name(auth):
     if auth in SOCIALS:
         auth_data = SOCIALS[auth]
         if 'fa_icon' in auth_data:
-            return mark_safe(FA_SOCIAL_TEPMPLATE.format(**auth_data))
+            return mark_safe(FA_SOCIAL_TEMPLATE.format(**auth_data))
         elif 'fl_icon' in auth_data:
-            return mark_safe(FL_SOCIAL_TEPMPLATE.format(**auth_data))
+            return mark_safe(FL_SOCIAL_TEMPLATE.format(**auth_data))
 
         auth = auth_data['name']
 
-    return mark_safe(FA_SOCIAL_TEPMPLATE.format(
+    return mark_safe(FA_SOCIAL_TEMPLATE.format(
         fa_icon='key',
         name=auth,
     ))
