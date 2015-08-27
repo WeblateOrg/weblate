@@ -73,8 +73,8 @@ def auth_name(auth, extra_class='fa-4x', separator='<br />'):
         params.update(SOCIALS[auth])
 
     if 'fl_icon' in params:
-        template = FL_SOCIAL_TEMPLATE
+        html_template = FL_SOCIAL_TEMPLATE
     else:
-        template = FA_SOCIAL_TEMPLATE
+        html_template = FA_SOCIAL_TEMPLATE
 
-    return mark_safe(template.format(**params))
+    return mark_safe(html_template.format(**params))
