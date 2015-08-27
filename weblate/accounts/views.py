@@ -93,9 +93,8 @@ def mail_admins_contact(request, subject, message, context, sender):
     Sends a message to the admins, as defined by the ADMINS setting.
     '''
     weblate.logger.info(
-        'contact from from %s: %s',
+        'contact form from %s',
         sender,
-        subject,
     )
     if not settings.ADMINS:
         messages.error(
