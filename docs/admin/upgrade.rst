@@ -257,6 +257,15 @@ have such, it is recommended to run:
 
     ./manage.py fixup_flags --all
 
+Upgrade from 2.3 to 2.4
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Handling of static content has been rewritten, please adjust configuration of
+your webserver accordingly. Most importantly:
+
+* ``/media/`` path is no longer used
+* ``/static/`` path now holds both admin and Weblate static files
+
 .. _django-17:
 
 Upgrading to Django 1.7

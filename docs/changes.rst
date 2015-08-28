@@ -29,6 +29,7 @@ Released on ? 2015.
 * Support for adding words to dictionary while translating.
 * Added support for filtering languages to be managed by Weblate.
 * Added support for translating and importing CSV files.
+* Rewritten handling of static files.
 
 weblate 2.3
 -----------
