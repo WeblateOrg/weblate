@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 from PIL import Image, ImageDraw
@@ -126,8 +125,8 @@ class Widget(object):
         Returns widgets filename.
         '''
         return os.path.join(
-            settings.MEDIA_ROOT,
-            'widgets',
+            os.path.dirname(__file__),
+            'widget-images',
             '%(widget)s-%(color)s.png' % {
                 'color': self.color,
                 'widget': self.name,
@@ -317,8 +316,8 @@ class BadgeWidget(Widget):
         else:
             mode = 'failing'
         return os.path.join(
-            settings.MEDIA_ROOT,
-            'widgets',
+            os.path.dirname(__file__),
+            'widget-images',
             'badge-%s.png' % mode
         )
 
