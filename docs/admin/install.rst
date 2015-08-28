@@ -672,8 +672,9 @@ For testing purposes, you can use Django builtin web server:
 Serving static files
 ++++++++++++++++++++
 
-Django needs to collect it's static files to a single directory. To do so, execute 
-:samp:`./manage.py collectstatic --noinput --link`.
+Django needs to collect it's static files to a single directory. To do so,
+execute :samp:`./manage.py collectstatic --noinput --link`. This will store
+links to static files into directory specified by ``STATIC_ROOT`` setting.
 
 It is recommended to serve static files directly by your web server, you should
 use that for following paths:
@@ -682,7 +683,7 @@ use that for following paths:
     Serves :file:`media` directory from Weblate.
 :file:`/static`
     Serves static files for Weblate and admin interface 
-    (from defined by ``STATIC_ROOT``, see :ref:`static-files`).
+    (from defined by ``STATIC_ROOT``).
 
 Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
 as :file:`favicon.ico`.
