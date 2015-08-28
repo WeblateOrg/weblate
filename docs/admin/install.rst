@@ -367,12 +367,6 @@ options:
 
     .. seealso:: `SERVER_EMAIL documentation`_
 
-Prepare static files
---------------------
-
-Django needs to collect it's static files to a single directory. To do so, execute 
-:samp:`./manage.py collectstatic --noinput --link`.
-
 Filling up the database
 -----------------------
 
@@ -678,14 +672,17 @@ For testing purposes, you can use Django builtin web server:
 Serving static files
 ++++++++++++++++++++
 
+Django needs to collect it's static files to a single directory. To do so, execute 
+:samp:`./manage.py collectstatic --noinput --link`.
+
 It is recommended to serve static files directly by your web server, you should
 use that for following paths:
 
 :file:`/media`
     Serves :file:`media` directory from Weblate.
-:file:`/static/admin`
-    Serves media files for Django admin interface (eg.
-    :file:`/usr/share/pyshared/django/contrib/admin/media/`).
+:file:`/static`
+    Serves static files for Weblate and admin interface 
+    (from defined by ``STATIC_ROOT``, see :ref:`static-files`).
 
 Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
 as :file:`favicon.ico`.
