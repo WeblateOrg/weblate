@@ -6,6 +6,7 @@ if (window.location.hash && window.location.hash === '#_=_') {
     window.location.hash = '';
 }
 
+// Loading indicator handler
 function increaseLoading(sel) {
     if (loading === 0) {
         $(sel).show();
