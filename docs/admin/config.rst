@@ -270,6 +270,7 @@ Some of exceptions you might want to include:
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
         r'/accounts/(.*)$', # Required for login
         r'/media/(.*)$',    # Required for development mode
+        r'/static/(.*)$',    # Required for development mode
         r'/widgets/(.*)$',  # Allowing public access to widgets
         r'/data/(.*)$',     # Allowing public access to data exports
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
