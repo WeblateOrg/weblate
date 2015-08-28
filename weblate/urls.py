@@ -20,7 +20,6 @@
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.conf import settings
 from django.views.generic import RedirectView
 
 from weblate.trans.feeds import (
