@@ -28,6 +28,8 @@ lxml (>= 3.1.0)
     http://lxml.de/
 dateutil
     http://labix.org/python-dateutil
+django_compressor
+    https://github.com/django-compressor/django-compressor
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)

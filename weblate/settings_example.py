@@ -164,6 +164,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -278,6 +279,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'social.apps.django_app.default',
     'crispy_forms',
+    'compressor',
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',

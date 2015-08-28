@@ -188,6 +188,16 @@ def get_versions():
         '1.4.0',
     ))
 
+    name = 'compressor'
+    url = 'https://github.com/django-compressor/django-compressor'
+    mod = get_version_module('compressor', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '1.5',
+    ))
+
     return result
 
 
