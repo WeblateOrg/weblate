@@ -164,6 +164,7 @@ class PluralTextarea(forms.Textarea):
         attrs['tabindex'] = tabindex
         attrs['lang'] = lang.code
         attrs['dir'] = lang.direction
+        attrs['rows'] = 3
 
         # Okay we have more strings
         ret = []

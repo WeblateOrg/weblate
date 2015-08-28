@@ -117,14 +117,15 @@ function loadActivityChart(element) {
 
 function initEditor(editors) {
     /* Autosizing */
-    $('.translation-editor').autosize();
+    autosize($('.translation-editor'));
 
     /* Copy source text */
     $('.copy-text').click(function (e) {
         var $this = $(this);
         $this.button('loading');
         $.get($this.data('href'), function (data) {
-            $this.parents('.translation-item').find('.translation-editor').val(data).trigger('autosize.resize');
+            $this.parents('.translation-item').find('.translation-editor').val(data);
+            autosize.update($('.translation-editor'));
             $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
             $this.button('reset');
         }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -154,7 +155,8 @@ function initEditor(editors) {
         } else if (text === '↵') {
             text = '\r';
         }
-        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).trigger('autosize.resize');
+        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text);
+        autosize.update($('.translation-editor'));
         e.preventDefault();
     });
 
