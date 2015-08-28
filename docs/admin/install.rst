@@ -367,6 +367,12 @@ options:
 
     .. seealso:: `SERVER_EMAIL documentation`_
 
+Prepare static files
+--------------------
+
+Django needs to collect it's static files to a single directory. To do so, execute 
+:samp:`./manage.py collectstatic --noinput --link`.
+
 Filling up the database
 -----------------------
 
@@ -1033,6 +1039,7 @@ The update script takes care of the following update steps as described under :r
 * manage.py setupgroups --move
 * manage.py setuplang
 * manage.py rebuild_index --all
+* manage.py collectstatic --noinput --link
 
 Migrating Weblate to another server
 -----------------------------------

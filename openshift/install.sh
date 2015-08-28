@@ -80,6 +80,7 @@ if [ ! -s $OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json ]; then
 fi
 
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py migrate --noinput"
+sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py collectstatic --noinput"
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
   sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setupgroups --move"

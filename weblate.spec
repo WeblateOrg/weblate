@@ -80,7 +80,6 @@ sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}/weblate"@g' weblate/settings.py
 sed -i 's@^DATA_DIR = .*@DATA_DIR = "%{WLDATADIR}"@g' weblate/settings.py
 sed -i "s@'ENGINE': 'django.db.backends.sqlite3'@'ENGINE': 'django.db.backends.mysql'@" weblate/settings.py
 sed -i "s@'NAME': 'weblate.db'@'NAME': 'weblate'@" weblate/settings.py
-sed -i 's@/usr/lib/python.*/site-packages@%{python_sitelib}@g' examples/apache.conf
 
 %install
 install -d %{buildroot}/%{WLDIR}
@@ -121,6 +120,10 @@ install -m 644 examples/apache.conf %{buildroot}/%{_sysconfdir}/apache2/vhosts.d
 
 # Whoosh index dir
 install -d %{buildroot}/%{WLDATADIR}
+
+%post
+# Static files
+%{WLDIR}/manage.py collectstatic --noinput --link
 
 %check
 export LANG=en_US.UTF-8

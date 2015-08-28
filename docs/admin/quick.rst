@@ -27,6 +27,7 @@ Installing from sources
    .. code-block:: sh
 
         ./manage.py migrate
+        ./manage.py collectstatic
         ./scripts/generate-locales # If you are using Git checkout
 
 #. Configure webserver to serve Weblate, see :ref:`server`.
