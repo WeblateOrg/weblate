@@ -3,6 +3,9 @@
 
 . ci/lib
 
+run_coverage ./manage.py collectstatic --noinput
+check
+
 export DO_SELENIUM=1
 
 # We retry Selenium tests to workaroud occasional failures
