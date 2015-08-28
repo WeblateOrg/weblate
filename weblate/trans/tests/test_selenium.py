@@ -269,10 +269,9 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'MSIE11': {
-        'browserName': "internet explorer",
+    'MSEdge': {
+        'browserName': "microsoftedge",
         'platform': "Windows 10",
-        'version': "11.0",
     },
     'MSIE9': {
         'browserName': 'internet explorer',
