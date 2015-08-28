@@ -679,14 +679,13 @@ links to static files into directory specified by ``STATIC_ROOT`` setting.
 It is recommended to serve static files directly by your web server, you should
 use that for following paths:
 
-:file:`/media`
-    Serves :file:`media` directory from Weblate.
-:file:`/static`
+:file:`/static/`
     Serves static files for Weblate and admin interface 
     (from defined by ``STATIC_ROOT``).
-
-Additionally you should setup rewrite rule to serve :file:`media/favicon.ico`
-as :file:`favicon.ico`.
+:file:`/favicon.ico`
+    Should be rewritten to rewrite rule to serve :file:`/static/favicon.ico`
+:file:`/robots.txt`
+    Should be rewritten to rewrite rule to serve :file:`/static/robots.txt`
 
 .. seealso:: https://docs.djangoproject.com/en/stable/howto/deployment/
 

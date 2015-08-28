@@ -52,7 +52,7 @@ class RequireLoginMiddleware(object):
         )
         self.exceptions = self.get_setting_re(
             'LOGIN_REQUIRED_URLS_EXCEPTIONS',
-            [r'/accounts/(.*)$', r'/media/(.*)$', r'/static/(.*)$']
+            [r'/accounts/(.*)$', r'/static/(.*)$']
         )
 
     def get_setting_re(self, name, default):

@@ -93,7 +93,7 @@ def get_fallback_avatar_url(size):
     Returns URL of fallback avatar.
     """
     return os.path.join(
-        settings.MEDIA_URL,
+        settings.STATIC_URL,
         'weblate-{0}.png'.format(size)
     )
 
@@ -103,8 +103,8 @@ def get_fallback_avatar(size):
     Returns fallback avatar.
     """
     fallback = os.path.join(
-        appsettings.BASE_DIR,
-        'media/weblate-{0}.png'.format(size)
+        appsettings.STATIC_ROOT,
+        'weblate-{0}.png'.format(size)
     )
     with open(fallback, 'r') as handle:
         return handle.read()

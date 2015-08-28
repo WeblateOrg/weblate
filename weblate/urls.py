@@ -757,13 +757,7 @@ urlpatterns = patterns(
         )
     ),
 
-    # Media files
-    url(
-        r'^media/(?P<path>.*)$',
-        'django.views.static.serve',
-        {'document_root': settings.MEDIA_ROOT}
-    ),
-
+    # Site wide search
     url(
         r'^search/$',
         'weblate.trans.views.basic.search',
