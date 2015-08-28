@@ -820,7 +820,13 @@ this.
 
     docker-compose run weblate-web migrate
 
-6. Create admin user:
+6. Preprare static files:
+
+.. code-block:: sh
+
+    docker-compose run weblate-web collectstatic
+
+7. Create admin user:
 
 .. code-block:: sh
 
