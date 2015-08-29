@@ -23,7 +23,7 @@ msgstr ""
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
-msgstr ""
+msgstr "注册验证失败！可能因为验证令牌过期。请再试一次。"
 
 #: weblate/accounts/avatar.py:172
 msgctxt "No known user"
@@ -98,7 +98,7 @@ msgstr "此电子邮件地址已被使用。请提供一个新的电子邮件地
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
-msgstr "%s是什么？"
+msgstr "%s是多少？"
 
 #: weblate/accounts/forms.py:394
 msgid "Please check your math and try again."
@@ -169,7 +169,7 @@ msgstr "代码库"
 
 #: weblate/accounts/forms.py:541
 msgid "URL of source code repository for example Git or Mercurial."
-msgstr ""
+msgstr "代码库地址例如Git或Mercurial。"
 
 #: weblate/accounts/forms.py:546 weblate/trans/models/subproject.py:168
 msgid "File mask"
@@ -319,7 +319,7 @@ msgstr "重设密码"
 
 #: weblate/html/403.html:5 weblate/trans/views/basic.py:352
 msgid "Permission Denied"
-msgstr ""
+msgstr "许可被拒绝"
 
 #: weblate/html/403.html:11
 #, fuzzy
@@ -433,11 +433,13 @@ msgid ""
 "Commercial hosting is possible as well, our price starts at 19 EUR per "
 "project and month, please get in touch with us for more details."
 msgstr ""
+"我们也能提供收费托管，起价每月每个项目19欧元，更多详情请<a href=\"%(contact_url)s?subject="
+"托管项目\">联系我们</a>。"
 
 #: weblate/html/about.html:46 weblate/html/accounts/hosting.html:20
 #: weblate/html/index.html:92
 msgid "Ask for project hosting"
-msgstr ""
+msgstr "请求项目托管"
 
 #: weblate/html/about.html:47
 #, fuzzy
@@ -511,13 +513,13 @@ msgstr "发送"
 #, fuzzy
 #| msgid "Registration date"
 msgid "Registration"
-msgstr "注册日期"
+msgstr "注册"
 
 #: weblate/html/accounts/email-sent.html:11
 #, fuzzy
 #| msgid "Registration date"
 msgid "Registration almost complete"
-msgstr "注册日期"
+msgstr "注册即将完成"
 
 #: weblate/html/accounts/email-sent.html:14
 msgid ""
@@ -532,7 +534,7 @@ msgstr ""
 msgid ""
 "Please note that the confirmation link has limited validity. In case it does "
 "not work, please register again."
-msgstr ""
+msgstr "请注意确认链接会过期。如果链接失效，请再次注册。"
 
 #: weblate/html/accounts/email-sent.html:20
 #, fuzzy, python-format
@@ -577,7 +579,7 @@ msgstr "注册"
 msgid ""
 "Please check in advance whether your project is eligible for project hosting "
 "on this site."
-msgstr ""
+msgstr "请先检查你的项目在此站上托管是否合适。"
 
 #: weblate/html/accounts/hosting.html:33
 msgid "Conditions for free hosting"
@@ -612,7 +614,7 @@ msgstr "未找到相应的用户名/密码组合。请重试。"
 msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
-msgstr ""
+msgstr "要测试 Weblate, 你可以使用用户名 <code>demo</code> 和密码 <code>demo</code>登录。"
 
 #: weblate/html/accounts/login.html:27
 #, fuzzy
@@ -629,7 +631,7 @@ msgstr "忘记您的密码了？您可以 <a href=\"%(reset_url)s\">重设密码
 #, fuzzy
 #| msgid "User registration"
 msgid "Third party login"
-msgstr "注册用户"
+msgstr "第三方登录"
 
 #: weblate/html/accounts/login.html:71
 #, python-format
@@ -683,7 +685,7 @@ msgstr "帐号"
 #, fuzzy
 #| msgid "Documentation"
 msgid "Authentication"
-msgstr "文档"
+msgstr "授权"
 
 #: weblate/html/accounts/profile.html:26
 #, fuzzy
@@ -714,18 +716,18 @@ msgstr "保存"
 #, fuzzy
 #| msgid "Subscriptions"
 msgid "Description"
-msgstr "订阅"
+msgstr "描述"
 
 #: weblate/html/accounts/profile.html:49
 msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
-msgstr ""
+msgstr "选择你期望翻译的语言。这些语言会在控制面板上出现以便利选择翻译。"
 
 #: weblate/html/accounts/profile.html:52
 msgid ""
 "The secondary languages are shown next to the source string when translating."
-msgstr ""
+msgstr "第二语言会在源字符串下方显示。"
 
 #: weblate/html/accounts/profile.html:56 weblate/html/accounts/profile.html:84
 #: weblate/html/accounts/profile.html:125
@@ -742,7 +744,7 @@ msgstr "文档"
 
 #: weblate/html/accounts/profile.html:80
 msgid "Customize Weblate behavior to match your personal preferences."
-msgstr ""
+msgstr "调整Weblate的行为以适合你的个人喜好。"
 
 #: weblate/html/accounts/profile.html:96
 #, fuzzy
@@ -753,7 +755,7 @@ msgstr "主机名"
 #: weblate/html/accounts/profile.html:103
 msgid ""
 "You will automatically receive important notifications on managed projects."
-msgstr ""
+msgstr "你将自动受到此主机上各项目的重要通知"
 
 #: weblate/html/accounts/profile.html:122
 msgid "You will receive chosen notifications via email for all your languages."
@@ -781,15 +783,15 @@ msgstr "用户注释"
 msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
-msgstr ""
+msgstr "你可以管理此账号的各个身份以及以何种身份登录。"
 
 #: weblate/html/accounts/profile.html:173
 msgid "Currently associated:"
-msgstr ""
+msgstr "目前已有："
 
 #: weblate/html/accounts/profile.html:177
 msgid "Identity"
-msgstr ""
+msgstr "身份"
 
 #: weblate/html/accounts/profile.html:178
 #, fuzzy
@@ -810,30 +812,30 @@ msgstr "新密码"
 
 #: weblate/html/accounts/profile.html:195
 msgid "Disconnect"
-msgstr ""
+msgstr "断开"
 
 #: weblate/html/accounts/profile.html:204
 #, fuzzy
 #| msgid "Add as translation"
 msgid "Add new association:"
-msgstr "添加为翻译"
+msgstr "添加新联系"
 
 #: weblate/html/accounts/profile.html:214
 msgid "Removal"
-msgstr ""
+msgstr "删除"
 
 #: weblate/html/accounts/profile.html:217
 #: weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
-msgstr ""
+msgstr "删除账户会清除所有私人数据。"
 
 #: weblate/html/accounts/profile.html:220
 msgid "Remove my account"
-msgstr ""
+msgstr "删除我的账户"
 
 #: weblate/html/accounts/profile.html:229
 msgid "You can configure how you will log in on this site."
-msgstr ""
+msgstr "你可以配置如何登录此网站"
 
 #: weblate/html/accounts/profile.html:243
 #, fuzzy
@@ -845,7 +847,7 @@ msgstr "您的邮箱"
 #, fuzzy
 #| msgid "Your public profile:"
 msgid "Your public profile"
-msgstr "您的公开资料："
+msgstr "您的公开资料"
 
 #: weblate/html/accounts/profile.html:261
 #, fuzzy
@@ -890,7 +892,7 @@ msgstr "许可证"
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
-msgstr ""
+msgstr "请注意认证信息，这些信息会明确他人对你翻译作品的使用权限。"
 
 #: weblate/html/accounts/register.html:16
 #, fuzzy
@@ -937,7 +939,7 @@ msgstr "帐号"
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
-msgstr ""
+msgstr "按以下按钮后，你将不能再使用这一帐号。"
 
 #: weblate/html/accounts/removal.html:21
 #, fuzzy
@@ -1024,7 +1026,7 @@ msgstr "坏的设定"
 
 #: weblate/html/admin/performance.html:45
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: weblate/html/admin/report.html:8 weblate/html/js/detail.html:15
 msgid "Status"
@@ -1099,7 +1101,7 @@ msgstr "托管"
 
 #: weblate/html/admin/ssh.html:63
 msgid "Port:"
-msgstr ""
+msgstr "端口"
 
 #: weblate/html/admin/ssh.html:65
 msgid "Submit"
@@ -1156,15 +1158,15 @@ msgstr "此 Weblate 托管了许多自由软件项目的翻译。"
 
 #: weblate/html/base.html:72
 msgid "Toggle navigation"
-msgstr ""
+msgstr "导航栏开关"
 
 #: weblate/html/base.html:83 weblate/html/base.html.py:124
 msgid "Dashboard"
-msgstr ""
+msgstr "控制面板"
 
 #: weblate/html/base.html:86 weblate/html/index.html:27
 msgid "Your translations"
-msgstr "我的翻译项目"
+msgstr "你的翻译项目"
 
 #: weblate/html/base.html:108
 #, fuzzy
@@ -1182,6 +1184,9 @@ msgid ""
 "some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
 "\">Firefox</a>."
 msgstr ""
+"Weblate 不支持 Microsoft Internet Explorer 8 以及更老版本，请使用 "
+"新版浏览器比如 <a href=\"https://www.mozilla.org/firefox/"
+"\">Firefox</a>."
 
 #: weblate/html/check.html:6 weblate/html/check_project.html:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html:6
@@ -1224,7 +1229,7 @@ msgstr "可自定义的质量检查将帮助您改善翻译质量。"
 msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
-msgstr ""
+msgstr "检查可以帮你找出有问题的翻译或未翻译字符串。"
 
 #: weblate/html/data-root.html:5 weblate/html/index.html:43
 #: weblate/html/share.html:29
@@ -1289,6 +1294,8 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"使用通知钩子, Weblate 会自动导入开发者提供的翻译 "
+"并且允许连续翻译工作. 详细信息见  <a href=\"%(hooks_docs)s\">文档</a>."
 
 #: weblate/html/data.html:6
 #, fuzzy
@@ -1328,7 +1335,7 @@ msgstr "钩子"
 #: weblate/html/data.html:102
 msgid ""
 "Weblate also supports direct notification from several code hosting sites:"
-msgstr ""
+msgstr "Weblate也支持一些代码托管站点的直接通知："
 
 #: weblate/html/data.html:107
 #, fuzzy
@@ -1338,7 +1345,7 @@ msgstr "主机名"
 
 #: weblate/html/data.html:109 weblate/trans/models/advertisement.py:116
 msgid "Note"
-msgstr ""
+msgstr "备注"
 
 #: weblate/html/data.html:116
 msgid "Enable Weblate service hook in repository settings."
@@ -1493,6 +1500,7 @@ msgid ""
 "This translation is open only to limited group of translators, if you want "
 "to contribute please get in touch with project maintainers."
 msgstr ""
+"此翻译只对有限的翻译者开放, 如果您要贡献请与维护者联络。"
 
 #: weblate/html/engage.html:58
 #, python-format
@@ -1527,347 +1535,339 @@ msgstr "按住 “Ctrl” 或 Mac 上的 “Command” 键多选。"
 
 #: weblate/html/i18n.html:18
 msgid "Acholi"
-msgstr ""
+msgstr "阿乔利语（Acholi）"
 
 #: weblate/html/i18n.html:19
 msgid "Afrikaans"
-msgstr "南非语"
+msgstr "南非荷兰语（Afrikaans）"
 
 #: weblate/html/i18n.html:20
 msgid "Akan"
-msgstr "阿坎语"
+msgstr "阿坎语（Akan）"
 
 #: weblate/html/i18n.html:21
 msgid "Albanian"
-msgstr "阿尔巴尼亚语"
+msgstr "阿尔巴尼亚语（shqip）"
 
 #: weblate/html/i18n.html:22
 msgid "Amharic"
-msgstr "阿姆哈拉语"
+msgstr "阿姆哈拉语（አማርኛ）"
 
 #: weblate/html/i18n.html:23
 msgid "Angika"
-msgstr ""
+msgstr "昂加语（अंगिका）"
 
 #: weblate/html/i18n.html:24
 msgid "Arabic"
-msgstr "阿拉伯语"
+msgstr "阿拉伯语（العربية）"
 
 #: weblate/html/i18n.html:25
 msgid "Aragonese"
-msgstr "阿拉贡语"
+msgstr "阿拉贡语（aragonés）"
 
 #: weblate/html/i18n.html:26
 msgid "Argentinean Spanish"
-msgstr ""
+msgstr "阿根廷西班牙语（argentina Español）"
 
 #: weblate/html/i18n.html:27
 msgid "Armenian"
-msgstr "亚美尼亚语"
+msgstr "亚美尼亚语（Հայերեն）"
 
 #: weblate/html/i18n.html:28
 msgid "Assamese"
-msgstr ""
+msgstr "阿萨姆语（অসমীয়া）"
 
 #: weblate/html/i18n.html:29
 msgid "Asturian"
-msgstr "阿斯图里亚斯语"
+msgstr "阿斯图里亚斯语（asturianu）"
 
 #: weblate/html/i18n.html:30
 msgid "Aymará"
-msgstr ""
+msgstr "艾马拉语（Aymar aru）"
 
 #: weblate/html/i18n.html:31
 msgid "Azerbaijani"
-msgstr "阿塞拜疆语"
+msgstr "阿塞拜疆语（Азәрбајҹан дили）"
 
 #: weblate/html/i18n.html:32
 msgid "Bashkir"
-msgstr ""
+msgstr "巴什基尔语（башҡорт теле）"
 
 #: weblate/html/i18n.html:33
 msgid "Basque"
-msgstr "巴斯克语"
+msgstr "巴斯克语（Euskara）"
 
 #: weblate/html/i18n.html:34
 msgid "Belarusian"
-msgstr "白俄罗斯语"
+msgstr "白俄罗斯语（беларуская мова）"
 
 #: weblate/html/i18n.html:35
 msgid "Belarusian (latin)"
-msgstr "白俄罗斯语(拉丁)"
+msgstr "拉丁白俄罗斯语（Łacinka）"
 
 #: weblate/html/i18n.html:36
 msgid "Bengali"
-msgstr "孟加拉语"
+msgstr "孟加拉语（বাংলা）"
 
 #: weblate/html/i18n.html:37
 msgid "Bengali (India)"
-msgstr "孟加拉语(印度)"
+msgstr "印度孟加拉语"
 
 #: weblate/html/i18n.html:38
 msgid "Bodo"
-msgstr ""
+msgstr "博多语（बड़ो）"
 
 #: weblate/html/i18n.html:39
 msgid "Bosnian"
-msgstr "波斯尼亚语"
+msgstr "波斯尼亚语（босански）"
 
 #: weblate/html/i18n.html:40
 msgid "Breton"
-msgstr "布列塔尼语"
+msgstr "布列塔尼语（Brezhoneg）"
 
 #: weblate/html/i18n.html:41
 msgid "Bulgarian"
-msgstr "保加利亚语"
+msgstr "保加利亚语（български език）"
 
 #: weblate/html/i18n.html:42
 msgid "Burmese"
-msgstr ""
+msgstr "缅甸语（မြန်မာဘာသာ）"
 
 #: weblate/html/i18n.html:43
 msgid "Catalan"
-msgstr "加泰罗尼亚语"
+msgstr "加泰罗尼亚语（català）"
 
 #: weblate/html/i18n.html:44
 msgid "Central Khmer"
-msgstr "高棉语"
+msgstr "高棉语（ភាសាខ្មែរ）"
 
 #: weblate/html/i18n.html:45
 msgid "Chhattisgarhi"
-msgstr ""
+msgstr "恰蒂斯加尔语（छत्तीसगढ़ी）"
 
 #: weblate/html/i18n.html:46
 msgid "Chiga"
-msgstr ""
+msgstr "奇加语（Kiga）"
 
 #: weblate/html/i18n.html:47
 msgid "Chinese"
-msgstr "汉语"
+msgstr "汉语/中文"
 
 #: weblate/html/i18n.html:48
 msgid "Chinese (Hong Kong)"
-msgstr "汉语 (中国香港)"
+msgstr "中文（香港）"
 
 #: weblate/html/i18n.html:49
 msgid "Chinese (China)"
-msgstr "汉语 (中国大陆)"
+msgstr "中文（中国）"
 
 #: weblate/html/i18n.html:50
 msgid "Chinese (Taiwan)"
-msgstr "汉语 (中国台湾)"
+msgstr "中文（台湾）"
 
 #: weblate/html/i18n.html:51
-#, fuzzy
-#| msgid "Slovenian"
 msgid "Colognian"
-msgstr "斯洛文尼亚语"
+msgstr "德语科隆方言（Kölsch）"
 
 #: weblate/html/i18n.html:52
 msgid "Cornish"
-msgstr "康沃尔语"
+msgstr "康沃尔语（Kernewek）"
 
 #: weblate/html/i18n.html:53
 msgid "Croatian"
-msgstr "克罗地亚语"
+msgstr "克罗地亚语（hrvatski）"
 
 #: weblate/html/i18n.html:54
 msgid "Czech"
-msgstr "捷克语"
+msgstr "捷克语（čeština）"
 
 #: weblate/html/i18n.html:55
 msgid "Danish"
-msgstr "丹麦语"
+msgstr "丹麦语（dansk）"
 
 #: weblate/html/i18n.html:56
 msgid "Dogri"
-msgstr ""
+msgstr "多格拉语（डोगरी /ڈوگرى）"
 
 #: weblate/html/i18n.html:57
 msgid "Dutch"
-msgstr "荷兰语"
+msgstr "荷兰语（Nederlands）"
 
 #: weblate/html/i18n.html:58
 msgid "Dutch (Belgium)"
-msgstr ""
+msgstr "比利时荷兰语"
 
 #: weblate/html/i18n.html:59
 msgid "Dzongkha"
-msgstr "宗喀语"
+msgstr "宗喀语（རྫོང་ཁ་）"
 
 #: weblate/html/i18n.html:60
 msgid "English"
-msgstr "英语"
+msgstr "英语（English）"
 
 #: weblate/html/i18n.html:61
-#, fuzzy
-#| msgid "English (South Africa)"
 msgid "English (Australia)"
-msgstr "英语(南非)"
+msgstr "澳大利亚英语"
 
 #: weblate/html/i18n.html:62
-#, fuzzy
-#| msgid "English (United States)"
 msgid "English (Canada)"
-msgstr "英语(美国)"
+msgstr "加拿大英语"
 
 #: weblate/html/i18n.html:63
 msgid "English (South Africa)"
-msgstr "英语(南非)"
+msgstr "南非英语"
 
 #: weblate/html/i18n.html:64
 msgid "English (United Kingdom)"
-msgstr "英语(英国)"
+msgstr "英式英语"
 
 #: weblate/html/i18n.html:65
 msgid "English (United States)"
-msgstr "英语(美国)"
+msgstr "美式英语"
 
 #: weblate/html/i18n.html:66
 msgid "Esperanto"
-msgstr "世界语"
+msgstr "世界语（Esperanto）"
 
 #: weblate/html/i18n.html:67
 msgid "Estonian"
-msgstr "爱沙尼亚语"
+msgstr "爱沙尼亚语（Eesti keel）"
 
 #: weblate/html/i18n.html:68
 msgid "Faroese"
-msgstr "法罗语"
+msgstr "法罗语（Føroyskt）"
 
 #: weblate/html/i18n.html:69
 msgid "Filipino"
-msgstr "菲律宾语"
+msgstr "菲律宾语（Filipino）"
 
 #: weblate/html/i18n.html:70
 msgid "Finnish"
-msgstr "芬兰语"
+msgstr "芬兰语（Suomi）"
 
 #: weblate/html/i18n.html:71
 msgid "Franco-Provençal"
-msgstr ""
+msgstr "法兰克-普罗旺斯语（patouès）"
 
 #: weblate/html/i18n.html:72
 msgid "French"
-msgstr "法语"
+msgstr "法语（Français）"
 
 #: weblate/html/i18n.html:73
 msgid "Frisian"
-msgstr "弗里西亚语"
+msgstr "弗里西亚语（Frysk）"
 
 #: weblate/html/i18n.html:74
 msgid "Friulian"
-msgstr "弗留利语"
+msgstr "弗留利语（Furlan）"
 
 #: weblate/html/i18n.html:75
 msgid "Fulah"
-msgstr "富拉语"
+msgstr "富拉语（Fulani）"
 
 #: weblate/html/i18n.html:76
 msgid "Gaelic"
-msgstr "盖尔语"
+msgstr "盖尔语（Goidelic）"
 
 #: weblate/html/i18n.html:77
 msgid "Galician"
-msgstr "加利西亚语"
+msgstr "加利西亚语（Galego）"
 
 #: weblate/html/i18n.html:78
 msgid "Georgian"
-msgstr "格鲁吉亚语"
+msgstr "格鲁吉亚语（ქართული）"
 
 #: weblate/html/i18n.html:79
 msgid "German"
-msgstr "德语"
+msgstr "德语（Deutsch）"
 
 #: weblate/html/i18n.html:80
 msgid "Greek"
-msgstr "希腊语"
+msgstr "希腊语（ελληνικά）"
 
 #: weblate/html/i18n.html:81
-#, fuzzy
-#| msgid "Icelandic"
 msgid "Greenlandic"
-msgstr "冰岛语"
+msgstr "格陵兰语（kalaallisut）"
 
 #: weblate/html/i18n.html:82
 msgid "Gujarati"
-msgstr "古吉拉特语"
+msgstr "古吉拉特语（ગુજરાતી）"
 
 #: weblate/html/i18n.html:83
 msgid "Gun"
-msgstr "丰语"
+msgstr "丰语（Fon gbè）"
 
 #: weblate/html/i18n.html:84
 msgid "Haitian"
-msgstr "海地语"
+msgstr "海地克里奥尔语（kreyòl ayisyen）"
 
 #: weblate/html/i18n.html:85
 msgid "Hausa"
-msgstr "豪撒语"
+msgstr "豪撒语（هَوُسَ）"
 
 #: weblate/html/i18n.html:86
 msgid "Hebrew"
-msgstr "希伯来语"
+msgstr "希伯来语（עִבְרִית ）"
 
 #: weblate/html/i18n.html:87
 msgid "Hindi"
-msgstr "印地语"
+msgstr "印地语（हिन्दी）"
 
 #: weblate/html/i18n.html:88
 msgid "Hungarian"
-msgstr "匈牙利语"
+msgstr "匈牙利语（magyar nyelv）"
 
 #: weblate/html/i18n.html:89
 msgid "Icelandic"
-msgstr "冰岛语"
+msgstr "冰岛语（íslenska）"
 
 #: weblate/html/i18n.html:90
 msgid "Indonesian"
-msgstr "印尼语"
+msgstr "印尼语（Bahasa Indonesia）"
 
 #: weblate/html/i18n.html:91
 msgid "Interlingua"
-msgstr "国际语"
+msgstr "国际语（Interlingua）"
 
 #: weblate/html/i18n.html:92
 msgid "Irish"
-msgstr "爱尔兰语"
+msgstr "爱尔兰语（Gaeilge）"
 
 #: weblate/html/i18n.html:93
 msgid "Italian"
-msgstr "意大利语"
+msgstr "意大利语（Italiano）"
 
 #: weblate/html/i18n.html:94
 msgid "Japanese"
-msgstr "日语"
+msgstr "日语（日本語）"
 
 #: weblate/html/i18n.html:95
 msgid "Javanese"
-msgstr "爪哇语"
+msgstr "爪哇语（ꦧꦱꦗꦮ）"
 
 #: weblate/html/i18n.html:96
 msgid "Kannada"
-msgstr "堪纳德语"
+msgstr "卡纳达语（ಕನ್ನಡ）"
 
 #: weblate/html/i18n.html:97
 msgid "Kashubian"
-msgstr "卡舒比语"
+msgstr "卡舒比语（Kaszëbsczi jãzëk）"
 
 #: weblate/html/i18n.html:98
 msgid "Kazakh"
-msgstr "哈萨克语"
+msgstr "哈萨克语（қазақ тілі/قازاق تىلى‎）"
 
 #: weblate/html/i18n.html:99
 msgid "Kirghiz"
-msgstr "吉尔吉斯语"
+msgstr "吉尔吉斯语（Кыргыз тили）"
 
 #: weblate/html/i18n.html:100
 msgid "Kinyarwanda"
-msgstr ""
+msgstr "卢旺达语（Ikinyarwanda）"
 
 #: weblate/html/i18n.html:101
 msgid "Klingon"
-msgstr "克林贡语"
+msgstr "克林贡语（Klingon）"
 
 #: weblate/html/i18n.html:102
 msgid "Klingon (pIqaD)"
@@ -1875,230 +1875,224 @@ msgstr "克林贡语 (pIqaD)"
 
 #: weblate/html/i18n.html:103
 msgid "Korean"
-msgstr "韩语"
+msgstr "韩语/朝鲜语（한국어/조선말）"
 
 #: weblate/html/i18n.html:104
 msgid "Kurdish"
-msgstr "库尔德语"
+msgstr "库尔德语（كوردی）"
 
 #: weblate/html/i18n.html:105
 msgid "Kurdish Sorani"
-msgstr "库尔德语 索拉尼"
+msgstr "库尔德语索拉尼方言"
 
 #: weblate/html/i18n.html:106
 msgid "Kyrgyz"
-msgstr ""
+msgstr "柯尔克孜语（قىرعىز تىلى）"
 
 #: weblate/html/i18n.html:107
 msgid "Lao"
-msgstr "老挝语"
+msgstr "老挝语（ພາສາລາວ）"
 
 #: weblate/html/i18n.html:108
 msgid "Latvian"
-msgstr "拉脱维亚语"
+msgstr "拉脱维亚语（latviešu valoda）"
 
 #: weblate/html/i18n.html:109
 msgid "Limburgish"
-msgstr "林堡语"
+msgstr "林堡语（Lèmbörgs）"
 
 #: weblate/html/i18n.html:110
 msgid "Lingala"
-msgstr "林加拉语"
+msgstr "林加拉语（Lingála）"
 
 #: weblate/html/i18n.html:111
 msgid "Lithuanian"
-msgstr "立陶宛语"
+msgstr "立陶宛语（lietuvių）"
 
 #: weblate/html/i18n.html:112
 msgid "Lojban"
-msgstr ""
+msgstr "逻辑语（Lojban）"
 
 #: weblate/html/i18n.html:113
 msgid "Luxembourgish"
-msgstr "卢森堡语"
+msgstr "卢森堡语（Lëtzebuergesch）"
 
 #: weblate/html/i18n.html:114
 msgid "Macedonian"
-msgstr "马其顿语"
+msgstr "马其顿语（македонски јазик）"
 
 #: weblate/html/i18n.html:115
 msgid "Maithili"
-msgstr "米提里语"
+msgstr "迈蒂利语（मैथिली）"
 
 #: weblate/html/i18n.html:116
 msgid "Malagasy"
-msgstr "马尔加什语"
+msgstr "马拉加斯语（Malagasy）"
 
 #: weblate/html/i18n.html:117
 msgid "Malay"
-msgstr "马来语"
+msgstr "马来语（Bahasa Melayu）"
 
 #: weblate/html/i18n.html:118
 msgid "Malayalam"
-msgstr "马来亚拉姆语"
+msgstr "马拉雅拉姆语（മലയാളം）"
 
 #: weblate/html/i18n.html:119
 msgid "Maltese"
-msgstr "马尔他语"
+msgstr "马尔他语（Malti）"
 
 #: weblate/html/i18n.html:120
 msgid "Mandinka"
-msgstr ""
+msgstr "曼丁哥语（لغة مندنكا）"
 
 #: weblate/html/i18n.html:121
 msgid "Manipuri"
-msgstr ""
+msgstr "曼尼普尔语（মেইতেই লোন্）"
 
 #: weblate/html/i18n.html:122
 msgid "Maori"
-msgstr "毛利语"
+msgstr "毛利语（Māori）"
 
 #: weblate/html/i18n.html:123
 msgid "Mapudungun"
-msgstr "马普彻语"
+msgstr "马普彻语（Mapuche）"
 
 #: weblate/html/i18n.html:124
 msgid "Marathi"
-msgstr "马拉地语"
+msgstr "马拉地语（मराठी）"
 
 #: weblate/html/i18n.html:125
 msgid "Mongolian"
-msgstr "蒙古语"
+msgstr "蒙古语（Монгол хэл/ᠮᠣᠨᠭᠭᠣᠯ ᠬᠡᠯᠡ ）"
 
 #: weblate/html/i18n.html:126
 msgid "Morisyen"
-msgstr "毛里求斯语"
+msgstr "毛里求斯克里奥尔语（Kreol Morisyen）"
 
 #: weblate/html/i18n.html:127
 #, fuzzy
 msgid "N'Ko"
-msgstr "N'Ko"
+msgstr "恩科文（N'Ko）"
 
 #: weblate/html/i18n.html:128
 msgid "Nahuatl languages"
-msgstr "那瓦特语"
+msgstr "纳瓦特尔语（nāhuatl）"
 
 #: weblate/html/i18n.html:129
 msgid "Neapolitan"
-msgstr "那不勒斯语"
+msgstr "那不勒斯语（Nnapulitano）"
 
 #: weblate/html/i18n.html:130
 msgid "Nepali"
-msgstr "尼泊尔语"
+msgstr "尼泊尔语（नेपाली）"
 
 #: weblate/html/i18n.html:131
 msgid "Northern Sami"
-msgstr ""
+msgstr "北萨米语（davvisámegiella）"
 
 #: weblate/html/i18n.html:132
-#, fuzzy
-#| msgid "Norwegian Bokmål"
 msgid "Norwegian (old code)"
-msgstr "挪威博克马尔语"
+msgstr "老挪威语（gamle koden）"
 
 #: weblate/html/i18n.html:133
 msgid "Norwegian Bokmål"
-msgstr "挪威博克马尔语"
+msgstr "巴克摩挪威语（Norsk bokmål）"
 
 #: weblate/html/i18n.html:134
 msgid "Norwegian Nynorsk"
-msgstr "挪威尼诺斯克语"
+msgstr "新挪威语（nynorsk）"
 
 #: weblate/html/i18n.html:135
 msgid "Occitan"
-msgstr "奥克斯坦语"
+msgstr "奥克西坦语（Lenga d'òc）"
 
 #: weblate/html/i18n.html:136
 msgid "Oriya"
-msgstr "奥里雅语"
+msgstr "奥里雅语（ଓଡ଼ିଆ）"
 
 #: weblate/html/i18n.html:137
 msgid "Ossetian"
-msgstr ""
+msgstr "奥赛梯语（Ирон æвзаг）"
 
 #: weblate/html/i18n.html:138
 msgid "Papiamento"
-msgstr "帕皮阿门托语"
+msgstr "帕皮阿门托语（Papiamentu）"
 
 #: weblate/html/i18n.html:139
 msgid "Pedi"
-msgstr "佩地语"
+msgstr "佩迪语（Sepedi ）"
 
 #: weblate/html/i18n.html:140
 msgid "Persian"
-msgstr "波斯语"
+msgstr "波斯语（فارسی）"
 
 #: weblate/html/i18n.html:141
 msgid "Piemontese"
-msgstr "皮埃蒙特语"
+msgstr "皮埃蒙特语（Piemontèis）"
 
 #: weblate/html/i18n.html:142
 msgid "Polish"
-msgstr "波兰语"
+msgstr "波兰语（język polski）"
 
 #: weblate/html/i18n.html:143
 msgid "Portuguese"
-msgstr "葡萄牙语"
+msgstr "葡萄牙语（português）"
 
 #: weblate/html/i18n.html:144
 msgid "Portuguese (Brazil)"
-msgstr "葡萄牙语(巴西)"
+msgstr "巴西葡萄牙语（brasileiro）"
 
 #: weblate/html/i18n.html:145
 msgid "Portuguese (Portugal)"
-msgstr "葡萄牙语(葡萄牙)"
+msgstr "欧陆葡萄牙语（Portuguesa）"
 
 #: weblate/html/i18n.html:146
 msgid "Punjabi"
-msgstr "旁遮普语"
+msgstr "旁遮普语（ਪੰਜਾਬੀ）"
 
 #: weblate/html/i18n.html:147
 msgid "Pushto"
-msgstr "普什图语"
+msgstr "普什图语（پښتو）"
 
 #: weblate/html/i18n.html:148
 msgid "Romanian"
-msgstr "罗马尼亚语"
+msgstr "罗马尼亚语（limba română）"
 
 #: weblate/html/i18n.html:149
 msgid "Romansh"
-msgstr "罗曼斯语"
+msgstr "罗曼斯语（Rumantsch）"
 
 #: weblate/html/i18n.html:150
 msgid "Russian"
-msgstr "俄语"
+msgstr "俄语（Русский язык）"
 
 #: weblate/html/i18n.html:151
 msgid "Santali"
-msgstr ""
+msgstr "桑塔利语（Satār）"
 
 #: weblate/html/i18n.html:152
-#, fuzzy
-#| msgid "Ukrainian"
 msgid "Sardinian"
-msgstr "乌克兰语"
+msgstr "撒丁尼亚语（sardu）"
 
 #: weblate/html/i18n.html:153
 msgid "Scots"
-msgstr "苏格兰语"
+msgstr "低地苏格兰语（Scots）"
 
 #: weblate/html/i18n.html:154
 msgid "Serbian"
-msgstr "塞尔维亚语"
+msgstr "塞尔维亚语（српски/srpski）"
 
 #: weblate/html/i18n.html:155
 msgid "Serbian (cyrillic)"
-msgstr "塞尔维亚语(西里尔)"
+msgstr "西里尔塞尔维亚语（српска  ћирилица）"
 
 #: weblate/html/i18n.html:156
 msgid "Serbian (latin)"
-msgstr "塞尔维亚语(拉丁)"
+msgstr "拉丁塞尔维亚语（srpski latinica）"
 
 #: weblate/html/i18n.html:157
-#, fuzzy
-#| msgid "Croatian"
 msgid "Serbo-Croatian"
-msgstr "克罗地亚语"
+msgstr "塞尔维亚——克罗地亚语（srpskohrvatski/српскохрватски）"
 
 #: weblate/html/i18n.html:158
 msgid "Simplified Chinese"
@@ -2106,155 +2100,155 @@ msgstr "简体中文"
 
 #: weblate/html/i18n.html:159
 msgid "Sindhi"
-msgstr ""
+msgstr "信德语（سنڌي）"
 
 #: weblate/html/i18n.html:160
 msgid "Sinhala"
-msgstr "僧伽罗语"
+msgstr "僧伽罗语（සිංහල）"
 
 #: weblate/html/i18n.html:161
 msgid "Slovak"
-msgstr "斯洛伐克语"
+msgstr "斯洛伐克语（slovenčina）"
 
 #: weblate/html/i18n.html:162
 msgid "Slovenian"
-msgstr "斯洛文尼亚语"
+msgstr "斯洛文尼亚语（slovenščina）"
 
 #: weblate/html/i18n.html:163
 msgid "Somali"
-msgstr "索马里语"
+msgstr "索马里语（Af-Soomaali）"
 
 #: weblate/html/i18n.html:164
 msgid "Songhai languages"
-msgstr "桑海语"
+msgstr "桑海语（Songhai）"
 
 #: weblate/html/i18n.html:165
 msgid "Sotho"
-msgstr "梭托语"
+msgstr "塞索托语（Sesotho）"
 
 #: weblate/html/i18n.html:166
 msgid "Spanish"
-msgstr "西班牙语"
+msgstr "西班牙语（español）"
 
 #: weblate/html/i18n.html:167
 msgid "Sundanese"
-msgstr "巽他语"
+msgstr "巽他语"（Basa Sunda）
 
 #: weblate/html/i18n.html:168
 msgid "Swahili"
-msgstr "斯瓦希里语"
+msgstr "斯瓦希里语（Kiswahili）"
 
 #: weblate/html/i18n.html:169
 msgid "Swedish"
-msgstr "瑞典语"
+msgstr "瑞典语（svenska）"
 
 #: weblate/html/i18n.html:170
 msgid "Tagalog"
-msgstr "他加禄语"
+msgstr "他加禄语（Tagalog）"
 
 #: weblate/html/i18n.html:171
 msgid "Tajik"
-msgstr "塔吉克语"
+msgstr "塔吉克语（Tоҷикӣ/تاجیکی‎）"
 
 #: weblate/html/i18n.html:172
 msgid "Tamil"
-msgstr "坦米儿语"
+msgstr "泰米尔语（தமிழ்）"
 
 #: weblate/html/i18n.html:173
 msgid "Tatar"
-msgstr "鞑靼语"
+msgstr "鞑靼语/塔塔尔语（татар теле / تاتار تيلی）"
 
 #: weblate/html/i18n.html:174
 msgid "Telugu"
-msgstr "泰卢固语"
+msgstr "泰卢固语（తెలుగు）"
 
 #: weblate/html/i18n.html:175
 msgid "Thai"
-msgstr "泰语"
+msgstr "泰语（ภาษาไทย）"
 
 #: weblate/html/i18n.html:176
 msgid "Tibetan"
-msgstr "藏语"
+msgstr "藏语（བོད་སྐད་）"
 
 #: weblate/html/i18n.html:177
 msgid "Tigrinya"
-msgstr "提格里尼亚语"
+msgstr "提格利尼亚语（ትግርኛ）"
 
 #: weblate/html/i18n.html:178
 msgid "Traditional Chinese"
-msgstr "繁体中文"
+msgstr "繁体中文（繁體中文/正體中文）"
 
 #: weblate/html/i18n.html:179
 msgid "Tsonga"
-msgstr ""
+msgstr "聪加语（Xitsonga）"
 
 #: weblate/html/i18n.html:180
 msgid "Turkish"
-msgstr "土耳其语"
+msgstr "土耳其语（Türkçe）"
 
 #: weblate/html/i18n.html:181
 msgid "Turkmen"
-msgstr "土库曼语"
+msgstr "土库曼语（Türkmen dili）"
 
 #: weblate/html/i18n.html:182
 msgid "Uighur"
-msgstr "维吾尔语"
+msgstr "维吾尔语（ئۇيغۇر تىلى‎）"
 
 #: weblate/html/i18n.html:183
 msgid "Ukrainian"
-msgstr "乌克兰语"
+msgstr "乌克兰语（українська мова）"
 
 #: weblate/html/i18n.html:184
 msgid "Urdu"
-msgstr "乌尔都语"
+msgstr "乌尔都语（اردو）"
 
 #: weblate/html/i18n.html:185
 msgid "Uzbek"
-msgstr "乌兹别克语"
+msgstr "乌兹别克语/乌孜别克语（ўзбек тили/اۉزبېک تیلی）"
 
 #: weblate/html/i18n.html:186
 msgid "Uzbek (latin)"
-msgstr "乌兹别克语(拉丁)"
+msgstr "拉丁乌兹别克语（oʻzbek tili）"
 
 #: weblate/html/i18n.html:187
 msgid "Valencian"
-msgstr "巴伦西亚语"
+msgstr "巴伦西亚语（Valencià）"
 
 #: weblate/html/i18n.html:188
 msgid "Venda"
-msgstr "文达语"
+msgstr "文达语（Tshivenḓa）"
 
 #: weblate/html/i18n.html:189
 msgid "Vietnamese"
-msgstr "越南语"
+msgstr "越南语（Tiếng Việt）"
 
 #: weblate/html/i18n.html:190
 msgid "Walloon"
-msgstr "瓦龙语"
+msgstr "瓦龙语（Walon）"
 
 #: weblate/html/i18n.html:191
 msgid "Welsh"
-msgstr "威尔士语"
+msgstr "威尔士语（Cymraeg）"
 
 #: weblate/html/i18n.html:192
 msgid "West Flemish"
-msgstr "西佛兰德语"
+msgstr "西佛兰德语（West-Vlaams）"
 
 #: weblate/html/i18n.html:193
 msgid "Wolof"
-msgstr "沃洛夫语"
+msgstr "沃洛夫语（Wolof）"
 
 #: weblate/html/i18n.html:194
 msgid "Yakut"
-msgstr "雅库特语"
+msgstr "雅库特语（Саха тыла）"
 
 #: weblate/html/i18n.html:195
 msgid "Yoruba"
-msgstr "约鲁巴语"
+msgstr "约鲁巴语（Èdè Yorùbá）"
 
 #: weblate/html/i18n.html:196
 msgid "Zulu"
-msgstr "祖鲁语"
+msgstr "祖鲁语（isiZulu）"
 
 #: weblate/html/index.html:11
 #, python-format
@@ -2312,13 +2306,13 @@ msgstr "小部件"
 msgid ""
 "Choose your languages in preferences and you will get an overview here of "
 "available translations for those languages."
-msgstr ""
+msgstr "选择您的语言偏好然后将得到所允许的翻译概览。"
 
 #: weblate/html/index.html:59
 #, fuzzy
 #| msgid "Share your translation"
 msgid "Manage your translations"
-msgstr "分享您的翻译"
+msgstr "管理您的翻译"
 
 #: weblate/html/index.html:72 weblate/html/index.html.py:118
 #: weblate/html/languages.html:15 weblate/html/list-translations.html:9
@@ -2347,13 +2341,13 @@ msgstr "已建议"
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all changes"
-msgstr "查看改动"
+msgstr "查看所有改动"
 
 #: weblate/html/js/changes.html:5 weblate/html/subproject.html:131
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all component changes"
-msgstr "查看改动"
+msgstr "查看成分改动"
 
 #: weblate/html/js/detail.html:48 weblate/html/list-checks.html:9
 #, python-format
@@ -2436,7 +2430,7 @@ msgstr "提交"
 #, fuzzy
 #| msgid "Reset all changes in local repository"
 msgid "Commit pending changes to the local repository"
-msgstr "重设本地代码库的所有修改"
+msgstr "提交本地代码库的编辑审核"
 
 #: weblate/html/js/git-status.html:120
 msgid "Pull"
@@ -2466,7 +2460,7 @@ msgstr "衍合"
 #, fuzzy
 #| msgid "Push changes to remote repository"
 msgid "Rebase local changes onto the remote repository"
-msgstr "将修改推送至远程代码库"
+msgstr "将修改衍合至远程代码库"
 
 #: weblate/html/js/git-status.html:153
 msgid "Reset"
@@ -2503,7 +2497,7 @@ msgstr "阻止代码库的任何修改"
 #, fuzzy
 #| msgid "review"
 msgid "Overview"
-msgstr "复查"
+msgstr "概览"
 
 #: weblate/html/language.html:16 weblate/html/project.html:113
 msgid "Glossaries"
@@ -2523,7 +2517,7 @@ msgstr "查看改动"
 
 #: weblate/html/language.html:49
 msgid "There are no glossaries defined for this language."
-msgstr ""
+msgstr "此语言为定义任何概览"
 
 #: weblate/html/last-changes-content.html:8
 msgid "When"
@@ -2545,7 +2539,7 @@ msgstr "未找到匹配的活动。"
 #, fuzzy
 #| msgid "Your translations"
 msgid "Good translations"
-msgstr "我的翻译项目"
+msgstr "优质翻译项目"
 
 #: weblate/html/legend.html:8 weblate/html/progress.html:8
 #, fuzzy
@@ -2557,7 +2551,7 @@ msgstr "未通过检查的条目"
 #, fuzzy
 #| msgid "Your translations"
 msgid "Fuzzy translations"
-msgstr "我的翻译项目"
+msgstr "模糊翻译项目"
 
 #: weblate/html/list-comments.html:13
 #, fuzzy
@@ -2577,7 +2571,7 @@ msgstr "源条目："
 #| msgid "translated"
 msgctxt "Number of untranslated strings"
 msgid "Untranslated"
-msgstr "已翻译"
+msgstr "未翻译"
 
 #: weblate/html/list-translations.html:11
 #: weblate/html/list-translations.html:22
@@ -2605,11 +2599,11 @@ msgstr "建议"
 
 #: weblate/html/list-translations.html:17
 msgid "Configure columns"
-msgstr ""
+msgstr "配置栏"
 
 #: weblate/html/list-translations.html:36 weblate/html/translation.html:89
 msgid "This translation is being used as source strings within this component."
-msgstr ""
+msgstr "此翻译正被用作此部件的源条目。"
 
 #: weblate/html/list-translations.html:36
 #, fuzzy
@@ -2701,7 +2695,7 @@ msgstr "由 Weblate 翻译系统发送"
 
 #: weblate/html/mail/base.html:32
 msgid "Change subscription settings"
-msgstr ""
+msgstr "订阅设置"
 
 #: weblate/html/mail/changed_translation.html:11
 #: weblate/html/mail/changed_translation.txt:3
@@ -2865,7 +2859,7 @@ msgstr "申请语言："
 #, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
-msgstr "申请的语言为："
+msgstr "申请人："
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -2987,7 +2981,7 @@ msgstr "推此翻译!"
 #: weblate/html/project.html:53 weblate/html/subproject.html:52
 #: weblate/html/translation.html:69
 msgid "Engage page"
-msgstr ""
+msgstr "衔接页"
 
 #: weblate/html/project.html:54 weblate/html/subproject.html:53
 #: weblate/html/translation.html:70
@@ -3014,7 +3008,7 @@ msgstr "项目信息"
 
 #: weblate/html/project.html:122
 msgid "There are currently no glossaries defined for this project."
-msgstr ""
+msgstr "此项目目前没有词汇表"
 
 #: weblate/html/project.html:126
 msgid "Manage all glossaries"
@@ -3038,31 +3032,31 @@ msgstr "用户"
 
 #: weblate/html/project.html:171
 msgid "Owner"
-msgstr ""
+msgstr "拥有者"
 
 #: weblate/html/project.html:182 weblate/html/project.html.py:211
 msgid "Remove"
-msgstr ""
+msgstr "删除"
 
 #: weblate/html/project.html:191
 msgid "Revoke ownership"
-msgstr ""
+msgstr "撤销所有权"
 
 #: weblate/html/project.html:219
 msgid "Make owner"
-msgstr ""
+msgstr "成为拥有者"
 
 #: weblate/html/project.html:244
 #, fuzzy
 #| msgid "Add new word"
 msgid "Add new user"
-msgstr "添加新单词"
+msgstr "添加用户"
 
 #: weblate/html/project.html:246
 #, fuzzy
 #| msgid "Add new word"
 msgid "Add new owner"
-msgstr "添加新单词"
+msgstr "添加拥有者"
 
 #: weblate/html/project_info.html:9
 #, fuzzy
@@ -3117,7 +3111,7 @@ msgstr "复查"
 
 #: weblate/html/source-review.html:23 weblate/trans/forms.py:751
 msgid "Priority"
-msgstr ""
+msgstr "优先权"
 
 #: weblate/html/source-review.html:43
 msgid "Comment"
@@ -3160,17 +3154,17 @@ msgstr "请选择您想翻译的语言。"
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
-msgstr ""
+msgstr "维护者将收到关于请求的提醒并手动增加语言"
 
 #: weblate/html/subproject.html:106
 msgid "Can't find your language in the list above?"
-msgstr ""
+msgstr "列表中找不到你的语言？"
 
 #: weblate/html/subproject.html:110
 #, fuzzy
 #| msgid "Start new translation"
 msgid "Request new translation"
-msgstr "开始新翻译"
+msgstr "请求新翻译"
 
 #: weblate/html/subproject.html:112
 msgid "Start new translation"
@@ -3190,7 +3184,7 @@ msgstr "代码库状态"
 #, fuzzy
 #| msgid "Repository browser"
 msgid "Repository branch"
-msgstr "代码库浏览器"
+msgstr "代码库分支"
 
 #: weblate/html/subproject_info.html:41
 #, fuzzy
@@ -3204,11 +3198,11 @@ msgstr "改动"
 
 #: weblate/html/trans/change_list.html:13
 msgid "Download all changes as CSV"
-msgstr ""
+msgstr "以CSV格式下载所有改动"
 
 #: weblate/html/trans/change_list.html:17
 msgid "Follow using RSS"
-msgstr ""
+msgstr "订阅RSS"
 
 #: weblate/html/translate.html:16
 msgid "translate"
@@ -3216,7 +3210,7 @@ msgstr "翻译"
 
 #: weblate/html/translate.html:31
 msgid "Edit in Zen mode"
-msgstr ""
+msgstr "在Zen模式下编辑"
 
 #: weblate/html/translate.html:31
 msgid "Zen"
@@ -3246,43 +3240,43 @@ msgstr "最后一条"
 
 #: weblate/html/translate.html:64
 msgid "Keyboard shortcuts available:"
-msgstr ""
+msgstr "可用快捷键："
 
 #: weblate/html/translate.html:65
 msgid "Ctrl+Enter - Save"
-msgstr ""
+msgstr "Ctrl+回车 - 保存"
 
 #: weblate/html/translate.html:66
 msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
-msgstr ""
+msgstr "Ctrl+Shift+回车 - 取消模糊并保存"
 
 #: weblate/html/translate.html:67
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
-msgstr ""
+msgstr "Alt+PageUp/PageDown/Home/End - 译文导航"
 
 #: weblate/html/translate.html:68
 #, fuzzy
 #| msgid "Save translation history"
 msgid "Alt+E - Focus translation editor"
-msgstr "保存翻译历史"
+msgstr "Alt+E - 定位翻译错误"
 
 #: weblate/html/translate.html:69
 msgid "Alt+C - Focus comment editor"
-msgstr ""
+msgstr "Alt+C - 定位注释错误"
 
 #: weblate/html/translate.html:70
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Alt+M - Shows machine translation tab"
-msgstr "机器翻译"
+msgstr "Alt+M - 机器翻译"
 
 #: weblate/html/translate.html:71
 msgid "Alt+N - Shows nearby strings tab"
-msgstr ""
+msgstr "Alt+N - 附近字符串"
 
 #: weblate/html/translate.html:72
 msgid "Alt+S - Shows search tab"
-msgstr ""
+msgstr "Alt+S - 搜索"
 
 #: weblate/html/translate.html:88
 msgid "Source change"
@@ -3324,7 +3318,7 @@ msgstr "在提交信息中附加的内容。"
 msgid ""
 "You can leave this empty in most cases as Weblate generates basic commit "
 "messages automatically."
-msgstr ""
+msgstr "您可以留空，Weblate会产生基本信息"
 
 #: weblate/html/translate.html:142
 msgid "Messages placed around this one"
@@ -3368,11 +3362,11 @@ msgstr "状态"
 #: weblate/html/translate.html:187
 #, python-format
 msgid "%(user)s has suggested"
-msgstr ""
+msgstr "%(user)s 提出建议"
 
 #: weblate/html/translate.html:189
 msgid "Anonymous user has suggested"
-msgstr ""
+msgstr "匿名用户提出建议"
 
 #: weblate/html/translate.html:195
 #, fuzzy, python-format
@@ -3384,11 +3378,11 @@ msgstr[0] "，%(count)s 票"
 
 #: weblate/html/translate.html:200
 msgid "Vote for"
-msgstr ""
+msgstr "同意"
 
 #: weblate/html/translate.html:201
 msgid "Vote against"
-msgstr ""
+msgstr "拒绝"
 
 #: weblate/html/translate.html:204
 msgid "Accept"
@@ -3396,7 +3390,7 @@ msgstr "接受"
 
 #: weblate/html/translate.html:205
 msgid "Accept and edit"
-msgstr ""
+msgstr "接受并修改"
 
 #: weblate/html/translate.html:231
 #, fuzzy
@@ -3492,23 +3486,23 @@ msgstr "翻译许可证的简介 可选。"
 
 #: weblate/html/translation.html:33
 msgid "Download source file"
-msgstr ""
+msgstr "下载源文件"
 
 #: weblate/html/translation.html:35 weblate/html/translation.html.py:140
 msgid "Download for using within an application."
-msgstr ""
+msgstr "下载以在应用内使用"
 
 #: weblate/html/translation.html:35
 #, fuzzy
 #| msgid "Copy word to translation"
 msgid "Download compiled translation"
-msgstr "复制单词到翻译"
+msgstr "下载打包翻译"
 
 #: weblate/html/translation.html:38
 #, fuzzy
 #| msgid "Your translations"
 msgid "Upload translation"
-msgstr "我的翻译项目"
+msgstr "上传翻译项目"
 
 #: weblate/html/translation.html:48 weblate/html/translation.html.py:222
 msgid "Locking"
@@ -3539,7 +3533,7 @@ msgstr "翻译"
 #, fuzzy
 #| msgid "Comments"
 msgid "Other components"
-msgstr "注释"
+msgstr "其他组件"
 
 #: weblate/html/translation.html:169
 #, fuzzy
@@ -3640,13 +3634,13 @@ msgstr "动态"
 #, fuzzy
 #| msgid "Last name"
 msgid "Last change"
-msgstr "姓氏"
+msgstr "上次更改"
 
 #: weblate/html/translation.html:345
 #, fuzzy
 #| msgid "Last name"
 msgid "Last author"
-msgstr "姓氏"
+msgstr "最终作者"
 
 #: weblate/html/unit-context.html:5
 #, fuzzy
@@ -3664,7 +3658,7 @@ msgstr "%s 的源条目"
 #, fuzzy
 #| msgid "Source string:"
 msgid "Source string age"
-msgstr "源条目："
+msgstr "源条目年龄"
 
 #: weblate/html/unit-details.html:30
 #, fuzzy, python-format
@@ -3753,11 +3747,11 @@ msgstr "Textile 代码"
 
 #: weblate/html/widgets.html:48
 msgid "Image URL"
-msgstr ""
+msgstr "图片地址"
 
 #: weblate/html/zen-units.html:15
 msgid "Open in full editor"
-msgstr ""
+msgstr "在完全编辑器内打开"
 
 #: weblate/html/zen-units.html:44
 msgctxt "Message is fuzzy"
@@ -3845,13 +3839,13 @@ msgstr "复数形式 %d"
 
 #: weblate/trans/admin.py:42 weblate/trans/models/project.py:136
 msgid "Owners"
-msgstr ""
+msgstr "拥有者"
 
 #: weblate/trans/admin.py:46
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "VCS repositories"
-msgstr "代码库状态"
+msgstr "vcs代码库"
 
 #: weblate/trans/admin.py:50
 #, fuzzy
@@ -3869,13 +3863,13 @@ msgstr "源条目"
 #, fuzzy
 #| msgid "Git repository"
 msgid "Update VCS repository"
-msgstr "Git 代码库"
+msgstr "升级VCS代码库"
 
 #: weblate/trans/admin.py:81 weblate/trans/admin.py:129
 #, fuzzy
 #| msgid "Quality checks flags"
 msgid "Update quality checks"
-msgstr "品质检查标记"
+msgstr "升级品质检查"
 
 #: weblate/trans/admin.py:93 weblate/trans/admin.py:141
 #, fuzzy
@@ -3909,7 +3903,7 @@ msgstr "索引分离"
 #, fuzzy
 #| msgid "Indexing offloading"
 msgid "Indexing offloading processing"
-msgstr "索引分离"
+msgstr "索引分离中"
 
 #: weblate/trans/admin_views.py:113
 msgid "Django caching"
@@ -3919,7 +3913,7 @@ msgstr "Django 缓存"
 #, fuzzy
 #| msgid "Django caching"
 msgid "Avatar caching"
-msgstr "Django 缓存"
+msgstr "头像缓存"
 
 #: weblate/trans/admin_views.py:130
 msgid "Email addresses"
@@ -3943,7 +3937,7 @@ msgstr "允许的主机"
 
 #: weblate/trans/admin_views.py:164
 msgid "Cached template loader"
-msgstr ""
+msgstr "缓存模板加载器"
 
 #: weblate/trans/admin_views.py:172
 msgid "Admin static files"
@@ -3953,7 +3947,7 @@ msgstr "Admin静态文件"
 #, fuzzy
 #| msgid "Your translations"
 msgid "Weblate translations"
-msgstr "我的翻译项目"
+msgstr "您的翻译项目"
 
 #: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:323
 msgid "Trailing ellipsis"
@@ -4088,7 +4082,7 @@ msgstr "C 格式"
 
 #: weblate/trans/checks/format.py:261
 msgid "Javascript format"
-msgstr ""
+msgstr "Javascript 格式"
 
 #: weblate/trans/checks/format.py:269
 msgid "Python brace format"
@@ -4144,7 +4138,7 @@ msgstr "未通过检查"
 
 #: weblate/trans/checks/source.py:70
 msgid "The translations in several languages have failing checks"
-msgstr ""
+msgstr "在几门语言中发生翻译检查失败"
 
 #: weblate/trans/feeds.py:42 weblate/trans/feeds.py:80
 #, python-format
@@ -4216,17 +4210,17 @@ msgstr "Android 字符串资源"
 
 #: weblate/trans/formats.py:1025
 msgid "JSON file"
-msgstr ""
+msgstr "JSON文件"
 
 #: weblate/trans/formats.py:1065
 msgid "CSV file"
-msgstr ""
+msgstr "CSV 文件"
 
 #: weblate/trans/forms.py:102
 #, fuzzy
 #| msgid "Source string:"
 msgid "Fill in with source string"
-msgstr "源条目："
+msgstr "以源条目填充"
 
 #: weblate/trans/forms.py:130 weblate/trans/forms.py:138
 msgid "Toggle text direction"
@@ -4246,7 +4240,7 @@ msgstr "复数等式"
 #, fuzzy
 #| msgid "Documentation"
 msgid "Documentation for plurals."
-msgstr "文档"
+msgstr "复数文档"
 
 #: weblate/trans/forms.py:283
 msgid "Message you wanted to translate is no longer available!"
@@ -4281,11 +4275,11 @@ msgstr "添加为模糊翻译"
 #, fuzzy
 #| msgid "Fuzzy strings"
 msgid "Fuzzy strings processing"
-msgstr "模糊条目"
+msgstr "模糊条目处理中"
 
 #: weblate/trans/forms.py:348
 msgid "Do not import"
-msgstr ""
+msgstr "请勿输入"
 
 #: weblate/trans/forms.py:349
 #, fuzzy
@@ -4488,23 +4482,23 @@ msgstr "开头字母"
 
 #: weblate/trans/forms.py:692
 msgid "Scope"
-msgstr ""
+msgstr "范围"
 
 #: weblate/trans/forms.py:694
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
-msgstr ""
+msgstr "是本翻译还是全部内容？"
 
 #: weblate/trans/forms.py:700
 msgid "Source string comment, suggestions to change this string"
-msgstr ""
+msgstr "源条目注释，建议更改此条目"
 
 #: weblate/trans/forms.py:704
 #, fuzzy
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "Translation comment, discussions with other translators"
-msgstr "您可以分享关于此条目的注释给其它翻译。"
+msgstr "翻译注释，与其他翻译者交流。"
 
 #: weblate/trans/forms.py:717
 msgid "Whole project"
@@ -4512,17 +4506,17 @@ msgstr "整个项目"
 
 #: weblate/trans/forms.py:743
 msgid "Please select"
-msgstr ""
+msgstr "请选择"
 
 #: weblate/trans/forms.py:754
 msgid "Strings with higher priority are offered first to translators."
-msgstr ""
+msgstr "高优先级条目将最先提供给翻译者"
 
 #: weblate/trans/forms.py:761
 #, fuzzy
 #| msgid "Checks"
 msgid "Check flags"
-msgstr "检查"
+msgstr "检查标记"
 
 #: weblate/trans/forms.py:764
 #, python-brace-format
@@ -4530,26 +4524,27 @@ msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
+"请用逗号分隔开检查标记, 详情见<a href=\"{url}\">文档</a>."
 
 #: weblate/trans/forms.py:785
 msgid "User to add"
-msgstr ""
+msgstr "添加者"
 
 #: weblate/trans/forms.py:787
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
-msgstr ""
+msgstr "请提供用户名或邮箱。用户需在Weblate上拥有活跃账户。"
 
 #: weblate/trans/forms.py:799
 #, fuzzy
 #| msgid "No matching strings found!"
 msgid "No matching user found!"
-msgstr "未找到匹配的条目!"
+msgstr "未找到匹配的用户!"
 
 #: weblate/trans/forms.py:801
 msgid "More users matched!"
-msgstr ""
+msgstr "已匹配更多用户"
 
 #: weblate/trans/models/advertisement.py:36
 #, fuzzy, python-brace-format
@@ -4560,7 +4555,7 @@ msgstr "捐助 Weblate!"
 #: weblate/trans/models/advertisement.py:37
 #, python-brace-format
 msgid "Support Weblate at {0}"
-msgstr ""
+msgstr "支持Weblate"
 
 #: weblate/trans/models/advertisement.py:38
 #, fuzzy, python-brace-format
@@ -4574,7 +4569,7 @@ msgstr "捐助 Weblate"
 
 #: weblate/trans/models/advertisement.py:42
 msgid "Support Weblate using GitTip"
-msgstr ""
+msgstr "利用GitTip支持Weblate"
 
 #: weblate/trans/models/advertisement.py:43
 #, fuzzy
@@ -4584,17 +4579,17 @@ msgstr "更多信息"
 
 #: weblate/trans/models/advertisement.py:95
 msgid "Mail footer (text)"
-msgstr ""
+msgstr "邮件脚注（纯文本）"
 
 #: weblate/trans/models/advertisement.py:96
 msgid "Mail footer (HTML)"
-msgstr ""
+msgstr "邮件脚注（HTML）"
 
 #: weblate/trans/models/advertisement.py:101
 #, fuzzy
 #| msgid "Papiamento"
 msgid "Placement"
-msgstr "帕皮阿门托语"
+msgstr "上下文"
 
 #: weblate/trans/models/advertisement.py:104
 #, fuzzy
@@ -4604,27 +4599,27 @@ msgstr "开始日期"
 
 #: weblate/trans/models/advertisement.py:107
 msgid "End date"
-msgstr ""
+msgstr "截止日期"
 
 #: weblate/trans/models/advertisement.py:110
 msgid "Text"
-msgstr ""
+msgstr "文本"
 
 #: weblate/trans/models/advertisement.py:112
 msgid "Depending on placement, HTML can be allowed."
-msgstr ""
+msgstr "上下文有关，允许HTML."
 
 #: weblate/trans/models/advertisement.py:118
 msgid "Free form note for your notes, not used within Weblate."
-msgstr ""
+msgstr "自由式备注，不会在Weblate内使用"
 
 #: weblate/trans/models/advertisement.py:130
 msgid "Advertisement"
-msgstr ""
+msgstr "广告"
 
 #: weblate/trans/models/advertisement.py:131
 msgid "Advertisements"
-msgstr ""
+msgstr "广告"
 
 #: weblate/trans/models/changes.py:156
 msgid "Resource update"
@@ -4674,65 +4669,65 @@ msgstr "词汇表已上传"
 #, fuzzy
 #| msgid "Source string:"
 msgid "New source string"
-msgstr "源条目："
+msgstr "新源条目："
 
 #: weblate/trans/models/changes.py:170
 #, fuzzy
 #| msgid "Subproject to use"
 msgid "Component locked"
-msgstr "要使用的子项目"
+msgstr "部件已锁"
 
 #: weblate/trans/models/changes.py:171
 #, fuzzy
 #| msgid "Comment added"
 msgid "Component unlocked"
-msgstr "已添加注释"
+msgstr "部件已解锁"
 
 #: weblate/trans/models/changes.py:172
 msgid "Detected duplicate string"
-msgstr ""
+msgstr "发现重复语句"
 
 #: weblate/trans/models/changes.py:173
 #, fuzzy
 #| msgid "Commit pending changes"
 msgid "Commited changes"
-msgstr "提交挂起的修改"
+msgstr "提交修改"
 
 #: weblate/trans/models/changes.py:174
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Pushed changes"
-msgstr "查看改动"
+msgstr "推送改动"
 
 #: weblate/trans/models/changes.py:175
 #, fuzzy
 #| msgid "Git repository"
 msgid "Reset repository"
-msgstr "Git 代码库"
+msgstr "重置代码库"
 
 #: weblate/trans/models/changes.py:176
 #, fuzzy
 #| msgid "Git repository"
 msgid "Merged repository"
-msgstr "Git 代码库"
+msgstr "已合并代码库"
 
 #: weblate/trans/models/changes.py:177
 #, fuzzy
 #| msgid "Git repository"
 msgid "Rebased repository"
-msgstr "Git 代码库"
+msgstr "已复位代码库"
 
 #: weblate/trans/models/changes.py:178
 #, fuzzy
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed merge on repository"
-msgstr "获取 Git 代码库失败：%s"
+msgstr "合并代码库失败：%s"
 
 #: weblate/trans/models/changes.py:179
 #, fuzzy
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed rebase on repository"
-msgstr "获取 Git 代码库失败：%s"
+msgstr "复位代码库失败：%s"
 
 #: weblate/trans/models/changes.py:244
 #, python-format
@@ -4806,7 +4801,7 @@ msgstr "启用ACL"
 
 #: weblate/trans/models/project.py:131
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr ""
+msgstr "是否允许使用远程钩子更新"
 
 #: weblate/trans/models/project.py:139
 #, fuzzy
@@ -4826,25 +4821,25 @@ msgstr "无法创建项目目录: %s"
 
 #: weblate/trans/models/source.py:26
 msgid "Very high"
-msgstr ""
+msgstr "极高"
 
 #: weblate/trans/models/source.py:27
 msgid "High"
-msgstr ""
+msgstr "高"
 
 #: weblate/trans/models/source.py:28
 msgid "Medium"
-msgstr ""
+msgstr "中"
 
 #: weblate/trans/models/source.py:29
 #, fuzzy
 #| msgid "Lao"
 msgid "Low"
-msgstr "老挝语"
+msgstr "低"
 
 #: weblate/trans/models/source.py:30
 msgid "Very low"
-msgstr ""
+msgstr "极低"
 
 #: weblate/trans/models/subproject.py:68
 msgid "Use contact form"
@@ -4874,12 +4869,12 @@ msgstr "已添加注释"
 
 #: weblate/trans/models/subproject.py:109
 msgid "Version control system"
-msgstr ""
+msgstr "版本控制系统"
 
 #: weblate/trans/models/subproject.py:112
 msgid ""
 "Version control system to use to access your repository with translations."
-msgstr ""
+msgstr "版本控制系统用于读取代码库并输入翻译。"
 
 #: weblate/trans/models/subproject.py:122
 #, fuzzy
@@ -4957,7 +4952,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:187
 msgid "Edit base file"
-msgstr ""
+msgstr "编辑模板文件"
 
 #: weblate/trans/models/subproject.py:190
 #, fuzzy
@@ -4996,7 +4991,7 @@ msgstr "包含提交的额外文件；请参阅文档以观其详。"
 
 #: weblate/trans/models/subproject.py:225
 msgid "Post-update script"
-msgstr ""
+msgstr "升级后文本"
 
 #: weblate/trans/models/subproject.py:231
 #, fuzzy
@@ -5006,7 +5001,7 @@ msgstr ""
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
-msgstr "提交翻译前要执行的脚本，详细信息请查阅文档。"
+msgstr "升级翻译后要执行的脚本，详细信息请查阅文档。"
 
 #: weblate/trans/models/subproject.py:236
 msgid "Pre-commit script"
@@ -5022,7 +5017,7 @@ msgstr "提交翻译前要执行的脚本，详细信息请查阅文档。"
 #, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-commit script"
-msgstr "提交前脚本"
+msgstr "提交后脚本"
 
 #: weblate/trans/models/subproject.py:253
 #, fuzzy
@@ -5032,13 +5027,13 @@ msgstr "提交前脚本"
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
-msgstr "提交翻译前要执行的脚本，详细信息请查阅文档。"
+msgstr "提交翻译后要执行的脚本，详细信息请查阅文档。"
 
 #: weblate/trans/models/subproject.py:258
 #, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-push script"
-msgstr "提交前脚本"
+msgstr "推送后脚本"
 
 #: weblate/trans/models/subproject.py:264
 #, fuzzy
@@ -5048,7 +5043,7 @@ msgstr "提交前脚本"
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
-msgstr "提交翻译前要执行的脚本，详细信息请查阅文档。"
+msgstr "推送翻译后要执行的脚本，详细信息请查阅文档。"
 
 #: weblate/trans/models/subproject.py:270
 msgid "Locked"
@@ -5086,7 +5081,7 @@ msgstr "是否让 Weblate 保留翻译的历史记录"
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Enable suggestions"
-msgstr "无效建议！"
+msgstr "允许建议"
 
 #: weblate/trans/models/subproject.py:296
 #, fuzzy
@@ -5135,13 +5130,13 @@ msgstr "含有许可证详细内容的地址 可选。"
 
 #: weblate/trans/models/subproject.py:343
 msgid "Contributor agreement"
-msgstr ""
+msgstr "提供者协议"
 
 #: weblate/trans/models/subproject.py:347
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
-msgstr ""
+msgstr "翻译此内容前需同意的协议。"
 
 #: weblate/trans/models/subproject.py:354
 msgid "New language"
@@ -5151,7 +5146,7 @@ msgstr "新增语言"
 msgid ""
 "How to handle requests for creating new languages. Please note that "
 "availability of choices depends on the file format."
-msgstr ""
+msgstr "如何处置新增语言请求。请记住是否允许选择取决于文件格式。"
 
 #: weblate/trans/models/subproject.py:366
 msgid "Merge style"
@@ -5186,13 +5181,13 @@ msgstr "提交者邮箱"
 #, fuzzy
 #| msgid "Language"
 msgid "Language filter"
-msgstr "语言"
+msgstr "语言过滤器"
 
 #: weblate/trans/models/subproject.py:400
 msgid ""
 "Regullar expression which is used to filter translation when scanning for "
 "file mask."
-msgstr ""
+msgstr "正则表达式可用于在扫描文件掩码时过滤翻译。"
 
 #: weblate/trans/models/subproject.py:653
 msgid ""
@@ -5239,13 +5234,13 @@ msgstr "无法连接到引用的代码库！"
 
 #: weblate/trans/models/subproject.py:1070
 msgid "Invalid link to a Weblate project, can not link to self!"
-msgstr ""
+msgstr "无法连接自身！"
 
 #: weblate/trans/models/subproject.py:1077
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, use weblate://project/component."
-msgstr "无法连接到引用的代码库！"
+msgstr "非法链接, 请用 weblate://project/component."
 
 #: weblate/trans/models/subproject.py:1083
 msgid "Push URL is not used when repository is linked!"
@@ -5262,7 +5257,7 @@ msgstr "此掩码不和任何文件匹配！"
 #: weblate/trans/models/subproject.py:1102
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
-msgstr ""
+msgstr "%s语言代码为空, 请检查文件掩码!"
 
 #: weblate/trans/models/subproject.py:1107
 #, fuzzy
@@ -5281,6 +5276,8 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
+"单一语言代码(%s)映射了多个翻译. 您应该 "
+"禁用 SIMPLIFY_LANGUAGES 防止Weblate映射相似语言到同一个。."
 
 #: weblate/trans/models/subproject.py:1134
 msgid "File does not seem to be valid!"
@@ -5318,7 +5315,7 @@ msgstr "您不能用双语设定模板文件！"
 
 #: weblate/trans/models/subproject.py:1190
 msgid "Using .pot file as base file is not supported!"
-msgstr ""
+msgstr "不支持使用 .pot 文件做模板！"
 
 #: weblate/trans/models/subproject.py:1197
 msgid "Template file not found!"
@@ -5345,18 +5342,18 @@ msgstr "要设置许可证地址请同时填写许可证简介。"
 
 #: weblate/trans/models/subproject.py:1244
 msgid "Changing version control system is not supported!"
-msgstr ""
+msgstr "不支持更改版本控制系统！"
 
 #: weblate/trans/models/subproject.py:1250
 #, python-brace-format
 msgid "Unsupported file format: {0}"
-msgstr ""
+msgstr "不支持的文件格式： {0}"
 
 #: weblate/trans/models/subproject.py:1257
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update repository: %s"
-msgstr "获取 Git 代码库失败：%s"
+msgstr "升级代码库失败：%s"
 
 #: weblate/trans/models/subproject.py:1280
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -5402,13 +5399,13 @@ msgstr "信息未在后端存储中发现，它可能已损坏。"
 #, fuzzy
 #| msgid "Additional message"
 msgid "Whiteboard message"
-msgstr "附加信息"
+msgstr "白板信息"
 
 #: weblate/trans/models/whiteboard.py:33
 #, fuzzy
 #| msgid "Nearby messages"
 msgid "Whiteboard messages"
-msgstr "附近的条目"
+msgstr "白板信息"
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"
@@ -5487,7 +5484,7 @@ msgstr "已为主机 %(host)s 添加指纹为 %(fingerprint)s 的密钥，请检
 #, fuzzy
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch public key for a host!"
-msgstr "获取 Git 代码库失败：%s"
+msgstr "获取公钥失败：%s"
 
 #: weblate/trans/ssh.py:209 weblate/trans/ssh.py:214
 #, fuzzy, python-format
@@ -5714,21 +5711,21 @@ msgstr "无效的勾选标记: \"%s\""
 
 #: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
 msgid "You can not remove last owner!"
-msgstr ""
+msgstr "您不能移除最终拥有者！"
 
 #: weblate/trans/views/acl.py:94
 msgid "User has been added to this project."
-msgstr ""
+msgstr "用户已加入此项目。"
 
 #: weblate/trans/views/acl.py:120
 msgid "User has been removed from this project."
-msgstr ""
+msgstr "用户已离开此项目"
 
 #: weblate/trans/views/basic.py:62
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
-msgstr ""
+msgstr "您已经激活了您的账户，请设置密码以登录"
 
 #: weblate/trans/views/basic.py:81
 msgid "Please set your full name in your profile."
@@ -5738,13 +5735,13 @@ msgstr "请在资料中设置您的全名。"
 #, fuzzy, python-format
 #| msgid "Avatar for %s"
 msgid "Search for %s"
-msgstr "%s 的头像"
+msgstr "搜索%s "
 
 #: weblate/trans/views/basic.py:150
 #, fuzzy
 #| msgid "Invalid search string!"
 msgid "Invalid search query!"
-msgstr "搜索的字符无效！"
+msgstr "搜索请求无效！"
 
 #: weblate/trans/views/basic.py:181
 #, python-format
@@ -5793,13 +5790,13 @@ msgstr "找不到匹配的用户！"
 #, python-brace-format
 msgctxt "Format string for yearly activity chart"
 msgid "{month}/{year}"
-msgstr ""
+msgstr "年活跃榜"
 
 #: weblate/trans/views/charts.py:135
 #, python-brace-format
 msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
-msgstr ""
+msgstr "月活跃榜"
 
 #: weblate/trans/views/dictionary.py:45
 #, python-format
@@ -5967,7 +5964,7 @@ msgstr "文件内容合并失败：%s"
 
 #: weblate/trans/views/git.py:48
 msgid "Failed to lock the repository, another operation in progress."
-msgstr ""
+msgstr "锁定失败，正执行其他操作。
 
 #: weblate/trans/views/git.py:61
 msgid "All pending translations were committed."
@@ -5997,13 +5994,13 @@ msgstr "已开放翻译的更新。"
 #, fuzzy
 #| msgid "Subproject is now locked for translation updates!"
 msgid "Component is now locked for translation updates!"
-msgstr "已锁定子项目的翻译更新！"
+msgstr "已锁定部件的翻译更新！"
 
 #: weblate/trans/views/lock.py:107
 #, fuzzy
 #| msgid "Project is now open for translation updates."
 msgid "Component is now open for translation updates."
-msgstr "已开放项目的翻译更新。"
+msgstr "已开放部件的翻译更新。"
 
 #: weblate/trans/views/lock.py:127
 msgid "All subprojects are now locked for translation updates!"
