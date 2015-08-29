@@ -397,7 +397,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=200,
         default='^[^.]+$',
         help_text=ugettext_lazy(
-            'Regullar expression which is used to filter '
+            'Regular expression which is used to filter '
             'translation when scanning for file mask.'
         ),
     )
