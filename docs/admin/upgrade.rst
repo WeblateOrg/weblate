@@ -266,6 +266,9 @@ your webserver accordingly. Most importantly:
 * ``/media/`` path is no longer used
 * ``/static/`` path now holds both admin and Weblate static files
 
+There is now also additional dependency - ``django_compressor``, please install
+it prior to upgrading.
+
 .. _django-17:
 
 Upgrading to Django 1.7
