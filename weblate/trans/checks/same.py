@@ -738,6 +738,7 @@ SAME_BLACKLIST = frozenset((
     'windows',
     'word',
     'www',
+    'xen',
     'xhtml',
     'xkeys',
     'xml',
