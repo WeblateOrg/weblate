@@ -132,7 +132,7 @@ class DictionaryManager(models.Manager):
                     words.update(
                         [token.text for token in analyzer(force_unicode(text))]
                     )
-                except UnicodeDecodeError as error:
+                except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
 
         # Grab all words in the dictionary
