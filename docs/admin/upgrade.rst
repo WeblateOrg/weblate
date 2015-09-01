@@ -264,7 +264,8 @@ Please  adjust your :file:`settings.py` to match several changes in the
 configuration (consult :file:`settings_example.py` for correct values).
 
 Handling of static content has been rewritten, please adjust configuration of
-your webserver accordingly. Most importantly:
+your webserver accordingly (see :ref:`static-files` for more details). Most
+importantly:
 
 * ``/media/`` path is no longer used
 * ``/static/`` path now holds both admin and Weblate static files

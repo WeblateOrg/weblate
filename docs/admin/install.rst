@@ -671,6 +671,8 @@ For testing purposes, you can use Django builtin web server:
 
     ./manage.py runserver
 
+.. _static-files:
+
 Serving static files
 ++++++++++++++++++++
 
