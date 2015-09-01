@@ -27,7 +27,7 @@ Generic upgrade instructions
 Before upgrading, please check current :ref:`requirements` as they might have
 changed.
 
-To upgrade database structure, you should run following commands:
+To upgrade database structure, you should run:
 
 .. code-block:: sh
 
