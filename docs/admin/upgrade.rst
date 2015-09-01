@@ -33,6 +33,12 @@ To upgrade database structure, you should run following commands:
 
     ./manage.py migrate
 
+To collect new static files, run:
+
+.. code-block:: sh
+
+    ./manage.py collectstatic --noinput --link
+
 To upgrade default set of privileges definitions (optional), run:
 
 .. code-block:: sh
