@@ -224,6 +224,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.mail.mail_validation',
     'social.pipeline.social_auth.associate_by_email',
     'weblate.accounts.pipeline.verify_open',
+    'weblate.accounts.pipeline.verify_username',
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',

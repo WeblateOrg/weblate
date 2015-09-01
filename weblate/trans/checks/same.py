@@ -197,6 +197,7 @@ SAME_BLACKLIST = frozenset((
     'expert',
     'explore',
     'export',
+    'expression',
     'extension',
     'extra',
     'extras',
@@ -397,6 +398,7 @@ SAME_BLACKLIST = frozenset((
     'message',
     'messages',
     'meta',
+    'metadata',
     'metal',
     'metre',
     'metres',
@@ -476,6 +478,8 @@ SAME_BLACKLIST = frozenset((
     'park',
     'parking',
     'partition',
+    'partitions',
+    'parser',
     'party',
     'password',
     'pause',
@@ -1131,7 +1135,8 @@ class SameCheck(TargetCheck):
 
     def check_single(self, source, target, unit, cache_slot):
         # English variants will have most things not translated
-        if self.is_language(unit, ('en', )):
+        # Interlingua is also quite often similar to English
+        if self.is_language(unit, ('en', 'ia')):
             return False
 
         # One letter things are usually labels or decimal/thousand separators
