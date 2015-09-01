@@ -737,9 +737,12 @@ Configuration for uwsgi (also available as :file:`examples/weblate.uwsgi.ini`):
 Running Weblate under path
 ++++++++++++++++++++++++++
 
-Minimalistic configuration to serve Weblate under ``/weblate`` (you will need
-to include portions of above full configuration to allow access to the files).
-Again using mod_wsgi (also available as :file:`examples/apache-path.conf`):
+.. versionchanged:: 1.3
+
+    This is supported since Weblate 1.3.
+
+Sample Apache configuration to serve Weblate under ``/weblate``.  Again using
+mod_wsgi (also available as :file:`examples/apache-path.conf`):
 
 .. literalinclude:: ../../examples/apache-path.conf
     :language: apache
@@ -749,8 +752,6 @@ Additionally you will have to adjust :file:`weblate/settings.py`:
 .. code-block:: python
 
     URL_PREFIX = '/weblate'
-
-.. note:: This is supported since Weblate 1.3.
 
 .. _appliance:
 
