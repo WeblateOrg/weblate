@@ -20,12 +20,16 @@
 
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+from django.utils.translation import ugettext as _
 
 import urllib2
 import json
 
 from social.pipeline.partial import partial
-from social.exceptions import AuthForbidden, AuthMissingParameter
+from social.exceptions import (
+    AuthForbidden, AuthMissingParameter, AuthAlreadyAssociated
+)
 
 from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
@@ -119,6 +123,20 @@ def verify_open(strategy, backend, user=None, **kwargs):
 
     if not user and not appsettings.REGISTRATION_OPEN:
         raise AuthForbidden(backend)
+
+
+def verify_username(strategy, backend, user, social, details, **kwargs):
+    """Verified whether username is still free.
+
+    It can happen that user has registered several times or other user has
+    taken the username meanwhile.
+    """
+    if not user and 'username' in details:
+        if User.objects.filter(username__iexact=details['username']).exists():
+            raise AuthAlreadyAssociated(
+                backend,
+                _('This username is already taken. Please choose another.')
+            )
 
 
 def store_email(strategy, backend, user, social, details, **kwargs):
