@@ -691,7 +691,10 @@ use that for following paths:
 :file:`/robots.txt`
     Should be rewritten to rewrite rule to serve :file:`/static/robots.txt`
 
-.. seealso:: https://docs.djangoproject.com/en/stable/howto/deployment/
+.. seealso:: 
+
+    https://docs.djangoproject.com/en/stable/howto/deployment/
+    https://docs.djangoproject.com/en/stable/howto/static-files/deployment/
 
 Sample configuration for Lighttpd
 +++++++++++++++++++++++++++++++++
