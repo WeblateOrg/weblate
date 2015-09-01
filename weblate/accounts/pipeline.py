@@ -28,7 +28,7 @@ import json
 
 from social.pipeline.partial import partial
 from social.exceptions import (
-    AuthForbidden, AuthMissingParameter, AuthAlreadyAssociated
+    AuthException, AuthMissingParameter, AuthAlreadyAssociated
 )
 
 from weblate.accounts.models import send_notification_email, VerifiedEmail
@@ -122,7 +122,7 @@ def verify_open(strategy, backend, user=None, **kwargs):
     '''
 
     if not user and not appsettings.REGISTRATION_OPEN:
-        raise AuthForbidden(backend)
+        raise AuthException(backend, _('New registrations are disabled!'))
 
 
 def verify_username(strategy, backend, user, social, details, **kwargs):
