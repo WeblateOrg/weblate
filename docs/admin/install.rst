@@ -595,15 +595,15 @@ with Weblate.
 
 .. _production-admin-files:
 
-Admin static files
-++++++++++++++++++
+Static files
+++++++++++++
 
 If you see purely designed admin interface, the CSS files required for it are
 not loaded. This is usually if you are running in non-debug mode and have not
 configured your web server to serve them. Recommended setup is described in the
-:ref:`server` chapter.
+:ref:`static-files` chapter.
 
-.. seealso:: :ref:`server`
+.. seealso:: :ref:`server`, :ref:`static-files`
 
 .. _production-home:
 
