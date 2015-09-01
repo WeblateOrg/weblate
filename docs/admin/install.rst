@@ -676,6 +676,11 @@ For testing purposes, you can use Django builtin web server:
 Serving static files
 ++++++++++++++++++++
 
+.. versionchanged:: 2.4
+
+    Prior to version 2.4 Weblate didn't properly use Django static files
+    framework and the setup was more complex.
+
 Django needs to collect it's static files to a single directory. To do so,
 execute :samp:`./manage.py collectstatic --noinput --link`. This will store
 links to static files into directory specified by ``STATIC_ROOT`` setting.
