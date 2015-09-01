@@ -760,13 +760,16 @@ class CheckFlagsForm(forms.Form):
     flags = forms.CharField(
         label=_('Check flags'),
         required=False,
-        help_text=_(
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(CheckFlagsForm, self).__init__(*args, **kwargs)
+        self.fields['flags'].help_text = ugettext(
             'Please enter a comma separated list of check flags, '
             'see <a href="{url}">documentation</a> for more details.'
         ).format(
             url=weblate.get_doc_url('admin/checks', 'custom-checks')
         )
-    )
 
     def clean_flags(self):
         """
