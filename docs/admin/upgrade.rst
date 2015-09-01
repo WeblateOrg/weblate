@@ -260,6 +260,9 @@ have such, it is recommended to run:
 Upgrade from 2.3 to 2.4
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+Please  adjust your :file:`settings.py` to match several changes in the
+configuration (consult :file:`settings_example.py` for correct values).
+
 Handling of static content has been rewritten, please adjust configuration of
 your webserver accordingly. Most importantly:
 
