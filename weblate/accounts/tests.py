@@ -452,7 +452,7 @@ class ViewTest(TestCase):
 
         # Logout
         response = self.client.get(reverse('logout'))
-        self.assertRedirects(response, reverse('login'))
+        self.assertRedirects(response, reverse('home'))
 
     def test_removal(self):
         # Create user

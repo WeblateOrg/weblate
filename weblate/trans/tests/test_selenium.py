@@ -178,9 +178,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             self.driver.find_element_by_id('logout-button')
         )
 
-        # We should be back on login page
+        # We should be back on home page
         self.expand_navbar()
-        self.driver.find_element_by_id('id_username')
+        self.driver.find_element_by_id('projects')
 
     def register_user(self):
         # open home page
