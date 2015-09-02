@@ -375,7 +375,7 @@ def weblate_login(request):
 
     # Redirect if there is only one backend
     auth_backends = load_backends(BACKENDS).keys()
-    if len(auth_backends) == 1:
+    if len(auth_backends) == 1 and auth_backends[0] != 'email':
         return redirect('social:begin', auth_backends[0])
 
     return auth_views.login(
@@ -420,11 +420,13 @@ def register(request):
     else:
         form = form_class()
 
-    backends = set(load_backends(BACKENDS).keys())
+    backends = load_backends(BACKENDS).keys()
 
     # Redirect if there is only one backend
-    if len(backends) == 1:
-        return redirect('social:begin', backends.pop())
+    if len(backends) == 1 and backends[0] != 'email':
+        return redirect('social:begin', backends[0])
+
+    backends = set(backends)
 
     return render(
         request,
