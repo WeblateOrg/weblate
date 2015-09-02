@@ -394,7 +394,7 @@ def weblate_logout(request):
 
     return auth_views.logout(
         request,
-        next_page=settings.LOGIN_URL,
+        next_page=reverse('home'),
     )
 
 
