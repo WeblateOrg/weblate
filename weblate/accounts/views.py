@@ -33,6 +33,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.contrib.auth import update_session_auth_hash
+from django.core.urlresolvers import reverse
 
 from urllib import urlencode
 
@@ -372,13 +373,18 @@ def weblate_login(request):
     if request.user.is_authenticated():
         return redirect('profile')
 
+    # Redirect if there is only one backend
+    auth_backends = load_backends(BACKENDS).keys()
+    if len(auth_backends) == 1:
+        return redirect('social:begin', auth_backends[0])
+
     return auth_views.login(
         request,
         template_name='accounts/login.html',
         authentication_form=LoginForm,
         extra_context={
             'login_backends': [
-                x for x in load_backends(BACKENDS).keys() if x != 'email'
+                x for x in auth_backends if x != 'email'
             ],
             'title': _('Login'),
         }
@@ -415,6 +421,10 @@ def register(request):
         form = form_class()
 
     backends = set(load_backends(BACKENDS).keys())
+
+    # Redirect if there is only one backend
+    if len(backends) == 1:
+        return redirect('social:begin', backends.pop())
 
     return render(
         request,
