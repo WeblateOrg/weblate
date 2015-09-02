@@ -30,6 +30,7 @@ Released on ? 2015.
 * Added support for filtering languages to be managed by Weblate.
 * Added support for translating and importing CSV files.
 * Rewritten handling of static files.
+* Direct login/registration links to third party service if that's the only one.
 
 weblate 2.3
 -----------
