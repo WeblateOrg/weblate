@@ -756,6 +756,36 @@ urlpatterns = patterns(
         )
     ),
 
+    # Old activity charts
+    url(
+        r'^activity/html/' + TRANSLATION + '$',
+        RedirectView.as_view(
+            url='/projects/%(project)s/%(subproject)s/%(lang)s/#activity',
+            permanent=True,
+        )
+    ),
+    url(
+        r'^activity/html/' + SUBPROJECT + '$',
+        RedirectView.as_view(
+            url='/projects/%(project)s/%(subproject)s/#activity',
+            permanent=True,
+        )
+    ),
+    url(
+        r'^activity/html/' + PROJECT + '$',
+        RedirectView.as_view(
+            url='/projects/%(project)s/#activity',
+            permanent=True,
+        )
+    ),
+    url(
+        r'^activity/language/html/' + LANGUAGE + '/$',
+        RedirectView.as_view(
+            url='/languages/%(lang)s/#activity',
+            permanent=True,
+        )
+    ),
+
     # Site wide search
     url(
         r'^search/$',
