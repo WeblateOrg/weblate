@@ -66,6 +66,14 @@ GITHUB_REPOS = (
 HOOK_HANDLERS = {}
 
 
+def hook_response():
+    """Generic okay hook response"""
+    return HttpResponse(
+        json.dumps({'status': 'success', 'message': 'Update triggered'}),
+        content_type='application/json'
+    )
+
+
 def register_hook(handler):
     """
     Registers hook handler.
@@ -97,7 +105,7 @@ def update_subproject(request, project, subproject):
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
     perform_update(obj)
-    return HttpResponse('update triggered')
+    return hook_response()
 
 
 @csrf_exempt
@@ -111,7 +119,7 @@ def update_project(request, project):
     if not obj.enable_hooks:
         return HttpResponseNotAllowed([])
     perform_update(obj)
-    return HttpResponse('update triggered')
+    return hook_response()
 
 
 @csrf_exempt
@@ -184,7 +192,7 @@ def vcs_service_hook(request, service):
         )
         perform_update(obj)
 
-    return HttpResponse('update triggered')
+    return hook_response()
 
 
 def bitbucket_webhook_helper(data):
