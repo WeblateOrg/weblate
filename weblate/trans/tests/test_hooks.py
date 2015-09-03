@@ -301,7 +301,7 @@ class HooksViewTest(ViewTestCase):
                 'project': self.subproject.project.slug
             })
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -312,7 +312,7 @@ class HooksViewTest(ViewTestCase):
                 'subproject': self.subproject.slug,
             })
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -321,7 +321,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -330,7 +330,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-gitlab'), GITLAB_PAYLOAD,
             content_type="application/json"
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -339,7 +339,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -348,7 +348,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG}
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -357,7 +357,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -366,7 +366,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
         )
-        self.assertContains(response, 'update triggered')
+        self.assertContains(response, 'Update triggered')
 
     @OverrideSettings(ENABLE_HOOKS=False)
     def test_disabled(self):
