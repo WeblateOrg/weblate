@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-08-28 13:58+0000\n"
+"POT-Creation-Date: 2015-09-03 07:42+0000\n"
 "PO-Revision-Date: 2015-08-26 19:23+0200\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Username"
 msgstr "Kullanıcı adı"
 
-#: weblate/accounts/forms.py:111
+#: weblate/accounts/forms.py:111 weblate/accounts/pipeline.py:138
 msgid "This username is already taken. Please choose another."
 msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 
@@ -254,71 +254,77 @@ msgstr "Birleştirmenin başarısız olmasında bildirim"
 msgid "Notification on new language request"
 msgstr "Yeni dil isteğinde bildirim"
 
-#: weblate/accounts/views.py:88 weblate/accounts/views.py:425
+#: weblate/accounts/pipeline.py:125
+#, fuzzy
+#| msgid "Registration date"
+msgid "New registrations are disabled!"
+msgstr "Kayıt olma tarihi"
+
+#: weblate/accounts/views.py:89 weblate/accounts/views.py:437
 msgid "User registration"
 msgstr "Kullanıcı kaydı"
 
-#: weblate/accounts/views.py:103
+#: weblate/accounts/views.py:104
 msgid "Message could not be sent to administrator!"
 msgstr "Mesaj yöneticiye gönderilemedi!"
 
-#: weblate/accounts/views.py:121
+#: weblate/accounts/views.py:122
 msgid "Message has been sent to administrator."
 msgstr "Mesaj yöneticiye gönderildi."
 
-#: weblate/accounts/views.py:131
+#: weblate/accounts/views.py:132
 msgid "You cannot change demo account on the demo server."
 msgstr "Tanıtım sunucusunda demo hesabını değiştiremezsiniz."
 
-#: weblate/accounts/views.py:172
+#: weblate/accounts/views.py:173
 msgid "Your profile has been updated."
 msgstr "Profiliniz güncellendi."
 
-#: weblate/accounts/views.py:202
+#: weblate/accounts/views.py:203
 msgid "User profile"
 msgstr "Kullanıcı profili"
 
-#: weblate/accounts/views.py:227
+#: weblate/accounts/views.py:228
 msgid "Your account has been removed."
 msgstr "Hesabınız kaldırıldı."
 
-#: weblate/accounts/views.py:272 weblate/html/accounts/contact.html:6
+#: weblate/accounts/views.py:273 weblate/html/accounts/contact.html:6
 #: weblate/html/accounts/contact.html:21
 msgid "Contact"
 msgstr "İletişim"
 
-#: weblate/accounts/views.py:305 weblate/html/accounts/hosting.html:7
+#: weblate/accounts/views.py:306 weblate/html/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Barındırma"
 
-#: weblate/accounts/views.py:383 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html:41 weblate/html/base.html:115
+#: weblate/accounts/views.py:389 weblate/html/accounts/login.html:8
+#: weblate/html/accounts/login.html.py:41 weblate/html/base.html:115
 msgid "Login"
 msgstr "Oturum aç"
 
-#: weblate/accounts/views.py:393
+#: weblate/accounts/views.py:399
 msgid "Thanks for using Weblate!"
 msgstr "Weblate'i kullandığınız için teşekkürler!"
 
-#: weblate/accounts/views.py:447 weblate/html/accounts/email.html:16
+#: weblate/accounts/views.py:459 weblate/html/accounts/email.html:16
 msgid "Register email"
 msgstr "Eposta kaydettir"
 
-#: weblate/accounts/views.py:474
+#: weblate/accounts/views.py:486
 msgid "You have entered an invalid password."
 msgstr "Geçersiz bir parola girdiniz."
 
-#: weblate/accounts/views.py:498
+#: weblate/accounts/views.py:510
 msgid "Your password has been changed."
 msgstr "Parolanız değiştirildi."
 
-#: weblate/accounts/views.py:508 weblate/html/accounts/password.html:13
+#: weblate/accounts/views.py:520 weblate/html/accounts/password.html:13
 #: weblate/html/accounts/profile.html:187
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
-#: weblate/accounts/views.py:536 weblate/html/accounts/reset.html:7
-#: weblate/html/accounts/reset.html:21
+#: weblate/accounts/views.py:548 weblate/html/accounts/reset.html:7
+#: weblate/html/accounts/reset.html.py:21
 msgid "Password reset"
 msgstr "Parola sıfırlama"
 
@@ -659,8 +665,7 @@ msgstr "Tercihler"
 msgid "Subscriptions"
 msgstr "Abonelikler"
 
-#: weblate/html/accounts/profile.html:24
-#: weblate/html/accounts/profile.html:144
+#: weblate/html/accounts/profile.html:24 weblate/html/accounts/profile.html:144
 msgid "Account"
 msgstr "Hesap"
 
@@ -672,8 +677,7 @@ msgstr "Kimlik doğrulaması"
 msgid "Profile"
 msgstr "Profil"
 
-#: weblate/html/accounts/profile.html:27
-#: weblate/html/accounts/profile.html:291
+#: weblate/html/accounts/profile.html:27 weblate/html/accounts/profile.html:291
 msgid "Licenses"
 msgstr "Lisanslar"
 
@@ -791,8 +795,7 @@ msgstr "Yeni ilişkilendirme ekle:"
 msgid "Removal"
 msgstr "Kaldırma"
 
-#: weblate/html/accounts/profile.html:217
-#: weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/profile.html:217 weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
 msgstr "Hesabın kaldırılması tüm özel verilerinizi siler."
 
@@ -941,8 +944,7 @@ msgid "SSH keys"
 msgstr "SSH anahtarları"
 
 #: weblate/html/admin/custom-index.html:25
-#: weblate/html/admin/performance.html:6
-#: weblate/html/admin/performance.html:15
+#: weblate/html/admin/performance.html:6 weblate/html/admin/performance.html:15
 msgid "Performance report"
 msgstr "Performans raporu"
 
@@ -1468,726 +1470,726 @@ msgstr "İşleme %(hash)s"
 msgid "Authored by %(author)s on %(date)s"
 msgstr "%(date)s tarihinde %(author)s tarafından yazıldı"
 
-#: weblate/html/i18n.html:8
+#: weblate/html/i18n.html:9
 msgid ""
 "Hold down \"Control\", or \"Command\" on a Mac, to select more than one."
 msgstr ""
 "Birden fazla seçmek için \"Control (Ctrl)\" veya Mac'deki \"Command\" tuşuna "
 "basılı tutun."
 
-#: weblate/html/i18n.html:18
+#: weblate/html/i18n.html:19
 msgid "Acholi"
 msgstr "Açolice"
 
-#: weblate/html/i18n.html:19
+#: weblate/html/i18n.html:20
 msgid "Afrikaans"
 msgstr "Afrikaanca"
 
-#: weblate/html/i18n.html:20
+#: weblate/html/i18n.html:21
 msgid "Akan"
 msgstr "Akan dili"
 
-#: weblate/html/i18n.html:21
+#: weblate/html/i18n.html:22
 msgid "Albanian"
 msgstr "Arnavutça"
 
-#: weblate/html/i18n.html:22
+#: weblate/html/i18n.html:23
 msgid "Amharic"
 msgstr "Amharca"
 
-#: weblate/html/i18n.html:23
+#: weblate/html/i18n.html:24
 msgid "Angika"
 msgstr "Angika dili"
 
-#: weblate/html/i18n.html:24
+#: weblate/html/i18n.html:25
 msgid "Arabic"
 msgstr "Arapça"
 
-#: weblate/html/i18n.html:25
+#: weblate/html/i18n.html:26
 msgid "Aragonese"
 msgstr "Aragonca"
 
-#: weblate/html/i18n.html:26
+#: weblate/html/i18n.html:27
 msgid "Argentinean Spanish"
 msgstr "Arjantina İspanyolcası"
 
-#: weblate/html/i18n.html:27
+#: weblate/html/i18n.html:28
 msgid "Armenian"
 msgstr "Ermenice"
 
-#: weblate/html/i18n.html:28
+#: weblate/html/i18n.html:29
 msgid "Assamese"
 msgstr "Assam dili"
 
-#: weblate/html/i18n.html:29
+#: weblate/html/i18n.html:30
 msgid "Asturian"
 msgstr "Asturyaca"
 
-#: weblate/html/i18n.html:30
+#: weblate/html/i18n.html:31
 msgid "Aymará"
 msgstr "Aymara dili"
 
-#: weblate/html/i18n.html:31
+#: weblate/html/i18n.html:32
 msgid "Azerbaijani"
 msgstr "Azerice"
 
-#: weblate/html/i18n.html:32
+#: weblate/html/i18n.html:33
 msgid "Bashkir"
 msgstr "Başkurtça"
 
-#: weblate/html/i18n.html:33
+#: weblate/html/i18n.html:34
 msgid "Basque"
 msgstr "Baskça"
 
-#: weblate/html/i18n.html:34
+#: weblate/html/i18n.html:35
 msgid "Belarusian"
 msgstr "Beyaz Rusça"
 
-#: weblate/html/i18n.html:35
+#: weblate/html/i18n.html:36
 msgid "Belarusian (latin)"
 msgstr "Beyaz Rusça (latin)"
 
-#: weblate/html/i18n.html:36
+#: weblate/html/i18n.html:37
 msgid "Bengali"
 msgstr "Bengalce"
 
-#: weblate/html/i18n.html:37
+#: weblate/html/i18n.html:38
 msgid "Bengali (India)"
 msgstr "Bengalce (Hindistan)"
 
-#: weblate/html/i18n.html:38
+#: weblate/html/i18n.html:39
 msgid "Bodo"
 msgstr "Bodo dili"
 
-#: weblate/html/i18n.html:39
+#: weblate/html/i18n.html:40
 msgid "Bosnian"
 msgstr "Boşnakça"
 
-#: weblate/html/i18n.html:40
+#: weblate/html/i18n.html:41
 msgid "Breton"
 msgstr "Bretonca"
 
-#: weblate/html/i18n.html:41
+#: weblate/html/i18n.html:42
 msgid "Bulgarian"
 msgstr "Bulgarca"
 
-#: weblate/html/i18n.html:42
+#: weblate/html/i18n.html:43
 msgid "Burmese"
 msgstr "Birmanca"
 
-#: weblate/html/i18n.html:43
+#: weblate/html/i18n.html:44
 msgid "Catalan"
 msgstr "Katalanca"
 
-#: weblate/html/i18n.html:44
+#: weblate/html/i18n.html:45
 msgid "Central Khmer"
 msgstr "Merkez Khmerce"
 
-#: weblate/html/i18n.html:45
+#: weblate/html/i18n.html:46
 msgid "Chhattisgarhi"
 msgstr "Chhattisgarhi dili"
 
-#: weblate/html/i18n.html:46
+#: weblate/html/i18n.html:47
 msgid "Chiga"
 msgstr "Chiga dili"
 
-#: weblate/html/i18n.html:47
+#: weblate/html/i18n.html:48
 msgid "Chinese"
 msgstr "Çince"
 
-#: weblate/html/i18n.html:48
+#: weblate/html/i18n.html:49
 msgid "Chinese (Hong Kong)"
 msgstr "Çince (Hong Kong)"
 
-#: weblate/html/i18n.html:49
+#: weblate/html/i18n.html:50
 msgid "Chinese (China)"
 msgstr "Çince (Çin)"
 
-#: weblate/html/i18n.html:50
+#: weblate/html/i18n.html:51
 msgid "Chinese (Taiwan)"
 msgstr "Çince (Tayvan)"
 
-#: weblate/html/i18n.html:51
+#: weblate/html/i18n.html:52
 msgid "Colognian"
 msgstr "Kologniaca"
 
-#: weblate/html/i18n.html:52
+#: weblate/html/i18n.html:53
 msgid "Cornish"
 msgstr "Kelt dili"
 
-#: weblate/html/i18n.html:53
+#: weblate/html/i18n.html:54
 msgid "Croatian"
 msgstr "Hırvatça"
 
-#: weblate/html/i18n.html:54
+#: weblate/html/i18n.html:55
 msgid "Czech"
 msgstr "Çekçe"
 
-#: weblate/html/i18n.html:55
+#: weblate/html/i18n.html:56
 msgid "Danish"
 msgstr "Danca"
 
-#: weblate/html/i18n.html:56
+#: weblate/html/i18n.html:57
 msgid "Dogri"
 msgstr "Dogri dili"
 
-#: weblate/html/i18n.html:57
+#: weblate/html/i18n.html:58
 msgid "Dutch"
 msgstr "Felemenkçe"
 
-#: weblate/html/i18n.html:58
+#: weblate/html/i18n.html:59
 msgid "Dutch (Belgium)"
 msgstr "Felemenkçe (Belçika)"
 
-#: weblate/html/i18n.html:59
+#: weblate/html/i18n.html:60
 msgid "Dzongkha"
 msgstr "Dzongkha dili"
 
-#: weblate/html/i18n.html:60
+#: weblate/html/i18n.html:61
 msgid "English"
 msgstr "İngilizce"
 
-#: weblate/html/i18n.html:61
+#: weblate/html/i18n.html:62
 msgid "English (Australia)"
 msgstr "İngilizce (Avustralya)"
 
-#: weblate/html/i18n.html:62
+#: weblate/html/i18n.html:63
 msgid "English (Canada)"
 msgstr "İngilizce (Kanada)"
 
-#: weblate/html/i18n.html:63
+#: weblate/html/i18n.html:64
 msgid "English (South Africa)"
 msgstr "İngilizce (Güney Afrika)"
 
-#: weblate/html/i18n.html:64
+#: weblate/html/i18n.html:65
 msgid "English (United Kingdom)"
 msgstr "İngilizce (Birleşik Krallık)"
 
-#: weblate/html/i18n.html:65
+#: weblate/html/i18n.html:66
 msgid "English (United States)"
 msgstr "İngilizce (ABD)"
 
-#: weblate/html/i18n.html:66
+#: weblate/html/i18n.html:67
 msgid "Esperanto"
 msgstr "Esperanto dili"
 
-#: weblate/html/i18n.html:67
+#: weblate/html/i18n.html:68
 msgid "Estonian"
 msgstr "Estçe"
 
-#: weblate/html/i18n.html:68
+#: weblate/html/i18n.html:69
 msgid "Faroese"
 msgstr "Faroe dili"
 
-#: weblate/html/i18n.html:69
+#: weblate/html/i18n.html:70
 msgid "Filipino"
 msgstr "Filipin dili"
 
-#: weblate/html/i18n.html:70
+#: weblate/html/i18n.html:71
 msgid "Finnish"
 msgstr "Fince"
 
-#: weblate/html/i18n.html:71
+#: weblate/html/i18n.html:72
 msgid "Franco-Provençal"
 msgstr "Arpitanca"
 
-#: weblate/html/i18n.html:72
+#: weblate/html/i18n.html:73
 msgid "French"
 msgstr "Fransızca"
 
-#: weblate/html/i18n.html:73
+#: weblate/html/i18n.html:74
 msgid "Frisian"
 msgstr "Frizce"
 
-#: weblate/html/i18n.html:74
+#: weblate/html/i18n.html:75
 msgid "Friulian"
 msgstr "Friulice"
 
-#: weblate/html/i18n.html:75
+#: weblate/html/i18n.html:76
 msgid "Fulah"
 msgstr "Fulah"
 
-#: weblate/html/i18n.html:76
+#: weblate/html/i18n.html:77
 msgid "Gaelic"
 msgstr "Keltçe"
 
-#: weblate/html/i18n.html:77
+#: weblate/html/i18n.html:78
 msgid "Galician"
 msgstr "Galiçyaca"
 
-#: weblate/html/i18n.html:78
+#: weblate/html/i18n.html:79
 msgid "Georgian"
 msgstr "Gürcüce"
 
-#: weblate/html/i18n.html:79
+#: weblate/html/i18n.html:80
 msgid "German"
 msgstr "Almanca"
 
-#: weblate/html/i18n.html:80
+#: weblate/html/i18n.html:81
 msgid "Greek"
 msgstr "Yunanca"
 
-#: weblate/html/i18n.html:81
+#: weblate/html/i18n.html:82
 msgid "Greenlandic"
 msgstr "Grönlandca"
 
-#: weblate/html/i18n.html:82
+#: weblate/html/i18n.html:83
 msgid "Gujarati"
 msgstr "Gucerat dili"
 
-#: weblate/html/i18n.html:83
+#: weblate/html/i18n.html:84
 msgid "Gun"
 msgstr "Gun dili"
 
-#: weblate/html/i18n.html:84
+#: weblate/html/i18n.html:85
 msgid "Haitian"
 msgstr "Haitice"
 
-#: weblate/html/i18n.html:85
+#: weblate/html/i18n.html:86
 msgid "Hausa"
 msgstr "Hausa dili"
 
-#: weblate/html/i18n.html:86
+#: weblate/html/i18n.html:87
 msgid "Hebrew"
 msgstr "İbranice"
 
-#: weblate/html/i18n.html:87
+#: weblate/html/i18n.html:88
 msgid "Hindi"
 msgstr "Hinduca"
 
-#: weblate/html/i18n.html:88
+#: weblate/html/i18n.html:89
 msgid "Hungarian"
 msgstr "Macarca"
 
-#: weblate/html/i18n.html:89
+#: weblate/html/i18n.html:90
 msgid "Icelandic"
 msgstr "İzlanda dili"
 
-#: weblate/html/i18n.html:90
+#: weblate/html/i18n.html:91
 msgid "Indonesian"
 msgstr "Endonezce"
 
-#: weblate/html/i18n.html:91
+#: weblate/html/i18n.html:92
 msgid "Interlingua"
 msgstr "İnterlingua"
 
-#: weblate/html/i18n.html:92
+#: weblate/html/i18n.html:93
 msgid "Irish"
 msgstr "İrlandaca"
 
-#: weblate/html/i18n.html:93
+#: weblate/html/i18n.html:94
 msgid "Italian"
 msgstr "İtalyanca"
 
-#: weblate/html/i18n.html:94
+#: weblate/html/i18n.html:95
 msgid "Japanese"
 msgstr "Japonca"
 
-#: weblate/html/i18n.html:95
+#: weblate/html/i18n.html:96
 msgid "Javanese"
 msgstr "Cavaca"
 
-#: weblate/html/i18n.html:96
+#: weblate/html/i18n.html:97
 msgid "Kannada"
 msgstr "Kannada dili"
 
-#: weblate/html/i18n.html:97
+#: weblate/html/i18n.html:98
 msgid "Kashubian"
 msgstr "Kaşubyan"
 
-#: weblate/html/i18n.html:98
+#: weblate/html/i18n.html:99
 msgid "Kazakh"
 msgstr "Kazakça"
 
-#: weblate/html/i18n.html:99
+#: weblate/html/i18n.html:100
 msgid "Kirghiz"
 msgstr "Kırgızca"
 
-#: weblate/html/i18n.html:100
+#: weblate/html/i18n.html:101
 msgid "Kinyarwanda"
 msgstr "Kinyarvanda dili"
 
-#: weblate/html/i18n.html:101
+#: weblate/html/i18n.html:102
 msgid "Klingon"
 msgstr "Klingon dili"
 
-#: weblate/html/i18n.html:102
+#: weblate/html/i18n.html:103
 msgid "Klingon (pIqaD)"
 msgstr "Klingon dili (pIqaD)"
 
-#: weblate/html/i18n.html:103
+#: weblate/html/i18n.html:104
 msgid "Korean"
 msgstr "Korece"
 
-#: weblate/html/i18n.html:104
+#: weblate/html/i18n.html:105
 msgid "Kurdish"
 msgstr "Kürtçe"
 
-#: weblate/html/i18n.html:105
+#: weblate/html/i18n.html:106
 msgid "Kurdish Sorani"
 msgstr "Sorani Kürtçe"
 
-#: weblate/html/i18n.html:106
+#: weblate/html/i18n.html:107
 msgid "Kyrgyz"
 msgstr "Kırgızca"
 
-#: weblate/html/i18n.html:107
+#: weblate/html/i18n.html:108
 msgid "Lao"
 msgstr "Laoca"
 
-#: weblate/html/i18n.html:108
+#: weblate/html/i18n.html:109
 msgid "Latvian"
 msgstr "Letonca"
 
-#: weblate/html/i18n.html:109
+#: weblate/html/i18n.html:110
 msgid "Limburgish"
 msgstr "Limburgça"
 
-#: weblate/html/i18n.html:110
+#: weblate/html/i18n.html:111
 msgid "Lingala"
 msgstr "Bantu dili"
 
-#: weblate/html/i18n.html:111
+#: weblate/html/i18n.html:112
 msgid "Lithuanian"
 msgstr "Litvanca"
 
-#: weblate/html/i18n.html:112
+#: weblate/html/i18n.html:113
 msgid "Lojban"
 msgstr "Lojban dili"
 
-#: weblate/html/i18n.html:113
+#: weblate/html/i18n.html:114
 msgid "Luxembourgish"
 msgstr "Lüksemburgca"
 
-#: weblate/html/i18n.html:114
+#: weblate/html/i18n.html:115
 msgid "Macedonian"
 msgstr "Makedonca"
 
-#: weblate/html/i18n.html:115
+#: weblate/html/i18n.html:116
 msgid "Maithili"
 msgstr "Hindu-Aryan dili"
 
-#: weblate/html/i18n.html:116
+#: weblate/html/i18n.html:117
 msgid "Malagasy"
 msgstr "Malgaşça"
 
-#: weblate/html/i18n.html:117
+#: weblate/html/i18n.html:118
 msgid "Malay"
 msgstr "Malayca"
 
-#: weblate/html/i18n.html:118
+#: weblate/html/i18n.html:119
 msgid "Malayalam"
 msgstr "Malayamca"
 
-#: weblate/html/i18n.html:119
+#: weblate/html/i18n.html:120
 msgid "Maltese"
 msgstr "Malta dili"
 
-#: weblate/html/i18n.html:120
+#: weblate/html/i18n.html:121
 msgid "Mandinka"
 msgstr "Mandinka dili"
 
-#: weblate/html/i18n.html:121
+#: weblate/html/i18n.html:122
 msgid "Manipuri"
 msgstr "Manipuri dili"
 
-#: weblate/html/i18n.html:122
+#: weblate/html/i18n.html:123
 msgid "Maori"
 msgstr "Maori dili"
 
-#: weblate/html/i18n.html:123
+#: weblate/html/i18n.html:124
 msgid "Mapudungun"
 msgstr "Araukanca"
 
-#: weblate/html/i18n.html:124
+#: weblate/html/i18n.html:125
 msgid "Marathi"
 msgstr "Marathi Hint dili"
 
-#: weblate/html/i18n.html:125
+#: weblate/html/i18n.html:126
 msgid "Mongolian"
 msgstr "Moğolca"
 
-#: weblate/html/i18n.html:126
+#: weblate/html/i18n.html:127
 msgid "Morisyen"
 msgstr "Morisyen dili"
 
-#: weblate/html/i18n.html:127
+#: weblate/html/i18n.html:128
 msgid "N'Ko"
 msgstr "N'Ko"
 
-#: weblate/html/i18n.html:128
+#: weblate/html/i18n.html:129
 msgid "Nahuatl languages"
 msgstr "Nahuatl dili"
 
-#: weblate/html/i18n.html:129
+#: weblate/html/i18n.html:130
 msgid "Neapolitan"
 msgstr "Napoli dili"
 
-#: weblate/html/i18n.html:130
+#: weblate/html/i18n.html:131
 msgid "Nepali"
 msgstr "Nepalce"
 
-#: weblate/html/i18n.html:131
+#: weblate/html/i18n.html:132
 msgid "Northern Sami"
 msgstr "Kuzey Sami"
 
-#: weblate/html/i18n.html:132
+#: weblate/html/i18n.html:133
 msgid "Norwegian (old code)"
 msgstr "Norveççe (eski kod)"
 
-#: weblate/html/i18n.html:133
+#: weblate/html/i18n.html:134
 msgid "Norwegian Bokmål"
 msgstr "Bokmål Norveççe"
 
-#: weblate/html/i18n.html:134
+#: weblate/html/i18n.html:135
 msgid "Norwegian Nynorsk"
 msgstr "Nynorsk Norveçce"
 
-#: weblate/html/i18n.html:135
+#: weblate/html/i18n.html:136
 msgid "Occitan"
 msgstr "Oksitanca"
 
-#: weblate/html/i18n.html:136
+#: weblate/html/i18n.html:137
 msgid "Oriya"
 msgstr "Oriya dili"
 
-#: weblate/html/i18n.html:137
+#: weblate/html/i18n.html:138
 msgid "Ossetian"
 msgstr "Osetçe"
 
-#: weblate/html/i18n.html:138
+#: weblate/html/i18n.html:139
 msgid "Papiamento"
 msgstr "Creole dili"
 
-#: weblate/html/i18n.html:139
+#: weblate/html/i18n.html:140
 msgid "Pedi"
 msgstr "Pedi dili"
 
-#: weblate/html/i18n.html:140
+#: weblate/html/i18n.html:141
 msgid "Persian"
 msgstr "Farsça"
 
-#: weblate/html/i18n.html:141
+#: weblate/html/i18n.html:142
 msgid "Piemontese"
 msgstr "Piedmont dili"
 
-#: weblate/html/i18n.html:142
+#: weblate/html/i18n.html:143
 msgid "Polish"
 msgstr "Lehçe"
 
-#: weblate/html/i18n.html:143
+#: weblate/html/i18n.html:144
 msgid "Portuguese"
 msgstr "Portekizce"
 
-#: weblate/html/i18n.html:144
+#: weblate/html/i18n.html:145
 msgid "Portuguese (Brazil)"
 msgstr "Portekizce (Brezilya)"
 
-#: weblate/html/i18n.html:145
+#: weblate/html/i18n.html:146
 msgid "Portuguese (Portugal)"
 msgstr "Portekizce (Portekiz)"
 
-#: weblate/html/i18n.html:146
+#: weblate/html/i18n.html:147
 msgid "Punjabi"
 msgstr "Pencapça"
 
-#: weblate/html/i18n.html:147
+#: weblate/html/i18n.html:148
 msgid "Pushto"
 msgstr "Peştuca"
 
-#: weblate/html/i18n.html:148
+#: weblate/html/i18n.html:149
 msgid "Romanian"
 msgstr "Romence"
 
-#: weblate/html/i18n.html:149
+#: weblate/html/i18n.html:150
 msgid "Romansh"
 msgstr "Romanş"
 
-#: weblate/html/i18n.html:150
+#: weblate/html/i18n.html:151
 msgid "Russian"
 msgstr "Rusça"
 
-#: weblate/html/i18n.html:151
+#: weblate/html/i18n.html:152
 msgid "Santali"
 msgstr "Santal dili"
 
-#: weblate/html/i18n.html:152
+#: weblate/html/i18n.html:153
 msgid "Sardinian"
 msgstr "Sardinyaca"
 
-#: weblate/html/i18n.html:153
+#: weblate/html/i18n.html:154
 msgid "Scots"
 msgstr "İskoç İngilizcesi"
 
-#: weblate/html/i18n.html:154
+#: weblate/html/i18n.html:155
 msgid "Serbian"
 msgstr "Sırpça"
 
-#: weblate/html/i18n.html:155
+#: weblate/html/i18n.html:156
 msgid "Serbian (cyrillic)"
 msgstr "Sırpça (kiril)"
 
-#: weblate/html/i18n.html:156
+#: weblate/html/i18n.html:157
 msgid "Serbian (latin)"
 msgstr "Sırpça (latin)"
 
-#: weblate/html/i18n.html:157
+#: weblate/html/i18n.html:158
 msgid "Serbo-Croatian"
 msgstr "Sırp-Hırvatça"
 
-#: weblate/html/i18n.html:158
+#: weblate/html/i18n.html:159
 msgid "Simplified Chinese"
 msgstr "Basitleştirilmiş Çince"
 
-#: weblate/html/i18n.html:159
+#: weblate/html/i18n.html:160
 msgid "Sindhi"
 msgstr "Sintçe"
 
-#: weblate/html/i18n.html:160
+#: weblate/html/i18n.html:161
 msgid "Sinhala"
 msgstr "Sinhalese dili"
 
-#: weblate/html/i18n.html:161
+#: weblate/html/i18n.html:162
 msgid "Slovak"
 msgstr "Slovakça"
 
-#: weblate/html/i18n.html:162
+#: weblate/html/i18n.html:163
 msgid "Slovenian"
 msgstr "Slovence"
 
-#: weblate/html/i18n.html:163
+#: weblate/html/i18n.html:164
 msgid "Somali"
 msgstr "Somalice"
 
-#: weblate/html/i18n.html:164
+#: weblate/html/i18n.html:165
 msgid "Songhai languages"
 msgstr "Songhai dilleri"
 
-#: weblate/html/i18n.html:165
+#: weblate/html/i18n.html:166
 msgid "Sotho"
 msgstr "Sotho dili"
 
-#: weblate/html/i18n.html:166
+#: weblate/html/i18n.html:167
 msgid "Spanish"
 msgstr "İspanyolca"
 
-#: weblate/html/i18n.html:167
+#: weblate/html/i18n.html:168
 msgid "Sundanese"
 msgstr "Sundanese dili"
 
-#: weblate/html/i18n.html:168
+#: weblate/html/i18n.html:169
 msgid "Swahili"
 msgstr "Svahili dili"
 
-#: weblate/html/i18n.html:169
+#: weblate/html/i18n.html:170
 msgid "Swedish"
 msgstr "İsveççe"
 
-#: weblate/html/i18n.html:170
+#: weblate/html/i18n.html:171
 msgid "Tagalog"
 msgstr "Takalotça"
 
-#: weblate/html/i18n.html:171
+#: weblate/html/i18n.html:172
 msgid "Tajik"
 msgstr "Tacikçe"
 
-#: weblate/html/i18n.html:172
+#: weblate/html/i18n.html:173
 msgid "Tamil"
 msgstr "Tamilce"
 
-#: weblate/html/i18n.html:173
+#: weblate/html/i18n.html:174
 msgid "Tatar"
 msgstr "Tatarca"
 
-#: weblate/html/i18n.html:174
+#: weblate/html/i18n.html:175
 msgid "Telugu"
 msgstr "Telugu dili"
 
-#: weblate/html/i18n.html:175
+#: weblate/html/i18n.html:176
 msgid "Thai"
 msgstr "Tayca"
 
-#: weblate/html/i18n.html:176
+#: weblate/html/i18n.html:177
 msgid "Tibetan"
 msgstr "Tibet dili"
 
-#: weblate/html/i18n.html:177
+#: weblate/html/i18n.html:178
 msgid "Tigrinya"
 msgstr "Tigrinya dili"
 
-#: weblate/html/i18n.html:178
+#: weblate/html/i18n.html:179
 msgid "Traditional Chinese"
 msgstr "Geleneksel Çince"
 
-#: weblate/html/i18n.html:179
+#: weblate/html/i18n.html:180
 msgid "Tsonga"
 msgstr "Tsonga dili"
 
-#: weblate/html/i18n.html:180
+#: weblate/html/i18n.html:181
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: weblate/html/i18n.html:181
+#: weblate/html/i18n.html:182
 msgid "Turkmen"
 msgstr "Türkmence"
 
-#: weblate/html/i18n.html:182
+#: weblate/html/i18n.html:183
 msgid "Uighur"
 msgstr "Uygurca"
 
-#: weblate/html/i18n.html:183
+#: weblate/html/i18n.html:184
 msgid "Ukrainian"
 msgstr "Ukraynaca"
 
-#: weblate/html/i18n.html:184
+#: weblate/html/i18n.html:185
 msgid "Urdu"
 msgstr "Urduca"
 
-#: weblate/html/i18n.html:185
+#: weblate/html/i18n.html:186
 msgid "Uzbek"
 msgstr "Özbekçe"
 
-#: weblate/html/i18n.html:186
+#: weblate/html/i18n.html:187
 msgid "Uzbek (latin)"
 msgstr "Özbekçe (latin)"
 
-#: weblate/html/i18n.html:187
+#: weblate/html/i18n.html:188
 msgid "Valencian"
 msgstr "Valensiyaca"
 
-#: weblate/html/i18n.html:188
+#: weblate/html/i18n.html:189
 msgid "Venda"
 msgstr "Venda dili"
 
-#: weblate/html/i18n.html:189
+#: weblate/html/i18n.html:190
 msgid "Vietnamese"
 msgstr "Vietnamca"
 
-#: weblate/html/i18n.html:190
+#: weblate/html/i18n.html:191
 msgid "Walloon"
 msgstr "Valonca"
 
-#: weblate/html/i18n.html:191
+#: weblate/html/i18n.html:192
 msgid "Welsh"
 msgstr "Galce"
 
-#: weblate/html/i18n.html:192
+#: weblate/html/i18n.html:193
 msgid "West Flemish"
 msgstr "Batı Flamanca"
 
-#: weblate/html/i18n.html:193
+#: weblate/html/i18n.html:194
 msgid "Wolof"
 msgstr "Volof dili"
 
-#: weblate/html/i18n.html:194
+#: weblate/html/i18n.html:195
 msgid "Yakut"
 msgstr "Yakut dili"
 
-#: weblate/html/i18n.html:195
+#: weblate/html/i18n.html:196
 msgid "Yoruba"
 msgstr "Yoruba dili"
 
-#: weblate/html/i18n.html:196
+#: weblate/html/i18n.html:197
 msgid "Zulu"
 msgstr "Zulu dili"
 
@@ -2549,9 +2551,8 @@ msgstr "Çevir"
 #: weblate/html/mail/activation.html:7 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:7
 #: weblate/html/mail/changed_translation.txt:1
-#: weblate/html/mail/merge_failure.html:7
-#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:7
-#: weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/merge_failure.html:7 weblate/html/mail/merge_failure.txt:1
+#: weblate/html/mail/new_comment.html:7 weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:7
 #: weblate/html/mail/new_contributor.txt:1
 #: weblate/html/mail/new_language.html:7 weblate/html/mail/new_language.txt:1
@@ -2757,8 +2758,7 @@ msgstr ""
 msgid "Requested language:"
 msgstr "İstenen dil:"
 
-#: weblate/html/mail/new_language.html:33
-#: weblate/html/mail/new_language.txt:11
+#: weblate/html/mail/new_language.html:33 weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "İsteyen kullanıcı:"
 
@@ -3915,11 +3915,11 @@ msgstr "XML etiketleri uyumsuzluğu"
 msgid "XML tags in translation do not match source"
 msgstr "Çevirideki XML etiketleri kaynakla eşleşmiyor"
 
-#: weblate/trans/checks/same.py:1083
+#: weblate/trans/checks/same.py:1088
 msgid "Unchanged translation"
 msgstr "Değiştirilmemiş çeviri"
 
-#: weblate/trans/checks/same.py:1084
+#: weblate/trans/checks/same.py:1089
 msgid "Source and translated strings are same"
 msgstr "Kaynak ve çevrilmiş satırlar aynı"
 
@@ -4295,7 +4295,7 @@ msgstr "Önce yüksek öncelikli satırlar çevirmenlere sunulur."
 msgid "Check flags"
 msgstr "Onay işaretleri"
 
-#: weblate/trans/forms.py:764
+#: weblate/trans/forms.py:768
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
@@ -4304,11 +4304,11 @@ msgstr ""
 "Lütfen onay işaretlerinin bir virgülle ayırılmış listesini girin, daha fazla "
 "ayrıntı için <a href=\"{url}\">belgelere</a> bakın."
 
-#: weblate/trans/forms.py:785
+#: weblate/trans/forms.py:788
 msgid "User to add"
 msgstr "Eklemek için kullanıcı"
 
-#: weblate/trans/forms.py:787
+#: weblate/trans/forms.py:790
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
@@ -4316,11 +4316,11 @@ msgstr ""
 "Lütfen kullanıcı adı veya eposta verin. Kullanıcının Weblate'te zaten aktif "
 "bir hesaba sahip olması gerekir."
 
-#: weblate/trans/forms.py:799
+#: weblate/trans/forms.py:802
 msgid "No matching user found!"
 msgstr "Eşleşen kullanıcı yok!"
 
-#: weblate/trans/forms.py:801
+#: weblate/trans/forms.py:804
 msgid "More users matched!"
 msgstr "Daha fazla kullanıcı eşleşti!"
 
