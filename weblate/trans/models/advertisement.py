@@ -25,7 +25,7 @@ from django.utils import timezone
 from weblate import appsettings
 
 DONATE = 'http://weblate.org/donate/'
-GITTIP = 'https://www.gittip.com/nijel/'
+BOUNTYSOURCE = 'https://salt.bountysource.com/teams/weblate'
 WEBLATE = 'http://weblate.org/'
 
 
@@ -34,12 +34,12 @@ class AdvertisementManager(models.Manager):
 
     _fallback_choices = (
         (_('Donate to Weblate at {0}'), DONATE),
-        (_('Support Weblate at {0}'), GITTIP),
+        (_('Support Weblate at {0}'), BOUNTYSOURCE),
         (_('More information about Weblate can be found at {0}'), WEBLATE),
     )
     _fallback_choices_html = (
         (_('Donate to Weblate'), DONATE),
-        (_('Support Weblate using GitTip'), GITTIP),
+        (_('Support Weblate on Bountysource'), BOUNTYSOURCE),
         (_('More information about Weblate'), WEBLATE),
     )
 
