@@ -135,9 +135,9 @@ Trailing ellipsis
 ~~~~~~~~~~~~~~~~~
 
 Source and translation do not both end with an ellipsis. This only checks for
-real ellipsis (``…``) not for three commas (``...``).
+real ellipsis (``…``) not for three dots (``...``).
 
-Ellipsis is usually rendered nicer than three commas, so it's good to keep it
+Ellipsis is usually rendered nicer than three dots, so it's good to keep it
 when the original string was using that as well.
 
 .. seealso:: https://en.wikipedia.org/wiki/Ellipsis
