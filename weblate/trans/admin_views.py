@@ -43,6 +43,8 @@ DEFAULT_DOMAINS = ('example.net', 'example.com')
 
 def admin_context(request):
     """Wrapper to get admin context"""
+    # Django has changed number of parameters
+    # pylint: disable=E1120
     if django.VERSION < (1, 8, 0):
         return admin.site.each_context()
     return admin.site.each_context(request)
