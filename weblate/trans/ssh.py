@@ -20,6 +20,8 @@
 
 import subprocess
 import hashlib
+# See https://bitbucket.org/logilab/pylint/issues/73
+# pylint: disable=E0611,F0401
 from distutils.spawn import find_executable
 import os
 from django.utils.translation import ugettext as _
