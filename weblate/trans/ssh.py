@@ -225,15 +225,17 @@ def can_generate_key():
         return False
 
     try:
-        ret = subprocess.check_call(
-            ['which', 'ssh-keygen'],
+        process = subprocess.Popen(
+            ['ssh-keygen', '--help'],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
         )
-        return ret == 0
-    except subprocess.CalledProcessError:
+    except OSError:
         return False
+
+    # ssh-keygen does not support --help, it exits with 1
+    return process.wait() in (0, 1)
 
 
 def create_ssh_wrapper():
