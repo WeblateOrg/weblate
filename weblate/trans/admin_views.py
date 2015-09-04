@@ -177,7 +177,7 @@ def performance(request):
     ))
 
     context = admin.site.each_context(request)
-    context['checks'] =  checks
+    context['checks'] = checks
     context['errors'] = get_configuration_errors()
 
     return render(
