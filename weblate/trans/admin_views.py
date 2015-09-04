@@ -25,6 +25,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.conf import settings
+import django
 from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
@@ -40,12 +41,19 @@ import weblate
 DEFAULT_DOMAINS = ('example.net', 'example.com')
 
 
+def admin_context(request):
+    """Wrapper to get admin context"""
+    if django.VERSION < (1, 8, 0):
+        return admin.site.each_context()
+    return admin.site.each_context(request)
+
+
 @staff_member_required
 def report(request):
     """
     Provides report about git status of all repos.
     """
-    context = admin.site.each_context(request)
+    context = admin_context(request)
     context['subprojects'] = SubProject.objects.all()
     return render(
         request,
@@ -176,7 +184,7 @@ def performance(request):
         'order-cell',
     ))
 
-    context = admin.site.each_context(request)
+    context = admin_context(request)
     context['checks'] = checks
     context['errors'] = get_configuration_errors()
 
@@ -209,7 +217,7 @@ def ssh(request):
     if action == 'add-host':
         add_host_key(request)
 
-    context = admin.site.each_context(request)
+    context = admin_context(request)
     context['public_key'] = key
     context['can_generate'] = can_generate
     context['host_keys'] = get_host_keys()
