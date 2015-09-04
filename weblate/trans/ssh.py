@@ -68,7 +68,11 @@ def is_key_line(key):
     """
     if not key:
         return False
+    # Comment
     if key[0] == '#':
+        return False
+    # Special entry like @cert-authority
+    if key[0] == '@':
         return False
     return (
         ' ssh-rsa ' in key or
