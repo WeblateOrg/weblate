@@ -20,6 +20,7 @@
 
 import subprocess
 import hashlib
+from distutils.spawn import find_executable
 import os
 from django.utils.translation import ugettext as _
 from django.contrib import messages
@@ -228,18 +229,7 @@ def can_generate_key():
     except OSError:
         return False
 
-    try:
-        process = subprocess.Popen(
-            ['ssh-keygen', '--help'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            env=get_clean_env(),
-        )
-    except OSError:
-        return False
-
-    # ssh-keygen does not support --help, it exits with 1
-    return process.wait() in (0, 1)
+    return find_executable('ssh-keygen') is not None
 
 
 def create_ssh_wrapper():
