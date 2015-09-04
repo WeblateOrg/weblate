@@ -22,6 +22,7 @@ from weblate.trans.models import SubProject, IndexUpdate
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from weblate import settings_example
@@ -44,12 +45,12 @@ def report(request):
     """
     Provides report about git status of all repos.
     """
+    context = admin.site.each_context(request)
+    context['subprojects'] = SubProject.objects.all()
     return render(
         request,
         "admin/report.html",
-        {
-            'subprojects': SubProject.objects.all()
-        }
+        context,
     )
 
 
@@ -175,13 +176,14 @@ def performance(request):
         'order-cell',
     ))
 
+    context = admin.site.each_context(request)
+    context['checks'] =  checks
+    context['errors'] = get_configuration_errors()
+
     return render(
         request,
         "admin/performance.html",
-        {
-            'checks': checks,
-            'errors': get_configuration_errors()
-        }
+        context,
     )
 
 
@@ -207,13 +209,14 @@ def ssh(request):
     if action == 'add-host':
         add_host_key(request)
 
+    context = admin.site.each_context(request)
+    context['public_key'] = key
+    context['can_generate'] = can_generate
+    context['host_keys'] = get_host_keys()
+    context['ssh_docs'] = weblate.get_doc_url('admin/projects', 'private')
+
     return render(
         request,
         "admin/ssh.html",
-        {
-            'public_key': key,
-            'can_generate': can_generate,
-            'host_keys': get_host_keys(),
-            'ssh_docs': weblate.get_doc_url('admin/projects', 'private'),
-        }
+        context,
     )
