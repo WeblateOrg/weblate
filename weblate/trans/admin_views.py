@@ -103,10 +103,17 @@ def performance(request):
         'production-indexing',
     ))
     if appsettings.OFFLOAD_INDEXING:
+        if IndexUpdate.objects.count() < 20:
+            index_updates = True
+        elif IndexUpdate.objects.count() < 200:
+            index_updates = None
+        else:
+            index_updates = False
+
         checks.append((
             # Translators: Indexing is postponed to cron job
             _('Indexing offloading processing'),
-            IndexUpdate.objects.count() < 20,
+            index_updates,
             'production-indexing',
         ))
     # Check for sane caching
