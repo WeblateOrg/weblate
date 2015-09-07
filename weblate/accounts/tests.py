@@ -860,7 +860,7 @@ class RemoveAcccountTest(ViewTestCase):
         )
 
     def test_removal_change(self):
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
