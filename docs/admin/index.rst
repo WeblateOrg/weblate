@@ -5,6 +5,7 @@ Administrators guide
 
     quick
     install
+    deployments
     upgrade
     auth
     access
