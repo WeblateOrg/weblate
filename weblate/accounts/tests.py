@@ -454,19 +454,6 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('logout'))
         self.assertRedirects(response, reverse('home'))
 
-    def test_removal(self):
-        # Create user
-        self.get_user()
-        # Login
-        self.client.login(username='testuser', password='testpassword')
-        response = self.client.post(
-            reverse('remove')
-        )
-        self.assertRedirects(response, reverse('home'))
-        self.assertFalse(
-            User.objects.filter(username='testuser').exists()
-        )
-
     def test_password(self):
         # Create user
         self.get_user()
@@ -860,3 +847,26 @@ class AvatarTest(ViewTestCase):
             )
         )
         self.assertPNG(response)
+
+
+class RemoveAcccountTest(ViewTestCase):
+    def test_removal(self):
+        response = self.client.post(
+            reverse('remove')
+        )
+        self.assertRedirects(response, reverse('home'))
+        self.assertFalse(
+            User.objects.filter(username='testuser').exists()
+        )
+
+    def test_removal_change(self):
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should have some change to commit
+        self.assertTrue(self.subproject.repo_needs_commit())
+        # Remove account
+        self.test_removal()
+        # Changes should be committed
+        self.assertFalse(self.subproject.repo_needs_commit())
