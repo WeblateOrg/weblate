@@ -53,7 +53,10 @@ class Command(BaseCommand):
         if options['set_name']:
             site, created = Site.objects.get_or_create(
                 pk=options['site_id'],
-                defaults={'domain': options['set_name'], 'name': options['set_name']}
+                defaults={
+                    'domain': options['set_name'],
+                    'name': options['set_name']
+                }
             )
             if not created:
                 site.domain = options['set_name']
@@ -61,7 +64,8 @@ class Command(BaseCommand):
                 site.save()
         elif options['get_name']:
             try:
-                self.stdout.write(Site.objects.get(pk=options['site_id']).domain)
+                site = Site.objects.get(pk=options['site_id'])
+                self.stdout.write(site.domain)
             except Site.DoesNotExist:
                 raise CommandError('Site does not exist!')
         else:
