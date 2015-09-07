@@ -75,18 +75,21 @@ def performance(request):
         _('Debug mode'),
         not settings.DEBUG,
         'production-debug',
+        settings.DEBUG,
     ))
     # Check for domain configuration
     checks.append((
         _('Site domain'),
         Site.objects.get_current().domain not in DEFAULT_DOMAINS,
         'production-site',
+        Site.objects.get_current().domain,
     ))
     # Check database being used
     checks.append((
         _('Database backend'),
         "sqlite" not in settings.DATABASES['default']['ENGINE'],
         'production-database',
+        settings.DATABASES['default']['ENGINE'],
     ))
     # Check configured admins
     checks.append((
@@ -94,6 +97,7 @@ def performance(request):
         len(settings.ADMINS) > 0 or
         'noreply@weblate.org' in [x[1] for x in settings.ADMINS],
         'production-admins',
+        u', '.join([x[1] for x in settings.ADMINS]),
     ))
     # Check offloading indexing
     checks.append((
@@ -101,6 +105,7 @@ def performance(request):
         _('Indexing offloading'),
         appsettings.OFFLOAD_INDEXING,
         'production-indexing',
+        appsettings.OFFLOAD_INDEXING
     ))
     if appsettings.OFFLOAD_INDEXING:
         if IndexUpdate.objects.count() < 20:
@@ -115,6 +120,7 @@ def performance(request):
             _('Indexing offloading processing'),
             index_updates,
             'production-indexing',
+            IndexUpdate.objects.count(),
         ))
     # Check for sane caching
     caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
@@ -131,12 +137,15 @@ def performance(request):
         _('Django caching'),
         caches,
         'production-cache',
+        settings.CACHES['default']['BACKEND'],
     ))
     # Avatar caching
     checks.append((
         _('Avatar caching'),
         'avatar' in settings.CACHES,
         'production-cache-avatar',
+        settings.CACHES['avatar']['BACKEND']
+        if 'avatar' in settings.CACHES else '',
     ))
     # Check email setup
     default_mails = (
@@ -151,37 +160,42 @@ def performance(request):
             settings.DEFAULT_FROM_EMAIL not in default_mails
         ),
         'production-email',
+        ', '.join((settings.SERVER_EMAIL, settings.DEFAULT_FROM_EMAIL)),
     ))
     # libravatar library
     checks.append((
         _('Federated avatar support'),
         HAS_LIBRAVATAR,
         'production-avatar',
+        HAS_LIBRAVATAR,
     ))
     # pyuca library
     checks.append((
         _('pyuca library'),
         HAS_PYUCA,
         'production-pyuca',
+        HAS_PYUCA,
     ))
     # Cookie signing key
     checks.append((
         _('Secret key'),
         settings.SECRET_KEY != settings_example.SECRET_KEY,
         'production-secret',
+        settings.SECRET_KEY,
     ))
     # Allowed hosts
     checks.append((
         _('Allowed hosts'),
         len(settings.ALLOWED_HOSTS) > 0,
         'production-hosts',
+        ', '.join(settings.ALLOWED_HOSTS),
     ))
 
     # Cached template loader
     checks.append((
         _('Cached template loader'),
         'cached.Loader' in settings.TEMPLATE_LOADERS[0][0],
-        'production-templates'
+        'production-templates',
     ))
 
     # Check for serving static files
@@ -190,6 +204,7 @@ def performance(request):
         _('Admin static files'),
         False,
         'production-admin-files',
+        '',
         'order-cell',
     ))
 

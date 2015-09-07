@@ -19,14 +19,16 @@
   <thead>
   <tr>
     <th>{% trans "Check" %}</th>
+    <th>{% trans "Status" %}</th>
     <th>{% trans "Result" %}</th>
     <th>{% trans "Documentation" %}</th>
   </tr>
   </thead>
   <tbody>
   {% for check in checks %}
-  <tr class="row{% cycle '1' '2' %} {{ check.3 }}">
+  <tr class="row{% cycle '1' '2' %} {{ check.4 }}">
       <td>{{ check.0 }}</td>
+      <td>{{ check.3 }}</td>
       <td>{% admin_boolean_icon check.1 %}</td>
       <td><a href="{% documentation "admin/install" check.2 %}">{% trans "Documentation" %}</a></td>
   </tr>
