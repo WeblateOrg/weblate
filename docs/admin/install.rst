@@ -443,6 +443,10 @@ Set correct site name
 Adjust site name in admin interface, otherwise links in RSS or registration
 emails will not work.
 
+You can do this under the :guilabel:`Sites › Sites`, change the 
+:guilabel:`Domain name` to match your setup. You might want to set
+:setting:`ENABLE_HTTPS` as well if you serve site over https.
+
 .. seealso:: :ref:`faq-site`
 
 .. _production-indexing:
