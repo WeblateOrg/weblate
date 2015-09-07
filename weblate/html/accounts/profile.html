@@ -192,7 +192,9 @@
 <th>{% auth_name assoc.provider '' ' ' %}</th>
 <td>{{ assoc.uid }}</th>
 <td>
+{% if associated.count > 1 %}
 <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}" class="disconnect btn btn-danger"><i class="fa fa-trash"></i> {% trans "Disconnect" %}</a>
+{% endif %}
 </td>
 
 </tr>
