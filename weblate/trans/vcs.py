@@ -982,9 +982,7 @@ class HgRepository(Repository):
         """
         Configure repository branch.
         """
-        if branch != 'default':
-            raise RepositoryException(0, 'Only default branch supported!', '')
-        return
+        self.execute(['update', branch])
 
     def describe(self):
         """
