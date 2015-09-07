@@ -69,7 +69,7 @@ sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py migrate --noinput"
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py collectstatic --noinput"
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
-  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py changesite ${OPENSHIFT_APP_DNS}"
+  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py changesite --set-name ${OPENSHIFT_APP_DNS}"
 fi
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
