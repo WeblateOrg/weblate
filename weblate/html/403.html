@@ -9,6 +9,11 @@
 
 <p>
 {% trans "You don't have privileges to display this page." %}
+
+{% if not user.is_authenticated %}
+<a href="{% url 'login' %}" class="btn btn-default">{% trans "Login to Weblate" %}</a>
+{% endif %}
+
 </p>
 
 {% if acl_projects %}
