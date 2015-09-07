@@ -311,3 +311,10 @@ The update script takes care of the following update steps as described under :r
 * manage.py collectstatic --noinput --link
 
 
+Bitnami Weblate stack
+---------------------
+
+Bitnami provides Weblate stack for many platforms at
+<https://bitnami.com/stack/weblate>. The setup will be adjusted during
+installation, see <https://bitnami.com/stack/weblate/README.txt> for more
+documentation.
