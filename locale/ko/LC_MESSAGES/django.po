@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-09-03 12:38+0000\n"
+"POT-Creation-Date: 2015-09-07 10:53+0000\n"
 "PO-Revision-Date: 2015-02-22 17:11+0200\n"
 "Last-Translator: Koo Young Min <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -305,7 +305,7 @@ msgid "Hosting"
 msgstr "호스팅"
 
 #: weblate/accounts/views.py:389 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html.py:41 weblate/html/base.html:115
+#: weblate/html/accounts/login.html:41 weblate/html/base.html:115
 msgid "Login"
 msgstr "로그인"
 
@@ -331,7 +331,7 @@ msgid "Change password"
 msgstr "암호 변경"
 
 #: weblate/accounts/views.py:548 weblate/html/accounts/reset.html:7
-#: weblate/html/accounts/reset.html.py:21
+#: weblate/html/accounts/reset.html:21
 msgid "Password reset"
 msgstr "암호 초기화"
 
@@ -343,7 +343,13 @@ msgstr "사용 권한이 거부되었습니다"
 msgid "You don't have privileges to display this page."
 msgstr "이 페이지를 표시할 권한이 없습니다."
 
-#: weblate/html/403.html:15 weblate/html/404.html:15
+#: weblate/html/403.html:14
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Login to Weblate"
+msgstr "Weblate에 기부하기"
+
+#: weblate/html/403.html:20 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "하지만 이 서버에서는 다음 번역 프로젝트가 가능합니다:"
@@ -669,7 +675,8 @@ msgstr "환경설정"
 msgid "Subscriptions"
 msgstr "구독"
 
-#: weblate/html/accounts/profile.html:24 weblate/html/accounts/profile.html:144
+#: weblate/html/accounts/profile.html:24
+#: weblate/html/accounts/profile.html:144
 msgid "Account"
 msgstr "계정"
 
@@ -681,7 +688,8 @@ msgstr "인증"
 msgid "Profile"
 msgstr "프로필"
 
-#: weblate/html/accounts/profile.html:27 weblate/html/accounts/profile.html:291
+#: weblate/html/accounts/profile.html:27
+#: weblate/html/accounts/profile.html:291
 msgid "Licenses"
 msgstr "라이센스"
 
@@ -800,7 +808,8 @@ msgstr "새로운 연결을 추가:"
 msgid "Removal"
 msgstr "제거"
 
-#: weblate/html/accounts/profile.html:217 weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/profile.html:217
+#: weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
 msgstr "회원 탈퇴를 하시면 모든 개인 데이터를 삭제하게 됩니다."
 
@@ -948,7 +957,8 @@ msgid "SSH keys"
 msgstr "SSH 키"
 
 #: weblate/html/admin/custom-index.html:25
-#: weblate/html/admin/performance.html:6 weblate/html/admin/performance.html:15
+#: weblate/html/admin/performance.html:6
+#: weblate/html/admin/performance.html:15
 msgid "Performance report"
 msgstr "성능 보고"
 
@@ -2565,8 +2575,9 @@ msgstr "번역하기"
 #: weblate/html/mail/activation.html:7 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:7
 #: weblate/html/mail/changed_translation.txt:1
-#: weblate/html/mail/merge_failure.html:7 weblate/html/mail/merge_failure.txt:1
-#: weblate/html/mail/new_comment.html:7 weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/merge_failure.html:7
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:7
+#: weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:7
 #: weblate/html/mail/new_contributor.txt:1
 #: weblate/html/mail/new_language.html:7 weblate/html/mail/new_language.txt:1
@@ -2765,7 +2776,8 @@ msgstr ""
 msgid "Requested language:"
 msgstr "요청된 언어:"
 
-#: weblate/html/mail/new_language.html:33 weblate/html/mail/new_language.txt:11
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "요청하는 사용자:"
 
@@ -3720,65 +3732,65 @@ msgstr "품질 검사 플래그"
 msgid "Commit pending changes"
 msgstr "보류중인 변경 사항을 커밋"
 
-#: weblate/trans/admin_views.py:64
+#: weblate/trans/admin_views.py:75
 msgid "Debug mode"
 msgstr "디버그 모드"
 
-#: weblate/trans/admin_views.py:70
+#: weblate/trans/admin_views.py:81
 msgid "Site domain"
 msgstr "사이트 도메인"
 
-#: weblate/trans/admin_views.py:76
+#: weblate/trans/admin_views.py:87
 msgid "Database backend"
 msgstr "데이터베이스 백엔드"
 
-#: weblate/trans/admin_views.py:82
+#: weblate/trans/admin_views.py:93
 msgid "Site administrator"
 msgstr "사이트 관리자"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:90
+#: weblate/trans/admin_views.py:101
 msgid "Indexing offloading"
 msgstr "인덱싱 오프로딩"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:97
+#: weblate/trans/admin_views.py:108
 msgid "Indexing offloading processing"
 msgstr "색인 오프로딩 처리 중"
 
-#: weblate/trans/admin_views.py:113
+#: weblate/trans/admin_views.py:124
 msgid "Django caching"
 msgstr "장고 캐싱"
 
-#: weblate/trans/admin_views.py:119
+#: weblate/trans/admin_views.py:130
 msgid "Avatar caching"
 msgstr "아바타 캐싱"
 
-#: weblate/trans/admin_views.py:130
+#: weblate/trans/admin_views.py:141
 msgid "Email addresses"
 msgstr "이메일 주소"
 
-#: weblate/trans/admin_views.py:139
+#: weblate/trans/admin_views.py:150
 msgid "Federated avatar support"
 msgstr "연합된 아바타 지원"
 
-#: weblate/trans/admin_views.py:145
+#: weblate/trans/admin_views.py:156
 msgid "pyuca library"
 msgstr "pyuca 라이브러리"
 
-#: weblate/trans/admin_views.py:151
+#: weblate/trans/admin_views.py:162
 msgid "Secret key"
 msgstr "보안 키"
 
-#: weblate/trans/admin_views.py:157
+#: weblate/trans/admin_views.py:168
 msgid "Allowed hosts"
 msgstr "허용된 호스트"
 
-#: weblate/trans/admin_views.py:164
+#: weblate/trans/admin_views.py:175
 msgid "Cached template loader"
 msgstr "캐쉬된 템플릿 로더"
 
-#: weblate/trans/admin_views.py:172
+#: weblate/trans/admin_views.py:183
 msgid "Admin static files"
 msgstr "관리자 정적 파일"
 
@@ -3944,11 +3956,11 @@ msgstr "XML 태그 불일치"
 msgid "XML tags in translation do not match source"
 msgstr "XML 태그가 원본과 일치하지 않습니다"
 
-#: weblate/trans/checks/same.py:1088
+#: weblate/trans/checks/same.py:1090
 msgid "Unchanged translation"
 msgstr "변경되지 않은 번역"
 
-#: weblate/trans/checks/same.py:1089
+#: weblate/trans/checks/same.py:1091
 msgid "Source and translated strings are same"
 msgstr "원본과 번역된 문자열이 같습니다"
 
@@ -5260,24 +5272,24 @@ msgid "Em dash"
 msgstr "엠 대쉬"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:91
+#: weblate/trans/ssh.py:98
 msgid "[hostname hashed]"
 msgstr "[호스트이름 해쉬됨]"
 
-#: weblate/trans/ssh.py:150
+#: weblate/trans/ssh.py:157
 msgid "Created new SSH key."
 msgstr "새로운 SSH 키가 생성되었습니다."
 
-#: weblate/trans/ssh.py:154
+#: weblate/trans/ssh.py:161
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "키 생성에 실패하였습니다: %s"
 
-#: weblate/trans/ssh.py:167
+#: weblate/trans/ssh.py:174
 msgid "Invalid host name given!"
 msgstr "호스트 이름이 잘못되었습니다!"
 
-#: weblate/trans/ssh.py:189
+#: weblate/trans/ssh.py:196
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -5286,11 +5298,11 @@ msgstr ""
 "지문 %(fingerprint)s (%(keytype)s),와 %(host)s에 대한 호스트 키가 추가되었습"
 "니다. 올바른지 확인하시기 바랍니다."
 
-#: weblate/trans/ssh.py:201
+#: weblate/trans/ssh.py:208
 msgid "Failed to fetch public key for a host!"
 msgstr "호스트를 위한 공개 키를 가져오는데 실패했습니다!"
 
-#: weblate/trans/ssh.py:209 weblate/trans/ssh.py:214
+#: weblate/trans/ssh.py:216 weblate/trans/ssh.py:221
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "키 가져오기에 실패하였습니다: %s"

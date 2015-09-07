@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-09-03 12:38+0000\n"
+"POT-Creation-Date: 2015-09-07 10:53+0000\n"
 "PO-Revision-Date: 2015-08-31 17:13+0200\n"
 "Last-Translator: Domen <mitenem@outlook.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -299,7 +299,7 @@ msgid "Hosting"
 msgstr "Gostovanje"
 
 #: weblate/accounts/views.py:389 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html.py:41 weblate/html/base.html:115
+#: weblate/html/accounts/login.html:41 weblate/html/base.html:115
 msgid "Login"
 msgstr "Prijava"
 
@@ -325,7 +325,7 @@ msgid "Change password"
 msgstr "Spremeni geslo"
 
 #: weblate/accounts/views.py:548 weblate/html/accounts/reset.html:7
-#: weblate/html/accounts/reset.html.py:21
+#: weblate/html/accounts/reset.html:21
 msgid "Password reset"
 msgstr "Ponastavitev gesla"
 
@@ -337,7 +337,13 @@ msgstr "Dovoljenje zavrnjeno"
 msgid "You don't have privileges to display this page."
 msgstr "Nimate pravic za prikaz te strani."
 
-#: weblate/html/403.html:15 weblate/html/404.html:15
+#: weblate/html/403.html:14
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Login to Weblate"
+msgstr "Donirajte Weblateu"
+
+#: weblate/html/403.html:20 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Kakor koli, na strežniku so na voljo naslednji prevajalski projekti:"
@@ -663,7 +669,8 @@ msgstr "Nastavitve"
 msgid "Subscriptions"
 msgstr "Naročnine"
 
-#: weblate/html/accounts/profile.html:24 weblate/html/accounts/profile.html:144
+#: weblate/html/accounts/profile.html:24
+#: weblate/html/accounts/profile.html:144
 msgid "Account"
 msgstr "Račun"
 
@@ -675,7 +682,8 @@ msgstr "Overitev"
 msgid "Profile"
 msgstr "Profil"
 
-#: weblate/html/accounts/profile.html:27 weblate/html/accounts/profile.html:291
+#: weblate/html/accounts/profile.html:27
+#: weblate/html/accounts/profile.html:291
 msgid "Licenses"
 msgstr "Dovoljenja"
 
@@ -793,7 +801,8 @@ msgstr "Dodaj novo povezavo:"
 msgid "Removal"
 msgstr "Odstranitev"
 
-#: weblate/html/accounts/profile.html:217 weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/profile.html:217
+#: weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
 msgstr "Odstranitev računa izbriše vse vaše zasebne podatke."
 
@@ -942,7 +951,8 @@ msgid "SSH keys"
 msgstr "Ključi SSH"
 
 #: weblate/html/admin/custom-index.html:25
-#: weblate/html/admin/performance.html:6 weblate/html/admin/performance.html:15
+#: weblate/html/admin/performance.html:6
+#: weblate/html/admin/performance.html:15
 msgid "Performance report"
 msgstr "Poročilo o uspešnosti"
 
@@ -2551,8 +2561,9 @@ msgstr "Prevedite"
 #: weblate/html/mail/activation.html:7 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:7
 #: weblate/html/mail/changed_translation.txt:1
-#: weblate/html/mail/merge_failure.html:7 weblate/html/mail/merge_failure.txt:1
-#: weblate/html/mail/new_comment.html:7 weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/merge_failure.html:7
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:7
+#: weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:7
 #: weblate/html/mail/new_contributor.txt:1
 #: weblate/html/mail/new_language.html:7 weblate/html/mail/new_language.txt:1
@@ -2754,7 +2765,8 @@ msgstr ""
 msgid "Requested language:"
 msgstr "Zaprošen jezik:"
 
-#: weblate/html/mail/new_language.html:33 weblate/html/mail/new_language.txt:11
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "Zaproševalec:"
 
@@ -3682,65 +3694,65 @@ msgstr "Posodobi preverjanja kakovosti"
 msgid "Commit pending changes"
 msgstr "Potrdi spremembe v teku"
 
-#: weblate/trans/admin_views.py:64
+#: weblate/trans/admin_views.py:75
 msgid "Debug mode"
 msgstr "Razhroščevalni način"
 
-#: weblate/trans/admin_views.py:70
+#: weblate/trans/admin_views.py:81
 msgid "Site domain"
 msgstr "Domena strani"
 
-#: weblate/trans/admin_views.py:76
+#: weblate/trans/admin_views.py:87
 msgid "Database backend"
 msgstr "Podatkovna baza zaledja"
 
-#: weblate/trans/admin_views.py:82
+#: weblate/trans/admin_views.py:93
 msgid "Site administrator"
 msgstr "Skrbnik strani"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:90
+#: weblate/trans/admin_views.py:101
 msgid "Indexing offloading"
 msgstr "Preusmeritev indeksiranja"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:97
+#: weblate/trans/admin_views.py:108
 msgid "Indexing offloading processing"
 msgstr "Obdelovanje preusmeritve indeksiranja"
 
-#: weblate/trans/admin_views.py:113
+#: weblate/trans/admin_views.py:124
 msgid "Django caching"
 msgstr "Predpomnjenje Django"
 
-#: weblate/trans/admin_views.py:119
+#: weblate/trans/admin_views.py:130
 msgid "Avatar caching"
 msgstr "Predpomnjenje avatarjev"
 
-#: weblate/trans/admin_views.py:130
+#: weblate/trans/admin_views.py:141
 msgid "Email addresses"
 msgstr "E-poštni naslovi"
 
-#: weblate/trans/admin_views.py:139
+#: weblate/trans/admin_views.py:150
 msgid "Federated avatar support"
 msgstr "Podpora povezanim podobam"
 
-#: weblate/trans/admin_views.py:145
+#: weblate/trans/admin_views.py:156
 msgid "pyuca library"
 msgstr "Knjižnica pyuca"
 
-#: weblate/trans/admin_views.py:151
+#: weblate/trans/admin_views.py:162
 msgid "Secret key"
 msgstr "Skrivni ključ"
 
-#: weblate/trans/admin_views.py:157
+#: weblate/trans/admin_views.py:168
 msgid "Allowed hosts"
 msgstr "Dovoljena imena strežnikov"
 
-#: weblate/trans/admin_views.py:164
+#: weblate/trans/admin_views.py:175
 msgid "Cached template loader"
 msgstr "Predpomnjen nalagalnik predlog"
 
-#: weblate/trans/admin_views.py:172
+#: weblate/trans/admin_views.py:183
 msgid "Admin static files"
 msgstr "Administratorske statične datoteke"
 
@@ -3909,11 +3921,11 @@ msgstr "Neujemanje oznak XML"
 msgid "XML tags in translation do not match source"
 msgstr "Oznake XML v prevodu se ne ujemajo z izvirnikom"
 
-#: weblate/trans/checks/same.py:1088
+#: weblate/trans/checks/same.py:1090
 msgid "Unchanged translation"
 msgstr "Nespremenjen prevod"
 
-#: weblate/trans/checks/same.py:1089
+#: weblate/trans/checks/same.py:1091
 msgid "Source and translated strings are same"
 msgstr "Izvirni in prevedeni niz sta enaka"
 
@@ -5188,24 +5200,24 @@ msgid "Em dash"
 msgstr "Dolgi pomišljaj"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:91
+#: weblate/trans/ssh.py:98
 msgid "[hostname hashed]"
 msgstr "[ime gostitelja je šifrirano]"
 
-#: weblate/trans/ssh.py:150
+#: weblate/trans/ssh.py:157
 msgid "Created new SSH key."
 msgstr "Ustvaril sem nov ključ SSH."
 
-#: weblate/trans/ssh.py:154
+#: weblate/trans/ssh.py:161
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nisem uspel ustvariti ključa: %s"
 
-#: weblate/trans/ssh.py:167
+#: weblate/trans/ssh.py:174
 msgid "Invalid host name given!"
 msgstr "Podali ste neveljavno ime gostitelja!"
 
-#: weblate/trans/ssh.py:189
+#: weblate/trans/ssh.py:196
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -5214,11 +5226,11 @@ msgstr ""
 "Dodal sem ključ gostitelja za %(host)s, s prstnim odtisom %(fingerprint)s "
 "(%(keytype)s); prosimo, preverite, če je pravilen."
 
-#: weblate/trans/ssh.py:201
+#: weblate/trans/ssh.py:208
 msgid "Failed to fetch public key for a host!"
 msgstr "Pridobivanje javnega ključa gostitelja je spodletelo!"
 
-#: weblate/trans/ssh.py:209 weblate/trans/ssh.py:214
+#: weblate/trans/ssh.py:216 weblate/trans/ssh.py:221
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Nisem uspel pridobiti gostiteljevega ključa: %s"

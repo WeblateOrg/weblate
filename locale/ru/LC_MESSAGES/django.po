@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-09-03 12:38+0000\n"
+"POT-Creation-Date: 2015-09-07 10:53+0000\n"
 "PO-Revision-Date: 2015-06-22 12:28+0200\n"
 "Last-Translator: Roman Imankulov <roman.imankulov@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -312,7 +312,7 @@ msgid "Hosting"
 msgstr "Хостинг"
 
 #: weblate/accounts/views.py:389 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html.py:41 weblate/html/base.html:115
+#: weblate/html/accounts/login.html:41 weblate/html/base.html:115
 msgid "Login"
 msgstr "Логин"
 
@@ -338,7 +338,7 @@ msgid "Change password"
 msgstr "Изменить пароль"
 
 #: weblate/accounts/views.py:548 weblate/html/accounts/reset.html:7
-#: weblate/html/accounts/reset.html.py:21
+#: weblate/html/accounts/reset.html:21
 msgid "Password reset"
 msgstr "Сброс пароля"
 
@@ -350,7 +350,13 @@ msgstr "Отказано в доступе"
 msgid "You don't have privileges to display this page."
 msgstr "У Вас недостаточно прав для просмотра этой страницы."
 
-#: weblate/html/403.html:15 weblate/html/404.html:15
+#: weblate/html/403.html:14
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Login to Weblate"
+msgstr "Сделать пожертвование Weblate"
+
+#: weblate/html/403.html:20 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Однако, доступны следующие проекты переводов на этом сервере:"
@@ -670,7 +676,8 @@ msgstr "Предпочтения"
 msgid "Subscriptions"
 msgstr "Подписки"
 
-#: weblate/html/accounts/profile.html:24 weblate/html/accounts/profile.html:144
+#: weblate/html/accounts/profile.html:24
+#: weblate/html/accounts/profile.html:144
 msgid "Account"
 msgstr "Учетная запись"
 
@@ -682,7 +689,8 @@ msgstr "Идентификация"
 msgid "Profile"
 msgstr "Профиль пользователя"
 
-#: weblate/html/accounts/profile.html:27 weblate/html/accounts/profile.html:291
+#: weblate/html/accounts/profile.html:27
+#: weblate/html/accounts/profile.html:291
 msgid "Licenses"
 msgstr "Лицензии"
 
@@ -800,7 +808,8 @@ msgstr "Добавить новую ассоциацию:"
 msgid "Removal"
 msgstr "Удаление"
 
-#: weblate/html/accounts/profile.html:217 weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/profile.html:217
+#: weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
 msgstr "Удаление аккаунта также удалит все Ваши личные данные."
 
@@ -948,7 +957,8 @@ msgid "SSH keys"
 msgstr "SSH ключи"
 
 #: weblate/html/admin/custom-index.html:25
-#: weblate/html/admin/performance.html:6 weblate/html/admin/performance.html:15
+#: weblate/html/admin/performance.html:6
+#: weblate/html/admin/performance.html:15
 msgid "Performance report"
 msgstr "Отчет производительности"
 
@@ -2532,8 +2542,9 @@ msgstr "Перевод"
 #: weblate/html/mail/activation.html:7 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:7
 #: weblate/html/mail/changed_translation.txt:1
-#: weblate/html/mail/merge_failure.html:7 weblate/html/mail/merge_failure.txt:1
-#: weblate/html/mail/new_comment.html:7 weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/merge_failure.html:7
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:7
+#: weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:7
 #: weblate/html/mail/new_contributor.txt:1
 #: weblate/html/mail/new_language.html:7 weblate/html/mail/new_language.txt:1
@@ -2729,7 +2740,8 @@ msgstr ""
 msgid "Requested language:"
 msgstr "Требуемый язык:"
 
-#: weblate/html/mail/new_language.html:33 weblate/html/mail/new_language.txt:11
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 msgid "Requesting user:"
 msgstr "Запрашивающий пользователь:"
 
@@ -3671,67 +3683,67 @@ msgstr "Отметки о проверке качества"
 msgid "Commit pending changes"
 msgstr "Показать изменения"
 
-#: weblate/trans/admin_views.py:64
+#: weblate/trans/admin_views.py:75
 msgid "Debug mode"
 msgstr "Режим отладки"
 
-#: weblate/trans/admin_views.py:70
+#: weblate/trans/admin_views.py:81
 msgid "Site domain"
 msgstr "Домен сайта"
 
-#: weblate/trans/admin_views.py:76
+#: weblate/trans/admin_views.py:87
 msgid "Database backend"
 msgstr "Серверная часть базы данных"
 
-#: weblate/trans/admin_views.py:82
+#: weblate/trans/admin_views.py:93
 msgid "Site administrator"
 msgstr "Администратор сайта"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:90
+#: weblate/trans/admin_views.py:101
 msgid "Indexing offloading"
 msgstr "Разгрузка индексации"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:97
+#: weblate/trans/admin_views.py:108
 #, fuzzy
 #| msgid "Indexing offloading"
 msgid "Indexing offloading processing"
 msgstr "Разгрузка индексации"
 
-#: weblate/trans/admin_views.py:113
+#: weblate/trans/admin_views.py:124
 msgid "Django caching"
 msgstr "Кеширование Django"
 
-#: weblate/trans/admin_views.py:119
+#: weblate/trans/admin_views.py:130
 msgid "Avatar caching"
 msgstr "Кеширование аватара"
 
-#: weblate/trans/admin_views.py:130
+#: weblate/trans/admin_views.py:141
 msgid "Email addresses"
 msgstr "Адреса эл. почты"
 
-#: weblate/trans/admin_views.py:139
+#: weblate/trans/admin_views.py:150
 msgid "Federated avatar support"
 msgstr "Поддержка интегрированных аватаров"
 
-#: weblate/trans/admin_views.py:145
+#: weblate/trans/admin_views.py:156
 msgid "pyuca library"
 msgstr "Библиотека pyuca"
 
-#: weblate/trans/admin_views.py:151
+#: weblate/trans/admin_views.py:162
 msgid "Secret key"
 msgstr "Секретный ключ"
 
-#: weblate/trans/admin_views.py:157
+#: weblate/trans/admin_views.py:168
 msgid "Allowed hosts"
 msgstr "Разрешенные хосты"
 
-#: weblate/trans/admin_views.py:164
+#: weblate/trans/admin_views.py:175
 msgid "Cached template loader"
 msgstr ""
 
-#: weblate/trans/admin_views.py:172
+#: weblate/trans/admin_views.py:183
 msgid "Admin static files"
 msgstr "Администрирование статических файлов"
 
@@ -3902,11 +3914,11 @@ msgstr "Тэги XML некорректно расставлены"
 msgid "XML tags in translation do not match source"
 msgstr "Тэги XML в переводе не совпадают с тэгами XML в источнике"
 
-#: weblate/trans/checks/same.py:1088
+#: weblate/trans/checks/same.py:1090
 msgid "Unchanged translation"
 msgstr "Не изменившийся перевод"
 
-#: weblate/trans/checks/same.py:1089
+#: weblate/trans/checks/same.py:1091
 msgid "Source and translated strings are same"
 msgstr "Источник и перевод совпадают"
 
@@ -5207,24 +5219,24 @@ msgid "Em dash"
 msgstr ""
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:91
+#: weblate/trans/ssh.py:98
 msgid "[hostname hashed]"
 msgstr "[имя хоста хэшировано]"
 
-#: weblate/trans/ssh.py:150
+#: weblate/trans/ssh.py:157
 msgid "Created new SSH key."
 msgstr "Создан новый SSH-ключ."
 
-#: weblate/trans/ssh.py:154
+#: weblate/trans/ssh.py:161
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Не удалось создать ключ %s"
 
-#: weblate/trans/ssh.py:167
+#: weblate/trans/ssh.py:174
 msgid "Invalid host name given!"
 msgstr "Некорректное имя хоста!"
 
-#: weblate/trans/ssh.py:189
+#: weblate/trans/ssh.py:196
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -5233,11 +5245,11 @@ msgstr ""
 "Добавлен ключ для хоста %(host)s с отпечатком %(fingerprint)s (%(keytype)s). "
 "Пожалуйста, проверьте, всё ли правильно."
 
-#: weblate/trans/ssh.py:201
+#: weblate/trans/ssh.py:208
 msgid "Failed to fetch public key for a host!"
 msgstr "Не удалось извлечь ключ хоста!"
 
-#: weblate/trans/ssh.py:209 weblate/trans/ssh.py:214
+#: weblate/trans/ssh.py:216 weblate/trans/ssh.py:221
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Не удалось получить ключ хоста: %s"

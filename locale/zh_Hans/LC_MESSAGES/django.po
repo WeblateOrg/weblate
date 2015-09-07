@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-09-03 12:38+0000\n"
+"POT-Creation-Date: 2015-09-07 10:53+0000\n"
 "PO-Revision-Date: 2015-09-01 09:39+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Simplified Chinese <https://hosted.weblate.org/projects/"
@@ -293,7 +293,7 @@ msgid "Hosting"
 msgstr "托管"
 
 #: weblate/accounts/views.py:389 weblate/html/accounts/login.html:8
-#: weblate/html/accounts/login.html.py:41 weblate/html/base.html:115
+#: weblate/html/accounts/login.html:41 weblate/html/base.html:115
 msgid "Login"
 msgstr "登录"
 
@@ -319,7 +319,7 @@ msgid "Change password"
 msgstr "修改密码"
 
 #: weblate/accounts/views.py:548 weblate/html/accounts/reset.html:7
-#: weblate/html/accounts/reset.html.py:21
+#: weblate/html/accounts/reset.html:21
 msgid "Password reset"
 msgstr "重设密码"
 
@@ -333,7 +333,13 @@ msgstr "许可被拒绝"
 msgid "You don't have privileges to display this page."
 msgstr "您没有保存译文的权限！"
 
-#: weblate/html/403.html:15 weblate/html/404.html:15
+#: weblate/html/403.html:14
+#, fuzzy
+#| msgid "Donate to Weblate"
+msgid "Login to Weblate"
+msgstr "捐助 Weblate"
+
+#: weblate/html/403.html:20 weblate/html/404.html:15
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr "此服务器上还有以下翻译项目："
@@ -684,7 +690,8 @@ msgstr "首选项"
 msgid "Subscriptions"
 msgstr "订阅"
 
-#: weblate/html/accounts/profile.html:24 weblate/html/accounts/profile.html:144
+#: weblate/html/accounts/profile.html:24
+#: weblate/html/accounts/profile.html:144
 msgid "Account"
 msgstr "帐号"
 
@@ -700,7 +707,8 @@ msgstr "授权"
 msgid "Profile"
 msgstr "用户资料"
 
-#: weblate/html/accounts/profile.html:27 weblate/html/accounts/profile.html:291
+#: weblate/html/accounts/profile.html:27
+#: weblate/html/accounts/profile.html:291
 msgid "Licenses"
 msgstr "许可证"
 
@@ -830,7 +838,8 @@ msgstr "添加新联系"
 msgid "Removal"
 msgstr "删除"
 
-#: weblate/html/accounts/profile.html:217 weblate/html/accounts/removal.html:11
+#: weblate/html/accounts/profile.html:217
+#: weblate/html/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
 msgstr "删除账户会清除所有私人数据。"
 
@@ -1001,7 +1010,8 @@ msgid "SSH keys"
 msgstr "SSH 密钥"
 
 #: weblate/html/admin/custom-index.html:25
-#: weblate/html/admin/performance.html:6 weblate/html/admin/performance.html:15
+#: weblate/html/admin/performance.html:6
+#: weblate/html/admin/performance.html:15
 msgid "Performance report"
 msgstr "性能报告"
 
@@ -2650,8 +2660,9 @@ msgstr "翻译"
 #: weblate/html/mail/activation.html:7 weblate/html/mail/activation.txt:1
 #: weblate/html/mail/changed_translation.html:7
 #: weblate/html/mail/changed_translation.txt:1
-#: weblate/html/mail/merge_failure.html:7 weblate/html/mail/merge_failure.txt:1
-#: weblate/html/mail/new_comment.html:7 weblate/html/mail/new_comment.txt:1
+#: weblate/html/mail/merge_failure.html:7
+#: weblate/html/mail/merge_failure.txt:1 weblate/html/mail/new_comment.html:7
+#: weblate/html/mail/new_comment.txt:1
 #: weblate/html/mail/new_contributor.html:7
 #: weblate/html/mail/new_contributor.txt:1
 #: weblate/html/mail/new_language.html:7 weblate/html/mail/new_language.txt:1
@@ -2855,7 +2866,8 @@ msgstr ""
 msgid "Requested language:"
 msgstr "申请语言："
 
-#: weblate/html/mail/new_language.html:33 weblate/html/mail/new_language.txt:11
+#: weblate/html/mail/new_language.html:33
+#: weblate/html/mail/new_language.txt:11
 #, fuzzy
 #| msgid "Requested language:"
 msgid "Requesting user:"
@@ -3877,69 +3889,69 @@ msgstr "升级品质检查"
 msgid "Commit pending changes"
 msgstr "提交挂起的修改"
 
-#: weblate/trans/admin_views.py:64
+#: weblate/trans/admin_views.py:75
 msgid "Debug mode"
 msgstr "调试模式"
 
-#: weblate/trans/admin_views.py:70
+#: weblate/trans/admin_views.py:81
 msgid "Site domain"
 msgstr "网站域名"
 
-#: weblate/trans/admin_views.py:76
+#: weblate/trans/admin_views.py:87
 msgid "Database backend"
 msgstr "数据库后端"
 
-#: weblate/trans/admin_views.py:82
+#: weblate/trans/admin_views.py:93
 msgid "Site administrator"
 msgstr "网站管理员"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:90
+#: weblate/trans/admin_views.py:101
 msgid "Indexing offloading"
 msgstr "索引分离"
 
 #. Translators: Indexing is postponed to cron job
-#: weblate/trans/admin_views.py:97
+#: weblate/trans/admin_views.py:108
 #, fuzzy
 #| msgid "Indexing offloading"
 msgid "Indexing offloading processing"
 msgstr "索引分离中"
 
-#: weblate/trans/admin_views.py:113
+#: weblate/trans/admin_views.py:124
 msgid "Django caching"
 msgstr "Django 缓存"
 
-#: weblate/trans/admin_views.py:119
+#: weblate/trans/admin_views.py:130
 #, fuzzy
 #| msgid "Django caching"
 msgid "Avatar caching"
 msgstr "头像缓存"
 
-#: weblate/trans/admin_views.py:130
+#: weblate/trans/admin_views.py:141
 msgid "Email addresses"
 msgstr "电子邮件地址"
 
-#: weblate/trans/admin_views.py:139
+#: weblate/trans/admin_views.py:150
 msgid "Federated avatar support"
 msgstr "联合头像支持"
 
-#: weblate/trans/admin_views.py:145
+#: weblate/trans/admin_views.py:156
 msgid "pyuca library"
 msgstr "pyuca 库"
 
-#: weblate/trans/admin_views.py:151
+#: weblate/trans/admin_views.py:162
 msgid "Secret key"
 msgstr "密钥"
 
-#: weblate/trans/admin_views.py:157
+#: weblate/trans/admin_views.py:168
 msgid "Allowed hosts"
 msgstr "允许的主机"
 
-#: weblate/trans/admin_views.py:164
+#: weblate/trans/admin_views.py:175
 msgid "Cached template loader"
 msgstr "缓存模板加载器"
 
-#: weblate/trans/admin_views.py:172
+#: weblate/trans/admin_views.py:183
 msgid "Admin static files"
 msgstr "Admin静态文件"
 
@@ -4104,13 +4116,13 @@ msgstr "XML 标签不一致"
 msgid "XML tags in translation do not match source"
 msgstr "译文中的 XML 标签和原文不一致"
 
-#: weblate/trans/checks/same.py:1088
+#: weblate/trans/checks/same.py:1090
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Unchanged translation"
 msgstr "机器翻译"
 
-#: weblate/trans/checks/same.py:1089
+#: weblate/trans/checks/same.py:1091
 msgid "Source and translated strings are same"
 msgstr "源条目和已翻译条目相同"
 
@@ -5454,24 +5466,24 @@ msgid "Em dash"
 msgstr "长破折号"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/trans/ssh.py:91
+#: weblate/trans/ssh.py:98
 msgid "[hostname hashed]"
 msgstr "[主机哈希加密]"
 
-#: weblate/trans/ssh.py:150
+#: weblate/trans/ssh.py:157
 msgid "Created new SSH key."
 msgstr "已创建 SSH 密钥。"
 
-#: weblate/trans/ssh.py:154
+#: weblate/trans/ssh.py:161
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "生成密钥失败：%s"
 
-#: weblate/trans/ssh.py:167
+#: weblate/trans/ssh.py:174
 msgid "Invalid host name given!"
 msgstr "主机名无效！"
 
-#: weblate/trans/ssh.py:189
+#: weblate/trans/ssh.py:196
 #, fuzzy, python-format
 #| msgid ""
 #| "Added host key for %(host)s with fingerprint %(fingerprint)s, please "
@@ -5481,13 +5493,13 @@ msgid ""
 "please verify that it is correct."
 msgstr "已为主机 %(host)s 添加指纹为 %(fingerprint)s 的密钥，请检查是否正确。"
 
-#: weblate/trans/ssh.py:201
+#: weblate/trans/ssh.py:208
 #, fuzzy
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch public key for a host!"
 msgstr "获取公钥失败：%s"
 
-#: weblate/trans/ssh.py:209 weblate/trans/ssh.py:214
+#: weblate/trans/ssh.py:216 weblate/trans/ssh.py:221
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Failed to get host key: %s"
