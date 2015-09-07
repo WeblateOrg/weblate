@@ -34,9 +34,12 @@ repository has been updated.
 
     .. seealso:: 
        
-       :ref:`github-setup`
-       https://help.github.com/articles/creating-webhooks
-       :setting:`ENABLE_HOOKS`
+        :ref:`github-setup`
+            For instruction on setting up GitHub integration
+        https://help.github.com/articles/creating-webhooks
+            Generic information about GitHub Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
 
 .. http:post:: /hooks/gitlab/
 
@@ -45,9 +48,12 @@ repository has been updated.
 
     .. seealso:: 
 
-       :ref:`gitlab-setup`
-       http://doc.gitlab.com/ce/web_hooks/web_hooks.html
-       :setting:`ENABLE_HOOKS`
+        :ref:`gitlab-setup`
+            For instruction on setting up GitLab integration
+        http://doc.gitlab.com/ce/web_hooks/web_hooks.html
+            Generic information about GitLab Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
 
 .. http:post:: /hooks/bitbucket/
 
@@ -56,10 +62,12 @@ repository has been updated.
 
     .. seealso:: 
 
-       :ref:`bitbucket-setup`
-       https://confluence.atlassian.com/display/BITBUCKET/Write+brokers+%28hooks%29+for+Bitbucket
-       https://confluence.atlassian.com/display/BITBUCKET/POST+hook+management
-       :setting:`ENABLE_HOOKS`
+        :ref:`bitbucket-setup`
+            For instruction on setting up Bitbucket integration
+        https://confluence.atlassian.com/bitbucket/manage-webhooks-735643732.html
+            Generic information about Bitbucket Webhooks
+        :setting:`ENABLE_HOOKS`
+            For enabling hooks for whole Weblate
 
 .. _exports:
 
