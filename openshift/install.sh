@@ -65,28 +65,19 @@ done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
-if [ ! -s $OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json ]; then
-  mkdir -p $OPENSHIFT_REPO_DIR/weblate/fixtures
-  cat <<-EOF >$OPENSHIFT_REPO_DIR/weblate/fixtures/site_data.json
-    [{
-        "pk": 1,
-        "model": "sites.site",
-        "fields": {
-            "name": "${OPENSHIFT_APP_DNS}",
-            "domain":"${OPENSHIFT_APP_DNS}"
-        }
-    }]
-	EOF
-fi
-
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py migrate --noinput"
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py collectstatic --noinput"
+
+if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
+  sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py changesite ${OPENSHIFT_APP_DNS}"
+fi
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
   sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setupgroups --move"
 else
   sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setupgroups --no-privs-update"
 fi
+
 
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py setuplang"
 

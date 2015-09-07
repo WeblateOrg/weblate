@@ -32,6 +32,7 @@ Released on ? 2015.
 * Rewritten handling of static files.
 * Direct login/registration links to third party service if that's the only one.
 * Commit pending changes on account removal.
+* Add management command to change site name.
 
 weblate 2.3
 -----------

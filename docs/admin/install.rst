@@ -443,12 +443,17 @@ Set correct site name
 Adjust site name in admin interface, otherwise links in RSS or registration
 emails will not work.
 
-You can do this under the :guilabel:`Sites › Sites` (or directly open URL
-``/admin/sites/site/1/``), change the :guilabel:`Domain name` to match your
-setup. You might want to set :setting:`ENABLE_HTTPS` as well if you serve site
-over https.
+Please open admin interface and edit default site name and domain under the
+:guilabel:`Sites › Sites` (or you can do that directly at
+``/admin/sites/site/1/`` URL under your Weblate installation). You have to change 
+the :guilabel:`Domain name` to match your setup.
 
-.. seealso:: :ref:`faq-site`
+You might want to set :setting:`ENABLE_HTTPS` as well if you serve site over
+https.
+
+Alternatively you can set the site name from command line using :djadmin:`changesite`.
+
+.. seealso:: :ref:`faq-site`, :djadmin:`changesite`, https://docs.djangoproject.com/en/stable/ref/contrib/sites/
 
 .. _production-indexing:
 

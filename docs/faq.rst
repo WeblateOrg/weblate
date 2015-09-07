@@ -117,11 +117,9 @@ Why does registration contain example.com as domain?
 ----------------------------------------------------
 
 Weblate uses Django sites framework and it defines site name inside the
-database. Please open admin interface and edit default site name and domain
-(you can do that directly at ``/admin/sites/site/1/`` URL under your Weblate
-installation).
+database. 
 
-.. seealso:: https://docs.djangoproject.com/en/stable/ref/contrib/sites/
+.. seealso:: :ref:`production-site`
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
 ---------------------------------------------------------------

@@ -28,9 +28,11 @@ from django.test import TestCase
 from unittest import SkipTest
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AnonymousUser, User, Group
+from django.contrib.sites.models import Site
 from django.core import mail
 from django.test.utils import override_settings
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.http import HttpRequest, HttpResponseRedirect
 
 from weblate.accounts.models import (
@@ -315,6 +317,21 @@ class CommandTest(TestCase):
 
         profile = Profile.objects.get(user__username='testuser')
         self.assertEqual(profile.translated, 2000)
+
+    def test_changesite(self):
+        call_command('changesite', get_name=True)
+        self.assertNotEqual(Site.objects.get(pk=1).domain, 'test.weblate.org')
+        call_command('changesite', set_name='test.weblate.org')
+        self.assertEqual(Site.objects.get(pk=1).domain, 'test.weblate.org')
+
+    def test_changesite_new(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'changesite', get_name=True, site_id=2
+        )
+        call_command('changesite', set_name='test.weblate.org', site_id=2)
+        self.assertEqual(Site.objects.get(pk=2).domain, 'test.weblate.org')
 
 
 class ViewTest(TestCase):

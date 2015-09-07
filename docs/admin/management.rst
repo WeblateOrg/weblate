@@ -11,6 +11,18 @@ Management commands
 
 The ./manage.py is extended with following commands:
 
+changesite
+----------
+
+.. django-admin:: changesite
+
+.. versionadded:: 2.4
+
+You can use this to changes site name from command line with ``--set-name``
+parameter. The ``--get-name`` prints currently configured site name.
+
+.. seealso:: :ref:`production-site`
+
 checkgit <project|project/component>
 ------------------------------------
 
