@@ -454,19 +454,6 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('logout'))
         self.assertRedirects(response, reverse('home'))
 
-    def test_removal(self):
-        # Create user
-        self.get_user()
-        # Login
-        self.client.login(username='testuser', password='testpassword')
-        response = self.client.post(
-            reverse('remove')
-        )
-        self.assertRedirects(response, reverse('home'))
-        self.assertFalse(
-            User.objects.filter(username='testuser').exists()
-        )
-
     def test_password(self):
         # Create user
         self.get_user()
@@ -860,3 +847,14 @@ class AvatarTest(ViewTestCase):
             )
         )
         self.assertPNG(response)
+
+
+class RemoveAcccountTest(ViewTestCase):
+    def test_removal(self):
+        response = self.client.post(
+            reverse('remove')
+        )
+        self.assertRedirects(response, reverse('home'))
+        self.assertFalse(
+            User.objects.filter(username='testuser').exists()
+        )
