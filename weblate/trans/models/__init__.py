@@ -39,6 +39,7 @@ from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
+    user_pre_delete,
 )
 from weblate.trans.scripts import (
     run_post_push_script, run_post_update_script, run_pre_commit_script,
@@ -224,3 +225,23 @@ def pre_commit(sender, translation, **kwargs):
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
     run_post_commit_script(translation.subproject, translation.get_filename())
+
+
+@receiver(user_pre_delete)
+def user_commit_pending(sender, instance, **kwargs):
+    """Commit pending changes for user on account removal."""
+    # All user changes
+    all_changes = Change.objects.last_changes(instance).filter(
+        user=instance,
+    )
+
+    # Filter where project is active
+    user_translation_ids = all_changes.values_list(
+        'translation', flat=True
+    ).distinct()
+
+    # Commit changes where user is last author
+    for translation in Translation.objects.filter(pk__in=user_translation_ids):
+        last_author = translation.change_set.content()[0].author
+        if last_author == instance:
+            translation.commit_pending(None)

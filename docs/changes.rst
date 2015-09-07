@@ -31,6 +31,7 @@ Released on ? 2015.
 * Added support for translating and importing CSV files.
 * Rewritten handling of static files.
 * Direct login/registration links to third party service if that's the only one.
+* Commit pending changes on account removal.
 
 weblate 2.3
 -----------

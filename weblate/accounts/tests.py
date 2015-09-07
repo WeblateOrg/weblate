@@ -858,3 +858,15 @@ class RemoveAcccountTest(ViewTestCase):
         self.assertFalse(
             User.objects.filter(username='testuser').exists()
         )
+
+    def test_removal_change(self):
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should have some change to commit
+        self.assertTrue(self.subproject.repo_needs_commit())
+        # Remove account
+        self.test_removal()
+        # Changes should be committed
+        self.assertFalse(self.subproject.repo_needs_commit())

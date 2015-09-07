@@ -41,6 +41,7 @@ from weblate.lang.models import Language
 from weblate.trans.util import get_site_url, get_site_domain
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.util import report_error
+from weblate.trans.signals import user_pre_delete
 import weblate
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
@@ -827,6 +828,9 @@ def remove_user(user):
     '''
     Removes user account.
     '''
+    # Send signal (to commit any pending changes)
+    user_pre_delete.send(instance=user, sender=user.__class__)
+
     # Change username
     user.username = 'deleted-{0}'.format(user.pk)
     while User.objects.filter(username=user.username).exists():
