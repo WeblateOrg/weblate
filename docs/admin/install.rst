@@ -454,7 +454,7 @@ Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
 performance. Don't forget to schedule indexing in background job to keep the
 index up to date.
 
-.. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`
+.. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
 
 .. _production-database:
 
@@ -655,6 +655,29 @@ configure it using following snippet:
     )
 
 .. seealso:: `Django documentation on template loading <https://docs.djangoproject.com/en/stable/ref/templates/api/#django.template.loaders.cached.Loader>`_
+
+.. _production-cron:
+
+Running maintenance tasks
++++++++++++++++++++++++++
+
+For optimal performace, it is good idea to run some maintenance tasks in the
+background.
+
+On Unix system, this can be scheduled using cron:
+
+.. code-block:: crontab
+
+    # Fulltext index updates
+    */5 * * * * cd /usr/share/weblate/; ./manage.py update_index
+    
+    # Cleanup stale objects
+    @daily cd /usr/share/weblate/; ./manage.py cleanuptrans
+
+    # Commit pending changes after 96 hours
+    @hourly cd /usr/share/weblate/; ./manage.py commit_pending --all --age=96 --verbosity=0
+
+.. seealso:: :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 
@@ -925,7 +948,7 @@ After installation on OpenShift Weblate is ready to use and preconfigured as fol
 * Random admin password
 * Random Django secret key (SECRET_KEY)
 * Indexing offloading if the cron cartridge is installed (:setting:`OFFLOAD_INDEXING`)
-* Committing of pending changes if the cron cartridge is installed (commit_pending)
+* Committing of pending changes if the cron cartridge is installed (:djadmin:`commit_pending`)
 * Weblate machine translations for suggestions bases on previous translations (:setting:`MACHINE_TRANSLATION_SERVICES`)
 * Source language for machine translations set to "en-us" (:setting:`SOURCE_LANGUAGE`)
 * Weblate directories (STATIC_ROOT, :setting:`DATA_DIR`, :setting:`TTF_PATH`, Avatar cache) set according to OpenShift requirements/conventions

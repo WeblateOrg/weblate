@@ -208,7 +208,7 @@ fulfilled:
 * explicit commit is requested
 
 You can also additionally set a cron job to commit pending changes after some
-delay, see :djadmin:`commit_pending`.
+delay, see :djadmin:`commit_pending` and :ref:`production-cron`.
 
 .. _processing:
 

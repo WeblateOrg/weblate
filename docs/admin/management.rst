@@ -48,12 +48,16 @@ This is most useful if executed periodically from cron or similar tool:
 
     ./manage.py commit_pending --all --age=48
 
+.. seealso:: :ref:`production-cron`
+
 cleanuptrans
 ------------
 
 .. django-admin:: cleanuptrans
 
 Cleanups orphaned checks and translation suggestions.
+
+.. seealso:: :ref:`production-cron`
 
 createadmin
 -----------
@@ -254,7 +258,7 @@ Updates index for fulltext search when :setting:`OFFLOAD_INDEXING` is enabled.
 It is recommended to run this frequently (eg. every 5 minutes) to have index
 uptodate.
 
-.. seealso:: :ref:`fulltext`
+.. seealso:: :ref:`fulltext`, :ref:`production-cron`, :ref:`production-indexing`
 
 unlock_translation <project|project/component>
 ----------------------------------------------
