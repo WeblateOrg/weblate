@@ -24,6 +24,14 @@ codebase, you can find them labelled with :guilabel:`newbie` tag:
 
 https://github.com/nijel/weblate/labels/newbie
 
+Earning money by coding
+-----------------------
+
+We're using Bountysource to fund our development, you can participate on this
+as well by implementing issues with bounties:
+
+https://github.com/nijel/weblate/labels/bounty
+
 Translating
 -----------
 
