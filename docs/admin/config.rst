@@ -142,6 +142,30 @@ Following subdirectories usually exist:
 :file:`whoosh`
     Fulltext search index using Whoosh engine.
 
+.. setting:: DEFAULT_COMMITER_EMAIL
+
+DEFAULT_COMMITER_EMAIL
+----------------------
+
+.. versionadded:: 2.4
+
+Default commiter email when creating translation component (see
+:ref:`component`), defaults to ``noreply@weblate.org``.
+
+.. seealso:: :setting:`DEFAULT_COMMITER_NAME`, :ref:`component`
+
+.. setting:: DEFAULT_COMMITER_NAME
+
+DEFAULT_COMMITER_NAME
+---------------------
+
+.. versionadded:: 2.4
+
+Default commiter name when creating translation component (see
+:ref:`component`), defaults to ``Weblate``.
+
+.. seealso:: :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
+
 .. setting:: ENABLE_AVATARS
 
 ENABLE_AVATARS

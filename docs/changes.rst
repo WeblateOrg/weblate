@@ -33,6 +33,7 @@ Released on ? 2015.
 * Direct login/registration links to third party service if that's the only one.
 * Commit pending changes on account removal.
 * Add management command to change site name.
+* Add option to confiugure default committer.
 
 weblate 2.3
 -----------

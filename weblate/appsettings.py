@@ -212,6 +212,14 @@ GITHUB_USERNAME = getvalue('GITHUB_USERNAME', None)
 # Whiteboard
 ENABLE_WHITEBOARD = getvalue('ENABLE_WHITEBOARD', False)
 
+# Default committer
+DEFAULT_COMMITER_EMAIL = getvalue(
+    'DEFAULT_COMMITER_EMAIL', 'noreply@weblate.org'
+)
+DEFAULT_COMMITER_NAME = getvalue(
+    'DEFAULT_COMMITER_NAME', 'Weblate'
+)
+
 # Obsolete configs, needed for data migration
 GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
 WHOOSH_INDEX = getvalue('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))

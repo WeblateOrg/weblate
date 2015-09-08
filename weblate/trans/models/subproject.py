@@ -53,6 +53,7 @@ from weblate.appsettings import (
     PRE_COMMIT_SCRIPT_CHOICES, POST_UPDATE_SCRIPT_CHOICES,
     POST_COMMIT_SCRIPT_CHOICES, POST_PUSH_SCRIPT_CHOICES,
     HIDE_REPO_CREDENTIALS,
+    DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
 )
 from weblate.accounts.models import notify_merge_failure
 from weblate.trans.models.changes import Change
@@ -384,12 +385,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
         max_length=200,
-        default='Weblate'
+        default=DEFAULT_COMMITER_NAME,
     )
     committer_email = models.EmailField(
         verbose_name=ugettext_lazy('Committer email'),
         max_length=254,
-        default='noreply@weblate.org'
+        default=DEFAULT_COMMITER_EMAIL,
     )
 
     language_regex = RegexField(

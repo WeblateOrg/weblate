@@ -236,10 +236,12 @@ Commit message
     Message used when committing translation, see :ref:`commit-message`.
 Committer name
     Name of commiter used on Weblate commits, the author will be always the
-    real translator. On some VCS this might be not supported.
+    real translator. On some VCS this might be not supported. Default value
+    can be changed by :setting:`DEFAULT_COMMITER_NAME`.
 Committer email
     Email of commiter used on Weblate commits, the author will be always the
-    real translator. On some VCS this might be not supported.
+    real translator. On some VCS this might be not supported. Default value
+    can be changed by :setting:`DEFAULT_COMMITER_EMAIL`.
 Language filter
     Regular expression which is used to filter translation when scanning for
     file mask. This can be used to limit list of languages mnaged by Weblate
