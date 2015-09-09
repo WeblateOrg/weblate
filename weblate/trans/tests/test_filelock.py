@@ -19,6 +19,7 @@
 #
 
 from unittest import TestCase
+from multiprocessing import Process
 from weblate.trans.filelock import FileLock, FileLockException
 
 
@@ -87,3 +88,24 @@ class LockTest(TestCase):
         lock.acquire()
         lockfile.close()
         lock.release()
+
+    def second_lock(self):
+        lock = FileLock('lock-test', timeout=0)
+        lock.acquire()
+        lock.release()
+
+    def test_process(self):
+        '''
+        Test of double locking.
+        '''
+        lock = FileLock('lock-test')
+        lock.acquire()
+        process = Process(target=self.second_lock)
+        process.start()
+        process.join()
+        self.assertEqual(process.exitcode, 1)
+        lock.release()
+        process = Process(target=self.second_lock)
+        process.start()
+        process.join()
+        self.assertEqual(process.exitcode, 0)
