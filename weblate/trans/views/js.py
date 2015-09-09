@@ -180,6 +180,10 @@ def git_status_subproject(request, project, subproject):
     if not can_see_repository_status(request.user, obj.project):
         raise PermissionDenied()
 
+    target = obj
+    if target.is_repo_link:
+        target = target.linked_subproject
+
     return render(
         request,
         'js/git-status.html',
@@ -188,7 +192,7 @@ def git_status_subproject(request, project, subproject):
             'project': obj.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
-                subproject=obj,
+                subproject=target,
             )[:10],
             'statuses': [(None, obj.repository.status)],
         }
@@ -202,6 +206,10 @@ def git_status_translation(request, project, subproject, lang):
     if not can_see_repository_status(request.user, obj.subproject.project):
         raise PermissionDenied()
 
+    target = obj.subproject
+    if target.is_repo_link:
+        target = target.linked_subproject
+
     return render(
         request,
         'js/git-status.html',
@@ -210,7 +218,7 @@ def git_status_translation(request, project, subproject, lang):
             'project': obj.subproject.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
-                subproject=obj.subproject,
+                subproject=target,
             )[:10],
             'statuses': [(None, obj.subproject.repository.status)],
         }
