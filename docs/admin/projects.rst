@@ -359,6 +359,10 @@ interface (follow :guilabel:`SSH keys` link on main admin page).
 If you are trying to connect to a GitHub repository be sure to use the SSH
 address, not the default HTTPS address. It should start with 'git@github.com'
 
+On GitHub, you can add the key to only one repository. If you plan to access
+more of them, it might be better to create separate user for that, assign him
+Weblate's SSH key and grant him access to all reposities.
+
 .. note::
 
     The keys need to be without password to make it work, so be sure they are
