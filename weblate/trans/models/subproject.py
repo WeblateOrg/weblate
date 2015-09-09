@@ -667,13 +667,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
 
-        self.repository.configure_remote(self.repo, self.push, self.branch)
-        self.repository.set_committer(
-            self.committer_name,
-            self.committer_email
-        )
+        with self.repository_lock:
+            self.repository.configure_remote(self.repo, self.push, self.branch)
+            self.repository.set_committer(
+                self.committer_name,
+                self.committer_email
+            )
 
-        self.update_remote_branch(validate)
+            self.update_remote_branch(validate)
 
     def configure_branch(self):
         '''
@@ -682,7 +683,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
 
-        self.repository.configure_branch(self.branch)
+        with self.repository_lock:
+            self.repository.configure_branch(self.branch)
 
     def do_update(self, request=None, method=None):
         '''
