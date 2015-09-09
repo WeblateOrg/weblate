@@ -8,6 +8,7 @@
 
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
  <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="author" content="Michal Čihař" />
   <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
 
@@ -46,7 +47,6 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}"/>
   <link rel="apple-touch-icon" href="{% static 'weblate-128.png' %}"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
