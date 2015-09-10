@@ -53,10 +53,10 @@ class ScriptTest(RepoTestCase):
     def test_run_hook(self):
         subproject = self.create_subproject()
         self.assertFalse(
-            run_hook(subproject, 'false')
+            run_hook(subproject, None, 'false')
         )
         self.assertTrue(
-            run_hook(subproject, 'true')
+            run_hook(subproject, None, 'true')
         )
 
     def assert_content(self, subproject):
