@@ -32,7 +32,7 @@ import os
 import os.path
 from weblate.lang.models import Language
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
-from weblate.trans.util import get_site_url
+from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
 
 

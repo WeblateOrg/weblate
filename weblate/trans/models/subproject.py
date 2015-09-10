@@ -37,8 +37,9 @@ from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
 from weblate.trans.fields import RegexField
+from weblate.trans.site import get_site_url
 from weblate.trans.util import (
-    is_repo_link, get_site_url, cleanup_repo_url, cleanup_path, report_error,
+    is_repo_link, cleanup_repo_url, cleanup_path, report_error,
 )
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, translation_post_add

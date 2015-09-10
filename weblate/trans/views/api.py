@@ -26,7 +26,7 @@ from django.http import (
 
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
-from weblate.trans.util import get_site_url
+from weblate.trans.site import get_site_url
 
 import json
 import weblate

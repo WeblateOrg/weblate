@@ -28,7 +28,8 @@ from django.core.urlresolvers import reverse
 
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language
-from weblate.trans.util import get_site_url, report_error
+from weblate.trans.site import get_site_url
+from weblate.trans.util import report_error
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.trans.views.helper import get_project
 import weblate

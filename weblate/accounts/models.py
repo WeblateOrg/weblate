@@ -38,7 +38,7 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans.util import get_site_url, get_site_domain
+from weblate.trans.site import get_site_url, get_site_domain
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.util import report_error
 from weblate.trans.signals import user_pre_delete

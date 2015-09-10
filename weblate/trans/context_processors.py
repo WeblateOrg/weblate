@@ -21,7 +21,7 @@
 import weblate
 from weblate import appsettings
 from datetime import datetime
-from weblate.trans.util import get_site_url
+from weblate.trans.site import get_site_url
 from weblate.trans.models.project import Project
 from weblate.trans.models.translation import Translation
 

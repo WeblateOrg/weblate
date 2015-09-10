@@ -81,24 +81,6 @@ def is_repo_link(val):
     return val.startswith('weblate://')
 
 
-def get_site_domain():
-    """Returns current site domain."""
-    from django.contrib.sites.models import Site
-    return Site.objects.get_current().domain
-
-
-def get_site_url(url=''):
-    '''
-    Returns root url of current site with domain.
-    '''
-    from weblate.appsettings import ENABLE_HTTPS
-    return '{0}://{1}{2}'.format(
-        'https' if ENABLE_HTTPS else 'http',
-        get_site_domain(),
-        url
-    )
-
-
 def load_class(name, setting):
     '''
     Imports module and creates class given by name in string.
