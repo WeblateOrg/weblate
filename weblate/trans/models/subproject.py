@@ -280,7 +280,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
 
-
     locked = models.BooleanField(
         verbose_name=ugettext_lazy('Locked'),
         default=False,
