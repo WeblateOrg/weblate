@@ -19,7 +19,7 @@
 #
 
 from django.conf import settings
-from weblate.trans.scripts import get_script_name
+from weblate.trans.scripts import get_script_choices
 import os
 
 
@@ -144,25 +144,19 @@ MACHINE_TRANSLATION_ENABLED = len(MACHINE_TRANSLATION_SERVICES) > 0
 
 # List of scripts to use in custom processing
 POST_UPDATE_SCRIPTS = getvalue('POST_UPDATE_SCRIPTS', ())
-POST_UPDATE_SCRIPT_CHOICES = [
-    (script, get_script_name(script)) for script in POST_UPDATE_SCRIPTS
-] + [('', '')]
+POST_UPDATE_SCRIPT_CHOICES = get_script_choices(POST_UPDATE_SCRIPTS)
+
 PRE_COMMIT_SCRIPTS = getvalue('PRE_COMMIT_SCRIPTS', ())
-PRE_COMMIT_SCRIPT_CHOICES = [
-    (script, get_script_name(script)) for script in PRE_COMMIT_SCRIPTS
-] + [('', '')]
+PRE_COMMIT_SCRIPT_CHOICES = get_script_choices(PRE_COMMIT_SCRIPTS)
+
 POST_COMMIT_SCRIPTS = getvalue('POST_COMMIT_SCRIPTS', ())
-POST_COMMIT_SCRIPT_CHOICES = [
-    (script, get_script_name(script)) for script in POST_COMMIT_SCRIPTS
-] + [('', '')]
+POST_COMMIT_SCRIPT_CHOICES = get_script_choices(POST_COMMIT_SCRIPTS)
+
 POST_PUSH_SCRIPTS = getvalue('POST_PUSH_SCRIPTS', ())
-POST_PUSH_SCRIPT_CHOICES = [
-    (script, get_script_name(script)) for script in POST_PUSH_SCRIPTS
-] + [('', '')]
+POST_PUSH_SCRIPT_CHOICES = get_script_choices(POST_PUSH_SCRIPTS)
+
 POST_ADD_SCRIPTS = getvalue('POST_ADD_SCRIPTS', ())
-POST_ADD_SCRIPT_CHOICES = [
-    (script, get_script_name(script)) for script in POST_ADD_SCRIPTS
-] + [('', '')]
+POST_ADD_SCRIPT_CHOICES = get_script_choices(POST_ADD_SCRIPTS)
 
 # Font for charts and widgets
 TTF_PATH = getvalue('TTF_PATH', os.path.join(BASE_DIR, 'ttf'))
