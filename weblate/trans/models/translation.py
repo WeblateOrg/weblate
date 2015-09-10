@@ -753,16 +753,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Create list of files to commit
         files = [self.filename]
-        if self.subproject.extra_commit_file != '':
-            extra_file = self.subproject.extra_commit_file % {
+        if self.subproject.extra_commit_file:
+            extra_files = self.subproject.extra_commit_file % {
                 'language': self.language_code,
             }
-            full_path_extra = os.path.join(
-                self.subproject.get_path(),
-                extra_file
-            )
-            if os.path.exists(full_path_extra):
-                files.append(extra_file)
+            for extra_file in extra_files.split('\n'):
+                full_path_extra = os.path.join(
+                    self.subproject.get_path(),
+                    extra_file
+                )
+                if os.path.exists(full_path_extra):
+                    files.append(extra_file)
 
         # Do actual commit
         self.repository.commit(

@@ -214,15 +214,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'and is slightly slower.'
         ),
     )
-    extra_commit_file = models.CharField(
-        verbose_name=ugettext_lazy('Additional commit file'),
-        max_length=200,
+    extra_commit_file = models.TextField(
+        verbose_name=ugettext_lazy('Additional commit files'),
         default='',
         blank=True,
         validators=[validate_extra_file],
         help_text=ugettext_lazy(
-            'Additional file to include in commits; please check '
-            'documentation for more details.',
+            'Additional files to include in commits, one per line; '
+            'please check documentation for more details.',
         )
     )
     post_update_script = models.CharField(
@@ -1341,7 +1340,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
         self.template = cleanup_path(self.template)
-        self.extra_commit_file = cleanup_path(self.extra_commit_file)
+        extra_files = [
+            cleanup_path(x.strip()) for x in self.extra_commit_file.split('\n')
+        ]
+        self.extra_commit_file = '\n'.join(filter(bool, extra_files))
 
         # Save/Create object
         super(SubProject, self).save(*args, **kwargs)

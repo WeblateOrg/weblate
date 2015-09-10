@@ -35,6 +35,7 @@ Released on ? 2015.
 * Add management command to change site name.
 * Add option to confiugure default committer.
 * Add hook after adding new translation.
+* Add option to specify multiple files to add to commit.
 
 weblate 2.3
 -----------
