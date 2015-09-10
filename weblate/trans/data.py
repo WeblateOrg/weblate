@@ -45,7 +45,7 @@ def data_dir(component):
     return os.path.join(appsettings.DATA_DIR, component)
 
 
-def migrate_data_dirs(*args, **kwargs):
+def migrate_data_dirs():
     """
     Migrate data directory from old locations to new consolidated data
     directory.
@@ -70,7 +70,7 @@ def migrate_data_dirs(*args, **kwargs):
             shutil.copy(source, target)
 
 
-def unmigrate_data_dirs(*args, **kwargs):
+def unmigrate_data_dirs():
     """
     Reverses data paths migration.
     """

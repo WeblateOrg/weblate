@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(
-            migrate_data_dirs,
-            reverse_code=unmigrate_data_dirs,
+            lambda apps, schema_editor: migrate_data_dirs(),
+            reverse_code=lambda apps, schema_editor: unmigrate_data_dirs(),
         ),
     ]
