@@ -756,7 +756,13 @@ class TranslationTest(RepoTestCase):
         appsettings.PRE_COMMIT_SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-generate-mo')
         )
-        subproject.extra_commit_file = 'po/%(language)s.mo'
+        subproject.pre_commit_script = get_test_file(
+            '../../../../examples/hook-update-linguas'
+        )
+        appsettings.PRE_COMMIT_SCRIPT_CHOICES.append(
+            (subproject.pre_commit_script, 'hook-update-linguas')
+        )
+        subproject.extra_commit_file = 'po/%(language)s.mo\npo/LINGUAS'
         subproject.save()
         subproject.full_clean()
         translation = subproject.translation_set.get(language_code='cs')
@@ -768,6 +774,7 @@ class TranslationTest(RepoTestCase):
             None, 'TEST <test@example.net>', timezone.now(),
             force_commit=True
         )
+        self.assertFalse(translation.repo_needs_commit())
 
     def test_validation(self):
         """
