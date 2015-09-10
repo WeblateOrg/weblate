@@ -445,10 +445,15 @@ information about Piwik see <http://piwik.org/>.
 POST_ADD_SCRIPTS
 ----------------
 
-.. versionadded:: 2.3
+.. versionadded:: 2.4
 
 List of scripts which are allowed as post add scripts. The script needs to be
 later enabled in the :ref:`component`.
+
+Weblate comes with few example hook scripts which you might find useful:
+
+:file:`examples/hook-update-linguas`
+    Updates LINGUAS file or ALL_LINGUAS in confiugure script.
 
 .. seealso:: :ref:`processing`
 

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Example Weblate hook to update list of languages in the project
+
+# Change to directory with translation
+cd `dirname $1`
+
+if test -f LINGUAS -o -f ../po/LINGUAS ; then
+    if test -f LINGUAS ; then
+        if sed '/^#/d' <LINGUAS | grep -q '[a-zA-Z0-9] [a-z]' ; then
+            echo "Adding $WL_LANGUAGE to LINGUAS in to a list in single-line list mode."
+            sed -i "s/^[^#].* [a-z].*\$/& $WL_LANGUAGE/" LINGUAS
+        else
+            echo "Adding $WL_LANGUAGE to LINGUAS."
+            echo $WL_LANGUAGE >>LINGUAS
+        fi
+    else
+        echo "Not adding $WL_LANGUAGE to LINGUAS - secondary domain, global LINGUAS."
+    fi
+else
+    for configure in configure.ac configure.in configure ; do
+        if test -f $WL_PATH/$configure ; then
+            if grep -q 'ALL_LINGUAS=' $WL_PATH/$configure ; then
+                echo "Adding $WL_LANGUAGE to $configure."
+                sed -i 's/ALL_LINGUAS="/&'$WL_LANGUAGE' /;s/\(ALL_LINGUAS=\)\([^"]\|$\)/\1"'$WL_LANGUAGE' "\2/' $WL_PATH/$configure
+            fi
+        fi
+    done
+fi
