@@ -1343,7 +1343,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         extra_files = [
             cleanup_path(x.strip()) for x in self.extra_commit_file.split('\n')
         ]
-        self.extra_commit_file = '\n'.join(filter(bool, extra_files))
+        self.extra_commit_file = '\n'.join([x for x in extra_files if x])
 
         # Save/Create object
         super(SubProject, self).save(*args, **kwargs)
