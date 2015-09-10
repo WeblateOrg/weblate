@@ -21,7 +21,7 @@ Weblate
     :alt: Codacy Badge
     :target: https://www.codacy.com/public/michal_2/weblate
 
-.. image:: https://www.bountysource.com/badge/tracker?tracker_id=253393
+.. image:: https://api.bountysource.com/badge/tracker?tracker_id=253393
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
 
