@@ -40,7 +40,9 @@ from weblate.trans.fields import RegexField
 from weblate.trans.util import (
     is_repo_link, get_site_url, cleanup_repo_url, cleanup_path, report_error,
 )
-from weblate.trans.signals import vcs_post_push, vcs_post_update
+from weblate.trans.signals import (
+    vcs_post_push, vcs_post_update, translation_post_add
+)
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
@@ -52,6 +54,7 @@ from weblate.lang.models import Language
 from weblate.appsettings import (
     PRE_COMMIT_SCRIPT_CHOICES, POST_UPDATE_SCRIPT_CHOICES,
     POST_COMMIT_SCRIPT_CHOICES, POST_PUSH_SCRIPT_CHOICES,
+    POST_ADD_SCRIPT_CHOICES,
     HIDE_REPO_CREDENTIALS,
     DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
 )
@@ -266,6 +269,18 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'please check documentation for more details.'
         ),
     )
+    post_add_script = models.CharField(
+        verbose_name=ugettext_lazy('Post-add script'),
+        max_length=200,
+        default='',
+        blank=True,
+        choices=POST_ADD_SCRIPT_CHOICES,
+        help_text=ugettext_lazy(
+            'Script to be executed after adding new translation, '
+            'please check documentation for more details.'
+        ),
+    )
+
 
     locked = models.BooleanField(
         verbose_name=ugettext_lazy('Locked'),
@@ -1475,6 +1490,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             filename=filename,
             language_code=language.code,
             commit_message='Created new translation.'
+        )
+        translation_post_add.send(
+            sender=self.__class__,
+            translation=translation
         )
         translation.git_commit(
             request,

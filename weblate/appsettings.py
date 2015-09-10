@@ -159,6 +159,10 @@ POST_PUSH_SCRIPTS = getvalue('POST_PUSH_SCRIPTS', ())
 POST_PUSH_SCRIPT_CHOICES = [
     (script, get_script_name(script)) for script in POST_PUSH_SCRIPTS
 ] + [('', '')]
+POST_ADD_SCRIPTS = getvalue('POST_ADD_SCRIPTS', ())
+POST_ADD_SCRIPT_CHOICES = [
+    (script, get_script_name(script)) for script in POST_ADD_SCRIPTS
+] + [('', '')]
 
 # Font for charts and widgets
 TTF_PATH = getvalue('TTF_PATH', os.path.join(BASE_DIR, 'ttf'))

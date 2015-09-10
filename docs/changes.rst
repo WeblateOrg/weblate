@@ -34,6 +34,7 @@ Released on ? 2015.
 * Commit pending changes on account removal.
 * Add management command to change site name.
 * Add option to confiugure default committer.
+* Add hook after adding new translation.
 
 weblate 2.3
 -----------

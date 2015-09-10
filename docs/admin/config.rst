@@ -440,6 +440,18 @@ information about Piwik see <http://piwik.org/>.
 
 .. seealso:: :setting:`PIWIK_SITE_ID`
 
+.. setting:: POST_ADD_SCRIPTS
+
+POST_ADD_SCRIPTS
+----------------
+
+.. versionadded:: 2.3
+
+List of scripts which are allowed as post add scripts. The script needs to be
+later enabled in the :ref:`component`.
+
+.. seealso:: :ref:`processing`
+
 .. setting:: POST_UPDATE_SCRIPTS
 
 POST_UPDATE_SCRIPTS

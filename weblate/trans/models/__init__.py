@@ -39,11 +39,11 @@ from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
-    user_pre_delete,
+    user_pre_delete, translation_post_add,
 )
 from weblate.trans.scripts import (
     run_post_push_script, run_post_update_script, run_pre_commit_script,
-    run_post_commit_script,
+    run_post_commit_script, run_post_add_script,
 )
 
 __all__ = [
@@ -225,6 +225,11 @@ def pre_commit(sender, translation, **kwargs):
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
     run_post_commit_script(translation.subproject, translation.get_filename())
+
+
+@receiver(translation_post_add)
+def post_add(sender, translation, **kwargs):
+    run_post_add_script(translation.subproject, translation.get_filename())
 
 
 @receiver(user_pre_delete)

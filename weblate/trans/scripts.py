@@ -57,6 +57,13 @@ def run_post_commit_script(component, filename):
     run_hook(component, component.post_commit_script, filename)
 
 
+def run_post_add_script(component, filename):
+    """
+    Post add hook
+    """
+    run_hook(component, component.post_add_script, filename)
+
+
 def run_hook(component, script, *args):
     """
     Generic script hook executor.
