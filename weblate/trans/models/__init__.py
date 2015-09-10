@@ -219,17 +219,23 @@ def post_update(sender, component, **kwargs):
 
 @receiver(vcs_pre_commit)
 def pre_commit(sender, translation, **kwargs):
-    run_pre_commit_script(translation.subproject, translation.get_filename())
+    run_pre_commit_script(
+        translation.subproject, translation, translation.get_filename()
+    )
 
 
 @receiver(vcs_post_commit)
 def post_commit(sender, translation, **kwargs):
-    run_post_commit_script(translation.subproject, translation.get_filename())
+    run_post_commit_script(
+        translation.subproject, translation, translation.get_filename()
+    )
 
 
 @receiver(translation_post_add)
 def post_add(sender, translation, **kwargs):
-    run_post_add_script(translation.subproject, translation.get_filename())
+    run_post_add_script(
+        translation.subproject, translation, translation.get_filename()
+    )
 
 
 @receiver(user_pre_delete)

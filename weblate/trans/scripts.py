@@ -42,36 +42,36 @@ def get_script_choices(choices):
 
 def run_post_push_script(component):
     """Run post push hook"""
-    run_hook(component, component.post_push_script)
+    run_hook(component, None, component.post_push_script)
 
 
 def run_post_update_script(component):
     """Run post update hook"""
-    run_hook(component, component.post_update_script)
+    run_hook(component, None, component.post_update_script)
 
 
-def run_pre_commit_script(component, filename):
+def run_pre_commit_script(component, translation, filename):
     """
     Pre commit hook
     """
-    run_hook(component, component.pre_commit_script, filename)
+    run_hook(component, translation, component.pre_commit_script, filename)
 
 
-def run_post_commit_script(component, filename):
+def run_post_commit_script(component, translation, filename):
     """
     Post commit hook
     """
-    run_hook(component, component.post_commit_script, filename)
+    run_hook(component, translation, component.post_commit_script, filename)
 
 
-def run_post_add_script(component, filename):
+def run_post_add_script(component, translation, filename):
     """
     Post add hook
     """
-    run_hook(component, component.post_add_script, filename)
+    run_hook(component, translation, component.post_add_script, filename)
 
 
-def run_hook(component, script, *args):
+def run_hook(component, translation, script, *args):
     """
     Generic script hook executor.
     """
@@ -89,6 +89,8 @@ def run_hook(component, script, *args):
         environment['WL_PATH'] = target.get_path()
         environment['WL_FILEMASK'] = component.filemask
         environment['WL_FILE_FORMAT'] = component.file_format
+        if translation:
+            environment['WL_LANGUAGE'] = translation.language_code
         try:
             subprocess.check_call(
                 command,

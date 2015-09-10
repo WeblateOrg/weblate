@@ -239,6 +239,9 @@ Additionally following environment variables are available:
     File mask for current component.
 ``WL_FILE_FORMAT``
     File format used in current component.
+``WL_LANGUAGE``
+    Language of currently processed translation (not available for component
+    level hooks).
 
 .. seealso::
 
