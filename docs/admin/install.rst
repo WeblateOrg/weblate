@@ -621,7 +621,7 @@ Home directory
 ++++++++++++++
 
 .. versionchanged:: 2.1
-   This is no longer required, Weblate now stores all it's data in
+   This is no longer required, Weblate now stores all its data in
    :setting:`DATA_DIR`.
 
 The home directory for user which is running Weblate should be existing and
@@ -714,7 +714,7 @@ Serving static files
     Prior to version 2.4 Weblate didn't properly use Django static files
     framework and the setup was more complex.
 
-Django needs to collect it's static files to a single directory. To do so,
+Django needs to collect its static files to a single directory. To do so,
 execute :samp:`./manage.py collectstatic --noinput --link`. This will store
 links to static files into directory specified by ``STATIC_ROOT`` setting.
 

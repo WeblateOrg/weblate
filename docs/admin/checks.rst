@@ -87,7 +87,7 @@ list of flags accepted:
 
 .. note::
 
-    Generally the rule is named ``ignore-*`` for any check, using it's
+    Generally the rule is named ``ignore-*`` for any check, using its
     identifier, so you can use this even for your custom checks.
 
 These flags are understood both in :ref:`component` settings, per source string

@@ -43,5 +43,5 @@ class SitemapTest(ViewTestCase):
             )
             response = self.client.get(location.text)
             self.assertContains(response, '<urlset')
-            # Try if it's valid XML
+            # Try if it's a valid XML
             ElementTree.fromstring(response.content)

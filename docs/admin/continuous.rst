@@ -58,7 +58,7 @@ configuration to your :file:`.gitconfig`:
      name = merge driver for gettext po files
      driver = /path/to/weblate/examples/git-merge-gettext-po %O %A %B
 
-And enable it's use by defining proper attributes in given repository (eg. in
+And enable its use by defining proper attributes in given repository (eg. in
 :file:`.git/info/attributes`)::
 
     *.po merge=merge-gettext-po
@@ -170,7 +170,7 @@ so and we will enable pushing changes from Hosted Weblate for you.
 Merge or rebase
 ---------------
 
-By default Weblate merges upstream repository into it's own. This is safest way
+By default Weblate merges upstream repository into its own. This is safest way
 in case you also access underlying repository by other means. In case you don't
 need this, you can enable rebasing of changes on upstream, what will produce
 history with less merge commits.
@@ -183,7 +183,7 @@ history with less merge commits.
 Interacting with others
 -----------------------
 
-Weblate makes it easy to interact with others using it's API.
+Weblate makes it easy to interact with others using its API.
 
 .. seealso:: :ref:`api`
 

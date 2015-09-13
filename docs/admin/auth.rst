@@ -42,7 +42,7 @@ http://psa.matiasaguirre.net/docs/configuration/django.html
     ``social.pipeline.social_auth.associate_by_email`` from
     ``SOCIAL_AUTH_PIPELINE`` settings.
 
-Enabling individual backends is quite easy, it's just matter of adding entry to
+Enabling individual backends is quite easy, it's just a matter of adding entry to
 ``AUTHENTICATION_BACKENDS`` setting and possibly adding keys needed for given
 authentication. Please note that some backends do not provide user email by
 default, you have to request it explicitly, otherwise Weblate will not be able
@@ -51,7 +51,7 @@ to properly credit users contributions.
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-For OpenID based services it's usually just matter of enabling them. Following
+For OpenID based services it's usually just a matter of enabling them. Following
 section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
 .. code-block:: python

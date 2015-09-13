@@ -155,7 +155,7 @@ def hash_question(question, timestamp):
 
 def unhash_question(question):
     '''
-    Unhashes question, verifying it's content.
+    Unhashes question, verifying its content.
     '''
     if len(question) < 40:
         raise ValueError('Invalid data')
