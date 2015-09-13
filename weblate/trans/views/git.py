@@ -39,7 +39,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     """
     try:
         result = call(request, *args, **kwargs)
-        # With False the call is supposed to show errors on it's own
+        # With False the call is supposed to show errors on its own
         if result is None or result:
             messages.success(request, message)
     except FileLockException:

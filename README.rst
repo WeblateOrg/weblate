@@ -30,7 +30,7 @@ integration. It features simple and clean user interface, propagation of
 translations across components within a project, quality checks and automatic
 linking to source files.
 
-Weblate has it's website at http://weblate.org/.
+Weblate has its website at http://weblate.org/.
 
 Features
 --------

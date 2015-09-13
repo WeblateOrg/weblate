@@ -59,7 +59,7 @@ the application.
 Starting spaces
 ~~~~~~~~~~~~~~~
 
-Source and translation do not both start with same number of spaces. 
+Source and translation do not both start with same number of spaces.
 
 Space in beginning is usually used for indentation in the interface and thus
 is important to keep.
@@ -196,23 +196,23 @@ project to help you keep consistent translations.
 Mismatched \\n
 ~~~~~~~~~~~~~~
 
-Number of \\n in translation does not match source. 
+Number of \\n in translation does not match source.
 
 Usually escaped newlines are important for formatting program output, so this
 should match to source.
-    
+
 .. _check-bbcode:
 
 Mismatched BBcode
 ~~~~~~~~~~~~~~~~~
 
-BBcode in translation does not match source. 
+BBcode in translation does not match source.
 
 This code is used as a simple markup to highlight important parts of a
 message, so it is usually a good idea to keep them.
 
 .. note::
-   
+
     The method for detecting BBcode is currently quite simple so this check
     might produce false positives.
 
@@ -221,7 +221,7 @@ message, so it is usually a good idea to keep them.
 Zero-width space
 ~~~~~~~~~~~~~~~~
 
-Translation contains extra zero-width space (<U+200B>) character. 
+Translation contains extra zero-width space (<U+200B>) character.
 
 This character is usually inserted by mistake, though it might have legitimate
 use. Some programs might have problems when this character is used.
@@ -233,7 +233,7 @@ use. Some programs might have problems when this character is used.
 XML tags mismatch
 ~~~~~~~~~~~~~~~~~
 
-XML tags in translation do not match source. 
+XML tags in translation do not match source.
 
 This usually means resulting output will look different. In most cases this is
 not desired result from translation, but occasionally it is desired.
@@ -265,7 +265,7 @@ For example with Gettext in Python it could be:
 Ellipsis
 ~~~~~~~~
 
-The string uses three dots (``...``) instead of an ellipsis character (``…``). 
+The string uses three dots (``...``) instead of an ellipsis character (``…``).
 
 Using Unicode character is in most cases better approach and looks better when
 rendered.
@@ -279,7 +279,7 @@ Multiple failing checks
 
 More translations of this string have some failed quality checks. This is
 usually indication that something could be done about improving the source
-string. 
+string.
 
 This check can be quite often caused by missing full stop at the end of
 sentence or similar minor issues which translators tend to fix in

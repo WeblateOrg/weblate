@@ -58,7 +58,7 @@ configuration to your :file:`.gitconfig`:
      name = merge driver for gettext po files
      driver = /path/to/weblate/examples/git-merge-gettext-po %O %A %B
 
-And enable it's use by defining proper attributes in given repository (eg. in
+And enable its use by defining proper attributes in given repository (eg. in
 :file:`.git/info/attributes`)::
 
     *.po merge=merge-gettext-po
@@ -83,7 +83,7 @@ To set the base URL of your Weblate installation (for example
 ``https://hosted.weblate.org``) and Weblate will be notified about every push
 to GitHub repository:
 
-.. image:: ../images/github-settings-edit.png 
+.. image:: ../images/github-settings-edit.png
 
 You can also use generic :guilabel:`Webhook`, in that case the
 :guilabel:`Payload URL` would have to be full path to the handler, for example
@@ -101,7 +101,7 @@ which triggers on repository push with destination to ``/hooks/bitbucket/`` URL
 on your Weblate installation (for example
 ``https://hosted.weblate.org/hooks/bitbucket/``).
 
-.. image:: ../images/bitbucket-settings.png 
+.. image:: ../images/bitbucket-settings.png
 
 .. seealso:: :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
 
@@ -141,7 +141,7 @@ via the admin interface first, otherwise pushing will fail.
 Pushing changes to GitHub as pull request
 +++++++++++++++++++++++++++++++++++++++++
 
-.. note:: 
+.. note::
 
     This feature is currently not available on Hosted Weblate due to technical
     limitations. See :ref:`hosted-push` for available options.
@@ -160,7 +160,7 @@ Pushing changes from Hosted Weblate
 +++++++++++++++++++++++++++++++++++
 
 For Hosted Weblate there is dedicated push user registered on GitHub, Bitbucket
-and GitLab (with username :guilabel:`weblate` and named 
+and GitLab (with username :guilabel:`weblate` and named
 :guilabel:`Weblate push user`). You need to add this user as a collabolator and
 give him permissions to push to your repository. Let us know when you've done
 so and we will enable pushing changes from Hosted Weblate for you.
@@ -170,20 +170,20 @@ so and we will enable pushing changes from Hosted Weblate for you.
 Merge or rebase
 ---------------
 
-By default Weblate merges upstream repository into it's own. This is safest way
+By default Weblate merges upstream repository into its own. This is safest way
 in case you also access underlying repository by other means. In case you don't
 need this, you can enable rebasing of changes on upstream, what will produce
 history with less merge commits.
 
 .. note::
 
-    Rebasing can cause you troubles in case of complicated merges, so carefully 
+    Rebasing can cause you troubles in case of complicated merges, so carefully
     consider whether you want to enable them or not.
 
 Interacting with others
 -----------------------
 
-Weblate makes it easy to interact with others using it's API.
+Weblate makes it easy to interact with others using its API.
 
 .. seealso:: :ref:`api`
 

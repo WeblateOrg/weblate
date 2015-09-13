@@ -60,7 +60,7 @@ Adding translation
 #. Open admin interface (http://localhost/admin/) and create project you
    want to translate. See :ref:`project` for more details.
 
-   All you need to specify here is project name and it's website.
+   All you need to specify here is project name and its website.
 
 #. Create component which is the real object for translating - it points to
    VCS repository and selects which files to translate. See :ref:`component`

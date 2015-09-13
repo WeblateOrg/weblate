@@ -21,7 +21,7 @@ instead of saving translation, for example in case you are unsure about the
 translation and you want somebody else to review it.
 
 .. note::
-    
+
     Permissions might vary depending on your setup, what is described is
     default Weblate behaviour.
 
@@ -50,7 +50,7 @@ Plurals
 +++++++
 
 What are plurals? Generally spoken plurals are words which take into account
-numeric meanings. But as you may imagine each language has it's own definition
+numeric meanings. But as you may imagine each language has its own definition
 of plurals. English, for example, supports one plural. We have a singular
 definition, for example "car", which means implicit one car, and we have the
 plural definition, "cars" which could mean more than one car but also zero
