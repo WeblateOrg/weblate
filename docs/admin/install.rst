@@ -67,7 +67,7 @@ manually using pip as versions shipped in distribution are too old:
     apt-get install python-requests-oauthlib python-six python-openid
 
     pip install python-social-auth Django Whoosh
-    
+
 For proper sorting of a unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
@@ -218,7 +218,7 @@ Creating database for Weblate
 
 It is recommended to run Weblate on some database server. Using SQLite backend
 is really good for testing purposes only.
-    
+
 .. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 Creating database in PostgreSQL
@@ -334,10 +334,10 @@ options:
     Connectivity to database server, please check Django's documentation for more
     details.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         :ref:`database-setup`
-        https://docs.djangoproject.com/en/stable/ref/settings/#databases, 
+        https://docs.djangoproject.com/en/stable/ref/settings/#databases,
         https://docs.djangoproject.com/en/stable/ref/databases/
 
 ``DEBUG``
@@ -372,12 +372,12 @@ options:
 Filling up the database
 -----------------------
 
-After your configuration is ready, you can run 
+After your configuration is ready, you can run
 :samp:`./manage.py migrate` to create database structure. Now you should be
 able to create translation projects using admin interface.
 
-In case you want to run installation non interactively, you can use 
-:samp:`./manage.py migrate --noinput` and then create admin user using 
+In case you want to run installation non interactively, you can use
+:samp:`./manage.py migrate --noinput` and then create admin user using
 :djadmin:`createadmin` command.
 
 You should also login to admin interface (on ``/admin/`` URL) and adjust
@@ -445,7 +445,7 @@ emails will not work.
 
 Please open admin interface and edit default site name and domain under the
 :guilabel:`Sites › Sites` (or you can do that directly at
-``/admin/sites/site/1/`` URL under your Weblate installation). You have to change 
+``/admin/sites/site/1/`` URL under your Weblate installation). You have to change
 the :guilabel:`Domain name` to match your setup.
 
 You might want to set :setting:`ENABLE_HTTPS` as well if you serve site over
@@ -549,8 +549,8 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
     SERVER_EMAIL = 'admin@example.org'
     DEFAULT_FROM_EMAIL = 'weblate@example.org'
 
-.. seealso:: 
-    :ref:`installation`, 
+.. seealso::
+    :ref:`installation`,
     `DEFAULT_FROM_EMAIL documentation`_,
     `SERVER_EMAIL documentation`_
 
@@ -680,7 +680,7 @@ On Unix system, this can be scheduled using cron:
 
     # Fulltext index updates
     */5 * * * * cd /usr/share/weblate/; ./manage.py update_index
-    
+
     # Cleanup stale objects
     @daily cd /usr/share/weblate/; ./manage.py cleanuptrans
 
@@ -722,14 +722,14 @@ It is recommended to serve static files directly by your web server, you should
 use that for following paths:
 
 :file:`/static/`
-    Serves static files for Weblate and admin interface 
+    Serves static files for Weblate and admin interface
     (from defined by ``STATIC_ROOT``).
 :file:`/favicon.ico`
     Should be rewritten to rewrite rule to serve :file:`/static/favicon.ico`
 :file:`/robots.txt`
     Should be rewritten to rewrite rule to serve :file:`/static/robots.txt`
 
-.. seealso:: 
+.. seealso::
 
     https://docs.djangoproject.com/en/stable/howto/deployment/
     https://docs.djangoproject.com/en/stable/howto/static-files/deployment/

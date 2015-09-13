@@ -71,7 +71,7 @@ GitHub authentication
 You need to register application on GitHub and then tell Weblate all the secrets:
 
 .. code-block:: python
-    
+
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
         'social.backends.github.GithubOAuth2',

@@ -11,8 +11,8 @@ All settings are stored in :file:`settings.py` (as usual for Django).
     it is run as mod_wsgi, you need to restart Apache to reload the
     configuration.
 
-.. seealso:: 
-   
+.. seealso::
+
     Please check also `Django's documentation`_ for parameters which configure
     Django itself.
 
@@ -414,7 +414,7 @@ Offload updating of fulltext index to separate process. This heavily
 improves responsiveness of online operation on expense of slightly
 outdated index, which might still point to older content.
 
-While enabling this, don't forget scheduling runs of 
+While enabling this, don't forget scheduling runs of
 :djadmin:`update_index` in cron or similar tool.
 
 This is recommended setup for production use.

@@ -32,8 +32,8 @@ repository has been updated.
         Weblate service hook in repository settings and set URL to URL of your
         Weblate installation.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         :ref:`github-setup`
             For instruction on setting up GitHub integration
         https://help.github.com/articles/creating-webhooks
@@ -46,7 +46,7 @@ repository has been updated.
     Special hook for handling GitLab notifications and automatically updating
     matching components.
 
-    .. seealso:: 
+    .. seealso::
 
         :ref:`gitlab-setup`
             For instruction on setting up GitLab integration
@@ -60,7 +60,7 @@ repository has been updated.
     Special hook for handling Bitbucket notifications and automatically
     updating matching components.
 
-    .. seealso:: 
+    .. seealso::
 
         :ref:`bitbucket-setup`
             For instruction on setting up Bitbucket integration
@@ -105,56 +105,56 @@ Weblate provides various exports to allow you further process the data.
 
         [
             {
-                "code": "cs", 
-                "failing": 0, 
-                "failing_percent": 0.0, 
-                "fuzzy": 0, 
-                "fuzzy_percent": 0.0, 
+                "code": "cs",
+                "failing": 0,
+                "failing_percent": 0.0,
+                "fuzzy": 0,
+                "fuzzy_percent": 0.0,
                 "last_author": "Michal \u010ciha\u0159",
                 "last_change": "2012-03-28T15:07:38+00:00",
-                "name": "Czech", 
-                "total": 436, 
+                "name": "Czech",
+                "total": 436,
                 "total_words": 15271,
-                "translated": 436, 
-                "translated_percent": 100.0, 
-                "translated_words": 3201, 
+                "translated": 436,
+                "translated_percent": 100.0,
+                "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/cs/",
                 "url_translate": "http://hosted.weblate.org/projects/weblate/master/cs/"
-            }, 
+            },
             {
-                "code": "nl", 
-                "failing": 21, 
-                "failing_percent": 4.8, 
-                "fuzzy": 11, 
-                "fuzzy_percent": 2.5, 
+                "code": "nl",
+                "failing": 21,
+                "failing_percent": 4.8,
+                "fuzzy": 11,
+                "fuzzy_percent": 2.5,
                 "last_author": null,
                 "last_change": null,
-                "name": "Dutch", 
-                "total": 436, 
+                "name": "Dutch",
+                "total": 436,
                 "total_words": 15271,
-                "translated": 319, 
-                "translated_percent": 73.2, 
-                "translated_words": 3201, 
+                "translated": 319,
+                "translated_percent": 73.2,
+                "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/nl/",
                 "url_translate": "http://hosted.weblate.org/projects/weblate/master/nl/"
-            }, 
+            },
             {
-                "code": "el", 
-                "failing": 11, 
-                "failing_percent": 2.5, 
-                "fuzzy": 21, 
-                "fuzzy_percent": 4.8, 
+                "code": "el",
+                "failing": 11,
+                "failing_percent": 2.5,
+                "fuzzy": 21,
+                "fuzzy_percent": 4.8,
                 "last_author": null,
                 "last_change": null,
-                "name": "Greek", 
-                "total": 436, 
+                "name": "Greek",
+                "total": 436,
                 "total_words": 15271,
-                "translated": 312, 
-                "translated_percent": 71.6, 
-                "translated_words": 3201, 
+                "translated": 312,
+                "translated_percent": 71.6,
+                "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/el/",
                 "url_translate": "http://hosted.weblate.org/projects/weblate/master/el/"
-            }, 
+            },
         ]
 
     Included data:

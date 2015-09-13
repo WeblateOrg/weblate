@@ -385,7 +385,7 @@ weblate 0.5
 Released on February 12th 2012.
 
 * Support for machine translation using following online services:
-    * Apertium 
+    * Apertium
     * Microsoft Translator
     * MyMemory
 * Several new translations.

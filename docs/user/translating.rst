@@ -21,7 +21,7 @@ instead of saving translation, for example in case you are unsure about the
 translation and you want somebody else to review it.
 
 .. note::
-    
+
     Permissions might vary depending on your setup, what is described is
     default Weblate behaviour.
 
