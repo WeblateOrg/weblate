@@ -96,7 +96,7 @@ Here are examples of workflows used with Weblate:
 
 - Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)
 - You tell manually Weblate to push (it needs push access to upstream repository)
-- Somebody manually merges changes from Weblate git repository into upstream 
+- Somebody manually merges changes from Weblate git repository into upstream
   repository
 - Somebody rewrites history produced by Weblate (eg. by eliminating merge
   commits), merges changes and tells Weblate to reset contet on upstream
@@ -117,7 +117,7 @@ Why does registration contain example.com as domain?
 ----------------------------------------------------
 
 Weblate uses Django sites framework and it defines site name inside the
-database. 
+database.
 
 .. seealso:: :ref:`production-site`
 
@@ -305,7 +305,7 @@ Rebuilding index has failed with "No space left on device"
 ----------------------------------------------------------
 
 Whoosh uses temporary directory to build indices. In case you have small /tmp
-(eg. using ramdisk), this might fail. Change used temporary directory by passing 
+(eg. using ramdisk), this might fail. Change used temporary directory by passing
 as ``TEMP`` variable:
 
 .. code-block:: sh
@@ -366,7 +366,7 @@ For ``hello`` repository from selenic.com with Mercurial use::
     tip when pushing changes back.
 
 .. note::
-    
+
     For native support of other VCS, Weblate requires distributed VCS and could
     be probably adjusted to work with anything else than Git and Mercurial, but
     somebody has to implement this support.

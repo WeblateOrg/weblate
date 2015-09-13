@@ -14,7 +14,7 @@ Basically `Users` are meant as regular translators and `Managers` for
 developers who need more control over the translation - they can force
 committing changes to VCS, push changes upstream (if Weblate is configured to do
 so) or disable translation (eg. when there are some major changes happening
-upstream). 
+upstream).
 
 To customize this setup, it is recommended to remove privileges from `Users`
 group and create additional groups with finer privileges (eg. `Translators`
@@ -48,7 +48,7 @@ Can push translations to remote VCS [Managers, Owners]
 Can do automatic translation using other project strings [Managers, Owners]
     Can do automatic translation based on strings from other components
 Can lock whole translation project [Managers, Owners]
-    Can lock translation for updates, useful while doing some major changes 
+    Can lock translation for updates, useful while doing some major changes
     in the project.
 Can reset translations to match remote VCS [Managers, Owners]
     Can reset VCS repository to match remote VCS.
@@ -102,7 +102,7 @@ Per project access control
 
 Additionally you can limit users access to individual projects. This feature is
 enabled by :guilabel:`Enable ACL` at Project configuration. Once you enable
-this, users without specific privilege 
+this, users without specific privilege
 (:guilabel:`trans | project | Can access project NAME`) can not access this
 project. An user group with same name as a project is also automatically
 created to ease you management of the privilege.

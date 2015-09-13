@@ -159,7 +159,7 @@ def format_translation(value, language=None, diff=None, search_match=None,
 @register.simple_tag
 def check_severity(check):
     '''
-    Returns check severity, or it's id if check is not known.
+    Returns check severity, or its id if check is not known.
     '''
     try:
         return escape(CHECKS[check].severity)
@@ -170,7 +170,7 @@ def check_severity(check):
 @register.simple_tag
 def check_name(check):
     '''
-    Returns check name, or it's id if check is not known.
+    Returns check name, or its id if check is not known.
     '''
     try:
         return escape(CHECKS[check].name)
@@ -181,7 +181,7 @@ def check_name(check):
 @register.simple_tag
 def check_description(check):
     '''
-    Returns check description, or it's id if check is not known.
+    Returns check description, or its id if check is not known.
     '''
     try:
         return escape(CHECKS[check].description)
@@ -210,7 +210,7 @@ def subproject_name(prj, subprj):
 @register.simple_tag
 def language_name(code):
     '''
-    Gets language name based on it's code.
+    Gets language name based on its code.
     '''
     return escape(Language.objects.get(code=code).__unicode__())
 

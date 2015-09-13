@@ -11,7 +11,7 @@ Generic upgrade instructions
 
 .. versionchanged:: 1.2
 
-    Since version 1.2 the migration is done using South module, to upgrade to 1.2, 
+    Since version 1.2 the migration is done using South module, to upgrade to 1.2,
     please see :ref:`version-specific-instructions`.
 
 .. versionchanged:: 1.9
@@ -83,7 +83,7 @@ Upgrade from 0.8 to 0.9
 On upgrade to version 0.9 file structure has changed. You need to move
 :file:`repos` and :file:`whoosh-index` to :file:`weblate` folder. Also running
 :samp:`./manage.py syncdb`, :samp:`./manage.py setupgroups` and
-:samp:`./manage.py setuplang` is recommended to get latest updates of 
+:samp:`./manage.py setuplang` is recommended to get latest updates of
 privileges and language definitions.
 
 Upgrade from 0.9 to 1.0
@@ -142,7 +142,7 @@ recommended to put your site offline, while the migration is going on.
 
     If you have update in same directory, stale :file:`*.pyc` files might be
     left around and cause various import errors. To recover from this, delete
-    all of them in Weblate's directory, for example by 
+    all of them in Weblate's directory, for example by
     ``find . -name '*.pyc' -delete``.
 
 Upgrade from 1.6 to 1.7

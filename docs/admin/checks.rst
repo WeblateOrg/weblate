@@ -34,7 +34,7 @@ list of flags accepted:
     Treat text as RST document, affects :ref:`check-same`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``
     Treats all string like format strings, affects :ref:`check-python-format`,
-    :ref:`check-c-format`, :ref:`check-php-format`, 
+    :ref:`check-c-format`, :ref:`check-php-format`,
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-same`.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
@@ -87,7 +87,7 @@ list of flags accepted:
 
 .. note::
 
-    Generally the rule is named ``ignore-*`` for any check, using it's
+    Generally the rule is named ``ignore-*`` for any check, using its
     identifier, so you can use this even for your custom checks.
 
 These flags are understood both in :ref:`component` settings, per source string

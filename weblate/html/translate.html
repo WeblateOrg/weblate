@@ -124,12 +124,12 @@
 
     {% if user_can_translate %}
     <div class="pull-right flip hidden-xs">
-    {% trans "Commit message:" %} 
-    <input type="text" name="commit_message" class="tooltip-control" 
+    {% trans "Commit message:" %}
+    <input type="text" name="commit_message" class="tooltip-control"
         data-toggle="tooltip" data-placement="bottom"
-        placeholder="{% trans "Additional text to include in the commit message." %}" 
-        tabindex="152" 
-        value="{{ unit.translation.commit_message }}" 
+        placeholder="{% trans "Additional text to include in the commit message." %}"
+        tabindex="152"
+        value="{{ unit.translation.commit_message }}"
         title="{% trans "You can leave this empty in most cases as Weblate generates basic commit messages automatically." %}"
     />
     </div>

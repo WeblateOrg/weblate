@@ -156,7 +156,7 @@ class Repository(object):
 
     def execute(self, args):
         '''
-        Executes command and caches it's output.
+        Executes command and caches its output.
         '''
         self.last_output = self._popen(args, self.path)
         return self.last_output

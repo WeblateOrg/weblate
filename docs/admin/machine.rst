@@ -104,7 +104,7 @@ To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
 
 .. seealso::
 
-    :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`, 
+    :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`,
     http://www.bing.com/translator/,
     https://datamarket.azure.com/developer/applications/
 
@@ -135,7 +135,7 @@ tmserver
 ++++++++
 
 You can run your own translation memory server which is bundled with
-Translate-toolkit and let Weblate talk to it. You can also use it with 
+Translate-toolkit and let Weblate talk to it. You can also use it with
 amaGama server, which is enhanced version of tmserver.
 
 First you will want to import some data to the translation memory:
@@ -163,8 +163,8 @@ And configure Weblate to talk to it:
 
 .. seealso::
 
-    :setting:`MT_TMSERVER`, 
-    http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html, 
+    :setting:`MT_TMSERVER`,
+    http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html,
     http://amagama.translatehouse.org/
 
 Weblate
@@ -182,7 +182,7 @@ To enable these services, add
 matching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
 string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
 
-.. note:: 
+.. note::
 
     For similarity matching, it is recommended to have Whoosh 2.5.2 or later,
     earlier versions can cause infinite looks under some occasions.
