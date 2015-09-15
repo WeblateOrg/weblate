@@ -25,17 +25,22 @@ import os
 from weblate import appsettings
 
 
+def create_and_check_dir(path):
+    """Ensure directory exists and is writable by us"""
+    if not os.path.exists(path):
+        os.makedirs(path)
+    else:
+        if not os.access(path, os.W_OK):
+            raise OSError(
+                'DATA_DIR {0} is not writable!'.format(path)
+            )
+
+
 def check_data_writable():
     """
     Check we can write to data dir.
     """
-    if not os.path.exists(appsettings.DATA_DIR):
-        os.makedirs(appsettings.DATA_DIR)
-    else:
-        if not os.access(appsettings.DATA_DIR, os.W_OK):
-            raise OSError(
-                'DATA_DIR {0} is not writable!'.format(appsettings.DATA_DIR)
-            )
+    create_and_check_dir(appsettings.DATA_DIR)
 
 
 def data_dir(component):
