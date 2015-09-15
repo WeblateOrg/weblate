@@ -41,6 +41,10 @@ def check_data_writable():
     Check we can write to data dir.
     """
     create_and_check_dir(appsettings.DATA_DIR)
+    create_and_check_dir(data_dir('home'))
+    create_and_check_dir(data_dir('whoosh'))
+    create_and_check_dir(data_dir('ssh'))
+    create_and_check_dir(data_dir('vcs'))
 
 
 def data_dir(component):
