@@ -119,8 +119,5 @@ ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS']]
 
 TTF_PATH = os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'weblate', 'ttf')
 
-os.environ['HOME'] = os.environ['OPENSHIFT_DATA_DIR']
-
-
 # Import environment variables prefixed with WEBLATE_ as weblate settings
 import_env_vars(os.environ, sys.modules[__name__])
