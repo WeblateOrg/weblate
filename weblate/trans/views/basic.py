@@ -388,7 +388,7 @@ def about(request):
             translation = project.translation_set.all()[0]
             total_strings.append(translation.total)
             total_words.append(translation.total_words)
-        except (IndexError, Translation.DoesNotExist):
+        except IndexError:
             pass
     context['title'] = _('About Weblate')
     context['total_translations'] = totals['translated__sum']
