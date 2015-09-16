@@ -329,26 +329,26 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Calculates total number of strings to translate. This is done based on
         assumption that all languages have same number of strings.
         """
-        total = 0
+        totals = []
         for component in self.subproject_set.all():
             try:
-                total += component.translation_set.all()[0].total
+                totals.append(component.translation_set.all()[0].total)
             except IndexError:
                 pass
-        return total
+        return sum(totals)
 
     def get_total_words(self):
         """
         Calculates total number of words to translate. This is done based on
         assumption that all languages have same number of strings.
         """
-        total = 0
+        totals = []
         for component in self.subproject_set.all():
             try:
-                total += component.translation_set.all()[0].total_words
+                totals.append(component.translation_set.all()[0].total_words)
             except IndexError:
                 pass
-        return total
+        return sum(totals)
 
     def get_languages(self):
         """
