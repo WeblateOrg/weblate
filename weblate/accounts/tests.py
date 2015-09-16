@@ -108,6 +108,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Sorry, but registrations on this site are disabled.'
         )
 
+    @OverrideSettings(REGISTRATION_OPEN=True)
     @OverrideSettings(REGISTRATION_CAPTCHA=False)
     def test_register(self):
         # Disable captcha
