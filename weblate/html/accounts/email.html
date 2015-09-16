@@ -10,7 +10,7 @@
 {% show_message "error" _("Please fix errors in the registration form.") %}
 {% endif %}
 
-<form action="{% url 'social:complete' "email" %}" method="post" accept-charset="utf-8">
+<form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Register email" %}</h4></div>

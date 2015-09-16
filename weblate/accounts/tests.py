@@ -229,9 +229,16 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         self.assertContains(response, 'Register email')
 
+        # Try invalid address first
+        response = self.client.post(
+            reverse('email_login'),
+            {'email': 'invalid'},
+        )
+        self.assertContains(response, 'has-error')
+
         # Add email account
         response = self.client.post(
-            reverse('social:complete', kwargs={'backend': 'email'}),
+            reverse('email_login'),
             {'email': 'second@example.net'},
             follow=True,
         )
