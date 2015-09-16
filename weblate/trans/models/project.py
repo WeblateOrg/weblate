@@ -329,12 +329,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Calculates total number of strings to translate. This is done based on
         assumption that all languages have same number of strings.
         """
-        from weblate.trans.models.translation import Translation
         total = 0
         for component in self.subproject_set.all():
             try:
                 total += component.translation_set.all()[0].total
-            except (Translation.DoesNotExist, IndexError):
+            except IndexError:
                 pass
         return total
 
@@ -343,12 +342,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Calculates total number of words to translate. This is done based on
         assumption that all languages have same number of strings.
         """
-        from weblate.trans.models.translation import Translation
         total = 0
         for component in self.subproject_set.all():
             try:
                 total += component.translation_set.all()[0].total_words
-            except (Translation.DoesNotExist, IndexError):
+            except IndexError:
                 pass
         return total
 
