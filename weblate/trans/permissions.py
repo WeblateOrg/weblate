@@ -56,7 +56,7 @@ def cache_permission(func):
 
     def wrapper(user, target_object):
         if target_object is None or user is None:
-            return False
+            return func(user, target_object)
 
         key = (func.__name__, user.id)
 
