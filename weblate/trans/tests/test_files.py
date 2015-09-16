@@ -316,6 +316,14 @@ class ExportTest(ViewTestCase):
         # Needs to create PO file to have language pack option
         return self.create_po()
 
+    def setUp(self):
+        super(ExportTest, self).setUp()
+        # Add some content so that .mo files is non empty
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+
     def test_export(self):
         response = self.client.get(
             reverse(
