@@ -35,11 +35,11 @@ from weblate.accounts.models import (
     notify_new_contributor, notify_new_translation
 )
 from weblate.trans.filelock import FileLockException
+from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
     calculate_checksum,
 )
-import weblate
 
 
 SIMPLE_FILTERS = {
@@ -309,11 +309,9 @@ class UnitManager(models.Manager):
         )
 
 
-class Unit(models.Model):
+class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey('Translation')
     checksum = models.CharField(max_length=40, db_index=True)
-    contentsum = models.CharField(max_length=40, db_index=True)
-    location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
     comment = models.TextField(default='', blank=True)
     flags = models.TextField(default='', blank=True)
@@ -539,7 +537,7 @@ class Unit(models.Model):
         try:
             (saved, pounit) = self.translation.update_unit(self, request, user)
         except FileLockException:
-            weblate.logger.error('failed to lock backend for %s!', self)
+            self.log_error('failed to lock backend for %s!', self)
             messages.error(
                 request,
                 _(
@@ -551,7 +549,7 @@ class Unit(models.Model):
 
         # Handle situation when backend did not find the message
         if pounit is None:
-            weblate.logger.error('message %s disappeared!', self)
+            self.log_error('message %s disappeared!', self)
             messages.error(
                 request,
                 _(
@@ -696,7 +694,7 @@ class Unit(models.Model):
         """
         # Warn if request is not coming from backend
         if 'backend' not in kwargs:
-            weblate.logger.error(
+            self.log_error(
                 'Unit.save called without backend sync: %s',
                 ''.join(traceback.format_stack())
             )
