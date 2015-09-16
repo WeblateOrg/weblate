@@ -28,6 +28,8 @@ def check_owner(user, project, permission):
     """
     Checks whether owner group has given permission.
     """
+    if project is None:
+        return False
     if not project.owners.filter(id=user.id).exists():
         return False
     group = Group.objects.get(name='Owners')
