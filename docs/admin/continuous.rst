@@ -229,17 +229,28 @@ for given component.
 
 Additionally following environment variables are available:
 
-``WL_VCS``
+.. envvar:: WL_VCS
+
     Used version control system.
-``WL_REPO``
+
+.. envvar:: WL_REPO
+
     Upstream repository URL.
-``WL_PATH``
+
+.. envvar:: WL_PATH
+
     Absolute path to VCS repository.
-``WL_FILEMASK``
+
+.. envvar:: WL_FILEMASK
+
     File mask for current component.
-``WL_FILE_FORMAT``
+
+.. envvar:: WL_FILE_FORMAT
+
     File format used in current component.
-``WL_LANGUAGE``
+
+.. envvar:: WL_LANGUAGE
+
     Language of currently processed translation (not available for component
     level hooks).
 
