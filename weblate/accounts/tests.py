@@ -418,6 +418,10 @@ class ViewTest(TestCase):
             mail.outbox[0].subject,
             '[Weblate] Hosting request for HOST'
         )
+        self.assertIn(
+            'testuser',
+            mail.outbox[0].body,
+        )
 
     def test_contact_subject(self):
         # With set subject

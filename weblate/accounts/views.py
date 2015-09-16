@@ -68,6 +68,7 @@ Project:    %(project)s
 Website:    %(url)s
 Repository: %(repo)s
 Filemask:   %(mask)s
+Username:   %(username)s
 
 Additional message:
 
@@ -286,11 +287,13 @@ def hosting(request):
     if request.method == 'POST':
         form = HostingForm(request.POST)
         if form.is_valid():
+            context = form.cleaned_data
+            context['username'] = request.user.username
             mail_admins_contact(
                 request,
                 'Hosting request for %(project)s',
                 HOSTING_TEMPLATE,
-                form.cleaned_data,
+                context,
                 form.cleaned_data['email'],
             )
             return redirect('home')
