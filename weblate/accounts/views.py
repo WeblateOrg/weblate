@@ -504,9 +504,8 @@ def password(request):
             )
             request.user.save()
 
-            # Update session hash for Django 1.7
-            if update_session_auth_hash:
-                update_session_auth_hash(request, request.user)
+            # Update session hash
+            update_session_auth_hash(request, request.user)
 
             messages.success(
                 request,
