@@ -172,6 +172,10 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         '''
         User.objects.create_user('testuser', 'test@example.com', 'x')
 
+        response = self.client.get(
+            reverse('password_reset'),
+        )
+        self.assertContains(response, 'Reset my password')
         response = self.client.post(
             reverse('password_reset'),
             {
@@ -493,6 +497,10 @@ class ViewTest(TestCase):
             reverse('password')
         )
         self.assertContains(response, 'This field is required.')
+        response = self.client.get(
+            reverse('password'),
+        )
+        self.assertContains(response, 'Current password')
         # Change with wrong password
         response = self.client.post(
             reverse('password'),
