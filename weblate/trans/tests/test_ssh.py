@@ -24,6 +24,7 @@ from django.test import TestCase
 from weblate.trans.ssh import get_host_keys, create_ssh_wrapper, ssh_file
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.tests import OverrideSettings
+from weblate.trans.data import check_data_writable
 from weblate import appsettings
 
 
@@ -36,14 +37,14 @@ class SSHTest(TestCase):
     '''
     @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_parse(self):
-        tempdir = os.path.join(appsettings.DATA_DIR, 'ssh')
-        os.makedirs(tempdir)
-        shutil.copy(TEST_HOSTS, tempdir)
+        check_data_writable()
+        shutil.copy(TEST_HOSTS, os.path.join(appsettings.DATA_DIR, 'ssh'))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
 
     @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_create_ssh_wrapper(self):
+        check_data_writable()
         filename = os.path.join(
             appsettings.DATA_DIR, 'ssh', 'ssh-weblate-wrapper'
         )

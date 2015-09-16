@@ -24,6 +24,7 @@ from weblate.trans.util import add_configuration_error
 from weblate import appsettings
 from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.data import check_data_writable
 import os
 
 
@@ -47,6 +48,7 @@ class AdminTest(ViewTestCase):
 
     @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_ssh_generate(self):
+        check_data_writable()
         response = self.client.get(reverse('admin-ssh'))
         self.assertContains(response, 'Generate SSH key')
 
@@ -58,6 +60,7 @@ class AdminTest(ViewTestCase):
 
     @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
     def test_ssh_add(self):
+        check_data_writable()
         try:
             oldpath = os.environ['PATH']
             os.environ['PATH'] = ':'.join(
