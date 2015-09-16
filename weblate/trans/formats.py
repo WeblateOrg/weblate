@@ -932,6 +932,26 @@ class StringsUtf8Format(FileFormat):
     new_translation = '\n'
 
 
+class stringsutf16file(propfile):
+    Name = "OS X Strings (UTF-16)"
+    Extensions = ['strings']
+
+    def __init__(self, *args, **kwargs):
+        kwargs['personality'] = "strings-utf16"
+        kwargs['encoding'] = "utf-16"
+        super(stringsutf16file, self).__init__(*args, **kwargs)
+
+
+@register_fileformat
+class StringsUtf16Format(FileFormat):
+    name = _('OS X Strings (UTF-16)')
+    format_id = 'strings-utf16'
+    new_translation = '\n'
+
+    @classmethod
+    def get_class(cls):
+        return stringsutf16file
+
 @register_fileformat
 class PropertiesUtf8Format(FileFormat):
     name = _('Java Properties (UTF-8)')
