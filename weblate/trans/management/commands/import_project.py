@@ -32,7 +32,7 @@ import os
 import re
 import shutil
 import fnmatch
-import weblate
+from weblate.logger import LOGGER
 
 
 class Command(BaseCommand):
@@ -85,7 +85,7 @@ class Command(BaseCommand):
         self.name_template = None
         self.base_file_template = None
         self.vcs = None
-        self.logger = weblate.logger
+        self.logger = LOGGER
         self._mask_regexp = None
 
     def format_string(self, template, match):

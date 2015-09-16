@@ -37,7 +37,8 @@ from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
 from urllib import urlencode
-import weblate
+from weblate.logger import LOGGER
+from weblate import get_doc_url
 
 ICON_TEMPLATE = u'''
 <i class="fa fa-{0}"></i> {1}
@@ -208,7 +209,7 @@ class PluralTextarea(forms.Textarea):
                 lang.pluralequation
             )
             pluralmsg = PLURALS_TEMPLATE.format(
-                weblate.get_doc_url('user/translating', 'plurals'),
+                get_doc_url('user/translating', 'plurals'),
                 ugettext('Documentation for plurals.'),
                 pluralinfo
             )
@@ -275,7 +276,7 @@ class ChecksumForm(forms.Form):
                 checksum=self.cleaned_data['checksum'],
             )[0]
         except (Unit.DoesNotExist, IndexError):
-            weblate.logger.error(
+            LOGGER.error(
                 'message %s disappeared!',
                 self.cleaned_data['checksum']
             )
@@ -768,7 +769,7 @@ class CheckFlagsForm(forms.Form):
             'Please enter a comma separated list of check flags, '
             'see <a href="{url}">documentation</a> for more details.'
         ).format(
-            url=weblate.get_doc_url('admin/checks', 'custom-checks')
+            url=get_doc_url('admin/checks', 'custom-checks')
         )
 
     def clean_flags(self):

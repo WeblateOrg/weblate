@@ -27,7 +27,7 @@ from importlib import import_module
 import os
 import urlparse
 import hashlib
-import weblate
+from weblate.logger import LOGGER
 from weblate.trans.data import data_dir
 
 try:
@@ -221,7 +221,7 @@ def report_error(error, exc_info, request=None, extra_data=None):
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
         rollbar.report_exc_info(exc_info, request, extra_data=extra_data)
 
-    weblate.logger.error(
+    LOGGER.error(
         'Handled exception %s: %s',
         error.__class__.__name__,
         str(error)

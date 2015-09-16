@@ -45,7 +45,7 @@ from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
-import weblate
+from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans.models import Change, Project, SubProject
@@ -95,7 +95,7 @@ def mail_admins_contact(request, subject, message, context, sender):
     '''
     Sends a message to the admins, as defined by the ADMINS setting.
     '''
-    weblate.logger.info(
+    LOGGER.info(
         'contact form from %s',
         sender,
     )
@@ -104,7 +104,7 @@ def mail_admins_contact(request, subject, message, context, sender):
             request,
             _('Message could not be sent to administrator!')
         )
-        weblate.logger.error(
+        LOGGER.error(
             'ADMINS not configured, can not send message!'
         )
         return

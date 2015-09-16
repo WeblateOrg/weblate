@@ -33,7 +33,7 @@ from social.exceptions import (
 
 from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
-import weblate
+from weblate import USER_AGENT
 
 
 def get_github_email(access_token):
@@ -41,7 +41,7 @@ def get_github_email(access_token):
 
     request = urllib2.Request('https://api.github.com/user/emails')
     request.timeout = 1.0
-    request.add_header('User-Agent', weblate.USER_AGENT)
+    request.add_header('User-Agent', USER_AGENT)
     request.add_header(
         'Authorization',
         'token {0}'.format(access_token)

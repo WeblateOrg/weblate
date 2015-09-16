@@ -28,7 +28,8 @@ import sys
 import json
 import urllib
 import urllib2
-import weblate
+from weblate import USER_AGENT
+from weblate.logger import LOGGER
 from weblate.trans.util import report_error
 
 
@@ -86,7 +87,7 @@ class MachineTranslation(object):
         # Create request object with custom headers
         request = urllib2.Request(url)
         request.timeout = 0.5
-        request.add_header('User-Agent', weblate.USER_AGENT)
+        request.add_header('User-Agent', USER_AGENT)
         # Optional authentication
         if not skip_auth:
             self.authenticate(request)
@@ -177,11 +178,11 @@ class MachineTranslation(object):
                 exc, sys.exc_info(),
                 {'mt_url': self.request_url, 'mt_params': self.request_params}
             )
-            weblate.logger.error(
+            LOGGER.error(
                 'Failed to fetch languages from %s, using defaults',
                 self.name,
             )
-            weblate.logger.error(
+            LOGGER.error(
                 'Last fetched URL: %s, params: %s',
                 self.request_url,
                 self.request_params,
@@ -230,11 +231,11 @@ class MachineTranslation(object):
                 exc, sys.exc_info(),
                 {'mt_url': self.request_url, 'mt_params': self.request_params}
             )
-            weblate.logger.error(
+            LOGGER.error(
                 'Failed to fetch translations from %s',
                 self.name,
             )
-            weblate.logger.error(
+            LOGGER.error(
                 'Last fetched URL: %s, params: %s',
                 self.request_url,
                 self.request_params,

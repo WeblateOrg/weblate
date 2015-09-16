@@ -30,7 +30,7 @@ from translate.lang.data import languages
 from weblate.lang import data
 from weblate.trans.mixins import PercentMixin
 from weblate.appsettings import SIMPLIFY_LANGUAGES
-import weblate
+from weblate.logger import LOGGER
 
 
 def get_plural_type(code, pluralequation):
@@ -60,7 +60,7 @@ def get_plural_type(code, pluralequation):
         return data.PLURAL_ARABIC
 
     # Log error in case of uknown mapping
-    weblate.logger.error(
+    LOGGER.error(
         'Can not guess type of plural for %s: %s', code, pluralequation
     )
 

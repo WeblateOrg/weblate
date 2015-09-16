@@ -22,7 +22,7 @@ import os
 
 from django.core.urlresolvers import reverse
 
-import weblate
+from weblate.logger import LOGGER
 
 
 class PercentMixin(object):
@@ -134,22 +134,22 @@ class LoggerMixin(object):
         return 'default: '
 
     def log_debug(self, msg, *args):
-        return weblate.logger.debug(
+        return LOGGER.debug(
             self.log_prefix + msg, *args
         )
 
     def log_info(self, msg, *args):
-        return weblate.logger.info(
+        return LOGGER.info(
             self.log_prefix + msg, *args
         )
 
     def log_warning(self, msg, *args):
-        return weblate.logger.warning(
+        return LOGGER.warning(
             self.log_prefix + msg, *args
         )
 
     def log_error(self, msg, *args):
-        return weblate.logger.error(
+        return LOGGER.error(
             self.log_prefix + msg, *args
         )
 

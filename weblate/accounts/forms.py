@@ -31,7 +31,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import force_unicode
 from itertools import chain
 import unicodedata
-import weblate
+from weblate.logger import LOGGER
 
 try:
     import pyuca  # pylint: disable=import-error
@@ -399,7 +399,7 @@ class CaptchaRegistrationForm(RegistrationForm):
         else:
             mail = 'NONE'
 
-        weblate.logger.info(
+        LOGGER.info(
             'Passed captcha for %s (%s = %s)',
             mail,
             self.captcha.question,

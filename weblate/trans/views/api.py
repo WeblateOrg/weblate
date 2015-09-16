@@ -29,7 +29,7 @@ from weblate.trans.views.helper import get_project, get_subproject
 from weblate.trans.site import get_site_url
 
 import json
-import weblate
+from weblate.logger import LOGGER
 import threading
 import re
 
@@ -154,7 +154,7 @@ def vcs_service_hook(request, service):
 
     # Get service helper
     if service not in HOOK_HANDLERS:
-        weblate.logger.error('service %s is not supported', service)
+        LOGGER.error('service %s is not supported', service)
         return HttpResponseBadRequest('invalid service')
     hook_helper = HOOK_HANDLERS[service]
 
@@ -162,7 +162,7 @@ def vcs_service_hook(request, service):
     try:
         service_data = hook_helper(data)
     except KeyError:
-        weblate.logger.error('failed to parse service %s data', service)
+        LOGGER.error('failed to parse service %s data', service)
         return HttpResponseBadRequest('Invalid data in json payload!')
 
     # Log data
@@ -171,7 +171,7 @@ def vcs_service_hook(request, service):
     repo_url = service_data['repo_url']
     branch = service_data['branch']
 
-    weblate.logger.info(
+    LOGGER.info(
         'received %s notification on repository %s, branch %s',
         service_long_name, repo_url, branch
     )
@@ -185,7 +185,7 @@ def vcs_service_hook(request, service):
     for obj in subprojects:
         if not obj.project.enable_hooks:
             continue
-        weblate.logger.info(
+        LOGGER.info(
             '%s notification will update %s',
             service_long_name,
             obj
@@ -233,7 +233,7 @@ def bitbucket_hook_helper(data):
     elif data['repository']['scm'] == 'hg':
         repos = [repo % params for repo in BITBUCKET_HG_REPOS]
     else:
-        weblate.logger.error(
+        LOGGER.error(
             'unsupported repository: %s',
             repr(data['repositoru'])
         )

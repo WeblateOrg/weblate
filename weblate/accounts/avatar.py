@@ -30,7 +30,8 @@ from django.utils.translation import pgettext
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-import weblate
+from weblate import USER_AGENT
+from weblate.logger import LOGGER
 from weblate import appsettings
 from weblate.trans.util import report_error
 
@@ -136,7 +137,7 @@ def get_avatar_image(user, size):
                 error, sys.exc_info(),
                 extra_data={'avatar': user.username}
             )
-            weblate.logger.error(
+            LOGGER.error(
                 'Failed to fetch avatar for %s: %s',
                 user.username,
                 str(error)
@@ -153,7 +154,7 @@ def download_avatar_image(user, size):
     url = avatar_for_email(user.email, size)
     request = urllib2.Request(url)
     request.timeout = 0.5
-    request.add_header('User-Agent', weblate.USER_AGENT)
+    request.add_header('User-Agent', USER_AGENT)
 
     # Fire request
     handle = urllib2.urlopen(request)

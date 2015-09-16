@@ -21,7 +21,6 @@
 import os
 import re
 from copy import _EmptyClass
-import logging
 import django.utils.translation.trans_real as django_trans
 from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
@@ -29,8 +28,6 @@ from weblate.requirements import (
 from weblate.trans.vcs import GitRepository, RepositoryException
 from weblate.trans.data import check_data_writable
 from weblate.trans.ssh import create_ssh_wrapper
-
-logger = logging.getLogger('weblate')
 
 
 def get_root_dir():
