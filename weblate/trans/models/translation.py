@@ -582,10 +582,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         ret = self.repository.get_object_hash(self.get_filename())
 
-        if self.subproject.has_template():
-            ret += ','
-            ret += self.repository.get_object_hash(self.subproject.template)
-        return ret
+        if not self.subproject.has_template():
+            return ret
+
+        return ','.join([
+            ret,
+            self.repository.get_object_hash(self.subproject.template)
+        ])
 
     def update_stats(self):
         '''
