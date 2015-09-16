@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'changes' %}">{% trans "Changes" %}</a></li>
@@ -8,16 +9,22 @@
 
 {% block content %}
 
+{% can_download_changes user project as user_can_download_changes %}
+
+{% if user_can_download_changes or changes_rss %}
 <ul class="pagination pull-right flip">
+{% if user_can_download_changes %}
 <li>
 <a href="{% url 'changes-csv' %}?{{ query_string }}" title="{% trans "Download all changes as CSV" %}"><i class="fa fa-download"></i></a>
 </li>
+{% endif %}
 {% if changes_rss %}
 <li>
 <a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}"><i class="fa fa-rss"></i></a>
 </li>
 {% endif %}
 </ul>
+{% endif %}
 
 {% include "paginator.html" %}
 

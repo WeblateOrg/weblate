@@ -85,6 +85,8 @@ Can edit priority [Managers, Owners]
     Can adjust source string priority
 Can edit check flags [Managers, Owners]
     Can adjust source string check flags
+Can download changes [Managers, Owners]
+    Can download changes in a CSV format.
 
 .. _acl:
 

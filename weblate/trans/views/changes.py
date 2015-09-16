@@ -25,9 +25,12 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, activate
 from django.core.urlresolvers import reverse
 from django.db.models import Q
+from django.core.exceptions import PermissionDenied
+
 from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
+from weblate.trans.permissions import can_download_changes
 from urllib import urlencode
 import csv
 
@@ -55,6 +58,7 @@ class ChangesView(ListView):
             **kwargs
         )
         context['title'] = _('Changes')
+        context['project'] = self.project
 
         url = {}
 
@@ -204,6 +208,9 @@ class ChangesCSVView(ChangesView):
 
     def get(self, request, *args, **kwargs):
         object_list = self.get_queryset()
+
+        if not can_download_changes(request.user, self.project):
+            raise PermissionDenied()
 
         # Always output in english
         activate('en')

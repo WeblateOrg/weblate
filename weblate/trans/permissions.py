@@ -253,3 +253,11 @@ def can_manage_acl(user, project):
     Checks whether user can manage ACL on given project.
     """
     return check_permission(user, project, 'trans.manage_acl')
+
+
+@cache_permission
+def can_download_changes(user, project):
+    """
+    Checks whether user can download CSV for changes on given project.
+    """
+    return check_permission(user, project, 'trans.download_changes')
