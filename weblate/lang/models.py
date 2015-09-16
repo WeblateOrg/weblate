@@ -483,6 +483,12 @@ class Language(models.Model, PercentMixin):
         elif self.code == 'pt_BR':
             self.nplurals = 2
             self.pluralequation = 'n > 1'
+        elif self.code == 'sl':
+            # This is currently changing, we need to find way to migrate data:
+            # https://answers.launchpad.net/launchpad/+question/18324
+            self.pluralequation = (
+                'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3'
+            )
 
     def base_code(self):
         return self.code.replace('_', '-').split('-')[0]
