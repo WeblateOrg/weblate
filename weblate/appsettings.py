@@ -19,8 +19,22 @@
 #
 
 from django.conf import settings
-from weblate.trans.scripts import get_script_choices
 import os
+
+
+def get_script_name(name):
+    '''
+    Returns script name from string possibly containing full path and
+    parameters.
+    '''
+    return os.path.basename(name).split()[0]
+
+
+def get_script_choices(choices):
+    """Generates list of script choice in the Admin interface."""
+    return [
+        (script, get_script_name(script)) for script in choices
+    ] + [('', '')]
 
 
 def getvalue(name, default):

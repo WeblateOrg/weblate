@@ -20,24 +20,8 @@
 #
 """Hook scripts handling"""
 
-import os.path
 import subprocess
 from weblate.trans.util import get_clean_env
-
-
-def get_script_name(name):
-    '''
-    Returns script name from string possibly containing full path and
-    parameters.
-    '''
-    return os.path.basename(name).split()[0]
-
-
-def get_script_choices(choices):
-    """Generates list of script choice in the Admin interface."""
-    return [
-        (script, get_script_name(script)) for script in choices
-    ] + [('', '')]
 
 
 def run_post_push_script(component):

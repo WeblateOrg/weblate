@@ -20,7 +20,7 @@
 
 from unittest import TestCase
 from weblate.trans.util import cleanup_repo_url
-from weblate.trans.scripts import get_script_name
+from weblate.appsettings import get_script_name
 
 
 class HideCredentialsTest(TestCase):
