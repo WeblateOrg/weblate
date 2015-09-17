@@ -98,3 +98,8 @@ ENABLE_WHITEBOARD = True
 
 # Selenium can not clear HttpOnly cookies in MSIE
 SESSION_COOKIE_HTTPONLY = False
+
+# Test billing app as well
+INSTALLED_APPS += (
+    'weblate.billing',
+)
