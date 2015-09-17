@@ -22,7 +22,7 @@ File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
 from translate.storage.lisa import LISAfile
-from translate.storage.properties import propunit, propfile
+from translate.storage.properties import propunit, propfile, register_dialect, DialectStrings
 from translate.storage.xliff import xliffunit, xlifffile
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
@@ -930,6 +930,12 @@ class StringsUtf8Format(FileFormat):
     format_id = 'strings-utf8'
     loader = ('properties', 'stringsutf8file')
     new_translation = '\n'
+
+
+@register_dialect
+class DialectStringsUtf8(DialectStrings):
+    name = "strings-utf16"
+    default_encoding = "utf-16"
 
 
 class stringsutf16file(propfile):
