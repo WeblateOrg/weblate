@@ -47,7 +47,7 @@ class Billing(models.Model):
     projects = models.ManyToManyField(Project, blank=True)
 
     def __unicode__(self):
-        return u'{0} ({1})'.format(user, plan)
+        return u'{0} ({1})'.format(self.user, self.plan)
 
     def count_repositories(self):
         return SubProject.objects.filter(
