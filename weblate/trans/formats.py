@@ -958,8 +958,9 @@ class StringsUtf16Format(FileFormat):
     def get_class(cls):
         return stringsutf16file
 
+
 @register_fileformat
-class PropertiesUtf8Format(FileFormat):
+class PropertiesUtf16Format(FileFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
