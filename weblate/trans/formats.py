@@ -933,7 +933,7 @@ class StringsUtf8Format(FileFormat):
 
 
 @register_dialect
-class DialectStringsUtf8(DialectStrings):
+class DialectStringsUtf16(DialectStrings):
     name = "strings-utf16"
     default_encoding = "utf-16"
 
@@ -960,7 +960,7 @@ class StringsUtf16Format(FileFormat):
 
 
 @register_fileformat
-class PropertiesUtf16Format(FileFormat):
+class PropertiesUtf8Format(FileFormat):
     name = _('Java Properties (UTF-8)')
     format_id = 'properties-utf8'
     loader = ('properties', 'javautf8file')
