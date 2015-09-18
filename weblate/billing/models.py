@@ -23,6 +23,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.models import Project, SubProject
+from weblate.lang.models import Language
 
 
 class Plan(models.Model):
@@ -70,9 +71,9 @@ class Billing(models.Model):
     count_words.short_description = _('Source words')
 
     def count_languages(self):
-        return sum(
-            [p.get_language_count() for p in self.projects.all()]
-        )
+        return Language.objects.filter(
+            translation__subproject__project__in=self.projects.all()
+        ).distinct().count()
     count_languages.short_description = _('Languages')
 
     def in_limits(self):
