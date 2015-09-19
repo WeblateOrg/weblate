@@ -140,6 +140,8 @@ new empty file will be added to the repository. Only keys that are defined will
 be written to the newly created file. The Weblate maintainer needs to make sure
 that this is the expected behaviour with the framework in use.
 
+Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
+
 .. seealso::
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
