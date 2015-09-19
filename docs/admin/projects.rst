@@ -362,8 +362,13 @@ You also need to verify SSH host keys of servers you are going to access.
 You can generate or display key currently used by Weblate in the admin
 interface (follow :guilabel:`SSH keys` link on main admin page).
 
-If you are trying to connect to a GitHub repository be sure to use the SSH
-address, not the default HTTPS address. It should start with 'git@github.com'
+If you are trying to connect to a GitHub repository either use the SSH address
+(eg. ``git@github.com:nijel/weblate.git``)
+or generate personal access token (see `Creating an access token for
+command-line use`_) and include it in the URL. The full URL should look like
+``https://user:your_access_token@github.com/nijel/weblate.git``.
+
+.. _Creating an access token for command-line use: https://help.github.com/articles/creating-an-access-token-for-command-line-use/
 
 On GitHub, you can add the key to only one repository. If you plan to access
 more of them, it might be better to create separate user for that, assign him
