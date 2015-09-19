@@ -942,17 +942,28 @@ class PropertiesUtf8Format(FileFormat):
 
 
 @register_fileformat
-class PropertiesFormat(PropertiesUtf8Format):
-    name = _('Java Properties')
-    format_id = 'properties'
+class PropertiesUtf16Format(PropertiesUtf8Format):
+    name = _('Java Properties (UTF-16)')
+    format_id = 'properties-utf16'
     loader = ('properties', 'javafile')
     autoload = ('.properties',)
+
+
+@register_fileformat
+class PropertiesFormat(PropertiesUtf8Format):
+    name = _('Java Properties (ISO-8859-1)')
+    format_id = 'properties'
+    loader = ('properties', 'javafile')
 
     @classmethod
     def fixup(cls, store):
         '''
         Java properties need to be iso-8859-1, but
         ttkit converts them to utf-8.
+
+        This will be fixed in translate-toolkit 1.14.0, we could then
+        merge utf-16 and this one as the encoding detection should do
+        the correct magic then.
         '''
         store.encoding = 'iso-8859-1'
         return store
