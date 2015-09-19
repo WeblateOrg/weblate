@@ -946,7 +946,6 @@ class PropertiesUtf16Format(PropertiesUtf8Format):
     name = _('Java Properties (UTF-16)')
     format_id = 'properties-utf16'
     loader = ('properties', 'javafile')
-    autoload = ('.properties',)
 
 
 @register_fileformat
@@ -954,6 +953,7 @@ class PropertiesFormat(PropertiesUtf8Format):
     name = _('Java Properties (ISO-8859-1)')
     format_id = 'properties'
     loader = ('properties', 'javafile')
+    autoload = ('.properties',)
 
     @classmethod
     def fixup(cls, store):
