@@ -4,7 +4,7 @@ Changes
 weblate 2.4
 -----------
 
-Released on ? 2015.
+Released on Sep 20th 2015.
 
 * Improved support for PHP files.
 * Ability to add ACL to anonymous user.
