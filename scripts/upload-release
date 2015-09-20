@@ -5,7 +5,7 @@ set -e
 version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print weblate.VERSION' | sed 's/-dev//'`
 
 # Download server
-scp dist/weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
+scp dist/Weblate-$version.tar.* web:/srv/http/dl.cihar.com/weblate/
 
 # PyPi archive
 ./setup.py register
