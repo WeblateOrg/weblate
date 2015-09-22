@@ -261,3 +261,11 @@ def can_download_changes(user, project):
     Checks whether user can download CSV for changes on given project.
     """
     return check_permission(user, project, 'trans.download_changes')
+
+
+@cache_permission
+def can_automatic_translation(user, project):
+    """
+    Checks whether user can do automatic translation on given project.
+    """
+    return check_permission(user, project, 'trans.automatic_translation')

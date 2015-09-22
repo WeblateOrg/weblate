@@ -23,7 +23,7 @@ from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 from django.utils import formats
 from django.core.exceptions import PermissionDenied
 import uuid
@@ -44,7 +44,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
-    can_vote_suggestion, can_delete_comment,
+    can_vote_suggestion, can_delete_comment, can_automatic_translation,
 )
 
 
@@ -599,9 +599,14 @@ def translate(request, project, subproject, lang):
     )
 
 
-@permission_required('trans.automatic_translation')
+@require_POST
+@login_required
 def auto_translation(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
+    project = translation.subproject.project
+    if not can_automatic_translation(request.user, project):
+        raise PermissionDenied()
+
     translation.commit_pending(request)
     autoform = AutoForm(translation, request.POST)
     change = None

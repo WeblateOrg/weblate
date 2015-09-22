@@ -38,6 +38,7 @@ from weblate.trans.forms import (
     AutoForm, ReviewForm, NewLanguageForm,
     UserManageForm,
 )
+from weblate.trans.permissions import can_automatic_translation
 from weblate.accounts.models import Profile, notify_new_language
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
@@ -284,7 +285,7 @@ def show_translation(request, project, subproject, lang):
     form = get_upload_form(request)()
 
     # Is user allowed to do automatic translation?
-    if request.user.has_perm('trans.automatic_translation'):
+    if can_automatic_translation(request.user, obj.subproject.project):
         autoform = AutoForm(obj)
     else:
         autoform = None
