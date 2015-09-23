@@ -62,38 +62,38 @@ this.
    Following options were tested, but other versions will most likely work as
    well: ``mysql:5.6``, ``mariadb:10.0``, ``postgres:9.4``
 
-   It might be also good idea to change predefined passwords for the database
-   in the :file:`docker-compose.yml`.
+3. Change the predefined passwords for the database
+   in the :file:`weblate/environment`.
 
-3. Build Weblate containers:
+4. Build Weblate containers:
 
 .. code-block:: sh
 
     docker-compose build
 
-4. Start Weblate containers:
-
-.. code-block:: sh
-
-    docker-compose up
-
 5. Create Weblate database:
 
 .. code-block:: sh
 
-    docker-compose run weblate-web migrate
+    docker-compose run weblate migrate
 
-6. Preprare static files:
+6. Prepare static files:
 
 .. code-block:: sh
 
-    docker-compose run weblate-web collectstatic
+    docker-compose run weblate collectstatic
 
 7. Create admin user:
 
 .. code-block:: sh
 
-    docker-compose run weblate-web createadmin
+    docker-compose run weblate createadmin
+
+8. Start Weblate containers:
+
+.. code-block:: sh
+
+    docker-compose up
 
 Enjoy your Weblate deployment, it's accessible on port 8000 of the container.
 
