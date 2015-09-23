@@ -62,7 +62,7 @@ def clean_indexes():
     Cleans all indexes.
     """
     shutil.rmtree(data_dir('whoosh'))
-    STORAGE.create()
+    create_index()
 
 
 @receiver(post_migrate)
