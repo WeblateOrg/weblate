@@ -114,7 +114,12 @@ def get_source_index():
     '''
     Returns source index object.
     '''
-    if not STORAGE.index_exists('source'):
+    try:
+        exists = STORAGE.index_exists('source')
+    except OSError:
+        create_index()
+        exists = False
+    if not exists:
         create_source_index()
     index = STORAGE.open_index('source')
     if 'location' not in index.schema:
@@ -127,7 +132,12 @@ def get_target_index(lang):
     Returns target index object.
     '''
     name = 'target-%s' % lang
-    if not STORAGE.index_exists(name):
+    try:
+        exists = STORAGE.index_exists(name)
+    except OSError:
+        create_index()
+        exists = False
+    if not exists:
         create_target_index(lang)
     index = STORAGE.open_index(name)
     if 'comment' not in index.schema:
