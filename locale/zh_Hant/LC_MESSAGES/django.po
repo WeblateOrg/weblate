@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-09-16 10:16+0000\n"
-"PO-Revision-Date: 2015-09-20 07:15+0200\n"
+"PO-Revision-Date: 2015-09-26 15:53+0200\n"
 "Last-Translator: Wei-cheng Kung <wck317@pchome.com.tw>\n"
 "Language-Team: Traditional Chinese "
 "<https://hosted.weblate.org/projects/weblate/master/zh_Hant/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.4-dev\n"
+"X-Generator: Weblate 2.5\n"
 
 #: weblate/accounts/auth.py:47
 msgid ""
@@ -31,14 +31,13 @@ msgid "None"
 msgstr "無"
 
 #: weblate/accounts/forms.py:85
-#, fuzzy
 #| msgid ""
 #| "Username may contain only letters, numbers and following characters: @ . "
 #| "+ - _"
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
-msgstr "使用者名稱只能包含字母、數字與下列字元：@ . + - _"
+msgstr "使用者名稱只能包含字母、數字與後面字元：@ . + - _"
 
 #: weblate/accounts/forms.py:91 weblate/html/project.html:162
 msgid "Username"
@@ -54,10 +53,9 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: weblate/accounts/forms.py:237
-#, fuzzy
 #| msgid "You can add another emails on Authentication tab."
 msgid "You can add another email address on the Authentication tab."
-msgstr "您可以增加不同的電子郵件驗證標簽。"
+msgstr "您可以在認證分頁加入其他的電子郵件地址。"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/forms.py:342
 #: weblate/html/project.html:163
@@ -97,12 +95,12 @@ msgid ""
 msgstr "此電子郵件地址已經在使用。請提供一個不同的電子郵件地址。"
 
 #: weblate/accounts/forms.py:383
-#, fuzzy, python-format
+#, python-format
 #| msgid "What is %s?"
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
-msgstr "%s 是什麼？"
+msgstr "%s 得出什麼？"
 
 #: weblate/accounts/forms.py:394
 msgid "Please check your math and try again."
@@ -252,10 +250,9 @@ msgid "Notification on new language request"
 msgstr "有新的語言申請時通知"
 
 #: weblate/accounts/pipeline.py:125
-#, fuzzy
 #| msgid "Registration date"
 msgid "New registrations are disabled!"
-msgstr "註冊日期"
+msgstr "新註冊已停用！"
 
 #: weblate/accounts/views.py:90 weblate/accounts/views.py:440
 msgid "User registration"
@@ -335,7 +332,6 @@ msgid "You don't have privileges to display this page."
 msgstr "您沒有顯示此頁面的權限。"
 
 #: weblate/html/403.html:14
-#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Login to Weblate"
 msgstr "登入 Weblate"
@@ -1058,12 +1054,11 @@ msgstr ""
 "的資訊，如何改善此問題。"
 
 #: weblate/html/base.html:55
-#, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
 #| "projects."
 msgid "Hosted Weblate, the place to translate your software project."
-msgstr "此 Weblate 實例主機給各種的自由軟體專案翻譯。"
+msgstr "提供服務的 Weblate，是翻譯您的軟體專案的地方。"
 
 #: weblate/html/base.html:57
 msgid "This site runs Weblate for translating various software projects."
@@ -1192,7 +1187,7 @@ msgstr "有更多的資料匯出每個專案，更詳細的資訊請檢查以下
 
 #: weblate/html/data-root.html:48 weblate/html/data.html:72
 msgid "Notification hooks"
-msgstr "通知掛鉤"
+msgstr "接收通知"
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:75
 #, python-format
@@ -1201,8 +1196,8 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
-"與通知掛鉤，Weblate 會自動匯入您的開發者所做的變更，並且允許連續的翻譯。在 "
-"<a href=\"%(hooks_docs)s\">文件檔</a> 可取得詳細的資訊。"
+"經由接收通知，Weblate 會自動匯入您的開發者所做的變更，並且允許連續的翻譯。在 <a href=\"%(hooks_docs)s\""
+">說明文件</a> 可取得詳細的資訊。"
 
 #: weblate/html/data.html:6
 msgid "data exports"
@@ -1341,10 +1336,9 @@ msgid "TermBase eXchange (TBX)"
 msgstr "TermBase eXchange (TBX)"
 
 #: weblate/html/dictionary.html:109
-#, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all glossary changes"
-msgstr "瀏覽詞彙庫變更"
+msgstr "瀏覽詞彙庫的所有變更"
 
 #: weblate/html/edit_dictionary.html:7
 msgid "dictionaries"
@@ -1483,8 +1477,9 @@ msgid "Azerbaijani"
 msgstr "Азәрбајҹан дили"
 
 #: weblate/html/i18n.html:33
+#, fuzzy
 msgid "Bashkir"
-msgstr ""
+msgstr "Bashkir"
 
 #: weblate/html/i18n.html:34
 msgid "Basque"
@@ -1639,8 +1634,9 @@ msgid "Finnish"
 msgstr "Suomi"
 
 #: weblate/html/i18n.html:72
+#, fuzzy
 msgid "Franco-Provençal"
-msgstr ""
+msgstr "Franco-Provençal (法蘭克-普羅旺斯語)"
 
 #: weblate/html/i18n.html:73
 msgid "French"
@@ -1903,8 +1899,9 @@ msgid "Oriya"
 msgstr "ଓଡ଼ିଆ oṛiā"
 
 #: weblate/html/i18n.html:138
+#, fuzzy
 msgid "Ossetian"
-msgstr ""
+msgstr "Ossetian (奧塞提亞語)"
 
 #: weblate/html/i18n.html:139
 msgid "Papiamento"
@@ -2071,8 +2068,9 @@ msgid "Traditional Chinese"
 msgstr "正體中文"
 
 #: weblate/html/i18n.html:180
+#, fuzzy
 msgid "Tsonga"
-msgstr ""
+msgstr "Tsonga (松加語)"
 
 #: weblate/html/i18n.html:181
 msgid "Turkish"
@@ -2683,19 +2681,17 @@ msgstr "又有了一個新的語言，在 %(translation)s 上的 %(site_title)s�
 msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "on next update."
-msgstr ""
+msgstr "請將語言檔加到 VCS，下次更新時 Weblate 會自動發現它。"
 
 #: weblate/html/mail/new_language.html:20
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "More information about exported RSS feeds is available in <a href="
 #| "\"%(rss_docs)s\">the documentation</a>."
 msgid ""
 "More information on adding new language files is available in <a href="
 "\"%(doc_url)s\">the documentation</a>."
-msgstr ""
-"在 <a href=\"%(rss_docs)s\">文件檔</a>，有更多關於匯出 RSS 訂閱可用的詳細資"
-"訊。"
+msgstr "在 <a href=\"%(doc_url)s\">說明文件</a>，有更多關於加入新語言檔的資訊。"
 
 #: weblate/html/mail/new_language.html:27 weblate/html/mail/new_language.txt:9
 msgid "Requested language:"
@@ -2707,14 +2703,13 @@ msgid "Requesting user:"
 msgstr "申請的使用者："
 
 #: weblate/html/mail/new_language.txt:7
-#, fuzzy
 #| msgid ""
 #| "More information about this check is available in the <a href=\"%(link)s"
 #| "\">documentation</a>."
 msgid ""
 "More information on adding new language files is available in the "
 "documentation:"
-msgstr "更多關於這個查核的可用資訊在<a href=\"%(link)s\">文件檔</a>中。"
+msgstr "更多關於加入新語言檔的資訊在："
 
 #: weblate/html/mail/new_language_subject.txt:1
 #, python-format
@@ -2871,7 +2866,6 @@ msgid "Users"
 msgstr "使用者"
 
 #: weblate/html/project.html:171
-#, fuzzy
 #| msgid "Owner"
 msgid "Owner"
 msgstr "擁有者"
@@ -2882,11 +2876,11 @@ msgstr "移除"
 
 #: weblate/html/project.html:191
 msgid "Revoke ownership"
-msgstr ""
+msgstr "廢除擁有者"
 
 #: weblate/html/project.html:219
 msgid "Make owner"
-msgstr ""
+msgstr "建立擁有者"
 
 #: weblate/html/project.html:244
 msgid "Add new user"
@@ -2987,10 +2981,9 @@ msgid ""
 msgstr ""
 
 #: weblate/html/subproject.html:106
-#, fuzzy
 #| msgid "Can not find your language in above list?"
 msgid "Can't find your language in the list above?"
-msgstr "在清單上找不到您的語言嗎？"
+msgstr "在上面清單找不到您的語言嗎？"
 
 #: weblate/html/subproject.html:110
 #| msgid "Start new translation"
@@ -3023,7 +3016,7 @@ msgstr "變更"
 
 #: weblate/html/trans/change_list.html:18
 msgid "Download all changes as CSV"
-msgstr ""
+msgstr "下載全部變更成 CSV 檔"
 
 #: weblate/html/trans/change_list.html:23
 msgid "Follow using RSS"
@@ -3072,7 +3065,7 @@ msgstr "Ctrl+Enter - 儲存"
 
 #: weblate/html/translate.html:66
 msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
-msgstr ""
+msgstr "Ctrl+Shift+Enter - 取消模糊，並儲存"
 
 #: weblate/html/translate.html:67
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -3085,7 +3078,7 @@ msgstr "Alt+E - 焦點至翻譯編輯器"
 
 #: weblate/html/translate.html:69
 msgid "Alt+C - Focus comment editor"
-msgstr ""
+msgstr "Alt+C - 跳到評論編輯器"
 
 #: weblate/html/translate.html:70
 #| msgid "Machine translation"
@@ -3094,11 +3087,11 @@ msgstr "Alt+M - 顯示機器翻譯分頁"
 
 #: weblate/html/translate.html:71
 msgid "Alt+N - Shows nearby strings tab"
-msgstr ""
+msgstr "Alt+N - 顯示相鄰字串之分頁"
 
 #: weblate/html/translate.html:72
 msgid "Alt+S - Shows search tab"
-msgstr ""
+msgstr "Alt+S - 顯示搜尋之分頁"
 
 #: weblate/html/translate.html:88
 msgid "Source change"
@@ -3264,7 +3257,7 @@ msgstr "源文的資訊"
 
 #: weblate/html/translate.html:385
 msgid "Context"
-msgstr "內容"
+msgstr "脈絡"
 
 #: weblate/html/translate.html:393
 msgid "Flags"
@@ -3349,11 +3342,10 @@ msgid "Upload"
 msgstr "上傳"
 
 #: weblate/html/translation.html:198
-#, fuzzy
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
-msgstr "上傳的檔案將會與目前的翻譯合併。如果您想要覆蓋已翻譯的字串，不要忘了啟用它。"
+msgstr "上傳的檔案會與目前的翻譯合併。如要覆蓋已翻譯的字串，不要忘了啟用它。"
 
 #: weblate/html/translation.html:200
 msgid "Uploaded file will be merged with current translation."
@@ -3417,7 +3409,7 @@ msgstr "上次的作者"
 
 #: weblate/html/unit-context.html:5
 msgid "Context:"
-msgstr "內容："
+msgstr "脈絡："
 
 #: weblate/html/unit-details.html:5
 msgid "Source string location"
@@ -3599,7 +3591,6 @@ msgid "Plural form %d"
 msgstr "複數形態 %d"
 
 #: weblate/trans/admin.py:42 weblate/trans/models/project.py:136
-#, fuzzy
 #| msgid "Owner"
 msgid "Owners"
 msgstr "擁有者"
@@ -3812,7 +3803,7 @@ msgstr "在此專案中這訊息，有一種以上的翻譯"
 
 #: weblate/trans/checks/format.py:222
 msgid "Python format"
-msgstr "Python 的格式"
+msgstr "Python 格式"
 
 #: weblate/trans/checks/format.py:223 weblate/trans/checks/format.py:236
 #: weblate/trans/checks/format.py:249 weblate/trans/checks/format.py:270
@@ -3829,7 +3820,7 @@ msgstr "C 格式"
 
 #: weblate/trans/checks/format.py:261
 msgid "Javascript format"
-msgstr ""
+msgstr "Javascript 格式"
 
 #: weblate/trans/checks/format.py:269
 msgid "Python brace format"
@@ -4014,12 +4005,12 @@ msgstr "模糊字串處理中"
 
 #: weblate/trans/forms.py:348
 msgid "Do not import"
-msgstr ""
+msgstr "勿匯入"
 
 #: weblate/trans/forms.py:349
 #| msgid "Import glossary"
 msgid "Import as fuzzy"
-msgstr "作為模糊匯入"
+msgstr "作為模糊譯文匯入"
 
 #: weblate/trans/forms.py:350
 #| msgid "Not translated"
@@ -4079,9 +4070,8 @@ msgid "Search in target strings"
 msgstr "在目標字串中搜尋"
 
 #: weblate/trans/forms.py:431
-#, fuzzy
 msgid "Search in context strings"
-msgstr "在內容(context)字串中搜尋"
+msgstr "在脈絡字串中搜尋"
 
 #: weblate/trans/forms.py:436
 msgid "Search in location strings"
@@ -4158,11 +4148,11 @@ msgstr "覆蓋字串"
 
 #: weblate/trans/forms.py:574
 msgid "Replace inconsistent"
-msgstr "取代不一致的"
+msgstr "取代不一致者"
 
 #: weblate/trans/forms.py:579
 msgid "Component to use"
-msgstr "使用組成元件"
+msgstr "要使用的元件"
 
 #: weblate/trans/forms.py:598
 msgid "All components"
@@ -4224,7 +4214,7 @@ msgstr "整個專案"
 
 #: weblate/trans/forms.py:743
 msgid "Please select"
-msgstr ""
+msgstr "請選擇"
 
 #: weblate/trans/forms.py:754
 msgid "Strings with higher priority are offered first to translators."
@@ -4281,10 +4271,9 @@ msgid "Donate to Weblate"
 msgstr "贊助 Weblate"
 
 #: weblate/trans/models/advertisement.py:42
-#, fuzzy
 #| msgid "Support Weblate using GitTip"
 msgid "Support Weblate on Bountysource"
-msgstr "支援 Weblate 使用 Git 提示"
+msgstr "於 Bountysource 上，支持 Weblate"
 
 #: weblate/trans/models/advertisement.py:43
 msgid "More information about Weblate"
@@ -4491,7 +4480,6 @@ msgid "Whether to allow updating this repository by remote hooks."
 msgstr "是否允許透過遠端 hooks 來更新此資源庫。"
 
 #: weblate/trans/models/project.py:139
-#, fuzzy
 #| msgid "Owner of the project."
 msgid "Owners of the project."
 msgstr "專案的擁有者。"
@@ -4648,7 +4636,7 @@ msgstr "某些格式在自動偵測時可能會失敗，並會稍慢些。"
 #: weblate/trans/models/subproject.py:219
 #| msgid "Additional commit file"
 msgid "Additional commit files"
-msgstr "附加提交檔案"
+msgstr "附加提交的檔案"
 
 #: weblate/trans/models/subproject.py:224
 #, fuzzy
@@ -4658,7 +4646,7 @@ msgstr "附加提交檔案"
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
-msgstr "已包含在提交的附加檔案中；更多詳細的資訊請查看文件檔。"
+msgstr "附加其他檔案以提交；請看說明文件以得更詳細的資訊。"
 
 #: weblate/trans/models/subproject.py:229
 msgid "Post-update script"
@@ -4672,61 +4660,55 @@ msgstr "當收到儲存庫更新後要執行的 Script，請閱讀說明文件�
 
 #: weblate/trans/models/subproject.py:240
 msgid "Pre-commit script"
-msgstr "預先提交的腳本"
+msgstr "提交至本地(commit)前的隨譯即行碼"
 
 #: weblate/trans/models/subproject.py:246
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
-msgstr "提交翻譯之前要執行的腳本，更詳細的資訊請查看文件檔。"
+msgstr "提交翻譯至本地之前要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
 
 #: weblate/trans/models/subproject.py:251
-#, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-commit script"
-msgstr "後提交(執行)的隨譯即行碼"
+msgstr "提交至本地後的隨譯即行碼"
 
 #: weblate/trans/models/subproject.py:257
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
-msgstr "提交翻譯之後要執行的隨譯即行碼，更詳細的資訊請查看文件檔。"
+msgstr "提交翻譯至本地之後要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
 
 #: weblate/trans/models/subproject.py:262
-#, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-push script"
-msgstr "後提交的隨譯即行碼"
+msgstr "提交至遠端後的隨譯即行碼"
 
 #: weblate/trans/models/subproject.py:268
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
-msgstr "提交翻譯到遠端之後要執行的隨譯即行碼，更詳細的資訊請查看文件檔。"
+msgstr "提交翻譯到遠端之後要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
 
 #: weblate/trans/models/subproject.py:273
-#, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-add script"
-msgstr "後加入的隨譯即行碼"
+msgstr "加入之後的隨譯即行碼"
 
 #: weblate/trans/models/subproject.py:279
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
-msgstr "加入翻譯之後要執行的隨譯即行碼，更詳細的資訊請查看文件檔。"
+msgstr "加入翻譯之後要執行的隨譯即行碼，更詳細的資訊請看說明文件。"
 
 #: weblate/trans/models/subproject.py:285
 msgid "Locked"
@@ -5361,7 +5343,7 @@ msgstr "無效的查核標記：\"%s\""
 
 #: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
 msgid "You can not remove last owner!"
-msgstr ""
+msgstr "不能移除最後的擁有者！"
 
 #: weblate/trans/views/acl.py:94
 msgid "User has been added to this project."
@@ -5436,13 +5418,13 @@ msgstr "未能尋找到符合的使用者！"
 #, python-brace-format
 msgctxt "Format string for yearly activity chart"
 msgid "{month}/{year}"
-msgstr ""
+msgstr "{year}/{month}"
 
 #: weblate/trans/views/charts.py:135
 #, python-brace-format
 msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
-msgstr ""
+msgstr "{month}/{day}"
 
 #: weblate/trans/views/dictionary.py:46
 #, python-format
