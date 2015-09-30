@@ -469,7 +469,7 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_po_link(self):
         project = self.create_po_link()
-        self.verify_subproject(project, 3, 'cs', 4)
+        self.verify_subproject(project, 4, 'cs', 4)
 
     def test_create_po_mono(self):
         project = self.create_po_mono()
