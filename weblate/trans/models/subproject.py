@@ -972,6 +972,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 matches.discard(self.template)
         if self.new_base and self.new_base != self.template:
             matches.discard(self.new_base)
+        # Remove symlinked translations
+        for filename in list(matches):
+            resolved = self.repository.resolve_symlinks(filename)
+            if resolved != filename and resolved in matches:
+                matches.discard(filename)
         return sorted(matches)
 
     def create_translations(self, force=False, langs=None, request=None):
