@@ -677,4 +677,6 @@ LOCALE_ALIASES = {
     # Misc invalid codes
     'val-ES': 'ca@valencia',
     'jp': 'ja',
+    # Old code for Hebrew
+    'iw': 'he',
 }
