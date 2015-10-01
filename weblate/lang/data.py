@@ -353,13 +353,6 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
-    # Wrong language code used by Java
-    (
-        'in',
-        'Indonesian',
-        1,
-        '0',
-    ),
 )
 
 # List of defaul languages - the ones, where using
@@ -683,7 +676,8 @@ LOCALE_ALIASES = {
     # Misc invalid codes
     'val-ES': 'ca@valencia',
     'jp': 'ja',
-    # Old code for Hebrew
+    # Old locale codes
     'iw': 'he',
     'ji': 'yi',
+    'in': 'id',
 }
