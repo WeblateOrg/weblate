@@ -347,6 +347,12 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'yi',
+        u'Yiddish',
+        2,
+        '(n != 1)',
+    ),
     # Wrong language code used by Java
     (
         'in',
@@ -679,4 +685,5 @@ LOCALE_ALIASES = {
     'jp': 'ja',
     # Old code for Hebrew
     'iw': 'he',
+    'ji': 'yi',
 }
