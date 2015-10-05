@@ -353,7 +353,25 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'de_AT',
+        'Austrian German',
+        2,
+        'n != 1',
+    ),
+    (
+        'de_CH',
+        'Swiss High German',
+        2,
+        'n != 1',
+    ),
 )
+
+NO_CODE_LANGUAGES = frozenset((
+    'zh_TW', 'zh_CN',
+    'zh_Hant', 'zh_Hans',
+    'de_AT', 'de_CH'
+))
 
 # List of defaul languages - the ones, where using
 # only language code should be same as this one
