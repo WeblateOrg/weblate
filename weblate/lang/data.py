@@ -353,6 +353,18 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'de_AT',
+        'Austrian German',
+        2,
+        'n != 1',
+    ),
+    (
+        'de_CH',
+        'Swiss High German',
+        2,
+        'n != 1',
+    ),
 )
 
 # List of defaul languages - the ones, where using
