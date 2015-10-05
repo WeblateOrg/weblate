@@ -200,7 +200,7 @@ class LanguagesTest(TestCase):
         '''
         Tests that auto create correctly handles languages
         '''
-        for original, expected, direction, plurals, name in self.TEST_LANGUAGES:
+        for original, expected, direction, plural, name in self.TEST_LANGUAGES:
             # Create language
             lang = Language.objects.auto_get_or_create(original)
             # Check language code
@@ -218,9 +218,9 @@ class LanguagesTest(TestCase):
             # Check plurals
             self.assertEqual(
                 lang.pluralequation,
-                plurals,
+                plural,
                 'Invalid plural for {0} (expected {1}, got {2})'.format(
-                    original, plurals, lang.pluralequation,
+                    original, plural, lang.pluralequation,
                 )
             )
             # Check whether html contains both language code and direction
