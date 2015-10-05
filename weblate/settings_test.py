@@ -115,4 +115,5 @@ class DisableMigrations(object):
 
 
 # Avoid running migrations in testsuite
-MIGRATION_MODULES = DisableMigrations()
+if 'TEST_MIGRATIONS' not in os.environ:
+    MIGRATION_MODULES = DisableMigrations()

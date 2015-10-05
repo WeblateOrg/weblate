@@ -6,8 +6,10 @@
 run_coverage ./manage.py check
 check
 
-run_coverage ./manage.py migrate --noinput --traceback
+run_coverage ./manage.py test -v 2
 check
 
-run_coverage ./manage.py test -v 2
+export TEST_MIGRATIONS=1
+
+run_coverage ./manage.py migrate --noinput --traceback
 check
