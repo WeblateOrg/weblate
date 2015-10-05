@@ -39,48 +39,63 @@ class LanguagesTest(TestCase):
             'cs',
             'ltr',
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+            'Czech',
         ),
         (
             'cs (2)',
             'cs',
             'ltr',
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+            'Czech',
         ),
         (
             'czech',
             'cs',
             'ltr',
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+            'Czech',
         ),
         (
             'cs_CZ@hantec',
             'cs_CZ@hantec',
             'ltr',
             '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2',
+            'Czech (cs_CZ@hantec)',
         ),
         (
             'de-DE',
             'de',
             'ltr',
             'n != 1',
+            'German',
         ),
         (
             'de_AT',
             'de_AT',
             'ltr',
             'n != 1',
+            'Austrian German',
+        ),
+        (
+            'de_CZ',
+            'de_CZ',
+            'ltr',
+            'n != 1',
+            'German (de_CZ)',
         ),
         (
             'portuguese_portugal',
             'pt_PT',
             'ltr',
             'n > 1',
+            'Portuguese (Portugal)',
         ),
         (
             'pt-rBR',
             'pt_BR',
             'ltr',
             'n > 1',
+            'Portuguese (Brazil)',
         ),
         (
             'sr_RS@latin',
@@ -88,6 +103,7 @@ class LanguagesTest(TestCase):
             'ltr',
             'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
             '(n%100<10 || n%100>=20) ? 1 : 2',
+            'Serbian (latin)',
         ),
         (
             'sr-RS@latin',
@@ -95,6 +111,7 @@ class LanguagesTest(TestCase):
             'ltr',
             'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
             '(n%100<10 || n%100>=20) ? 1 : 2',
+            'Serbian (latin)',
         ),
         (
             'sr_RS_Latin',
@@ -102,42 +119,49 @@ class LanguagesTest(TestCase):
             'ltr',
             'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
             '(n%100<10 || n%100>=20) ? 1 : 2',
+            'Serbian (latin)',
         ),
         (
             'en_CA_MyVariant',
             'en_CA@myvariant',
             'ltr',
             'n != 1',
+            'English (Canada)',
         ),
         (
             'en_CZ',
             'en_CZ',
             'ltr',
             'n != 1',
+            'English (en_CZ)',
         ),
         (
             'zh_CN',
             'zh_CN',
             'ltr',
             '0',
+            'Chinese (China)',
         ),
         (
             'zh-CN',
             'zh_CN',
             'ltr',
             '0',
+            'Chinese (China)',
         ),
         (
             'zh-CN@test',
             'zh_CN@test',
             'ltr',
             '0',
+            'Chinese (China)',
         ),
         (
             'zh-rCN',
             'zh_CN',
             'ltr',
             '0',
+            'Chinese (China)',
         ),
         (
             'ar',
@@ -145,6 +169,7 @@ class LanguagesTest(TestCase):
             'rtl',
             'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
             ': n%100>=11 ? 4 : 5',
+            'Arabic',
         ),
         (
             'ar_AA',
@@ -152,6 +177,7 @@ class LanguagesTest(TestCase):
             'rtl',
             'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
             ': n%100>=11 ? 4 : 5',
+            'Arabic',
         ),
         (
             'ar_XX',
@@ -159,12 +185,14 @@ class LanguagesTest(TestCase):
             'rtl',
             'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 '
             ': n%100>=11 ? 4 : 5',
+            'Arabic (ar_XX)',
         ),
         (
             'xx',
             'xx',
             'ltr',
             'n != 1',
+            'xx (generated)',
         ),
     )
 
@@ -172,7 +200,7 @@ class LanguagesTest(TestCase):
         '''
         Tests that auto create correctly handles languages
         '''
-        for original, expected, direction, plurals in self.TEST_LANGUAGES:
+        for original, expected, direction, plurals, name in self.TEST_LANGUAGES:
             # Create language
             lang = Language.objects.auto_get_or_create(original)
             # Check language code
@@ -198,6 +226,8 @@ class LanguagesTest(TestCase):
             # Check whether html contains both language code and direction
             self.assertIn(direction, lang.get_html())
             self.assertIn(expected, lang.get_html())
+            # Check name
+            self.assertEqual(unicode(lang), name)
 
     def test_plurals(self):
         '''

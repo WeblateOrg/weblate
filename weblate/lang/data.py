@@ -367,6 +367,12 @@ EXTRALANGS = (
     ),
 )
 
+NO_CODE_LANGUAGES = frozenset((
+    'zh_TW', 'zh_CN',
+    'zh_Hant', 'zh_Hans',
+    'de_AT', 'de_CH'
+))
+
 # List of defaul languages - the ones, where using
 # only language code should be same as this one
 # Extracted from locale.alias
