@@ -103,3 +103,16 @@ SESSION_COOKIE_HTTPONLY = False
 INSTALLED_APPS += (
     'weblate.billing',
 )
+
+
+class DisableMigrations(object):
+    """Magic to disable migrations"""
+    def __contains__(self, item):
+        return True
+
+    def __getitem__(self, item):
+        return "notmigrations"
+
+
+# Avoid running migrations in testsuite
+MIGRATION_MODULES = DisableMigrations()
