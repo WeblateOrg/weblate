@@ -1,7 +1,7 @@
 .. _languages:
 
-Languge definitions
-===================
+Language definitions
+====================
 
 In order to properly present different translation Weblate needs to know some
 information about used languages. Currently it comes with definitions for
