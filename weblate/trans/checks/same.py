@@ -976,6 +976,7 @@ SAME_BLACKLIST = frozenset((
     'welsh',
     'wolof',
     'yakut',
+    'yiddish',
     'yoruba',
     'zulu',
 
