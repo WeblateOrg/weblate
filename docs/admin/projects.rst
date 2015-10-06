@@ -13,6 +13,8 @@ mask of files to translate. Bellow :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
 files (matching mask defined in :ref:`component`) appear in VCS repository.
 
+.. _admin-interface:
+
 Administration
 --------------
 
@@ -33,6 +35,9 @@ it for :ref:`production` or manage SSH keys to access :ref:`private`.
 All sections below you can manage database objects. The most interesting one is
 probably :guilabel:`Weblate translations`, where you can manage translatable
 projects, see :ref:`project` and :ref:`component`.
+
+Another section, :guilabel:`Weblate languages` holds language defintions, see
+:ref:`languages` for more details.
 
 Adding new components
 ---------------------
@@ -168,10 +173,10 @@ Repository branch
     Which branch to checkout from the VCS and where to look for translations.
 File mask
     Mask of files to translate including path. It should include one *
-    replacing language code (Weblate can handle language names as well, but it
-    is recommended to use ISO 639-1 language codes). In case your repository
-    contains more than one translation files (eg. more Gettext domains), you
-    need to create separate component for each.
+    replacing language code (see :ref:`languages` for information how this is 
+    processed). In case your repository contains more than one translation
+    files (eg. more Gettext domains), you need to create separate component for
+    each.
 
     For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 Monolingual base language file

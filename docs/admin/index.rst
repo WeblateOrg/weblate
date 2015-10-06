@@ -10,6 +10,7 @@ Administrators guide
     auth
     access
     projects
+    languages
     continuous
     translating
     checks

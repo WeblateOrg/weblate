@@ -1,3 +1,5 @@
+.. _contributing:
+
 Contributing
 ============
 
@@ -15,6 +17,9 @@ We do write testsuite for our code, so please add testcases for any new
 functionality and verify that it works. You can see current test results on
 Travis <https://travis-ci.org/nijel/weblate> and coverage on Codecov
 <https://codecov.io/github/nijel/weblate>.
+
+The issue tracker is hosted on GitHub as well:
+<https://github.com/nijel/weblate/issues>
 
 Starting with our codebase
 --------------------------
