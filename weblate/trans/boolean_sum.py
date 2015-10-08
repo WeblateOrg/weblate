@@ -31,9 +31,8 @@ def get_template():
     '''
     Adds type casting to boolean values for PostgreSQL.
     '''
-    if 'psycopg2' in settings.DATABASES['default']['ENGINE']:
-        return '%(function)s(%(field)s::int)'
-    if 'postgre' in settings.DATABASES['default']['ENGINE']:
+    engine = settings.DATABASES['default']['ENGINE']
+    if 'psycopg2' in engine or 'postgres' in engine:
         return '%(function)s(%(field)s::int)'
     return '%(function)s(%(field)s)'
 
