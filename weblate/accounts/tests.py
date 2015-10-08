@@ -23,6 +23,9 @@ Tests for user handling.
 """
 
 import tempfile
+import httpretty
+import urlparse
+import json
 from unittest import TestCase as UnitTestCase
 from django.test import TestCase
 from unittest import SkipTest
@@ -265,6 +268,68 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
                 social__user=user, email='second@example.net'
             ).exists()
         )
+
+    @httpretty.activate
+    def test_github(self):
+        """Test GitHub integration"""
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://github.com/login/oauth/access_token',
+            body=json.dumps({
+                'access_token': '123',
+                'token_type': 'bearer',
+            })
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://api.github.com/user',
+            body=json.dumps({
+                'email': 'foo@example.net',
+                'login': 'weblate',
+                'id': 1,
+                'name': 'Weblate',
+            }),
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://api.github.com/user/emails',
+            body=json.dumps([
+                {
+                    'email': 'noreply@example.org',
+                    'verified': False,
+                    'primary': False,
+                }, {
+                    'email': 'noreply@weblate.org',
+                    'verified': True,
+                    'primary': True
+                }
+            ])
+        )
+        response = self.client.get(reverse('social:begin', args=('github',)))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response['Location'].startswith(
+                'https://github.com/login/oauth/authorize'
+            )
+        )
+        query = urlparse.parse_qs(
+            urlparse.urlparse(response['Location']).query
+        )
+        return_query = urlparse.parse_qs(
+            urlparse.urlparse(query['redirect_uri'][0]).query
+        )
+        response = self.client.get(
+            reverse('social:complete', args=('github',)),
+            {
+                'state': query['state'][0],
+                'redirect_state': return_query['redirect_state'][0],
+                'code': 'XXX'
+            },
+            follow=True
+        )
+        user = User.objects.get(username='weblate')
+        self.assertEquals(user.first_name, 'Weblate')
+        self.assertEquals(user.email, 'noreply@weblate.org')
 
 
 class NoCookieRegistrationTest(RegistrationTest):
