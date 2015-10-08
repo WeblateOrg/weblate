@@ -380,7 +380,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return False
 
     def repo_needs_push(self):
-        for component in self.subproject_set.all():
+        for component in self.all_repo_components():
             if component.repo_needs_push():
                 return True
         return False
@@ -391,13 +391,15 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         ret = False
 
+        components = self.all_repo_components()
+
         # Iterate all components
-        for component in self.subproject_set.all():
+        for component in components:
             component.commit_pending(request, skip_push=True)
 
         # Push all components, this avoids multiple pushes for linked
         # components
-        for component in self.subproject_set.all():
+        for component in components:
             ret |= component.push_if_needed(request, on_commit=on_commit)
 
         return ret
@@ -407,7 +409,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Updates all git repos.
         """
         ret = True
-        for component in self.subproject_set.all():
+        for component in self.all_repo_components():
             ret &= component.do_update(request, method=method)
         return ret
 
@@ -422,7 +424,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         Pushes all git repos.
         """
         ret = False
-        for component in self.subproject_set.all():
+        for component in self.all_repo_components():
             ret |= component.do_reset(request)
         return ret
 
