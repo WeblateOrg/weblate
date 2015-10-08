@@ -202,6 +202,25 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     @httpretty.activate
+    def test_google_invalid(self):
+        """Test handling of server failure."""
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://www.googleapis.com/language/translate/v2/languages',
+            body='',
+            status=500,
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://www.googleapis.com/language/translate/v2/',
+            body='',
+            status=500,
+        )
+        machine = GoogleTranslation()
+        self.assertEqual(machine.supported_languages, [])
+        self.assertTranslate(machine, empty=True)
+
+    @httpretty.activate
     def test_amagama(self):
         httpretty.register_uri(
             httpretty.GET,
