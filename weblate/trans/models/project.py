@@ -389,8 +389,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """
         Commits any pending changes.
         """
+        # Iterate all components
         for component in self.subproject_set.all():
-            component.commit_pending(request)
+            component.commit_pending(request, skip_push=True)
+
+        # Push all components, this avoids multiple pushes for linked
+        # components
+        for component in self.subproject_set.all():
+            component.push_if_needed(request)
 
     def do_update(self, request=None, method=None):
         """
