@@ -34,8 +34,7 @@ from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 from PIL import Image
 
-from weblate.trans.models.whiteboard import WhiteboardMessage
-from weblate.trans.models.changes import Change
+from weblate.trans.models import Change, WhiteboardMessage, SubProject
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
 from weblate.trans.tests import OverrideSettings
@@ -952,17 +951,50 @@ class SourceStringsTest(ViewTestCase):
 
 
 class AutoTranslationTest(ViewTestCase):
-    def test_auto(self):
-        '''
-        Tests for automatic translation.
-        '''
+    def setUp(self):
+        super(AutoTranslationTest, self).setUp()
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
+        self.subproject2 = SubProject.objects.create(
+            name='Test 2',
+            slug='test-2',
+            project=self.project,
+            repo=self.git_repo_path,
+            push=self.git_repo_path,
+            vcs='git',
+            filemask='po/*.po',
+            template='',
+            file_format='po',
+            new_base='',
+            allow_translation_propagation=False,
+        )
 
-        # Default params
+    def test_none(self):
+        '''
+        Tests for automatic translation with no content.
+        '''
         url = reverse('auto_translation', kwargs=self.kw_translation)
         response = self.client.post(
             url
         )
         self.assertRedirects(response, self.translation_url)
+
+    def test_different(self):
+        '''
+        Tests for automatic translation with different content.
+        '''
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        url = reverse(
+            'auto_translation',
+            kwargs={'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
+        )
+        response = self.client.post(
+            url
+        )
+        # Check we've translated something
+        translation = self.subproject2.translation_set.get(language_code='cs')
+        self.assertEqual(translation.translated, 1)
