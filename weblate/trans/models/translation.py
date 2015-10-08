@@ -168,6 +168,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         super(Translation, self).__init__(*args, **kwargs)
         self._store = None
+        self._last_change_obj = None
+        self._last_change_obj_valid = False
         self.permissions_cache = {}
 
     @property
@@ -668,23 +670,32 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Returns last autor of change done in Weblate.
         '''
-        try:
-            return get_author_name(
-                self.change_set.content()[0].author,
-                email
-            )
-        except IndexError:
+        if self.last_change_obj is None:
             return None
+        return get_author_name(
+            self.last_change_obj.author,
+            email
+        )
+
+    @property
+    def last_change_obj(self):
+        if not self._last_change_obj_valid:
+            try:
+                self._last_change_obj = self.change_set.content()[0]
+            except IndexError:
+                self._last_change_obj = None
+            self._last_change_obj_valid = True
+
+        return self._last_change_obj
 
     @property
     def last_change(self):
         '''
         Returns date of last change done in Weblate.
         '''
-        try:
-            return self.change_set.content()[0].timestamp
-        except IndexError:
+        if self.last_change_obj is None:
             return None
+        return self.last_change_obj.timestamp
 
     def commit_pending(self, request, author=None, skip_push=False):
         '''
@@ -814,6 +825,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Push if we should
         if not skip_push:
             self.subproject.push_if_needed(request)
+
+        self._last_change_obj_valid = False
 
         return True
 
