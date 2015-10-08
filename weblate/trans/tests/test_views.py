@@ -649,21 +649,6 @@ class EditTest(ViewTestCase):
         self.assertFalse(self.subproject.repo_needs_push())
         self.assertFalse(self.subproject.project.repo_needs_push())
 
-    def test_auto(self):
-        '''
-        Tests for automatic translation.
-        '''
-        # Need extra power
-        self.user.is_superuser = True
-        self.user.save()
-
-        # Default params
-        url = reverse('auto_translation', kwargs=self.kw_translation)
-        response = self.client.post(
-            url
-        )
-        self.assertRedirects(response, self.translation_url)
-
     def test_fuzzy(self):
         '''
         Test for fuzzy flag handling.
@@ -964,3 +949,20 @@ class SourceStringsTest(ViewTestCase):
             reverse('show_source', kwargs=self.kw_subproject)
         )
         self.assertContains(response, 'Test/Test')
+
+
+class AutoTranslationTest(ViewTestCase):
+    def test_auto(self):
+        '''
+        Tests for automatic translation.
+        '''
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+
+        # Default params
+        url = reverse('auto_translation', kwargs=self.kw_translation)
+        response = self.client.post(
+            url
+        )
+        self.assertRedirects(response, self.translation_url)
