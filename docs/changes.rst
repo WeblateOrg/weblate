@@ -7,6 +7,7 @@ weblate 2.5
 Released on ? 2015.
 
 * Fixed automatic translation for project owners.
+* Improved performance of commit and push operations.
 
 weblate 2.4
 -----------
