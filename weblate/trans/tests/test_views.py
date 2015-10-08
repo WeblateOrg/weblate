@@ -984,17 +984,14 @@ class AutoTranslationTest(ViewTestCase):
         '''
         Tests for automatic translation with different content.
         '''
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
-        url = reverse(
-            'auto_translation',
-            kwargs={'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
-        )
-        response = self.client.post(
-            url
-        )
+        params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
+        url = reverse('auto_translation', kwargs=params)
+        response = self.client.post(url)
+        self.assertRedirects(response, reverse('translation', kwargs=params))
         # Check we've translated something
         translation = self.subproject2.translation_set.get(language_code='cs')
         self.assertEqual(translation.translated, 1)
