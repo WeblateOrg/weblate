@@ -828,10 +828,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.__git_commit(author, timestamp, sync)
 
         # Push if we should
-        if (self.subproject.project.push_on_commit and
-                not skip_push and
-                self.can_push()):
-            self.subproject.do_push(request, force_commit=False)
+        if not skip_push:
+            self.subproject.push_if_needed(request)
 
         return True
 
