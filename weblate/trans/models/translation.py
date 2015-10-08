@@ -802,7 +802,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         translation rescan will be needed)
         '''
         # Is there something for commit?
-        if not self.repo_needs_commit() and not force_new:
+        if not force_new and not self.repo_needs_commit():
             return False
 
         # Can we delay commit?
