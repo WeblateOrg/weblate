@@ -728,13 +728,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             ret = False
 
         # Push after possible merge
-        if (self.repo_needs_push() and
-                ret and
-                self.project.push_on_commit and
-                self.can_push()):
-            self.do_push(request, force_commit=False, do_update=False)
+        if ret:
+            self.push_if_needed(request, do_update=False)
 
         return ret
+
+    def push_if_needed(self, request, do_update=True):
+        """Wrapper to push if needed
+
+        Checks for:
+
+        * Enabled push on commit
+        * Configured push
+        * There is something to push
+        """
+        if not self.project.push_on_commit:
+            return False
+        if not self.can_push():
+            return False
+        if self.repo_needs_push():
+            return self.do_push(
+                request, force_commit=False, do_update=do_update
+            )
 
     def do_push(self, request, force_commit=True, do_update=True):
         '''
