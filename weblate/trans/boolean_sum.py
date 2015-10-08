@@ -33,6 +33,8 @@ def get_template():
     '''
     if 'psycopg2' in settings.DATABASES['default']['ENGINE']:
         return '%(function)s(%(field)s::int)'
+    if 'postgre' in settings.DATABASES['default']['ENGINE']:
+        return '%(function)s(%(field)s::int)'
     return '%(function)s(%(field)s)'
 
 
