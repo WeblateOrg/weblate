@@ -705,6 +705,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Commits any pending changes.
         '''
+        self.log_info('check commit', author)
         # Get author of last changes
         last = self.get_last_author(True)
 
