@@ -679,11 +679,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     @property
     def last_change_obj(self):
+        """Cached getter for last content change."""
         if not self._last_change_obj_valid:
-            try:
-                self._last_change_obj = self.change_set.content()[0]
-            except IndexError:
+            changes = self.change_set.content()
+
+            if changes.exists():
+                self._last_change_obj = changes.select_related('author')[0]
+            else:
                 self._last_change_obj = None
+
             self._last_change_obj_valid = True
 
         return self._last_change_obj
