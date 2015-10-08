@@ -733,7 +733,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         return ret
 
-    def push_if_needed(self, request, do_update=True):
+    def push_if_needed(self, request, do_update=True, on_commit=True):
         """Wrapper to push if needed
 
         Checks for:
@@ -742,14 +742,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         * Configured push
         * There is something to push
         """
-        if not self.project.push_on_commit:
+        if on_commit and not self.project.push_on_commit:
             return False
         if not self.can_push():
             return False
-        if self.repo_needs_push():
-            return self.do_push(
-                request, force_commit=False, do_update=do_update
-            )
+        if not self.repo_needs_push():
+            return False
+        return self.do_push(
+            request, force_commit=False, do_update=do_update
+        )
 
     def do_push(self, request, force_commit=True, do_update=True):
         '''
