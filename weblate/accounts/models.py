@@ -57,6 +57,21 @@ def send_mails(mails):
         report_error(error, sys.exc_info())
 
 
+def get_author_name(user, email=True):
+    """Returns formatted author name with email."""
+    # Get full name from database
+    full_name = user.first_name
+
+    # Use username if full name is empty
+    if full_name == '':
+        full_name = user.username
+
+    # Add email if we are asked for it
+    if not email:
+        return full_name
+    return '%s <%s>' % (full_name, user.email)
+
+
 def notify_merge_failure(subproject, error, status):
     '''
     Notification on merge failure.

@@ -44,7 +44,7 @@ from weblate.trans.util import translation_percent, split_plural
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.trans.boolean_sum import BooleanSum
-from weblate.accounts.models import notify_new_string
+from weblate.accounts.models import notify_new_string, get_author_name
 from weblate.trans.models.changes import Change
 
 
@@ -669,7 +669,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         Returns last autor of change done in Weblate.
         '''
         try:
-            return self.get_author_name(
+            return get_author_name(
                 self.change_set.content()[0].author,
                 email
             )
@@ -701,22 +701,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self.git_commit(
             request, last, self.last_change, True, True, skip_push
         )
-
-    def get_author_name(self, user, email=True):
-        '''
-        Returns formatted author name with email.
-        '''
-        # Get full name from database
-        full_name = user.first_name
-
-        # Use username if full name is empty
-        if full_name == '':
-            full_name = user.username
-
-        # Add email if we are asked for it
-        if not email:
-            return full_name
-        return '%s <%s>' % (full_name, user.email)
 
     def get_commit_message(self):
         '''
@@ -871,7 +855,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 self.store.add_unit(pounit)
 
             # We need to update backend now
-            author = self.get_author_name(user)
+            author = get_author_name(user)
 
             # Update po file header
             po_revision_date = (
@@ -1183,7 +1167,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Optionally set authorship
         if author is None:
-            author = self.get_author_name(request.user)
+            author = get_author_name(request.user)
 
         # List translations we should process
         # Filter out those who don't want automatic update, but keep ourselves

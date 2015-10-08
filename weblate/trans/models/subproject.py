@@ -59,7 +59,7 @@ from weblate.appsettings import (
     HIDE_REPO_CREDENTIALS,
     DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
 )
-from weblate.accounts.models import notify_merge_failure
+from weblate.accounts.models import notify_merge_failure, get_author_name
 from weblate.trans.models.changes import Change
 
 
@@ -1523,7 +1523,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         translation.git_commit(
             request,
-            translation.get_author_name(request.user),
+            get_author_name(request.user),
             timezone.now(),
             force_commit=True,
             force_new=True,
