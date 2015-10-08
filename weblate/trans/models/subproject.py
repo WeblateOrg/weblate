@@ -716,7 +716,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return True
 
         # commit possible pending changes
-        self.commit_pending(request)
+        self.commit_pending(request, skip_push=True)
 
         # update local branch
         ret = self.update_branch(request, method=method)
