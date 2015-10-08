@@ -139,24 +139,10 @@ def git_status_project(request, project):
     if not can_see_repository_status(request.user, obj):
         raise PermissionDenied()
 
-    statuses = []
-    included = set()
-
-    not_linked = obj.subproject_set.exclude(repo__startswith='weblate://')
-    linked = obj.subproject_set.filter(repo__startswith='weblate://')
-
-    for subproject in not_linked:
-        statuses.append((
-            subproject.__unicode__(),
-            subproject.repository.status,
-        ))
-        included.add(subproject.get_repo_link_url())
-
-    for subproject in linked.exclude(repo__in=included):
-        statuses.append((
-            subproject.__unicode__(),
-            subproject.repository.status,
-        ))
+    statuses = [
+        (component.__unicode__(), component.repository.status)
+        for component in obj.all_repo_components()
+    ]
 
     return render(
         request,

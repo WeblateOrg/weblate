@@ -447,6 +447,25 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             return None
         return max(changes)
 
+    def all_repo_components(self):
+        """Returns list of all unique VCS components."""
+        result = list(
+            self.subproject_set.exclude(repo__startswith='weblate://')
+        )
+        included = set(
+            [component.get_repo_link_url() for component in result]
+        )
+
+        result.extend(
+            self.subproject_set.filter(
+                repo__startswith='weblate://'
+            ).exclude(
+                repo__in=included
+            )
+        )
+
+        return result
+
 
 @receiver(m2m_changed, sender=User.user_permissions.through)
 def user_permissions_changed(sender, instance, action, **kwargs):
