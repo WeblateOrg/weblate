@@ -281,12 +281,17 @@ class SearchViewTest(ViewTestCase):
 
 class SearchBackendTest(ViewTestCase):
     def do_index_update(self):
-        translation = self.subproject.translation_set.get(language_code='cs')
-        unit = translation.unit_set.get(
-            source='Try Weblate at <http://demo.weblate.org/>!\n'
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
         )
-        update_index_unit(unit, True)
+        unit = self.get_translation().unit_set.get(
+            source='Hello, world!\n',
+        )
+        #
         update_index_unit(unit, False)
+        update_index_unit(unit, True)
+        update_index_unit(unit, True)
 
     @OverrideSettings(OFFLOAD_INDEXING=False)
     def test_add(self):
@@ -297,3 +302,5 @@ class SearchBackendTest(ViewTestCase):
     def test_add_offload(self):
         self.do_index_update()
         self.assertEqual(IndexUpdate.objects.count(), 1)
+        update = IndexUpdate.objects.all()[0]
+        self.assertTrue(update.source, True)
