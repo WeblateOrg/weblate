@@ -875,11 +875,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
         for translation in self.translation_set.all():
-            translation.commit_pending(request, skip_push=skip_push)
+            translation.commit_pending(request, skip_push=True)
 
         # Process linked projects
         for subproject in self.get_linked_childs():
-            subproject.commit_pending(request, True, skip_push=skip_push)
+            subproject.commit_pending(request, True, skip_push=True)
+
+        if not from_link and not skip_push:
+            self.push_if_needed(request)
 
     def notify_merge_failure(self, error, status):
         '''
