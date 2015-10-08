@@ -20,6 +20,7 @@
 
 import httpretty
 from django.test import TestCase
+from django.core.cache import cache
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
@@ -188,6 +189,7 @@ class MachineTranslationTest(TestCase):
 
     @httpretty.activate
     def test_google(self):
+        cache.delete('%s-languages' % GoogleTranslation().mtid)
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/languages',
@@ -204,6 +206,7 @@ class MachineTranslationTest(TestCase):
     @httpretty.activate
     def test_google_invalid(self):
         """Test handling of server failure."""
+        cache.delete('%s-languages' % GoogleTranslation().mtid)
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/languages',

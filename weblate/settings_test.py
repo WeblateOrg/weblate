@@ -104,6 +104,13 @@ INSTALLED_APPS += (
     'weblate.billing',
 )
 
+# Test GitHub auth
+AUTHENTICATION_BACKENDS = (
+    'weblate.accounts.auth.EmailAuth',
+    'social.backends.github.GithubOAuth2',
+    'weblate.accounts.auth.WeblateUserBackend',
+)
+
 
 class DisableMigrations(object):
     """Magic to disable migrations"""

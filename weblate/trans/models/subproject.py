@@ -705,7 +705,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Wrapper for doing repository update and pushing them to translations.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.do_update(request)
+            return self.linked_subproject.do_update(request, method=method)
 
         # pull remote
         if not self.update_remote_branch():
@@ -716,7 +716,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return True
 
         # commit possible pending changes
-        self.commit_pending(request)
+        self.commit_pending(request, skip_push=True)
 
         # update local branch
         ret = self.update_branch(request, method=method)
@@ -757,7 +757,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Wrapper for pushing changes to remote repo.
         '''
         if self.is_repo_link:
-            return self.linked_subproject.do_push(request)
+            return self.linked_subproject.do_push(
+                request, force_commit=force_commit, do_update=do_update
+            )
 
         # Do we have push configured
         if not self.can_push():
@@ -906,7 +908,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Updates current branch to match remote (if possible).
         '''
         if self.is_repo_link:
-            return self.linked_subproject.update_branch(request)
+            return self.linked_subproject.update_branch(request, method=method)
 
         if method is None:
             method = self.merge_style
