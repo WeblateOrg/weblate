@@ -345,16 +345,15 @@ class FileUnit(object):
         self.unit.markfuzzy(fuzzy)
 
 
-class TSUnit(FileUnit):
+class MonolingualIDUnit(FileUnit):
     def get_context(self):
         if self.template is not None:
-            # Monolingual JSON files
             return self.template.getid()
         else:
             return self.mainunit.getcontext()
 
 
-class JSONUnit(FileUnit):
+class MonolingualSimpleUnit(MonolingualIDUnit):
     def get_locations(self):
         return ''
 
@@ -362,13 +361,6 @@ class JSONUnit(FileUnit):
         if self.template is None:
             return self.mainunit.getid().lstrip('.')
         return get_string(self.template.target)
-
-    def get_context(self):
-        if self.template is not None:
-            # Monolingual JSON files
-            return self.template.getid()
-        else:
-            return self.mainunit.getcontext()
 
     def is_translatable(self):
         return True
@@ -889,7 +881,7 @@ class TSFormat(FileFormat):
     format_id = 'ts'
     loader = ('ts2', 'tsfile')
     autoload = ('.ts',)
-    unit_class = TSUnit
+    unit_class = MonolingualIDUnit
 
 
 @register_fileformat
@@ -1046,7 +1038,7 @@ class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
     loader = ('weblate.trans.aresource', 'JsonFile')
-    unit_class = JSONUnit
+    unit_class = MonolingualSimpleUnit
     autoload = ('.json',)
 
     @classmethod
@@ -1086,7 +1078,7 @@ class CSVFormat(FileFormat):
     name = _('CSV file')
     format_id = 'csv'
     loader = ('csvl10n', 'csvfile')
-    unit_class = JSONUnit
+    unit_class = MonolingualSimpleUnit
     autoload = ('.csv',)
 
     @property
