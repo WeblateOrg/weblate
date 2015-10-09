@@ -54,6 +54,7 @@ from weblate.accounts.captcha import (
 from weblate.accounts import avatar
 from weblate.accounts.middleware import RequireLoginMiddleware
 from weblate.accounts.models import VerifiedEmail
+import weblate.accounts.forms
 
 from weblate.trans.tests.test_views import ViewTestCase, RegistrationTestMixin
 from weblate.trans.tests.utils import get_test_file
@@ -972,3 +973,28 @@ class RemoveAcccountTest(ViewTestCase):
         self.test_removal()
         # Changes should be committed
         self.assertFalse(self.subproject.repo_needs_commit())
+
+
+class FormTest(TestCase):
+    def sort_tester(self):
+        result = weblate.accounts.forms.sort_choices(
+            ((2, 'zkouška'), (3, 'zkouzka'), (1, 'zkouaka'))
+        )
+        self.assertEqual(
+            [1, 2, 3],
+            [x[0] for x in result]
+        )
+
+    def test_sort_pyuca(self):
+        if not weblate.accounts.forms.HAS_PYUCA:
+            raise SkipTest('pyuca not installed')
+        self.sort_tester()
+
+    def test_sort_fallback(self):
+        backup = weblate.accounts.forms.HAS_PYUCA
+        try:
+            weblate.accounts.forms.HAS_PYUCA = False
+
+            self.sort_tester()
+        finally:
+            weblate.accounts.forms.HAS_PYUCA = backup
