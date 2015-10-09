@@ -27,7 +27,12 @@ from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.models import SubProject
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.contrib.auth.models import User
 from weblate.runner import main
+from weblate.trans.tests.utils import get_test_file
+from weblate.accounts.models import Profile
+
+TEST_PO = get_test_file('cs.po')
 
 
 class RunnerTest(TestCase):
@@ -389,4 +394,43 @@ class BenchmarkCommandTest(RepoTestCase):
     def test_benchmark(self):
         call_command(
             'benchmark', 'test', 'weblate://test/test', 'po/*.po'
+        )
+
+
+class SuggesionCommandTest(RepoTestCase):
+    '''
+    Test suggestion addding.
+    '''
+    def setUp(self):
+        super(SuggesionCommandTest, self).setUp()
+        self.subproject = self.create_subproject()
+
+    def test_add_suggestions(self):
+        user = User.objects.create_user(
+            'testuser',
+            'noreply@weblate.org',
+            'testpassword'
+        )
+        Profile.objects.create(user=user)
+        call_command(
+            'add_suggestions', 'test', 'test', 'cs', TEST_PO,
+            author=user.email
+        )
+        translation = self.subproject.translation_set.get(language_code='cs')
+        self.assertEqual(translation.have_suggestion, 1)
+        profile = Profile.objects.get(user__email=user.email)
+        self.assertEqual(profile.suggested, 1)
+
+    def test_missing_user(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'add_suggestions', 'test', 'test', 'cs', TEST_PO,
+        )
+
+    def test_missing_project(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'add_suggestions', 'test', 'xxx', 'cs', TEST_PO,
         )

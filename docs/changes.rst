@@ -8,6 +8,7 @@ Released on ? 2015.
 
 * Fixed automatic translation for project owners.
 * Improved performance of commit and push operations.
+* New management command to add suggestions from command line.
 
 weblate 2.4
 -----------

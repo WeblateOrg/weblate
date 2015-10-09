@@ -11,6 +11,23 @@ Management commands
 
 The ./manage.py is extended with following commands:
 
+add_suggestions <project> <component> <language> <file>
+-------------------------------------------------------
+
+.. django-admin:: add_suggesstions
+
+.. versionaddded:: 2.5
+
+Imports translation file as a suggestions to given translation.
+
+You should specify existing user using ``--author`` parameter.
+
+Example:
+
+.. code-block:: sh
+
+    ./manage.py --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
+
 changesite
 ----------
 
