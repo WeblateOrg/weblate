@@ -213,6 +213,13 @@ class RepoTestCase(TestCase):
             'ts{0}/*.ts'.format(suffix),
         )
 
+    def create_ts_mono(self):
+        return self._create_subproject(
+            'ts',
+            'ts-mono/*.ts',
+            'ts-mono/en.ts',
+        )
+
     def create_iphone(self):
         return self._create_subproject(
             'strings',
@@ -434,6 +441,10 @@ class SubProjectTest(RepoTestCase):
         self.assertFalse(unit.translated)
         self.assertTrue(unit.fuzzy)
         self.assertEqual(unit.target, 'Thanks')
+
+    def test_create_ts_mono(self):
+        project = self.create_ts_mono()
+        self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_po_pot(self):
         project = self._create_subproject(
