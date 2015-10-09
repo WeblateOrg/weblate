@@ -1149,7 +1149,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ret = True
 
             # Add suggestion
-            Suggestion.objects.add(dbunit, unit.get_target(), request)
+            if dbunit.target != unit.get_target():
+                Suggestion.objects.add(dbunit, unit.get_target(), request)
 
         # Update suggestion count
         if ret:
