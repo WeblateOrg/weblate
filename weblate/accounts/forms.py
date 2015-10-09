@@ -394,10 +394,7 @@ class CaptchaRegistrationForm(RegistrationForm):
                 _('Please check your math and try again.')
             )
 
-        if 'email' in self.cleaned_data:
-            mail = self.cleaned_data['email']
-        else:
-            mail = 'NONE'
+        mail = self.cleaned_data.get('email', 'NONE')
 
         LOGGER.info(
             'Passed captcha for %s (%s = %s)',
