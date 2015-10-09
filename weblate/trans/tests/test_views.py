@@ -774,6 +774,13 @@ class EditTSTest(EditTest):
         return self.create_ts()
 
 
+class EditTSMonoTest(EditTest):
+    has_plurals = False
+
+    def create_subproject(self):
+        return self.create_ts_mono()
+
+
 class ZenViewTest(ViewTestCase):
     def test_zen(self):
         response = self.client.get(
