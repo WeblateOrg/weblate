@@ -345,6 +345,15 @@ class FileUnit(object):
         self.unit.markfuzzy(fuzzy)
 
 
+class TSUnit(FileUnit):
+    def get_context(self):
+        if self.template is not None:
+            # Monolingual JSON files
+            return self.template.getid()
+        else:
+            return self.mainunit.getcontext()
+
+
 class JSONUnit(FileUnit):
     def get_locations(self):
         return ''
@@ -880,6 +889,7 @@ class TSFormat(FileFormat):
     format_id = 'ts'
     loader = ('ts2', 'tsfile')
     autoload = ('.ts',)
+    unit_class = TSUnit
 
 
 @register_fileformat
