@@ -18,9 +18,12 @@ add_suggestions <project> <component> <language> <file>
 
 .. versionaddded:: 2.5
 
-Imports translation file as a suggestions to given translation.
+Imports translation from the file as a suggestions to given translation. It
+skips translations which are same as existing ones, only different ones are
+added.
 
-You should specify existing user using ``--author`` parameter.
+You should specify existing user using ``--author`` parameter (you can create
+one in the admin interface if needed).
 
 Example:
 
