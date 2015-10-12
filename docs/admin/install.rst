@@ -211,6 +211,8 @@ You should also take care when running :ref:`manage`, as they should be run
 under same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
+.. seealso:: :ref:`static-files`
+
 .. _database-setup:
 
 Creating database for Weblate
