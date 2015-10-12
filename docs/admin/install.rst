@@ -371,7 +371,7 @@ options:
 
     .. seealso:: `SERVER_EMAIL documentation`_
 
-.. _database-setup:
+.. _tables-setup:
 
 Filling up the database
 -----------------------

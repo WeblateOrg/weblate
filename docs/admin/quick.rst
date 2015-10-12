@@ -23,7 +23,7 @@ Installing from sources
 #. Create database which will be used by Weblate, :ref:`database-setup`.
 
 #. Build Django tables, static files and initial data (see
-   :ref:`database-setup` and :ref:`static-files`):
+   :ref:`tables-setup` and :ref:`static-files`):
 
    .. code-block:: sh
 
