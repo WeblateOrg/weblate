@@ -369,6 +369,8 @@ options:
 
     .. seealso:: `SERVER_EMAIL documentation`_
 
+.. _database-setup:
+
 Filling up the database
 -----------------------
 
