@@ -20,7 +20,7 @@ Installing from sources
    connection (possibly adding user and creating the database). Check
    :ref:`config` for Weblate specific configuration options.
 
-#. Create database which will be used by Weblate, :ref:`database-setup`.
+#. Create database which will be used by Weblate, see :ref:`database-setup`.
 
 #. Build Django tables, static files and initial data (see
    :ref:`tables-setup` and :ref:`static-files`):
