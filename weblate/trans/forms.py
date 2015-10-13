@@ -358,6 +358,12 @@ class SimpleUploadForm(forms.Form):
         required=False,
         initial=True,
     )
+    merge_comments = forms.BooleanField(
+        label=_('Merge translation comments'),
+        help_text=_('Merges comments into the translation.'),
+        required=False,
+        initial=True,
+    )
 
 
 class UploadForm(SimpleUploadForm):
