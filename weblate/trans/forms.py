@@ -821,9 +821,6 @@ class ReportDownloadForm(forms.Form):
             ('json', _('JSON'))
         ),
     )
-
-
-class CreditsForm(ReportDownloadForm):
     start_date = forms.DateField(
         label=_('Starting date'),
         initial=date(2000, 1, 1),
@@ -836,3 +833,19 @@ class CreditsForm(ReportDownloadForm):
             format='%Y-%m-%d'
         )
     )
+    end_date = forms.DateField(
+        label=_('Ending date'),
+        initial=date(2100, 1, 1),
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'data-provide': 'datepicker',
+                'data-date-format': 'yyyy-mm-dd',
+            },
+            format='%Y-%m-%d'
+        )
+    )
+
+
+class CreditsForm(ReportDownloadForm):
+    pass

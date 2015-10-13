@@ -30,14 +30,15 @@ from django.core.exceptions import PermissionDenied
 import json
 
 
-def generate_credits(component, start_date):
+def generate_credits(component, start_date, end_date):
     """Generates credits data for given component."""
 
     result = []
 
     for translation in component.translation_set.all():
         authors = Change.objects.content().filter(
-            translation=translation
+            translation=translation,
+            timestamp__range=(start_date, end_date),
         ).values_list(
             'author__email', 'author__first_name'
         )
@@ -62,7 +63,11 @@ def get_credits(request, project, subproject):
     if not form.is_valid():
         return redirect(obj)
 
-    data = generate_credits(obj, form.cleaned_data['start_date'])
+    data = generate_credits(
+        obj,
+        form.cleaned_data['start_date'],
+        form.cleaned_data['end_date'],
+    )
 
     if form.cleaned_data['style'] == 'json':
         return HttpResponse(

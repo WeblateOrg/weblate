@@ -42,7 +42,8 @@ class ReportsTest(ViewTestCase):
     def test_credits_empty(self):
         data = generate_credits(
             self.subproject,
-            timezone.now() - timedelta(days=1)
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1)
         )
         self.assertEqual(data, [])
 
@@ -50,7 +51,8 @@ class ReportsTest(ViewTestCase):
         self.add_change()
         data = generate_credits(
             self.subproject,
-            timezone.now() - timedelta(days=1)
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1)
         )
         self.assertEqual(
             data,
@@ -68,7 +70,11 @@ class ReportsTest(ViewTestCase):
         self.add_change()
         response = self.client.post(
             reverse('credits', kwargs=self.kw_subproject),
-            {'style': 'json', 'start_date': '2000-01-01'},
+            {
+                'style': 'json',
+                'start_date': '2000-01-01',
+                'end_date': '2100-01-01'
+            },
         )
         data = json.loads(response.content)
         self.assertEqual(
@@ -80,7 +86,11 @@ class ReportsTest(ViewTestCase):
         self.add_change()
         response = self.client.post(
             reverse('credits', kwargs=self.kw_subproject),
-            {'style': 'rst', 'start_date': '2000-01-01'},
+            {
+                'style': 'rst',
+                'start_date': '2000-01-01',
+                'end_date': '2100-01-01'
+            },
         )
         self.assertEqual(
             response.content,
