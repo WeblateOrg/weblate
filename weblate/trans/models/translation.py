@@ -1083,7 +1083,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_store(self, request, author, store2, overwrite, merge_header,
-                    add_fuzzy, fuzzy):
+                    add_fuzzy, fuzzy, merge_comments=False):
         '''
         Merges translate-toolkit store into current translation.
         '''
@@ -1116,7 +1116,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     continue
 
                 # Actually update translation
-                unit1.merge(unit2.unit, overwrite=True, comments=False)
+                unit1.merge(unit2.unit, overwrite=True, comments=merge_comments)
 
                 # Handle
                 if add_fuzzy or set_fuzzy:
