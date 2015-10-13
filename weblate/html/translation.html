@@ -56,6 +56,9 @@
       {% if autoform %}
       <li><a href="#auto" data-toggle="tab">{% trans "Automatic translation" %}</a></li>
       {% endif %}
+      {% if user_can_view_reports %}
+      <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
+      {% endif %}
     </ul>
   </li>
 {% if enable_sharing %}
@@ -180,6 +183,24 @@
 <p>{% trans "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}</p>
 {% csrf_token %}
 {{ autoform|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+</div>
+{% endif %}
+
+{% if user_can_view_reports %}
+<div class="tab-pane" id="reports">
+<form action="{% url 'credits' project=object.subproject.project.slug subproject=object.subproject.slug %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Credits" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "Credits list all translators who have contributed to this component in given time period. It can be useful for including in your documentation or application to thanks to translators." %}</p>
+{% csrf_token %}
+{{ credits_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Process" %}" class="btn btn-default" />
