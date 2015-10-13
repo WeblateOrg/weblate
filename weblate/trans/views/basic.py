@@ -472,8 +472,4 @@ def new_language(request, project, subproject):
             )
         )
 
-    return redirect(
-        'subproject',
-        subproject=obj.slug,
-        project=obj.project.slug
-    )
+    return redirect(obj)
