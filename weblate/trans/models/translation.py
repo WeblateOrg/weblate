@@ -1116,7 +1116,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     continue
 
                 # Actually update translation
-                unit1.merge(unit2.unit, overwrite=True, comments=merge_comments)
+                unit1.merge(
+                    unit2.unit,
+                    overwrite=True,
+                    comments=merge_comments
+                )
 
                 # Handle
                 if add_fuzzy or set_fuzzy:
