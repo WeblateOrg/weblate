@@ -263,6 +263,7 @@ def show_subproject(request, project, subproject):
             'project': obj.project,
             'translations': obj.translation_set.enabled(),
             'show_language': 1,
+            'reports_form': ReportsForm(),
             'last_changes': last_changes,
             'last_changes_url': urlencode(
                 {'subproject': obj.slug, 'project': obj.project.slug}
@@ -314,7 +315,6 @@ def show_translation(request, project, subproject, lang):
             'search_form': search_form,
             'review_form': review_form,
             'last_changes': last_changes,
-            'reports_form': ReportsForm(),
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,
             'other_translations': Translation.objects.filter(
