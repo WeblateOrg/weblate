@@ -194,19 +194,38 @@
 
 {% if user_can_view_reports %}
 <div class="tab-pane" id="reports">
+<div class="row">
+<div class="col-lg-6">
 <form action="{% url 'credits' project=object.subproject.project.slug subproject=object.subproject.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Credits" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "Credits list all translators who have contributed to this component in given time period. It can be useful for including in your documentation or application to thanks to translators." %}</p>
 {% csrf_token %}
-{{ credits_form|crispy }}
+{{ reports_form|crispy }}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Generate" %}" class="btn btn-default" />
 </div>
 </div>
 </form>
+</div>
+<div class="col-lg-6">
+<form action="{% url 'counts' project=object.subproject.project.slug subproject=object.subproject.slug %}" method="post" enctype="multipart/form-data">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Contributor stats" %}</h4></div>
+<div class="panel-body">
+<p>{% trans "Reports number of strings and words translated by each translator." %}</p>
+{% csrf_token %}
+{{ reports_form|crispy }}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Generate" %}" class="btn btn-default" />
+</div>
+</div>
+</form>
+</div>
+</div>
 </div>
 {% endif %}
 

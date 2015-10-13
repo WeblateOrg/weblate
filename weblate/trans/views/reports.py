@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.models.changes import Change
-from weblate.trans.forms import CreditsForm
+from weblate.trans.forms import ReportsForm
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.permissions import can_view_reports
 from django.http import HttpResponse
@@ -58,7 +58,7 @@ def get_credits(request, project, subproject):
     if not can_view_reports(request.user, obj.project):
         raise PermissionDenied()
 
-    form = CreditsForm(request.POST)
+    form = ReportsForm(request.POST)
 
     if not form.is_valid():
         return redirect(obj)
@@ -159,7 +159,7 @@ def get_counts(request, project, subproject):
     if not can_view_reports(request.user, obj.project):
         raise PermissionDenied()
 
-    form = CreditsForm(request.POST)
+    form = ReportsForm(request.POST)
 
     if not form.is_valid():
         return redirect(obj)
@@ -177,7 +177,10 @@ def get_counts(request, project, subproject):
         )
 
     if form.cleaned_data['style'] == 'html':
-        start = '<table>'
+        start = (
+            '<table>\n<tr><th>Email</th><th>Name</th>'
+            '<th>Words</th><th>Count</th></tr>'
+        )
         row_start = '<tr>'
         cell_format = u'<td>{0}</td>\n'
         row_end = '</tr>'

@@ -812,7 +812,7 @@ class UserManageForm(forms.Form):
             raise ValidationError(_('More users matched!'))
 
 
-class ReportDownloadForm(forms.Form):
+class ReportsForm(forms.Form):
     style = forms.ChoiceField(
         label=_('Report format'),
         help_text=_('Choose file format for the report'),
@@ -846,7 +846,3 @@ class ReportDownloadForm(forms.Form):
             format='%Y-%m-%d'
         )
     )
-
-
-class CreditsForm(ReportDownloadForm):
-    pass
