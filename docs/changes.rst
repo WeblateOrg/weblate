@@ -12,6 +12,7 @@ Released on ? 2015.
 * Added support for merging comments on file upload.
 * Added support for some GNU extensions to C printf format.
 * Documentation improvements.
+* Added support for generating translator credits.
 
 weblate 2.4
 -----------
