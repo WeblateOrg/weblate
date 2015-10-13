@@ -73,3 +73,14 @@ class ReportsTest(ViewTestCase):
             credits,
             [{'Czech': [['noreply@weblate.org', 'Weblate Test']]}]
         )
+
+    def test_credits_view_rst(self):
+        self.add_change()
+        response = self.client.post(
+            reverse('credits', kwargs=self.kw_subproject),
+            {'style': 'rst', 'start_date': '2000-01-01'},
+        )
+        self.assertEqual(
+            response.content,
+            '* Czech\n\n    * Weblate Test <noreply@weblate.org>\n'
+        )

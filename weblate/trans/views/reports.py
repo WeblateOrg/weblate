@@ -61,3 +61,19 @@ def get_credits(request, project, subproject):
             json.dumps(credits),
             content_type='application/json'
         )
+
+    result = []
+
+    for language in credits:
+        name, translators = language.items()[0]
+        result.append(u'* {0}\n'.format(name))
+        result.append('\n'.join(
+            ['    * {1} <{0}>'.format(*t) for t in translators]
+        ))
+
+    result.append('')
+
+    return HttpResponse(
+        '\n'.join(result),
+        content_type='text/plain',
+    )
