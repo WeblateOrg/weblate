@@ -73,7 +73,8 @@ class ViewTestCase(RepoTestCase):
         self.user = User.objects.create_user(
             'testuser',
             'noreply@weblate.org',
-            'testpassword'
+            'testpassword',
+            first_name='Weblate Test',
         )
         # Create profile for him
         Profile.objects.create(user=self.user)
