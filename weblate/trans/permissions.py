@@ -269,3 +269,11 @@ def can_automatic_translation(user, project):
     Checks whether user can do automatic translation on given project.
     """
     return check_permission(user, project, 'trans.automatic_translation')
+
+
+@cache_permission
+def can_view_reports(user, project):
+    """
+    Checks whether user can view reports on given project.
+    """
+    return check_permission(user, project, 'trans.view_reports')

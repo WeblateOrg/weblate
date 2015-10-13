@@ -796,6 +796,7 @@ def create_groups(update):
         Permission.objects.get(codename='edit_flags'),
         Permission.objects.get(codename='manage_acl'),
         Permission.objects.get(codename='download_changes'),
+        Permission.objects.get(codename='view_reports'),
     )
 
     group, created = Group.objects.get_or_create(name='Managers')

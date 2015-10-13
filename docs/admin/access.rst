@@ -87,6 +87,8 @@ Can edit check flags [Managers, Owners]
     Can adjust source string check flags
 Can download changes [Managers, Owners]
     Can download changes in a CSV format.
+Can display reports [Managers, Owners]
+    Can display detailed translation reports.
 
 .. _acl:
 

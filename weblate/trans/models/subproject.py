@@ -430,6 +430,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         permissions = (
             ('lock_subproject', "Can lock translation for translating"),
             ('can_see_git_repository', "Can see VCS repository URL"),
+            ('view_reports', "Can display reports"),
         )
         app_label = 'trans'
         verbose_name = ugettext_lazy('Component')

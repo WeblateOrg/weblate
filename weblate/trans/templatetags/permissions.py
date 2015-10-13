@@ -121,3 +121,8 @@ def can_manage_acl(user, project):
 @register.assignment_tag
 def can_download_changes(user, project):
     return weblate.trans.permissions.can_download_changes(user, project)
+
+
+@register.assignment_tag
+def can_view_reports(user, project):
+    return weblate.trans.permissions.can_view_reports(user, project)
