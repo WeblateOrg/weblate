@@ -25,8 +25,10 @@ from django.shortcuts import resolve_url
 from django.conf import settings
 from importlib import import_module
 import os
+import sys
 import urlparse
 import hashlib
+import traceback
 from weblate.logger import LOGGER
 from weblate.trans.data import data_dir
 
@@ -226,3 +228,7 @@ def report_error(error, exc_info, request=None, extra_data=None):
         error.__class__.__name__,
         str(error)
     )
+
+    # Print error when running testsuite
+    if sys.argv[1:2] == ['test']:
+        traceback.print_exc()
