@@ -13,6 +13,7 @@ Released on ? 2015.
 * Added support for some GNU extensions to C printf format.
 * Documentation improvements.
 * Added support for generating translator credits.
+* Added support for generating contributor stats.
 
 weblate 2.4
 -----------

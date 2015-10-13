@@ -20,7 +20,7 @@
 
 
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.views.reports import generate_credits
+from weblate.trans.views.reports import generate_credits, generate_counts
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from datetime import timedelta
@@ -101,4 +101,60 @@ class ReportsTest(ViewTestCase):
             '<td><ul><li><a href="mailto:noreply@weblate.org">'
             'Weblate Test</a></li></ul></td>\n</tr>\n'
             '</table>'
+        )
+
+    def test_counts_one(self):
+        self.add_change()
+        data = generate_counts(
+            self.subproject,
+            timezone.now() - timedelta(days=1),
+            timezone.now() + timedelta(days=1)
+        )
+        self.assertEqual(
+            data,
+            [{
+                'count': 1,
+                'name': 'Weblate Test',
+                'words': 2,
+                'email': u'noreply@weblate.org'
+            }]
+        )
+
+    def get_counts(self, style):
+        self.add_change()
+        return self.client.post(
+            reverse('counts', kwargs=self.kw_subproject),
+            {
+                'style': style,
+                'start_date': '2000-01-01',
+                'end_date': '2100-01-01'
+            },
+        )
+
+    def test_counts_view_json(self):
+        response = self.get_counts('json')
+        data = json.loads(response.content)
+        self.assertEqual(
+            data,
+            [{
+                'count': 1,
+                'email': 'noreply@weblate.org',
+                'name': 'Weblate Test',
+                'words': 2
+            }]
+        )
+
+    def test_counts_view_rst(self):
+        response = self.get_counts('rst')
+        self.assertContains(response, 'noreply@weblate.org')
+
+    def test_counts_view_html(self):
+        response = self.get_counts('html')
+        self.assertEqual(
+            response.content,
+            '<table>\n'
+            '<tr>\n<td>Weblate Test</td>\n'
+            '<td>noreply@weblate.org</td>\n'
+            '<td>2</td>\n<td>1</td>\n'
+            '\n</tr>\n</table>'
         )

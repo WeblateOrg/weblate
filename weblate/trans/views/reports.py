@@ -121,3 +121,102 @@ def get_credits(request, project, subproject):
         '\n'.join(result),
         content_type='{0}; charset=utf-8'.format(mime),
     )
+
+
+def generate_counts(component, start_date, end_date):
+    """Generates credits data for given component."""
+
+    result = {}
+
+    for translation in component.translation_set.all():
+        authors = Change.objects.content().filter(
+            translation=translation,
+            timestamp__range=(start_date, end_date),
+        ).values_list(
+            'author__email', 'author__first_name', 'unit__num_words',
+        )
+        for email, name, words in authors:
+            if email not in result:
+                result[email] = {
+                    'name': name,
+                    'email': email,
+                    'words': words,
+                    'count': 1,
+                }
+            else:
+                result[email]['words'] += words
+                result[email]['count'] += 1
+
+    return result.values()
+
+
+@login_required
+@require_POST
+def get_counts(request, project, subproject):
+    """View for work counts"""
+    obj = get_subproject(request, project, subproject)
+
+    if not can_view_reports(request.user, obj.project):
+        raise PermissionDenied()
+
+    form = CreditsForm(request.POST)
+
+    if not form.is_valid():
+        return redirect(obj)
+
+    data = generate_counts(
+        obj,
+        form.cleaned_data['start_date'],
+        form.cleaned_data['end_date'],
+    )
+
+    if form.cleaned_data['style'] == 'json':
+        return HttpResponse(
+            json.dumps(data),
+            content_type='application/json'
+        )
+
+    if form.cleaned_data['style'] == 'html':
+        start = '<table>'
+        row_start = '<tr>'
+        cell_format = u'<td>{0}</td>\n'
+        row_end = '</tr>'
+        mime = 'text/html'
+        end = '</table>'
+    else:
+        heading = ' '.join(['=' * 25] * 4)
+        start = '{0}\n{1:25} {2:25} {3:25} {4:25}\n{0}'.format(
+            heading,
+            'Email',
+            'Name',
+            'Words',
+            'Count'
+        )
+        row_start = ''
+        cell_format = u'{0:25} '
+        row_end = ''
+        mime = 'text/plain'
+        end = heading
+
+    result = []
+
+    result.append(start)
+
+    for item in data:
+        result.append(row_start)
+        result.append(
+            u'{0}{1}{2}{3}'.format(
+                cell_format.format(item['name']),
+                cell_format.format(item['email']),
+                cell_format.format(item['words']),
+                cell_format.format(item['count']),
+            )
+        )
+        result.append(row_end)
+
+    result.append(end)
+
+    return HttpResponse(
+        '\n'.join(result),
+        content_type='{0}; charset=utf-8'.format(mime),
+    )

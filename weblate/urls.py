@@ -191,6 +191,11 @@ urlpatterns = patterns(
         name='credits',
     ),
     url(
+        r'^counts/' + SUBPROJECT + '$',
+        'weblate.trans.views.reports.get_counts',
+        name='counts',
+    ),
+    url(
         r'^new-lang/' + SUBPROJECT + '$',
         'weblate.trans.views.basic.new_language',
         name='new-language',
