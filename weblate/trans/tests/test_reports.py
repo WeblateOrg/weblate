@@ -153,6 +153,8 @@ class ReportsTest(ViewTestCase):
         self.assertEqual(
             response.content,
             '<table>\n'
+            '<tr><th>Email</th><th>Name</th><th>Words</th><th>Count</th></tr>'
+            '\n'
             '<tr>\n<td>Weblate Test</td>\n'
             '<td>noreply@weblate.org</td>\n'
             '<td>2</td>\n<td>1</td>\n'
