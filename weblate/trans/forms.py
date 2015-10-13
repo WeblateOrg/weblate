@@ -555,6 +555,27 @@ class SearchForm(forms.Form):
             return filter_name
 
 
+class SiteSearchForm(SearchForm):
+    """Site wide search form"""
+    lang = forms.ChoiceField(
+        label=_('Language'),
+        required=False,
+        choices=[('', _('All languages'))],
+    )
+
+    def __init__(self, *args, **kwargs):
+        '''
+        Dynamically generate choices for used languages
+        in project
+        '''
+        super(SiteSearchForm, self).__init__(*args, **kwargs)
+
+        self.fields['lang'].choices += [
+            (l.code, l.__unicode__())
+            for l in Language.objects.have_translation()
+        ]
+
+
 class MergeForm(ChecksumForm):
     '''
     Simple form for merging translation of two units.
