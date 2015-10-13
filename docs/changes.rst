@@ -14,6 +14,7 @@ Released on ? 2015.
 * Documentation improvements.
 * Added support for generating translator credits.
 * Added support for generating contributor stats.
+* Site wide search can search only in one language.
 
 weblate 2.4
 -----------

@@ -34,7 +34,7 @@ from weblate.trans.models import (
 from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
-    get_upload_form, SearchForm,
+    get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, NewLanguageForm,
     UserManageForm, ReportsForm,
 )
@@ -96,7 +96,7 @@ def home(request):
             'top_suggestions': top_suggestions.select_related('user'),
             'last_changes': last_changes,
             'last_changes_url': '',
-            'search_form': SearchForm(),
+            'search_form': SiteSearchForm(),
             'whiteboard_messages': wb_messages,
         }
     )
@@ -106,7 +106,7 @@ def search(request):
     """
     Performs site-wide search on units.
     """
-    search_form = SearchForm(request.GET)
+    search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
     }
