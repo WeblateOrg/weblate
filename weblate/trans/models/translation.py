@@ -1083,7 +1083,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_store(self, request, author, store2, overwrite, merge_header,
-                    add_fuzzy, fuzzy, merge_comments=False):
+                    add_fuzzy, fuzzy, merge_comments):
         '''
         Merges translate-toolkit store into current translation.
         '''
@@ -1163,7 +1163,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     merge_header=True, method='', fuzzy=''):
+                     merge_header=True, method='', fuzzy='',
+                     merge_comments=False):
         '''
         Top level handler for file uploads.
         '''
@@ -1224,7 +1225,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                         overwrite,
                         merge_header,
                         (method == 'fuzzy'),
-                        fuzzy
+                        fuzzy,
+                        merge_comments=merge_comments,
                     )
         else:
             # Add as sugestions
