@@ -818,7 +818,8 @@ class ReportDownloadForm(forms.Form):
         help_text=_('Choose file format for the report'),
         choices=(
             ('rst', _('reStructuredText')),
-            ('json', _('JSON'))
+            ('json', _('JSON')),
+            ('html', _('HTML')),
         ),
     )
     start_date = forms.DateField(

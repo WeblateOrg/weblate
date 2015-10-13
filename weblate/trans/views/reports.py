@@ -75,18 +75,49 @@ def get_credits(request, project, subproject):
             content_type='application/json'
         )
 
+    if form.cleaned_data['style'] == 'html':
+        start = '<table>'
+        row_start = '<tr>'
+        language_format = u'<th>{0}</th>'
+        translator_start = '<td><ul>'
+        translator_format = u'<li><a href="mailto:{0}">{1}</a></li>'
+        translator_end = '</ul></td>'
+        row_end = '</tr>'
+        mime = 'text/html'
+        end = '</table>'
+    else:
+        start = ''
+        row_start = ''
+        language_format = u'* {0}\n'
+        translator_start = ''
+        translator_format = u'    * {1} <{0}>'
+        translator_end = ''
+        row_end = ''
+        mime = 'text/plain'
+        end = ''
+
     result = []
+
+    result.append(start)
 
     for language in data:
         name, translators = language.items()[0]
-        result.append(u'* {0}\n'.format(name))
-        result.append('\n'.join(
-            [u'    * {1} <{0}>'.format(*t) for t in translators]
-        ))
+        result.append(row_start)
+        result.append(language_format.format(name))
+        result.append(
+            u'{0}{1}{2}'.format(
+                translator_start,
+                '\n'.join(
+                    [translator_format.format(*t) for t in translators]
+                ),
+                translator_end,
+            )
+        )
+        result.append(row_end)
 
-    result.append('')
+    result.append(end)
 
     return HttpResponse(
         '\n'.join(result),
-        content_type='text/plain; charset=utf-8',
+        content_type='{0}; charset=utf-8'.format(mime),
     )

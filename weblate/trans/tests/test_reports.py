@@ -66,16 +66,19 @@ class ReportsTest(ViewTestCase):
         )
         self.test_credits_one()
 
-    def test_credits_view_json(self):
+    def get_credits(self, style):
         self.add_change()
-        response = self.client.post(
+        return self.client.post(
             reverse('credits', kwargs=self.kw_subproject),
             {
-                'style': 'json',
+                'style': style,
                 'start_date': '2000-01-01',
                 'end_date': '2100-01-01'
             },
         )
+
+    def test_credits_view_json(self):
+        response = self.get_credits('json')
         data = json.loads(response.content)
         self.assertEqual(
             data,
@@ -83,16 +86,19 @@ class ReportsTest(ViewTestCase):
         )
 
     def test_credits_view_rst(self):
-        self.add_change()
-        response = self.client.post(
-            reverse('credits', kwargs=self.kw_subproject),
-            {
-                'style': 'rst',
-                'start_date': '2000-01-01',
-                'end_date': '2100-01-01'
-            },
-        )
+        response = self.get_credits('rst')
         self.assertEqual(
             response.content,
-            '* Czech\n\n    * Weblate Test <noreply@weblate.org>\n'
+            '\n\n* Czech\n\n    * Weblate Test <noreply@weblate.org>\n\n'
+        )
+
+    def test_credits_view_html(self):
+        response = self.get_credits('html')
+        self.assertEqual(
+            response.content,
+            '<table>\n'
+            '<tr>\n<th>Czech</th>\n'
+            '<td><ul><li><a href="mailto:noreply@weblate.org">'
+            'Weblate Test</a></li></ul></td>\n</tr>\n'
+            '</table>'
         )
