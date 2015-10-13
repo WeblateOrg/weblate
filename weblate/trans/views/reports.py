@@ -21,9 +21,12 @@
 from weblate.trans.models.changes import Change
 from weblate.trans.forms import CreditsForm
 from weblate.trans.views.helper import get_subproject
+from weblate.trans.permissions import can_view_reports
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 import json
 
 
@@ -45,10 +48,15 @@ def generate_credits(component, start_date):
     return result
 
 
+@login_required
 @require_POST
 def get_credits(request, project, subproject):
     """View for credits"""
     obj = get_subproject(request, project, subproject)
+
+    if not can_view_reports(request.user, obj.project):
+        raise PermissionDenied()
+
     form = CreditsForm(request.POST)
 
     if not form.is_valid():

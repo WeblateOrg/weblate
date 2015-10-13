@@ -30,6 +30,8 @@ import json
 class ReportsTest(ViewTestCase):
     def setUp(self):
         super(ReportsTest, self).setUp()
+        self.user.is_superuser = True
+        self.user.save()
 
     def add_change(self):
         response = self.edit_unit(
