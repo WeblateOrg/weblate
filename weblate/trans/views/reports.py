@@ -43,7 +43,7 @@ def generate_credits(component, start_date):
         )
         if not authors:
             continue
-        result.append({translation.language.name:  sorted(set(authors))})
+        result.append({translation.language.name: sorted(set(authors))})
 
     return result
 
@@ -62,17 +62,17 @@ def get_credits(request, project, subproject):
     if not form.is_valid():
         return redirect(obj)
 
-    credits = generate_credits(obj, form.cleaned_data['start_date'])
+    data = generate_credits(obj, form.cleaned_data['start_date'])
 
     if form.cleaned_data['style'] == 'json':
         return HttpResponse(
-            json.dumps(credits),
+            json.dumps(data),
             content_type='application/json'
         )
 
     result = []
 
-    for language in credits:
+    for language in data:
         name, translators = language.items()[0]
         result.append(u'* {0}\n'.format(name))
         result.append('\n'.join(

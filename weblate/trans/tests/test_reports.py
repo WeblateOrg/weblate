@@ -34,31 +34,31 @@ class ReportsTest(ViewTestCase):
         self.user.save()
 
     def add_change(self):
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
 
     def test_credits_empty(self):
-        credits = generate_credits(
+        data = generate_credits(
             self.subproject,
             timezone.now() - timedelta(days=1)
         )
-        self.assertEqual(credits, [])
+        self.assertEqual(data, [])
 
     def test_credits_one(self):
         self.add_change()
-        credits = generate_credits(
+        data = generate_credits(
             self.subproject,
             timezone.now() - timedelta(days=1)
         )
         self.assertEqual(
-            credits,
+            data,
             [{'Czech': [('noreply@weblate.org', 'Weblate Test')]}]
         )
 
     def test_credits_more(self):
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete2!\n'
         )
@@ -70,9 +70,9 @@ class ReportsTest(ViewTestCase):
             reverse('credits', kwargs=self.kw_subproject),
             {'style': 'json', 'start_date': '2000-01-01'},
         )
-        credits = json.loads(response.content)
+        data = json.loads(response.content)
         self.assertEqual(
-            credits,
+            data,
             [{'Czech': [['noreply@weblate.org', 'Weblate Test']]}]
         )
 
