@@ -186,6 +186,11 @@ urlpatterns = patterns(
         name='auto_translation',
     ),
     url(
+        r'^credits/' + SUBPROJECT + '$',
+        'weblate.trans.views.reports.get_credits',
+        name='credits',
+    ),
+    url(
         r'^new-lang/' + SUBPROJECT + '$',
         'weblate.trans.views.basic.new_language',
         name='new-language',

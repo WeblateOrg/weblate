@@ -21,8 +21,10 @@
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.reports import generate_credits
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from datetime import timedelta
+import json
 
 
 class ReportsTest(ViewTestCase):
@@ -59,3 +61,15 @@ class ReportsTest(ViewTestCase):
             'Nazdar svete2!\n'
         )
         self.test_credits_one()
+
+    def test_credits_view_json(self):
+        self.add_change()
+        response = self.client.post(
+            reverse('credits', kwargs=self.kw_subproject),
+            {'style': 'json', 'start_date': '2000-01-01'},
+        )
+        credits = json.loads(response.content)
+        self.assertEqual(
+            credits,
+            [{'Czech': [['noreply@weblate.org', 'Weblate Test']]}]
+        )

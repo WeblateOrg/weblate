@@ -37,6 +37,7 @@ from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
 from urllib import urlencode
+from datetime import date
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 
@@ -809,3 +810,29 @@ class UserManageForm(forms.Form):
             raise ValidationError(_('No matching user found!'))
         except User.MultipleObjectsReturned:
             raise ValidationError(_('More users matched!'))
+
+
+class ReportDownloadForm(forms.Form):
+    style = forms.ChoiceField(
+        label=_('Report format'),
+        help_text=_('Choose file format for the report'),
+        choices=(
+            ('rst', _('reStructuredText')),
+            ('json', _('JSON'))
+        ),
+    )
+
+
+class CreditsForm(ReportDownloadForm):
+    start_date = forms.DateField(
+        label=_('Starting date'),
+        initial=date(2000, 1, 1),
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'data-provide': 'datepicker',
+                'data-date-format': 'yyyy-mm-dd',
+            },
+            format='%Y-%m-%d'
+        )
+    )

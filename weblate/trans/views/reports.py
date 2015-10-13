@@ -19,6 +19,12 @@
 #
 
 from weblate.trans.models.changes import Change
+from weblate.trans.forms import CreditsForm
+from weblate.trans.views.helper import get_subproject
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
+from django.shortcuts import redirect
+import json
 
 
 def generate_credits(component, start_date):
@@ -37,3 +43,21 @@ def generate_credits(component, start_date):
         result.append({translation.language.name:  sorted(set(authors))})
 
     return result
+
+
+@require_POST
+def get_credits(request, project, subproject):
+    """View for credits"""
+    obj = get_subproject(request, project, subproject)
+    form = CreditsForm(request.POST)
+
+    if not form.is_valid():
+        return redirect(obj)
+
+    credits = generate_credits(obj, form.cleaned_data['start_date'])
+
+    if form.cleaned_data['style'] == 'json':
+        return HttpResponse(
+            json.dumps(credits),
+            content_type='application/json'
+        )
