@@ -55,6 +55,7 @@ PHP_PRINTF_MATCH = re.compile(
 C_PRINTF_MATCH = re.compile(
     r'''
     %(                          # initial %
+          (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
         [+#-]*                  # flags
         (?:\d+)?                # width
@@ -250,7 +251,7 @@ class CFormatCheck(BaseFormatCheck):
     regexp = C_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return True
+        return '$' not in string and string != '%'
 
 
 class JavascriptFormatCheck(CFormatCheck):

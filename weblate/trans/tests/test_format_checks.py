@@ -331,6 +331,15 @@ class CFormatCheckTest(TestCase):
             False
         ))
 
+    def test_reorder_format(self):
+        self.assertFalse(self.check.check_format(
+            u'%1$s %2$s string',
+            u'%2$s %1$s string',
+            MockUnit('c_reorder_format'),
+            0,
+            False
+        ))
+
 
 class PythonBraceFormatCheckTest(TestCase):
     def setUp(self):
