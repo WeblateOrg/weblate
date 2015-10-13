@@ -10,6 +10,8 @@ Released on ? 2015.
 * Improved performance of commit and push operations.
 * New management command to add suggestions from command line.
 * Added support for merging comments on file upload.
+* Added support for some GNU extensions to C printf format.
+* Documentation improvements.
 
 weblate 2.4
 -----------
