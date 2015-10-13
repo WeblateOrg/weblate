@@ -76,12 +76,12 @@ def get_credits(request, project, subproject):
         name, translators = language.items()[0]
         result.append(u'* {0}\n'.format(name))
         result.append('\n'.join(
-            ['    * {1} <{0}>'.format(*t) for t in translators]
+            [u'    * {1} <{0}>'.format(*t) for t in translators]
         ))
 
     result.append('')
 
     return HttpResponse(
         '\n'.join(result),
-        content_type='text/plain',
+        content_type='text/plain; charset=utf-8',
     )
