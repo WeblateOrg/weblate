@@ -70,6 +70,19 @@ class SearchViewTest(ViewTestCase):
             '<span class="hlmatch">Hello</span>, world'
         )
 
+    def test_language_search(self):
+        '''
+        Searching in all projects.
+        '''
+        response = self.client.get(
+            reverse('search'),
+            {'q': 'hello', 'lang': 'cs'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+
     def test_project_search(self):
         '''
         Searching within project.
