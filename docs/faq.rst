@@ -132,6 +132,16 @@ correctly as an user who has made the translation.
 
 .. seealso:: :ref:`component`
 
+Why do I get warning about not reflected changes on database migration?
+-----------------------------------------------------------------------
+
+When running :command:`./manage.py migrate`, you can get following warning::
+
+    Your models have changes that are not yet reflected in a migration, and so won't be applied.
+
+This is expected as Weblate generates choices for some fields and Django
+migrations can not reflect this. You can safely ignore this warning.
+
 Usage
 +++++
 
