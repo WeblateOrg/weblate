@@ -57,7 +57,7 @@ C_PRINTF_MATCH = re.compile(
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
-        [+#-]*                  # flags
+        [+#-']*                 # flags
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh\|h\|l\|ll)?         # length formatting
@@ -152,6 +152,12 @@ class BaseFormatCheck(TargetCheck):
         # Check did not fire
         return False
 
+    def cleanup_string(self, text):
+        """Removes locale specific code from format string"""
+        if '\'' in text:
+            return text.replace('\'', '')
+        return text
+
     def check_format(self, source, target, unit, cache_slot, ignore_missing):
         '''
         Generic checker for format strings.
@@ -176,7 +182,7 @@ class BaseFormatCheck(TargetCheck):
         # Cache miss, so calculate value
         if src_matches is None:
             src_matches = [
-                x[0]
+                self.cleanup_string(x[0])
                 for x in self.regexp.findall(source)
                 if x[0] != '%'
             ]
@@ -187,7 +193,7 @@ class BaseFormatCheck(TargetCheck):
             self.set_cache(unit, (uses_position, src_matches), cache_slot)
 
         tgt_matches = [
-            x[0]
+            self.cleanup_string(x[0])
             for x in self.regexp.findall(target)
             if x[0] != '%'
         ]

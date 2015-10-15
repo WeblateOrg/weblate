@@ -340,6 +340,15 @@ class CFormatCheckTest(TestCase):
             False
         ))
 
+    def test_locale_delimiter(self):
+        self.assertFalse(self.check.check_format(
+            u'lines: %6.3f',
+            u'radky: %\'6.3f',
+            MockUnit('c_locale_delimiter'),
+            0,
+            False
+        ))
+
 
 class PythonBraceFormatCheckTest(TestCase):
     def setUp(self):
