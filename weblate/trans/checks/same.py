@@ -58,6 +58,7 @@ SAME_BLACKLIST = frozenset((
     'appliance',
     'appliances',
     'aptitude',
+    'area',
     'array',
     'artist',
     'attribute',
