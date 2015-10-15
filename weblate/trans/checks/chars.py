@@ -145,7 +145,7 @@ class EndStopCheck(TargetCheck):
                 source, target, -1,
                 (
                     u'.', u'。', u'।', u'۔', u'։', u'·',
-                    u'෴', u'។', ':', '՝', '?', '!'
+                    u'෴', u'។', ':', '՝', '?', '!', u'`',
                 )
             )
         if self.is_language(unit, ('hi', 'bn')):

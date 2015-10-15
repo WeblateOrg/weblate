@@ -94,6 +94,7 @@ class Check(object):
             tgt = target[pos]
         except IndexError:
             return False
+
         return (
             (src in chars and tgt not in chars) or
             (src not in chars and tgt in chars)

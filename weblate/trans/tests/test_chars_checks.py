@@ -100,6 +100,10 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(False, ('Text.', u'Text।', ''), 'hi')
         self.do_test(True, ('Text.', u'Text', ''), 'hi')
 
+    def test_armenian(self):
+        self.do_test(False, ('Text:', u'Text`', ''), 'hy')
+        self.do_test(True, ('Text.', u'Text', ''), 'hy')
+
 
 class EndColonCheckTest(CheckTestCase):
     check = EndColonCheck()
