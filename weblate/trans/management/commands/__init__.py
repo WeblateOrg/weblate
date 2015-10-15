@@ -163,14 +163,14 @@ class WeblateLangCommand(WeblateCommand):
         '''
         Returns list of units matching parameters.
         '''
-        if options['all']:
-            if options['lang'] is not None:
-                return Unit.objects.filter(
-                    translation__language__code=options['lang']
-                )
-            return Unit.objects.all()
+        units = super(WeblateLangCommand, self).get_units(*args, **options)
 
-        return super(WeblateLangCommand, self).get_units(*args, **options)
+        if options['lang'] is not None:
+            units = units.filter(
+                translation__language__code=options['lang']
+            )
+
+        return units
 
     def get_translations(self, *args, **options):
         '''
