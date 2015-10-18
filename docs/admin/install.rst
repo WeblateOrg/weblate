@@ -757,6 +757,9 @@ mod_wsgi (available as :file:`examples/apache.conf`):
 .. literalinclude:: ../../examples/apache.conf
     :language: apache
 
+This configuration is for Apache 2.4 and later. For earlier versions of Apache, 
+replace `Require all denied` with `Allow from all`.
+
 Sample configuration for nginx
 ++++++++++++++++++++++++++++++
 
