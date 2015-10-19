@@ -51,7 +51,8 @@ you can use apt-get:
 
     apt-get install python-django translate-toolkit \
         python-whoosh python-pil python-libravatar \
-        python-babel Git mercurial python-social-auth
+        python-babel Git mercurial python-social-auth \
+        python-django-compressor
 
     # Optional for database backend
 
