@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-10-16 11:24+0000\n"
+"POT-Creation-Date: 2015-10-21 15:54+0000\n"
 "PO-Revision-Date: 2015-10-21 16:52+0200\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2726,8 +2726,8 @@ msgstr "Chaînes floues : "
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
-"Vous pouvez contribuer à la traduction sur : <a href=\"%(translation_url)s\""
-">%(translation_url)s</a>"
+"Vous pouvez contribuer à la traduction sur : <a href=\"%(translation_url)s\">"
+"%(translation_url)s</a>"
 
 #: weblate/html/mail/footer.txt:7
 #, python-format
@@ -3092,6 +3092,7 @@ msgid "Translations"
 msgstr "Traductions"
 
 #: weblate/html/subproject.html:101 weblate/trans/models/changes.py:159
+#: weblate/trans/models/subproject.py:369
 msgid "New translation"
 msgstr "Nouvelle traduction"
 
@@ -4334,7 +4335,6 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:563
-#| msgid "languages"
 msgid "All languages"
 msgstr "Toutes les langues"
 
@@ -5049,13 +5049,13 @@ msgstr ""
 "Accord que l'utilisateur doit approuver avec de pouvoir traduire ce "
 "composant."
 
-#: weblate/trans/models/subproject.py:369
-msgid "New language"
-msgstr "Nouvelle langue"
-
 #: weblate/trans/models/subproject.py:374
+#, fuzzy
+#| msgid ""
+#| "How to handle requests for creating new languages. Please note that "
+#| "availability of choices depends on the file format."
 msgid ""
-"How to handle requests for creating new languages. Please note that "
+"How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
 "Définir comment gérer les demandes de création d'une nouvelle langue. Les "
@@ -5225,36 +5225,41 @@ msgstr ""
 "reconnu !"
 
 #: weblate/trans/models/subproject.py:1217
-msgid "Base file for new translations is not used because of project settings."
+#, fuzzy
+#| msgid ""
+#| "Base file for new translations is not used because of project settings."
+msgid ""
+"Base file for new translations is not used because of component settings. "
+"You probably wanted to enable automatic adding new translations."
 msgstr ""
 "Le fichier de base pour de nouvelles traductions n'est pas utilisé en raison "
 "des paramètres du projet."
 
-#: weblate/trans/models/subproject.py:1228
+#: weblate/trans/models/subproject.py:1230
 msgid "You can not use base file with bilingual translation!"
 msgstr ""
 "Vous ne pouvez utiliser un fichier de base avec une traduction bilingue !"
 
-#: weblate/trans/models/subproject.py:1234
+#: weblate/trans/models/subproject.py:1236
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 "Utiliser un fichier .pot comme fichier de base n'est pas pris en charge !"
 
-#: weblate/trans/models/subproject.py:1241
+#: weblate/trans/models/subproject.py:1243
 msgid "Template file not found!"
 msgstr "Fichier modèle non trouvé !"
 
-#: weblate/trans/models/subproject.py:1247
+#: weblate/trans/models/subproject.py:1249
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Échec d'analyse du fichier de la traduction de base : %s"
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 "Vous ne pouvez utiliser une traduction unilingue sans un fichier de base !"
 
-#: weblate/trans/models/subproject.py:1262
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -5262,27 +5267,27 @@ msgstr ""
 "Veuillez remplir l'URL des instructions ou utiliser une option différente "
 "pour ajouter une nouvelle langue."
 
-#: weblate/trans/models/subproject.py:1268
+#: weblate/trans/models/subproject.py:1270
 msgid "License URL can not be used without license summary."
 msgstr ""
 "Il n'est pas possible d'avoir un URL de licence sans un résumé de cette "
 "licence."
 
-#: weblate/trans/models/subproject.py:1288
+#: weblate/trans/models/subproject.py:1290
 msgid "Changing version control system is not supported!"
 msgstr "Modifier le système de contrôle de versions est impossible !"
 
-#: weblate/trans/models/subproject.py:1294
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Format de fichier inconnu : {0}"
 
-#: weblate/trans/models/subproject.py:1301
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Impossible de récupérer les modifications sur le référentiel : %s"
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1326
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "L'acceptation automatique des suggestions ne peut fonctionner que si le vote "
@@ -6002,6 +6007,9 @@ msgstr ""
 #: weblate/trans/widgets.py:385
 msgid "translated"
 msgstr "traduit"
+
+#~ msgid "New language"
+#~ msgstr "Nouvelle langue"
 
 #~ msgid "Java Properties"
 #~ msgstr "Propriétés Java"

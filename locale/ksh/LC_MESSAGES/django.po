@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-10-16 11:24+0000\n"
+"POT-Creation-Date: 2015-10-21 15:54+0000\n"
 "PO-Revision-Date: 2014-10-01 09:41+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Colognian <https://hosted.weblate.org/projects/weblate/master/"
@@ -3038,6 +3038,7 @@ msgid "Translations"
 msgstr "Övversäzonge"
 
 #: weblate/html/subproject.html:101 weblate/trans/models/changes.py:159
+#: weblate/trans/models/subproject.py:369
 msgid "New translation"
 msgstr ""
 
@@ -4959,13 +4960,9 @@ msgid ""
 "component."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:369
-msgid "New language"
-msgstr ""
-
 #: weblate/trans/models/subproject.py:374
 msgid ""
-"How to handle requests for creating new languages. Please note that "
+"How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
 
@@ -5113,55 +5110,57 @@ msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:1217
-msgid "Base file for new translations is not used because of project settings."
+msgid ""
+"Base file for new translations is not used because of component settings. "
+"You probably wanted to enable automatic adding new translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1228
+#: weblate/trans/models/subproject.py:1230
 msgid "You can not use base file with bilingual translation!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1234
+#: weblate/trans/models/subproject.py:1236
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1241
+#: weblate/trans/models/subproject.py:1243
 msgid "Template file not found!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1247
+#: weblate/trans/models/subproject.py:1249
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1262
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1268
+#: weblate/trans/models/subproject.py:1270
 msgid "License URL can not be used without license summary."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1288
+#: weblate/trans/models/subproject.py:1290
 msgid "Changing version control system is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1294
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1301
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1326
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 

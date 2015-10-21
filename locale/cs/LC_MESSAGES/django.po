@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-10-16 11:24+0000\n"
+"POT-Creation-Date: 2015-10-21 15:54+0000\n"
 "PO-Revision-Date: 2015-10-16 14:54+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3046,6 +3046,7 @@ msgid "Translations"
 msgstr "Překlady"
 
 #: weblate/html/subproject.html:101 weblate/trans/models/changes.py:159
+#: weblate/trans/models/subproject.py:369
 msgid "New translation"
 msgstr "Nový překlad"
 
@@ -4256,7 +4257,6 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:563
-#| msgid "languages"
 msgid "All languages"
 msgstr "Všechny jazyky"
 
@@ -4953,13 +4953,13 @@ msgstr ""
 "Dohoda, která musí být odsouhlasena, než může uživatel překládat tuto "
 "komponentu."
 
-#: weblate/trans/models/subproject.py:369
-msgid "New language"
-msgstr "Nový jazyk"
-
 #: weblate/trans/models/subproject.py:374
+#, fuzzy
+#| msgid ""
+#| "How to handle requests for creating new languages. Please note that "
+#| "availability of choices depends on the file format."
 msgid ""
-"How to handle requests for creating new languages. Please note that "
+"How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
 "Jak se mají řešit požadavky na nové překlady. Některé volby nemusí být "
@@ -5121,32 +5121,37 @@ msgid "Format of base file for new translations was not recognized!"
 msgstr "Nepodařilo ze rozpoznat formát základního souboru pro nové překlady!"
 
 #: weblate/trans/models/subproject.py:1217
-msgid "Base file for new translations is not used because of project settings."
+#, fuzzy
+#| msgid ""
+#| "Base file for new translations is not used because of project settings."
+msgid ""
+"Base file for new translations is not used because of component settings. "
+"You probably wanted to enable automatic adding new translations."
 msgstr ""
 "Základní soubor pro nové překlady nebude použit kvůli nastavení projektu."
 
-#: weblate/trans/models/subproject.py:1228
+#: weblate/trans/models/subproject.py:1230
 msgid "You can not use base file with bilingual translation!"
 msgstr "Nelze použít základní soubor pro dvoujazyčný překlad!"
 
-#: weblate/trans/models/subproject.py:1234
+#: weblate/trans/models/subproject.py:1236
 msgid "Using .pot file as base file is not supported!"
 msgstr "Nelze použít .pot soubor jako základní soubor pro dvoujazyčný překlad!"
 
-#: weblate/trans/models/subproject.py:1241
+#: weblate/trans/models/subproject.py:1243
 msgid "Template file not found!"
 msgstr "Soubor s šablonou nemohl být nalezen!"
 
-#: weblate/trans/models/subproject.py:1247
+#: weblate/trans/models/subproject.py:1249
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Nepodařilo se zpracovat základní soubor překladů: %s"
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 msgid "You can not use monolingual translation without base file!"
 msgstr "Nelze vytvořit jednojazyčný překlad bez základního soubor!"
 
-#: weblate/trans/models/subproject.py:1262
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -5154,25 +5159,25 @@ msgstr ""
 "Prosím zadejte URL s instrukcemi nebo zvolte jinou možnost přidávání nového "
 "jazyka."
 
-#: weblate/trans/models/subproject.py:1268
+#: weblate/trans/models/subproject.py:1270
 msgid "License URL can not be used without license summary."
 msgstr "URL licence nemůže být použito bez jejího popisu."
 
-#: weblate/trans/models/subproject.py:1288
+#: weblate/trans/models/subproject.py:1290
 msgid "Changing version control system is not supported!"
 msgstr "Změna systému správy revizí není podporována!"
 
-#: weblate/trans/models/subproject.py:1294
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Nepodporovaný formát: {0}"
 
-#: weblate/trans/models/subproject.py:1301
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Nepodařilo se aktualizovat repozitář: %s"
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1326
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatické přijímání návrhů může fungovat pouze spolu s hlasováním o "
@@ -5893,6 +5898,9 @@ msgstr ""
 #: weblate/trans/widgets.py:385
 msgid "translated"
 msgstr "přeloženo"
+
+#~ msgid "New language"
+#~ msgstr "Nový jazyk"
 
 #~ msgid "Java Properties"
 #~ msgstr "Vlastnosti Javy"

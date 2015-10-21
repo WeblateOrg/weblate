@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-10-16 11:24+0000\n"
+"POT-Creation-Date: 2015-10-21 15:54+0000\n"
 "PO-Revision-Date: 2015-09-26 15:53+0200\n"
 "Last-Translator: Wei-cheng Kung <wck317@pchome.com.tw>\n"
 "Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
@@ -2962,6 +2962,7 @@ msgid "Translations"
 msgstr "翻譯"
 
 #: weblate/html/subproject.html:101 weblate/trans/models/changes.py:159
+#: weblate/trans/models/subproject.py:369
 msgid "New translation"
 msgstr "新的翻譯"
 
@@ -4835,13 +4836,13 @@ msgid ""
 "component."
 msgstr "必須先同意協議才可讓使用者翻譯此元件。"
 
-#: weblate/trans/models/subproject.py:369
-msgid "New language"
-msgstr "新的語言"
-
 #: weblate/trans/models/subproject.py:374
+#, fuzzy
+#| msgid ""
+#| "How to handle requests for creating new languages. Please note that "
+#| "availability of choices depends on the file format."
 msgid ""
-"How to handle requests for creating new languages. Please note that "
+"How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr "如何處理建立新語言的請求。 請注意可用的選項會依檔案格式而不同。"
 
@@ -4991,55 +4992,60 @@ msgid "Format of base file for new translations was not recognized!"
 msgstr "無法識別新翻譯的基本檔案格式！"
 
 #: weblate/trans/models/subproject.py:1217
-msgid "Base file for new translations is not used because of project settings."
+#, fuzzy
+#| msgid ""
+#| "Base file for new translations is not used because of project settings."
+msgid ""
+"Base file for new translations is not used because of component settings. "
+"You probably wanted to enable automatic adding new translations."
 msgstr "因為專案的設定，新翻譯的基本檔案是不使用的。"
 
-#: weblate/trans/models/subproject.py:1228
+#: weblate/trans/models/subproject.py:1230
 msgid "You can not use base file with bilingual translation!"
 msgstr "您不可以將基礎檔使用在雙語翻譯！"
 
-#: weblate/trans/models/subproject.py:1234
+#: weblate/trans/models/subproject.py:1236
 msgid "Using .pot file as base file is not supported!"
 msgstr "不支援使用 .pot 檔案作為基礎檔！"
 
-#: weblate/trans/models/subproject.py:1241
+#: weblate/trans/models/subproject.py:1243
 msgid "Template file not found!"
 msgstr "找不到範本檔！"
 
-#: weblate/trans/models/subproject.py:1247
+#: weblate/trans/models/subproject.py:1249
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "無法分析翻譯的基本檔案：%s"
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 msgid "You can not use monolingual translation without base file!"
 msgstr "沒有基礎的檔案，您不能使用單一語言翻譯 ！"
 
-#: weblate/trans/models/subproject.py:1262
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr "請填寫任何一個指示的網址或使用不同的選項增加新的語言。"
 
-#: weblate/trans/models/subproject.py:1268
+#: weblate/trans/models/subproject.py:1270
 msgid "License URL can not be used without license summary."
 msgstr "授權 URL 不能使用無授權摘要。"
 
-#: weblate/trans/models/subproject.py:1288
+#: weblate/trans/models/subproject.py:1290
 msgid "Changing version control system is not supported!"
 msgstr "不支援變更版本控制系統！"
 
-#: weblate/trans/models/subproject.py:1294
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "已不支援檔案格式：{0}"
 
-#: weblate/trans/models/subproject.py:1301
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "更新儲存庫失敗：%s"
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1326
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "自動接受建議，只能在啟用投票後工作！"
 
@@ -5721,6 +5727,9 @@ msgstr ""
 #: weblate/trans/widgets.py:385
 msgid "translated"
 msgstr "已翻譯"
+
+#~ msgid "New language"
+#~ msgstr "新的語言"
 
 #~ msgid "Java Properties"
 #~ msgstr "JAVA 屬性"

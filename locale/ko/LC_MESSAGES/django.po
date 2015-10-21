@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-10-16 11:24+0000\n"
+"POT-Creation-Date: 2015-10-21 15:54+0000\n"
 "PO-Revision-Date: 2015-02-22 17:11+0200\n"
 "Last-Translator: Koo Young Min <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -3094,6 +3094,7 @@ msgid "Translations"
 msgstr "번역"
 
 #: weblate/html/subproject.html:101 weblate/trans/models/changes.py:159
+#: weblate/trans/models/subproject.py:369
 msgid "New translation"
 msgstr "새로운 번역"
 
@@ -5090,13 +5091,9 @@ msgid ""
 "component."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:369
-msgid "New language"
-msgstr "새로운 언어"
-
 #: weblate/trans/models/subproject.py:374
 msgid ""
-"How to handle requests for creating new languages. Please note that "
+"How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
 
@@ -5260,35 +5257,40 @@ msgid "Format of base file for new translations was not recognized!"
 msgstr "새로운 번역에 대한 기본 파일의 형식을 인식할 수 없습니다!"
 
 #: weblate/trans/models/subproject.py:1217
-msgid "Base file for new translations is not used because of project settings."
+#, fuzzy
+#| msgid ""
+#| "Base file for new translations is not used because of project settings."
+msgid ""
+"Base file for new translations is not used because of component settings. "
+"You probably wanted to enable automatic adding new translations."
 msgstr "프로젝트 설정때문에 새로운 번역에 대한 기본 파일을 사용할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1228
+#: weblate/trans/models/subproject.py:1230
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "기본 파일을 2개국어 번역으로 할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1234
+#: weblate/trans/models/subproject.py:1236
 #, fuzzy
 #| msgid "Changing version control system is not supported!"
 msgid "Using .pot file as base file is not supported!"
 msgstr "버전 관리 시스템을 변경하는 것은 지원되지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1241
+#: weblate/trans/models/subproject.py:1243
 msgid "Template file not found!"
 msgstr "서식 파일을 찾을 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1247
+#: weblate/trans/models/subproject.py:1249
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "번역 기본 파일 분석 실패: %s"
 
-#: weblate/trans/models/subproject.py:1252
+#: weblate/trans/models/subproject.py:1254
 msgid "You can not use monolingual translation without base file!"
 msgstr "기본 파일없이 단일 언어 번역을 사용할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1262
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -5296,25 +5298,25 @@ msgstr ""
 "지침 URL를 입력하거나 또는 새로운 언어를 추가하기 위한 다른 옵션을 사용하십시"
 "오."
 
-#: weblate/trans/models/subproject.py:1268
+#: weblate/trans/models/subproject.py:1270
 msgid "License URL can not be used without license summary."
 msgstr "라이센스 URL는 라이센스 요약 없이 사용할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1288
+#: weblate/trans/models/subproject.py:1290
 msgid "Changing version control system is not supported!"
 msgstr "버전 관리 시스템을 변경하는 것은 지원되지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1294
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "{0}은(는) 지원하지 않는 파일 형식입니다"
 
-#: weblate/trans/models/subproject.py:1301
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "저장소를 업데이트하는 데 실패하였습니다: %s"
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1326
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "투표하기의 활성화로 자동으로 제안을 받아들이는것을 할 수 있습니다!"
 
@@ -6015,6 +6017,9 @@ msgstr ""
 #: weblate/trans/widgets.py:385
 msgid "translated"
 msgstr "번역"
+
+#~ msgid "New language"
+#~ msgstr "새로운 언어"
 
 #~ msgid "Java Properties"
 #~ msgstr "자바 환경 설정"
