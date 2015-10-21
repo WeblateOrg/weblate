@@ -1215,7 +1215,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         elif self.new_lang != 'add' and self.new_base:
             raise ValidationError(_(
                 'Base file for new translations is not used because of '
-                'project settings (adding new translations is disabled).'
+                'component settings. '
+                'You probably wanted to enable automatic adding new '
+                'translations.'
             ))
 
     def clean_template(self):
