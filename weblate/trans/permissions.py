@@ -21,7 +21,7 @@
 Permissions abstract layer for Weblate.
 """
 from weblate import appsettings
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 
 def check_owner(user, project, permission):
@@ -55,7 +55,11 @@ def cache_permission(func):
     """
 
     def wrapper(user, target_object):
-        if target_object is None or user is None:
+        if user is None:
+            user = User.objects.get(
+                username=appsettings.ANONYMOUS_USER_NAME,
+            )
+        if target_object is None:
             return func(user, target_object)
 
         key = (func.__name__, user.id)
