@@ -329,6 +329,12 @@ following files:
 * Files with fields as defined by translate-toolkit: location, source,
   target, id, fuzzy, context, translator_comments, developer_comments
 
+Example file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs.csv
+    :language: json
+    :encoding: utf-8
+
 Others
 ------
 
