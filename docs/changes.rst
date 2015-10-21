@@ -16,6 +16,7 @@ Released on ? 2015.
 * Added support for generating contributor stats.
 * Site wide search can search only in one language.
 * Improve quality checks for Armenian.
+* Support for starting translation components without existing translations.
 
 weblate 2.4
 -----------
