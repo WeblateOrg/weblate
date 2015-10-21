@@ -1487,19 +1487,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
         return self._all_flags
 
+    def can_add_new_language(self):
+        """Wrapper to check if we can add new language."""
+        if self.new_lang != 'add':
+            return False
+
+        if not self.file_format_cls.supports_new_language():
+            return False
+
+        base_filename = self.get_new_base_filename()
+        if not self.file_format_cls.is_valid_base_for_new(base_filename):
+            return False
+
+        return True
+
     def add_new_language(self, language, request):
         '''
         Creates new language file.
         '''
-        if self.new_lang != 'add':
-            raise ValueError('Not supported operation!')
-
-        if not self.file_format_cls.supports_new_language():
+        if not self.can_add_new_language():
             raise ValueError('Not supported operation!')
 
         base_filename = self.get_new_base_filename()
-        if not self.file_format_cls.is_valid_base_for_new(base_filename):
-            raise ValueError('Not supported operation!')
 
         filename = self.file_format_cls.get_language_filename(
             self.filemask,
