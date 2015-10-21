@@ -371,8 +371,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         choices=NEW_LANG_CHOICES,
         default='contact',
         help_text=ugettext_lazy(
-            'How to handle requests for creating new translations. Please note '
-            'that availability of choices depends on the file format.'
+            'How to handle requests for creating new translations. '
+            'Please note that availability of choices depends on '
+            'the file format.'
         ),
     )
 
