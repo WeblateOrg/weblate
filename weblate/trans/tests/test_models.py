@@ -686,7 +686,7 @@ class SubProjectTest(RepoTestCase):
         self.assertRaisesMessage(
             ValidationError,
             'Base file for new translations is not used '
-            'because of project settings.',
+            'because of component settings.',
             subproject.full_clean
         )
 
