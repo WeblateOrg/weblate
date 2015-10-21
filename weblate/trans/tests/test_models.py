@@ -180,6 +180,14 @@ class RepoTestCase(TestCase):
             'po/*.po',
         )
 
+    def create_po_empty(self):
+        return self._create_subproject(
+            'po',
+            'po-empty/*.po',
+            new_base='po-empty/hello.pot',
+            new_lang='add',
+        )
+
     def create_po_mercurial(self):
         return self._create_subproject(
             'po',
@@ -352,7 +360,7 @@ class SubProjectTest(RepoTestCase):
     """
     SubProject object testing.
     """
-    def verify_subproject(self, project, translations, lang, units,
+    def verify_subproject(self, project, translations, lang=None, units=0,
                           unit='Hello, world!\n', fail=False):
         # Validation
         if fail:
@@ -368,12 +376,13 @@ class SubProjectTest(RepoTestCase):
         self.assertEqual(
             project.translation_set.count(), translations
         )
-        # Grab translation
-        translation = project.translation_set.get(language_code=lang)
-        # Count units in it
-        self.assertEqual(translation.unit_set.count(), units)
-        # Check whether unit exists
-        self.assertTrue(translation.unit_set.filter(source=unit).exists())
+        if lang is not None:
+            # Grab translation
+            translation = project.translation_set.get(language_code=lang)
+            # Count units in it
+            self.assertEqual(translation.unit_set.count(), units)
+            # Check whether unit exists
+            self.assertTrue(translation.unit_set.filter(source=unit).exists())
 
     def test_create(self):
         project = self.create_subproject()
@@ -477,6 +486,10 @@ class SubProjectTest(RepoTestCase):
     def test_create_po_mercurial(self):
         project = self.create_po_mercurial()
         self.verify_subproject(project, 3, 'cs', 4)
+
+    def test_create_po_empty(self):
+        project = self.create_po_empty()
+        self.verify_subproject(project, 0)
 
     def test_create_po_link(self):
         project = self.create_po_link()

@@ -1135,7 +1135,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Validates that there are no double language codes found in the files.
         '''
-        if len(matches) == 0:
+        if len(matches) == 0 and not self.can_add_new_language():
             raise ValidationError(_('The mask did not match any files!'))
         langs = set()
         translated_langs = set()
