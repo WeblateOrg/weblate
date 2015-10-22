@@ -822,7 +822,7 @@ class PoFormat(FileFormat):
                     env=get_clean_env(),
                 )
                 cls.msginit_found = (ret == 0)
-            except subprocess.CalledProcessError:
+            except (subprocess.CalledProcessError, OSError):
                 cls.msginit_found = False
         return cls.msginit_found
 
