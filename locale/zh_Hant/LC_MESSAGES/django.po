@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-10-21 15:54+0000\n"
+"POT-Creation-Date: 2015-10-22 12:52+0000\n"
 "PO-Revision-Date: 2015-09-26 15:53+0200\n"
 "Last-Translator: Wei-cheng Kung <wck317@pchome.com.tw>\n"
 "Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
@@ -316,25 +316,39 @@ msgstr "變更密碼"
 msgid "Password reset"
 msgstr "重設密碼"
 
-#: weblate/billing/admin.py:47 weblate/html/accounts/user.html:30
+#: weblate/billing/admin.py:48 weblate/html/accounts/user.html:30
 #: weblate/html/base.html:95 weblate/html/index.html:28
 #: weblate/html/index.html.py:30 weblate/trans/models/project.py:154
 msgid "Projects"
 msgstr "專案"
 
-#: weblate/billing/models.py:59 weblate/trans/admin.py:46
+#: weblate/billing/models.py:64
+msgid "Changes in last month"
+msgstr ""
+
+#: weblate/billing/models.py:68
+msgid "Changes in last quarter"
+msgstr ""
+
+#: weblate/billing/models.py:72
+#, fuzzy
+#| msgid "Activity in last year"
+msgid "Changes in last year"
+msgstr "在過去一年中的活動"
+
+#: weblate/billing/models.py:80 weblate/trans/admin.py:46
 msgid "VCS repositories"
 msgstr "VCS 儲存庫"
 
-#: weblate/billing/models.py:65 weblate/trans/admin.py:50
+#: weblate/billing/models.py:86 weblate/trans/admin.py:50
 msgid "Source strings"
 msgstr "源文字串"
 
-#: weblate/billing/models.py:71 weblate/trans/admin.py:54
+#: weblate/billing/models.py:92 weblate/trans/admin.py:54
 msgid "Source words"
 msgstr "原文"
 
-#: weblate/billing/models.py:77 weblate/html/accounts/profile.html:21
+#: weblate/billing/models.py:98 weblate/html/accounts/profile.html:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html:6
 #: weblate/html/languages.html:6 weblate/lang/models.py:371
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
@@ -2827,12 +2841,12 @@ msgstr ""
 msgid "Status widgets"
 msgstr "狀態小工具"
 
-#: weblate/html/project.html:71 weblate/trans/models/subproject.py:437
+#: weblate/html/project.html:71 weblate/trans/models/subproject.py:438
 msgid "Components"
 msgstr "組成元件"
 
 #: weblate/html/project.html:77 weblate/html/translate.html:221
-#: weblate/trans/models/subproject.py:436
+#: weblate/trans/models/subproject.py:437
 msgid "Component"
 msgstr "組成元件"
 
@@ -4846,118 +4860,118 @@ msgid ""
 "availability of choices depends on the file format."
 msgstr "如何處理建立新語言的請求。 請注意可用的選項會依檔案格式而不同。"
 
-#: weblate/trans/models/subproject.py:381
+#: weblate/trans/models/subproject.py:382
 msgid "Merge style"
 msgstr "合併樣式"
 
-#: weblate/trans/models/subproject.py:386
+#: weblate/trans/models/subproject.py:387
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr "定義 Weblate 是否應合併到上游資源庫或向上重定基準變更。"
 
-#: weblate/trans/models/subproject.py:391
+#: weblate/trans/models/subproject.py:392
 msgid "Commit message"
 msgstr "提交訊息"
 
-#: weblate/trans/models/subproject.py:393
+#: weblate/trans/models/subproject.py:394
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr "您可使用格式字串給各種資訊，請查看更多詳細資訊的文件檔。"
 
-#: weblate/trans/models/subproject.py:400
+#: weblate/trans/models/subproject.py:401
 msgid "Committer name"
 msgstr "提交者名稱"
 
-#: weblate/trans/models/subproject.py:405
+#: weblate/trans/models/subproject.py:406
 msgid "Committer email"
 msgstr "提交者 email"
 
-#: weblate/trans/models/subproject.py:411
+#: weblate/trans/models/subproject.py:412
 #, fuzzy
 #| msgid "Language"
 msgid "Language filter"
 msgstr "語言轉換器"
 
-#: weblate/trans/models/subproject.py:415
+#: weblate/trans/models/subproject.py:416
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:669
+#: weblate/trans/models/subproject.py:670
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr "SSH 主機金鑰驗證失敗，請在管理介面中將它們加入 SSH 頁面。"
 
-#: weblate/trans/models/subproject.py:673
+#: weblate/trans/models/subproject.py:674
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "取得資源庫失敗：%s"
 
-#: weblate/trans/models/subproject.py:770
+#: weblate/trans/models/subproject.py:771
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "%s 已停用推送。"
 
-#: weblate/trans/models/subproject.py:815
+#: weblate/trans/models/subproject.py:816
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "將 %s 推送上遠端分支失敗。"
 
-#: weblate/trans/models/subproject.py:851
+#: weblate/trans/models/subproject.py:852
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "將 %s 上的遠端分支重置失敗。"
 
-#: weblate/trans/models/subproject.py:920
+#: weblate/trans/models/subproject.py:921
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "我們在遠端分支上的 %s 重定基準失敗。"
 
-#: weblate/trans/models/subproject.py:925
+#: weblate/trans/models/subproject.py:926
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "將遠端分支合併到 %s 失敗。"
 
-#: weblate/trans/models/subproject.py:1107
+#: weblate/trans/models/subproject.py:1108
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "無效的 Weblate 專案連接，不能連結到資源庫！"
 
-#: weblate/trans/models/subproject.py:1114
+#: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr "無效的 Weblate 專案連接，不能連接到自身！"
 
-#: weblate/trans/models/subproject.py:1121
+#: weblate/trans/models/subproject.py:1122
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "無效的 Weblate 專案連結，請使用 weblate://project/component。"
 
-#: weblate/trans/models/subproject.py:1127
+#: weblate/trans/models/subproject.py:1128
 msgid "Push URL is not used when repository is linked!"
 msgstr "在資源庫已連結下，不使用 URL 推送！"
 
-#: weblate/trans/models/subproject.py:1131
+#: weblate/trans/models/subproject.py:1132
 msgid "Export URL is not used when repository is linked!"
 msgstr "在資源庫已連結下，不使用網址匯出！"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1140
 msgid "The mask did not match any files!"
 msgstr "遮罩不相符任何檔案！"
 
-#: weblate/trans/models/subproject.py:1146
+#: weblate/trans/models/subproject.py:1147
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1151
+#: weblate/trans/models/subproject.py:1152
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
 msgstr "有單一語言的更多檔案，請調整遮罩和使用組成元件翻譯不同的資源。"
 
-#: weblate/trans/models/subproject.py:1157
+#: weblate/trans/models/subproject.py:1158
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -4967,85 +4981,85 @@ msgstr ""
 "多個翻譯被映射到一個單一的語言程式碼 (%s)。您應該停用 SIMPLIFY_LANGUAGES 以防"
 "止 Weblate 映射相似的語言。"
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1179
 msgid "File does not seem to be valid!"
 msgstr "檔案似乎不是正確的！"
 
-#: weblate/trans/models/subproject.py:1186
+#: weblate/trans/models/subproject.py:1187
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "無法識別符合 %d 格式的檔案。"
 
-#: weblate/trans/models/subproject.py:1195
+#: weblate/trans/models/subproject.py:1196
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "分析符合 %d 的檔案失敗！"
 
-#: weblate/trans/models/subproject.py:1206
+#: weblate/trans/models/subproject.py:1207
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr "在專案設定中，選取的格式並不支援選擇增加新的翻譯。"
 
-#: weblate/trans/models/subproject.py:1212
+#: weblate/trans/models/subproject.py:1213
 msgid "Format of base file for new translations was not recognized!"
 msgstr "無法識別新翻譯的基本檔案格式！"
 
-#: weblate/trans/models/subproject.py:1217
+#: weblate/trans/models/subproject.py:1218
 #, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
 msgid ""
 "Base file for new translations is not used because of component settings. "
-"You probably wanted to enable automatic adding new translations."
+"You probably want to enable automatic adding of new translations."
 msgstr "因為專案的設定，新翻譯的基本檔案是不使用的。"
 
-#: weblate/trans/models/subproject.py:1230
+#: weblate/trans/models/subproject.py:1231
 msgid "You can not use base file with bilingual translation!"
 msgstr "您不可以將基礎檔使用在雙語翻譯！"
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1237
 msgid "Using .pot file as base file is not supported!"
 msgstr "不支援使用 .pot 檔案作為基礎檔！"
 
-#: weblate/trans/models/subproject.py:1243
+#: weblate/trans/models/subproject.py:1244
 msgid "Template file not found!"
 msgstr "找不到範本檔！"
 
-#: weblate/trans/models/subproject.py:1249
+#: weblate/trans/models/subproject.py:1250
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "無法分析翻譯的基本檔案：%s"
 
-#: weblate/trans/models/subproject.py:1254
+#: weblate/trans/models/subproject.py:1255
 msgid "You can not use monolingual translation without base file!"
 msgstr "沒有基礎的檔案，您不能使用單一語言翻譯 ！"
 
-#: weblate/trans/models/subproject.py:1264
+#: weblate/trans/models/subproject.py:1265
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr "請填寫任何一個指示的網址或使用不同的選項增加新的語言。"
 
-#: weblate/trans/models/subproject.py:1270
+#: weblate/trans/models/subproject.py:1271
 msgid "License URL can not be used without license summary."
 msgstr "授權 URL 不能使用無授權摘要。"
 
-#: weblate/trans/models/subproject.py:1290
+#: weblate/trans/models/subproject.py:1291
 msgid "Changing version control system is not supported!"
 msgstr "不支援變更版本控制系統！"
 
-#: weblate/trans/models/subproject.py:1296
+#: weblate/trans/models/subproject.py:1297
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "已不支援檔案格式：{0}"
 
-#: weblate/trans/models/subproject.py:1303
+#: weblate/trans/models/subproject.py:1304
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "更新儲存庫失敗：%s"
 
-#: weblate/trans/models/subproject.py:1326
+#: weblate/trans/models/subproject.py:1327
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "自動接受建議，只能在啟用投票後工作！"
 
