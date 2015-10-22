@@ -1217,7 +1217,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(_(
                 'Base file for new translations is not used because of '
                 'component settings. '
-                'You probably wanted to enable automatic adding new '
+                'You probably want to enable automatic adding of new '
                 'translations.'
             ))
 
