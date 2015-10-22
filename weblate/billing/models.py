@@ -21,8 +21,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
-from weblate.trans.models import Project, SubProject
+from datetime import timedelta
+
+from weblate.trans.models import Project, SubProject, Change
 from weblate.lang.models import Language
 
 
@@ -49,6 +52,24 @@ class Billing(models.Model):
 
     def __unicode__(self):
         return u'{0} ({1})'.format(self.user, self.plan)
+
+    def count_changes(self, interval):
+        return Change.objects.filter(
+            subproject__project__in=self.projects.all(),
+            timestamp__gt=timezone.now() - interval,
+        ).count()
+
+    def count_changes_1m(self):
+        return self.count_changes(timedelta(days=31))
+    count_changes_1m.short_description = _('Changes in last month')
+
+    def count_changes_1q(self):
+        return self.count_changes(timedelta(days=93))
+    count_changes_1q.short_description = _('Changes in last quarter')
+
+    def count_changes_1y(self):
+        return self.count_changes(timedelta(days=365))
+    count_changes_1y.short_description = _('Changes in last year')
 
     def count_repositories(self):
         return SubProject.objects.filter(

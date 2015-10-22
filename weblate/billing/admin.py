@@ -35,6 +35,7 @@ class BillingAdmin(admin.ModelAdmin):
     list_display = (
         'user', 'plan',
         'list_projects',
+        'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
         'count_repositories', 'count_strings', 'count_words',
         'count_languages',
         'in_limits',
