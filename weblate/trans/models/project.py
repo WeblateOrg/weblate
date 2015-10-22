@@ -458,13 +458,12 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             [component.get_repo_link_url() for component in result]
         )
 
-        result.extend(
-            self.subproject_set.filter(
-                repo__startswith='weblate://'
-            ).exclude(
-                repo__in=included
-            )
-        )
+        linked = self.subproject_set.filter(repo__startswith='weblate://')
+        for other in linked:
+            if other.repo in included:
+                continue
+            included.add(other.repo)
+            result.append(other)
 
         return result
 
