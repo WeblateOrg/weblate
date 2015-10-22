@@ -136,6 +136,8 @@ def generate_counts(component, start_date, end_date):
             'author__email', 'author__first_name', 'unit__num_words',
         )
         for email, name, words in authors:
+            if words is None:
+                continue
             if email not in result:
                 result[email] = {
                     'name': name,
