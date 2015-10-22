@@ -38,5 +38,6 @@ class JsonFile(JsonFileTT):
         for unit in self.units:
             data[unit.getid().lstrip('.')] = unit.source
         return json.dumps(
-            data, sort_keys=True, indent=4, ensure_ascii=False
+            data, sort_keys=True, separators=(',', ': '),
+            indent=4, ensure_ascii=False
         ).encode('utf-8')
