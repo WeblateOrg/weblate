@@ -181,10 +181,54 @@ New language                    Choose :guilabel:`Automatically add language fil
 
 And that's it, you're now ready to start translating your software!
 
-.. note::
+.. seealso::
 
     You can find more complex of using Gettext in the weblate-hello project on
     GitHub: <http://github.com/nijel/weblate-hello>.
 
+Translating documentation using Sphinx
+--------------------------------------
 
+`Sphinx`_ is a tool for creating beautiful documentation. It uses simple
+reStructuredText syntax and can generate output in many formats. If you're
+looking for an example, this documentation is also build using it. The very
+useful companion for using Sphinx is the `Read the Docs`_ service, which will
+build and publish your documentation for free.
+
+I will not focus on writing documentation itself, you you need guidance with
+that, just follow instructions on the `Sphinx`_ website. Once you have
+documentation ready, translating it is quite easy as Sphinx comes with support
+for this and it is quite nicely covered in their
+`Internationalization Quick Guide`_.  It's matter of few configuration
+directives and invoking of the ``sphinx-intl`` tool.
+
+If you are using Read the Docs service, you can start building translated
+documentation on the Read the docs. Their `Localization of Documentation`_
+covers pretty much everything you need - creating another project, set it's
+language and link it from master project as a translation.
+
+Now all you need is translating the documentation content. As Sphinx splits
+the translation files per source file, you might end up with dozen of files,
+which might be challenging to import using the Weblate's web interface. For
+that reason, there is :djadmin:`import_project` management command.
+
+Depending on exact setup, importing of the translation might look like:
+
+.. code-block:: console
+
+    $ ./manage.py import_project --name-template 'Documentation: %s' \
+        --file-format po \
+        project https://github.com/project/docs.git master \
+        'docs/locale/*/LC_MESSAGES/**.po'
+
+.. seealso::
+
+    The `Odorik`_ python module documentation is built using Sphinx, Read the
+    Docs and translated using Weblate.
+
+.. _Odorik: https://github.com/nijel/odorik/
 .. _GNU Gettext: http://www.gnu.org/software/gettext/
+.. _Sphinx: http://sphinx-doc.org/
+.. _Read the Docs: https://readthedocs.org/
+.. _Internationalization Quick Guide: http://sphinx-doc.org/latest/intl.html#quick-guide
+.. _Localization of Documentation: https://docs.readthedocs.org/en/latest/localization.html
