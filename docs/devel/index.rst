@@ -6,6 +6,7 @@ benefits. It's only up to you how much of that you will use.
 
 .. toctree::
 
+    starting
     translations
     review
     share
