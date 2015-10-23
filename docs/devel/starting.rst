@@ -42,6 +42,10 @@ Additionally it provides `pgettext()` call to provide additional context to
 translators and `ngettext()` which can handle plural types as defined for
 target language.
 
+As a widely spread tool, it has many wrappers which make it's usage really
+simple, instead of manual invoking of Gettext described below, you might want
+to try one of them, for example `intltool`_.
+
 The simple program in C using Gettext might look like following:
 
 .. code-block:: c
@@ -232,3 +236,4 @@ Depending on exact setup, importing of the translation might look like:
 .. _Read the Docs: https://readthedocs.org/
 .. _Internationalization Quick Guide: http://sphinx-doc.org/latest/intl.html#quick-guide
 .. _Localization of Documentation: https://docs.readthedocs.org/en/latest/localization.html
+.. _intltool: http://freedesktop.org/wiki/Software/intltool/
