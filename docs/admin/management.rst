@@ -16,7 +16,7 @@ add_suggestions <project> <component> <language> <file>
 
 .. django-admin:: add_suggesstions
 
-.. versionaddded:: 2.5
+.. versionadded:: 2.5
 
 Imports translation from the file as a suggestions to given translation. It
 skips translations which are same as existing ones, only different ones are
