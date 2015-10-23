@@ -717,7 +717,8 @@ def post_login_handler(sender, request, user, **kwargs):
 
     # Migrate django-registration based verification to python-social-auth
     if (user.has_usable_password() and
-            not user.social_auth.filter(provider='email').exists()):
+            not user.social_auth.filter(provider='email').exists() and
+            user.email):
         social = user.social_auth.create(
             provider='email',
             uid=user.email,
