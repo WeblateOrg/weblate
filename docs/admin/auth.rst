@@ -170,3 +170,62 @@ Once you have the package installed, you can hook it to Django authentication:
     }
 
 .. seealso:: http://pythonhosted.org/django-auth-ldap/
+
+
+CAS authentication
+++++++++++++++++++
+
+CAS authentication can be achieved using a package such as `django-cas-ng`.
+
+Step one is disclosing the email field of the user via CAS. This has to be
+configured on the CAS server itself and requires you run at least CAS v2 since
+CAS v1 doesn't support attributes at all.
+
+Step two is updating Weblate to use your CAS server and attributes.
+
+To install `django-cas-ng`:
+
+.. code-block:: sh
+    pip install django-cas-ng
+
+Once you have the package installed you can hook it up to the Django
+authentication system by modifying the :file:`settings.py` file:
+
+.. code-block:: python
+
+    # Add CAS backed, keep Django one if you want to be able to login
+    # even without LDAP for admin account
+    AUTHENTICATION_BACKENDS = (
+        'django_cas_ng.backends.CASBackend',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # CAS server address
+    CAS_SERVER_URL = 'https://cas.example.net/cas/'
+
+    # Add django_cas_ng somewhere in the list of INSTALLED_APPS
+    INSTALLED_APPS = (
+        ...,
+        'django_cas_ng'
+    )
+
+Finally, a signal can be used to map the email field to the user object. For
+this to work you have to import the signal from the `django-cas-ng` package and
+connect your code with this signal. Doing this inside your settings file can
+cause problems, therefore it's suggested to put it:
+
+- in your app config's `ready <https://docs.djangoproject.com/en/dev/ref/applications/#django.apps.AppConfig.ready>` method (Django 1.7 and higher)
+- at the end of your :file:`models.py` file (Django 1.6 and lower)
+- in the project's :file:`urls.py` file (when no models exist)
+
+.. code-block:: python
+    from django_cas_ng.signals import cas_user_authenticated
+    from django.dispatch import receiver
+    @receiver(cas_user_authenticated)
+    def update_user_email_address(sender, user=None, attributes=None, **kwargs):
+        # If your CAS server does not always include the email attribute
+        # you can wrap the next two lines of code in a try/catch block.
+        user.email = attributes['email']
+        user.save()
+
+.. seealso:: https://github.com/mingchen/django-cas-ng
