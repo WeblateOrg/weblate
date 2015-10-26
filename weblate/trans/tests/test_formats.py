@@ -213,3 +213,29 @@ if 'resx' in FILE_FORMATS:
         FIND = u'Hello'
         FIND_MATCH = u''
         MATCH = '<root></root>'
+
+
+class OutputTest(TestCase):
+    def test_json_default_output(self):
+        json_input = '{"string_xyz":"Foo Bar","string_abc": "Checkbox? ☑!"}'
+        # Expected result:
+        # - Keys sorted alphabetically
+        # - No trailing spaces
+        # - Newline at the end of the file
+        # - Embedded Unicode chars (not replaced by \uxxx versions)
+        # - UTF-8 file
+        json_expected_output = u'''{
+    "string_abc": "Checkbox? ☑!",
+    "string_xyz": "Foo Bar"
+}
+'''
+        out = tempfile.NamedTemporaryFile()
+        out.write(json_input)
+        out.flush()
+        JSONFormat(out.name).save()
+        with open(out.name) as handle:
+            self.assertEqual(
+                handle.read().decode('UTF-8'),
+                json_expected_output
+            )
+        out.close()
