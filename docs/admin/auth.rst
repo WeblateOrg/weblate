@@ -186,6 +186,7 @@ Step two is updating Weblate to use your CAS server and attributes.
 To install `django-cas-ng`:
 
 .. code-block:: sh
+
     pip install django-cas-ng
 
 Once you have the package installed you can hook it up to the Django
@@ -219,6 +220,7 @@ cause problems, therefore it's suggested to put it:
 - in the project's :file:`urls.py` file (when no models exist)
 
 .. code-block:: python
+
     from django_cas_ng.signals import cas_user_authenticated
     from django.dispatch import receiver
     @receiver(cas_user_authenticated)
