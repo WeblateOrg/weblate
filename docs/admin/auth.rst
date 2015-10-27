@@ -24,7 +24,7 @@ Django can be additionally configured to authenticate against other means as
 well.
 
 Social authentication
-+++++++++++++++++++++
+---------------------
 
 Thanks to `python-social-auth <http://psa.matiasaguirre.net/>`_, Weblate
 support authentication using many third party services such as Facebook,
@@ -129,7 +129,7 @@ Facebook. Once this is done, you can configure Weblate to use it:
 
 
 LDAP authentication
-+++++++++++++++++++
+-------------------
 
 LDAP authentication can be best achieved using `django-auth-ldap` package. You
 can install it by usual means:
@@ -173,7 +173,7 @@ Once you have the package installed, you can hook it to Django authentication:
 
 
 CAS authentication
-++++++++++++++++++
+------------------
 
 CAS authentication can be achieved using a package such as `django-cas-ng`.
 
