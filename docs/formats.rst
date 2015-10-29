@@ -158,11 +158,6 @@ Translation format used in Qt based applications.
 
 Qt Linguist files are used as both bilingual and monolingual.
 
-.. note::
-
-    Weblate does not support adding new language to the translations using this
-    format. This has to be done manually in the VCS.
-
 .. seealso::
 
     `Qt Linguist manual <http://doc.qt.io/qt-5/qtlinguist-index.html>`_,

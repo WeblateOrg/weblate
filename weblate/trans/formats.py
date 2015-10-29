@@ -26,7 +26,7 @@ from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit, xlifffile
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
-from translate.storage.ts2 import tsunit
+from translate.storage.ts2 import tsunit, tsfile
 from translate.storage import mo
 from translate.storage import factory
 from weblate.trans.util import get_string, join_plural, add_configuration_error
@@ -882,49 +882,26 @@ class TSFormat(FileFormat):
     loader = ('ts2', 'tsfile')
     autoload = ('.ts',)
     unit_class = MonolingualIDUnit
-    lupdate_found = None
 
     @classmethod
     def supports_new_language(cls):
         '''
         Checks whether we can create new language file.
         '''
-        if cls.lupdate_found is None:
-            try:
-                ret = subprocess.check_call(
-                    ['lupdate', '--help'],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    env=get_clean_env(),
-                )
-
-                cls.lupdate_found = (ret == 0)
-
-            except (subprocess.CalledProcessError, OSError):
-                cls.lupdate_found = False
-
-        return cls.lupdate_found
+        return True
 
     @classmethod
     def create_new_file(cls, filename, code, base):
-        process = subprocess.Popen(
-            [
-                'lupdate',
-                '-target-language', code,
-                base,
-                '-ts', filename
-            ],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            env=get_clean_env(),
-        )
+        store = tsfile.parsefile(base)
 
-        output, output_err = process.communicate()
-        retcode = process.poll()
+        store.settargetlanguage(code)
 
-        if retcode:
-            raise ValueError(output_err if output_err else output)
+        for unit in store.units:
+            if unit.istranslatable():
+                unit.markfuzzy()
+                unit.settarget('')
+
+        store.savefile(filename)
 
 
 @register_fileformat

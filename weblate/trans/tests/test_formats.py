@@ -25,7 +25,7 @@ from StringIO import StringIO
 from unittest import TestCase, SkipTest
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
-    JSONFormat, RESXFormat, PhpFormat, XliffFormat,
+    JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     FILE_FORMATS,
 )
 from weblate.trans.tests.utils import get_test_file
@@ -41,6 +41,7 @@ TEST_XLIFF = get_test_file('cs.xliff')
 TEST_POT = get_test_file('hello.pot')
 TEST_POT_UNICODE = get_test_file('unicode.pot')
 TEST_RESX = get_test_file('cs.resx')
+TEST_TS = get_test_file('cs.ts')
 
 
 class AutoLoadTest(TestCase):
@@ -114,7 +115,7 @@ class AutoFormatTest(TestCase):
     def test_add(self):
         if self.FORMAT.supports_new_language():
             self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
-            out = tempfile.NamedTemporaryFile()
+            out = tempfile.NamedTemporaryFile(suffix='.{0}'.format(self.EXT))
             self.FORMAT.add_language(out.name, 'cs', self.BASE)
             data = out.read()
             self.assertTrue(self.MATCH in data)
@@ -218,6 +219,19 @@ class RESXFormatTest(AutoFormatTest):
         super(RESXFormatTest, self).setUp()
         if 'resx' not in FILE_FORMATS:
             raise SkipTest('resx not supported!')
+
+
+class TSFormatTest(AutoFormatTest):
+    FORMAT = TSFormat
+    FILE = TEST_TS
+    BASE = TEST_TS
+    MIME = 'application/x-linguist'
+    EXT = 'ts'
+    COUNT = 5
+    MASK = 'ts/*.ts'
+    EXPECTED_PATH = 'ts/cs_CZ.ts'
+    MATCH = '<TS version="2.0" language="cs">'
+
 
 class OutputTest(TestCase):
     def test_json_default_output(self):

@@ -17,6 +17,7 @@ Released on ? 2015.
 * Site wide search can search only in one language.
 * Improve quality checks for Armenian.
 * Support for starting translation components without existing translations.
+* Support for adding new transations in Qt TS.
 
 weblate 2.4
 -----------
