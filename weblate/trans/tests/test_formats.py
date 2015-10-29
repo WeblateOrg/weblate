@@ -22,7 +22,7 @@ File format specific behavior.
 '''
 import tempfile
 from StringIO import StringIO
-from unittest import TestCase
+from unittest import TestCase, SkipTest
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
     JSONFormat, RESXFormat, PhpFormat, XliffFormat,
@@ -30,6 +30,7 @@ from weblate.trans.formats import (
 )
 from weblate.trans.tests.utils import get_test_file
 from translate.storage.po import pofile
+
 
 TEST_PO = get_test_file('cs.po')
 TEST_JSON = get_test_file('cs.json')
@@ -201,19 +202,22 @@ class XliffFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
 
 
-if 'resx' in FILE_FORMATS:
-    class RESXFormatTest(AutoFormatTest):
-        FORMAT = RESXFormat
-        FILE = TEST_RESX
-        MIME = 'text/microsoft-resx'
-        EXT = 'resx'
-        COUNT = 4
-        MASK = 'resx/*.resx'
-        EXPECTED_PATH = 'resx/cs_CZ.resx'
-        FIND = u'Hello'
-        FIND_MATCH = u''
-        MATCH = '<root></root>'
+class RESXFormatTest(AutoFormatTest):
+    FORMAT = RESXFormat
+    FILE = TEST_RESX
+    MIME = 'text/microsoft-resx'
+    EXT = 'resx'
+    COUNT = 4
+    MASK = 'resx/*.resx'
+    EXPECTED_PATH = 'resx/cs_CZ.resx'
+    FIND = u'Hello'
+    FIND_MATCH = u''
+    MATCH = '<root></root>'
 
+    def setUp(self):
+        super(RESXFormatTest, self).setUp()
+        if 'resx' not in FILE_FORMATS:
+            raise SkipTest('resx not supported!')
 
 class OutputTest(TestCase):
     def test_json_default_output(self):
