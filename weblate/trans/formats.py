@@ -882,6 +882,49 @@ class TSFormat(FileFormat):
     loader = ('ts2', 'tsfile')
     autoload = ('.ts',)
     unit_class = MonolingualIDUnit
+    lupdate_found = None
+
+    @classmethod
+    def supports_new_language(cls):
+        '''
+        Checks whether we can create new language file.
+        '''
+        if cls.lupdate_found is None:
+            try:
+                ret = subprocess.check_call(
+                    ['lupdate', '--help'],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    env=get_clean_env(),
+                )
+
+                cls.lupdate_found = (ret == 0)
+
+            except (subprocess.CalledProcessError, OSError):
+                cls.lupdate_found = False
+
+        return cls.lupdate_found
+
+    @classmethod
+    def create_new_file(cls, filename, code, base):
+        process = subprocess.Popen(
+            [
+                'lupdate',
+                '-target-language', code,
+                base,
+                '-ts', filename
+            ],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            env=get_clean_env(),
+        )
+
+        output, output_err = process.communicate()
+        retcode = process.poll()
+
+        if retcode:
+            raise ValueError(output_err if output_err else output)
 
 
 @register_fileformat
