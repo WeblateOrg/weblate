@@ -389,6 +389,7 @@ def weblate_login(request):
             'login_backends': [
                 x for x in auth_backends if x != 'email'
             ],
+            'can_reset': 'email' in auth_backends,
             'title': _('Login'),
         }
     )
@@ -530,6 +531,13 @@ def reset_password(request):
     '''
     Password reset handling.
     '''
+    if 'email' not in load_backends(BACKENDS).keys():
+        messages.error(
+            request,
+            _('Can not reset password, email authentication is disabled!')
+        )
+        return redirect('login')
+
     if request.method == 'POST':
         form = ResetForm(request.POST)
         if form.is_valid():

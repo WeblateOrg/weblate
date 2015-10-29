@@ -30,8 +30,10 @@
 {% csrf_token %}
 {{ form|crispy }}
 <p class="helptext">
+{% if can_reset %}
 {% url 'password_reset' as reset_url %}
 {% blocktrans %}Forgot your password? You can <a href="{{ reset_url }}">reset it</a>.{% endblocktrans %}
+{% endif %}
 </p>
 
 <input type="hidden" name="next" value="{{ next }}" />
