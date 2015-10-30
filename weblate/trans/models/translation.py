@@ -30,7 +30,7 @@ from django.core.urlresolvers import reverse
 import os
 import codecs
 from translate.storage import poheader
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from weblate import appsettings
 from weblate.lang.models import Language
@@ -874,9 +874,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             author = get_author_name(user)
 
             # Update po file header
-            po_revision_date = (
-                datetime.now().strftime('%Y-%m-%d %H:%M') + poheader.tzstring()
-            )
+            now = timezone.now()
+            if not timezone.is_aware(now):
+                now = timezone.make_aware(now)
 
             # Prepare headers to update
             headers = {
@@ -884,7 +884,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 'last_translator': author,
                 'plural_forms': self.language.get_plural_form(),
                 'language': self.language_code,
-                'PO_Revision_Date': po_revision_date,
+                'PO_Revision_Date': now.strftime('%Y-%m-%d %H:%M%z'),
             }
 
             # Optionally store language team with link to website
