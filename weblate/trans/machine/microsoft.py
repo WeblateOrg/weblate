@@ -18,7 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from datetime import datetime, timedelta
+from datetime import timedelta
+from django.utils import timezone
 from weblate.trans.machine.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
@@ -62,7 +63,7 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         Checks whether token is about to expire.
         '''
-        return self._token_expiry <= datetime.now()
+        return self._token_expiry <= timezone.now()
 
     @property
     def access_token(self):
@@ -87,7 +88,7 @@ class MicrosoftTranslation(MachineTranslation):
                 )
 
             self._access_token = data['access_token']
-            self._token_expiry = datetime.now() + TOKEN_EXPIRY
+            self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
         return self._access_token
 
