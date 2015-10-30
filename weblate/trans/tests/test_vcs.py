@@ -27,7 +27,7 @@ from django.test import TestCase
 import tempfile
 import shutil
 import os.path
-import datetime
+from django.utils import timezone
 
 
 class GithubFakeRepository(GithubRepository):
@@ -116,7 +116,7 @@ class VCSGitTest(RepoTestCase):
             repo.commit(
                 'Test commit',
                 'Foo Bar <foo@bar.com>',
-                datetime.datetime.now(),
+                timezone.now(),
                 [filename]
             )
 
@@ -290,7 +290,7 @@ class VCSGitTest(RepoTestCase):
         self.repo.commit(
             'Test commit',
             'Foo Bar <foo@bar.com>',
-            datetime.datetime.now(),
+            timezone.now(),
             ['testfile']
         )
         # Check we have new revision

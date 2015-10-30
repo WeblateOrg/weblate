@@ -24,6 +24,7 @@ Testing of natural time conversion.
 from unittest import TestCase
 from weblate.trans.templatetags.translations import naturaltime
 import datetime
+from django.utils import timezone
 
 TEST_DATA = (
     (0, 'now'),
@@ -60,7 +61,7 @@ TEST_DATA = (
 
 class NaturalTimeTest(TestCase):
     def test_natural(self):
-        now = datetime.datetime.now()
+        now = timezone.now()
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
             result = naturaltime(testdate, now)
