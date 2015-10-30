@@ -135,7 +135,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     language_code = models.CharField(max_length=20, default='')
 
     lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
-    lock_time = models.DateTimeField(default=datetime.now)
+    lock_time = models.DateTimeField(default=timezone.now)
 
     commit_message = models.TextField(default='', blank=True)
 
@@ -292,9 +292,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Any user?
         if self.lock_user is None:
             return False
-
         # Is lock still valid?
-        elif self.lock_time < datetime.now():
+        elif self.lock_time < timezone.now():
             # Clear the lock
             self.create_lock(None)
 
@@ -316,7 +315,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Clean timestamp on unlock
         if user is None:
-            self.lock_time = datetime.now()
+            self.lock_time = timezone.now()
             self.save()
             return
 
@@ -331,7 +330,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         else:
             seconds = appsettings.AUTO_LOCK_TIME
 
-        new_lock_time = datetime.now() + timedelta(seconds=seconds)
+        new_lock_time = timezone.now() + timedelta(seconds=seconds)
 
         if is_new or new_lock_time > self.lock_time:
             self.lock_time = new_lock_time
