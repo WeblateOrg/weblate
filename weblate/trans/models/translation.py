@@ -876,7 +876,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             # Update po file header
             now = timezone.now()
             if not timezone.is_aware(now):
-                now = timezone.make_aware(now)
+                now = timezone.make_aware(now, timezone.utc)
 
             # Prepare headers to update
             headers = {
