@@ -25,6 +25,7 @@ from django.contrib import messages
 from django.db.models import Sum, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
+from django.utils import timezone
 import django.views.defaults
 
 from weblate.trans.models import (
@@ -300,7 +301,7 @@ def show_translation(request, project, subproject, lang):
     else:
         review_form = ReviewForm(
             initial={
-                'date': datetime.date.today() - datetime.timedelta(days=31)
+                'date': timezone.now().date() - datetime.timedelta(days=31)
             }
         )
 
