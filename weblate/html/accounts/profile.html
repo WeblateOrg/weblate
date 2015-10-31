@@ -177,7 +177,6 @@
 <th>{% trans "Identity" %}</th>
 <th>{% trans "User ID" %}</th>
 <th>{% trans "Action" %}</th>
-</td>
 </tr>
 <tbody>
 <tr>
@@ -190,7 +189,7 @@
 {% for assoc in associated %}
 <tr>
 <th>{% auth_name assoc.provider '' ' ' %}</th>
-<td>{{ assoc.uid }}</th>
+<td>{{ assoc.uid }}</td>
 <td>
 {% if associated.count > 1 %}
 <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}" class="disconnect btn btn-danger"><i class="fa fa-trash"></i> {% trans "Disconnect" %}</a>
@@ -253,8 +252,7 @@
 <th>{% trans "Your public profile" %}</th>
 <td><a href="{{ user_page }}">{{ user_page }}</a></td>
 </tr>
-</table
-</div>
+</table>
 </div>
 </div>
 
