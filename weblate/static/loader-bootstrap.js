@@ -745,4 +745,10 @@ $(function () {
         weekStart: django.formats.FIRST_DAY_OF_WEEK,
         titleFormat: "MM yyyy"
     };
+
+    /* Override all multiple selects */
+    $('select[multiple]').each(function () {
+        $(this).multiSelect({
+        });
+    });
 });
