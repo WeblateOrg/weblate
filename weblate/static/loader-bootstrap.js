@@ -746,9 +746,14 @@ $(function () {
         titleFormat: "MM yyyy"
     };
 
-    /* Override all multiple selects */
+    /* Override all multiple selects, use font awesome for exchange icon */
     $('select[multiple]').each(function () {
         $(this).multiSelect({
+            afterInit: function (target) {
+                $(target.children()[0]).after(
+                    '<div class="fa-multiselect"><i class="fa fa-exchange"></i></div>'
+                );
+            }
         });
     });
 });
