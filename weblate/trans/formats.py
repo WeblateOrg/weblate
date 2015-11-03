@@ -21,6 +21,7 @@
 File format specific behavior.
 '''
 from django.utils.translation import ugettext_lazy as _
+from translate.convert import po2php, convert
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit, xlifffile
@@ -1012,6 +1013,21 @@ class PhpFormat(FileFormat):
         Returns most common file extension for format.
         '''
         return 'php'
+
+    def save(self):
+        '''
+        Saves underlaying store to disk.
+
+        This is workaround for .save() not working as intended in
+        translate-toolkit.
+        '''
+        with open(self.store.filename, 'r') as handle:
+            convertor = po2php.rephp(handle, self.store)
+
+            outputphplines = convertor.convertstore(False)
+
+        with open(self.store.filename, 'w') as handle:
+            handle.writelines(outputphplines)
 
 
 @register_fileformat

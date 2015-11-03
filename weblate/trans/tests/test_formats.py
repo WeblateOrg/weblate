@@ -23,6 +23,7 @@ File format specific behavior.
 import tempfile
 from StringIO import StringIO
 from unittest import TestCase, SkipTest
+from django.test import SimpleTestCase
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
     JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
@@ -84,7 +85,7 @@ class AutoLoadTest(TestCase):
         self.assertIsInstance(store.store, pofile)
 
 
-class AutoFormatTest(TestCase):
+class AutoFormatTest(SimpleTestCase):
     FORMAT = AutoFormat
     FILE = TEST_PO
     BASE = TEST_POT
@@ -102,6 +103,41 @@ class AutoFormatTest(TestCase):
         self.assertEqual(storage.count_units(), self.COUNT)
         self.assertEqual(storage.mimetype, self.MIME)
         self.assertEqual(storage.extension, self.EXT)
+
+    def test_save(self):
+        # Read test content
+        with open(self.FILE, 'r') as handle:
+            testdata = handle.read()
+
+        # Create test file
+        testfile = tempfile.NamedTemporaryFile(suffix='.{0}'.format(self.EXT))
+        try:
+            # Write test data to file
+            testfile.write(testdata)
+            testfile.flush()
+
+            # Parse test file
+            storage = self.FORMAT(testfile.name)
+
+            # Save test file
+            storage.save()
+
+            # Read new content
+            with open(testfile.name, 'r') as handle:
+                newdata = handle.read()
+
+            # Check if content matches
+            self.assert_same(newdata, testdata)
+        finally:
+            testfile.close()
+
+    def assert_same(self, newdata, testdata):
+        """Content aware comparison.
+
+        This can be implemented in subclasses to implement content
+        aware comparing of translation files.
+        """
+        self.assertEqual(newdata.strip(), testdata.strip())
 
     def test_find(self):
         storage = self.FORMAT(self.FILE)
@@ -130,6 +166,11 @@ class AutoFormatTest(TestCase):
         )
 
 
+class XMLMixin(object):
+    def assert_same(self, newdata, testdata):
+        self.assertXMLEqual(newdata, testdata)
+
+
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
 
@@ -153,6 +194,12 @@ class PropertiesFormatTest(AutoFormatTest):
     FIND_MATCH = 'Ignore'
     MATCH = '\n'
 
+    def assert_same(self, newdata, testdata):
+        self.assertEqual(
+            newdata.strip().splitlines(),
+            testdata.strip().splitlines(),
+        )
+
 
 class JSONFormatTest(AutoFormatTest):
     FORMAT = JSONFormat
@@ -164,6 +211,9 @@ class JSONFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'json/cs_CZ.json'
     MATCH = '{}\n'
     BASE = ''
+
+    def assert_same(self, newdata, testdata):
+        self.assertJSONEqual(newdata, testdata)
 
 
 class PhpFormatTest(AutoFormatTest):
@@ -179,7 +229,7 @@ class PhpFormatTest(AutoFormatTest):
     FIND_MATCH = 'bar'
 
 
-class AndroidFormatTest(AutoFormatTest):
+class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = AndroidFormat
     FILE = TEST_ANDROID
     MIME = 'application/xml'
@@ -190,7 +240,7 @@ class AndroidFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'res/values-cs-rCZ/strings.xml'
 
 
-class XliffFormatTest(AutoFormatTest):
+class XliffFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = XliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
@@ -203,7 +253,7 @@ class XliffFormatTest(AutoFormatTest):
     EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
 
 
-class RESXFormatTest(AutoFormatTest):
+class RESXFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = RESXFormat
     FILE = TEST_RESX
     MIME = 'text/microsoft-resx'
@@ -221,7 +271,7 @@ class RESXFormatTest(AutoFormatTest):
             raise SkipTest('resx not supported!')
 
 
-class TSFormatTest(AutoFormatTest):
+class TSFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = TSFormat
     FILE = TEST_TS
     BASE = TEST_TS
@@ -231,6 +281,13 @@ class TSFormatTest(AutoFormatTest):
     MASK = 'ts/*.ts'
     EXPECTED_PATH = 'ts/cs_CZ.ts'
     MATCH = '<TS version="2.0" language="cs">'
+
+    def assert_same(self, newdata, testdata):
+        # Comparing of XML with doctype fails...
+        self.assertXMLEqual(
+            newdata.replace('<!DOCTYPE TS>', ''),
+            testdata.replace('<!DOCTYPE TS>', '')
+        )
 
 
 class OutputTest(TestCase):
