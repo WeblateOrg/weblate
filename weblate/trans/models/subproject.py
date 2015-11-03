@@ -1171,7 +1171,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         dir_path = self.get_path()
         for match in matches:
             try:
-                parsed = self.file_format_cls.parse(
+                parsed = self.file_format_cls.load(
                     os.path.join(dir_path, match),
                 )
                 if not self.file_format_cls.is_valid(parsed):
@@ -1444,7 +1444,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Loads translate-toolkit store for template.
         '''
-        return self.file_format_cls.parse(
+        return self.file_format_cls.load(
             self.get_template_filename(),
         )
 
