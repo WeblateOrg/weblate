@@ -18,6 +18,7 @@ Released on ? 2015.
 * Improve quality checks for Armenian.
 * Support for starting translation components without existing translations.
 * Support for adding new transations in Qt TS.
+* Improved support for translating PHP files.
 
 weblate 2.4
 -----------
