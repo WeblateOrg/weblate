@@ -751,7 +751,7 @@ $(function () {
         $(this).multiSelect({
             afterInit: function (target) {
                 $(target.children()[0]).after(
-                    '<div class="fa-multiselect"><i class="fa fa-exchange"></i></div>'
+                    '<div class="fa-multiselect"><span class="fa fa-exchange"></span></div>'
                 );
             }
         });
