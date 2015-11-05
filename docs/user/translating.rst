@@ -214,4 +214,5 @@ conflicts.
 
 This feature can be useful in several situations like consolidating translation
 between different components (eg. website and application) or when
-bootstrapping translation for new component.
+bootstrapping translation for new component using existing translations
+(translation memory).
