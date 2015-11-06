@@ -167,30 +167,19 @@ class BaseFormatCheck(TargetCheck):
 
         uses_position = True
 
-        # Try geting source parsing from cache
-        src_matches = self.get_cache(unit, cache_slot)
-
-        # New style cache
-        if isinstance(src_matches, tuple):
-            uses_position, src_matches = src_matches
-        else:
-            src_matches = None
-
         # We ignore %% in the matches as this is really not relevant. However
         # it needs to be matched to prevent handling %%s as %s.
 
-        # Cache miss, so calculate value
-        if src_matches is None:
-            src_matches = [
-                self.cleanup_string(x[0])
-                for x in self.regexp.findall(source)
-                if x[0] != '%'
-            ]
-            if src_matches:
-                uses_position = max(
-                    [self.is_position_based(x) for x in src_matches]
-                )
-            self.set_cache(unit, (uses_position, src_matches), cache_slot)
+        # Calculate value
+        src_matches = [
+            self.cleanup_string(x[0])
+            for x in self.regexp.findall(source)
+            if x[0] != '%'
+        ]
+        if src_matches:
+            uses_position = max(
+                [self.is_position_based(x) for x in src_matches]
+            )
 
         tgt_matches = [
             self.cleanup_string(x[0])
