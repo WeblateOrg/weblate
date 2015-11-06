@@ -19,6 +19,7 @@ Released on ? 2015.
 * Support for starting translation components without existing translations.
 * Support for adding new transations in Qt TS.
 * Improved support for translating PHP files.
+* Performance improvements for quality checks.
 
 weblate 2.4
 -----------
