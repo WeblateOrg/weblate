@@ -42,7 +42,7 @@ class PluralCzechCheck(TargetCheck):
             return targets[1] == targets[2]
         return False
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         '''
         We don't check target strings here.
         '''

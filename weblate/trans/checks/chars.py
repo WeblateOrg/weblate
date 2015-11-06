@@ -31,7 +31,7 @@ class BeginNewlineCheck(TargetCheck):
     description = _('Source and translation do not both start with a newline')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         return self.check_chars(source, target, 0, ['\n'])
 
 
@@ -44,7 +44,7 @@ class EndNewlineCheck(TargetCheck):
     description = _('Source and translation do not both end with a newline')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         return self.check_chars(source, target, -1, ['\n'])
 
 
@@ -59,7 +59,7 @@ class BeginSpaceCheck(TargetCheck):
     )
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -88,7 +88,7 @@ class EndSpaceCheck(TargetCheck):
     description = _('Source and translation do not both end with a space')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
         if len(source) <= 1 and len(target) <= 1:
             return False
@@ -122,7 +122,7 @@ class EndStopCheck(TargetCheck):
     description = _('Source and translation do not both end with a full stop')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if len(source) <= 4:
             # Might need to use shortcut in translation
             return False
@@ -205,7 +205,7 @@ class EndColonCheck(TargetCheck):
             )
         return False
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if not source or not target:
             return False
         if self.is_language(unit, ('fr', 'br')):
@@ -256,7 +256,7 @@ class EndQuestionCheck(TargetCheck):
             return False
         return target[-1] not in self.question_el
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if not source or not target:
             return False
         if self.is_language(unit, ('fr', 'br')):
@@ -297,7 +297,7 @@ class EndExclamationCheck(TargetCheck):
             return False
         return not self.check_ends(target, self.exclamation_fr)
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if not source or not target:
             return False
         if self.is_language(unit, ('eu', )):
@@ -327,7 +327,7 @@ class EndEllipsisCheck(TargetCheck):
     description = _('Source and translation do not both end with an ellipsis')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if not target:
             return False
         # Allow ... to be translated into ellipsis
@@ -356,7 +356,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     description = _('Translation contains extra zero-width space character')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if self.is_language(unit, ('km', )):
             return False
         return (u'\u200b' in target) != (u'\u200b' in source)

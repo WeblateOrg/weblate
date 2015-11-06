@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.cache import cache
 import weblate
 
 
@@ -61,19 +60,19 @@ class Check(object):
         Checks single unit, handling plurals.
         '''
         # Check singular
-        if self.check_single(sources[0], targets[0], unit, 0):
+        if self.check_single(sources[0], targets[0], unit):
             return True
         # Do we have more to check?
         if len(sources) == 1:
             return False
         # Check plurals against plural from source
         for target in targets[1:]:
-            if self.check_single(sources[1], target, unit, 1):
+            if self.check_single(sources[1], target, unit):
                 return True
         # Check did not fire
         return False
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         '''
         Check for single phrase, not dealing with plurals.
         '''
@@ -122,29 +121,6 @@ class Check(object):
         '''
         return weblate.get_doc_url('user/checks', self.doc_id)
 
-    def get_cache_key(self, unit, cache_slot=0):
-        '''
-        Generates key for a cache.
-        '''
-        return 'check-%s-%d-%s-%d' % (
-            self.check_id,
-            unit.translation.subproject.project.id,
-            unit.checksum,
-            cache_slot
-        )
-
-    def get_cache(self, unit, cache_slot=0):
-        '''
-        Returns cached result.
-        '''
-        return cache.get(self.get_cache_key(unit, cache_slot))
-
-    def set_cache(self, unit, value, cache_slot=0):
-        '''
-        Sets cache.
-        '''
-        return cache.set(self.get_cache_key(unit, cache_slot), value)
-
 
 class TargetCheck(Check):
     '''
@@ -158,7 +134,7 @@ class TargetCheck(Check):
         '''
         return False
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         '''
         Check for single phrase, not dealing with plurals.
         '''
@@ -171,7 +147,7 @@ class SourceCheck(Check):
     '''
     source = True
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         '''
         We don't check target strings here.
         '''
@@ -190,7 +166,7 @@ class CountingCheck(TargetCheck):
     '''
     string = None
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         if len(target) == 0 or len(source) == 0:
             return False
         return source.count(self.string) != target.count(self.string)

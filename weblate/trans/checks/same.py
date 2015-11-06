@@ -1102,19 +1102,13 @@ class SameCheck(TargetCheck):
     description = _('Source and translated strings are same')
     severity = 'warning'
 
-    def should_ignore(self, source, unit, cache_slot):
+    def should_ignore(self, source, unit):
         '''
         Check whether given unit should be ignored.
         '''
-        # Use cache if available
-        result = self.get_cache(unit, cache_slot)
-        if result is not None:
-            return result
-
         # Ignore some docbook tags
         if unit.comment.startswith('Tag: '):
             if unit.comment[5:] in DB_TAGS:
-                self.set_cache(unit, True, cache_slot)
                 return True
 
         # Lower case source
@@ -1141,12 +1135,9 @@ class SameCheck(TargetCheck):
                         return False
                 return True
 
-        # Store in cache
-        self.set_cache(unit, result, cache_slot)
-
         return result
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
         if self.is_language(unit, ('en', 'ia')):
@@ -1161,7 +1152,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Check for ignoring
-        if self.should_ignore(source, unit, cache_slot):
+        if self.should_ignore(source, unit):
             return False
 
         return source == target

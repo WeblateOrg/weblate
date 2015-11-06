@@ -112,7 +112,6 @@ class CheckTestCase(TestCase):
             data[0],
             data[1],
             MockUnit(None, data[2], lang),
-            0
         )
         if expected:
             self.assertTrue(
