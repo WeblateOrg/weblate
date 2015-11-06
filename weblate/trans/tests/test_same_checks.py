@@ -43,7 +43,6 @@ class SameCheckTest(CheckTestCase):
             'source',
             'source',
             MockUnit(code='en'),
-            0
         ))
 
     def test_same_db_screen(self):
@@ -51,13 +50,11 @@ class SameCheckTest(CheckTestCase):
             'some long text is here',
             'some long text is here',
             MockUnit(code='de'),
-            0
         ))
         self.assertFalse(self.check.check_single(
             'some long text is here',
             'some long text is here',
             MockUnit(code='de', comment='Tag: screen'),
-            0
         ))
 
     def test_same_numbers(self):

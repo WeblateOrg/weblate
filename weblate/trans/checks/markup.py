@@ -48,7 +48,7 @@ class BBCodeCheck(TargetCheck):
     description = _('BBcode in translation does not match source')
     severity = 'warning'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # Parse source
         src_match = BBCODE_MATCH.findall(source)
         # Any BBCode in source?
@@ -81,7 +81,7 @@ class XMLTagsCheck(TargetCheck):
         text = strip_entities(text.encode('utf-8'))
         return cElementTree.fromstring('<weblate>%s</weblate>' % text)
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # Quick check if source looks like XML
         if '<' not in source or len(XML_MATCH.findall(source)) == 0:
             return False

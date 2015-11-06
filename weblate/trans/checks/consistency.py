@@ -41,7 +41,7 @@ class PluralsCheck(TargetCheck):
         # Check for empty translation
         return '' in targets
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         '''
         We don't check target strings here.
         '''
@@ -78,7 +78,7 @@ class ConsistencyCheck(TargetCheck):
 
         return related.exists()
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         '''
         We don't check target strings here.
         '''

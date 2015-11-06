@@ -1102,7 +1102,7 @@ class SameCheck(TargetCheck):
     description = _('Source and translated strings are same')
     severity = 'warning'
 
-    def should_ignore(self, source, unit, cache_slot):
+    def should_ignore(self, source, unit):
         '''
         Check whether given unit should be ignored.
         '''
@@ -1137,7 +1137,7 @@ class SameCheck(TargetCheck):
 
         return result
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
         if self.is_language(unit, ('en', 'ia')):
@@ -1152,7 +1152,7 @@ class SameCheck(TargetCheck):
             return False
 
         # Check for ignoring
-        if self.should_ignore(source, unit, cache_slot):
+        if self.should_ignore(source, unit):
             return False
 
         return source == target
