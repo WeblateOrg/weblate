@@ -373,7 +373,12 @@ class UploadForm(SimpleUploadForm):
     '''
     overwrite = forms.BooleanField(
         label=_('Overwrite existing translations'),
-        required=False
+        help_text=_(
+            'Whether to overwrite existing translations if the string is '
+            'already translated.'
+        ),
+        required=False,
+        initial=True
     )
 
 
