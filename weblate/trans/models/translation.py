@@ -132,7 +132,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     enabled = models.BooleanField(default=True, db_index=True)
 
-    language_code = models.CharField(max_length=20, default='')
+    language_code = models.CharField(max_length=20, default='', blank=True)
 
     lock_user = models.ForeignKey(User, null=True, blank=True, default=None)
     lock_time = models.DateTimeField(default=timezone.now)
