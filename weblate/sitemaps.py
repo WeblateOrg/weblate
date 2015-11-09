@@ -18,34 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.contrib.sitemaps import GenericSitemap, Sitemap
+from django.contrib.sitemaps import Sitemap
 from django.core.urlresolvers import reverse
 from weblate.trans.models import Project, SubProject, Translation, Change
 from weblate.accounts.models import Profile
-
-PROJECT_DICT = {
-    'queryset': Project.objects.all_acl(None),
-    'date_field': 'last_change',
-}
-
-SUBPROJECT_DICT = {
-    'queryset': SubProject.objects.filter(
-        project__in=Project.objects.all_acl(None)
-    ),
-    'date_field': 'last_change',
-}
-
-TRANSLATION_DICT = {
-    'queryset': Translation.objects.filter(
-        subproject__project__in=Project.objects.all_acl(None)
-    ),
-    'date_field': 'last_change',
-}
-
-USER_DICT = {
-    'queryset': Profile.objects.all(),
-    'date_field': 'last_change',
-}
 
 
 class PagesSitemap(Sitemap):
@@ -69,10 +45,55 @@ class PagesSitemap(Sitemap):
         return item[2]
 
 
-class EngageSitemap(GenericSitemap):
+class WeblateSitemap(Sitemap):
+    priority = None
+    changefreq = None
+
+    def items(self):
+        raise NotImplementedError()
+
+    def lastmod(self, item):
+        return item.last_change
+
+
+class ProjectSitemap(WeblateSitemap):
+    priority = 0.8
+
+    def items(self):
+        return Project.objects.all_acl(None)
+
+
+class ComponentSitemap(WeblateSitemap):
+    priority = 0.6
+
+    def items(self):
+        return SubProject.objects.filter(
+            project__in=Project.objects.all_acl(None)
+        )
+
+
+class TranslationSitemap(WeblateSitemap):
+    priority = 0.2
+
+    def items(self):
+        return Translation.objects.filter(
+            subproject__project__in=Project.objects.all_acl(None)
+        )
+
+
+class UserSitemap(WeblateSitemap):
+    priority = 0.1
+
+    def items(self):
+        return Profile.objects.all()
+
+
+class EngageSitemap(ProjectSitemap):
     '''
-    Wrapper around GenericSitemap to point to engage page.
+    Wrapper around ProjectSitemap to point to engage page.
     '''
+    priority = 1.0
+
     def location(self, obj):
         return reverse('engage', kwargs={'project': obj.slug})
 
@@ -101,11 +122,11 @@ class EngageLangSitemap(Sitemap):
 
 
 SITEMAPS = {
-    'project': GenericSitemap(PROJECT_DICT, priority=0.8),
-    'engage': EngageSitemap(PROJECT_DICT, priority=1.0),
+    'project': ProjectSitemap(),
+    'engage': EngageSitemap(),
     'engagelang': EngageLangSitemap(),
-    'subproject': GenericSitemap(SUBPROJECT_DICT, priority=0.6),
-    'translation': GenericSitemap(TRANSLATION_DICT, priority=0.2),
-    'user': GenericSitemap(USER_DICT, priority=0.1),
+    'subproject': ComponentSitemap(),
+    'translation': TranslationSitemap(),
+    'user': UserSitemap(),
     'pages': PagesSitemap(),
 }
