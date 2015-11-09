@@ -254,6 +254,19 @@ class RepoTestCase(TestCase):
             'json-mono/en.json',
         )
 
+    def create_csv(self):
+        return self._create_subproject(
+            'csv',
+            'csv/*.txt',
+        )
+
+    def create_csv_mono(self):
+        return self._create_subproject(
+            'csv',
+            'csv-mono/*.csv',
+            'csv-mono/en.csv',
+        )
+
     def create_java(self):
         return self._create_subproject(
             'properties',
@@ -509,6 +522,14 @@ class SubProjectTest(RepoTestCase):
 
     def test_create_json_mono(self):
         project = self.create_json_mono()
+        self.verify_subproject(project, 2, 'cs', 4)
+
+    def test_create_csv(self):
+        project = self.create_csv()
+        self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_csv_mono(self):
+        project = self.create_csv_mono()
         self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_java(self):
