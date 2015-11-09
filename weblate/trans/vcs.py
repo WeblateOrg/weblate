@@ -600,7 +600,8 @@ class GitRepository(Repository):
         """
         Configure repository branch.
         """
-        # List of branches (we get additional * there indicating current branch)
+        # Get List of current branches in local repository
+        # (we get additional * there indicating current branch)
         branches = self.execute(['branch']).splitlines()
         if '* {0}'.format(branch) in branches:
             return
