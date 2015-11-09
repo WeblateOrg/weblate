@@ -28,14 +28,17 @@ from weblate import get_versions_list
 class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
     def get_post_parameters(self, request):
         if hasattr(request, 'META'):
+            meta = request.META
             if (hasattr(request, 'user') and
                     request.user.is_authenticated()):
-                request.META['WEBLATE_USER'] = repr(request.user.username)
+                meta['WEBLATE_USER'] = repr(request.user.username)
             if (hasattr(request, 'session') and
                     'django_language' in request.session):
-                request.META['WEBLATE_LANGUAGE'] = request.session['django_language']
+                meta['WEBLATE_LANGUAGE'] = request.session['django_language']
 
             for version in get_versions_list():
-                request.META['WEBLATE_VERSION:{0}'.format(version[0])] = version[2]
+                meta['WEBLATE_VERSION:{0}'.format(version[0])] = version[2]
 
-        return super(WeblateExceptionReporterFilter, self).get_post_parameters(request)
+        return super(WeblateExceptionReporterFilter, self).get_post_parameters(
+            request
+        )
