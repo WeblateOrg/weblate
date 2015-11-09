@@ -1138,6 +1138,10 @@ class CSVFormat(FileFormat):
         """
         storeclass = cls.get_class()
 
+        # Did we get file or filename?
+        if not hasattr(storefile, 'read'):
+            storefile = open(storefile, 'r')
+
         # Read content for fixups
         content = storefile.read()
         storefile.seek(0)
@@ -1150,6 +1154,7 @@ class CSVFormat(FileFormat):
             return store
 
         fileobj = StringIOMode(storefile.name, content)
+        storefile.close()
 
         # Try reading header
         reader = csv.reader(fileobj, store.dialect)
