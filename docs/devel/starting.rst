@@ -225,6 +225,20 @@ Depending on exact setup, importing of the translation might look like:
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/**.po'
 
+If you have more complex document structure, importing different folders is not
+direcly supported, you currently have to list them separately:
+
+.. code-block:: console
+
+    $ ./manage.py import_project --name-template 'Directory 1: %s' \
+        --file-format po \
+        project https://github.com/project/docs.git master \
+        'docs/locale/*/LC_MESSAGES/dir1/**.po'
+    $ ./manage.py import_project --name-template 'Directory 2: %s' \
+        --file-format po \
+        project https://github.com/project/docs.git master \
+        'docs/locale/*/LC_MESSAGES/dir2/**.po'
+
 .. seealso::
 
     The `Odorik`_ python module documentation is built using Sphinx, Read the
