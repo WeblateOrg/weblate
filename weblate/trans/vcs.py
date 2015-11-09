@@ -600,15 +600,22 @@ class GitRepository(Repository):
         """
         Configure repository branch.
         """
-        # List of branches (we get additional * there, but we don't care)
-        branches = self.execute(['branch']).split()
-        if branch in branches:
+        # List of branches (we get additional * there indicating current branch)
+        branches = self.execute(['branch']).splitlines()
+        if '* {0}'.format(branch) in branches:
             return
 
         # Add branch
-        self.execute(
-            ['branch', '--track', branch, 'origin/{0}'.format(branch)]
-        )
+        if branch not in branches:
+            self.execute(
+                ['branch', '--track', branch, 'origin/{0}'.format(branch)]
+            )
+        else:
+            # Ensure it tracks correct upstream
+            self.set_config(
+                'branch.{0}.remote'.format(branch),
+                'origin',
+            )
 
         # Checkout
         self.execute(['checkout', branch])
