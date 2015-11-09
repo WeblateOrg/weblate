@@ -20,28 +20,28 @@
 
 from django.conf.urls import patterns, url, include
 
-from weblate.accounts.views import RegistrationTemplateView
+import weblate.accounts.views
 
 
 urlpatterns = patterns(
     '',
     url(
         r'^email-sent/$',
-        RegistrationTemplateView.as_view(
+        weblate.accounts.views.RegistrationTemplateView.as_view(
             template_name='accounts/email-sent.html',
         ),
         name='email-sent'
     ),
-    url(r'^password/', 'weblate.accounts.views.password', name='password'),
+    url(r'^password/', weblate.accounts.views.password, name='password'),
     url(
-        r'^reset/', 'weblate.accounts.views.reset_password',
+        r'^reset/', weblate.accounts.views.reset_password,
         name='password_reset'
     ),
-    url(r'^logout/', 'weblate.accounts.views.weblate_logout', name='logout'),
-    url(r'^profile/', 'weblate.accounts.views.user_profile', name='profile'),
-    url(r'^remove/', 'weblate.accounts.views.user_remove', name='remove'),
-    url(r'^login/$', 'weblate.accounts.views.weblate_login', name='login'),
-    url(r'^register/$', 'weblate.accounts.views.register', name='register'),
-    url(r'^email/$', 'weblate.accounts.views.email_login', name='email_login'),
+    url(r'^logout/', weblate.accounts.views.weblate_logout, name='logout'),
+    url(r'^profile/', weblate.accounts.views.user_profile, name='profile'),
+    url(r'^remove/', weblate.accounts.views.user_remove, name='remove'),
+    url(r'^login/$', weblate.accounts.views.weblate_login, name='login'),
+    url(r'^register/$', weblate.accounts.views.register, name='register'),
+    url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
 )
