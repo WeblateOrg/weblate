@@ -591,11 +591,10 @@ class GitRepository(Repository):
             self.execute(['remote', 'set-url', 'origin', '--push', push_url])
 
         # Set branch to track
-        self.execute([
-            'config',
+        self.set_config(
             'remote.origin.fetch',
             '+refs/heads/{0}:refs/remotes/origin/{0}'.format(branch)
-        ])
+        )
 
     def configure_branch(self, branch):
         """
