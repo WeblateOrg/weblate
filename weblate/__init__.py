@@ -96,12 +96,23 @@ def get_doc_url(page, anchor=''):
     return url
 
 
+def get_versions_list():
+    '''
+    Returns list with version information summary.
+    '''
+    return (
+        [('Weblate', '', GIT_VERSION)] +
+        get_versions() +
+        get_optional_versions()
+    )
+
+
 def get_versions_string():
     '''
     Returns string with version information summary.
     '''
-    result = [' * Weblate %s' % GIT_VERSION]
-    for version in get_versions() + get_optional_versions():
+    result = []
+    for version in get_versions_list():
         result.append(
             ' * %s %s' % (
                 version[0],

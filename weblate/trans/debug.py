@@ -22,33 +22,20 @@ Wrapper to include useful information in error mails.
 '''
 
 from django.views.debug import SafeExceptionReporterFilter
-from weblate import get_versions_string
+from weblate import get_versions_list
 
 
 class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
-    def get_request_repr(self, request):
-        if request is None:
-            return repr(None)
+    def get_post_parameters(self, request):
+        if hasattr(request, 'META'):
+            if (hasattr(request, 'user') and
+                    request.user.is_authenticated()):
+                request.META['WEBLATE_USER'] = repr(request.user.username)
+            if (hasattr(request, 'session') and
+                    'django_language' in request.session):
+                request.META['WEBLATE_LANGUAGE'] = request.session['django_language']
 
-        result = super(WeblateExceptionReporterFilter, self).get_request_repr(
-            request
-        )
+            for version in get_versions_list():
+                request.META['WEBLATE_VERSION:{0}'.format(version[0])] = version[2]
 
-        if (hasattr(request, 'session') and
-                'django_language' in request.session):
-            lang = request.session['django_language']
-        else:
-            lang = None
-
-        if (hasattr(request, 'user') and
-                request.user.is_authenticated()):
-            user = repr(request.user.username)
-        else:
-            user = None
-
-        return '%s\n\nLanguage: %s\nUser: %s\n\nVersions:\n%s' % (
-            result,
-            lang,
-            user,
-            get_versions_string()
-        )
+        return super(WeblateExceptionReporterFilter, self).get_post_parameters(request)

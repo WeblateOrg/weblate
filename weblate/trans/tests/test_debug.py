@@ -26,26 +26,24 @@ from weblate.trans.debug import WeblateExceptionReporterFilter
 class ReportFilterTest(TestCase):
     def test_report_none(self):
         reporter = WeblateExceptionReporterFilter()
-        result = reporter.get_request_repr(None)
-        self.assertEqual(
-            'None',
-            result
-        )
+        result = reporter.get_post_parameters(None)
+        self.assertEqual(result, {})
 
     def test_report_request(self):
         reporter = WeblateExceptionReporterFilter()
-        result = reporter.get_request_repr(HttpRequest())
+        request = HttpRequest()
+        reporter.get_post_parameters(request)
         self.assertIn(
-            'HttpRequest',
-            result
+            'WEBLATE_VERSION:Weblate',
+            request.META
         )
 
     def test_report_language(self):
         reporter = WeblateExceptionReporterFilter()
         request = HttpRequest()
         request.session = {'django_language': 'testlang'}
-        result = reporter.get_request_repr(request)
+        reporter.get_post_parameters(request)
         self.assertIn(
-            'testlang',
-            result
+            'WEBLATE_LANGUAGE',
+            request.META
         )
