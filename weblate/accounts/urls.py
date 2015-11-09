@@ -18,13 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 
 import weblate.accounts.views
 
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(
         r'^email-sent/$',
         weblate.accounts.views.RegistrationTemplateView.as_view(
@@ -44,4 +43,4 @@ urlpatterns = patterns(
     url(r'^register/$', weblate.accounts.views.register, name='register'),
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
-)
+]

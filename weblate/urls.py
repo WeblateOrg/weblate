@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
@@ -80,8 +80,7 @@ handler500 = weblate.trans.views.basic.server_error
 
 admin.site.index_template = 'admin/custom-index.html'
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(
         r'^$',
         weblate.trans.views.basic.home,
@@ -821,4 +820,4 @@ urlpatterns = patterns(
         weblate.trans.views.basic.search,
         name="search"
     ),
-)
+]
