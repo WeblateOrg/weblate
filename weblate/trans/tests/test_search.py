@@ -69,6 +69,38 @@ class SearchViewTest(ViewTestCase):
             response,
             '<span class="hlmatch">Hello</span>, world'
         )
+        response = self.client.get(
+            reverse('search'),
+            {'q': 'hello', 'type': 'untranslated'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'type': 'php_format'}
+        )
+        self.assertContains(
+            response,
+            'No matching strings found!'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'type': 'php_format', 'ignored': '1'}
+        )
+        self.assertContains(
+            response,
+            'No matching strings found!'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'type': 'xxx'}
+        )
+        self.assertContains(
+            response,
+            'xxx is not one of the available choices.'
+        )
 
     def test_language_search(self):
         '''
