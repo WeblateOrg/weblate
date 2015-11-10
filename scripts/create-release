@@ -7,6 +7,11 @@ if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
     exit 1
 fi
 
+if ! git diff --exit-code --quiet ; then
+    echo "There are not committed changes!"
+    exit 1
+fi
+
 # Grab version
 version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print weblate.VERSION_BASE'`
 namever=weblate-$version
@@ -14,6 +19,10 @@ tarver=Weblate-$version
 
 # What are we going to build?
 if [ "x$1" = "x--tag" ] ; then
+    sed -i "s/^VERSION =.*/VERSION = '$version'/" weblate/__init__.py
+    if ! git diff --exit-code --quiet ; then
+        git commit -s -m "Releasing $version" -- weblate/__init__.py
+    fi
     rev=$namever
     git tag -s $rev -m "Version $version"
     cd ../weblate-test
