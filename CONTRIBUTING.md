@@ -27,4 +27,4 @@ Patches are welcome either as [pull requests on GitHub][2] or using email on
 
 You can find more information on our website:
 
-http://weblate.org/en/contribute/
+https://weblate.org/en/contribute/

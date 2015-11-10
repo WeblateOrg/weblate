@@ -9,7 +9,7 @@ Release:        0
 Summary:        Web-based translation tool
 License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
-Url:            http://weblate.org/
+Url:            https://weblate.org/
 Source0:        http://dl.cihar.com/weblate/%{_name}-%{version}.tar.xz
 Source1:        test-base-repo.tar.bz2
 BuildRequires:  bitstream-vera

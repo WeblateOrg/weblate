@@ -3,7 +3,7 @@
 #
 # Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
 #
-# This file is part of Weblate <http://weblate.org/>
+# This file is part of Weblate <https://weblate.org/>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -64,8 +64,8 @@ setup(
     ),
     long_description=README,
     keywords='i18n l10n gettext git mercurial translate',
-    url='http://weblate.org/',
-    download_url='http://weblate.org/download/',
+    url='https://weblate.org/',
+    download_url='https://weblate.org/download/',
     bugtrack_url='https://github.com/nijel/weblate/issues',
     author='Michal Čihař',
     author_email='michal@cihar.com',

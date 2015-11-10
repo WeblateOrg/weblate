@@ -2,7 +2,7 @@
 #
 # Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
 #
-# This file is part of Weblate <http://weblate.org/>
+# This file is part of Weblate <https://weblate.org/>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -127,7 +127,7 @@ class RepoTestCase(TestCase):
         project = Project.objects.create(
             name='Test',
             slug='test',
-            web='http://weblate.org/'
+            web='https://weblate.org/'
         )
         self.addCleanup(shutil.rmtree, project.get_path(), True)
         return project

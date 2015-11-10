@@ -21,7 +21,7 @@ The project is named as mixture of words web and translate.
 Project website
 ---------------
 
-You can find project website at <http://weblate.org/>, there is also
+You can find project website at <https://weblate.org/>, there is also
 demonstration server at <https://demo.weblate.org/>. This documentation
 can be browsed on <http://docs.weblate.org/>.
 

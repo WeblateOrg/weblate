@@ -2,7 +2,7 @@
 #
 # Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
 #
-# This file is part of Weblate <http://weblate.org/>
+# This file is part of Weblate <https://weblate.org/>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ from weblate.trans.site import get_site_url
 from weblate.trans.models.project import Project
 from weblate.trans.models.translation import Translation
 
-URL_BASE = 'http://weblate.org/?utm_source=weblate&utm_term=%s'
-URL_DONATE = 'http://weblate.org/donate/?utm_source=weblate&utm_term=%s'
+URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
+URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
 
 
 def weblate_context(request):
