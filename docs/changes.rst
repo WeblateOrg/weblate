@@ -20,6 +20,7 @@ Released on ? 2015.
 * Support for adding new transations in Qt TS.
 * Improved support for translating PHP files.
 * Performance improvements for quality checks.
+* Fixed sitewide search for failing checks.
 
 weblate 2.4
 -----------

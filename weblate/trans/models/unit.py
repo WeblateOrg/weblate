@@ -106,14 +106,15 @@ class UnitManager(models.Manager):
         Filtering for checks.
         """
 
-        if translation is None:
-            return self.all()
-
         # Filter checks for current project
         checks = Check.objects.filter(
-            project=translation.subproject.project,
             ignore=ignored
         )
+
+        if translation is not None:
+            checks = checks.filter(
+                project=translation.subproject.project,
+            )
 
         filter_translated = True
 
@@ -126,7 +127,7 @@ class UnitManager(models.Manager):
         elif CHECKS[rqtype].source:
             checks = checks.filter(language=None)
             filter_translated = False
-        elif CHECKS[rqtype].target:
+        elif CHECKS[rqtype].target and translation is not None:
             checks = checks.filter(language=translation.language)
 
         # Filter by check type
@@ -145,11 +146,14 @@ class UnitManager(models.Manager):
         """
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
-        elif rqtype == 'sourcecomments' and translation is not None:
+        elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
-                project=translation.subproject.project
             )
+            if translation is not None:
+                coms = coms.filter(
+                    project=translation.subproject.project
+                )
             coms = coms.values_list('contentsum', flat=True)
             return self.filter(contentsum__in=coms)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
