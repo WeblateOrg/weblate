@@ -57,7 +57,7 @@
 <div class="col-sm-9">
 
 <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-<div class="panel panel-primary">
+<div class="panel {% if unit.translation.is_template %}panel-warning{% else %}panel-primary{% endif %}">
 
   <div class="panel-heading"><span class="pull-right flip">
   <i class="fa fa-keyboard-o html-tooltip" data-toggle="tooltip" data-placement="bottom"
@@ -71,7 +71,7 @@
     {% trans "Alt+N - Shows nearby strings tab"%}<br />
     {% trans "Alt+S - Shows search tab"%}<br />
     "></i>
-  </span><h4 class="panel-title">{% trans "Translate" %}</h4></div>
+  </span><h4 class="panel-title">{% if unit.translation.is_template %}{% trans "Editing source string" %}{% else %}{% trans "Translate" %}{% endif %}</h4></div>
   <div class="panel-body">
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
@@ -89,6 +89,12 @@
     {% format_translation unit.source diff=unit.previous_source num_plurals=unit.translation.language.nplurals %}
     </div>
     {% endif %}
+    {% if unit.translation.is_template %}
+    <div class="form-group">
+    <label>{% trans "Context" %}</label>
+    {% format_translation unit.context search_match=search_query num_plurals=unit.translation.language.nplurals %}
+    </div>
+    {% else %}
     {% if not user.profile.hide_source_secondary or not secondary %}
     <div class="form-group">
     {% include "unit-context.html" %}
@@ -103,6 +109,7 @@
     {% endwith %}
     {% format_translation unit.source search_match=search_query num_plurals=unit.translation.language.nplurals %}
     </div>
+    {% endif %}
     {% endif %}
     {{ form|crispy }}
   </div>

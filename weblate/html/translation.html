@@ -86,7 +86,7 @@
   <div class="panel-body">
 
 {% if object.is_template %}
-{% show_message "info" _("This translation is being used as source strings within this component.") %}
+{% show_message "warning" _("This translation is being used as source strings within this component.") %}
 {% endif %}
 
 <table class="table">
