@@ -16,6 +16,9 @@ tarver=Weblate-$version
 if [ "x$1" = "x--tag" ] ; then
     rev=$namever
     git tag -s $rev -m "Version $version"
+    cd ../weblate-test
+    git tag -s $rev -m "Test data for version $version"
+    cd ../weblate
 fi
 
 # Compile po files
