@@ -214,7 +214,7 @@ class SearchViewTest(ViewTestCase):
             self.translation.get_absolute_url()
         )
 
-    def test_seach_checksum(self):
+    def test_search_checksum(self):
         unit = self.translation.unit_set.get(
             source='Try Weblate at <http://demo.weblate.org/>!\n'
         )
