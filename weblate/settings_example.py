@@ -105,7 +105,7 @@ LANGUAGES = (
     ('nl', u'Nederlands'),
     ('pl', u'Polski'),
     ('pt', u'Português'),
-    ('pt-BR', u'Português brasileiro'),
+    ('pt-br', u'Português brasileiro'),
     ('ru', u'Русский'),
     ('sk', u'Slovenčina'),
     ('sl', u'Slovenščina'),
@@ -113,8 +113,8 @@ LANGUAGES = (
     ('sv', u'Svenska'),
     ('tr', u'Türkçe'),
     ('uk', u'Українська'),
-    ('zh-Hans', u'简体字'),
-    ('zh-Hant', u'正體字'),
+    ('zh-hans', u'简体字'),
+    ('zh-hant', u'正體字'),
 )
 
 SITE_ID = 1
