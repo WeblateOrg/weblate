@@ -38,44 +38,28 @@ def get_root_dir():
     return os.path.abspath(os.path.join(curdir, '..'))
 
 
-def is_running_git():
-    '''
-    Checks whether we're running inside Git checkout.
-    '''
-    return os.path.exists(os.path.join(get_root_dir(), '.git', 'config'))
-
 # Weblate version
-VERSION = '2.5'
+VERSION = '2.5-dev'
 
 # Version string without suffix
-VERSION_BASE = VERSION
+VERSION_BASE = VERSION.replace('-dev', '')
 
 # User-Agent string to use
 USER_AGENT = 'Weblate/{0}'.format(VERSION)
 
-# Are we running git
-RUNNING_GIT = is_running_git()
-GIT_RELEASE = False
-GIT_VERSION = VERSION
-
 # Grab some information from git
-if RUNNING_GIT:
-    try:
-        # Describe current checkout
-        GIT_VERSION = GitRepository(get_root_dir()).describe()
+try:
+    # Describe current checkout
+    GIT_VERSION = GitRepository(get_root_dir()).describe()
 
-        # Check if we're close to release tag
-        parts = GIT_VERSION.split('-')
-        GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
-        del parts
-
-        # Mark version as devel if it is
-        if not GIT_RELEASE:
-            VERSION += '-dev'
-    except (RepositoryException, OSError):
-        # Import failed or git has troubles reading
-        # repo (eg. swallow clone)
-        RUNNING_GIT = False
+    # Check if we're close to release tag
+    parts = GIT_VERSION.split('-')
+    GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
+    del parts
+except (RepositoryException, OSError):
+    # Import failed or git has troubles reading
+    # repo (eg. swallow clone)
+    GIT_VERSION = VERSION
 
 
 def get_doc_url(page, anchor=''):
@@ -83,7 +67,7 @@ def get_doc_url(page, anchor=''):
     Return URL to documentation.
     '''
     # Should we use tagged release or latest version
-    if RUNNING_GIT and not GIT_RELEASE:
+    if '-dev' in VERSION:
         version = 'latest'
     else:
         version = 'weblate-%s' % VERSION
