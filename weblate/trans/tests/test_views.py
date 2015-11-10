@@ -177,8 +177,12 @@ class ViewTestCase(RepoTestCase):
         '''
         # Check response status code
         self.assertEqual(response.status_code, 200)
+        self.assertPNGData(response.content)
+
+    def assertPNGData(self, content):
+        """Checks whether data is PNG image"""
         # Try to load PNG with PIL
-        image = Image.open(StringIO(response.content))
+        image = Image.open(StringIO(content))
         self.assertEqual(image.format, 'PNG')
 
     def assertSVG(self, response):

@@ -951,6 +951,11 @@ class AvatarTest(ViewTestCase):
         )
         self.assertPNG(response)
 
+    def test_fallback_avatar(self):
+        self.assertPNGData(
+            avatar.get_fallback_avatar(32)
+        )
+
 
 class RemoveAcccountTest(ViewTestCase):
     def test_removal(self):
