@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-11-06 08:51+0000\n"
+"POT-Creation-Date: 2015-11-10 11:50+0000\n"
 "PO-Revision-Date: 2015-11-07 17:37+0000\n"
 "Last-Translator: Claudio Filho F Filho <filhocf@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) "
-"<https://hosted.weblate.org/projects/weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3945,30 +3945,55 @@ msgstr "Inconsistente"
 msgid "This message has more than one translation in this project"
 msgstr "Esta mensagem tem mais de uma tradução neste projeto"
 
-#: weblate/trans/checks/format.py:229
+#: weblate/trans/checks/format.py:215
 msgid "Python format"
 msgstr "Formato Python"
 
-#: weblate/trans/checks/format.py:230 weblate/trans/checks/format.py:243
-#: weblate/trans/checks/format.py:256 weblate/trans/checks/format.py:277
-msgid "Format string does not match source"
+#: weblate/trans/checks/format.py:216
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "Python format string does not match source"
 msgstr "O formato do texto não corresponde com a fonte"
 
-#: weblate/trans/checks/format.py:242
+#: weblate/trans/checks/format.py:228
 msgid "PHP format"
 msgstr "Formato PHP"
 
-#: weblate/trans/checks/format.py:255
+#: weblate/trans/checks/format.py:229
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "PHP format string does not match source"
+msgstr "O formato do texto não corresponde com a fonte"
+
+#: weblate/trans/checks/format.py:241
 msgid "C format"
 msgstr "Formato C"
 
-#: weblate/trans/checks/format.py:268
+#: weblate/trans/checks/format.py:242
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "C format string does not match source"
+msgstr "O formato do texto não corresponde com a fonte"
+
+#: weblate/trans/checks/format.py:254
 msgid "Javascript format"
 msgstr "Formato Javascript"
 
-#: weblate/trans/checks/format.py:276
+#: weblate/trans/checks/format.py:255
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "Javascript format string does not match source"
+msgstr "O formato do texto não corresponde com a fonte"
+
+#: weblate/trans/checks/format.py:263
 msgid "Python brace format"
 msgstr "Formato de chaves Python"
+
+#: weblate/trans/checks/format.py:264
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "Python brace format string does not match source"
+msgstr "O formato do texto não corresponde com a fonte"
 
 #: weblate/trans/checks/markup.py:47
 msgid "Mismatched BBcode"
@@ -3978,19 +4003,19 @@ msgstr "BBcode não correspondente"
 msgid "BBcode in translation does not match source"
 msgstr "O BBcode na tradução não corresponde com a fonte"
 
-#: weblate/trans/checks/markup.py:77
+#: weblate/trans/checks/markup.py:73
 msgid "XML tags mismatch"
 msgstr "Etiquetas XML não correspondem"
 
-#: weblate/trans/checks/markup.py:78
+#: weblate/trans/checks/markup.py:74
 msgid "XML tags in translation do not match source"
 msgstr "As etiquetas XML na tradução não correspondem com a fonte"
 
-#: weblate/trans/checks/same.py:1099
+#: weblate/trans/checks/same.py:1101
 msgid "Unchanged translation"
 msgstr "Tradução não modificada"
 
-#: weblate/trans/checks/same.py:1100
+#: weblate/trans/checks/same.py:1102
 msgid "Source and translated strings are same"
 msgstr "A fonte e o texto traduzido são iguais"
 
@@ -4185,9 +4210,6 @@ msgid "Overwrite existing translations"
 msgstr "Sobrescrever as traduções existentes"
 
 #: weblate/trans/forms.py:377
-#| msgid ""
-#| "The checks can help you identify problematic translations or source "
-#| "strings which are hard to translate."
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
@@ -5269,12 +5291,12 @@ msgstr "Esta tradução está bloqueada por %(user)s!"
 msgid "Untranslated words"
 msgstr "Palavras não traduzidas"
 
-#: weblate/trans/models/unit.py:558
+#: weblate/trans/models/unit.py:562
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Falha ao armazenar a mensagem no servidor, pois estourou o tempo de bloqueio!"
 
-#: weblate/trans/models/unit.py:570
+#: weblate/trans/models/unit.py:574
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "A mensagem não foi encontrada no armazenamento do servidor, ele "
