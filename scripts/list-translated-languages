@@ -34,7 +34,7 @@ def main():
     languages = []
     for lang in data:
         if lang['translated_percent'] > THRESHOLD:
-            code = lang['code'].replace('_', '-')
+            code = lang['code'].replace('_', '-').lower()
             languages.append(code)
     languages.sort()
     print 'Expected setup:'
