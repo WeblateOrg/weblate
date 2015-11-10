@@ -3,6 +3,9 @@
 
 . ci/lib
 
+run_coverage ./manage.py collectstatic --noinput
+check
+
 run_coverage ./manage.py check
 check
 
