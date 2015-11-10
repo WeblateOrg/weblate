@@ -213,7 +213,7 @@ class PythonFormatCheck(BaseFormatCheck):
     '''
     check_id = 'python_format'
     name = _('Python format')
-    description = _('Format string does not match source')
+    description = _('Python format string does not match source')
     regexp = PYTHON_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -226,7 +226,7 @@ class PHPFormatCheck(BaseFormatCheck):
     '''
     check_id = 'php_format'
     name = _('PHP format')
-    description = _('Format string does not match source')
+    description = _('PHP format string does not match source')
     regexp = PHP_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -239,7 +239,7 @@ class CFormatCheck(BaseFormatCheck):
     '''
     check_id = 'c_format'
     name = _('C format')
-    description = _('Format string does not match source')
+    description = _('C format string does not match source')
     regexp = C_PRINTF_MATCH
 
     def is_position_based(self, string):
@@ -252,6 +252,7 @@ class JavascriptFormatCheck(CFormatCheck):
     '''
     check_id = 'javascript_format'
     name = _('Javascript format')
+    description = _('Javascript format string does not match source')
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):
@@ -260,7 +261,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
     '''
     check_id = 'python_brace_format'
     name = _('Python brace format')
-    description = _('Format string does not match source')
+    description = _('Python brace format string does not match source')
     regexp = PYTHON_BRACE_MATCH
 
     def is_position_based(self, string):
