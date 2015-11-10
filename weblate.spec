@@ -1,18 +1,17 @@
 %{!?python_sitelib: %global python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 %define WLDIR %{_datadir}/weblate
 %define WLDATADIR %{_localstatedir}/lib/weblate
-%define WLETCDIR /%{_sysconfdir}/weblate
+%define WLETCDIR %{_sysconfdir}/weblate
 Name:           weblate
+%define _name Weblate
 Version:        2.5
 Release:        0
 Summary:        Web-based translation tool
 License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
 Url:            http://weblate.org/
-Source:         %{name}-%{version}.tar.bz2
+Source0:        http://dl.cihar.com/weblate/%{_name}-%{version}.tar.xz
 Source1:        test-base-repo.tar.bz2
-# PATCH-FIX-UPSTREAM 0001-Use-mock-data-for-testing-Google-web-translation.patch -- fixed testsuite without network
-Patch1:         0001-Use-mock-data-for-testing-Google-web-translation.patch
 BuildRequires:  bitstream-vera
 BuildRequires:  git
 BuildRequires:  graphviz
@@ -25,6 +24,7 @@ BuildRequires:  python-Sphinx
 BuildRequires:  python-alabaster
 BuildRequires:  python-dateutil
 BuildRequires:  python-django-crispy-forms >= 1.4.0
+BuildRequires:  python-django_compressor
 BuildRequires:  python-httpretty
 BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-selenium
@@ -36,12 +36,16 @@ Requires:       cron
 Requires:       git
 Requires:       python-Babel
 Requires:       python-Django >= 1.7
+Requires:       python-django_compressor
 Requires:       python-Pillow
 Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
 Requires:       python-whoosh >= 2.5.2
 Requires:       translate-toolkit >= 1.10.0
+Recommends:     python-MySQL-python
+Recommends:     python-psycopg2
+Recommends:     python-pyuca
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 %py_requires
@@ -66,20 +70,19 @@ List of features includes:
 * Wide range of supported translation formats (Getext, Qt, Java, Windows, Symbian and more)
 
 %prep
-%setup -q
-%patch1 -p1
+%setup -q -n %{_name}-%{version}
+
+chmod +x weblate/trans/tests/data/ssh-keyscan
 mkdir data-test
 cd data-test
 tar xvf %{SOURCE1}
 cd ..
 
 %build
-make -C docs html
+make %{?_smp_mflags} -C docs html
 cp weblate/settings_example.py weblate/settings.py
 sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}/weblate"@g' weblate/settings.py
 sed -i 's@^DATA_DIR = .*@DATA_DIR = "%{WLDATADIR}"@g' weblate/settings.py
-sed -i "s@'ENGINE': 'django.db.backends.sqlite3'@'ENGINE': 'django.db.backends.mysql'@" weblate/settings.py
-sed -i "s@'NAME': 'weblate.db'@'NAME': 'weblate'@" weblate/settings.py
 sed -i "s@/usr/share/weblate/data@%{WLDATADIR}@" examples/apache.conf
 
 %install
@@ -90,8 +93,6 @@ install -d %{buildroot}/%{WLETCDIR}
 cp -a . %{buildroot}/%{WLDIR}
 # Remove test data
 rm -rf %{buildroot}/%{WLDIR}/data-test
-# Remove junk from upstream
-find %{buildroot}/%{WLDIR} -type f -name '*.swp' | xargs rm
 
 # We ship this separately
 rm -rf %{buildroot}/%{WLDIR}/docs
@@ -99,6 +100,7 @@ rm -f %{buildroot}/%{WLDIR}/README.rst \
     %{buildroot}/%{WLDIR}/ChangeLog \
     %{buildroot}/%{WLDIR}/COPYING \
     %{buildroot}/%{WLDIR}/INSTALL
+# Developement files, not needed
 rm -f \
     %{buildroot}/%{WLDIR}/.coveragerc \
     %{buildroot}/%{WLDIR}/.landscape.yaml \
@@ -128,14 +130,17 @@ install -d %{buildroot}/%{WLDATADIR}
 
 %check
 export LANG=en_US.UTF-8
+# Collect static files for testsuite
+./manage.py collectstatic --link --noinput --settings=weblate.settings_test -v 2
+# Run the testsuite
 ./manage.py test --settings=weblate.settings_test -v 2
 
 %files
 %defattr(-,root,root)
 %doc docs/_build/html
 %doc README.rst
-%config(noreplace) /%{_sysconfdir}/weblate
-%config(noreplace) /%{_sysconfdir}/apache2
+%config(noreplace) %{_sysconfdir}/weblate
+%config(noreplace) %{_sysconfdir}/apache2
 %{WLDIR}
 %attr(0755,wwwrun,www) %{WLDATADIR}
 
