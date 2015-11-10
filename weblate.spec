@@ -72,7 +72,7 @@ List of features includes:
 %prep
 %setup -q -n %{_name}-%{version}
 
-chmod +x weblate/trans/tests/data/ssh-keyscan
+# Extract test data
 mkdir data-test
 cd data-test
 tar xvf %{SOURCE1}
@@ -80,7 +80,9 @@ cd ..
 
 %build
 make %{?_smp_mflags} -C docs html
+# Copy example settings
 cp weblate/settings_example.py weblate/settings.py
+# Set correct directories in settings
 sed -i 's@^BASE_DIR = .*@BASE_DIR = "%{WLDIR}/weblate"@g' weblate/settings.py
 sed -i 's@^DATA_DIR = .*@DATA_DIR = "%{WLDATADIR}"@g' weblate/settings.py
 sed -i "s@/usr/share/weblate/data@%{WLDATADIR}@" examples/apache.conf
@@ -100,15 +102,6 @@ rm -f %{buildroot}/%{WLDIR}/README.rst \
     %{buildroot}/%{WLDIR}/ChangeLog \
     %{buildroot}/%{WLDIR}/COPYING \
     %{buildroot}/%{WLDIR}/INSTALL
-# Developement files, not needed
-rm -f \
-    %{buildroot}/%{WLDIR}/.coveragerc \
-    %{buildroot}/%{WLDIR}/.landscape.yaml \
-    %{buildroot}/%{WLDIR}/.travis.yml \
-    %{buildroot}/%{WLDIR}/.pep8 \
-    %{buildroot}/%{WLDIR}/.scrutinizer.yml \
-    %{buildroot}/%{WLDIR}/pylint.rc
-
 
 # Byte compile python files
 %py_compile %{buildroot}/%{WLDIR}
