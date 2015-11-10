@@ -311,7 +311,14 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = \
 # - you can also choose 'logfile' to log into separate file
 #   after configuring it below
 
-if DEBUG or not os.path.exists('/dev/log'):
+# Detect if we can connect to syslog
+try:
+    SysLogHandler(address='/dev/log', facility=SysLogHandler.LOG_LOCAL2)
+    HAVE_SYSLOG = True
+except IOError:
+    HAVE_SYSLOG = False
+
+if DEBUG or not HAVE_SYSLOG:
     DEFAULT_LOG = 'console'
 else:
     DEFAULT_LOG = 'syslog'
@@ -392,7 +399,7 @@ if (os.environ.get('DJANGO_IS_MANAGEMENT_COMMAND', False) and
     LOGGING['loggers']['weblate']['handlers'].append('console')
 
 # Remove syslog setup if it's not present
-if not os.path.exists('/dev/log'):
+if not HAVE_SYSLOG:
     del LOGGING['handlers']['syslog']
 
 # Machine translation API keys
