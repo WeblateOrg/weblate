@@ -18,8 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db import models
-from django.db import transaction
+from django.db import models, transaction
+from django.db.utils import OperationalError
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
@@ -71,7 +71,7 @@ def get_english_lang():
     """Returns object ID for English language"""
     try:
         return Language.objects.get_default().id
-    except Language.DoesNotExist:
+    except (Language.DoesNotExist, OperationalError):
         return None
 
 
