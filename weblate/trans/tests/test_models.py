@@ -770,7 +770,7 @@ class SubProjectTest(RepoTestCase):
         )
 
     def test_lang_code_template(self):
-        subproject = SubProject()
+        subproject = SubProject(project=Project())
         subproject.filemask = 'Solution/Project/Resources.*.resx'
         subproject.template = 'Solution/Project/Resources.resx'
         self.assertEqual(
