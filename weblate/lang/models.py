@@ -69,7 +69,10 @@ def get_plural_type(code, pluralequation):
 
 def get_english_lang():
     """Returns object ID for English language"""
-    return Language.objects.get_default().id
+    try:
+        return Language.objects.get_default().id
+    except Language.DoesNotExist:
+        return None
 
 
 class LanguageManager(models.Manager):
