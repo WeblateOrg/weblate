@@ -40,6 +40,7 @@ class MockProject(object):
     '''
     def __init__(self):
         self.id = 1
+        self.source_language = MockLanguage('en')
 
 
 class MockSubProject(object):
