@@ -1066,9 +1066,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         matches = self.filemask_re.match(path)
 
         if not matches or not matches.lastindex:
-            # Assume English language for template
             if path == self.template:
-                return 'en'
+                return self.project.source_language.code
             return ''
 
         code = matches.group(1)
