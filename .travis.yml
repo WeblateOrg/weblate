@@ -26,6 +26,10 @@ env:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
     - CI_MODE=test
+matrix:
+  allow_failures:
+    - python: "2.7"
+      env: CI_PIP_DEPS="--pre django"
 # commands to install dependencies
 install:
   - ./ci/install
