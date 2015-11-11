@@ -67,6 +67,11 @@ def get_plural_type(code, pluralequation):
     return data.PLURAL_UNKNOWN
 
 
+def get_english_lang():
+    """Returns object ID for English language"""
+    return Language.objects.get_default().id
+
+
 class LanguageManager(models.Manager):
     # pylint: disable=W0232
 

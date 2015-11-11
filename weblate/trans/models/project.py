@@ -30,7 +30,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 import os
 import os.path
-from weblate.lang.models import Language
+from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
@@ -138,6 +138,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         help_text=ugettext_lazy(
             'Owners of the project.'
         )
+    )
+    source_language = models.ForeignKey(
+        Language,
+        verbose_name=ugettext_lazy('Source language'),
+        help_text=ugettext_lazy(
+            'Language used for source strings in all components'
+        ),
+        default=get_english_lang,
     )
 
     objects = ProjectManager()
