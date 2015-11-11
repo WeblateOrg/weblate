@@ -109,9 +109,10 @@ if os.environ.get('READTHEDOCS', None) == 'True':
     html_theme = 'default'
 else:
     try:
+        # pylint: disable=W0611
         import alabaster
         html_theme = 'alabaster'
-    except ImportErrror:
+    except ImportError:
         html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
