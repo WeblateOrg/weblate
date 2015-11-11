@@ -116,12 +116,13 @@ class DictionaryManager(models.Manager):
             StandardAnalyzer(),
             StemmingAnalyzer(),
         ]
-        lang_code = unit.translation.language.base_code()
+        source_language = unit.translation.subproject.project.source_language
+        lang_code = source_language.base_code()
         # Add per language analyzer if Whoosh has it
         if has_stemmer(lang_code):
             analyzers.append(LanguageAnalyzer(lang_code))
         # Add ngram analyzer for languages like Chinese or Japanese
-        if unit.translation.language.uses_ngram():
+        if source_language.uses_ngram():
             analyzers.append(NgramAnalyzer(4))
 
         # Extract words from all plurals and from context
