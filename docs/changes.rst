@@ -21,6 +21,7 @@ Released on ? 2015.
 * Improved support for translating PHP files.
 * Performance improvements for quality checks.
 * Fixed sitewide search for failing checks.
+* Added option to specify source language.
 
 weblate 2.4
 -----------
