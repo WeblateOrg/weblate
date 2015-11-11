@@ -43,7 +43,7 @@
 <tbody>
 {% for word in page_obj.object_list %}
 <tr>
-<td>{{ word.source }}</td>
+<td>{% format_translation word.source project.source_language simple=True %}</td>
 <td>{% format_translation word.target language simple=True %}</td>
 <td>
 {% if perms.trans.change_dictionary %}
