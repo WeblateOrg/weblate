@@ -78,15 +78,11 @@ def fmt_whitespace(value):
 
 
 @register.inclusion_tag('format-translation.html')
-def format_translation(value, language=None, diff=None, search_match=None,
+def format_translation(value, language, diff=None, search_match=None,
                        simple=False, num_plurals=2):
     """
     Nicely formats translation text possibly handling plurals or diff.
     """
-    # Get language
-    if language is None:
-        language = Language.objects.get_default()
-
     # Split plurals to separate strings
     plurals = split_plural(value)
 
