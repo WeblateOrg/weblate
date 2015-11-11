@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-11-11 08:20+0000\n"
+"POT-Creation-Date: 2015-11-11 15:37+0000\n"
 "PO-Revision-Date: 2015-02-22 17:11+0200\n"
 "Last-Translator: Koo Young Min <youngminz.kr@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -341,7 +341,7 @@ msgstr "암호 초기화"
 
 #: weblate/billing/admin.py:48 weblate/html/accounts/user.html:30
 #: weblate/html/base.html:97 weblate/html/index.html:28
-#: weblate/html/index.html.py:30 weblate/trans/models/project.py:154
+#: weblate/html/index.html.py:30 weblate/trans/models/project.py:162
 msgid "Projects"
 msgstr "프로젝트"
 
@@ -379,7 +379,7 @@ msgstr "번역 원본"
 
 #: weblate/billing/models.py:98 weblate/html/accounts/profile.html:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html:6
-#: weblate/html/languages.html:6 weblate/lang/models.py:371
+#: weblate/html/languages.html:6 weblate/lang/models.py:379
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
 msgid "Languages"
 msgstr "언어"
@@ -889,7 +889,7 @@ msgstr "다음 번역은 명시적으로 라이센스와 저작권 조건을 지
 #: weblate/html/accounts/profile.html:301 weblate/html/data.html:25
 #: weblate/html/data.html.py:56 weblate/html/data.html:82
 #: weblate/html/index.html:71 weblate/html/list-translations.html:7
-#: weblate/trans/models/project.py:153 weblate/trans/models/subproject.py:111
+#: weblate/trans/models/project.py:161 weblate/trans/models/subproject.py:111
 msgid "Project"
 msgstr "프로젝트"
 
@@ -1355,7 +1355,7 @@ msgstr "용어집"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html:7
-#: weblate/lang/models.py:370 weblate/trans/forms.py:566
+#: weblate/lang/models.py:378 weblate/trans/forms.py:566
 #: weblate/trans/forms.py:771
 msgid "Language"
 msgstr "언어"
@@ -3783,15 +3783,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "세 개"
 
-#: weblate/lang/models.py:411
+#: weblate/lang/models.py:419
 msgid "Singular"
 msgstr "단수형"
 
-#: weblate/lang/models.py:413
+#: weblate/lang/models.py:421
 msgid "Plural"
 msgstr "복수형"
 
-#: weblate/lang/models.py:414
+#: weblate/lang/models.py:422
 #, python-format
 msgid "Plural form %d"
 msgstr "복수형의 %d"
@@ -4809,12 +4809,25 @@ msgstr "이 저장소가 원격 훅에 의해 갱신되는지를 나타냅니다
 msgid "Owners of the project."
 msgstr "번역된 프로젝트의 주요 웹사이트입니다."
 
-#: weblate/trans/models/project.py:186
+#: weblate/trans/models/project.py:144
+#, fuzzy
+#| msgid "Source change"
+msgid "Source language"
+msgstr "원본 변경사항"
+
+#: weblate/trans/models/project.py:146
+#, fuzzy
+#| msgid ""
+#| "This translation is being used as source strings within this component."
+msgid "Language used for source strings in all components"
+msgstr "이 번역은 이 컴포넌트 내부의 소스 코드 문자열에서 사용되었습니다."
+
+#: weblate/trans/models/project.py:194
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr "프로젝트 %s를 접근할 수 없습니다."
 
-#: weblate/trans/models/project.py:218
+#: weblate/trans/models/project.py:226
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr "프로젝트 디렉토리를 생성할수 없습니다: %s"
@@ -5240,17 +5253,17 @@ msgstr "%s의 원격 분기로 우리의 분기를 리베이스 하는데 실패
 msgid "Failed to merge remote branch into %s."
 msgstr "%s로 원격 분기 병합 실패."
 
-#: weblate/trans/models/subproject.py:1108
+#: weblate/trans/models/subproject.py:1107
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "잘못된 Weblate 프로젝트의 링크입니다. 링크하신 저장소에 링크할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1115
+#: weblate/trans/models/subproject.py:1114
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Weblate 프로젝트의 링크가 잘못되었습니다. 자기 자신을 링크할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1122
+#: weblate/trans/models/subproject.py:1121
 #, fuzzy
 #| msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -5258,24 +5271,24 @@ msgstr ""
 "Weblate 프로젝트의 링크가 잘못되었습니다. 사용법은 weblate://프로젝트/컴포넌"
 "트입니다."
 
-#: weblate/trans/models/subproject.py:1128
+#: weblate/trans/models/subproject.py:1127
 msgid "Push URL is not used when repository is linked!"
 msgstr "저장소가 연결될때 URL 밀기는 사용될수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1132
+#: weblate/trans/models/subproject.py:1131
 msgid "Export URL is not used when repository is linked!"
 msgstr "저장소가 연결될때 URL 내보내기는 사용할수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1140
+#: weblate/trans/models/subproject.py:1139
 msgid "The mask did not match any files!"
 msgstr "마스크는 어떠한 파일과 일치하지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1147
+#: weblate/trans/models/subproject.py:1146
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1152
+#: weblate/trans/models/subproject.py:1151
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -5283,7 +5296,7 @@ msgstr ""
 "하나의 언어에 대한 더 많은 파일이 있습니다, 다른 자원을 변환하기 위해 마스크"
 "를 조정하고 컴포넌트를 사용하십시오."
 
-#: weblate/trans/models/subproject.py:1158
+#: weblate/trans/models/subproject.py:1157
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -5293,31 +5306,31 @@ msgstr ""
 "여러 번역들은 단일 언어 코드 (%s)와 연결됩니다. 비슷한 언어들이 하나와 연결하"
 "는 Weblate를 방지하려면 SIMPLIFY_LANGUAGES를 비활성화 하십시오."
 
-#: weblate/trans/models/subproject.py:1179
+#: weblate/trans/models/subproject.py:1178
 msgid "File does not seem to be valid!"
 msgstr "파일이 올바르지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1187
+#: weblate/trans/models/subproject.py:1186
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d개의 일치하는 파일의 형식을 인식할수 없습니다."
 
-#: weblate/trans/models/subproject.py:1196
+#: weblate/trans/models/subproject.py:1195
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d개의 일치하는 파일 구문 분석 실패!"
 
-#: weblate/trans/models/subproject.py:1207
+#: weblate/trans/models/subproject.py:1206
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr "선택한 파일 형식은 프로젝트 설정에서 새로운 번역을 추가할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1213
+#: weblate/trans/models/subproject.py:1212
 msgid "Format of base file for new translations was not recognized!"
 msgstr "새로운 번역에 대한 기본 파일의 형식을 인식할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1218
+#: weblate/trans/models/subproject.py:1217
 #, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
@@ -5326,32 +5339,32 @@ msgid ""
 "You probably want to enable automatic adding of new translations."
 msgstr "프로젝트 설정때문에 새로운 번역에 대한 기본 파일을 사용할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1231
+#: weblate/trans/models/subproject.py:1230
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "기본 파일을 2개국어 번역으로 할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1237
+#: weblate/trans/models/subproject.py:1236
 #, fuzzy
 #| msgid "Changing version control system is not supported!"
 msgid "Using .pot file as base file is not supported!"
 msgstr "버전 관리 시스템을 변경하는 것은 지원되지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1244
+#: weblate/trans/models/subproject.py:1243
 msgid "Template file not found!"
 msgstr "서식 파일을 찾을 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1250
+#: weblate/trans/models/subproject.py:1249
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "번역 기본 파일 분석 실패: %s"
 
-#: weblate/trans/models/subproject.py:1255
+#: weblate/trans/models/subproject.py:1254
 msgid "You can not use monolingual translation without base file!"
 msgstr "기본 파일없이 단일 언어 번역을 사용할 수 없습니다!"
 
-#: weblate/trans/models/subproject.py:1265
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -5359,25 +5372,25 @@ msgstr ""
 "지침 URL를 입력하거나 또는 새로운 언어를 추가하기 위한 다른 옵션을 사용하십시"
 "오."
 
-#: weblate/trans/models/subproject.py:1271
+#: weblate/trans/models/subproject.py:1270
 msgid "License URL can not be used without license summary."
 msgstr "라이센스 URL는 라이센스 요약 없이 사용할 수 없습니다."
 
-#: weblate/trans/models/subproject.py:1291
+#: weblate/trans/models/subproject.py:1290
 msgid "Changing version control system is not supported!"
 msgstr "버전 관리 시스템을 변경하는 것은 지원되지 않습니다!"
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "{0}은(는) 지원하지 않는 파일 형식입니다"
 
-#: weblate/trans/models/subproject.py:1304
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "저장소를 업데이트하는 데 실패하였습니다: %s"
 
-#: weblate/trans/models/subproject.py:1327
+#: weblate/trans/models/subproject.py:1326
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "투표하기의 활성화로 자동으로 제안을 받아들이는것을 할 수 있습니다!"
 
@@ -5529,176 +5542,176 @@ msgstr "가능한 구성"
 msgid "Tab character"
 msgstr "탭 문자"
 
-#: weblate/trans/templatetags/translations.py:98
+#: weblate/trans/templatetags/translations.py:94
 msgid "New line"
 msgstr "새로운 줄"
 
-#: weblate/trans/templatetags/translations.py:286
+#: weblate/trans/templatetags/translations.py:282
 msgid "a year ago"
 msgstr "1 년 전"
 
-#: weblate/trans/templatetags/translations.py:288
+#: weblate/trans/templatetags/translations.py:284
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s 년 전"
 
-#: weblate/trans/templatetags/translations.py:293
+#: weblate/trans/templatetags/translations.py:289
 msgid "a month ago"
 msgstr "1 달 전"
 
-#: weblate/trans/templatetags/translations.py:295
+#: weblate/trans/templatetags/translations.py:291
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s 달 전"
 
-#: weblate/trans/templatetags/translations.py:300
+#: weblate/trans/templatetags/translations.py:296
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s 주 전"
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:300
 msgid "a week ago"
 msgstr "1 주 전"
 
-#: weblate/trans/templatetags/translations.py:306
+#: weblate/trans/templatetags/translations.py:302
 msgid "yesterday"
 msgstr "어제"
 
-#: weblate/trans/templatetags/translations.py:308
+#: weblate/trans/templatetags/translations.py:304
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s 일 전"
 
-#: weblate/trans/templatetags/translations.py:311
-#: weblate/trans/templatetags/translations.py:372
+#: weblate/trans/templatetags/translations.py:307
+#: weblate/trans/templatetags/translations.py:368
 msgid "now"
 msgstr "지금"
 
-#: weblate/trans/templatetags/translations.py:314
+#: weblate/trans/templatetags/translations.py:310
 msgid "a second ago"
 msgstr "1 초 전"
 
-#: weblate/trans/templatetags/translations.py:316
+#: weblate/trans/templatetags/translations.py:312
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s 초 전"
 
-#: weblate/trans/templatetags/translations.py:321
+#: weblate/trans/templatetags/translations.py:317
 msgid "a minute ago"
 msgstr "1 분 전"
 
-#: weblate/trans/templatetags/translations.py:323
+#: weblate/trans/templatetags/translations.py:319
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s 분 전"
 
-#: weblate/trans/templatetags/translations.py:328
+#: weblate/trans/templatetags/translations.py:324
 msgid "an hour ago"
 msgstr "1 시간 전"
 
-#: weblate/trans/templatetags/translations.py:330
+#: weblate/trans/templatetags/translations.py:326
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s 시간 전"
 
-#: weblate/trans/templatetags/translations.py:347
+#: weblate/trans/templatetags/translations.py:343
 msgid "a year from now"
 msgstr "지금으로부터 1 년"
 
-#: weblate/trans/templatetags/translations.py:349
+#: weblate/trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "지금으로부터 %(count)s 년"
 
-#: weblate/trans/templatetags/translations.py:354
+#: weblate/trans/templatetags/translations.py:350
 msgid "a month from now"
 msgstr "지금으로부터 1 달"
 
-#: weblate/trans/templatetags/translations.py:356
+#: weblate/trans/templatetags/translations.py:352
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "지금으로부터 %(count)s 달"
 
-#: weblate/trans/templatetags/translations.py:361
+#: weblate/trans/templatetags/translations.py:357
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "지금으로부터 %(count)s 주 전"
 
-#: weblate/trans/templatetags/translations.py:365
+#: weblate/trans/templatetags/translations.py:361
 msgid "tomorrow"
 msgstr "내일"
 
-#: weblate/trans/templatetags/translations.py:367
+#: weblate/trans/templatetags/translations.py:363
 msgid "a week from now"
 msgstr "지금으로부터 1 주일"
 
-#: weblate/trans/templatetags/translations.py:369
+#: weblate/trans/templatetags/translations.py:365
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "지금으로부터 %(count)s 일"
 
-#: weblate/trans/templatetags/translations.py:375
+#: weblate/trans/templatetags/translations.py:371
 msgid "a second from now"
 msgstr "지금으로부터 1 초"
 
-#: weblate/trans/templatetags/translations.py:377
+#: weblate/trans/templatetags/translations.py:373
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "지금으로부터 %(count)s 초"
 
-#: weblate/trans/templatetags/translations.py:384
+#: weblate/trans/templatetags/translations.py:380
 msgid "a minute from now"
 msgstr "지금으로부터 1 분"
 
-#: weblate/trans/templatetags/translations.py:386
+#: weblate/trans/templatetags/translations.py:382
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "지금으로부터 %(count)s 분"
 
-#: weblate/trans/templatetags/translations.py:393
+#: weblate/trans/templatetags/translations.py:389
 msgid "an hour from now"
 msgstr "지금으로부터 1 시간"
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:391
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "지금으로부터 %(count)s 시간"
 
-#: weblate/trans/templatetags/translations.py:482
+#: weblate/trans/templatetags/translations.py:478
 msgid "Message is fuzzy"
 msgstr "메세지가 애매합니다"
 
-#: weblate/trans/templatetags/translations.py:487
+#: weblate/trans/templatetags/translations.py:483
 msgid "Message is not translated"
 msgstr "미번역된 메세지"
 
-#: weblate/trans/templatetags/translations.py:492
+#: weblate/trans/templatetags/translations.py:488
 msgid "Message has failing checks"
 msgstr "메세지가 검사에 실패 했습니다"
 
-#: weblate/trans/templatetags/translations.py:497
+#: weblate/trans/templatetags/translations.py:493
 msgid "Message is translated"
 msgstr "메세지가 번역되었습니다"
 
-#: weblate/trans/templatetags/translations.py:503
+#: weblate/trans/templatetags/translations.py:499
 msgid "Message has comments"
 msgstr "메세지에 댓글이 있습니다"
 
-#: weblate/trans/templatetags/translations.py:525
+#: weblate/trans/templatetags/translations.py:521
 #, python-format
 msgid "unit ID %s"
 msgstr "단위 ID %s"
