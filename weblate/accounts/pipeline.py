@@ -125,7 +125,7 @@ def verify_open(strategy, backend, user=None, **kwargs):
         raise AuthException(backend, _('New registrations are disabled!'))
 
 
-def verify_username(strategy, backend, social, details, user=None, **kwargs):
+def verify_username(strategy, backend, details, user=None, **kwargs):
     """Verified whether username is still free.
 
     It can happen that user has registered several times or other user has
