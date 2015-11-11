@@ -72,7 +72,7 @@ def get_english_lang():
     try:
         return Language.objects.get_default().id
     except (Language.DoesNotExist, OperationalError):
-        return 0
+        return 65535
 
 
 class LanguageManager(models.Manager):
