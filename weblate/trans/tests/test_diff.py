@@ -57,6 +57,7 @@ class DiffTest(TestCase):
         self.assertEqual(
             format_translation(
                 unit.source,
+                unit.translation.subproject.project.source_language,
                 diff='Hello world!',
             )['items'][0]['content'],
             u'Hello wor<del>l</del>d!'
@@ -66,6 +67,7 @@ class DiffTest(TestCase):
         self.assertEqual(
             format_translation(
                 'Hello world!',
+                unit.translation.subproject.project.source_language,
                 search_match='hello'
             )['items'][0]['content'],
             u'<span class="hlmatch">Hello</span> world!'

@@ -18,7 +18,7 @@
 </th></tr>
 <tr>
 <th class="source">{% trans "Source" %}</th>
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source search_match=search_query %}</a></td>
+<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query %}</a></td>
 </tr>
 <tr>
 <th class="source">{{ unit.translation.language }}</th>
