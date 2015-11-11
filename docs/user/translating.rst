@@ -131,41 +131,6 @@ Every change is by default (unless disabled in component settings) saved in
 the database and can be reverted. Of course you can still also revert anything
 in underlaying version control system.
 
-Export and import
------------------
-
-Weblate supports both export and import of translation files. This allows you
-to work offline and then merge changes back. Your changes will be merged within
-existing translation (even if it has been changed meanwhile).
-
-For some formats you can also download compiled file to use withing application
-(eg. ``.mo`` files for GNU Gettext).
-
-.. note::
-
-    This ability might be limited by :ref:`privileges`.
-
-Import method
-+++++++++++++
-
-You can choose how imported strings will be merged out of following options:
-
-Add as translation
-    Imported translations are added as translation. This is most usual and
-    default behavior.
-Add as a suggestion
-    Imported translations are added as suggestions, do this when you want to
-    review imported strings.
-Add as fuzzy translation
-    Imported translations are added as fuzzy translations. This can be useful
-    for review as well.
-
-Additionally, when adding as a translation, you can choose whether to overwrite
-already translated strings or not or how to handle fuzzy strings in imported
-file.
-
-.. image:: ../images/export-import.png
-
 Glossary
 --------
 

@@ -6,4 +6,5 @@ Translators guide
     basic
     profile
     translating
+    files
     checks
