@@ -529,6 +529,7 @@ SAME_BLACKLIST = frozenset((
     'pre-commit',
     'prince',
     'privacy',
+    'private',
     'procedure',
     'procedures',
     'process',
