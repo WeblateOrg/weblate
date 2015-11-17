@@ -101,6 +101,7 @@ def validate_check_flags(val):
     if not val:
         return
     for flag in val.split(','):
-        if flag in EXTRA_FLAGS or flag in IGNORE_CHECK_FLAGS:
+        name = flag.split(':')[0]
+        if name in EXTRA_FLAGS or name in IGNORE_CHECK_FLAGS:
             continue
         raise ValidationError(_('Invalid check flag: "%s"') % flag)

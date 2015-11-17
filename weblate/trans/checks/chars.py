@@ -19,7 +19,10 @@
 #
 
 from django.utils.translation import ugettext_lazy as _
-from weblate.trans.checks.base import TargetCheck, CountingCheck
+from weblate.trans.checks.base import (
+    TargetCheck, TargetCheckWithFlag, CountingCheck
+)
+import re
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -360,3 +363,26 @@ class ZeroWidthSpaceCheck(TargetCheck):
         if self.is_language(unit, ('km', )):
             return False
         return (u'\u200b' in target) != (u'\u200b' in source)
+
+
+class MaxLengthCheck(TargetCheckWithFlag):
+    '''
+    Check for maximum length of translation.
+    '''
+    check_id = 'max-length'
+    name = _('Maximum Length of Translation')
+    description = _('Translation should not exceed given length')
+    severity = 'danger'
+    default_disabled = True
+
+    FLAGS_PAIR_RE = re.compile(r'\b([-\w]+):(\w+)\b')
+
+    def check_target_unit_with_flag(self, sources, targets, unit):
+        check_pair = set(self.FLAGS_PAIR_RE.findall('\n'.join(unit.all_flags)))
+        if len(check_pair) > 0:
+            check_value = max(
+                {(x) for x in check_pair if x[0] == self.check_id},
+                key=lambda v: int(v[1])
+            )[1]
+            return len(targets[0]) > int(check_value)
+        return False

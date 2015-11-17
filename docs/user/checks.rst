@@ -142,6 +142,22 @@ when the original string was using that as well.
 
 .. seealso:: https://en.wikipedia.org/wiki/Ellipsis
 
+.. _check-max-length:
+
+Maximum Length
+~~~~~~~~~~~~~~
+
+Translation is too long to accept. This only checks for the length of translation
+characters.
+
+Source and translation usually do not have same amount of characters, but if 
+translation is too long, it can be affect a rendered shape. For example, in some UI
+widget, it should be kept in a specific length of characters in order to show
+complete translation within limited space.
+
+Unlike the other checks, the flag should be set as a ``key:value`` pair like
+``max-length:100``.
+
 .. _check-python-format:
 .. _check-python-brace-format:
 .. _check-php-format:
