@@ -649,7 +649,7 @@ example to set it to ``configuration`` directory under Weblate tree:
     ``www-data`` or ``wwwrun``, so you either have to run Weblate under
     different user or change this setting.
 
-.. seealso:: :ref:`private`
+.. seealso:: :ref:`vcs-repos`
 
 .. _production-templates:
 

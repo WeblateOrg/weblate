@@ -133,7 +133,7 @@ via the admin interface first, otherwise pushing will fail.
    You can also enable automatic pushing changes on commit, this can be done in
    project configuration.
 
-.. seealso:: :ref:`private` for setting up SSH keys
+.. seealso:: :ref:`vcs-repos` for setting up SSH keys
 
 
 .. _github-push:
