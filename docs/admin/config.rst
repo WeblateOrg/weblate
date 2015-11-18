@@ -137,6 +137,12 @@ fulltext index and various configuration files for external tools.
 
 Following subdirectories usually exist:
 
+:file:`home`
+    Home directory used for invoking scripts.
+:file:`ssh`
+    SSH keys and configuration.
+:file:`static`
+    Default location for Django static files, specified by ``STATIC_ROOT``.
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`
