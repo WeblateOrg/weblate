@@ -720,9 +720,9 @@ Serving static files
     framework and the setup was more complex.
 
 Django needs to collect its static files to a single directory. To do so,
-execute :samp:`./manage.py collectstatic --noinput --link`. This will store
-links to static files into directory specified by ``STATIC_ROOT`` setting 
-(this default to ``static`` directory inside :setting:`DATA_DIR`).
+execute :samp:`./manage.py collectstatic --noinput`. This will copy the static
+files into directory specified by ``STATIC_ROOT`` setting (this default to
+``static`` directory inside :setting:`DATA_DIR`).
 
 It is recommended to serve static files directly by your web server, you should
 use that for following paths:

@@ -37,7 +37,7 @@ To collect new static files, run:
 
 .. code-block:: sh
 
-    ./manage.py collectstatic --noinput --link
+    ./manage.py collectstatic --noinput
 
 To upgrade default set of privileges definitions (optional), run:
 

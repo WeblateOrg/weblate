@@ -308,7 +308,7 @@ The update script takes care of the following update steps as described under :r
 * manage.py setupgroups --move
 * manage.py setuplang
 * manage.py rebuild_index --all
-* manage.py collectstatic --noinput --link
+* manage.py collectstatic --noinput
 
 
 Bitnami Weblate stack
