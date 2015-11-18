@@ -359,6 +359,14 @@ publicly available repository you just need to enter correct URL (for example
 ``https://github.com/nijel/weblate.git``), but for private repositories the
 setup might be more complex.
 
+Weblate internal URLs
++++++++++++++++++++++
+
+To share one repository between different components you can use special URL
+like ``weblate://project/component``. This way the component will share the VCS
+repository configuration with referenced component and the VCS repository will
+be stored just once on the disk.
+
 SSH repositories
 ++++++++++++++++
 
