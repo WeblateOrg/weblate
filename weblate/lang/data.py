@@ -372,7 +372,7 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
-        'hav',
+        'haw',
         'Hawaiian',
         2,
         'n != 1',
