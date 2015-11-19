@@ -936,7 +936,7 @@ SAME_BLACKLIST = frozenset((
     'nynorsk',
     'nyanja',
     'occitan',
-    'ojibwa',
+    'ojibwe',
     'oriya',
     'ossetian',
     'papiamento',
