@@ -365,6 +365,54 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'nds',
+        'Low German',
+        2,
+        'n != 1',
+    ),
+    (
+        'hav',
+        'Hawaiian',
+        2,
+        'n != 1',
+    ),
+    (
+        'vec',
+        'Venetian',
+        2,
+        'n != 1',
+    ),
+    (
+        'oj',
+        'Ojibwa',
+        2,
+        'n != 1',
+    ),
+    (
+        'ch',
+        'Chamorro',
+        2,
+        'n != 1',
+    ),
+    (
+        'chr',
+        'Cherokee',
+        2,
+        'n != 1',
+    ),
+    (
+        'cr',
+        'Cree',
+        2,
+        'n != 1',
+    ),
+    (
+        'ny',
+        'Nyanja',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
