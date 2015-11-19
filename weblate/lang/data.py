@@ -385,7 +385,7 @@ EXTRALANGS = (
     ),
     (
         'oj',
-        'Ojibwa',
+        'Ojibwe',
         2,
         'n != 1',
     ),
