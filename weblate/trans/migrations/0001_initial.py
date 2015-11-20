@@ -77,8 +77,8 @@ class Migration(migrations.Migration):
             name='Dictionary',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('source', models.CharField(max_length=200, db_index=True)),
-                ('target', models.CharField(max_length=200)),
+                ('source', models.CharField(max_length=100, db_index=True)),
+                ('target', models.CharField(max_length=100)),
                 ('language', models.ForeignKey(to='lang.Language')),
             ],
             options={
