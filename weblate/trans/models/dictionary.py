@@ -51,7 +51,7 @@ class DictionaryManager(models.Manager):
             target = unit.get_target()
 
             # Ignore too long words
-            if len(source) > 200 or len(target) > 200:
+            if len(source) > 190 or len(target) > 190:
                 continue
 
             # Get object
@@ -161,8 +161,8 @@ class DictionaryManager(models.Manager):
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
-    source = models.CharField(max_length=200, db_index=True)
-    target = models.CharField(max_length=200)
+    source = models.CharField(max_length=190, db_index=True)
+    target = models.CharField(max_length=190)
 
     objects = DictionaryManager()
 
