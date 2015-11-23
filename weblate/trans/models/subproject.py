@@ -801,6 +801,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
             vcs_post_push.send(sender=self.__class__, component=self)
+            for component in self.get_linked_childs():
+                vcs_post_push.send(
+                    sender=component.__class__, component=component
+                )
 
             return True
         except RepositoryException as error:
