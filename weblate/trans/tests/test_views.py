@@ -769,6 +769,13 @@ class EditXliffTest(EditTest):
         return self.create_xliff()
 
 
+class EditXliffMonoTest(EditTest):
+    has_plurals = False
+
+    def create_subproject(self):
+        return self.create_xliff_mono()
+
+
 class EditLinkTest(EditTest):
     def create_subproject(self):
         return self.create_link()
