@@ -36,6 +36,7 @@ def format_unit_match(unit, quality):
 
 class WeblateBase(MachineTranslation):
     """Base class for Weblate based MT"""
+    # pylint: disable=W0223
 
     def is_supported(self, language):
         '''
