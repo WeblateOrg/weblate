@@ -34,23 +34,21 @@ def format_unit_match(unit, quality):
     )
 
 
-class WeblateTranslation(MachineTranslation):
-    '''
-    Translation service using strings already translated in Weblate.
-    '''
-    name = 'Weblate'
-
-    def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
-        return language
+class WeblateBase(MachineTranslation):
+    """Base class for Weblate based MT"""
 
     def is_supported(self, language):
         '''
         Any language is supported.
         '''
         return True
+
+
+class WeblateTranslation(WeblateBase):
+    '''
+    Translation service using strings already translated in Weblate.
+    '''
+    name = 'Weblate'
 
     def download_translations(self, language, text, unit, user):
         '''
@@ -65,23 +63,11 @@ class WeblateTranslation(MachineTranslation):
         ]
 
 
-class WeblateSimilarTranslation(MachineTranslation):
+class WeblateSimilarTranslation(WeblateBase):
     '''
     Translation service using strings already translated in Weblate.
     '''
     name = 'Weblate similarity'
-
-    def convert_language(self, language):
-        '''
-        Converts language to service specific code.
-        '''
-        return language
-
-    def is_supported(self, language):
-        '''
-        Any language is supported.
-        '''
-        return True
 
     def download_translations(self, language, text, unit, user):
         '''
