@@ -22,6 +22,7 @@ Released on ? 2015.
 * Performance improvements for quality checks.
 * Fixed sitewide search for failing checks.
 * Added option to specify source language.
+* Improved support for XLIFF files.
 
 weblate 2.4
 -----------
