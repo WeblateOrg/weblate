@@ -118,7 +118,7 @@ XLIFF
 XML based format created to standardize translation files, but in the end it
 is one of many standards in this area.
 
-XLIFF is usually used as bilingual.
+XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
 
 .. seealso::
 
