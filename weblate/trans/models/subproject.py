@@ -1359,6 +1359,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
         changed_setup = False
+        changed_project = False
         if self.id:
             old = SubProject.objects.get(pk=self.id)
             changed_git = (
@@ -1371,6 +1372,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 (old.edit_template != self.edit_template) or
                 (old.template != self.template)
             )
+            changed_project = (old.project_id != self.project_id)
             # Detect slug changes and rename git repo
             self.check_rename(old)
 
@@ -1395,6 +1397,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.create_translations(force=True)
         elif changed_git:
             self.create_translations()
+
+        # Copy suggestions to new project
+        if changed_project:
+            print 'CHANGED!'
+            old.project.suggestion_set.copy(self.project)
 
     def _get_percents(self):
         '''

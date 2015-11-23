@@ -30,7 +30,7 @@ from django.core.exceptions import ValidationError
 import shutil
 import os
 from weblate.trans.models import (
-    Project, SubProject, Source, Unit, WhiteboardMessage, Check,
+    Project, SubProject, Source, Unit, WhiteboardMessage, Check, Suggestion,
     get_related_units,
 )
 from weblate import appsettings
@@ -777,6 +777,42 @@ class SubProjectTest(RepoTestCase):
             subproject.get_lang_code('Solution/Project/Resources.resx'),
             'en'
         )
+
+    def test_change_project(self):
+        subproject = self.create_subproject()
+
+        # Create and verify suggestion
+        Suggestion.objects.create(
+            project=subproject.project,
+            contentsum='x',
+            language=subproject.translation_set.all()[0].language,
+        )
+        self.assertEqual(subproject.project.suggestion_set.count(), 1)
+
+        # Check current path exists
+        old_path = subproject.get_path()
+        self.assertTrue(os.path.exists(old_path))
+
+        # Crete target project
+        second = Project.objects.create(
+            name='Test2',
+            slug='test2',
+            web='https://weblate.org/'
+        )
+
+        # Move component
+        subproject.project = second
+        subproject.save()
+
+        # Check new path exists
+        new_path = subproject.get_path()
+        self.assertTrue(os.path.exists(new_path))
+
+        # Check paths differ
+        self.assertNotEqual(old_path, new_path)
+
+        # Check suggestion has been copied
+        self.assertEqual(subproject.project.suggestion_set.count(), 1)
 
 
 class TranslationTest(RepoTestCase):
