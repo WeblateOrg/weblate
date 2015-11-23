@@ -2,7 +2,7 @@ var loading = 0;
 var machineTranslationLoaded = false;
 var activityDataLoaded = false;
 
-if (window.location.hash && (window.location.hash === '#_=_' || window.location.hash.indexOf("=") > -1)) {
+if (window.location.hash && window.location.hash.indexOf("=") > -1) {
     window.location.hash = '';
 }
 
