@@ -158,6 +158,22 @@ class MachineTranslation(object):
         '''
         return language
 
+    def report_error(self, exc, message):
+        """Wrapper for handling error situations"""
+        report_error(
+            exc, sys.exc_info(),
+            {'mt_url': self.request_url, 'mt_params': self.request_params}
+        )
+        LOGGER.error(
+            message,
+            self.name,
+        )
+        LOGGER.error(
+            'Last fetched URL: %s, params: %s',
+            self.request_url,
+            self.request_params,
+        )
+
     @property
     def supported_languages(self):
         '''
@@ -174,18 +190,9 @@ class MachineTranslation(object):
         try:
             languages = self.download_languages()
         except Exception as exc:
-            report_error(
-                exc, sys.exc_info(),
-                {'mt_url': self.request_url, 'mt_params': self.request_params}
-            )
-            LOGGER.error(
+            self.report_error(
+                exc,
                 'Failed to fetch languages from %s, using defaults',
-                self.name,
-            )
-            LOGGER.error(
-                'Last fetched URL: %s, params: %s',
-                self.request_url,
-                self.request_params,
             )
             if settings.DEBUG:
                 raise
@@ -227,18 +234,9 @@ class MachineTranslation(object):
                 for trans in translations
             ]
         except Exception as exc:
-            report_error(
-                exc, sys.exc_info(),
-                {'mt_url': self.request_url, 'mt_params': self.request_params}
-            )
-            LOGGER.error(
+            self.report_error(
+                exc,
                 'Failed to fetch translations from %s',
-                self.name,
-            )
-            LOGGER.error(
-                'Last fetched URL: %s, params: %s',
-                self.request_url,
-                self.request_params,
             )
             raise MachineTranslationError('{}: {}'.format(
                 exc.__class__.__name__,
