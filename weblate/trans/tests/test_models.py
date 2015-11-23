@@ -280,6 +280,13 @@ class RepoTestCase(TestCase):
             'xliff/*/%s.xlf' % name,
         )
 
+    def create_xliff_mono(self):
+        return self._create_subproject(
+            'xliff',
+            'xliff-mono/*.xlf',
+            'xliff-mono/en.xlf',
+        )
+
     def create_link(self):
         parent = self.create_iphone()
         return SubProject.objects.create(
@@ -539,6 +546,10 @@ class SubProjectTest(RepoTestCase):
     def test_create_xliff(self):
         project = self.create_xliff()
         self.verify_subproject(project, 1, 'cs', 4)
+
+    def test_create_xliff_mono(self):
+        project = self.create_xliff_mono()
+        self.verify_subproject(project, 2, 'cs', 4)
 
     def test_create_xliff_dph(self):
         project = self.create_xliff('DPH')
