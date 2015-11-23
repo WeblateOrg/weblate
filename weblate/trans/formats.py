@@ -106,8 +106,7 @@ class FileUnit(object):
         '''
         # JSON, XLIFF and PHP are special in ttkit - it uses locations for what
         # is context in other formats
-        if (isinstance(self.mainunit, xliffunit) or
-                isinstance(self.mainunit, propunit) or
+        if (isinstance(self.mainunit, propunit) or
                 isinstance(self.mainunit, phpunit)):
             return ''
         result = ', '.join(self.mainunit.getlocations())
@@ -234,15 +233,7 @@ class FileUnit(object):
         Returns context of message. In some cases we have to use
         ID here to make all backends consistent.
         '''
-        # XLIFF is special in ttkit - it uses locations for what
-        # is context in other formats
-        if isinstance(self.mainunit, xliffunit):
-            context = self.mainunit.getlocations()
-            if len(context) == 0:
-                return ''
-            else:
-                return context[0]
-        elif isinstance(self.mainunit, pounit) and self.template is not None:
+        if isinstance(self.mainunit, pounit) and self.template is not None:
             # Monolingual JSON files
             return self.template.getid()
         else:
@@ -344,6 +335,28 @@ class FileUnit(object):
         Sets fuzzy flag on translated unit.
         '''
         self.unit.markfuzzy(fuzzy)
+
+
+class XliffUnit(FileUnit):
+    def get_context(self):
+        '''
+        Returns context of message. In some cases we have to use
+        ID here to make all backends consistent.
+
+        XLIFF is special in ttkit - it uses locations for what
+        is context in other formats
+        '''
+        context = self.mainunit.getlocations()
+        if len(context) == 0:
+            return ''
+        else:
+            return context[0]
+
+    def get_locations(self):
+        '''
+        Returns comma separated list of locations.
+        '''
+        return ''
 
 
 class MonolingualIDUnit(FileUnit):
@@ -911,6 +924,7 @@ class XliffFormat(FileFormat):
     format_id = 'xliff'
     loader = ('xliff', 'xlifffile')
     autoload = ('.xlf', '.xliff')
+    unit_class = XliffUnit
 
     @classmethod
     def supports_new_language(cls):
