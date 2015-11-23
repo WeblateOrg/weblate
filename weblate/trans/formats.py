@@ -508,12 +508,15 @@ class FileFormat(object):
             if search_unit.getid() == context:
                 return search_unit
 
-
     def _find_unit_template(self, context):
         # Need to create new unit based on template
-        template_ttkit_unit = self._find_unit_mono(context, self.template_store)
+        template_ttkit_unit = self._find_unit_mono(
+            context, self.template_store
+        )
         # We search by ID when using template
-        ttkit_unit = self._find_unit_mono(context, self.store)
+        ttkit_unit = self._find_unit_mono(
+            context, self.store
+        )
 
         # We always need new unit to translate
         if ttkit_unit is None:
