@@ -498,13 +498,13 @@ class FileFormat(object):
 
     def _find_unit_mono(self, context, store):
         # We search by ID when using template
-        ttkit_unit = self.store.findid(context)
+        ttkit_unit = store.findid(context)
 
         if ttkit_unit is not None:
             return ttkit_unit
 
         # Do not use findid as it does not work for empty translations
-        for search_unit in self.store.units:
+        for search_unit in store.units:
             if search_unit.getid() == context:
                 return search_unit
 
