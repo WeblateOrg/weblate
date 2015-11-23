@@ -1056,6 +1056,7 @@ class AndroidFormat(FileFormat):
         'ignore-begin-newline',
         'ignore-end-newline',
     )
+    unit_class = MonolingualIDUnit
     new_translation = (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
     )
