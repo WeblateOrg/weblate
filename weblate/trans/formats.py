@@ -496,16 +496,25 @@ class FileFormat(object):
             self.template_store is not None
         )
 
-    def _find_unit_template(self, context):
-        # Need to create new unit based on template
-        template_ttkit_unit = self.template_store.findid(context)
+    def _find_unit_mono(self, context, store):
         # We search by ID when using template
         ttkit_unit = self.store.findid(context)
+
+        if ttkit_unit is not None:
+            return ttkit_unit
+
         # Do not use findid as it does not work for empty translations
-        if ttkit_unit is None:
-            for search_unit in self.store.units:
-                if search_unit.getid() == context:
-                    ttkit_unit = search_unit
+        for search_unit in self.store.units:
+            if search_unit.getid() == context:
+                return search_unit
+
+
+    def _find_unit_template(self, context):
+        # Need to create new unit based on template
+        template_ttkit_unit = self._find_unit_mono(context, self.template_store)
+        # We search by ID when using template
+        ttkit_unit = self._find_unit_mono(context, self.store)
+
         # We always need new unit to translate
         if ttkit_unit is None:
             ttkit_unit = template_ttkit_unit
@@ -952,6 +961,15 @@ class XliffFormat(FileFormat):
         content = xlifffile.parsefile(base)
         content.settargetlanguage(code)
         content.savefile(filename)
+
+    def _find_unit_mono(self, context, store):
+        # Do not use findid as it does not work for empty translations
+        for search_unit in self.store.units:
+            loc = search_unit.getlocations()
+            if len(loc) > 0:
+                loc = loc[0]
+            if loc == context:
+                return search_unit
 
 
 @register_fileformat
