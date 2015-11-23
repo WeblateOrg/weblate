@@ -19,7 +19,7 @@ Weblate
 
 .. image:: https://www.codacy.com/project/badge/394a22d396414d48abb6a85054f4415e
     :alt: Codacy Badge
-    :target: https://www.codacy.com/public/michal_2/weblate
+    :target: https://www.codacy.com/public/nijel/weblate
     
 .. image:: https://buildtimetrend.herokuapp.com/badge/nijel/weblate
     :alt: Buildtime Trend badge
