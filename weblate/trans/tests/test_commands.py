@@ -24,7 +24,7 @@ Tests for management commands.
 
 from django.test import TestCase
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.models import SubProject
+from weblate.trans.models import SubProject, Suggestion
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
@@ -222,11 +222,19 @@ class BasicCommandTest(TestCase):
 class PeriodicCommandTest(RepoTestCase):
     def setUp(self):
         super(PeriodicCommandTest, self).setUp()
-        self.create_subproject()
+        self.subproject = self.create_subproject()
 
     def test_cleanup(self):
+        Suggestion.objects.create(
+            project=self.subproject.project,
+            contentsum='x',
+            language=self.subproject.translation_set.all()[0].language,
+        )
         call_command(
             'cleanuptrans'
+        )
+        self.assertEqual(
+            Suggestion.objects.count(), 0
         )
 
     def test_update_index(self):
