@@ -338,13 +338,15 @@ class FileUnit(object):
 
 
 class XliffUnit(FileUnit):
+    """Wrapper unit for XLIFF
+
+    XLIFF is special in ttkit - it uses locations for what
+    is context in other formats.
+    """
     def get_context(self):
         '''
         Returns context of message. In some cases we have to use
         ID here to make all backends consistent.
-
-        XLIFF is special in ttkit - it uses locations for what
-        is context in other formats
         '''
         context = self.mainunit.getlocations()
         if len(context) == 0:
