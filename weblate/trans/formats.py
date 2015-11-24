@@ -963,10 +963,12 @@ class XliffFormat(FileFormat):
         content.savefile(filename)
 
     def _find_unit_mono(self, context, store):
-        return super(self, XliffFormat)._find_unit_mono(
-            context.replace('///', ID_SEPARATOR),
-            store
-        )
+        # Do not use findid as it does not work for empty translations
+        context = context.replace('///', ID_SEPARATOR)
+        for search_unit in store.units:
+            loc = search_unit.getid()
+            if loc == context:
+                return search_unit
 
 
 @register_fileformat
