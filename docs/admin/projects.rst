@@ -30,7 +30,7 @@ and other settings:
 .. image:: ../images/admin.png
 
 In the :guilabel:`Reports` section you can check status of your site, tweak
-it for :ref:`production` or manage SSH keys to access :ref:`private`.
+it for :ref:`production` or manage SSH keys to access :ref:`vcs-repos`.
 
 All sections below you can manage database objects. The most interesting one is
 probably :guilabel:`Weblate translations`, where you can manage translatable
