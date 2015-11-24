@@ -25,6 +25,7 @@ from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
+import django
 
 import re
 
@@ -240,7 +241,13 @@ def admin_boolean_icon(val):
     '''
     Admin icon wrapper.
     '''
-    icon_url = static('admin/img/icon-%s.gif' % TYPE_MAPPING[val])
+    if django.VERSION > (1, 9):
+        ext = 'svg'
+    else:
+        ext = 'gif'
+    icon_url = static(
+        u'admin/img/icon-{0}.{1}'.format(TYPE_MAPPING[val], ext)
+    )
     return mark_safe(
         u'<img src="{url}" alt="{text}" title="{text}" />'.format(
             url=icon_url,
