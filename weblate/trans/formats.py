@@ -24,7 +24,8 @@ from django.utils.translation import ugettext_lazy as _
 from translate.convert import po2php
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
-from translate.storage.xliff import xliffunit, xlifffile
+from translate.storage.xliff import xliffunit, xlifffile, ID_SEPARATOR
+
 from translate.storage.po import pounit, pofile
 from translate.storage.php import phpunit
 from translate.storage.ts2 import tsunit, tsfile
@@ -348,11 +349,7 @@ class XliffUnit(FileUnit):
         Returns context of message. In some cases we have to use
         ID here to make all backends consistent.
         '''
-        context = self.mainunit.getlocations()
-        if len(context) == 0:
-            return ''
-        else:
-            return context[0]
+        return self.mainunit.getid().replace(ID_SEPARATOR, '///')
 
     def get_locations(self):
         '''
@@ -966,13 +963,10 @@ class XliffFormat(FileFormat):
         content.savefile(filename)
 
     def _find_unit_mono(self, context, store):
-        # Do not use findid as it does not work for empty translations
-        for search_unit in self.store.units:
-            loc = search_unit.getlocations()
-            if len(loc) > 0:
-                loc = loc[0]
-            if loc == context:
-                return search_unit
+        return super(self, XliffFormat)._find_unit_mono(
+            context.replace('///', ID_SEPARATOR),
+            store
+        )
 
 
 @register_fileformat
