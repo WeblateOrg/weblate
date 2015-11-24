@@ -39,7 +39,8 @@ keep formatting.
 There are various extra information which can be shown on this page. Most of
 them are coming from the project source code (like context, comments or where
 the message is being used). When you configure secondary languages in your
-preferences, translation to these languages will be shown.
+preferences, translation to these languages will be shown (see 
+:ref:`secondary-languages`).
 
 Bellow translation can be also shown suggestions from other users, which you
 can accept or delete.

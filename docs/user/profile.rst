@@ -28,6 +28,8 @@ you on main page to have easier access to translations.
 
 .. image:: ../images/your-translations.png
 
+.. _secondary-languages:
+
 Secondary languages
 +++++++++++++++++++
 
