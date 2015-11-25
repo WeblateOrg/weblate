@@ -235,7 +235,7 @@ class FileUnit(object):
         ID here to make all backends consistent.
         '''
         if isinstance(self.mainunit, pounit) and self.template is not None:
-            # Monolingual JSON files
+            # Monolingual PO files
             return self.template.getid()
         else:
             context = self.mainunit.getcontext()
@@ -349,6 +349,8 @@ class XliffUnit(FileUnit):
         Returns context of message. In some cases we have to use
         ID here to make all backends consistent.
         '''
+        if self.template is not None:
+            return self.template.source
         return self.mainunit.getid().replace(ID_SEPARATOR, '///')
 
     def get_locations(self):
@@ -964,9 +966,8 @@ class XliffFormat(FileFormat):
 
     def _find_unit_mono(self, context, store):
         # Do not use findid as it does not work for empty translations
-        context = context.replace('///', ID_SEPARATOR)
         for search_unit in store.units:
-            loc = search_unit.getid()
+            loc = search_unit.source
             if loc == context:
                 return search_unit
 
