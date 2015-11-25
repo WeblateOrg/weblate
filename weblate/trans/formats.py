@@ -235,7 +235,7 @@ class FileUnit(object):
         ID here to make all backends consistent.
         '''
         if isinstance(self.mainunit, pounit) and self.template is not None:
-            # Monolingual JSON files
+            # Monolingual PO files
             return self.template.getid()
         else:
             context = self.mainunit.getcontext()
