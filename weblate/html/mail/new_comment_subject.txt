@@ -1,1 +1,4 @@
-{% load i18n %}{% blocktrans %}New comment in {{ subproject }}{% endblocktrans %}
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}New comment in {{ subproject }}{% endblocktrans %}
+{% endautoescape %}
