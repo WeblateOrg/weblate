@@ -930,6 +930,17 @@ class TSFormat(FileFormat):
 
         store.savefile(filename)
 
+    @staticmethod
+    def is_valid_base_for_new(base):
+        '''
+        Checks whether base is valid.
+        '''
+        try:
+            tsfile.parsefile(base)
+            return True
+        except Exception:
+            return False
+
 
 @register_fileformat
 class XliffFormat(FileFormat):
