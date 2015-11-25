@@ -926,7 +926,10 @@ class TSFormat(FileFormat):
         for unit in store.units:
             if unit.istranslatable():
                 unit.markfuzzy()
-                unit.settarget('')
+                if unit.hasplural():
+                    unit.settarget([''])
+                else:
+                    unit.settarget('')
 
         store.savefile(filename)
 
