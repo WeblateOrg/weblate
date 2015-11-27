@@ -22,6 +22,7 @@
 Tests for quality checks.
 """
 
+from unittest import TestCase
 from weblate.trans.checks.chars import (
     BeginNewlineCheck, EndNewlineCheck,
     BeginSpaceCheck, EndSpaceCheck,
@@ -30,8 +31,9 @@ from weblate.trans.checks.chars import (
     EndEllipsisCheck,
     NewlineCountingCheck,
     ZeroWidthSpaceCheck,
+    MaxLengthCheck,
 )
-from weblate.trans.tests.test_checks import CheckTestCase
+from weblate.trans.tests.test_checks import CheckTestCase, MockUnit
 
 
 class BeginNewlineCheckTest(CheckTestCase):
@@ -233,3 +235,63 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
         self.test_good_matching = (u'str\u200bing', u'str\u200bing', '')
         self.test_failure_1 = (u'str\u200bing', 'string', '')
         self.test_failure_2 = ('string', u'str\u200bing', '')
+
+
+class MaxLengthCheckTest(TestCase):
+    def setUp(self):
+        self.check = MaxLengthCheck()
+        self.test_good_matching = (
+            'strings',
+            'less than 21',
+            'max-length:12'
+        )
+        self.test_good_matching_unicode = (
+            u'strings',
+            u'less than 21',
+            'max-length:12'
+        )
+
+    def test_check(self):
+        self.assertFalse(
+            self.check.check_target(
+                [self.test_good_matching[0]],
+                [self.test_good_matching[1]],
+                MockUnit(flags=(self.test_good_matching[2]))
+            )
+        )
+
+    def test_unicode_check(self):
+        self.assertFalse(
+            self.check.check_target(
+                [self.test_good_matching_unicode[0]],
+                [self.test_good_matching_unicode[1]],
+                MockUnit(flags=(self.test_good_matching_unicode[2]))
+            )
+        )
+
+    def test_failure_check(self):
+        self.assertTrue(
+            self.check.check_target(
+                [self.test_good_matching[0]],
+                [self.test_good_matching[1]],
+                MockUnit(flags=('max-length:10'))
+            )
+        )
+
+    def test_failure_unicode_check(self):
+        self.assertTrue(
+            self.check.check_target(
+                [self.test_good_matching_unicode[0]],
+                [self.test_good_matching_unicode[1]],
+                MockUnit(flags=('max-length:10'))
+            )
+        )
+
+    def test_multiple_flags_check(self):
+        self.assertFalse(
+            self.check.check_target(
+                [self.test_good_matching_unicode[0]],
+                [self.test_good_matching_unicode[1]],
+                MockUnit(flags=('max-length:3,max-length:12'))
+            )
+        )
