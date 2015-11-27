@@ -370,7 +370,7 @@ class MaxLengthCheck(TargetCheckWithFlag):
     Check for maximum length of translation.
     '''
     check_id = 'max-length'
-    name = _('Maximum Length of Translation')
+    name = _('Maximum length of translation')
     description = _('Translation should not exceed given length')
     severity = 'danger'
     default_disabled = True
