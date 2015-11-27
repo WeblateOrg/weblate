@@ -31,30 +31,6 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change
 
 
-class RegistrationTestMixin(object):
-    """
-    Helper to share code for registration testing.
-    """
-    def assert_registration_mailbox(self, match=None):
-        if match is None:
-            match = '[Weblate] Your registration on Weblate'
-        # Check mailbox
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            match
-        )
-
-        # Parse URL
-        line = ''
-        for line in mail.outbox[0].body.splitlines():
-            if line.startswith('http://example.com'):
-                break
-
-        # Return confirmation URL
-        return line[18:]
-
-
 class EditTest(ViewTestCase):
     '''
     Tests for manipulating translation.
