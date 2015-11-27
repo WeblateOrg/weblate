@@ -29,7 +29,6 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 import os
 import codecs
-from translate.storage import poheader
 from datetime import timedelta
 
 from weblate import appsettings
