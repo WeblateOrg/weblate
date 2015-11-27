@@ -142,6 +142,9 @@ You can also specify file format to use (see :ref:`formats`) by the
 You can specify language filtering (see :ref:`component`) by the
 ``--language-filter`` parameter. It has to be valid regullar expression.
 
+With ``--main-component`` you can specify which component will be chosen as
+main - the one actually containing VCS repository.
+
 In case you need to specify version control system to use, you can do this using
 ``--vcs`` parameter. The default version control is Git.
 

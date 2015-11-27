@@ -83,6 +83,14 @@ class Command(BaseCommand):
             default='git',
             help='Version control system to use',
         ),
+        make_option(
+            '--main-component',
+            default=None,
+            help=(
+                'Define which component will be used as main - including full'
+                ' VCS repository'
+            )
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -91,6 +99,7 @@ class Command(BaseCommand):
         self.component_re = None
         self.file_format = None
         self.language_filter = None
+        self.main_component = None
         self.name_template = None
         self.base_file_template = None
         self.vcs = None
@@ -189,6 +198,7 @@ class Command(BaseCommand):
         self.vcs = options['vcs']
         self.file_format = options['file_format']
         self.language_filter = options['language_filter']
+        self.main_component = options['main_component']
         self.name_template = options['name_template']
         self.base_file_template = options['base_file_template']
         if options['component_regexp']:
@@ -289,7 +299,15 @@ class Command(BaseCommand):
         matches = self.get_matching_subprojects(workdir)
 
         # Create first subproject (this one will get full git repo)
-        match = matches.pop()
+        if self.main_component:
+            if self.main_component not in matches:
+                raise CommandError(
+                    'Specified --main-component was not found in matches!'
+                )
+            match = self.main_component
+            matches.remove(self.main_component)
+        else:
+            match = matches.pop()
         name = self.format_string(self.name_template, match)
         template = self.format_string(self.base_file_template, match)
         slug = slugify(name)

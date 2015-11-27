@@ -53,6 +53,32 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
+    def test_import_main_1(self, name='po-mono'):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            main_component=name
+        )
+        # We should have loaded four subprojects
+        self.assertEqual(
+            project.subproject_set.exclude(repo__startswith='weblate:/')[0].slug,
+            name
+        )
+
+    def test_import_main_2(self):
+        self.test_import_main_1('second-po')
+
+    def test_import_main_invalid(self):
+        self.assertRaises(
+            CommandError,
+            self.test_import_main_1,
+            'x-po',
+        )
+
     def test_import_filter(self):
         project = self.create_project()
         call_command(
