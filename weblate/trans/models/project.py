@@ -477,19 +477,19 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
 
 @receiver(m2m_changed, sender=User.user_permissions.through)
-def user_permissions_changed(sender, instance, action, **kwargs):
+def user_permissions_changed(sender, instance, **kwargs):
     """Clear ACL cache once permissions are changed."""
     cache.delete('acl-project-{0}'.format(instance.id))
 
 
 @receiver(m2m_changed, sender=User.groups.through)
-def user_group_changed(sender, instance, action, **kwargs):
+def user_group_changed(sender, instance, **kwargs):
     """Clear ACL cache once group is changed."""
     cache.delete('acl-project-{0}'.format(instance.id))
 
 
 @receiver(m2m_changed, sender=Group.permissions.through)
-def group_permissions_changed(sender, instance, action, **kwargs):
+def group_permissions_changed(sender, instance, **kwargs):
     """Clear ACL cache once permissions are changed."""
     for user in instance.user_set.all():
         cache.delete('acl-project-{0}'.format(user.id))
