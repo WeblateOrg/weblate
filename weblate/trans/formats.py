@@ -758,7 +758,6 @@ class FileFormat(object):
 
     def merge_header(self, otherstore):
         """Tries to merge headers"""
-        raise Exception('x')
         return
 
 
