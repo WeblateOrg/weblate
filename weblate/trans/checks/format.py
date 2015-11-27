@@ -117,7 +117,6 @@ class BaseFormatCheck(TargetCheck):
             return self.check_format(
                 sources[1],
                 targets[0],
-                unit,
                 False
             )
 
@@ -125,7 +124,6 @@ class BaseFormatCheck(TargetCheck):
         singular_check = self.check_format(
             sources[0],
             targets[0],
-            unit,
             len(sources) > 1
         )
         if singular_check:
@@ -140,7 +138,6 @@ class BaseFormatCheck(TargetCheck):
             plural_check = self.check_format(
                 sources[1],
                 target,
-                unit,
                 False
             )
             if plural_check:
@@ -155,7 +152,7 @@ class BaseFormatCheck(TargetCheck):
             return text.replace('\'', '')
         return text
 
-    def check_format(self, source, target, unit, ignore_missing):
+    def check_format(self, source, target, ignore_missing):
         '''
         Generic checker for format strings.
         '''
