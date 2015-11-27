@@ -769,7 +769,10 @@ class AutoFormat(FileFormat):
 
         First attempt own autodetection, then fallback to ttkit.
         """
-        filename = getattr(storefile, 'name', None)
+        if hasattr(storefile, 'read'):
+            filename = getattr(storefile, 'name', None)
+        else:
+            filename = storefile
         if filename is not None:
             name = os.path.basename(filename)
             for autoload, storeclass in FILE_DETECT:
