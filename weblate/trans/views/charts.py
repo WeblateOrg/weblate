@@ -84,7 +84,7 @@ def yearly_activity(request, project=None, subproject=None, lang=None,
     """
     activity = get_json_stats(
         request, 364, 7,
-        project, subproject, lang
+        project, subproject, lang, user,
     )
 
     # Format
@@ -120,7 +120,7 @@ def monthly_activity(request, project=None, subproject=None, lang=None,
     """
     activity = get_json_stats(
         request, 31, 1,
-        project, subproject, lang
+        project, subproject, lang, user
     )
 
     # Format
