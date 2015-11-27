@@ -145,6 +145,9 @@ You can specify language filtering (see :ref:`component`) by the
 With ``--main-component`` you can specify which component will be chosen as
 main - the one actually containing VCS repository.
 
+Using ``--license`` and ``--license-url`` you can specify license and it's URL
+for imported components.
+
 In case you need to specify version control system to use, you can do this using
 ``--vcs`` parameter. The default version control is Git.
 

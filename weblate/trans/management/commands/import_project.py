@@ -79,6 +79,16 @@ class Command(BaseCommand):
             ),
         ),
         make_option(
+            '--license',
+            default=None,
+            help='License of imported components',
+        ),
+        make_option(
+            '--license-url',
+            default=None,
+            help='License URL of imported components',
+        ),
+        make_option(
             '--vcs',
             default='git',
             help='Version control system to use',
@@ -99,6 +109,8 @@ class Command(BaseCommand):
         self.component_re = None
         self.file_format = None
         self.language_filter = None
+        self.license = None
+        self.license_url = None
         self.main_component = None
         self.name_template = None
         self.base_file_template = None
@@ -200,6 +212,8 @@ class Command(BaseCommand):
         self.language_filter = options['language_filter']
         self.main_component = options['main_component']
         self.name_template = options['name_template']
+        self.license = options['license']
+        self.license_url = options['license_url']
         self.base_file_template = options['base_file_template']
         if options['component_regexp']:
             try:
@@ -286,6 +300,11 @@ class Command(BaseCommand):
             'vcs': self.vcs,
 
         }
+        optionals = ('license', 'license_url')
+        for key in optionals:
+            value = getattr(self, key)
+            if value is not None:
+                result[key] = value
         if self.language_filter is not None:
             result['language_regex'] = self.language_filter
         return result
