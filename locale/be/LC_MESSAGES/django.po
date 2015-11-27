@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-11-19 10:48+0000\n"
+"POT-Creation-Date: 2015-11-27 10:34+0000\n"
 "PO-Revision-Date: 2015-10-27 11:27+0200\n"
 "Last-Translator: Viktar Palstsiuk <vipals@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -2679,7 +2679,7 @@ msgstr ""
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "Пры ўзнікненні праблем з рэгістрацыяй вазьміце з намі кантакт:"
 
-#: weblate/html/mail/activation_subject.txt:1
+#: weblate/html/mail/activation_subject.txt:4
 #, python-format
 msgid "Your registration on %(site_title)s"
 msgstr "Вашая рэгістрацыя на %(site_title)s"
@@ -2694,9 +2694,12 @@ msgstr "Змяніць налады падпіскі"
 
 #: weblate/html/mail/changed_translation.html:11
 #: weblate/html/mail/changed_translation.txt:3
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "there has been a change in translation on %(translation)s at "
+#| "%(site_title)s."
 msgid ""
-"there has been a change in translation on %(translation)s at %(site_title)s."
+"There has been a change in translation on %(translation)s at %(site_title)s."
 msgstr "у перакладзе %(translation)s на %(site_title)s быў зменен радок."
 
 #: weblate/html/mail/changed_translation.html:18
@@ -2733,7 +2736,7 @@ msgstr "Гэты радок можна рэдагаваць на:"
 msgid "Previous translation:"
 msgstr "Папярэдні пераклад:"
 
-#: weblate/html/mail/changed_translation_subject.txt:1
+#: weblate/html/mail/changed_translation_subject.txt:3
 #, python-format
 msgid "Changed translation in %(translation)s"
 msgstr "Змена перакладу ў %(translation)s"
@@ -2768,8 +2771,9 @@ msgstr "Перакладаць можна на %(translation_url)s"
 
 #: weblate/html/mail/merge_failure.html:11
 #: weblate/html/mail/merge_failure.txt:3
-#, python-format
-msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+#, fuzzy, python-format
+#| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
 msgstr "у перакладзе %(subproject)s на %(site_title)s адбылася памылка зліцця."
 
 #: weblate/html/mail/merge_failure.html:15
@@ -2789,14 +2793,15 @@ msgstr "Паведамленне пра памылку:"
 msgid "Repository status:"
 msgstr "Стан рэпазіторыя:"
 
-#: weblate/html/mail/merge_failure_subject.txt:1
+#: weblate/html/mail/merge_failure_subject.txt:3
 #, python-format
 msgid "Merge failure in %(subproject)s"
 msgstr "Зліццё не ўдалося ў %(subproject)s"
 
 #: weblate/html/mail/new_comment.html:11 weblate/html/mail/new_comment.txt:3
-#, python-format
-msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+#, fuzzy, python-format
+#| msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+msgid "There has been a new comment on %(subproject)s at %(site_title)s."
 msgstr ""
 "у перакладзе %(subproject)s на %(site_title)s быў даданы новы каментарый."
 
@@ -2805,30 +2810,36 @@ msgstr ""
 msgid "Comment:"
 msgstr "Каментарый:"
 
-#: weblate/html/mail/new_comment_subject.txt:1
+#: weblate/html/mail/new_comment_subject.txt:3
 #, python-format
 msgid "New comment in %(subproject)s"
 msgstr "Новы каментарый у %(subproject)s"
 
 #: weblate/html/mail/new_contributor.html:11
 #: weblate/html/mail/new_contributor.txt:3
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "%(username)s has just made a first contribution on %(translation)s at "
+#| "%(site_title)s."
 msgid ""
-"%(username)s has just made a first contribution on %(translation)s at "
+"User %(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
 "да перакладу %(translation)s на %(site_title)s толькі што быў зроблены першы "
 "ўнёсак ад %(username)s."
 
-#: weblate/html/mail/new_contributor_subject.txt:1
+#: weblate/html/mail/new_contributor_subject.txt:3
 #, python-format
 msgid "New contributor in %(translation)s"
 msgstr "Новы дарадца ў %(translation)s"
 
 #: weblate/html/mail/new_language.html:11 weblate/html/mail/new_language.txt:3
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "there has been a request for new language on %(translation)s at "
+#| "%(site_title)s."
 msgid ""
-"there has been a request for new language on %(translation)s at "
+"There has been a request for new language on %(translation)s at "
 "%(site_title)s."
 msgstr ""
 "у перакладзе %(translation)s на %(site_title)s была запытаная новая мова."
@@ -2866,29 +2877,34 @@ msgid ""
 msgstr ""
 "Дадатковую інфармацыю пра даданне новых файлаў моў глядзіце ў дакументацыі:"
 
-#: weblate/html/mail/new_language_subject.txt:1
+#: weblate/html/mail/new_language_subject.txt:3
 #, python-format
 msgid "New language request in %(translation)s"
 msgstr "Запытанне новай мовы ў %(translation)s"
 
 #: weblate/html/mail/new_string.html:11 weblate/html/mail/new_string.txt:3
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "there are new strings to translate on %(translation)s at %(site_title)s."
 msgid ""
-"there are new strings to translate on %(translation)s at %(site_title)s."
+"There are new strings to translate on %(translation)s at %(site_title)s."
 msgstr ""
 "у перакладзе %(translation)s на %(site_title)s з'явіліся новыя радкі на "
 "пераклад."
 
-#: weblate/html/mail/new_string_subject.txt:1
+#: weblate/html/mail/new_string_subject.txt:3
 #, python-format
 msgid "New string to translate in %(translation)s"
 msgstr "Новы радок на пераклад у %(translation)s"
 
 #: weblate/html/mail/new_suggestion.html:11
 #: weblate/html/mail/new_suggestion.txt:3
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "there is a new suggestion to evaluate on %(translation)s at "
+#| "%(site_title)s."
 msgid ""
-"there is a new suggestion to evaluate on %(translation)s at %(site_title)s."
+"There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
 msgstr ""
 "у перакладзе %(translation)s на %(site_title)s з'явілася новая прапанова на "
 "разгляд."
@@ -2903,15 +2919,17 @@ msgstr "Прапанова:"
 msgid "You can review it at:"
 msgstr "Праглядзець можна на:"
 
-#: weblate/html/mail/new_suggestion_subject.txt:1
+#: weblate/html/mail/new_suggestion_subject.txt:3
 #, python-format
 msgid "New suggestion in %(translation)s"
 msgstr "Новая прапанова ў %(translation)s"
 
 #: weblate/html/mail/new_translation.html:11
 #: weblate/html/mail/new_translation.txt:3
-#, python-format
-msgid "there has been a new translation on %(translation)s at %(site_title)s."
+#, fuzzy, python-format
+#| msgid ""
+#| "there has been a new translation on %(translation)s at %(site_title)s."
+msgid "There has been a new translation on %(translation)s at %(site_title)s."
 msgstr ""
 "у перакладзе %(translation)s на %(site_title)s быў перакладзены новы радок."
 
@@ -2919,7 +2937,7 @@ msgstr ""
 msgid "Previously not translated"
 msgstr "Дагэтуль не перакладалася"
 
-#: weblate/html/mail/new_translation_subject.txt:1
+#: weblate/html/mail/new_translation_subject.txt:3
 #, python-format
 msgid "New translation in %(translation)s"
 msgstr "Новы пераклад у %(translation)s"
@@ -2929,7 +2947,7 @@ msgstr "Новы пераклад у %(translation)s"
 msgid "There was a request to reset your Weblate password at %(site_title)s."
 msgstr "Паступіў запыт на скід пароля Weblate на %(site_title)s."
 
-#: weblate/html/mail/reset_subject.txt:1
+#: weblate/html/mail/reset_subject.txt:4
 #, python-format
 msgid "Password reset on %(site_title)s"
 msgstr "Скід пароля на %(site_title)s"
@@ -3878,11 +3896,11 @@ msgstr "Адміністратарскія статычныя файлы"
 msgid "Weblate translations"
 msgstr "Пераклады Weblate"
 
-#: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:326
+#: weblate/trans/autofixes/chars.py:30 weblate/trans/checks/chars.py:329
 msgid "Trailing ellipsis"
 msgstr "Канцавое шматкроп’е"
 
-#: weblate/trans/autofixes/chars.py:43 weblate/trans/checks/chars.py:355
+#: weblate/trans/autofixes/chars.py:43 weblate/trans/checks/chars.py:358
 msgid "Zero-width space"
 msgstr "Прагал нулявой шырыні"
 
@@ -3890,51 +3908,51 @@ msgstr "Прагал нулявой шырыні"
 msgid "Trailing and leading whitespace"
 msgstr "Канцавы і пачатковы прагалы"
 
-#: weblate/trans/checks/chars.py:30
+#: weblate/trans/checks/chars.py:33
 msgid "Starting newline"
 msgstr "Пачатковы новы радок"
 
-#: weblate/trans/checks/chars.py:31
+#: weblate/trans/checks/chars.py:34
 msgid "Source and translation do not both start with a newline"
 msgstr "Ключ і пераклад не пачынаюцца новым радком"
 
-#: weblate/trans/checks/chars.py:43
+#: weblate/trans/checks/chars.py:46
 msgid "Trailing newline"
 msgstr "Канцавы новы радок"
 
-#: weblate/trans/checks/chars.py:44
+#: weblate/trans/checks/chars.py:47
 msgid "Source and translation do not both end with a newline"
 msgstr "Ключ і пераклад не канчаюцца новым радком"
 
-#: weblate/trans/checks/chars.py:56
+#: weblate/trans/checks/chars.py:59
 msgid "Starting spaces"
 msgstr "Пачатныя прагалы"
 
-#: weblate/trans/checks/chars.py:58
+#: weblate/trans/checks/chars.py:61
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "Ключ і пераклад не пачынаюцца з аднолькавай колькасці прагалаў"
 
-#: weblate/trans/checks/chars.py:87
+#: weblate/trans/checks/chars.py:90
 msgid "Trailing space"
 msgstr "Канцавы прагал"
 
-#: weblate/trans/checks/chars.py:88
+#: weblate/trans/checks/chars.py:91
 msgid "Source and translation do not both end with a space"
 msgstr "Ключ і пераклад не канчаюцца прагалам"
 
-#: weblate/trans/checks/chars.py:121
+#: weblate/trans/checks/chars.py:124
 msgid "Trailing stop"
 msgstr "Канцавая кропка"
 
-#: weblate/trans/checks/chars.py:122
+#: weblate/trans/checks/chars.py:125
 msgid "Source and translation do not both end with a full stop"
 msgstr "Ключ і пераклад не канчаюцца кропкаю"
 
-#: weblate/trans/checks/chars.py:168
+#: weblate/trans/checks/chars.py:171
 msgid "Trailing colon"
 msgstr "Канцавое двукроп'е"
 
-#: weblate/trans/checks/chars.py:170
+#: weblate/trans/checks/chars.py:173
 msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
@@ -3942,11 +3960,11 @@ msgstr ""
 "Ключ і пераклад не канчаюцца двукроп'ем альбо двукроп'е няправільна адбіта "
 "прагаламі"
 
-#: weblate/trans/checks/chars.py:225
+#: weblate/trans/checks/chars.py:228
 msgid "Trailing question"
 msgstr "Канцавы пытальнік"
 
-#: weblate/trans/checks/chars.py:227
+#: weblate/trans/checks/chars.py:230
 msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
@@ -3954,11 +3972,11 @@ msgstr ""
 "Ключ і пераклад не канчаюцца пытальнікам альбо пытальнік няправільна адбіты "
 "прагаламі"
 
-#: weblate/trans/checks/chars.py:282
+#: weblate/trans/checks/chars.py:285
 msgid "Trailing exclamation"
 msgstr "Канцавы клічнік"
 
-#: weblate/trans/checks/chars.py:284
+#: weblate/trans/checks/chars.py:287
 msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
@@ -3966,21 +3984,31 @@ msgstr ""
 "Ключ і пераклад не канчаюцца клічнікам альбо клічнік няправільна адбіты "
 "прагаламі"
 
-#: weblate/trans/checks/chars.py:327
+#: weblate/trans/checks/chars.py:330
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "Ключ і пераклад не канчаюцца шматкроп’ем"
 
-#: weblate/trans/checks/chars.py:345
+#: weblate/trans/checks/chars.py:348
 msgid "Mismatched \\n"
 msgstr "Неадпаведнасць \\n"
 
-#: weblate/trans/checks/chars.py:346
+#: weblate/trans/checks/chars.py:349
 msgid "Number of \\n in translation does not match source"
 msgstr "Колькасць \\n у перакладзе не супадае з колькасцю ў ключы"
 
-#: weblate/trans/checks/chars.py:356
+#: weblate/trans/checks/chars.py:359
 msgid "Translation contains extra zero-width space character"
 msgstr "Пераклад утрымоўвае лішнія прагалы нулявой шырыні"
+
+#: weblate/trans/checks/chars.py:373
+#, fuzzy
+#| msgid "Manage your translations"
+msgid "Maximum Length of Translation"
+msgstr "Кіраванне Вашымі перакладамі"
+
+#: weblate/trans/checks/chars.py:374
+msgid "Translation should not exceed given length"
+msgstr ""
 
 #: weblate/trans/checks/consistency.py:30
 msgid "Missing plurals"
@@ -4113,63 +4141,63 @@ msgstr "Усе нядаўнія змены, зробленыя цераз Weblat
 msgid "Failed to compile: {0}"
 msgstr "Не ўдалося скампіляваць: {0}"
 
-#: weblate/trans/formats.py:737
+#: weblate/trans/formats.py:763
 msgid "Automatic detection"
 msgstr "Аўтаматычнае выяўленне"
 
-#: weblate/trans/formats.py:771
+#: weblate/trans/formats.py:797
 msgid "Gettext PO file"
 msgstr "Файл PO для Gettext"
 
-#: weblate/trans/formats.py:873
+#: weblate/trans/formats.py:899
 msgid "Gettext PO file (monolingual)"
 msgstr "Файл PO для Gettext (аднамоўны)"
 
-#: weblate/trans/formats.py:881
+#: weblate/trans/formats.py:907
 msgid "Qt Linguist Translation File"
 msgstr "Файл перакладу Qt Linguist"
 
-#: weblate/trans/formats.py:910
+#: weblate/trans/formats.py:950
 msgid "XLIFF Translation File"
 msgstr "Файл перакладу XLIFF"
 
-#: weblate/trans/formats.py:943
+#: weblate/trans/formats.py:991
 msgid "OS X Strings"
 msgstr "Радкі OS X"
 
-#: weblate/trans/formats.py:952
+#: weblate/trans/formats.py:1000
 msgid "OS X Strings (UTF-8)"
 msgstr "Радкі OS X (UTF-8)"
 
-#: weblate/trans/formats.py:960
+#: weblate/trans/formats.py:1008
 msgid "Java Properties (UTF-8)"
 msgstr "Уласцівасці Явы (UTF-8)"
 
-#: weblate/trans/formats.py:969
+#: weblate/trans/formats.py:1017
 msgid "Java Properties (UTF-16)"
 msgstr "Уласцівасці Явы (UTF-16)"
 
-#: weblate/trans/formats.py:976
+#: weblate/trans/formats.py:1024
 msgid "Java Properties (ISO-8859-1)"
 msgstr "Уласцівасці Явы (ISO-8859-1)"
 
-#: weblate/trans/formats.py:997
+#: weblate/trans/formats.py:1045
 msgid "PHP strings"
 msgstr "Радкі PHP"
 
-#: weblate/trans/formats.py:1035
+#: weblate/trans/formats.py:1083
 msgid ".Net resource file"
 msgstr "Зыходны файл .Net"
 
-#: weblate/trans/formats.py:1048
+#: weblate/trans/formats.py:1096
 msgid "Android String Resource"
 msgstr "Радковыя рэсурсы Android"
 
-#: weblate/trans/formats.py:1074
+#: weblate/trans/formats.py:1123
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/trans/formats.py:1114
+#: weblate/trans/formats.py:1163
 msgid "CSV file"
 msgstr "Файл CSV"
 
@@ -5188,61 +5216,61 @@ msgstr "Не ўдалося сцягнуць рэпазіторый: %s"
 msgid "Push is disabled for %s."
 msgstr "Адсыланне выключана для %s."
 
-#: weblate/trans/models/subproject.py:816
+#: weblate/trans/models/subproject.py:820
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Не ўдалося адаслаць у аддаленую ветку рэпазіторыя %s."
 
-#: weblate/trans/models/subproject.py:852
+#: weblate/trans/models/subproject.py:856
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Не ўдалося скінуць на аддаленую ветку %s."
 
-#: weblate/trans/models/subproject.py:921
+#: weblate/trans/models/subproject.py:925
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Не ўдалося перабазіраваць змены ў аддаленую ветку %s."
 
-#: weblate/trans/models/subproject.py:926
+#: weblate/trans/models/subproject.py:930
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Не ўдалося зліць аддаленыя веткі з %s."
 
-#: weblate/trans/models/subproject.py:1107
+#: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Няправільная спасылка на праект Weblate, немагчыма стварыць спасылку на "
 "звязаны рэпазітар!"
 
-#: weblate/trans/models/subproject.py:1114
+#: weblate/trans/models/subproject.py:1122
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Некарэктная спасылка на праект Weblate, немагчыма стварыць спасылку на "
 "самога сябе!"
 
-#: weblate/trans/models/subproject.py:1121
+#: weblate/trans/models/subproject.py:1129
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Нядзейсная спасылка на праект Weblate. Ужывайце weblate://праект/кампанент."
 
-#: weblate/trans/models/subproject.py:1127
+#: weblate/trans/models/subproject.py:1135
 msgid "Push URL is not used when repository is linked!"
 msgstr "URL для адсылання не выкарыстоўваецца для звязанага рэпазіторыя!"
 
-#: weblate/trans/models/subproject.py:1131
+#: weblate/trans/models/subproject.py:1139
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL экспарту не выкарыстоўваецца для звязанага рэпазіторыя!"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1147
 msgid "The mask did not match any files!"
 msgstr "Маска не вылучыла ніводнага файла!"
 
-#: weblate/trans/models/subproject.py:1146
+#: weblate/trans/models/subproject.py:1154
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "Не атрымалася вызначыць мову для %s, калі ласка, праверце маску!"
 
-#: weblate/trans/models/subproject.py:1151
+#: weblate/trans/models/subproject.py:1159
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -5250,7 +5278,7 @@ msgstr ""
 "Знойдзена некалькі файлаў для адной мовы. Калі ласка, адрэгулюйце маску і "
 "выкарыстоўвайце кампаненты для перакладу розных файлаў."
 
-#: weblate/trans/models/subproject.py:1157
+#: weblate/trans/models/subproject.py:1165
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -5260,21 +5288,21 @@ msgstr ""
 "Шмат перакладаў прызначаны аднаму моўнаму коду (%s). Патрэбна вымкнуць "
 "SIMPLIFY_LANGUAGES, каб ня зьмешваліся падобныя мовы."
 
-#: weblate/trans/models/subproject.py:1178
+#: weblate/trans/models/subproject.py:1186
 msgid "File does not seem to be valid!"
 msgstr "Выдае на тое, што файл невалідны!"
 
-#: weblate/trans/models/subproject.py:1186
+#: weblate/trans/models/subproject.py:1194
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Фармат %d трапных файлаў не распазнаны."
 
-#: weblate/trans/models/subproject.py:1195
+#: weblate/trans/models/subproject.py:1203
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Не ўдалося прачытаць %d трапных файлаў!"
 
-#: weblate/trans/models/subproject.py:1206
+#: weblate/trans/models/subproject.py:1214
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -5282,11 +5310,11 @@ msgstr ""
 "Выбраны фармат файлу не дазваляе дадаваць новыя пераклады, як выбрана ў "
 "настаўленнях праекта."
 
-#: weblate/trans/models/subproject.py:1212
+#: weblate/trans/models/subproject.py:1220
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Не ўдалося распазнаць фармат базавага файла для новага перакладу!"
 
-#: weblate/trans/models/subproject.py:1217
+#: weblate/trans/models/subproject.py:1225
 #, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
@@ -5297,28 +5325,28 @@ msgstr ""
 "Базавы файл для новых перакладаў не выкарыстоўваецца праз настаўленні "
 "праекту."
 
-#: weblate/trans/models/subproject.py:1230
+#: weblate/trans/models/subproject.py:1238
 msgid "You can not use base file with bilingual translation!"
 msgstr "Немагчыма ўжываць базавы файл для дзвюхмоўнага перакладу!"
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1244
 msgid "Using .pot file as base file is not supported!"
 msgstr "Выкарыстанне .pot файла ў якасці базавага не падтрымліваецца!"
 
-#: weblate/trans/models/subproject.py:1243
+#: weblate/trans/models/subproject.py:1251
 msgid "Template file not found!"
 msgstr "Файл шаблона не знойдзены!"
 
-#: weblate/trans/models/subproject.py:1249
+#: weblate/trans/models/subproject.py:1257
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Не ўдалося прачытаць базавы файл перакладу: %s"
 
-#: weblate/trans/models/subproject.py:1254
+#: weblate/trans/models/subproject.py:1262
 msgid "You can not use monolingual translation without base file!"
 msgstr "Немагчыма выкарыстоўваць аднамоўны пераклад без базавага файла!"
 
-#: weblate/trans/models/subproject.py:1264
+#: weblate/trans/models/subproject.py:1272
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -5326,25 +5354,25 @@ msgstr ""
 "Альбо задайце URL з інструкцыямі, альбо скарыстайце з іншага спосабу дадання "
 "новай мовы."
 
-#: weblate/trans/models/subproject.py:1270
+#: weblate/trans/models/subproject.py:1278
 msgid "License URL can not be used without license summary."
 msgstr "Не можна задаваць URL ліцэнзіі без сціслага яе апісання."
 
-#: weblate/trans/models/subproject.py:1290
+#: weblate/trans/models/subproject.py:1298
 msgid "Changing version control system is not supported!"
 msgstr "Змяненне сістэмы кіравання версіямі не падтрымліваецца!"
 
-#: weblate/trans/models/subproject.py:1296
+#: weblate/trans/models/subproject.py:1304
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Непадтрымліваемы фармат файла: {0}"
 
-#: weblate/trans/models/subproject.py:1303
+#: weblate/trans/models/subproject.py:1311
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Не ўдалося абнавіць рэпазіторый: %s"
 
-#: weblate/trans/models/subproject.py:1326
+#: weblate/trans/models/subproject.py:1334
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Аўтаматычнае прыняццё прапаноў працуе толькі з дазволеным галасаваннем!"
@@ -5475,31 +5503,31 @@ msgstr "Не ўдалося атрымаць адкрыты ключ хаста!
 msgid "Failed to get host key: %s"
 msgstr "Не ўдалося атрымаць ключ хаста: %s"
 
-#: weblate/trans/templatetags/translations.py:55
+#: weblate/trans/templatetags/translations.py:56
 msgid "Good configuration"
 msgstr "Слушная канфігурацыя"
 
-#: weblate/trans/templatetags/translations.py:56
+#: weblate/trans/templatetags/translations.py:57
 msgid "Bad configuration"
 msgstr "Няслушная канфігурацыя"
 
-#: weblate/trans/templatetags/translations.py:57
+#: weblate/trans/templatetags/translations.py:58
 msgid "Possible configuration"
 msgstr "Магчымая канфігурацыя"
 
-#: weblate/trans/templatetags/translations.py:75
+#: weblate/trans/templatetags/translations.py:76
 msgid "Tab character"
 msgstr "Знак табуляцыі"
 
-#: weblate/trans/templatetags/translations.py:94
+#: weblate/trans/templatetags/translations.py:95
 msgid "New line"
 msgstr "Новы радок"
 
-#: weblate/trans/templatetags/translations.py:282
+#: weblate/trans/templatetags/translations.py:289
 msgid "a year ago"
 msgstr "летась"
 
-#: weblate/trans/templatetags/translations.py:284
+#: weblate/trans/templatetags/translations.py:291
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
@@ -5507,11 +5535,11 @@ msgstr[0] "%(count)s год таму"
 msgstr[1] "%(count)s гады таму"
 msgstr[2] "%(count)s гадоў таму"
 
-#: weblate/trans/templatetags/translations.py:289
+#: weblate/trans/templatetags/translations.py:296
 msgid "a month ago"
 msgstr "месяц таму"
 
-#: weblate/trans/templatetags/translations.py:291
+#: weblate/trans/templatetags/translations.py:298
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
@@ -5519,7 +5547,7 @@ msgstr[0] "%(count)s месяц таму"
 msgstr[1] "%(count)s месяцы таму"
 msgstr[2] "%(count)s месяцоў таму"
 
-#: weblate/trans/templatetags/translations.py:296
+#: weblate/trans/templatetags/translations.py:303
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
@@ -5527,15 +5555,15 @@ msgstr[0] "%(count)s тыдзень таму"
 msgstr[1] "%(count)s тыдні таму"
 msgstr[2] "%(count)s тыдняў таму"
 
-#: weblate/trans/templatetags/translations.py:300
+#: weblate/trans/templatetags/translations.py:307
 msgid "a week ago"
 msgstr "тыдзень таму"
 
-#: weblate/trans/templatetags/translations.py:302
+#: weblate/trans/templatetags/translations.py:309
 msgid "yesterday"
 msgstr "учора"
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:311
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
@@ -5543,16 +5571,16 @@ msgstr[0] "%(count)s дзень таму"
 msgstr[1] "%(count)s дні таму"
 msgstr[2] "%(count)s дзён таму"
 
-#: weblate/trans/templatetags/translations.py:307
-#: weblate/trans/templatetags/translations.py:368
+#: weblate/trans/templatetags/translations.py:314
+#: weblate/trans/templatetags/translations.py:375
 msgid "now"
 msgstr "зараз"
 
-#: weblate/trans/templatetags/translations.py:310
+#: weblate/trans/templatetags/translations.py:317
 msgid "a second ago"
 msgstr "толькі што"
 
-#: weblate/trans/templatetags/translations.py:312
+#: weblate/trans/templatetags/translations.py:319
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
@@ -5560,11 +5588,11 @@ msgstr[0] "%(count)s секунду таму"
 msgstr[1] "%(count)s секунды таму"
 msgstr[2] "%(count)s секунд таму"
 
-#: weblate/trans/templatetags/translations.py:317
+#: weblate/trans/templatetags/translations.py:324
 msgid "a minute ago"
 msgstr "хвіліну таму"
 
-#: weblate/trans/templatetags/translations.py:319
+#: weblate/trans/templatetags/translations.py:326
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
@@ -5572,11 +5600,11 @@ msgstr[0] "%(count)s хвіліну таму"
 msgstr[1] "%(count)s хвіліны таму"
 msgstr[2] "%(count)s хвілінаў таму"
 
-#: weblate/trans/templatetags/translations.py:324
+#: weblate/trans/templatetags/translations.py:331
 msgid "an hour ago"
 msgstr "гадзіну таму"
 
-#: weblate/trans/templatetags/translations.py:326
+#: weblate/trans/templatetags/translations.py:333
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
@@ -5584,11 +5612,11 @@ msgstr[0] "%(count)s гадзіну таму"
 msgstr[1] "%(count)s гадзіны таму"
 msgstr[2] "%(count)s гадзінаў таму"
 
-#: weblate/trans/templatetags/translations.py:343
+#: weblate/trans/templatetags/translations.py:350
 msgid "a year from now"
 msgstr "праз год"
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:352
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
@@ -5596,11 +5624,11 @@ msgstr[0] "праз %(count)s год"
 msgstr[1] "праз %(count)s гады"
 msgstr[2] "праз %(count)s гадоў"
 
-#: weblate/trans/templatetags/translations.py:350
+#: weblate/trans/templatetags/translations.py:357
 msgid "a month from now"
 msgstr "праз месяц"
 
-#: weblate/trans/templatetags/translations.py:352
+#: weblate/trans/templatetags/translations.py:359
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
@@ -5608,7 +5636,7 @@ msgstr[0] "праз %(count)s месяц"
 msgstr[1] "праз %(count)s месяцы"
 msgstr[2] "праз %(count)s месяцаў"
 
-#: weblate/trans/templatetags/translations.py:357
+#: weblate/trans/templatetags/translations.py:364
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
@@ -5616,15 +5644,15 @@ msgstr[0] "праз %(count)s тыдзень"
 msgstr[1] "праз %(count)s тыдні"
 msgstr[2] "праз %(count)s тыдняў"
 
-#: weblate/trans/templatetags/translations.py:361
+#: weblate/trans/templatetags/translations.py:368
 msgid "tomorrow"
 msgstr "заўтра"
 
-#: weblate/trans/templatetags/translations.py:363
+#: weblate/trans/templatetags/translations.py:370
 msgid "a week from now"
 msgstr "праз тыдзень"
 
-#: weblate/trans/templatetags/translations.py:365
+#: weblate/trans/templatetags/translations.py:372
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
@@ -5632,11 +5660,11 @@ msgstr[0] "праз %(count)s дзень"
 msgstr[1] "праз %(count)s дні"
 msgstr[2] "праз %(count)s дзён"
 
-#: weblate/trans/templatetags/translations.py:371
+#: weblate/trans/templatetags/translations.py:378
 msgid "a second from now"
 msgstr "зараз"
 
-#: weblate/trans/templatetags/translations.py:373
+#: weblate/trans/templatetags/translations.py:380
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
@@ -5644,11 +5672,11 @@ msgstr[0] "праз %(count)s секунду"
 msgstr[1] "праз %(count)s секунды"
 msgstr[2] "праз %(count)s секунд"
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:387
 msgid "a minute from now"
 msgstr "праз хвіліну"
 
-#: weblate/trans/templatetags/translations.py:382
+#: weblate/trans/templatetags/translations.py:389
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
@@ -5656,11 +5684,11 @@ msgstr[0] "праз %(count)s хвіліну"
 msgstr[1] "праз %(count)s хвіліны"
 msgstr[2] "праз %(count)s хвілінаў"
 
-#: weblate/trans/templatetags/translations.py:389
+#: weblate/trans/templatetags/translations.py:396
 msgid "an hour from now"
 msgstr "праз гадзіну"
 
-#: weblate/trans/templatetags/translations.py:391
+#: weblate/trans/templatetags/translations.py:398
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
@@ -5668,27 +5696,27 @@ msgstr[0] "праз %(count)s гадзіну"
 msgstr[1] "праз %(count)s гадзіны"
 msgstr[2] "праз %(count)s гадзінаў"
 
-#: weblate/trans/templatetags/translations.py:478
+#: weblate/trans/templatetags/translations.py:485
 msgid "Message is fuzzy"
 msgstr "Радок няпэўны"
 
-#: weblate/trans/templatetags/translations.py:483
+#: weblate/trans/templatetags/translations.py:490
 msgid "Message is not translated"
 msgstr "Радок не перакладзены"
 
-#: weblate/trans/templatetags/translations.py:488
+#: weblate/trans/templatetags/translations.py:495
 msgid "Message has failing checks"
 msgstr "Радок не прайшоў усіх праверак"
 
-#: weblate/trans/templatetags/translations.py:493
+#: weblate/trans/templatetags/translations.py:500
 msgid "Message is translated"
 msgstr "Радок перакладзены"
 
-#: weblate/trans/templatetags/translations.py:499
+#: weblate/trans/templatetags/translations.py:506
 msgid "Message has comments"
 msgstr "Радок мае каментарыі"
 
-#: weblate/trans/templatetags/translations.py:521
+#: weblate/trans/templatetags/translations.py:528
 #, python-format
 msgid "unit ID %s"
 msgstr "ID модулю %s"
@@ -5715,7 +5743,7 @@ msgstr ""
 "Значэнне 1 не дазваляецца для аўта-прыняцця, бо кожны карыстальнік галасуе "
 "за сваю прапанову."
 
-#: weblate/trans/validators.py:106
+#: weblate/trans/validators.py:107
 #, python-format
 msgid "Invalid check flag: \"%s\""
 msgstr "Хібны флаг праверкі: «%s»"
