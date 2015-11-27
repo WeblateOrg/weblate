@@ -53,6 +53,21 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
 
+    def test_import_filter(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            language_filter='cs'
+        )
+        # We should have loaded four subprojects
+        self.assertEqual(project.subproject_set.count(), 4)
+        for component in project.subproject_set.all():
+            self.assertEqual(component.translation_set.count(), 1)
+
     def test_import_re(self):
         project = self.create_project()
         call_command(

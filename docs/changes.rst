@@ -23,6 +23,7 @@ Released on ? 2015.
 * Fixed sitewide search for failing checks.
 * Added option to specify source language.
 * Improved support for XLIFF files.
+* Extended list of options for import_project.
 
 weblate 2.4
 -----------

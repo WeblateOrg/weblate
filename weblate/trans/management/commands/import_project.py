@@ -71,6 +71,14 @@ class Command(BaseCommand):
             help='File format type, defaults to autodetection',
         ),
         make_option(
+            '--language-filter',
+            default=None,
+            help=(
+                'Language filter regular expression to be used for created'
+                ' components'
+            ),
+        ),
+        make_option(
             '--vcs',
             default='git',
             help='Version control system to use',
@@ -82,6 +90,7 @@ class Command(BaseCommand):
         self.filemask = None
         self.component_re = None
         self.file_format = None
+        self.language_filter = None
         self.name_template = None
         self.base_file_template = None
         self.vcs = None
@@ -179,6 +188,7 @@ class Command(BaseCommand):
         self.filemask = args[3]
         self.vcs = options['vcs']
         self.file_format = options['file_format']
+        self.language_filter = options['language_filter']
         self.name_template = options['name_template']
         self.base_file_template = options['base_file_template']
         if options['component_regexp']:
@@ -256,9 +266,19 @@ class Command(BaseCommand):
                 repo=sharedrepo,
                 branch=branch,
                 template=template,
-                file_format=self.file_format,
-                filemask=self.filemask.replace('**', match)
+                filemask=self.filemask.replace('**', match),
+                **self.get_project_attribs()
             )
+
+    def get_project_attribs(self):
+        result = {
+            'file_format': self.file_format,
+            'vcs': self.vcs,
+
+        }
+        if self.language_filter is not None:
+            result['language_regex'] = self.language_filter
+        return result
 
     def import_initial(self, project, repo, branch):
         '''
@@ -297,10 +317,9 @@ class Command(BaseCommand):
             project=project,
             repo=repo,
             branch=branch,
-            file_format=self.file_format,
-            vcs=self.vcs,
             template=template,
-            filemask=self.filemask.replace('**', match)
+            filemask=self.filemask.replace('**', match),
+            **self.get_project_attribs()
         )
 
         sharedrepo = 'weblate://%s/%s' % (project.slug, slug)
