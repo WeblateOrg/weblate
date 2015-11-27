@@ -71,7 +71,7 @@ class Command(BaseCommand):
             help='File format type, defaults to autodetection',
         ),
         make_option(
-            '--language-filter',
+            '--language-regex',
             default=None,
             help=(
                 'Language filter regular expression to be used for created'
@@ -108,7 +108,7 @@ class Command(BaseCommand):
         self.filemask = None
         self.component_re = None
         self.file_format = None
-        self.language_filter = None
+        self.language_regex = None
         self.license = None
         self.license_url = None
         self.main_component = None
@@ -209,7 +209,7 @@ class Command(BaseCommand):
         self.filemask = args[3]
         self.vcs = options['vcs']
         self.file_format = options['file_format']
-        self.language_filter = options['language_filter']
+        self.language_regex = options['language_regex']
         self.main_component = options['main_component']
         self.name_template = options['name_template']
         self.license = options['license']
@@ -300,13 +300,15 @@ class Command(BaseCommand):
             'vcs': self.vcs,
 
         }
-        optionals = ('license', 'license_url')
+        optionals = (
+            'license',
+            'license_url',
+            'language_regex'
+        )
         for key in optionals:
             value = getattr(self, key)
             if value is not None:
                 result[key] = value
-        if self.language_filter is not None:
-            result['language_regex'] = self.language_filter
         return result
 
     def import_initial(self, project, repo, branch):

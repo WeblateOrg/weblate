@@ -87,7 +87,7 @@ class ImportProjectTest(RepoTestCase):
             self.git_repo_path,
             'master',
             '**/*.po',
-            language_filter='cs'
+            language_regex='cs'
         )
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
