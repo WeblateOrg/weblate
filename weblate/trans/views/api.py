@@ -20,6 +20,7 @@
 
 from weblate import appsettings
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.http import (
     HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 )
@@ -122,6 +123,7 @@ def update_project(request, project):
     return hook_response()
 
 
+@require_POST
 @csrf_exempt
 def vcs_service_hook(request, service):
     '''
@@ -131,15 +133,9 @@ def vcs_service_hook(request, service):
     be usable for other VCS services (Google Code, custom coded sites, etc.)
     too.
     '''
-    # Check for enabled hooks
-    if appsettings.ENABLE_HOOKS:
-        allowed_methods = ('POST',)
-    else:
-        allowed_methods = ()
-
     # We support only post methods
-    if not appsettings.ENABLE_HOOKS or request.method not in allowed_methods:
-        return HttpResponseNotAllowed(allowed_methods)
+    if not appsettings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed(())
 
     # Check if we got payload
     try:
