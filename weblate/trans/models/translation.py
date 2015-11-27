@@ -1070,6 +1070,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             except Unit.DoesNotExist:
                 continue
 
+            if unit.translated and not overwrite:
+                continue
+
             ret = True
 
             unit.translate(
