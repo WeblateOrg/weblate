@@ -1053,8 +1053,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         return result
 
-    def merge_translations(self, request, author, store2, overwrite,
-                           add_fuzzy, fuzzy):
+    def merge_translations(self, request, store2, overwrite, add_fuzzy, fuzzy):
         """
         Merges translation unit wise, needed for template based translations to
         add new strings.
@@ -1208,7 +1207,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 # Merge on units level
                 ret = self.merge_translations(
                     request,
-                    author,
                     store,
                     overwrite,
                     (method == 'fuzzy'),
