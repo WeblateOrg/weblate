@@ -108,14 +108,15 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(unit.target, TRANSLATION_PO)
 
         # Verify header
-        header = unit.translation.store.store.parseheader()
-        self.assertEqual(
-            header['Language-Team'], 'Test Team <noreply@weblate.org>'
-        )
-        self.assertIn(
-            'Testing Weblate, 2015.',
-            unit.translation.store.store.header().getnotes()
-        )
+        if self.test_file == TEST_PO:
+            header = unit.translation.store.store.parseheader()
+            self.assertEqual(
+                header['Language-Team'], 'Test Team <noreply@weblate.org>'
+            )
+            self.assertIn(
+                'Testing Weblate, 2015.',
+                unit.translation.store.store.header().getnotes()
+            )
 
     def test_import_author(self):
         '''
