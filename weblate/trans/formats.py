@@ -920,6 +920,14 @@ class PoFormat(FileFormat):
 
         self.store.updateheader(**update)
 
+        header = self.store.header()
+        newheader = otherstore.store.header()
+        if not header or not newheader:
+            return
+
+        header.removenotes()
+        header.addnote(newheader.getnotes())
+
 
 @register_fileformat
 class PoMonoFormat(PoFormat):

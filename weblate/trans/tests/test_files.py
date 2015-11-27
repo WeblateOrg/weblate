@@ -112,6 +112,10 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(
             header['Language-Team'], 'Test Team <noreply@weblate.org>'
         )
+        self.assertIn(
+            'Testing Weblate, 2015.',
+            unit.translation.store.store.header().getnotes()
+        )
 
     def test_import_author(self):
         '''
