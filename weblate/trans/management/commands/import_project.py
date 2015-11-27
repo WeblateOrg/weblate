@@ -19,6 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand, CommandError
+from django.utils.encoding import force_unicode
 from django.db.models import Q
 from django.utils.text import slugify
 from weblate.trans.models import SubProject, Project
@@ -325,7 +326,7 @@ class Command(BaseCommand):
                 raise CommandError(
                     'Specified --main-component was not found in matches!'
                 )
-            match = self.main_component
+            match = force_unicode(self.main_component)
             matches.remove(self.main_component)
         else:
             match = matches.pop()
