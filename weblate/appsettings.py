@@ -124,6 +124,7 @@ CHECK_LIST = getvalue('CHECK_LIST', (
     'weblate.trans.checks.chars.EndQuestionCheck',
     'weblate.trans.checks.chars.EndExclamationCheck',
     'weblate.trans.checks.chars.EndEllipsisCheck',
+    'weblate.trans.checks.chars.MaxLengthCheck',
     'weblate.trans.checks.format.PythonFormatCheck',
     'weblate.trans.checks.format.PythonBraceFormatCheck',
     'weblate.trans.checks.format.PHPFormatCheck',
