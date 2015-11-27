@@ -64,8 +64,15 @@ class ImportProjectTest(RepoTestCase):
             main_component=name
         )
         # We should have loaded four subprojects
+        non_linked = project.subproject_set.exclude(
+            repo__startswith='weblate:/'
+        )
         self.assertEqual(
-            project.subproject_set.exclude(repo__startswith='weblate:/')[0].slug,
+            non_linked.count(),
+            1
+        )
+        self.assertEqual(
+            non_linked[0].slug,
             name
         )
 
