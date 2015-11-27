@@ -102,6 +102,32 @@ class SearchViewTest(ViewTestCase):
             'xxx is not one of the available choices.'
         )
 
+    def test_pagination(self):
+        response = self.client.get(
+            reverse('search'),
+            {'q': 'hello', 'page': 1}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'q': 'hello', 'page': 10}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'q': 'hello', 'page': 'x'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+
     def test_language_search(self):
         '''
         Searching in all projects.
