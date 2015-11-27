@@ -107,6 +107,16 @@ class ImportTest(ImportBaseTest):
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
 
+        # Verify header
+        header = unit.translation.store.store.parseheader()
+        self.assertEqual(
+            header['Language-Team'], 'Test Team <noreply@weblate.org>'
+        )
+        self.assertIn(
+            'Testing Weblate, 2015.',
+            unit.translation.store.store.header().getnotes()
+        )
+
     def test_import_author(self):
         '''
         Test importing normally.

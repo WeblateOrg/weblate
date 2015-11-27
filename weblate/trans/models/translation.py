@@ -1092,12 +1092,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             store1 = self.store.store
             store1.require_index()
 
-            for set_fuzzy, unit2 in store2.iterate_merge(fuzzy, merge_header):
-                # Optionally merge header
-                if unit2.unit.isheader():
-                    if isinstance(store1, poheader.poheader):
-                        store1.mergeheaders(store2.store)
-                    continue
+            if merge_header:
+                self.store.merge_header(store2)
+
+            for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
 
                 # Find unit by ID
                 unit1 = store1.findid(unit2.unit.getid())
