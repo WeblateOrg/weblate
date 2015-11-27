@@ -33,6 +33,7 @@ class Check(object):
     ignore_untranslated = True
     default_disabled = False
     severity = 'info'
+    enable_check_value = False
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
@@ -44,6 +45,10 @@ class Check(object):
         '''
         Checks target strings.
         '''
+        if self.enable_check_value:
+            return self.check_target_unit_with_flag(
+                sources, targets, unit
+            )
         # Is this disabled by default
         if self.default_disabled and self.enable_string not in unit.all_flags:
             return False
@@ -54,6 +59,12 @@ class Check(object):
         if self.ignore_untranslated and not unit.translated:
             return False
         return self.check_target_unit(sources, targets, unit)
+
+    def check_target_unit_with_flag(self, sources, targets, unit):
+        '''
+        Checks flag value
+        '''
+        raise NotImplementedError()
 
     def check_target_unit(self, sources, targets, unit):
         '''
@@ -128,6 +139,12 @@ class TargetCheck(Check):
     '''
     target = True
 
+    def check_target_unit_with_flag(self, sources, targets, unit):
+        '''
+        We don't check flag value here.
+        '''
+        return False
+
     def check_source(self, source, unit):
         '''
         We don't check source strings here.
@@ -147,6 +164,12 @@ class SourceCheck(Check):
     '''
     source = True
 
+    def check_target_unit_with_flag(self, sources, targets, unit):
+        '''
+        We don't check flag value here.
+        '''
+        return False
+
     def check_single(self, source, target, unit):
         '''
         We don't check target strings here.
@@ -158,6 +181,33 @@ class SourceCheck(Check):
         Checks source string
         '''
         raise NotImplementedError()
+
+
+class TargetCheckWithFlag(Check):
+    '''
+    Basic class for target checks with flag value.
+    '''
+    default_disabled = True
+    enable_check_value = True
+    target = True
+
+    def check_target_unit_with_flag(self, sources, targets, unit):
+        '''
+        Checks flag value
+        '''
+        raise NotImplementedError()
+
+    def check_single(self, source, target, unit):
+        '''
+        We don't check single phrase here.
+        '''
+        return False
+
+    def check_source(self, source, unit):
+        '''
+        We don't check source strings here.
+        '''
+        return False
 
 
 class CountingCheck(TargetCheck):
