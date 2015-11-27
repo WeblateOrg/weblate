@@ -27,6 +27,7 @@ from translate.storage.properties import propunit, propfile
 from translate.storage.xliff import xliffunit, xlifffile, ID_SEPARATOR
 
 from translate.storage.po import pounit, pofile
+from translate.storage.poheader import default_header
 from translate.storage.php import phpunit
 from translate.storage.ts2 import tsunit, tsfile
 from translate.storage import mo
@@ -729,7 +730,7 @@ class FileFormat(object):
         with open(filename, 'w') as output:
             output.write(cls.new_translation)
 
-    def iterate_merge(self, fuzzy, header=False):
+    def iterate_merge(self, fuzzy):
         """Iterates over units for merging.
 
         Note: This can change fuzzy state of units!
@@ -737,8 +738,6 @@ class FileFormat(object):
         for unit in self.all_units():
             # Handle header
             if unit.unit and unit.unit.isheader():
-                if header:
-                    yield False, unit
                 continue
 
             # Skip fuzzy (if asked for that)
@@ -756,6 +755,11 @@ class FileFormat(object):
                     set_fuzzy = True
 
             yield set_fuzzy, unit
+
+    def merge_header(self, otherstore):
+        """Tries to merge headers"""
+        raise Exception('x')
+        return
 
 
 @register_fileformat
@@ -895,6 +899,26 @@ class PoFormat(FileFormat):
         retcode = process.poll()
         if retcode:
             raise ValueError(output_err if output_err else output)
+
+    def merge_header(self, otherstore):
+        """Tries to merge headers"""
+        values = otherstore.store.parseheader()
+        skip_list = (
+            'Plural-Forms',
+            'Content-Type',
+            'Content-Transfer-Encoding',
+            'MIME-Version',
+            'Language',
+        )
+        update = {}
+        for key in values:
+            if key in skip_list:
+                continue
+            if values[key] == default_header.get(key, None):
+                continue
+            update[key] = values[key]
+
+        self.store.updateheader(**update)
 
 
 @register_fileformat
