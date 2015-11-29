@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2015-11-27 10:34+0000\n"
-"PO-Revision-Date: 2015-11-29 00:59+0000\n"
+"PO-Revision-Date: 2015-11-30 00:20+0000\n"
 "Last-Translator: Tobias Bannert <tobannert@gmail.com>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
@@ -174,7 +174,7 @@ msgstr "Projektname"
 #: weblate/accounts/forms.py:534 weblate/html/project_info.html.py:3
 #: weblate/trans/models/project.py:87
 msgid "Project website"
-msgstr "Projekt-Website"
+msgstr "Projektseite"
 
 #: weblate/accounts/forms.py:536 weblate/trans/models/subproject.py:124
 msgid "Source code repository"
@@ -330,7 +330,7 @@ msgstr "Kennwort ändern"
 #: weblate/accounts/views.py:537
 msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
-"Passwort kann nicht zurückgesetzt werden; E-Mail-Authentifizierung ist "
+"Passwort kann nicht zurückgesetzt werden; E-Mail-Legitimierung ist "
 "deaktiviert!"
 
 #: weblate/accounts/views.py:558 weblate/html/accounts/reset.html.py:7
@@ -358,7 +358,7 @@ msgstr "Änderungen im letzten Jahr"
 
 #: weblate/billing/models.py:80 weblate/trans/admin.py:46
 msgid "VCS repositories"
-msgstr "Versionsverwaltungsrepositorien"
+msgstr "Versionsverwaltungspaketquellen"
 
 #: weblate/billing/models.py:86 weblate/trans/admin.py:50
 msgid "Source strings"
@@ -637,8 +637,7 @@ msgstr ""
 msgid ""
 "Source code has to be publicly available in supported version control system."
 msgstr ""
-"Der Quellcode muss öffentlich zugänglich in einem Versions-Kontrollsystem "
-"sein."
+"Der Quellcode muss öffentlich zugänglich in einer Versionsverwaltung sein."
 
 #: weblate/html/accounts/hosting.html:38
 msgid "There is no guarantee for service availability or quality."
@@ -2500,7 +2499,7 @@ msgstr "Umbasieren (rebase)"
 
 #: weblate/html/js/git-status.html:145
 msgid "Rebase local changes onto the remote repository"
-msgstr "Änderungen auf das Remote-Repository umbasieren"
+msgstr "Lokale Änderungen auf der entfernten Paketquelle umbasieren"
 
 #: weblate/html/js/git-status.html:153
 msgid "Reset"
@@ -2508,7 +2507,7 @@ msgstr "Zurücksetzen"
 
 #: weblate/html/js/git-status.html:156
 msgid "Reset all changes in the local repository"
-msgstr "Alle Änderungen in dem lokalen Repository zurücksetzen"
+msgstr "Alle Änderungen in der lokalen Paketquelle zurücksetzen"
 
 #: weblate/html/js/git-status.html:166 weblate/html/translation.html.py:233
 msgid "Unlock"
@@ -2516,7 +2515,7 @@ msgstr "Freigeben"
 
 #: weblate/html/js/git-status.html:169
 msgid "Allow changes in the local repository"
-msgstr "Änderungen in dem lokalen Repository erlauben"
+msgstr "Änderungen in der lokalen Paketquelle erlauben"
 
 #: weblate/html/js/git-status.html:175 weblate/html/translation.html.py:235
 msgid "Lock"
@@ -2524,7 +2523,7 @@ msgstr "Sperren"
 
 #: weblate/html/js/git-status.html:178
 msgid "Prevent any changes in the local repository"
-msgstr "Jegliche Änderungen am lokalen Repository verhindern"
+msgstr "Jegliche Änderungen an der lokalen Paketquelle verhindern"
 
 #: weblate/html/language.html:13 weblate/html/project.html.py:22
 #: weblate/html/subproject.html:24 weblate/html/translation.html.py:23
@@ -2691,8 +2690,8 @@ msgid ""
 "This is an automatic email to help you complete your registration with "
 "%(site_title)s."
 msgstr ""
-"dies ist eine automatisch generierte Email zum Abschließen Ihrer "
-"Registrierung auf %(site_title)s."
+"Das ist eine automatisch erstellte E-Mail, um die Registrierung auf "
+"%(site_title)s abzuschließen."
 
 #: weblate/html/mail/activation.html:15 weblate/html/mail/activation.txt:5
 #: weblate/html/mail/reset.html.py:15 weblate/html/mail/reset.txt:5
@@ -2818,7 +2817,7 @@ msgstr "Fehlermeldung"
 #: weblate/html/mail/merge_failure.html:30
 #: weblate/html/mail/merge_failure.txt:13
 msgid "Repository with Weblate translations:"
-msgstr "Repository mit Weblate Übersetzungen:"
+msgstr "Paketquelle mit Weblate-Übersetzungen:"
 
 #: weblate/html/mail/merge_failure.txt:5
 msgid "Error message:"
@@ -2884,8 +2883,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "on next update."
 msgstr ""
-"Bitte fügen Sie die Sprachdatei im VCS hinzu, Weblate wird sie bei der "
-"nächsten Aktualisierung automatisch entdecken."
+"Bitte die Sprachdatei zur Versionsverwaltung hinzufügen, Weblate wird sie "
+"bei der nächsten Aktualisierung automatisch entdecken."
 
 #: weblate/html/mail/new_language.html:20
 #, python-format
@@ -3006,7 +3005,7 @@ msgstr "Daten-Export"
 #: weblate/html/project.html:35 weblate/html/subproject.html.py:37
 #: weblate/html/translation.html:53
 msgid "Repository maintenance"
-msgstr "Repository-Wartung"
+msgstr "Paketquellwartung"
 
 #: weblate/html/project.html:40 weblate/html/subproject.html.py:41
 msgid "Manage users"
@@ -3055,7 +3054,7 @@ msgstr "Komponente"
 #: weblate/html/project.html:103 weblate/html/source.html.py:36
 #: weblate/html/subproject.html:88 weblate/html/translation.html.py:127
 msgid "Project Information"
-msgstr "Projekt-Information"
+msgstr "Projektinformation"
 
 #: weblate/html/project.html:122
 msgid "There are currently no glossaries defined for this project."
@@ -3105,7 +3104,7 @@ msgstr "Neuen Besitzer hinzufügen"
 
 #: weblate/html/project_info.html:9
 msgid "Mailing list for translators"
-msgstr "Mailingliste für Übersetzer"
+msgstr "Rundschreiben für Übersetzer"
 
 #: weblate/html/project_info.html:16
 msgid "Instructions for translators"
@@ -3253,7 +3252,7 @@ msgstr "Paketquellzweig"
 
 #: weblate/html/subproject_info.html:41
 msgid "Repository with Weblate translations"
-msgstr "Repository mit Weblate Übersetzungen"
+msgstr "Paketquelle mit Weblate-Übersetzungen"
 
 #: weblate/html/trans/change_list.html:7 weblate/trans/views/changes.py:60
 msgid "Changes"
@@ -3861,7 +3860,7 @@ msgstr "Besitzer"
 
 #: weblate/trans/admin.py:67 weblate/trans/admin.py:112
 msgid "Update VCS repository"
-msgstr "Aktualisiere Versionsverwaltungsrepositorium"
+msgstr "Versionsverwaltungspaketquelle aktualisieren"
 
 #: weblate/trans/admin.py:81 weblate/trans/admin.py:129
 msgid "Update quality checks"
@@ -4622,11 +4621,11 @@ msgstr "Weitere Informationen über Weblate"
 
 #: weblate/trans/models/advertisement.py:95
 msgid "Mail footer (text)"
-msgstr "Email-Fußzeile (Text)"
+msgstr "E-Mail-Fußzeile (Text)"
 
 #: weblate/trans/models/advertisement.py:96
 msgid "Mail footer (HTML)"
-msgstr "Email-Fußzeile (HTML)"
+msgstr "E-Mail-Fußzeile (HTML)"
 
 #: weblate/trans/models/advertisement.py:101
 msgid "Placement"
@@ -4734,19 +4733,19 @@ msgstr "Paketquelle zurücksetzen"
 
 #: weblate/trans/models/changes.py:176
 msgid "Merged repository"
-msgstr "Repository zusammengeführt"
+msgstr "Paketquelle zusammengeführt"
 
 #: weblate/trans/models/changes.py:177
 msgid "Rebased repository"
-msgstr "Repository umbasiert"
+msgstr "Paketquelle umbasiert"
 
 #: weblate/trans/models/changes.py:178
 msgid "Failed merge on repository"
-msgstr "Fehler beim Zusammenführen auf dem Repository"
+msgstr "Zusammenführen auf der Paketquelle ist fehlgeschlagen"
 
 #: weblate/trans/models/changes.py:179
 msgid "Failed rebase on repository"
-msgstr "Fehler beim Zurücksetzen auf dem Repository"
+msgstr "Umbasieren auf der Paketquelle ist fehlgeschlagen"
 
 #: weblate/trans/models/changes.py:247
 #, python-format
@@ -4771,11 +4770,11 @@ msgstr "Haupt-Website des übersetzten Projekts."
 
 #: weblate/trans/models/project.py:91
 msgid "Mailing list"
-msgstr "Mailing-Liste"
+msgstr "Rundschreibenliste"
 
 #: weblate/trans/models/project.py:94
 msgid "Mailing list for translators."
-msgstr "Mailingliste für Übersetzer."
+msgstr "Rundschreiben für Übersetzer."
 
 #: weblate/trans/models/project.py:97
 msgid "Translation instructions"
@@ -4824,7 +4823,7 @@ msgstr "Hooks aktivieren"
 #: weblate/trans/models/project.py:131
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
-"Ob das Aktualisieren dieses Repositorys durch Remote-Hooks erlaubt ist."
+"Ob das Aktualisieren dieser Paketquelle durch entfernte Hooks erlaubt ist."
 
 #: weblate/trans/models/project.py:139
 msgid "Owners of the project."
@@ -4847,7 +4846,7 @@ msgstr "Sie sind nicht berechtigt, auf das Projekt %s zuzugreifen."
 #: weblate/trans/models/project.py:226
 #, python-format
 msgid "Could not create project directory: %s"
-msgstr "Fehler beim Anlegen des Projekt-Verzeichnisses: %s"
+msgstr "Fehler beim Anlegen des Projektverzeichnisses: %s"
 
 #: weblate/trans/models/source.py:26
 msgid "Very high"
@@ -4895,30 +4894,30 @@ msgstr "Name der Komponente"
 
 #: weblate/trans/models/subproject.py:114
 msgid "Version control system"
-msgstr "Versionskontrollsystem"
+msgstr "Versionsverwaltung"
 
 #: weblate/trans/models/subproject.py:117
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
-"Versionskontrollsystem, das zum Zugreifen auf Ihr Repository mit "
-"Übersetzungen verwendet werden soll."
+"Versionsverwaltung, das zum Zugreifen auf Ihre Paketquelle mit Übersetzungen "
+"verwendet werden soll."
 
 #: weblate/trans/models/subproject.py:127
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"URL eines Repositorys, mit weblate://projektname/komponente verweisen Sie "
-"auf das Repository einer anderen Komponente."
+"Adresse einer Paketquelle, mit weblate://projektname/komponente verweisen "
+"Sie auf die Paketquelle einer anderen Komponente."
 
 #: weblate/trans/models/subproject.py:132
 msgid "Repository push URL"
-msgstr "Repository-Push-URL"
+msgstr "Paketquell-Push-Adresse"
 
 #: weblate/trans/models/subproject.py:135
 msgid "URL of a push repository, pushing is disabled if empty."
-msgstr "URL des Push-Repositorys, falls leer, wird Pushen deaktiviert."
+msgstr "Adresse der Push-Paketquelle, falls leer, wird anschieben deaktiviert."
 
 #: weblate/trans/models/subproject.py:140
 msgid "Repository browser"
@@ -4930,8 +4929,8 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
-"Link zum Repository-Browser, verwenden Sie %(branch)s für Branch, %(file)s "
-"und %(line)s als Platzhalter für Dateinamen und Zeile."
+"Verknüpfung zum Paketquellnavigator, verwenden Sie %(branch)s für Zweig, "
+"%(file)s und %(line)s als Platzhalter für Dateinamen und Zeile."
 
 #: weblate/trans/models/subproject.py:149
 msgid "Exported repository URL"
@@ -4939,7 +4938,8 @@ msgstr "Exportierte Paketquelladresse"
 
 #: weblate/trans/models/subproject.py:152
 msgid "URL of a repository where users can fetch changes from Weblate"
-msgstr "URL eines Repositorys, wo Nutzer Änderungen von Weblate laden können"
+msgstr ""
+"Adresse einer Paketquelle, wo Nutzer Änderungen von Weblate laden können"
 
 #: weblate/trans/models/subproject.py:157
 msgid "Source string bug report address"
@@ -4955,7 +4955,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:168
 msgid "Repository branch to translate"
-msgstr "Zu übersetzender Repository-Branch"
+msgstr "Zu übersetzender Paketquellzweig"
 
 #: weblate/trans/models/subproject.py:182
 msgid "Monolingual base language file"
@@ -5022,8 +5022,8 @@ msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
-"Skript, das nach dem Repository-Update ausgeführt wird, siehe Dokumentation "
-"für mehr Details."
+"Skript, das nach der Paketquellaktualisierung ausgeführt wird, siehe "
+"Dokumentation für mehr Details."
 
 #: weblate/trans/models/subproject.py:240
 msgid "Pre-commit script"
@@ -5182,7 +5182,7 @@ msgstr "Git-Strategie"
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
-msgstr "Auf welche Weise Weblate mit dem Git-Upstream-Repository umgehen soll."
+msgstr "Auf welche Weise Weblate mit der Git-Upstream-Paketquelle umgehen soll."
 
 #: weblate/trans/models/subproject.py:392
 msgid "Commit message"
@@ -5257,8 +5257,8 @@ msgstr "Fehler beim Zusammenführen des Remote-Branches nach %s."
 #: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
-"Ungültiger Link zu einem Weblate-Projekt, Verbindung zu einem verbundenen "
-"Repository nicht möglich!"
+"Ungültiger Verweis zu einem Weblate-Projekt, Verbindung zu einer verbundenen "
+"Paketquelle nicht möglich!"
 
 #: weblate/trans/models/subproject.py:1122
 msgid "Invalid link to a Weblate project, can not link to self!"
@@ -5274,11 +5274,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1135
 msgid "Push URL is not used when repository is linked!"
-msgstr "Push-URL wird nicht verwendet, wenn Repository verlinkt ist!"
+msgstr "Push-URL wird nicht verwendet, wenn Paketquelle verknüpft ist!"
 
 #: weblate/trans/models/subproject.py:1139
 msgid "Export URL is not used when repository is linked!"
-msgstr "Export-URL wird nicht verwendet, wenn Repository verlinkt ist!"
+msgstr "Exportadresse wird nicht verwendet, wenn Paketquelle verknüpft ist!"
 
 #: weblate/trans/models/subproject.py:1147
 msgid "The mask did not match any files!"
@@ -5330,7 +5330,7 @@ msgid ""
 "project settings."
 msgstr ""
 "Gewähltes Dateiformat unterstützt kein Hinzufügen neuer Übersetzungen, wie "
-"in Projekt-Einstellungen ausgewählt."
+"in Projekteinstellungen ausgewählt."
 
 #: weblate/trans/models/subproject.py:1220
 msgid "Format of base file for new translations was not recognized!"
@@ -5341,7 +5341,7 @@ msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
 msgstr ""
-"Basis-Datei für neue Übersetzungen wird aufgrund der Projekt-Einstellungen "
+"Basisdatei für neue Übersetzungen wird aufgrund der Projekteinstellungen "
 "nicht verwendet. Sie sollten wahrscheinlich das automatische Hinzufügen "
 "neuer Übersetzungen aktivieren."
 
@@ -5381,7 +5381,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1298
 msgid "Changing version control system is not supported!"
-msgstr "Ändern des Versionskontrollsystems wird nicht unterstützt!"
+msgstr "Ändern der Versionsverwaltung wird nicht unterstützt!"
 
 #: weblate/trans/models/subproject.py:1304
 #, python-brace-format
@@ -5405,8 +5405,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Dateiname %s nicht im Repository gefunden! Um eine neue Übersetzung "
-"hinzuzufügen, Sprachdatei im Repository anlegen."
+"Dateiname %s nicht in der Paketquelle gefunden! Um eine neue Übersetzung "
+"hinzuzufügen, bitte Sprachdatei in Paketquelle anlegen."
 
 #: weblate/trans/models/translation.py:220
 #, python-format
@@ -6005,7 +6005,7 @@ msgstr "Zusammenführung des Dateiinhalts fehlgeschlagen: %s"
 #: weblate/trans/views/git.py:48
 msgid "Failed to lock the repository, another operation in progress."
 msgstr ""
-"Fehler beim Sperren des Repositorys, ein anderer Vorgang ist in Bearbeitung."
+"Fehler beim Sperren der Paketquelle, ein anderer Vorgang ist in Bearbeitung."
 
 #: weblate/trans/views/git.py:61
 msgid "All pending translations were committed."
