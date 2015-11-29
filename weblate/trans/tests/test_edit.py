@@ -25,7 +25,6 @@ Tests for translation views.
 import time
 
 from django.core.urlresolvers import reverse
-from django.core import mail
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Change
