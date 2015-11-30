@@ -68,7 +68,7 @@ are too old or non existing:
     # Dependencies for python-social-auth
     apt-get install python-requests-oauthlib python-six python-openid
 
-    pip install python-social-auth Django Whoosh
+    pip install python-social-auth Django Whoosh django_compressor
 
 For proper sorting of a unicode strings, it is recommended to install pyuca:
 
