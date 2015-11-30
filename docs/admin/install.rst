@@ -30,6 +30,8 @@ dateutil
     http://labix.org/python-dateutil
 django_compressor
     https://github.com/django-compressor/django-compressor
+django-crispy-forms (>=1.4.0)
+    http://django-crispy-forms.readthedocs.org/
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)
@@ -44,30 +46,43 @@ hub (optional for sending pull requests to GitHub)
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
 
-On Debian or Ubuntu, most of requirements are already packaged, to install them
-you can use apt-get:
+On recent Debian or Ubuntu, most of requirements are already packaged, to
+install them you can use apt-get:
 
 .. code-block:: sh
 
     apt-get install python-django translate-toolkit \
         python-whoosh python-pil python-libravatar \
         python-babel Git mercurial python-social-auth \
-        python-django-compressor
+        python-django-compressor python-django-crispy-forms
 
     # Optional for database backend
 
     apt-get install python-mysqldb   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
 
-For Debian 7.0 (Wheezy) or older, you need to install several Python modules
-manually using pip as versions shipped in distribution are too old:
+On older versions, some required dependencies are missing or outdated, so you
+need to install several Python modules manually using pip:
 
 .. code-block:: sh
 
     # Dependencies for python-social-auth
     apt-get install python-requests-oauthlib python-six python-openid
 
-    pip install python-social-auth Django Whoosh
+    # In case python-social-auth package is missing
+    pip install python-social-auth 
+
+    # In case your distribution has python-django older than 1.7
+    pip install Django
+
+    # In case python-django-crispy-forms package is missing
+    pip install django-crispy-forms
+
+    # In case python-whoosh package is misssing or older than 2.5
+    pip install Whoosh 
+
+    # In case your python-django-compressor package is missing
+    pip install django_compressor
 
 For proper sorting of a unicode strings, it is recommended to install pyuca:
 
