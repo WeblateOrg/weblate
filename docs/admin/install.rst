@@ -59,8 +59,9 @@ you can use apt-get:
     apt-get install python-mysqldb   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
 
-For Debian 7.0 (Wheezy) or older, you need to install several Python modules
-manually using pip as versions shipped in distribution are too old:
+For Debian 7.0 (Wheezy) or older or older Ubuntu version, you need to install
+several Python modules manually using pip as versions shipped in distribution
+are too old or non existing:
 
 .. code-block:: sh
 
