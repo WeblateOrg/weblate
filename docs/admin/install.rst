@@ -51,7 +51,7 @@ install them you can use apt-get:
 
 .. code-block:: sh
 
-    apt-get install python-django translate-toolkit \
+    apt-get install python-pip python-django translate-toolkit \
         python-whoosh python-pil python-libravatar \
         python-babel Git mercurial python-social-auth \
         python-django-compressor python-django-crispy-forms
