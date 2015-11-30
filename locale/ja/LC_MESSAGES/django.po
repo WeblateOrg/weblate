@@ -1,13 +1,13 @@
-# translation of weblate-master-ja.po to Japanese
+# translation of weblate-website-ja.po to Japanese
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yasuhiko Kamata <belphegor@belbel.or.jp>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: weblate-master-ja\n"
-"Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2015-11-27 10:34+0000\n"
-"PO-Revision-Date: 2015-11-30 20:10+0900\n"
+"Project-Id-Version: weblate-website-ja\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-11 16:37+0100\n"
+"PO-Revision-Date: 2015-12-01 07:53+0900\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese "
 "<https://hosted.weblate.org/projects/weblate/javascript/ja/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.5-dev\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: weblate/accounts/auth.py:47
 msgid ""
@@ -292,6 +292,7 @@ msgid "Contact"
 msgstr "連絡"
 
 #: weblate/accounts/views.py:309 weblate/html/accounts/hosting.html.py:7
+#: weblate_web/html/base.html:71
 msgid "Hosting"
 msgstr "ホスティング"
 
@@ -351,12 +352,14 @@ msgid "Changes in last year"
 msgstr "昨年の変更"
 
 #: weblate/billing/models.py:80 weblate/trans/admin.py:46
+#: weblate_web/html/hosting.html:61
 msgid "VCS repositories"
-msgstr "VCS リポジトリ"
+msgstr "VCS リポジトリ数"
 
 #: weblate/billing/models.py:86 weblate/trans/admin.py:50
+#: weblate_web/html/hosting.html:45
 msgid "Source strings"
-msgstr "原文"
+msgstr "原文数"
 
 #: weblate/billing/models.py:92 weblate/trans/admin.py:54
 msgid "Source words"
@@ -366,6 +369,7 @@ msgstr "原文の単語"
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html.py:6
 #: weblate/html/languages.html:6 weblate/lang/models.py:379
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
+#: weblate_web/html/features.html:131
 msgid "Languages"
 msgstr "言語"
 
@@ -391,6 +395,7 @@ msgid "Page Not Found"
 msgstr "ページが見つかりません"
 
 #: weblate/html/404.html:11
+#: weblate_web/html/404.html:15
 msgid "The page you are looking for was not found."
 msgstr "閲覧しようとしているページが見つかりません。"
 
@@ -403,12 +408,12 @@ msgid "Server Error"
 msgstr "サーバエラー"
 
 #: weblate/html/500.html:12
+#: weblate_web/html/500.html:15
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
 msgstr ""
-"リクエストを処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解"
-"決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
+"リクエストの処理中に、サーバ上で深刻な問題がありました。この間抜けな問題を解決するために、熟練のおサルさん (開発者) を派遣しました (笑)。"
 
 #: weblate/html/about.html:5 weblate/html/about.html.py:14
 #: weblate/html/footer.html:6 weblate/trans/views/basic.py:396
@@ -612,16 +617,18 @@ msgstr ""
 "してください。"
 
 #: weblate/html/accounts/hosting.html:33
+#: weblate_web/html/hosting.html:189
 msgid "Conditions for free hosting"
 msgstr "無料ホスティングの条件"
 
 #: weblate/html/accounts/hosting.html:36
+#: weblate_web/html/hosting.html:192
 msgid ""
 "Translated content has to be released under <a href=\"http://en.wikipedia."
 "org/wiki/Free_software_license\">free license</a>."
 msgstr ""
-"翻訳された内容は、<a href=\"http://en.wikipedia.org/wiki/"
-"Free_software_license\">自由なライセンス</a>でリリースされる必要があります。"
+"翻訳された内容は、<a href=\"http://en.wikipedia.org/wiki/Free_software_license\""
+">自由なライセンス</a>でリリースされる必要があります。"
 
 #: weblate/html/accounts/hosting.html:37
 msgid ""
@@ -631,6 +638,7 @@ msgstr ""
 "があります。"
 
 #: weblate/html/accounts/hosting.html:38
+#: weblate_web/html/hosting.html:194
 msgid "There is no guarantee for service availability or quality."
 msgstr "サービスの可用性と品質に保証はありません。"
 
@@ -763,6 +771,7 @@ msgstr "第 2 言語は、翻訳するときソース文字列の横に表示さ
 #: weblate/html/check.html:42 weblate/html/check_project.html.py:43
 #: weblate/html/check_subproject.html:44 weblate/html/checks.html.py:36
 #: weblate/html/footer.html:8
+#: weblate_web/html/features.html:112
 msgid "Documentation"
 msgstr "ドキュメント"
 
@@ -1139,6 +1148,7 @@ msgstr ""
 "ます。"
 
 #: weblate/html/base.html:74
+#: weblate_web/html/base.html:54
 msgid "Toggle navigation"
 msgstr "ナビゲーションの切り替え"
 
@@ -1194,11 +1204,12 @@ msgid "Information"
 msgstr "統計情報"
 
 #: weblate/html/checks.html:32
+#: weblate_web/data.py:63
+#: weblate_web/html/base-features.html:17
 msgid ""
 "Customizable quality checks will help you in improving quality of "
 "translations."
-msgstr ""
-"品質チェックのカスタマイズによって、翻訳の質を向上することができるでしょう。"
+msgstr "品質チェックのカスタマイズにより、翻訳の質をさらに向上させることができます。"
 
 #: weblate/html/checks.html:33
 msgid ""
@@ -1305,6 +1316,8 @@ msgstr ""
 "\"%(api_docs)s\">ドキュメンテーション</a> 内で説明しています。"
 
 #: weblate/html/data.html:65
+#: weblate_web/html/base.html:70
+#: weblate_web/html/download.html:27
 msgid "Download"
 msgstr "ダウンロード"
 
@@ -1495,6 +1508,7 @@ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: weblate/html/footer.html:7
+#: weblate_web/html/hosting.html:137
 msgid "Contact us"
 msgstr "連絡先"
 
@@ -2622,6 +2636,8 @@ msgid_plural "There are %(count)s not translated strings."
 msgstr[0] "翻訳されていないものが %(count)s 個あります。"
 
 #: weblate/html/list-translations.html:72 weblate/html/translate.html.py:74
+#: weblate_web/html/contribute.html:11
+#: weblate_web/html/contribute.html:38
 msgid "Translate"
 msgstr "翻訳"
 
@@ -3210,6 +3226,8 @@ msgid "Follow using RSS"
 msgstr "RSS を利用して追跡"
 
 #: weblate/html/translate.html:16
+#: weblate_web/html/base.html:12
+#, fuzzy
 msgid "translate"
 msgstr "翻訳"
 
@@ -3427,6 +3445,9 @@ msgid "Manage glossary"
 msgstr "用語集の管理"
 
 #: weblate/html/translate.html:339
+#: weblate_web/data.py:58
+#: weblate_web/html/features.html:77
+#: weblate_web/html/hosting.html:125
 msgid "Glossary"
 msgstr "用語集"
 
@@ -3494,6 +3515,7 @@ msgstr "自動翻訳"
 #: weblate/html/translation.html:85 weblate/html/widgets.html.py:56
 #: weblate/html/widgets.html:64 weblate/html/widgets.html.py:71
 #: weblate/html/widgets.html:79
+#: weblate_web/html/contribute.html:46
 msgid "Translation status"
 msgstr "翻訳状況"
 
@@ -3563,6 +3585,7 @@ msgid "Translation is currently not locked."
 msgstr "翻訳は現在、ロックされていません。"
 
 #: weblate/html/translation.html:266
+#: weblate_web/html/features.html:120
 msgid "Review"
 msgstr "査読"
 
@@ -4530,6 +4553,8 @@ msgid "More information about Weblate can be found at {0}"
 msgstr "Weblate に関する詳細情報は {0} にあります"
 
 #: weblate/trans/models/advertisement.py:41
+#: weblate_web/html/donate.html:3
+#: weblate_web/html/donate.html.py:4
 msgid "Donate to Weblate"
 msgstr "Weblate に寄付する"
 
@@ -4691,6 +4716,7 @@ msgid "Main website of translated project."
 msgstr "翻訳済みプロジェクトのメインウェブサイト。"
 
 #: weblate/trans/models/project.py:91
+#: weblate_web/html/support.html:22
 msgid "Mailing list"
 msgstr "メーリングリスト"
 
@@ -4775,8 +4801,10 @@ msgid "High"
 msgstr "高"
 
 #: weblate/trans/models/source.py:28
+#: weblate_web/html/hosting.html:30
+#, fuzzy
 msgid "Medium"
-msgstr "中"
+msgstr "中規模"
 
 #: weblate/trans/models/source.py:29
 msgid "Low"
