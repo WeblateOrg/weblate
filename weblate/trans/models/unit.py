@@ -438,6 +438,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
         # Check if we actually need to change anything
+        # pylint: disable=R0916
         if (not created and
                 location == self.location and
                 flags == self.flags and
