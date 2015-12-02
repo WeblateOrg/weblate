@@ -993,8 +993,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         Returns files matching current mask.
         '''
         prefix = os.path.join(self.get_path(), '')
-        matches = glob(os.path.join(self.get_path(), self.filemask))
-        matches = set([f.replace(prefix, '') for f in matches])
+        matches = set([
+            f.replace(prefix, '')
+            for f in glob(os.path.join(self.get_path(), self.filemask))
+        ])
         # We want to list template among translations as well
         if self.has_template():
             if self.edit_template:
