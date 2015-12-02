@@ -95,10 +95,10 @@ class CheckTestCase(TestCase):
         self.test_empty = ('', '', '')
         self.test_good_matching = ('string', 'string', '')
         self.test_good_none = ('string', 'string', '')
-        self.test_good_ignore = None
-        self.test_failure_1 = None
-        self.test_failure_2 = None
-        self.test_failure_3 = None
+        self.test_good_ignore = ()
+        self.test_failure_1 = ()
+        self.test_failure_2 = ()
+        self.test_failure_3 = ()
         self.test_ignore_check = (
             'x', 'x', self.check.ignore_string if self.check else ''
         )
@@ -107,7 +107,7 @@ class CheckTestCase(TestCase):
         '''
         Performs single check if we have data to test.
         '''
-        if data is None or self.check is None:
+        if not data or self.check is None:
             return
         result = self.check.check_single(
             data[0],
@@ -169,7 +169,7 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_failure_1_singular(self):
-        if self.test_failure_1 is None or self.check is None:
+        if not self.test_failure_1 or self.check is None:
             return
         self.assertTrue(
             self.check.check_target(
@@ -180,7 +180,7 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_failure_1_plural(self):
-        if self.test_failure_1 is None or self.check is None:
+        if not self.test_failure_1 or self.check is None:
             return
         self.assertTrue(
             self.check.check_target(
