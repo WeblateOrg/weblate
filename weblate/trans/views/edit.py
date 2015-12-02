@@ -441,8 +441,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
 
     # Perform operation
     try:
-        sugid = int(sugid)
-        suggestion = Suggestion.objects.get(pk=sugid)
+        suggestion = Suggestion.objects.get(pk=int(sugid))
 
         if 'accept' in request.POST or 'accept_edit' in request.POST:
             suggestion.accept(translation, request)
