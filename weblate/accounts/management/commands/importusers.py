@@ -70,7 +70,7 @@ class Command(BaseCommand):
                 )
                 continue
 
-            if not line['last_name'] in line['first_name']:
+            if line['last_name'] not in line['first_name']:
                 full_name = u'{0} {1}'.format(
                     line['first_name'],
                     line['last_name']
