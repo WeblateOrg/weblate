@@ -404,7 +404,7 @@ class FileFormat(object):
     '''
     name = ''
     format_id = ''
-    loader = (None, None)
+    loader = ('', '')
     monolingual = None
     check_flags = ()
     unit_class = FileUnit
