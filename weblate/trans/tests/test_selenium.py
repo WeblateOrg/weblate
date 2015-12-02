@@ -1,5 +1,35 @@
-from django.test import LiveServerTestCase
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 from unittest import SkipTest
+import time
+import django
+import os
+import new
+import json
+import httplib
+import base64
+from django.test import LiveServerTestCase
+from django.core.urlresolvers import reverse
+from django.core import mail
+from django.contrib.auth.models import User
 try:
     from selenium import webdriver
     from selenium.common.exceptions import (
@@ -8,16 +38,6 @@ try:
     HAS_SELENIUM = True
 except ImportError:
     HAS_SELENIUM = False
-from django.core.urlresolvers import reverse
-from django.core import mail
-from django.contrib.auth.models import User
-import time
-import django
-import os
-import new
-import json
-import httplib
-import base64
 
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests import OverrideSettings
