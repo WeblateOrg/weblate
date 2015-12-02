@@ -67,7 +67,7 @@ class Widget(object):
     '''
     name = None
     colors = ('grey', 'white', 'black')
-    progress = None
+    progress = {}
     alpha = False
     extension = 'png'
     content_type = 'image/png'
