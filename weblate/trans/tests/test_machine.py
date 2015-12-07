@@ -59,6 +59,7 @@ GLOSBE_JSON = u'''
 }
 '''.encode('utf-8')
 MYMEMORY_JSON = u'''
+\r\n
 {"responseData":{"translatedText":"svět"},"responseDetails":"",
 "responseStatus":200,
 "matches":[

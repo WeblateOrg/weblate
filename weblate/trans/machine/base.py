@@ -104,7 +104,7 @@ class MachineTranslation(object):
         if text.startswith('\xef\xbb\xbf'):
             text = text.decode('UTF-8-sig')
         # Replace literal \t
-        text = text.replace(
+        text = text.strip().replace(
             '\t', '\\t'
         ).replace(
             '\r', '\\r'

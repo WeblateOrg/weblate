@@ -157,14 +157,11 @@ def search(translation, request):
     # Remove old search results
     cleanup_session(request.session)
 
-    if name is not None:
-        name = unicode(name)
-
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
         'query': search_query,
-        'name': name,
+        'name': unicode(name) if name else None,
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,
@@ -444,8 +441,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
 
     # Perform operation
     try:
-        sugid = int(sugid)
-        suggestion = Suggestion.objects.get(pk=sugid)
+        suggestion = Suggestion.objects.get(pk=int(sugid))
 
         if 'accept' in request.POST or 'accept_edit' in request.POST:
             suggestion.accept(translation, request)

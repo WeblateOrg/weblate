@@ -18,19 +18,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from itertools import chain
+import unicodedata
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from django.utils.encoding import force_unicode
 from crispy_forms.helper import FormHelper
 
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-from django.contrib.auth.models import User
-from django.utils.encoding import force_unicode
-from itertools import chain
-import unicodedata
 from weblate.logger import LOGGER
 
 try:
