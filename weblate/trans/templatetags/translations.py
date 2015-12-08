@@ -80,7 +80,7 @@ def fmt_whitespace(value):
 
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
-                       simple=False, num_plurals=2):
+                       simple=False, num_plurals=2, checks=None):
     """
     Nicely formats translation text possibly handling plurals or diff.
     """
@@ -105,6 +105,28 @@ def format_translation(value, language, diff=None, search_match=None,
     parts = []
 
     for idx, value in enumerate(plurals):
+        highlights=None
+        # Find all checks highlight
+        if checks:
+            highlights=[]
+            for c in checks:
+                highlights+=c.check_highlight(value,None)
+            #Sort by order in string
+            if highlights: highlights.sort(key=lambda tup: tup[0])
+            #remove probelmatics ones
+            for n in xrange(0,len(highlights)):
+                if n>=len(highlights):break
+                elref = highlights[n]
+                for n2 in xrange(n,len(highlights)):
+                    if n2>=len(highlights):break
+                    eltest = highlights[n2]
+                    if eltest[0]>=elref[0] and eltest[0]<=(elref[0]+len(elref[1])):
+                        highlights.pop(n2)
+                    elif eltest[0]>(elref[0]+len(elref[1])):
+                        break
+            #then transform highlights to escaped html
+            highlights = [ (h[0],escape(force_unicode(h[1]))) for h in highlights]        
+            
 
         # HTML escape
         value = escape(force_unicode(value))
@@ -114,6 +136,16 @@ def format_translation(value, language, diff=None, search_match=None,
             diffvalue = escape(force_unicode(diff[idx]))
             value = html_diff(diffvalue, value)
 
+        # Create span for checks highlights 
+        if highlights:
+            n=0
+            for (hidx,htext) in highlights:
+                p = value.find(htext,n)
+                if p >= 0:
+                    newpart=u'<span class="hlcheck">{0}</span>'.format(htext)
+                    value=value[:p]+newpart+value[(p+len(htext)):]
+                    n=p+len(newpart)
+                    
         # Format search term
         if search_match:
             # Since the search ignored case, we need to highlight any

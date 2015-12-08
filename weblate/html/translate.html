@@ -70,6 +70,7 @@
     {% trans "Alt+M - Shows machine translation tab"%}<br />
     {% trans "Alt+N - Shows nearby strings tab"%}<br />
     {% trans "Alt+S - Shows search tab"%}<br />
+    {% trans "Alt+V - Fill in with source string "%}<br />
     "></i>
   </span><h4 class="panel-title">{% if unit.translation.is_template %}{% trans "Editing source string" %}{% else %}{% trans "Translate" %}{% endif %}</h4></div>
   <div class="panel-body">
@@ -107,7 +108,7 @@
     {% endif %}
     {% endif %}
     {% endwith %}
-    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals %}
+    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals checks=unit.checks %}
     </div>
     {% endif %}
     {% endif %}
