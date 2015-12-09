@@ -220,6 +220,7 @@ def mt_services(request):
 
     return JsonResponse(
         data=machine_services,
+        safe=False,
     )
 
 

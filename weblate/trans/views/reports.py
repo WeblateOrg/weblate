@@ -69,7 +69,7 @@ def get_credits(request, project, subproject):
     )
 
     if form.cleaned_data['style'] == 'json':
-        return JsonResponse(data=data)
+        return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data['style'] == 'html':
         start = '<table>'
@@ -169,7 +169,7 @@ def get_counts(request, project, subproject):
     )
 
     if form.cleaned_data['style'] == 'json':
-        return JsonResponse(data=data)
+        return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data['style'] == 'html':
         start = (

@@ -343,4 +343,5 @@ def export_stats(request, project, subproject):
     return JsonResponse(
         data=response,
         json_dumps_params={'ident': indent},
+        safe=False
     )
