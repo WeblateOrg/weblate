@@ -25,10 +25,9 @@ from weblate.trans.models import Change
 from weblate.lang.models import Language
 from weblate.trans.views.helper import get_project_translation
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.utils.translation import pgettext
-import json
 
 
 def get_json_stats(request, days, step, project=None, subproject=None,
@@ -107,9 +106,8 @@ def yearly_activity(request, project=None, subproject=None, lang=None,
         else:
             labels.append('')
 
-    return HttpResponse(
-        content_type='application/json',
-        content=json.dumps({'series': [serie], 'labels': labels})
+    return JsonResponse(
+        data={'series': [serie], 'labels': labels}
     )
 
 
@@ -142,7 +140,6 @@ def monthly_activity(request, project=None, subproject=None, lang=None,
         else:
             labels.append('')
 
-    return HttpResponse(
-        content_type='application/json',
-        content=json.dumps({'series': [serie], 'labels': labels})
+    return JsonResponse(
+        data={'series': [serie], 'labels': labels}
     )
