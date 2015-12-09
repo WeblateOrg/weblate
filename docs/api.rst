@@ -78,20 +78,16 @@ Weblate provides various exports to allow you further process the data.
 
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
-    :query integer indent: pretty printed indentation
     :query string jsonp: JSONP callback function to wrap the data
 
     Retrieves statistics for given component in JSON format. Optionally as
     JSONP when you specify the callback in the ``jsonp`` parameter.
 
-    You can get pretty-printed output by appending ``?indent=1`` to the
-    request.
-
     **Example request**:
 
     .. sourcecode:: http
 
-        GET /exports/stats/weblate/master/?indent=4 HTTP/1.1
+        GET /exports/stats/weblate/master/ HTTP/1.1
         Host: example.com
         Accept: application/json, text/javascript
 

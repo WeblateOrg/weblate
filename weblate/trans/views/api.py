@@ -300,11 +300,6 @@ def export_stats(request, project, subproject):
     '''
     subprj = get_subproject(request, project, subproject)
 
-    try:
-        indent = int(request.GET['indent'])
-    except (ValueError, KeyError):
-        indent = None
-
     jsonp = None
     if 'jsonp' in request.GET and request.GET['jsonp']:
         jsonp = request.GET['jsonp']
@@ -335,13 +330,11 @@ def export_stats(request, project, subproject):
                 json.dumps(
                     response,
                     cls=DjangoJSONEncoder,
-                    indent=indent,
                 )
             ),
             content_type='application/javascript'
         )
     return JsonResponse(
         data=response,
-        json_dumps_params={'indent': indent},
         safe=False
     )
