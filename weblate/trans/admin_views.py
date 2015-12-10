@@ -124,7 +124,7 @@ def performance(request):
         ))
     # Check for sane caching
     caches = settings.CACHES['default']['BACKEND'].split('.')[-1]
-    if caches in ['MemcachedCache', 'DatabaseCache']:
+    if caches in ['MemcachedCache', 'PyLibMCCache', 'DatabaseCache']:
         # We consider these good
         caches = True
     elif caches in ['DummyCache']:
