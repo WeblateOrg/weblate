@@ -82,6 +82,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="wl-navbar-main">
       <ul class="nav navbar-nav">
+        {% if user.is_authenticated or translate_public %}
         <li><a href="{% url 'home' %}">{% trans "Dashboard" %}</a></li>
         {% if usertranslations %}
         <li class="dropdown">
@@ -101,6 +102,7 @@
             {% endfor %}
           </ul>
         </li>
+        {% endif %}
         <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">

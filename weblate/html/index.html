@@ -16,6 +16,7 @@
 </p>
 {% endif %}
 
+{% if user.is_authenticated or translate_public %}
 {% if whiteboard_enabled %}
 {% for msg in whiteboard_messages %}
 {% show_message 'info whiteboard' msg.message %}
@@ -164,5 +165,5 @@
 </div>
 
 </div>
-
+{% endif %}
 {% endblock %}
