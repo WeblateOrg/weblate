@@ -22,12 +22,11 @@ from weblate.trans.models.changes import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.permissions import can_view_reports
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-import json
 
 
 def generate_credits(component, start_date, end_date):
@@ -70,10 +69,7 @@ def get_credits(request, project, subproject):
     )
 
     if form.cleaned_data['style'] == 'json':
-        return HttpResponse(
-            json.dumps(data),
-            content_type='application/json'
-        )
+        return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data['style'] == 'html':
         start = '<table>'
@@ -173,10 +169,7 @@ def get_counts(request, project, subproject):
     )
 
     if form.cleaned_data['style'] == 'json':
-        return HttpResponse(
-            json.dumps(data),
-            content_type='application/json'
-        )
+        return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data['style'] == 'html':
         start = (
