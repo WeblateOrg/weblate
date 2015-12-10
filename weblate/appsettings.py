@@ -232,6 +232,7 @@ DEFAULT_COMMITER_EMAIL = getvalue(
 DEFAULT_COMMITER_NAME = getvalue(
     'DEFAULT_COMMITER_NAME', 'Weblate'
 )
+TRANSLATE_PUBLIC=getvalue('TRANSLATE_PUBLIC',True)
 
 # Obsolete configs, needed for data migration
 GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
