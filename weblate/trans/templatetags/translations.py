@@ -117,7 +117,7 @@ def format_translation(value, language, diff=None, search_match=None,
             for n in xrange(0,len(highlights)):
                 if n>=len(highlights):break
                 elref = highlights[n]
-                for n2 in xrange(n,len(highlights)):
+                for n2 in xrange(n+1,len(highlights)):
                     if n2>=len(highlights):break
                     eltest = highlights[n2]
                     if eltest[0]>=elref[0] and eltest[0]<=(elref[0]+len(elref[1])):
