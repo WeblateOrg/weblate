@@ -1254,6 +1254,48 @@ class CSVFormat(FileFormat):
         return storeclass(fileobj, ['source', 'target'])
 
 
+@register_fileformat
+class CSVSimpleFormat(CSVFormat):
+    name = _('Simple CSV file')
+    format_id = 'csv-simple'
+    autoload = ('.txt',)
+    encoding = 'auto'
+
+    @property
+    def extension(self):
+        '''
+        Returns most common file extension for format.
+        '''
+        return 'txt'
+
+    @classmethod
+    def parse_store(cls, storefile):
+        """
+        Parses the store.
+        """
+        storeclass = cls.get_class()
+
+        # Did we get file or filename?
+        if not hasattr(storefile, 'read'):
+            storefile = open(storefile, 'r')
+
+        result = storeclass(
+            fieldnames=['source', 'target'],
+            encoding=cls.encoding,
+        )
+        result.parse(storefile.read())
+        result.fileobj = storefile
+        result._assignname()
+        return result
+
+
+@register_fileformat
+class CSVSimpleFormatISO(CSVSimpleFormat):
+    name = _('Simple CSV file (ISO-8859-1)')
+    format_id = 'csv-simple-iso'
+    encoding = 'iso-8859-1'
+
+
 FILE_FORMAT_CHOICES = [
     (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
 ]

@@ -537,6 +537,20 @@ class SubProjectTest(RepoTestCase):
         project = self.create_json_mono()
         self.verify_subproject(project, 2, 'cs', 4)
 
+    def test_create_tsv_simple(self):
+        project = self._create_subproject(
+            'csv-simple',
+            'tsv/*.txt',
+        )
+        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+
+    def test_create_tsv_simple_iso(self):
+        project = self._create_subproject(
+            'csv-simple-iso',
+            'tsv/*.txt',
+        )
+        self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
+
     def test_create_csv(self):
         project = self.create_csv()
         self.verify_subproject(project, 1, 'cs', 4)
