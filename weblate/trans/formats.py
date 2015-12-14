@@ -1285,7 +1285,13 @@ class CSVSimpleFormat(CSVFormat):
         )
         result.parse(storefile.read())
         result.fileobj = storefile
-        result._assignname()
+        filename = getattr(
+            storefile,
+            "name",
+            getattr(storefile, "filename", None)
+        )
+        if filename:
+            result.filename = filename
         return result
 
 
