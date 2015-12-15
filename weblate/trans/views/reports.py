@@ -177,13 +177,18 @@ def get_counts(request, project, subproject):
             '<th>Words</th><th>Count</th></tr>'
         )
         row_start = '<tr>'
-        cell_format = u'<td>{0}</td>\n'
+        cell_name = cell_email = cell_words = cell_count = u'<td>{0}</td>\n'
         row_end = '</tr>'
         mime = 'text/html'
         end = '</table>'
     else:
-        heading = ' '.join(['=' * 40] * 4)
-        start = '{0}\n{1:40} {2:40} {3:40} {4:40}\n{0}'.format(
+        heading = ' '.join([
+            '=' * 40,
+            '=' * 40,
+            '=' * 10,
+            '=' * 10,
+        ])
+        start = '{0}\n{1:40} {2:40} {3:10} {4:10}\n{0}'.format(
             heading,
             'Name',
             'Email',
@@ -191,7 +196,8 @@ def get_counts(request, project, subproject):
             'Count'
         )
         row_start = ''
-        cell_format = u'{0:40} '
+        cell_name = cell_email = u'{0:40} '
+        cell_words = cell_count = u'{0:10} '
         row_end = ''
         mime = 'text/plain'
         end = heading
@@ -201,16 +207,18 @@ def get_counts(request, project, subproject):
     result.append(start)
 
     for item in data:
-        result.append(row_start)
+        if row_start:
+            result.append(row_start)
         result.append(
             u'{0}{1}{2}{3}'.format(
-                cell_format.format(item['name']),
-                cell_format.format(item['email']),
-                cell_format.format(item['words']),
-                cell_format.format(item['count']),
+                cell_name.format(item['name']),
+                cell_email.format(item['email']),
+                cell_words.format(item['words']),
+                cell_count.format(item['count']),
             )
         )
-        result.append(row_end)
+        if row_end:
+            result.append(row_end)
 
     result.append(end)
 
