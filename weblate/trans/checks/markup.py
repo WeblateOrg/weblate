@@ -64,12 +64,13 @@ class BBCodeCheck(TargetCheck):
 
         return src_tags != tgt_tags
 
-    def check_highlight(self,source,unit):
-        ret=[]
+    def check_highlight(self, source, unit):
+        ret = []
         matchObjects = BBCODE_MATCH.finditer(source)
         for m in matchObjects:
-            if m.start()==m.end(): continue
-            ret.append((m.start(),m.group()))
+            if m.start() == m.end():
+                continue
+            ret.append((m.start(), m.group()))
         return ret
 
 class XMLTagsCheck(TargetCheck):
@@ -111,14 +112,16 @@ class XMLTagsCheck(TargetCheck):
         # Compare tags
         return source_tags != target_tags
 
-    def check_highlight(self,source,unit):
-        ret=[]
+    def check_highlight(self, source, unit):
+        ret = []
         matchObjects = XML_MATCH.finditer(source)
         for m in matchObjects:
-            if m.start()==m.end(): continue
-            ret.append((m.start(),m.group()))
+            if m.start() == m.end():
+                continue
+            ret.append((m.start(), m.group()))
         matchObjects = XML_ENTITY_MATCH.finditer(source)
         for m in matchObjects:
-            if m.start()==m.end(): continue
-            ret.append((m.start(),m.group()))
+            if m.start() == m.end():
+                continue
+            ret.append((m.start(), m.group()))
         return ret
