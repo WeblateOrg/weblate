@@ -173,7 +173,7 @@ def get_counts(request, project, subproject):
 
     if form.cleaned_data['style'] == 'html':
         start = (
-            '<table>\n<tr><th>Email</th><th>Name</th>'
+            '<table>\n<tr><th>Name</th><th>Email</th>'
             '<th>Words</th><th>Count</th></tr>'
         )
         row_start = '<tr>'
@@ -185,8 +185,8 @@ def get_counts(request, project, subproject):
         heading = ' '.join(['=' * 25] * 4)
         start = '{0}\n{1:25} {2:25} {3:25} {4:25}\n{0}'.format(
             heading,
-            'Email',
             'Name',
+            'Email',
             'Words',
             'Count'
         )
