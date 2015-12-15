@@ -19,7 +19,9 @@
 #
 
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest, Http404
+from django.http import (
+    HttpResponse, HttpResponseBadRequest, Http404, JsonResponse,
+)
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 
@@ -36,7 +38,6 @@ from weblate.trans.permissions import (
 )
 
 from urllib import urlencode
-import json
 
 
 def get_string(request, unit_id):
@@ -95,9 +96,8 @@ def translate(request, unit_id):
             str(exc)
         )
 
-    return HttpResponse(
-        json.dumps(response),
-        content_type='application/json'
+    return JsonResponse(
+        data=response,
     )
 
 
@@ -218,9 +218,9 @@ def mt_services(request):
     # Machine translation
     machine_services = MACHINE_TRANSLATION_SERVICES.keys()
 
-    return HttpResponse(
-        json.dumps(machine_services),
-        content_type='application/json'
+    return JsonResponse(
+        data=machine_services,
+        safe=False,
     )
 
 

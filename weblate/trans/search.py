@@ -22,18 +22,18 @@
 Whoosh based full text search.
 '''
 
+import shutil
 from whoosh.fields import SchemaClass, TEXT, ID
 from whoosh.filedb.filestore import FileStorage
+from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
+from django.dispatch import receiver
 from django.db.models.signals import post_migrate
 from django.db.utils import IntegrityError
 from django.db import transaction
 from weblate import appsettings
-from whoosh.writing import AsyncWriter, BufferedWriter
-from django.dispatch import receiver
 from weblate.lang.models import Language
 from weblate.trans.data import data_dir
-import shutil
 
 STORAGE = FileStorage(data_dir('whoosh'))
 

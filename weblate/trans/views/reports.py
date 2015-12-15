@@ -22,12 +22,11 @@ from weblate.trans.models.changes import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.permissions import can_view_reports
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-import json
 
 
 def generate_credits(component, start_date, end_date):
@@ -70,10 +69,7 @@ def get_credits(request, project, subproject):
     )
 
     if form.cleaned_data['style'] == 'json':
-        return HttpResponse(
-            json.dumps(data),
-            content_type='application/json'
-        )
+        return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data['style'] == 'html':
         start = '<table>'
@@ -173,32 +169,35 @@ def get_counts(request, project, subproject):
     )
 
     if form.cleaned_data['style'] == 'json':
-        return HttpResponse(
-            json.dumps(data),
-            content_type='application/json'
-        )
+        return JsonResponse(data=data, safe=False)
 
     if form.cleaned_data['style'] == 'html':
         start = (
-            '<table>\n<tr><th>Email</th><th>Name</th>'
+            '<table>\n<tr><th>Name</th><th>Email</th>'
             '<th>Words</th><th>Count</th></tr>'
         )
         row_start = '<tr>'
-        cell_format = u'<td>{0}</td>\n'
+        cell_name = cell_email = cell_words = cell_count = u'<td>{0}</td>\n'
         row_end = '</tr>'
         mime = 'text/html'
         end = '</table>'
     else:
-        heading = ' '.join(['=' * 25] * 4)
-        start = '{0}\n{1:25} {2:25} {3:25} {4:25}\n{0}'.format(
+        heading = ' '.join([
+            '=' * 40,
+            '=' * 40,
+            '=' * 10,
+            '=' * 10,
+        ])
+        start = '{0}\n{1:40} {2:40} {3:10} {4:10}\n{0}'.format(
             heading,
-            'Email',
             'Name',
+            'Email',
             'Words',
             'Count'
         )
         row_start = ''
-        cell_format = u'{0:25} '
+        cell_name = cell_email = u'{0:40} '
+        cell_words = cell_count = u'{0:10} '
         row_end = ''
         mime = 'text/plain'
         end = heading
@@ -208,16 +207,18 @@ def get_counts(request, project, subproject):
     result.append(start)
 
     for item in data:
-        result.append(row_start)
+        if row_start:
+            result.append(row_start)
         result.append(
             u'{0}{1}{2}{3}'.format(
-                cell_format.format(item['name']),
-                cell_format.format(item['email']),
-                cell_format.format(item['words']),
-                cell_format.format(item['count']),
+                cell_name.format(item['name']),
+                cell_email.format(item['email']),
+                cell_words.format(item['words']),
+                cell_count.format(item['count']),
             )
         )
-        result.append(row_end)
+        if row_end:
+            result.append(row_end)
 
     result.append(end)
 

@@ -851,7 +851,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 return False, None
 
             # Check for changes
-            if (not add and
+            if ((not add or unit.target == '') and
                     unit.target == pounit.get_target() and
                     unit.fuzzy == pounit.is_fuzzy()):
                 return False, pounit

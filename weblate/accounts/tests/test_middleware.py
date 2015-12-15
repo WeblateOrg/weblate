@@ -58,6 +58,7 @@ class MiddlewareTest(TestCase):
             middleware.process_view(request, self.view_method, (), {})
         )
         # Protection for protected path and not logged in user
+        # pylint: disable=R0204
         request.user = AnonymousUser()
         self.assertIsInstance(
             middleware.process_view(request, self.view_method, (), {}),

@@ -320,7 +320,8 @@ CSV files can contain simple list of source and translation. Weblate supports
 following files:
 
 * Files with header defining fields (source, translation, location, ...)
-* Files with two fileld - source and translation (in this order)
+* Files with two fileld - source and translation (in this order), choose
+  :guilabel:`Simple CSV file` as file format
 * Files with fields as defined by translate-toolkit: location, source,
   target, id, fuzzy, context, translator_comments, developer_comments
 

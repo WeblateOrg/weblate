@@ -19,10 +19,12 @@
 #
 
 from weblate import appsettings
+from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import (
-    HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
+    HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest,
+    JsonResponse,
 )
 
 from weblate.trans.models import SubProject
@@ -69,9 +71,8 @@ HOOK_HANDLERS = {}
 
 def hook_response():
     """Generic okay hook response"""
-    return HttpResponse(
-        json.dumps({'status': 'success', 'message': 'Update triggered'}),
-        content_type='application/json'
+    return JsonResponse(
+        data={'status': 'success', 'message': 'Update triggered'},
     )
 
 
@@ -293,29 +294,11 @@ def gitlab_hook_helper(data):
     }
 
 
-def json_dt_handler(obj):
-    '''
-    JSON export handler to include correctly formated datetime objects.
-    '''
-    if hasattr(obj, 'isoformat'):
-        return obj.isoformat()
-    else:
-        raise TypeError(
-            'Object of type %s with value of %s is not JSON serializable' %
-            (type(obj), repr(obj))
-        )
-
-
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
     subprj = get_subproject(request, project, subproject)
-
-    try:
-        indent = int(request.GET['indent'])
-    except (ValueError, KeyError):
-        indent = None
 
     jsonp = None
     if 'jsonp' in request.GET and request.GET['jsonp']:
@@ -340,20 +323,18 @@ def export_stats(request, project, subproject):
             'url': trans.get_share_url(),
             'url_translate': get_site_url(trans.get_absolute_url()),
         })
-    json_data = json.dumps(
-        response,
-        default=json_dt_handler,
-        indent=indent,
-    )
     if jsonp:
         return HttpResponse(
             '{0}({1})'.format(
                 jsonp,
-                json_data,
+                json.dumps(
+                    response,
+                    cls=DjangoJSONEncoder,
+                )
             ),
             content_type='application/javascript'
         )
-    return HttpResponse(
-        json_data,
-        content_type='application/json'
+    return JsonResponse(
+        data=response,
+        safe=False
     )

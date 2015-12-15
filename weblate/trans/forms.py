@@ -199,7 +199,7 @@ class PluralTextarea(forms.Textarea):
             )
 
         # Show plural equation for more strings
-        pluralmsg = ''
+        pluralmsg = u''
         if len(values) > 1:
             pluralinfo = u'<abbr title="{0}">{1}</abbr>: {2}'.format(
                 ugettext(

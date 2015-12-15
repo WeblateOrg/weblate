@@ -54,6 +54,9 @@ cd ${OPENSHIFT_REPO_DIR}
 # Pin Django version to 1.8 to avoid surprises when 1.9 comes out.
 sed -e 's/Django[<>=]\+.*/Django>=1.8,<1.9/' $OPENSHIFT_REPO_DIR/requirements.txt >/tmp/requirements.txt
 
+# Prevent lxml 3.5 or later to be used on OpenShift because its compilation needs more memory than small gears can provide.
+sed -e 's/lxml[<>=]\+.*/\0,<3.5/' $OPENSHIFT_REPO_DIR/requirements.txt >/tmp/requirements.txt
+
 sh "pip install -U -r /tmp/requirements.txt"
 
 # Install optional dependencies without failing if some can't be installed.
