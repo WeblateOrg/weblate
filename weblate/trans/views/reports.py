@@ -182,8 +182,8 @@ def get_counts(request, project, subproject):
         mime = 'text/html'
         end = '</table>'
     else:
-        heading = ' '.join(['=' * 25] * 4)
-        start = '{0}\n{1:25} {2:25} {3:25} {4:25}\n{0}'.format(
+        heading = ' '.join(['=' * 40] * 4)
+        start = '{0}\n{1:40} {2:40} {3:40} {4:40}\n{0}'.format(
             heading,
             'Name',
             'Email',
@@ -191,7 +191,7 @@ def get_counts(request, project, subproject):
             'Count'
         )
         row_start = ''
-        cell_format = u'{0:25} '
+        cell_format = u'{0:40} '
         row_end = ''
         mime = 'text/plain'
         end = heading
