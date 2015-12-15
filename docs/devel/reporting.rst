@@ -24,10 +24,11 @@ and listing all contributors to given language:
     * Czech
 
         * Michal Čihař <michal@cihar.com>
+        * Weblate Admin <admin@example.com>
 
     * Dutch
 
-        * Dieter Adriaenssens <dieter.adriaenssens@gmail.com>
+        * Weblate Admin <admin@example.com>
 
 
 And it will get rendered as:
