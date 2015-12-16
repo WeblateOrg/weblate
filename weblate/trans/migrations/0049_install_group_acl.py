@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('lang', '0002_auto_20150630_1208'),
-        ('auth', '0007_alter_validators_add_error_messages'),
         ('trans', '0048_auto_20151120_1306'),
     ]
 
