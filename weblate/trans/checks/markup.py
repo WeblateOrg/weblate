@@ -66,11 +66,11 @@ class BBCodeCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         ret = []
-        matchObjects = BBCODE_MATCH.finditer(source)
-        for m in matchObjects:
-            if m.start() == m.end():
+        match_objects = BBCODE_MATCH.finditer(source)
+        for match in match_objects:
+            if match.start() == match.end():
                 continue
-            ret.append((m.start(), m.group()))
+            ret.append((match.start(), match.group()))
         return ret
 
 class XMLTagsCheck(TargetCheck):
@@ -114,14 +114,14 @@ class XMLTagsCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         ret = []
-        matchObjects = XML_MATCH.finditer(source)
-        for m in matchObjects:
-            if m.start() == m.end():
+        match_objects = XML_MATCH.finditer(source)
+        for match in match_objects:
+            if match.start() == match.end():
                 continue
-            ret.append((m.start(), m.group()))
-        matchObjects = XML_ENTITY_MATCH.finditer(source)
-        for m in matchObjects:
-            if m.start() == m.end():
+            ret.append((match.start(), match.group()))
+        match_objects = XML_ENTITY_MATCH.finditer(source)
+        for match in match_objects:
+            if match.start() == match.end():
                 continue
-            ret.append((m.start(), m.group()))
+            ret.append((match.start(), match.group()))
         return ret

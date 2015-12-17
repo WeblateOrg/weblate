@@ -136,7 +136,8 @@ class Check(object):
     def check_highlight(self, source, unit):
         '''
         Returns parts of the text that match to hightlight them
-        return is table that contains lists of two elements with start position of the match and the value of the march
+        return is table that contains lists of two elements with
+        start position of the match and the value of the match
         '''
         return []
 
