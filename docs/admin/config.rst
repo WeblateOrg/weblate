@@ -173,6 +173,18 @@ Default commiter name when creating translation component (see
 
 .. seealso:: :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
 
+.. setting:: DEFAULT_TRANSLATION_PROPAGATION
+
+DEFAULT_TRANSLATION_PROPAGATION
+-------------------------------
+
+.. versionadded:: 2.5
+
+Default setting for translation propagation (see :ref:`component`), 
+defaults to ``True``.
+
+.. seealso:: :ref:`component`
+
 .. setting:: ENABLE_AVATARS
 
 ENABLE_AVATARS

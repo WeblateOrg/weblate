@@ -58,6 +58,7 @@ from weblate.appsettings import (
     POST_ADD_SCRIPT_CHOICES,
     HIDE_REPO_CREDENTIALS,
     DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
+    DEFAULT_TRANSLATION_PROPAGATION,
 )
 from weblate.accounts.models import notify_merge_failure, get_author_name
 from weblate.trans.models.changes import Change
@@ -290,7 +291,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     )
     allow_translation_propagation = models.BooleanField(
         verbose_name=ugettext_lazy('Allow translation propagation'),
-        default=True,
+        default=DEFAULT_TRANSLATION_PROPAGATION,
         db_index=True,
         help_text=ugettext_lazy(
             'Whether translation updates in other components '

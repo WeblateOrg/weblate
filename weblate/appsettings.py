@@ -232,6 +232,9 @@ DEFAULT_COMMITER_EMAIL = getvalue(
 DEFAULT_COMMITER_NAME = getvalue(
     'DEFAULT_COMMITER_NAME', 'Weblate'
 )
+DEFAULT_TRANSLATION_PROPAGATION = getvalue(
+    'DEFAULT_TRANSLATION_PROPAGATION', True
+)
 
 # Obsolete configs, needed for data migration
 GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
