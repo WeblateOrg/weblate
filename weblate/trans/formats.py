@@ -48,7 +48,7 @@ import __builtin__
 
 FILE_FORMATS = {}
 FILE_DETECT = []
-FLAGS_RE = re.compile(r'\b[-\w]+\b')
+FLAGS_RE = re.compile(r'\b[-\w:]+\b')
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 
 
