@@ -23,7 +23,7 @@ Permissions abstract layer for Weblate.
 from weblate import appsettings
 from weblate.trans.models.group_acl import GroupACL
 from django.db.models import Q
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, Permission
 
 
 def check_owner(user, project, permission):
@@ -57,11 +57,16 @@ def has_group_perm(user, translation, permission):
     # more specific ACL rules are more important: subproject > project > language
     acls.sort(key=lambda a: (a.subproject is not None, a.project is not None, a.language is not None), reverse=True)
 
-    membership = set(user.groups).intersection(acls[0].groups)
-    for group in groups:
-        if permission in group.permissions:
-            return True
-    return False
+    membership = acls[0].groups.all() & user.groups.all()
+    if not membership.exists():
+        return False
+
+    app, perm = permission.split('.')
+    return Permission.objects.filter(
+            group__in=membership,
+            content_type__app_label=app,
+            codename=perm
+    ).exists()
 
 
 def check_permission(user, project, permission):

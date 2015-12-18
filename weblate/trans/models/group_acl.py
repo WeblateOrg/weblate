@@ -21,7 +21,8 @@
 """Whiteboard model."""
 
 from django.db import models
-from django.utils.translation import ugettext_lazy
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.models import Group
 from weblate.lang.models import Language
@@ -35,7 +36,21 @@ class GroupACL(models.Model):
     subproject = models.ForeignKey('SubProject', null=True, blank=True)
     language = models.ForeignKey(Language, null=True, blank=True)
 
+    def clean(self):
+        if not self.project and not self.subproject and not self.language:
+            raise ValidationError(_('Project, subproject or language must be specified'))
+
+        # specify either language or project/subproject
+        # This restriction is arbitrary, in order to prevent confusing configurations.
+        # But maybe we should simply allow that?
+        if self.language and (self.project or self.subproject):
+            raise ValidationError(_('Either language or project/subproject can be specified, but not both'))
+
+        # ignore project if subproject is set
+        if self.project and self.subproject:
+            self.project = None
+
     class Meta(object):
         unique_together = ('project', 'subproject', 'language')
-        verbose_name = ugettext_lazy('Group-based ACL Configuration')
-        verbose_name_plural = ugettext_lazy('Group-based ACL Configurations')
+        verbose_name = _('Group ACL')
+        verbose_name_plural = _('Group ACLs')
