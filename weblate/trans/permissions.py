@@ -281,3 +281,19 @@ def can_view_reports(user, project):
     Checks whether user can view reports on given project.
     """
     return check_permission(user, project, 'trans.view_reports')
+
+
+@cache_permission
+def can_author_translation(user, project):
+    """
+    Checks whether user can author translation on given project.
+    """
+    return check_permission(user, project, 'trans.author_translation')
+
+
+@cache_permission
+def can_overwrite_translation(user, project):
+    """
+    Checks whether user can overwrite translation on given project.
+    """
+    return check_permission(user, project, 'trans.overwrite_translation')
