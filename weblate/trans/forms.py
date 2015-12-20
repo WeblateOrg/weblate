@@ -33,6 +33,9 @@ from weblate.lang.models import Language
 from weblate.trans.models.unit import Unit, SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
+from weblate.trans.permissions import (
+    can_author_translation, can_overwrite_translation
+)
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
@@ -398,13 +401,13 @@ class ExtraUploadForm(UploadForm):
     )
 
 
-def get_upload_form(request):
+def get_upload_form(user, project):
     '''
     Returns correct upload form based on user permissions.
     '''
-    if request.user.has_perm('trans.author_translation'):
+    if can_author_translation(user, project):
         return ExtraUploadForm
-    elif request.user.has_perm('trans.overwrite_translation'):
+    elif can_overwrite_translation(user, project):
         return UploadForm
     else:
         return SimpleUploadForm
