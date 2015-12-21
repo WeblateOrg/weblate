@@ -288,7 +288,10 @@ INSTALLED_APPS = (
     'weblate',
 )
 
+# Path to locales
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
 
+# Context processors
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
