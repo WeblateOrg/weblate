@@ -10,11 +10,11 @@ set -e
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs --settings=weblate.settings_test
 
 # Fix Report-Msgid-Bugs-To as it gets removed
-sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' locale/*/*/*.po
+sed -i 's/"Report-Msgid-Bugs-To:.*/"Report-Msgid-Bugs-To: weblate@lists.cihar.com\\n"/' weblate/locale/*/*/*.po
 
 # Commit changes
-git add locale/*/*/*.po
-git add locale/django.pot locale/djangojs.pot
+git add weblate/locale/*/*/*.po
+git add weblate/locale/django.pot weblate/locale/djangojs.pot
 
 git commit -s -m "Update po files
 
