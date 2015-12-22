@@ -21,9 +21,43 @@
 """Whiteboard model."""
 
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy, ugettext as _
 from django.core.exceptions import ValidationError
 from weblate.lang.models import Language
+
+
+class WhiteboardManager(models.Manager):
+    def context_filter(self, project=None, subproject=None, language=None):
+        """Filters whiteboard messages by context."""
+        base = self.all()
+
+        if language is None and project is None and subproject is None:
+            return base.filter(
+                project=None, subproject=None, language=None
+            )
+
+        if language and project is None and subproject is None:
+            return base.filter(
+                project=None, subproject=None, language=language
+            )
+
+        if project:
+            return base.filter(project=project)
+
+        if subproject:
+            if language:
+                return base.filter(
+                    Q(language=language) |
+                    Q(subproject=subproject) |
+                    Q(project=subproject.project)
+                )
+
+            return base.filter(
+                Q(subproject=subproject) | Q(project=subproject.project)
+            )
+
+        return base
 
 
 class WhiteboardMessage(models.Model):
@@ -34,6 +68,8 @@ class WhiteboardMessage(models.Model):
     project = models.ForeignKey('Project', null=True, blank=True)
     subproject = models.ForeignKey('SubProject', null=True, blank=True)
     language = models.ForeignKey(Language, null=True, blank=True)
+
+    objects = WhiteboardManager()
 
     class Meta(object):
         app_label = 'trans'
