@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.html import escape
+from django.utils.html import escape, urlize
 from django.contrib.admin.templatetags.admin_static import static
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -564,7 +564,9 @@ def whiteboard_messages(project=None, subproject=None, language=None):
                 'message.html',
                 {
                     'tags': 'info whiteboard',
-                    'message': whiteboard.message
+                    'message': mark_safe(
+                        urlize(whiteboard.message, autoescape=True)
+                    )
                 }
             )
         )
