@@ -43,7 +43,7 @@ class WhiteboardManager(models.Manager):
             )
 
         if project:
-            return base.filter(project=project)
+            return base.filter(Q(project=project) & Q(subproject=None))
 
         if subproject:
             if language:
@@ -96,9 +96,9 @@ class WhiteboardMessage(models.Model):
 
     def clean(self):
         if self.project and self.subproject:
-            if self.subproject.project == self.project:
-                self.project = None
-            else:
+            if self.subproject.project != self.project:
                 raise ValidationError(
                     _('Do not specify both component and project!')
                 )
+        if not self.project and self.subproject:
+            self.project = self.subproject.project
