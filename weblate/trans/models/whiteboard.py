@@ -65,9 +65,24 @@ class WhiteboardMessage(models.Model):
         verbose_name=ugettext_lazy('Message'),
     )
 
-    project = models.ForeignKey('Project', null=True, blank=True)
-    subproject = models.ForeignKey('SubProject', null=True, blank=True)
-    language = models.ForeignKey(Language, null=True, blank=True)
+    project = models.ForeignKey(
+        'Project',
+        verbose_name=ugettext_lazy('Project'),
+        null=True,
+        blank=True,
+    )
+    subproject = models.ForeignKey(
+        'SubProject',
+        verbose_name=ugettext_lazy('Component'),
+        null=True,
+        blank=True
+    )
+    language = models.ForeignKey(
+        Language,
+        verbose_name=ugettext_lazy('Language'),
+        null=True,
+        blank=True
+    )
 
     objects = WhiteboardManager()
 
