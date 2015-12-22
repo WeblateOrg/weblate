@@ -21,11 +21,19 @@
 """Whiteboard model."""
 
 from django.db import models
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import ugettext_lazy, ugettext as _
+from django.core.exceptions import ValidationError
+from weblate.lang.models import Language
 
 
 class WhiteboardMessage(models.Model):
-    message = models.TextField(blank=True)
+    message = models.TextField(
+        verbose_name=ugettext_lazy('Message'),
+    )
+
+    project = models.ForeignKey('Project', null=True, blank=True)
+    subproject = models.ForeignKey('SubProject', null=True, blank=True)
+    language = models.ForeignKey(Language, null=True, blank=True)
 
     class Meta(object):
         app_label = 'trans'
@@ -34,3 +42,12 @@ class WhiteboardMessage(models.Model):
 
     def __unicode__(self):
         return self.message
+
+    def clean(self):
+        if self.project and self.subproject:
+            if self.subproject.project == self.project:
+                self.project = None
+            else:
+                raise ValidationError(
+                    _('Do not specify both component and project!')
+                )

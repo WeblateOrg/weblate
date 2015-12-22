@@ -7,7 +7,11 @@
 {% if opts.model_name == 'advertisement' %}
 {% doc_url 'admin/advertisement' as url %}
 {% else %}
+{% if opts.model_name == 'whiteboardmessage' %}
+{% doc_url 'admin/whiteboard' as url %}
+{% else %}
 {% doc_url 'admin/projects' opts.model_name as url %}
+{% endif %}
 {% endif %}
 <p>{% blocktrans %}Required fields are marked as bold, you can find more information in the <a href="{{ url }}">documentation</a>.{% endblocktrans %}</p>
 {% else %}
