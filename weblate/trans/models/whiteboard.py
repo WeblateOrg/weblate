@@ -22,10 +22,17 @@
 
 from django.db import models
 from django.utils.translation import ugettext_lazy
+from weblate.lang.models import Language
 
 
 class WhiteboardMessage(models.Model):
-    message = models.TextField(blank=True)
+    message = models.TextField(
+        verbose_name=ugettext_lazy('Message'),
+    )
+
+    project = models.ForeignKey('Project', null=True, blank=True)
+    subproject = models.ForeignKey('SubProject', null=True, blank=True)
+    language = models.ForeignKey(Language, null=True, blank=True)
 
     class Meta(object):
         app_label = 'trans'
