@@ -567,8 +567,5 @@ ALLOWED_HOSTS = []
 #    r'/hooks/(.*)$',    # Allowing public access to notification hooks
 # )
 
-# Enable whiteboard functionality - under development so disabled by default.
-ENABLE_WHITEBOARD = False
-
 # Force sane test runner
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'

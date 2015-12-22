@@ -16,11 +16,9 @@
 </p>
 {% endif %}
 
-{% if whiteboard_enabled %}
 {% for msg in whiteboard_messages %}
 {% show_message 'info whiteboard' msg.message %}
 {% endfor %}
-{% endif %}
 
 <ul class="nav nav-pills">
 {% if user.is_authenticated %}

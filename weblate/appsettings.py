@@ -222,9 +222,6 @@ HIDE_REPO_CREDENTIALS = getvalue('HIDE_REPO_CREDENTIALS', True)
 # GitHub username for sending pull requests
 GITHUB_USERNAME = getvalue('GITHUB_USERNAME', None)
 
-# Whiteboard
-ENABLE_WHITEBOARD = getvalue('ENABLE_WHITEBOARD', False)
-
 # Default committer
 DEFAULT_COMMITER_EMAIL = getvalue(
     'DEFAULT_COMMITER_EMAIL', 'noreply@weblate.org'
