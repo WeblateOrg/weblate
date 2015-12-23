@@ -49,7 +49,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     def assert_registration(self, match=None):
         url = self.assert_registration_mailbox(match)
 
-        if self.clear_cookie:
+        if self.clear_cookie and 'sessionid' in self.client.cookies:
             del self.client.cookies['sessionid']
 
         # Confirm account
@@ -173,9 +173,6 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         # Remove session ID from URL
         url = url.split('&id=')[0]
-
-        # Delete session ID from cookies
-        del self.client.cookies['sessionid']
 
         # Confirm account
         response = self.client.get(url, follow=True)
