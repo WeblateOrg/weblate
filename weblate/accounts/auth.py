@@ -18,7 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import sys
+
 from weblate.appsettings import ANONYMOUS_USER_NAME
+from weblate.trans.util import report_error
 
 import social.backends.email
 from social.exceptions import AuthMissingParameter
@@ -48,6 +51,10 @@ class EmailAuth(social.backends.email.EmailAuth):
                         'Probably the verification token has expired. '
                         'Please try the registration again.'
                     )
+                )
+                report_error(
+                    error, sys.exc_info(),
+                    extra_data=self.data
                 )
                 return redirect(reverse('login'))
             raise
