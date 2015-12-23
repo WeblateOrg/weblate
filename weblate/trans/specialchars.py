@@ -31,6 +31,8 @@ CHAR_NAMES = {
     u'→': ugettext_lazy('Insert tab character'),
     u'↵': ugettext_lazy('Insert new line'),
     u'…': ugettext_lazy('Insert horizontal ellipsis'),
+    u'।': ugettext_lazy('Danda'),
+    u'॥': ugettext_lazy('Double danda'),
 }
 
 # Quotes definition for each language, based on CLDR data
@@ -415,6 +417,10 @@ EM_DASH_LANGS = frozenset((
     'sv', 'ta', 'th', 'to', 'tr', 'uz', 'vi', 'vo', 'yi', 'zh',
 ))
 
+EXTRA_CHARS = {
+    'brx': (u'।', u'॥'),
+}
+
 
 def get_quote(code, data, name):
     """
@@ -425,18 +431,25 @@ def get_quote(code, data, name):
     return name, data['ALL']
 
 
+def get_char_description(char):
+    """Returns verbose description of a character."""
+    if char in CHAR_NAMES:
+        return CHAR_NAMES[char]
+    else:
+        return _('Insert character {0}').format(char)
+
+
 def get_special_chars(language):
     """
     Returns list of special characters.
     """
     for char in SPECIAL_CHARS:
-        if char in CHAR_NAMES:
-            name = CHAR_NAMES[char]
-        else:
-            name = _('Insert character {0}').format(char)
-        yield name, char
-
+        yield get_char_description(char), char
     code = language.code.replace('_', '-').split('-')[0]
+
+    if code in EXTRA_CHARS:
+        for char in EXTRA_CHARS[code]:
+            yield get_char_description(char), char
 
     yield get_quote(code, DOUBLE_OPEN, _('Opening double quote'))
     yield get_quote(code, DOUBLE_CLOSE, _('Closing double quote'))
