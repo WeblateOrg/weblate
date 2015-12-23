@@ -13,7 +13,7 @@ Installing from sources
 #. Install all required dependencies, see :ref:`requirements`.
 
 #. Grab Weblate sources (either using Git or download a tarball) and unpack
-   them.
+   them, see :ref:`install-weblate`.
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
    adjust it to match your setup. You will at least need to configure database
