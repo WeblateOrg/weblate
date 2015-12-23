@@ -120,6 +120,45 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
     @OverrideSettings(REGISTRATION_OPEN=True)
     @OverrideSettings(REGISTRATION_CAPTCHA=False)
+    def test_double_register(self):
+        """Test double registration from single browser"""
+
+        # First registration
+        response = self.client.post(
+            reverse('register'),
+            REGISTRATION_DATA
+        )
+        first_url = self.assert_registration_mailbox()
+        mail.outbox.pop()
+
+        # Second registration
+        data = REGISTRATION_DATA.copy()
+        data['email'] = 'noreply@example.net'
+        data['username'] = 'second'
+        response = self.client.post(
+            reverse('register'),
+            data,
+        )
+        second_url = self.assert_registration_mailbox()
+        mail.outbox.pop()
+
+        # Confirm first account
+        response = self.client.get(first_url, follow=True)
+        self.assertRedirects(
+            response,
+            reverse('password')
+        )
+        self.client.get(reverse('logout'))
+
+        # Confirm second account
+        response = self.client.get(second_url, follow=True)
+        self.assertRedirects(
+            response,
+            reverse('password')
+        )
+
+    @OverrideSettings(REGISTRATION_OPEN=True)
+    @OverrideSettings(REGISTRATION_CAPTCHA=False)
     def test_register_missing(self):
         # Disable captcha
         response = self.client.post(
