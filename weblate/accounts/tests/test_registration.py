@@ -118,6 +118,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First Last')
 
+    @OverrideSettings(REGISTRATION_OPEN=True)
     @OverrideSettings(REGISTRATION_CAPTCHA=False)
     def test_register_missing(self):
         # Disable captcha
