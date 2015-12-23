@@ -79,11 +79,7 @@ def require_email(strategy, backend, details, user=None, is_new=False,
         return
 
     elif is_new and not details.get('email'):
-
-        if strategy.session_get('saved_email'):
-            details['email'] = strategy.session_pop('saved_email')
-        else:
-            return redirect('register')
+        return redirect('register')
 
 
 def send_validation(strategy, backend, code):
