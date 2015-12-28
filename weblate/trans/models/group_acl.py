@@ -40,12 +40,6 @@ class GroupACL(models.Model):
         if not self.project and not self.subproject and not self.language:
             raise ValidationError(_('Project, subproject or language must be specified'))
 
-        # specify either language or project/subproject
-        # This restriction is arbitrary, in order to prevent confusing configurations.
-        # But maybe we should simply allow that?
-        if self.language and (self.project or self.subproject):
-            raise ValidationError(_('Either language or project/subproject can be specified, but not both'))
-
         # ignore project if subproject is set
         if self.project and self.subproject:
             self.project = None
