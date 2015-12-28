@@ -47,15 +47,18 @@ def has_group_perm(user, translation, permission):
     given permission.
     """
     acls = list(GroupACL.objects.filter(
-            Q(language=translation.language) |
-            Q(project=translation.subproject.project) |
-            Q(subproject=translation.subproject)))
+        Q(language=translation.language) |
+        Q(project=translation.subproject.project) |
+        Q(subproject=translation.subproject)))
 
     if not acls:
         return user.has_perm(permission)
 
-    # more specific ACL rules are more important: subproject > project > language
-    acls.sort(key=lambda a: (a.subproject is not None, a.project is not None, a.language is not None), reverse=True)
+    # more specific rules are more important: subproject > project > language
+    acls.sort(reverse=True, key=lambda a: (
+        a.subproject is not None,
+        a.project is not None,
+        a.language is not None))
 
     membership = acls[0].groups.all() & user.groups.all()
     if not membership.exists():
@@ -63,9 +66,9 @@ def has_group_perm(user, translation, permission):
 
     app, perm = permission.split('.')
     return Permission.objects.filter(
-            group__in=membership,
-            content_type__app_label=app,
-            codename=perm
+        group__in=membership,
+        content_type__app_label=app,
+        codename=perm
     ).exists()
 
 
@@ -112,7 +115,8 @@ def can_edit(user, translation, permission):
         return True
     if not has_group_perm(user, translation, permission):
         return False
-    if translation.is_template() and not has_group_perm(user, translation, 'trans.save_template'):
+    if translation.is_template() \
+        and not has_group_perm(user, translation, 'trans.save_template'):
         return False
     if (translation.subproject.suggestion_voting and
             translation.subproject.suggestion_autoaccept > 0 and
@@ -171,7 +175,8 @@ def can_vote_suggestion(user, translation):
         return True
     if not has_group_perm(user, translation, 'trans.vote_suggestion'):
         return False
-    if translation.is_template() and not has_group_perm(user, translation, 'trans.save_template'):
+    if translation.is_template() \
+        and not has_group_perm(user, translation, 'trans.save_template'):
         return False
     return True
 
