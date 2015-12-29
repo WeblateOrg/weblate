@@ -35,9 +35,9 @@ class FileLockException(Exception):
     pass
 
 
-class FileLock(object):
+class FileLockBase(object):
     """
-    A file locking mechanism for Unix systems based on flock.
+    Base file locking class.
 
     It can be also used as a context-manager using with statement.
     """
@@ -63,11 +63,11 @@ class FileLock(object):
 
     def try_lock(self, handle):
         """Tries to lock the file"""
-        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        raise NotImplementedError()
 
     def unlock(self, handle):
         """Unlocks lock"""
-        fcntl.flock(handle, fcntl.LOCK_UN)
+        raise NotImplementedError()
 
     def acquire(self):
         """
@@ -153,3 +153,19 @@ class FileLock(object):
         lying around.
         """
         self.release()
+
+
+class FcntlFileLock(FileLockBase):
+    """
+    A file locking mechanism for Unix systems based on flock.
+    """
+    def try_lock(self, handle):
+        """Tries to lock the file"""
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+    def unlock(self, handle):
+        """Unlocks lock"""
+        fcntl.flock(handle, fcntl.LOCK_UN)
+
+
+FileLock = FcntlFileLock
