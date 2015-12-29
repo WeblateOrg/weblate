@@ -57,6 +57,10 @@ class FileLock(object):
         self.is_locked = False
         self.handle = None
 
+    def open_file(self):
+        """Opens lock file"""
+        return os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
+
     def acquire(self):
         """
         Acquire the lock, if possible.
@@ -72,7 +76,7 @@ class FileLock(object):
         start_time = time.time()
 
         # Open file
-        self.handle = os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
+        self.handle = self.open_file()
 
         # Try to acquire lock
         while True:
@@ -94,7 +98,7 @@ class FileLock(object):
         '''
         Checks whether lock is locked.
         '''
-        handle = os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
+        handle = self.open_file()
         try:
             fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
             fcntl.flock(handle, fcntl.LOCK_UN)
