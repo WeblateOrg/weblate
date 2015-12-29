@@ -61,6 +61,14 @@ class FileLock(object):
         """Opens lock file"""
         return os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
 
+    def try_lock(self, handle):
+        """Tries to lock the file"""
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+    def unlock(self, handle):
+        """Unlocks lock"""
+        fcntl.flock(handle, fcntl.LOCK_UN)
+
     def acquire(self):
         """
         Acquire the lock, if possible.
@@ -81,7 +89,7 @@ class FileLock(object):
         # Try to acquire lock
         while True:
             try:
-                fcntl.flock(self.handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                self.try_lock(self.handle)
                 break
             except IOError as error:
                 if error.errno not in [errno.EACCES, errno.EAGAIN]:
@@ -100,8 +108,8 @@ class FileLock(object):
         '''
         handle = self.open_file()
         try:
-            fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            fcntl.flock(handle, fcntl.LOCK_UN)
+            self.try_lock(handle)
+            self.unlock(handle)
             return False
         except IOError as error:
             if error.errno not in [errno.EACCES, errno.EAGAIN]:
@@ -113,7 +121,7 @@ class FileLock(object):
         Release the lock and delete underlaying file.
         """
         if self.is_locked:
-            fcntl.flock(self.handle, fcntl.LOCK_UN)
+            self.unlock(self.handle)
             os.close(self.handle)
             self.handle = None
             try:
