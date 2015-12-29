@@ -25,7 +25,12 @@ File based locking for Unix systems.
 import os
 import time
 import errno
-import fcntl
+try:
+    import fcntl
+    HAS_FCNTL = True
+except ImportError:
+    import msvcrt
+    HAS_FCNTL = False
 
 
 class FileLockException(Exception):
@@ -168,4 +173,20 @@ class FcntlFileLock(FileLockBase):
         fcntl.flock(handle, fcntl.LOCK_UN)
 
 
-FileLock = FcntlFileLock
+class WindowsFileLock(FileLockBase):
+    """
+    A file locking mechanism for Windows systems.
+    """
+    def try_lock(self, handle):
+        """Tries to lock the file"""
+        msvcrt.locking(handle, msvcrt.LK_NBLCK, 1)
+
+    def unlock(self, handle):
+        """Unlocks lock"""
+        msvcrt.locking(handle, msvcrt.LK_UNLCK, 1)
+
+
+if HAS_FCNTL:
+    FileLock = FcntlFileLock
+else:
+    FileLock = WindowsFileLock
