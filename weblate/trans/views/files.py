@@ -30,6 +30,9 @@ import sys
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import get_translation
+from weblate.trans.permissions import (
+    can_author_translation, can_overwrite_translation
+)
 
 
 def download_translation(request, project, subproject, lang):
@@ -87,7 +90,9 @@ def upload_translation(request, project, subproject, lang):
         return redirect(obj)
 
     # Get correct form handler based on permissions
-    form = get_upload_form(request)(request.POST, request.FILES)
+    form = get_upload_form(request.user, obj.subproject.project)(
+        request.POST, request.FILES
+    )
 
     # Check form validity
     if not form.is_valid():
@@ -96,7 +101,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Create author name
     author = None
-    if (request.user.has_perm('trans.author_translation') and
+    if (can_author_translation(request.user, obj.subproject.project) and
             form.cleaned_data['author_name'] != '' and
             form.cleaned_data['author_email'] != ''):
         author = '%s <%s>' % (
@@ -106,7 +111,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Check for overwriting
     overwrite = False
-    if request.user.has_perm('trans.overwrite_translation'):
+    if can_overwrite_translation(request.user, obj.subproject.project):
         overwrite = form.cleaned_data['overwrite']
 
     # Do actual import

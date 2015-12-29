@@ -75,7 +75,6 @@ def weblate_context(request):
         'login_redirect_url': login_redirect_url,
 
         'hooks_enabled': appsettings.ENABLE_HOOKS,
-        'whiteboard_enabled': appsettings.ENABLE_WHITEBOARD,
 
         'registration_open': appsettings.REGISTRATION_OPEN,
         'acl_projects': projects,

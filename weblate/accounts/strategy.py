@@ -30,7 +30,7 @@ class WeblateStrategy(DjangoStrategy):
         """
         super(WeblateStrategy, self).__init__(storage, request, tpl)
         if (request and
-                self.session.session_key is None and
+                'verification_code' in request.GET and
                 'id' in request.GET):
             engine = import_module(settings.SESSION_ENGINE)
             self.session = engine.SessionStore(request.GET['id'])

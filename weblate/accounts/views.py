@@ -420,7 +420,13 @@ def register(request):
     if request.method == 'POST':
         form = form_class(request.POST)
         if form.is_valid() and appsettings.REGISTRATION_OPEN:
-            return complete(request, 'email')
+            # Ensure we do registration in separate session
+            # not sent to client
+            request.session.create()
+            result = complete(request, 'email')
+            request.session.save()
+            request.session = None
+            return result
     else:
         form = form_class()
 

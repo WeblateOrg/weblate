@@ -36,7 +36,6 @@ from PIL import Image
 from weblate.trans.models import WhiteboardMessage, SubProject
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
-from weblate.trans.tests import OverrideSettings
 
 
 class RegistrationTestMixin(object):
@@ -386,7 +385,6 @@ class HomeViewTest(ViewTestCase):
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')
 
-    @OverrideSettings(ENABLE_WHITEBOARD=True)
     def test_home_with_whiteboard(self):
         msg = WhiteboardMessage(message='test_message')
         msg.save()
@@ -395,7 +393,6 @@ class HomeViewTest(ViewTestCase):
         self.assertContains(response, 'whiteboard')
         self.assertContains(response, 'test_message')
 
-    @OverrideSettings(ENABLE_WHITEBOARD=False)
     def test_home_without_whiteboard(self):
         response = self.client.get(reverse('home'))
         self.assertNotContains(response, 'whiteboard')

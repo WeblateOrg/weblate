@@ -18,4 +18,5 @@ Administrators guide
     config
     sample
     management
+    whiteboard
     advertisement

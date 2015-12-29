@@ -208,6 +208,37 @@ On openSUSE or SLES you can install them using:
 
     zypper install libxslt-devel libxml2-devel freetype-devel python-devel
 
+.. _install-weblate:
+
+Installing Weblate
+------------------
+
+It is recommended to run latest version from Git. It is maintained stable and
+production ready.
+
+To get latest sources using Git use:
+
+.. code-block:: sh
+    
+    git clone https://github.com/nijel/weblate.git
+
+Alternatively you can use released archives. You can either download them from our 
+website <https://weblate.org/> or use pip installer.
+
+Installing Weblate by pip
++++++++++++++++++++++++++
+
+If you decode to install Weblate using pip installer, you will notice some
+differences. Most importantly the command line interface is installed  to the
+system path as :command:`weblate` instead of :command:`./manage.py` as used in
+this documentation. Also when invoking this command, you will have to specify
+settings, either by :envvar:`DJANGO_SETTINGS` or on the command line, for
+example:
+
+.. code-block:: sh
+
+    weblate --settings=yourproject.settings migrate
+
 .. _file-permissions:
 
 Filesystem permissions

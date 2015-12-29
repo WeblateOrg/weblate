@@ -288,9 +288,10 @@ INSTALLED_APPS = (
     'weblate',
 )
 
-LOCALE_PATHS = (os.path.join(BASE_DIR, '..', 'locale'), )
+# Path to locales
+LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'), )
 
-
+# Context processors
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -565,9 +566,6 @@ ALLOWED_HOSTS = []
 #    r'/data/(.*)$',     # Allowing public access to data exports
 #    r'/hooks/(.*)$',    # Allowing public access to notification hooks
 # )
-
-# Enable whiteboard functionality - under development so disabled by default.
-ENABLE_WHITEBOARD = False
 
 # Force sane test runner
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'

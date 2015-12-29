@@ -19,16 +19,26 @@
 #
 
 from unittest import TestCase
+import shutil
+import tempfile
+import os.path
 from multiprocessing import Process
 from weblate.trans.filelock import FileLock, FileLockException
 
 
 class LockTest(TestCase):
+    def setUp(self):
+        self.testdir = tempfile.mkdtemp()
+        self.testfile = os.path.join(self.testdir, 'lock-test')
+
+    def tearDown(self):
+        shutil.rmtree(self.testdir)
+
     def test_lock(self):
         '''
         Basic locking test.
         '''
-        lock = FileLock('lock-test')
+        lock = FileLock(self.testfile)
         lock.acquire()
         self.assertTrue(lock.is_locked)
         self.assertTrue(lock.check_lock())
@@ -40,7 +50,7 @@ class LockTest(TestCase):
         '''
         Basic locking test.
         '''
-        lock = FileLock('lock-test')
+        lock = FileLock(self.testfile)
         lock.acquire()
         lock.acquire()
         self.assertTrue(lock.is_locked)
@@ -51,15 +61,15 @@ class LockTest(TestCase):
         '''
         Basic locking test.
         '''
-        lock = FileLock('/invalid/lock/path')
+        lock = FileLock(os.path.join(self.testdir, 'invalid', 'lock', 'path'))
         self.assertRaises(OSError, lock.acquire)
 
     def test_context(self):
         '''
         Test of context handling.
         '''
-        lock = FileLock('lock-test')
-        lock2 = FileLock('lock-test', timeout=0)
+        lock = FileLock(self.testfile)
+        lock2 = FileLock(self.testfile, timeout=0)
         with lock:
             self.assertTrue(lock.is_locked)
             self.assertTrue(lock.check_lock())
@@ -71,8 +81,8 @@ class LockTest(TestCase):
         '''
         Test of double locking.
         '''
-        lock1 = FileLock('lock-test')
-        lock2 = FileLock('lock-test', timeout=0)
+        lock1 = FileLock(self.testfile)
+        lock2 = FileLock(self.testfile, timeout=0)
         lock1.acquire()
         self.assertRaises(FileLockException, lock2.acquire)
         lock1.release()
@@ -83,14 +93,14 @@ class LockTest(TestCase):
         '''
         Handling of stale lock files.
         '''
-        lock = FileLock('lock-test')
+        lock = FileLock(self.testfile)
         lockfile = open(lock.lockfile, 'w')
         lock.acquire()
         lockfile.close()
         lock.release()
 
     def second_lock(self):
-        lock = FileLock('lock-test', timeout=0)
+        lock = FileLock(self.testfile, timeout=0)
         lock.acquire()
         lock.release()
 
@@ -98,7 +108,7 @@ class LockTest(TestCase):
         '''
         Test of double locking.
         '''
-        lock = FileLock('lock-test')
+        lock = FileLock(self.testfile)
         lock.acquire()
         process = Process(target=self.second_lock)
         process.start()

@@ -222,9 +222,10 @@ class ChangeAdmin(admin.ModelAdmin):
 
 
 class WhiteboardAdmin(admin.ModelAdmin):
-    list_display = ['message']
+    list_display = ['message', 'project', 'subproject', 'language']
     prepopulated_fields = {}
     search_fields = ['message']
+    list_filter = ['project', 'language']
 
 
 class AdvertisementAdmin(admin.ModelAdmin):

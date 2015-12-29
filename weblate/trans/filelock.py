@@ -25,7 +25,13 @@ File based locking for Unix systems.
 import os
 import time
 import errno
-import fcntl
+try:
+    import fcntl
+    HAS_FCNTL = True
+except ImportError:
+    # pylint: disable=F0401
+    import msvcrt
+    HAS_FCNTL = False
 
 
 class FileLockException(Exception):
@@ -35,9 +41,9 @@ class FileLockException(Exception):
     pass
 
 
-class FileLock(object):
+class FileLockBase(object):
     """
-    A file locking mechanism for Unix systems based on flock.
+    Base file locking class.
 
     It can be also used as a context-manager using with statement.
     """
@@ -57,6 +63,18 @@ class FileLock(object):
         self.is_locked = False
         self.handle = None
 
+    def open_file(self):
+        """Opens lock file"""
+        return os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
+
+    def try_lock(self, handle):
+        """Tries to lock the file"""
+        raise NotImplementedError()
+
+    def unlock(self, handle):
+        """Unlocks lock"""
+        raise NotImplementedError()
+
     def acquire(self):
         """
         Acquire the lock, if possible.
@@ -72,12 +90,12 @@ class FileLock(object):
         start_time = time.time()
 
         # Open file
-        self.handle = os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
+        self.handle = self.open_file()
 
         # Try to acquire lock
         while True:
             try:
-                fcntl.flock(self.handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                self.try_lock(self.handle)
                 break
             except IOError as error:
                 if error.errno not in [errno.EACCES, errno.EAGAIN]:
@@ -94,10 +112,10 @@ class FileLock(object):
         '''
         Checks whether lock is locked.
         '''
-        handle = os.open(self.lockfile, os.O_CREAT | os.O_WRONLY)
+        handle = self.open_file()
         try:
-            fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            fcntl.flock(handle, fcntl.LOCK_UN)
+            self.try_lock(handle)
+            self.unlock(handle)
             return False
         except IOError as error:
             if error.errno not in [errno.EACCES, errno.EAGAIN]:
@@ -109,7 +127,7 @@ class FileLock(object):
         Release the lock and delete underlaying file.
         """
         if self.is_locked:
-            fcntl.flock(self.handle, fcntl.LOCK_UN)
+            self.unlock(self.handle)
             os.close(self.handle)
             self.handle = None
             try:
@@ -141,3 +159,35 @@ class FileLock(object):
         lying around.
         """
         self.release()
+
+
+class FcntlFileLock(FileLockBase):
+    """
+    A file locking mechanism for Unix systems based on flock.
+    """
+    def try_lock(self, handle):
+        """Tries to lock the file"""
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+
+    def unlock(self, handle):
+        """Unlocks lock"""
+        fcntl.flock(handle, fcntl.LOCK_UN)
+
+
+class WindowsFileLock(FileLockBase):
+    """
+    A file locking mechanism for Windows systems.
+    """
+    def try_lock(self, handle):
+        """Tries to lock the file"""
+        msvcrt.locking(handle, msvcrt.LK_NBLCK, 1)
+
+    def unlock(self, handle):
+        """Unlocks lock"""
+        msvcrt.locking(handle, msvcrt.LK_UNLCK, 1)
+
+
+if HAS_FCNTL:
+    FileLock = FcntlFileLock
+else:
+    FileLock = WindowsFileLock

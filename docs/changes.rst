@@ -24,6 +24,7 @@ Released on ? 2015.
 * Added option to specify source language.
 * Improved support for XLIFF files.
 * Extended list of options for import_project.
+* Improved targeting for whiteboard messages.
 
 weblate 2.4
 -----------

@@ -12,6 +12,8 @@ recursive-include weblate/static *
 recursive-include weblate/html *.txt
 recursive-include weblate/html *.html
 recursive-include weblate/html *.svg
+recursive-include weblate/locale *.po
+recursive-include weblate/locale *.mo
 recursive-include docs *.rst
 include docs/images/*
 include docs/conf.py
@@ -22,8 +24,6 @@ include docs/_ext/*.py
 include docs/_static/*.png
 include docs/_templates/*.html
 recursive-include examples *
-recursive-include locale *.po
-recursive-include locale *.mo
 include weblate/trans/tests/data/*
 include weblate/trans/widget-images/*.png
 include weblate/lang/plurals.txt

@@ -18,8 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.html import escape
+from django.utils.html import escape, urlize
 from django.contrib.admin.templatetags.admin_static import static
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_unicode
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
@@ -36,7 +37,9 @@ import weblate
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
-from weblate.trans.models import Project, SubProject, Dictionary, Advertisement
+from weblate.trans.models import (
+    Project, SubProject, Dictionary, Advertisement, WhiteboardMessage
+)
 from weblate.trans.checks import CHECKS
 
 register = template.Library()
@@ -543,4 +546,29 @@ def get_location_links(unit):
             ret.append('%s' % location)
         else:
             ret.append('<a href="%s">%s</a>' % (link, location))
+    return mark_safe('\n'.join(ret))
+
+
+@register.simple_tag
+def whiteboard_messages(project=None, subproject=None, language=None):
+    """Displays whiteboard messages for given context"""
+    ret = []
+
+    whiteboards = WhiteboardMessage.objects.context_filter(
+        project, subproject, language
+    )
+
+    for whiteboard in whiteboards:
+        ret.append(
+            render_to_string(
+                'message.html',
+                {
+                    'tags': 'info whiteboard',
+                    'message': mark_safe(
+                        urlize(whiteboard.message, autoescape=True)
+                    )
+                }
+            )
+        )
+
     return mark_safe('\n'.join(ret))

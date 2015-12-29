@@ -49,6 +49,7 @@ class Billing(models.Model):
     plan = models.ForeignKey(Plan)
     user = models.OneToOneField(User)
     projects = models.ManyToManyField(Project, blank=True)
+    trial = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'{0} ({1})'.format(self.user, self.plan)
