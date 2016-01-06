@@ -34,9 +34,13 @@ class Plan(models.Model):
     price = models.IntegerField(default=0)
     yearly_price = models.IntegerField(default=0)
     limit_strings = models.IntegerField(default=0)
+    display_limit_strings = models.IntegerField(default=0)
     limit_languages = models.IntegerField(default=0)
+    display_limit_languages = models.IntegerField(default=0)
     limit_repositories = models.IntegerField(default=0)
+    display_limit_repositories = models.IntegerField(default=0)
     limit_projects = models.IntegerField(default=0)
+    display_limit_projects = models.IntegerField(default=0)
 
     class Meta(object):
         ordering = ['price']
