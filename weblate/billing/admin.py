@@ -28,6 +28,8 @@ class PlanAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'price', 'limit_strings', 'limit_languages',
         'limit_repositories', 'limit_projects',
+        'display_limit_strings', 'display_limit_languages',
+        'display_limit_repositories', 'display_limit_projects',
     )
 
 
