@@ -41,6 +41,7 @@ import weblate
 import subprocess
 import os.path
 import re
+import six
 import csv
 import traceback
 import importlib
@@ -431,7 +432,7 @@ class FileFormat(object):
         Loads file using defined loader.
         '''
         # Add missing mode attribute to Django file wrapper
-        if (not isinstance(storefile, basestring) and
+        if (not isinstance(storefile, six.string_types) and
                 not hasattr(storefile, 'mode')):
             storefile.mode = 'r'
 
