@@ -23,6 +23,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q, Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
@@ -112,6 +113,7 @@ class TranslationManager(models.Manager):
         return tuple([translation_percent(value, total) for value in result])
 
 
+@python_2_unicode_compatible
 class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     subproject = models.ForeignKey('SubProject')
     language = models.ForeignKey(Language)
@@ -406,10 +408,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'lang': self.language.code
         })
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s - %s' % (
-            self.subproject.__unicode__(),
-            _(self.language.name)
+            force_text(self.subproject),
+            force_text(self.language)
         )
 
     def get_filename(self):

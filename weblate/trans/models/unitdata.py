@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 from weblate.lang.models import Language
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.changes import Change
@@ -95,6 +96,7 @@ class SuggestionManager(models.Manager):
             )
 
 
+@python_2_unicode_compatible
 class Suggestion(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
     target = models.TextField()
@@ -118,7 +120,7 @@ class Suggestion(models.Model):
         )
         app_label = 'trans'
 
-    def __unicode__(self):
+    def __str__(self):
         return 'suggestion for {0} by {1}'.format(
             self.contentsum,
             self.user.username if self.user else 'unknown',
@@ -167,6 +169,7 @@ class Suggestion(models.Model):
             self.accept(translation, request)
 
 
+@python_2_unicode_compatible
 class Vote(models.Model):
     '''
     Suggestion voting.
@@ -179,7 +182,7 @@ class Vote(models.Model):
         unique_together = ('suggestion', 'user')
         app_label = 'trans'
 
-    def __unicode__(self):
+    def __str__(self):
         if self.positive:
             vote = '+1'
         else:
@@ -222,6 +225,7 @@ class CommentManager(models.Manager):
         )
 
 
+@python_2_unicode_compatible
 class Comment(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
     comment = models.TextField()
@@ -236,7 +240,7 @@ class Comment(models.Model):
         ordering = ['timestamp']
         app_label = 'trans'
 
-    def __unicode__(self):
+    def __str__(self):
         return 'comment for {0} by {1}'.format(
             self.contentsum,
             self.user.username if self.user else 'unknown',
@@ -249,6 +253,7 @@ class Comment(models.Model):
 CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 
+@python_2_unicode_compatible
 class Check(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
     project = models.ForeignKey('Project')
@@ -273,7 +278,7 @@ class Check(models.Model):
         app_label = 'trans'
         unique_together = ('contentsum', 'project', 'language', 'check')
 
-    def __unicode__(self):
+    def __str__(self):
         return '{0}/{1}: {2}'.format(
             self.project,
             self.language,

@@ -19,6 +19,7 @@
 #
 
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.validators import validate_check_flags
 
@@ -31,6 +32,7 @@ PRIORITY_CHOICES = (
 )
 
 
+@python_2_unicode_compatible
 class Source(models.Model):
     checksum = models.CharField(max_length=40)
     subproject = models.ForeignKey('SubProject')
@@ -58,7 +60,7 @@ class Source(models.Model):
         self.priority_modified = False
         self.check_flags_modified = False
 
-    def __unicode__(self):
+    def __str__(self):
         return 'src:{0}'.format(self.checksum)
 
     def save(self, force_insert=False, **kwargs):

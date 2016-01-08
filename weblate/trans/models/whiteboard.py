@@ -23,6 +23,7 @@
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy, ugettext as _
+from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from weblate.lang.models import Language
 
@@ -60,6 +61,7 @@ class WhiteboardManager(models.Manager):
         return base
 
 
+@python_2_unicode_compatible
 class WhiteboardMessage(models.Model):
     message = models.TextField(
         verbose_name=ugettext_lazy('Message'),
@@ -91,7 +93,7 @@ class WhiteboardMessage(models.Model):
         verbose_name = ugettext_lazy('Whiteboard message')
         verbose_name_plural = ugettext_lazy('Whiteboard messages')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.message
 
     def clean(self):

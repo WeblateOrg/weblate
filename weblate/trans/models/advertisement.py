@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 import random
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from django.utils import timezone
 from weblate import appsettings
@@ -88,6 +89,7 @@ class AdvertisementManager(models.Manager):
         )
 
 
+@python_2_unicode_compatible
 class Advertisement(models.Model):
     PLACEMENT_MAIL_TEXT = 1
     PLACEMENT_MAIL_HTML = 2
@@ -131,5 +133,5 @@ class Advertisement(models.Model):
         verbose_name = _('Advertisement')
         verbose_name_plural = _('Advertisements')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.text

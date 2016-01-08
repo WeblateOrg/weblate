@@ -24,6 +24,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
+from django.utils.encoding import force_text
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from six.moves.urllib.parse import urlencode
@@ -91,7 +92,7 @@ def review_source(request, project, subproject):
             'query_string': urlencode(query_string),
             'ignored': ignored,
             'expand': expand,
-            'title': _('Review source strings in %s') % obj.__unicode__(),
+            'title': _('Review source strings in %s') % force_text(obj),
         }
     )
 
@@ -108,7 +109,7 @@ def show_source(request, project, subproject):
         {
             'object': obj,
             'source': source,
-            'title': _('Source strings in %s') % obj.__unicode__(),
+            'title': _('Source strings in %s') % force_text(obj),
         }
     )
 

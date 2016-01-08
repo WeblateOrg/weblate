@@ -21,6 +21,7 @@
 from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -70,6 +71,7 @@ class ProjectManager(models.Manager):
         return self.filter(id__in=project_ids), True
 
 
+@python_2_unicode_compatible
 class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
@@ -266,7 +268,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def _get_path(self):
         return os.path.join(data_dir('vcs'), self.slug)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):

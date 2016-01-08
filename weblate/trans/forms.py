@@ -24,7 +24,7 @@ from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_text, force_text
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -580,7 +580,7 @@ class SiteSearchForm(SearchForm):
         super(SiteSearchForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += [
-            (l.code, l.__unicode__())
+            (l.code, force_text(l))
             for l in Language.objects.have_translation()
         ]
 
@@ -760,7 +760,7 @@ class EnageLanguageForm(forms.Form):
         Dynamically generate choices for used languages
         in project
         '''
-        choices = [(l.code, l.__unicode__()) for l in project.get_languages()]
+        choices = [(l.code, force_text(l)) for l in project.get_languages()]
 
         super(EnageLanguageForm, self).__init__(*args, **kwargs)
 
@@ -779,7 +779,7 @@ class NewLanguageForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(NewLanguageForm, self).__init__(*args, **kwargs)
         choices = sort_choices([('', _('Please select'))] + [
-            (l.code, l.__unicode__()) for l in Language.objects.all()
+            (l.code, force_text(l)) for l in Language.objects.all()
         ])
         self.fields['lang'].choices = choices
 

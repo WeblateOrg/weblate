@@ -22,6 +22,7 @@ from six.moves.urllib.parse import urlencode
 
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
+from django.utils.encoding import force_text
 from django.http import Http404
 from django.db.models import Count
 
@@ -218,7 +219,7 @@ def show_check_project(request, name, project):
         'check_project.html',
         {
             'checks': units,
-            'title': '%s/%s' % (prj.__unicode__(), check.name),
+            'title': '%s/%s' % (force_text(prj), check.name),
             'check': check,
             'project': prj,
             'url_params': encode_optional(url_params),
@@ -307,7 +308,7 @@ def show_check_subproject(request, name, project, subproject):
         'check_subproject.html',
         {
             'checks': units,
-            'title': '%s/%s' % (subprj.__unicode__(), check.name),
+            'title': '%s/%s' % (force_text(subprj), check.name),
             'check': check,
             'subproject': subprj,
             'url_params': encode_optional(url_params),

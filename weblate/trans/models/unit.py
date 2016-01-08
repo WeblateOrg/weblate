@@ -22,6 +22,7 @@ from django.db import models
 from weblate import appsettings
 from django.db.models import Q
 from django.utils.translation import ugettext as _
+from django.utils.encoding import python_2_unicode_compatible
 from django.contrib import messages
 from django.core.cache import cache
 import traceback
@@ -316,6 +317,7 @@ class UnitManager(models.Manager):
         )
 
 
+@python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey('Translation')
     checksum = models.CharField(max_length=40, db_index=True)
@@ -373,7 +375,7 @@ class Unit(models.Model, LoggerMixin):
         """
         self.translation.subproject.project.check_acl(request)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s on %s' % (
             self.checksum,
             self.translation,

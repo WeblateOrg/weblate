@@ -30,6 +30,7 @@ from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save, post_migrate
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.contrib.auth.models import Group, User, Permission
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
@@ -286,7 +287,7 @@ def get_notification_email(language, email, notification,
         headers['References'] = references
     try:
         if info is None:
-            info = translation_obj.__unicode__()
+            info = force_text(translation_obj)
         LOGGER.info(
             'sending notification %s on %s to %s',
             notification,
@@ -375,6 +376,7 @@ def send_notification_email(language, email, notification,
     send_mails([email])
 
 
+@python_2_unicode_compatible
 class VerifiedEmail(models.Model):
     '''
     Storage for verified emails from auth backends.
@@ -382,7 +384,7 @@ class VerifiedEmail(models.Model):
     social = models.ForeignKey(UserSocialAuth)
     email = models.EmailField(max_length=254)
 
-    def __unicode__(self):
+    def __str__(self):
         return '{0} - {1}'.format(
             self.social.user.username,
             self.email
@@ -455,6 +457,7 @@ class ProfileManager(models.Manager):
         return self.filter(subscribe_merge_failure=True, subscriptions=project)
 
 
+@python_2_unicode_compatible
 class Profile(models.Model):
     '''
     User profiles storage.
@@ -540,7 +543,7 @@ class Profile(models.Model):
 
     objects = ProfileManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     def get_user_display(self):

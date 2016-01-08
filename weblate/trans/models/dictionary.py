@@ -21,7 +21,7 @@
 import sys
 from django.db import models
 from django.db.models import Q
-from django.utils.encoding import force_text
+from django.utils.encoding import force_text, python_2_unicode_compatible
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
@@ -158,6 +158,7 @@ class DictionaryManager(models.Manager):
         return dictionary
 
 
+@python_2_unicode_compatible
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
@@ -173,7 +174,7 @@ class Dictionary(models.Model):
         )
         app_label = 'trans'
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s/%s: %s -> %s' % (
             self.project,
             self.language,

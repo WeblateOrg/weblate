@@ -195,7 +195,7 @@ def project_name(prj):
     '''
     Gets project name based on slug.
     '''
-    return escape(Project.objects.get(slug=prj).__unicode__())
+    return escape(force_text(Project.objects.get(slug=prj)))
 
 
 @register.simple_tag
@@ -204,7 +204,7 @@ def subproject_name(prj, subprj):
     Gets subproject name based on slug.
     '''
     return escape(
-        SubProject.objects.get(project__slug=prj, slug=subprj).__unicode__()
+        force_text(SubProject.objects.get(project__slug=prj, slug=subprj))
     )
 
 
@@ -213,7 +213,7 @@ def language_name(code):
     '''
     Gets language name based on its code.
     '''
-    return escape(Language.objects.get(code=code).__unicode__())
+    return escape(force_text(Language.objects.get(code=code)))
 
 
 @register.simple_tag
