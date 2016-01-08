@@ -45,7 +45,6 @@ import csv
 import traceback
 import importlib
 from StringIO import StringIO
-import __builtin__
 
 
 FILE_FORMATS = {}
@@ -430,12 +429,6 @@ class FileFormat(object):
         '''
         Loads file using defined loader.
         '''
-        # Workaround for _ created by interactive interpreter and
-        # later used instead of gettext by ttkit
-        if ('_' in __builtin__.__dict__ and
-                not callable(__builtin__.__dict__['_'])):
-            del __builtin__.__dict__['_']
-
         # Add missing mode attribute to Django file wrapper
         if (not isinstance(storefile, basestring) and
                 not hasattr(storefile, 'mode')):
