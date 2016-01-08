@@ -23,7 +23,7 @@ from django.utils.html import escape, urlize
 from django.contrib.admin.templatetags.admin_static import static
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
@@ -111,11 +111,11 @@ def format_translation(value, language, diff=None, search_match=None,
     for idx, value in enumerate(plurals):
 
         # HTML escape
-        value = escape(force_unicode(value))
+        value = escape(force_text(value))
 
         # Format diff if there is any
         if diff is not None:
-            diffvalue = escape(force_unicode(diff[idx]))
+            diffvalue = escape(force_text(diff[idx]))
             value = html_diff(diffvalue, value)
 
         # Format search term

@@ -24,7 +24,7 @@ from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -232,7 +232,7 @@ class PluralTextarea(forms.Textarea):
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ''))
-        ret = [smart_unicode(r.replace('\r', '')) for r in ret]
+        ret = [smart_text(r.replace('\r', '')) for r in ret]
         return ret
 
 

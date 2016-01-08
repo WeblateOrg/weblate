@@ -24,6 +24,7 @@ Tests for automatix fixups.
 
 from __future__ import unicode_literals
 from django.test import TestCase
+from django.utils.encoding import force_text
 from weblate.trans.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
@@ -115,4 +116,4 @@ class AutoFixTest(TestCase):
         fixed, fixups = fix_target(['Bar...'], unit)
         self.assertEqual(fixed, ['Bar…'])
         self.assertEqual(len(fixups), 1)
-        self.assertEqual(unicode(fixups[0]), 'Trailing ellipsis')
+        self.assertEqual(force_text(fixups[0]), 'Trailing ellipsis')

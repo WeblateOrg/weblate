@@ -26,7 +26,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from crispy_forms.helper import FormHelper
 
 from weblate.accounts.models import Profile, VerifiedEmail
@@ -46,7 +46,7 @@ def remove_accents(input_str):
     """
     Removes accents from a string.
     """
-    nkfd_form = unicodedata.normalize('NFKD', force_unicode(input_str))
+    nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
     return only_ascii
 
@@ -66,7 +66,7 @@ def sort_choices(choices):
         collator = pyuca.Collator()
         return sorted(
             choices,
-            key=lambda tup: collator.sort_key(force_unicode(tup[1]))
+            key=lambda tup: collator.sort_key(force_text(tup[1]))
         )
 
 
@@ -127,7 +127,7 @@ class SortedSelectMixin(object):
         Renders sorted options.
         '''
         # Normalize to strings.
-        selected_choices = set(force_unicode(v) for v in selected_choices)
+        selected_choices = set(force_text(v) for v in selected_choices)
         output = []
 
         # Actually sort values

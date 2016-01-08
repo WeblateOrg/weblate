@@ -19,6 +19,7 @@
 #
 
 from django.utils.translation import ugettext as _, ungettext
+from django.utils.encoding import force_text
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.contrib import messages
@@ -141,7 +142,7 @@ def upload_translation(request, project, subproject, lang):
             )
     except Exception as error:
         messages.error(
-            request, _('File content merge failed: %s') % unicode(error)
+            request, _('File content merge failed: %s') % force_text(error)
         )
         report_error(error, sys.exc_info(), request)
 

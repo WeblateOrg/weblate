@@ -19,6 +19,7 @@
 #
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -169,7 +170,7 @@ def upload_dictionary(request, project, lang):
         except Exception as error:
             report_error(error, sys.exc_info(), request)
             messages.error(
-                request, _('File upload has failed: %s') % unicode(error)
+                request, _('File upload has failed: %s') % force_text(error)
             )
     else:
         messages.error(request, _('Failed to process form!'))

@@ -30,6 +30,7 @@ from whoosh import qparser
 from django.dispatch import receiver
 from django.db.models.signals import post_migrate
 from django.db.utils import IntegrityError
+from django.utils.encoding import force_text
 from django.db import transaction
 from weblate import appsettings
 from weblate.lang.models import Language
@@ -92,10 +93,10 @@ def update_source_unit_index(writer, unit):
     Updates source index for given unit.
     '''
     writer.update_document(
-        checksum=unicode(unit.checksum),
-        source=unicode(unit.source),
-        context=unicode(unit.context),
-        location=unicode(unit.location),
+        checksum=force_text(unit.checksum),
+        source=force_text(unit.source),
+        context=force_text(unit.context),
+        location=force_text(unit.location),
     )
 
 
@@ -104,9 +105,9 @@ def update_target_unit_index(writer, unit):
     Updates target index for given unit.
     '''
     writer.update_document(
-        checksum=unicode(unit.checksum),
-        target=unicode(unit.target),
-        comment=unicode(unit.comment),
+        checksum=force_text(unit.checksum),
+        target=force_text(unit.target),
+        comment=force_text(unit.comment),
     )
 
 

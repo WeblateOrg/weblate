@@ -21,6 +21,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _
+from django.utils.encoding import force_text
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -161,7 +162,7 @@ def search(translation, request):
     search_id = str(uuid.uuid1())
     search_result = {
         'query': search_query,
-        'name': unicode(name) if name else None,
+        'name': force_text(name) if name else None,
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,
@@ -238,7 +239,7 @@ def perform_translation(unit, form, request):
         messages.info(
             request,
             _('Following fixups were applied to translation: %s') %
-            ', '.join([unicode(f) for f in fixups])
+            ', '.join([force_text(f) for f in fixups])
         )
 
     # Get new set of checks
@@ -255,7 +256,7 @@ def perform_translation(unit, form, request):
                 'Some checks have failed on your translation: {0}'
             ).format(
                 ', '.join(
-                    [unicode(CHECKS[check].name) for check in newchecks]
+                    [force_text(CHECKS[check].name) for check in newchecks]
                 )
             )
         )

@@ -21,7 +21,7 @@
 import sys
 from django.db import models
 from django.db.models import Q
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
@@ -131,7 +131,7 @@ class DictionaryManager(models.Manager):
                 # Some Whoosh analyzers break on unicode
                 try:
                     words.update(
-                        [token.text for token in analyzer(force_unicode(text))]
+                        [token.text for token in analyzer(force_text(text))]
                     )
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())

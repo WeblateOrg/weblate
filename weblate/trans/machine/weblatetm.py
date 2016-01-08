@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.utils.encoding import force_text
 from weblate.trans.machine.base import MachineTranslation
 from weblate.trans.models.unit import Unit
 
@@ -29,7 +30,7 @@ def format_unit_match(unit, quality):
     return (
         unit.get_target_plurals()[0],
         quality,
-        'Weblate (%s)' % unicode(unit.translation.subproject),
+        'Weblate (%s)' % force_text(unit.translation.subproject),
         unit.get_source_plurals()[0],
     )
 

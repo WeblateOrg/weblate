@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 from django.db import models, transaction
 from django.db.utils import OperationalError
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
@@ -414,7 +415,7 @@ class Language(models.Model, PercentMixin):
         Returns label for plural form.
         '''
         try:
-            return unicode(data.PLURAL_NAMES[self.plural_type][idx])
+            return force_text(data.PLURAL_NAMES[self.plural_type][idx])
         except (IndexError, KeyError):
             if idx == 0:
                 return _('Singular')

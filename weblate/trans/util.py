@@ -23,6 +23,7 @@ from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
 from django.conf import settings
+from django.utils.encoding import force_text
 from importlib import import_module
 import os
 import sys
@@ -226,7 +227,7 @@ def report_error(error, exc_info, request=None, extra_data=None):
     LOGGER.error(
         'Handled exception %s: %s',
         error.__class__.__name__,
-        unicode(error).encode('utf-8')
+        force_text(error).encode('utf-8')
     )
 
     # Print error when running testsuite
