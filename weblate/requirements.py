@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import print_function
+
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
@@ -209,8 +211,8 @@ def check_version(name, url, version, expected):
         return False
     looseversion = LooseVersion(version)
     if looseversion < expected:
-        print '*** %s <%s> is too old! ***' % (name, url)
-        print 'Installed version %s, required %s' % (version, expected)
+        print('*** {0} <{1}> is too old! ***'.format(name, url))
+        print('Installed version {0}, required {1}'.format(version, expected))
         return True
 
     return False

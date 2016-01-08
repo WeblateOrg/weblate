@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import print_function
 from unittest import SkipTest
 import time
 import django
@@ -117,7 +118,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             cls.driver.implicitly_wait(10)
             cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
-            print 'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
+            print('Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid))
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
@@ -258,7 +259,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                print 'Ignoring: {0}'.format(error)
+                print('Ignoring: {0}'.format(error))
 
         # Confirm account
         self.driver.get(url)

@@ -22,6 +22,7 @@
 Tests for translation models.
 """
 
+from __future__ import print_function
 from unittest import SkipTest
 from django.test import TestCase
 from django.conf import settings
