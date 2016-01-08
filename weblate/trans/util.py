@@ -26,7 +26,7 @@ from django.conf import settings
 from importlib import import_module
 import os
 import sys
-import urlparse
+from six.moves.urllib.parse import urlparse
 import hashlib
 import traceback
 from weblate.logger import LOGGER
@@ -175,7 +175,7 @@ def cleanup_repo_url(url):
     """
     Removes credentials from repository URL.
     """
-    parsed = urlparse.urlparse(url)
+    parsed = urlparse(url)
     if parsed.username and parsed.password:
         return url.replace(
             '{0}:{1}@'.format(

@@ -22,7 +22,7 @@
 Tests for translation views.
 """
 
-from urlparse import urlsplit
+from six.moves.urllib.parse import urlsplit
 from cStringIO import StringIO
 from xml.dom import minidom
 

@@ -23,7 +23,7 @@ Tests for user handling.
 """
 
 import httpretty
-import urlparse
+from six.moves.urllib.parse import parse_qs, urlparse
 import json
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -322,12 +322,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
                 'https://github.com/login/oauth/authorize'
             )
         )
-        query = urlparse.parse_qs(
-            urlparse.urlparse(response['Location']).query
-        )
-        return_query = urlparse.parse_qs(
-            urlparse.urlparse(query['redirect_uri'][0]).query
-        )
+        query = parse_qs(urlparse(response['Location']).query)
+        return_query = parse_qs(urlparse(query['redirect_uri'][0]).query)
         response = self.client.get(
             reverse('social:complete', args=('github',)),
             {
