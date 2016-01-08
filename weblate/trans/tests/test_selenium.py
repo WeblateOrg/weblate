@@ -21,12 +21,12 @@
 from __future__ import print_function
 from unittest import SkipTest
 import time
-import django
 import os
 import new
 import json
 import base64
 from six.moves.http_client import HTTPConnection
+import django
 from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
