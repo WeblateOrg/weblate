@@ -306,7 +306,7 @@ class OutputTest(TestCase):
 }
 '''
         out = tempfile.NamedTemporaryFile()
-        out.write(json_input)
+        out.write(json_input.encode('utf-8'))
         out.flush()
         JSONFormat(out.name).save()
         with open(out.name) as handle:
