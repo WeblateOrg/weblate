@@ -25,6 +25,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
 from django.utils.encoding import force_text
+import six
 from weblate.trans.models.project import Project
 from weblate.accounts.avatar import get_user_display
 
@@ -52,7 +53,7 @@ class ChangeManager(models.Manager):
 
         # Count number of changes
         result = []
-        for dummy in xrange(0, days, step):
+        for dummy in six.range(0, days, step):
             # Calculate interval
             int_start = dtstart
             int_end = int_start + timezone.timedelta(days=step)
