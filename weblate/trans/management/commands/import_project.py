@@ -156,7 +156,7 @@ class Command(BaseCommand):
         '''
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.get_path())
-        os.chmod(workdir, 0755)
+        os.chmod(workdir, 0o755)
 
         # Initialize git repository
         self.logger.info('Cloning git repository...')
