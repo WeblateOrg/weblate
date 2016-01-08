@@ -24,10 +24,10 @@ Base code for machine translation services.
 from django.core.cache import cache
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from six.moves.urllib.request import Request, urlopen
+from six.moves.urllib.parse import urlencode
 import sys
 import json
-import urllib
-import urllib2
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.trans.util import report_error
@@ -72,7 +72,7 @@ class MachineTranslation(object):
         '''
         # Encode params
         if len(kwargs) > 0:
-            params = urllib.urlencode(kwargs)
+            params = urlencode(kwargs)
         else:
             params = ''
 
@@ -85,7 +85,7 @@ class MachineTranslation(object):
             url = '%s?%s' % (url, params)
 
         # Create request object with custom headers
-        request = urllib2.Request(url)
+        request = Request(url)
         request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT)
         # Optional authentication
@@ -94,9 +94,9 @@ class MachineTranslation(object):
 
         # Fire request
         if http_post:
-            handle = urllib2.urlopen(request, params)
+            handle = urlopen(request, params)
         else:
-            handle = urllib2.urlopen(request)
+            handle = urlopen(request)
 
         # Read and possibly convert response
         text = handle.read()

@@ -20,11 +20,11 @@
 
 from __future__ import unicode_literals
 
-import urllib2
 import sys
-import urllib
 import hashlib
 import os.path
+from six.moves.urllib.request import Request, urlopen
+from six.moves.urllib.parse import urlencode
 from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -79,7 +79,7 @@ def avatar_for_email(email, size=80):
         url = "{0}avatar/{1}?{2}".format(
             appsettings.AVATAR_URL_PREFIX,
             mail_hash,
-            urllib.urlencode({
+            urlencode({
                 's': str(size),
                 'd': appsettings.AVATAR_DEFAULT_IMAGE
             })
@@ -154,12 +154,12 @@ def download_avatar_image(user, size):
     Downloads avatar image from remote server.
     """
     url = avatar_for_email(user.email, size)
-    request = urllib2.Request(url)
+    request = Request(url)
     request.timeout = 0.5
     request.add_header('User-Agent', USER_AGENT)
 
     # Fire request
-    handle = urllib2.urlopen(request)
+    handle = urlopen(request)
 
     # Read and possibly convert response
     return handle.read()

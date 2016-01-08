@@ -48,7 +48,7 @@ from weblate.trans.views.helper import (
 import weblate
 
 import datetime
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 def home(request):

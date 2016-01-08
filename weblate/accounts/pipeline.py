@@ -24,7 +24,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
-import urllib2
+from six.moves.urllib.request import Request, urlopen
 import json
 
 from social.pipeline.partial import partial
@@ -40,14 +40,14 @@ from weblate import USER_AGENT
 def get_github_email(access_token):
     """Get real email from GitHub"""
 
-    request = urllib2.Request('https://api.github.com/user/emails')
+    request = Request('https://api.github.com/user/emails')
     request.timeout = 1.0
     request.add_header('User-Agent', USER_AGENT)
     request.add_header(
         'Authorization',
         'token {0}'.format(access_token)
     )
-    handle = urllib2.urlopen(request)
+    handle = urlopen(request)
     data = json.load(handle)
     email = None
     for entry in data:

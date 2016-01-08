@@ -40,7 +40,7 @@ from weblate.trans.permissions import (
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 from datetime import date
 from weblate.logger import LOGGER
 from weblate import get_doc_url

@@ -26,7 +26,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source

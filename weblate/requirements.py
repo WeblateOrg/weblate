@@ -110,6 +110,16 @@ def get_versions():
         '1.7',
     ))
 
+    name = 'six'
+    url = 'https://pypi.python.org/pypi/six'
+    mod = get_version_module('social', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '1.7.0',
+    ))
+
     name = 'python-social-auth'
     url = 'http://psa.matiasaguirre.net/'
     mod = get_version_module('social', name, url)

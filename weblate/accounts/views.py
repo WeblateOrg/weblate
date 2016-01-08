@@ -36,7 +36,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 from weblate.accounts.forms import (
     RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
@@ -378,7 +378,7 @@ def weblate_login(request):
         return redirect('profile')
 
     # Redirect if there is only one backend
-    auth_backends = load_backends(BACKENDS).keys()
+    auth_backends = list(load_backends(BACKENDS).keys())
     if len(auth_backends) == 1 and auth_backends[0] != 'email':
         return redirect('social:begin', auth_backends[0])
 

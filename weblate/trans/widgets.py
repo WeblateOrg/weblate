@@ -25,7 +25,7 @@ from weblate.trans.fonts import is_base, get_font
 from weblate.appsettings import ENABLE_HTTPS
 from cStringIO import StringIO
 import os.path
-import urllib
+from six.moves.urllib.parse import quote
 
 
 COLOR_DATA = {
@@ -360,7 +360,7 @@ class ShieldsBadgeWidget(Widget):
 
         return '{0}://img.shields.io/badge/{1}-{2}-{3}.svg'.format(
             proto,
-            urllib.quote(_('translated').encode('utf-8')),
+            quote(_('translated').encode('utf-8')),
             '{0}%25'.format(int(self.percent)),
             color
         )

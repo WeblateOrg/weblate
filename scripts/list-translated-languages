@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import json
-import urllib2
+from six.moves.urllib.request import urlopen
 import imp
 import PyICU
 
@@ -24,7 +24,7 @@ def print_language(lang, fmt='{0} ({1})'):
 
 def main():
     # load data
-    handle = urllib2.urlopen(URL)
+    handle = urlopen(URL)
     data = handle.read()
     handle.close()
     # parse data

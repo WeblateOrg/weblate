@@ -23,7 +23,7 @@ from django.utils.translation import ugettext as _
 from django.http import Http404
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Dictionary, Change
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 def show_languages(request):

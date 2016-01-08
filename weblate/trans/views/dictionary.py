@@ -36,7 +36,7 @@ import weblate
 
 import csv
 import sys
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 def dict_title(prj, lang):

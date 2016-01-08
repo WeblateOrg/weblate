@@ -37,7 +37,7 @@ from weblate.trans.permissions import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
 
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 def get_string(request, unit_id):

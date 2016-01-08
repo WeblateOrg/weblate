@@ -14,6 +14,8 @@ Django (>= 1.7)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.10.0)
     http://toolkit.translatehouse.org/
+Six (>= 1.7.0)
+    https://pypi.python.org/pypi/six
 Git (>= 1.6)
     http://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
