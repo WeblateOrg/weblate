@@ -22,6 +22,7 @@
 Tests for translation models.
 """
 
+from unittest import SkipTest
 from django.test import TestCase
 from django.conf import settings
 from django.utils import timezone
@@ -92,25 +93,26 @@ class RepoTestCase(TestCase):
         # Create repository copy for the test
         shutil.copytree(self.git_base_repo_path, self.git_repo_path)
 
-        # Clone repo for testing
-        if not os.path.exists(self.hg_base_repo_path):
-            print(
-                'Cloning Mercurial test repository to {0}...'.format(
-                    self.hg_base_repo_path
+        if HgRepository.is_supported():
+            # Clone repo for testing
+            if not os.path.exists(self.hg_base_repo_path):
+                print(
+                    'Cloning Mercurial test repository to {0}...'.format(
+                        self.hg_base_repo_path
+                    )
                 )
-            )
-            HgRepository.clone(
-                HG_URL,
-                self.hg_base_repo_path,
-                bare=True
-            )
+                HgRepository.clone(
+                    HG_URL,
+                    self.hg_base_repo_path,
+                    bare=True
+                )
 
-        # Remove possibly existing directory
-        if os.path.exists(self.hg_repo_path):
-            shutil.rmtree(self.hg_repo_path)
+            # Remove possibly existing directory
+            if os.path.exists(self.hg_repo_path):
+                shutil.rmtree(self.hg_repo_path)
 
-        # Create repository copy for the test
-        shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
+            # Create repository copy for the test
+            shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
 
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
@@ -143,6 +145,8 @@ class RepoTestCase(TestCase):
             branch = 'default'
             repo = self.hg_repo_path
             push = self.hg_repo_path
+            if not HgRepository.is_supported():
+                raise SkipTest('Mercurial not available!')
         else:
             branch = 'master'
             repo = self.git_repo_path
