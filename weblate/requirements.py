@@ -112,7 +112,7 @@ def get_versions():
 
     name = 'six'
     url = 'https://pypi.python.org/pypi/six'
-    mod = get_version_module('social', name, url)
+    mod = get_version_module('six', name, url)
     result.append((
         name,
         url,
