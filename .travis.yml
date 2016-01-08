@@ -10,7 +10,6 @@
 language: python
 python:
   - "2.7"
-  - "3.4"
 # build matrix configuration
 env:
   matrix:
@@ -46,23 +45,9 @@ notifications:
   webhooks:
     - https://buildtimetrend.herokuapp.com/travis
 matrix:
-  exclude:
+  include:
     - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=lint
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=setup
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_DATABASE=mysql
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_DATABASE=postgresql
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.7,<1.8"
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.8,<1.9"
-    - python: "3.4"
-      env: CI_PIP_DEPS="--pre django"
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_DATABASE=postgresql CI_MODE=selenium
+      env: CI_PIP_DEPS="Django>=1.9,<1.10"
   allow_failures:
     - python: "3.4"
       env: CI_PIP_DEPS="Django>=1.9,<1.10"
