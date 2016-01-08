@@ -28,6 +28,7 @@ from django.test import TestCase
 import tempfile
 import shutil
 import os.path
+from unittest import SkipTest
 from django.utils import timezone
 
 
@@ -87,6 +88,9 @@ class VCSGitTest(RepoTestCase):
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
+        if not self._class.is_supported():
+            raise SkipTest('Not supported')
+
         self._tempdir = tempfile.mkdtemp()
         self.repo = self.clone_repo(self._tempdir)
 
