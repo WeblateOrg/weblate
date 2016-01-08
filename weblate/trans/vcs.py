@@ -153,7 +153,7 @@ class Repository(object):
                 output_err.decode('utf-8'),
                 output.decode('utf-8')
             )
-        return output
+        return output.decode('utf-8')
 
     def execute(self, args):
         '''
@@ -402,7 +402,7 @@ class GitRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(['config', path]).strip().decode('utf-8')
+        return self.execute(['config', path]).strip()
 
     def set_config(self, path, value):
         """
@@ -473,7 +473,7 @@ class GitRepository(Repository):
 
         header = True
 
-        for line in text.decode('utf-8').splitlines():
+        for line in text.splitlines():
             if header:
                 if not line:
                     header = False
@@ -888,7 +888,7 @@ class HgRepository(Repository):
         message = []
         header = True
 
-        for line in text.decode('utf-8').splitlines():
+        for line in text.splitlines():
             line = line.strip()
             if not line:
                 continue
