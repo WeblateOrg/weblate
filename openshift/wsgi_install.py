@@ -22,9 +22,9 @@
 import os
 from string import Template
 
-execfile(os.path.join(
+exec(open(os.path.join(
     os.environ['OPENSHIFT_REPO_DIR'], 'openshift', 'virtualenv.py'
-))
+)).read())
 
 
 def application(environ, start_response):

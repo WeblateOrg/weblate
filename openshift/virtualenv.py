@@ -22,4 +22,4 @@ import os
 
 VIRTENV = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
 VIRTUALENV = os.path.join(VIRTENV, 'bin/activate_this.py')
-execfile(VIRTUALENV, dict(__file__=VIRTUALENV))
+exec(open(VIRTUALENV).read(), dict(__file__=VIRTUALENV))
