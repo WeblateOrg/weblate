@@ -232,7 +232,7 @@ def bitbucket_hook_helper(data):
     else:
         LOGGER.error(
             'unsupported repository: %s',
-            repr(data['repositoru'])
+            repr(data['repository'])
         )
         raise ValueError('unsupported repository')
 
