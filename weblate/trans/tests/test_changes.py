@@ -33,7 +33,7 @@ class ChangesTest(ViewTestCase):
 
     def test_basic_csv_denied(self):
         response = self.client.get(reverse('changes-csv'))
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_basic_csv(self):
         self.make_manager()
