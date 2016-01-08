@@ -27,6 +27,7 @@ from django.contrib import messages
 from django.core.cache import cache
 import traceback
 import multiprocessing
+# pylint: disable=W0622
 from functools import reduce
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
