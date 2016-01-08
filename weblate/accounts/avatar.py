@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,11 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import urllib2
+from __future__ import unicode_literals
+
 import sys
-import urllib
 import hashlib
 import os.path
+from six.moves.urllib.request import Request, urlopen
+from six.moves.urllib.parse import urlencode
 from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -77,7 +79,7 @@ def avatar_for_email(email, size=80):
         url = "{0}avatar/{1}?{2}".format(
             appsettings.AVATAR_URL_PREFIX,
             mail_hash,
-            urllib.urlencode({
+            urlencode({
                 's': str(size),
                 'd': appsettings.AVATAR_DEFAULT_IMAGE
             })
@@ -116,7 +118,7 @@ def get_avatar_image(user, size):
     Returns avatar image from cache (if available) or downloads it.
     """
 
-    cache_key = u'avatar-img-{0}-{1}'.format(
+    cache_key = 'avatar-img-{0}-{1}'.format(
         user.username,
         size
     )
@@ -152,12 +154,12 @@ def download_avatar_image(user, size):
     Downloads avatar image from remote server.
     """
     url = avatar_for_email(user.email, size)
-    request = urllib2.Request(url)
+    request = Request(url)
     request.timeout = 0.5
     request.add_header('User-Agent', USER_AGENT)
 
     # Fire request
-    handle = urllib2.urlopen(request)
+    handle = urlopen(request)
 
     # Read and possibly convert response
     return handle.read()
@@ -191,13 +193,13 @@ def get_user_display(user, icon=True, link=False):
                 'user_avatar', kwargs={'user': user.username, 'size': 32}
             )
 
-        full_name = u'<img src="{avatar}" class="avatar" /> {name}'.format(
+        full_name = '<img src="{avatar}" class="avatar" /> {name}'.format(
             name=full_name,
             avatar=avatar
         )
 
     if link and user is not None:
-        return mark_safe(u'<a href="{link}">{name}</a>'.format(
+        return mark_safe('<a href="{link}">{name}</a>'.format(
             name=full_name,
             link=reverse('user_page', kwargs={'user': user.username}),
         ))

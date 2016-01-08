@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,7 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand, CommandError
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.db.models import Q
 from django.utils.text import slugify
 from weblate.trans.models import SubProject, Project
@@ -326,7 +326,7 @@ class Command(BaseCommand):
                 raise CommandError(
                     'Specified --main-component was not found in matches!'
                 )
-            match = force_unicode(self.main_component)
+            match = force_text(self.main_component)
             matches.remove(self.main_component)
         else:
             match = matches.pop()

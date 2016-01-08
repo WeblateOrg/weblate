@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -58,24 +58,24 @@ class OpenShiftTest(TestCase):
     def test_import_env_string(self):
         storage = FakeStorage()
         import_env_vars({'WEBLATE_FOO': '"bar"'}, storage)
-        self.assertEquals(storage.FOO, 'bar')
+        self.assertEqual(storage.FOO, 'bar')
 
     def test_import_env_int(self):
         storage = FakeStorage()
         import_env_vars({'WEBLATE_FOO': '1234'}, storage)
-        self.assertEquals(storage.FOO, 1234)
+        self.assertEqual(storage.FOO, 1234)
 
     def test_import_env_tuple(self):
         storage = FakeStorage()
         import_env_vars({'WEBLATE_FOO': '(1, 2)'}, storage)
-        self.assertEquals(storage.FOO, (1, 2))
+        self.assertEqual(storage.FOO, (1, 2))
 
     def test_import_env_env(self):
         storage = FakeStorage()
         import_env_vars({'WEBLATE_FOO': '"$BAR"', 'BAR': 'baz'}, storage)
-        self.assertEquals(storage.FOO, 'baz')
+        self.assertEqual(storage.FOO, 'baz')
 
     def test_import_env_raw(self):
         storage = FakeStorage()
         import_env_vars({'WEBLATE_FOO': '(r"/project/(.*)$$",)'}, storage)
-        self.assertEquals(storage.FOO, ('/project/(.*)$',))
+        self.assertEqual(storage.FOO, ('/project/(.*)$',))

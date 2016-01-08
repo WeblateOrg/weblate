@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -232,7 +232,7 @@ def bitbucket_hook_helper(data):
     else:
         LOGGER.error(
             'unsupported repository: %s',
-            repr(data['repositoru'])
+            repr(data['repository'])
         )
         raise ValueError('unsupported repository')
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from optparse import make_option
@@ -71,7 +72,7 @@ class Command(BaseCommand):
                 continue
 
             if line['last_name'] not in line['first_name']:
-                full_name = u'{0} {1}'.format(
+                full_name = '{0} {1}'.format(
                     line['first_name'],
                     line['last_name']
                 )

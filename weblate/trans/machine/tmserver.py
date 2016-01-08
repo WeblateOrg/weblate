@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -21,7 +21,7 @@
 from weblate.trans.machine.base import (
     MachineTranslation, MissingConfiguration
 )
-import urllib
+from six.moves.urllib.parse import quote
 
 from weblate import appsettings
 
@@ -68,9 +68,9 @@ class TMServerTranslation(MachineTranslation):
         '''
         url = '%s/tmserver/%s/%s/unit/%s' % (
             self.url,
-            urllib.quote(appsettings.SOURCE_LANGUAGE),
-            urllib.quote(language),
-            urllib.quote(text[:500].encode('utf-8').replace('\r', ' ')),
+            quote(appsettings.SOURCE_LANGUAGE),
+            quote(language),
+            quote(text[:500].encode('utf-8').replace('\r', ' ')),
         )
         response = self.json_req(url)
 

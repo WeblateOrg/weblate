@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.checks.base import (
     TargetCheck, TargetCheckWithFlag, CountingCheck
@@ -135,31 +136,31 @@ class EndStopCheck(TargetCheck):
         if self.is_language(unit, ('th', )):
             return False
         # Allow ... to be translated into ellipsis
-        if source.endswith('...') and target[-1] == u'…':
+        if source.endswith('...') and target[-1] == '…':
             return False
         if self.is_language(unit, ('ja', )) and source[-1] in (':', ';'):
             # Japanese sentence might need to end with full stop
             # in case it's used before list.
             return self.check_chars(
-                source, target, -1, (u';', u':', u'：', u'.', u'。')
+                source, target, -1, (';', ':', '：', '.', '。')
             )
         if self.is_language(unit, ('hy', )):
             return self.check_chars(
                 source, target, -1,
                 (
-                    u'.', u'。', u'।', u'۔', u'։', u'·',
-                    u'෴', u'។', ':', u'՝', '?', '!', u'`',
+                    '.', '。', '।', '۔', '։', '·',
+                    '෴', '។', ':', '՝', '?', '!', '`',
                 )
             )
         if self.is_language(unit, ('hi', 'bn')):
             # Using | instead of । is not typographically correct, but
             # seems to be quite usual
             return self.check_chars(
-                source, target, -1, (u'.', u'।', u'|')
+                source, target, -1, ('.', '।', '|')
             )
         return self.check_chars(
             source, target, -1,
-            (u'.', u'。', u'।', u'۔', u'։', u'·', u'෴', u'។')
+            ('.', '。', '।', '۔', '։', '·', '෴', '។')
         )
 
 
@@ -176,8 +177,8 @@ class EndColonCheck(TargetCheck):
     colon_fr = (
         ' :', ' : ',
         '&nbsp;:', '&nbsp;: ',
-        u'\u00A0:', u'\u00A0: ',
-        u'\u202F:' u'\u202F: '
+        '\u00A0:', '\u00A0: ',
+        '\u202F:' '\u202F: '
     )
     severity = 'warning'
 
@@ -192,7 +193,7 @@ class EndColonCheck(TargetCheck):
                 source,
                 target,
                 -1,
-                (u':', u'՝', u'`')
+                (':', '՝', '`')
             )
         return False
 
@@ -204,7 +205,7 @@ class EndColonCheck(TargetCheck):
                 source,
                 target,
                 -1,
-                (u';', u':', u'：', u'.', u'。')
+                (';', ':', '：', '.', '。')
             )
         return False
 
@@ -217,7 +218,7 @@ class EndColonCheck(TargetCheck):
             return self._check_hy(source, target)
         if self.is_language(unit, ('ja', )):
             return self._check_ja(source, target)
-        return self.check_chars(source, target, -1, (u':', u'：', u'៖'))
+        return self.check_chars(source, target, -1, (':', '：', '៖'))
 
 
 class EndQuestionCheck(TargetCheck):
@@ -233,10 +234,10 @@ class EndQuestionCheck(TargetCheck):
     question_fr = (
         ' ?', ' ? ',
         '&nbsp;?', '&nbsp;? ',
-        u'\u00A0?', u'\u00A0? ',
-        u'\u202F?', u'\u202F? '
+        '\u00A0?', '\u00A0? ',
+        '\u202F?', '\u202F? '
     )
-    question_el = ('?', ';', u';')
+    question_el = ('?', ';', ';')
     severity = 'warning'
 
     def _check_fr(self, source, target):
@@ -250,7 +251,7 @@ class EndQuestionCheck(TargetCheck):
                 source,
                 target,
                 -1,
-                (u'?', u'՞', u'։')
+                ('?', '՞', '։')
             )
         return False
 
@@ -273,7 +274,7 @@ class EndQuestionCheck(TargetCheck):
             source,
             target,
             -1,
-            (u'?', u'՞', u'؟', u'⸮', u'？', u'፧', u'꘏', u'⳺')
+            ('?', '՞', '؟', '⸮', '？', '፧', '꘏', '⳺')
         )
 
 
@@ -290,8 +291,8 @@ class EndExclamationCheck(TargetCheck):
     exclamation_fr = (
         ' !', ' ! ',
         '&nbsp;!', '&nbsp;! ',
-        u'\u00A0!', u'\u00A0! ',
-        u'\u202F!', u'\u202F! ',
+        '\u00A0!', '\u00A0! ',
+        '\u202F!', '\u202F! ',
     )
     severity = 'warning'
 
@@ -305,7 +306,7 @@ class EndExclamationCheck(TargetCheck):
             return False
         if self.is_language(unit, ('eu', )):
             if source[-1] == '!':
-                if u'¡' in target and u'!' in target:
+                if '¡' in target and '!' in target:
                     return False
         if self.is_language(unit, ('hy', )):
             return False
@@ -317,7 +318,7 @@ class EndExclamationCheck(TargetCheck):
             source,
             target,
             -1,
-            (u'!', u'！', u'՜', u'᥄', u'႟', u'߹')
+            ('!', '！', '՜', '᥄', '႟', '߹')
         )
 
 
@@ -334,9 +335,9 @@ class EndEllipsisCheck(TargetCheck):
         if not target:
             return False
         # Allow ... to be translated into ellipsis
-        if source.endswith('...') and target[-1] == u'…':
+        if source.endswith('...') and target[-1] == '…':
             return False
-        return self.check_chars(source, target, -1, (u'…', ))
+        return self.check_chars(source, target, -1, ('…', ))
 
 
 class NewlineCountingCheck(CountingCheck):
@@ -362,7 +363,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if self.is_language(unit, ('km', )):
             return False
-        return (u'\u200b' in target) != (u'\u200b' in source)
+        return ('\u200b' in target) != ('\u200b' in source)
 
 
 class MaxLengthCheck(TargetCheckWithFlag):

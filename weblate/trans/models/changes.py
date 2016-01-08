@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,6 +23,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
+from django.utils.encoding import force_text
 from weblate.trans.models.project import Project
 from weblate.accounts.avatar import get_user_display
 
@@ -282,9 +283,9 @@ class Change(models.Model):
         Returns display name for translation.
         '''
         if self.translation is not None:
-            return unicode(self.translation)
+            return force_text(self.translation)
         elif self.subproject is not None:
-            return unicode(self.subproject)
+            return force_text(self.subproject)
         elif self.dictionary is not None:
             return '%s/%s' % (
                 self.dictionary.project,

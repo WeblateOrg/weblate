@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
@@ -28,6 +29,8 @@ class PlanAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'price', 'limit_strings', 'limit_languages',
         'limit_repositories', 'limit_projects',
+        'display_limit_strings', 'display_limit_languages',
+        'display_limit_repositories', 'display_limit_projects',
     )
 
 
@@ -44,7 +47,7 @@ class BillingAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'projects__name')
 
     def list_projects(self, obj):
-        return u','.join(obj.projects.values_list('name', flat=True))
+        return ','.join(obj.projects.values_list('name', flat=True))
     list_projects.short_description = _('Projects')
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -31,7 +31,7 @@ from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
 from weblate.trans.permissions import can_download_changes
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 import csv
 
 

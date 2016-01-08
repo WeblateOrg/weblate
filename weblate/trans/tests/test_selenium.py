@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,14 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import print_function
 from unittest import SkipTest
 import time
 import django
 import os
 import new
 import json
-import httplib
 import base64
+from six.moves.http_client import HTTPConnection
 from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
@@ -60,7 +61,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
     def set_test_status(self, passed=True):
         body_content = json.dumps({"passed": passed})
-        connection = httplib.HTTPConnection("saucelabs.com")
+        connection = HTTPConnection("saucelabs.com")
         connection.request(
             'PUT',
             '/rest/v1/{}/jobs/{}'.format(
@@ -117,7 +118,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             cls.driver.implicitly_wait(10)
             cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
-            print 'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
+            print(
+                'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
+            )
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
@@ -258,7 +261,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             except WebDriverException as error:
                 # This usually happens when browser fails to delete some
                 # of the cookies for whatever reason.
-                print 'Ignoring: {0}'.format(error)
+                print('Ignoring: {0}'.format(error))
 
         # Confirm account
         self.driver.get(url)

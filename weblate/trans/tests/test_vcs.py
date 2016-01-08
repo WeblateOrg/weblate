@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.vcs import GitRepository, HgRepository, \
     RepositoryException, GitWithGerritRepository, GithubRepository
@@ -27,6 +28,7 @@ from django.test import TestCase
 import tempfile
 import shutil
 import os.path
+from unittest import SkipTest
 from django.utils import timezone
 
 
@@ -86,6 +88,9 @@ class VCSGitTest(RepoTestCase):
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
+        if not self._class.is_supported():
+            raise SkipTest('Not supported')
+
         self._tempdir = tempfile.mkdtemp()
         self.repo = self.clone_repo(self._tempdir)
 
@@ -271,9 +276,9 @@ class VCSGitTest(RepoTestCase):
         self.assertTrue(self._class.get_version() != '')
 
     def test_set_committer(self):
-        self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
+        self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
-            self.repo.get_config('user.name'), u'Foo Bar Žač'
+            self.repo.get_config('user.name'), 'Foo Bar Žač'
         )
         self.assertEqual(
             self.repo.get_config('user.email'), 'foo@example.net'
@@ -427,10 +432,10 @@ class VCSHgTest(VCSGitTest):
         self.check_valid_info(info)
 
     def test_set_committer(self):
-        self.repo.set_committer(u'Foo Bar Žač', 'foo@example.net')
+        self.repo.set_committer('Foo Bar Žač', 'foo@example.net')
         self.assertEqual(
             self.repo.get_config('ui.username'),
-            u'Foo Bar Žač <foo@example.net>'
+            'Foo Bar Žač <foo@example.net>'
         )
 
     def test_status(self):

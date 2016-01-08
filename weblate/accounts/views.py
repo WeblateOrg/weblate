@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
@@ -35,7 +36,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 from weblate.accounts.forms import (
     RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
@@ -110,7 +111,7 @@ def mail_admins_contact(request, subject, message, context, sender):
         return
 
     mail = EmailMultiAlternatives(
-        u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        '%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject % context),
         message % context,
         to=[a[1] for a in settings.ADMINS],
         headers={'Reply-To': sender},
@@ -377,7 +378,7 @@ def weblate_login(request):
         return redirect('profile')
 
     # Redirect if there is only one backend
-    auth_backends = load_backends(BACKENDS).keys()
+    auth_backends = list(load_backends(BACKENDS).keys())
     if len(auth_backends) == 1 and auth_backends[0] != 'email':
         return redirect('social:begin', auth_backends[0])
 

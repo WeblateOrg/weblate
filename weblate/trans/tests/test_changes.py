@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -33,7 +33,7 @@ class ChangesTest(ViewTestCase):
 
     def test_basic_csv_denied(self):
         response = self.client.get(reverse('changes-csv'))
-        self.assertEquals(response.status_code, 403)
+        self.assertEqual(response.status_code, 403)
 
     def test_basic_csv(self):
         self.make_manager()

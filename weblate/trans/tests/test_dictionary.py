@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@
 Tests for dictionary manipulations.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Dictionary
 from django.core.urlresolvers import reverse
@@ -70,11 +71,11 @@ class DictionaryTest(ViewTestCase):
 
         # Check they are shown
         response = self.client.get(show_url)
-        self.assertContains(response, u'podpůrná vrstva')
+        self.assertContains(response, 'podpůrná vrstva')
 
         # Change single word
-        word = Dictionary.objects.get(target=u'podpůrná vrstva')
-        word.target = u'zkouška sirén'
+        word = Dictionary.objects.get(target='podpůrná vrstva')
+        word.target = 'zkouška sirén'
         word.save()
 
         # Import file again with orverwriting
@@ -85,11 +86,11 @@ class DictionaryTest(ViewTestCase):
 
         # Check entry got overwritten
         response = self.client.get(show_url)
-        self.assertContains(response, u'podpůrná vrstva')
+        self.assertContains(response, 'podpůrná vrstva')
 
         # Change single word
-        word = Dictionary.objects.get(target=u'podpůrná vrstva')
-        word.target = u'zkouška sirén'
+        word = Dictionary.objects.get(target='podpůrná vrstva')
+        word.target = 'zkouška sirén'
         word.save()
 
         # Import file again with adding
@@ -141,7 +142,7 @@ class DictionaryTest(ViewTestCase):
         # Add word
         response = self.client.post(
             show_url,
-            {'source': 'source', 'target': u'překlad'}
+            {'source': 'source', 'target': 'překlad'}
         )
 
         # Check correct response
@@ -155,22 +156,22 @@ class DictionaryTest(ViewTestCase):
 
         # Check they are shown
         response = self.client.get(show_url)
-        self.assertContains(response, u'překlad')
+        self.assertContains(response, 'překlad')
 
         # Edit page
         response = self.client.get(edit_url + dict_id_url)
-        self.assertContains(response, u'překlad')
+        self.assertContains(response, 'překlad')
 
         # Edit translation
         response = self.client.post(
             edit_url + dict_id_url,
-            {'source': 'src', 'target': u'přkld'}
+            {'source': 'src', 'target': 'přkld'}
         )
         self.assertRedirects(response, show_url)
 
         # Check they are shown
         response = self.client.get(show_url)
-        self.assertContains(response, u'přkld')
+        self.assertContains(response, 'přkld')
 
         # Test deleting
         response = self.client.post(delete_url, {'id': dict_id})
@@ -192,7 +193,7 @@ class DictionaryTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            u'addon,doplněk'
+            'addon,doplněk'
         )
 
     def test_download_tbx(self):
@@ -208,11 +209,11 @@ class DictionaryTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            u'<term>website</term>'
+            '<term>website</term>'
         )
         self.assertContains(
             response,
-            u'<term>webové stránky</term>'
+            '<term>webové stránky</term>'
         )
 
     def test_download_po(self):
@@ -228,7 +229,7 @@ class DictionaryTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            u'msgid "wizard"\nmsgstr "průvodce"'
+            'msgid "wizard"\nmsgstr "průvodce"'
         )
 
     def test_list(self):
@@ -251,10 +252,10 @@ class DictionaryTest(ViewTestCase):
         response = self.client.get(dict_url)
         self.assertContains(response, 'Czech')
         self.assertContains(response, '1 / 7')
-        self.assertContains(response, u'datový tok')
+        self.assertContains(response, 'datový tok')
 
         # Filtering by letter
         response = self.client.get(dict_url, {'letter': 'b'})
         self.assertContains(response, 'Czech')
         self.assertContains(response, '1 / 1')
-        self.assertContains(response, u'datový tok')
+        self.assertContains(response, 'datový tok')

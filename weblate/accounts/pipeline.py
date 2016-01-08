@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,12 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
-import urllib2
+from six.moves.urllib.request import Request, urlopen
 import json
 
 from social.pipeline.partial import partial
@@ -39,14 +40,14 @@ from weblate import USER_AGENT
 def get_github_email(access_token):
     """Get real email from GitHub"""
 
-    request = urllib2.Request('https://api.github.com/user/emails')
+    request = Request('https://api.github.com/user/emails')
     request.timeout = 1.0
     request.add_header('User-Agent', USER_AGENT)
     request.add_header(
         'Authorization',
         'token {0}'.format(access_token)
     )
-    handle = urllib2.urlopen(request)
+    handle = urlopen(request)
     data = json.load(handle)
     email = None
     for entry in data:
@@ -160,7 +161,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
             last_name = details.get('last_name', '')
 
             if first_name and first_name not in last_name:
-                full_name = u'{0} {1}'.format(first_name, last_name)
+                full_name = '{0} {1}'.format(first_name, last_name)
             elif first_name:
                 full_name = first_name
             else:

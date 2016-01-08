@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@
 Tests for Git manipulation views.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
 
@@ -103,7 +104,7 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
 
     def setUp(self):
         super(GitChangeProjectTest, self).setUp()
-        self.change_unit(u'Ahoj světe!\n')
+        self.change_unit('Ahoj světe!\n')
 
 
 class GitChangeSubProjectTest(GitChangeProjectTest):
@@ -129,7 +130,7 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
 
     def setUp(self):
         super(GitCommittedChangeProjectTest, self).setUp()
-        self.change_unit(u'Ahoj světe!\n')
+        self.change_unit('Ahoj světe!\n')
         self.project.commit_pending(self.get_request('/'))
 
 

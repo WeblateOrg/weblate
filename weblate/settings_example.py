@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 import django
 import os
 from logging.handlers import SysLogHandler
@@ -81,40 +82,40 @@ TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en-us'
 
 LANGUAGES = (
-    ('az', u'Azərbaycan'),
-    ('be', u'Беларуская'),
-    ('be@latin', u'Biełaruskaja'),
-    ('br', u'Brezhoneg'),
-    ('ca', u'Català'),
-    ('cs', u'Čeština'),
-    ('da', u'Dansk'),
-    ('de', u'Deutsch'),
-    ('en', u'English'),
-    ('el', u'Ελληνικά'),
-    ('es', u'Español'),
-    ('fi', u'Suomi'),
-    ('fr', u'Français'),
-    ('fy', u'Frysk'),
-    ('gl', u'Galego'),
-    ('he', u'עברית'),
-    ('hu', u'Magyar'),
+    ('az', 'Azərbaycan'),
+    ('be', 'Беларуская'),
+    ('be@latin', 'Biełaruskaja'),
+    ('br', 'Brezhoneg'),
+    ('ca', 'Català'),
+    ('cs', 'Čeština'),
+    ('da', 'Dansk'),
+    ('de', 'Deutsch'),
+    ('en', 'English'),
+    ('el', 'Ελληνικά'),
+    ('es', 'Español'),
+    ('fi', 'Suomi'),
+    ('fr', 'Français'),
+    ('fy', 'Frysk'),
+    ('gl', 'Galego'),
+    ('he', 'עברית'),
+    ('hu', 'Magyar'),
     ('id', 'Indonesia'),
-    ('ja', u'日本語'),
-    ('ko', u'한국어'),
-    ('ksh', u'Kölsch'),
-    ('nl', u'Nederlands'),
-    ('pl', u'Polski'),
-    ('pt', u'Português'),
-    ('pt-br', u'Português brasileiro'),
-    ('ru', u'Русский'),
-    ('sk', u'Slovenčina'),
-    ('sl', u'Slovenščina'),
-    ('sr', u'Српски'),
-    ('sv', u'Svenska'),
-    ('tr', u'Türkçe'),
-    ('uk', u'Українська'),
-    ('zh-hans', u'简体字'),
-    ('zh-hant', u'正體字'),
+    ('ja', '日本語'),
+    ('ko', '한국어'),
+    ('ksh', 'Kölsch'),
+    ('nl', 'Nederlands'),
+    ('pl', 'Polski'),
+    ('pt', 'Português'),
+    ('pt-br', 'Português brasileiro'),
+    ('ru', 'Русский'),
+    ('sk', 'Slovenčina'),
+    ('sl', 'Slovenščina'),
+    ('sr', 'Српски'),
+    ('sv', 'Svenska'),
+    ('tr', 'Türkçe'),
+    ('uk', 'Українська'),
+    ('zh-hans', '简体字'),
+    ('zh-hant', '正體字'),
 )
 
 SITE_ID = 1
@@ -428,7 +429,7 @@ MT_GOOGLE_KEY = None
 MT_TMSERVER = None
 
 # Title of site to use
-SITE_TITLE = u'Weblate'
+SITE_TITLE = 'Weblate'
 
 # URL of login
 LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
@@ -446,7 +447,7 @@ ANONYMOUS_USER_NAME = 'anonymous'
 EMAIL_SEND_HTML = False
 
 # Subject of emails includes site title
-EMAIL_SUBJECT_PREFIX = u'[{0}] '.format(SITE_TITLE)
+EMAIL_SUBJECT_PREFIX = '[{0}] '.format(SITE_TITLE)
 
 # Enable remote hooks
 ENABLE_HOOKS = True

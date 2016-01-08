@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-
+from __future__ import unicode_literals
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.reports import generate_credits, generate_counts
 from django.core.urlresolvers import reverse
@@ -116,7 +116,7 @@ class ReportsTest(ViewTestCase):
                 'count': 1,
                 'name': 'Weblate Test',
                 'words': 2,
-                'email': u'noreply@weblate.org'
+                'email': 'noreply@weblate.org'
             }]
         )
 

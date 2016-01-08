@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from __future__ import print_function, unicode_literals
 
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
@@ -106,6 +108,16 @@ def get_versions():
         url,
         mod.get_version(),
         '1.7',
+    ))
+
+    name = 'six'
+    url = 'https://pypi.python.org/pypi/six'
+    mod = get_version_module('six', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '1.7.0',
     ))
 
     name = 'python-social-auth'
@@ -207,10 +219,9 @@ def check_version(name, url, version, expected):
     '''
     if expected is None:
         return False
-    looseversion = LooseVersion(version)
-    if looseversion < expected:
-        print '*** %s <%s> is too old! ***' % (name, url)
-        print 'Installed version %s, required %s' % (version, expected)
+    if LooseVersion(version) < LooseVersion(expected):
+        print('*** {0} <{1}> is too old! ***'.format(name, url))
+        print('Installed version {0}, required {1}'.format(version, expected))
         return True
 
     return False

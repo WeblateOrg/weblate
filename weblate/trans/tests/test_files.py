@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,6 +22,7 @@
 Tests for import and export.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
 from weblate.trans.tests.utils import get_test_file
@@ -33,8 +34,8 @@ TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
 TEST_MO = get_test_file('cs.mo')
 TEST_ANDROID = get_test_file('strings-cs.xml')
 
-TRANSLATION_OURS = u'Nazdar světe!\n'
-TRANSLATION_PO = u'Ahoj světe!\n'
+TRANSLATION_OURS = 'Nazdar světe!\n'
+TRANSLATION_PO = 'Ahoj světe!\n'
 
 
 class ImportBaseTest(ViewTestCase):

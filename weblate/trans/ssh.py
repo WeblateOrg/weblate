@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -228,4 +228,4 @@ def create_ssh_wrapper():
             identity=ssh_file(RSA_KEY),
         ))
 
-    os.chmod(ssh_wrapper, 0755)
+    os.chmod(ssh_wrapper, 0o755)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -22,7 +22,9 @@
 Tests for unitdata models.
 """
 
+from __future__ import unicode_literals
 from django.test import TestCase
+from django.utils.encoding import force_text
 from weblate.lang.models import Language
 from weblate.trans.models import Check, Project
 
@@ -44,14 +46,14 @@ class UnitdataTestCase(TestCase):
     def test_check(self):
         check = self.create_check('same')
         self.assertEqual(
-            unicode(check.get_description()),
-            u'Source and translated strings are same'
+            force_text(check.get_description()),
+            'Source and translated strings are same'
         )
         self.assertEqual(check.get_severity(), 'warning')
         self.assertTrue(
             check.get_doc_url().endswith('user/checks.html#check-same')
         )
-        self.assertEqual(unicode(check), u'test/Acholi: same')
+        self.assertEqual(force_text(check), 'test/Acholi: same')
 
     def test_check_nonexisting(self):
         check = self.create_check('-invalid-')

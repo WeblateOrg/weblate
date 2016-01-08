@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -19,6 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from weblate.trans.models import IndexUpdate, Unit
 from weblate.trans.search import update_index
 from optparse import make_option
@@ -43,12 +44,14 @@ class Command(BaseCommand):
         source_unit_ids = set()
 
         # Grab all updates from the database
-        for update in IndexUpdate.objects.all()[:options['limit']].iterator():
-            indexupdates.add(update.pk)
-            unit_ids.add(update.unit_id)
+        with transaction.atomic():
+            updates = IndexUpdate.objects.all()
+            for update in updates[:options['limit']].iterator():
+                indexupdates.add(update.pk)
+                unit_ids.add(update.unit_id)
 
-            if update.source:
-                source_unit_ids.add(update.unit_id)
+                if update.source:
+                    source_unit_ids.add(update.unit_id)
 
         # Filter matching units
         units = Unit.objects.filter(
@@ -62,4 +65,5 @@ class Command(BaseCommand):
         update_index(units, source_units)
 
         # Delete processed updates
-        IndexUpdate.objects.filter(id__in=indexupdates).delete()
+        with transaction.atomic():
+            IndexUpdate.objects.filter(id__in=indexupdates).delete()

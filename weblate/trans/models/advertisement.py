@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 import random
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
@@ -73,7 +74,7 @@ class AdvertisementManager(models.Manager):
             text = text.format(url)
         elif placement == Advertisement.PLACEMENT_MAIL_HTML:
             text, url = random.choice(self._fallback_choices_html)
-            text = u'<a href="{0}">{1}</a>'.format(
+            text = '<a href="{0}">{1}</a>'.format(
                 url, text
             )
         else:

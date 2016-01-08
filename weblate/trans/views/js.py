@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -37,7 +37,7 @@ from weblate.trans.permissions import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
 
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 
 
 def get_string(request, unit_id):
@@ -216,7 +216,7 @@ def mt_services(request):
     Generates list of installed machine translation services in JSON.
     '''
     # Machine translation
-    machine_services = MACHINE_TRANSLATION_SERVICES.keys()
+    machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
 
     return JsonResponse(
         data=machine_services,

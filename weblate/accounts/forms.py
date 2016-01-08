@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from itertools import chain
 import unicodedata
 
@@ -25,7 +26,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from crispy_forms.helper import FormHelper
 
 from weblate.accounts.models import Profile, VerifiedEmail
@@ -45,7 +46,7 @@ def remove_accents(input_str):
     """
     Removes accents from a string.
     """
-    nkfd_form = unicodedata.normalize('NFKD', force_unicode(input_str))
+    nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
     only_ascii = nkfd_form.encode('ASCII', 'ignore')
     return only_ascii
 
@@ -65,7 +66,7 @@ def sort_choices(choices):
         collator = pyuca.Collator()
         return sorted(
             choices,
-            key=lambda tup: collator.sort_key(force_unicode(tup[1]))
+            key=lambda tup: collator.sort_key(force_text(tup[1]))
         )
 
 
@@ -126,7 +127,7 @@ class SortedSelectMixin(object):
         Renders sorted options.
         '''
         # Normalize to strings.
-        selected_choices = set(force_unicode(v) for v in selected_choices)
+        selected_choices = set(force_text(v) for v in selected_choices)
         output = []
 
         # Actually sort values
@@ -139,7 +140,7 @@ class SortedSelectMixin(object):
                     selected_choices, option_value, option_label
                 )
             )
-        return u'\n'.join(output)
+        return '\n'.join(output)
 
 
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
@@ -429,7 +430,7 @@ class PasswordForm(forms.Form):
         '''
         if len(self.cleaned_data['password1']) < 6:
             raise forms.ValidationError(
-                _(u'Password needs to have at least six characters.')
+                _('Password needs to have at least six characters.')
             )
         return self.cleaned_data['password1']
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from unittest import TestCase
 from weblate.trans.simplediff import html_diff
 from weblate.trans.templatetags.translations import format_translation
@@ -60,7 +61,7 @@ class DiffTest(TestCase):
                 unit.translation.subproject.project.source_language,
                 diff='Hello world!',
             )['items'][0]['content'],
-            u'Hello wor<del>l</del>d!'
+            'Hello wor<del>l</del>d!'
         )
 
     def test_fmtsearchmatch(self):
@@ -70,5 +71,5 @@ class DiffTest(TestCase):
                 MockLanguage('en'),
                 search_match='hello'
             )['items'][0]['content'],
-            u'<span class="hlmatch">Hello</span> world!'
+            '<span class="hlmatch">Hello</span> world!'
         )

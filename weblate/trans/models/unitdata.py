@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Count
 from django.contrib.auth.models import User
@@ -118,7 +119,7 @@ class Suggestion(models.Model):
         app_label = 'trans'
 
     def __unicode__(self):
-        return u'suggestion for {0} by {1}'.format(
+        return 'suggestion for {0} by {1}'.format(
             self.contentsum,
             self.user.username if self.user else 'unknown',
         )
@@ -183,7 +184,7 @@ class Vote(models.Model):
             vote = '+1'
         else:
             vote = '-1'
-        return u'{0} for {1} by {2}'.format(
+        return '{0} for {1} by {2}'.format(
             vote,
             self.suggestion,
             self.user.username,
@@ -236,7 +237,7 @@ class Comment(models.Model):
         app_label = 'trans'
 
     def __unicode__(self):
-        return u'comment for {0} by {1}'.format(
+        return 'comment for {0} by {1}'.format(
             self.contentsum,
             self.user.username if self.user else 'unknown',
         )
@@ -273,7 +274,7 @@ class Check(models.Model):
         unique_together = ('contentsum', 'project', 'language', 'check')
 
     def __unicode__(self):
-        return u'{0}/{1}: {2}'.format(
+        return '{0}/{1}: {2}'.format(
             self.project,
             self.language,
             self.check,

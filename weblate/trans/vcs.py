@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,12 +20,13 @@
 """
 Minimal distributed version control system abstraction for Weblate needs.
 """
+from __future__ import unicode_literals
 import subprocess
 import os
 import os.path
 import email.utils
 import re
-import ConfigParser
+from six.moves.configparser import RawConfigParser
 import hashlib
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
@@ -152,7 +153,7 @@ class Repository(object):
                 output_err.decode('utf-8'),
                 output.decode('utf-8')
             )
-        return output
+        return output.decode('utf-8')
 
     def execute(self, args):
         '''
@@ -268,7 +269,7 @@ class Repository(object):
             return False
         if cls.req_version is None:
             cls._is_supported = True
-        elif LooseVersion(version) >= cls.req_version:
+        elif LooseVersion(version) >= LooseVersion(cls.req_version):
             cls._is_supported = True
         else:
             cls._is_supported = False
@@ -401,7 +402,7 @@ class GitRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(['config', path]).strip().decode('utf-8')
+        return self.execute(['config', path]).strip()
 
     def set_config(self, path, value):
         """
@@ -757,7 +758,7 @@ class HgRepository(Repository):
         """
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
-        config = ConfigParser.RawConfigParser()
+        config = RawConfigParser()
         config.read(filename)
         if config.has_option(section, option):
             return config.get(section, option).decode('utf-8')
@@ -770,7 +771,9 @@ class HgRepository(Repository):
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         value = value.encode('utf-8')
-        config = ConfigParser.RawConfigParser()
+        section = section.encode('utf-8')
+        option = option.encode('utf-8')
+        config = RawConfigParser()
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
@@ -787,10 +790,7 @@ class HgRepository(Repository):
         """
         self.set_config(
             'ui.username',
-            u'{0} <{1}>'.format(
-                name,
-                mail
-            )
+            '{0} <{1}>'.format(name, mail)
         )
 
     def reset(self, branch):
@@ -933,9 +933,7 @@ class HgRepository(Repository):
         output = cls._popen(['version', '-q'])
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError(
-                u'Failed to parse version string: {0}'.format(output)
-            )
+            raise OSError('Failed to parse version string: {0}'.format(output))
         return matches.group(1)
 
     def commit(self, message, author=None, timestamp=None, files=None):

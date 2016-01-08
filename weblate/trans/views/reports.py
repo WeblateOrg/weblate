@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from weblate.trans.models.changes import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.views.helper import get_subproject
@@ -74,9 +75,9 @@ def get_credits(request, project, subproject):
     if form.cleaned_data['style'] == 'html':
         start = '<table>'
         row_start = '<tr>'
-        language_format = u'<th>{0}</th>'
+        language_format = '<th>{0}</th>'
         translator_start = '<td><ul>'
-        translator_format = u'<li><a href="mailto:{0}">{1}</a></li>'
+        translator_format = '<li><a href="mailto:{0}">{1}</a></li>'
         translator_end = '</ul></td>'
         row_end = '</tr>'
         mime = 'text/html'
@@ -84,9 +85,9 @@ def get_credits(request, project, subproject):
     else:
         start = ''
         row_start = ''
-        language_format = u'* {0}\n'
+        language_format = '* {0}\n'
         translator_start = ''
-        translator_format = u'    * {1} <{0}>'
+        translator_format = '    * {1} <{0}>'
         translator_end = ''
         row_end = ''
         mime = 'text/plain'
@@ -101,7 +102,7 @@ def get_credits(request, project, subproject):
         result.append(row_start)
         result.append(language_format.format(name))
         result.append(
-            u'{0}{1}{2}'.format(
+            '{0}{1}{2}'.format(
                 translator_start,
                 '\n'.join(
                     [translator_format.format(*t) for t in translators]
@@ -145,7 +146,7 @@ def generate_counts(component, start_date, end_date):
                 result[email]['words'] += words
                 result[email]['count'] += 1
 
-    return result.values()
+    return list(result.values())
 
 
 @login_required
@@ -177,7 +178,7 @@ def get_counts(request, project, subproject):
             '<th>Words</th><th>Count</th></tr>'
         )
         row_start = '<tr>'
-        cell_name = cell_email = cell_words = cell_count = u'<td>{0}</td>\n'
+        cell_name = cell_email = cell_words = cell_count = '<td>{0}</td>\n'
         row_end = '</tr>'
         mime = 'text/html'
         end = '</table>'
@@ -196,8 +197,8 @@ def get_counts(request, project, subproject):
             'Count'
         )
         row_start = ''
-        cell_name = cell_email = u'{0:40} '
-        cell_words = cell_count = u'{0:10} '
+        cell_name = cell_email = '{0:40} '
+        cell_words = cell_count = '{0:10} '
         row_end = ''
         mime = 'text/plain'
         end = heading
@@ -210,7 +211,7 @@ def get_counts(request, project, subproject):
         if row_start:
             result.append(row_start)
         result.append(
-            u'{0}{1}{2}{3}'.format(
+            '{0}{1}{2}{3}'.format(
                 cell_name.format(item['name']),
                 cell_email.format(item['email']),
                 cell_words.format(item['words']),

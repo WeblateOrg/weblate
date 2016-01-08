@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from weblate.trans.autofixes.base import AutoFix
 from django.utils.translation import ugettext_lazy as _
 
@@ -30,8 +31,8 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     name = _('Trailing ellipsis')
 
     def fix_single_target(self, target, source, unit):
-        if source and source[-1] == u'…' and target.endswith('...'):
-            return u'%s…' % target[:-3], True
+        if source and source[-1] == '…' and target.endswith('...'):
+            return '%s…' % target[:-3], True
         return target, False
 
 
@@ -45,6 +46,6 @@ class RemoveZeroSpace(AutoFix):
     def fix_single_target(self, target, source, unit):
         if unit.translation.language.code.split('_')[0] == 'km':
             return target, False
-        if u'\u200b' not in source and u'\u200b' in target:
-            return target.replace(u'\u200b', ''), True
+        if '\u200b' not in source and '\u200b' in target:
+            return target.replace('\u200b', ''), True
         return target, False

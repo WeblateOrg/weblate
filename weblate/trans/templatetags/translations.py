@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,11 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.utils.html import escape, urlize
 from django.contrib.admin.templatetags.admin_static import static
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext, ugettext_lazy
 from django.utils import timezone
 from django import template
@@ -44,8 +45,8 @@ from weblate.trans.checks import CHECKS
 
 register = template.Library()
 
-SPACE_NL = u'<span class="hlspace space-nl" title="{0}"></span><br />'
-SPACE_TAB = u'<span class="hlspace space-tab" title="{0}"></span>'
+SPACE_NL = '<span class="hlspace space-nl" title="{0}"></span><br />'
+SPACE_TAB = '<span class="hlspace space-tab" title="{0}"></span>'
 
 WHITESPACE_RE = re.compile(r'(  +| $|^ )')
 NEWLINES_RE = re.compile(r'\r\n|\r|\n')
@@ -61,7 +62,7 @@ NAME_MAPPING = {
     None: ugettext_lazy('Possible configuration')
 }
 
-FLAG_TEMPLATE = u'<i title="{0}" class="fa fa-{1}"></i>'
+FLAG_TEMPLATE = '<i title="{0}" class="fa fa-{1}"></i>'
 
 
 def fmt_whitespace(value):
@@ -110,11 +111,11 @@ def format_translation(value, language, diff=None, search_match=None,
     for idx, value in enumerate(plurals):
 
         # HTML escape
-        value = escape(force_unicode(value))
+        value = escape(force_text(value))
 
         # Format diff if there is any
         if diff is not None:
-            diffvalue = escape(force_unicode(diff[idx]))
+            diffvalue = escape(force_text(diff[idx]))
             value = html_diff(diffvalue, value)
 
         # Format search term
@@ -126,7 +127,7 @@ def format_translation(value, language, diff=None, search_match=None,
             for variation in re.findall(caseless, value):
                 value = re.sub(
                     caseless,
-                    u'<span class="hlmatch">{0}</span>'.format(variation),
+                    '<span class="hlmatch">{0}</span>'.format(variation),
                     value,
                 )
 
@@ -249,10 +250,10 @@ def admin_boolean_icon(val):
     else:
         ext = 'gif'
     icon_url = static(
-        u'admin/img/icon-{0}.{1}'.format(TYPE_MAPPING[val], ext)
+        'admin/img/icon-{0}.{1}'.format(TYPE_MAPPING[val], ext)
     )
     return mark_safe(
-        u'<img src="{url}" alt="{text}" title="{text}" />'.format(
+        '<img src="{url}" alt="{text}" title="{text}" />'.format(
             url=icon_url,
             text=NAME_MAPPING[val],
         )

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,6 +20,8 @@
 '''
 File format specific behavior.
 '''
+
+from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from translate.convert import po2php
 from translate.storage.lisa import LISAfile
@@ -42,8 +44,7 @@ import re
 import csv
 import traceback
 import importlib
-from StringIO import StringIO
-import __builtin__
+from six import StringIO
 
 
 FILE_FORMATS = {}
@@ -61,6 +62,7 @@ class StringIOMode(StringIO):
     StringIO with mode attribute to make ttkit happy.
     """
     def __init__(self, filename, data):
+        # pylint: disable=W0233
         StringIO.__init__(self, data)
         self.mode = 'r'
         self.name = filename
@@ -224,7 +226,7 @@ class FileUnit(object):
                 # translate.storage.properties.propunit.gettarget
                 # which for some reason does not return translation
                 value = quote.propertiesdecode(self.unit.value)
-                value = re.sub(u"\\\\ ", u" ", value)
+                value = re.sub('\\\\ ', ' ', value)
                 return value
             return self.unit.value
         else:
@@ -428,12 +430,6 @@ class FileFormat(object):
         '''
         Loads file using defined loader.
         '''
-        # Workaround for _ created by interactive interpreter and
-        # later used instead of gettext by ttkit
-        if ('_' in __builtin__.__dict__ and
-                not callable(__builtin__.__dict__['_'])):
-            del __builtin__.__dict__['_']
-
         # Add missing mode attribute to Django file wrapper
         if (not isinstance(storefile, basestring) and
                 not hasattr(storefile, 'mode')):
@@ -675,7 +671,7 @@ class FileFormat(object):
         if store is None:
             return False
 
-        if cls.monolingual is False and str(store) == '':
+        if cls.monolingual is False and str(store) == b'':
             return False
 
         return True
@@ -876,10 +872,10 @@ class PoFormat(FileFormat):
         with open(base, 'r') as handle:
             data = handle.read()
         # Assume input is UTF-8 if not specified
-        if 'Content-Type: text/plain; charset=CHARSET' in data:
+        if b'Content-Type: text/plain; charset=CHARSET' in data:
             data = data.replace(
-                'Content-Type: text/plain; charset=CHARSET',
-                'Content-Type: text/plain; charset=UTF-8'
+                b'Content-Type: text/plain; charset=CHARSET',
+                b'Content-Type: text/plain; charset=UTF-8'
             )
         process = subprocess.Popen(
             [

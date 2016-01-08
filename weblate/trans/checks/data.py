@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import unicode_literals
 
 # We ignore some words which are usually not translated
 SAME_BLACKLIST = frozenset((
@@ -834,7 +835,7 @@ SAME_BLACKLIST = frozenset((
     'belgium',
     'bengali',
     'bodo',
-    u'bokmål',
+    'bokmål',
     'bosnian',
     'brazil',
     'breton',
@@ -865,7 +866,7 @@ SAME_BLACKLIST = frozenset((
     'finnish',
     'flemish',
     'franco',
-    u'franco-provençal',
+    'franco-provençal',
     'french',
     'frisian',
     'friulian',
@@ -939,7 +940,7 @@ SAME_BLACKLIST = frozenset((
     'polish',
     'portugal',
     'portuguese',
-    u'provençal',
+    'provençal',
     'punjabi',
     'pushto',
     'romanian',

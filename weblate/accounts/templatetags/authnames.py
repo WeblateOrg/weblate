@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -20,6 +20,7 @@
 """
 Provides user friendly names for social authentication methods.
 """
+from __future__ import unicode_literals
 from django import template
 from django.utils.safestring import mark_safe
 
@@ -44,12 +45,12 @@ SOCIALS = {
     'stackoverflow': {'name': 'Stack Overflow', 'fa_icon': 'stackoverflow'},
 }
 
-FA_SOCIAL_TEMPLATE = u'''
+FA_SOCIAL_TEMPLATE = '''
 <i class="fa fa-lg {extra_class} fa-wl-social fa-{fa_icon}"></i>
 {separator}
 {name}
 '''
-FL_SOCIAL_TEMPLATE = u'''
+FL_SOCIAL_TEMPLATE = '''
 <span class="fl fa-lg {extra_class} fl-{fl_icon}"></span>
 {separator}
 {name}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -25,6 +25,7 @@ from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
 from django.shortcuts import get_object_or_404
 import django.utils.translation
+from django.utils.translation import trans_real
 
 
 def get_translation(request, project, subproject, lang, skip_acl=False):
@@ -101,9 +102,13 @@ def try_set_language(lang):
 
     try:
         django.utils.translation.activate(lang)
+        # workaround for https://code.djangoproject.com/ticket/26050
+        # pylint: disable=W0212
+        if trans_real.catalog()._catalog is None:
+            raise Exception('Invalid language!')
     except Exception:
         # Ignore failure on activating language
-        pass
+        django.utils.translation.activate('en')
     try:
         return Language.objects.get(code=lang)
     except Language.DoesNotExist:

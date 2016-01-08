@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,9 +23,9 @@ from django.template.loader import render_to_string
 from PIL import Image, ImageDraw
 from weblate.trans.fonts import is_base, get_font
 from weblate.appsettings import ENABLE_HTTPS
-from cStringIO import StringIO
+from six import StringIO
 import os.path
-import urllib
+from six.moves.urllib.parse import quote
 
 
 COLOR_DATA = {
@@ -360,7 +360,7 @@ class ShieldsBadgeWidget(Widget):
 
         return '{0}://img.shields.io/badge/{1}-{2}-{3}.svg'.format(
             proto,
-            urllib.quote(_('translated').encode('utf-8')),
+            quote(_('translated').encode('utf-8')),
             '{0}%25'.format(int(self.percent)),
             color
         )

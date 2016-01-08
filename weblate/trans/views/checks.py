@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import urllib
+from six.moves.urllib.parse import urlencode
 
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
@@ -42,7 +42,7 @@ def acl_checks(user):
 
 def encode_optional(params):
     if params:
-        return '?{0}'.format(urllib.urlencode(params))
+        return '?{0}'.format(urlencode(params))
     else:
         return ''
 

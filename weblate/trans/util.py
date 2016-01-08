@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -23,10 +23,11 @@ from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
 from django.conf import settings
+from django.utils.encoding import force_text
 from importlib import import_module
 import os
 import sys
-import urlparse
+from six.moves.urllib.parse import urlparse
 import hashlib
 import traceback
 from weblate.logger import LOGGER
@@ -175,7 +176,7 @@ def cleanup_repo_url(url):
     """
     Removes credentials from repository URL.
     """
-    parsed = urlparse.urlparse(url)
+    parsed = urlparse(url)
     if parsed.username and parsed.password:
         return url.replace(
             '{0}:{1}@'.format(
@@ -226,7 +227,7 @@ def report_error(error, exc_info, request=None, extra_data=None):
     LOGGER.error(
         'Handled exception %s: %s',
         error.__class__.__name__,
-        str(error)
+        force_text(error).encode('utf-8')
     )
 
     # Print error when running testsuite

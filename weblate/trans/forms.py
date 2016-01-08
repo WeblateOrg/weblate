@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 #
 # This file is part of Weblate <https://weblate.org/>
 #
@@ -18,12 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django import forms
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from django.db.models import Q
@@ -39,40 +40,40 @@ from weblate.trans.permissions import (
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
-from urllib import urlencode
+from six.moves.urllib.parse import urlencode
 from datetime import date
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 
-ICON_TEMPLATE = u'''
+ICON_TEMPLATE = '''
 <i class="fa fa-{0}"></i> {1}
 '''
-BUTTON_TEMPLATE = u'''
+BUTTON_TEMPLATE = '''
 <button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
 '''
-RADIO_TEMPLATE = u'''
+RADIO_TEMPLATE = '''
 <label class="btn btn-default {0}" title="{1}">
 <input type="radio" name="{2}" value="{3}" {4}/>
 {5}
 </label>
 '''
-GROUP_TEMPLATE = u'''
+GROUP_TEMPLATE = '''
 <div class="btn-group btn-group-xs" {0}>{1}</div>
 '''
-TOOLBAR_TEMPLATE = u'''
+TOOLBAR_TEMPLATE = '''
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 '''
-EDITOR_TEMPLATE = u'''
+EDITOR_TEMPLATE = '''
 <div class="translation-item">
 {0}<label for="{1}">{2}</label>
 {3}
 </div>
 '''
-PLURALS_TEMPLATE = u'''
+PLURALS_TEMPLATE = '''
 <p class="help-block pull-right flip"><a href="{0}">{1}</a></p>
 <p class="help-block">{2}</p>
 '''
-COPY_TEMPLATE = u'''
+COPY_TEMPLATE = '''
 data-loading-text="{0}" data-href="{1}" data-checksum="{2}"
 '''
 
@@ -92,7 +93,7 @@ class PluralTextarea(forms.Textarea):
             append = ''
         # Copy button
         extra_params = COPY_TEMPLATE.format(
-            ugettext(u'Loading…'),
+            ugettext('Loading…'),
             ''.join((
                 reverse('js-get', kwargs={'unit_id': unit.id}),
                 append,
@@ -123,7 +124,7 @@ class PluralTextarea(forms.Textarea):
                 )
             )
         groups.append(
-            GROUP_TEMPLATE.format('', u'\n'.join(chars))
+            GROUP_TEMPLATE.format('', '\n'.join(chars))
         )
 
         # RTL/LTR switch
@@ -150,11 +151,11 @@ class PluralTextarea(forms.Textarea):
             groups.append(
                 GROUP_TEMPLATE.format(
                     'data-toggle="buttons"',
-                    u'\n'.join(rtl_switch)
+                    '\n'.join(rtl_switch)
                 )
             )
 
-        return TOOLBAR_TEMPLATE.format(u'\n'.join(groups))
+        return TOOLBAR_TEMPLATE.format('\n'.join(groups))
 
     def render(self, name, unit, attrs=None):
         '''
@@ -202,9 +203,9 @@ class PluralTextarea(forms.Textarea):
             )
 
         # Show plural equation for more strings
-        pluralmsg = u''
+        pluralmsg = ''
         if len(values) > 1:
-            pluralinfo = u'<abbr title="{0}">{1}</abbr>: {2}'.format(
+            pluralinfo = '<abbr title="{0}">{1}</abbr>: {2}'.format(
                 ugettext(
                     'This equation identifies which plural form '
                     'will be used based on given count (n).'
@@ -231,7 +232,7 @@ class PluralTextarea(forms.Textarea):
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ''))
-        ret = [smart_unicode(r.replace('\r', '')) for r in ret]
+        ret = [smart_text(r.replace('\r', '')) for r in ret]
         return ret
 
 
