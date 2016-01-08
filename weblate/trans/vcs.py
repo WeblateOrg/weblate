@@ -788,10 +788,7 @@ class HgRepository(Repository):
         """
         self.set_config(
             'ui.username',
-            '{0} <{1}>'.format(
-                name,
-                mail
-            )
+            '{0} <{1}>'.format(name, mail)
         )
 
     def reset(self, branch):
