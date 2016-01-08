@@ -50,8 +50,8 @@ class Command(BaseCommand):
                 indexupdates.add(update.pk)
                 unit_ids.add(update.unit_id)
 
-            if update.source:
-                source_unit_ids.add(update.unit_id)
+                if update.source:
+                    source_unit_ids.add(update.unit_id)
 
         # Filter matching units
         units = Unit.objects.filter(
