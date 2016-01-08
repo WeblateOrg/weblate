@@ -48,6 +48,10 @@ matrix:
   include:
     - python: "3.4"
       env: CI_PIP_DEPS="Django>=1.9,<1.10"
+    - python: "3.4"
+      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=lint
   allow_failures:
     - python: "3.4"
       env: CI_PIP_DEPS="Django>=1.9,<1.10"
+    - python: "3.4"
+      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=lint
