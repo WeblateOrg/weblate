@@ -18,12 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from django.test import TestCase
-from weblate.trans.models import Project
-from weblate.trans.permissions import (
-    check_owner, check_permission, can_delete_comment
+from weblate.lang.models import Language
+from weblate.trans.models import (
+    GroupACL, Project, Translation
 )
+from weblate.trans.permissions import (
+    check_owner, check_permission, can_delete_comment, can_edit
+)
+from weblate.trans.tests.test_models import ModelTestCase
 
 
 class PermissionsTest(TestCase):
@@ -76,3 +80,51 @@ class PermissionsTest(TestCase):
         self.assertFalse(self.project.permissions_cache[key])
         self.project.permissions_cache[key] = True
         self.assertTrue(can_delete_comment(self.user, self.project))
+
+
+class GroupACLTest(ModelTestCase):
+
+    PERMISSION = "trans.save_translation"
+
+    def setUp(self):
+        super(GroupACLTest, self).setUp()
+
+        self.user = User.objects.create(username="user")
+        self.privileged = User.objects.create(username="privileged")
+        self.group = Group.objects.create(name="testgroup")
+        self.project = self.subproject.project
+        self.language = Language.objects.get_default()
+        self.trans = Translation.objects.create(
+            subproject=self.subproject, language=self.language,
+            filename="this/is/not/a.template"
+        )
+
+        app, perm = self.PERMISSION.split('.')
+        self.permission = Permission.objects.get(
+            codename=perm, content_type__app_label=app
+        )
+
+        self.group.permissions.add(self.permission)
+        self.privileged.groups.add(self.group)
+
+
+
+    def test_acl_lockout(self):
+        self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
+        self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
+
+        acl = GroupACL.objects.create(subproject=self.subproject)
+        acl.groups.add(self.group)
+
+        self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
+        self.assertFalse(can_edit(self.user, self.trans, self.PERMISSION))
+
+    def test_acl_overlap(self):
+        acl_lang = GroupACL.objects.create(language=self.language)
+        acl_lang.groups.add(self.group)
+
+        self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
+
+        acl_sub = GroupACL.objects.create(subproject=self.subproject)
+
+        self.assertFalse(can_edit(self.privileged, self.trans, self.PERMISSION))

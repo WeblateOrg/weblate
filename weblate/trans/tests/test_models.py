@@ -929,7 +929,7 @@ class WhiteboardMessageTest(TestCase):
 class ModelTestCase(RepoTestCase):
     def setUp(self):
         super(ModelTestCase, self).setUp()
-        self.create_subproject()
+        self.subproject = self.create_subproject()
 
 
 class SourceTest(ModelTestCase):
