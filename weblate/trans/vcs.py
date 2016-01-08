@@ -889,7 +889,7 @@ class HgRepository(Repository):
         message = []
         header = True
 
-        for line in text.splitlines():
+        for line in text.decode('utf-8').splitlines():
             line = line.strip()
             if not line:
                 continue
