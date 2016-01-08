@@ -216,7 +216,7 @@ def mt_services(request):
     Generates list of installed machine translation services in JSON.
     '''
     # Machine translation
-    machine_services = MACHINE_TRANSLATION_SERVICES.keys()
+    machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
 
     return JsonResponse(
         data=machine_services,

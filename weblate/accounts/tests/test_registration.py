@@ -334,8 +334,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             follow=True
         )
         user = User.objects.get(username='weblate')
-        self.assertEquals(user.first_name, 'Weblate')
-        self.assertEquals(user.email, 'noreply@weblate.org')
+        self.assertEqual(user.first_name, 'Weblate')
+        self.assertEqual(user.email, 'noreply@weblate.org')
 
 
 class NoCookieRegistrationTest(RegistrationTest):

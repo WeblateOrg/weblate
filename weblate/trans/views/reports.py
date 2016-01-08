@@ -146,7 +146,7 @@ def generate_counts(component, start_date, end_date):
                 result[email]['words'] += words
                 result[email]['count'] += 1
 
-    return result.values()
+    return list(result.values())
 
 
 @login_required
