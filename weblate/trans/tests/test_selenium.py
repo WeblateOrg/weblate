@@ -118,7 +118,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             cls.driver.implicitly_wait(10)
             cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
-            print('Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid))
+            print(
+                'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
+            )
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
