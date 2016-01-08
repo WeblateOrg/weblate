@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.core.management.base import BaseCommand
 from django.db.models import Count
 from weblate.trans.models import Check, get_related_units
@@ -50,7 +51,7 @@ class Command(BaseCommand):
                 continue
 
             self.stdout.write(
-                u'{0:5d} {1}'.format(
+                '{0:5d} {1}'.format(
                     item['contentsum__count'],
                     units[0].source,
                 )

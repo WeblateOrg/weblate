@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.db import models, transaction
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.core.mail import mail_admins
@@ -906,7 +907,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         report_error(error, sys.exc_info())
         self.notify_merge_failure(
             str(error),
-            u''.join(traceback.format_stack()),
+            ''.join(traceback.format_stack()),
         )
         raise ParseError(str(error))
 

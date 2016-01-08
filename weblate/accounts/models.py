@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 import os
 import sys
 import binascii
@@ -382,7 +383,7 @@ class VerifiedEmail(models.Model):
     email = models.EmailField(max_length=254)
 
     def __unicode__(self):
-        return u'{0} - {1}'.format(
+        return '{0} - {1}'.format(
             self.social.user.username,
             self.email
         )
@@ -460,7 +461,7 @@ class Profile(models.Model):
     '''
     user = models.OneToOneField(User, unique=True, editable=False)
     language = models.CharField(
-        verbose_name=_(u"Interface Language"),
+        verbose_name=_('Interface Language'),
         max_length=10,
         choices=settings.LANGUAGES
     )

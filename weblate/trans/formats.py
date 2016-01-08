@@ -20,6 +20,8 @@
 '''
 File format specific behavior.
 '''
+
+from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from translate.convert import po2php
 from translate.storage.lisa import LISAfile
@@ -224,7 +226,7 @@ class FileUnit(object):
                 # translate.storage.properties.propunit.gettarget
                 # which for some reason does not return translation
                 value = quote.propertiesdecode(self.unit.value)
-                value = re.sub(u"\\\\ ", u" ", value)
+                value = re.sub('\\\\ ', ' ', value)
                 return value
             return self.unit.value
         else:

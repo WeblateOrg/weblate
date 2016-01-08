@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -160,7 +161,7 @@ def user_full_name(strategy, details, user=None, **kwargs):
             last_name = details.get('last_name', '')
 
             if first_name and first_name not in last_name:
-                full_name = u'{0} {1}'.format(first_name, last_name)
+                full_name = '{0} {1}'.format(first_name, last_name)
             elif first_name:
                 full_name = first_name
             else:

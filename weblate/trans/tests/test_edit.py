@@ -22,6 +22,7 @@
 Tests for translation views.
 """
 
+from __future__ import unicode_literals
 import time
 
 from django.core.urlresolvers import reverse
@@ -106,9 +107,9 @@ class EditTest(ViewTestCase):
 
         response = self.edit_unit(
             'Orangutan',
-            u'Opice má %d banán.\n',
-            target_1=u'Opice má %d banány.\n',
-            target_2=u'Opice má %d banánů.\n',
+            'Opice má %d banán.\n',
+            target_1='Opice má %d banány.\n',
+            target_2='Opice má %d banánů.\n',
         )
         # We should get to second message
         self.assertRedirectsOffset(response, self.translate_url, 1)
@@ -118,15 +119,15 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(plurals), 3)
         self.assertEqual(
             plurals[0],
-            u'Opice má %d banán.\n',
+            'Opice má %d banán.\n',
         )
         self.assertEqual(
             plurals[1],
-            u'Opice má %d banány.\n',
+            'Opice má %d banány.\n',
         )
         self.assertEqual(
             plurals[2],
-            u'Opice má %d banánů.\n',
+            'Opice má %d banánů.\n',
         )
 
     def test_merge(self):

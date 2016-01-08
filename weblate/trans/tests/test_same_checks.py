@@ -22,6 +22,7 @@
 Tests for quality checks.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.checks.same import (
     SameCheck,
 )
@@ -65,16 +66,16 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                u'Linux kernel',
-                u'Linux kernel',
+                'Linux kernel',
+                'Linux kernel',
                 ''
             )
         )
         self.do_test(
             True,
             (
-                u'Linux kernel testing image',
-                u'Linux kernel testing image',
+                'Linux kernel testing image',
+                'Linux kernel testing image',
                 ''
             )
         )
@@ -117,16 +118,16 @@ class SameCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                u'(c) Copyright 2013 Michal Čihař',
-                u'(c) Copyright 2013 Michal Čihař',
+                '(c) Copyright 2013 Michal Čihař',
+                '(c) Copyright 2013 Michal Čihař',
                 ''
             )
         )
         self.do_test(
             False,
             (
-                u'© Copyright 2013 Michal Čihař',
-                u'© Copyright 2013 Michal Čihař',
+                '© Copyright 2013 Michal Čihař',
+                '© Copyright 2013 Michal Čihař',
                 ''
             )
         )

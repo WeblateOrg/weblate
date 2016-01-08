@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 import httpretty
 from django.test import TestCase
 from django.core.cache import cache
@@ -36,7 +37,7 @@ from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
 
-GLOSBE_JSON = u'''
+GLOSBE_JSON = '''
 {
     "result":"ok",
     "authors":{
@@ -58,7 +59,7 @@ GLOSBE_JSON = u'''
     "from":"eng"
 }
 '''.encode('utf-8')
-MYMEMORY_JSON = u'''
+MYMEMORY_JSON = '''
 \r\n
 {"responseData":{"translatedText":"svět"},"responseDetails":"",
 "responseStatus":200,
@@ -83,7 +84,7 @@ MYMEMORY_JSON = u'''
 "last-update-date":"2013-06-12 17:02:07","match":0.84}
 ]}
 '''.encode('utf-8')
-AMAGAMA_JSON = u'''
+AMAGAMA_JSON = '''
 [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
 '''.encode('utf-8')
 GOOGLE_JSON = '[[["violation","contravention"]]]'
@@ -172,7 +173,7 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            body=u'"svět"'.encode('utf-8')
+            body='"svět"'.encode('utf-8')
         )
 
         machine = MicrosoftTranslation()

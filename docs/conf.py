@@ -12,6 +12,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+from __future__ import unicode_literals
 import sys
 import os
 
@@ -50,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Weblate'
-copyright = u'2012 - 2015, Michal Čihař'
+project = 'Weblate'
+copyright = '2012 - 2015, Michal Čihař'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -210,8 +211,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'Weblate.tex', u'Weblate Documentation',
-   u'Michal Čihař', 'manual'),
+  ('index', 'Weblate.tex', 'Weblate Documentation',
+   'Michal Čihař', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -240,8 +241,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'weblate', u'Weblate Documentation',
-     [u'Michal Čihař'], 1)
+    ('index', 'weblate', 'Weblate Documentation',
+     ['Michal Čihař'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -254,8 +255,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Weblate', u'Weblate Documentation',
-   u'Michal Čihař', 'Weblate', 'One line description of project.',
+  ('index', 'Weblate', 'Weblate Documentation',
+   'Michal Čihař', 'Weblate', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -275,13 +276,13 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'Weblate Documentationt'
-epub_author = u'Michal Čihař'
-epub_publisher = u'Michal Čihař'
-epub_copyright = u'2012 - 2015, Michal Čihař'
+epub_title = 'Weblate Documentationt'
+epub_author = 'Michal Čihař'
+epub_publisher = 'Michal Čihař'
+epub_copyright = '2012 - 2015, Michal Čihař'
 
 # The basename for the epub file. It defaults to the project name.
-#epub_basename = u'project'
+#epub_basename = 'project'
 
 # The HTML theme for the epub output. Since the default themes are not optimized
 # for small screen space, using the same theme for HTML and epub output is

@@ -22,6 +22,7 @@
 Tests for automatix fixups.
 """
 
+from __future__ import unicode_literals
 from django.test import TestCase
 from weblate.trans.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
@@ -33,85 +34,85 @@ from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 
 class AutoFixTest(TestCase):
     def test_ellipsis(self):
-        unit = MockUnit(source=u'Foo…')
+        unit = MockUnit(source='Foo…')
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEqual(
             fix.fix_target(['Bar...'], unit),
-            ([u'Bar…'], True)
+            (['Bar…'], True)
         )
         self.assertEqual(
             fix.fix_target(['Bar... '], unit),
-            ([u'Bar... '], False)
+            (['Bar... '], False)
         )
 
     def test_no_ellipsis(self):
-        unit = MockUnit(source=u'Foo...')
+        unit = MockUnit(source='Foo...')
         fix = ReplaceTrailingDotsWithEllipsis()
         self.assertEqual(
             fix.fix_target(['Bar...'], unit),
-            ([u'Bar...'], False)
+            (['Bar...'], False)
         )
         self.assertEqual(
-            fix.fix_target([u'Bar…'], unit),
-            ([u'Bar…'], False)
+            fix.fix_target(['Bar…'], unit),
+            (['Bar…'], False)
         )
 
     def test_whitespace(self):
-        unit = MockUnit(source=u'Foo\n')
+        unit = MockUnit(source='Foo\n')
         fix = SameBookendingWhitespace()
         self.assertEqual(
             fix.fix_target(['Bar'], unit),
-            ([u'Bar\n'], True)
+            (['Bar\n'], True)
         )
         self.assertEqual(
             fix.fix_target(['Bar\n'], unit),
-            ([u'Bar\n'], False)
+            (['Bar\n'], False)
         )
-        unit = MockUnit(source=u' ')
+        unit = MockUnit(source=' ')
         self.assertEqual(
             fix.fix_target(['  '], unit),
             (['  '], False)
         )
 
     def test_no_whitespace(self):
-        unit = MockUnit(source=u'Foo')
+        unit = MockUnit(source='Foo')
         fix = SameBookendingWhitespace()
         self.assertEqual(
             fix.fix_target(['Bar'], unit),
-            ([u'Bar'], False)
+            (['Bar'], False)
         )
         self.assertEqual(
             fix.fix_target(['Bar\n'], unit),
-            ([u'Bar'], True)
+            (['Bar'], True)
         )
 
     def test_zerospace(self):
-        unit = MockUnit(source=u'Foo\u200b')
+        unit = MockUnit(source='Foo\u200b')
         fix = RemoveZeroSpace()
         self.assertEqual(
             fix.fix_target(['Bar'], unit),
-            ([u'Bar'], False)
+            (['Bar'], False)
         )
         self.assertEqual(
-            fix.fix_target([u'Bar\u200b'], unit),
-            ([u'Bar\u200b'], False)
+            fix.fix_target(['Bar\u200b'], unit),
+            (['Bar\u200b'], False)
         )
 
     def test_no_zerospace(self):
-        unit = MockUnit(source=u'Foo')
+        unit = MockUnit(source='Foo')
         fix = RemoveZeroSpace()
         self.assertEqual(
             fix.fix_target(['Bar'], unit),
-            ([u'Bar'], False)
+            (['Bar'], False)
         )
         self.assertEqual(
-            fix.fix_target([u'Bar\u200b'], unit),
-            ([u'Bar'], True)
+            fix.fix_target(['Bar\u200b'], unit),
+            (['Bar'], True)
         )
 
     def test_fix_target(self):
-        unit = MockUnit(source=u'Foo…')
+        unit = MockUnit(source='Foo…')
         fixed, fixups = fix_target(['Bar...'], unit)
-        self.assertEqual(fixed, [u'Bar…'])
+        self.assertEqual(fixed, ['Bar…'])
         self.assertEqual(len(fixups), 1)
-        self.assertEqual(unicode(fixups[0]), u'Trailing ellipsis')
+        self.assertEqual(unicode(fixups[0]), 'Trailing ellipsis')

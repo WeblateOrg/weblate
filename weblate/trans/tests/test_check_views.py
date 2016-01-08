@@ -22,6 +22,7 @@
 Tests for check views.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.tests.test_views import ViewTestCase
 from django.core.urlresolvers import reverse
 
@@ -52,7 +53,7 @@ class ChecksViewTest(ViewTestCase):
         response = self.client.get(
             reverse('show_check', kwargs={'name': 'ellipsis'})
         )
-        self.assertContains(response, u'…')
+        self.assertContains(response, '…')
 
         response = self.client.get(
             reverse('show_check', kwargs={'name': 'not-existing'})
@@ -83,7 +84,7 @@ class ChecksViewTest(ViewTestCase):
                 kwargs={'name': 'ellipsis', 'project': self.project.slug}
             )
         )
-        self.assertContains(response, u'…')
+        self.assertContains(response, '…')
 
         response = self.client.get(
             reverse(

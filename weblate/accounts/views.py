@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
@@ -110,7 +111,7 @@ def mail_admins_contact(request, subject, message, context, sender):
         return
 
     mail = EmailMultiAlternatives(
-        u'%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        '%s%s' % (settings.EMAIL_SUBJECT_PREFIX, subject % context),
         message % context,
         to=[a[1] for a in settings.ADMINS],
         headers={'Reply-To': sender},

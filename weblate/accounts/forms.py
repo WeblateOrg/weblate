@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from itertools import chain
 import unicodedata
 
@@ -139,7 +140,7 @@ class SortedSelectMixin(object):
                     selected_choices, option_value, option_label
                 )
             )
-        return u'\n'.join(output)
+        return '\n'.join(output)
 
 
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
@@ -429,7 +430,7 @@ class PasswordForm(forms.Form):
         '''
         if len(self.cleaned_data['password1']) < 6:
             raise forms.ValidationError(
-                _(u'Password needs to have at least six characters.')
+                _('Password needs to have at least six characters.')
             )
         return self.cleaned_data['password1']
 

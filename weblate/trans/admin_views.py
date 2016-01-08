@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from weblate.trans.models import SubProject, IndexUpdate
 from django.contrib.sites.models import Site
 from django.shortcuts import render
@@ -97,7 +98,7 @@ def performance(request):
         len(settings.ADMINS) > 0 or
         'noreply@weblate.org' in [x[1] for x in settings.ADMINS],
         'production-admins',
-        u', '.join([x[1] for x in settings.ADMINS]),
+        ', '.join([x[1] for x in settings.ADMINS]),
     ))
     # Check offloading indexing
     checks.append((

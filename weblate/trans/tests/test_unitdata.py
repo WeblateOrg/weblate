@@ -22,6 +22,7 @@
 Tests for unitdata models.
 """
 
+from __future__ import unicode_literals
 from django.test import TestCase
 from weblate.lang.models import Language
 from weblate.trans.models import Check, Project
@@ -45,13 +46,13 @@ class UnitdataTestCase(TestCase):
         check = self.create_check('same')
         self.assertEqual(
             unicode(check.get_description()),
-            u'Source and translated strings are same'
+            'Source and translated strings are same'
         )
         self.assertEqual(check.get_severity(), 'warning')
         self.assertTrue(
             check.get_doc_url().endswith('user/checks.html#check-same')
         )
-        self.assertEqual(unicode(check), u'test/Acholi: same')
+        self.assertEqual(unicode(check), 'test/Acholi: same')
 
     def test_check_nonexisting(self):
         check = self.create_check('-invalid-')

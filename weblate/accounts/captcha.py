@@ -21,7 +21,7 @@
 Simple mathematical captcha.
 """
 
-
+from __future__ import unicode_literals
 from django.conf import settings
 
 import hashlib
@@ -47,9 +47,9 @@ class MathCaptcha(object):
     '''
     operators = ('+', '-', '*')
     operators_display = {
-        '+': u'＋',
-        '-': u'－',
-        '*': u'×',
+        '+': '＋',
+        '-': '－',
+        '*': '×',
     }
     interval = (1, 10)
 
@@ -118,7 +118,7 @@ class MathCaptcha(object):
         Gets unicode for display.
         '''
         parts = self.question.split()
-        return u'{0} {1} {2}'.format(
+        return '{0} {1} {2}'.format(
             parts[0],
             self.operators_display[parts[1]],
             parts[2],

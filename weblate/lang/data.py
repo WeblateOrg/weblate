@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.utils.translation import pgettext_lazy
 
 
@@ -312,44 +313,44 @@ EXTRALANGS = (
     ),
     (
         'frp',
-        u'Franco-Provençal',
+        'Franco-Provençal',
         2,
         '(n > 1)',
     ),
     (
         'zh_Hant',
-        u'Traditional Chinese',
+        'Traditional Chinese',
         1,
         '0',
     ),
     (
         'zh_Hans',
-        u'Simplified Chinese',
+        'Simplified Chinese',
         1,
         '0',
     ),
     (
         'sh',
-        u'Serbo-Croatian',
+        'Serbo-Croatian',
         3,
         'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 &&'
         ' (n%100<10 || n%100>=20) ? 1 : 2',
     ),
     (
         'nl_BE',
-        u'Dutch (Belgium)',
+        'Dutch (Belgium)',
         2,
         '(n != 1)',
     ),
     (
         'ba',
-        u'Bashkir',
+        'Bashkir',
         2,
         '(n != 1)',
     ),
     (
         'yi',
-        u'Yiddish',
+        'Yiddish',
         2,
         '(n != 1)',
     ),

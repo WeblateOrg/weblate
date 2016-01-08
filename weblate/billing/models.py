@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -56,7 +57,7 @@ class Billing(models.Model):
     trial = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return u'{0} ({1})'.format(self.user, self.plan)
+        return '{0} ({1})'.format(self.user, self.plan)
 
     def count_changes(self, interval):
         return Change.objects.filter(

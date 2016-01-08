@@ -22,6 +22,7 @@
 Tests for AJAX/JS views.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import load_class
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -80,14 +81,14 @@ class JSViewsTest(ViewTestCase):
                 {
                     'quality': 100,
                     'service': 'Dummy',
-                    'text': u'Nazdar světe!',
-                    'source': u'Hello, world!\n',
+                    'text': 'Nazdar světe!',
+                    'source': 'Hello, world!\n',
                 },
                 {
                     'quality': 100,
                     'service': 'Dummy',
-                    'text': u'Ahoj světe!',
-                    'source': u'Hello, world!\n',
+                    'text': 'Ahoj světe!',
+                    'source': 'Hello, world!\n',
                 },
             ]
         )

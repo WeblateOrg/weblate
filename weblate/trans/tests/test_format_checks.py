@@ -22,6 +22,7 @@
 Tests for quality checks.
 """
 
+from __future__ import unicode_literals
 from unittest import TestCase
 from weblate.trans.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
@@ -41,78 +42,78 @@ class PythonFormatCheckTest(TestCase):
 
     def test_format(self):
         self.assertFalse(self.check.check_format(
-            u'%s string',
-            u'%s string',
+            '%s string',
+            '%s string',
             False
         ))
 
     def test_percent_format(self):
         self.assertFalse(self.check.check_format(
-            u'%d%% string',
-            u'%d%% string',
+            '%d%% string',
+            '%d%% string',
             False
         ))
 
     def test_named_format(self):
         self.assertFalse(self.check.check_format(
-            u'%(name)s string',
-            u'%(name)s string',
+            '%(name)s string',
+            '%(name)s string',
             False
         ))
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'string',
+            '%s string',
+            'string',
             False
         ))
 
     def test_missing_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'%(name)s string',
-            u'string',
+            '%(name)s string',
+            'string',
             False
         ))
 
     def test_missing_named_format_ignore(self):
         self.assertFalse(self.check.check_format(
-            u'%(name)s string',
-            u'string',
+            '%(name)s string',
+            'string',
             True
         ))
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'%c string',
+            '%s string',
+            '%c string',
             False
         ))
 
     def test_reordered_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s %d string',
-            u'%d %s string',
+            '%s %d string',
+            '%d %s string',
             False
         ))
 
     def test_wrong_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'%(name)s string',
-            u'%(jmeno)s string',
+            '%(name)s string',
+            '%(jmeno)s string',
             False
         ))
 
     def test_reordered_named_format(self):
         self.assertFalse(self.check.check_format(
-            u'%(name)s %(foo)s string',
-            u'%(foo)s %(name)s string',
+            '%(name)s %(foo)s string',
+            '%(foo)s %(name)s string',
             False
         ))
 
     def test_reordered_named_format_long(self):
         self.assertFalse(self.check.check_format(
-            u'%(count)d strings into %(languages)d languages %(percent)d%%',
-            u'%(languages)d dil içinde %(count)d satır %%%(percent)d',
+            '%(count)d strings into %(languages)d languages %(percent)d%%',
+            '%(languages)d dil içinde %(count)d satır %%%(percent)d',
             False
         ))
 
@@ -130,78 +131,78 @@ class PHPFormatCheckTest(TestCase):
 
     def test_format(self):
         self.assertFalse(self.check.check_format(
-            u'%s string',
-            u'%s string',
+            '%s string',
+            '%s string',
             False
         ))
 
     def test_named_format(self):
         self.assertFalse(self.check.check_format(
-            u'%1$s string',
-            u'%1$s string',
+            '%1$s string',
+            '%1$s string',
             False
         ))
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'string',
+            '%s string',
+            'string',
             False
         ))
 
     def test_missing_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'%1$s string',
-            u'string',
+            '%1$s string',
+            'string',
             False
         ))
 
     def test_missing_named_format_ignore(self):
         self.assertFalse(self.check.check_format(
-            u'%1$s string',
-            u'string',
+            '%1$s string',
+            'string',
             True
         ))
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'%c string',
+            '%s string',
+            '%c string',
             False
         ))
 
     def test_double_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'%s%s string',
+            '%s string',
+            '%s%s string',
             False
         ))
 
     def test_reorder_format(self):
         self.assertFalse(self.check.check_format(
-            u'%1$s %2$s string',
-            u'%2$s %1$s string',
+            '%1$s %2$s string',
+            '%2$s %1$s string',
             False
         ))
 
     def test_wrong_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'%1$s string',
-            u'%s string',
+            '%1$s string',
+            '%s string',
             False
         ))
 
     def test_wrong_percent_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s%% (0.1%%)',
-            u'%s%% (0.1%)',
+            '%s%% (0.1%%)',
+            '%s%% (0.1%)',
             False
         ))
 
     def test_missing_percent_format(self):
         self.assertFalse(self.check.check_format(
-            u'%s%% %%',
-            u'%s%% percent',
+            '%s%% %%',
+            '%s%% percent',
             False
         ))
 
@@ -219,64 +220,64 @@ class CFormatCheckTest(TestCase):
 
     def test_format(self):
         self.assertFalse(self.check.check_format(
-            u'%s string',
-            u'%s string',
+            '%s string',
+            '%s string',
             False
         ))
 
     def test_named_format(self):
         self.assertFalse(self.check.check_format(
-            u'%10s string',
-            u'%10s string',
+            '%10s string',
+            '%10s string',
             False
         ))
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'string',
+            '%s string',
+            'string',
             False
         ))
 
     def test_missing_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'%10s string',
-            u'string',
+            '%10s string',
+            'string',
             False
         ))
 
     def test_missing_named_format_ignore(self):
         self.assertFalse(self.check.check_format(
-            u'%10s string',
-            u'string',
+            '%10s string',
+            'string',
             True
         ))
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format(
-            u'%s string',
-            u'%c string',
+            '%s string',
+            '%c string',
             False
         ))
 
     def test_wrong_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'%10s string',
-            u'%20s string',
+            '%10s string',
+            '%20s string',
             False
         ))
 
     def test_reorder_format(self):
         self.assertFalse(self.check.check_format(
-            u'%1$s %2$s string',
-            u'%2$s %1$s string',
+            '%1$s %2$s string',
+            '%2$s %1$s string',
             False
         ))
 
     def test_locale_delimiter(self):
         self.assertFalse(self.check.check_format(
-            u'lines: %6.3f',
-            u'radky: %\'6.3f',
+            'lines: %6.3f',
+            'radky: %\'6.3f',
             False
         ))
 
@@ -294,70 +295,70 @@ class PythonBraceFormatCheckTest(TestCase):
 
     def test_position_format(self):
         self.assertFalse(self.check.check_format(
-            u'{} string {}',
-            u'{} string {}',
+            '{} string {}',
+            '{} string {}',
             False
         ))
 
     def test_wrong_position_format(self):
         self.assertTrue(self.check.check_format(
-            u'{} string',
-            u'{} string {}',
+            '{} string',
+            '{} string {}',
             False
         ))
 
     def test_named_format(self):
         self.assertFalse(self.check.check_format(
-            u'{s1} string {s2}',
-            u'{s1} string {s2}',
+            '{s1} string {s2}',
+            '{s1} string {s2}',
             False
         ))
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_format(
-            u'{} string',
-            u'string',
+            '{} string',
+            'string',
             False
         ))
 
     def test_missing_named_format(self):
         self.assertTrue(self.check.check_format(
-            u'{s1} string',
-            u'string',
+            '{s1} string',
+            'string',
             False
         ))
 
     def test_missing_named_format_ignore(self):
         self.assertFalse(self.check.check_format(
-            u'{s} string',
-            u'string',
+            '{s} string',
+            'string',
             True
         ))
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format(
-            u'{s} string',
-            u'{c} string',
+            '{s} string',
+            '{c} string',
             False
         ))
 
     def test_escaping(self):
         self.assertFalse(self.check.check_format(
-            u'{{ string }}',
-            u'string',
+            '{{ string }}',
+            'string',
             False
         ))
 
     def test_attribute_format(self):
         self.assertFalse(self.check.check_format(
-            u'{s.foo} string',
-            u'{s.foo} string',
+            '{s.foo} string',
+            '{s.foo} string',
             False
         ))
 
     def test_wrong_attribute_format(self):
         self.assertTrue(self.check.check_format(
-            u'{s.foo} string',
-            u'{s.bar} string',
+            '{s.foo} string',
+            '{s.bar} string',
             False
         ))

@@ -20,6 +20,7 @@
 '''
 File format specific behavior.
 '''
+from __future__ import unicode_literals
 import tempfile
 from StringIO import StringIO
 from unittest import TestCase, SkipTest
@@ -95,8 +96,8 @@ class AutoFormatTest(SimpleTestCase):
     MATCH = 'msgid_plural'
     MASK = 'po/*.po'
     EXPECTED_PATH = 'po/cs_CZ.po'
-    FIND = u'Hello, world!\n'
-    FIND_MATCH = u'Ahoj světe!\n'
+    FIND = 'Hello, world!\n'
+    FIND_MATCH = 'Ahoj světe!\n'
 
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
@@ -178,7 +179,7 @@ class PoFormatTest(AutoFormatTest):
         out = tempfile.NamedTemporaryFile()
         self.FORMAT.add_language(out.name, 'cs', TEST_POT_UNICODE)
         data = out.read().decode('utf-8')
-        self.assertTrue(u'Michal Čihař' in data)
+        self.assertTrue('Michal Čihař' in data)
         out.close()
 
 
@@ -248,7 +249,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
     EXT = 'xlf'
     COUNT = 4
     MATCH = '<file target-language="cs">'
-    FIND_MATCH = u''
+    FIND_MATCH = ''
     MASK = 'loc/*/default.xliff'
     EXPECTED_PATH = 'loc/cs_CZ/default.xliff'
 
@@ -261,8 +262,8 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     COUNT = 4
     MASK = 'resx/*.resx'
     EXPECTED_PATH = 'resx/cs_CZ.resx'
-    FIND = u'Hello'
-    FIND_MATCH = u''
+    FIND = 'Hello'
+    FIND_MATCH = ''
     MATCH = '<root></root>'
 
     def setUp(self):
@@ -299,7 +300,7 @@ class OutputTest(TestCase):
         # - Newline at the end of the file
         # - Embedded Unicode chars (not replaced by \uxxx versions)
         # - UTF-8 file
-        json_expected_output = u'''{
+        json_expected_output = '''{
     "string_abc": "Checkbox? ☑!",
     "string_xyz": "Foo Bar"
 }

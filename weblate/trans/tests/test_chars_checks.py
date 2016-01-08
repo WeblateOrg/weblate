@@ -22,6 +22,7 @@
 Tests for quality checks.
 """
 
+from __future__ import unicode_literals
 from unittest import TestCase
 from weblate.trans.checks.chars import (
     BeginNewlineCheck, EndNewlineCheck,
@@ -80,8 +81,8 @@ class EndSpaceCheckTest(CheckTestCase):
         self.test_failure_2 = ('string', 'string ', '')
 
     def test_french(self):
-        self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
-        self.do_test(True, ('Text', u'Texte ', ''), 'fr')
+        self.do_test(False, ('Text!', 'Texte !', ''), 'fr')
+        self.do_test(True, ('Text', 'Texte ', ''), 'fr')
 
 
 class EndStopCheckTest(CheckTestCase):
@@ -95,17 +96,17 @@ class EndStopCheckTest(CheckTestCase):
         self.test_failure_2 = ('string', 'string.', '')
 
     def test_japanese(self):
-        self.do_test(False, ('Text:', u'Text。', ''), 'ja')
-        self.do_test(True, ('Text:', u'Text', ''), 'ja')
+        self.do_test(False, ('Text:', 'Text。', ''), 'ja')
+        self.do_test(True, ('Text:', 'Text', ''), 'ja')
 
     def test_hindi(self):
-        self.do_test(False, ('Text.', u'Text।', ''), 'hi')
-        self.do_test(True, ('Text.', u'Text', ''), 'hi')
+        self.do_test(False, ('Text.', 'Text।', ''), 'hi')
+        self.do_test(True, ('Text.', 'Text', ''), 'hi')
 
     def test_armenian(self):
-        self.do_test(False, ('Text:', u'Text`', ''), 'hy')
-        self.do_test(False, (u'Text:', u'Text՝', ''), 'hy')
-        self.do_test(True, ('Text.', u'Text', ''), 'hy')
+        self.do_test(False, ('Text:', 'Text`', ''), 'hy')
+        self.do_test(False, ('Text:', 'Text՝', ''), 'hy')
+        self.do_test(True, ('Text.', 'Text', ''), 'hy')
 
 
 class EndColonCheckTest(CheckTestCase):
@@ -118,27 +119,27 @@ class EndColonCheckTest(CheckTestCase):
         self.test_failure_2 = ('string', 'string:', '')
 
     def test_hy(self):
-        self.do_test(False, ('Text:', u'Texte՝', ''), 'hy')
-        self.do_test(True, ('Text:', u'Texte', ''), 'hy')
-        self.do_test(False, ('Text', u'Texte:', ''), 'hy')
+        self.do_test(False, ('Text:', 'Texte՝', ''), 'hy')
+        self.do_test(True, ('Text:', 'Texte', ''), 'hy')
+        self.do_test(False, ('Text', 'Texte:', ''), 'hy')
 
     def test_japanese(self):
-        self.do_test(False, ('Text:', u'Texte。', ''), 'ja')
+        self.do_test(False, ('Text:', 'Texte。', ''), 'ja')
 
     def test_japanese_ignore(self):
-        self.do_test(False, ('Text', u'Texte', ''), 'ja')
+        self.do_test(False, ('Text', 'Texte', ''), 'ja')
 
     def test_french_1(self):
-        self.do_test(False, ('Text:', u'Texte : ', ''), 'fr')
+        self.do_test(False, ('Text:', 'Texte : ', ''), 'fr')
 
     def test_french_2(self):
-        self.do_test(False, ('Text:', u'Texte :', ''), 'fr')
+        self.do_test(False, ('Text:', 'Texte :', ''), 'fr')
 
     def test_french_ignore(self):
-        self.do_test(False, ('Text', u'Texte', ''), 'fr')
+        self.do_test(False, ('Text', 'Texte', ''), 'fr')
 
     def test_french_wrong(self):
-        self.do_test(True, ('Text:', u'Texte:', ''), 'fr')
+        self.do_test(True, ('Text:', 'Texte:', ''), 'fr')
 
 
 class EndQuestionCheckTest(CheckTestCase):
@@ -151,29 +152,29 @@ class EndQuestionCheckTest(CheckTestCase):
         self.test_failure_2 = ('string', 'string?', '')
 
     def test_hy(self):
-        self.do_test(False, ('Text?', u'Texte՞', ''), 'hy')
-        self.do_test(True, ('Text?', u'Texte', ''), 'hy')
-        self.do_test(False, ('Text', u'Texte?', ''), 'hy')
+        self.do_test(False, ('Text?', 'Texte՞', ''), 'hy')
+        self.do_test(True, ('Text?', 'Texte', ''), 'hy')
+        self.do_test(False, ('Text', 'Texte?', ''), 'hy')
 
     def test_french(self):
-        self.do_test(False, ('Text?', u'Texte ?', ''), 'fr')
-        self.do_test(False, ('Text?', u'Texte\u202F?', ''), 'fr')
-        self.do_test(False, ('Text?', u'Texte&nbsp;?', ''), 'fr')
+        self.do_test(False, ('Text?', 'Texte ?', ''), 'fr')
+        self.do_test(False, ('Text?', 'Texte\u202F?', ''), 'fr')
+        self.do_test(False, ('Text?', 'Texte&nbsp;?', ''), 'fr')
 
     def test_french_ignore(self):
-        self.do_test(False, ('Text', u'Texte', ''), 'fr')
+        self.do_test(False, ('Text', 'Texte', ''), 'fr')
 
     def test_french_wrong(self):
-        self.do_test(True, ('Text?', u'Texte?', ''), 'fr')
+        self.do_test(True, ('Text?', 'Texte?', ''), 'fr')
 
     def test_greek(self):
-        self.do_test(False, ('Text?', u'Texte;', ''), 'el')
+        self.do_test(False, ('Text?', 'Texte;', ''), 'el')
 
     def test_greek_ignore(self):
-        self.do_test(False, ('Text', u'Texte', ''), 'el')
+        self.do_test(False, ('Text', 'Texte', ''), 'el')
 
     def test_greek_wrong(self):
-        self.do_test(True, ('Text?', u'Texte', ''), 'el')
+        self.do_test(True, ('Text?', 'Texte', ''), 'el')
 
 
 class EndExclamationCheckTest(CheckTestCase):
@@ -186,21 +187,21 @@ class EndExclamationCheckTest(CheckTestCase):
         self.test_failure_2 = ('string', 'string!', '')
 
     def test_hy(self):
-        self.do_test(False, ('Text!', u'Texte՜', ''), 'hy')
-        self.do_test(False, ('Text!', u'Texte', ''), 'hy')
-        self.do_test(False, ('Text', u'Texte!', ''), 'hy')
+        self.do_test(False, ('Text!', 'Texte՜', ''), 'hy')
+        self.do_test(False, ('Text!', 'Texte', ''), 'hy')
+        self.do_test(False, ('Text', 'Texte!', ''), 'hy')
 
     def test_eu(self):
-        self.do_test(False, ('Text!', u'¡Texte!', ''), 'eu')
+        self.do_test(False, ('Text!', '¡Texte!', ''), 'eu')
 
     def test_french(self):
-        self.do_test(False, ('Text!', u'Texte !', ''), 'fr')
+        self.do_test(False, ('Text!', 'Texte !', ''), 'fr')
 
     def test_french_ignore(self):
-        self.do_test(False, ('Text', u'Texte', ''), 'fr')
+        self.do_test(False, ('Text', 'Texte', ''), 'fr')
 
     def test_french_wrong(self):
-        self.do_test(True, ('Text!', u'Texte!', ''), 'fr')
+        self.do_test(True, ('Text!', 'Texte!', ''), 'fr')
 
 
 class EndEllipsisCheckTest(CheckTestCase):
@@ -208,13 +209,13 @@ class EndEllipsisCheckTest(CheckTestCase):
 
     def setUp(self):
         super(EndEllipsisCheckTest, self).setUp()
-        self.test_good_matching = (u'string…', u'string…', '')
-        self.test_failure_1 = (u'string…', 'string...', '')
-        self.test_failure_2 = ('string.', u'string…', '')
-        self.test_failure_3 = ('string..', u'string…', '')
+        self.test_good_matching = ('string…', 'string…', '')
+        self.test_failure_1 = ('string…', 'string...', '')
+        self.test_failure_2 = ('string.', 'string…', '')
+        self.test_failure_3 = ('string..', 'string…', '')
 
     def test_translate(self):
-        self.do_test(False, ('string...', u'string…', ''))
+        self.do_test(False, ('string...', 'string…', ''))
 
 
 class NewlineCountingCheckTest(CheckTestCase):
@@ -232,9 +233,9 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
 
     def setUp(self):
         super(ZeroWidthSpaceCheckTest, self).setUp()
-        self.test_good_matching = (u'str\u200bing', u'str\u200bing', '')
-        self.test_failure_1 = (u'str\u200bing', 'string', '')
-        self.test_failure_2 = ('string', u'str\u200bing', '')
+        self.test_good_matching = ('str\u200bing', 'str\u200bing', '')
+        self.test_failure_1 = ('str\u200bing', 'string', '')
+        self.test_failure_2 = ('string', 'str\u200bing', '')
 
 
 class MaxLengthCheckTest(TestCase):
@@ -246,8 +247,8 @@ class MaxLengthCheckTest(TestCase):
             'max-length:12'
         )
         self.test_good_matching_unicode = (
-            u'strings',
-            u'less than 21',
+            'strings',
+            'less than 21',
             'max-length:12'
         )
 

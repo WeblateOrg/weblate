@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.checks.base import SourceCheck
 from weblate.trans.models.unitdata import Check
@@ -51,8 +52,8 @@ class EllipsisCheck(SourceCheck):
     check_id = 'ellipsis'
     name = _('Ellipsis')
     description = _(
-        u'The string uses three dots (...) '
-        u'instead of an ellipsis character (…)'
+        'The string uses three dots (...) '
+        'instead of an ellipsis character (…)'
     )
     severity = 'warning'
 

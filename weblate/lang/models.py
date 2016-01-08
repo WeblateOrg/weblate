@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.db import models, transaction
 from django.db.utils import OperationalError
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -313,19 +314,19 @@ class LanguageManager(models.Manager):
                     language = Language.objects.get(code=lang)
                 except Language.DoesNotExist:
                     errors.append(
-                        u'missing language {0}: {1} ({2})'.format(
+                        'missing language {0}: {1} ({2})'.format(
                             lang, name, plurals
                         )
                     )
                     continue
                 if nplurals != language.nplurals:
                     errors.append(
-                        u'different number of plurals {0}: {1} ({2})'.format(
+                        'different number of plurals {0}: {1} ({2})'.format(
                             lang, name, plurals
                         )
                     )
                     errors.append(
-                        u'have {0}'.format(language.get_plural_form())
+                        'have {0}'.format(language.get_plural_form())
                     )
 
         return errors
@@ -387,7 +388,7 @@ class Language(models.Model, PercentMixin):
 
     def __unicode__(self):
         if self.show_language_code:
-            return u'{0} ({1})'.format(
+            return '{0} ({1})'.format(
                 _(self.name), self.code
             )
         return _(self.name)

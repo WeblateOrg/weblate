@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 import urllib2
 import sys
 import urllib
@@ -116,7 +118,7 @@ def get_avatar_image(user, size):
     Returns avatar image from cache (if available) or downloads it.
     """
 
-    cache_key = u'avatar-img-{0}-{1}'.format(
+    cache_key = 'avatar-img-{0}-{1}'.format(
         user.username,
         size
     )
@@ -191,13 +193,13 @@ def get_user_display(user, icon=True, link=False):
                 'user_avatar', kwargs={'user': user.username, 'size': 32}
             )
 
-        full_name = u'<img src="{avatar}" class="avatar" /> {name}'.format(
+        full_name = '<img src="{avatar}" class="avatar" /> {name}'.format(
             name=full_name,
             avatar=avatar
         )
 
     if link and user is not None:
-        return mark_safe(u'<a href="{link}">{name}</a>'.format(
+        return mark_safe('<a href="{link}">{name}</a>'.format(
             name=full_name,
             link=reverse('user_page', kwargs={'user': user.username}),
         ))

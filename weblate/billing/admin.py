@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
@@ -46,7 +47,7 @@ class BillingAdmin(admin.ModelAdmin):
     search_fields = ('user__username', 'projects__name')
 
     def list_projects(self, obj):
-        return u','.join(obj.projects.values_list('name', flat=True))
+        return ','.join(obj.projects.values_list('name', flat=True))
     list_projects.short_description = _('Projects')
 
 

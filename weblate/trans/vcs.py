@@ -20,6 +20,7 @@
 """
 Minimal distributed version control system abstraction for Weblate needs.
 """
+from __future__ import unicode_literals
 import subprocess
 import os
 import os.path
@@ -787,7 +788,7 @@ class HgRepository(Repository):
         """
         self.set_config(
             'ui.username',
-            u'{0} <{1}>'.format(
+            '{0} <{1}>'.format(
                 name,
                 mail
             )
@@ -933,9 +934,7 @@ class HgRepository(Repository):
         output = cls._popen(['version', '-q'])
         matches = cls.VERSION_RE.match(output)
         if matches is None:
-            raise OSError(
-                u'Failed to parse version string: {0}'.format(output)
-            )
+            raise OSError('Failed to parse version string: {0}'.format(output))
         return matches.group(1)
 
     def commit(self, message, author=None, timestamp=None, files=None):

@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 import re
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.autofixes.base import AutoFix
@@ -47,6 +48,6 @@ class SameBookendingWhitespace(AutoFix):
         # add the whitespace around the target translation (ignore blanks)
         stripped = target.strip()
         if stripped:
-            newtarget = u''.join((head, stripped, tail))
+            newtarget = ''.join((head, stripped, tail))
             return newtarget, newtarget != target
         return target, False

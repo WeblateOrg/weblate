@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.checks.base import TargetCheck
 from weblate.trans.checks.format import (
@@ -153,7 +154,7 @@ class SameCheck(TargetCheck):
         # Check special things like 1:4 1/2 or copyright
         if (len(source.strip('0123456789:/,.')) <= 1 or
                 '(c) copyright' in lower_source or
-                u'©' in source):
+                '©' in source):
             result = True
         else:
             # Strip format strings
