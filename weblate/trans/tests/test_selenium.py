@@ -25,8 +25,8 @@ import django
 import os
 import new
 import json
-import httplib
 import base64
+from six.moves.http_client import HTTPConnection
 from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
@@ -61,7 +61,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
     def set_test_status(self, passed=True):
         body_content = json.dumps({"passed": passed})
-        connection = httplib.HTTPConnection("saucelabs.com")
+        connection = HTTPConnection("saucelabs.com")
         connection.request(
             'PUT',
             '/rest/v1/{}/jobs/{}'.format(
