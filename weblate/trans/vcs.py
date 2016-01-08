@@ -473,7 +473,7 @@ class GitRepository(Repository):
 
         header = True
 
-        for line in text.splitlines():
+        for line in text.decode('utf-8').splitlines():
             if header:
                 if not line:
                     header = False
