@@ -26,7 +26,7 @@ import os
 import os.path
 import email.utils
 import re
-import ConfigParser
+from six.moves.configparser import RawConfigParser
 import hashlib
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
@@ -758,7 +758,7 @@ class HgRepository(Repository):
         """
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
-        config = ConfigParser.RawConfigParser()
+        config = RawConfigParser()
         config.read(filename)
         if config.has_option(section, option):
             return config.get(section, option).decode('utf-8')
@@ -773,7 +773,7 @@ class HgRepository(Repository):
         value = value.encode('utf-8')
         section = section.encode('utf-8')
         option = option.encode('utf-8')
-        config = ConfigParser.RawConfigParser()
+        config = RawConfigParser()
         config.read(filename)
         if not config.has_section(section):
             config.add_section(section)
