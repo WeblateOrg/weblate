@@ -269,7 +269,7 @@ class Repository(object):
             return False
         if cls.req_version is None:
             cls._is_supported = True
-        elif LooseVersion(version) >= cls.req_version:
+        elif LooseVersion(version) >= LooseVersion(cls.req_version):
             cls._is_supported = True
         else:
             cls._is_supported = False

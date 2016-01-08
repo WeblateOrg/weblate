@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
@@ -209,8 +209,7 @@ def check_version(name, url, version, expected):
     '''
     if expected is None:
         return False
-    looseversion = LooseVersion(version)
-    if looseversion < expected:
+    if LooseVersion(version) < LooseVersion(expected):
         print('*** {0} <{1}> is too old! ***'.format(name, url))
         print('Installed version {0}, required {1}'.format(version, expected))
         return True
