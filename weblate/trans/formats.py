@@ -677,7 +677,7 @@ class FileFormat(object):
         if store is None:
             return False
 
-        if cls.monolingual is False and str(store) == '':
+        if cls.monolingual is False and str(store) == b'':
             return False
 
         return True
@@ -878,10 +878,10 @@ class PoFormat(FileFormat):
         with open(base, 'r') as handle:
             data = handle.read()
         # Assume input is UTF-8 if not specified
-        if 'Content-Type: text/plain; charset=CHARSET' in data:
+        if b'Content-Type: text/plain; charset=CHARSET' in data:
             data = data.replace(
-                'Content-Type: text/plain; charset=CHARSET',
-                'Content-Type: text/plain; charset=UTF-8'
+                b'Content-Type: text/plain; charset=CHARSET',
+                b'Content-Type: text/plain; charset=UTF-8'
             )
         process = subprocess.Popen(
             [
