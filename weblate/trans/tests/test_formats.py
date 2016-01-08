@@ -286,8 +286,8 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
         self.assertXMLEqual(
-            newdata.replace('<!DOCTYPE TS>', ''),
-            testdata.replace('<!DOCTYPE TS>', '')
+            newdata.replace(b'<!DOCTYPE TS>', b''),
+            testdata.replace(b'<!DOCTYPE TS>', b'')
         )
 
 
