@@ -23,7 +23,7 @@ from django.template.loader import render_to_string
 from PIL import Image, ImageDraw
 from weblate.trans.fonts import is_base, get_font
 from weblate.appsettings import ENABLE_HTTPS
-from cStringIO import StringIO
+from six import StringIO
 import os.path
 from six.moves.urllib.parse import quote
 

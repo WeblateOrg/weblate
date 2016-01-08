@@ -23,7 +23,7 @@ Tests for translation views.
 """
 
 from six.moves.urllib.parse import urlsplit
-from cStringIO import StringIO
+from six import StringIO
 from xml.dom import minidom
 
 from django.test.client import RequestFactory

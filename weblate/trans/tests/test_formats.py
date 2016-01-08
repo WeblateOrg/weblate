@@ -22,7 +22,7 @@ File format specific behavior.
 '''
 from __future__ import unicode_literals
 import tempfile
-from StringIO import StringIO
+from six import StringIO
 from unittest import TestCase, SkipTest
 from django.test import SimpleTestCase
 from weblate.trans.formats import (

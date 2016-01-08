@@ -44,7 +44,7 @@ import re
 import csv
 import traceback
 import importlib
-from StringIO import StringIO
+from six import StringIO
 
 
 FILE_FORMATS = {}
