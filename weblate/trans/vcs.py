@@ -771,6 +771,8 @@ class HgRepository(Repository):
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         value = value.encode('utf-8')
+        section = section.encode('utf-8')
+        option = option.encode('utf-8')
         config = ConfigParser.RawConfigParser()
         config.read(filename)
         if not config.has_section(section):
