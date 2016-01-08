@@ -1401,7 +1401,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Copy suggestions to new project
         if changed_project:
-            print 'CHANGED!'
             old.project.suggestion_set.copy(self.project)
 
     def _get_percents(self):
