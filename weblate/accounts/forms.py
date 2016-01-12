@@ -29,17 +29,17 @@ from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from crispy_forms.helper import FormHelper
 
-from weblate.accounts.models import Profile, VerifiedEmail
-from weblate.accounts.captcha import MathCaptcha
-from weblate.lang.models import Language
-from weblate.trans.models import Project
-from weblate.logger import LOGGER
-
 try:
     import pyuca  # pylint: disable=import-error
     HAS_PYUCA = True
 except ImportError:
     HAS_PYUCA = False
+
+from weblate.accounts.models import Profile, VerifiedEmail
+from weblate.accounts.captcha import MathCaptcha
+from weblate.lang.models import Language
+from weblate.trans.models import Project
+from weblate.logger import LOGGER
 
 
 def remove_accents(input_str):
