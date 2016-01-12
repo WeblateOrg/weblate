@@ -23,9 +23,11 @@ Tests for dictionary manipulations.
 """
 
 from __future__ import unicode_literals
+
+from django.core.urlresolvers import reverse
+
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Dictionary
-from django.core.urlresolvers import reverse
 from weblate.trans.tests.utils import get_test_file
 
 TEST_TBX = get_test_file('terms.tbx')

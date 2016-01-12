@@ -19,9 +19,10 @@
 #
 
 from django.contrib import admin
-from weblate.accounts.models import Profile, VerifiedEmail
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+
+from weblate.accounts.models import Profile, VerifiedEmail
 
 
 class ProfileAdmin(admin.ModelAdmin):

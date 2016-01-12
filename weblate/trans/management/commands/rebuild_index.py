@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from optparse import make_option
+
 from weblate.trans.management.commands import WeblateCommand
 from weblate.trans.search import (
     get_source_index, get_target_index,
@@ -25,7 +27,6 @@ from weblate.trans.search import (
     clean_indexes,
 )
 from weblate.lang.models import Language
-from optparse import make_option
 
 
 class Command(WeblateCommand):

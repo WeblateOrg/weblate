@@ -19,11 +19,14 @@
 #
 
 from __future__ import unicode_literals
+
+import re
+
 from django.utils.translation import ugettext_lazy as _
+
 from weblate.trans.checks.base import (
     TargetCheck, TargetCheckWithFlag, CountingCheck
 )
-import re
 
 
 class BeginNewlineCheck(TargetCheck):

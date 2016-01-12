@@ -19,15 +19,17 @@
 #
 
 from __future__ import unicode_literals
-from weblate.trans.models.changes import Change
-from weblate.trans.forms import ReportsForm
-from weblate.trans.views.helper import get_subproject
-from weblate.trans.permissions import can_view_reports
+
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+
+from weblate.trans.models.changes import Change
+from weblate.trans.forms import ReportsForm
+from weblate.trans.views.helper import get_subproject
+from weblate.trans.permissions import can_view_reports
 
 
 def generate_credits(component, start_date, end_date):

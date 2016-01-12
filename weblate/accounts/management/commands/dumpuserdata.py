@@ -18,9 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand, CommandError
-from weblate.accounts.models import Profile
 import json
+
+from django.core.management.base import BaseCommand, CommandError
+
+from weblate.accounts.models import Profile
 
 
 class Command(BaseCommand):

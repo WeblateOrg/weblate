@@ -19,6 +19,11 @@
 #
 
 from __future__ import unicode_literals
+
+import re
+
+from datetime import date
+
 from django.utils.html import escape, urlize
 from django.contrib.admin.templatetags.admin_static import static
 from django.template.loader import render_to_string
@@ -29,12 +34,7 @@ from django.utils import timezone
 from django import template
 import django
 
-import re
-
-from datetime import date
-
 import weblate
-
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language

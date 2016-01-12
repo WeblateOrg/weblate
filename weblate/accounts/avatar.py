@@ -23,8 +23,10 @@ from __future__ import unicode_literals
 import sys
 import hashlib
 import os.path
+
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.parse import urlencode
+
 from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -32,16 +34,16 @@ from django.utils.translation import pgettext
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from weblate import USER_AGENT
-from weblate.logger import LOGGER
-from weblate import appsettings
-from weblate.trans.util import report_error
-
 try:
     import libravatar  # pylint: disable=import-error
     HAS_LIBRAVATAR = True
 except ImportError:
     HAS_LIBRAVATAR = False
+
+from weblate import USER_AGENT
+from weblate.logger import LOGGER
+from weblate import appsettings
+from weblate.trans.util import report_error
 
 
 def avatar_for_email(email, size=80):

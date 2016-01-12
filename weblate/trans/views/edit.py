@@ -18,6 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import uuid
+import time
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _
@@ -27,8 +30,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import formats
 from django.core.exceptions import PermissionDenied
-import uuid
-import time
 
 from weblate.trans.models import (
     SubProject, Unit, Change, Comment, Suggestion, Dictionary,

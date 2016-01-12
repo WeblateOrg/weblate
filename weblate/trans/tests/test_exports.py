@@ -22,8 +22,10 @@
 Tests for data exports.
 """
 
-from django.core.urlresolvers import reverse
 import json
+
+from django.core.urlresolvers import reverse
+
 from weblate.trans.tests.test_views import ViewTestCase
 
 

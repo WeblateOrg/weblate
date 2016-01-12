@@ -19,9 +19,9 @@
 #
 
 from __future__ import unicode_literals
-import django
 import os
 from logging.handlers import SysLogHandler
+import django
 
 #
 # Safety check for running with too old Django version

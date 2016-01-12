@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import csv
+
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
 from django.contrib import messages
@@ -27,12 +29,12 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
 
+from six.moves.urllib.parse import urlencode
+
 from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
 from weblate.trans.permissions import can_download_changes
-from six.moves.urllib.parse import urlencode
-import csv
 
 
 class ChangesView(ListView):

@@ -19,7 +19,7 @@
 #
 
 from __future__ import unicode_literals
-from weblate.trans.models import SubProject, IndexUpdate
+
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
@@ -27,6 +27,8 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.conf import settings
 import django
+
+from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR

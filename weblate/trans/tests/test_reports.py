@@ -19,12 +19,15 @@
 #
 
 from __future__ import unicode_literals
-from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.views.reports import generate_credits, generate_counts
-from django.core.urlresolvers import reverse
-from django.utils import timezone
+
 from datetime import timedelta
 import json
+
+from django.core.urlresolvers import reverse
+from django.utils import timezone
+
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.views.reports import generate_credits, generate_counts
 
 
 class ReportsTest(ViewTestCase):

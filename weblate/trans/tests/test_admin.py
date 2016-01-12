@@ -18,14 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.tests.test_views import ViewTestCase
+import os
+
 from django.core.urlresolvers import reverse
+
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import add_configuration_error
 from weblate import appsettings
 from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.data import check_data_writable
-import os
 
 
 class AdminTest(ViewTestCase):

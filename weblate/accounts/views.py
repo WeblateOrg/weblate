@@ -19,6 +19,7 @@
 #
 
 from __future__ import unicode_literals
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
@@ -38,14 +39,14 @@ from django.core.urlresolvers import reverse
 
 from six.moves.urllib.parse import urlencode
 
-from weblate.accounts.forms import (
-    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
-    LoginForm, HostingForm, CaptchaRegistrationForm
-)
 from social.backends.utils import load_backends
 from social.apps.django_app.utils import BACKENDS
 from social.apps.django_app.views import complete
 
+from weblate.accounts.forms import (
+    RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,
+    LoginForm, HostingForm, CaptchaRegistrationForm
+)
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile

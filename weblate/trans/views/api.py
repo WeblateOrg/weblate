@@ -18,7 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate import appsettings
+import json
+import re
+import threading
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -27,14 +30,11 @@ from django.http import (
     JsonResponse,
 )
 
+from weblate import appsettings
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
 from weblate.trans.site import get_site_url
-
-import json
 from weblate.logger import LOGGER
-import threading
-import re
 
 
 BITBUCKET_GIT_REPOS = (

@@ -23,8 +23,10 @@ Tests for import and export.
 """
 
 from __future__ import unicode_literals
-from weblate.trans.tests.test_views import ViewTestCase
+
 from django.core.urlresolvers import reverse
+
+from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')

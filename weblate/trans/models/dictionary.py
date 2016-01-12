@@ -19,18 +19,21 @@
 #
 
 import sys
+
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.utils.encoding import force_text, python_2_unicode_compatible
-from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat
-from weblate.trans.models.project import Project
-from weblate.trans.util import report_error
-from django.core.urlresolvers import reverse
+
 from whoosh.analysis import (
     LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer
 )
 from whoosh.lang import has_stemmer
+
+from weblate.lang.models import Language
+from weblate.trans.formats import AutoFormat
+from weblate.trans.models.project import Project
+from weblate.trans.util import report_error
 
 
 class DictionaryManager(models.Manager):

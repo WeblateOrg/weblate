@@ -18,9 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from optparse import make_option
+
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.sites.models import Site
-from optparse import make_option
 
 
 class Command(BaseCommand):

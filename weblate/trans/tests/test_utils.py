@@ -19,8 +19,10 @@
 #
 
 from unittest import TestCase
-from weblate.trans.util import load_class
+
 from django.core.exceptions import ImproperlyConfigured
+
+from weblate.trans.util import load_class
 
 
 class LoadClassTest(TestCase):

@@ -19,8 +19,10 @@
 #
 
 from __future__ import unicode_literals
-from weblate.trans.autofixes.base import AutoFix
+
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.trans.autofixes.base import AutoFix
 
 
 class ReplaceTrailingDotsWithEllipsis(AutoFix):

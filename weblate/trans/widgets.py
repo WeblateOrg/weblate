@@ -18,14 +18,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os.path
+
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
+
 from PIL import Image, ImageDraw
+
+from six import StringIO
+from six.moves.urllib.parse import quote
+
 from weblate.trans.fonts import is_base, get_font
 from weblate.appsettings import ENABLE_HTTPS
-from six import StringIO
-import os.path
-from six.moves.urllib.parse import quote
 
 
 COLOR_DATA = {

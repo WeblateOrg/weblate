@@ -20,8 +20,10 @@
 """
 Permissions abstract layer for Weblate.
 """
-from weblate import appsettings
+
 from django.contrib.auth.models import Group, User
+
+from weblate import appsettings
 
 
 def check_owner(user, project, permission):

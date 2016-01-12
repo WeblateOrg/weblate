@@ -18,6 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+import os.path
+
 from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -29,8 +32,7 @@ from django.db.models.signals import m2m_changed
 from django.contrib.auth.models import Permission, User, Group
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-import os
-import os.path
+
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url

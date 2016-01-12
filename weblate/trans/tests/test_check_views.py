@@ -23,8 +23,10 @@ Tests for check views.
 """
 
 from __future__ import unicode_literals
-from weblate.trans.tests.test_views import ViewTestCase
+
 from django.core.urlresolvers import reverse
+
+from weblate.trans.tests.test_views import ViewTestCase
 
 
 class ChecksViewTest(ViewTestCase):

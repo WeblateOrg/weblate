@@ -17,9 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from weblate import appsettings
+
 import tempfile
 import shutil
+
+from weblate import appsettings
 
 
 class OverrideSettings(object):

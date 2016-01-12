@@ -22,9 +22,10 @@
 Tests for locking.
 """
 
+from django.core.urlresolvers import reverse
+
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.subproject import SubProject
-from django.core.urlresolvers import reverse
 
 
 class LockTest(ViewTestCase):

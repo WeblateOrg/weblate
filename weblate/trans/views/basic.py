@@ -18,6 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import datetime
+
+from six.moves.urllib.parse import urlencode
+
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
@@ -46,9 +50,6 @@ from weblate.trans.views.helper import (
     try_set_language,
 )
 import weblate
-
-import datetime
-from six.moves.urllib.parse import urlencode
 
 
 def home(request):

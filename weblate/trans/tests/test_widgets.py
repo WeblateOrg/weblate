@@ -22,9 +22,10 @@
 Tests for widgets.
 """
 
+from django.core.urlresolvers import reverse
+
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.widgets import WIDGETS
-from django.core.urlresolvers import reverse
 
 
 class WidgetsTest(ViewTestCase):

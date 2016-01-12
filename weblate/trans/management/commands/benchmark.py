@@ -18,11 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.models import SubProject, Project
-from django.core.management.base import BaseCommand, CommandError
 from optparse import make_option
 import cProfile
 import pstats
+
+from django.core.management.base import BaseCommand, CommandError
+
+from weblate.trans.models import SubProject, Project
 
 
 class Command(BaseCommand):

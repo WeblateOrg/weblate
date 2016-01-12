@@ -19,6 +19,11 @@
 #
 
 from __future__ import unicode_literals
+
+from datetime import date
+
+from crispy_forms.helper import FormHelper
+
 from django import forms
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
@@ -29,7 +34,9 @@ from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.contrib.auth.models import User
-from crispy_forms.helper import FormHelper
+
+from six.moves.urllib.parse import urlencode
+
 from weblate.lang.models import Language
 from weblate.trans.models.unit import Unit, SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
@@ -40,8 +47,6 @@ from weblate.trans.permissions import (
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
-from six.moves.urllib.parse import urlencode
-from datetime import date
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 

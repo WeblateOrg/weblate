@@ -18,9 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext_lazy as _
 from xml.etree import cElementTree
 import re
+
+from django.utils.translation import ugettext_lazy as _
+
 from weblate.trans.checks.base import TargetCheck
 
 BBCODE_MATCH = re.compile(

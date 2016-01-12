@@ -21,9 +21,11 @@
 Helper classes for management commands.
 '''
 
+from optparse import make_option
+
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
-from optparse import make_option
+
 from weblate.trans.models import Unit, SubProject, Translation
 
 

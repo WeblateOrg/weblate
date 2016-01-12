@@ -18,9 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from social.strategies.django_strategy import DjangoStrategy
 from importlib import import_module
+
 from django.conf import settings
+
+from social.strategies.django_strategy import DjangoStrategy
 
 
 class WeblateStrategy(DjangoStrategy):

@@ -22,8 +22,10 @@
 Tests for user handling.
 """
 
-from django.test import TestCase
 from unittest import SkipTest
+
+from django.test import TestCase
+
 import weblate.accounts.forms
 
 

@@ -18,6 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+import codecs
+from datetime import timedelta
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q, Sum, Count
@@ -28,9 +32,6 @@ from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-import os
-import codecs
-from datetime import timedelta
 
 from weblate import appsettings
 from weblate.lang.models import Language

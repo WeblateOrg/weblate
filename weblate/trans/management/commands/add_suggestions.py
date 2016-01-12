@@ -18,12 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from optparse import make_option
+
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from django.http.request import HttpRequest
+
 from weblate.trans.models import Translation
 from weblate.accounts.models import get_author_name
-from optparse import make_option
 
 
 class Command(BaseCommand):

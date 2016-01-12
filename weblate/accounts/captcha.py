@@ -22,14 +22,15 @@ Simple mathematical captcha.
 """
 
 from __future__ import unicode_literals
-from django.conf import settings
 
-import hashlib
-import binascii
-import time
-from random import randint, choice
 import ast
+import binascii
+import hashlib
 import operator
+from random import randint, choice
+import time
+
+from django.conf import settings
 
 TIMEDELTA = 600
 

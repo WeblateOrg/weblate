@@ -19,9 +19,10 @@
 #
 
 from django.core.management.base import BaseCommand
+from django.db import transaction
+
 from weblate.trans.models import Suggestion, Comment, Check, Unit, Project
 from weblate.lang.models import Language
-from django.db import transaction
 
 
 class Command(BaseCommand):

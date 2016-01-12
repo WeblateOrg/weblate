@@ -22,11 +22,13 @@
 Tests for translation models.
 """
 
+import datetime
+
 from django.test import TestCase
 from django.utils import timezone
+
 from weblate.trans.models import Advertisement
 from weblate.trans.tests import OverrideSettings
-import datetime
 
 
 class AdvertisementTest(TestCase):

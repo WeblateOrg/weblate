@@ -22,15 +22,17 @@
 Tests for translation views.
 """
 
+from xml.dom import minidom
+
 from six.moves.urllib.parse import urlsplit
 from six import StringIO
-from xml.dom import minidom
 
 from django.test.client import RequestFactory
 from django.contrib.auth.models import Group, User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
+
 from PIL import Image
 
 from weblate.trans.models import WhiteboardMessage, SubProject
