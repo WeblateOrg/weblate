@@ -640,7 +640,7 @@ class AutoForm(forms.Form):
         )
         for project in owned_projects:
             for component in project.subproject_set.all():
-                choices.add(
+                choices.append(
                     (component.id, force_text(component))
                 )
 
