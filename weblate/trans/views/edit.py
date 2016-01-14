@@ -633,6 +633,8 @@ def auto_translation(request, project, subproject, lang):
                 project=translation.subproject.project,
                 slug=autoform.cleaned_data['subproject']
             )
+            if not subprj.has_acl(request.user):
+                raise PermissionDenied()
             sources = sources.filter(translation__subproject=subprj)
 
         for unit in units.iterator():
