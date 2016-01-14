@@ -100,6 +100,7 @@ LANGUAGES = (
     ('he', 'עברית'),
     ('hu', 'Magyar'),
     ('id', 'Indonesia'),
+    ('it', 'Italiano'),
     ('ja', '日本語'),
     ('ko', '한국어'),
     ('ksh', 'Kölsch'),
