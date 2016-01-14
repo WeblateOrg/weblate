@@ -608,59 +608,61 @@ def auto_translation(request, project, subproject, lang):
     translation.commit_pending(request)
     autoform = AutoForm(translation, request.user, request.POST)
     change = None
-    if not translation.subproject.locked and autoform.is_valid():
-        if autoform.cleaned_data['inconsistent']:
-            units = translation.unit_set.filter_type(
-                'inconsistent', translation
-            )
-        elif autoform.cleaned_data['overwrite']:
-            units = translation.unit_set.all()
-        else:
-            units = translation.unit_set.filter(translated=False)
 
-        sources = Unit.objects.filter(
-            translation__language=translation.language,
-            translated=True
-        )
-        if autoform.cleaned_data['subproject'] == '':
-            sources = sources.filter(
-                translation__subproject__project=translation.subproject.project
-            ).exclude(
-                translation=translation
-            )
-        else:
-            subprj = SubProject.objects.get(
-                id=autoform.cleaned_data['id']
-            )
-            if not subprj.has_acl(request.user):
-                raise PermissionDenied()
-            sources = sources.filter(translation__subproject=subprj)
-
-        for unit in units.iterator():
-            update = sources.filter(checksum=unit.checksum)
-            if update.exists():
-                # Get first entry
-                update = update[0]
-                # No save if translation is same
-                if unit.fuzzy == update.fuzzy and unit.target == update.target:
-                    continue
-                # Copy translation
-                unit.fuzzy = update.fuzzy
-                unit.target = update.target
-                # Create signle change object for whole merge
-                if change is None:
-                    change = Change.objects.create(
-                        action=Change.ACTION_AUTO,
-                        translation=unit.translation,
-                        user=request.user,
-                        author=request.user
-                    )
-                # Save unit to backend
-                unit.save_backend(request, False, False)
-
-        messages.success(request, _('Automatic translation completed.'))
-    else:
+    if translation.subproject.locked or not autoform.is_valid():
         messages.error(request, _('Failed to process form!'))
+        return redirect(translation)
+
+    if autoform.cleaned_data['inconsistent']:
+        units = translation.unit_set.filter_type(
+            'inconsistent', translation
+        )
+    elif autoform.cleaned_data['overwrite']:
+        units = translation.unit_set.all()
+    else:
+        units = translation.unit_set.filter(translated=False)
+
+    sources = Unit.objects.filter(
+        translation__language=translation.language,
+        translated=True
+    )
+    if autoform.cleaned_data['subproject'] == '':
+        sources = sources.filter(
+            translation__subproject__project=translation.subproject.project
+        ).exclude(
+            translation=translation
+        )
+    else:
+        subprj = SubProject.objects.get(
+            id=autoform.cleaned_data['id']
+        )
+        if not subprj.has_acl(request.user):
+            raise PermissionDenied()
+        sources = sources.filter(translation__subproject=subprj)
+
+    for unit in units.iterator():
+        update = sources.filter(checksum=unit.checksum)
+        if update.exists():
+            # Get first entry
+            update = update[0]
+            # No save if translation is same
+            if unit.fuzzy == update.fuzzy and unit.target == update.target:
+                continue
+            # Copy translation
+            unit.fuzzy = update.fuzzy
+            unit.target = update.target
+            # Create signle change object for whole merge
+            if change is None:
+                change = Change.objects.create(
+                    action=Change.ACTION_AUTO,
+                    translation=unit.translation,
+                    user=request.user,
+                    author=request.user
+                )
+            # Save unit to backend
+            unit.save_backend(request, False, False)
+
+    messages.success(request, _('Automatic translation completed.'))
 
     return redirect(translation)
 
