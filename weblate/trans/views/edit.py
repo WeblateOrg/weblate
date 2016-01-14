@@ -630,8 +630,7 @@ def auto_translation(request, project, subproject, lang):
             )
         else:
             subprj = SubProject.objects.get(
-                project=translation.subproject.project,
-                slug=autoform.cleaned_data['subproject']
+                id=autoform.cleaned_data['id']
             )
             if not subprj.has_acl(request.user):
                 raise PermissionDenied()

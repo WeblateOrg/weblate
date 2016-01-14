@@ -633,7 +633,7 @@ class AutoForm(forms.Form):
         other_subprojects = project.subproject_set.exclude(
             id=obj.subproject.id
         )
-        choices = [(s.slug, s.name) for s in other_subprojects]
+        choices = [(s.id, s.name) for s in other_subprojects]
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
