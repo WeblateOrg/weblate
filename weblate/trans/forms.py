@@ -624,21 +624,30 @@ class AutoForm(forms.Form):
         initial=''
     )
 
-    def __init__(self, obj, *args, **kwargs):
+    def __init__(self, obj, user, *args, **kwargs):
         '''
         Dynamically generate choices for other subproject
         in same project
         '''
-        project = obj.subproject.project
-        other_subprojects = project.subproject_set.exclude(
+        other_subprojects = obj.subproject.project.subproject_set.exclude(
             id=obj.subproject.id
         )
-        choices = [(s.id, s.name) for s in other_subprojects]
+        choices = [(s.id, force_text(s)) for s in other_subprojects]
+
+        # Add other owned projects
+        owned_projects = user.project_set.all().exclude(
+            pk=obj.subproject.project.id
+        )
+        for project in owned_projects:
+            for component in project.subproject_set.all():
+                choices.add(
+                    (component.id, force_text(component))
+                )
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
         self.fields['subproject'].choices = \
-            [('', _('All components'))] + choices
+            [('', _('All components in current project'))] + choices
 
 
 class WordForm(forms.Form):

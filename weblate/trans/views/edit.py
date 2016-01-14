@@ -606,7 +606,7 @@ def auto_translation(request, project, subproject, lang):
         raise PermissionDenied()
 
     translation.commit_pending(request)
-    autoform = AutoForm(translation, request.POST)
+    autoform = AutoForm(translation, request.user, request.POST)
     change = None
     if not translation.subproject.locked and autoform.is_valid():
         if autoform.cleaned_data['inconsistent']:

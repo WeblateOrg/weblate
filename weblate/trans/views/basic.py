@@ -289,7 +289,7 @@ def show_translation(request, project, subproject, lang):
 
     # Is user allowed to do automatic translation?
     if can_automatic_translation(request.user, obj.subproject.project):
-        autoform = AutoForm(obj)
+        autoform = AutoForm(obj, request.user)
     else:
         autoform = None
 
