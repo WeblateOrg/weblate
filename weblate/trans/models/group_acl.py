@@ -27,6 +27,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group
 from weblate.lang.models import Language
 
+
 class GroupACL(models.Model):
 
     groups = models.ManyToManyField(Group)

@@ -107,8 +107,6 @@ class GroupACLTest(ModelTestCase):
         self.group.permissions.add(self.permission)
         self.privileged.groups.add(self.group)
 
-
-
     def test_acl_lockout(self):
         self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
@@ -123,8 +121,14 @@ class GroupACLTest(ModelTestCase):
         acl_lang = GroupACL.objects.create(language=self.language)
         acl_lang.groups.add(self.group)
 
-        self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
+        self.assertTrue(
+            can_edit(self.privileged, self.trans, self.PERMISSION))
 
         acl_sub = GroupACL.objects.create(subproject=self.subproject)
+        self.assertFalse(
+            can_edit(self.privileged, self.trans, self.PERMISSION))
 
-        self.assertFalse(can_edit(self.privileged, self.trans, self.PERMISSION))
+        acl_sub.groups.add(self.group)
+        self.assertTrue(
+            can_edit(self.privileged, self.trans, self.PERMISSION))
+

@@ -117,11 +117,11 @@ def can_edit(user, translation, permission):
     if not has_group_perm(user, translation, permission):
         return False
     if translation.is_template() \
-        and not has_group_perm(user, translation, 'trans.save_template'):
+            and not has_group_perm(user, translation, 'trans.save_template'):
         return False
-    if (translation.subproject.suggestion_voting and
-            translation.subproject.suggestion_autoaccept > 0 and
-            not has_group_perm(user, translation, 'trans.override_suggestion')):
+    if (not has_group_perm(user, translation, 'trans.override_suggestion') and
+            translation.subproject.suggestion_voting and
+            translation.subproject.suggestion_autoaccept > 0):
         return False
     return True
 
@@ -177,7 +177,7 @@ def can_vote_suggestion(user, translation):
     if not has_group_perm(user, translation, 'trans.vote_suggestion'):
         return False
     if translation.is_template() \
-        and not has_group_perm(user, translation, 'trans.save_template'):
+            and not has_group_perm(user, translation, 'trans.save_template'):
         return False
     return True
 
