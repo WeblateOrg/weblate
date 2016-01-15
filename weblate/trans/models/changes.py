@@ -21,9 +21,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Count, Q
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
 from django.utils.encoding import force_text
+import six.moves
 from weblate.trans.models.project import Project
 from weblate.accounts.avatar import get_user_display
 
@@ -51,7 +53,7 @@ class ChangeManager(models.Manager):
 
         # Count number of changes
         result = []
-        for dummy in xrange(0, days, step):
+        for dummy in six.moves.range(0, days, step):
             # Calculate interval
             int_start = dtstart
             int_end = int_start + timezone.timedelta(days=step)
@@ -127,6 +129,7 @@ class ChangeManager(models.Manager):
         return result
 
 
+@python_2_unicode_compatible
 class Change(models.Model):
     ACTION_UPDATE = 0
     ACTION_COMPLETE = 1
@@ -244,7 +247,7 @@ class Change(models.Model):
             ('download_changes', "Can download changes"),
         )
 
-    def __unicode__(self):
+    def __str__(self):
         return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
             'action': self.get_action_display(),
             'time': self.timestamp,

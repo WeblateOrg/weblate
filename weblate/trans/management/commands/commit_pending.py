@@ -18,10 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateLangCommand
-from django.utils import timezone
 from datetime import timedelta
 from optparse import make_option
+
+from django.utils import timezone
+
+from weblate.trans.management.commands import WeblateLangCommand
 
 
 class Command(WeblateLangCommand):

@@ -19,14 +19,7 @@
 #
 
 from __future__ import unicode_literals
-from django.db import models, transaction
-from django.utils.translation import ugettext as _, ugettext_lazy
-from django.core.mail import mail_admins
-from django.core.exceptions import ValidationError
-from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.core.cache import cache
-from django.utils import timezone
+
 from glob import glob
 import os
 import traceback
@@ -34,6 +27,17 @@ import sys
 import time
 import fnmatch
 import re
+
+from django.db import models, transaction
+from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.encoding import python_2_unicode_compatible, force_text
+from django.core.mail import mail_admins
+from django.core.exceptions import ValidationError
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django.core.cache import cache
+from django.utils import timezone
+
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock
@@ -96,6 +100,7 @@ class SubProjectManager(models.Manager):
         return self.get(slug=subproject, project__slug=project)
 
 
+@python_2_unicode_compatible
 class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
@@ -505,8 +510,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             reverse('engage', kwargs={'project': self.project.slug})
         )
 
-    def __unicode__(self):
-        return '%s/%s' % (self.project.__unicode__(), self.name)
+    def __str__(self):
+        return '%s/%s' % (force_text(self.project), self.name)
 
     def get_full_slug(self):
         return '%s__%s' % (self.project.slug, self.slug)
@@ -770,7 +775,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             if request is not None:
                 messages.error(
                     request,
-                    _('Push is disabled for %s.') % self.__unicode__()
+                    _('Push is disabled for %s.') % force_text(self)
                 )
             return False
 
@@ -813,14 +818,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.log_error('failed to push on repo: %s', error)
             msg = 'Error:\n%s' % str(error)
             mail_admins(
-                'failed push on repo %s' % self.__unicode__(),
+                'failed push on repo %s' % force_text(self),
                 msg
             )
             if request is not None:
                 messages.error(
                     request,
                     _('Failed to push to remote branch on %s.') %
-                    self.__unicode__()
+                    force_text(self)
                 )
             return False
 
@@ -849,14 +854,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self.log_error('failed to reset on repo')
             msg = 'Error:\n%s' % str(error)
             mail_admins(
-                'failed reset on repo %s' % self.__unicode__(),
+                'failed reset on repo %s' % force_text(self),
                 msg
             )
             if request is not None:
                 messages.error(
                     request,
                     _('Failed to reset to remote branch on %s.') %
-                    self.__unicode__()
+                    force_text(self)
                 )
             return False
 
@@ -985,7 +990,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if request is not None:
             messages.error(
                 request,
-                error_msg % self.__unicode__()
+                error_msg % force_text(self)
             )
 
         return False

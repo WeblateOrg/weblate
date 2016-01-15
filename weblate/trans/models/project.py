@@ -18,9 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+import os.path
+
 from django.db import models
 from django.dispatch import receiver
 from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -28,8 +32,7 @@ from django.db.models.signals import m2m_changed
 from django.contrib.auth.models import Permission, User, Group
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-import os
-import os.path
+
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
@@ -70,6 +73,7 @@ class ProjectManager(models.Manager):
         return self.filter(id__in=project_ids), True
 
 
+@python_2_unicode_compatible
 class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
@@ -266,7 +270,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def _get_path(self):
         return os.path.join(data_dir('vcs'), self.slug)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):

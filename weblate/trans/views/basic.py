@@ -18,6 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import datetime
+
+from six.moves.urllib.parse import urlencode
+
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
@@ -46,9 +50,6 @@ from weblate.trans.views.helper import (
     try_set_language,
 )
 import weblate
-
-import datetime
-from six.moves.urllib.parse import urlencode
 
 
 def home(request):
@@ -288,7 +289,7 @@ def show_translation(request, project, subproject, lang):
 
     # Is user allowed to do automatic translation?
     if can_automatic_translation(request.user, obj.subproject.project):
-        autoform = AutoForm(obj)
+        autoform = AutoForm(obj, request.user)
     else:
         autoform = None
 

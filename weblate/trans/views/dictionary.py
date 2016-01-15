@@ -18,6 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import csv
+import sys
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
@@ -27,6 +30,8 @@ from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
+from six.moves.urllib.parse import urlencode
+
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language
 from weblate.trans.site import get_site_url
@@ -34,10 +39,6 @@ from weblate.trans.util import report_error
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.trans.views.helper import get_project
 import weblate
-
-import csv
-import sys
-from six.moves.urllib.parse import urlencode
 
 
 def dict_title(prj, lang):

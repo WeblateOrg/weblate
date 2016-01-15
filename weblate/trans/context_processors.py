@@ -18,9 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from datetime import datetime
+
 import weblate
 from weblate import appsettings
-from datetime import datetime
 from weblate.trans.site import get_site_url
 from weblate.trans.models.project import Project
 from weblate.trans.models.translation import Translation

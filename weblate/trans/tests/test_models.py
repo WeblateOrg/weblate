@@ -23,14 +23,17 @@ Tests for translation models.
 """
 
 from __future__ import print_function
+
 from unittest import SkipTest
+import shutil
+import os
+
 from django.test import TestCase
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
-import shutil
-import os
+
 from weblate.trans.models import (
     Project, SubProject, Source, Unit, WhiteboardMessage, Check, Suggestion,
     get_related_units,

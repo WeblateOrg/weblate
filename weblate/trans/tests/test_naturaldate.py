@@ -21,10 +21,12 @@
 Testing of natural time conversion.
 '''
 
-from unittest import TestCase
-from weblate.trans.templatetags.translations import naturaltime
 import datetime
+from unittest import TestCase
+
 from django.utils import timezone
+
+from weblate.trans.templatetags.translations import naturaltime
 
 TEST_DATA = (
     (0, 'now'),

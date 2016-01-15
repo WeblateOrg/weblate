@@ -22,9 +22,11 @@
 Tests for user handling.
 """
 
+import json
+
 import httpretty
 from six.moves.urllib.parse import parse_qs, urlparse
-import json
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User

@@ -18,18 +18,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from importlib import import_module
+import hashlib
+import os
+import sys
+import traceback
+
+from six.moves.urllib.parse import urlparse
+
 from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url
 from django.conf import settings
 from django.utils.encoding import force_text
-from importlib import import_module
-import os
-import sys
-from six.moves.urllib.parse import urlparse
-import hashlib
-import traceback
+
 from weblate.logger import LOGGER
 from weblate.trans.data import data_dir
 

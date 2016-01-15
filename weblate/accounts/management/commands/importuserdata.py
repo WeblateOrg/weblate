@@ -18,12 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import json
+
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
+
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.models import Project
-import json
 
 
 class Command(BaseCommand):

@@ -18,14 +18,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db import models
-from weblate import appsettings
-from django.db.models import Q
-from django.utils.translation import ugettext as _
-from django.contrib import messages
-from django.core.cache import cache
 import traceback
 import multiprocessing
+# pylint: disable=W0622
+from functools import reduce
+
+from django.db import models
+from django.db.models import Q
+from django.utils.translation import ugettext as _
+from django.utils.encoding import python_2_unicode_compatible
+from django.contrib import messages
+from django.core.cache import cache
+
+from weblate import appsettings
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
 from weblate.trans.models.unitdata import Check, Comment, Suggestion
@@ -316,6 +321,7 @@ class UnitManager(models.Manager):
         )
 
 
+@python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey('Translation')
     checksum = models.CharField(max_length=40, db_index=True)
@@ -373,7 +379,7 @@ class Unit(models.Model, LoggerMixin):
         """
         self.translation.subproject.project.check_acl(request)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s on %s' % (
             self.checksum,
             self.translation,

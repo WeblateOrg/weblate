@@ -22,8 +22,9 @@
 Helpers for quality checks tests.
 """
 
-from django.test import TestCase
 import uuid
+
+from django.test import TestCase
 
 
 class MockLanguage(object):

@@ -19,13 +19,15 @@
 #
 
 from __future__ import unicode_literals
+
+import json
+
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from six.moves.urllib.request import Request, urlopen
-import json
 
 from social.pipeline.partial import partial
 from social.exceptions import (

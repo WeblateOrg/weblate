@@ -18,11 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from optparse import make_option
+import random
+import string
+
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from optparse import make_option
-import string
-import random
 
 
 class Command(BaseCommand):

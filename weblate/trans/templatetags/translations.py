@@ -19,6 +19,11 @@
 #
 
 from __future__ import unicode_literals
+
+import re
+
+from datetime import date
+
 from django.utils.html import escape, urlize
 from django.contrib.admin.templatetags.admin_static import static
 from django.template.loader import render_to_string
@@ -29,12 +34,7 @@ from django.utils import timezone
 from django import template
 import django
 
-import re
-
-from datetime import date
-
 import weblate
-
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
@@ -195,7 +195,7 @@ def project_name(prj):
     '''
     Gets project name based on slug.
     '''
-    return escape(Project.objects.get(slug=prj).__unicode__())
+    return escape(force_text(Project.objects.get(slug=prj)))
 
 
 @register.simple_tag
@@ -204,7 +204,7 @@ def subproject_name(prj, subprj):
     Gets subproject name based on slug.
     '''
     return escape(
-        SubProject.objects.get(project__slug=prj, slug=subprj).__unicode__()
+        force_text(SubProject.objects.get(project__slug=prj, slug=subprj))
     )
 
 
@@ -213,7 +213,7 @@ def language_name(code):
     '''
     Gets language name based on its code.
     '''
-    return escape(Language.objects.get(code=code).__unicode__())
+    return escape(force_text(Language.objects.get(code=code)))
 
 
 @register.simple_tag

@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import sys
+
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.shortcuts import redirect
@@ -26,7 +28,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.http import require_POST
 from django.http import Http404
-import sys
 
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form

@@ -19,17 +19,19 @@
 #
 
 from __future__ import unicode_literals
-from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.vcs import GitRepository, HgRepository, \
-    RepositoryException, GitWithGerritRepository, GithubRepository
-from weblate.trans.tests.utils import get_test_file
 
-from django.test import TestCase
 import tempfile
 import shutil
 import os.path
 from unittest import SkipTest
+
+from django.test import TestCase
 from django.utils import timezone
+
+from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.vcs import GitRepository, HgRepository, \
+    RepositoryException, GitWithGerritRepository, GithubRepository
+from weblate.trans.tests.utils import get_test_file
 
 
 class GithubFakeRepository(GithubRepository):

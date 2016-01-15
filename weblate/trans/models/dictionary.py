@@ -19,18 +19,21 @@
 #
 
 import sys
+
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
-from django.utils.encoding import force_text
-from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat
-from weblate.trans.models.project import Project
-from weblate.trans.util import report_error
-from django.core.urlresolvers import reverse
+from django.utils.encoding import force_text, python_2_unicode_compatible
+
 from whoosh.analysis import (
     LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer
 )
 from whoosh.lang import has_stemmer
+
+from weblate.lang.models import Language
+from weblate.trans.formats import AutoFormat
+from weblate.trans.models.project import Project
+from weblate.trans.util import report_error
 
 
 class DictionaryManager(models.Manager):
@@ -158,6 +161,7 @@ class DictionaryManager(models.Manager):
         return dictionary
 
 
+@python_2_unicode_compatible
 class Dictionary(models.Model):
     project = models.ForeignKey(Project)
     language = models.ForeignKey(Language)
@@ -173,7 +177,7 @@ class Dictionary(models.Model):
         )
         app_label = 'trans'
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s/%s: %s -> %s' % (
             self.project,
             self.language,

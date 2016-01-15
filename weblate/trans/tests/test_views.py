@@ -22,18 +22,20 @@
 Tests for translation views.
 """
 
+from xml.dom import minidom
+
 from six.moves.urllib.parse import urlsplit
 from six import StringIO
-from xml.dom import minidom
 
 from django.test.client import RequestFactory
 from django.contrib.auth.models import Group, User
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
+
 from PIL import Image
 
-from weblate.trans.models import WhiteboardMessage, SubProject
+from weblate.trans.models import WhiteboardMessage
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
 
@@ -449,50 +451,3 @@ class SourceStringsTest(ViewTestCase):
             reverse('show_source', kwargs=self.kw_subproject)
         )
         self.assertContains(response, 'Test/Test')
-
-
-class AutoTranslationTest(ViewTestCase):
-    def setUp(self):
-        super(AutoTranslationTest, self).setUp()
-        # Need extra power
-        self.user.is_superuser = True
-        self.user.save()
-        self.subproject2 = SubProject.objects.create(
-            name='Test 2',
-            slug='test-2',
-            project=self.project,
-            repo=self.git_repo_path,
-            push=self.git_repo_path,
-            vcs='git',
-            filemask='po/*.po',
-            template='',
-            file_format='po',
-            new_base='',
-            allow_translation_propagation=False,
-        )
-
-    def test_none(self):
-        '''
-        Tests for automatic translation with no content.
-        '''
-        url = reverse('auto_translation', kwargs=self.kw_translation)
-        response = self.client.post(
-            url
-        )
-        self.assertRedirects(response, self.translation_url)
-
-    def test_different(self):
-        '''
-        Tests for automatic translation with different content.
-        '''
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
-        params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
-        url = reverse('auto_translation', kwargs=params)
-        response = self.client.post(url)
-        self.assertRedirects(response, reverse('translation', kwargs=params))
-        # Check we've translated something
-        translation = self.subproject2.translation_set.get(language_code='cs')
-        self.assertEqual(translation.translated, 1)

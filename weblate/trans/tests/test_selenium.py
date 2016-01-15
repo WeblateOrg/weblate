@@ -21,12 +21,15 @@
 from __future__ import print_function
 from unittest import SkipTest
 import time
-import django
 import os
-import new
+try:
+    from types import new_class
+except ImportError:
+    from new import classobj as new_class
 import json
 import base64
 from six.moves.http_client import HTTPConnection
+import django
 from django.test import LiveServerTestCase
 from django.core.urlresolvers import reverse
 from django.core import mail
@@ -324,7 +327,7 @@ def create_extra_classes():
         classdict.update({
             'caps': EXTRA_PLATFORMS[platform],
         })
-        classes[name] = new.classobj(name, (SeleniumTests,), classdict)
+        classes[name] = new_class(name, (SeleniumTests,), classdict)
 
     globals().update(classes)
 

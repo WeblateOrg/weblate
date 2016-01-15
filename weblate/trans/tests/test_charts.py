@@ -22,9 +22,11 @@
 Tests for charts and widgets.
 """
 
-from weblate.trans.tests.test_views import ViewTestCase
-from django.core.urlresolvers import reverse
 import json
+
+from django.core.urlresolvers import reverse
+
+from weblate.trans.tests.test_views import ViewTestCase
 
 
 class ChartsTest(ViewTestCase):

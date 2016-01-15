@@ -20,10 +20,11 @@
 """
 Permissions abstract layer for Weblate.
 """
-from weblate import appsettings
-from weblate.trans.models.group_acl import GroupACL
 from django.db.models import Q
 from django.contrib.auth.models import Group, User, Permission
+
+from weblate import appsettings
+from weblate.trans.models.group_acl import GroupACL
 
 
 def check_owner(user, project, permission):

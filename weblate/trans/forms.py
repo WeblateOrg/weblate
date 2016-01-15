@@ -19,17 +19,24 @@
 #
 
 from __future__ import unicode_literals
+
+from datetime import date
+
+from crispy_forms.helper import FormHelper
+
 from django import forms
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
 from django.utils.safestring import mark_safe
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_text, force_text
 from django.forms import ValidationError
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.contrib.auth.models import User
-from crispy_forms.helper import FormHelper
+
+from six.moves.urllib.parse import urlencode
+
 from weblate.lang.models import Language
 from weblate.trans.models.unit import Unit, SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
@@ -40,8 +47,6 @@ from weblate.trans.permissions import (
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
 from weblate.accounts.forms import sort_choices
-from six.moves.urllib.parse import urlencode
-from datetime import date
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 
@@ -580,7 +585,7 @@ class SiteSearchForm(SearchForm):
         super(SiteSearchForm, self).__init__(*args, **kwargs)
 
         self.fields['lang'].choices += [
-            (l.code, l.__unicode__())
+            (l.code, force_text(l))
             for l in Language.objects.have_translation()
         ]
 
@@ -619,21 +624,30 @@ class AutoForm(forms.Form):
         initial=''
     )
 
-    def __init__(self, obj, *args, **kwargs):
+    def __init__(self, obj, user, *args, **kwargs):
         '''
         Dynamically generate choices for other subproject
         in same project
         '''
-        project = obj.subproject.project
-        other_subprojects = project.subproject_set.exclude(
+        other_subprojects = obj.subproject.project.subproject_set.exclude(
             id=obj.subproject.id
         )
-        choices = [(s.slug, s.name) for s in other_subprojects]
+        choices = [(s.id, force_text(s)) for s in other_subprojects]
+
+        # Add other owned projects
+        owned_projects = user.project_set.all().exclude(
+            pk=obj.subproject.project.id
+        )
+        for project in owned_projects:
+            for component in project.subproject_set.all():
+                choices.append(
+                    (component.id, force_text(component))
+                )
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
         self.fields['subproject'].choices = \
-            [('', _('All components'))] + choices
+            [('', _('All components in current project'))] + choices
 
 
 class WordForm(forms.Form):
@@ -760,7 +774,7 @@ class EnageLanguageForm(forms.Form):
         Dynamically generate choices for used languages
         in project
         '''
-        choices = [(l.code, l.__unicode__()) for l in project.get_languages()]
+        choices = [(l.code, force_text(l)) for l in project.get_languages()]
 
         super(EnageLanguageForm, self).__init__(*args, **kwargs)
 
@@ -779,7 +793,7 @@ class NewLanguageForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(NewLanguageForm, self).__init__(*args, **kwargs)
         choices = sort_choices([('', _('Please select'))] + [
-            (l.code, l.__unicode__()) for l in Language.objects.all()
+            (l.code, force_text(l)) for l in Language.objects.all()
         ])
         self.fields['lang'].choices = choices
 

@@ -21,17 +21,20 @@
 Minimal distributed version control system abstraction for Weblate needs.
 """
 from __future__ import unicode_literals
-import subprocess
-import os
-import os.path
-import email.utils
-import re
-from six.moves.configparser import RawConfigParser
-import hashlib
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
+import email.utils
+import hashlib
+import os
+import os.path
+import re
+import subprocess
+
 from dateutil import parser
+
+from six.moves.configparser import RawConfigParser
+
 from weblate.trans.util import get_clean_env, add_configuration_error
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
 from weblate import appsettings

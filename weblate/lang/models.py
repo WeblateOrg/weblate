@@ -19,9 +19,10 @@
 #
 
 from __future__ import unicode_literals
+
 from django.db import models, transaction
 from django.db.utils import OperationalError
-from django.utils.encoding import force_text
+from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
@@ -343,6 +344,7 @@ def setup_lang(sender, **kwargs):
             Language.objects.setup(False)
 
 
+@python_2_unicode_compatible
 class Language(models.Model, PercentMixin):
     PLURAL_CHOICES = (
         (data.PLURAL_NONE, 'None'),
@@ -387,7 +389,7 @@ class Language(models.Model, PercentMixin):
         super(Language, self).__init__(*args, **kwargs)
         self._percents = None
 
-    def __unicode__(self):
+    def __str__(self):
         if self.show_language_code:
             return '{0} ({1})'.format(
                 _(self.name), self.code

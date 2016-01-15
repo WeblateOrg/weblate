@@ -20,12 +20,15 @@
 '''
 Tests for changes done in remote repository.
 '''
+
+import shutil
+import os
+
+from django.utils import timezone
+
 from weblate.trans.models import SubProject
 from weblate.trans.tests.test_models import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
-from django.utils import timezone
-import shutil
-import os
 
 EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21

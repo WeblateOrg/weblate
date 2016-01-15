@@ -20,9 +20,11 @@
 '''
 Font handling wrapper.
 '''
-from weblate import appsettings
-from PIL import ImageFont
 import os.path
+
+from PIL import ImageFont
+
+from weblate import appsettings
 
 # List of chars in base DejaVu font, otherwise we use DroidSansFallback
 BASE_CHARS = frozenset((

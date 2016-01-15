@@ -22,8 +22,9 @@
 Tests for sitemaps.
 """
 
-from weblate.trans.tests.test_views import ViewTestCase
 from xml.etree import cElementTree as ElementTree
+
+from weblate.trans.tests.test_views import ViewTestCase
 
 
 class SitemapTest(ViewTestCase):

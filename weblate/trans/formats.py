@@ -22,29 +22,34 @@ File format specific behavior.
 '''
 
 from __future__ import unicode_literals
-from django.utils.translation import ugettext_lazy as _
-from translate.convert import po2php
-from translate.storage.lisa import LISAfile
-from translate.storage.properties import propunit, propfile
-from translate.storage.xliff import xliffunit, xlifffile, ID_SEPARATOR
 
-from translate.storage.po import pounit, pofile
-from translate.storage.poheader import default_header
-from translate.storage.php import phpunit
-from translate.storage.ts2 import tsunit, tsfile
-from translate.storage import mo
-from translate.storage import factory
-from weblate.trans.util import get_string, join_plural, add_configuration_error
-from translate.misc import quote
-from weblate.trans.util import get_clean_env, calculate_checksum
-import weblate
 import subprocess
 import os.path
 import re
 import csv
 import traceback
 import importlib
+
+from django.utils.translation import ugettext_lazy as _
+
+import six
 from six import StringIO
+
+from translate.convert import po2php
+from translate.storage.lisa import LISAfile
+from translate.storage.properties import propunit, propfile
+from translate.storage.xliff import xliffunit, xlifffile, ID_SEPARATOR
+from translate.misc import quote
+from translate.storage.po import pounit, pofile
+from translate.storage.poheader import default_header
+from translate.storage.php import phpunit
+from translate.storage.ts2 import tsunit, tsfile
+from translate.storage import mo
+from translate.storage import factory
+
+from weblate.trans.util import get_string, join_plural, add_configuration_error
+from weblate.trans.util import get_clean_env, calculate_checksum
+import weblate
 
 
 FILE_FORMATS = {}
@@ -431,7 +436,7 @@ class FileFormat(object):
         Loads file using defined loader.
         '''
         # Add missing mode attribute to Django file wrapper
-        if (not isinstance(storefile, basestring) and
+        if (not isinstance(storefile, six.string_types) and
                 not hasattr(storefile, 'mode')):
             storefile.mode = 'r'
 

@@ -19,9 +19,9 @@
 #
 
 from __future__ import unicode_literals
-import django
 import os
 from logging.handlers import SysLogHandler
+import django
 
 #
 # Safety check for running with too old Django version
@@ -100,6 +100,7 @@ LANGUAGES = (
     ('he', 'עברית'),
     ('hu', 'Magyar'),
     ('id', 'Indonesia'),
+    ('it', 'Italiano'),
     ('ja', '日本語'),
     ('ko', '한국어'),
     ('ksh', 'Kölsch'),

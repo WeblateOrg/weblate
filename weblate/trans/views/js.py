@@ -24,6 +24,7 @@ from django.http import (
 )
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+from django.utils.encoding import force_text
 
 from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -140,7 +141,7 @@ def git_status_project(request, project):
         raise PermissionDenied()
 
     statuses = [
-        (component.__unicode__(), component.repository.status)
+        (force_text(component), component.repository.status)
         for component in obj.all_repo_components()
     ]
 

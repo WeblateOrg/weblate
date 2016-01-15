@@ -21,13 +21,16 @@
 Base code for machine translation services.
 '''
 
+import sys
+import json
+
+from six.moves.urllib.request import Request, urlopen
+from six.moves.urllib.parse import urlencode
+
 from django.core.cache import cache
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from six.moves.urllib.request import Request, urlopen
-from six.moves.urllib.parse import urlencode
-import sys
-import json
+
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.trans.util import report_error

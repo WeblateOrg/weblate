@@ -19,11 +19,12 @@
 #
 """Tests for hook scripts """
 
-from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.scripts import run_hook
 import tempfile
 import os
 import stat
+
+from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.scripts import run_hook
 
 
 class ScriptTest(RepoTestCase):

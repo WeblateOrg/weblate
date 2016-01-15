@@ -19,8 +19,10 @@
 #
 
 from django.db import models
+from django.utils.encoding import force_text, python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class IndexUpdate(models.Model):
     unit = models.OneToOneField('Unit')
     source = models.BooleanField(default=True)
@@ -28,5 +30,5 @@ class IndexUpdate(models.Model):
     class Meta(object):
         app_label = 'trans'
 
-    def __unicode__(self):
-        return self.unit.__unicode__()
+    def __str__(self):
+        return force_text(self.unit)

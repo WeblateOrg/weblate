@@ -18,10 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import re
+
 from django.db.models.fields import CharField
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
-import re
 
 
 def validate_re(value):

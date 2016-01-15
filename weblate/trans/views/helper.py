@@ -21,11 +21,12 @@
 Helper methods for views.
 '''
 
-from weblate.trans.models import Project, SubProject, Translation
-from weblate.lang.models import Language
 from django.shortcuts import get_object_or_404
 import django.utils.translation
 from django.utils.translation import trans_real
+
+from weblate.trans.models import Project, SubProject, Translation
+from weblate.lang.models import Language
 
 
 def get_translation(request, project, subproject, lang, skip_acl=False):

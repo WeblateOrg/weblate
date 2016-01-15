@@ -21,17 +21,22 @@
 File format specific behavior.
 '''
 from __future__ import unicode_literals
+
 import tempfile
-from six import StringIO
 from unittest import TestCase, SkipTest
+
+from six import StringIO
+
 from django.test import SimpleTestCase
+
+from translate.storage.po import pofile
+
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
     JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     FILE_FORMATS,
 )
 from weblate.trans.tests.utils import get_test_file
-from translate.storage.po import pofile
 
 
 TEST_PO = get_test_file('cs.po')
