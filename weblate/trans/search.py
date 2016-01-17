@@ -230,13 +230,20 @@ def update_index_unit(unit, source=True):
             update_target_unit_index(writer, unit)
 
 
-def base_search(searcher, field, schema, query):
+def base_search(index, query, params, search, schema):
     '''
     Wrapper for fulltext search.
     '''
-    parser = qparser.QueryParser(field, schema)
-    parsed = parser.parse(query)
-    return [result['pk'] for result in searcher.search(parsed)]
+    with index.searcher() as searcher:
+        queries = []
+        for param in params:
+            if search[param]:
+                parser = qparser.QueryParser(param, schema)
+                queries.append(
+                    parser.parse(query)
+                )
+        terms = reduce(lambda x, y: x | y, queries)
+        return [result['pk'] for result in searcher.search(terms)]
 
 
 def fulltext_search(query, lang, params):
@@ -255,22 +262,26 @@ def fulltext_search(query, lang, params):
     search.update(params)
 
     if search['source'] or search['context'] or search['location']:
-        index = get_source_index()
-        with index.searcher() as searcher:
-            for param in ('source', 'context', 'location'):
-                if search[param]:
-                    pks.update(
-                        base_search(searcher, param, SourceSchema(), query)
-                    )
+        pks.update(
+            base_search(
+                get_source_index(),
+                query,
+                ('source', 'context', 'location'),
+                search,
+                SourceSchema()
+            )
+        )
 
     if search['target'] or search['comment']:
-        index = get_target_index(lang)
-        with index.searcher() as searcher:
-            for param in ('target', 'comment'):
-                if search[param]:
-                    pks.update(
-                        base_search(searcher, param, TargetSchema(), query)
-                    )
+        pks.update(
+            base_search(
+                get_target_index(lang),
+                query,
+                ('target', 'comment'),
+                search,
+                TargetSchema()
+            )
+        )
 
     return pks
 
