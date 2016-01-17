@@ -23,7 +23,7 @@ Whoosh based full text search.
 '''
 
 import shutil
-from whoosh.fields import SchemaClass, TEXT, ID
+from whoosh.fields import SchemaClass, TEXT, ID, NUMERIC
 from whoosh.filedb.filestore import FileStorage
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
@@ -43,7 +43,7 @@ class TargetSchema(SchemaClass):
     '''
     Fultext index schema for target strings.
     '''
-    checksum = ID(stored=True, unique=True)
+    pk = NUMERIC(stored=True, unique=True)
     target = TEXT()
     comment = TEXT()
 
@@ -52,7 +52,7 @@ class SourceSchema(SchemaClass):
     '''
     Fultext index schema for source and context strings.
     '''
-    checksum = ID(stored=True, unique=True)
+    pk = NUMERIC(stored=True, unique=True)
     source = TEXT()
     context = TEXT()
     location = TEXT()
@@ -93,7 +93,7 @@ def update_source_unit_index(writer, unit):
     Updates source index for given unit.
     '''
     writer.update_document(
-        checksum=force_text(unit.checksum),
+        pk=unit.pk,
         source=force_text(unit.source),
         context=force_text(unit.context),
         location=force_text(unit.location),
@@ -105,7 +105,7 @@ def update_target_unit_index(writer, unit):
     Updates target index for given unit.
     '''
     writer.update_document(
-        checksum=force_text(unit.checksum),
+        pk=unit.pk,
         target=force_text(unit.target),
         comment=force_text(unit.comment),
     )
@@ -125,6 +125,10 @@ def get_source_index():
     index = STORAGE.open_index('source')
     if 'location' not in index.schema:
         index.add_field('location', TEXT)
+    if 'pk' not in index.schema:
+        index.add_field('pk', NUMERIC)
+    if 'checksum' in index.schema:
+        index.remove_field('checksum')
     return index
 
 
@@ -143,6 +147,10 @@ def get_target_index(lang):
     index = STORAGE.open_index(name)
     if 'comment' not in index.schema:
         index.add_field('comment', TEXT)
+    if 'pk' not in index.schema:
+        index.add_field('pk', NUMERIC)
+    if 'checksum' in index.schema:
+        index.remove_field('checksum')
     return index
 
 
@@ -228,14 +236,14 @@ def base_search(searcher, field, schema, query):
     '''
     parser = qparser.QueryParser(field, schema)
     parsed = parser.parse(query)
-    return [result['checksum'] for result in searcher.search(parsed)]
+    return [result['pk'] for result in searcher.search(parsed)]
 
 
 def fulltext_search(query, lang, params):
     '''
-    Performs fulltext search in given areas, returns set of checksums.
+    Performs fulltext search in given areas, returns set of primary keys.
     '''
-    checksums = set()
+    pks = set()
 
     search = {
         'source': False,
@@ -251,7 +259,7 @@ def fulltext_search(query, lang, params):
         with index.searcher() as searcher:
             for param in ('source', 'context', 'location'):
                 if search[param]:
-                    checksums.update(
+                    pks.update(
                         base_search(searcher, param, SourceSchema(), query)
                     )
 
@@ -260,23 +268,31 @@ def fulltext_search(query, lang, params):
         with index.searcher() as searcher:
             for param in ('target', 'comment'):
                 if search[param]:
-                    checksums.update(
+                    pks.update(
                         base_search(searcher, param, TargetSchema(), query)
                     )
 
-    return checksums
+    return pks
 
 
-def more_like(checksum, source, top=5):
+def more_like(pk, source, top=5):
     '''
     Finds similar units.
     '''
     index = get_source_index()
     with index.searcher() as searcher:
-        docnum = searcher.document_number(checksum=checksum)
+        docnum = searcher.document_number(pk=pk)
         if docnum is None:
             return set()
 
         results = searcher.more_like(docnum, 'source', source, top)
 
-        return set([result['checksum'] for result in results])
+        return set([result['pk'] for result in results])
+
+
+def clean_search_unit(pk, lang):
+    """Cleanups search index on unit deletion."""
+    index = get_target_index(lang)
+    index.writer().delete_by_term('pk', pk)
+    index = get_source_index()
+    index.writer().delete_by_term('pk', pk)

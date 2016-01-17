@@ -37,6 +37,7 @@ from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
+from weblate.trans.search import clean_search_unit
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
     user_pre_delete, translation_post_add,
@@ -156,7 +157,7 @@ def cleanup_deleted(sender, instance, **kwargs):
     '''
     project = instance.translation.subproject.project
     language = instance.translation.language
-    contentsum = instance.translation
+    contentsum = instance.contentsum
     units = Unit.objects.filter(
         translation__language=language,
         translation__subproject__project=project,
@@ -205,6 +206,9 @@ def cleanup_deleted(sender, instance, **kwargs):
             language=None,
             contentsum=contentsum
         ).delete()
+
+    # Cleanup fulltext index
+    clean_search_unit(instance.pk, language.code)
 
 
 @receiver(vcs_post_push)

@@ -58,11 +58,11 @@ SIMPLE_FILTERS = {
 SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
 
 
-def more_like_queue(checksum, source, top, queue):
+def more_like_queue(pk, source, top, queue):
     """
     Multiprocess wrapper around more_like.
     """
-    result = more_like(checksum, source, top)
+    result = more_like(pk, source, top)
     queue.put(result)
 
 
@@ -244,7 +244,7 @@ class UnitManager(models.Manager):
         else:
             lang = self.all()[0].translation.language.code
             return base.filter(
-                checksum__in=fulltext_search(
+                pk__in=fulltext_search(
                     params['q'],
                     lang,
                     params
@@ -255,14 +255,14 @@ class UnitManager(models.Manager):
         """
         Finds units with same source.
         """
-        checksums = fulltext_search(
+        pks = fulltext_search(
             unit.get_source_plurals()[0],
             unit.translation.language.code,
             {'source': True}
         )
 
         return self.filter(
-            checksum__in=checksums,
+            pk__in=pks,
             translation__language=unit.translation.language,
             translated=True
         ).exclude(
@@ -277,7 +277,7 @@ class UnitManager(models.Manager):
             queue = multiprocessing.Queue()
             proc = multiprocessing.Process(
                 target=more_like_queue,
-                args=(unit.checksum, unit.source, top, queue)
+                args=(unit.pk, unit.source, top, queue)
             )
             proc.start()
             proc.join(appsettings.MT_WEBLATE_LIMIT)
@@ -289,7 +289,7 @@ class UnitManager(models.Manager):
 
             more_results = queue.get()
         else:
-            more_results = more_like(unit.checksum, unit.source, top)
+            more_results = more_like(unit.pk, unit.source, top)
 
         same_results = fulltext_search(
             unit.get_source_plurals()[0],
@@ -297,10 +297,9 @@ class UnitManager(models.Manager):
             {'source': True}
         )
 
-        checksums = more_results - same_results
 
         return self.filter(
-            checksum__in=checksums,
+            pk__in=more_results - same_results,
             translation__language=unit.translation.language,
             translated=True
         ).exclude(

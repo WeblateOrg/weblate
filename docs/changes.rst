@@ -26,6 +26,7 @@ Released on ? 2015.
 * Extended list of options for import_project.
 * Improved targeting for whiteboard messages.
 * Support for automatic translation across projects.
+* Optimized fulltext search index.
 
 weblate 2.4
 -----------

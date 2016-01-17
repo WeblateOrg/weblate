@@ -282,6 +282,20 @@ importantly:
 There is now also additional dependency - ``django_compressor``, please install
 it prior to upgrading.
 
+Upgrade from 2.4 to 2.5
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please  adjust your :file:`settings.py` to match several changes in the
+configuration (consult :file:`settings_example.py` for correct values).
+
+The fulltext index has been changed, so unless you rebuild it, the fulltext
+search will not work. To rebuild it, execute:
+
+.. code-block:: sh
+
+    ./manage.py rebuild_index --clean --all
+
+
 .. _django-17:
 
 Upgrading to Django 1.7
