@@ -670,9 +670,9 @@ class Unit(models.Model, LoggerMixin):
             fuzzy=True,
             previous_source=previous_source,
         )
-        # Update source index, it's enough to do it for one as we index by
-        # checksum which is same for all
-        update_index_unit(self, True)
+        # Update source index
+        for unit in same_source.interator():
+            update_index_unit(unit, True)
 
     def generate_change(self, request, author, oldunit, change_action):
         """
