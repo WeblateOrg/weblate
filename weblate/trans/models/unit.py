@@ -297,7 +297,6 @@ class UnitManager(models.Manager):
             {'source': True}
         )
 
-
         return self.filter(
             pk__in=more_results - same_results,
             translation__language=unit.translation.language,
