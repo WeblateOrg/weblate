@@ -23,7 +23,7 @@ Whoosh based full text search.
 '''
 
 import shutil
-from whoosh.fields import SchemaClass, TEXT, ID, NUMERIC
+from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.filedb.filestore import FileStorage
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
