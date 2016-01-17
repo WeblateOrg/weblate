@@ -211,7 +211,7 @@ EXTRALANGS = (
     ),
     (
         'es_AR',
-        'Argentinean Spanish',
+        'Spanish (Argentina)',
         2,
         '(n != 1)',
     ),
