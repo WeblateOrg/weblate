@@ -22,12 +22,14 @@
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.models import Group
 from weblate.lang.models import Language
 
 
+@python_2_unicode_compatible
 class GroupACL(models.Model):
 
     groups = models.ManyToManyField(Group)
@@ -46,6 +48,19 @@ class GroupACL(models.Model):
         # ignore project if subproject is set
         if self.project and self.subproject:
             self.project = None
+
+    def __str__(self):
+        params = []
+        if self.language:
+            params.append("language={}".format(self.language))
+        if self.subproject:
+            params.append("project={}".format(self.subproject))
+        elif self.project:
+            params.append("project={}".format(self.project))
+        if not params:
+            # in case the object is not valid
+            params.append("(unspecified)")
+        return "<GroupACL({}) for {}>".format(self.pk, ", ".join(params))
 
     class Meta(object):
         unique_together = ('project', 'subproject', 'language')

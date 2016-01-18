@@ -131,4 +131,3 @@ class GroupACLTest(ModelTestCase):
         acl_sub.groups.add(self.group)
         self.assertTrue(
             can_edit(self.privileged, self.trans, self.PERMISSION))
-
