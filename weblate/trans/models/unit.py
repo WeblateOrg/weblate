@@ -671,7 +671,7 @@ class Unit(models.Model, LoggerMixin):
             previous_source=previous_source,
         )
         # Update source index
-        for unit in same_source.interator():
+        for unit in same_source.iterator():
             update_index_unit(unit, True)
 
     def generate_change(self, request, author, oldunit, change_action):
