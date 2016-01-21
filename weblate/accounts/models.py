@@ -829,6 +829,8 @@ def create_groups(update):
             username=ANONYMOUS_USER_NAME,
             is_active=False,
         )
+    # Ensure anonymous user has profile
+    Profile.objects.get_or_create(user=anon_user)
 
     if created or update:
         anon_user.set_unusable_password()
