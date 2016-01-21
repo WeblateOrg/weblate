@@ -23,7 +23,6 @@ from django.core.exceptions import PermissionDenied
 
 
 def auto_translate(user, translation, source, inconsistent, overwrite):
-    change = None
     updated = 0
 
     if inconsistent:
@@ -65,13 +64,12 @@ def auto_translate(user, translation, source, inconsistent, overwrite):
             unit.fuzzy = update.fuzzy
             unit.target = update.target
             # Create signle change object for whole merge
-            if change is None:
-                change = Change.objects.create(
-                    action=Change.ACTION_AUTO,
-                    translation=unit.translation,
-                    user=user,
-                    author=user
-                )
+            change = Change.objects.create(
+                action=Change.ACTION_AUTO,
+                unit=unit,
+                user=user,
+                author=user
+            )
             # Save unit to backend
             unit.save_backend(None, False, False, user=user)
             updated += 1
