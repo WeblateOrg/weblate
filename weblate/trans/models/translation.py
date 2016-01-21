@@ -263,6 +263,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def untranslated_words(self):
         return self.total_words - self.translated_words
 
+    @property
+    def untraslated(self):
+        return self.total - self.translated
+
     def get_lock_user_display(self):
         '''
         Returns formatted lock user.
@@ -352,9 +356,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if appsettings.AUTO_LOCK:
             self.create_lock(request.user)
             return
-
-    def get_non_translated(self):
-        return self.total - self.translated
 
     def _reverse_url_name(self):
         '''
