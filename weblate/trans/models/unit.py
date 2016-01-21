@@ -549,12 +549,12 @@ class Unit(models.Model, LoggerMixin):
 
         Optional user parameters defines authorship of a change.
         """
-        # Update lock timestamp
-        self.translation.update_lock(request)
-
         # For case when authorship specified, use user from request
         if user is None:
             user = request.user
+
+        # Update lock timestamp
+        self.translation.update_lock(user)
 
         # Store to backend
         try:

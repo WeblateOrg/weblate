@@ -343,7 +343,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         self.save()
 
-    def update_lock(self, request):
+    def update_lock(self, user):
         '''
         Updates lock timestamp.
         '''
@@ -354,7 +354,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Auto lock if we should
         if appsettings.AUTO_LOCK:
-            self.create_lock(request.user)
+            self.create_lock(user)
             return
 
     def _reverse_url_name(self):
