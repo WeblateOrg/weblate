@@ -31,6 +31,33 @@ Example:
 
     ./manage.py --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
 
+
+auto_translate <project> <component> <language>
+-----------------------------------------------
+
+.. django-admin:: auto_translate
+
+.. versionadded:: 2.5
+
+Performs automatic translation based on other component translations.
+
+By default it uses all other components from current project, but you can
+specify other source component by ``--source`` parameter.
+
+All changes are by default authored by anonymous user, you can specify another
+username by ``--user``.
+
+The ``--overwrite`` and ``--inconsistent`` parameters control which strings
+will be updated.
+
+Example:
+
+.. code-block:: sh
+
+    ./manage.py --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
+
+.. seealso:: :ref:`auto-translation`
+
 changesite
 ----------
 

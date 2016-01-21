@@ -23,6 +23,8 @@ Tests for automatic translation
 """
 
 from django.core.urlresolvers import reverse
+from django.core.management import call_command
+from django.core.management.base import CommandError
 
 from weblate.trans.models import SubProject
 from weblate.trans.tests.test_views import ViewTestCase
@@ -58,14 +60,17 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.assertRedirects(response, self.translation_url)
 
-    def test_different(self):
-        '''
-        Tests for automatic translation with different content.
-        '''
+    def make_different(self):
         self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
+
+    def test_different(self):
+        '''
+        Tests for automatic translation with different content.
+        '''
+        self.make_different()
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
         response = self.client.post(url, follow=True)
@@ -78,3 +83,58 @@ class AutoTranslationTest(ViewTestCase):
         # Check we've translated something
         translation = self.subproject2.translation_set.get(language_code='cs')
         self.assertEqual(translation.translated, 1)
+
+    def test_command(self):
+        call_command(
+            'auto_translate',
+            'test',
+            'test',
+            'cs',
+        )
+
+    def test_command_different(self):
+        self.make_different()
+        call_command(
+            'auto_translate',
+            'test',
+            'test-2',
+            'cs',
+            source='test/test',
+        )
+
+    def test_command_errors(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            'test',
+            'test',
+            'cs',
+            user='invalid',
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            'test',
+            'test',
+            'cs',
+            source='invalid',
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            'test',
+            'test',
+            'cs',
+            source='test/invalid',
+        )
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            'test',
+            'test',
+            'xxx',
+        )

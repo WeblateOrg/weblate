@@ -27,6 +27,7 @@ Released on ? 2015.
 * Improved targeting for whiteboard messages.
 * Support for automatic translation across projects.
 * Optimized fulltext search index.
+* Added management command for auto translation.
 
 weblate 2.4
 -----------
