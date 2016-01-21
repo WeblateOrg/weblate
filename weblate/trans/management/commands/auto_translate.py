@@ -22,10 +22,8 @@ from optparse import make_option
 
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
-from django.http.request import HttpRequest
 
 from weblate.trans.models import Translation, SubProject
-from weblate.accounts.models import get_author_name
 from weblate.trans.autotranslate import auto_translate
 
 
