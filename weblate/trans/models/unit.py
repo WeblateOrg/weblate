@@ -613,7 +613,7 @@ class Unit(models.Model, LoggerMixin):
         self.translation.update_stats()
 
         # Notify subscribed users about new translation
-        notify_new_translation(self, oldunit, request.user)
+        notify_new_translation(self, oldunit, user)
 
         # Update user stats
         user.profile.translated += 1
