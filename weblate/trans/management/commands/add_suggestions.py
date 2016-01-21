@@ -24,7 +24,6 @@ from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 from django.http.request import HttpRequest
 
-from weblate.trans.models import Translation
 from weblate.accounts.models import get_author_name
 from weblate.trans.management.commands import WeblateTranslationCommand
 

@@ -23,7 +23,7 @@ from optparse import make_option
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
-from weblate.trans.models import Translation, SubProject
+from weblate.trans.models import SubProject
 from weblate.trans.autotranslate import auto_translate
 from weblate.trans.management.commands import WeblateTranslationCommand
 
