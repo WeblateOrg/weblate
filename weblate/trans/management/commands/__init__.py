@@ -211,3 +211,11 @@ class WeblateTranslationCommand(BaseCommand):
             )
         except Translation.DoesNotExist:
             raise CommandError('No matching translation project found!')
+
+    def handle(self, *args, **options):
+        """
+        The actual logic of the command. Subclasses must implement
+        this method.
+
+        """
+        raise NotImplementedError()
