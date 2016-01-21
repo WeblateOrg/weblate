@@ -76,7 +76,7 @@ class AutoTranslationTest(ViewTestCase):
         response = self.client.post(url, follow=True)
         self.assertContains(
             response,
-            'Automatic translation completed, 1 string udated.'
+            'Automatic translation completed, 1 string was updated.',
         )
 
         self.assertRedirects(response, reverse('translation', kwargs=params))

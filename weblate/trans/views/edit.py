@@ -626,8 +626,8 @@ def auto_translation(request, project, subproject, lang):
         request, updated,
         _('Automatic translation completed, no strings were updated.'),
         ungettext(
-            'Automatic translation completed, %d string was udated.',
-            'Automatic translation completed, %d strings were udated.',
+            'Automatic translation completed, %d string was updated.',
+            'Automatic translation completed, %d strings were updated.',
             updated
         )
     )
