@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-21 07:37+0000\n"
+"POT-Creation-Date: 2016-01-21 11:37+0000\n"
 "PO-Revision-Date: 2016-01-09 00:49+0000\n"
 "Last-Translator: Sérgio Marques <smarquespt@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -2761,17 +2761,23 @@ msgid "Translated strings:"
 msgstr "Cadeias traduzidas:"
 
 #: weblate/html/mail/footer.html:13 weblate/html/mail/footer.txt.py:5
+#, fuzzy
+#| msgid "Untranslated strings"
+msgid "Untranslated strings:"
+msgstr "Strings não traduzidas"
+
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 msgid "Fuzzy strings:"
 msgstr "Cadeias vagas:"
 
-#: weblate/html/mail/footer.html:17
+#: weblate/html/mail/footer.html:20
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 "Pode traduzir em <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 
-#: weblate/html/mail/footer.txt:7
+#: weblate/html/mail/footer.txt:8
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "Pode traduzir em %(translation_url)s"
@@ -3768,7 +3774,7 @@ msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "Ambíguo"
 
-#: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:495
+#: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
 msgstr "Chegou no final da tradução."
 
@@ -4427,35 +4433,35 @@ msgstr "Pesquisar nas strings de contexto"
 msgid "Search filter"
 msgstr "Filtro de pesquisa"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:925
-#: weblate/trans/models/translation.py:973 weblate/trans/views/edit.py:123
-#: weblate/trans/views/edit.py:139
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:926
+#: weblate/trans/models/translation.py:974 weblate/trans/views/edit.py:126
+#: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "Todas as cadeias"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:993
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:994
 msgid "Untranslated strings"
 msgstr "Strings não traduzidas"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:983
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:984
 msgid "Translated strings"
 msgstr "Cadeias traduzidas"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1012
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1013
 msgid "Fuzzy strings"
 msgstr "Cadeias confusas"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1021
+#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
 msgstr "Cadeias com sugestões"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:959
-#: weblate/trans/models/translation.py:1052
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:960
+#: weblate/trans/models/translation.py:1053
 msgid "Strings with comments"
 msgstr "Strings com comentários"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:936
-#: weblate/trans/models/translation.py:1030
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:937
+#: weblate/trans/models/translation.py:1031
 msgid "Strings with any failing checks"
 msgstr "Cadeias com qualquer falha de verificação"
 
@@ -5513,12 +5519,12 @@ msgstr "Formato dos %s não foi reconhecido."
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Falha ao analisar ficheiro %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:274
+#: weblate/trans/models/translation.py:278
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Esta tradução está bloqueada por %(user)s!"
 
-#: weblate/trans/models/translation.py:1003
+#: weblate/trans/models/translation.py:1004
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Untranslated words"
@@ -5970,11 +5976,11 @@ msgstr "Dicionário %(language)s para %(project)s"
 msgid "Dictionaries"
 msgstr "Dicionários"
 
-#: weblate/trans/views/dictionary.py:160
+#: weblate/trans/views/dictionary.py:159
 msgid "No words to import found in file."
 msgstr "Não foram encontradas palavras no ficheiro para importar."
 
-#: weblate/trans/views/dictionary.py:166
+#: weblate/trans/views/dictionary.py:161
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Imported %d word from the uploaded file."
@@ -5982,42 +5988,42 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Importadas %d palavras do ficheiro."
 msgstr[1] "Importadas %d palavras do ficheiro."
 
-#: weblate/trans/views/dictionary.py:174
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Falha no upload de ficheiro: %s"
 
-#: weblate/trans/views/dictionary.py:177 weblate/trans/views/edit.py:613
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:614
 msgid "Failed to process form!"
 msgstr "Falha ao processar o formulário!"
 
-#: weblate/trans/views/edit.py:76
+#: weblate/trans/views/edit.py:79
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Falha no parâmetro %(field)s: %(error)s"
 
-#: weblate/trans/views/edit.py:95 weblate/trans/views/edit.py:550
+#: weblate/trans/views/edit.py:98 weblate/trans/views/edit.py:553
 msgid "Invalid search string!"
 msgstr "Frase de pesquisa inválida!"
 
-#: weblate/trans/views/edit.py:117
+#: weblate/trans/views/edit.py:120
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Revisão das traduções desde %s"
 
-#: weblate/trans/views/edit.py:146 weblate/trans/views/edit.py:156
+#: weblate/trans/views/edit.py:149 weblate/trans/views/edit.py:159
 msgid "No string matched your search!"
 msgstr "Nenhuma string encontrada!"
 
-#: weblate/trans/views/edit.py:183
+#: weblate/trans/views/edit.py:186
 msgid "Your suggestion is empty!"
 msgstr "A sua sugestão está vazia!"
 
-#: weblate/trans/views/edit.py:190
+#: weblate/trans/views/edit.py:193
 msgid "You don't have privileges to add suggestions!"
 msgstr "Não tem privilégios para adicionar sugestões!"
 
-#: weblate/trans/views/edit.py:202
+#: weblate/trans/views/edit.py:205
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -6026,70 +6032,80 @@ msgstr ""
 "Não existe tradutor ativo para esta tradução, por favor considere torna-se "
 "um tradutor, caso contrário a sua sugestão ficará por rever."
 
-#: weblate/trans/views/edit.py:242
+#: weblate/trans/views/edit.py:245
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "As seguintes correções foram aplicadas à tradução: %s"
 
-#: weblate/trans/views/edit.py:257
+#: weblate/trans/views/edit.py:260
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Algumas verificações falharam na sua tradução: {0}"
 
-#: weblate/trans/views/edit.py:296 weblate/trans/views/edit.py:324
-#: weblate/trans/views/edit.py:364 weblate/trans/views/edit.py:833
+#: weblate/trans/views/edit.py:299 weblate/trans/views/edit.py:327
+#: weblate/trans/views/edit.py:367 weblate/trans/views/edit.py:801
 msgid "You don't have privileges to save translations!"
 msgstr "Não tem permissão para salvar as traduções!"
 
-#: weblate/trans/views/edit.py:332
+#: weblate/trans/views/edit.py:335
 msgid "Invalid merge request!"
 msgstr "Solicitação de junção inválida!"
 
-#: weblate/trans/views/edit.py:345
+#: weblate/trans/views/edit.py:348
 msgid "Can not merge different messages!"
 msgstr "Não pode fundir mensagens diferentes!"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:384
 msgid "Can not revert to different unit!"
 msgstr "Não pode reverter para uma unidade diferente!"
 
-#: weblate/trans/views/edit.py:386
+#: weblate/trans/views/edit.py:389
 msgid "Can not revert to empty translation!"
 msgstr "Não poder reverter para uma tradução vazia!"
 
-#: weblate/trans/views/edit.py:404
+#: weblate/trans/views/edit.py:407
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Não tem privilégios para aceitar sugestões!"
 
-#: weblate/trans/views/edit.py:411
+#: weblate/trans/views/edit.py:414
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Não tem privilégios para eliminar sugestões!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:421
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Não tem permissões para votar em sugestões!"
 
-#: weblate/trans/views/edit.py:460
+#: weblate/trans/views/edit.py:463
 msgid "Invalid suggestion!"
 msgstr "Sugestão inválida!"
 
-#: weblate/trans/views/edit.py:665
-msgid "Automatic translation completed."
+#: weblate/trans/views/edit.py:627
+#, fuzzy
+#| msgid "Automatic translation completed."
+msgid "Automatic translation completed, no strings were updated."
 msgstr "Tradução automática finalizada."
 
-#: weblate/trans/views/edit.py:691
+#: weblate/trans/views/edit.py:629
+#, fuzzy, python-format
+#| msgid "Automatic translation completed."
+msgid "Automatic translation completed, %d string was updated."
+msgid_plural "Automatic translation completed, %d strings were updated."
+msgstr[0] "Tradução automática finalizada."
+msgstr[1] "Tradução automática finalizada."
+
+#: weblate/trans/views/edit.py:659
 msgid "Posted new comment"
 msgstr "Novo comentário"
 
-#: weblate/trans/views/edit.py:693
+#: weblate/trans/views/edit.py:661
 msgid "Failed to add comment!"
 msgstr "Falha ao adicionar comentário!"
 
-#: weblate/trans/views/edit.py:717
+#: weblate/trans/views/edit.py:685
 msgid "Translation comment has been deleted."
 msgstr "O comentário à tradução foi apagado."
 
-#: weblate/trans/views/edit.py:836
+#: weblate/trans/views/edit.py:804
 msgid "Failed to save translation!"
 msgstr "Falha ao guardar a tradução!"
 
@@ -6097,7 +6113,13 @@ msgstr "Falha ao guardar a tradução!"
 msgid "Access denied."
 msgstr "Acesso negado."
 
-#: weblate/trans/views/files.py:134
+#: weblate/trans/views/files.py:133
+#, fuzzy
+#| msgid "Imported %d words from file."
+msgid "No strings were imported from the uploaded file."
+msgstr "Importadas %d palavras do ficheiro."
+
+#: weblate/trans/views/files.py:135
 #, fuzzy, python-format
 #| msgid "Imported %d words from file."
 msgid "Processed %d string from the uploaded files."
@@ -6105,7 +6127,7 @@ msgid_plural "Processed %d strings from the uploaded files."
 msgstr[0] "Importadas %d palavras do ficheiro."
 msgstr[1] "Importadas %d palavras do ficheiro."
 
-#: weblate/trans/views/files.py:142
+#: weblate/trans/views/files.py:143
 #, fuzzy
 #| msgid "There were no new strings in uploaded file, processed %d string."
 #| msgid_plural ""
@@ -6113,7 +6135,7 @@ msgstr[1] "Importadas %d palavras do ficheiro."
 msgid "There were no new strings in uploaded file!"
 msgstr "Não há novas frases no arquivo enviado, processada %d frase."
 
-#: weblate/trans/views/files.py:146
+#: weblate/trans/views/files.py:147
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Falha ao fundir o conteúdo do arquivo: %s"

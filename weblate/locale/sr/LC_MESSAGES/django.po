@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-21 07:37+0000\n"
+"POT-Creation-Date: 2016-01-21 11:37+0000\n"
 "PO-Revision-Date: 2015-11-16 18:06+0000\n"
 "Last-Translator: Mladen Pejaković <pejakm@autistici.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2695,16 +2695,22 @@ msgid "Translated strings:"
 msgstr ""
 
 #: weblate/html/mail/footer.html:13 weblate/html/mail/footer.txt.py:5
+#, fuzzy
+#| msgid "translated"
+msgid "Untranslated strings:"
+msgstr "преведено"
+
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 msgid "Fuzzy strings:"
 msgstr ""
 
-#: weblate/html/mail/footer.html:17
+#: weblate/html/mail/footer.html:20
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 
-#: weblate/html/mail/footer.txt:7
+#: weblate/html/mail/footer.txt:8
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr ""
@@ -3627,7 +3633,7 @@ msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr ""
 
-#: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:495
+#: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
 msgstr ""
 
@@ -4248,35 +4254,35 @@ msgstr ""
 msgid "Search filter"
 msgstr ""
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:925
-#: weblate/trans/models/translation.py:973 weblate/trans/views/edit.py:123
-#: weblate/trans/views/edit.py:139
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:926
+#: weblate/trans/models/translation.py:974 weblate/trans/views/edit.py:126
+#: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr ""
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:993
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:994
 msgid "Untranslated strings"
 msgstr ""
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:983
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:984
 msgid "Translated strings"
 msgstr ""
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1012
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1013
 msgid "Fuzzy strings"
 msgstr ""
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1021
+#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
 msgstr ""
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:959
-#: weblate/trans/models/translation.py:1052
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:960
+#: weblate/trans/models/translation.py:1053
 msgid "Strings with comments"
 msgstr ""
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:936
-#: weblate/trans/models/translation.py:1030
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:937
+#: weblate/trans/models/translation.py:1031
 msgid "Strings with any failing checks"
 msgstr ""
 
@@ -5196,12 +5202,12 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/models/translation.py:274
+#: weblate/trans/models/translation.py:278
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1003
+#: weblate/trans/models/translation.py:1004
 #, fuzzy
 #| msgid "translated"
 msgid "Untranslated words"
@@ -5651,11 +5657,11 @@ msgstr "Речник за %(project)s — %(language)s"
 msgid "Dictionaries"
 msgstr "Речници"
 
-#: weblate/trans/views/dictionary.py:160
+#: weblate/trans/views/dictionary.py:159
 msgid "No words to import found in file."
 msgstr "У фајлу нису нађене речи за увоз."
 
-#: weblate/trans/views/dictionary.py:166
+#: weblate/trans/views/dictionary.py:161
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
@@ -5663,42 +5669,42 @@ msgstr[0] "Увезена је %d реч из отпремљених фајло�
 msgstr[1] "Увезене су %d речи из отпремљених фајлова."
 msgstr[2] "Увезено је %d речи из отпремљених фајлова."
 
-#: weblate/trans/views/dictionary.py:174
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Неуспело слање фајла: %s"
 
-#: weblate/trans/views/dictionary.py:177 weblate/trans/views/edit.py:613
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:614
 msgid "Failed to process form!"
 msgstr "Неуспела обрада обрасца!"
 
-#: weblate/trans/views/edit.py:76
+#: weblate/trans/views/edit.py:79
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Грешка параметра %(field)s: %(error)s"
 
-#: weblate/trans/views/edit.py:95 weblate/trans/views/edit.py:550
+#: weblate/trans/views/edit.py:98 weblate/trans/views/edit.py:553
 msgid "Invalid search string!"
 msgstr "Неисправан појам за претрагу!"
 
-#: weblate/trans/views/edit.py:117
+#: weblate/trans/views/edit.py:120
 #, python-format
 msgid "Review of translations since %s"
 msgstr "Провера превода од %s"
 
-#: weblate/trans/views/edit.py:146 weblate/trans/views/edit.py:156
+#: weblate/trans/views/edit.py:149 weblate/trans/views/edit.py:159
 msgid "No string matched your search!"
 msgstr "Нема поклапања са претрагом!"
 
-#: weblate/trans/views/edit.py:183
+#: weblate/trans/views/edit.py:186
 msgid "Your suggestion is empty!"
 msgstr "Ваш предлог је празан!"
 
-#: weblate/trans/views/edit.py:190
+#: weblate/trans/views/edit.py:193
 msgid "You don't have privileges to add suggestions!"
 msgstr "Немате дозволе за додавање предлога!"
 
-#: weblate/trans/views/edit.py:202
+#: weblate/trans/views/edit.py:205
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -5707,70 +5713,81 @@ msgstr ""
 "Нема активних преводилаца за овај превод. Размислите да постанете преводилац "
 "јер ваш предлог може остати неприхваћен."
 
-#: weblate/trans/views/edit.py:242
+#: weblate/trans/views/edit.py:245
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Следећа сређивања су урађена на преводу: %s"
 
-#: weblate/trans/views/edit.py:257
+#: weblate/trans/views/edit.py:260
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
 msgstr "Неке провере нису прошле ваш превод: {0}"
 
-#: weblate/trans/views/edit.py:296 weblate/trans/views/edit.py:324
-#: weblate/trans/views/edit.py:364 weblate/trans/views/edit.py:833
+#: weblate/trans/views/edit.py:299 weblate/trans/views/edit.py:327
+#: weblate/trans/views/edit.py:367 weblate/trans/views/edit.py:801
 msgid "You don't have privileges to save translations!"
 msgstr "Немате дозволе да сачувате преводе!"
 
-#: weblate/trans/views/edit.py:332
+#: weblate/trans/views/edit.py:335
 msgid "Invalid merge request!"
 msgstr "Неисправан захтев за стапање!"
 
-#: weblate/trans/views/edit.py:345
+#: weblate/trans/views/edit.py:348
 msgid "Can not merge different messages!"
 msgstr "Не могу да стопим различите поруке!"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:384
 msgid "Can not revert to different unit!"
 msgstr "Не могу да вратим на различиту јединицу!"
 
-#: weblate/trans/views/edit.py:386
+#: weblate/trans/views/edit.py:389
 msgid "Can not revert to empty translation!"
 msgstr "Не могу да вратим на празан превод!"
 
-#: weblate/trans/views/edit.py:404
+#: weblate/trans/views/edit.py:407
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Немате дозволе да прихватате предлоге!"
 
-#: weblate/trans/views/edit.py:411
+#: weblate/trans/views/edit.py:414
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Немате дозволе да бришете предлоге!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:421
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Немате дозволе да гласате за предлоге!"
 
-#: weblate/trans/views/edit.py:460
+#: weblate/trans/views/edit.py:463
 msgid "Invalid suggestion!"
 msgstr "Неисправан предлог!"
 
-#: weblate/trans/views/edit.py:665
-msgid "Automatic translation completed."
+#: weblate/trans/views/edit.py:627
+#, fuzzy
+#| msgid "Automatic translation completed."
+msgid "Automatic translation completed, no strings were updated."
 msgstr "Аутоматски превод завршен."
 
-#: weblate/trans/views/edit.py:691
+#: weblate/trans/views/edit.py:629
+#, fuzzy, python-format
+#| msgid "Automatic translation completed."
+msgid "Automatic translation completed, %d string was updated."
+msgid_plural "Automatic translation completed, %d strings were updated."
+msgstr[0] "Аутоматски превод завршен."
+msgstr[1] "Аутоматски превод завршен."
+msgstr[2] "Аутоматски превод завршен."
+
+#: weblate/trans/views/edit.py:659
 msgid "Posted new comment"
 msgstr "Постављен нови коментар"
 
-#: weblate/trans/views/edit.py:693
+#: weblate/trans/views/edit.py:661
 msgid "Failed to add comment!"
 msgstr "Неуспело додавање коментара!"
 
-#: weblate/trans/views/edit.py:717
+#: weblate/trans/views/edit.py:685
 msgid "Translation comment has been deleted."
 msgstr "Коментар превода је обрисан."
 
-#: weblate/trans/views/edit.py:836
+#: weblate/trans/views/edit.py:804
 msgid "Failed to save translation!"
 msgstr "Неуспело снимање превода!"
 
@@ -5778,7 +5795,14 @@ msgstr "Неуспело снимање превода!"
 msgid "Access denied."
 msgstr "Приступ одбијен."
 
-#: weblate/trans/views/files.py:134
+#: weblate/trans/views/files.py:133
+#, fuzzy
+#| msgid "Imported %d word from the uploaded file."
+#| msgid_plural "Imported %d words from the uploaded file."
+msgid "No strings were imported from the uploaded file."
+msgstr "Увезена је %d реч из отпремљених фајлова."
+
+#: weblate/trans/views/files.py:135
 #, python-format
 msgid "Processed %d string from the uploaded files."
 msgid_plural "Processed %d strings from the uploaded files."
@@ -5786,11 +5810,11 @@ msgstr[0] "Обрађена %d порука из отпремљених фајл
 msgstr[1] "Обрађене %d поруке из отпремљених фајлова."
 msgstr[2] "Обрађено %d порука из отпремљених фајлова."
 
-#: weblate/trans/views/files.py:142
+#: weblate/trans/views/files.py:143
 msgid "There were no new strings in uploaded file!"
 msgstr "Нема нових порука у отпремљеном фајлу!"
 
-#: weblate/trans/views/files.py:146
+#: weblate/trans/views/files.py:147
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "Неуспело стапање садржаја фајла: %s"

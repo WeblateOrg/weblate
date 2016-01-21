@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-21 07:37+0000\n"
+"POT-Creation-Date: 2016-01-21 11:37+0000\n"
 "PO-Revision-Date: 2016-01-16 02:38+0000\n"
 "Last-Translator: ezjerry liao <ezjerry@gmail.com>\n"
 "Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
@@ -2654,16 +2654,22 @@ msgid "Translated strings:"
 msgstr "已翻譯的字串："
 
 #: weblate/html/mail/footer.html:13 weblate/html/mail/footer.txt.py:5
+#, fuzzy
+#| msgid "Untranslated strings"
+msgid "Untranslated strings:"
+msgstr "尚未翻譯的字串"
+
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 msgid "Fuzzy strings:"
 msgstr "模糊的字串："
 
-#: weblate/html/mail/footer.html:17
+#: weblate/html/mail/footer.html:20
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr "您可以在 <a href=\"%(translation_url)s\">%(translation_url)s</a> 翻譯"
 
-#: weblate/html/mail/footer.txt:7
+#: weblate/html/mail/footer.txt:8
 #, python-format
 msgid "You can translate at %(translation_url)s"
 msgstr "您可以在 %(translation_url)s 翻譯"
@@ -3599,7 +3605,7 @@ msgctxt "Message is fuzzy"
 msgid "Fuzzy"
 msgstr "模糊的"
 
-#: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:495
+#: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
 msgstr "您的翻譯已經到底了。"
 
@@ -4221,35 +4227,35 @@ msgstr "於評論字串中搜尋"
 msgid "Search filter"
 msgstr "搜尋篩選"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:925
-#: weblate/trans/models/translation.py:973 weblate/trans/views/edit.py:123
-#: weblate/trans/views/edit.py:139
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:926
+#: weblate/trans/models/translation.py:974 weblate/trans/views/edit.py:126
+#: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "所有的字串"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:993
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:994
 msgid "Untranslated strings"
 msgstr "尚未翻譯的字串"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:983
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:984
 msgid "Translated strings"
 msgstr "已翻譯的字串"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1012
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1013
 msgid "Fuzzy strings"
 msgstr "模糊的字串"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1021
+#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
 msgstr "帶建議的字串"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:959
-#: weblate/trans/models/translation.py:1052
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:960
+#: weblate/trans/models/translation.py:1053
 msgid "Strings with comments"
 msgstr "帶評論的字串"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:936
-#: weblate/trans/models/translation.py:1030
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:937
+#: weblate/trans/models/translation.py:1031
 msgid "Strings with any failing checks"
 msgstr "查核未過的字串"
 
@@ -5181,12 +5187,12 @@ msgstr "%s 的格式無法識別。"
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "無法分析檔案 %(file)s：%(error)s"
 
-#: weblate/trans/models/translation.py:274
+#: weblate/trans/models/translation.py:278
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "這個翻譯已被 %(user)s 鎖定！"
 
-#: weblate/trans/models/translation.py:1003
+#: weblate/trans/models/translation.py:1004
 msgid "Untranslated words"
 msgstr "尚未翻譯的字詞"
 
@@ -5609,52 +5615,52 @@ msgstr "%(language)s 的字典用於 %(project)s"
 msgid "Dictionaries"
 msgstr "字典"
 
-#: weblate/trans/views/dictionary.py:160
+#: weblate/trans/views/dictionary.py:159
 msgid "No words to import found in file."
 msgstr "沒有在檔案中找到匯入的單字。"
 
-#: weblate/trans/views/dictionary.py:166
+#: weblate/trans/views/dictionary.py:161
 #, python-format
 msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "已從上傳的檔案匯入 %d 個單字。"
 
-#: weblate/trans/views/dictionary.py:174
+#: weblate/trans/views/dictionary.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "檔案上傳失敗：%s"
 
-#: weblate/trans/views/dictionary.py:177 weblate/trans/views/edit.py:613
+#: weblate/trans/views/dictionary.py:172 weblate/trans/views/edit.py:614
 msgid "Failed to process form!"
 msgstr "處理表單失敗！"
 
-#: weblate/trans/views/edit.py:76
+#: weblate/trans/views/edit.py:79
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "參數錯誤 %(field)s：%(error)s"
 
-#: weblate/trans/views/edit.py:95 weblate/trans/views/edit.py:550
+#: weblate/trans/views/edit.py:98 weblate/trans/views/edit.py:553
 msgid "Invalid search string!"
 msgstr "無效的搜尋字串！"
 
-#: weblate/trans/views/edit.py:117
+#: weblate/trans/views/edit.py:120
 #, python-format
 msgid "Review of translations since %s"
 msgstr "再次檢討自 %s 以後的翻譯"
 
-#: weblate/trans/views/edit.py:146 weblate/trans/views/edit.py:156
+#: weblate/trans/views/edit.py:149 weblate/trans/views/edit.py:159
 msgid "No string matched your search!"
 msgstr "找不到相合的字串！"
 
-#: weblate/trans/views/edit.py:183
+#: weblate/trans/views/edit.py:186
 msgid "Your suggestion is empty!"
 msgstr "您的建議是空的！"
 
-#: weblate/trans/views/edit.py:190
+#: weblate/trans/views/edit.py:193
 msgid "You don't have privileges to add suggestions!"
 msgstr "您並不具備增加建議的權限！"
 
-#: weblate/trans/views/edit.py:202
+#: weblate/trans/views/edit.py:205
 msgid ""
 "There is currently no active translator for this translation, please "
 "consider becoming a translator as your suggestion might otherwise remain "
@@ -5663,70 +5669,79 @@ msgstr ""
 "目前沒有主動的翻譯者為此翻譯，請考慮成為一名翻譯者，否則您的建議可能維持著未"
 "檢討。"
 
-#: weblate/trans/views/edit.py:242
+#: weblate/trans/views/edit.py:245
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "接著的修正，應用到翻譯：%s"
 
-#: weblate/trans/views/edit.py:257
+#: weblate/trans/views/edit.py:260
 #, python-brace-format
 msgid "Some checks have failed on your translation: {0}"
 msgstr "在您的翻譯有一些查核失敗：{0}"
 
-#: weblate/trans/views/edit.py:296 weblate/trans/views/edit.py:324
-#: weblate/trans/views/edit.py:364 weblate/trans/views/edit.py:833
+#: weblate/trans/views/edit.py:299 weblate/trans/views/edit.py:327
+#: weblate/trans/views/edit.py:367 weblate/trans/views/edit.py:801
 msgid "You don't have privileges to save translations!"
 msgstr "您沒有儲存翻譯的權限！"
 
-#: weblate/trans/views/edit.py:332
+#: weblate/trans/views/edit.py:335
 msgid "Invalid merge request!"
 msgstr "不正確的合併要求！"
 
-#: weblate/trans/views/edit.py:345
+#: weblate/trans/views/edit.py:348
 msgid "Can not merge different messages!"
 msgstr "不能合併不同訊息！"
 
-#: weblate/trans/views/edit.py:381
+#: weblate/trans/views/edit.py:384
 msgid "Can not revert to different unit!"
 msgstr "不能還原到不同的單位！"
 
-#: weblate/trans/views/edit.py:386
+#: weblate/trans/views/edit.py:389
 msgid "Can not revert to empty translation!"
 msgstr "不能還原到空白的翻譯！"
 
-#: weblate/trans/views/edit.py:404
+#: weblate/trans/views/edit.py:407
 msgid "You do not have privilege to accept suggestions!"
 msgstr "您並不具備接受建議的權限！"
 
-#: weblate/trans/views/edit.py:411
+#: weblate/trans/views/edit.py:414
 msgid "You do not have privilege to delete suggestions!"
 msgstr "您並不具備刪除建議的權限！"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:421
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "您並不具備投建議票的權限！"
 
-#: weblate/trans/views/edit.py:460
+#: weblate/trans/views/edit.py:463
 msgid "Invalid suggestion!"
 msgstr "無效的建議！"
 
-#: weblate/trans/views/edit.py:665
-msgid "Automatic translation completed."
+#: weblate/trans/views/edit.py:627
+#, fuzzy
+#| msgid "Automatic translation completed."
+msgid "Automatic translation completed, no strings were updated."
 msgstr "自動翻譯已完成。"
 
-#: weblate/trans/views/edit.py:691
+#: weblate/trans/views/edit.py:629
+#, fuzzy, python-format
+#| msgid "Automatic translation completed."
+msgid "Automatic translation completed, %d string was updated."
+msgid_plural "Automatic translation completed, %d strings were updated."
+msgstr[0] "自動翻譯已完成。"
+
+#: weblate/trans/views/edit.py:659
 msgid "Posted new comment"
 msgstr "發表新評論"
 
-#: weblate/trans/views/edit.py:693
+#: weblate/trans/views/edit.py:661
 msgid "Failed to add comment!"
 msgstr "無法加入評論！"
 
-#: weblate/trans/views/edit.py:717
+#: weblate/trans/views/edit.py:685
 msgid "Translation comment has been deleted."
 msgstr "已刪除翻譯評論。"
 
-#: weblate/trans/views/edit.py:836
+#: weblate/trans/views/edit.py:804
 msgid "Failed to save translation!"
 msgstr "儲存翻譯失敗！"
 
@@ -5734,17 +5749,24 @@ msgstr "儲存翻譯失敗！"
 msgid "Access denied."
 msgstr "拒絕存取。"
 
-#: weblate/trans/views/files.py:134
+#: weblate/trans/views/files.py:133
+#, fuzzy
+#| msgid "Imported %d word from the uploaded file."
+#| msgid_plural "Imported %d words from the uploaded file."
+msgid "No strings were imported from the uploaded file."
+msgstr "已從上傳的檔案匯入 %d 個單字。"
+
+#: weblate/trans/views/files.py:135
 #, python-format
 msgid "Processed %d string from the uploaded files."
 msgid_plural "Processed %d strings from the uploaded files."
 msgstr[0] "已處理上傳檔案中的 %d 個單字。"
 
-#: weblate/trans/views/files.py:142
+#: weblate/trans/views/files.py:143
 msgid "There were no new strings in uploaded file!"
 msgstr "上傳的檔案中沒有新字串！"
 
-#: weblate/trans/views/files.py:146
+#: weblate/trans/views/files.py:147
 #, python-format
 msgid "File content merge failed: %s"
 msgstr "檔案內容合併失敗：%s"
