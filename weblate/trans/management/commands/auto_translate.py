@@ -40,7 +40,7 @@ class Command(BaseCommand):
             '--user',
             default='anonymous',
             help=(
-                'User performing the change',
+                'User performing the change'
             )
         ),
         make_option(
