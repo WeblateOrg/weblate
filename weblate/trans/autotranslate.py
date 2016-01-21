@@ -18,8 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.models import Unit, Change, SubProject
 from django.core.exceptions import PermissionDenied
+
+from weblate.trans.models import Unit, Change, SubProject
 
 
 def auto_translate(user, translation, source, inconsistent, overwrite):
