@@ -21,6 +21,7 @@
 Helper methods for views.
 '''
 
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
 import django.utils.translation
 from django.utils.translation import trans_real
@@ -114,3 +115,10 @@ def try_set_language(lang):
         return Language.objects.get(code=lang)
     except Language.DoesNotExist:
         return None
+
+
+def import_message(request, count, message_none, message_ok):
+    if count == 0:
+        messages.warning(request, message_none)
+    else:
+        messages.success(request, message_ok % count)

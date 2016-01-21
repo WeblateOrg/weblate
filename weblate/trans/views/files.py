@@ -31,7 +31,7 @@ from django.http import Http404
 
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
-from weblate.trans.views.helper import get_translation
+from weblate.trans.views.helper import get_translation, import_message
 from weblate.trans.permissions import (
     can_author_translation, can_overwrite_translation
 )
@@ -128,13 +128,14 @@ def upload_translation(request, project, subproject, lang):
             method=form.cleaned_data['method'],
             fuzzy=form.cleaned_data['fuzzy'],
         )
-        messages.info(
-            request,
+        import_message(
+            request, count,
+            _('No strings were imported from the uploaded file.'),
             ungettext(
                 'Processed %d string from the uploaded files.',
                 'Processed %d strings from the uploaded files.',
                 count
-            ) % count
+            )
         )
         if not ret:
             messages.warning(

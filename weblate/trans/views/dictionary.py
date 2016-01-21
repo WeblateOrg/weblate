@@ -37,7 +37,7 @@ from weblate.lang.models import Language
 from weblate.trans.site import get_site_url
 from weblate.trans.util import report_error
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.trans.views.helper import get_project
+from weblate.trans.views.helper import get_project, import_message
 import weblate
 
 
@@ -154,20 +154,15 @@ def upload_dictionary(request, project, lang):
                 request.FILES['file'],
                 form.cleaned_data['method']
             )
-            if count == 0:
-                messages.warning(
-                    request,
-                    _('No words to import found in file.')
+            import_message(
+                request, count,
+                _('No words to import found in file.'),
+                ungettext(
+                    'Imported %d word from the uploaded file.',
+                    'Imported %d words from the uploaded file.',
+                    count
                 )
-            else:
-                messages.success(
-                    request,
-                    ungettext(
-                        'Imported %d word from the uploaded file.',
-                        'Imported %d words from the uploaded file.',
-                        count
-                    ) % count
-                )
+            )
         except Exception as error:
             report_error(error, sys.exc_info(), request)
             messages.error(

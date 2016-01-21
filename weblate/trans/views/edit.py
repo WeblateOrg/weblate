@@ -43,7 +43,7 @@ from weblate.trans.forms import (
     MergeForm, AutoForm, ReviewForm,
     AntispamForm, CommentForm, RevertForm
 )
-from weblate.trans.views.helper import get_translation
+from weblate.trans.views.helper import get_translation, import_message
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural
 from weblate.trans.autotranslate import auto_translate
@@ -622,19 +622,15 @@ def auto_translation(request, project, subproject, lang):
         autoform.cleaned_data['overwrite']
     )
 
-    if updated == 0:
-        messages.info(
-            request, _('Automatic translation completed, no strings updated.')
+    import_message(
+        request, updated,
+        _('Automatic translation completed, no strings were updated.'),
+        ungettext(
+            'Automatic translation completed, %d string was udated.',
+            'Automatic translation completed, %d strings were udated.',
+            updated
         )
-    else:
-        messages.success(
-            request,
-            ungettext(
-                'Automatic translation completed, {0} string udated.',
-                'Automatic translation completed, {0} strings udated.',
-                updated
-            ).format(updated)
-        )
+    )
 
     return redirect(translation)
 
