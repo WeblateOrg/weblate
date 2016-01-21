@@ -67,7 +67,7 @@ def auto_translate(user, translation, source, inconsistent, overwrite):
         unit.fuzzy = update.fuzzy
         unit.target = update.target
         # Create signle change object for whole merge
-        change = Change.objects.create(
+        Change.objects.create(
             action=Change.ACTION_AUTO,
             unit=unit,
             user=user,
