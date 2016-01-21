@@ -195,3 +195,19 @@ class WeblateLangCommand(WeblateCommand):
 
         """
         raise NotImplementedError()
+
+
+class WeblateTranslationCommand(BaseCommand):
+    """Command with target of one translation."""
+    args = '<project> <component> <language>'
+
+    def get_translation(self, args):
+        """Get translation object"""
+        try:
+            return Translation.objects.get(
+                subproject__project__slug=args[0],
+                subproject__slug=args[1],
+                language__code=args[2],
+            )
+        except Translation.DoesNotExist:
+            raise CommandError('No matching translation project found!')

@@ -20,21 +20,22 @@
 
 from optparse import make_option
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 from django.http.request import HttpRequest
 
 from weblate.trans.models import Translation
 from weblate.accounts.models import get_author_name
+from weblate.trans.management.commands import WeblateTranslationCommand
 
 
-class Command(BaseCommand):
-    """
+class Command(WeblateTranslationCommand):
+    """WeblateTranslationCommand
     Command for mass importing suggestions.
     """
     help = 'imports suggestions'
     args = '<project> <component> <language> <file>'
-    option_list = BaseCommand.option_list + (
+    option_list = WeblateTranslationCommand.option_list + (
         make_option(
             '--author',
             default='noreply@weblate.org',
@@ -50,14 +51,7 @@ class Command(BaseCommand):
             raise CommandError('Invalid number of parameters!')
 
         # Get translation object
-        try:
-            translation = Translation.objects.get(
-                subproject__project__slug=args[0],
-                subproject__slug=args[1],
-                language__code=args[2],
-            )
-        except Translation.DoesNotExist:
-            raise CommandError('No matching translation project found!')
+        translation = self.get_translation(args)
 
         # Get user
         try:

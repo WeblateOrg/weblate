@@ -20,20 +20,20 @@
 
 from optparse import make_option
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
 from weblate.trans.models import Translation, SubProject
 from weblate.trans.autotranslate import auto_translate
+from weblate.trans.management.commands import WeblateTranslationCommand
 
 
-class Command(BaseCommand):
+class Command(WeblateTranslationCommand):
     """
     Command for mass automatic translation.
     """
     help = 'performs automatic translation based on other components'
-    args = '<project> <component> <language>'
-    option_list = BaseCommand.option_list + (
+    option_list = WeblateTranslationCommand.option_list + (
         make_option(
             '--user',
             default='anonymous',
@@ -72,14 +72,7 @@ class Command(BaseCommand):
             raise CommandError('Invalid number of parameters!')
 
         # Get translation object
-        try:
-            translation = Translation.objects.get(
-                subproject__project__slug=args[0],
-                subproject__slug=args[1],
-                language__code=args[2],
-            )
-        except Translation.DoesNotExist:
-            raise CommandError('No matching translation project found!')
+        translation = self.get_translation(args)
 
         # Get user
         try:
