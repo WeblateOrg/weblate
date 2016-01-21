@@ -22,7 +22,7 @@ from weblate.trans.models import Unit, Change, SubProject
 from django.core.exceptions import PermissionDenied
 
 
-def auto_translate(request, translation, source, inconsistent, overwrite):
+def auto_translate(user, translation, source, inconsistent, overwrite):
     change = None
     updated = 0
 
@@ -69,11 +69,11 @@ def auto_translate(request, translation, source, inconsistent, overwrite):
                 change = Change.objects.create(
                     action=Change.ACTION_AUTO,
                     translation=unit.translation,
-                    user=request.user,
-                    author=request.user
+                    user=user,
+                    author=user
                 )
             # Save unit to backend
-            unit.save_backend(request, False, False)
+            unit.save_backend(None, False, False, user=user)
             updated += 1
 
     return updated

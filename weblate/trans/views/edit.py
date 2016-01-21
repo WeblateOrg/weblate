@@ -615,7 +615,7 @@ def auto_translation(request, project, subproject, lang):
         return redirect(translation)
 
     updated = auto_translate(
-        request,
+        request.user,
         translation,
         autoform.cleaned_data['subproject'],
         autoform.cleaned_data['inconsistent'],
