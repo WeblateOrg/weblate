@@ -68,7 +68,12 @@ class AutoTranslationTest(ViewTestCase):
         )
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
-        response = self.client.post(url)
+        response = self.client.post(url, follow=True)
+        self.assertContains(
+            response,
+            'Automatic translation completed, 1 string udated.'
+        )
+
         self.assertRedirects(response, reverse('translation', kwargs=params))
         # Check we've translated something
         translation = self.subproject2.translation_set.get(language_code='cs')
