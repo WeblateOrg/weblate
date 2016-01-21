@@ -26,7 +26,7 @@ without interaction unless some merge conflict occurs.
 How to access repositories over SSH?
 ------------------------------------
 
-Please see :ref:`private` for information about setting up SSH keys.
+Please see :ref:`vcs-repos` for information about setting up SSH keys.
 
 .. _merge:
 
