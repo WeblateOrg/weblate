@@ -641,7 +641,7 @@ def auto_translation(request, project, subproject, lang):
         sources = sources.filter(translation__subproject=subprj)
 
     for unit in units.iterator():
-        update = sources.filter(checksum=unit.checksum)
+        update = sources.filter(source=unit.source)
         if update.exists():
             # Get first entry
             update = update[0]
