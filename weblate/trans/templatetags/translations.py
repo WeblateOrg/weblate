@@ -108,7 +108,7 @@ def fmt_check_highlights(value, checks):
                 elif eltest[0] > elref_end:
                     break
         #then transform highlights to escaped html
-        highlights = [(h[0], escape(force_unicode(h[1]))) for h in highlights]
+        highlights = [(h[0], escape(force_text(h[1]))) for h in highlights]
     return highlights
 
 
