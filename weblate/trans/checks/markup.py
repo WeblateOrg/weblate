@@ -67,6 +67,8 @@ class BBCodeCheck(TargetCheck):
         return src_tags != tgt_tags
 
     def check_highlight(self, source, unit):
+        if self.should_skip(unit):
+            return []
         ret = []
         match_objects = BBCODE_MATCH.finditer(source)
         for match in match_objects:
