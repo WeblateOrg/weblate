@@ -120,6 +120,8 @@ class XMLTagsCheck(TargetCheck):
         return source_tags != target_tags
 
     def check_highlight(self, source, unit):
+        if self.should_skip(unit):
+            return []
         ret = []
         try:
             self.parse_xml(source)
