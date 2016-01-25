@@ -262,10 +262,22 @@ class Check(models.Model):
     ignore = models.BooleanField(db_index=True, default=False)
 
     _for_unit = None
+    _check_obj = None
+    _check_obj_valid = False
 
     @property
     def for_unit(self):
         return self._for_unit
+
+    @property
+    def check_obj(self):
+        if not self._check_obj_valid:
+            try:
+                self._check_obj = CHECKS[self.check]
+            except KeyError:
+                self._check_obj = None
+            self._check_obj_valid = True
+        return self._check_obj
 
     @for_unit.setter
     def for_unit(self, value):
@@ -286,22 +298,19 @@ class Check(models.Model):
         )
 
     def get_description(self):
-        try:
-            return CHECKS[self.check].description
-        except KeyError:
-            return self.check
+        if self.check_obj:
+            return self.check_obj.description
+        return self.check
 
     def get_severity(self):
-        try:
-            return CHECKS[self.check].severity
-        except KeyError:
-            return 'info'
+        if self.check_obj:
+            return self.check_obj.severity
+        return 'info'
 
     def get_doc_url(self):
-        try:
-            return CHECKS[self.check].get_doc_url()
-        except KeyError:
-            return ''
+        if self.check_obj:
+            return self.check_obj.get_doc_url()
+        return ''
 
     def set_ignore(self):
         '''
