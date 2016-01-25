@@ -21,6 +21,14 @@ function decreaseLoading(sel) {
     }
 }
 
+function getNumericKey(idx) {
+    var ret = idx + 1;
+    if (ret == 10) {
+        return '0';
+    }
+    return ret;
+}
+
 jQuery.fn.extend({
     insertAtCaret: function (myValue) {
         return this.each(function (i) {
@@ -180,7 +188,15 @@ function processMachineTranslation(data, textStatus, jqXHR) {
             newRow.append($('<td/>').text(el.source));
             newRow.append($('<td/>').text(el.service));
             /* Translators: Verb for copy operation */
-            newRow.append($('<td><a class="copymt btn btn-xs btn-default"><span class="mtn text-info"></span>' + gettext('Copy') + '</a><a class="copymts btn btn-xs btn-default">↵</a></td>'));
+            newRow.append($(
+                '<td>' +
+                '<a class="copymt btn btn-xs btn-default">' +
+                gettext('Copy') +
+                '<span class="mt-number text-info"></span>' +
+                '</a>' +
+                '<a class="copymts btn btn-xs btn-default">↵</a>' +
+                '</td>'
+            ));
             var $machineTranslations = $('#machine-translations');
             $machineTranslations.children('tr').each(function (idx) {
                 if ($(this).data('quality') < el.quality && !done) {
@@ -205,19 +221,32 @@ function processMachineTranslation(data, textStatus, jqXHR) {
         });
 
         for (var i = 1; i < 10; i++){
-            Mousetrap.bindGlobal('ctrl ' + i, function() {});
+            Mousetrap.bindGlobal(
+                ['alt+m ' + i],
+                function() {}
+            );
         }
 
         var $machineTranslations = $('#machine-translations');
         $machineTranslations.children('tr').each(function (idx) {
-            if (idx < 9) {
-                $(this).find('.mtn').html("<sup title='" + gettext('CTRL then ') + (idx + 1) + "'>" + (idx + 1)) + "</sup>";
-                Mousetrap.bindGlobal('ctrl ' + (idx + 1),function(e) {
-                    $($('#machine-translations').children('tr')[idx]).find('a.copymt').click();
-                    return false;
-                });
+            if (idx < 10) {
+                var key = getNumericKey(idx);
+                $(this).find('.mt-number').html(
+                    " <span class='badge' title='" +
+                    interpolate(gettext('Alt+M then %s'), [key]) +
+                    "'>" +
+                    key +
+                    "</span>"
+                );
+                Mousetrap.bindGlobal(
+                    ['alt+m ' + key],
+                    function(e) {
+                        $($('#machine-translations').children('tr')[idx]).find('a.copymt').click();
+                        return false;
+                    }
+                );
             } else {
-                $(this).find('.mtn').html('');
+                $(this).find('.mt-number').html('');
             }
         });
 

@@ -92,6 +92,8 @@ While translating you can use following keyboard shortcuts:
     Focus comment editor.
 :kbd:`Alt+M`
     Shows machine translation tab.
+:kbd:`Alt+M <NUMBER>`
+    Copy machine translation of given number to current translation.
 :kbd:`Alt+N`
     Shows nearby strings tab.
 :kbd:`Alt+S`
