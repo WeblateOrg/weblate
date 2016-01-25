@@ -37,6 +37,10 @@ class BBCodeCheckTest(CheckTestCase):
         self.test_good_matching = ('[a]string[/a]', '[a]string[/a]', '')
         self.test_failure_1 = ('[a]string[/a]', '[b]string[/b]', '')
         self.test_failure_2 = ('[a]string[/a]', 'string', '')
+        self.test_highlight = (
+            '[a]string[/a]',
+            [(0, '[a]'), (9, '[/a]')]
+        )
 
 
 class XMLTagsCheckTest(CheckTestCase):

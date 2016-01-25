@@ -26,7 +26,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.checks.base import TargetCheck
 
 BBCODE_MATCH = re.compile(
-    r'\[(?P<tag>[^]]*)(?=(@[^]]*)?\](.*?)\[\/(?P=tag)\])',
+    r'(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])',
     re.MULTILINE
 )
 
@@ -61,8 +61,8 @@ class BBCodeCheck(TargetCheck):
         if len(src_match) != len(tgt_match):
             return True
 
-        src_tags = set([x[0] for x in src_match])
-        tgt_tags = set([x[0] for x in tgt_match])
+        src_tags = set([x[1] for x in src_match])
+        tgt_tags = set([x[1] for x in tgt_match])
 
         return src_tags != tgt_tags
 
@@ -70,12 +70,11 @@ class BBCodeCheck(TargetCheck):
         if self.should_skip(unit):
             return []
         ret = []
-        match_objects = BBCODE_MATCH.finditer(source)
-        for match in match_objects:
-            if match.start() == match.end():
-                continue
-            ret.append((match.start(), match.group()))
+        for match in BBCODE_MATCH.finditer(source):
+            ret.append((match.start('start'), match.group('start')))
+            ret.append((match.start('end'), match.group('end')))
         return ret
+
 
 class XMLTagsCheck(TargetCheck):
     '''
