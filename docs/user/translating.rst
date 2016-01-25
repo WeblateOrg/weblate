@@ -94,6 +94,8 @@ While translating you can use following keyboard shortcuts:
     Shows machine translation tab.
 :kbd:`Alt+M <NUMBER>`
     Copy machine translation of given number to current translation.
+:kbd:`Alt+I <NUMBER>`
+    Ignore failing check of given number.
 :kbd:`Alt+N`
     Shows nearby strings tab.
 :kbd:`Alt+S`

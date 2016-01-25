@@ -8,6 +8,6 @@
 {% if user_can_ignore_check %}
 <button type="button" class="close" data-dismiss="alert" title="{% blocktrans with check.get_check_display as check %}Ignore: {{ check }}{% endblocktrans %}">&times;</button>
 {% endif %}
-<a href="{{ check.get_doc_url }}" class="alert-link">{{ check.get_check_display }}</a>
+<a href="{{ check.get_doc_url }}" class="alert-link">{{ check.get_check_display }}</a><span class="check-number"></span>
 </div>
 {% endfor %}

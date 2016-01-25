@@ -622,6 +622,39 @@ $(function () {
                     return false;
                 }
             );
+
+            /* Check dismiss shortcuts */
+            Mousetrap.bindGlobal("alt+i", function(e) {});
+            for (var i = 1; i < 10; i++) {
+                Mousetrap.bindGlobal("alt+i " + i, function(e) {});
+            }
+
+            if ($(".check").length > 0 && false) {
+                $($('.check')[0].parentNode).children(".check").each(function(idx){
+                    var $this = $(this);
+                    if (idx < 10) {
+                        var key = getNumericKey(idx);
+                        $(this).find('.check-number').html(
+                            " <span class='badge' title='" +
+                            interpolate(gettext('Alt+I then %s'), [key]) +
+                            "'>" +
+                            key +
+                            "</span>"
+                        );
+
+                        Mousetrap.bindGlobal(
+                            "alt+i " + key,
+                            function(e) {
+                                console.log('here');
+                                $this.find('.close').click();
+                                return false;
+                            }
+                        );
+                    } else {
+                        $(this).find('.check-number').html('');
+                    }
+                });
+            }
         }
     }
 
@@ -634,27 +667,6 @@ $(function () {
         $.get($this.data('href'));
         $this.tooltip('destroy');
     });
-
-    /* Check dismiss shortcuts */
-    for (var icheck=0;icheck<10;icheck++){Mousetrap.bindGlobal("esc "+ icheck, function(e) { });}
-    if ($(".check").length>0)
-    {
-        $($('.check')[0].parentNode).children(".check").each(function(idx){
-            var $this = $(this);
-            if (idx <10)
-            {
-                if ($this.find(".nchk").length>0) $this.find(".nchk").html("<sup title="+gettext('ESC then ')+idx+"'>"+idx+"</sup>");
-                else
-                    $this.append("<span class='nchk text-info' ><sup title='"+gettext('ESC then ')+idx+"'>"+idx+"</sup></span>");
-                Mousetrap.bindGlobal("esc "+ idx, function(e) { $this.find('.close').click(); return false; });
-            }
-            else
-            {
-                if ($this.find(".nchk")) $this.find(".nchk").html("");
-
-            }
-        });
-    }
 
     /* Check link clicking */
     $document.on('click', '.check [data-toggle="tab"]', function (e) {
