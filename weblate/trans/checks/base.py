@@ -41,6 +41,16 @@ class Check(object):
         self.enable_string = id_dash
         self.ignore_string = 'ignore-%s' % id_dash
 
+    def should_skip(self, unit):
+        """Check whether we should skip processing this unit"""
+        # Is this disabled by default
+        if self.default_disabled and self.enable_string not in unit.all_flags:
+            return True
+        # Is this check ignored
+        if self.ignore_string in unit.all_flags:
+            return True
+        return False
+
     def check_target(self, sources, targets, unit):
         '''
         Checks target strings.
@@ -49,11 +59,7 @@ class Check(object):
             return self.check_target_unit_with_flag(
                 sources, targets, unit
             )
-        # Is this disabled by default
-        if self.default_disabled and self.enable_string not in unit.all_flags:
-            return False
-        # Is this check ignored
-        if self.ignore_string in unit.all_flags:
+        if self.should_skip(unit):
             return False
         # No checking of not translated units
         if self.ignore_untranslated and not unit.translated:
