@@ -622,39 +622,6 @@ $(function () {
                     return false;
                 }
             );
-
-            /* Check dismiss shortcuts */
-            Mousetrap.bindGlobal("alt+i", function(e) {});
-            for (var i = 1; i < 10; i++) {
-                Mousetrap.bindGlobal("alt+i " + i, function(e) {});
-            }
-
-            if ($(".check").length > 0) {
-                $($('.check')[0].parentNode).children(".check").each(function(idx){
-                    var $this = $(this);
-                    if (idx < 10) {
-                        var key = getNumericKey(idx);
-                        $(this).find('.check-number').html(
-                            " <span class='badge kbd-badge' title='" +
-                            interpolate(gettext('Alt+I then %s'), [key]) +
-                            "'>" +
-                            key +
-                            "</span>"
-                        );
-
-                        Mousetrap.bindGlobal(
-                            "alt+i " + key,
-                            function(e) {
-                                console.log('here');
-                                $this.find('.close').click();
-                                return false;
-                            }
-                        );
-                    } else {
-                        $(this).find('.check-number').html('');
-                    }
-                });
-            }
         }
     }
 
@@ -888,4 +855,37 @@ $(function () {
             }
         });
     });
+
+    /* Check dismiss shortcuts */
+    Mousetrap.bindGlobal("alt+i", function(e) {});
+    for (var i = 1; i < 10; i++) {
+        Mousetrap.bindGlobal("alt+i " + i, function(e) {});
+    }
+
+    if ($(".check").length > 0) {
+        $($('.check')[0].parentNode).children(".check").each(function(idx){
+            var $this = $(this);
+            if (idx < 10) {
+                var key = getNumericKey(idx);
+                $(this).find('.check-number').html(
+                    " <span class='badge kbd-badge' title='" +
+                    interpolate(gettext('Alt+I then %s'), [key]) +
+                    "'>" +
+                    key +
+                    "</span>"
+                );
+
+                Mousetrap.bindGlobal(
+                    "alt+i " + key,
+                    function(e) {
+                        console.log('here');
+                        $this.find('.close').click();
+                        return false;
+                    }
+                );
+            } else {
+                $(this).find('.check-number').html('');
+            }
+        });
+    }
 });
