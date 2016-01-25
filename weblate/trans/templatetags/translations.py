@@ -89,7 +89,7 @@ def fmt_check_highlights(value, checks):
     if checks:
         highlights = []
         for check in checks:
-            highlights += check.check_highlight(value, None)
+            highlights += check.check_obj.check_highlight(value, None)
         #Sort by order in string
         if highlights:
             highlights.sort(key=lambda tup: tup[0])
