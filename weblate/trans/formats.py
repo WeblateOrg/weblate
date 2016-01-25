@@ -903,7 +903,7 @@ class PoFormat(FileFormat):
     def merge_header(self, otherstore):
         """Tries to merge headers"""
         if (not hasattr(self.store, 'updateheader') or
-                 not hasattr(otherstore.store, 'parseheader'):
+                 not hasattr(otherstore.store, 'parseheader')):
             return
         values = otherstore.store.parseheader()
         skip_list = (
