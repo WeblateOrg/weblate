@@ -121,6 +121,10 @@ class XMLTagsCheck(TargetCheck):
 
     def check_highlight(self, source, unit):
         ret = []
+        try:
+            self.parse_xml(source)
+        except SyntaxError:
+            return ret
         for match in XML_MATCH.finditer(source):
             ret.append((match.start(), match.end(), match.group()))
         for match in XML_ENTITY_MATCH.finditer(source):
