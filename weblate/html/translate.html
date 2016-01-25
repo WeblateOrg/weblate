@@ -109,7 +109,7 @@
     {% endif %}
     {% endif %}
     {% endwith %}
-    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals checks=unit.checks %}
+    {% format_translation unit.source unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
     </div>
     {% endif %}
     {% endif %}

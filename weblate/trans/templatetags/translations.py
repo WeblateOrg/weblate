@@ -82,38 +82,40 @@ def fmt_whitespace(value):
     return value
 
 
-def fmt_check_highlights(value, checks):
+def fmt_check_highlights(value, unit):
     """Formats check highlights"""
-    highlights = None
+    if unit is None:
+        return []
     # Find all checks highlight
-    if checks:
-        highlights = []
-        for check in checks:
-            highlights += check.check_obj.check_highlight(value, None)
-        #Sort by order in string
-        if highlights:
-            highlights.sort(key=lambda tup: tup[0])
-        #remove probelmatics ones (overlapping or one inside another)
-        for hl_idx in xrange(0, len(highlights)):
-            if hl_idx >= len(highlights):
+    highlights = []
+    for check in CHECKS:
+        if not CHECKS[check].target:
+            continue
+        highlights += CHECKS[check].check_highlight(value, unit)
+    #Sort by order in string
+    if highlights:
+        highlights.sort(key=lambda tup: tup[0])
+    #remove probelmatics ones (overlapping or one inside another)
+    for hl_idx in xrange(0, len(highlights)):
+        if hl_idx >= len(highlights):
+            break
+        elref = highlights[hl_idx]
+        for hl_idx_next in xrange(hl_idx + 1, len(highlights)):
+            if hl_idx_next >= len(highlights):
                 break
-            elref = highlights[hl_idx]
-            for hl_idx_next in xrange(hl_idx + 1, len(highlights)):
-                if hl_idx_next >= len(highlights):
-                    break
-                eltest = highlights[hl_idx_next]
-                if eltest[0] >= elref[0] and eltest[0] < elref[1]:
-                    highlights.pop(hl_idx_next)
-                elif eltest[0] > elref[1]:
-                    break
-        #then transform highlights to escaped html
-        highlights = [(h[0], escape(force_text(h[1]))) for h in highlights]
+            eltest = highlights[hl_idx_next]
+            if eltest[0] >= elref[0] and eltest[0] < elref[1]:
+                highlights.pop(hl_idx_next)
+            elif eltest[0] > elref[1]:
+                break
+    #then transform highlights to escaped html
+    highlights = [(h[0], h[1], escape(force_text(h[2]))) for h in highlights]
     return highlights
 
 
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
-                       simple=False, num_plurals=2, checks=None):
+                       simple=False, num_plurals=2, unit=None):
     """
     Nicely formats translation text possibly handling plurals or diff.
     """
@@ -138,7 +140,7 @@ def format_translation(value, language, diff=None, search_match=None,
     parts = []
 
     for idx, value in enumerate(plurals):
-        highlights = fmt_check_highlights(value, checks)
+        highlights = fmt_check_highlights(value, unit)
 
         # HTML escape
         value = escape(force_text(value))
