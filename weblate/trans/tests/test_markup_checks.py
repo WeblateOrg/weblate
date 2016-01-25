@@ -52,3 +52,7 @@ class XMLTagsCheckTest(CheckTestCase):
         self.test_failure_1 = ('<a>string</a>', '<b>string</b>', '')
         self.test_failure_2 = ('<a>string</a>', 'string', '')
         self.test_failure_3 = ('<a>string</a>', '<b>string</a>', '')
+        self.test_highlight = (
+            '<b><a href="foo">bar</a></b>',
+            [(0, '<b>'), (3, '<a href="foo">'), (20, '</a>'), (24, '</b>')]
+        )
