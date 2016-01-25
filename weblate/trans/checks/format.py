@@ -205,6 +205,14 @@ class BaseFormatCheck(TargetCheck):
         '''
         return False
 
+    def check_highlight(self, source, unit):
+        ret = []
+        match_objects = self.regexp.finditer(source)
+        for match in match_objects:
+            if match.start() == match.end():
+                continue
+            ret.append((match.start(), match.group()))
+        return ret
 
 class PythonFormatCheck(BaseFormatCheck):
     '''

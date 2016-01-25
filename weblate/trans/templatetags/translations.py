@@ -80,11 +80,37 @@ def fmt_whitespace(value):
         SPACE_TAB.format(_('Tab character'))
     )
     return value
-
+def fmt_check_highlights(value, checks):
+    highlights = None
+    # Find all checks highlight
+    if checks:
+        highlights = []
+        for check in checks:
+            highlights += check.check_highlight(value, None)
+        #Sort by order in string
+        if highlights:
+            highlights.sort(key=lambda tup: tup[0])
+        #remove probelmatics ones (overlapping or one inside another)
+        for hl_idx in xrange(0, len(highlights)):
+            if hl_idx >= len(highlights):
+                break
+            elref = highlights[hl_idx]
+            elref_end = elref[0] + len(elref[1])
+            for hl_idx_next in xrange(hl_idx + 1, len(highlights)):
+                if hl_idx_next >= len(highlights):
+                    break
+                eltest = highlights[hl_idx_next]
+                if eltest[0] >= elref[0] and eltest[0] < elref_end:
+                    highlights.pop(hl_idx_next)
+                elif eltest[0] > elref_end:
+                    break
+        #then transform highlights to escaped html
+        highlights = [(h[0], escape(force_unicode(h[1]))) for h in highlights]
+    return highlights
 
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
-                       simple=False, num_plurals=2):
+                       simple=False, num_plurals=2, checks=None):
     """
     Nicely formats translation text possibly handling plurals or diff.
     """
@@ -109,6 +135,7 @@ def format_translation(value, language, diff=None, search_match=None,
     parts = []
 
     for idx, value in enumerate(plurals):
+        highlights = fmt_check_highlights(value, checks)
 
         # HTML escape
         value = escape(force_text(value))
@@ -117,6 +144,17 @@ def format_translation(value, language, diff=None, search_match=None,
         if diff is not None:
             diffvalue = escape(force_text(diff[idx]))
             value = html_diff(diffvalue, value)
+
+        # Create span for checks highlights
+        if highlights:
+            start_search = 0
+            for htext in [h[1] for h in highlights]:
+                find_highlight = value.find(htext, start_search)
+                if find_highlight >= 0:
+                    newpart = u'<span class="hlcheck">{0}</span>'.format(htext)
+                    next_part = value[(find_highlight + len(htext)):]
+                    value = value[:find_highlight] + newpart + next_part
+                    start_search = find_highlight + len(newpart)
 
         # Format search term
         if search_match:
