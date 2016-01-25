@@ -98,14 +98,13 @@ def fmt_check_highlights(value, checks):
             if hl_idx >= len(highlights):
                 break
             elref = highlights[hl_idx]
-            elref_end = elref[0] + len(elref[1])
             for hl_idx_next in xrange(hl_idx + 1, len(highlights)):
                 if hl_idx_next >= len(highlights):
                     break
                 eltest = highlights[hl_idx_next]
-                if eltest[0] >= elref[0] and eltest[0] < elref_end:
+                if eltest[0] >= elref[0] and eltest[0] < elref[1]:
                     highlights.pop(hl_idx_next)
-                elif eltest[0] > elref_end:
+                elif eltest[0] > elref[1]:
                     break
         #then transform highlights to escaped html
         highlights = [(h[0], escape(force_text(h[1]))) for h in highlights]
@@ -152,7 +151,7 @@ def format_translation(value, language, diff=None, search_match=None,
         # Create span for checks highlights
         if highlights:
             start_search = 0
-            for htext in [h[1] for h in highlights]:
+            for htext in [h[2] for h in highlights]:
                 find_highlight = value.find(htext, start_search)
                 if find_highlight >= 0:
                     newpart = u'<span class="hlcheck">{0}</span>'.format(htext)

@@ -40,7 +40,7 @@ class BBCodeCheckTest(CheckTestCase):
         self.test_highlight = (
             '',
             '[a]string[/a]',
-            [(0, '[a]'), (9, '[/a]')]
+            [(0, 3, '[a]'), (9, 13, '[/a]')]
         )
 
 
@@ -56,5 +56,10 @@ class XMLTagsCheckTest(CheckTestCase):
         self.test_highlight = (
             '',
             '<b><a href="foo">bar</a></b>',
-            [(0, '<b>'), (3, '<a href="foo">'), (20, '</a>'), (24, '</b>')]
+            [
+                (0, 3, '<b>'),
+                (3, 17, '<a href="foo">'),
+                (20, 24, '</a>'),
+                (24, 28, '</b>'),
+            ]
         )

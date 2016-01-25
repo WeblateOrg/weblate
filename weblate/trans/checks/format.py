@@ -211,9 +211,7 @@ class BaseFormatCheck(TargetCheck):
         ret = []
         match_objects = self.regexp.finditer(source)
         for match in match_objects:
-            if match.start() == match.end():
-                continue
-            ret.append((match.start(), match.group()))
+            ret.append((match.start(), match.end(), match.group()))
         return ret
 
 class PythonFormatCheck(BaseFormatCheck):

@@ -71,8 +71,12 @@ class BBCodeCheck(TargetCheck):
             return []
         ret = []
         for match in BBCODE_MATCH.finditer(source):
-            ret.append((match.start('start'), match.group('start')))
-            ret.append((match.start('end'), match.group('end')))
+            for tag in ('start', 'end'):
+                ret.append((
+                    match.start(tag),
+                    match.end(tag),
+                    match.group(tag)
+                ))
         return ret
 
 
@@ -118,7 +122,7 @@ class XMLTagsCheck(TargetCheck):
     def check_highlight(self, source, unit):
         ret = []
         for match in XML_MATCH.finditer(source):
-            ret.append((match.start(), match.group()))
+            ret.append((match.start(), match.end(), match.group()))
         for match in XML_ENTITY_MATCH.finditer(source):
-            ret.append((match.start(), match.group()))
+            ret.append((match.start(), match.end(), match.group()))
         return ret
