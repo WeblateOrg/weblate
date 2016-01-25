@@ -98,6 +98,8 @@ While translating you can use following keyboard shortcuts:
     Shows nearby strings tab.
 :kbd:`Alt+S`
     Shows search tab.
+:kbd:`Alt+V`
+    Copies source string
 :kbd:`Alt+F`
     Toggles fuzzy flag.
 
