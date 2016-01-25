@@ -206,8 +206,12 @@ class CheckTestCase(TestCase):
     def test_check_highlight(self):
         if self.check is None or self.test_highlight is None:
             return
-        unit = MockUnit(None, self.test_highlight[0])
+        unit = MockUnit(
+            None,
+            self.test_highlight[0],
+            source=self.test_highlight[1]
+        )
         self.assertEqual(
-            self.check.check_highlight(self.test_highlight[0], unit),
-            self.test_highlight[1]
+            self.check.check_highlight(self.test_highlight[1], unit),
+            self.test_highlight[2]
         )

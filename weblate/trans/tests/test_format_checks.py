@@ -23,15 +23,22 @@ Tests for quality checks.
 """
 
 from __future__ import unicode_literals
-from unittest import TestCase
+from weblate.trans.tests.test_checks import CheckTestCase
 from weblate.trans.checks.format import (
     PythonFormatCheck, PHPFormatCheck, CFormatCheck, PythonBraceFormatCheck,
 )
 
 
-class PythonFormatCheckTest(TestCase):
+class PythonFormatCheckTest(CheckTestCase):
+    check = PythonFormatCheck()
+
     def setUp(self):
-        self.check = PythonFormatCheck()
+        super(PythonFormatCheckTest, self).setUp()
+        self.test_highlight = (
+            'python-format',
+            '%sstring%d',
+            [(0, u'%s'), (8, u'%d')],
+        )
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format(
@@ -118,9 +125,16 @@ class PythonFormatCheckTest(TestCase):
         ))
 
 
-class PHPFormatCheckTest(TestCase):
+class PHPFormatCheckTest(CheckTestCase):
+    check = PHPFormatCheck()
+
     def setUp(self):
-        self.check = PHPFormatCheck()
+        super(PHPFormatCheckTest, self).setUp()
+        self.test_highlight = (
+            'php-format',
+            '%sstring%d',
+            [(0, u'%s'), (8, u'%d')],
+        )
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format(
@@ -207,9 +221,16 @@ class PHPFormatCheckTest(TestCase):
         ))
 
 
-class CFormatCheckTest(TestCase):
+class CFormatCheckTest(CheckTestCase):
+    check = CFormatCheck()
+
     def setUp(self):
-        self.check = CFormatCheck()
+        super(CFormatCheckTest, self).setUp()
+        self.test_highlight = (
+            'c-format',
+            '%sstring%d',
+            [(0, u'%s'), (8, u'%d')],
+        )
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format(
@@ -282,9 +303,16 @@ class CFormatCheckTest(TestCase):
         ))
 
 
-class PythonBraceFormatCheckTest(TestCase):
+class PythonBraceFormatCheckTest(CheckTestCase):
+    check = PythonBraceFormatCheck()
+
     def setUp(self):
-        self.check = PythonBraceFormatCheck()
+        super(PythonBraceFormatCheckTest, self).setUp()
+        self.test_highlight = (
+            'python-brace-format',
+            '{0}string{1}',
+            [(0, u'{0}'), (9, u'{1}')],
+        )
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format(
