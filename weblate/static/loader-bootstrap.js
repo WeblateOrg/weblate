@@ -201,24 +201,26 @@ function processMachineTranslation(data, textStatus, jqXHR) {
             var text = $(this).parent().parent().find('.target').text();
             $('.translation-editor').val(text).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', false);
-						submitForm({target:$('.translation-editor')});
+            submitForm({target:$('.translation-editor')});
         });
-				
-		for(var i=1;i<10;i++){Mousetrap.bindGlobal('ctrl '+i,function() {});}
-		var $machineTranslations = $('#machine-translations');
-		$machineTranslations.children('tr').each(function (idx) {
-				if(idx<9)
-				{
-					$(this).find('.mtn').html("<sup title='"+gettext('CTRL then ')+(idx+1)+"'>"+(idx+1))+"</sup>";
-					Mousetrap.bindGlobal('ctrl '+(idx+1),function(e) {
-					$($('#machine-translations').children('tr')[idx]).find('a.copymt').click(); return false;});
-				}
-				else
-				{
-					$(this).find('.mtn').html('');
-				}
-		});
-				
+
+        for (var i = 1; i < 10; i++){
+            Mousetrap.bindGlobal('ctrl ' + i, function() {});
+        }
+
+        var $machineTranslations = $('#machine-translations');
+        $machineTranslations.children('tr').each(function (idx) {
+            if (idx < 9) {
+                $(this).find('.mtn').html("<sup title='" + gettext('CTRL then ') + (idx + 1) + "'>" + (idx + 1)) + "</sup>";
+                Mousetrap.bindGlobal('ctrl ' + (idx + 1),function(e) {
+                    $($('#machine-translations').children('tr')[idx]).find('a.copymt').click();
+                    return false;
+                });
+            } else {
+                $(this).find('.mtn').html('');
+            }
+        });
+
     } else {
         var msg = interpolate(
             gettext('The request for machine translation using %s has failed:'),
@@ -600,26 +602,26 @@ $(function () {
         $this.tooltip('destroy');
     });
 
-	/* Check dismiss shortcuts */
-	for (var icheck=0;icheck<10;icheck++){Mousetrap.bindGlobal("esc "+ icheck, function(e) { });}
-	if ($(".check").length>0)
-	{
-		$($('.check')[0].parentNode).children(".check").each(function(idx){
-			var $this = $(this);
-			if (idx <10)
-			{
-				if ($this.find(".nchk").length>0) $this.find(".nchk").html("<sup title="+gettext('ESC then ')+idx+"'>"+idx+"</sup>");
-				else
-					$this.append("<span class='nchk text-info' ><sup title='"+gettext('ESC then ')+idx+"'>"+idx+"</sup></span>");
-				Mousetrap.bindGlobal("esc "+ idx, function(e) { $this.find('.close').click(); return false; });
-			}
-			else
-			{
-				if ($this.find(".nchk")) $this.find(".nchk").html("");
-				
-			}
-		});
-	}
+    /* Check dismiss shortcuts */
+    for (var icheck=0;icheck<10;icheck++){Mousetrap.bindGlobal("esc "+ icheck, function(e) { });}
+    if ($(".check").length>0)
+    {
+        $($('.check')[0].parentNode).children(".check").each(function(idx){
+            var $this = $(this);
+            if (idx <10)
+            {
+                if ($this.find(".nchk").length>0) $this.find(".nchk").html("<sup title="+gettext('ESC then ')+idx+"'>"+idx+"</sup>");
+                else
+                    $this.append("<span class='nchk text-info' ><sup title='"+gettext('ESC then ')+idx+"'>"+idx+"</sup></span>");
+                Mousetrap.bindGlobal("esc "+ idx, function(e) { $this.find('.close').click(); return false; });
+            }
+            else
+            {
+                if ($this.find(".nchk")) $this.find(".nchk").html("");
+
+            }
+        });
+    }
 
     /* Check link clicking */
     $document.on('click', '.check [data-toggle="tab"]', function (e) {
@@ -636,36 +638,45 @@ $(function () {
         e.preventDefault();
     });
 
-		
+
     /* Copy from source text highlight check */
     $('.hlcheck').click(function (e) {
         var text = $(this).clone();
-				text.find(".nchk").remove();
-				text=text.text();
+        text.find(".nchk").remove();
+        text=text.text();
         $('.translation-editor').insertAtCaret($.trim(text)).trigger('autosize.resize');;
         e.preventDefault();
     });
-		/* and shortcuts */
-		var possibleShortcuts=['a','b','d','g','i','j','k','l','o','p','q','t','u','w','x','y'];
-		for (var icheck=0;icheck<possibleShortcuts.length;icheck++){Mousetrap.bindGlobal("alt+"+possibleShortcuts[icheck], function(e) { });}
-		if ($(".hlcheck").length>0)
-		{
-			$('.hlcheck').each(function(idx){
-				var $this = $(this);
-				if (idx <possibleShortcuts.length)
-				{
-					if ($this.find(".nchk").length>0) $this.find(".nchk").html("<sup title='ALT+"+possibleShortcuts[idx]+"'>"+possibleShortcuts[idx]+"</sup>");
-					else
-						$this.prepend("<span class='nchk text-info' ><sup title='ALT+"+possibleShortcuts[idx]+"'>"+possibleShortcuts[idx]+"</sup></span>");
-					Mousetrap.bindGlobal("alt+"+possibleShortcuts[idx], function(e) { $this.click(); return false; });
-				}
-				else
-				{
-					if ($this.find(".nchk")) $this.find(".nchk").html("");
-					
-				}
-			});
-		}
+    /* and shortcuts */
+    var possibleShortcuts=['a','b','d','g','i','j','k','l','o','p','q','t','u','w','x','y'];
+    for (var icheck=0;icheck<possibleShortcuts.length;icheck++){
+        Mousetrap.bindGlobal("alt+"+possibleShortcuts[icheck], function(e) { });
+    }
+    if ($(".hlcheck").length>0) {
+        $('.hlcheck').each(function(idx){
+            var $this = $(this);
+            if (idx <possibleShortcuts.length) {
+                if ($this.find(".nchk").length > 0) {
+                    $this.find(".nchk").html(
+                        "<sup title='ALT+" + possibleShortcuts[idx] + "'>" + possibleShortcuts[idx] + "</sup>"
+                    );
+                } else {
+                    $this.prepend(
+                        "<span class='nchk text-info' ><sup title='ALT+" + possibleShortcuts[idx] + "'>" + possibleShortcuts[idx] + "</sup></span>"
+                    );
+                }
+                Mousetrap.bindGlobal(
+                    "alt+" + possibleShortcuts[idx],
+                    function(e) { $this.click(); return false; }
+                );
+            } else {
+                if ($this.find(".nchk")) {
+                    $this.find(".nchk").html("");
+                }
+
+            }
+        });
+    }
 
     /* Widgets selector */
     $('.select-tab').on('change', function (e) {
