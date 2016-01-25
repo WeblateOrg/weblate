@@ -236,7 +236,7 @@ function processMachineTranslation(data, textStatus, jqXHR) {
             if (idx < 10) {
                 var key = getNumericKey(idx);
                 $(this).find('.mt-number').html(
-                    " <span class='badge' title='" +
+                    " <span class='badge kbd-badge' title='" +
                     interpolate(gettext('Alt+M then %s'), [key]) +
                     "'>" +
                     key +
@@ -629,13 +629,13 @@ $(function () {
                 Mousetrap.bindGlobal("alt+i " + i, function(e) {});
             }
 
-            if ($(".check").length > 0 && false) {
+            if ($(".check").length > 0) {
                 $($('.check')[0].parentNode).children(".check").each(function(idx){
                     var $this = $(this);
                     if (idx < 10) {
                         var key = getNumericKey(idx);
                         $(this).find('.check-number').html(
-                            " <span class='badge' title='" +
+                            " <span class='badge kbd-badge' title='" +
                             interpolate(gettext('Alt+I then %s'), [key]) +
                             "'>" +
                             key +
