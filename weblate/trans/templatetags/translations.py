@@ -80,7 +80,10 @@ def fmt_whitespace(value):
         SPACE_TAB.format(_('Tab character'))
     )
     return value
+
+
 def fmt_check_highlights(value, checks):
+    """Formats check highlights"""
     highlights = None
     # Find all checks highlight
     if checks:
@@ -107,6 +110,7 @@ def fmt_check_highlights(value, checks):
         #then transform highlights to escaped html
         highlights = [(h[0], escape(force_unicode(h[1]))) for h in highlights]
     return highlights
+
 
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
