@@ -191,10 +191,14 @@ function processMachineTranslation(data, textStatus, jqXHR) {
             newRow.append($(
                 '<td>' +
                 '<a class="copymt btn btn-xs btn-default">' +
+                '<i class="fa fa-clipboard"></i> ' +
                 gettext('Copy') +
                 '<span class="mt-number text-info"></span>' +
                 '</a>' +
-                '<a class="copymts btn btn-xs btn-default">↵</a>' +
+                '<a class="copymt-save btn btn-xs btn-success">' +
+                '<i class="fa fa-save"></i> ' +
+                gettext('Copy and save') +
+                '</a>' +
                 '</td>'
             ));
             var $machineTranslations = $('#machine-translations');
@@ -208,12 +212,12 @@ function processMachineTranslation(data, textStatus, jqXHR) {
                 $machineTranslations.append(newRow);
             }
         });
-        $('a.copymt').button({text: true, icons: { primary: 'ui-icon-copy' }}).click(function () {
+        $('a.copymt').click(function () {
             var text = $(this).parent().parent().find('.target').text();
             $('.translation-editor').val(text).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', true);
         });
-        $('a.copymts').button({text: true, icons: { primary: 'ui-icon-copy' }}).click(function () {
+        $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
             $('.translation-editor').val(text).trigger('autosize.resize');
             $('#id_fuzzy').prop('checked', false);
