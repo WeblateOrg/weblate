@@ -82,15 +82,6 @@ def fmt_whitespace(value):
     return value
 
 
-def fmt_check_highlights(value, unit):
-    """Formats check highlights"""
-    if unit is None:
-        return []
-    #then transform highlights to escaped html
-    highlights = [(h[0], h[1], escape(force_text(h[2]))) for h in highlight_string(value, unit)]
-    return highlights
-
-
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
                        simple=False, num_plurals=2, unit=None):
@@ -118,7 +109,9 @@ def format_translation(value, language, diff=None, search_match=None,
     parts = []
 
     for idx, value in enumerate(plurals):
-        highlights = fmt_check_highlights(value, unit)
+        highlights = []
+        if unit is not None:
+            highlights = highlight_string(value, unit)
 
         # HTML escape
         value = escape(force_text(value))
@@ -131,7 +124,8 @@ def format_translation(value, language, diff=None, search_match=None,
         # Create span for checks highlights
         if highlights:
             start_search = 0
-            for htext in [h[2] for h in highlights]:
+            for highlight in highlights:
+                htext = escape(force_text(highlight[2]))
                 find_highlight = value.find(htext, start_search)
                 if find_highlight >= 0:
                     newpart = u'<span class="hlcheck">{0}</span>'.format(htext)
