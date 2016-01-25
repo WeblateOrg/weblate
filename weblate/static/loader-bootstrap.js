@@ -576,7 +576,7 @@ $(function () {
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+v', function(e) {$('.translation-item .copy-text').click(); return false;});
-            Mousetrap.bindGlobal('alt+f', function(e) {$('input[name="fuzzy"]').prop('checked', true); return false;});
+            Mousetrap.bindGlobal('alt+f', function(e) {$('input[name="fuzzy"]').click(); return false;});
             Mousetrap.bindGlobal(
                 ['ctrl+shift+enter', 'command+shift+enter'],
                 function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
