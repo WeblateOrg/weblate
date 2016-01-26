@@ -397,8 +397,10 @@ class SearchMigrationTest(TestCase):
         weblate.trans.search.STORAGE = self.backup
 
     def do_test(self, source, target):
-        self.storage.create_index(source, 'source')
-        self.storage.create_index(target, 'target-cs')
+        if source is not None:
+            self.storage.create_index(source, 'source')
+        if target is not None:
+            self.storage.create_index(target, 'target-cs')
 
         self.assertIsNotNone(
             weblate.trans.search.get_source_index()
@@ -406,6 +408,13 @@ class SearchMigrationTest(TestCase):
         self.assertIsNotNone(
             weblate.trans.search.get_target_index('cs')
         )
+
+    def test_nonexisting(self):
+        self.do_test(None, None)
+
+    def test_nonexisting_dir(self):
+        shutil.rmtree(self.path)
+        self.do_test(None, None)
 
     def test_current(self):
         source = weblate.trans.search.SourceSchema
