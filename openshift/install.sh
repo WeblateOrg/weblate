@@ -111,7 +111,7 @@ if find_script_dir; then
   ln -sf ${OPENSHIFT_REPO_DIR}/openshift/settings.sh $SCRIPT_DIR/settings
 fi
 
-gear stop
+gear stop --cart python
 
 # Link sources below $OPENSHIFT_REPO_DIR must be relative or they will be invalid after restore/clone operations
 ln -sf ../openshift/wsgi.py $OPENSHIFT_REPO_DIR/wsgi/application
