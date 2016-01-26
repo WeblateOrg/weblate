@@ -128,7 +128,7 @@ def format_translation(value, language, diff=None, search_match=None,
                 htext = escape(force_text(highlight[2]))
                 find_highlight = value.find(htext, start_search)
                 if find_highlight >= 0:
-                    newpart = u'<span class="hlcheck">{0}</span>'.format(htext)
+                    newpart = u'<span class="hlcheck">{0}<span class="highlight-number"></span></span>'.format(htext)
                     next_part = value[(find_highlight + len(htext)):]
                     value = value[:find_highlight] + newpart + next_part
                     start_search = find_highlight + len(newpart)

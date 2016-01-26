@@ -654,38 +654,37 @@ $(function () {
     /* Copy from source text highlight check */
     $('.hlcheck').click(function (e) {
         var text = $(this).clone();
-        text.find(".nchk").remove();
+        text.find(".highlight-number").remove();
         text=text.text();
         $('.translation-editor').insertAtCaret($.trim(text)).trigger('autosize.resize');;
         e.preventDefault();
     });
     /* and shortcuts */
-    var possibleShortcuts=['a','b','d','g','i','j','k','l','o','p','q','t','u','w','x','y'];
-    for (var icheck=0;icheck<possibleShortcuts.length;icheck++){
-        Mousetrap.bindGlobal("alt+"+possibleShortcuts[icheck], function(e) { });
+    for (var i = 1; i < 10; i++) {
+        Mousetrap.bindGlobal("alt+" + i, function(e) {});
     }
     if ($(".hlcheck").length>0) {
         $('.hlcheck').each(function(idx){
             var $this = $(this);
-            if (idx <possibleShortcuts.length) {
-                if ($this.find(".nchk").length > 0) {
-                    $this.find(".nchk").html(
-                        "<sup title='ALT+" + possibleShortcuts[idx] + "'>" + possibleShortcuts[idx] + "</sup>"
-                    );
-                } else {
-                    $this.prepend(
-                        "<span class='nchk text-info' ><sup title='ALT+" + possibleShortcuts[idx] + "'>" + possibleShortcuts[idx] + "</sup></span>"
-                    );
-                }
+            if (idx < 10) {
+                var key = getNumericKey(idx);
+                $(this).find('.highlight-number').html(
+                    " <span class='badge kbd-badge' title='" +
+                    interpolate(gettext('Alt+%s'), [key]) +
+                    "'>" +
+                    key +
+                    "</span>"
+                );
+
                 Mousetrap.bindGlobal(
-                    "alt+" + possibleShortcuts[idx],
-                    function(e) { $this.click(); return false; }
+                    "alt+" + key,
+                    function(e) {
+                        $this.click();
+                        return false;
+                    }
                 );
             } else {
-                if ($this.find(".nchk")) {
-                    $this.find(".nchk").html("");
-                }
-
+                $this.find(".highlight-number").html("");
             }
         });
     }
