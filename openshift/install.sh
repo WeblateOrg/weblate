@@ -49,6 +49,10 @@ touch $OPENSHIFT_DATA_DIR/.install
 export PYTHONUNBUFFERED=1
 source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
+# Stop unneeded cartridges to save memory
+gear stop --cart cron
+gear stop --cart mysql
+
 cd ${OPENSHIFT_REPO_DIR}
 
 # Pin Django version to 1.8 to avoid surprises when 1.9 comes out.
@@ -67,6 +71,9 @@ while read line; do
     sh "pip install $line" || true
   fi
 done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
+
+# Start the database again as it is needed for setup scripts
+gear start --cart mysql
 
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
