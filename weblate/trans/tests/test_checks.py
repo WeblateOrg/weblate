@@ -103,7 +103,7 @@ class CheckTestCase(TestCase):
         self.test_ignore_check = (
             'x', 'x', self.check.ignore_string if self.check else ''
         )
-        self.test_highlight = None
+        self.test_highlight = ()
 
     def do_test(self, expected, data, lang='cs'):
         '''
@@ -204,7 +204,7 @@ class CheckTestCase(TestCase):
         )
 
     def test_check_highlight(self):
-        if self.check is None or self.test_highlight is None:
+        if self.check is None or not self.test_highlight:
             return
         unit = MockUnit(
             None,
