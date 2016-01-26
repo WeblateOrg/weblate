@@ -44,12 +44,12 @@ class AngularJSInterpolationCheck(TargetCheck):
     check_id = 'angularjs_format'
     name = _('AngularJS interpolation string')
     description = _('AngularJS interpolation strings do not match source')
+    default_disabled = True
     severity = 'danger'
-    flag = 'angularjs-format'
 
     def check_single(self, source, target, unit, cache_slot):
         # Verify unit is properly flagged
-        if self.flag not in unit.all_flags:
+        if self.enable_string not in unit.all_flags:
             return False
 
         # Try geting source parsing from cache
