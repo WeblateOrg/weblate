@@ -226,8 +226,10 @@ function processMachineTranslation(data, textStatus, jqXHR) {
 
         for (var i = 1; i < 10; i++){
             Mousetrap.bindGlobal(
-                ['alt+m ' + i],
-                function() {}
+                'alt+m ' + i,
+                function() {
+                    return false;
+                }
             );
         }
 
@@ -243,7 +245,7 @@ function processMachineTranslation(data, textStatus, jqXHR) {
                     "</span>"
                 );
                 Mousetrap.bindGlobal(
-                    ['alt+m ' + key],
+                    'alt+m ' + key,
                     function(e) {
                         $($('#machine-translations').children('tr')[idx]).find('a.copymt').click();
                         return false;
@@ -661,7 +663,12 @@ $(function () {
     });
     /* and shortcuts */
     for (var i = 1; i < 10; i++) {
-        Mousetrap.bindGlobal("alt+" + i, function(e) {});
+        Mousetrap.bindGlobal(
+            "alt+" + i,
+            function(e) {
+                return false;
+            }
+        );
     }
     if ($(".hlcheck").length>0) {
         $('.hlcheck').each(function(idx){
@@ -858,7 +865,12 @@ $(function () {
     /* Check dismiss shortcuts */
     Mousetrap.bindGlobal("alt+i", function(e) {});
     for (var i = 1; i < 10; i++) {
-        Mousetrap.bindGlobal("alt+i " + i, function(e) {});
+        Mousetrap.bindGlobal(
+            "alt+i " + i,
+            function(e) {
+                return false;
+            }
+        );
     }
 
     if ($(".check").length > 0) {
@@ -877,7 +889,6 @@ $(function () {
                 Mousetrap.bindGlobal(
                     "alt+i " + key,
                     function(e) {
-                        console.log('here');
                         $this.find('.close').click();
                         return false;
                     }
