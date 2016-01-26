@@ -98,11 +98,9 @@ def fmt_diff(value, diff, idx):
 
 def fmt_highlights(raw_value, value, unit):
     """Formats check highlights"""
-    print 'HL', unit
     if unit is None:
         return value
     highlights = highlight_string(raw_value, unit)
-    print highlights
     start_search = 0
     for highlight in highlights:
         htext = escape(force_text(highlight[2]))
