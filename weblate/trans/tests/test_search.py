@@ -23,10 +23,16 @@ Tests for search views.
 """
 
 import re
+import shutil
+import tempfile
+from unittest import TestCase
+from whoosh.filedb.filestore import FileStorage
+from whoosh.fields import Schema, ID, TEXT
 from django.core.urlresolvers import reverse
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests import OverrideSettings
 from weblate.trans.search import update_index_unit
+import weblate.trans.search
 from weblate.trans.models import IndexUpdate
 
 
@@ -375,3 +381,59 @@ class SearchBackendTest(ViewTestCase):
         self.assertEqual(IndexUpdate.objects.count(), 1)
         update = IndexUpdate.objects.all()[0]
         self.assertTrue(update.source, True)
+
+
+class SearchMigrationTest(TestCase):
+    """Search index migration testing"""
+    def setUp(self):
+        self.path = tempfile.mkdtemp()
+        self.backup = weblate.trans.search.STORAGE
+        self.storage = FileStorage(self.path)
+        weblate.trans.search.STORAGE = self.storage
+        self.storage.create()
+
+    def tearDown(self):
+        shutil.rmtree(self.path)
+        weblate.trans.search.STORAGE = self.backup
+
+    def do_test(self, source, target):
+        self.storage.create_index(source, 'source')
+        self.storage.create_index(target, 'target-cs')
+
+        self.assertIsNotNone(
+            weblate.trans.search.get_source_index()
+        )
+        self.assertIsNotNone(
+            weblate.trans.search.get_target_index('cs')
+        )
+
+    def test_current(self):
+        source = weblate.trans.search.SourceSchema
+        target = weblate.trans.search.TargetSchema
+        self.do_test(source, target)
+
+    def test_2_4(self):
+        source = Schema(
+            checksum=ID(stored=True, unique=True),
+            source=TEXT(),
+            context=TEXT(),
+            location=TEXT()
+        )
+        target = Schema(
+            checksum=ID(stored=True, unique=True),
+            target=TEXT(),
+            comment=TEXT(),
+        )
+        self.do_test(source, target)
+
+    def test_2_1(self):
+        source = Schema(
+            checksum=ID(stored=True, unique=True),
+            source=TEXT(),
+            context=TEXT(),
+        )
+        target = Schema(
+            checksum=ID(stored=True, unique=True),
+            target=TEXT(),
+        )
+        self.do_test(source, target)
