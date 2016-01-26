@@ -214,6 +214,7 @@ class BaseFormatCheck(TargetCheck):
             ret.append((match.start(), match.end(), match.group()))
         return ret
 
+
 class PythonFormatCheck(BaseFormatCheck):
     '''
     Check for Python format string

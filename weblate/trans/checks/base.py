@@ -138,7 +138,6 @@ class Check(object):
         '''
         return weblate.get_doc_url('user/checks', self.doc_id)
 
-
     def check_highlight(self, source, unit):
         '''
         Returns parts of the text that match to hightlight them
@@ -146,6 +145,7 @@ class Check(object):
         start position of the match and the value of the match
         '''
         return []
+
 
 class TargetCheck(Check):
     '''
