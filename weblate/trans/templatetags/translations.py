@@ -48,9 +48,11 @@ register = template.Library()
 SPACE_NL = '<span class="hlspace space-nl" title="{0}"></span><br />'
 SPACE_TAB = '<span class="hlspace space-tab" title="{0}"></span>'
 
-HL_CHECK = '''
-<span class="hlcheck">{0}<span class="highlight-number"></span></span>
-'''
+HL_CHECK = (
+    '<span class="hlcheck">{0}'
+    '<span class="highlight-number"></span>'
+    '</span>'
+)
 
 WHITESPACE_RE = re.compile(r'(  +| $|^ )')
 NEWLINES_RE = re.compile(r'\r\n|\r|\n')
@@ -86,6 +88,49 @@ def fmt_whitespace(value):
     return value
 
 
+def fmt_diff(value, diff, idx):
+    """Format diff if there is any"""
+    if diff is None:
+        return value
+    diffvalue = escape(force_text(diff[idx]))
+    return html_diff(diffvalue, value)
+
+
+def fmt_highlights(raw_value, value, unit):
+    """Formats check highlights"""
+    print 'HL', unit
+    if unit is None:
+        return value
+    highlights = highlight_string(raw_value, unit)
+    print highlights
+    start_search = 0
+    for highlight in highlights:
+        htext = escape(force_text(highlight[2]))
+        find_highlight = value.find(htext, start_search)
+        if find_highlight >= 0:
+            newpart = HL_CHECK.format(htext)
+            next_part = value[(find_highlight + len(htext)):]
+            value = value[:find_highlight] + newpart + next_part
+            start_search = find_highlight + len(newpart)
+    return value
+
+
+def fmt_search(value, search_match):
+    """Formats search match"""
+    if search_match:
+        # Since the search ignored case, we need to highlight any
+        # combination of upper and lower case we find. This is too
+        # advanced for str.replace().
+        caseless = re.compile(re.escape(search_match), re.IGNORECASE)
+        for variation in re.findall(caseless, value):
+            value = re.sub(
+                caseless,
+                '<span class="hlmatch">{0}</span>'.format(variation),
+                value,
+            )
+    return value
+
+
 @register.inclusion_tag('format-translation.html')
 def format_translation(value, language, diff=None, search_match=None,
                        simple=False, num_plurals=2, unit=None):
@@ -112,43 +157,18 @@ def format_translation(value, language, diff=None, search_match=None,
     # We will collect part for each plural
     parts = []
 
-    for idx, value in enumerate(plurals):
-        highlights = []
-        if unit is not None:
-            highlights = highlight_string(value, unit)
-
+    for idx, raw_value in enumerate(plurals):
         # HTML escape
-        value = escape(force_text(value))
+        value = escape(force_text(raw_value))
 
         # Format diff if there is any
-        if diff is not None:
-            diffvalue = escape(force_text(diff[idx]))
-            value = html_diff(diffvalue, value)
+        value = fmt_diff(value, diff, idx)
 
         # Create span for checks highlights
-        if highlights:
-            start_search = 0
-            for highlight in highlights:
-                htext = escape(force_text(highlight[2]))
-                find_highlight = value.find(htext, start_search)
-                if find_highlight >= 0:
-                    newpart = HL_CHECK.format(htext)
-                    next_part = value[(find_highlight + len(htext)):]
-                    value = value[:find_highlight] + newpart + next_part
-                    start_search = find_highlight + len(newpart)
+        value = fmt_highlights(raw_value, value, unit)
 
         # Format search term
-        if search_match:
-            # Since the search ignored case, we need to highlight any
-            # combination of upper and lower case we find. This is too
-            # advanced for str.replace().
-            caseless = re.compile(re.escape(search_match), re.IGNORECASE)
-            for variation in re.findall(caseless, value):
-                value = re.sub(
-                    caseless,
-                    '<span class="hlmatch">{0}</span>'.format(variation),
-                    value,
-                )
+        value = fmt_search(value, search_match)
 
         # Normalize newlines
         value = NEWLINES_RE.sub('\n', value)
