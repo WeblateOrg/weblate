@@ -28,6 +28,8 @@ Released on ? 2015.
 * Support for automatic translation across projects.
 * Optimized fulltext search index.
 * Added management command for auto translation.
+* Added placeables highlighting.
+* Added keyboard shortcuts for placeables, checks and machine translations.
 
 weblate 2.4
 -----------
