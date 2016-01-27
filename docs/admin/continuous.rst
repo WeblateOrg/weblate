@@ -262,6 +262,23 @@ Additionally following environment variables are available:
     :setting:`POST_PUSH_SCRIPTS`,
     :ref:`component`
 
+Post update repository processing
++++++++++++++++++++++++++++++++++
+
+Post update repository processing can be used to update translation files on
+the source change. To achieve this, please remember that Weblate only sees
+files which are committed to the VCS, so you need to commit changes as a part
+of the script.
+
+For example with gulp you can do it using following code:
+
+.. code-block:: sh
+
+    #! /bin/sh
+    gulp --gulpfile gulp-i18n-extract.js
+    git commit -m 'Update source strings' src/languages/en.lang.json
+
+
 Pre commit processing of translations
 +++++++++++++++++++++++++++++++++++++
 
