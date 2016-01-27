@@ -19,7 +19,7 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -37,9 +37,17 @@ from weblate.trans.permissions import (
 def update_lock(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    obj.update_lock(request.user, False)
+    if obj.update_lock(request.user, False):
+        return JsonResponse(
+            data={'status': True}
+        )
 
-    return HttpResponse('ok')
+    return JsonResponse(
+        data={
+            'status': False,
+            'message': _('Failed to update lock, probably session has expired'),
+        },
+    )
 
 
 @login_required

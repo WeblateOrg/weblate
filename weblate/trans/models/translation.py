@@ -349,17 +349,19 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         # Check if we can lock
         if self.is_user_locked(user):
-            return
+            return False
 
         # Update timestamp
         if self.lock_user == user:
             self.update_lock_time()
-            return
+            return True
 
         # Auto lock if we should
         if appsettings.AUTO_LOCK and create:
             self.create_lock(user)
-            return
+            return True
+
+        return False
 
     def _reverse_url_name(self):
         '''

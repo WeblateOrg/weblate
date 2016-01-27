@@ -747,7 +747,19 @@ $(function () {
     /* Lock updates */
     if ($('#js-lock').length > 0) {
         var jsLockUpdate = window.setInterval(function () {
-            $.get($('#js-lock').attr('href'));
+            $.ajax({
+                url: $('#js-lock').attr('href'),
+                success: function(data) {
+                    console.log(data);
+                    if (! data.status) {
+                        $('.lock-error').remove();
+                        var message = $('<div class="alert lock-error alert-danger"></div>');
+                        message.text(data.message);
+                        $('.content').prepend(message);
+                    }
+                },
+                dataType: 'json'
+            });
         }, 19000);
         window.setInterval(function () {
             window.clearInterval(jsLockUpdate);
