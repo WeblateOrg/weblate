@@ -42,12 +42,12 @@ def update_lock(request, project, subproject, lang):
             data={'status': True}
         )
 
-    return JsonResponse(
-        data={
-            'status': False,
-            'message': _('Failed to update lock, probably session has expired'),
-        },
-    )
+    response = {
+        'status': False,
+        'message': _('Failed to update lock, probably session has expired'),
+    }
+
+    return JsonResponse(data=response)
 
 
 @login_required
