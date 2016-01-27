@@ -52,7 +52,9 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             u'{{name}} string {{other}}',
             u'{{other}} string {{name}}',
-            MockUnit('angularjs_format_ignore_position', flags='angularjs-format'),
+            MockUnit(
+                'angularjs_format_ignore_position',
+                flags='angularjs-format'),
             0
         ))
 
@@ -60,7 +62,9 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             u'{{ name   }} string',
             u'{{name}} string',
-            MockUnit('angularjs_different_whitespace', flags='angularjs-format'),
+            MockUnit(
+                'angularjs_different_whitespace',
+                flags='angularjs-format'),
             0
         ))
 
