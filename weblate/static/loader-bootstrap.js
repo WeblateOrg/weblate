@@ -747,10 +747,13 @@ $(function () {
     /* Lock updates */
     if ($('#js-lock').length > 0) {
         var jsLockUpdate = window.setInterval(function () {
+            /* No locking for idle users */
+            if (idleTime >= 5) {
+                return;
+            }
             $.ajax({
                 url: $('#js-lock').attr('href'),
                 success: function(data) {
-                    console.log(data);
                     if (! data.status) {
                         $('.lock-error').remove();
                         var message = $('<div class="alert lock-error alert-danger"></div>');
@@ -761,6 +764,27 @@ $(function () {
                 dataType: 'json'
             });
         }, 19000);
+
+        var idleTime = 0;
+
+        var idleInterval = setInterval(
+            function () {
+                idleTime = idleTime + 1;
+            },
+            60000 // 1 minute
+        );
+
+        // Zero the idle timer on mouse movement.
+        $(document).click(function (e) {
+            idleTime = 0;
+        });
+        $(document).mousemove(function (e) {
+            idleTime = 0;
+        });
+        $(document).keypress(function (e) {
+            idleTime = 0;
+        });
+
         window.setInterval(function () {
             window.clearInterval(jsLockUpdate);
         }, 3600000);
