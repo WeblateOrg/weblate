@@ -27,7 +27,7 @@ from smtplib import SMTPException
 from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
-from django.contrib.auth.signals import user_logged_in
+from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.db.models.signals import post_save, post_migrate
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -733,6 +733,13 @@ def post_login_handler(sender, request, user, **kwargs):
 
     # Set language for session based on preferences
     set_lang(request, profile)
+
+
+@receiver(user_logged_out)
+def post_logout_handler(sender, request, user, **kwargs):
+    # Unlock translations on logout
+    for translation in user.translation_set.all():
+        translation.create_lock(None)
 
 
 def create_groups(update):
