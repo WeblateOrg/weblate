@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-26 09:44+0000\n"
+"POT-Creation-Date: 2016-01-27 13:23+0000\n"
 "PO-Revision-Date: 2015-12-03 05:36+0000\n"
 "Last-Translator: Justin Kim <justin.joy.9to5@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -4441,35 +4441,35 @@ msgstr "댓글 문자열에서 검색"
 msgid "Search filter"
 msgstr "검색 필터"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:926
-#: weblate/trans/models/translation.py:974 weblate/trans/views/edit.py:126
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:932
+#: weblate/trans/models/translation.py:980 weblate/trans/views/edit.py:126
 #: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "모든 문자열"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:994
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:1000
 msgid "Untranslated strings"
 msgstr "번역 안된 문자열"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:984
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:990
 msgid "Translated strings"
 msgstr "번역된 문자열"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1013
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1019
 msgid "Fuzzy strings"
 msgstr "흐트러진 문자열"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1022
+#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1028
 msgid "Strings with suggestions"
 msgstr "제안된 문자열"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:960
-#: weblate/trans/models/translation.py:1053
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:966
+#: weblate/trans/models/translation.py:1059
 msgid "Strings with comments"
 msgstr "문자열에 대한 댓글"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:937
-#: weblate/trans/models/translation.py:1031
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:943
+#: weblate/trans/models/translation.py:1037
 msgid "Strings with any failing checks"
 msgstr "실패 검사에 걸린 문자열"
 
@@ -5510,7 +5510,7 @@ msgstr "파일 %(file)s: %(error)s 의 구문 분석 실패"
 msgid "This translation is locked by %(user)s!"
 msgstr "이 번역은 %(user)s 님에 의해 잠겨있습니다!"
 
-#: weblate/trans/models/translation.py:1004
+#: weblate/trans/models/translation.py:1010
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Untranslated words"
@@ -6126,27 +6126,31 @@ msgstr "모든 저장소가 밀어졌습니다."
 msgid "All repositories have been reset."
 msgstr "모든 저장소가 재설정 되었습니다."
 
-#: weblate/trans/views/lock.py:55
+#: weblate/trans/views/lock.py:47
+msgid "Failed to update lock, probably session has expired."
+msgstr ""
+
+#: weblate/trans/views/lock.py:62
 msgid "Translation is now locked for you."
 msgstr "번역은 지금 귀하를 위해 잠겨 있습니다."
 
-#: weblate/trans/views/lock.py:71
+#: weblate/trans/views/lock.py:78
 msgid "Translation is now open for translation updates."
 msgstr "업데이트를 위해 번역이 현재 열려 있습니다."
 
-#: weblate/trans/views/lock.py:90
+#: weblate/trans/views/lock.py:97
 msgid "Component is now locked for translation updates!"
 msgstr "번역 업데이트를 위해 현재 컴포넌트가 잠겨 있습니다!"
 
-#: weblate/trans/views/lock.py:107
+#: weblate/trans/views/lock.py:114
 msgid "Component is now open for translation updates."
 msgstr "번역 업데이트를 위해 컴포넌트가 열려 있습니다."
 
-#: weblate/trans/views/lock.py:127
+#: weblate/trans/views/lock.py:134
 msgid "All subprojects are now locked for translation updates!"
 msgstr "번역 업데이트를 위해 모든 하위 프로젝트들은 현재 잠겨있습니다!"
 
-#: weblate/trans/views/lock.py:145
+#: weblate/trans/views/lock.py:152
 msgid "Project is now open for translation updates."
 msgstr "번역 업데이트를 위해 프로젝트가 열려 있습니다."
 

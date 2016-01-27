@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-26 09:44+0000\n"
+"POT-Creation-Date: 2016-01-27 13:23+0000\n"
 "PO-Revision-Date: 2016-01-26 13:04+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
-"Language-Team: French "
-"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
+">\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2770,7 +2770,6 @@ msgid "Translated strings:"
 msgstr "Chaînes traduites : "
 
 #: weblate/html/mail/footer.html:13 weblate/html/mail/footer.txt.py:5
-#| msgid "Untranslated strings"
 msgid "Untranslated strings:"
 msgstr "Chaînes non traduites :"
 
@@ -3308,7 +3307,6 @@ msgid "Alt+S - Shows search tab"
 msgstr "Alt+S - Afficher l'onglet Recherche"
 
 #: weblate/html/translate.html:73
-#| msgid "Fill in with source string"
 msgid "Alt+V - Copies source string"
 msgstr "Alt+V - Copier depuis la chaîne source"
 
@@ -4384,35 +4382,35 @@ msgstr "Rechercher dans les commentaires des chaînes"
 msgid "Search filter"
 msgstr "Filtre de recherche"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:926
-#: weblate/trans/models/translation.py:974 weblate/trans/views/edit.py:126
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:932
+#: weblate/trans/models/translation.py:980 weblate/trans/views/edit.py:126
 #: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "Toutes les chaînes"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:994
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:1000
 msgid "Untranslated strings"
 msgstr "Chaînes non traduites"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:984
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:990
 msgid "Translated strings"
 msgstr "Chaînes traduites"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1013
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1019
 msgid "Fuzzy strings"
 msgstr "Chaînes floues"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1022
+#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1028
 msgid "Strings with suggestions"
 msgstr "Chaînes avec suggestions"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:960
-#: weblate/trans/models/translation.py:1053
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:966
+#: weblate/trans/models/translation.py:1059
 msgid "Strings with comments"
 msgstr "Chaînes avec commentaires"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:937
-#: weblate/trans/models/translation.py:1031
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:943
+#: weblate/trans/models/translation.py:1037
 msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications échouées"
 
@@ -4458,7 +4456,6 @@ msgid "Component to use"
 msgstr "Sous-projet à utiliser"
 
 #: weblate/trans/forms.py:650
-#| msgid "New comment in %(subproject)s"
 msgid "All components in current project"
 msgstr "Tous les composants du projet courant"
 
@@ -5427,7 +5424,7 @@ msgstr "Échec de l'analyse du fichier %(file)s : %(error)s"
 msgid "This translation is locked by %(user)s!"
 msgstr "Cette traduction est verrouillée par %(user)s !"
 
-#: weblate/trans/models/translation.py:1004
+#: weblate/trans/models/translation.py:1010
 msgid "Untranslated words"
 msgstr "Mots non traduits"
 
@@ -5981,13 +5978,11 @@ msgid "Invalid suggestion!"
 msgstr "Suggestion invalide !"
 
 #: weblate/trans/views/edit.py:627
-#| msgid "Automatic translation completed."
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Traduction automatique terminée, aucune chaine n'a été modifiée."
 
 #: weblate/trans/views/edit.py:629
 #, python-format
-#| msgid "Automatic translation completed."
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Traduction automatique terminée, %d chaîne modifiée."
@@ -6014,8 +6009,6 @@ msgid "Access denied."
 msgstr "Accès non autorisé."
 
 #: weblate/trans/views/files.py:133
-#| msgid "Imported %d word from the uploaded file."
-#| msgid_plural "Imported %d words from the uploaded file."
 msgid "No strings were imported from the uploaded file."
 msgstr "Aucune chaîne n'a été importée depuis le fichier."
 
@@ -6057,30 +6050,34 @@ msgstr "Tous les dépôts ont été propagés."
 msgid "All repositories have been reset."
 msgstr "Tous les dépôts ont été réinitialisés."
 
-#: weblate/trans/views/lock.py:55
+#: weblate/trans/views/lock.py:47
+msgid "Failed to update lock, probably session has expired."
+msgstr ""
+
+#: weblate/trans/views/lock.py:62
 msgid "Translation is now locked for you."
 msgstr "Cette traduction est maintenant verrouillée pour vous."
 
-#: weblate/trans/views/lock.py:71
+#: weblate/trans/views/lock.py:78
 msgid "Translation is now open for translation updates."
 msgstr "La traduction est maintenant ouverte aux mises à jour."
 
-#: weblate/trans/views/lock.py:90
+#: weblate/trans/views/lock.py:97
 msgid "Component is now locked for translation updates!"
 msgstr ""
 "Le projet est maintenant verrouillé pour les mises à jour de traduction !"
 
-#: weblate/trans/views/lock.py:107
+#: weblate/trans/views/lock.py:114
 msgid "Component is now open for translation updates."
 msgstr "Le projet est maintenant ouvert aux mises à jour de traduction."
 
-#: weblate/trans/views/lock.py:127
+#: weblate/trans/views/lock.py:134
 msgid "All subprojects are now locked for translation updates!"
 msgstr ""
 "Tous les sous-projets sont maintenant bloqués pour les mises à jour de "
 "traduction !"
 
-#: weblate/trans/views/lock.py:145
+#: weblate/trans/views/lock.py:152
 msgid "Project is now open for translation updates."
 msgstr "Le projet est maintenant ouvert pour les mises à jour de traduction."
 

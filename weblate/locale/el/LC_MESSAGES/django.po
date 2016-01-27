@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-26 09:44+0000\n"
+"POT-Creation-Date: 2016-01-27 13:23+0000\n"
 "PO-Revision-Date: 2016-01-26 13:05+0000\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
-"\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
+">\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3304,7 +3304,6 @@ msgid "Alt+S - Shows search tab"
 msgstr "Alt+S - Προβολή καρτέλας αναζήτησης"
 
 #: weblate/html/translate.html:73
-#| msgid "Fill in with source string"
 msgid "Alt+V - Copies source string"
 msgstr "Alt+V - Αντιγράφει το κείμενο προέλευσης"
 
@@ -4374,35 +4373,35 @@ msgstr "Αναζήτηση στα κείμενα σχολίου"
 msgid "Search filter"
 msgstr "Φίλτρο αναζήτησης"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:926
-#: weblate/trans/models/translation.py:974 weblate/trans/views/edit.py:126
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:932
+#: weblate/trans/models/translation.py:980 weblate/trans/views/edit.py:126
 #: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "Όλα τα κείμενα"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:994
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:1000
 msgid "Untranslated strings"
 msgstr "Αμετάφραστα κείμενα"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:984
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:990
 msgid "Translated strings"
 msgstr "Μεταφρασμένα κείμενα"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1013
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1019
 msgid "Fuzzy strings"
 msgstr "Ασαφή κείμενα"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1022
+#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1028
 msgid "Strings with suggestions"
 msgstr "Κείμενα με προτάσεις"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:960
-#: weblate/trans/models/translation.py:1053
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:966
+#: weblate/trans/models/translation.py:1059
 msgid "Strings with comments"
 msgstr "Κείμενα με σχόλια"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:937
-#: weblate/trans/models/translation.py:1031
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:943
+#: weblate/trans/models/translation.py:1037
 msgid "Strings with any failing checks"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
@@ -5408,7 +5407,7 @@ msgstr "Απέτυχε η ανάλυση του αρχείου %(file)s: %(error
 msgid "This translation is locked by %(user)s!"
 msgstr "Αυτή η μετάφραση είναι κλειδωμένη από τον χρήστη %(user)s!"
 
-#: weblate/trans/models/translation.py:1004
+#: weblate/trans/models/translation.py:1010
 msgid "Untranslated words"
 msgstr "Αμετάφραστες λέξεις"
 
@@ -6026,27 +6025,31 @@ msgstr "Όλα τα αποθετήρια προωθήθηκαν."
 msgid "All repositories have been reset."
 msgstr "Όλα τα αποθετήρια εναναφέρθηκαν."
 
-#: weblate/trans/views/lock.py:55
+#: weblate/trans/views/lock.py:47
+msgid "Failed to update lock, probably session has expired."
+msgstr ""
+
+#: weblate/trans/views/lock.py:62
 msgid "Translation is now locked for you."
 msgstr "Η μετάφραση είναι τώρα κλειδωμένη για εσάς."
 
-#: weblate/trans/views/lock.py:71
+#: weblate/trans/views/lock.py:78
 msgid "Translation is now open for translation updates."
 msgstr "Η μετάφραση είναι τώρα ανοικτή για ενημερώσεις μετάφρασης."
 
-#: weblate/trans/views/lock.py:90
+#: weblate/trans/views/lock.py:97
 msgid "Component is now locked for translation updates!"
 msgstr "Το περιεχόμενο είναι τώρα κλειδωμένο για μεταφραστικές ενημερώσεις!"
 
-#: weblate/trans/views/lock.py:107
+#: weblate/trans/views/lock.py:114
 msgid "Component is now open for translation updates."
 msgstr "Το περιεχόμενο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
 
-#: weblate/trans/views/lock.py:127
+#: weblate/trans/views/lock.py:134
 msgid "All subprojects are now locked for translation updates!"
 msgstr "Όλα τα υποέργα είναι τώρα κλειδωμένα για μεταφραστικές ενημερώσεις!"
 
-#: weblate/trans/views/lock.py:145
+#: weblate/trans/views/lock.py:152
 msgid "Project is now open for translation updates."
 msgstr "Το έργο είναι τώρα ανοιχτό για μεταφραστικές ενημερώσεις."
 
