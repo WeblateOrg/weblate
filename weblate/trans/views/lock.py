@@ -37,8 +37,7 @@ from weblate.trans.permissions import (
 def update_lock(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    if not obj.is_user_locked(request.user):
-        obj.update_lock_time()
+    obj.update_lock(request.user, False)
 
     return HttpResponse('ok')
 

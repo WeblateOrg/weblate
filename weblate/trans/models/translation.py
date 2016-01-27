@@ -343,17 +343,21 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         self.save()
 
-    def update_lock(self, user):
+    def update_lock(self, user, create=True):
         '''
         Updates lock timestamp.
         '''
+        # Check if we can lock
+        if self.is_user_locked(user):
+            return
+
         # Update timestamp
-        if self.is_user_locked():
+        if self.lock_user == user:
             self.update_lock_time()
             return
 
         # Auto lock if we should
-        if appsettings.AUTO_LOCK:
+        if appsettings.AUTO_LOCK and create:
             self.create_lock(user)
             return
 
