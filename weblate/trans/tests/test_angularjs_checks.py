@@ -36,50 +36,42 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.assertFalse(self.check.check_single(
             'strins',
             'string',
-            MockUnit('angularjs_no_format', flags='angularjs-format'),
-            0
+            MockUnit('angularjs_no_format', flags='angularjs-format')
         ))
 
     def test_format(self):
         self.assertFalse(self.check.check_single(
             u'{{name}} string {{other}}',
             u'{{name}} {{other}} string',
-            MockUnit('angularjs_format', flags='angularjs-format'),
-            0
+            MockUnit('angularjs_format', flags='angularjs-format')
         ))
 
     def test_format_ignore_position(self):
         self.assertFalse(self.check.check_single(
             u'{{name}} string {{other}}',
             u'{{other}} string {{name}}',
-            MockUnit(
-                'angularjs_format_ignore_position',
-                flags='angularjs-format'),
-            0
+            MockUnit('angularjs_format_ignore_position',
+                     flags='angularjs-format')
         ))
 
     def test_different_whitespace(self):
         self.assertFalse(self.check.check_single(
             u'{{ name   }} string',
             u'{{name}} string',
-            MockUnit(
-                'angularjs_different_whitespace',
-                flags='angularjs-format'),
-            0
+            MockUnit('angularjs_different_whitespace',
+                     flags='angularjs-format')
         ))
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_single(
             u'{{name}} string',
             u'string',
-            MockUnit('angularjs_missing_format', flags='angularjs-format'),
-            0
+            MockUnit('angularjs_missing_format', flags='angularjs-format')
         ))
 
     def test_wrong_value(self):
         self.assertTrue(self.check.check_single(
             u'{{name}} string',
             u'{{nameerror}} string',
-            MockUnit('angularjs_wrong_value', flags='angularjs-format'),
-            0
+            MockUnit('angularjs_wrong_value', flags='angularjs-format')
         ))

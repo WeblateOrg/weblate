@@ -47,23 +47,20 @@ class AngularJSInterpolationCheck(TargetCheck):
     default_disabled = True
     severity = 'danger'
 
-    def check_single(self, source, target, unit, cache_slot):
+    def check_single(self, source, target, unit):
         # Verify unit is properly flagged
         if self.enable_string not in unit.all_flags:
             return False
 
-        # Try geting source parsing from cache
-        src_match = self.get_cache(unit, cache_slot)
+        src_match = ANGULARJS_INTERPOLATION_MATCH.findall(source)
 
-        # Cache miss
-        if src_match is None:
-            src_match = ANGULARJS_INTERPOLATION_MATCH.findall(source)
-            self.set_cache(unit, src_match, cache_slot)
         # Any interpolation strings in source?
         if len(src_match) == 0:
             return False
-        # Parse target
+
         tgt_match = ANGULARJS_INTERPOLATION_MATCH.findall(target)
+
+        # Fail the check if the number of matches is different
         if len(src_match) != len(tgt_match):
             return True
 
