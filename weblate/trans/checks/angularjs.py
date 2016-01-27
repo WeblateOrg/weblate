@@ -48,10 +48,6 @@ class AngularJSInterpolationCheck(TargetCheck):
     severity = 'danger'
 
     def check_single(self, source, target, unit):
-        # Verify unit is properly flagged
-        if self.enable_string not in unit.all_flags:
-            return False
-
         src_match = ANGULARJS_INTERPOLATION_MATCH.findall(source)
 
         # Any interpolation strings in source?
