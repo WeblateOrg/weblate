@@ -30,6 +30,7 @@ Released on ? 2015.
 * Added management command for auto translation.
 * Added placeables highlighting.
 * Added keyboard shortcuts for placeables, checks and machine translations.
+* Improved translation locking.
 
 weblate 2.4
 -----------
