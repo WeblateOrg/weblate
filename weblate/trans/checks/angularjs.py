@@ -19,9 +19,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.checks.base import TargetCheck
-from django.utils.translation import ugettext_lazy as _
 import re
+from django.utils.translation import ugettext_lazy as _
+from weblate.trans.checks.base import TargetCheck
 
 ANGULARJS_INTERPOLATION_MATCH = re.compile(
     r'''
