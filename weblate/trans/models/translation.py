@@ -1200,6 +1200,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if author is None:
             author = get_author_name(request.user)
 
+        # Check valid plural forms
+        if hasattr(store.store, 'parseheader'):
+            header = store.store.parseheader()
+            if 'Plural-Forms' in header and \
+                    self.language.get_plural_form() != header['Plural-Forms']:
+                raise Exception('Plural forms do not match the language.')
+
         # List translations we should process
         # Filter out those who don't want automatic update, but keep ourselves
         translations = Translation.objects.filter(
