@@ -122,6 +122,9 @@ class LanguageManager(models.Manager):
         """
         Language code sanitization.
         """
+        # Strip b+ prefix from Android
+        if code.startswith('b+'):
+            code = code[2:]
         code = code.replace(' ', '').replace('(', '').replace(')', '')
         while code[-1].isdigit():
             code = code[:-1]

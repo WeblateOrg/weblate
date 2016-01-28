@@ -1153,6 +1153,8 @@ class AndroidFormat(FileFormat):
         """
         Does any possible formatting needed for language code.
         """
+        if len(code) == 3:
+            return 'b+{0}'.format(code)
         return code.replace('_', '-r')
 
 
