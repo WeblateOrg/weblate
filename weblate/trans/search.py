@@ -303,7 +303,10 @@ def more_like(pk, source, top=5):
 
 def clean_search_unit(pk, lang):
     """Cleanups search index on unit deletion."""
-    index = get_target_index(lang)
-    index.writer().delete_by_term('pk', pk)
-    index = get_source_index()
-    index.writer().delete_by_term('pk', pk)
+    try:
+        index = get_target_index(lang)
+        index.writer().delete_by_term('pk', pk)
+        index = get_source_index()
+        index.writer().delete_by_term('pk', pk)
+    except IOError:
+        return
