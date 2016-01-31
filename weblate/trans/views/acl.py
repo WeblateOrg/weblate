@@ -72,7 +72,8 @@ def revoke_owner(request, project):
             messages.error(request, _('You can not remove last owner!'))
         else:
             # Ensure owner stays within project
-            obj.add_user(form.cleaned_data['user'])
+            if obj.enable_acl:
+                obj.add_user(form.cleaned_data['user'])
 
             obj.owners.remove(form.cleaned_data['user'])
 
