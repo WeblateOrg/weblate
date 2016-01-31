@@ -113,6 +113,8 @@ Translation context
 Translation context part allows you to see related information about current
 string.
 
+String attributes
+    Things like message ID, context (msgctxt) or location in source code.
 Nearby messages
     Displays messages which are located nearby in translation file. These
     usually are also used in similar context and you might want to check them
