@@ -303,7 +303,10 @@ class TranslationForm(ChecksumForm):
         required=False,
     )
     fuzzy = forms.BooleanField(
-        label=pgettext_lazy('Checkbox for marking translation needing review', 'Needs review'),
+        label=pgettext_lazy(
+            'Checkbox for marking translation needing review',
+            'Needs review'
+        ),
         required=False
     )
 
