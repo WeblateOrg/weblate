@@ -978,7 +978,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         result = TranslationChecklist()
 
         # All strings
-        result.add('all', _('All strings'), self.total, 'success')
+        result.add(
+            'all',
+            _('All strings'),
+            self.total,
+            'success',
+            self.total_words
+        )
 
         # Count of translated strings
         result.add_if(
@@ -986,6 +992,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             _('Translated strings'),
             self.translated,
             'success',
+            self.translated_words,
         )
 
         # Not translated strings
@@ -994,14 +1001,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             _('Not translated strings'),
             self.total - self.translated - self.fuzzy,
             'danger',
-        )
-
-        # Not translated strings
-        result.add_if(
-            'nottranslated',
-            _('Not translated words'),
             self.total_words - self.translated_words - self.fuzzy_words,
-            'danger',
         )
 
         # Untranslated strings
@@ -1010,14 +1010,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             _('Strings needing attention'),
             self.total - self.translated,
             'danger',
-        )
-
-        # Untranslated words, the link is same, just to show number of words
-        result.add_if(
-            'todo',
-            _('Words needing attention'),
             self.total_words - self.translated_words,
-            'danger',
         )
 
         # Fuzzy strings
@@ -1026,6 +1019,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             _('Strings needing review'),
             self.fuzzy,
             'danger',
+            self.fuzzy_words,
         )
 
         # Translations with suggestions

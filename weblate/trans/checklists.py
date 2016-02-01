@@ -22,11 +22,14 @@
 class TranslationChecklist(list):
     """Simple list wrapper for translation checklist"""
 
-    def add_if(self, name, label, count, level):
+    def add_if(self, name, label, count, level, words=None):
         """Add to list if there are matches"""
         if count > 0:
-            self.add(name, label, count, level)
+            self.add(name, label, count, level, words)
 
-    def add(self, name, label, count, level):
+    def add(self, name, label, count, level, words=None):
         """Adds item to the list"""
-        self.append((name, label, count, level))
+        if words is not None:
+            self.append((name, label, count, level, words))
+        else:
+            self.append((name, label, count, level))
