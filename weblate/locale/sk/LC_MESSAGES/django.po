@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-02-01 17:28+0000\n"
-"PO-Revision-Date: 2016-01-19 21:27+0000\n"
+"PO-Revision-Date: 2016-02-01 22:42+0000\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
-"Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
-">\n"
+"Language-Team: Slovak "
+"<https://hosted.weblate.org/projects/weblate/master/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgid ""
 "expired. Please try the registration again."
 msgstr ""
 "Nepodarilo sa overiť vašu registráciu! Pravdepodobne vypršala platnosť "
-"overovacieho tokenu. Skúste sa prosím znovu zaregistrovať."
+"overovacieho tokenu. Skúste sa prosím zaregistrovať znovu."
 
 #: weblate/accounts/avatar.py:177
 msgctxt "No known user"
@@ -2583,14 +2583,14 @@ msgstr[1] "Ostáva preložiť %(words)s slová!"
 msgstr[2] "Ostáva preložiť %(words)s slov!"
 
 #: weblate/html/list-translations.html:45
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s fuzzy string."
 #| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "V preklade je %(count)s nejasný reťazec."
-msgstr[1] "V preklade sú %(count)s nejasné reťazce."
-msgstr[2] "V preklade je %(count)s nejasných reťazcov."
+msgstr[0] "V preklade je %(count)s reťazec vyžadujúci kontrolu."
+msgstr[1] "V preklade sú %(count)s reťazce vyžadujúce kontrolu."
+msgstr[2] "V preklade je %(count)s reťazcov vyžadujúcich kontrolu."
 
 #: weblate/html/list-translations.html:54
 #, python-format
@@ -2733,16 +2733,14 @@ msgid "Translated strings:"
 msgstr "Preložených reťazcov:"
 
 #: weblate/html/mail/footer.html:13 weblate/html/mail/footer.txt.py:5
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Untranslated strings:"
-msgstr "Nepreložené reťazce"
+msgstr "Nepreložené reťazce:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
-msgstr "Kontrola zdrojových reťazcov"
+msgstr "Reťazce vyžadujúce kontrolu:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3235,10 +3233,9 @@ msgid "Ctrl+Enter - Save"
 msgstr "Ctrl+Enter - Uložiť"
 
 #: weblate/html/translate.html:66
-#, fuzzy
 #| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - Odznačiť ako nejasný a uložiť"
+msgstr "Ctrl+Shift+Enter - Odznačiť príznak kontroly a uložiť"
 
 #: weblate/html/translate.html:67
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -3265,10 +3262,9 @@ msgid "Alt+S - Shows search tab"
 msgstr "Alt+S - Zobrazí záložku vyhľadávania"
 
 #: weblate/html/translate.html:73
-#, fuzzy
 #| msgid "Fill in with source string"
 msgid "Alt+V - Copies source string"
-msgstr "Prepísať zdrojovým reťazcom"
+msgstr "Alt+V - Kopírovať zdrojový reťazec"
 
 #: weblate/html/translate.html:74
 msgid "Alt+F - Toggle review needed flag"
@@ -3501,14 +3497,14 @@ msgid "Strings"
 msgstr "Reťazcov"
 
 #: weblate/html/translation.html:119
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s hlas"
-msgstr[1] "%(count)s hlasy"
-msgstr[2] "%(count)s hlasov"
+msgstr[0] "%(count)s slovo"
+msgstr[1] "%(count)s slová"
+msgstr[2] "%(count)s slov"
 
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
@@ -3813,10 +3809,9 @@ msgid "Commit pending changes"
 msgstr "Zapísať čakajúce zmeny"
 
 #: weblate/trans/admin.py:257
-#, fuzzy
 #| msgid "Subproject"
 msgid "Project / Component"
-msgstr "Podprojekt"
+msgstr "Projekt / komponent"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3897,16 +3892,14 @@ msgid "Trailing and leading whitespace"
 msgstr "Koncové a počiatočné medzery"
 
 #: weblate/trans/checks/angularjs.py:45
-#, fuzzy
 #| msgid "Search in location strings"
 msgid "AngularJS interpolation string"
-msgstr "Vyhľadávať v umiestnení reťazcov"
+msgstr "Interpolačný reťazec AngularJS"
 
 #: weblate/trans/checks/angularjs.py:46
-#, fuzzy
 #| msgid "C format string does not match source"
 msgid "AngularJS interpolation strings do not match source"
-msgstr "Formátovací reťazec C v preklade nezodpovedá zdroju"
+msgstr "Interpolačné reťazce AngularJS v preklade nezodpovedajú zdroju"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4221,11 +4214,10 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Reťazec, ktorý ste chcel preložiť, už nie je dostupný!"
 
 #: weblate/trans/forms.py:308
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "skontrolovať"
+msgstr "Vyžaduje kontrolu"
 
 #: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
@@ -4244,26 +4236,23 @@ msgid "Add as a suggestion"
 msgstr "Pridať ako návrh"
 
 #: weblate/trans/forms.py:355
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
-msgstr "Pridať ako preklad"
+msgstr "Pridať ako preklad vyžadujúci kontrolu"
 
 #: weblate/trans/forms.py:360
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Kontrola zdrojových reťazcov"
+msgstr "Spracovanie reťazcov vyžadujúcich kontrolu"
 
 #: weblate/trans/forms.py:362
 msgid "Do not import"
 msgstr "Neimportovať"
 
 #: weblate/trans/forms.py:363
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Kontrola zdrojových reťazcov"
+msgstr "Importovať ako reťazec vyžadujúci kontrolu"
 
 #: weblate/trans/forms.py:364
 msgid "Import as translated"
@@ -4366,10 +4355,9 @@ msgid "Translated strings"
 msgstr "Preložené reťazce"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review"
-msgstr "Kontrola zdrojových reťazcov"
+msgstr "Reťazce vyžadujúce kontrolu"
 
 #: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
@@ -4427,10 +4415,9 @@ msgid "Component to use"
 msgstr "Použiť komponent"
 
 #: weblate/trans/forms.py:653
-#, fuzzy
 #| msgid "New comment in %(subproject)s"
 msgid "All components in current project"
-msgstr "Nový komentár v %(subproject)s"
+msgstr "Všetky komponenty v aktuálnom projekte"
 
 #: weblate/trans/forms.py:681
 msgid ""
@@ -5380,16 +5367,14 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Tento preklad je uzamknutý pre užívateľa %(user)s!"
 
 #: weblate/trans/models/translation.py:995
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Nepreložené reťazce"
 
 #: weblate/trans/models/translation.py:1004
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing attention"
-msgstr "Reťazce s návrhmi"
+msgstr "Reťazce vyžadujúce pozornosť"
 
 #: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
@@ -5948,19 +5933,18 @@ msgid "Invalid suggestion!"
 msgstr "Chybný návrh!"
 
 #: weblate/trans/views/edit.py:627
-#, fuzzy
 #| msgid "Automatic translation completed."
 msgid "Automatic translation completed, no strings were updated."
-msgstr "Automatický preklad bol dokončený."
+msgstr "Automatický preklad bol dokončený, neboli zmenené žiadne reťazce."
 
 #: weblate/trans/views/edit.py:629
-#, fuzzy, python-format
+#, python-format
 #| msgid "Automatic translation completed."
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "Automatický preklad bol dokončený."
-msgstr[1] "Automatický preklad bol dokončený."
-msgstr[2] "Automatický preklad bol dokončený."
+msgstr[0] "Automatický preklad bol dokončený, %d reťazec bol upravený."
+msgstr[1] "Automatický preklad bol dokončený, %d reťazce boli upravené."
+msgstr[2] "Automatický preklad bol dokončený, %d reťazcov bolo upravených."
 
 #: weblate/trans/views/edit.py:659
 msgid "Posted new comment"
@@ -5983,11 +5967,10 @@ msgid "Access denied."
 msgstr "Nedovolený prístup."
 
 #: weblate/trans/views/files.py:133
-#, fuzzy
 #| msgid "Imported %d word from the uploaded file."
 #| msgid_plural "Imported %d words from the uploaded file."
 msgid "No strings were imported from the uploaded file."
-msgstr "Zo súboru bolo importované %d slovo."
+msgstr "Zo súboru neboli importované žiadne reťazce."
 
 #: weblate/trans/views/files.py:135
 #, python-format
