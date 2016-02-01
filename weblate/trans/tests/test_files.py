@@ -33,6 +33,7 @@ TEST_PO = get_test_file('cs.po')
 TEST_CSV = get_test_file('cs.csv')
 TEST_PO_BOM = get_test_file('cs-bom.po')
 TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
+TEST_BADPLURALS = get_test_file('cs-badplurals.po')
 TEST_MO = get_test_file('cs.mo')
 TEST_ANDROID = get_test_file('strings-cs.xml')
 
@@ -52,11 +53,14 @@ class ImportBaseTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-    def do_import(self, **kwargs):
+    def do_import(self, test_file=None, follow=False, **kwargs):
         '''
         Helper to perform file import.
         '''
-        with open(self.test_file) as handle:
+        if test_file is None:
+            test_file = self.test_file
+
+        with open(test_file) as handle:
             params = {'file': handle}
             params.update(kwargs)
             return self.client.post(
@@ -64,7 +68,8 @@ class ImportBaseTest(ViewTestCase):
                     'upload_translation',
                     kwargs=self.kw_translation
                 ),
-                params
+                params,
+                follow=follow
             )
 
 
@@ -207,6 +212,24 @@ class ImportTest(ImportBaseTest):
             translation.have_suggestion,
             1
         )
+
+
+class ImportErrorTest(ImportBaseTest):
+    '''
+    Testing import of broken files.
+    '''
+    def test_mismatched_plurals(self):
+        '''
+        Test importing a file with different number of plural forms.
+        In response to issue #900
+        '''
+        from django.contrib.messages import ERROR
+        response = self.do_import(test_file=TEST_BADPLURALS, follow=True)
+        self.assertRedirects(response, self.translation_url)
+        messages = list(response.context["messages"])
+        self.assertEquals(len(messages), 1)
+        self.assertEquals(messages[0].level, ERROR)
+        self.assertIn("Plural forms do not match", messages[0].message)
 
 
 class BOMImportTest(ImportTest):
