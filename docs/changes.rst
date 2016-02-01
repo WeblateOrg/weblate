@@ -33,6 +33,7 @@ Released on ? 2015.
 * Improved translation locking.
 * Added quality check for AngularJS interpolation.
 * Added extensive group based ACLs.
+* Clarified terminology on strings needing review (formerly fuzzy).
 
 weblate 2.4
 -----------

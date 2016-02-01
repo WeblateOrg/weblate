@@ -277,9 +277,9 @@ strings in the message:
 ``%(total)s``
     Total strings count
 ``%(fuzzy)s``
-    Fuzzy strings count
+    Count of strings needing review
 ``%(fuzzy_percent)s``
-    Fuzzy strings percent
+    Percent of strings needing review
 ``%(translated)s``
     Translated strings count
 ``%(translated_percent)s``

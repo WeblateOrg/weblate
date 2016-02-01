@@ -166,7 +166,7 @@ Weblate provides you several ways to utilize existing translations while
 translating:
 
 - You can use import functionality to load compendium as translations,
-  suggestions or fuzzy translations. This is best approach for one time
+  suggestions or translations needing review. This is best approach for one time
   translation using compedium or similar translation database.
 - You can setup :ref:`tmserver` with all databases you have and let Weblate use
   it. This is good for case when you want to use it for several times during

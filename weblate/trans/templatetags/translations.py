@@ -523,7 +523,7 @@ def get_state_flags(unit):
 
     if unit.fuzzy:
         flags.append((
-            _('Message is fuzzy'),
+            _('Message needs review'),
             'question-circle text-danger'
         ))
     elif not unit.translated:

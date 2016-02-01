@@ -46,12 +46,12 @@ Add as translation
 Add as a suggestion
     Imported translations are added as suggestions, do this when you want to
     review imported strings.
-Add as fuzzy translation
-    Imported translations are added as fuzzy translations. This can be useful
+Add as translation needing review
+    Imported translations are added as translations needing review. This can be useful
     for review as well.
 
 Additionally, when adding as a translation, you can choose whether to overwrite
-already translated strings or not or how to handle fuzzy strings in imported
+already translated strings or not or how to handle strings needing review in imported
 file.
 
 .. image:: ../images/export-import.png

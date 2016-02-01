@@ -160,7 +160,7 @@ Weblate provides various exports to allow you further process the data.
     ``failing``, ``failing_percent``
         number and percentage of failing checks
     ``fuzzy``, ``fuzzy_percent``
-        number and percentage of fuzzy strings
+        number and percentage of strings needing review
     ``total_words``
         total number of words
     ``translated_words``

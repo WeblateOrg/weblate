@@ -5,10 +5,10 @@ Translation links
 -----------------
 
 Once you navigate to a translation, you will be shown set of links which lead
-to translation. These are results of various checks, like untranslated or fuzzy
-strings. Should no other checks fire, there will be still link to all
-translations. Alternatively you can use search field to find translation you
-need to fix.
+to translation. These are results of various checks, like untranslated or
+strings needing review. Should no other checks fire, there will be still link
+to all translations. Alternatively you can use search field to find translation
+you need to fix.
 
 .. image:: ../images/strings-to-check.png
 
