@@ -554,7 +554,7 @@ class Unit(models.Model, LoggerMixin):
             user = request.user
 
         # Update lock timestamp
-        self.translation.update_lock(user)
+        self.translation.update_lock(request.user)
 
         # Store to backend
         try:
