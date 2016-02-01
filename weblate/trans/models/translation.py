@@ -988,18 +988,34 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'success',
         )
 
+        # Not translated strings
+        result.add_if(
+            'nottranslated',
+            _('Not translated strings'),
+            self.total - self.translated - self.fuzzy,
+            'danger',
+        )
+
+        # Not translated strings
+        result.add_if(
+            'nottranslated',
+            _('Not translated words'),
+            self.total_words - self.translated_words - self.fuzzy_words,
+            'danger',
+        )
+
         # Untranslated strings
         result.add_if(
-            'untranslated',
-            _('Untranslated strings'),
+            'todo',
+            _('Strings needing attention'),
             self.total - self.translated,
             'danger',
         )
 
         # Untranslated words, the link is same, just to show number of words
         result.add_if(
-            'untranslated',
-            _('Untranslated words'),
+            'todo',
+            _('Words needing attention'),
             self.total_words - self.translated_words,
             'danger',
         )
