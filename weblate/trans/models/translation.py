@@ -47,6 +47,7 @@ from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.trans.boolean_sum import BooleanSum
 from weblate.accounts.models import notify_new_string, get_author_name
 from weblate.trans.models.changes import Change
+from weblate.trans.checklists import TranslationChecklist
 
 
 class TranslationManager(models.Manager):
@@ -974,92 +975,78 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Returns list of failing checks on current translation.
         '''
-        result = [
-            (
-                'all',
-                _('All strings'),
-                self.total,
-                'success',
-            )
-        ]
+        result = TranslationChecklist()
+
+        # All strings
+        result.add('all', _('All strings'), self.total, 'success')
 
         # Count of translated strings
-        if self.translated > 0:
-            result.append((
-                'translated',
-                _('Translated strings'),
-                self.translated,
-                'success',
-            ))
+        result.add_if(
+            'translated',
+            _('Translated strings'),
+            self.translated,
+            'success',
+        )
 
         # Untranslated strings
-        nottranslated = self.total - self.translated
-        if nottranslated > 0:
-            result.append((
-                'untranslated',
-                _('Untranslated strings'),
-                nottranslated,
-                'danger',
-            ))
+        result.add_if(
+            'untranslated',
+            _('Untranslated strings'),
+            self.total - self.translated,
+            'danger',
+        )
 
         # Untranslated words, the link is same, just to show number of words
-        nottranslated = self.total_words - self.translated_words
-        if nottranslated > 0:
-            result.append((
-                'untranslated',
-                _('Untranslated words'),
-                nottranslated,
-                'danger',
-            ))
+        result.add_if(
+            'untranslated',
+            _('Untranslated words'),
+            self.total_words - self.translated_words,
+            'danger',
+        )
 
         # Fuzzy strings
-        if self.fuzzy > 0:
-            result.append((
-                'fuzzy',
-                _('Strings needing review'),
-                self.fuzzy,
-                'danger',
-            ))
+        result.add_if(
+            'fuzzy',
+            _('Strings needing review'),
+            self.fuzzy,
+            'danger',
+        )
 
         # Translations with suggestions
-        if self.have_suggestion > 0:
-            result.append((
-                'suggestions',
-                _('Strings with suggestions'),
-                self.have_suggestion,
-                'info',
-            ))
+        result.add_if(
+            'suggestions',
+            _('Strings with suggestions'),
+            self.have_suggestion,
+            'info',
+        )
 
         # All checks
-        if self.failing_checks > 0:
-            result.append((
-                'allchecks',
-                _('Strings with any failing checks'),
-                self.failing_checks,
-                'danger',
-            ))
+        result.add_if(
+            'allchecks',
+            _('Strings with any failing checks'),
+            self.failing_checks,
+            'danger',
+        )
 
         # Process specific checks
         for check in CHECKS:
-            if not CHECKS[check].target:
+            check_obj = CHECKS[check]
+            if not check_obj.target:
                 continue
-            cnt = self.unit_set.count_type(check, self)
-            if cnt > 0:
-                result.append((
-                    check,
-                    CHECKS[check].description,
-                    cnt,
-                    CHECKS[check].severity,
-                ))
+            result.add_if(
+                check,
+                check_obj.description,
+                self.unit_set.count_type(check, self),
+                check_obj.severity,
+            )
 
         # Grab comments
-        if self.have_comment > 0:
-            result.append((
-                'comments',
-                _('Strings with comments'),
-                self.have_comment,
-                'info',
-            ))
+        result.add_if(
+            'comments',
+            _('Strings with comments'),
+            self.have_comment,
+            'info',
+        )
 
         return result
 
