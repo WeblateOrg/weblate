@@ -3,7 +3,7 @@
 {% load translations %}
 
 {% block form_top %}
-{% if opts.model_name == 'project' or opts.model_name == 'subproject' or opts.model_name == 'advertisement' or opts.model_name == 'whiteboardmessage' %}
+{% if opts.model_name == 'project' or opts.model_name == 'subproject' or opts.model_name == 'advertisement' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'groupacl' %}
 {% if opts.model_name == 'advertisement' %}
 {% doc_url 'admin/advertisement' as url %}
 {% else %}

@@ -24,7 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change,
-    Source, WhiteboardMessage
+    Source, WhiteboardMessage, GroupACL
 )
 
 
@@ -239,11 +239,30 @@ class SourceAdmin(admin.ModelAdmin):
     date_hierarchy = 'timestamp'
 
 
+class GroupACLAdmin(admin.ModelAdmin):
+    list_display = ['language', 'project_subproject', 'group_list']
+
+    def group_list(self, obj):
+        groups = obj.groups.values_list('name', flat=True)
+        ret = ', '.join(groups[:5])
+        if len(groups) > 5:
+            ret += ', ...'
+        return ret
+
+    def project_subproject(self, obj):
+        if obj.subproject:
+            return obj.subproject
+        else:
+            return obj.project
+    project_subproject.short_description = _('Project / Subproject')
+
+
 # Register in admin interface
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(SubProject, SubProjectAdmin)
 admin.site.register(Advertisement, AdvertisementAdmin)
 admin.site.register(WhiteboardMessage, WhiteboardAdmin)
+admin.site.register(GroupACL, GroupACLAdmin)
 
 # Show some controls only in debug mode
 if settings.DEBUG:

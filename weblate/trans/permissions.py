@@ -20,10 +20,11 @@
 """
 Permissions abstract layer for Weblate.
 """
-
-from django.contrib.auth.models import Group, User
+from django.db.models import Q
+from django.contrib.auth.models import Group, User, Permission
 
 from weblate import appsettings
+from weblate.trans.models.group_acl import GroupACL
 
 
 def check_owner(user, project, permission):
@@ -38,6 +39,37 @@ def check_owner(user, project, permission):
     app, perm = permission.split('.')
     return group.permissions.filter(
         content_type__app_label=app, codename=perm
+    ).exists()
+
+
+def has_group_perm(user, translation, permission):
+    """
+    Checks whether GroupACL rules allow user to have
+    given permission.
+    """
+    acls = list(GroupACL.objects.filter(
+        Q(language=translation.language) |
+        Q(project=translation.subproject.project) |
+        Q(subproject=translation.subproject)))
+
+    if not acls:
+        return user.has_perm(permission)
+
+    # more specific rules are more important: subproject > project > language
+    acls.sort(reverse=True, key=lambda a: (
+        a.subproject is not None,
+        a.project is not None,
+        a.language is not None))
+
+    membership = acls[0].groups.all() & user.groups.all()
+    if not membership.exists():
+        return False
+
+    app, perm = permission.split('.')
+    return Permission.objects.filter(
+        group__in=membership,
+        content_type__app_label=app,
+        codename=perm
     ).exists()
 
 
@@ -82,13 +114,14 @@ def can_edit(user, translation, permission):
         return False
     if check_owner(user, translation.subproject.project, permission):
         return True
-    if not user.has_perm(permission):
+    if not has_group_perm(user, translation, permission):
         return False
-    if translation.is_template() and not user.has_perm('trans.save_template'):
+    if translation.is_template() \
+            and not has_group_perm(user, translation, 'trans.save_template'):
         return False
-    if (translation.subproject.suggestion_voting and
-            translation.subproject.suggestion_autoaccept > 0 and
-            not user.has_perm('trans.override_suggestion')):
+    if (not has_group_perm(user, translation, 'trans.override_suggestion') and
+            translation.subproject.suggestion_voting and
+            translation.subproject.suggestion_autoaccept > 0):
         return False
     return True
 
@@ -141,9 +174,10 @@ def can_vote_suggestion(user, translation):
     project = translation.subproject.project
     if check_owner(user, project, 'trans.vote_suggestion'):
         return True
-    if not user.has_perm('trans.vote_suggestion'):
+    if not has_group_perm(user, translation, 'trans.vote_suggestion'):
         return False
-    if translation.is_template() and not user.has_perm('trans.save_template'):
+    if translation.is_template() \
+            and not has_group_perm(user, translation, 'trans.save_template'):
         return False
     return True
 
@@ -155,7 +189,7 @@ def can_use_mt(user, translation):
     """
     if not appsettings.MACHINE_TRANSLATION_ENABLED:
         return False
-    if not user.has_perm('trans.use_mt'):
+    if not has_group_perm(user, translation, 'trans.use_mt'):
         return False
     if check_owner(user, translation.subproject.project, 'trans.use_mt'):
         return True
