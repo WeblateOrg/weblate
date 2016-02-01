@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2015-12-15 00:05+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -2744,7 +2744,7 @@ msgstr "翻訳済み文字列:"
 msgid "Untranslated strings:"
 msgstr "未翻訳の文字列"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2755,12 +2755,6 @@ msgstr "原文の査読"
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr "<a href=\"%(translation_url)s\">%(translation_url)s</a> で翻訳できます"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "原文の査読"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3833,7 +3827,7 @@ msgstr "保留中の変更をコミットする"
 #: weblate/trans/admin.py:257
 #, fuzzy
 #| msgid "Subproject"
-msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "サブプロジェクト"
 
 #: weblate/trans/admin_views.py:78
@@ -4739,7 +4733,7 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(time)s に %(user)s が実施した、 %(translation)s に対する %(action)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr ""
 
 #: weblate/trans/models/group_acl.py:67
@@ -5422,13 +5416,13 @@ msgstr "未翻訳の文字列"
 msgid "Strings needing attention"
 msgstr "提案がある文字列"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "バックエンドに対するメッセージ保存に失敗しました。ロックタイムアウトが発生し"
 "ました！"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "バックエンドストレージ内にメッセージが見つかりません。おそらく壊れてしまって"
@@ -6117,6 +6111,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "翻訳済"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "原文の査読"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-01-27 15:36+0000\n"
 "Last-Translator: Dieter Adriaenssens <dieter.adriaenssens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
@@ -2764,7 +2764,7 @@ msgstr "Vertaalde tekenreeksen:"
 msgid "Untranslated strings:"
 msgstr "Niet-vertaalde tekenreeksen:"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2776,12 +2776,6 @@ msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 "U kan vertalen op <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Beoordeling brontekenreeksen"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3863,7 +3857,7 @@ msgstr "Hangende wijzigingen indienen"
 #: weblate/trans/admin.py:257
 #, fuzzy
 #| msgid "Subproject"
-msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Subproject"
 
 #: weblate/trans/admin_views.py:78
@@ -4772,7 +4766,7 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr ""
 
 #: weblate/trans/models/group_acl.py:67
@@ -5462,13 +5456,13 @@ msgstr "Niet-vertaalde tekenreeksen"
 msgid "Strings needing attention"
 msgstr "Tekenreeksen met suggesties"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Opslaan van bericht in achterliggende database is mislukt, een lock timeout "
 "is opgetreden!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Bericht niet gevonden in achterliggende opslagruimte, deze is waarschijnlijk "
@@ -6172,6 +6166,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "vertaald"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Beoordeling brontekenreeksen"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

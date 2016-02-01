@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-02-01 16:30+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2756,7 +2756,7 @@ msgstr "Перекладених рядків:"
 msgid "Untranslated strings:"
 msgstr "Неперекладені рядки:"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2769,12 +2769,6 @@ msgid ""
 msgstr ""
 "Ви можете перекласти на <a href=\"%(translation_url)s\">%(translation_url)s</"
 "a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Перевірка рядків оригіналу"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3844,7 +3838,9 @@ msgid "Commit pending changes"
 msgstr "Зафіксувати чергу змін"
 
 #: weblate/trans/admin.py:257
-msgid "Project / Subproject"
+#, fuzzy
+#| msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Проект/Підпроект"
 
 #: weblate/trans/admin_views.py:78
@@ -4739,7 +4735,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s о %(time)s над %(translation)s %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+#, fuzzy
+#| msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr "Проект, підпроект чи мова повинні бути вказані"
 
 #: weblate/trans/models/group_acl.py:67
@@ -5423,12 +5421,12 @@ msgstr "Неперекладені рядки"
 msgid "Strings needing attention"
 msgstr "Рядки з пропозиціями"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Не вдалося зберегти переклад на сервері, витік часовий ліміт блокування!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Рядок не знайдено на сервері. Можливо, він пошкоджений."
 
@@ -6141,6 +6139,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "перекладено"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Перевірка рядків оригіналу"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

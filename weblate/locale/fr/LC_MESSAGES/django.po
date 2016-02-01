@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-02-01 17:14+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -2777,7 +2777,7 @@ msgstr "Chaînes traduites : "
 msgid "Untranslated strings:"
 msgstr "Chaînes non traduites :"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2790,12 +2790,6 @@ msgid ""
 msgstr ""
 "Vous pouvez contribuer à la traduction sur : <a href=\"%(translation_url)s\">"
 "%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Revue des chaînes source"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3873,7 +3867,9 @@ msgid "Commit pending changes"
 msgstr "Enregistrer les changements en attente"
 
 #: weblate/trans/admin.py:257
-msgid "Project / Subproject"
+#, fuzzy
+#| msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Projet / Sous-projet"
 
 #: weblate/trans/admin_views.py:78
@@ -4796,7 +4792,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+#, fuzzy
+#| msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr "Le projet, sous-projet ou la langue doivent être renseignés"
 
 #: weblate/trans/models/group_acl.py:67
@@ -5497,13 +5495,13 @@ msgstr "Chaînes non traduites"
 msgid "Strings needing attention"
 msgstr "Chaînes avec suggestions"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Impossible de stocker le message dans la base de données, un verrou a "
 "expiré !"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Le message n'a pas été trouvé dans le stock, il est probablement corrompu."
@@ -6210,6 +6208,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "traduit"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Revue des chaînes source"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-01-27 18:23+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -2746,7 +2746,7 @@ msgstr "Çevrilmiş satır:"
 msgid "Untranslated strings:"
 msgstr "Çevrilmemiş satır:"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Strings to review"
 msgid "Strings needing review:"
@@ -2759,12 +2759,6 @@ msgid ""
 msgstr ""
 "<a href=\"%(translation_url)s\">%(translation_url)s</a> adresinde "
 "çevirebilirsiniz"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Strings to review"
-msgid "Strings needing review :"
-msgstr "Gözden geçirmek için satırlar"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3844,7 +3838,7 @@ msgstr "Bekleyen değişiklikleri işle"
 #: weblate/trans/admin.py:257
 #, fuzzy
 #| msgid "Subproject"
-msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Alt proje"
 
 #: weblate/trans/admin_views.py:78
@@ -4744,7 +4738,7 @@ msgstr ""
 "%(user)s tarafından %(translation)s Dilinde %(time)s tarihinde %(action)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr ""
 
 #: weblate/trans/models/group_acl.py:67
@@ -5423,12 +5417,12 @@ msgstr "Çevrilmemiş satır"
 msgid "Strings needing attention"
 msgstr "Önerileri olan satır"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Arka uçta ileti depolama başarısız oldu, kilitleme zaman aşımı meydana geldi!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "İleti arka uç depolamada bulunamadı, muhtemelen bozuktur."
 
@@ -6122,6 +6116,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "çevrildi"
+
+#, fuzzy
+#~| msgid "Strings to review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Gözden geçirmek için satırlar"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

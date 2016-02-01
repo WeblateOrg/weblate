@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-01-19 21:27+0000\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -2738,7 +2738,7 @@ msgstr "Preložených reťazcov:"
 msgid "Untranslated strings:"
 msgstr "Nepreložené reťazce"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2750,12 +2750,6 @@ msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 "Prekladať môžete na <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Kontrola zdrojových reťazcov"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3821,7 +3815,7 @@ msgstr "Zapísať čakajúce zmeny"
 #: weblate/trans/admin.py:257
 #, fuzzy
 #| msgid "Subproject"
-msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Podprojekt"
 
 #: weblate/trans/admin_views.py:78
@@ -4719,7 +4713,7 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s vykonal %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr ""
 
 #: weblate/trans/models/group_acl.py:67
@@ -5397,11 +5391,11 @@ msgstr "Nepreložené reťazce"
 msgid "Strings needing attention"
 msgstr "Reťazce s návrhmi"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Nepodarilo sa uložiť preklad, vypršal časový limit zámku!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Reťazec sa v prekladanom súbore nenašiel, pravdepodobne došlo k jeho "
@@ -6120,6 +6114,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "preložené"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Kontrola zdrojových reťazcov"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

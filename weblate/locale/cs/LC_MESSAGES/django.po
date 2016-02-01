@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-02-01 18:27+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2543,7 +2543,6 @@ msgstr "Slova"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-#| msgid "Review"
 msgctxt "Number of strings needing review"
 msgid "Review"
 msgstr "Ke kontrole"
@@ -2582,8 +2581,6 @@ msgstr[2] "Zbývá přeložit %(words)s slov!"
 
 #: weblate/html/list-translations.html:45
 #, python-format
-#| msgid "There is %(count)s fuzzy string."
-#| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
 msgstr[0] "V překladu je %(count)s řetězec potřebující kontrolu."
@@ -2734,8 +2731,7 @@ msgstr "Přeložených řetězců:"
 msgid "Untranslated strings:"
 msgstr "Nepřeložené řetězce:"
 
-#: weblate/html/mail/footer.html:16
-#| msgid "Strings to review"
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 msgid "Strings needing review:"
 msgstr "Řetězce ke kontrole:"
 
@@ -2745,12 +2741,6 @@ msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 "Překládat můžete na <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Strings to review"
-msgid "Strings needing review :"
-msgstr "Řetězce ke kontrole"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3238,7 +3228,6 @@ msgid "Ctrl+Enter - Save"
 msgstr "Ctrl+Enter - Uložit"
 
 #: weblate/html/translate.html:66
-#| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgstr "Ctrl+Shift+Enter - Odznačit příznak nutné kontroly a uložit"
 
@@ -3271,7 +3260,6 @@ msgid "Alt+V - Copies source string"
 msgstr "Alt+V - Přepsat zdrojovým řetězcem"
 
 #: weblate/html/translate.html:74
-#| msgid "Alt+F - Toggle fuzzy flag"
 msgid "Alt+F - Toggle review needed flag"
 msgstr "Alt+F - Přepne příznak nutné kontroly"
 
@@ -3503,8 +3491,6 @@ msgstr "Řetězců"
 
 #: weblate/html/translation.html:119
 #, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s slovo"
@@ -3714,7 +3700,6 @@ msgid "Open in full editor"
 msgstr "Otevřít v plném editoru"
 
 #: weblate/html/zen-units.html:44
-#| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
 msgstr "Ke kontrole"
@@ -3812,8 +3797,9 @@ msgid "Commit pending changes"
 msgstr "Zapsat čekající změny"
 
 #: weblate/trans/admin.py:257
-#| msgid "Subproject"
-msgid "Project / Subproject"
+#, fuzzy
+#| msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Project / Komponenta"
 
 #: weblate/trans/admin_views.py:78
@@ -3895,12 +3881,10 @@ msgid "Trailing and leading whitespace"
 msgstr "Koncové a počáteční mezery"
 
 #: weblate/trans/checks/angularjs.py:45
-#| msgid "Search in location strings"
 msgid "AngularJS interpolation string"
 msgstr "Interpolační řetězec AngularJS"
 
 #: weblate/trans/checks/angularjs.py:46
-#| msgid "C format string does not match source"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "Interpolační řetězec AngularJS v překladu neodpovídá zdroji"
 
@@ -4214,7 +4198,6 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Řetězec, který jste chtěl přeložit, již není dostupný!"
 
 #: weblate/trans/forms.py:308
-#| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
 msgstr "Potřebuje zkontrolovat"
@@ -4236,12 +4219,10 @@ msgid "Add as a suggestion"
 msgstr "Přidat jako návrh"
 
 #: weblate/trans/forms.py:355
-#| msgid "Add as translation"
 msgid "Add as translation needing review"
 msgstr "Přidat jako překlad vyžadující kontrolu"
 
 #: weblate/trans/forms.py:360
-#| msgid "Source strings review"
 msgid "Processing of strings needing review"
 msgstr "Zpracování řetězců vyžadujících kontrolu"
 
@@ -4250,7 +4231,6 @@ msgid "Do not import"
 msgstr "Nenahrávat"
 
 #: weblate/trans/forms.py:363
-#| msgid "Source strings review"
 msgid "Import as string needing review"
 msgstr "Nahrát jako řetězec vyžadující kontrolu"
 
@@ -4355,7 +4335,6 @@ msgid "Translated strings"
 msgstr "Přeložené řetězce"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#| msgid "Strings to review"
 msgid "Strings needing review"
 msgstr "Řetězce potřebující kontrolu"
 
@@ -4698,7 +4677,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+#, fuzzy
+#| msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr "Musí být zadán projekt, komponenta nebo jazyk"
 
 #: weblate/trans/models/group_acl.py:67
@@ -5364,20 +5345,18 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Tento překlad je uzamčen pro uživatele %(user)s!"
 
 #: weblate/trans/models/translation.py:995
-#| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Nepřeložené řetězce"
 
 #: weblate/trans/models/translation.py:1004
-#| msgid "Strings with suggestions"
 msgid "Strings needing attention"
 msgstr "Řetězce vyžadující pozornost"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Nepodařilo se uložit překlad, vypršel časový limit zámku!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Řetězec nebyl nalezen v překládaném souboru, pravděpodobně došlo k jeho "
@@ -6089,6 +6068,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "přeloženo"
+
+#, fuzzy
+#~| msgid "Strings to review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Řetězce ke kontrole"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

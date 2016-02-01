@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2015-05-01 23:53+0200\n"
 "Last-Translator: Cosmo Console <cosmoconsole@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -2796,7 +2796,7 @@ msgstr "Käännetyt merkkijonot:"
 msgid "Untranslated strings:"
 msgstr "Kääntämättömät merkkijonot"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2807,12 +2807,6 @@ msgstr "Arvostele lähdemerkkijonoja"
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr "Voit kääntää <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Arvostele lähdemerkkijonoja"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3925,7 +3919,7 @@ msgstr "Commitilla on odottavia muutoksia"
 #: weblate/trans/admin.py:257
 #, fuzzy
 #| msgid "Subproject"
-msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Aliprojekti"
 
 #: weblate/trans/admin_views.py:78
@@ -4907,7 +4901,7 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s, tehnyt %(user)s %(time)s käännökselle %(translation)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr ""
 
 #: weblate/trans/models/group_acl.py:67
@@ -5625,11 +5619,11 @@ msgstr "Kääntämättömät merkkijonot"
 msgid "Strings needing attention"
 msgstr "Ehdotetut merkkijonot"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "Ei voitu tallentaa viestiä backend, lukituksen aikakatkaisu!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Viestiä ei löytynyt taustavarastosta, mahdollisesti vioittunut."
 
@@ -6346,6 +6340,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "käännetty"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Arvostele lähdemerkkijonoja"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

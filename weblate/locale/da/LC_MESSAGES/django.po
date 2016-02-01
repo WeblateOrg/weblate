@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2016-02-01 18:11+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
-"Language-Team: Danish "
-"<https://hosted.weblate.org/projects/weblate/master/da/>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
+">\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2555,7 +2555,6 @@ msgstr "Ord"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-#| msgid "Review"
 msgctxt "Number of strings needing review"
 msgid "Review"
 msgstr "Revision"
@@ -2593,8 +2592,6 @@ msgstr[1] "%(words)s ord til oversættelse!"
 
 #: weblate/html/list-translations.html:45
 #, python-format
-#| msgid "There is %(count)s fuzzy string."
-#| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
 msgstr[0] "Der er %(count)s streng der behøver revision."
@@ -2741,8 +2738,7 @@ msgstr "Oversatte strenge:"
 msgid "Untranslated strings:"
 msgstr "Strenge der ikke er oversat:"
 
-#: weblate/html/mail/footer.html:16
-#| msgid "Source strings review"
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 msgid "Strings needing review:"
 msgstr "Strenge der behøver revision:"
 
@@ -2752,11 +2748,6 @@ msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 "Du kan oversætte på <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Strenge der behøver revision:"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3247,7 +3238,6 @@ msgid "Ctrl+Enter - Save"
 msgstr "CTRL + Enter - Gem"
 
 #: weblate/html/translate.html:66
-#| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgstr "Ctrl+Skift+Enter - fravælg revision nødvendigt flag og gem"
 
@@ -3280,7 +3270,6 @@ msgid "Alt+V - Copies source string"
 msgstr "Alt+V - kopier kildestrengen"
 
 #: weblate/html/translate.html:74
-#| msgid "Alt+F - Toggle fuzzy flag"
 msgid "Alt+F - Toggle review needed flag"
 msgstr "Alt+F - skift revision nødvendigt flag"
 
@@ -3510,8 +3499,6 @@ msgstr "Strenge"
 
 #: weblate/html/translation.html:119
 #, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s ord"
@@ -3725,7 +3712,6 @@ msgid "Open in full editor"
 msgstr "Åbn i fuld editor"
 
 #: weblate/html/zen-units.html:44
-#| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
 msgstr "Revision"
@@ -3823,7 +3809,9 @@ msgid "Commit pending changes"
 msgstr "Indsend ventende ændringer"
 
 #: weblate/trans/admin.py:257
-msgid "Project / Subproject"
+#, fuzzy
+#| msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Project / underprojekt"
 
 #: weblate/trans/admin_views.py:78
@@ -4231,7 +4219,6 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Beskeden du ønsker at oversætte er ikke længere tilgængelig!"
 
 #: weblate/trans/forms.py:308
-#| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
 msgstr "Behøver revision"
@@ -4253,12 +4240,10 @@ msgid "Add as a suggestion"
 msgstr "Tilføj som forslag"
 
 #: weblate/trans/forms.py:355
-#| msgid "Add as translation"
 msgid "Add as translation needing review"
 msgstr "Tilføj som en oversættelse der behøver revision"
 
 #: weblate/trans/forms.py:360
-#| msgid "Source strings review"
 msgid "Processing of strings needing review"
 msgstr "Gennemgang af strenge der behøver revision"
 
@@ -4267,7 +4252,6 @@ msgid "Do not import"
 msgstr "Importer ikke"
 
 #: weblate/trans/forms.py:363
-#| msgid "Source strings review"
 msgid "Import as string needing review"
 msgstr "Importer som streng der behøver revision"
 
@@ -4375,7 +4359,6 @@ msgid "Translated strings"
 msgstr "Oversatte strenge"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#| msgid "Source strings review"
 msgid "Strings needing review"
 msgstr "Strenge der behøver revision"
 
@@ -4719,7 +4702,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+#, fuzzy
+#| msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr "Projekt, underprojekt eller sprog skal angives"
 
 #: weblate/trans/models/group_acl.py:67
@@ -5386,21 +5371,19 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Oversættelsen er låst af %(user)s!"
 
 #: weblate/trans/models/translation.py:995
-#| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Ikke oversatte strenge"
 
 #: weblate/trans/models/translation.py:1004
-#| msgid "Strings with suggestions"
 msgid "Strings needing attention"
 msgstr "Strengen der behøver opmærksomhed"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Kunne ikke gemme meddelelse i backend - der opstod en lås ved tidsudløb!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Beskeden blev ikke fundet i backend lager. Den er sandsynligvis beskadiget."
@@ -6097,6 +6080,10 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "oversat"
+
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Strenge der behøver revision:"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"

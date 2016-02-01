@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 16:40+0000\n"
+"POT-Creation-Date: 2016-02-01 17:28+0000\n"
 "PO-Revision-Date: 2015-01-06 17:26+0200\n"
 "Last-Translator: Viktar Palstsiuk <vipals@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -2826,7 +2826,7 @@ msgstr "Pierakladziena radkoŭ:"
 msgid "Untranslated strings:"
 msgstr "Niepierakladzienyja radkі"
 
-#: weblate/html/mail/footer.html:16
+#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
@@ -2838,12 +2838,6 @@ msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
 "Pierakladać možna na <a href=\"%(translation_url)s\">%(translation_url)s</a>"
-
-#: weblate/html/mail/footer.txt:6
-#, fuzzy
-#| msgid "Source strings review"
-msgid "Strings needing review :"
-msgstr "Prahliad kliučoŭ"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3966,7 +3960,7 @@ msgstr "Prahliadzieć zmieny"
 #: weblate/trans/admin.py:257
 #, fuzzy
 #| msgid "Whole project"
-msgid "Project / Subproject"
+msgid "Project / Component"
 msgstr "Uvieś prajekt"
 
 #: weblate/trans/admin_views.py:78
@@ -4938,7 +4932,7 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ad %(time)s nad %(translation)s pravioŭ %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-msgid "Project, subproject or language must be specified"
+msgid "Project, component or language must be specified"
 msgstr ""
 
 #: weblate/trans/models/group_acl.py:67
@@ -5661,13 +5655,13 @@ msgstr "Niepierakladzienyja radkі"
 msgid "Strings needing attention"
 msgstr "Radkі z prapanovamі"
 
-#: weblate/trans/models/unit.py:569
+#: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Nie ŭdalosia zachavać pieraklad na sierviery, vyciek časavy lіmіt "
 "blakavannia!"
 
-#: weblate/trans/models/unit.py:581
+#: weblate/trans/models/unit.py:584
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "Radok nie znojdzieny na sierviery. Mahčyma, jon paškodžany."
 
@@ -6397,6 +6391,11 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "pierakladziena"
+
+#, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "Strings needing review :"
+#~ msgstr "Prahliad kliučoŭ"
 
 #~ msgctxt "Number of fuzzy strings"
 #~ msgid "Fuzzy"
