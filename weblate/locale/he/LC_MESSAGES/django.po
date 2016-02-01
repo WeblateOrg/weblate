@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 15:15+0000\n"
+"POT-Creation-Date: 2016-02-01 16:40+0000\n"
 "PO-Revision-Date: 2015-12-06 22:17+0000\n"
 "Last-Translator: Green Lunar <genghiskhan@gmx.ca>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
@@ -1286,8 +1286,8 @@ msgstr "מונחונים"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:385 weblate/trans/forms.py:575
-#: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
+#: weblate/lang/models.py:385 weblate/trans/forms.py:578
+#: weblate/trans/forms.py:792 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "שפה"
 
@@ -1322,14 +1322,14 @@ msgstr "היסטוריה"
 #: weblate/html/dictionary.html:38 weblate/html/search.html.py:20
 #: weblate/html/source-review.html:22 weblate/html/translate.html.py:103
 #: weblate/html/translate.html:173 weblate/html/translate.html.py:268
-#: weblate/html/translate.html:351 weblate/trans/forms.py:657
+#: weblate/html/translate.html:351 weblate/trans/forms.py:660
 msgid "Source"
 msgstr "מקור"
 
 #: weblate/html/dictionary.html:39 weblate/html/last-changes-content.html:11
 #: weblate/html/translate.html:173 weblate/html/translate.html.py:230
 #: weblate/html/translate.html:267 weblate/html/translate.html.py:352
-#: weblate/trans/forms.py:198 weblate/trans/forms.py:658
+#: weblate/trans/forms.py:198 weblate/trans/forms.py:661
 msgid "Translation"
 msgstr "תרגום"
 
@@ -2545,9 +2545,11 @@ msgstr "מילים"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-msgctxt "Number of fuzzy strings"
-msgid "Fuzzy"
-msgstr "בספק"
+#, fuzzy
+#| msgid "Review"
+msgctxt "Number of strings needing review"
+msgid "Review"
+msgstr "סקירה"
 
 #: weblate/html/list-translations.html:13
 #: weblate/html/list-translations.html:24
@@ -2583,9 +2585,11 @@ msgstr[0] "מילה אחת לתרגום!"
 msgstr[1] "%(words)s מילים לתרגום!"
 
 #: weblate/html/list-translations.html:45
-#, python-format
-msgid "There is %(count)s fuzzy string."
-msgid_plural "There are %(count)s fuzzy strings."
+#, fuzzy, python-format
+#| msgid "There is %(count)s fuzzy string."
+#| msgid_plural "There are %(count)s fuzzy strings."
+msgid "There is %(count)s string needing review."
+msgid_plural "There are %(count)s strings needing review."
 msgstr[0] "ישנה מחרוזת אחת בספק."
 msgstr[1] "ישנן %(count)s מחרוזות בספק."
 
@@ -2727,15 +2731,23 @@ msgstr ""
 msgid "Untranslated strings:"
 msgstr "מחרוזות לא מתורגמות"
 
-#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-msgid "Fuzzy strings:"
-msgstr ""
+#: weblate/html/mail/footer.html:16
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Strings needing review:"
+msgstr "סקירת מחרוזות המקור"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
+
+#: weblate/html/mail/footer.txt:6
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Strings needing review :"
+msgstr "סקירת מחרוזות המקור"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3090,7 +3102,7 @@ msgstr "מחרוזת מקור חדשה"
 msgid "review"
 msgstr "סקירה"
 
-#: weblate/html/source-review.html:23 weblate/trans/forms.py:803
+#: weblate/html/source-review.html:23 weblate/trans/forms.py:806
 msgid "Priority"
 msgstr "עדיפות"
 
@@ -3253,7 +3265,7 @@ msgid "Ctrl+Enter - Save"
 msgstr ""
 
 #: weblate/html/translate.html:66
-msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
+msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgstr ""
 
 #: weblate/html/translate.html:67
@@ -3291,7 +3303,7 @@ msgid "Alt+V - Copies source string"
 msgstr "מחרוזת מקור חדשה"
 
 #: weblate/html/translate.html:74
-msgid "Alt+F - Toggle fuzzy flag"
+msgid "Alt+F - Toggle review needed flag"
 msgstr ""
 
 #: weblate/html/translate.html:76
@@ -3430,7 +3442,7 @@ msgstr "השתמש בתרגום זה"
 msgid "Service"
 msgstr "שירות"
 
-#: weblate/html/translate.html:295 weblate/trans/forms.py:741
+#: weblate/html/translate.html:295 weblate/trans/forms.py:744
 msgid "New comment"
 msgstr "הערה חדשה"
 
@@ -3528,6 +3540,15 @@ msgstr "מצב תרגום"
 msgid "Strings"
 msgstr "מחרוזת"
 
+#: weblate/html/translation.html:119
+#, fuzzy, python-format
+#| msgid "%(count)s vote"
+#| msgid_plural "%(count)s votes"
+msgid "%(count)s word"
+msgid_plural "%(count)s words"
+msgstr[0] "קול אחד"
+msgstr[1] "%(count)s קולות"
+
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
 msgstr "קובץ תרגום"
@@ -3586,7 +3607,7 @@ msgstr "הנעילה תפוג:"
 msgid "Translation is currently not locked."
 msgstr "התרגום אינו נעול כרגע."
 
-#: weblate/html/translation.html:269
+#: weblate/html/translation.html:269 weblate/html/translation.html.py:317
 msgid "Review"
 msgstr "סקירה"
 
@@ -3605,10 +3626,6 @@ msgstr "אחוז"
 #: weblate/html/translation.html:305
 msgid "Total"
 msgstr "סה״כ"
-
-#: weblate/html/translation.html:317
-msgid "Fuzzy"
-msgstr "בספק"
 
 #: weblate/html/translation.html:323
 msgid "Failing check"
@@ -3728,9 +3745,11 @@ msgid "Open in full editor"
 msgstr "פתח בתוך עורך מלא"
 
 #: weblate/html/zen-units.html:44
-msgctxt "Message is fuzzy"
-msgid "Fuzzy"
-msgstr "בספק"
+#, fuzzy
+#| msgid "Review"
+msgctxt "Message needs review"
+msgid "Review"
+msgstr "סקירה"
 
 #: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
@@ -4272,221 +4291,227 @@ msgstr "תיעוד עבור צורות רבים."
 msgid "Message you wanted to translate is no longer available!"
 msgstr "הודעה שרצית לתרגם אינה זמינה עוד!"
 
-#: weblate/trans/forms.py:306
-msgctxt "Checkbox for marking translation fuzzy"
-msgid "Fuzzy"
-msgstr "בספק"
+#: weblate/trans/forms.py:308
+#, fuzzy
+#| msgid "review"
+msgctxt "Checkbox for marking translation needing review"
+msgid "Needs review"
+msgstr "סקירה"
 
-#: weblate/trans/forms.py:346 weblate/trans/forms.py:676
+#: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
 msgstr "קובץ"
 
-#: weblate/trans/forms.py:348 weblate/trans/forms.py:683
+#: weblate/trans/forms.py:351 weblate/trans/forms.py:686
 msgid "Merge method"
 msgstr "מזג שיטה"
 
-#: weblate/trans/forms.py:350
+#: weblate/trans/forms.py:353
 msgid "Add as translation"
 msgstr "הוסף בתור תרגום"
 
-#: weblate/trans/forms.py:351
+#: weblate/trans/forms.py:354
 msgid "Add as a suggestion"
 msgstr "הוסף בתור הצעה"
 
-#: weblate/trans/forms.py:352
-msgid "Add as fuzzy translation"
-msgstr "הוסף בתור תרגום בספק"
-
-#: weblate/trans/forms.py:357
+#: weblate/trans/forms.py:355
 #, fuzzy
-#| msgid "Fuzzy strings"
-msgid "Fuzzy strings processing"
-msgstr "מחרוזות בספק"
-
-#: weblate/trans/forms.py:359
-msgid "Do not import"
-msgstr ""
+#| msgid "Add as translation"
+msgid "Add as translation needing review"
+msgstr "הוסף בתור תרגום"
 
 #: weblate/trans/forms.py:360
 #, fuzzy
-#| msgid "Import glossary"
-msgid "Import as fuzzy"
-msgstr "יבוא מונחון"
+#| msgid "Source strings review"
+msgid "Processing of strings needing review"
+msgstr "סקירת מחרוזות המקור"
 
-#: weblate/trans/forms.py:361
+#: weblate/trans/forms.py:362
+msgid "Do not import"
+msgstr ""
+
+#: weblate/trans/forms.py:363
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Import as string needing review"
+msgstr "סקירת מחרוזות המקור"
+
+#: weblate/trans/forms.py:364
 #, fuzzy
 #| msgid "Not translated"
 msgid "Import as translated"
 msgstr "אין תרגום"
 
-#: weblate/trans/forms.py:366
+#: weblate/trans/forms.py:369
 msgid "Merge file header"
 msgstr "מזג תקורת קובץ"
 
-#: weblate/trans/forms.py:367
+#: weblate/trans/forms.py:370
 msgid "Merges content of file header into the translation."
 msgstr "הפעולה תמזג תוכן תקורת קובץ לתוך התרגום."
 
-#: weblate/trans/forms.py:372
+#: weblate/trans/forms.py:375
 #, fuzzy
 #| msgid "Translation comment"
 msgid "Merge translation comments"
 msgstr "הערת תרגום"
 
-#: weblate/trans/forms.py:373
+#: weblate/trans/forms.py:376
 #, fuzzy
 #| msgid "Merges content of file header into the translation."
 msgid "Merges comments into the translation."
 msgstr "הפעולה תמזג תוכן תקורת קובץ לתוך התרגום."
 
-#: weblate/trans/forms.py:384
+#: weblate/trans/forms.py:387
 msgid "Overwrite existing translations"
 msgstr "שכתב תרגומים קיימים"
 
-#: weblate/trans/forms.py:386
+#: weblate/trans/forms.py:389
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr ""
 
-#: weblate/trans/forms.py:399
+#: weblate/trans/forms.py:402
 msgid "Author name"
 msgstr "שם מחבר"
 
-#: weblate/trans/forms.py:401 weblate/trans/forms.py:406
+#: weblate/trans/forms.py:404 weblate/trans/forms.py:409
 msgid "Keep empty for using currently logged in user."
 msgstr "השאר ריק לטובת המשתמש אשר מחובר כעת."
 
-#: weblate/trans/forms.py:404
+#: weblate/trans/forms.py:407
 msgid "Author email"
 msgstr "דוא״ל של מחבר"
 
-#: weblate/trans/forms.py:428
+#: weblate/trans/forms.py:431
 msgid "Query"
 msgstr "שאילתה"
 
-#: weblate/trans/forms.py:433
+#: weblate/trans/forms.py:436
 msgid "Search type"
 msgstr "טיפוס חיפוש"
 
-#: weblate/trans/forms.py:436
+#: weblate/trans/forms.py:439
 msgid "Fulltext"
 msgstr "טקסט מלא"
 
-#: weblate/trans/forms.py:437
+#: weblate/trans/forms.py:440
 msgid "Exact match"
 msgstr "התאמה מדויקת"
 
-#: weblate/trans/forms.py:438
+#: weblate/trans/forms.py:441
 msgid "Substring"
 msgstr "תת מחרוזת"
 
-#: weblate/trans/forms.py:443
+#: weblate/trans/forms.py:446
 msgid "Search in source strings"
 msgstr "חפש בתוך מחרוזות מקור"
 
-#: weblate/trans/forms.py:448
+#: weblate/trans/forms.py:451
 msgid "Search in target strings"
 msgstr "חפש בתוך מחרוזות יעד"
 
-#: weblate/trans/forms.py:453
+#: weblate/trans/forms.py:456
 msgid "Search in context strings"
 msgstr "חפש בתוך מחרוזות הקשר"
 
-#: weblate/trans/forms.py:458
+#: weblate/trans/forms.py:461
 msgid "Search in location strings"
 msgstr "חפש בתוך מחרוזות מיקום"
 
-#: weblate/trans/forms.py:463
+#: weblate/trans/forms.py:466
 msgid "Search in comment strings"
 msgstr "חפש בתוך מחרוזות הערה"
 
-#: weblate/trans/forms.py:468
+#: weblate/trans/forms.py:471
 msgid "Search filter"
 msgstr "מסנן חיפוש"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:932
-#: weblate/trans/models/translation.py:980 weblate/trans/views/edit.py:126
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:933
+#: weblate/trans/models/translation.py:977 weblate/trans/views/edit.py:126
 #: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "כל המחרוזות"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:1000
+#: weblate/trans/forms.py:475
 msgid "Untranslated strings"
 msgstr "מחרוזות לא מתורגמות"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:990
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:986
 msgid "Translated strings"
 msgstr "מחרוזות מתורגמות"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1019
-msgid "Fuzzy strings"
-msgstr "מחרוזות בספק"
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Strings needing review"
+msgstr "סקירת מחרוזות המקור"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1028
+#: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
 msgstr "מחרוזות עם הצעות"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:966
-#: weblate/trans/models/translation.py:1059
+#: weblate/trans/forms.py:479 weblate/trans/models/translation.py:961
+#: weblate/trans/models/translation.py:1050
 msgid "Strings with comments"
 msgstr "מחרוזות עם הערות"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:943
-#: weblate/trans/models/translation.py:1037
+#: weblate/trans/forms.py:480 weblate/trans/models/translation.py:941
+#: weblate/trans/models/translation.py:1030
 msgid "Strings with any failing checks"
 msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
 
-#: weblate/trans/forms.py:485
+#: weblate/trans/forms.py:488
 #, fuzzy
 #| msgid "Ignored checks"
 msgid "Show ignored checks as well"
 msgstr "בדיקות שנדחו"
 
-#: weblate/trans/forms.py:546
+#: weblate/trans/forms.py:549
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "חיפוש טקסט מלא אחר „%s“"
 
-#: weblate/trans/forms.py:548
+#: weblate/trans/forms.py:551
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "חיפוש אחר המחרוזת המדויקת „%s“"
 
-#: weblate/trans/forms.py:550
+#: weblate/trans/forms.py:553
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "חיפוש תת מחרוזת אחר „%s“"
 
-#: weblate/trans/forms.py:561
+#: weblate/trans/forms.py:564
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr ""
 
-#: weblate/trans/forms.py:577
+#: weblate/trans/forms.py:580
 #, fuzzy
 #| msgid "languages"
 msgid "All languages"
 msgstr "שפות"
 
-#: weblate/trans/forms.py:612
+#: weblate/trans/forms.py:615
 msgid "Overwrite strings"
 msgstr "כתוב על מחרוזות"
 
-#: weblate/trans/forms.py:617
+#: weblate/trans/forms.py:620
 msgid "Replace inconsistent"
 msgstr "החלף חסר אחידות"
 
-#: weblate/trans/forms.py:622
+#: weblate/trans/forms.py:625
 msgid "Component to use"
 msgstr "רכיב לשימוש"
 
-#: weblate/trans/forms.py:650
+#: weblate/trans/forms.py:653
 msgid "All components in current project"
 msgstr ""
 
-#: weblate/trans/forms.py:678
+#: weblate/trans/forms.py:681
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
@@ -4494,118 +4519,118 @@ msgstr ""
 "באפשרותך להעלות כל תבנית אשר מובנת על ידי Translate Toolkit (לרבות TBX,‏ CSV "
 "או קבצי PO של Gettext)."
 
-#: weblate/trans/forms.py:685
+#: weblate/trans/forms.py:688
 msgid "Keep current"
 msgstr "השאר נוכחי"
 
-#: weblate/trans/forms.py:686
+#: weblate/trans/forms.py:689
 msgid "Overwrite existing"
 msgstr "כתוב על הקיים"
 
-#: weblate/trans/forms.py:687
+#: weblate/trans/forms.py:690
 msgid "Add as other translation"
 msgstr "הוסף בתור תרגום אחר"
 
-#: weblate/trans/forms.py:698 weblate/trans/forms.py:870
+#: weblate/trans/forms.py:701 weblate/trans/forms.py:873
 msgid "Starting date"
 msgstr "תאריך התחלה"
 
-#: weblate/trans/forms.py:721
+#: weblate/trans/forms.py:724
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "כלשהי"
 
-#: weblate/trans/forms.py:723
+#: weblate/trans/forms.py:726
 msgid "Starting letter"
 msgstr "אות פותחת"
 
-#: weblate/trans/forms.py:744
+#: weblate/trans/forms.py:747
 msgid "Scope"
 msgstr "היקף"
 
-#: weblate/trans/forms.py:746
+#: weblate/trans/forms.py:749
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 
-#: weblate/trans/forms.py:752
+#: weblate/trans/forms.py:755
 msgid "Source string comment, suggestions to change this string"
 msgstr ""
 
-#: weblate/trans/forms.py:756
+#: weblate/trans/forms.py:759
 msgid "Translation comment, discussions with other translators"
 msgstr "הערת, דיון תרגום עם מתרגמים אחרים"
 
-#: weblate/trans/forms.py:769
+#: weblate/trans/forms.py:772
 msgid "Whole project"
 msgstr "המיזם כולו"
 
-#: weblate/trans/forms.py:795
+#: weblate/trans/forms.py:798
 msgid "Please select"
 msgstr "אנא בחר"
 
-#: weblate/trans/forms.py:806
+#: weblate/trans/forms.py:809
 msgid "Strings with higher priority are offered first to translators."
 msgstr ""
 
-#: weblate/trans/forms.py:813
+#: weblate/trans/forms.py:816
 #, fuzzy
 #| msgid "Checks"
 msgid "Check flags"
 msgstr "בדיקות"
 
-#: weblate/trans/forms.py:820
+#: weblate/trans/forms.py:823
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
 
-#: weblate/trans/forms.py:840
+#: weblate/trans/forms.py:843
 msgid "User to add"
 msgstr ""
 
-#: weblate/trans/forms.py:842
+#: weblate/trans/forms.py:845
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
 
-#: weblate/trans/forms.py:854
+#: weblate/trans/forms.py:857
 #, fuzzy
 #| msgid "No matching source strings found!"
 msgid "No matching user found!"
 msgstr "לא נמצאו מחרוזות מקור תואמות!"
 
-#: weblate/trans/forms.py:856
+#: weblate/trans/forms.py:859
 msgid "More users matched!"
 msgstr ""
 
-#: weblate/trans/forms.py:861
+#: weblate/trans/forms.py:864
 #, fuzzy
 #| msgid "C format"
 msgid "Report format"
 msgstr "מבנה C"
 
-#: weblate/trans/forms.py:862
+#: weblate/trans/forms.py:865
 msgid "Choose file format for the report"
 msgstr ""
 
-#: weblate/trans/forms.py:864
+#: weblate/trans/forms.py:867
 msgid "reStructuredText"
 msgstr ""
 
-#: weblate/trans/forms.py:865
+#: weblate/trans/forms.py:868
 msgid "JSON"
 msgstr ""
 
-#: weblate/trans/forms.py:866
+#: weblate/trans/forms.py:869
 #, fuzzy
 #| msgid "HTML code"
 msgid "HTML"
 msgstr "קוד HTML"
 
-#: weblate/trans/forms.py:882
+#: weblate/trans/forms.py:885
 #, fuzzy
 #| msgid "End date"
 msgid "Ending date"
@@ -5505,7 +5530,7 @@ msgstr "אחזור מאגר ה־git נכשל: %s"
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: weblate/trans/models/translation.py:213
+#: weblate/trans/models/translation.py:214
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -5513,30 +5538,38 @@ msgid ""
 msgstr ""
 "שם הקובץ %s לא נמצא במאגר! כדי להוסיף תרגום חדש, יש להוסיף קובץ שפה למאגר."
 
-#: weblate/trans/models/translation.py:222
+#: weblate/trans/models/translation.py:223
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "לא ניתן לזהות את המבנה של %s."
 
-#: weblate/trans/models/translation.py:227
+#: weblate/trans/models/translation.py:228
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 
-#: weblate/trans/models/translation.py:278
+#: weblate/trans/models/translation.py:279
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "תרגום זה נעול על ידי %(user)s!"
 
-#: weblate/trans/models/translation.py:1010
-msgid "Untranslated words"
-msgstr "מילים לא מתורגמות"
+#: weblate/trans/models/translation.py:995
+#, fuzzy
+#| msgid "Untranslated strings"
+msgid "Not translated strings"
+msgstr "מחרוזות לא מתורגמות"
 
-#: weblate/trans/models/unit.py:567
+#: weblate/trans/models/translation.py:1004
+#, fuzzy
+#| msgid "Strings with suggestions"
+msgid "Strings needing attention"
+msgstr "מחרוזות עם הצעות"
+
+#: weblate/trans/models/unit.py:569
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr "נכשל לאחסן הודעה במגשר העורפי, פקיעת זמן נעילה אירעה!"
 
-#: weblate/trans/models/unit.py:579
+#: weblate/trans/models/unit.py:581
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr "המחרוזת לא נמצאה באחסון המנגנון, כנראה שהיא פגומה."
 
@@ -5856,8 +5889,8 @@ msgstr[0] "בעוד שעה מעכשיו"
 msgstr[1] "בעוד %(count)s שעות מעכשיו"
 
 #: weblate/trans/templatetags/translations.py:526
-msgid "Message is fuzzy"
-msgstr "הודעה בספק"
+msgid "Message needs review"
+msgstr ""
 
 #: weblate/trans/templatetags/translations.py:531
 msgid "Message is not translated"
@@ -6298,6 +6331,43 @@ msgstr ""
 #: weblate/trans/widgets.py:389
 msgid "translated"
 msgstr "מתורגם"
+
+#~ msgctxt "Number of fuzzy strings"
+#~ msgid "Fuzzy"
+#~ msgstr "בספק"
+
+#~ msgid "Fuzzy"
+#~ msgstr "בספק"
+
+#~ msgctxt "Message is fuzzy"
+#~ msgid "Fuzzy"
+#~ msgstr "בספק"
+
+#~ msgctxt "Checkbox for marking translation fuzzy"
+#~ msgid "Fuzzy"
+#~ msgstr "בספק"
+
+#~ msgid "Add as fuzzy translation"
+#~ msgstr "הוסף בתור תרגום בספק"
+
+#, fuzzy
+#~| msgid "Fuzzy strings"
+#~ msgid "Fuzzy strings processing"
+#~ msgstr "מחרוזות בספק"
+
+#, fuzzy
+#~| msgid "Import glossary"
+#~ msgid "Import as fuzzy"
+#~ msgstr "יבוא מונחון"
+
+#~ msgid "Fuzzy strings"
+#~ msgstr "מחרוזות בספק"
+
+#~ msgid "Untranslated words"
+#~ msgstr "מילים לא מתורגמות"
+
+#~ msgid "Message is fuzzy"
+#~ msgstr "הודעה בספק"
 
 #~ msgid "All components"
 #~ msgstr "כל הרכיבים"

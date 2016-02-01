@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-02-01 15:15+0000\n"
+"POT-Creation-Date: 2016-02-01 16:40+0000\n"
 "PO-Revision-Date: 2016-02-01 15:45+0000\n"
 "Last-Translator: Philipp Wolfer <ph.wolfer@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -1365,8 +1365,8 @@ msgstr "Glossare"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:385 weblate/trans/forms.py:575
-#: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
+#: weblate/lang/models.py:385 weblate/trans/forms.py:578
+#: weblate/trans/forms.py:792 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "Sprache"
 
@@ -1401,14 +1401,14 @@ msgstr "Verlauf"
 #: weblate/html/dictionary.html:38 weblate/html/search.html.py:20
 #: weblate/html/source-review.html:22 weblate/html/translate.html.py:103
 #: weblate/html/translate.html:173 weblate/html/translate.html.py:268
-#: weblate/html/translate.html:351 weblate/trans/forms.py:657
+#: weblate/html/translate.html:351 weblate/trans/forms.py:660
 msgid "Source"
 msgstr "Ausgangszeichenkette"
 
 #: weblate/html/dictionary.html:39 weblate/html/last-changes-content.html:11
 #: weblate/html/translate.html:173 weblate/html/translate.html.py:230
 #: weblate/html/translate.html:267 weblate/html/translate.html.py:352
-#: weblate/trans/forms.py:198 weblate/trans/forms.py:658
+#: weblate/trans/forms.py:198 weblate/trans/forms.py:661
 msgid "Translation"
 msgstr "Übersetzung"
 
@@ -2594,9 +2594,11 @@ msgstr "Wörter"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-msgctxt "Number of fuzzy strings"
-msgid "Fuzzy"
-msgstr "Fragwürdig"
+#, fuzzy
+#| msgid "Review"
+msgctxt "Number of strings needing review"
+msgid "Review"
+msgstr "Begutachten"
 
 #: weblate/html/list-translations.html:13
 #: weblate/html/list-translations.html:24
@@ -2632,9 +2634,11 @@ msgstr[0] "%(words)s Wort zu übersetzen!"
 msgstr[1] "%(words)s Wörter zu übersetzen!"
 
 #: weblate/html/list-translations.html:45
-#, python-format
-msgid "There is %(count)s fuzzy string."
-msgid_plural "There are %(count)s fuzzy strings."
+#, fuzzy, python-format
+#| msgid "There is %(count)s fuzzy string."
+#| msgid_plural "There are %(count)s fuzzy strings."
+msgid "There is %(count)s string needing review."
+msgid_plural "There are %(count)s strings needing review."
 msgstr[0] "Es gibt %(count)s fragwürdige Zeichenkette."
 msgstr[1] "Es gibt %(count)s fragwürdige Zeichenketten."
 
@@ -2782,9 +2786,11 @@ msgstr "Übersetzte Zeichenketten:"
 msgid "Untranslated strings:"
 msgstr "Nicht übersetzte Zeichenketten:"
 
-#: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-msgid "Fuzzy strings:"
-msgstr "Fragwürdige Zeichenketten:"
+#: weblate/html/mail/footer.html:16
+#, fuzzy
+#| msgid "Strings to review"
+msgid "Strings needing review:"
+msgstr "Zu begutachtende Zeichenketten"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -2793,6 +2799,12 @@ msgid ""
 msgstr ""
 "Sie können hier übersetzen: <a href=\"%(translation_url)s\">"
 "%(translation_url)s</a>"
+
+#: weblate/html/mail/footer.txt:6
+#, fuzzy
+#| msgid "Strings to review"
+msgid "Strings needing review :"
+msgstr "Zu begutachtende Zeichenketten"
 
 #: weblate/html/mail/footer.txt:8
 #, python-format
@@ -3129,7 +3141,7 @@ msgstr "Ausgangszeichenketten"
 msgid "review"
 msgstr "Begutachten"
 
-#: weblate/html/source-review.html:23 weblate/trans/forms.py:803
+#: weblate/html/source-review.html:23 weblate/trans/forms.py:806
 msgid "Priority"
 msgstr "Priorität"
 
@@ -3289,7 +3301,9 @@ msgid "Ctrl+Enter - Save"
 msgstr "Strg+Enter – Speichern"
 
 #: weblate/html/translate.html:66
-msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
+#, fuzzy
+#| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
+msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
 msgstr "Strg+Shift+Enter – Fragwürdig-Markierung aufheben und speichern"
 
 #: weblate/html/translate.html:67
@@ -3321,7 +3335,9 @@ msgid "Alt+V - Copies source string"
 msgstr "Alt+V: Ausgangszeichenkette kopieren"
 
 #: weblate/html/translate.html:74
-msgid "Alt+F - Toggle fuzzy flag"
+#, fuzzy
+#| msgid "Alt+F - Toggle fuzzy flag"
+msgid "Alt+F - Toggle review needed flag"
 msgstr "Alt+F - Fragwürdig-Markierung umschalten"
 
 #: weblate/html/translate.html:76
@@ -3454,7 +3470,7 @@ msgstr "Diese Übersetzung verwenden"
 msgid "Service"
 msgstr "Dienst"
 
-#: weblate/html/translate.html:295 weblate/trans/forms.py:741
+#: weblate/html/translate.html:295 weblate/trans/forms.py:744
 msgid "New comment"
 msgstr "Neuer Kommentar"
 
@@ -3549,6 +3565,15 @@ msgstr "Übersetzungsstatus"
 msgid "Strings"
 msgstr "Zeichenketten"
 
+#: weblate/html/translation.html:119
+#, fuzzy, python-format
+#| msgid "%(count)s vote"
+#| msgid_plural "%(count)s votes"
+msgid "%(count)s word"
+msgid_plural "%(count)s words"
+msgstr[0] "%(count)s Stimme"
+msgstr[1] "%(count)s Stimmen"
+
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
 msgstr "Übersetzungsdatei"
@@ -3613,7 +3638,7 @@ msgstr "Die Sperre endet:"
 msgid "Translation is currently not locked."
 msgstr "Die Überstzung ist momentan nicht gesperrt."
 
-#: weblate/html/translation.html:269
+#: weblate/html/translation.html:269 weblate/html/translation.html.py:317
 msgid "Review"
 msgstr "Begutachten"
 
@@ -3632,10 +3657,6 @@ msgstr "Prozent"
 #: weblate/html/translation.html:305
 msgid "Total"
 msgstr "Gesamt"
-
-#: weblate/html/translation.html:317
-msgid "Fuzzy"
-msgstr "Fragwürdige Übersetzung"
 
 #: weblate/html/translation.html:323
 msgid "Failing check"
@@ -3763,9 +3784,11 @@ msgid "Open in full editor"
 msgstr "Im Volleditor öffnen"
 
 #: weblate/html/zen-units.html:44
-msgctxt "Message is fuzzy"
-msgid "Fuzzy"
-msgstr "Fragwürdig"
+#, fuzzy
+#| msgid "Review"
+msgctxt "Message needs review"
+msgid "Review"
+msgstr "Begutachten"
 
 #: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
@@ -4287,68 +4310,76 @@ msgstr "Dokumentation für Plural."
 msgid "Message you wanted to translate is no longer available!"
 msgstr "Die Nachricht, die Sie übersetzen wollten, ist nicht mehr verfügbar!"
 
-#: weblate/trans/forms.py:306
-msgctxt "Checkbox for marking translation fuzzy"
-msgid "Fuzzy"
-msgstr "Fragwürdige Übersetzung"
+#: weblate/trans/forms.py:308
+#, fuzzy
+#| msgid "review"
+msgctxt "Checkbox for marking translation needing review"
+msgid "Needs review"
+msgstr "Begutachten"
 
-#: weblate/trans/forms.py:346 weblate/trans/forms.py:676
+#: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
 msgstr "Datei"
 
-#: weblate/trans/forms.py:348 weblate/trans/forms.py:683
+#: weblate/trans/forms.py:351 weblate/trans/forms.py:686
 msgid "Merge method"
 msgstr "Merge Methode"
 
-#: weblate/trans/forms.py:350
+#: weblate/trans/forms.py:353
 msgid "Add as translation"
 msgstr "Diese Übersetzung hinzufügen"
 
-#: weblate/trans/forms.py:351
+#: weblate/trans/forms.py:354
 msgid "Add as a suggestion"
 msgstr "Als Vorschlag hinzufügen"
 
-#: weblate/trans/forms.py:352
-msgid "Add as fuzzy translation"
-msgstr "Als fragwürdige Übersetzung hinzufügen"
+#: weblate/trans/forms.py:355
+#, fuzzy
+#| msgid "Add as translation"
+msgid "Add as translation needing review"
+msgstr "Diese Übersetzung hinzufügen"
 
-#: weblate/trans/forms.py:357
-msgid "Fuzzy strings processing"
-msgstr "Verarbeitung fragwürdiger Zeichenketten"
+#: weblate/trans/forms.py:360
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Processing of strings needing review"
+msgstr "Ausgangszeichenketten begutachten"
 
-#: weblate/trans/forms.py:359
+#: weblate/trans/forms.py:362
 msgid "Do not import"
 msgstr "Nicht importieren"
 
-#: weblate/trans/forms.py:360
-msgid "Import as fuzzy"
-msgstr "Als fragwürdige Übersetzung importieren"
+#: weblate/trans/forms.py:363
+#, fuzzy
+#| msgid "Source strings review"
+msgid "Import as string needing review"
+msgstr "Ausgangszeichenketten begutachten"
 
-#: weblate/trans/forms.py:361
+#: weblate/trans/forms.py:364
 msgid "Import as translated"
 msgstr "Als gute Übersetzung importieren"
 
-#: weblate/trans/forms.py:366
+#: weblate/trans/forms.py:369
 msgid "Merge file header"
 msgstr "Dateiheader mergen"
 
-#: weblate/trans/forms.py:367
+#: weblate/trans/forms.py:370
 msgid "Merges content of file header into the translation."
 msgstr "Den Inhalt des Dateiheaders in die Übersetzung einfügen."
 
-#: weblate/trans/forms.py:372
+#: weblate/trans/forms.py:375
 msgid "Merge translation comments"
 msgstr "Kommentare zur Übersetzung zusammenführen"
 
-#: weblate/trans/forms.py:373
+#: weblate/trans/forms.py:376
 msgid "Merges comments into the translation."
 msgstr "Führt Kommentare mit der Übersetzung zusammen."
 
-#: weblate/trans/forms.py:384
+#: weblate/trans/forms.py:387
 msgid "Overwrite existing translations"
 msgstr "Bestehende Übersetzungen überschreiben"
 
-#: weblate/trans/forms.py:386
+#: weblate/trans/forms.py:389
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
@@ -4356,140 +4387,142 @@ msgstr ""
 "Ob existierende Übersetzungen überschrieben werden sollen, falls die "
 "Zeichenkette bereits übersetzt wurde."
 
-#: weblate/trans/forms.py:399
+#: weblate/trans/forms.py:402
 msgid "Author name"
 msgstr "Autorname"
 
-#: weblate/trans/forms.py:401 weblate/trans/forms.py:406
+#: weblate/trans/forms.py:404 weblate/trans/forms.py:409
 msgid "Keep empty for using currently logged in user."
 msgstr "Leer lassen, um aktuell angemeldeten Benutzer zu verwenden."
 
-#: weblate/trans/forms.py:404
+#: weblate/trans/forms.py:407
 msgid "Author email"
 msgstr "Autor-E-Mail"
 
-#: weblate/trans/forms.py:428
+#: weblate/trans/forms.py:431
 msgid "Query"
 msgstr "Abfrage"
 
-#: weblate/trans/forms.py:433
+#: weblate/trans/forms.py:436
 msgid "Search type"
 msgstr "Suchmethode"
 
-#: weblate/trans/forms.py:436
+#: weblate/trans/forms.py:439
 msgid "Fulltext"
 msgstr "Volltext"
 
-#: weblate/trans/forms.py:437
+#: weblate/trans/forms.py:440
 msgid "Exact match"
 msgstr "Genaue Übereinstimmung"
 
-#: weblate/trans/forms.py:438
+#: weblate/trans/forms.py:441
 msgid "Substring"
 msgstr "Teilzeichenkette"
 
-#: weblate/trans/forms.py:443
+#: weblate/trans/forms.py:446
 msgid "Search in source strings"
 msgstr "In Ausgangszeichenketten suchen"
 
-#: weblate/trans/forms.py:448
+#: weblate/trans/forms.py:451
 msgid "Search in target strings"
 msgstr "In Zielzeichenketten suchen"
 
-#: weblate/trans/forms.py:453
+#: weblate/trans/forms.py:456
 msgid "Search in context strings"
 msgstr "In Kontextzeichenketten suchen"
 
-#: weblate/trans/forms.py:458
+#: weblate/trans/forms.py:461
 msgid "Search in location strings"
 msgstr "In den Dateinamen der Zeichenketten suchen"
 
-#: weblate/trans/forms.py:463
+#: weblate/trans/forms.py:466
 msgid "Search in comment strings"
 msgstr "In Kommentarzeichenketten suchen"
 
-#: weblate/trans/forms.py:468
+#: weblate/trans/forms.py:471
 msgid "Search filter"
 msgstr "Suchfilter"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:932
-#: weblate/trans/models/translation.py:980 weblate/trans/views/edit.py:126
+#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:933
+#: weblate/trans/models/translation.py:977 weblate/trans/views/edit.py:126
 #: weblate/trans/views/edit.py:142
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:1000
+#: weblate/trans/forms.py:475
 msgid "Untranslated strings"
 msgstr "Nicht übersetzte Zeichenketten"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:990
+#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:986
 msgid "Translated strings"
 msgstr "Übersetzte Zeichenketten"
 
-#: weblate/trans/forms.py:474 weblate/trans/models/translation.py:1019
-msgid "Fuzzy strings"
-msgstr "Fragwürdige Zeichenketten"
+#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
+#, fuzzy
+#| msgid "Strings to review"
+msgid "Strings needing review"
+msgstr "Zu begutachtende Zeichenketten"
 
-#: weblate/trans/forms.py:475 weblate/trans/models/translation.py:1028
+#: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
 msgstr "Zeichenketten mit Vorschlägen"
 
-#: weblate/trans/forms.py:476 weblate/trans/models/translation.py:966
-#: weblate/trans/models/translation.py:1059
+#: weblate/trans/forms.py:479 weblate/trans/models/translation.py:961
+#: weblate/trans/models/translation.py:1050
 msgid "Strings with comments"
 msgstr "Zeichenketten mit Kommentaren"
 
-#: weblate/trans/forms.py:477 weblate/trans/models/translation.py:943
-#: weblate/trans/models/translation.py:1037
+#: weblate/trans/forms.py:480 weblate/trans/models/translation.py:941
+#: weblate/trans/models/translation.py:1030
 msgid "Strings with any failing checks"
 msgstr "Zeichenketten mit fehlgeschlagenen Überprüfungen"
 
-#: weblate/trans/forms.py:485
+#: weblate/trans/forms.py:488
 msgid "Show ignored checks as well"
 msgstr "Ignorierte Prüfungen ebenfalls anzeigen"
 
-#: weblate/trans/forms.py:546
+#: weblate/trans/forms.py:549
 #, python-format
 msgid "Fulltext search for \"%s\""
 msgstr "Volltextsuche nach \"%s\""
 
-#: weblate/trans/forms.py:548
+#: weblate/trans/forms.py:551
 #, python-format
 msgid "Search for exact string \"%s\""
 msgstr "Nach genauer Zeichenkette »%s« suchen"
 
-#: weblate/trans/forms.py:550
+#: weblate/trans/forms.py:553
 #, python-format
 msgid "Substring search for \"%s\""
 msgstr "Teilzeichenkettensuche nach »%s«"
 
-#: weblate/trans/forms.py:561
+#: weblate/trans/forms.py:564
 #, python-brace-format
 msgctxt "String to concatenate search and filter names"
 msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
-#: weblate/trans/forms.py:577
+#: weblate/trans/forms.py:580
 msgid "All languages"
 msgstr "Alle Sprachen"
 
-#: weblate/trans/forms.py:612
+#: weblate/trans/forms.py:615
 msgid "Overwrite strings"
 msgstr "Zeichenketten überschreiben"
 
-#: weblate/trans/forms.py:617
+#: weblate/trans/forms.py:620
 msgid "Replace inconsistent"
 msgstr "Inkonsistente ersetzen"
 
-#: weblate/trans/forms.py:622
+#: weblate/trans/forms.py:625
 msgid "Component to use"
 msgstr "Zu verwendende Komponente"
 
-#: weblate/trans/forms.py:650
+#: weblate/trans/forms.py:653
 msgid "All components in current project"
 msgstr "Alle Komponenten im aktuellen Projekt"
 
-#: weblate/trans/forms.py:678
+#: weblate/trans/forms.py:681
 msgid ""
 "You can upload any format which is understood by Translate Toolkit "
 "(including TBX, CSV or Gettext PO files)."
@@ -4497,68 +4530,68 @@ msgstr ""
 "Sie können jedes beliebige Format hochladen, das Translate Toolkit versteht, "
 "zum Beispiel eine TBX-, CSV- oder Gettext PO-Datei."
 
-#: weblate/trans/forms.py:685
+#: weblate/trans/forms.py:688
 msgid "Keep current"
 msgstr "Aktuellen behalten"
 
-#: weblate/trans/forms.py:686
+#: weblate/trans/forms.py:689
 msgid "Overwrite existing"
 msgstr "Bestehende überschreiben"
 
-#: weblate/trans/forms.py:687
+#: weblate/trans/forms.py:690
 msgid "Add as other translation"
 msgstr "Als andere Übersetzung hinzufügen"
 
-#: weblate/trans/forms.py:698 weblate/trans/forms.py:870
+#: weblate/trans/forms.py:701 weblate/trans/forms.py:873
 msgid "Starting date"
 msgstr "Startdatum"
 
-#: weblate/trans/forms.py:721
+#: weblate/trans/forms.py:724
 msgctxt "Select starting letter in glossary"
 msgid "Any"
 msgstr "Beliebig"
 
-#: weblate/trans/forms.py:723
+#: weblate/trans/forms.py:726
 msgid "Starting letter"
 msgstr "Startbuchstabe"
 
-#: weblate/trans/forms.py:744
+#: weblate/trans/forms.py:747
 msgid "Scope"
 msgstr "Umfang"
 
-#: weblate/trans/forms.py:746
+#: weblate/trans/forms.py:749
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 "Bezieht sich Ihr Kommentar nur auf diese Übersetzung, oder generell auf alle?"
 
-#: weblate/trans/forms.py:752
+#: weblate/trans/forms.py:755
 msgid "Source string comment, suggestions to change this string"
 msgstr ""
 "Kommentar zur Ausgangszeichenkette, Vorschläge zum Ändern dieser Zeichenkette"
 
-#: weblate/trans/forms.py:756
+#: weblate/trans/forms.py:759
 msgid "Translation comment, discussions with other translators"
 msgstr "Übersetzungs-Kommentar, Diskussionen mit anderen Übersetzern"
 
-#: weblate/trans/forms.py:769
+#: weblate/trans/forms.py:772
 msgid "Whole project"
 msgstr "Gesamtes Projekt"
 
-#: weblate/trans/forms.py:795
+#: weblate/trans/forms.py:798
 msgid "Please select"
 msgstr "Bitte auswählen"
 
-#: weblate/trans/forms.py:806
+#: weblate/trans/forms.py:809
 msgid "Strings with higher priority are offered first to translators."
 msgstr ""
 "Zeichenketten mit höherer Priorität werden Übersetzern zuerst angeboten."
 
-#: weblate/trans/forms.py:813
+#: weblate/trans/forms.py:816
 msgid "Check flags"
 msgstr "Prüfungs-Markierungen"
 
-#: weblate/trans/forms.py:820
+#: weblate/trans/forms.py:823
 #, python-brace-format
 msgid ""
 "Please enter a comma separated list of check flags, see <a href="
@@ -4567,11 +4600,11 @@ msgstr ""
 "Bitte geben Sie eine kommagetrennte Liste von Prüfungs-Markierungen ein, "
 "weitere Informationen finden Sie in der <a href=\"{url}\">Dokumentation</a>."
 
-#: weblate/trans/forms.py:840
+#: weblate/trans/forms.py:843
 msgid "User to add"
 msgstr "Hinzuzufügender Nutzer"
 
-#: weblate/trans/forms.py:842
+#: weblate/trans/forms.py:845
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
@@ -4579,35 +4612,35 @@ msgstr ""
 "Bitte geben Sie Nutzernamen oder E-Mail-Adresse an. Der Nutzer muss bereits "
 "einen aktiven Account in Weblate haben."
 
-#: weblate/trans/forms.py:854
+#: weblate/trans/forms.py:857
 msgid "No matching user found!"
 msgstr "Kein passender Nutzer gefunden!"
 
-#: weblate/trans/forms.py:856
+#: weblate/trans/forms.py:859
 msgid "More users matched!"
 msgstr "Weitere Nutzer gefunden!"
 
-#: weblate/trans/forms.py:861
+#: weblate/trans/forms.py:864
 msgid "Report format"
 msgstr "Berichts-Format"
 
-#: weblate/trans/forms.py:862
+#: weblate/trans/forms.py:865
 msgid "Choose file format for the report"
 msgstr "Wählen Sie das Dateiformat für den Bericht"
 
-#: weblate/trans/forms.py:864
+#: weblate/trans/forms.py:867
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
-#: weblate/trans/forms.py:865
+#: weblate/trans/forms.py:868
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/trans/forms.py:866
+#: weblate/trans/forms.py:869
 msgid "HTML"
 msgstr "HTML"
 
-#: weblate/trans/forms.py:882
+#: weblate/trans/forms.py:885
 msgid "Ending date"
 msgstr "Enddatum"
 
@@ -5434,7 +5467,7 @@ msgstr ""
 "Vorschläge automatisch anzunehmen ist nur möglich, wenn Abstimmen erlaubt "
 "ist!"
 
-#: weblate/trans/models/translation.py:213
+#: weblate/trans/models/translation.py:214
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -5443,32 +5476,40 @@ msgstr ""
 "Dateiname %s nicht in der Paketquelle gefunden! Um eine neue Übersetzung "
 "hinzuzufügen, bitte Sprachdatei in Paketquelle anlegen."
 
-#: weblate/trans/models/translation.py:222
+#: weblate/trans/models/translation.py:223
 #, python-format
 msgid "Format of %s could not be recognized."
 msgstr "Format von %s wurde nicht erkannt."
 
-#: weblate/trans/models/translation.py:227
+#: weblate/trans/models/translation.py:228
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Fehler beim Verarbeiten der Datei %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:278
+#: weblate/trans/models/translation.py:279
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr "Diese Übersetzung ist von %(user)s gesperrt!"
 
-#: weblate/trans/models/translation.py:1010
-msgid "Untranslated words"
-msgstr "Nicht übersetzte Wörter"
+#: weblate/trans/models/translation.py:995
+#, fuzzy
+#| msgid "Untranslated strings"
+msgid "Not translated strings"
+msgstr "Nicht übersetzte Zeichenketten"
 
-#: weblate/trans/models/unit.py:567
+#: weblate/trans/models/translation.py:1004
+#, fuzzy
+#| msgid "Strings with suggestions"
+msgid "Strings needing attention"
+msgstr "Zeichenketten mit Vorschlägen"
+
+#: weblate/trans/models/unit.py:569
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 "Fehler beim Speichern der Nachricht im Backend, Zeitüberschreitung bei "
 "Dateisperre!"
 
-#: weblate/trans/models/unit.py:579
+#: weblate/trans/models/unit.py:581
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 "Nachricht nicht in Backend-Speicher gefunden, wahrscheinlich beschädigt."
@@ -5754,8 +5795,8 @@ msgstr[0] "in einer Stunde"
 msgstr[1] "in %(count)s Stunden"
 
 #: weblate/trans/templatetags/translations.py:526
-msgid "Message is fuzzy"
-msgstr "Nachricht ist fragwürdig"
+msgid "Message needs review"
+msgstr ""
 
 #: weblate/trans/templatetags/translations.py:531
 msgid "Message is not translated"
@@ -6178,6 +6219,42 @@ msgstr ""
 msgid "translated"
 msgstr "übersetzt"
 
+#~ msgctxt "Number of fuzzy strings"
+#~ msgid "Fuzzy"
+#~ msgstr "Fragwürdig"
+
+#~ msgid "Fuzzy strings:"
+#~ msgstr "Fragwürdige Zeichenketten:"
+
+#~ msgid "Fuzzy"
+#~ msgstr "Fragwürdige Übersetzung"
+
+#~ msgctxt "Message is fuzzy"
+#~ msgid "Fuzzy"
+#~ msgstr "Fragwürdig"
+
+#~ msgctxt "Checkbox for marking translation fuzzy"
+#~ msgid "Fuzzy"
+#~ msgstr "Fragwürdige Übersetzung"
+
+#~ msgid "Add as fuzzy translation"
+#~ msgstr "Als fragwürdige Übersetzung hinzufügen"
+
+#~ msgid "Fuzzy strings processing"
+#~ msgstr "Verarbeitung fragwürdiger Zeichenketten"
+
+#~ msgid "Import as fuzzy"
+#~ msgstr "Als fragwürdige Übersetzung importieren"
+
+#~ msgid "Fuzzy strings"
+#~ msgstr "Fragwürdige Zeichenketten"
+
+#~ msgid "Untranslated words"
+#~ msgstr "Nicht übersetzte Wörter"
+
+#~ msgid "Message is fuzzy"
+#~ msgstr "Nachricht ist fragwürdig"
+
 #~ msgid "Argentinean Spanish"
 #~ msgstr "Spanisch (Argentinien)"
 
@@ -6361,9 +6438,6 @@ msgstr "übersetzt"
 
 #~ msgid "search"
 #~ msgstr "suchen"
-
-#~ msgid "Strings to review"
-#~ msgstr "Zu begutachtende Zeichenketten"
 
 #~ msgid "Report missing language"
 #~ msgstr "Fehlende Sprache melden"
