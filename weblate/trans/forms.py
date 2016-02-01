@@ -303,7 +303,7 @@ class TranslationForm(ChecksumForm):
         required=False,
     )
     fuzzy = forms.BooleanField(
-        label=pgettext_lazy('Checkbox for marking translation fuzzy', 'Fuzzy'),
+        label=pgettext_lazy('Checkbox for marking translation needing review', 'Needs review'),
         required=False
     )
 
@@ -349,15 +349,15 @@ class SimpleUploadForm(forms.Form):
         choices=(
             ('', _('Add as translation')),
             ('suggest', _('Add as a suggestion')),
-            ('fuzzy', _('Add as fuzzy translation')),
+            ('fuzzy', _('Add as translation needing review')),
         ),
         required=False
     )
     fuzzy = forms.ChoiceField(
-        label=_('Fuzzy strings processing'),
+        label=_('Processing of strings needing review'),
         choices=(
             ('', _('Do not import')),
-            ('process', _('Import as fuzzy')),
+            ('process', _('Import as string needing review')),
             ('approve', _('Import as translated')),
         ),
         required=False
@@ -471,7 +471,7 @@ class SearchForm(forms.Form):
             ('all', _('All strings')),
             ('untranslated', _('Untranslated strings')),
             ('translated', _('Translated strings')),
-            ('fuzzy', _('Fuzzy strings')),
+            ('fuzzy', _('Strings needing review')),
             ('suggestions', _('Strings with suggestions')),
             ('comments', _('Strings with comments')),
             ('allchecks', _('Strings with any failing checks')),

@@ -1016,7 +1016,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if self.fuzzy > 0:
             result.append((
                 'fuzzy',
-                _('Fuzzy strings'),
+                _('Strings needing review'),
                 self.fuzzy,
                 'danger',
             ))
