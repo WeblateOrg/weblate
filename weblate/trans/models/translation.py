@@ -265,7 +265,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return self.total_words - self.translated_words
 
     @property
-    def untraslated(self):
+    def untranslated(self):
         return self.total - self.translated
 
     def get_lock_user_display(self):
