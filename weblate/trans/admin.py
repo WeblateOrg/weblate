@@ -254,7 +254,7 @@ class GroupACLAdmin(admin.ModelAdmin):
             return obj.subproject
         else:
             return obj.project
-    project_subproject.short_description = _('Project / Subproject')
+    project_subproject.short_description = _('Project / Component')
 
 
 # Register in admin interface
