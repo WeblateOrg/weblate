@@ -50,6 +50,8 @@ from weblate.trans.util import (
 SIMPLE_FILTERS = {
     'fuzzy': {'fuzzy': True},
     'untranslated': {'translated': False},
+    'todo': {'translated': False},
+    'nottranslated': {'translated': False, 'fuzzy': False},
     'translated': {'translated': True},
     'suggestions': {'has_suggestion': True},
     'comments': {'has_comment': True},
