@@ -163,6 +163,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-php-format:
 .. _check-c-format:
 .. _check-javascript-format:
+.. _check-angularjs-format:
 
 Format strings
 ~~~~~~~~~~~~~~
@@ -174,6 +175,7 @@ Format string does not match source. Weblate supports following formats:
 * PHP format
 * C format
 * Javascript format
+* AngularJS interpolation string
 
 Omitting format string from translation usually cause severe problems, so you
 should really keep the format string matching the original one.
@@ -182,7 +184,8 @@ should really keep the format string matching the original one.
     `Python string formatting <https://docs.python.org/2.7/library/stdtypes.html#string-formatting>`_,
     `Python brace format <https://docs.python.org/3.3/library/string.html#string-formatting>`_,
     `PHP format strings <https://php.net/manual/en/function.sprintf.php>`_,
-    `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
+    `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_,
+    `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
 
 .. _check-plurals:
 

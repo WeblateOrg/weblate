@@ -31,6 +31,8 @@ Released on ? 2015.
 * Added placeables highlighting.
 * Added keyboard shortcuts for placeables, checks and machine translations.
 * Improved translation locking.
+* Added quality check for AngularJS interpolation.
+* Added extensive group based ACLs.
 
 weblate 2.4
 -----------

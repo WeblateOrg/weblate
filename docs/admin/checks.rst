@@ -84,6 +84,8 @@ list of flags accepted:
     Skip the "PHP format" quality check.
 ``ignore-end-stop``
     Skip the "Trailing stop" quality check.
+``ignore-angularjs-format``
+    Skip the "AngularJS interpolation string" quality check.
 
 .. note::
 
