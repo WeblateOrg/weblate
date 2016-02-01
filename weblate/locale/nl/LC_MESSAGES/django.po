@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-02-01 17:28+0000\n"
-"PO-Revision-Date: 2016-01-27 15:36+0000\n"
+"PO-Revision-Date: 2016-02-01 18:54+0000\n"
 "Last-Translator: Dieter Adriaenssens <dieter.adriaenssens@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
-">\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
+"\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2574,7 +2574,6 @@ msgstr "Woorden"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-#, fuzzy
 #| msgid "Review"
 msgctxt "Number of strings needing review"
 msgid "Review"
@@ -2612,13 +2611,13 @@ msgstr[0] "%(words)s te vertalen woord!"
 msgstr[1] "%(words)s te vertalen woorden!"
 
 #: weblate/html/list-translations.html:45
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s fuzzy string."
 #| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "Er is %(count)s vage tekenreeks."
-msgstr[1] "Er zijn %(count)s vage tekenreeksen."
+msgstr[0] "Er is %(count)s tekenreeks die beoordeeld moet worden."
+msgstr[1] "Er zijn %(count)s tekenreeksen die beoordeeld moeten worden."
 
 #: weblate/html/list-translations.html:54
 #, python-format
@@ -2765,10 +2764,9 @@ msgid "Untranslated strings:"
 msgstr "Niet-vertaalde tekenreeksen:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
-msgstr "Beoordeling brontekenreeksen"
+msgstr "Tekenreeksen die beoordeeld moeten worden:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3272,10 +3270,10 @@ msgid "Ctrl+Enter - Save"
 msgstr "<Ctrl> + <Enter> : Opslaan"
 
 #: weblate/html/translate.html:66
-#, fuzzy
 #| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - markering 'vaag' ongedaan maken en opslaan"
+msgstr ""
+"Ctrl+Shift+Enter - markering 'beoordeling nodig' ongedaan maken en opslaan"
 
 #: weblate/html/translate.html:67
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -3307,10 +3305,9 @@ msgid "Alt+V - Copies source string"
 msgstr "Alt+V - Kopieer brontekenreeks"
 
 #: weblate/html/translate.html:74
-#, fuzzy
 #| msgid "Alt+F - Toggle fuzzy flag"
 msgid "Alt+F - Toggle review needed flag"
-msgstr "Alt-F - markering 'vaag' wisselen"
+msgstr "Alt-F - markering 'beoordeling nodig' wisselen"
 
 #: weblate/html/translate.html:76
 msgid "Editing source string"
@@ -3538,13 +3535,13 @@ msgid "Strings"
 msgstr "Tekenreeksen"
 
 #: weblate/html/translation.html:119
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s stem"
-msgstr[1] "%(count)s stemmen"
+msgstr[0] "%(count)s woord"
+msgstr[1] "%(count)s woorden"
 
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
@@ -3756,7 +3753,6 @@ msgid "Open in full editor"
 msgstr "Open in de volledige editor"
 
 #: weblate/html/zen-units.html:44
-#, fuzzy
 #| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
@@ -3855,10 +3851,9 @@ msgid "Commit pending changes"
 msgstr "Hangende wijzigingen indienen"
 
 #: weblate/trans/admin.py:257
-#, fuzzy
 #| msgid "Subproject"
 msgid "Project / Component"
-msgstr "Subproject"
+msgstr "Project / Onderdeel"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3939,16 +3934,14 @@ msgid "Trailing and leading whitespace"
 msgstr "Witruimte aan het begin en op het einde"
 
 #: weblate/trans/checks/angularjs.py:45
-#, fuzzy
 #| msgid "Search in location strings"
 msgid "AngularJS interpolation string"
-msgstr "Zoeken in locatietekenreeksen"
+msgstr "AngularJS interpolatie tekenreeks"
 
 #: weblate/trans/checks/angularjs.py:46
-#, fuzzy
 #| msgid "C format string does not match source"
 msgid "AngularJS interpolation strings do not match source"
-msgstr "Het C patroon komt niet overeen met de bron"
+msgstr "De AngularJS interpolatietekenreeksen komen niet overeen met de bron"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4271,11 +4264,10 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Het bericht dat u wilde vertalen is niet langer beschikbaar!"
 
 #: weblate/trans/forms.py:308
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "beoordelen"
+msgstr "Beoordeling nodig"
 
 #: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
@@ -4294,26 +4286,23 @@ msgid "Add as a suggestion"
 msgstr "Voeg toe als suggestie"
 
 #: weblate/trans/forms.py:355
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
-msgstr "Voeg toe als vertaling"
+msgstr "Voeg toe als vertaling die beoordeling nodig heeft"
 
 #: weblate/trans/forms.py:360
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Beoordeling brontekenreeksen"
+msgstr "Verwerken van tekenreeksen die beoordeling nodig hebben"
 
 #: weblate/trans/forms.py:362
 msgid "Do not import"
 msgstr "Niet importeren"
 
 #: weblate/trans/forms.py:363
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Beoordeling brontekenreeksen"
+msgstr "Importeren als tekenreeks die beoordeling nodig heeft"
 
 #: weblate/trans/forms.py:364
 msgid "Import as translated"
@@ -4418,10 +4407,9 @@ msgid "Translated strings"
 msgstr "Vertaalde tekenreeksen"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review"
-msgstr "Beoordeling brontekenreeksen"
+msgstr "Tekenreeksen die beoordeling nodig hebben"
 
 #: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
@@ -4767,11 +4755,11 @@ msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
 msgid "Project, component or language must be specified"
-msgstr ""
+msgstr "Project, onderdeel of taal moet opgegeven zijn"
 
 #: weblate/trans/models/group_acl.py:67
 msgid "Group ACL"
-msgstr ""
+msgstr "Toegangscontrolegroep"
 
 #: weblate/trans/models/group_acl.py:68
 msgid "Group ACLs"
@@ -5445,16 +5433,14 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Deze vertaling is geblokkeerd door %(user)s!"
 
 #: weblate/trans/models/translation.py:995
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Niet-vertaalde tekenreeksen"
 
 #: weblate/trans/models/translation.py:1004
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing attention"
-msgstr "Tekenreeksen met suggesties"
+msgstr "Te bekijken tekenreeks"
 
 #: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
@@ -5750,7 +5736,7 @@ msgstr[1] "over %(count)s uur"
 
 #: weblate/trans/templatetags/translations.py:526
 msgid "Message needs review"
-msgstr ""
+msgstr "Boodschap heeft beoordeling nodig"
 
 #: weblate/trans/templatetags/translations.py:531
 msgid "Message is not translated"
