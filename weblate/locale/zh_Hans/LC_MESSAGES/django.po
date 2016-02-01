@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-27 13:23+0000\n"
+"POT-Creation-Date: 2016-02-01 15:15+0000\n"
 "PO-Revision-Date: 2016-01-03 17:29+0000\n"
 "Last-Translator: Claybiokiller <clay0305@hotmail.com>\n"
 "Language-Team: Simplified Chinese <https://hosted.weblate.org/projects/"
@@ -356,7 +356,7 @@ msgstr "源词汇"
 
 #: weblate/billing/models.py:108 weblate/html/accounts/profile.html.py:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html.py:6
-#: weblate/html/languages.html:6 weblate/lang/models.py:383
+#: weblate/html/languages.html:6 weblate/lang/models.py:386
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
 msgid "Languages"
 msgstr "语言"
@@ -1368,7 +1368,7 @@ msgstr "词汇表"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:382 weblate/trans/forms.py:575
+#: weblate/lang/models.py:385 weblate/trans/forms.py:575
 #: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "语言"
@@ -3962,15 +3962,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "三个"
 
-#: weblate/lang/models.py:423
+#: weblate/lang/models.py:426
 msgid "Singular"
 msgstr "单数形式"
 
-#: weblate/lang/models.py:425
+#: weblate/lang/models.py:428
 msgid "Plural"
 msgstr "复数形式"
 
-#: weblate/lang/models.py:426
+#: weblate/lang/models.py:429
 #, python-format
 msgid "Plural form %d"
 msgstr "复数形式 %d"
@@ -3996,6 +3996,12 @@ msgstr "升级品质检查"
 #| msgid "Commit pending changes"
 msgid "Commit pending changes"
 msgstr "提交挂起的修改"
+
+#: weblate/trans/admin.py:257
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project / Subproject"
+msgstr "子项目"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -4080,6 +4086,18 @@ msgstr "零宽空格"
 #: weblate/trans/autofixes/whitespace.py:36
 msgid "Trailing and leading whitespace"
 msgstr "首尾空白"
+
+#: weblate/trans/checks/angularjs.py:45
+#, fuzzy
+#| msgid "Search in context strings"
+msgid "AngularJS interpolation string"
+msgstr "在上下文条目中搜索"
+
+#: weblate/trans/checks/angularjs.py:46
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "AngularJS interpolation strings do not match source"
+msgstr "条目格式与源条目不匹配"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4371,21 +4389,21 @@ msgstr "源条目："
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
-#: weblate/trans/formats.py:1161
+#: weblate/trans/formats.py:1163
 msgid "JSON file"
 msgstr "JSON文件"
 
-#: weblate/trans/formats.py:1201
+#: weblate/trans/formats.py:1203
 msgid "CSV file"
 msgstr "CSV 文件"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 #, fuzzy
 #| msgid "CSV file"
 msgid "Simple CSV file"
 msgstr "CSV 文件"
 
-#: weblate/trans/formats.py:1302
+#: weblate/trans/formats.py:1304
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Simple CSV file (ISO-8859-1)"
@@ -4969,6 +4987,18 @@ msgstr "复位代码库失败：%s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
+
+#: weblate/trans/models/group_acl.py:45
+msgid "Project, subproject or language must be specified"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:67
+msgid "Group ACL"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:68
+msgid "Group ACLs"
+msgstr ""
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
 msgid "Name to display"
@@ -5997,15 +6027,15 @@ msgstr "因为每一个用户给了他自己的建议一票，因而值为1是�
 msgid "Invalid check flag: \"%s\""
 msgstr "无效的勾选标记: \"%s\""
 
-#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
+#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:115
 msgid "You can not remove last owner!"
 msgstr "您不能移除最终拥有者！"
 
-#: weblate/trans/views/acl.py:94
+#: weblate/trans/views/acl.py:95
 msgid "User has been added to this project."
 msgstr "用户已加入此项目。"
 
-#: weblate/trans/views/acl.py:120
+#: weblate/trans/views/acl.py:121
 msgid "User has been removed from this project."
 msgstr "用户已离开此项目。"
 
@@ -6564,9 +6594,6 @@ msgstr "已翻译"
 #~ msgstr "未找到其它条目。"
 
 #~ msgid "Subprojects"
-#~ msgstr "子项目"
-
-#~ msgid "Subproject"
 #~ msgstr "子项目"
 
 #~ msgid "Project website:"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-27 13:23+0000\n"
+"POT-Creation-Date: 2016-02-01 15:15+0000\n"
 "PO-Revision-Date: 2016-01-14 15:07+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -361,7 +361,7 @@ msgstr "Paraules originals"
 
 #: weblate/billing/models.py:108 weblate/html/accounts/profile.html.py:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html.py:6
-#: weblate/html/languages.html:6 weblate/lang/models.py:383
+#: weblate/html/languages.html:6 weblate/lang/models.py:386
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
 msgid "Languages"
 msgstr "Llengües"
@@ -1351,7 +1351,7 @@ msgstr "glossaris"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:382 weblate/trans/forms.py:575
+#: weblate/lang/models.py:385 weblate/trans/forms.py:575
 #: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "Llengua"
@@ -3814,15 +3814,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tres"
 
-#: weblate/lang/models.py:423
+#: weblate/lang/models.py:426
 msgid "Singular"
 msgstr "Singular"
 
-#: weblate/lang/models.py:425
+#: weblate/lang/models.py:428
 msgid "Plural"
 msgstr "Plural"
 
-#: weblate/lang/models.py:426
+#: weblate/lang/models.py:429
 #, python-format
 msgid "Plural form %d"
 msgstr "Forma plural %d"
@@ -3842,6 +3842,12 @@ msgstr "Actualitza els indicadors de  qualitat"
 #: weblate/trans/admin.py:93 weblate/trans/admin.py:141
 msgid "Commit pending changes"
 msgstr "Envia els canvis pendents"
+
+#: weblate/trans/admin.py:257
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project / Subproject"
+msgstr "Subprojecte"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3920,6 +3926,18 @@ msgstr ""
 #: weblate/trans/autofixes/whitespace.py:36
 msgid "Trailing and leading whitespace"
 msgstr ""
+
+#: weblate/trans/checks/angularjs.py:45
+#, fuzzy
+#| msgid "Search in location strings"
+msgid "AngularJS interpolation string"
+msgstr "Cerca entre les cadenes de context"
+
+#: weblate/trans/checks/angularjs.py:46
+#, fuzzy
+#| msgid "PHP format string"
+msgid "AngularJS interpolation strings do not match source"
+msgstr "Format de cadena de PHP"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4195,21 +4213,21 @@ msgstr ""
 msgid "Android String Resource"
 msgstr ""
 
-#: weblate/trans/formats.py:1161
+#: weblate/trans/formats.py:1163
 msgid "JSON file"
 msgstr ""
 
-#: weblate/trans/formats.py:1201
+#: weblate/trans/formats.py:1203
 msgid "CSV file"
 msgstr ""
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 #, fuzzy
 #| msgid "Simplified Chinese"
 msgid "Simple CSV file"
 msgstr "xinès simplificat"
 
-#: weblate/trans/formats.py:1302
+#: weblate/trans/formats.py:1304
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Simple CSV file (ISO-8859-1)"
@@ -4732,6 +4750,18 @@ msgstr "Error en excedir el repositori"
 #: weblate/trans/models/changes.py:251
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:45
+msgid "Project, subproject or language must be specified"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:67
+msgid "Group ACL"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:68
+msgid "Group ACLs"
 msgstr ""
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
@@ -5694,15 +5724,15 @@ msgstr ""
 msgid "Invalid check flag: \"%s\""
 msgstr ""
 
-#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
+#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:115
 msgid "You can not remove last owner!"
 msgstr ""
 
-#: weblate/trans/views/acl.py:94
+#: weblate/trans/views/acl.py:95
 msgid "User has been added to this project."
 msgstr ""
 
-#: weblate/trans/views/acl.py:120
+#: weblate/trans/views/acl.py:121
 msgid "User has been removed from this project."
 msgstr ""
 
@@ -6144,9 +6174,6 @@ msgstr "traduït"
 
 #~ msgid "Subprojects"
 #~ msgstr "Subprojectes"
-
-#~ msgid "Subproject"
-#~ msgstr "Subprojecte"
 
 #~ msgid "Project website:"
 #~ msgstr "Lloc web del projecte:"

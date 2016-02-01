@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-27 13:23+0000\n"
+"POT-Creation-Date: 2016-02-01 15:15+0000\n"
 "PO-Revision-Date: 2015-12-03 05:36+0000\n"
 "Last-Translator: Justin Kim <justin.joy.9to5@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -378,7 +378,7 @@ msgstr "번역 원본"
 
 #: weblate/billing/models.py:108 weblate/html/accounts/profile.html.py:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html.py:6
-#: weblate/html/languages.html:6 weblate/lang/models.py:383
+#: weblate/html/languages.html:6 weblate/lang/models.py:386
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
 msgid "Languages"
 msgstr "언어"
@@ -1355,7 +1355,7 @@ msgstr "용어집"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:382 weblate/trans/forms.py:575
+#: weblate/lang/models.py:385 weblate/trans/forms.py:575
 #: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "언어"
@@ -3855,15 +3855,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "세 개"
 
-#: weblate/lang/models.py:423
+#: weblate/lang/models.py:426
 msgid "Singular"
 msgstr "단수형"
 
-#: weblate/lang/models.py:425
+#: weblate/lang/models.py:428
 msgid "Plural"
 msgstr "복수형"
 
-#: weblate/lang/models.py:426
+#: weblate/lang/models.py:429
 #, python-format
 msgid "Plural form %d"
 msgstr "복수형의 %d"
@@ -3889,6 +3889,12 @@ msgstr "품질 검사 플래그"
 #| msgid "Commit pending changes"
 msgid "Commit pending changes"
 msgstr "보류중인 변경 사항을 커밋"
+
+#: weblate/trans/admin.py:257
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project / Subproject"
+msgstr "하위 프로젝트"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3969,6 +3975,18 @@ msgstr "너비가 0인 공간"
 #: weblate/trans/autofixes/whitespace.py:36
 msgid "Trailing and leading whitespace"
 msgstr "앞쪽 뒤쪽 공백"
+
+#: weblate/trans/checks/angularjs.py:45
+#, fuzzy
+#| msgid "Search in location strings"
+msgid "AngularJS interpolation string"
+msgstr "위치 문자열에서 검색"
+
+#: weblate/trans/checks/angularjs.py:46
+#, fuzzy
+#| msgid "Format string does not match source"
+msgid "AngularJS interpolation strings do not match source"
+msgstr "문자열이 원본과 일치하지 않습니다"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4253,23 +4271,23 @@ msgstr "소스 파일 다운로드"
 msgid "Android String Resource"
 msgstr "안드로이드 문자열 리소스"
 
-#: weblate/trans/formats.py:1161
+#: weblate/trans/formats.py:1163
 msgid "JSON file"
 msgstr "JSON 파일"
 
-#: weblate/trans/formats.py:1201
+#: weblate/trans/formats.py:1203
 #, fuzzy
 #| msgid "JSON file"
 msgid "CSV file"
 msgstr "JSON 파일"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 #, fuzzy
 #| msgid "JSON file"
 msgid "Simple CSV file"
 msgstr "JSON 파일"
 
-#: weblate/trans/formats.py:1302
+#: weblate/trans/formats.py:1304
 #, fuzzy
 #| msgid "Java Properties (UTF-8)"
 msgid "Simple CSV file (ISO-8859-1)"
@@ -4825,6 +4843,18 @@ msgstr "저장소를 업데이트하는 데 실패하였습니다: %s"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s에 의해 %(translation)s에 %(time)s %(action)s"
+
+#: weblate/trans/models/group_acl.py:45
+msgid "Project, subproject or language must be specified"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:67
+msgid "Group ACL"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:68
+msgid "Group ACLs"
+msgstr ""
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
 msgid "Name to display"
@@ -5847,15 +5877,15 @@ msgstr ""
 msgid "Invalid check flag: \"%s\""
 msgstr "잘못된 검색 플래그: \"%s\""
 
-#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
+#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:115
 msgid "You can not remove last owner!"
 msgstr ""
 
-#: weblate/trans/views/acl.py:94
+#: weblate/trans/views/acl.py:95
 msgid "User has been added to this project."
 msgstr "사용자가 이 프로젝트에 추가되었습니다."
 
-#: weblate/trans/views/acl.py:120
+#: weblate/trans/views/acl.py:121
 msgid "User has been removed from this project."
 msgstr "사용자가 이 프로젝트에서 제거되었습니다."
 
@@ -6387,9 +6417,6 @@ msgstr "번역"
 #~ msgstr "다른 문자열을 찾을 수 없습니다."
 
 #~ msgid "Subprojects"
-#~ msgstr "하위 프로젝트"
-
-#~ msgid "Subproject"
 #~ msgstr "하위 프로젝트"
 
 #~ msgid "Project website:"

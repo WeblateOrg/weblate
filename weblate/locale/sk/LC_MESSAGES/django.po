@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-27 13:23+0000\n"
+"POT-Creation-Date: 2016-02-01 15:15+0000\n"
 "PO-Revision-Date: 2016-01-19 21:27+0000\n"
 "Last-Translator: Martin Lacina <martin@whistler.sk>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -361,7 +361,7 @@ msgstr "Zdrojové slová"
 
 #: weblate/billing/models.py:108 weblate/html/accounts/profile.html.py:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html.py:6
-#: weblate/html/languages.html:6 weblate/lang/models.py:383
+#: weblate/html/languages.html:6 weblate/lang/models.py:386
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
 msgid "Languages"
 msgstr "Jazyky"
@@ -1319,7 +1319,7 @@ msgstr "glosáre"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:382 weblate/trans/forms.py:575
+#: weblate/lang/models.py:385 weblate/trans/forms.py:575
 #: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "Jazyk"
@@ -3767,15 +3767,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Tri"
 
-#: weblate/lang/models.py:423
+#: weblate/lang/models.py:426
 msgid "Singular"
 msgstr "Jednotné číslo"
 
-#: weblate/lang/models.py:425
+#: weblate/lang/models.py:428
 msgid "Plural"
 msgstr "Množné číslo"
 
-#: weblate/lang/models.py:426
+#: weblate/lang/models.py:429
 #, python-format
 msgid "Plural form %d"
 msgstr "Množný tvar %d"
@@ -3795,6 +3795,12 @@ msgstr "Aktualizovať kontroly kvality"
 #: weblate/trans/admin.py:93 weblate/trans/admin.py:141
 msgid "Commit pending changes"
 msgstr "Zapísať čakajúce zmeny"
+
+#: weblate/trans/admin.py:257
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project / Subproject"
+msgstr "Podprojekt"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3873,6 +3879,18 @@ msgstr "Nulová medzera"
 #: weblate/trans/autofixes/whitespace.py:36
 msgid "Trailing and leading whitespace"
 msgstr "Koncové a počiatočné medzery"
+
+#: weblate/trans/checks/angularjs.py:45
+#, fuzzy
+#| msgid "Search in location strings"
+msgid "AngularJS interpolation string"
+msgstr "Vyhľadávať v umiestnení reťazcov"
+
+#: weblate/trans/checks/angularjs.py:46
+#, fuzzy
+#| msgid "C format string does not match source"
+msgid "AngularJS interpolation strings do not match source"
+msgstr "Formátovací reťazec C v preklade nezodpovedá zdroju"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4142,19 +4160,19 @@ msgstr ".Net zdrojový súbor"
 msgid "Android String Resource"
 msgstr "Textové zdroje pre Android"
 
-#: weblate/trans/formats.py:1161
+#: weblate/trans/formats.py:1163
 msgid "JSON file"
 msgstr "JSON súbor"
 
-#: weblate/trans/formats.py:1201
+#: weblate/trans/formats.py:1203
 msgid "CSV file"
 msgstr "CSV súbor"
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 msgid "Simple CSV file"
 msgstr "Jednoduchý CSV súbor"
 
-#: weblate/trans/formats.py:1302
+#: weblate/trans/formats.py:1304
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Jednoduchý CSV súbor (ISO-8859-1)"
 
@@ -4667,6 +4685,18 @@ msgstr "Chyba pri preskládaní repozitára"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s vykonal %(user)s"
+
+#: weblate/trans/models/group_acl.py:45
+msgid "Project, subproject or language must be specified"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:67
+msgid "Group ACL"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:68
+msgid "Group ACLs"
+msgstr ""
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
 msgid "Name to display"
@@ -5683,15 +5713,15 @@ msgstr ""
 msgid "Invalid check flag: \"%s\""
 msgstr "Chybná značka pre kontroly: \"%s\""
 
-#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
+#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:115
 msgid "You can not remove last owner!"
 msgstr "Nemôžete odobrať posledného vlastníka!"
 
-#: weblate/trans/views/acl.py:94
+#: weblate/trans/views/acl.py:95
 msgid "User has been added to this project."
 msgstr "Užívateľ bol pridaný do tohto projektu."
 
-#: weblate/trans/views/acl.py:120
+#: weblate/trans/views/acl.py:121
 msgid "User has been removed from this project."
 msgstr "Užívateľ bol odobraný z tohto projektu."
 
@@ -6221,9 +6251,6 @@ msgstr "preložené"
 
 #~ msgid "Subprojects"
 #~ msgstr "Podprojekty"
-
-#~ msgid "Subproject"
-#~ msgstr "Podprojekt"
 
 #~ msgid "Project website:"
 #~ msgstr "Stránky projektu:"

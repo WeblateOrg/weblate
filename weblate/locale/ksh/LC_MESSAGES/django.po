@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-01-27 13:23+0000\n"
+"POT-Creation-Date: 2016-02-01 15:15+0000\n"
 "PO-Revision-Date: 2014-10-01 09:41+0200\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Colognian <https://hosted.weblate.org/projects/weblate/master/"
@@ -373,7 +373,7 @@ msgstr "Quäll"
 
 #: weblate/billing/models.py:108 weblate/html/accounts/profile.html.py:21
 #: weblate/html/accounts/profile.html:35 weblate/html/language.html.py:6
-#: weblate/html/languages.html:6 weblate/lang/models.py:383
+#: weblate/html/languages.html:6 weblate/lang/models.py:386
 #: weblate/lang/views.py:35 weblate/trans/admin.py:58
 msgid "Languages"
 msgstr "Ding Schprohche"
@@ -1284,7 +1284,7 @@ msgstr "Wööterleßte"
 
 #: weblate/html/dictionaries.html:14 weblate/html/js/detail.html.py:14
 #: weblate/html/languages.html:14 weblate/html/list-translations.html.py:7
-#: weblate/lang/models.py:382 weblate/trans/forms.py:575
+#: weblate/lang/models.py:385 weblate/trans/forms.py:575
 #: weblate/trans/forms.py:789 weblate/trans/models/whiteboard.py:84
 msgid "Language"
 msgstr "Schprohch"
@@ -3769,15 +3769,15 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr ""
 
-#: weblate/lang/models.py:423
+#: weblate/lang/models.py:426
 msgid "Singular"
 msgstr ""
 
-#: weblate/lang/models.py:425
+#: weblate/lang/models.py:428
 msgid "Plural"
 msgstr ""
 
-#: weblate/lang/models.py:426
+#: weblate/lang/models.py:429
 #, python-format
 msgid "Plural form %d"
 msgstr ""
@@ -3799,6 +3799,12 @@ msgstr ""
 #| msgid "Browse changes"
 msgid "Commit pending changes"
 msgstr "Änderonge dorschbläddere"
+
+#: weblate/trans/admin.py:257
+#, fuzzy
+#| msgid "Subproject"
+msgid "Project / Subproject"
+msgstr "Ongerprojäk"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3878,6 +3884,16 @@ msgstr ""
 
 #: weblate/trans/autofixes/whitespace.py:36
 msgid "Trailing and leading whitespace"
+msgstr ""
+
+#: weblate/trans/checks/angularjs.py:45
+#, fuzzy
+#| msgid "Your translations"
+msgid "AngularJS interpolation string"
+msgstr "Ding Övversäzonge"
+
+#: weblate/trans/checks/angularjs.py:46
+msgid "AngularJS interpolation strings do not match source"
 msgstr ""
 
 #: weblate/trans/checks/chars.py:37
@@ -4149,21 +4165,21 @@ msgstr ""
 msgid "Android String Resource"
 msgstr ""
 
-#: weblate/trans/formats.py:1161
+#: weblate/trans/formats.py:1163
 msgid "JSON file"
 msgstr ""
 
-#: weblate/trans/formats.py:1201
+#: weblate/trans/formats.py:1203
 msgid "CSV file"
 msgstr ""
 
-#: weblate/trans/formats.py:1261
+#: weblate/trans/formats.py:1263
 #, fuzzy
 #| msgid "Simplified Chinese"
 msgid "Simple CSV file"
 msgstr "Schenehsesch (en de eijfachere Schreff)"
 
-#: weblate/trans/formats.py:1302
+#: weblate/trans/formats.py:1304
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr ""
 
@@ -4696,6 +4712,18 @@ msgstr ""
 #: weblate/trans/models/changes.py:251
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:45
+msgid "Project, subproject or language must be specified"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:67
+msgid "Group ACL"
+msgstr ""
+
+#: weblate/trans/models/group_acl.py:68
+msgid "Group ACLs"
 msgstr ""
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
@@ -5655,15 +5683,15 @@ msgstr ""
 msgid "Invalid check flag: \"%s\""
 msgstr ""
 
-#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:114
+#: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:115
 msgid "You can not remove last owner!"
 msgstr ""
 
-#: weblate/trans/views/acl.py:94
+#: weblate/trans/views/acl.py:95
 msgid "User has been added to this project."
 msgstr ""
 
-#: weblate/trans/views/acl.py:120
+#: weblate/trans/views/acl.py:121
 msgid "User has been removed from this project."
 msgstr ""
 
@@ -6064,9 +6092,6 @@ msgstr ""
 
 #~ msgid "Subprojects"
 #~ msgstr "Ongerprojäkte"
-
-#~ msgid "Subproject"
-#~ msgstr "Ongerprojäk"
 
 #~ msgid "Project website:"
 #~ msgstr "Projäkwäbsigge:"
