@@ -927,47 +927,41 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Returns list of failing source checks on current subproject.
         '''
-        result = [
-            (
-                'all',
-                _('All strings'),
-                self.total,
-                'success',
-            )
-        ]
+        result = TranslationChecklist()
+        result.add(
+            'all',
+            _('All strings'),
+            self.total,
+            'success',
+        )
 
         # All checks
-        sourcechecks = self.unit_set.count_type('sourcechecks', self)
-        if sourcechecks > 0:
-            result.append((
-                'sourcechecks',
-                _('Strings with any failing checks'),
-                sourcechecks,
-                'danger',
-            ))
+        result.add_if(
+            'sourcechecks',
+            _('Strings with any failing checks'),
+            self.unit_set.count_type('sourcechecks', self),
+            'danger',
+        )
 
         # Process specific checks
         for check in CHECKS:
-            if not CHECKS[check].source:
+            check_obj = CHECKS[check]
+            if not check_obj.source:
                 continue
-            cnt = self.unit_set.count_type(check, self)
-            if cnt > 0:
-                result.append((
-                    check,
-                    CHECKS[check].description,
-                    cnt,
-                    CHECKS[check].severity,
-                ))
+            result.add_if(
+                check,
+                check_obj.description,
+                self.unit_set.count_type(check, self),
+                check_obj.severity,
+            )
 
         # Grab comments
-        sourcecomments = self.unit_set.count_type('sourcecomments', self)
-        if sourcecomments > 0:
-            result.append((
-                'sourcecomments',
-                _('Strings with comments'),
-                sourcecomments,
-                'info',
-            ))
+        result.add_if(
+            'sourcecomments',
+            _('Strings with comments'),
+            self.unit_set.count_type('sourcecomments', self),
+            'info',
+        )
 
         return result
 
