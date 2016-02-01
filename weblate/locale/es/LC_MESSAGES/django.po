@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-02-01 17:28+0000\n"
-"PO-Revision-Date: 2016-01-21 20:03+0000\n"
+"PO-Revision-Date: 2016-02-01 19:56+0000\n"
 "Last-Translator: Franco <fulanodetal.github1@openaliasbox.org>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
-"es/>\n"
+"Language-Team: Spanish "
+"<https://hosted.weblate.org/projects/weblate/master/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2572,7 +2572,6 @@ msgstr "Palabras"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-#, fuzzy
 #| msgid "Review"
 msgctxt "Number of strings needing review"
 msgid "Review"
@@ -2612,13 +2611,13 @@ msgstr[0] "¡%(words)s palabra para traducir!"
 msgstr[1] "¡%(words)s palabras para traducir!"
 
 #: weblate/html/list-translations.html:45
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s fuzzy string."
 #| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "Hay %(count)s cadena parcial."
-msgstr[1] "Hay %(count)s cadenas parciales."
+msgstr[0] "Se necesita revisar %(count)s cadena."
+msgstr[1] "Se necesitan revisar %(count)s cadenas."
 
 #: weblate/html/list-translations.html:54
 #, python-format
@@ -2762,10 +2761,9 @@ msgid "Untranslated strings:"
 msgstr "Cadenas sin traducir:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
-msgstr "Revision de cadenas originales"
+msgstr "Cadenas que requieren revisión:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3267,7 +3265,7 @@ msgstr "Ctrl+Enter - Grabar"
 #, fuzzy
 #| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - Anular confusión y guardar"
+msgstr "Ctrl+Shift+Enter - Anular bandera de necesidad de revisión y guardar"
 
 #: weblate/html/translate.html:67
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -3294,14 +3292,13 @@ msgid "Alt+S - Shows search tab"
 msgstr "Alt+S - Mostrar pestaña de búsqueda"
 
 #: weblate/html/translate.html:73
-#, fuzzy
 #| msgid "Fill in with source string"
 msgid "Alt+V - Copies source string"
-msgstr "Rellenar con cadena original"
+msgstr "Alt+V - Copias de cadena original"
 
 #: weblate/html/translate.html:74
 msgid "Alt+F - Toggle review needed flag"
-msgstr ""
+msgstr "Alt+F - Alternar bandera de revisión necesaria"
 
 #: weblate/html/translate.html:76
 msgid "Editing source string"
@@ -3529,13 +3526,13 @@ msgid "Strings"
 msgstr "Cadenas"
 
 #: weblate/html/translation.html:119
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s voto"
-msgstr[1] "%(count)s votos"
+msgstr[0] "%(count)s palabra"
+msgstr[1] "%(count)s palabras"
 
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
@@ -3743,7 +3740,6 @@ msgid "Open in full editor"
 msgstr "Abrir en editor completo"
 
 #: weblate/html/zen-units.html:44
-#, fuzzy
 #| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
@@ -3842,10 +3838,9 @@ msgid "Commit pending changes"
 msgstr "Enviar cambios pendientes"
 
 #: weblate/trans/admin.py:257
-#, fuzzy
 #| msgid "Subproject"
 msgid "Project / Component"
-msgstr "Subproyecto"
+msgstr "Proyecto / Componente"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3926,16 +3921,15 @@ msgid "Trailing and leading whitespace"
 msgstr "Espacio al principio y al final"
 
 #: weblate/trans/checks/angularjs.py:45
-#, fuzzy
 #| msgid "Search in location strings"
 msgid "AngularJS interpolation string"
-msgstr "Buscar en cadenas de ubicación"
+msgstr "Cadena de interpolación de AngularJS"
 
 #: weblate/trans/checks/angularjs.py:46
-#, fuzzy
 #| msgid "C format string does not match source"
 msgid "AngularJS interpolation strings do not match source"
-msgstr "La cadena en formato C, no coincide con cadena original"
+msgstr ""
+"La cadena de interpolación de AngularJS, no coincide con cadena original"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4261,11 +4255,10 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "¡El mensaje que deseaba traducir ya no está disponible!"
 
 #: weblate/trans/forms.py:308
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "revisar"
+msgstr "Necesita revisión"
 
 #: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
@@ -4284,26 +4277,23 @@ msgid "Add as a suggestion"
 msgstr "Agregar como sugerencia"
 
 #: weblate/trans/forms.py:355
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
-msgstr "Agregar como traducción"
+msgstr "Agregar como traducción que requiere revisión"
 
 #: weblate/trans/forms.py:360
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Revision de cadenas originales"
+msgstr "Procesamiento de cadenas que necesitan revisión"
 
 #: weblate/trans/forms.py:362
 msgid "Do not import"
 msgstr "No importar"
 
 #: weblate/trans/forms.py:363
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Revision de cadenas originales"
+msgstr "Importar como cadena que necesita revisión"
 
 #: weblate/trans/forms.py:364
 msgid "Import as translated"
@@ -4409,10 +4399,9 @@ msgid "Translated strings"
 msgstr "Cadenas traducidas"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review"
-msgstr "Revision de cadenas originales"
+msgstr "Cadenas que requieren revisión"
 
 #: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
@@ -4755,15 +4744,15 @@ msgstr "%(action)s en %(time)s sobre %(translation)s por %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
 msgid "Project, component or language must be specified"
-msgstr ""
+msgstr "Se debe especificar el proyecto, componente o idioma"
 
 #: weblate/trans/models/group_acl.py:67
 msgid "Group ACL"
-msgstr ""
+msgstr "Grupo ACL"
 
 #: weblate/trans/models/group_acl.py:68
 msgid "Group ACLs"
-msgstr ""
+msgstr "Grupo ACLs"
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
 msgid "Name to display"
@@ -5436,16 +5425,14 @@ msgid "This translation is locked by %(user)s!"
 msgstr "¡Esta traducción está bloqueada por %(user)s!"
 
 #: weblate/trans/models/translation.py:995
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Cadenas sin traducir"
 
 #: weblate/trans/models/translation.py:1004
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing attention"
-msgstr "Cadenas con sugerencias"
+msgstr "Cadenas que requieren atención"
 
 #: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
@@ -5741,7 +5728,7 @@ msgstr[1] "en %(count)s horas"
 
 #: weblate/trans/templatetags/translations.py:526
 msgid "Message needs review"
-msgstr ""
+msgstr "Mensaje necesita revisión"
 
 #: weblate/trans/templatetags/translations.py:531
 msgid "Message is not translated"
@@ -6068,7 +6055,7 @@ msgstr "Todos los repositorios fueron reinicializados."
 
 #: weblate/trans/views/lock.py:47
 msgid "Failed to update lock, probably session has expired."
-msgstr ""
+msgstr "Falló al actualizar el bloqueo, probablemente la sesión ha expirado."
 
 #: weblate/trans/views/lock.py:62
 msgid "Translation is now locked for you."
