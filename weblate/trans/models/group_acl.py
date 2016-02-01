@@ -42,7 +42,7 @@ class GroupACL(models.Model):
     def clean(self):
         if not self.project and not self.subproject and not self.language:
             raise ValidationError(
-                _('Project, subproject or language must be specified')
+                _('Project, component or language must be specified')
             )
 
         # ignore project if subproject is set
