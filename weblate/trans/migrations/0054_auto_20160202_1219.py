@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='indexupdate',
             name='unitid',
-            field=models.IntegerField(default=0, unique=True),
+            field=models.IntegerField(default=0, unique=False),
             preserve_default=False,
         ),
         migrations.AlterField(

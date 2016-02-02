@@ -24,7 +24,6 @@ from django.utils.encoding import force_text, python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class IndexUpdate(models.Model):
-    unit = models.OneToOneField('Unit')
     unitid = models.IntegerField(unique=True)
     source = models.BooleanField(default=True)
     to_delete = models.BooleanField(default=False)
