@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-02-01 17:28+0000\n"
-"PO-Revision-Date: 2016-01-27 18:23+0000\n"
+"PO-Revision-Date: 2016-02-02 07:01+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
-"tr/>\n"
+"Language-Team: Turkish "
+"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2560,11 +2560,10 @@ msgstr "Kelime"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-#, fuzzy
 #| msgid "Review"
 msgctxt "Number of strings needing review"
 msgid "Review"
-msgstr "Gözden Geçirme"
+msgstr "Gözden Geçir"
 
 #: weblate/html/list-translations.html:13
 #: weblate/html/list-translations.html:24
@@ -2598,13 +2597,13 @@ msgstr[0] "Çevirmek için %(words)s kelime!"
 msgstr[1] "Çevirmek için %(words)s kelime!"
 
 #: weblate/html/list-translations.html:45
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s fuzzy string."
 #| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "%(count)s belirsiz satır var."
-msgstr[1] "%(count)s belirsiz satır var."
+msgstr[0] "Gözden geçirilmesi gereken %(count)s satır var."
+msgstr[1] "Gözden geçirilmesi gereken %(count)s satır var."
 
 #: weblate/html/list-translations.html:54
 #, python-format
@@ -2747,10 +2746,9 @@ msgid "Untranslated strings:"
 msgstr "Çevrilmemiş satır:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-#, fuzzy
 #| msgid "Strings to review"
 msgid "Strings needing review:"
-msgstr "Gözden geçirmek için satırlar"
+msgstr "Gözden geçirilmesi gereken satır:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3183,7 +3181,7 @@ msgstr "Katılımcı istatistikleri"
 #: weblate/html/subproject.html:174
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
-"Her bir çevirmen tarafından çevrilen dizgilerin ve kelimelerin sayısını "
+"Her bir çevirmen tarafından çevrilmiş dizgilerin ve kelimelerin sayısını "
 "bildirir."
 
 #: weblate/html/subproject_info.html:9 weblate/trans/models/subproject.py:350
@@ -3256,10 +3254,9 @@ msgid "Ctrl+Enter - Save"
 msgstr "Ctrl+Enter - Kaydet"
 
 #: weblate/html/translate.html:66
-#, fuzzy
 #| msgid "Ctrl+Shift+Enter - Unmark fuzzy and save"
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - Belirsizin işaretini kaldır ve kaydet"
+msgstr "Ctrl+Shift+Enter - Gözden geçirme gerekli işaretini kaldır ve kaydet"
 
 #: weblate/html/translate.html:67
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -3290,10 +3287,9 @@ msgid "Alt+V - Copies source string"
 msgstr "Alt+V - Kaynak satırı kopyalar"
 
 #: weblate/html/translate.html:74
-#, fuzzy
 #| msgid "Alt+F - Toggle fuzzy flag"
 msgid "Alt+F - Toggle review needed flag"
-msgstr "Alt+F - Belirsiz işaretini değiştir"
+msgstr "Alt+F - Gözden geçirme gerekli işaretini değiştir"
 
 #: weblate/html/translate.html:76
 msgid "Editing source string"
@@ -3521,13 +3517,13 @@ msgid "Strings"
 msgstr "Satır"
 
 #: weblate/html/translation.html:119
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s oy"
-msgstr[1] "%(count)s oy"
+msgstr[0] "%(count)s kelime"
+msgstr[1] "%(count)s kelime"
 
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
@@ -3737,11 +3733,10 @@ msgid "Open in full editor"
 msgstr "Tam düzenleyicide aç"
 
 #: weblate/html/zen-units.html:44
-#, fuzzy
 #| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
-msgstr "Gözden Geçirme"
+msgstr "Gözden Geçir"
 
 #: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
@@ -3836,10 +3831,9 @@ msgid "Commit pending changes"
 msgstr "Bekleyen değişiklikleri işle"
 
 #: weblate/trans/admin.py:257
-#, fuzzy
 #| msgid "Subproject"
 msgid "Project / Component"
-msgstr "Alt proje"
+msgstr "Proje / Bileşen"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -3920,16 +3914,14 @@ msgid "Trailing and leading whitespace"
 msgstr "Sondaki ve baştaki boşluk"
 
 #: weblate/trans/checks/angularjs.py:45
-#, fuzzy
 #| msgid "Search in location strings"
 msgid "AngularJS interpolation string"
-msgstr "Konum satırlarında ara"
+msgstr "AngularJS ilişkilendirme dizgisi"
 
 #: weblate/trans/checks/angularjs.py:46
-#, fuzzy
 #| msgid "C format string does not match source"
 msgid "AngularJS interpolation strings do not match source"
-msgstr "C biçimi dizgisi kaynakla eşleşmiyor"
+msgstr "AngularJS ilişkilendirme dizgisi kaynakla eşleşmiyor"
 
 #: weblate/trans/checks/chars.py:37
 msgid "Starting newline"
@@ -4107,7 +4099,7 @@ msgstr "Değiştirilmemiş çeviri"
 
 #: weblate/trans/checks/same.py:142
 msgid "Source and translated strings are same"
-msgstr "Kaynak ve çevrilen dizgiler aynı"
+msgstr "Kaynak ve çevrilmiş dizgiler aynı"
 
 #: weblate/trans/checks/source.py:39
 msgid "Optional plural"
@@ -4246,11 +4238,10 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Çevirmek istediğiniz ileti bundan böyle mevcut değil!"
 
 #: weblate/trans/forms.py:308
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "gözden geçir"
+msgstr "Gözden geçirme gerekli"
 
 #: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
@@ -4269,30 +4260,27 @@ msgid "Add as a suggestion"
 msgstr "Öneri olarak ekle"
 
 #: weblate/trans/forms.py:355
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
-msgstr "Çeviri olarak ekle"
+msgstr "Gözden geçirilmesi gereken çeviri olarak ekle"
 
 #: weblate/trans/forms.py:360
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Kaynak satırları gözden geçirme"
+msgstr "Gözden geçirilmesi gereken satırların işlenmesi"
 
 #: weblate/trans/forms.py:362
 msgid "Do not import"
 msgstr "İçe aktarma"
 
 #: weblate/trans/forms.py:363
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Kaynak satırları gözden geçirme"
+msgstr "Gözden geçirilmesi gereken satır olarak içe aktar"
 
 #: weblate/trans/forms.py:364
 msgid "Import as translated"
-msgstr "Çevrilmiş olarak içe aktar"
+msgstr "Çevrildi olarak içe aktar"
 
 #: weblate/trans/forms.py:369
 msgid "Merge file header"
@@ -4393,10 +4381,9 @@ msgid "Translated strings"
 msgstr "Çevrilmiş satır"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#, fuzzy
 #| msgid "Strings to review"
 msgid "Strings needing review"
-msgstr "Gözden geçirmek için satırlar"
+msgstr "Gözden geçirilmesi gereken satır"
 
 #: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
@@ -4739,15 +4726,15 @@ msgstr ""
 
 #: weblate/trans/models/group_acl.py:45
 msgid "Project, component or language must be specified"
-msgstr ""
+msgstr "Proje, bileşen veya dil belirtilmek zorundadır"
 
 #: weblate/trans/models/group_acl.py:67
 msgid "Group ACL"
-msgstr ""
+msgstr "ACL Grubu"
 
 #: weblate/trans/models/group_acl.py:68
 msgid "Group ACLs"
-msgstr ""
+msgstr "ACL'ler Grubu"
 
 #: weblate/trans/models/project.py:82 weblate/trans/models/subproject.py:108
 msgid "Name to display"
@@ -5406,16 +5393,14 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Bu çeviri %(user)s tarafından kilitli!"
 
 #: weblate/trans/models/translation.py:995
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Çevrilmemiş satır"
 
 #: weblate/trans/models/translation.py:1004
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing attention"
-msgstr "Önerileri olan satır"
+msgstr "Dikkat gerektiren satır"
 
 #: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
@@ -5708,7 +5693,7 @@ msgstr[1] "şu andan itibaren %(count)s saat"
 
 #: weblate/trans/templatetags/translations.py:526
 msgid "Message needs review"
-msgstr ""
+msgstr "İletinin gözden geçirilmesi gerekli"
 
 #: weblate/trans/templatetags/translations.py:531
 msgid "Message is not translated"
