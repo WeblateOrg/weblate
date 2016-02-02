@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-02-01 17:28+0000\n"
-"PO-Revision-Date: 2016-02-01 18:15+0000\n"
+"PO-Revision-Date: 2016-02-02 02:46+0000\n"
 "Last-Translator: Игорь Поляков (ihoru) <ihor.polyakov@gmail.com>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
-"ru/>\n"
+"Language-Team: Russian "
+"<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.5-dev\n"
 
 #: weblate/accounts/auth.py:49
@@ -2559,14 +2559,14 @@ msgstr[1] "Перевести %(words)s слова!"
 msgstr[2] "Перевести %(words)s слов!"
 
 #: weblate/html/list-translations.html:45
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s fuzzy string."
 #| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
 msgstr[0] "%(count)s нечёткая строка."
-msgstr[1] "%(count)s нечётких строк."
-msgstr[2] "%(count)s нечётких строк."
+msgstr[1] "%(count)s строк, требующих проверки."
+msgstr[2] "%(count)s строк, требующих проверки."
 
 #: weblate/html/list-translations.html:54
 #, python-format
@@ -2711,10 +2711,9 @@ msgid "Untranslated strings:"
 msgstr "Строки без перевода:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt.py:6
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review:"
-msgstr "Обзор строки-исходника"
+msgstr "Строки требующие проверки:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3457,14 +3456,14 @@ msgid "Strings"
 msgstr "Строки"
 
 #: weblate/html/translation.html:119
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s голос"
-msgstr[1] "%(count)s голоса"
-msgstr[2] "%(count)s голосов"
+msgstr[0] "%(count)s слово"
+msgstr[1] "%(count)s слова"
+msgstr[2] "%(count)s слов"
 
 #: weblate/html/translation.html:138 weblate/html/unit-details.html.py:26
 msgid "Translation file"
@@ -3662,11 +3661,10 @@ msgid "Open in full editor"
 msgstr "Открыть в полноценном редакторе"
 
 #: weblate/html/zen-units.html:44
-#, fuzzy
 #| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
-msgstr "Отзывы"
+msgstr "Проверить"
 
 #: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
@@ -3761,10 +3759,9 @@ msgid "Commit pending changes"
 msgstr "Закоммитить ожидающие изменения"
 
 #: weblate/trans/admin.py:257
-#, fuzzy
 #| msgid "Project / Subproject"
 msgid "Project / Component"
-msgstr "Проект / Подпроект"
+msgstr "Проект / Компонент"
 
 #: weblate/trans/admin_views.py:78
 msgid "Debug mode"
@@ -4171,11 +4168,10 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Сообщение, которое вы хотели переводить, уже недоступно!"
 
 #: weblate/trans/forms.py:308
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "обзор"
+msgstr "Требуется проверка"
 
 #: weblate/trans/forms.py:349 weblate/trans/forms.py:679
 msgid "File"
@@ -4194,26 +4190,23 @@ msgid "Add as a suggestion"
 msgstr "Добавить предложение"
 
 #: weblate/trans/forms.py:355
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
-msgstr "Добавить перевод"
+msgstr "Добавить перевод, как требующий проверки"
 
 #: weblate/trans/forms.py:360
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Обзор строки-исходника"
+msgstr "Обработка строк требующих проверки"
 
 #: weblate/trans/forms.py:362
 msgid "Do not import"
 msgstr ""
 
 #: weblate/trans/forms.py:363
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Обзор строки-исходника"
+msgstr "Импортировать строки как требующие проверки"
 
 #: weblate/trans/forms.py:364
 msgid "Import as translated"
@@ -4317,10 +4310,9 @@ msgid "Translated strings"
 msgstr "Переведенные строки"
 
 #: weblate/trans/forms.py:477 weblate/trans/models/translation.py:1013
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings needing review"
-msgstr "Обзор строки-исходника"
+msgstr "Строки требующие проверки"
 
 #: weblate/trans/forms.py:478 weblate/trans/models/translation.py:1022
 msgid "Strings with suggestions"
@@ -5299,16 +5291,14 @@ msgid "This translation is locked by %(user)s!"
 msgstr "Этот перевод заблокирован %(user)s!"
 
 #: weblate/trans/models/translation.py:995
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "Строки без перевода"
 
 #: weblate/trans/models/translation.py:1004
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing attention"
-msgstr "Строки с предложениями перевода"
+msgstr "Строки требующие внимания"
 
 #: weblate/trans/models/unit.py:572
 msgid "Failed to store message in the backend, lock timeout occurred!"
