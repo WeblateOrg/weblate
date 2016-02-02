@@ -47,7 +47,7 @@ class Command(BaseCommand):
 
         # Grab all updates from the database
         with transaction.atomic():
-            updates = IndexUpdate.objects.all()
+            updates = IndexUpdate.objects.filter(to_delete=False)
             for update in updates[:options['limit']].iterator():
                 indexupdates.add(update.pk)
                 unit_ids.add(update.unit_id)

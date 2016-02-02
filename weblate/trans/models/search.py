@@ -26,6 +26,7 @@ from django.utils.encoding import force_text, python_2_unicode_compatible
 class IndexUpdate(models.Model):
     unit = models.OneToOneField('Unit')
     source = models.BooleanField(default=True)
+    to_delete = models.BooleanField(default=False)
 
     class Meta(object):
         app_label = 'trans'
