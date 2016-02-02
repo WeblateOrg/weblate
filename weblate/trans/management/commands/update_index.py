@@ -24,7 +24,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from weblate.trans.models import IndexUpdate, Unit
-from weblate.trans.search import update_index
+from weblate.trans.search import update_index, delete_search_unit
 
 
 class Command(BaseCommand):
@@ -41,6 +41,27 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
+        self.do_update(options['limit'])
+        self.do_delete(options['limit'])
+
+    def do_delete(self, limit):
+        indexupdates = set()
+
+        # Grab all updates from the database
+        with transaction.atomic():
+            updates = IndexUpdate.objects.filter(to_delete=True)
+            for update in updates[:limit].iterator():
+                indexupdates.add(update.pk)
+                delete_search_unit(
+                    update.unit_id,
+                    update.translation.language.code
+                )
+
+        # Delete processed updates
+        with transaction.atomic():
+            IndexUpdate.objects.filter(id__in=indexupdates).delete()
+
+    def do_update(self, limit):
         indexupdates = set()
         unit_ids = set()
         source_unit_ids = set()
@@ -48,7 +69,7 @@ class Command(BaseCommand):
         # Grab all updates from the database
         with transaction.atomic():
             updates = IndexUpdate.objects.filter(to_delete=False)
-            for update in updates[:options['limit']].iterator():
+            for update in updates[:limit].iterator():
                 indexupdates.add(update.pk)
                 unit_ids.add(update.unit_id)
 

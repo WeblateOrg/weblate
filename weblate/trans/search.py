@@ -190,31 +190,37 @@ def update_index(units, source_units=None):
             writer.close()
 
 
+def add_index_update(unit_id, source, to_delete):
+    from weblate.trans.models.search import IndexUpdate
+    try:
+        with transaction.atomic():
+            IndexUpdate.objects.create(
+                unit_id=unit_id,
+                source=source,
+                to_delete=to_delete,
+            )
+    # pylint: disable=E0712
+    except IntegrityError:
+        try:
+            update = IndexUpdate.objects.get(unit_id=unit_id)
+            if to_delete or source:
+                if source:
+                    update.source = True
+                if to_delete:
+                    update.to_delete = True
+                update.save()
+        except IndexUpdate.DoesNotExist:
+            # It did exist, but was deleted meanwhile
+            return
+
+
 def update_index_unit(unit, source=True):
     '''
     Adds single unit to index.
     '''
     # Should this happen in background?
     if appsettings.OFFLOAD_INDEXING:
-        from weblate.trans.models.search import IndexUpdate
-        if not unit.target and not source:
-            return
-        try:
-            with transaction.atomic():
-                IndexUpdate.objects.create(
-                    unit=unit,
-                    source=source,
-                )
-        # pylint: disable=E0712
-        except IntegrityError:
-            try:
-                update = IndexUpdate.objects.get(unit=unit)
-                if not update.source and source:
-                    update.source = True
-                    update.save()
-            except IndexUpdate.DoesNotExist:
-                # It did exist, but was deleted meanwhile
-                return
+        add_index_update(unit.id, source, False)
         return
 
     # Update source
@@ -303,6 +309,14 @@ def more_like(pk, source, top=5):
 
 def clean_search_unit(pk, lang):
     """Cleanups search index on unit deletion."""
+    if appsettings.OFFLOAD_INDEXING:
+        from weblate.trans.models.search import IndexUpdate
+        add_index_update(pk, False, True)
+    else:
+        delete_search_unit(pk, lang)
+
+
+def delete_search_unit(pk, lang):
     try:
         index = get_target_index(lang)
         index.writer().delete_by_term('pk', pk)
