@@ -9,6 +9,13 @@ not well tested formats.
 
 .. seealso:: `Supported formats in translate-toolkit`_
 
+.. note::
+
+    When choosing file format for your application, it's better to stick some
+    well established format in toolkit/platform you use. This way your
+    translators can use whatever tools they are get used to and will more
+    likely contribute to your project.
+
 
 Weblate does support both :index:`monolingual <pair: translation; monolingual>`
 and :index:`bilingual <pair: translation; bilingual>` formats.  Bilingual
