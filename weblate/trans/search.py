@@ -312,7 +312,6 @@ def more_like(pk, source, top=5):
 def clean_search_unit(pk, lang):
     """Cleanups search index on unit deletion."""
     if appsettings.OFFLOAD_INDEXING:
-        from weblate.trans.models.search import IndexUpdate
         add_index_update(pk, False, True, lang)
     else:
         delete_search_unit(pk, lang)
