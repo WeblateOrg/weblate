@@ -85,6 +85,22 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
+            {'q': 'hello', 'type': 'todo'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(
+            reverse('search'),
+            {'q': 'hello', 'type': 'nottranslated'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+        response = self.client.get(
+            reverse('search'),
             {'type': 'php_format'}
         )
         self.assertContains(
