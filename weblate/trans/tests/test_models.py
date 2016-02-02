@@ -674,10 +674,10 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
         # Unknown file format
-        project.filemask = 'iphone/*.lproj/Localizable.strings'
+        project.filemask = 'invalid/*.invalid'
         self.assertRaisesMessage(
             ValidationError,
-            'Format of 1 matched files could not be recognized.',
+            'Format of 2 matched files could not be recognized.',
             project.full_clean
         )
 
