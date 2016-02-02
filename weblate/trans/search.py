@@ -190,7 +190,7 @@ def update_index(units, source_units=None):
             writer.close()
 
 
-def add_index_update(unit_id, source, to_delete):
+def add_index_update(unit_id, source, to_delete, language_code=''):
     from weblate.trans.models.search import IndexUpdate
     try:
         with transaction.atomic():
@@ -198,6 +198,7 @@ def add_index_update(unit_id, source, to_delete):
                 unitid=unit_id,
                 source=source,
                 to_delete=to_delete,
+                language_code=language_code,
             )
     # pylint: disable=E0712
     except IntegrityError:
@@ -208,6 +209,7 @@ def add_index_update(unit_id, source, to_delete):
                     update.source = True
                 if to_delete:
                     update.to_delete = True
+                    update.language_code = language_code
                 update.save()
         except IndexUpdate.DoesNotExist:
             # It did exist, but was deleted meanwhile
@@ -311,7 +313,7 @@ def clean_search_unit(pk, lang):
     """Cleanups search index on unit deletion."""
     if appsettings.OFFLOAD_INDEXING:
         from weblate.trans.models.search import IndexUpdate
-        add_index_update(pk, False, True)
+        add_index_update(pk, False, True, lang)
     else:
         delete_search_unit(pk, lang)
 

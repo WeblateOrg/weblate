@@ -54,7 +54,7 @@ class Command(BaseCommand):
                 indexupdates.add(update.pk)
                 delete_search_unit(
                     update.unitid,
-                    update.translation.language.code
+                    update.language_code
                 )
 
         # Delete processed updates

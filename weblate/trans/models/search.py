@@ -27,6 +27,7 @@ class IndexUpdate(models.Model):
     unitid = models.IntegerField(unique=True)
     source = models.BooleanField(default=True)
     to_delete = models.BooleanField(default=False)
+    language_code = models.SlugField()
 
     class Meta(object):
         app_label = 'trans'
