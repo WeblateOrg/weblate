@@ -422,6 +422,31 @@ def get_upload_form(user, project):
         return SimpleUploadForm
 
 
+class FilterField(forms.ChoiceField):
+    def __init__(self, *args, **kwargs):
+        kwargs['label'] = _('Search filter')
+        kwargs['required'] = False
+        kwargs['choices'] = [
+            ('all', _('All strings')),
+            ('nottranslated', _('Not translated strings')),
+            ('todo', _('Strings needing attention')),
+            ('translated', _('Translated strings')),
+            ('fuzzy', _('Strings needing review')),
+            ('suggestions', _('Strings with suggestions')),
+            ('comments', _('Strings with comments')),
+            ('allchecks', _('Strings with any failing checks')),
+        ] + [
+            (check, CHECKS[check].description)
+            for check in CHECKS if CHECKS[check].target
+        ]
+        super(FilterField, self).__init__(*args, **kwargs)
+
+    def to_python(self, value):
+        if value == 'untranslated':
+            return 'todo'
+        return super(FilterField, self).to_python(value)
+
+
 class SearchForm(forms.Form):
     '''
     Text searching form.
@@ -467,22 +492,7 @@ class SearchForm(forms.Form):
         required=False,
         initial=False
     )
-    type = forms.ChoiceField(
-        label=_('Search filter'),
-        required=False,
-        choices=[
-            ('all', _('All strings')),
-            ('untranslated', _('Untranslated strings')),
-            ('translated', _('Translated strings')),
-            ('fuzzy', _('Strings needing review')),
-            ('suggestions', _('Strings with suggestions')),
-            ('comments', _('Strings with comments')),
-            ('allchecks', _('Strings with any failing checks')),
-        ] + [
-            (check, CHECKS[check].description)
-            for check in CHECKS if CHECKS[check].target
-        ],
-    )
+    type = FilterField()
     ignored = forms.BooleanField(
         widget=forms.HiddenInput,
         label=_('Show ignored checks as well'),
