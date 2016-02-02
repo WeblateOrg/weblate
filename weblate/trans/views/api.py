@@ -63,6 +63,7 @@ BITBUCKET_REPOS = (
 GITHUB_REPOS = (
     'git://github.com/%(owner)s/%(slug)s.git',
     'https://github.com/%(owner)s/%(slug)s.git',
+    'https://github.com/%(owner)s/%(slug)s',
     'git@github.com:%(owner)s/%(slug)s.git',
 )
 
