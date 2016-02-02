@@ -28,7 +28,7 @@ from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.models import SubProject, Suggestion
+from weblate.trans.models import SubProject, Suggestion, IndexUpdate
 from weblate.runner import main
 from weblate.trans.tests.utils import get_test_file
 from weblate.accounts.models import Profile
@@ -286,8 +286,30 @@ class PeriodicCommandTest(RepoTestCase):
             Suggestion.objects.count(), 0
         )
 
+    def test_update_index_empty(self):
+        call_command(
+            'update_index'
+        )
+
     def test_update_index(self):
-        # Test the command
+        IndexUpdate.objects.create(
+            unitid=666,
+            language_code='fo',
+            to_delete=False,
+            source=False,
+        )
+        IndexUpdate.objects.create(
+            unitid=777,
+            language_code='fo',
+            to_delete=False,
+            source=False,
+        )
+        IndexUpdate.objects.create(
+            unitid=888,
+            language_code='fo',
+            to_delete=False,
+            source=True,
+        )
         call_command(
             'update_index'
         )
