@@ -195,14 +195,14 @@ def add_index_update(unit_id, source, to_delete):
     try:
         with transaction.atomic():
             IndexUpdate.objects.create(
-                unit_id=unit_id,
+                unitid=unit_id,
                 source=source,
                 to_delete=to_delete,
             )
     # pylint: disable=E0712
     except IntegrityError:
         try:
-            update = IndexUpdate.objects.get(unit_id=unit_id)
+            update = IndexUpdate.objects.get(unitid=unit_id)
             if to_delete or source:
                 if source:
                     update.source = True

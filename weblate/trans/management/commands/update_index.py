@@ -53,7 +53,7 @@ class Command(BaseCommand):
             for update in updates[:limit].iterator():
                 indexupdates.add(update.pk)
                 delete_search_unit(
-                    update.unit_id,
+                    update.unitid,
                     update.translation.language.code
                 )
 
@@ -71,10 +71,10 @@ class Command(BaseCommand):
             updates = IndexUpdate.objects.filter(to_delete=False)
             for update in updates[:limit].iterator():
                 indexupdates.add(update.pk)
-                unit_ids.add(update.unit_id)
+                unit_ids.add(update.unitid)
 
                 if update.source:
-                    source_unit_ids.add(update.unit_id)
+                    source_unit_ids.add(update.unitid)
 
         # Filter matching units
         units = Unit.objects.filter(
