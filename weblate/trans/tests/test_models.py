@@ -36,6 +36,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.trans.models import (
     Project, SubProject, Source, Unit, WhiteboardMessage, Check, Suggestion,
+    IndexUpdate,
     get_related_units,
 )
 from weblate import appsettings
@@ -446,6 +447,24 @@ class SubProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.get_path()))
         project.delete()
         self.assertFalse(os.path.exists(project.get_path()))
+        self.assertEqual(0, SubProject.objects.count())
+
+    @OverrideSettings(OFFLOAD_INDEXING=False)
+    def test_delete_no_offload(self):
+        project = self.create_subproject()
+        project.delete()
+        self.assertEqual(0, IndexUpdate.objects.count())
+
+    @OverrideSettings(OFFLOAD_INDEXING=True)
+    def test_delete_offload(self):
+        project = self.create_subproject()
+        project.delete()
+        self.assertEqual(
+            12, IndexUpdate.objects.count()
+        )
+        self.assertEqual(
+            12, IndexUpdate.objects.filter(to_delete=True).count()
+        )
 
     def test_delete_link(self):
         project = self.create_link()
@@ -856,7 +875,6 @@ class SubProjectTest(RepoTestCase):
 
         # Check suggestion has been copied
         self.assertEqual(subproject.project.suggestion_set.count(), 1)
-
 
 class TranslationTest(RepoTestCase):
     """
