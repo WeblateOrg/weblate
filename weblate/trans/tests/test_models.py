@@ -876,6 +876,7 @@ class SubProjectTest(RepoTestCase):
         # Check suggestion has been copied
         self.assertEqual(subproject.project.suggestion_set.count(), 1)
 
+
 class TranslationTest(RepoTestCase):
     """
     Translation testing.
