@@ -41,6 +41,7 @@ def weblate_context(request):
 
     projects = Project.objects.all_acl(request.user)
 
+
     # Load user translations if user is authenticated
     usersubscriptions = None
     userlanguages = None
@@ -48,7 +49,7 @@ def weblate_context(request):
     if request.user.is_authenticated():
         usersubscriptions = Translation.objects.filter(
             language__in=request.user.profile.languages.all(),
-            subproject__project__in=projects,
+            subproject__project__in=request.user.profile.subscriptions.all()
         ).order_by(
             'subproject__project__name', 'subproject__name'
         ).select_related()
