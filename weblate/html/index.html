@@ -25,8 +25,8 @@
     {% trans "Projects" %} <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <li><a href="#your" data-toggle="tab">{% trans "Your translations" %}</a></li>
-    <li><a href="#todo" data-toggle="tab">{% trans "Your projects" %}</a></li>
+    <li><a href="#your-translations" data-toggle="tab">{% trans "Your translations" %}</a></li>
+    <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
     <li><a href="#todo" data-toggle="tab">{% trans "todo component" %}</a></li>
   </ul>
@@ -53,22 +53,35 @@
 
 <div class="tab-content">
 {% if user.is_authenticated %}
-<div class="tab-pane active" id="your">
+<div class="tab-pane active" id="your-translations">
 {% if usertranslations %}
 {% with usertranslations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
 {% endwith %}
 {% else %}
-<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages." %}</p>
-{% endif %}
+<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in your subscribed projects." %}</p>
+{% endif %} {# usertranslations #}
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a></p>
+</div>
+
+<div class="tab-pane" id="your-languages">
+{% if usertranslations %}
+{% with usertranslations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+{% include "list-translations.html" %}
+{% endwith %}
+{% else %}
+<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in all projects." %}</p>
+{% endif %} {# usertranslations #}
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a></p>
 </div>
 
 
+
 <div class="tab-pane" id="projects">
+
 {% else %}
 <div class="tab-pane active" id="projects">
-{% endif %}
+{% endif %} {# user.is_authenticated #}
 
 <table class="sort table">
 <thead>
