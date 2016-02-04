@@ -20,10 +20,19 @@
 
 <ul class="nav nav-pills">
 {% if user.is_authenticated %}
-<li class="active"><a href="#your" data-toggle="tab">{% trans "Your translations" %}</a></li>
-<li><a href="#projects" data-toggle="tab">{% trans "Projects" %}</a></li>
+<li class="dropdown">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    {% trans "Projects" %} <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a href="#your" data-toggle="tab">{% trans "Your translations" %}</a></li>
+    <li><a href="#todo" data-toggle="tab">{% trans "Your projects" %}</a></li>
+    <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
+    <li><a href="#todo" data-toggle="tab">{% trans "todo component" %}</a></li>
+  </ul>
+</li>
 {% else %}
-<li class="active"><a href="#projects" data-toggle="tab">{% trans "Projects" %}</a></li>
+<li class="active"><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
 {% endif %}
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
