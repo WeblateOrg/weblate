@@ -36,7 +36,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.trans.models import (
     Project, SubProject, Source, Unit, WhiteboardMessage, Check, Suggestion,
-    IndexUpdate,
+    IndexUpdate, ComponentList,
     get_related_units,
 )
 from weblate import appsettings
@@ -951,6 +951,17 @@ class WhiteboardMessageTest(TestCase):
         Rather dumb test just to make sure there are no obvious parsing errors.
         """
         WhiteboardMessage()
+
+
+class ComponentListTest(TestCase):
+    """Test(s) for ComponentList model."""
+
+    def test_can_be_imported(self):
+        """Test that ComponentList model can be imported.
+
+        Rather dumb test just to make sure there are no obvious parsing errors.
+        """
+        ComponentList()
 
 
 class ModelTestCase(RepoTestCase):
