@@ -42,14 +42,24 @@ def weblate_context(request):
     projects = Project.objects.all_acl(request.user)
 
     # Load user translations if user is authenticated
-    usertranslations = None
+    usersubscriptions = None
+    userlanguages = None
+  
     if request.user.is_authenticated():
-        usertranslations = Translation.objects.filter(
+        usersubscriptions = Translation.objects.filter(
             language__in=request.user.profile.languages.all(),
             subproject__project__in=projects,
         ).order_by(
             'subproject__project__name', 'subproject__name'
         ).select_related()
+    
+        userlanguages = Translation.objects.filter(
+            language__in=request.user.profile.languages.all(),
+            subproject__project__in=projects,
+        ).order_by(
+            'subproject__project__name', 'subproject__name'
+        ).select_related()
+
 
     return {
         'version': weblate.VERSION,
@@ -79,5 +89,6 @@ def weblate_context(request):
 
         'registration_open': appsettings.REGISTRATION_OPEN,
         'acl_projects': projects,
-        'usertranslations': usertranslations,
+        'usersubscriptions': usersubscriptions,
+        'userlanguages': userlanguages,
     }
