@@ -21,10 +21,10 @@
 <ul class="nav nav-pills">
 {% if user.is_authenticated %}
 <li class="dropdown active">
-  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="views-title">
     {% trans "Projects" %} <span class="caret"></span>
   </a>
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu" id="views-menu">
     <li><a href="#your-translations" data-toggle="tab">{% trans "Your translations" %}</a></li>
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
@@ -50,6 +50,14 @@
   </ul>
 </li>
 </ul>
+
+<script>
+$("#views-menu li a").click(function(){
+  
+  $("#views-title").html($(this).text()+' <span class="caret"></span>');
+    
+  });
+</script>
 
 <div class="tab-content">
 {% if user.is_authenticated %}
