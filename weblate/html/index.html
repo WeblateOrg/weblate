@@ -69,7 +69,7 @@ $("#views-menu li a").click(function(){
 {% else %}
 <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in your subscribed projects." %}</p>
 {% endif %} {# usersubscriptions #}
-<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a></p>
+<p><a class="btn btn-default" href="{% url 'profile' %}#subscriptions">{% trans "Manage your subscriptions" %}</a></p>
 </div>
 
 <div class="tab-pane" id="your-languages">
@@ -80,7 +80,7 @@ $("#views-menu li a").click(function(){
 {% else %}
 <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in all projects." %}</p>
 {% endif %} {# userlanguages #}
-<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a></p>
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
 
 
