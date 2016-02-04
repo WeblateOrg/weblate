@@ -25,7 +25,7 @@
     "TODO" <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" id="views-menu">
-    <li><a href="#your-translations" data-toggle="tab">{% trans "Your translations" %}</a></li>
+    <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
     <li><a href="#todo" data-toggle="tab">{% trans "todo component" %}</a></li>
@@ -61,7 +61,7 @@ $("#views-menu li a").click(function(){
 
 <div class="tab-content">
 {% if user.is_authenticated %}
-<div class="tab-pane active" id="your-translations">
+<div class="tab-pane active" id="your-subscriptions">
 {% if usersubscriptions %}
 {% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
