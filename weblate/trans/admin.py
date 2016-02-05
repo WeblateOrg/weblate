@@ -229,7 +229,7 @@ class WhiteboardAdmin(admin.ModelAdmin):
 
 
 class ComponentListAdmin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['name']
 
 
 class AdvertisementAdmin(admin.ModelAdmin):

@@ -29,15 +29,28 @@ from django.utils.translation import ugettext_lazy as _
 @python_2_unicode_compatible
 class ComponentList(models.Model):
 
-    title = models.CharField(max_length=100)
+    name = models.CharField(
+        verbose_name=_('Component list name'),
+        max_length=100,
+        unique=True,
+        help_text=_('Name to display')
+        )
+
+    slug = models.SlugField(
+        verbose_name=_('URL slug'),
+        db_index=True, unique=True,
+        max_length=100,
+        help_text=_('Name used in URLs and file names.')
+        )
+
     components = models.ManyToManyField('SubProject')
 
     def clean(self):
-        if not self.title:
+        if not self.name:
             raise ValidationError(_('Name must be specified'))
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta(object):
         verbose_name = _('Component list')
