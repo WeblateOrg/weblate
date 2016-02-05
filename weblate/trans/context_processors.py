@@ -23,6 +23,7 @@ from datetime import datetime
 import weblate
 from weblate import appsettings
 from weblate.trans.site import get_site_url
+from weblate.trans.models.componentlist import ComponentList
 from weblate.trans.models.project import Project
 from weblate.trans.models.translation import Translation
 
@@ -40,7 +41,7 @@ def weblate_context(request):
         login_redirect_url = request.get_full_path()
 
     projects = Project.objects.all_acl(request.user)
-
+    componentlists = ComponentList.objects.all()
 
     # Load user translations if user is authenticated
     usersubscriptions = None
@@ -92,4 +93,5 @@ def weblate_context(request):
         'acl_projects': projects,
         'usersubscriptions': usersubscriptions,
         'userlanguages': userlanguages,
+        'componentlists': componentlists,
     }
