@@ -30,7 +30,7 @@
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
     {% for componentlist in componentlists %}
-    <li><a href="#todo" data-toggle="tab">{{ componentlist.name }}</a></li>
+    <li><a href="#list-{{ componentlist.slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
     {% endfor %}
   </ul>
 </li>
@@ -85,6 +85,19 @@ $("#views-menu li a").click(function(){
 {% endif %} {# userlanguages #}
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
+
+
+{% for componentlist in componentlists %}
+    <div class="tab-pane" id="list-{{componentlist.slug}}">
+        {% if userlanguages %} {{componentlist.title}}
+    {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+    {% include "list-translations.html" %}
+    {% endwith %}
+    {% else %}
+    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in all projects." %}</p>
+    {% endif %} {# userlanguages #}
+    <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+</div>{% endfor %}
 
 
 
