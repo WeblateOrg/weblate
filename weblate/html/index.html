@@ -20,23 +20,21 @@
 
 
 <ul class="nav nav-pills">
-{% if user.is_authenticated %}
 <li class="dropdown active">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="views-title">
     "TODO" <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" id="views-menu">
     <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
+{% if user.is_authenticated %}
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
+{% endif %}
     {% for componentlist in componentlists %}
     <li><a href="#list-{{ componentlist.slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
     {% endfor %}
   </ul>
 </li>
-{% else %}
-<li class="active"><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
-{% endif %}
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
 <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
@@ -90,23 +88,9 @@ $("#views-menu li a").click(function(){
 </div>
 
 
-{% for componentlist in componentlists %}
-    <div class="tab-pane" id="list-{{componentlist.slug}}">
-    {% if userlanguages %}
-    {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
-    {% include "list-translations.html" %}
-    {% endwith %}
-    {% else %}
-    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in TODO." %}</p>
-    {% endif %} {# userlanguages #}
-    <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
-</div>{% endfor %}
-
-
-
 <div class="tab-pane" id="projects">
 
-{% else %}
+{% else %} {# user.is_authenticated #}
 <div class="tab-pane active" id="projects">
 {% endif %} {# user.is_authenticated #}
 
@@ -137,6 +121,18 @@ $("#views-menu li a").click(function(){
 <p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
 {% endif %}
 </div>
+
+{% for componentlist in componentlists %}
+    <div class="tab-pane" id="list-{{componentlist.slug}}">
+    {% if userlanguages %}
+    {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+    {% include "list-translations.html" %}
+    {% endwith %}
+    {% else %}
+    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in TODO." %}</p>
+    {% endif %} {# userlanguages #}
+    <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+</div>{% endfor %}
 
 <div class="tab-pane" id="search">
 
