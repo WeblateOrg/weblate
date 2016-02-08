@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load translations %}
+
+
+<table class="sort table">
+<thead>
+<tr>
+<th>{% trans "Project" %}</th>
+<th colspan="2">{% trans "Translated" %}</th>
+</tr>
+<tbody>
+{% for prj in projects %}
+{% with prj.get_translated_percent as percent and prj.get_fuzzy_percent as fuzzy and prj.get_failing_checks_percent as check_percent %}
+<tr>
+<th><a href="{{ prj.get_absolute_url }}">{{ prj }}</a></th>
+<td class="progress-cell">{% translation_progress prj %}</td>
+<td class="percent">{{ percent }}%</td>
+</tr>
+{% endwith %}
+{% endfor %}
+</tbody>
+</table>
+

@@ -115,7 +115,7 @@ $("#views-menu li a").click(function(){
     {% include "list-translations.html" %}
     {% endwith %}
     {% else %}
-    {% with componentlist.get_components as projects %}
+    {% with componentlist.components.all as projects %}
     {% include "list-projects.html" %}
     {% endwith %}
     <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages." %}</p>
