@@ -63,16 +63,19 @@ $("#views-menu li a").click(function(){
 <div class="tab-content">
 {% if user.is_authenticated %}
 <div class="tab-pane active" id="your-subscriptions">
-{% if usersubscriptions %}
-{% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
-{% include "list-translations.html" %}
-{% endwith %}
+{% if subscribed_projects %}
+    {% if usersubscriptions %}
+        {% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+        {% include "list-translations.html" %}
+        {% endwith %}
+    {% else %}
+        {% with subscribed_projects as projects %}
+        {% include "list-projects.html" %}
+        {% endwith %}
+    {% endif %}
 {% else %}
-{% with usersubscriptions as projects %}
-{% include "list-projects.html" %}
-{% endwith %}
-<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in your subscribed projects." %}</p>
-{% endif %} {# usersubscriptions #}
+    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in your subscribed projects." %}</p>
+{% endif %}
 <p>
     <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
     <a class="btn btn-default" href="{% url 'profile' %}#subscriptions">{% trans "Manage your subscriptions" %}</a>

@@ -44,13 +44,16 @@ def weblate_context(request):
     componentlists = ComponentList.objects.all()
 
     # Load user translations if user is authenticated
+    subscribed_projects = None
     usersubscriptions = None
     userlanguages = None
 
     if request.user.is_authenticated():
+        subscribed_projects = request.user.profile.subscriptions.all()
+
         usersubscriptions = Translation.objects.filter(
             language__in=request.user.profile.languages.all(),
-            subproject__project__in=request.user.profile.subscriptions.all()
+            subproject__project__in=subscribed_projects
         ).order_by(
             'subproject__project__name', 'subproject__name'
         ).select_related()
@@ -91,6 +94,7 @@ def weblate_context(request):
 
         'registration_open': appsettings.REGISTRATION_OPEN,
         'acl_projects': projects,
+        'subscribed_projects': subscribed_projects,
         'usersubscriptions': usersubscriptions,
         'userlanguages': userlanguages,
         'componentlists': componentlists,
