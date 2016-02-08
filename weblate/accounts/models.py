@@ -496,6 +496,29 @@ class Profile(models.Model):
         default=False
     )
 
+    DASHBOARD_SUBSCRIPTIONS = 0
+    DASHBOARD_LANGUAGES = 1
+    DASHBOARD_ALL = 2
+    DASHBOARD_COMPONENT_LIST = 3
+    DASHBOARD_CHOICES = (
+        (DASHBOARD_SUBSCRIPTIONS, _('Your subscriptions')),
+        (DASHBOARD_LANGUAGES, _('Your languages')),
+        (DASHBOARD_ALL, _('All projects')),
+        (DASHBOARD_COMPONENT_LIST, _('Component list')),
+    )
+    dashboard_view = models.IntegerField(
+        choices=DASHBOARD_CHOICES,
+        verbose_name=_('Default dashboard view'),
+        default=DASHBOARD_SUBSCRIPTIONS,
+    )
+
+    dashboard_component_list = models.ForeignKey(
+        'trans.ComponentList',
+        verbose_name=_('Default component list'),
+        blank=True,
+        null=True,
+    )
+
     subscriptions = models.ManyToManyField(
         'trans.Project',
         verbose_name=_('Subscribed projects'),

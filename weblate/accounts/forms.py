@@ -217,7 +217,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
 
 class UserSettingsForm(forms.ModelForm):
     '''
-    User subscription management.
+    User settings form.
     '''
     class Meta(object):
         model = Profile
@@ -227,6 +227,25 @@ class UserSettingsForm(forms.ModelForm):
             'hide_source_secondary',
         )
 
+class DashboardSettingsForm(forms.ModelForm):
+    '''
+    Dashboard settings form.
+    '''
+    class Meta(object):
+        model = Profile
+        fields = (
+            'dashboard_view',
+            'dashboard_component_list',
+        )
+
+    def clean(self):
+        '''
+        Check if component list is selected when required.
+        '''
+        if self.cleaned_data['dashboard_view']==Profile.DASHBOARD_COMPONENT_LIST and \
+                self.cleaned_data['dashboard_component_list'] is None:
+            raise forms.ValidationError(
+                _("Componest list must be selected when used as default."))
 
 class UserForm(forms.ModelForm):
     '''
