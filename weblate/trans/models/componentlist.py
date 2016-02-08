@@ -45,6 +45,9 @@ class ComponentList(models.Model):
 
     components = models.ManyToManyField('SubProject')
 
+    def get_components(self):
+        return self.components.filter(slug=self.slug)
+
     def clean(self):
         if not self.name:
             raise ValidationError(_('Name must be specified'))
