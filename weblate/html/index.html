@@ -107,7 +107,7 @@ $("#views-menu li a").click(function(){
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>
     {% if userlanguages %}
-    {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+    {% with componentlist.translations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
     {% include "list-translations.html" %}
     {% endwith %}
     {% else %}

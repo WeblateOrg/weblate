@@ -75,6 +75,13 @@ def weblate_context(request):
             'subproject__project__name', 'subproject__name'
         ).select_related()
 
+        for componentlist in componentlists:
+            componentlist.translations = Translation.objects.filter(
+                    language__in=request.user.profile.languages.all(),
+                    subproject__in=componentlist.components.all()
+                ).order_by(
+                    'subproject__project__name', 'subproject__name'
+                ).select_related()
 
 
     return {
