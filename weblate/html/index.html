@@ -22,7 +22,7 @@
 <ul class="nav nav-pills">
 <li class="dropdown active">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="views-title">
-    {{dashboard_default_view}}<span class="caret"></span>
+    {{active_tab_label}} <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" id="views-menu">
     <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
@@ -31,7 +31,7 @@
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
     {% endif %}
     {% for componentlist in componentlists %}
-    <li><a href="#list-{{ componentlist.slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
+    <li><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
     {% endfor %}
   </ul>
 </li>
@@ -62,7 +62,7 @@ $("#views-menu li a").click(function(){
 
 <div class="tab-content">
 {% if user.is_authenticated %}
-<div class="tab-pane active" id="your-subscriptions">
+<div {% active_tab "your-subscriptions" %}>
 {% if subscribed_projects %}
     {% if usersubscriptions %}
         {% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
@@ -82,7 +82,7 @@ $("#views-menu li a").click(function(){
 </p>
 </div>
 
-<div class="tab-pane" id="your-languages">
+<div {% active_tab "your-languages" %}>
 {% if userlanguages %}
 {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
@@ -92,27 +92,20 @@ $("#views-menu li a").click(function(){
 {% endif %} {# userlanguages #}
 <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
-
-
-<div class="tab-pane" id="projects">
-
-{% else %} {# user.is_authenticated #}
-<div class="tab-pane active" id="projects">
 {% endif %} {# user.is_authenticated #}
 
+{# All projects#}
+<div {% active_tab "projects" %}>
 {% include "list-projects.html" %}
-
-<p>
-{% include "legend.html" %}
-</p>
-
+<p>{% include "legend.html" %}</p>
 {% if offer_hosting %}
 <p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
 {% endif %}
 </div>
 
+
 {% for componentlist in componentlists %}
-    <div class="tab-pane" id="list-{{componentlist.slug}}">
+    <div {% active_tab componentlist.tab_slug %}>
     {% if userlanguages %}
     {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
     {% include "list-translations.html" %}

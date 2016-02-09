@@ -45,6 +45,9 @@ class ComponentList(models.Model):
 
     components = models.ManyToManyField('SubProject')
 
+    def tab_slug(self):
+        return "list-" + self.slug
+
     def clean(self):
         if not self.name:
             raise ValidationError(_('Name must be specified'))

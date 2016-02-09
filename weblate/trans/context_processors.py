@@ -44,12 +44,21 @@ def weblate_context(request):
     projects = Project.objects.all_acl(request.user)
     componentlists = ComponentList.objects.all()
 
+    dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
+
     # Load user translations if user is authenticated
     subscribed_projects = None
     usersubscriptions = None
     userlanguages = None
+    active_tab_slug = Profile.DASHBOARD_ALL 
 
     if request.user.is_authenticated():
+        active_tab_slug = request.user.profile.dashboard_view
+        if active_tab_slug == Profile.DASHBOARD_COMPONENT_LIST:
+            clist = request.user.profile.dashboard_component_list
+            active_tab_slug = clist.tab_slug()
+            dashboard_choices[active_tab_slug] = clist.name 
+
         subscribed_projects = request.user.profile.subscriptions.all()
 
         usersubscriptions = Translation.objects.filter(
@@ -101,5 +110,6 @@ def weblate_context(request):
         'userlanguages': userlanguages,
         'componentlists': componentlists,
 
-        'dashboard_default_view': dict(Profile.DASHBOARD_CHOICES)[request.user.profile.dashboard_view],
+        'active_tab_slug': active_tab_slug,
+        'active_tab_label': dashboard_choices.get(active_tab_slug)
     }
