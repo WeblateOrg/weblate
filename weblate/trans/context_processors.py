@@ -24,8 +24,6 @@ import weblate
 from weblate import appsettings
 from weblate.trans.site import get_site_url
 from weblate.trans.models.project import Project
-from weblate.trans.models.translation import Translation
-from weblate.accounts.models import Profile
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'

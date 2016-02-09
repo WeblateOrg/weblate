@@ -227,6 +227,7 @@ class UserSettingsForm(forms.ModelForm):
             'hide_source_secondary',
         )
 
+
 class DashboardSettingsForm(forms.ModelForm):
     '''
     Dashboard settings form.
@@ -246,7 +247,8 @@ class DashboardSettingsForm(forms.ModelForm):
                 Profile.DASHBOARD_COMPONENT_LIST and \
                 self.cleaned_data['dashboard_component_list'] is None:
             raise forms.ValidationError(
-                _("Componest list must be selected when used as default."))
+                _("Component list must be selected when used as default."))
+
 
 class UserForm(forms.ModelForm):
     '''

@@ -128,7 +128,6 @@ def home(request):
                 'subproject__project__name', 'subproject__name'
             ).select_related()
 
-
     return render(
         request,
         'index.html',
