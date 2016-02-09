@@ -52,14 +52,6 @@
 </li>
 </ul>
 
-<script>
-$("#views-menu li a").click(function(){
-  
-  $("#views-title").html($(this).text()+' <span class="caret"></span>');
-    
-  });
-</script>
-
 <div class="tab-content">
 {% if user.is_authenticated %}
 <div {% active_tab "your-subscriptions" %}>

@@ -934,4 +934,11 @@ $(function () {
             }
         });
     }
+
+    /* Labels in dropdown menu in Dashboard */
+    $("#views-menu li a").click(function(){
+      $("#views-title").html($(this).text()+' <span class="caret"></span>');
+    });
+
+
 });
