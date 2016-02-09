@@ -30,10 +30,10 @@ import csv
 import traceback
 import importlib
 
-from django.utils.translation import ugettext_lazy as _
-
 import six
 from six import StringIO
+
+from django.utils.translation import ugettext_lazy as _
 
 from translate.convert import po2php
 from translate.storage.lisa import LISAfile

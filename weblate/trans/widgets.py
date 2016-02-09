@@ -20,13 +20,13 @@
 
 import os.path
 
-from django.utils.translation import ugettext as _
-from django.template.loader import render_to_string
-
 from PIL import Image, ImageDraw
 
 from six import StringIO
 from six.moves.urllib.parse import quote
+
+from django.utils.translation import ugettext as _
+from django.template.loader import render_to_string
 
 from weblate.trans.fonts import is_base, get_font
 from weblate.appsettings import ENABLE_HTTPS

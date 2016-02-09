@@ -26,7 +26,7 @@ from weblate.trans.site import get_site_url
 from weblate.trans.models.componentlist import ComponentList
 from weblate.trans.models.project import Project
 from weblate.trans.models.translation import Translation
-from weblate.accounts.models import Profile 
+from weblate.accounts.models import Profile
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
@@ -50,14 +50,14 @@ def weblate_context(request):
     subscribed_projects = None
     usersubscriptions = None
     userlanguages = None
-    active_tab_slug = Profile.DASHBOARD_ALL 
+    active_tab_slug = Profile.DASHBOARD_ALL
 
     if request.user.is_authenticated():
         active_tab_slug = request.user.profile.dashboard_view
         if active_tab_slug == Profile.DASHBOARD_COMPONENT_LIST:
             clist = request.user.profile.dashboard_component_list
             active_tab_slug = clist.tab_slug()
-            dashboard_choices[active_tab_slug] = clist.name 
+            dashboard_choices[active_tab_slug] = clist.name
 
         subscribed_projects = request.user.profile.subscriptions.all()
 
@@ -77,11 +77,11 @@ def weblate_context(request):
 
         for componentlist in componentlists:
             componentlist.translations = Translation.objects.filter(
-                    language__in=request.user.profile.languages.all(),
-                    subproject__in=componentlist.components.all()
-                ).order_by(
-                    'subproject__project__name', 'subproject__name'
-                ).select_related()
+                language__in=request.user.profile.languages.all(),
+                subproject__in=componentlist.components.all()
+            ).order_by(
+                'subproject__project__name', 'subproject__name'
+            ).select_related()
 
 
     return {

@@ -507,7 +507,7 @@ class Profile(models.Model):
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
     )
     dashboard_view = models.CharField(
-        max_length = 100,
+        max_length=100,
         choices=DASHBOARD_CHOICES,
         verbose_name=_('Default dashboard view'),
         default=DASHBOARD_SUBSCRIPTIONS,
