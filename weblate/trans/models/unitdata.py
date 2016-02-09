@@ -155,11 +155,12 @@ class Suggestion(models.Model):
         '''
         Adds (or updates) vote for a suggestion.
         '''
-        vote, dummy = Vote.objects.get_or_create(
+        vote, created = Vote.objects.get_or_create(
             suggestion=self,
-            user=request.user
+            user=request.user,
+            defaults={'positive': positive}
         )
-        if vote.positive != positive:
+        if not created or vote.positive != positive:
             vote.positive = positive
             vote.save()
 

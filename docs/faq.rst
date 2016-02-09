@@ -33,10 +33,19 @@ Please see :ref:`vcs-repos` for information about setting up SSH keys.
 How to fix merge conflicts in translations?
 -------------------------------------------
 
-The easiest way is to solve all conflicts locally at your workstation - simply
-add Weblate as remote repository, merge it into upstream and fix conflicts.
-Once you push changes back, Weblate will be able to use merged version without
-any other special actions.
+The merge conflicts happen time to time when the translation file is changed in
+both Weblate and upstream repository. You can usually avoid this by merging
+Weblate translations prior to doing some changes in the translation files (eg.
+before executing msgmerge). Just tell Weblate to commit all pending
+tranlslations (you can do it in the :guilabel:`Repository maintenance` in the
+:guilabel:`Tools` menu) and merge the repository (if automatic push is not
+enabled).
+
+If you've already ran to the merge conflict, the easiest way is to solve all
+conflicts locally at your workstation - simply add Weblate as remote
+repository, merge it into upstream and fix conflicts.  Once you push changes
+back, Weblate will be able to use merged version without any other special
+actions.
 
 .. code-block:: sh
 
