@@ -23,7 +23,6 @@ from datetime import datetime
 import weblate
 from weblate import appsettings
 from weblate.trans.site import get_site_url
-from weblate.trans.models.componentlist import ComponentList
 from weblate.trans.models.project import Project
 from weblate.trans.models.translation import Translation
 from weblate.accounts.models import Profile
@@ -42,47 +41,11 @@ def weblate_context(request):
         login_redirect_url = request.get_full_path()
 
     projects = Project.objects.all_acl(request.user)
-    componentlists = ComponentList.objects.all()
-
-    dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
 
     # Load user translations if user is authenticated
     subscribed_projects = None
-    usersubscriptions = None
-    userlanguages = None
-    active_tab_slug = Profile.DASHBOARD_ALL
-
     if request.user.is_authenticated():
-        active_tab_slug = request.user.profile.dashboard_view
-        if active_tab_slug == Profile.DASHBOARD_COMPONENT_LIST:
-            clist = request.user.profile.dashboard_component_list
-            active_tab_slug = clist.tab_slug()
-            dashboard_choices[active_tab_slug] = clist.name
-
         subscribed_projects = request.user.profile.subscriptions.all()
-
-        usersubscriptions = Translation.objects.filter(
-            language__in=request.user.profile.languages.all(),
-            subproject__project__in=subscribed_projects
-        ).order_by(
-            'subproject__project__name', 'subproject__name'
-        ).select_related()
-
-        userlanguages = Translation.objects.filter(
-            language__in=request.user.profile.languages.all(),
-            subproject__project__in=projects,
-        ).order_by(
-            'subproject__project__name', 'subproject__name'
-        ).select_related()
-
-        for componentlist in componentlists:
-            componentlist.translations = Translation.objects.filter(
-                language__in=request.user.profile.languages.all(),
-                subproject__in=componentlist.components.all()
-            ).order_by(
-                'subproject__project__name', 'subproject__name'
-            ).select_related()
-
 
     return {
         'version': weblate.VERSION,
@@ -113,10 +76,4 @@ def weblate_context(request):
         'registration_open': appsettings.REGISTRATION_OPEN,
         'acl_projects': projects,
         'subscribed_projects': subscribed_projects,
-        'usersubscriptions': usersubscriptions,
-        'userlanguages': userlanguages,
-        'componentlists': componentlists,
-
-        'active_tab_slug': active_tab_slug,
-        'active_tab_label': dashboard_choices.get(active_tab_slug)
     }

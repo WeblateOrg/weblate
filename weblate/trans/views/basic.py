@@ -33,7 +33,7 @@ from django.utils import timezone
 import django.views.defaults
 
 from weblate.trans.models import (
-    Project, SubProject, Translation, Check,
+    Project, SubProject, Translation, Check, ComponentList,
     Dictionary, Change, Unit, WhiteboardMessage
 )
 from weblate.requirements import get_versions, get_optional_versions
@@ -89,6 +89,45 @@ def home(request):
     top_suggestions = Profile.objects.order_by('-suggested')[:10]
     last_changes = Change.objects.last_changes(request.user)[:10]
 
+    # Dashboard project/subproject view
+    componentlists = ComponentList.objects.all()
+    dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
+    usersubscriptions = None
+    userlanguages = None
+    active_tab_slug = Profile.DASHBOARD_ALL
+
+    if request.user.is_authenticated():
+        active_tab_slug = request.user.profile.dashboard_view
+        if active_tab_slug == Profile.DASHBOARD_COMPONENT_LIST:
+            clist = request.user.profile.dashboard_component_list
+            active_tab_slug = clist.tab_slug()
+            dashboard_choices[active_tab_slug] = clist.name
+
+        subscribed_projects = request.user.profile.subscriptions.all()
+
+        usersubscriptions = Translation.objects.filter(
+            language__in=request.user.profile.languages.all(),
+            subproject__project__in=subscribed_projects
+        ).order_by(
+            'subproject__project__name', 'subproject__name'
+        ).select_related()
+
+        userlanguages = Translation.objects.filter(
+            language__in=request.user.profile.languages.all(),
+            subproject__project__in=projects,
+        ).order_by(
+            'subproject__project__name', 'subproject__name'
+        ).select_related()
+
+        for componentlist in componentlists:
+            componentlist.translations = Translation.objects.filter(
+                language__in=request.user.profile.languages.all(),
+                subproject__in=componentlist.components.all()
+            ).order_by(
+                'subproject__project__name', 'subproject__name'
+            ).select_related()
+
+
     return render(
         request,
         'index.html',
@@ -100,6 +139,11 @@ def home(request):
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
             'whiteboard_messages': wb_messages,
+            'usersubscriptions': usersubscriptions,
+            'userlanguages': userlanguages,
+            'componentlists': componentlists,
+            'active_tab_slug': active_tab_slug,
+            'active_tab_label': dashboard_choices.get(active_tab_slug)
         }
     )
 
