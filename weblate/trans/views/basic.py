@@ -71,8 +71,9 @@ def home(request):
     wb_messages = WhiteboardMessage.objects.all()
 
     projects = Project.objects.all_acl(request.user)
+    subproject_list = None
     if projects.count() == 1:
-        projects = SubProject.objects.filter(
+        subproject_list = SubProject.objects.filter(
             project=projects[0]
         ).select_related()
 
@@ -132,7 +133,7 @@ def home(request):
         request,
         'index.html',
         {
-            'projects': projects,
+            'projects': subproject_list or projects,
             'top_translations': top_translations.select_related('user'),
             'top_suggestions': top_suggestions.select_related('user'),
             'last_changes': last_changes,
