@@ -22,14 +22,14 @@
 <ul class="nav nav-pills">
 <li class="dropdown active">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="views-title">
-    "TODO" <span class="caret"></span>
+    {{dashboard_default_view}}<span class="caret"></span>
   </a>
   <ul class="dropdown-menu" id="views-menu">
     <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
-{% if user.is_authenticated %}
+    {% if user.is_authenticated %}
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
-{% endif %}
+    {% endif %}
     {% for componentlist in componentlists %}
     <li><a href="#list-{{ componentlist.slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
     {% endfor %}
