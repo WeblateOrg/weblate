@@ -69,15 +69,15 @@ class BillingTest(TestCase):
         call_command('billing_check', stdout=out)
         self.assertEqual(
             out.getvalue(),
-            'Following billings are over limit:\n * bill (test)\n'
+            'Following billings are over limit:\n * test0, test1: bill (test)\n'
         )
         self.invoice.delete()
         out = StringIO()
         call_command('billing_check', stdout=out)
         self.assertEqual(
             out.getvalue(),
-            'Following billings are over limit:\n * bill (test)\n'
-            'Following billings are past due date:\n * bill (test)\n'
+            'Following billings are over limit:\n * test0, test1: bill (test)\n'
+            'Following billings are past due date:\n * test0, test1: bill (test)\n'
         )
 
     def test_invoice_validation(self):

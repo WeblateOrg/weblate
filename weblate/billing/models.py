@@ -74,7 +74,10 @@ class Billing(models.Model):
     )
 
     def __str__(self):
-        return '{0} ({1})'.format(self.user, self.plan)
+        return '{0}: {1} ({2})'.format(
+            ', '.join([str(x) for x in self.projects.all()]),
+            self.user, self.plan
+        )
 
     def count_changes(self, interval):
         return Change.objects.filter(
