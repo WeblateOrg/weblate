@@ -55,7 +55,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
         'billing', 'start', 'end', 'payment', 'currency', 'ref'
     )
-    list_filter = ('currency',)
+    list_filter = ('currency', 'billing')
     search_fields = (
         'billing__user__username', 'billing__projects__name',
         'ref', 'note',
