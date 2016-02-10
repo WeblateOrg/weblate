@@ -156,7 +156,7 @@ class Invoice(models.Model):
             (CURRENCY_EUR, 'EUR'),
             (CURRENCY_BTC, 'mBTC'),
         ),
-        default=CURRENCY_BTC
+        default=CURRENCY_EUR,
     )
     ref = models.CharField(blank=True, max_length=50)
     note = models.TextField(blank=True)
