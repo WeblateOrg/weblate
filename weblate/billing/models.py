@@ -148,11 +148,11 @@ class Invoice(models.Model):
     billing = models.ForeignKey(Billing)
     start = models.DateField()
     end = models.DateField()
-    payment = models.IntegerField()
+    payment = models.FloatField()
     currency = models.IntegerField(
         choices=(
             (CURRENCY_EUR, 'EUR'),
-            (CURRENCY_BTC, 'BTC'),
+            (CURRENCY_BTC, 'mBTC'),
         ),
         default=CURRENCY_BTC
     )
