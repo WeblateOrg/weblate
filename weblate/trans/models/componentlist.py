@@ -34,14 +34,14 @@ class ComponentList(models.Model):
         max_length=100,
         unique=True,
         help_text=_('Name to display')
-        )
+    )
 
     slug = models.SlugField(
         verbose_name=_('URL slug'),
         db_index=True, unique=True,
         max_length=100,
         help_text=_('Name used in URLs and file names.')
-        )
+    )
 
     components = models.ManyToManyField('SubProject')
 
