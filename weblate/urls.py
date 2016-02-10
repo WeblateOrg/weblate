@@ -31,7 +31,6 @@ from weblate.trans.feeds import (
 )
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
-import weblate.billing.views
 import weblate.lang.views
 import weblate.trans.admin_views
 import weblate.trans.views.acl
@@ -841,6 +840,8 @@ urlpatterns = [
 ]
 
 if 'weblate.billing' in settings.INSTALLED_APPS:
+    # pylint: disable=C0413
+    import weblate.billing.views
     urlpatterns += [
         url(
             r'^invoice/(?P<pk>[0-9]+)/download/$',
