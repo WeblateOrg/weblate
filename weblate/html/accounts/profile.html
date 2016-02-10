@@ -353,22 +353,22 @@
   <tr><th>{% trans "Monthly price" %}</th><td>{{ plan.price }} EUR</td><td></td></tr>
   <tr><th>{% trans "Yearly price" %}</th><td>{{ plan.yearly_price }} EUR</td><td></td></tr>
   <tr><th>{% trans "Strings limit" %}</th>
-  {% with plan.display_limit_strings as total and billing.count_strings as used %}
+  {% with plan.limit_strings as max and plan.display_limit_strings as total and billing.count_strings as used %}
   {% include "billing-used.html" %}
   {% endwith %}
   </tr>
   <tr><th>{% trans "Languages limit" %}</th>
-  {% with plan.display_limit_languages as total and billing.count_languages as used %}
+  {% with plan.limit_languages as max and plan.display_limit_languages as total and billing.count_languages as used %}
   {% include "billing-used.html" %}
   {% endwith %}
   </tr>
   <tr><th>{% trans "Repositories limit" %}</th>
-  {% with plan.display_limit_repositories as total and billing.count_repositories as used %}
+  {% with plan.limit_repositories as max and plan.display_limit_repositories as total and billing.count_repositories as used %}
   {% include "billing-used.html" %}
   {% endwith %}
   </tr>
   <tr><th>{% trans "Projects limit" %}</th>
-  {%  with plan.display_limit_projects as total and billing.projects.count as used %}
+  {% with plan.limit_projects as max and plan.display_limit_projects as total and billing.projects.count as used %}
   {% include "billing-used.html" %}
   {% endwith %}
   </tr>
