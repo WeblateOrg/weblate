@@ -161,6 +161,9 @@ class Invoice(models.Model):
     ref = models.CharField(blank=True, max_length=50)
     note = models.TextField(blank=True)
 
+    class Meta(object):
+        ordering = ['billing', 'start']
+
     def __str__(self):
         return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
 
