@@ -19,6 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 from weblate.billing.models import Billing
 
 
@@ -34,6 +35,15 @@ class Command(BaseCommand):
             if not bill.in_limits():
                 if not header:
                     self.stdout.write('Following billings are over limit:')
+                    header = True
+                self.stdout.write(
+                    ' * {0}'.format(bill)
+                )
+        header = False
+        for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
+            if not bill.invoice_set.filter(end__gt=timezone.now()).exists():
+                if not header:
+                    self.stdout.write('Following billings are past due date:')
                     header = True
                 self.stdout.write(
                     ' * {0}'.format(bill)
