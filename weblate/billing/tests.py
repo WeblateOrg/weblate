@@ -19,6 +19,7 @@
 #
 
 from datetime import timedelta
+import os.path
 
 from six import StringIO
 
@@ -26,15 +27,27 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 from weblate.billing.models import Plan, Billing, Invoice
 from weblate.trans.models import Project
+from weblate.trans.tests import OverrideSettings
+
+
+TEST_DATA = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    'test-data'
+)
 
 
 class BillingTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create(username='bill')
+        self.user = User.objects.create_user(
+            username='bill',
+            password='kill',
+            email='noreply@example.net'
+        )
         self.plan = Plan.objects.create(name='test', limit_projects=1, price=0)
         self.billing = Billing.objects.create(user=self.user, plan=self.plan)
         self.invoice = Invoice.objects.create(
@@ -42,6 +55,7 @@ class BillingTest(TestCase):
             start=timezone.now().date() - timedelta(days=2),
             end=timezone.now().date() + timedelta(days=2),
             payment=10,
+            ref='00000',
         )
         self.projectnum = 0
 
@@ -128,3 +142,42 @@ class BillingTest(TestCase):
 
         # Validation of existing
         self.invoice.clean()
+
+    @OverrideSettings(INVOICE_PATH=TEST_DATA)
+    def test_download(self):
+        # Unauthenticated
+        response = self.client.get(
+            reverse('invoice-download', kwargs={'pk': self.invoice.pk})
+        )
+        self.assertEquals(302, response.status_code)
+        # Not owner
+        User.objects.create_user(username='foo', password='bar')
+        self.client.login(username='foo', password='bar')
+        response = self.client.get(
+            reverse('invoice-download', kwargs={'pk': self.invoice.pk})
+        )
+        self.assertEquals(403, response.status_code)
+        # Owner
+        self.client.login(username='bill', password='kill')
+        response = self.client.get(
+            reverse('invoice-download', kwargs={'pk': self.invoice.pk})
+        )
+        self.assertContains(response, 'PDF-INVOICE')
+        # Invoice without file
+        invoice = Invoice.objects.create(
+            billing=self.billing,
+            start=timezone.now().date() - timedelta(days=2),
+            end=timezone.now().date() + timedelta(days=2),
+            payment=10,
+        )
+        response = self.client.get(
+            reverse('invoice-download', kwargs={'pk': invoice.pk})
+        )
+        self.assertEquals(404, response.status_code)
+        # Invoice with non existing file
+        invoice.ref = 'NON'
+        invoice.save()
+        response = self.client.get(
+            reverse('invoice-download', kwargs={'pk': invoice.pk})
+        )
+        self.assertEquals(404, response.status_code)

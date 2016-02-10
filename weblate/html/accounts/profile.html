@@ -379,7 +379,13 @@
 <tr>
 <td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
 <td>{{ invoice.payment }} {{ invoice.get_currency_display }}</td>
-<td>{% trans "Not available" %}</td>
+<td>
+{% if invoice.ref %}
+<a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
+{% else %}
+{% trans "Not available" %}
+{% endif %}
+</td>
 </tr>
 {% empty %}
 <tr><td colspan="3">{% trans "No invoices found!" %}</td/></tr>

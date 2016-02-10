@@ -19,6 +19,7 @@
 #
 
 from django.conf.urls import include, url
+from django.conf import settings
 from django.contrib import admin
 from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
@@ -30,6 +31,7 @@ from weblate.trans.feeds import (
 )
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
+import weblate.billing.views
 import weblate.lang.views
 import weblate.trans.admin_views
 import weblate.trans.views.acl
@@ -837,3 +839,12 @@ urlpatterns = [
         name="search"
     ),
 ]
+
+if 'weblate.billing' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        url(
+            r'^invoice/(?P<pk>[0-9]+)/download/$',
+            weblate.billing.views.download_invoice,
+            name='invoice-download',
+        ),
+    ]

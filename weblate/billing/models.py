@@ -170,6 +170,12 @@ class Invoice(models.Model):
     def __str__(self):
         return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
 
+    @property
+    def filename(self):
+        if self.ref:
+            return '{0}.pdf'.format(self.ref)
+        return None
+
     def clean(self):
         if self.end is None or self.start is None:
             return
