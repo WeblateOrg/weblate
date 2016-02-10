@@ -165,8 +165,15 @@ class Invoice(models.Model):
         return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
 
     def clean(self):
+        if self.end is None or self.start is None:
+            return
+
         if self.end <= self.start:
             raise ValidationError('Start has be to before end!')
+
+        if self.billing is None:
+            return
+
         overlapping = Invoice.objects.filter(
             (Q(start__lte=self.end) & Q(end__gte=self.end)) |
             (Q(start__lte=self.start) & Q(end__gte=self.start))
