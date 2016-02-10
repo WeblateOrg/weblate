@@ -23,7 +23,9 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
@@ -161,3 +163,15 @@ class Invoice(models.Model):
 
     def __str__(self):
         return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
+
+    def clean(self):
+        if self.end <= self.start:
+            raise ValidationError('Start has be to before end!')
+        overlapping = Invoice.objects.filter(
+            (Q(start__lte=self.end) & Q(end__gte=self.end)) |
+            (Q(start__lte=self.start) & Q(end__gte=self.start))
+        ).filter(billing=self.billing)
+        if overlapping.exists():
+            raise ValidationError(
+                'Overlapping invoices exist: {0}'.format(overlapping)
+            )

@@ -24,6 +24,7 @@ from six import StringIO
 
 from django.test import TestCase
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.utils import timezone
 
@@ -38,8 +39,8 @@ class BillingTest(TestCase):
         self.billing = Billing.objects.create(user=self.user, plan=self.plan)
         self.invoice = Invoice.objects.create(
             billing=self.billing,
-            start=timezone.now() - timedelta(days=2),
-            end=timezone.now() + timedelta(days=2),
+            start=timezone.now().date() - timedelta(days=2),
+            end=timezone.now().date() + timedelta(days=2),
             payment=10,
         )
         self.projectnum = 0
@@ -78,3 +79,46 @@ class BillingTest(TestCase):
             'Following billings are over limit:\n * bill (test)\n'
             'Following billings are past due date:\n * bill (test)\n'
         )
+
+    def test_invoice_validation(self):
+        invoice = Invoice(
+            billing=self.billing,
+            start=self.invoice.start,
+            end=self.invoice.end,
+            payment=30
+        )
+        # Full overlap
+        self.assertRaises(
+            ValidationError,
+            invoice.clean
+        )
+
+        # Start overlap
+        invoice.start = self.invoice.end + timedelta(days=1)
+        self.assertRaises(
+            ValidationError,
+            invoice.clean
+        )
+
+        # Zero interval
+        invoice.end = self.invoice.end + timedelta(days=1)
+        self.assertRaises(
+            ValidationError,
+            invoice.clean
+        )
+
+        # Valid after existing
+        invoice.end = self.invoice.end + timedelta(days=2)
+        invoice.clean()
+
+        # End overlap
+        invoice.start = self.invoice.start - timedelta(days=4)
+        invoice.end = self.invoice.end
+        self.assertRaises(
+            ValidationError,
+            invoice.clean
+        )
+
+        # Valid before existing
+        invoice.end = self.invoice.start - timedelta(days=1)
+        invoice.clean()
