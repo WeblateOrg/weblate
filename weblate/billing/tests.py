@@ -64,8 +64,17 @@ class BillingTest(TestCase):
         self.assertEqual(out.getvalue(), '')
         self.add_project()
         self.add_project()
+        out = StringIO()
         call_command('billing_check', stdout=out)
         self.assertEqual(
             out.getvalue(),
             'Following billings are over limit:\n * bill (test)\n'
+        )
+        self.invoice.delete()
+        out = StringIO()
+        call_command('billing_check', stdout=out)
+        self.assertEqual(
+            out.getvalue(),
+            'Following billings are over limit:\n * bill (test)\n'
+            'Following billings are past due date:\n * bill (test)\n'
         )
