@@ -107,7 +107,7 @@ def commit_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject, True)
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
-    obj.commit_pending(None)
+    obj.commit_pending(request)
     return hook_response('Commit performed')
 
 
@@ -121,7 +121,7 @@ def commit_project(request, project):
     obj = get_project(request, project, True)
     if not obj.enable_hooks:
         return HttpResponseNotAllowed([])
-    obj.commit_pending(None)
+    obj.commit_pending(request)
     return hook_response('Commit performed')
 
 
