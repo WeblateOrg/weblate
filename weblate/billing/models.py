@@ -127,3 +127,26 @@ class Billing(models.Model):
             )
         )
     in_limits.boolean = True
+
+
+@python_2_unicode_compatible
+class Invoice(models.Model):
+    CURRENCY_EUR = 0
+    CURRENCY_BTC = 1
+
+    billing = models.ForeignKey(Billing)
+    start = models.DateField()
+    end = models.DateField()
+    payment = models.IntegerField()
+    currency = models.IntegerField(
+        choices=(
+            (CURRENCY_EUR, 'EUR'),
+            (CURRENCY_BTC, 'BTC'),
+        ),
+        default=CURRENCY_BTC
+    )
+    ref = models.CharField(blank=True, max_length=50)
+    note = models.TextField(blank=True)
+
+    def __str__(self):
+        return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
