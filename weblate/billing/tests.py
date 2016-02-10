@@ -18,13 +18,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from datetime import timedelta
+
 from six import StringIO
 
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.management import call_command
+from django.utils import timezone
 
-from weblate.billing.models import Plan, Billing
+from weblate.billing.models import Plan, Billing, Invoice
 from weblate.trans.models import Project
 
 
@@ -33,6 +36,12 @@ class BillingTest(TestCase):
         self.user = User.objects.create(username='bill')
         self.plan = Plan.objects.create(name='test', limit_projects=1, price=0)
         self.billing = Billing.objects.create(user=self.user, plan=self.plan)
+        self.invoice = Invoice.objects.create(
+            billing=self.billing,
+            start=timezone.now() - timedelta(days=2),
+            end=timezone.now() + timedelta(days=2),
+            payment=10,
+        )
         self.projectnum = 0
 
     def add_project(self):
