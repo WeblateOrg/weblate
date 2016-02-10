@@ -36,14 +36,14 @@ class PlanAdmin(admin.ModelAdmin):
 
 class BillingAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'plan', 'trial',
+        'user', 'plan', 'state',
         'list_projects',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
         'count_repositories', 'count_strings', 'count_words',
         'count_languages',
         'in_limits',
     )
-    list_filter = ('plan', 'trial')
+    list_filter = ('plan', 'state')
     search_fields = ('user__username', 'projects__name')
 
     def list_projects(self, obj):

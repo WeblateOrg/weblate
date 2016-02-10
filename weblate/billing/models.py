@@ -55,10 +55,21 @@ class Plan(models.Model):
 
 @python_2_unicode_compatible
 class Billing(models.Model):
+    STATE_ACTIVE = 0
+    STATE_TRIAL = 1
+    STATE_EXPIRED = 2
+
     plan = models.ForeignKey(Plan)
     user = models.OneToOneField(User)
     projects = models.ManyToManyField(Project, blank=True)
-    trial = models.BooleanField(default=False)
+    state = models.IntegerField(
+        choices=(
+            (STATE_ACTIVE, _('Active')),
+            (STATE_TRIAL, _('Trial')),
+            (STATE_EXPIRED, _('Expired')),
+        ),
+        default=STATE_ACTIVE,
+    )
 
     def __str__(self):
         return '{0} ({1})'.format(self.user, self.plan)
