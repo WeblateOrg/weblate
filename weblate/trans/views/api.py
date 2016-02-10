@@ -70,10 +70,10 @@ GITHUB_REPOS = (
 HOOK_HANDLERS = {}
 
 
-def hook_response():
+def hook_response(response='Update triggered'):
     """Generic okay hook response"""
     return JsonResponse(
-        data={'status': 'success', 'message': 'Update triggered'},
+        data={'status': 'success', 'message': response},
     )
 
 
@@ -95,6 +95,34 @@ def perform_update(obj):
         thread.start()
     else:
         obj.do_update()
+
+
+@csrf_exempt
+def commit_subproject(request, project, subproject):
+    '''
+    API hook for updating git repos.
+    '''
+    if not appsettings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
+    obj = get_subproject(request, project, subproject, True)
+    if not obj.project.enable_hooks:
+        return HttpResponseNotAllowed([])
+    obj.commit_pending(None)
+    return hook_response('Commit performed')
+
+
+@csrf_exempt
+def commit_project(request, project):
+    '''
+    API hook for updating git repos.
+    '''
+    if not appsettings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
+    obj = get_project(request, project, True)
+    if not obj.enable_hooks:
+        return HttpResponseNotAllowed([])
+    obj.commit_pending(None)
+    return hook_response('Commit performed')
 
 
 @csrf_exempt

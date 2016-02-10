@@ -473,6 +473,16 @@ urlpatterns = [
         name='hook-project',
     ),
     url(
+        r'^hooks/commit/' + SUBPROJECT + '$',
+        weblate.trans.views.api.commit_subproject,
+        name='hook-commit-subproject',
+    ),
+    url(
+        r'^hooks/commit/' + PROJECT + '$',
+        weblate.trans.views.api.commit_project,
+        name='hook-commit-project',
+    ),
+    url(
         r'^hooks/github/$', weblate.trans.views.api.vcs_service_hook,
         {'service': 'github'},
         name='hook-github',
