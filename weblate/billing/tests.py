@@ -122,3 +122,6 @@ class BillingTest(TestCase):
         # Valid before existing
         invoice.end = self.invoice.start - timedelta(days=1)
         invoice.clean()
+
+        # Validation of existing
+        self.invoice.clean()

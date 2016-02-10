@@ -170,7 +170,15 @@ class Invoice(models.Model):
         overlapping = Invoice.objects.filter(
             (Q(start__lte=self.end) & Q(end__gte=self.end)) |
             (Q(start__lte=self.start) & Q(end__gte=self.start))
-        ).filter(billing=self.billing)
+        ).filter(
+            billing=self.billing
+        )
+
+        if self.pk:
+            overlapping = overlapping.exclude(
+                pk=self.pk
+            )
+
         if overlapping.exists():
             raise ValidationError(
                 'Overlapping invoices exist: {0}'.format(overlapping)
