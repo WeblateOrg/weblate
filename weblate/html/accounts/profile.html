@@ -349,7 +349,7 @@
 
   {% with billing.plan as plan %}
   <table class="table">
-  <tr><th>{% trans "Current plan" %}</th><td>{{ plan.name }}</td></tr>
+  <tr><th>{% trans "Current plan" %}</th><td>{{ plan.name }}<a href="https://weblate.org/hosting/" class="btn btn-default btn-xs pull-right flip">{% trans "See other plans" %}</a></td></tr>
   <tr><th>{% trans "Monthly price" %}</th><td>{{ plan.price }} EUR</td></tr>
   <tr><th>{% trans "Yearly price" %}</th><td>{{ plan.yearly_price }} EUR</td></tr>
   <tr><th>{% trans "Strings limit" %}</th><td>{% blocktrans with plan.display_limit_strings as total and billing.count_strings as used %}Used {{ used }} from {{ total }}{% endblocktrans %}</td></tr>
