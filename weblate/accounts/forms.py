@@ -243,9 +243,9 @@ class DashboardSettingsForm(forms.ModelForm):
         '''
         Check if component list is selected when required.
         '''
-        if self.cleaned_data['dashboard_view'] == \
+        if self.cleaned_data.get('dashboard_view') == \
                 Profile.DASHBOARD_COMPONENT_LIST and \
-                self.cleaned_data['dashboard_component_list'] is None:
+                self.cleaned_data.get('dashboard_component_list') is None:
             raise forms.ValidationError(
                 _("Component list must be selected when used as default."))
 
