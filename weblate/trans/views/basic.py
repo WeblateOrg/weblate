@@ -106,27 +106,20 @@ def home(request):
 
         subscribed_projects = request.user.profile.subscriptions.all()
 
-        usersubscriptions = Translation.objects.filter(
+        components_by_language = Translation.objects.filter(
             language__in=request.user.profile.languages.all(),
-            subproject__project__in=subscribed_projects
         ).order_by(
             'subproject__project__name', 'subproject__name'
         ).select_related()
 
-        userlanguages = Translation.objects.filter(
-            language__in=request.user.profile.languages.all(),
-            subproject__project__in=projects,
-        ).order_by(
-            'subproject__project__name', 'subproject__name'
-        ).select_related()
+        usersubscriptions = components_by_language.filter(
+            subproject__project__in=subscribed_projects)
+        userlanguages = components_by_language.filter(
+            subproject__project__in=projects)
 
         for componentlist in componentlists:
-            componentlist.translations = Translation.objects.filter(
-                language__in=request.user.profile.languages.all(),
-                subproject__in=componentlist.components.all()
-            ).order_by(
-                'subproject__project__name', 'subproject__name'
-            ).select_related()
+            componentlist.translations = components_by_language.filter(
+                subproject__in=componentlist.components.all())
 
     return render(
         request,
