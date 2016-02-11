@@ -35,7 +35,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 
-from weblate.trans.models import WhiteboardMessage
+from weblate.lang.models import Language
+from weblate.trans.models import ComponentList, WhiteboardMessage
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.accounts.models import Profile
 
@@ -398,6 +399,42 @@ class HomeViewTest(ViewTestCase):
     def test_home_without_whiteboard(self):
         response = self.client.get(reverse('home'))
         self.assertNotContains(response, 'whiteboard')
+
+    def test_component_list(self):
+        cl = ComponentList(name="TestCL", slug="testcl")
+        cl.save()
+
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'TestCL')
+        self.assertEquals(len(response.context['componentlists']), 1)
+
+    def test_subscriptions(self):
+        # no subscribed projects at first
+        response = self.client.get(reverse('home'))
+        self.assertFalse(len(response.context['subscribed_projects']))
+
+        # subscribe a project
+        self.user.profile.subscriptions.add(self.project)
+        response = self.client.get(reverse('home'))
+        self.assertEquals(len(response.context['subscribed_projects']), 1)
+
+    def test_language_filters(self):
+        # check language filters
+        response = self.client.get(reverse('home'))
+        self.assertFalse(response.context['userlanguages'])
+        self.assertFalse(response.context['usersubscriptions'])
+
+        # add a language
+        lang = Language.objects.get(code='cs')
+        self.user.profile.languages.add(lang)
+        response = self.client.get(reverse('home'))
+        self.assertEquals(len(response.context['userlanguages']), 1)
+        self.assertFalse(response.context['usersubscriptions'])
+
+        # add a subscription
+        self.user.profile.subscriptions.add(self.project)
+        response = self.client.get(reverse('home'))
+        self.assertEquals(len(response.context['usersubscriptions']), 1)
 
 
 class SourceStringsTest(ViewTestCase):
