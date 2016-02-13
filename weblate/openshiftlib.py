@@ -39,7 +39,8 @@ def get_openshift_secret_key():
     name = os.getenv('OPENSHIFT_APP_NAME')
     uuid = os.getenv('OPENSHIFT_APP_UUID')
     if name is not None and uuid is not None:
-        return hashlib.sha256(name + '-' + uuid).hexdigest()
+        nameuuid = '-'.join((name, uuid))
+        return hashlib.sha256(nameuuid.encode('utf-8')).hexdigest()
 
     sys.stderr.write(
         "OPENSHIFT WARNING: Using default values for secure variables, " +
