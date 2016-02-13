@@ -873,7 +873,7 @@ class PoFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, code, base):
         """Handles creation of new translation file."""
-        with open(base, 'r') as handle:
+        with open(base, 'rb') as handle:
             data = handle.read()
         # Assume input is UTF-8 if not specified
         if b'Content-Type: text/plain; charset=CHARSET' in data:

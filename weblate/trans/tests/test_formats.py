@@ -22,6 +22,7 @@ File format specific behavior.
 '''
 from __future__ import unicode_literals
 
+import io
 import tempfile
 from unittest import TestCase, SkipTest
 
@@ -116,7 +117,10 @@ class AutoFormatTest(SimpleTestCase):
             testdata = handle.read()
 
         # Create test file
-        testfile = tempfile.NamedTemporaryFile(suffix='.{0}'.format(self.EXT))
+        testfile = tempfile.NamedTemporaryFile(
+            suffix='.{0}'.format(self.EXT),
+            mode='w+'
+        )
         try:
             # Write test data to file
             testfile.write(testdata)
@@ -157,7 +161,10 @@ class AutoFormatTest(SimpleTestCase):
     def test_add(self):
         if self.FORMAT.supports_new_language():
             self.assertTrue(self.FORMAT.is_valid_base_for_new(self.BASE))
-            out = tempfile.NamedTemporaryFile(suffix='.{0}'.format(self.EXT))
+            out = tempfile.NamedTemporaryFile(
+                suffix='.{0}'.format(self.EXT),
+                mode='w+'
+            )
             self.FORMAT.add_language(out.name, 'cs', self.BASE)
             data = out.read()
             self.assertTrue(self.MATCH in data)
@@ -314,9 +321,9 @@ class OutputTest(TestCase):
         out.write(json_input.encode('utf-8'))
         out.flush()
         JSONFormat(out.name).save()
-        with open(out.name) as handle:
+        with io.open(out.name) as handle:
             self.assertEqual(
-                handle.read().decode('UTF-8'),
+                handle.read(),
                 json_expected_output
             )
         out.close()
