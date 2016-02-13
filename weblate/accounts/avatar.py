@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-from base64 import b64encode
 import sys
 import hashlib
 import os.path
@@ -56,9 +55,11 @@ def avatar_for_email(email, size=80):
     if email == '':
         email = 'noreply@weblate.org'
 
+    mail_hash = hashlib.md5(email.lower().encode('utf-8')).hexdigest()
+
     # Retrieve from cache
     cache_key = 'avatar-{0}-{1}'.format(
-        b64encode(email.encode('utf-8')).strip(),
+        mail_hash,
         size
     )
     cache = caches['default']
@@ -77,8 +78,6 @@ def avatar_for_email(email, size=80):
 
     else:
         # Fallback to standard method
-        mail_hash = hashlib.md5(email.lower()).hexdigest()
-
         url = "{0}avatar/{1}?{2}".format(
             appsettings.AVATAR_URL_PREFIX,
             mail_hash,
@@ -112,7 +111,7 @@ def get_fallback_avatar(size):
         settings.STATIC_ROOT,
         'weblate-{0}.png'.format(size)
     )
-    with open(fallback, 'r') as handle:
+    with open(fallback, 'rb') as handle:
         return handle.read()
 
 
