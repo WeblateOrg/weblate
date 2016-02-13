@@ -67,7 +67,7 @@ class StringIOMode(BytesIO):
     StringIO with mode attribute to make ttkit happy.
     """
     def __init__(self, filename, data):
-        super(StringIOMode, self).__init__(self, data)
+        super(StringIOMode, self).__init__(data)
         self.mode = 'r'
         self.name = filename
 
