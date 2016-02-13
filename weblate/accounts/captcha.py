@@ -137,7 +137,8 @@ def checksum_question(question, timestamp):
     '''
     Returns checksum for a question.
     '''
-    sha = hashlib.sha1(settings.SECRET_KEY + question + timestamp)
+    challenge = ''.join((settings.SECRET_KEY, question, timestamp))
+    sha = hashlib.sha1(challenge.encode('utf-8'))
     return sha.hexdigest()
 
 

@@ -23,9 +23,9 @@ Tests for translation views.
 """
 
 from xml.dom import minidom
+from io import BytesIO
 
 from six.moves.urllib.parse import urlsplit
-from six import StringIO
 
 from django.test.client import RequestFactory
 from django.contrib.auth.models import Group, User
@@ -182,7 +182,7 @@ class ViewTestCase(RepoTestCase):
     def assertPNGData(self, content):
         """Checks whether data is PNG image"""
         # Try to load PNG with PIL
-        image = Image.open(StringIO(content))
+        image = Image.open(BytesIO(content))
         self.assertEqual(image.format, 'PNG')
 
     def assertSVG(self, response):
