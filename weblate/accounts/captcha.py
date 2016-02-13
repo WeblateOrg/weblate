@@ -24,7 +24,6 @@ Simple mathematical captcha.
 from __future__ import unicode_literals
 
 import ast
-import binascii
 from base64 import b64encode, b64decode
 import hashlib
 import operator
@@ -166,7 +165,7 @@ def unhash_question(question):
     timestamp = question[40:50]
     try:
         question = b64decode(question[50:]).decode('utf-8')
-    except (binascii.Error, UnicodeError):
+    except (TypeError, UnicodeError):
         raise ValueError('Invalid encoding')
     if hexsha != checksum_question(question, timestamp):
         raise ValueError('Tampered question!')
