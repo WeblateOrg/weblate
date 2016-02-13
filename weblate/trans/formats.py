@@ -1241,12 +1241,15 @@ class CSVFormat(FileFormat):
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        fileobj = StringIOMode(storefile.name, content)
+        if not isinstance(content, six.string_types):
+            content = content.decode('utf-8')
+
+        fileobj = csv.StringIO(content)
         storefile.close()
 
         # Try reading header
         reader = csv.reader(fileobj, store.dialect)
-        header = reader.next()
+        header = next(reader)
 
         # We seem to have match
         if len(header) != 2:
