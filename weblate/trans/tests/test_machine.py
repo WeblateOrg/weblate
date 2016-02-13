@@ -206,7 +206,7 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     @httpretty.activate
-    def test_google_invalidx(self):
+    def test_google_invalid(self):
         """Test handling of server failure."""
         cache.delete('%s-languages' % GoogleTranslation().mtid)
         httpretty.register_uri(
