@@ -18,10 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import functools
 import traceback
 import multiprocessing
-# pylint: disable=W0622
-from functools import reduce
 
 from django.db import models
 from django.db.models import Q
@@ -235,7 +234,7 @@ class UnitManager(models.Manager):
                 if params[param]:
                     queries.append(param)
 
-            query = reduce(
+            query = functools.reduce(
                 lambda q, value:
                 q | Q(**{'%s%s' % (value, modifier): params['q']}),
                 queries,

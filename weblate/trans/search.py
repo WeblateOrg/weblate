@@ -22,6 +22,7 @@
 Whoosh based full text search.
 '''
 
+import functools
 import shutil
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.filedb.filestore import FileStorage
@@ -250,7 +251,7 @@ def base_search(index, query, params, search, schema):
                 queries.append(
                     parser.parse(query)
                 )
-        terms = reduce(lambda x, y: x | y, queries)
+        terms = functools.reduce(lambda x, y: x | y, queries)
         return [result['pk'] for result in searcher.search(terms)]
 
 
