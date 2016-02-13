@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from base64 import b64encode
 import sys
 import hashlib
 import os.path
@@ -57,7 +58,7 @@ def avatar_for_email(email, size=80):
 
     # Retrieve from cache
     cache_key = 'avatar-{0}-{1}'.format(
-        email.encode('base64').strip(),
+        b64encode(email.encode('utf-8')).strip(),
         size
     )
     cache = caches['default']
