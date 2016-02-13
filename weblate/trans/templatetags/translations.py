@@ -325,21 +325,21 @@ def naturaltime_past(value, now):
     delta = now - value
 
     if delta.days >= 365:
-        count = delta.days / 365
+        count = delta.days // 365
         if count == 1:
             return _('a year ago')
         return ungettext(
             '%(count)s year ago', '%(count)s years ago', count
         ) % {'count': count}
     elif delta.days >= 30:
-        count = delta.days / 30
+        count = delta.days // 30
         if count == 1:
             return _('a month ago')
         return ungettext(
             '%(count)s month ago', '%(count)s months ago', count
         ) % {'count': count}
     elif delta.days >= 14:
-        count = delta.days / 7
+        count = delta.days // 7
         return ungettext(
             '%(count)s week ago', '%(count)s weeks ago', count
         ) % {'count': count}
@@ -386,21 +386,21 @@ def naturaltime_future(value, now):
     delta = value - now
 
     if delta.days >= 365:
-        count = delta.days / 365
+        count = delta.days // 365
         if count == 1:
             return _('a year from now')
         return ungettext(
             '%(count)s year from now', '%(count)s years from now', count
         ) % {'count': count}
     elif delta.days >= 30:
-        count = delta.days / 30
+        count = delta.days // 30
         if count == 1:
             return _('a month from now')
         return ungettext(
             '%(count)s month from now', '%(count)s months from now', count
         ) % {'count': count}
     elif delta.days >= 14:
-        count = delta.days / 7
+        count = delta.days // 7
         return ungettext(
             '%(count)s week from now', '%(count)s weeks from now', count
         ) % {'count': count}
