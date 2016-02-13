@@ -25,6 +25,7 @@ from __future__ import unicode_literals
 
 import ast
 import binascii
+from base64 import b64encode, b64decode
 import hashlib
 import operator
 from random import randint, choice
@@ -151,7 +152,7 @@ def hash_question(question, timestamp):
     return '{0}{1}{2}'.format(
         hexsha,
         timestamp,
-        question.encode('base64')
+        b64encode(question.encode('utf-8')).decode('ascii')
     )
 
 
@@ -164,8 +165,8 @@ def unhash_question(question):
     hexsha = question[:40]
     timestamp = question[40:50]
     try:
-        question = question[50:].decode('base64')
-    except binascii.Error:
+        question = b64decode(question[50:]).decode('utf-8')
+    except (binascii.Error, UnicodeError):
         raise ValueError('Invalid encoding')
     if hexsha != checksum_question(question, timestamp):
         raise ValueError('Tampered question!')
