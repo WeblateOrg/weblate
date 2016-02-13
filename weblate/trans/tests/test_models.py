@@ -754,9 +754,8 @@ class SubProjectTest(RepoTestCase):
     def test_validation_languge_re(self):
         subproject = self.create_subproject()
         subproject.language_regex = '[-'
-        self.assertRaisesMessage(
+        self.assertRaises(
             ValidationError,
-            'Failed to compile: unexpected end of regular expression',
             subproject.full_clean
         )
 
