@@ -195,18 +195,18 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/languages',
-            body='{"data": {"languages": [ { "language": "cs" }]}}'
+            body=b'{"data": {"languages": [ { "language": "cs" }]}}'
         )
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/',
-            body='{"data":{"translations":[{"translatedText":"svet"}]}}'
+            body=b'{"data":{"translations":[{"translatedText":"svet"}]}}'
         )
         machine = GoogleTranslation()
         self.assertTranslate(machine)
 
     @httpretty.activate
-    def test_google_invalid(self):
+    def test_google_invalidx(self):
         """Test handling of server failure."""
         cache.delete('%s-languages' % GoogleTranslation().mtid)
         httpretty.register_uri(
