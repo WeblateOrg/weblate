@@ -171,11 +171,11 @@ def vcs_service_hook(request, service):
     try:
         # GitLab sends json as application/json
         if request.META['CONTENT_TYPE'] == 'application/json':
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode('utf-8'))
         # Bitbucket and GitHub sends json as x-www-form-data
         else:
             data = json.loads(request.POST['payload'])
-    except (ValueError, KeyError):
+    except (ValueError, KeyError, UnicodeError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
