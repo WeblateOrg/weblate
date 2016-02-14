@@ -727,7 +727,7 @@ class FileFormat(object):
         if cls.new_translation is None:
             raise ValueError('Not supported')
 
-        with open(filename, 'w') as output:
+        with open(filename, 'wb') as output:
             output.write(cls.new_translation)
 
     def iterate_merge(self, fuzzy):
@@ -1106,12 +1106,12 @@ class PhpFormat(FileFormat):
         This is workaround for .save() not working as intended in
         translate-toolkit.
         '''
-        with open(self.store.filename, 'r') as handle:
+        with open(self.store.filename, 'rb') as handle:
             convertor = po2php.rephp(handle, self.store)
 
             outputphplines = convertor.convertstore(False)
 
-        with open(self.store.filename, 'w') as handle:
+        with open(self.store.filename, 'wb') as handle:
             handle.writelines(outputphplines)
 
 
@@ -1177,9 +1177,9 @@ class JSONFormat(FileFormat):
         """Handles creation of new translation file."""
         content = '{}\n'
         if base:
-            with open(base, 'r') as handle:
+            with open(base, 'rb') as handle:
                 content = handle.read()
-        with open(filename, 'w') as output:
+        with open(filename, 'wb') as output:
             output.write(content)
 
     @property
@@ -1228,7 +1228,7 @@ class CSVFormat(FileFormat):
 
         # Did we get file or filename?
         if not hasattr(storefile, 'read'):
-            storefile = open(storefile, 'r')
+            storefile = open(storefile, 'rb')
 
         # Read content for fixups
         content = storefile.read()
@@ -1283,7 +1283,7 @@ class CSVSimpleFormat(CSVFormat):
 
         # Did we get file or filename?
         if not hasattr(storefile, 'read'):
-            storefile = open(storefile, 'r')
+            storefile = open(storefile, 'rb')
 
         result = storeclass(
             fieldnames=['source', 'target'],
