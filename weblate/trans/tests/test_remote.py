@@ -29,6 +29,7 @@ from django.utils import timezone
 from weblate.trans.models import SubProject
 from weblate.trans.tests.test_models import REPOWEB_URL
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.vcs import HgRepository
 
 EXTRA_PO = '''
 #: accounts/models.py:319 trans/views/basic.py:104 weblate/html/index.html:21
