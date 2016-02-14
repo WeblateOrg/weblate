@@ -51,7 +51,10 @@ class JSViewsTest(ViewTestCase):
             reverse('js-get', kwargs={'unit_id': unit.id}),
         )
         self.assertContains(response, 'Hello')
-        self.assertEqual(response.content, unit.get_source_plurals()[0])
+        self.assertEqual(
+            unit.get_source_plurals()[0],
+            response.content.decode('utf-8')
+        )
 
         response = self.client.get(
             reverse('js-get', kwargs={'unit_id': 0}),
@@ -77,7 +80,7 @@ class JSViewsTest(ViewTestCase):
             {'service': 'dummy'}
         )
         self.assertContains(response, 'Ahoj')
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(
             data['translations'],
             [
@@ -114,6 +117,6 @@ class JSViewsTest(ViewTestCase):
         self.ensure_dummy_mt()
         response = self.client.get(reverse('js-mt-services'))
         self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         # Check we have dummy service listed
         self.assertIn('dummy', data)
