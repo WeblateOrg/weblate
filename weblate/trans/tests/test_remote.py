@@ -23,6 +23,7 @@ Tests for changes done in remote repository.
 
 import shutil
 import os
+from unittest import SkipTest
 
 from django.utils import timezone
 
