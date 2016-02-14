@@ -25,6 +25,7 @@ Tests for search views.
 import re
 import shutil
 import tempfile
+import os.path
 from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
 from whoosh.fields import Schema, ID, TEXT
@@ -409,7 +410,8 @@ class SearchMigrationTest(TestCase):
         self.storage.create()
 
     def tearDown(self):
-        shutil.rmtree(self.path)
+        if os.path.exists(self.path):
+            shutil.rmtree(self.path)
         weblate.trans.search.STORAGE = self.backup
 
     def do_test(self, source, target):
