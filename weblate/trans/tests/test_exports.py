@@ -58,7 +58,7 @@ class ExportsViewTest(ViewTestCase):
         response = self.client.get(
             reverse('export_stats', kwargs=self.kw_subproject)
         )
-        parsed = json.loads(response.content)
+        parsed = json.loads(response.content.decode('utf-8'))
         self.assertEqual(parsed[0]['name'], 'Czech')
 
     def test_export_stats_jsonp(self):
