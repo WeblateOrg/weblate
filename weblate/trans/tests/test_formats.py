@@ -22,13 +22,15 @@ File format specific behavior.
 '''
 from __future__ import unicode_literals
 
+from io import BytesIO
 import io
 import tempfile
 from unittest import TestCase, SkipTest
 
-from six import StringIO
-
 from django.test import SimpleTestCase
+from django.utils.encoding import force_text
+
+import six
 
 from translate.storage.po import pofile
 
@@ -54,7 +56,7 @@ TEST_TS = get_test_file('cs.ts')
 
 class AutoLoadTest(TestCase):
     def single_test(self, filename, fileclass):
-        with open(filename, 'r') as handle:
+        with open(filename, 'rb') as handle:
             store = AutoFormat.parse(handle)
             self.assertIsInstance(store, fileclass)
 
@@ -83,10 +85,10 @@ class AutoLoadTest(TestCase):
 
     def test_content(self):
         """Test content based guess from ttkit"""
-        with open(TEST_PO, 'r') as handle:
+        with open(TEST_PO, 'rb') as handle:
             data = handle.read()
 
-        handle = StringIO(data)
+        handle = BytesIO(data)
         store = AutoFormat.parse(handle)
         self.assertIsInstance(store, AutoFormat)
         self.assertIsInstance(store.store, pofile)
@@ -113,13 +115,13 @@ class AutoFormatTest(SimpleTestCase):
 
     def test_save(self):
         # Read test content
-        with open(self.FILE, 'r') as handle:
+        with open(self.FILE, 'rb') as handle:
             testdata = handle.read()
 
         # Create test file
         testfile = tempfile.NamedTemporaryFile(
             suffix='.{0}'.format(self.EXT),
-            mode='w+'
+            mode='wb+'
         )
         try:
             # Write test data to file
@@ -133,11 +135,14 @@ class AutoFormatTest(SimpleTestCase):
             storage.save()
 
             # Read new content
-            with open(testfile.name, 'r') as handle:
+            with open(testfile.name, 'rb') as handle:
                 newdata = handle.read()
 
             # Check if content matches
-            self.assert_same(newdata, testdata)
+            self.assert_same(
+                force_text(newdata),
+                force_text(testdata)
+            )
         finally:
             testfile.close()
 
@@ -297,10 +302,13 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
-        self.assertXMLEqual(
-            newdata.replace(b'<!DOCTYPE TS>', b''),
-            testdata.replace(b'<!DOCTYPE TS>', b'')
-        )
+        newdata = newdata.replace('<!DOCTYPE TS>', '')
+        testdata = testdata.replace('<!DOCTYPE TS>', '')
+        # Magic for Python 2.x
+        if six.PY2:
+            testdata = testdata.encode('utf-8')
+            newdata = newdata.encode('utf-8')
+        super(TSFormatTest, self).assert_same(newdata, testdata)
 
 
 class OutputTest(TestCase):

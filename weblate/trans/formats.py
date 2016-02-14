@@ -727,7 +727,7 @@ class FileFormat(object):
         if cls.new_translation is None:
             raise ValueError('Not supported')
 
-        with open(filename, 'wb') as output:
+        with open(filename, 'w') as output:
             output.write(cls.new_translation)
 
     def iterate_merge(self, fuzzy):
@@ -1175,7 +1175,7 @@ class JSONFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, code, base):
         """Handles creation of new translation file."""
-        content = '{}\n'
+        content = b'{}\n'
         if base:
             with open(base, 'rb') as handle:
                 content = handle.read()
