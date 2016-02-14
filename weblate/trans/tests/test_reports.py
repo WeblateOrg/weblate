@@ -82,7 +82,7 @@ class ReportsTest(ViewTestCase):
 
     def test_credits_view_json(self):
         response = self.get_credits('json')
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(
             data,
             [{'Czech': [['noreply@weblate.org', 'Weblate Test']]}]
@@ -91,14 +91,14 @@ class ReportsTest(ViewTestCase):
     def test_credits_view_rst(self):
         response = self.get_credits('rst')
         self.assertEqual(
-            response.content,
+            response.content.decode('utf-8'),
             '\n\n* Czech\n\n    * Weblate Test <noreply@weblate.org>\n\n'
         )
 
     def test_credits_view_html(self):
         response = self.get_credits('html')
-        self.assertEqual(
-            response.content,
+        self.assertHTMLEqual(
+            response.content.decode('utf-8'),
             '<table>\n'
             '<tr>\n<th>Czech</th>\n'
             '<td><ul><li><a href="mailto:noreply@weblate.org">'
@@ -136,7 +136,7 @@ class ReportsTest(ViewTestCase):
 
     def test_counts_view_json(self):
         response = self.get_counts('json')
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         self.assertEqual(
             data,
             [{
@@ -153,8 +153,8 @@ class ReportsTest(ViewTestCase):
 
     def test_counts_view_html(self):
         response = self.get_counts('html')
-        self.assertEqual(
-            response.content,
+        self.assertHTMLEqual(
+            response.content.decode('utf-8'),
             '<table>\n'
             '<tr><th>Name</th><th>Email</th><th>Words</th><th>Count</th></tr>'
             '\n'
