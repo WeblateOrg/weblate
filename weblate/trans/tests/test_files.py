@@ -60,7 +60,7 @@ class ImportBaseTest(ViewTestCase):
         if test_file is None:
             test_file = self.test_file
 
-        with open(test_file) as handle:
+        with open(test_file, 'rb') as handle:
             params = {'file': handle}
             params.update(kwargs)
             return self.client.post(
@@ -311,7 +311,7 @@ class AndroidImportTest(ViewTestCase):
         return self.create_android()
 
     def test_import(self):
-        with open(TEST_ANDROID) as handle:
+        with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
                 reverse(
                     'upload_translation',
@@ -331,7 +331,7 @@ class CSVImportTest(ViewTestCase):
         translation = self.get_translation()
         self.assertEqual(translation.translated, 0)
         self.assertEqual(translation.fuzzy, 0)
-        with open(TEST_CSV) as handle:
+        with open(TEST_CSV, 'rb') as handle:
             self.client.post(
                 reverse(
                     'upload_translation',
