@@ -71,6 +71,8 @@ class MultiRepoTest(ViewTestCase):
             repo = self.git_repo_path
             push = self.git_repo_path
         else:
+            if not HgRepository.is_supported():
+                raise SkipTest('Mercurial not available!')
             repo = self.hg_repo_path
             push = self.hg_repo_path
         self.subproject2 = SubProject.objects.create(
