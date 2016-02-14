@@ -19,13 +19,13 @@
 #
 
 import os.path
+from io import BytesIO
 
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 
 from PIL import Image, ImageDraw
 
-from six import StringIO
 from six.moves.urllib.parse import quote
 
 from weblate.trans.fonts import is_base, get_font
@@ -242,7 +242,7 @@ class Widget(object):
         '''
         Returns PNG data.
         '''
-        out = StringIO()
+        out = BytesIO()
         if self.alpha:
             image = self.image
         else:
