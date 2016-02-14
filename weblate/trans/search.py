@@ -79,6 +79,7 @@ def create_source_index():
     '''
     Creates source string index.
     '''
+    create_index()
     return STORAGE.create_index(SourceSchema(), 'source')
 
 
@@ -86,6 +87,7 @@ def create_target_index(lang):
     '''
     Creates traget string index for given language.
     '''
+    create_index()
     return STORAGE.create_index(TargetSchema(), 'target-%s' % lang)
 
 
