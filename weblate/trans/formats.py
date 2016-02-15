@@ -675,8 +675,15 @@ class FileFormat(object):
         if store is None:
             return False
 
-        if cls.monolingual is False and str(store) == b'':
-            return False
+        if cls.monolingual is False:
+            if hasattr(store, 'serialize'):
+                # ttkit API since 1.14.0
+                storebytes = bytes(store)
+            else:
+                # ttkit API 1.13.0 and older
+                storebytes = str(store)
+            if storebytes == b'':
+                return False
 
         return True
 

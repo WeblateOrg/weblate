@@ -302,7 +302,6 @@ class ImportMoPoTest(ImportTest):
     test_file = TEST_MO
 
     def create_subproject(self):
-        # Needs to create PO file to have language pack option
         return self.create_po()
 
 
