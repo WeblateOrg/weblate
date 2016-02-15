@@ -760,13 +760,16 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
+        result = None
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         config = RawConfigParser()
         config.read(filename)
         if config.has_option(section, option):
-            return config.get(section, option).decode('utf-8')
-        return None
+            result = config.get(section, option)
+            if six.PY2:
+                result = result.decode('utf-8')
+        return result
 
     def set_config(self, path, value):
         """
