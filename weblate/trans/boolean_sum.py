@@ -18,11 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 '''
-Wrapper for Sum to work with PostgreSQL database.
-
-See also https://code.djangoproject.com/ticket/17564
+Wrapper for Sum to work on Boolean fields.
 '''
-from django.conf import settings
 from django.db.models import Sum, When, Case, IntegerField
 
 
