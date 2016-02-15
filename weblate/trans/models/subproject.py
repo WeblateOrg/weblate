@@ -1188,7 +1188,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 parsed = self.file_format_cls.parse(
                     os.path.join(dir_path, match),
                 )
-                if not self.file_format_cls.is_valid(parsed):
+                if not self.file_format_cls.is_valid(parsed.store):
                     errors.append('%s: %s' % (
                         match, _('File does not seem to be valid!')
                     ))
