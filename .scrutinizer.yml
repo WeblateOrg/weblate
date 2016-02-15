@@ -13,5 +13,8 @@ filter:
 before_commands:
     - pip install Django
 build:
-    environment:
-        python: "3.5.0"
+    dependencies:
+        before:
+            - pip install Django Whoosh translate-toolkit lxml Pillow six python-dateutil python-social-auth django-crispy-forms oauthlib django_compressor
+        override:
+            - true
