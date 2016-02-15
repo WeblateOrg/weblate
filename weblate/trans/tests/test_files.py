@@ -227,8 +227,8 @@ class ImportErrorTest(ImportBaseTest):
         response = self.do_import(test_file=TEST_BADPLURALS, follow=True)
         self.assertRedirects(response, self.translation_url)
         messages = list(response.context["messages"])
-        self.assertEquals(len(messages), 1)
-        self.assertEquals(messages[0].level, ERROR)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].level, ERROR)
         self.assertIn("Plural forms do not match", messages[0].message)
 
 

@@ -149,14 +149,14 @@ class BillingTest(TestCase):
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': self.invoice.pk})
         )
-        self.assertEquals(302, response.status_code)
+        self.assertEqual(302, response.status_code)
         # Not owner
         User.objects.create_user(username='foo', password='bar')
         self.client.login(username='foo', password='bar')
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': self.invoice.pk})
         )
-        self.assertEquals(403, response.status_code)
+        self.assertEqual(403, response.status_code)
         # Owner
         self.client.login(username='bill', password='kill')
         response = self.client.get(
@@ -173,11 +173,11 @@ class BillingTest(TestCase):
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': invoice.pk})
         )
-        self.assertEquals(404, response.status_code)
+        self.assertEqual(404, response.status_code)
         # Invoice with non existing file
         invoice.ref = 'NON'
         invoice.save()
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': invoice.pk})
         )
-        self.assertEquals(404, response.status_code)
+        self.assertEqual(404, response.status_code)
