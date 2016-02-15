@@ -75,3 +75,19 @@ class AngularJSInterpolationCheckTest(TestCase):
             u'{{nameerror}} string',
             MockUnit('angularjs_wrong_value', flags='angularjs-format')
         ))
+
+    def test_check_highlight(self):
+        highlights = self.check.check_highlight(
+            u'{{name}} {{other}} string',
+            MockUnit('angularjs_format', flags='angularjs-format'))
+        self.assertEqual(2, len(highlights))
+        self.assertEqual(0, highlights[0][0])
+        self.assertEqual(8, highlights[0][1])
+        self.assertEqual(9, highlights[1][0])
+        self.assertEqual(18, highlights[1][1])
+
+    def test_check_highlight_ignored(self):
+        highlights = self.check.check_highlight(
+            u'{{name}} {{other}} string',
+            MockUnit('angularjs_format', flags='ignore-angularjs-format'))
+        self.assertEqual([], highlights)
