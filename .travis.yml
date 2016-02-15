@@ -45,18 +45,15 @@ notifications:
     - https://buildtimetrend.herokuapp.com/travis
 matrix:
   include:
-    - python: "3.4"
+    - python: "3.3"
       env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master"
     - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master" CI_MODE=lint
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master" CI_MODE=selenium
-  allow_failures:
-    - python: "3.4"
       env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master"
-    - python: "3.4"
+    - python: "3.5"
+      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master"
+    - python: "3.5"
       env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master" CI_MODE=lint
-    - python: "3.4"
+    - python: "3.5"
       env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/master" CI_MODE=selenium
 addons:
   apt:
