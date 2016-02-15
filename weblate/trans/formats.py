@@ -417,6 +417,16 @@ class FileFormat(object):
     new_translation = None
     autoload = ()
 
+    @staticmethod
+    def serialize(store):
+        """Serialize given ttkit store"""
+        if hasattr(store, 'serialize'):
+            # ttkit API since 1.14.0
+            return bytes(store)
+        else:
+            # ttkit API 1.13.0 and older
+            return str(store)
+
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):
         """Parses store and returns FileFormat instance."""
@@ -676,13 +686,7 @@ class FileFormat(object):
             return False
 
         if cls.monolingual is False:
-            if hasattr(store, 'serialize'):
-                # ttkit API since 1.14.0
-                storebytes = bytes(store)
-            else:
-                # ttkit API 1.13.0 and older
-                storebytes = str(store)
-            if storebytes == b'':
+            if cls.serialize(store) == b'':
                 return False
 
         return True
@@ -832,7 +836,7 @@ class PoFormat(FileFormat):
                     mounit.msgctxt = [context]
             mounit.target = unit.target
             outputfile.addunit(mounit)
-        return str(outputfile)
+        return self.serialize(outputfile)
 
     def get_language_pack_meta(self):
         '''
@@ -1248,7 +1252,7 @@ class CSVFormat(FileFormat):
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        if not isinstance(content, six.string_types):
+        if not isinstance(content, six.string_types) and six.PY3:
             content = content.decode('utf-8')
 
         fileobj = csv.StringIO(content)
@@ -1264,7 +1268,10 @@ class CSVFormat(FileFormat):
             return store
 
         result = storeclass(fieldnames=['source', 'target'])
-        result.parse(content.encode('utf-8'))
+        if six.PY3:
+            result.parse(content.encode('utf-8'))
+        else:
+            result.parse(content)
         return result
 
 
