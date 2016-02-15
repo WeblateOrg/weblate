@@ -15,7 +15,8 @@ before_commands:
 build:
     dependencies:
         before:
-            - pip install Django Whoosh translate-toolkit lxml Pillow six python-dateutil python-social-auth django-crispy-forms oauthlib django_compressor coverage
+            - pip install https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e
+            - pip install Django Whoosh lxml Pillow six python-dateutil python-social-auth django-crispy-forms oauthlib django_compressor coverage chardet
         override:
             - true
     tests:
