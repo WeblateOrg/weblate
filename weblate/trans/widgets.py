@@ -350,11 +350,6 @@ class ShieldsBadgeWidget(Widget):
     order = 80
 
     def redirect(self):
-        if ENABLE_HTTPS:
-            proto = 'https'
-        else:
-            proto = 'http'
-
         if self.percent > 90:
             color = 'brightgreen'
         elif self.percent > 75:
@@ -362,8 +357,7 @@ class ShieldsBadgeWidget(Widget):
         else:
             color = 'red'
 
-        return '{0}://img.shields.io/badge/{1}-{2}-{3}.svg'.format(
-            proto,
+        return 'https://img.shields.io/badge/{0}-{1}-{2}.svg'.format(
             quote(_('translated').encode('utf-8')),
             '{0}%25'.format(int(self.percent)),
             color
