@@ -38,7 +38,6 @@ if django.VERSION < (1, 4, 0):
 #
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

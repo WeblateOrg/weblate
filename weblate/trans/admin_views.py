@@ -28,6 +28,8 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 import django
 
+import six
+
 from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
 from weblate import appsettings
@@ -65,6 +67,23 @@ def report(request):
         "admin/report.html",
         context,
     )
+
+
+def get_first_loader():
+    """Returns first loader from settings"""
+    if settings.TEMPLATES:
+        loaders = settings.TEMPLATES[0].get(
+            'OPTIONS', {}
+        ).get(
+            'loaders', [['']]
+        )
+    else:
+        loaders = settings.TEMPLATE_LOADERS
+
+    if isinstance(loaders[0], six.string_types):
+        return loaders[0]
+
+    return loaders[0][0]
 
 
 @staff_member_required
@@ -194,19 +213,13 @@ def performance(request):
         ', '.join(settings.ALLOWED_HOSTS),
     ))
 
-    if settings.TEMPLATES:
-        loader = settings.TEMPLATES[0].get(
-            'OPTIONS', {}
-        ).get(
-            'loaders', [['']]
-        )[0][0]
-    else:
-        loader = settings.TEMPLATE_LOADERS[0][0]
+    loader = get_first_loader()
     # Cached template loader
     checks.append((
         _('Cached template loader'),
         'cached.Loader' in loader,
         'production-templates',
+        loader,
     ))
 
     # Check for serving static files
