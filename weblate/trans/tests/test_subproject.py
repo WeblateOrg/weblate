@@ -75,52 +75,6 @@ class SubProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.get_path()))
         self.assertEqual('po/*.po', project.filemask)
 
-    def test_rename(self):
-        subproject = self.create_subproject()
-        old_path = subproject.get_path()
-        self.assertTrue(os.path.exists(old_path))
-        subproject.slug = 'changed'
-        subproject.save()
-        self.assertFalse(os.path.exists(old_path))
-        self.assertTrue(os.path.exists(subproject.get_path()))
-
-    def test_delete(self):
-        project = self.create_subproject()
-        self.assertTrue(os.path.exists(project.get_path()))
-        project.delete()
-        self.assertFalse(os.path.exists(project.get_path()))
-        self.assertEqual(0, SubProject.objects.count())
-
-    @OverrideSettings(OFFLOAD_INDEXING=False)
-    def test_delete_no_offload(self):
-        project = self.create_subproject()
-        project.delete()
-        self.assertEqual(0, IndexUpdate.objects.count())
-
-    @OverrideSettings(OFFLOAD_INDEXING=True)
-    def test_delete_offload(self):
-        project = self.create_subproject()
-        project.delete()
-        self.assertEqual(
-            12, IndexUpdate.objects.count()
-        )
-        self.assertEqual(
-            12, IndexUpdate.objects.filter(to_delete=True).count()
-        )
-
-    def test_delete_link(self):
-        project = self.create_link()
-        main_project = SubProject.objects.get(slug='test')
-        self.assertTrue(os.path.exists(main_project.get_path()))
-        project.delete()
-        self.assertTrue(os.path.exists(main_project.get_path()))
-
-    def test_delete_all(self):
-        project = self.create_subproject()
-        self.assertTrue(os.path.exists(project.get_path()))
-        SubProject.objects.all().delete()
-        self.assertFalse(os.path.exists(project.get_path()))
-
     def test_create_iphone(self):
         project = self.create_iphone()
         self.verify_subproject(project, 1, 'cs', 4)
@@ -307,6 +261,124 @@ class SubProjectTest(RepoTestCase):
             project.full_clean
         )
 
+    def test_lang_code_template(self):
+        subproject = SubProject(project=Project())
+        subproject.filemask = 'Solution/Project/Resources.*.resx'
+        subproject.template = 'Solution/Project/Resources.resx'
+        self.assertEqual(
+            subproject.get_lang_code('Solution/Project/Resources.resx'),
+            'en'
+        )
+
+
+class SubProjectDeleteTest(RepoTestCase):
+    """
+    SubProject object deleting testing.
+    """
+    def test_delete(self):
+        project = self.create_subproject()
+        self.assertTrue(os.path.exists(project.get_path()))
+        project.delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+        self.assertEqual(0, SubProject.objects.count())
+
+    @OverrideSettings(OFFLOAD_INDEXING=False)
+    def test_delete_no_offload(self):
+        project = self.create_subproject()
+        project.delete()
+        self.assertEqual(0, IndexUpdate.objects.count())
+
+    @OverrideSettings(OFFLOAD_INDEXING=True)
+    def test_delete_offload(self):
+        project = self.create_subproject()
+        project.delete()
+        self.assertEqual(
+            12, IndexUpdate.objects.count()
+        )
+        self.assertEqual(
+            12, IndexUpdate.objects.filter(to_delete=True).count()
+        )
+
+    def test_delete_link(self):
+        project = self.create_link()
+        main_project = SubProject.objects.get(slug='test')
+        self.assertTrue(os.path.exists(main_project.get_path()))
+        project.delete()
+        self.assertTrue(os.path.exists(main_project.get_path()))
+
+    def test_delete_all(self):
+        project = self.create_subproject()
+        self.assertTrue(os.path.exists(project.get_path()))
+        SubProject.objects.all().delete()
+        self.assertFalse(os.path.exists(project.get_path()))
+
+
+class SubProjectChangeTest(RepoTestCase):
+    """
+    SubProject object change testing.
+    """
+    def test_rename(self):
+        subproject = self.create_subproject()
+        old_path = subproject.get_path()
+        self.assertTrue(os.path.exists(old_path))
+        subproject.slug = 'changed'
+        subproject.save()
+        self.assertFalse(os.path.exists(old_path))
+        self.assertTrue(os.path.exists(subproject.get_path()))
+
+    def test_change_project(self):
+        subproject = self.create_subproject()
+
+        # Create and verify suggestion
+        Suggestion.objects.create(
+            project=subproject.project,
+            contentsum='x',
+            language=subproject.translation_set.all()[0].language,
+        )
+        self.assertEqual(subproject.project.suggestion_set.count(), 1)
+
+        # Check current path exists
+        old_path = subproject.get_path()
+        self.assertTrue(os.path.exists(old_path))
+
+        # Crete target project
+        second = Project.objects.create(
+            name='Test2',
+            slug='test2',
+            web='https://weblate.org/'
+        )
+
+        # Move component
+        subproject.project = second
+        subproject.save()
+
+        # Check new path exists
+        new_path = subproject.get_path()
+        self.assertTrue(os.path.exists(new_path))
+
+        # Check paths differ
+        self.assertNotEqual(old_path, new_path)
+
+        # Check suggestion has been copied
+        self.assertEqual(subproject.project.suggestion_set.count(), 1)
+
+    def test_change_to_mono(self):
+        """Test swtiching to monolingual format on the fly."""
+        component = self._create_subproject(
+            'po',
+            'po-mono/*.po',
+        )
+        self.assertEqual(component.translation_set.count(), 4)
+        component.file_format = 'po-mono'
+        component.template = 'po-mono/en.po'
+        component.save()
+        self.assertEqual(component.translation_set.count(), 4)
+
+
+class SubProjectValidationTest(RepoTestCase):
+    """
+    SubProject object validation testing.
+    """
     def test_validation(self):
         project = self.create_subproject()
         # Correct project
@@ -434,18 +506,6 @@ class SubProjectTest(RepoTestCase):
         # With correct format it should validate
         subproject.full_clean()
 
-    def test_change_to_mono(self):
-        """Test swtiching to monolingual format on the fly."""
-        component = self._create_subproject(
-            'po',
-            'po-mono/*.po',
-        )
-        self.assertEqual(component.translation_set.count(), 4)
-        component.file_format = 'po-mono'
-        component.template = 'po-mono/en.po'
-        component.save()
-        self.assertEqual(component.translation_set.count(), 4)
-
     def test_lang_code(self):
         subproject = SubProject()
         subproject.filemask = 'Solution/Project/Resources.*.resx'
@@ -471,48 +531,3 @@ class SubProjectTest(RepoTestCase):
                 'Solution/Project/Resources.fr-fr.resx',
             ]
         )
-
-    def test_lang_code_template(self):
-        subproject = SubProject(project=Project())
-        subproject.filemask = 'Solution/Project/Resources.*.resx'
-        subproject.template = 'Solution/Project/Resources.resx'
-        self.assertEqual(
-            subproject.get_lang_code('Solution/Project/Resources.resx'),
-            'en'
-        )
-
-    def test_change_project(self):
-        subproject = self.create_subproject()
-
-        # Create and verify suggestion
-        Suggestion.objects.create(
-            project=subproject.project,
-            contentsum='x',
-            language=subproject.translation_set.all()[0].language,
-        )
-        self.assertEqual(subproject.project.suggestion_set.count(), 1)
-
-        # Check current path exists
-        old_path = subproject.get_path()
-        self.assertTrue(os.path.exists(old_path))
-
-        # Crete target project
-        second = Project.objects.create(
-            name='Test2',
-            slug='test2',
-            web='https://weblate.org/'
-        )
-
-        # Move component
-        subproject.project = second
-        subproject.save()
-
-        # Check new path exists
-        new_path = subproject.get_path()
-        self.assertTrue(os.path.exists(new_path))
-
-        # Check paths differ
-        self.assertNotEqual(old_path, new_path)
-
-        # Check suggestion has been copied
-        self.assertEqual(subproject.project.suggestion_set.count(), 1)
