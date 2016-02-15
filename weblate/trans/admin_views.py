@@ -194,6 +194,14 @@ def performance(request):
         ', '.join(settings.ALLOWED_HOSTS),
     ))
 
+    if settings.TEMPLATES:
+        loader = settings.TEMPLATES[0].get(
+            'OPTIONS', {}
+        ).get(
+            'loaders', [['']]
+        )[0][0]
+    else:
+        loader = settings.TEMPLATE_LOADERS[0][0]
     # Cached template loader
     checks.append((
         _('Cached template loader'),
