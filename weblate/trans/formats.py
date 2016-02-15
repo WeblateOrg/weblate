@@ -1250,14 +1250,15 @@ class CSVFormat(FileFormat):
         # Try reading header
         reader = csv.reader(fileobj, store.dialect)
         header = next(reader)
+        fileobj.close()
 
         # We seem to have match
         if len(header) != 2:
-            fileobj.close()
             return store
 
-        fileobj.seek(0)
-        return storeclass(fileobj, ['source', 'target'])
+        result = storeclass(fieldnames=['source', 'target'])
+        result.parse(content.encode('utf-8'))
+        return result
 
 
 @register_fileformat
