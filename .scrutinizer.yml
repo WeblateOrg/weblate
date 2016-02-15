@@ -20,7 +20,7 @@ build:
     tests:
         override:
             -
-                command: ./manage.py collectstatic
+                command: ./manage.py collectstatic --settings=weblate.settings_test
             -
                 command: coverage run --source . ./manage.py test --settings=weblate.settings_test
                 coverage:
