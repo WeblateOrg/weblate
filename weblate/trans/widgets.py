@@ -29,7 +29,6 @@ from PIL import Image, ImageDraw
 from six.moves.urllib.parse import quote
 
 from weblate.trans.fonts import is_base, get_font
-from weblate.appsettings import ENABLE_HTTPS
 
 
 COLOR_DATA = {
