@@ -908,10 +908,8 @@ class Unit(models.Model, LoggerMixin):
             self.source_checks().values_list('check', flat=True)
         )
 
-        # Run all checks
-        for check in checks_to_run:
-            check_obj = CHECKS[check]
-            # Target check
+        # Run all source checks
+        for check, check_obj in checks_to_run.items():
             if check_obj.target and check_obj.check_target(src, tgt, self):
                 if check in old_target_checks:
                     # We already have this check
@@ -927,7 +925,8 @@ class Unit(models.Model, LoggerMixin):
                         for_unit=self.pk
                     )
                     was_change = True
-            # Source check
+        # Run all source checks
+        for check, check_obj in checks_to_run.items():
             if check_obj.source and check_obj.check_source(src, self):
                 if check in old_source_checks:
                     # We already have this check
