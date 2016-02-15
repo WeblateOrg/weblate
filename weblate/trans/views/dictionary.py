@@ -166,7 +166,6 @@ def upload_dictionary(request, project, lang):
                 )
             )
         except Exception as error:
-            raise
             report_error(error, sys.exc_info(), request)
             messages.error(
                 request, _('File upload has failed: %s') % force_text(error)
