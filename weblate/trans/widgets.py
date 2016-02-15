@@ -313,9 +313,9 @@ class BadgeWidget(Widget):
     order = 90
 
     def get_filename(self):
-        if self.percent > 90:
+        if self.percent >= 90:
             mode = 'passing'
-        elif self.percent > 75:
+        elif self.percent >= 75:
             mode = 'medium'
         else:
             mode = 'failing'
@@ -350,20 +350,14 @@ class ShieldsBadgeWidget(Widget):
     order = 80
 
     def redirect(self):
-        if ENABLE_HTTPS:
-            proto = 'https'
-        else:
-            proto = 'http'
-
-        if self.percent > 90:
+        if self.percent >= 90:
             color = 'brightgreen'
-        elif self.percent > 75:
+        elif self.percent >= 75:
             color = 'yellow'
         else:
             color = 'red'
 
-        return '{0}://img.shields.io/badge/{1}-{2}-{3}.svg'.format(
-            proto,
+        return 'https://img.shields.io/badge/{0}-{1}-{2}.svg'.format(
             quote(_('translated').encode('utf-8')),
             '{0}%25'.format(int(self.percent)),
             color
@@ -394,9 +388,9 @@ class SVGBadgeWidget(Widget):
         font = get_font(11, False, is_base(percent_text))
         percent_width = font.getsize(percent_text)[0] + 7
 
-        if self.percent > 90:
+        if self.percent >= 90:
             color = '#4c1'
-        elif self.percent > 75:
+        elif self.percent >= 75:
             color = '#dfb317'
         else:
             color = '#e05d44'

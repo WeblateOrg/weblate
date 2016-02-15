@@ -33,6 +33,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.test_models import RepoTestCase
+from weblate.trans.tests.test_views import ViewTestCase
 
 
 class SubProjectTest(RepoTestCase):
@@ -601,4 +602,54 @@ class SubProjectErrorTest(RepoTestCase):
         self.assertRaises(
             ParseError,
             lambda: self.component.template_store
+        )
+
+
+class SubProjectEditTest(ViewTestCase):
+    """Tests for error handling"""
+    def remove_units(self, store):
+        if store is not None:
+            store.units = []
+            store.save()
+
+    def test_unit_disappear(self):
+        translation = self.subproject.translation_set.get(language_code='cs')
+
+        self.remove_units(self.subproject.template_store)
+        self.remove_units(translation.store.store)
+
+        # Clean class cache, pylint: disable=W0212
+        self.subproject._template_store = None
+        translation._store = None
+
+        unit = translation.unit_set.all()[0]
+        request = self.get_request('/')
+
+        self.assertFalse(
+            unit.translate(request, ['Empty'], False)
+        )
+
+
+class SubProjectEditMonoTest(SubProjectEditTest):
+    """Tests for error handling"""
+    def create_subproject(self):
+        return self.create_ts_mono()
+
+    def remove_units(self, store):
+        store.parse(store.XMLskeleton.replace("\n", "").encode('utf-8'))
+        store.save()
+
+    def test_unit_add(self):
+        translation = self.subproject.translation_set.get(language_code='cs')
+
+        self.remove_units(translation.store.store)
+
+        # Clean class cache, pylint: disable=W0212
+        translation._store = None
+
+        unit = translation.unit_set.all()[0]
+        request = self.get_request('/')
+
+        self.assertTrue(
+            unit.translate(request, ['Empty'], False)
         )
