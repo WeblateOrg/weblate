@@ -34,6 +34,7 @@ class LoadClassTest(TestCase):
 
     def test_invalid_name(self):
         assertRaisesRegex(
+            self,
             ImproperlyConfigured,
             'Error importing class unittest in TEST: .*"'
             '(not enough|need more than)',
@@ -42,6 +43,7 @@ class LoadClassTest(TestCase):
 
     def test_invalid_module(self):
         assertRaisesRegex(
+            self,
             ImproperlyConfigured,
             'weblate.trans.tests.missing in TEST: "'
             'No module named .*missing["\']',
@@ -50,6 +52,7 @@ class LoadClassTest(TestCase):
 
     def test_invalid_class(self):
         assertRaisesRegex(
+            self,
             ImproperlyConfigured,
             '"weblate.trans.tests.test_utils" does not define a "Foo" class',
             load_class, 'weblate.trans.tests.test_utils.Foo', 'TEST'
