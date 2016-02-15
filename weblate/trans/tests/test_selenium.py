@@ -23,7 +23,7 @@ from unittest import SkipTest
 import time
 import os
 import json
-import base64
+from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
 from django.test import LiveServerTestCase
@@ -103,9 +103,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             # Use Sauce connect
             cls.username = os.environ['SAUCE_USERNAME']
             cls.key = os.environ['SAUCE_ACCESS_KEY']
-            cls.sauce_auth = base64.encodestring(
-                '{}:{}'.format(cls.username, cls.key)
-            )[:-1]
+            cls.sauce_auth = b64encode(
+                '{}:{}'.format(cls.username, cls.key).encode('utf-8')
+            )
             cls.driver = webdriver.Remote(
                 desired_capabilities=cls.caps,
                 command_executor="http://{0}:{1}@{2}/wd/hub".format(
