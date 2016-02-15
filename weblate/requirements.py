@@ -107,7 +107,7 @@ def get_versions():
         name,
         url,
         mod.get_version(),
-        '1.7',
+        '1.8',
     ))
 
     name = 'six'
