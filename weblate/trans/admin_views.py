@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import os.path
+
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
@@ -223,13 +225,14 @@ def performance(request):
     ))
 
     # Check for serving static files
-    # This uses CSS magic to hide this check when CSS is properly loaded.
+    print os.path.join(settings.STATIC_ROOT, 'admin', 'js', 'core.jsx')
     checks.append((
         _('Admin static files'),
-        False,
+        os.path.exists(
+            os.path.join(settings.STATIC_ROOT, 'admin', 'js', 'core.js')
+        ),
         'production-admin-files',
-        '',
-        'order-cell',
+        settings.STATIC_ROOT,
     ))
 
     context = admin_context(request)
