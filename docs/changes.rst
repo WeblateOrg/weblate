@@ -35,6 +35,7 @@ Released on ? 2015.
 * Added extensive group based ACLs.
 * Clarified terminology on strings needing review (formerly fuzzy).
 * Clarified terminology on strings needing action and not translated strings.
+* Support for Python 3.
 
 weblate 2.4
 -----------
