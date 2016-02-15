@@ -225,7 +225,6 @@ def performance(request):
     ))
 
     # Check for serving static files
-    print os.path.join(settings.STATIC_ROOT, 'admin', 'js', 'core.jsx')
     checks.append((
         _('Admin static files'),
         os.path.exists(
