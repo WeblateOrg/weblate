@@ -48,15 +48,19 @@ class Command(WeblateCommand):
         ),
     )
 
+    def optimize_index(self):
+        """Optimizes index structures"""
+        index = get_source_index()
+        index.optimize()
+        languages = Language.objects.have_translation()
+        for lang in languages:
+            index = get_target_index(lang.code)
+            index.optimize()
+
     def handle(self, *args, **options):
         # Optimize index
         if options['optimize']:
-            index = get_source_index()
-            index.optimize()
-            languages = Language.objects.have_translation()
-            for lang in languages:
-                index = get_target_index(lang.code)
-                index.optimize()
+            self.optimize_index()
             return
         # Optionally rebuild indices from scratch
         if options['clean']:
@@ -82,5 +86,5 @@ class Command(WeblateCommand):
         finally:
             # Close all writers
             source_writer.commit()
-            for lang in target_writers:
-                target_writers[lang].commit()
+            for code in target_writers:
+                target_writers[code].commit()
