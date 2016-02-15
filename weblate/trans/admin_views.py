@@ -205,7 +205,7 @@ def performance(request):
     # Cached template loader
     checks.append((
         _('Cached template loader'),
-        'cached.Loader' in settings.TEMPLATE_LOADERS[0][0],
+        'cached.Loader' in loader,
         'production-templates',
     ))
 
