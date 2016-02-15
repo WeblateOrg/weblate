@@ -322,9 +322,8 @@ def clean_search_unit(pk, lang):
 
 def delete_search_unit(pk, lang):
     try:
-        index = get_target_index(lang)
-        index.writer().delete_by_term('pk', pk)
-        index = get_source_index()
-        index.writer().delete_by_term('pk', pk)
+        for index in (get_source_index(), get_target_index(lang)):
+            with AsyncWriter(index) as writer:
+                writer.delete_by_term('pk', pk)
     except IOError:
         return
