@@ -1,0 +1,14 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+tools:
+    pylint:
+        python_version: '2'
+        config_file: 'ci/pylint-scrutinizer.rc'
+filter:
+    excluded_paths:
+        - '*/test/*'
+        - '*/migrations/*'
+before_commands:
+    - pip install -r requirements.txt
