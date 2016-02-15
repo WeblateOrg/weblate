@@ -18,3 +18,10 @@ build:
             - pip install Django Whoosh translate-toolkit lxml Pillow six python-dateutil python-social-auth django-crispy-forms oauthlib django_compressor
         override:
             - true
+    tests:
+        override:
+            -
+                command: ./manage.py test --settings=weblate.settings_test
+                coverage:
+                    file: .coverage
+                    format: py-cc
