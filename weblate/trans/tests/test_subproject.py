@@ -27,6 +27,7 @@ import shutil
 
 from django.core.exceptions import ValidationError
 
+from weblate.trans.formats import ParseError
 from weblate.trans.models import (
     Project, SubProject, Unit, Suggestion, IndexUpdate,
 )
@@ -543,7 +544,7 @@ class SubProjectErrorTest(RepoTestCase):
 
     def setUp(self):
         super(SubProjectErrorTest, self).setUp()
-        self.component = self.create_subproject()
+        self.component = self.create_ts_mono()
         # Change to invalid pull/push URL
         self.component.repository.configure_remote(
             'file:/dev/null',
@@ -577,4 +578,27 @@ class SubProjectErrorTest(RepoTestCase):
         )
         self.assertFalse(
             self.component.do_reset(None)
+        )
+
+    def test_invalid_storage(self):
+        testfile = os.path.join(self.component.get_path(), 'ts-mono', 'cs.ts')
+        with open(testfile, 'a') as handle:
+            handle.write('CHANGE')
+        translation = self.component.translation_set.get(language_code='cs')
+        self.assertRaises(
+            ParseError,
+            lambda: translation.store
+        )
+
+    def test_invalid_template_storage(self):
+        testfile = os.path.join(self.component.get_path(), 'ts-mono', 'en.ts')
+        with open(testfile, 'a') as handle:
+            handle.write('CHANGE')
+
+        # Clean class cache, pylint: disable=W0212
+        self.component._template_store = None
+
+        self.assertRaises(
+            ParseError,
+            lambda: self.component.template_store
         )
