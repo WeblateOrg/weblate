@@ -34,6 +34,7 @@ from django.utils import timezone
 from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
 
+from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.models import (
     Project, SubProject, Source, Unit, WhiteboardMessage, Check,
     get_related_units,
@@ -299,6 +300,15 @@ class RepoTestCase(TestCase):
             'xliff',
             'xliff-mono/*.xlf',
             'xliff-mono/en.xlf',
+        )
+
+    def create_resx(self):
+        if 'resx' not in FILE_FORMATS:
+            raise SkipTest('resx not supported')
+        return self._create_subproject(
+            'resx',
+            'resx/*.resx',
+            'resx/en.resx',
         )
 
     def create_link(self):

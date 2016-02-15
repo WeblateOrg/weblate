@@ -211,6 +211,10 @@ class SubProjectTest(RepoTestCase):
         project = self.create_xliff('Resname')
         self.verify_subproject(project, 1, 'en', 2, 'Hi')
 
+    def test_create_resx(self):
+        project = self.create_resx()
+        self.verify_subproject(project, 2, 'cs', 4)
+
     def test_link(self):
         project = self.create_link()
         self.verify_subproject(project, 3, 'cs', 4)
