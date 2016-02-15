@@ -45,8 +45,6 @@ notifications:
     - https://buildtimetrend.herokuapp.com/travis
 matrix:
   include:
-    - python: "3.3"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e"
     - python: "3.4"
       env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e"
     - python: "3.5"
