@@ -23,6 +23,7 @@ Tests for translation models.
 """
 
 import os
+import shutil
 
 from django.core.exceptions import ValidationError
 
@@ -530,4 +531,46 @@ class SubProjectValidationTest(RepoTestCase):
                 'Solution/Project/Resources.fr.resx',
                 'Solution/Project/Resources.fr-fr.resx',
             ]
+        )
+
+
+class SubProjectErrorTest(RepoTestCase):
+    """Tests for error handling"""
+
+    def setUp(self):
+        super(SubProjectErrorTest, self).setUp()
+        self.component = self.create_subproject()
+        # Change to invalid pull/push URL
+        self.component.repository.configure_remote(
+            'file:/dev/null',
+            'file:/dev/null',
+            'master'
+        )
+
+    def test_failed_update(self):
+        self.assertFalse(
+            self.component.do_update()
+        )
+
+    def test_failed_update_remote(self):
+        self.assertFalse(
+            self.component.update_remote_branch()
+        )
+
+    def test_failed_push(self):
+        testfile = os.path.join(self.component.get_path(), 'README.md')
+        with open(testfile, 'a') as handle:
+            handle.write('CHANGE')
+        self.component.repository.commit('test', files=['README.md'])
+        self.assertFalse(
+            self.component.do_push(None)
+        )
+
+    def test_failed_reset(self):
+        # Corrupt Git database so that reset fails
+        shutil.rmtree(
+            os.path.join(self.component.get_path(), '.git', 'objects', 'pack')
+        )
+        self.assertFalse(
+            self.component.do_reset(None)
         )
