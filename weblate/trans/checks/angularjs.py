@@ -65,3 +65,12 @@ class AngularJSInterpolationCheck(TargetCheck):
         tgt_tags = set([re.sub(WHITESPACE, '', x) for x in tgt_match])
 
         return src_tags != tgt_tags
+
+    def check_highlight(self, source, unit):
+        if self.should_skip(unit):
+            return []
+        ret = []
+        match_objects = ANGULARJS_INTERPOLATION_MATCH.finditer(source)
+        for match in match_objects:
+            ret.append((match.start(), match.end(), match.group()))
+        return ret
