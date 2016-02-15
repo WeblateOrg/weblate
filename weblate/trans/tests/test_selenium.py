@@ -22,10 +22,6 @@ from __future__ import print_function
 from unittest import SkipTest
 import time
 import os
-try:
-    from types import new_class
-except ImportError:
-    from new import classobj as new_class
 import json
 import base64
 from six.moves.http_client import HTTPConnection
@@ -318,16 +314,16 @@ def create_extra_classes():
     Create classes for testing with other browsers
     '''
     classes = {}
-    for platform in EXTRA_PLATFORMS:
-        classdict = dict(SeleniumTests.__dict__)
+    for platform, caps in EXTRA_PLATFORMS.items():
         name = '{}_{}'.format(
             platform,
             SeleniumTests.__name__,
         )
+        classdict = dict(SeleniumTests.__dict__)
         classdict.update({
-            'caps': EXTRA_PLATFORMS[platform],
+            'caps': caps,
         })
-        classes[name] = new_class(name, (SeleniumTests,), classdict)
+        classes[name] = type(name, (SeleniumTests,), classdict)
 
     globals().update(classes)
 
