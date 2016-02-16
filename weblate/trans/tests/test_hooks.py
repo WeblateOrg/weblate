@@ -395,6 +395,19 @@ class HooksViewTest(ViewTestCase):
         Test for hooks disabling.
         '''
         response = self.client.get(
+            reverse('hook-commit-project', kwargs={
+                'project': self.subproject.project.slug
+            })
+        )
+        self.assertEqual(response.status_code, 405)
+        response = self.client.get(
+            reverse('hook-commit-subproject', kwargs={
+                'project': self.subproject.project.slug,
+                'subproject': self.subproject.slug,
+            })
+        )
+        self.assertEqual(response.status_code, 405)
+        response = self.client.get(
             reverse('hook-project', kwargs={
                 'project': self.subproject.project.slug
             })
