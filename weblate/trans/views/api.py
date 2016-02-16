@@ -70,10 +70,10 @@ GITHUB_REPOS = (
 HOOK_HANDLERS = {}
 
 
-def hook_response(response='Update triggered'):
+def hook_response(response='Update triggered', status='success'):
     """Generic okay hook response"""
     return JsonResponse(
-        data={'status': 'success', 'message': response},
+        data={'status': status, 'message': response},
     )
 
 
@@ -208,15 +208,20 @@ def vcs_service_hook(request, service):
         subprojects = subprojects.filter(branch=branch)
 
     # Trigger updates
+    updates = 0
     for obj in subprojects:
         if not obj.project.enable_hooks:
             continue
+        updates += 1
         LOGGER.info(
             '%s notification will update %s',
             service_long_name,
             obj
         )
         perform_update(obj)
+
+    if updates == 0:
+        return hook_response('No matching repositories found!', 'failure')
 
     return hook_response()
 

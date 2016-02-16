@@ -297,9 +297,7 @@ class HooksViewTest(ViewTestCase):
     @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_commit_hook_project(self):
         response = self.client.get(
-            reverse('hook-commit-project', kwargs={
-                'project': self.subproject.project.slug
-            })
+            reverse('hook-commit-project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Commit performed')
 
@@ -307,10 +305,7 @@ class HooksViewTest(ViewTestCase):
     @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_commit_hook_subproject(self):
         response = self.client.get(
-            reverse('hook-commit-subproject', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
+            reverse('hook-commit-subproject', kwargs=self.kw_subproject)
         )
         self.assertContains(response, 'Commit performed')
 
@@ -318,9 +313,7 @@ class HooksViewTest(ViewTestCase):
     @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_project(self):
         response = self.client.get(
-            reverse('hook-project', kwargs={
-                'project': self.subproject.project.slug
-            })
+            reverse('hook-project', kwargs=self.kw_project)
         )
         self.assertContains(response, 'Update triggered')
 
@@ -328,10 +321,19 @@ class HooksViewTest(ViewTestCase):
     @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_subproject(self):
         response = self.client.get(
-            reverse('hook-subproject', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
+            reverse('hook-subproject', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Update triggered')
+
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
+    def test_view_hook_github_exists(self):
+        # Adjust matching repo
+        self.subproject.repo = 'git://github.com/defunkt/github.git'
+        self.subproject.save()
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': GITHUB_PAYLOAD}
         )
         self.assertContains(response, 'Update triggered')
 
@@ -342,7 +344,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
         )
-        self.assertContains(response, 'Update triggered')
+        self.assertContains(response, 'No matching repositories found!')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -351,7 +353,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-gitlab'), GITLAB_PAYLOAD,
             content_type="application/json"
         )
-        self.assertContains(response, 'Update triggered')
+        self.assertContains(response, 'No matching repositories found!')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -360,7 +362,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
         )
-        self.assertContains(response, 'Update triggered')
+        self.assertContains(response, 'No matching repositories found!')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -369,7 +371,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG}
         )
-        self.assertContains(response, 'Update triggered')
+        self.assertContains(response, 'No matching repositories found!')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -378,7 +380,7 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_HG_NO_COMMIT}
         )
-        self.assertContains(response, 'Update triggered')
+        self.assertContains(response, 'No matching repositories found!')
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
@@ -387,39 +389,15 @@ class HooksViewTest(ViewTestCase):
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_WEBHOOK}
         )
-        self.assertContains(response, 'Update triggered')
+        self.assertContains(response, 'No matching repositories found!')
 
     @OverrideSettings(ENABLE_HOOKS=False)
     def test_disabled(self):
         '''
         Test for hooks disabling.
         '''
-        response = self.client.get(
-            reverse('hook-commit-project', kwargs={
-                'project': self.subproject.project.slug
-            })
-        )
-        self.assertEqual(response.status_code, 405)
-        response = self.client.get(
-            reverse('hook-commit-subproject', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
-        )
-        self.assertEqual(response.status_code, 405)
-        response = self.client.get(
-            reverse('hook-project', kwargs={
-                'project': self.subproject.project.slug
-            })
-        )
-        self.assertEqual(response.status_code, 405)
-        response = self.client.get(
-            reverse('hook-subproject', kwargs={
-                'project': self.subproject.project.slug,
-                'subproject': self.subproject.slug,
-            })
-        )
-        self.assertEqual(response.status_code, 405)
+        self.assert_disabled()
+
         response = self.client.post(
             reverse('hook-github'),
             {'payload': GITHUB_PAYLOAD}
@@ -433,6 +411,29 @@ class HooksViewTest(ViewTestCase):
         response = self.client.post(
             reverse('hook-bitbucket'),
             {'payload': BITBUCKET_PAYLOAD_GIT}
+        )
+        self.assertEqual(response.status_code, 405)
+
+    def test_project_disabled(self):
+        self.project.enable_hooks = False
+        self.project.save()
+        self.assert_disabled()
+
+    def assert_disabled(self):
+        response = self.client.get(
+            reverse('hook-commit-project', kwargs=self.kw_project)
+        )
+        self.assertEqual(response.status_code, 405)
+        response = self.client.get(
+            reverse('hook-commit-subproject', kwargs=self.kw_subproject)
+        )
+        self.assertEqual(response.status_code, 405)
+        response = self.client.get(
+            reverse('hook-project', kwargs=self.kw_project)
+        )
+        self.assertEqual(response.status_code, 405)
+        response = self.client.get(
+            reverse('hook-subproject', kwargs=self.kw_subproject)
         )
         self.assertEqual(response.status_code, 405)
 
