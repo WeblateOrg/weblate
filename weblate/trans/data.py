@@ -77,19 +77,3 @@ def migrate_data_dirs():
 
         if os.path.exists(source) and not os.path.exists(target):
             shutil.copy(source, target)
-
-
-def unmigrate_data_dirs():
-    """
-    Reverses data paths migration.
-    """
-    vcs = data_dir('vcs')
-    if not os.path.exists(appsettings.GIT_ROOT) and os.path.exists(vcs):
-        shutil.move(vcs, appsettings.GIT_ROOT)
-
-    whoosh = data_dir('whoosh')
-    # This one gets autocreated
-    if os.path.exists(appsettings.WHOOSH_INDEX):
-        os.rmdir(appsettings.WHOOSH_INDEX)
-    if os.path.exists(whoosh):
-        shutil.move(whoosh, appsettings.WHOOSH_INDEX)
