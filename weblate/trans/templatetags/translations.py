@@ -581,9 +581,9 @@ def get_location_links(unit):
             line = 0
         link = unit.translation.subproject.get_repoweb_link(filename, line)
         if link is None:
-            ret.append('%s' % location)
+            ret.append(escape(location))
         else:
-            ret.append('<a href="%s">%s</a>' % (link, location))
+            ret.append('<a href="%s">%s</a>' % (escape(link), escape(location)))
     return mark_safe('\n'.join(ret))
 
 
