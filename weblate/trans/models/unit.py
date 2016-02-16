@@ -1056,12 +1056,11 @@ class Unit(models.Model, LoggerMixin):
         secondary_langs = user.profile.secondary_languages.exclude(
             id=self.translation.language.id
         )
-        project = self.translation.subproject.project
         return get_distinct_translations(
             Unit.objects.filter(
                 checksum=self.checksum,
                 translated=True,
-                translation__subproject__project=project,
+                translation__subproject=self.translation.subproject,
                 translation__language__in=secondary_langs,
             )
         )
