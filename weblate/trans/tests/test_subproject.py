@@ -600,6 +600,10 @@ class SubProjectErrorTest(RepoTestCase):
             ParseError,
             lambda: translation.store
         )
+        self.assertRaises(
+            ValidationError,
+            translation.clean
+        )
 
     def test_invalid_template_storage(self):
         testfile = os.path.join(self.component.get_path(), 'ts-mono', 'en.ts')
@@ -612,6 +616,10 @@ class SubProjectErrorTest(RepoTestCase):
         self.assertRaises(
             ParseError,
             lambda: self.component.template_store
+        )
+        self.assertRaises(
+            ValidationError,
+            self.component.clean
         )
 
 
