@@ -179,9 +179,6 @@ def vcs_service_hook(request, service):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
-    if service not in HOOK_HANDLERS:
-        LOGGER.error('service %s is not supported', service)
-        return HttpResponseBadRequest('invalid service')
     hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
