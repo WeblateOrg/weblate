@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-02-16 10:38+0000\n"
-"PO-Revision-Date: 2016-02-01 18:27+0000\n"
+"PO-Revision-Date: 2016-02-16 11:54+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -214,6 +214,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"Zvolte jazyky kterým rozumíte. Řetězce přeložené do těchto jazyků budou "
+"zobrazeny vedle zdrojového řetězce."
 
 #: weblate/accounts/models.py:491
 msgid "Hide completed translations on dashboard"
@@ -342,18 +344,17 @@ msgid "Projects"
 msgstr "Projekty"
 
 #: weblate/billing/models.py:69
-#, fuzzy
 #| msgid "Activity"
 msgid "Active"
-msgstr "Aktivita"
+msgstr "Aktivní"
 
 #: weblate/billing/models.py:70
 msgid "Trial"
-msgstr ""
+msgstr "Zkušební"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
-msgstr ""
+msgstr "Ukončené"
 
 #: weblate/billing/models.py:90
 msgid "Changes in last month"
@@ -730,7 +731,7 @@ msgstr "Licence"
 
 #: weblate/html/accounts/profile.html:29
 msgid "Billing"
-msgstr ""
+msgstr "Účtování"
 
 #: weblate/html/accounts/profile.html:43 weblate/html/accounts/profile.html:74
 #: weblate/html/accounts/profile.html:117
@@ -907,82 +908,73 @@ msgstr ""
 "mohou být použity vaše překlady."
 
 #: weblate/html/accounts/profile.html:347
-#, fuzzy
 #| msgid "Trailing space"
 msgid "Billing plan"
-msgstr "Koncová mezera"
+msgstr "Hostovací balíček"
 
 #: weblate/html/accounts/profile.html:352
-#, fuzzy
 #| msgid "Current password"
 msgid "Current plan"
-msgstr "Současné heslo"
+msgstr "Současné balíček"
 
 #: weblate/html/accounts/profile.html:352
-#, fuzzy
 #| msgid "View hosting plans"
 msgid "See other plans"
-msgstr "Zobrazit hostovací balíčky"
+msgstr "Zobrazit další balíčky"
 
 #: weblate/html/accounts/profile.html:353
 msgid "Monthly price"
-msgstr ""
+msgstr "Měsíční cena"
 
 #: weblate/html/accounts/profile.html:354
 msgid "Yearly price"
-msgstr ""
+msgstr "Roční cena"
 
 #: weblate/html/accounts/profile.html:355
-#, fuzzy
 #| msgid "String priority"
 msgid "Strings limit"
-msgstr "Priorita řetězce"
+msgstr "Počet řetězců"
 
 #: weblate/html/accounts/profile.html:360
-#, fuzzy
 #| msgid "Languages"
 msgid "Languages limit"
-msgstr "Jazyky"
+msgstr "Počet jazyků"
 
 #: weblate/html/accounts/profile.html:365
-#, fuzzy
 #| msgid "Repository maintenance"
 msgid "Repositories limit"
-msgstr "Správa repozitáře"
+msgstr "Počet repozitářů"
 
 #: weblate/html/accounts/profile.html:370
-#, fuzzy
 #| msgid "Projects"
 msgid "Projects limit"
-msgstr "Projekty"
+msgstr "Počet projektů"
 
 #: weblate/html/accounts/profile.html:383
 msgid "Invoices"
-msgstr ""
+msgstr "Faktury"
 
 #: weblate/html/accounts/profile.html:388
 msgid "Invoice period"
-msgstr ""
+msgstr "Doba fakturace"
 
 #: weblate/html/accounts/profile.html:389
 msgid "Invoice amount"
-msgstr ""
+msgstr "Částka faktury"
 
 #: weblate/html/accounts/profile.html:390
-#, fuzzy
 #| msgid "Download source file"
 msgid "Download invoice"
-msgstr "Stáhnout soubor s překlady"
+msgstr "Stáhnout fakturu"
 
 #: weblate/html/accounts/profile.html:402
 msgid "Not available"
-msgstr ""
+msgstr "Není dostupná"
 
 #: weblate/html/accounts/profile.html:407
-#, fuzzy
 #| msgid "No sources found!"
 msgid "No invoices found!"
-msgstr "Nebyly nalezeny žádné zdrojové řetězce!"
+msgstr "Nebyly nalezeny žádné faktury!"
 
 #: weblate/html/accounts/register.html:16
 msgid ""
@@ -1252,16 +1244,16 @@ msgstr ""
 "firefox/\">Firefox</a>."
 
 #: weblate/html/billing-used.html:5
-#, fuzzy, python-format
+#, python-format
 #| msgid "Suggested by %(user)s"
 msgid "Used %(used)s"
-msgstr "Navrhl %(user)s"
+msgstr "Použito %(used)s"
 
 #: weblate/html/billing-used.html:7
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(position)s / %(total)s"
 msgid "Used %(used)s from %(total)s"
-msgstr "%(position)s / %(total)s"
+msgstr "Použito %(used)s z %(total)s"
 
 #: weblate/html/check.html:6 weblate/html/check_project.html.py:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html.py:6
@@ -3911,7 +3903,6 @@ msgid "Commit pending changes"
 msgstr "Zapsat čekající změny"
 
 #: weblate/trans/admin.py:257
-#, fuzzy
 #| msgid "Project / Subproject"
 msgid "Project / Component"
 msgstr "Project / Komponenta"
@@ -4795,7 +4786,6 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
 #: weblate/trans/models/group_acl.py:45
-#, fuzzy
 #| msgid "Project, subproject or language must be specified"
 msgid "Project, component or language must be specified"
 msgstr "Musí být zadán projekt, komponenta nebo jazyk"
