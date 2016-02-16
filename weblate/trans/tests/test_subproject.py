@@ -591,6 +591,32 @@ class SubProjectErrorTest(RepoTestCase):
             self.component.do_reset(None)
         )
 
+    def test_invalid_templatename(self):
+        self.component.template = 'foo.bar'
+        # Clean class cache, pylint: disable=W0212
+        self.component._template_store = None
+
+        self.assertRaises(
+            ParseError,
+            lambda: self.component.template_store
+        )
+        self.assertRaises(
+            ValidationError,
+            self.component.clean
+        )
+
+    def test_invalid_filename(self):
+        translation = self.component.translation_set.get(language_code='cs')
+        translation.filename = 'foo.bar'
+        self.assertRaises(
+            ParseError,
+            lambda: translation.store
+        )
+        self.assertRaises(
+            ValidationError,
+            translation.clean
+        )
+
     def test_invalid_storage(self):
         testfile = os.path.join(self.component.get_path(), 'ts-mono', 'cs.ts')
         with open(testfile, 'a') as handle:
