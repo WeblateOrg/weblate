@@ -339,6 +339,20 @@ class HooksViewTest(ViewTestCase):
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
+    def test_view_hook_github_disabled(self):
+        # Adjust matching repo
+        self.subproject.repo = 'git://github.com/defunkt/github.git'
+        self.subproject.save()
+        self.project.enable_hooks = False
+        self.project.save()
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': GITHUB_PAYLOAD}
+        )
+        self.assertContains(response, 'No matching repositories found!')
+
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_github(self):
         response = self.client.post(
             reverse('hook-github'),
