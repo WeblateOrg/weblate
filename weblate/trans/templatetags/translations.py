@@ -583,7 +583,9 @@ def get_location_links(unit):
         if link is None:
             ret.append(escape(location))
         else:
-            ret.append('<a href="%s">%s</a>' % (escape(link), escape(location)))
+            ret.append(
+                '<a href="{0}">{1}</a>'.format(escape(link), escape(location))
+            )
     return mark_safe('\n'.join(ret))
 
 
