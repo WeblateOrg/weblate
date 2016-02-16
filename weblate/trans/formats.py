@@ -23,6 +23,7 @@ File format specific behavior.
 
 from __future__ import unicode_literals
 
+from io import BytesIO
 import subprocess
 import os.path
 import re
@@ -31,7 +32,6 @@ import traceback
 import importlib
 
 import six
-from six import StringIO
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -62,13 +62,12 @@ class ParseError(Exception):
     """Generic error for parsing."""
 
 
-class StringIOMode(StringIO):
+class StringIOMode(BytesIO):
     """
     StringIO with mode attribute to make ttkit happy.
     """
     def __init__(self, filename, data):
-        # pylint: disable=W0233
-        StringIO.__init__(self, data)
+        super(StringIOMode, self).__init__(data)
         self.mode = 'r'
         self.name = filename
 
@@ -418,6 +417,16 @@ class FileFormat(object):
     new_translation = None
     autoload = ()
 
+    @staticmethod
+    def serialize(store):
+        """Serialize given ttkit store"""
+        if hasattr(store, 'serialize'):
+            # ttkit API since 1.14.0
+            return bytes(store)
+        else:
+            # ttkit API 1.13.0 and older
+            return str(store)
+
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):
         """Parses store and returns FileFormat instance."""
@@ -523,9 +532,7 @@ class FileFormat(object):
         if ttkit_unit is None:
             ttkit_unit = template_ttkit_unit
             if template_ttkit_unit is None:
-                raise Exception(
-                    'Could not find template unit for new unit!'
-                )
+                return (None, False)
             add = True
         else:
             add = False
@@ -676,8 +683,9 @@ class FileFormat(object):
         if store is None:
             return False
 
-        if cls.monolingual is False and str(store) == b'':
-            return False
+        if cls.monolingual is False:
+            if cls.serialize(store) == b'':
+                return False
 
         return True
 
@@ -826,7 +834,7 @@ class PoFormat(FileFormat):
                     mounit.msgctxt = [context]
             mounit.target = unit.target
             outputfile.addunit(mounit)
-        return str(outputfile)
+        return self.serialize(outputfile)
 
     def get_language_pack_meta(self):
         '''
@@ -874,7 +882,7 @@ class PoFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, code, base):
         """Handles creation of new translation file."""
-        with open(base, 'r') as handle:
+        with open(base, 'rb') as handle:
             data = handle.read()
         # Assume input is UTF-8 if not specified
         if b'Content-Type: text/plain; charset=CHARSET' in data:
@@ -1107,12 +1115,12 @@ class PhpFormat(FileFormat):
         This is workaround for .save() not working as intended in
         translate-toolkit.
         '''
-        with open(self.store.filename, 'r') as handle:
+        with open(self.store.filename, 'rb') as handle:
             convertor = po2php.rephp(handle, self.store)
 
             outputphplines = convertor.convertstore(False)
 
-        with open(self.store.filename, 'w') as handle:
+        with open(self.store.filename, 'wb') as handle:
             handle.writelines(outputphplines)
 
 
@@ -1176,11 +1184,11 @@ class JSONFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, code, base):
         """Handles creation of new translation file."""
-        content = '{}\n'
+        content = b'{}\n'
         if base:
-            with open(base, 'r') as handle:
+            with open(base, 'rb') as handle:
                 content = handle.read()
-        with open(filename, 'w') as output:
+        with open(filename, 'wb') as output:
             output.write(content)
 
     @property
@@ -1229,7 +1237,7 @@ class CSVFormat(FileFormat):
 
         # Did we get file or filename?
         if not hasattr(storefile, 'read'):
-            storefile = open(storefile, 'r')
+            storefile = open(storefile, 'rb')
 
         # Read content for fixups
         content = storefile.read()
@@ -1242,20 +1250,27 @@ class CSVFormat(FileFormat):
         if store.fieldnames != ['location', 'source', 'target']:
             return store
 
-        fileobj = StringIOMode(storefile.name, content)
+        if not isinstance(content, six.string_types) and six.PY3:
+            content = content.decode('utf-8')
+
+        fileobj = csv.StringIO(content)
         storefile.close()
 
         # Try reading header
         reader = csv.reader(fileobj, store.dialect)
-        header = reader.next()
+        header = next(reader)
+        fileobj.close()
 
         # We seem to have match
         if len(header) != 2:
-            fileobj.close()
             return store
 
-        fileobj.seek(0)
-        return storeclass(fileobj, ['source', 'target'])
+        result = storeclass(fieldnames=['source', 'target'])
+        if six.PY3:
+            result.parse(content.encode('utf-8'))
+        else:
+            result.parse(content)
+        return result
 
 
 @register_fileformat
@@ -1281,7 +1296,7 @@ class CSVSimpleFormat(CSVFormat):
 
         # Did we get file or filename?
         if not hasattr(storefile, 'read'):
-            storefile = open(storefile, 'r')
+            storefile = open(storefile, 'rb')
 
         result = storeclass(
             fieldnames=['source', 'target'],

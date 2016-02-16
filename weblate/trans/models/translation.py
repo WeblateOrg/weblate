@@ -44,7 +44,7 @@ from weblate.trans.site import get_site_url
 from weblate.trans.util import translation_percent, split_plural
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
-from weblate.trans.boolean_sum import BooleanSum
+from weblate.trans.boolean_sum import do_boolean_sum
 from weblate.accounts.models import notify_new_string, get_author_name
 from weblate.trans.models.changes import Change
 from weblate.trans.checklists import TranslationChecklist
@@ -218,11 +218,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
         try:
             self.load_store()
-        except ValueError:
-            raise ValidationError(
-                _('Format of %s could not be recognized.') %
-                self.filename
-            )
         except Exception as error:
             raise ValidationError(
                 _('Failed to parse file %(file)s: %(error)s') % {
@@ -608,12 +603,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Grab stats
         stats = self.unit_set.aggregate(
             Sum('num_words'),
-            BooleanSum('fuzzy'),
-            BooleanSum('translated'),
-            BooleanSum('has_failing_check'),
-            BooleanSum('has_suggestion'),
-            BooleanSum('has_comment'),
             Count('id'),
+            fuzzy__sum=do_boolean_sum('fuzzy'),
+            translated__sum=do_boolean_sum('translated'),
+            has_failing_check__sum=do_boolean_sum('has_failing_check'),
+            has_suggestion__sum=do_boolean_sum('has_suggestion'),
+            has_comment__sum=do_boolean_sum('has_comment'),
         )
 
         # Check if we have any units

@@ -18,61 +18,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 '''
-Wrapper for Sum to work with PostgreSQL database.
-
-See also https://code.djangoproject.com/ticket/17564
+Wrapper for Sum to work on Boolean fields.
 '''
-from django.conf import settings
-from django.db.models.aggregates import Sum
-from django.db.models.sql.aggregates import Sum as BaseSQLSum
+from django.db.models import Sum, When, Case, IntegerField
 
 
-def get_template():
-    '''
-    Adds type casting to boolean values for PostgreSQL.
-    '''
-    engine = settings.DATABASES['default']['ENGINE']
-    if 'psycopg2' in engine or 'postgres' in engine:
-        return '%(function)s(%(field)s::int)'
-    return '%(function)s(%(field)s)'
-
-
-class SQLSum(BaseSQLSum):
-    @property
-    def sql_template(self):
-        """
-        Returns template for the SQL
-        """
-        return get_template()
-
-
-class BooleanSum(Sum):
-    '''
-    Sum for boolean fields.
-    '''
-    # pylint: disable=W0223
-    def add_to_query(self, query, alias, col, source, is_summary):
-        '''
-        Generates query to use SQLSum class with type casting.
-
-        Used for Django 1.7
-        '''
-        aggregate = SQLSum(
-            col, source=source, is_summary=is_summary, **self.extra
+def do_boolean_sum(field):
+    """Wrapper to generate SUM on boolean values"""
+    cond = {field: True}
+    return Sum(
+        Case(
+            When(then=1, **cond),
+            default=0,
+            output_field=IntegerField()
         )
-        query.aggregates[alias] = aggregate
-
-    def _patch_aggregate(self, query):
-        """
-        Wrapper to disable compatibility layer in Django 1.8
-        """
-        return
-
-    @property
-    def template(self):
-        """
-        Returns template for the SQL
-
-        Used for Django 1.8 and newer
-        """
-        return get_template()
+    )

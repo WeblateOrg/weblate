@@ -23,7 +23,7 @@ from weblate.trans.checks import CHECKS
 
 EXTRA_FLAGS = {
     v.enable_string: v.name
-    for k, v in CHECKS.iteritems()
+    for k, v in CHECKS.items()
     if v.default_disabled
 }
 

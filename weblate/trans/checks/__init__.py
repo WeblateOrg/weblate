@@ -36,11 +36,11 @@ def highlight_string(source, unit):
     highlights.sort(key=lambda x: x[0])
 
     # Remove overlapping ones
-    for hl_idx in xrange(0, len(highlights)):
+    for hl_idx in range(0, len(highlights)):
         if hl_idx >= len(highlights):
             break
         elref = highlights[hl_idx]
-        for hl_idx_next in xrange(hl_idx + 1, len(highlights)):
+        for hl_idx_next in range(hl_idx + 1, len(highlights)):
             if hl_idx_next >= len(highlights):
                 break
             eltest = highlights[hl_idx_next]

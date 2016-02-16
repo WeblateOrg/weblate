@@ -975,25 +975,25 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 # Reset repo back
                 method(abort=True)
 
-        if self.id:
-            Change.objects.create(
-                subproject=self,
-                user=request.user if request else None,
-                action=action_failed,
-                target=str(error),
-            )
+                if self.id:
+                    Change.objects.create(
+                        subproject=self,
+                        user=request.user if request else None,
+                        action=action_failed,
+                        target=error,
+                    )
 
-        # Notify subscribers and admins
-        self.notify_merge_failure(error, status)
+                # Notify subscribers and admins
+                self.notify_merge_failure(error, status)
 
-        # Tell user (if there is any)
-        if request is not None:
-            messages.error(
-                request,
-                error_msg % force_text(self)
-            )
+                # Tell user (if there is any)
+                if request is not None:
+                    messages.error(
+                        request,
+                        error_msg % force_text(self)
+                    )
 
-        return False
+                return False
 
     def get_mask_matches(self):
         '''
@@ -1188,7 +1188,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 parsed = self.file_format_cls.parse(
                     os.path.join(dir_path, match),
                 )
-                if not self.file_format_cls.is_valid(parsed):
+                if not self.file_format_cls.is_valid(parsed.store):
                     errors.append('%s: %s' % (
                         match, _('File does not seem to be valid!')
                     ))

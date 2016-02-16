@@ -60,7 +60,7 @@ class ImportBaseTest(ViewTestCase):
         if test_file is None:
             test_file = self.test_file
 
-        with open(test_file) as handle:
+        with open(test_file, 'rb') as handle:
             params = {'file': handle}
             params.update(kwargs)
             return self.client.post(
@@ -227,8 +227,8 @@ class ImportErrorTest(ImportBaseTest):
         response = self.do_import(test_file=TEST_BADPLURALS, follow=True)
         self.assertRedirects(response, self.translation_url)
         messages = list(response.context["messages"])
-        self.assertEquals(len(messages), 1)
-        self.assertEquals(messages[0].level, ERROR)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].level, ERROR)
         self.assertIn("Plural forms do not match", messages[0].message)
 
 
@@ -302,7 +302,6 @@ class ImportMoPoTest(ImportTest):
     test_file = TEST_MO
 
     def create_subproject(self):
-        # Needs to create PO file to have language pack option
         return self.create_po()
 
 
@@ -311,7 +310,7 @@ class AndroidImportTest(ViewTestCase):
         return self.create_android()
 
     def test_import(self):
-        with open(TEST_ANDROID) as handle:
+        with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
                 reverse(
                     'upload_translation',
@@ -331,7 +330,7 @@ class CSVImportTest(ViewTestCase):
         translation = self.get_translation()
         self.assertEqual(translation.translated, 0)
         self.assertEqual(translation.fuzzy, 0)
-        with open(TEST_CSV) as handle:
+        with open(TEST_CSV, 'rb') as handle:
             self.client.post(
                 reverse(
                     'upload_translation',

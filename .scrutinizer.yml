@@ -1,0 +1,29 @@
+checks:
+    python:
+        code_rating: true
+        duplicate_code: true
+tools:
+    pylint:
+        python_version: '3'
+        config_file: 'ci/pylint-scrutinizer.rc'
+filter:
+    excluded_paths:
+        - '*/test/*'
+        - '*/migrations/*'
+before_commands:
+    - pip3 install https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e
+    - pip3 install -r ci/requirements-scrutinizer.txt
+build:
+    dependencies:
+        override:
+            - pip install https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e
+            - pip install -r ci/requirements-scrutinizer.txt
+    tests:
+        override:
+            -
+                command: ./manage.py collectstatic --settings=weblate.settings_test --noinput
+            -
+                command: coverage run --source . ./manage.py test --settings=weblate.settings_test
+                coverage:
+                    file: .coverage
+                    format: py-cc

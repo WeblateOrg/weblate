@@ -66,23 +66,38 @@ class AutoTranslationTest(ViewTestCase):
             'Nazdar svete!\n'
         )
 
-    def test_different(self):
-        '''
-        Tests for automatic translation with different content.
-        '''
+    def perform_auto(self, expected=1, **kwargs):
         self.make_different()
         params = {'project': 'test', 'lang': 'cs', 'subproject': 'test-2'}
         url = reverse('auto_translation', kwargs=params)
-        response = self.client.post(url, follow=True)
-        self.assertContains(
-            response,
-            'Automatic translation completed, 1 string was updated.',
-        )
+        response = self.client.post(url, kwargs, follow=True)
+        if expected == 1:
+            self.assertContains(
+                response,
+                'Automatic translation completed, 1 string was updated.',
+            )
+        else:
+            self.assertContains(
+                response,
+                'Automatic translation completed, no strings were updated.',
+            )
 
         self.assertRedirects(response, reverse('translation', kwargs=params))
         # Check we've translated something
         translation = self.subproject2.translation_set.get(language_code='cs')
-        self.assertEqual(translation.translated, 1)
+        self.assertEqual(translation.translated, expected)
+
+    def test_different(self):
+        '''
+        Tests for automatic translation with different content.
+        '''
+        self.perform_auto()
+
+    def test_inconsistent(self):
+        self.perform_auto(0, inconsistent='1')
+
+    def test_overwrite(self):
+        self.perform_auto(overwrite='1')
 
     def test_command(self):
         call_command(

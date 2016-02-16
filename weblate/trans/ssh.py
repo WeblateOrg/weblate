@@ -18,6 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
+from base64 import b64decode
 import subprocess
 import hashlib
 # See https://bitbucket.org/logilab/pylint/issues/73
@@ -80,7 +83,7 @@ def parse_hosts_line(line):
     Parses single hosts line into tuple host, key fingerprint.
     """
     host, keytype, key = line.strip().split(None, 3)[:3]
-    fp_plain = hashlib.md5(key.decode('base64')).hexdigest()
+    fp_plain = hashlib.md5(b64decode(key)).hexdigest()
     fingerprint = ':'.join(
         [a + b for a, b in zip(fp_plain[::2], fp_plain[1::2])]
     )
@@ -171,7 +174,7 @@ def add_host_key(request):
                 env=get_clean_env(),
             )
             keys = []
-            for key in output.splitlines():
+            for key in output.decode('utf-8').splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue

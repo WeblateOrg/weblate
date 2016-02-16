@@ -21,6 +21,8 @@
 Base code for machine translation services.
 '''
 
+from __future__ import unicode_literals
+
 import sys
 import json
 
@@ -75,9 +77,9 @@ class MachineTranslation(object):
         '''
         # Encode params
         if len(kwargs) > 0:
-            params = urlencode(kwargs)
+            params = urlencode(kwargs).encode('utf-8')
         else:
-            params = ''
+            params = b''
 
         # Store for exception handling
         self.request_url = url
@@ -104,8 +106,10 @@ class MachineTranslation(object):
         # Read and possibly convert response
         text = handle.read()
         # Needed for Microsoft
-        if text.startswith('\xef\xbb\xbf'):
+        if text[:3] == b'\xef\xbb\xbf':
             text = text.decode('UTF-8-sig')
+        else:
+            text = text.decode('utf-8')
         # Replace literal \t
         text = text.strip().replace(
             '\t', '\\t'

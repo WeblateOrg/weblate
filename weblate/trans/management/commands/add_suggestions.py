@@ -64,7 +64,7 @@ class Command(WeblateTranslationCommand):
 
         # Process import
         try:
-            with open(args[3], 'r') as handle:
+            with open(args[3], 'rb') as handle:
                 translation.merge_upload(
                     request, handle, False, method='suggest',
                     author=get_author_name(user),

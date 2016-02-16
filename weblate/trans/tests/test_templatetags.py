@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 '''
-Testing of natural time conversion.
+Testing of template tags.
 '''
 
 import datetime
@@ -26,7 +26,10 @@ from unittest import TestCase
 
 from django.utils import timezone
 
-from weblate.trans.templatetags.translations import naturaltime
+from weblate.trans.models import Unit, SubProject, Translation
+from weblate.trans.templatetags.translations import (
+    naturaltime, get_location_links
+)
 
 TEST_DATA = (
     (0, 'now'),
@@ -62,6 +65,7 @@ TEST_DATA = (
 
 
 class NaturalTimeTest(TestCase):
+    """Testing of natural time conversion."""
     def test_natural(self):
         now = timezone.now()
         for diff, expected in TEST_DATA:
@@ -73,3 +77,60 @@ class NaturalTimeTest(TestCase):
                     testdate, result, expected,
                 )
             )
+
+
+class LocationLinksTest(TestCase):
+    def setUp(self):
+        self.unit = Unit(
+            translation=Translation(
+                subproject=SubProject()
+            )
+        )
+
+    def test_empty(self):
+        self.assertEqual(
+            get_location_links(self.unit),
+            ''
+        )
+
+    def test_numeric(self):
+        self.unit.location = '123'
+        self.assertEqual(
+            get_location_links(self.unit),
+            'unit ID 123'
+        )
+
+    def test_filename(self):
+        self.unit.location = 'f&oo.bar:123'
+        self.assertEqual(
+            get_location_links(self.unit),
+            'f&amp;oo.bar:123'
+        )
+
+    def test_filenames(self):
+        self.unit.location = 'foo.bar:123,bar.foo:321'
+        self.assertEqual(
+            get_location_links(self.unit),
+            'foo.bar:123\nbar.foo:321'
+        )
+
+    def test_repowebs(self):
+        self.unit.translation.subproject.repoweb = (
+            'http://example.net/%(file)s#L%(line)s'
+        )
+        self.unit.location = 'foo.bar:123,bar.foo:321'
+        self.assertEqual(
+            get_location_links(self.unit),
+            '<a href="http://example.net/foo.bar#L123">foo.bar:123</a>\n'
+            '<a href="http://example.net/bar.foo#L321">bar.foo:321</a>'
+        )
+
+    def test_repoweb(self):
+        self.unit.translation.subproject.repoweb = (
+            'http://example.net/%(file)s#L%(line)s'
+        )
+        self.unit.location = 'foo.bar:123'
+        self.assertEqual(
+            get_location_links(self.unit),
+            '<a href="http://example.net/foo.bar#L123">foo.bar:123</a>'
+        )

@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from xml.etree import cElementTree
 import re
 
@@ -93,7 +95,7 @@ class XMLTagsCheck(TargetCheck):
         '''
         Wrapper for parsing XML.
         '''
-        text = strip_entities(text.encode('utf-8'))
+        text = strip_entities(text)
         return cElementTree.fromstring('<weblate>%s</weblate>' % text)
 
     def check_single(self, source, target, unit):

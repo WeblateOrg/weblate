@@ -38,7 +38,7 @@ class ChartsTest(ViewTestCase):
         Tests whether response has valid json chart data.
         """
         self.assertEqual(response.get('Content-Type'), 'application/json')
-        data = json.loads(response.content)
+        data = json.loads(response.content.decode('utf-8'))
         self.assertTrue('series' in data)
         self.assertTrue('labels' in data)
 

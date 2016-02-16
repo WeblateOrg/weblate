@@ -139,7 +139,7 @@ def format_translation(value, language, diff=None, search_match=None,
     plurals = split_plural(value)
 
     # Show plurals?
-    if num_plurals <= 1:
+    if int(num_plurals) <= 1:
         plurals = plurals[:1]
 
     # Newline concatenator
@@ -325,21 +325,21 @@ def naturaltime_past(value, now):
     delta = now - value
 
     if delta.days >= 365:
-        count = delta.days / 365
+        count = delta.days // 365
         if count == 1:
             return _('a year ago')
         return ungettext(
             '%(count)s year ago', '%(count)s years ago', count
         ) % {'count': count}
     elif delta.days >= 30:
-        count = delta.days / 30
+        count = delta.days // 30
         if count == 1:
             return _('a month ago')
         return ungettext(
             '%(count)s month ago', '%(count)s months ago', count
         ) % {'count': count}
     elif delta.days >= 14:
-        count = delta.days / 7
+        count = delta.days // 7
         return ungettext(
             '%(count)s week ago', '%(count)s weeks ago', count
         ) % {'count': count}
@@ -386,21 +386,21 @@ def naturaltime_future(value, now):
     delta = value - now
 
     if delta.days >= 365:
-        count = delta.days / 365
+        count = delta.days // 365
         if count == 1:
             return _('a year from now')
         return ungettext(
             '%(count)s year from now', '%(count)s years from now', count
         ) % {'count': count}
     elif delta.days >= 30:
-        count = delta.days / 30
+        count = delta.days // 30
         if count == 1:
             return _('a month from now')
         return ungettext(
             '%(count)s month from now', '%(count)s months from now', count
         ) % {'count': count}
     elif delta.days >= 14:
-        count = delta.days / 7
+        count = delta.days // 7
         return ungettext(
             '%(count)s week from now', '%(count)s weeks from now', count
         ) % {'count': count}
@@ -581,9 +581,11 @@ def get_location_links(unit):
             line = 0
         link = unit.translation.subproject.get_repoweb_link(filename, line)
         if link is None:
-            ret.append('%s' % location)
+            ret.append(escape(location))
         else:
-            ret.append('<a href="%s">%s</a>' % (link, location))
+            ret.append(
+                '<a href="{0}">{1}</a>'.format(escape(link), escape(location))
+            )
     return mark_safe('\n'.join(ret))
 
 

@@ -279,7 +279,7 @@ class Command(BaseCommand):
                 project=project
             )
             if subprojects.exists():
-                self.logger.warn(
+                self.logger.warning(
                     'Component %s already exists, skipping',
                     name
                 )
@@ -337,7 +337,7 @@ class Command(BaseCommand):
         slug = slugify(name)
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
-            self.logger.warn(
+            self.logger.warning(
                 'Component %s already exists, skipping and using it '
                 'as main component',
                 name

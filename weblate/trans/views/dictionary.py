@@ -30,10 +30,12 @@ from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
+import six
 from six.moves.urllib.parse import urlencode
 
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language
+from weblate.trans.formats import FileFormat
 from weblate.trans.site import get_site_url
 from weblate.trans.util import report_error
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
@@ -231,7 +233,7 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
         store.addunit(unit)
 
     # Save to response
-    response.write(str(store))
+    response.write(FileFormat.serialize(store))
 
     return response
 
@@ -271,9 +273,14 @@ def download_dictionary(request, project, lang):
     writer.writerow(('source', 'target'))
 
     for word in words.iterator():
-        writer.writerow((
-            word.source.encode('utf8'), word.target.encode('utf8')
-        ))
+        if six.PY2:
+            writer.writerow((
+                word.source.encode('utf8'), word.target.encode('utf8')
+            ))
+        else:
+            writer.writerow((
+                word.source, word.target
+            ))
 
     return response
 

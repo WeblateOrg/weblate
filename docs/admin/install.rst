@@ -8,9 +8,9 @@ Installation instructions
 Requirements
 ------------
 
-Python (2.7, 3 is not supported)
+Python (2.7, 3.4 or newer)
     https://www.python.org/
-Django (>= 1.7)
+Django (>= 1.8)
     https://www.djangoproject.com/
 Translate-toolkit (>= 1.10.0)
     http://toolkit.translatehouse.org/

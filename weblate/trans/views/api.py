@@ -70,10 +70,10 @@ GITHUB_REPOS = (
 HOOK_HANDLERS = {}
 
 
-def hook_response():
+def hook_response(response='Update triggered', status='success'):
     """Generic okay hook response"""
     return JsonResponse(
-        data={'status': 'success', 'message': 'Update triggered'},
+        data={'status': status, 'message': response},
     )
 
 
@@ -95,6 +95,34 @@ def perform_update(obj):
         thread.start()
     else:
         obj.do_update()
+
+
+@csrf_exempt
+def commit_subproject(request, project, subproject):
+    '''
+    API hook for updating git repos.
+    '''
+    if not appsettings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
+    obj = get_subproject(request, project, subproject, True)
+    if not obj.project.enable_hooks:
+        return HttpResponseNotAllowed([])
+    obj.commit_pending(request)
+    return hook_response('Commit performed')
+
+
+@csrf_exempt
+def commit_project(request, project):
+    '''
+    API hook for updating git repos.
+    '''
+    if not appsettings.ENABLE_HOOKS:
+        return HttpResponseNotAllowed([])
+    obj = get_project(request, project, True)
+    if not obj.enable_hooks:
+        return HttpResponseNotAllowed([])
+    obj.commit_pending(request)
+    return hook_response('Commit performed')
 
 
 @csrf_exempt
@@ -143,17 +171,14 @@ def vcs_service_hook(request, service):
     try:
         # GitLab sends json as application/json
         if request.META['CONTENT_TYPE'] == 'application/json':
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode('utf-8'))
         # Bitbucket and GitHub sends json as x-www-form-data
         else:
             data = json.loads(request.POST['payload'])
-    except (ValueError, KeyError):
+    except (ValueError, KeyError, UnicodeError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
-    if service not in HOOK_HANDLERS:
-        LOGGER.error('service %s is not supported', service)
-        return HttpResponseBadRequest('invalid service')
     hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
@@ -180,15 +205,20 @@ def vcs_service_hook(request, service):
         subprojects = subprojects.filter(branch=branch)
 
     # Trigger updates
+    updates = 0
     for obj in subprojects:
         if not obj.project.enable_hooks:
             continue
+        updates += 1
         LOGGER.info(
             '%s notification will update %s',
             service_long_name,
             obj
         )
         perform_update(obj)
+
+    if updates == 0:
+        return hook_response('No matching repositories found!', 'failure')
 
     return hook_response()
 

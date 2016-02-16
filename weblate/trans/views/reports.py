@@ -100,7 +100,7 @@ def get_credits(request, project, subproject):
     result.append(start)
 
     for language in data:
-        name, translators = language.items()[0]
+        name, translators = language.popitem()
         result.append(row_start)
         result.append(language_format.format(name))
         result.append(

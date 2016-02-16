@@ -22,6 +22,7 @@
 Whoosh based full text search.
 '''
 
+import functools
 import shutil
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.filedb.filestore import FileStorage
@@ -78,6 +79,7 @@ def create_source_index():
     '''
     Creates source string index.
     '''
+    create_index()
     return STORAGE.create_index(SourceSchema(), 'source')
 
 
@@ -85,6 +87,7 @@ def create_target_index(lang):
     '''
     Creates traget string index for given language.
     '''
+    create_index()
     return STORAGE.create_index(TargetSchema(), 'target-%s' % lang)
 
 
@@ -250,7 +253,7 @@ def base_search(index, query, params, search, schema):
                 queries.append(
                     parser.parse(query)
                 )
-        terms = reduce(lambda x, y: x | y, queries)
+        terms = functools.reduce(lambda x, y: x | y, queries)
         return [result['pk'] for result in searcher.search(terms)]
 
 
@@ -319,9 +322,8 @@ def clean_search_unit(pk, lang):
 
 def delete_search_unit(pk, lang):
     try:
-        index = get_target_index(lang)
-        index.writer().delete_by_term('pk', pk)
-        index = get_source_index()
-        index.writer().delete_by_term('pk', pk)
+        for index in (get_source_index(), get_target_index(lang)):
+            with AsyncWriter(index) as writer:
+                writer.delete_by_term('pk', pk)
     except IOError:
         return

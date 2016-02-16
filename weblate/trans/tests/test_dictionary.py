@@ -48,7 +48,7 @@ class DictionaryTest(ViewTestCase):
         })
 
     def import_file(self, filename, **kwargs):
-        with open(filename) as handle:
+        with open(filename, 'rb') as handle:
             params = {'file': handle}
             params.update(kwargs)
             return self.client.post(

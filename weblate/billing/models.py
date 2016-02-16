@@ -23,7 +23,9 @@ from __future__ import unicode_literals
 from datetime import timedelta
 
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils import timezone
@@ -55,13 +57,27 @@ class Plan(models.Model):
 
 @python_2_unicode_compatible
 class Billing(models.Model):
+    STATE_ACTIVE = 0
+    STATE_TRIAL = 1
+    STATE_EXPIRED = 2
+
     plan = models.ForeignKey(Plan)
     user = models.OneToOneField(User)
     projects = models.ManyToManyField(Project, blank=True)
-    trial = models.BooleanField(default=False)
+    state = models.IntegerField(
+        choices=(
+            (STATE_ACTIVE, _('Active')),
+            (STATE_TRIAL, _('Trial')),
+            (STATE_EXPIRED, _('Expired')),
+        ),
+        default=STATE_ACTIVE,
+    )
 
     def __str__(self):
-        return '{0} ({1})'.format(self.user, self.plan)
+        return '{0}: {1} ({2})'.format(
+            ', '.join([str(x) for x in self.projects.all()]),
+            self.user, self.plan
+        )
 
     def count_changes(self, interval):
         return Change.objects.filter(
@@ -127,3 +143,64 @@ class Billing(models.Model):
             )
         )
     in_limits.boolean = True
+
+
+@python_2_unicode_compatible
+class Invoice(models.Model):
+    CURRENCY_EUR = 0
+    CURRENCY_BTC = 1
+
+    billing = models.ForeignKey(Billing)
+    start = models.DateField()
+    end = models.DateField()
+    payment = models.FloatField()
+    currency = models.IntegerField(
+        choices=(
+            (CURRENCY_EUR, 'EUR'),
+            (CURRENCY_BTC, 'mBTC'),
+        ),
+        default=CURRENCY_EUR,
+    )
+    ref = models.CharField(blank=True, max_length=50)
+    note = models.TextField(blank=True)
+
+    class Meta(object):
+        ordering = ['billing', '-start']
+
+    def __str__(self):
+        return '{0} - {1}: {2}'.format(self.start, self.end, self.billing)
+
+    @property
+    def filename(self):
+        if self.ref:
+            return '{0}.pdf'.format(self.ref)
+        return None
+
+    def clean(self):
+        if self.end is None or self.start is None:
+            return
+
+        if self.end <= self.start:
+            raise ValidationError('Start has be to before end!')
+
+        if self.billing is None:
+            return
+
+        overlapping = Invoice.objects.filter(
+            (Q(start__lte=self.end) & Q(end__gte=self.end)) |
+            (Q(start__lte=self.start) & Q(end__gte=self.start))
+        ).filter(
+            billing=self.billing
+        )
+
+        if self.pk:
+            overlapping = overlapping.exclude(
+                pk=self.pk
+            )
+
+        if overlapping.exists():
+            raise ValidationError(
+                'Overlapping invoices exist: {0}'.format(
+                    ', '.join([str(x) for x in overlapping])
+                )
+            )

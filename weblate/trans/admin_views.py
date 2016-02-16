@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import os.path
+
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
@@ -27,6 +29,8 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.conf import settings
 import django
+
+import six
 
 from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
@@ -65,6 +69,23 @@ def report(request):
         "admin/report.html",
         context,
     )
+
+
+def get_first_loader():
+    """Returns first loader from settings"""
+    if settings.TEMPLATES:
+        loaders = settings.TEMPLATES[0].get(
+            'OPTIONS', {}
+        ).get(
+            'loaders', [['']]
+        )
+    else:
+        loaders = settings.TEMPLATE_LOADERS
+
+    if isinstance(loaders[0], six.string_types):
+        return loaders[0]
+
+    return loaders[0][0]
 
 
 @staff_member_required
@@ -194,21 +215,23 @@ def performance(request):
         ', '.join(settings.ALLOWED_HOSTS),
     ))
 
+    loader = get_first_loader()
     # Cached template loader
     checks.append((
         _('Cached template loader'),
-        'cached.Loader' in settings.TEMPLATE_LOADERS[0][0],
+        'cached.Loader' in loader,
         'production-templates',
+        loader,
     ))
 
     # Check for serving static files
-    # This uses CSS magic to hide this check when CSS is properly loaded.
     checks.append((
         _('Admin static files'),
-        False,
+        os.path.exists(
+            os.path.join(settings.STATIC_ROOT, 'admin', 'js', 'core.js')
+        ),
         'production-admin-files',
-        '',
-        'order-cell',
+        settings.STATIC_ROOT,
     ))
 
     context = admin_context(request)

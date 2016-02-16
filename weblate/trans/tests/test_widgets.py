@@ -24,6 +24,7 @@ Tests for widgets.
 
 from django.core.urlresolvers import reverse
 
+from weblate.trans.models import Translation
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.widgets import WIDGETS
 
@@ -70,6 +71,25 @@ class WidgetsTest(ViewTestCase):
             self.assertSVG(response)
         else:
             self.assertPNG(response)
+
+    def test_view_widget_percents(self):
+        for translated in (0, 3, 4):
+            Translation.objects.update(translated=translated)
+            for widget in WIDGETS:
+                color = WIDGETS[widget].colors[0]
+                response = self.client.get(
+                    reverse(
+                        'widget-image',
+                        kwargs={
+                            'project': self.project.slug,
+                            'widget': widget,
+                            'color': color,
+                            'extension': 'png',
+                        }
+                    )
+                )
+
+                self.assert_widget(widget, response)
 
     def test_view_widget_image(self):
         for widget in WIDGETS:

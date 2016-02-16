@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import migrations
 from django.db.models.aggregates import Sum
 
-from weblate.trans.boolean_sum import BooleanSum
+from weblate.trans.boolean_sum import do_boolean_sum
 
 
 def fill_in_have_comment(apps, schema_editor):
@@ -13,7 +13,7 @@ def fill_in_have_comment(apps, schema_editor):
     for translation in Translation.objects.all():
         stats = translation.unit_set.aggregate(
             Sum('num_words'),
-            BooleanSum('has_comment'),
+            has_comment__sum=do_boolean_sum('has_comment'),
         )
         if stats['num_words__sum'] is not None:
             translation.have_comment = int(stats['has_comment__sum'])

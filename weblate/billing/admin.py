@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.billing.models import Plan, Billing
+from weblate.billing.models import Plan, Billing, Invoice
 
 
 class PlanAdmin(admin.ModelAdmin):
@@ -36,14 +36,14 @@ class PlanAdmin(admin.ModelAdmin):
 
 class BillingAdmin(admin.ModelAdmin):
     list_display = (
-        'user', 'plan', 'trial',
+        'user', 'plan', 'state',
         'list_projects',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
         'count_repositories', 'count_strings', 'count_words',
         'count_languages',
         'in_limits',
     )
-    list_filter = ('plan', 'trial')
+    list_filter = ('plan', 'state')
     search_fields = ('user__username', 'projects__name')
 
     def list_projects(self, obj):
@@ -51,5 +51,18 @@ class BillingAdmin(admin.ModelAdmin):
     list_projects.short_description = _('Projects')
 
 
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = (
+        'billing', 'start', 'end', 'payment', 'currency', 'ref'
+    )
+    list_filter = ('currency', 'billing')
+    search_fields = (
+        'billing__user__username', 'billing__projects__name',
+        'ref', 'note',
+    )
+    date_hierarchy = 'end'
+
+
 admin.site.register(Plan, PlanAdmin)
 admin.site.register(Billing, BillingAdmin)
+admin.site.register(Invoice, InvoiceAdmin)

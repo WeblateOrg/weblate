@@ -234,6 +234,11 @@ DEFAULT_TRANSLATION_PROPAGATION = getvalue(
     'DEFAULT_TRANSLATION_PROPAGATION', True
 )
 
+# Billing
+INVOICE_PATH = getvalue(
+    'INVOICE_PATH', ''
+)
+
 # Obsolete configs, needed for data migration
 GIT_ROOT = getvalue('GIT_ROOT', os.path.join(BASE_DIR, 'repos'))
 WHOOSH_INDEX = getvalue('WHOOSH_INDEX', os.path.join(BASE_DIR, 'whoosh-index'))

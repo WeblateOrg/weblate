@@ -22,12 +22,8 @@ from __future__ import print_function
 from unittest import SkipTest
 import time
 import os
-try:
-    from types import new_class
-except ImportError:
-    from new import classobj as new_class
 import json
-import base64
+from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
 from django.test import LiveServerTestCase
@@ -107,9 +103,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             # Use Sauce connect
             cls.username = os.environ['SAUCE_USERNAME']
             cls.key = os.environ['SAUCE_ACCESS_KEY']
-            cls.sauce_auth = base64.encodestring(
-                '{}:{}'.format(cls.username, cls.key)
-            )[:-1]
+            cls.sauce_auth = b64encode(
+                '{}:{}'.format(cls.username, cls.key).encode('utf-8')
+            )
             cls.driver = webdriver.Remote(
                 desired_capabilities=cls.caps,
                 command_executor="http://{0}:{1}@{2}/wd/hub".format(
@@ -318,16 +314,16 @@ def create_extra_classes():
     Create classes for testing with other browsers
     '''
     classes = {}
-    for platform in EXTRA_PLATFORMS:
-        classdict = dict(SeleniumTests.__dict__)
+    for platform, caps in EXTRA_PLATFORMS.items():
         name = '{}_{}'.format(
             platform,
             SeleniumTests.__name__,
         )
+        classdict = dict(SeleniumTests.__dict__)
         classdict.update({
-            'caps': EXTRA_PLATFORMS[platform],
+            'caps': caps,
         })
-        classes[name] = new_class(name, (SeleniumTests,), classdict)
+        classes[name] = type(name, (SeleniumTests,), classdict)
 
     globals().update(classes)
 

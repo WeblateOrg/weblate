@@ -50,7 +50,7 @@ def get_github_email(access_token):
         'token {0}'.format(access_token)
     )
     handle = urlopen(request)
-    data = json.load(handle)
+    data = json.loads(handle.read().decode('utf-8'))
     email = None
     for entry in data:
         # Skip not verified ones

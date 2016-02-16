@@ -17,7 +17,6 @@ env:
     - CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=setup
     - CI_PIP_DEPS="Django>=1.9,<1.10" CI_DATABASE=mysql
     - CI_PIP_DEPS="Django>=1.9,<1.10" CI_DATABASE=postgresql
-    - CI_PIP_DEPS="Django>=1.7,<1.8"
     - CI_PIP_DEPS="Django>=1.8,<1.9"
     - CI_PIP_DEPS="Django>=1.9,<1.10"
     - CI_PIP_DEPS="Django>=1.9,<1.10" CI_DATABASE=postgresql CI_MODE=selenium
@@ -46,11 +45,14 @@ notifications:
 matrix:
   include:
     - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10"
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=lint
-  allow_failures:
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10"
-    - python: "3.4"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=lint
+      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e"
+    - python: "3.5"
+      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e"
+    - python: "3.5"
+      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e" CI_MODE=lint
+    - python: "3.5"
+      env: CI_PIP_DEPS="Django>=1.9,<1.10 https://github.com/translate/translate/zipball/de3f080abf6f2fecfca97d283a58eb6824d8078e" CI_MODE=selenium
+addons:
+  apt:
+    packages:
+    - mercurial

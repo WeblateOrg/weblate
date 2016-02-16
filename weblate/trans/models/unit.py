@@ -18,10 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import functools
 import traceback
 import multiprocessing
-# pylint: disable=W0622
-from functools import reduce
 
 from django.db import models
 from django.db.models import Q
@@ -235,7 +234,7 @@ class UnitManager(models.Manager):
                 if params[param]:
                     queries.append(param)
 
-            query = reduce(
+            query = functools.reduce(
                 lambda q, value:
                 q | Q(**{'%s%s' % (value, modifier): params['q']}),
                 queries,
@@ -909,10 +908,8 @@ class Unit(models.Model, LoggerMixin):
             self.source_checks().values_list('check', flat=True)
         )
 
-        # Run all checks
-        for check in checks_to_run:
-            check_obj = CHECKS[check]
-            # Target check
+        # Run all source checks
+        for check, check_obj in checks_to_run.items():
             if check_obj.target and check_obj.check_target(src, tgt, self):
                 if check in old_target_checks:
                     # We already have this check
@@ -928,7 +925,8 @@ class Unit(models.Model, LoggerMixin):
                         for_unit=self.pk
                     )
                     was_change = True
-            # Source check
+        # Run all source checks
+        for check, check_obj in checks_to_run.items():
             if check_obj.source and check_obj.check_source(src, self):
                 if check in old_source_checks:
                     # We already have this check
@@ -1058,12 +1056,11 @@ class Unit(models.Model, LoggerMixin):
         secondary_langs = user.profile.secondary_languages.exclude(
             id=self.translation.language.id
         )
-        project = self.translation.subproject.project
         return get_distinct_translations(
             Unit.objects.filter(
                 checksum=self.checksum,
                 translated=True,
-                translation__subproject__project=project,
+                translation__subproject=self.translation.subproject,
                 translation__language__in=secondary_langs,
             )
         )

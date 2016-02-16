@@ -25,6 +25,7 @@ Tests for search views.
 import re
 import shutil
 import tempfile
+import os.path
 from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
 from whoosh.fields import Schema, ID, TEXT
@@ -216,7 +217,10 @@ class SearchViewTest(ViewTestCase):
             'Substring search for'
         )
         # Extract search ID
-        search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
+        search_id = re.findall(
+            r'sid=([0-9a-f-]*)&amp',
+            response.content.decode('utf-8')
+        )[0]
         # Try access to pages
         response = self.client.get(
             self.translate_url,
@@ -284,7 +288,10 @@ class SearchViewTest(ViewTestCase):
             'Substring search for',
             url=translation.get_translate_url()
         )
-        search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
+        search_id = re.findall(
+            r'sid=([0-9a-f-]*)&amp',
+            response.content.decode('utf-8')
+        )[0]
         response = self.client.get(
             self.translate_url,
             {'sid': search_id, 'offset': 0}
@@ -303,7 +310,10 @@ class SearchViewTest(ViewTestCase):
             '3 / 4'
         )
         # Extract search ID
-        search_id = re.findall(r'sid=([0-9a-f-]*)&amp', response.content)[0]
+        search_id = re.findall(
+            r'sid=([0-9a-f-]*)&amp',
+            response.content.decode('utf-8')
+        )[0]
         # Navigation
         response = self.do_search(
             {'sid': search_id, 'offset': 0},
@@ -409,7 +419,8 @@ class SearchMigrationTest(TestCase):
         self.storage.create()
 
     def tearDown(self):
-        shutil.rmtree(self.path)
+        if os.path.exists(self.path):
+            shutil.rmtree(self.path)
         weblate.trans.search.STORAGE = self.backup
 
     def do_test(self, source, target):

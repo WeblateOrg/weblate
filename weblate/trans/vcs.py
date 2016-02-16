@@ -33,6 +33,7 @@ import subprocess
 
 from dateutil import parser
 
+import six
 from six.moves.configparser import RawConfigParser
 
 from weblate.trans.util import get_clean_env, add_configuration_error
@@ -325,7 +326,7 @@ class Repository(object):
 
         with open(real_path, 'rb') as handle:
             data = handle.read()
-            objhash.update('blob {0}\0'.format(len(data)))
+            objhash.update('blob {0}\0'.format(len(data)).encode('ascii'))
             objhash.update(data)
 
         return objhash.hexdigest()
@@ -759,13 +760,16 @@ class HgRepository(Repository):
         """
         Reads entry from configuration.
         """
+        result = None
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
         config = RawConfigParser()
         config.read(filename)
         if config.has_option(section, option):
-            return config.get(section, option).decode('utf-8')
-        return None
+            result = config.get(section, option)
+            if six.PY2:
+                result = result.decode('utf-8')
+        return result
 
     def set_config(self, path, value):
         """
@@ -773,9 +777,10 @@ class HgRepository(Repository):
         """
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
-        value = value.encode('utf-8')
-        section = section.encode('utf-8')
-        option = option.encode('utf-8')
+        if six.PY2:
+            value = value.encode('utf-8')
+            section = section.encode('utf-8')
+            option = option.encode('utf-8')
         config = RawConfigParser()
         config.read(filename)
         if not config.has_section(section):
@@ -784,7 +789,7 @@ class HgRepository(Repository):
                 config.get(section, option) == value):
             return
         config.set(section, option, value)
-        with open(filename, 'wb') as handle:
+        with open(filename, 'w') as handle:
             config.write(handle)
 
     def set_committer(self, name, mail):

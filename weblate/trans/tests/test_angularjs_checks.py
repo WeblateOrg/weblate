@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2012 - 2015 Michal Čihař <michal@cihar.com>
+# Copyright © 2012 - 2016 Michal Čihař <michal@cihar.com>
 # Copyright © 2015 Philipp Wolfer <ph.wolfer@gmail.com>
 #
 # This file is part of Weblate <http://weblate.org/>
@@ -75,3 +75,31 @@ class AngularJSInterpolationCheckTest(TestCase):
             u'{{nameerror}} string',
             MockUnit('angularjs_wrong_value', flags='angularjs-format')
         ))
+
+    def test_extended_formatting(self):
+        self.assertFalse(self.check.check_single(
+            u'Value: {{ something.value | currency }}',
+            u'Wert: {{ something.value | currency }}',
+            MockUnit('angularjs_format', flags='angularjs-format')
+        ))
+        self.assertTrue(self.check.check_single(
+            u'Value: {{ something.value | currency }}',
+            u'Value: {{ something.value }}',
+            MockUnit('angularjs_format', flags='angularjs-format')
+        ))
+
+    def test_check_highlight(self):
+        highlights = self.check.check_highlight(
+            u'{{name}} {{ something.value | currency }} string',
+            MockUnit('angularjs_format', flags='angularjs-format'))
+        self.assertEqual(2, len(highlights))
+        self.assertEqual(0, highlights[0][0])
+        self.assertEqual(8, highlights[0][1])
+        self.assertEqual(9, highlights[1][0])
+        self.assertEqual(41, highlights[1][1])
+
+    def test_check_highlight_ignored(self):
+        highlights = self.check.check_highlight(
+            u'{{name}} {{other}} string',
+            MockUnit('angularjs_format', flags='ignore-angularjs-format'))
+        self.assertEqual([], highlights)

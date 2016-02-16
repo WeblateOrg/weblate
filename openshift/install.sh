@@ -71,7 +71,6 @@ done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 sh "python ${OPENSHIFT_REPO_DIR}/setup_weblate.py develop"
 
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py migrate --noinput"
-sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py collectstatic --noinput"
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
   sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py changesite --set-name ${OPENSHIFT_APP_DNS}"

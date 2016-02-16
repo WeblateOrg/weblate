@@ -20,6 +20,8 @@
 
 from __future__ import unicode_literals
 
+import io
+
 from django.db import models, transaction
 from django.db.utils import OperationalError
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -305,9 +307,9 @@ class LanguageManager(models.Manager):
         Checks database language definitions with supplied ones.
         """
         errors = []
-        with open(filename) as handle:
+        with io.open(filename) as handle:
             for line in handle:
-                line = line.strip().decode('utf-8')
+                line = line.strip()
                 parts = [part.strip() for part in line.split(',')]
                 if len(parts) != 3:
                     continue

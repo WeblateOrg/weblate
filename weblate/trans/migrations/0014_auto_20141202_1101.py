@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from weblate.trans.data import migrate_data_dirs, unmigrate_data_dirs
+from weblate.trans.data import migrate_data_dirs
 
 
 class Migration(migrations.Migration):
@@ -14,6 +14,5 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(
             lambda apps, schema_editor: migrate_data_dirs(),
-            reverse_code=lambda apps, schema_editor: unmigrate_data_dirs(),
         ),
     ]

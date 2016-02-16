@@ -19,6 +19,7 @@
 #
 
 from django.conf.urls import include, url
+from django.conf import settings
 from django.contrib import admin
 from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
@@ -473,6 +474,16 @@ urlpatterns = [
         name='hook-project',
     ),
     url(
+        r'^hooks/commit/' + SUBPROJECT + '$',
+        weblate.trans.views.api.commit_subproject,
+        name='hook-commit-subproject',
+    ),
+    url(
+        r'^hooks/commit/' + PROJECT + '$',
+        weblate.trans.views.api.commit_project,
+        name='hook-commit-project',
+    ),
+    url(
         r'^hooks/github/$', weblate.trans.views.api.vcs_service_hook,
         {'service': 'github'},
         name='hook-github',
@@ -827,3 +838,14 @@ urlpatterns = [
         name="search"
     ),
 ]
+
+if 'weblate.billing' in settings.INSTALLED_APPS:
+    # pylint: disable=C0413
+    import weblate.billing.views
+    urlpatterns += [
+        url(
+            r'^invoice/(?P<pk>[0-9]+)/download/$',
+            weblate.billing.views.download_invoice,
+            name='invoice-download',
+        ),
+    ]

@@ -24,7 +24,7 @@ Simple mathematical captcha.
 from __future__ import unicode_literals
 
 import ast
-import binascii
+from base64 import b64encode, b64decode
 import hashlib
 import operator
 from random import randint, choice
@@ -137,7 +137,8 @@ def checksum_question(question, timestamp):
     '''
     Returns checksum for a question.
     '''
-    sha = hashlib.sha1(settings.SECRET_KEY + question + timestamp)
+    challenge = ''.join((settings.SECRET_KEY, question, timestamp))
+    sha = hashlib.sha1(challenge.encode('utf-8'))
     return sha.hexdigest()
 
 
@@ -150,7 +151,7 @@ def hash_question(question, timestamp):
     return '{0}{1}{2}'.format(
         hexsha,
         timestamp,
-        question.encode('base64')
+        b64encode(question.encode('utf-8')).decode('ascii')
     )
 
 
@@ -163,8 +164,8 @@ def unhash_question(question):
     hexsha = question[:40]
     timestamp = question[40:50]
     try:
-        question = question[50:].decode('base64')
-    except binascii.Error:
+        question = b64decode(question[50:]).decode('utf-8')
+    except (TypeError, UnicodeError):
         raise ValueError('Invalid encoding')
     if hexsha != checksum_question(question, timestamp):
         raise ValueError('Tampered question!')
