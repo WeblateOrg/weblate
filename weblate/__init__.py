@@ -19,9 +19,7 @@
 #
 
 import os
-import re
-from copy import _EmptyClass
-import django.utils.translation.trans_real as django_trans
+
 from weblate.requirements import (
     check_requirements, get_versions, get_optional_versions
 )
@@ -111,34 +109,3 @@ def get_versions_string():
 check_requirements()
 check_data_writable()
 create_ssh_wrapper()
-
-# Monkey patch locales, workaround for
-# https://code.djangoproject.com/ticket/24063
-django_trans.language_code_re = re.compile(
-    r'^[a-z]{1,8}(?:-[a-z0-9]{1,8})*(?:@[a-z0-9]{1,20})?$',
-    re.IGNORECASE
-)
-
-
-class DjangoTranslation(django_trans.DjangoTranslation):
-    """
-    Unshared _info and _catalog to avoid Django messing up
-    locale variants.
-
-    This will not be needed in Django 1.8.
-    """
-    def __copy__(self):
-        """
-        Simplified version of copy._copy_inst extended for copying
-        _info and _catalog.
-        """
-        result = _EmptyClass()
-        result.__class__ = self.__class__
-        state = self.__dict__
-        state['_info'] = self._info.copy()
-        state['_catalog'] = self._catalog.copy()
-        result.__dict__.update(state)
-        return result
-
-
-django_trans.DjangoTranslation = DjangoTranslation
