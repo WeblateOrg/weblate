@@ -401,8 +401,8 @@ class HomeViewTest(ViewTestCase):
         self.assertNotContains(response, 'whiteboard')
 
     def test_component_list(self):
-        cl = ComponentList(name="TestCL", slug="testcl")
-        cl.save()
+        clist = ComponentList(name="TestCL", slug="testcl")
+        clist.save()
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
