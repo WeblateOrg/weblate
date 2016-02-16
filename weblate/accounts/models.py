@@ -477,6 +477,10 @@ class Profile(models.Model):
     secondary_languages = models.ManyToManyField(
         Language,
         verbose_name=_('Secondary languages'),
+        help_text=_(
+            'Choose languages you can understand, strings in those languages '
+            'will be shown in addition to the source string.'
+        ),
         related_name='secondary_profile_set',
         blank=True,
     )
