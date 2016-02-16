@@ -218,11 +218,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
         try:
             self.load_store()
-        except ValueError:
-            raise ValidationError(
-                _('Format of %s could not be recognized.') %
-                self.filename
-            )
         except Exception as error:
             raise ValidationError(
                 _('Failed to parse file %(file)s: %(error)s') % {
