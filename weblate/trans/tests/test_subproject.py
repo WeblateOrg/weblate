@@ -386,81 +386,93 @@ class SubProjectValidationTest(RepoTestCase):
     """
     SubProject object validation testing.
     """
-    def test_validation(self):
-        project = self.create_subproject()
-        # Correct project
-        project.full_clean()
+    def setUp(self):
+        super(SubProjectValidationTest, self).setUp()
+        self.component = self.create_subproject()
+        # Ensure we have correct component
+        self.component.full_clean()
 
-        # Invalid commit message
-        project.commit_message = '%(foo)s'
+    def test_commit_message(self):
+        """Invalid commit message"""
+        self.component.commit_message = '%(foo)s'
         self.assertRaisesMessage(
             ValidationError,
             'Bad format string',
-            project.full_clean
+            self.component.full_clean
         )
 
-        # Invalid mask
-        project.filemask = 'foo/x.po'
+    def test_filemask(self):
+        """Invalid mask"""
+        self.component.filemask = 'foo/x.po'
         self.assertRaisesMessage(
             ValidationError,
             'File mask does not contain * as a language placeholder!',
-            project.full_clean
+            self.component.full_clean
         )
-        # Not matching mask
-        project.filemask = 'foo/*.po'
+
+    def test_no_matches(self):
+        """Not matching mask"""
+        self.component.filemask = 'foo/*.po'
         self.assertRaisesMessage(
             ValidationError,
             'The mask did not match any files!',
-            project.full_clean
+            self.component.full_clean
         )
-        # Unknown file format
-        project.filemask = 'invalid/*.invalid'
+
+    def test_fileformat(self):
+        """Unknown file format"""
+        self.component.filemask = 'invalid/*.invalid'
         self.assertRaisesMessage(
             ValidationError,
             'Format of 2 matched files could not be recognized.',
-            project.full_clean
+            self.component.full_clean
         )
 
-        # Repoweb
-        project.repoweb = 'http://%(foo)s/%(bar)s/%72'
+    def test_repoweb(self):
+        """Invalid repoweb format"""
+        self.component.repoweb = 'http://%(foo)s/%(bar)s/%72'
         self.assertRaisesMessage(
             ValidationError,
             "Bad format string ('foo')",
-            project.full_clean
+            self.component.full_clean
         )
-        project.repoweb = ''
+        self.component.repoweb = ''
 
-        # Bad link
-        project.repo = 'weblate://foo'
-        project.push = ''
+    def test_link_incomplete(self):
+        """Incomplete link"""
+        self.component.repo = 'weblate://foo'
+        self.component.push = ''
         self.assertRaisesMessage(
             ValidationError,
             'Invalid link to a Weblate project, '
             'use weblate://project/component.',
-            project.full_clean
+            self.component.full_clean
         )
 
-        # Bad link
-        project.repo = 'weblate://foo/bar'
-        project.push = ''
+    def test_link_nonexisting(self):
+        """Link to non existing project"""
+        self.component.repo = 'weblate://foo/bar'
+        self.component.push = ''
         self.assertRaisesMessage(
             ValidationError,
             'Invalid link to a Weblate project, '
             'use weblate://project/component.',
-            project.full_clean
+            self.component.full_clean
         )
 
-        # Bad link
-        project.repo = 'weblate://test/test'
-        project.push = ''
+    def test_link_self(self):
+        """Link pointing to self"""
+        self.component.repo = 'weblate://test/test'
+        self.component.push = ''
         self.assertRaisesMessage(
             ValidationError,
             'Invalid link to a Weblate project, '
             'can not link to self!',
-            project.full_clean
+            self.component.full_clean
         )
 
     def test_validation_mono(self):
+        self.component.project.delete()
         project = self.create_po_mono()
         # Correct project
         project.full_clean()
@@ -473,45 +485,43 @@ class SubProjectValidationTest(RepoTestCase):
         )
 
     def test_validation_languge_re(self):
-        subproject = self.create_subproject()
-        subproject.language_regex = '[-'
+        self.component.language_regex = '[-'
         self.assertRaises(
             ValidationError,
-            subproject.full_clean
+            self.component.full_clean
         )
 
     def test_validation_newlang(self):
-        subproject = self.create_subproject()
-        subproject.new_base = 'po/project.pot'
-        subproject.save()
+        self.component.new_base = 'po/project.pot'
+        self.component.save()
 
         # Check that it warns about unused pot
         self.assertRaisesMessage(
             ValidationError,
             'Base file for new translations is not used '
             'because of component settings.',
-            subproject.full_clean
+            self.component.full_clean
         )
 
-        subproject.new_lang = 'add'
-        subproject.save()
+        self.component.new_lang = 'add'
+        self.component.save()
 
         # Check that it warns about not supported format
         self.assertRaisesMessage(
             ValidationError,
             'Chosen file format does not support adding new '
             'translations as chosen in project settings.',
-            subproject.full_clean
+            self.component.full_clean
         )
 
-        subproject.file_format = 'po'
-        subproject.save()
+        self.component.file_format = 'po'
+        self.component.save()
 
         # Clean class cache, pylint: disable=W0212
-        subproject._file_format = None
+        self.component._file_format = None
 
         # With correct format it should validate
-        subproject.full_clean()
+        self.component.full_clean()
 
     def test_lang_code(self):
         subproject = SubProject()
