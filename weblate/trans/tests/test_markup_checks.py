@@ -22,6 +22,7 @@
 Tests for quality checks.
 """
 
+from __future__ import unicode_literals
 from weblate.trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
@@ -63,3 +64,6 @@ class XMLTagsCheckTest(CheckTestCase):
                 (24, 28, '</b>'),
             ]
         )
+
+    def test_unicode(self):
+        self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))

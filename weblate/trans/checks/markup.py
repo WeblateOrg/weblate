@@ -25,6 +25,8 @@ import re
 
 from django.utils.translation import ugettext_lazy as _
 
+import six
+
 from weblate.trans.checks.base import TargetCheck
 
 BBCODE_MATCH = re.compile(
@@ -95,8 +97,14 @@ class XMLTagsCheck(TargetCheck):
         '''
         Wrapper for parsing XML.
         '''
-        text = strip_entities(text)
-        return cElementTree.fromstring('<weblate>%s</weblate>' % text)
+        text = ''.join(
+            ('<weblate>', strip_entities(text), '</weblate>')
+        )
+
+        if six.PY2:
+            text = text.encode('utf-8')
+
+        return cElementTree.fromstring(text)
 
     def check_single(self, source, target, unit):
         # Quick check if source looks like XML
