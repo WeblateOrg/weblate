@@ -984,15 +984,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.translated_words,
         )
 
-        # Not translated strings
-        result.add_if(
-            'nottranslated',
-            _('Not translated strings'),
-            self.total - self.translated - self.fuzzy,
-            'danger',
-            self.total_words - self.translated_words - self.fuzzy_words,
-        )
-
         # Untranslated strings
         result.add_if(
             'todo',
@@ -1002,10 +993,19 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.total_words - self.translated_words,
         )
 
+        # Not translated strings
+        result.add_if(
+            'nottranslated',
+            _('Not translated strings'),
+            self.total - self.translated - self.fuzzy,
+            'danger',
+            self.total_words - self.translated_words - self.fuzzy_words,
+        )
+
         # Fuzzy strings
         result.add_if(
             'fuzzy',
-            _('Strings needing review'),
+            _('Strings marked for review'),
             self.fuzzy,
             'danger',
             self.fuzzy_words,
