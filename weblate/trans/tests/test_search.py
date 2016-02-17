@@ -331,7 +331,7 @@ class SearchViewTest(ViewTestCase):
     def test_search_type(self):
         self.do_search(
             {'type': 'untranslated'},
-            'Strings needing attention',
+            'Strings needing action',
         )
         self.do_search(
             {'type': 'fuzzy'},

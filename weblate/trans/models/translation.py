@@ -987,7 +987,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Untranslated strings
         result.add_if(
             'todo',
-            _('Strings needing attention'),
+            _('Strings needing action'),
             self.total - self.translated,
             'danger',
             self.total_words - self.translated_words,

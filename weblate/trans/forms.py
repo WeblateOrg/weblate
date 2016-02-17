@@ -429,7 +429,7 @@ class FilterField(forms.ChoiceField):
         kwargs['choices'] = [
             ('all', _('All strings')),
             ('nottranslated', _('Not translated strings')),
-            ('todo', _('Strings needing attention')),
+            ('todo', _('Strings needing action')),
             ('translated', _('Translated strings')),
             ('fuzzy', _('Strings marked for review')),
             ('suggestions', _('Strings with suggestions')),
