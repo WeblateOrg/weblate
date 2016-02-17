@@ -102,7 +102,7 @@ class XMLTagsCheck(TargetCheck):
         )
 
         if six.PY2:
-            text = text.encode('utf-8')
+            return cElementTree.fromstring(text.encode('utf-8'))
 
         return cElementTree.fromstring(text)
 
