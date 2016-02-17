@@ -431,7 +431,7 @@ class FilterField(forms.ChoiceField):
             ('nottranslated', _('Not translated strings')),
             ('todo', _('Strings needing attention')),
             ('translated', _('Translated strings')),
-            ('fuzzy', _('Strings needing review')),
+            ('fuzzy', _('Strings marked for review')),
             ('suggestions', _('Strings with suggestions')),
             ('comments', _('Strings with comments')),
             ('allchecks', _('Strings with any failing checks')),

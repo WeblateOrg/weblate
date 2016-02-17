@@ -3,7 +3,7 @@
 {% trans "Total strings:" %} {{ translation.total }}
 {% trans "Translated strings:" %} {{ translation.translated }} ({{ translation.get_translated_percent }}%)
 {% trans "Untranslated strings:" %} {{ translation.untranslated }} ({{ translation.get_untranslated_percent }}%)
-{% trans "Strings needing review:" %} {{ translation.fuzzy }} ({{ translation.get_fuzzy_percent }}%)
+{% trans "Strings marked for review:" %} {{ translation.fuzzy }} ({{ translation.get_fuzzy_percent }}%)
 
 {% blocktrans %}You can translate at {{ translation_url }}{% endblocktrans %}
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

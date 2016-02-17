@@ -1005,7 +1005,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Fuzzy strings
         result.add_if(
             'fuzzy',
-            _('Strings needing review'),
+            _('Strings marked for review'),
             self.fuzzy,
             'danger',
             self.fuzzy_words,
