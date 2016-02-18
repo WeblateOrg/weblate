@@ -1017,7 +1017,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 matches.discard(filename)
         return sorted(matches)
 
-    def create_translations(self, force=False, langs=None, request=None):
+    def create_translations(self, force=False, langs=None, request=None,
+                            changed_template=False):
         '''
         Loads translations from VCS.
         '''
@@ -1051,6 +1052,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 )
                 translations.add(translation.id)
                 languages.add(lang.code)
+                # Remove fuzzy flag on template name change
+                if changed_template:
+                    translation.unit_set.update(fuzzy=False)
 
         # Delete possibly no longer existing translations
         if langs is None:
@@ -1366,6 +1370,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Detect if VCS config has changed (so that we have to pull the repo)
         changed_git = True
         changed_setup = False
+        changed_template = False
         changed_project = False
         if self.id:
             old = SubProject.objects.get(pk=self.id)
@@ -1378,6 +1383,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 (old.file_format != self.file_format) or
                 (old.edit_template != self.edit_template) or
                 (old.template != self.template)
+            )
+            changed_template = (
+                (old.edit_template != self.edit_template) and
+                self.template
             )
             changed_project = (old.project_id != self.project_id)
             # Detect slug changes and rename git repo
@@ -1401,7 +1410,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
         if changed_setup:
-            self.create_translations(force=True)
+            self.create_translations(
+                force=True,
+                changed_template=changed_template
+            )
         elif changed_git:
             self.create_translations()
 
