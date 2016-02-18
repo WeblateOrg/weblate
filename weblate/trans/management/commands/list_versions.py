@@ -19,6 +19,7 @@
 #
 
 from django.core.management.base import BaseCommand
+from django import db
 from weblate import get_versions_string
 
 
@@ -30,3 +31,9 @@ class Command(BaseCommand):
         Prints versions of dependencies.
         '''
         self.stdout.write(get_versions_string())
+        self.stdout.write(
+            ' * Database backends: ' +
+            ', '.join(
+                [conn['ENGINE'] for conn in db.connections.databases.values()]
+            )
+        )
