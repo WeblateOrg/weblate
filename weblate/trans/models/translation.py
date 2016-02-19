@@ -55,9 +55,7 @@ class TranslationManager(models.Manager):
 
     def check_sync(self, subproject, lang, code, path, force=False,
                    request=None):
-        '''
-        Parses translation meta info and creates/updates translation object.
-        '''
+        """Parses translation meta info and updates translation object"""
         translation, dummy = self.get_or_create(
             language=lang,
             language_code=code,
@@ -72,16 +70,14 @@ class TranslationManager(models.Manager):
         return translation
 
     def enabled(self):
-        '''
-        Filters enabled translations.
-        '''
+        """Filters enabled translations."""
         return self.filter(enabled=True).select_related()
 
     def get_percents(self, project=None, subproject=None, language=None):
-        '''
-        Returns tuple consting of status percents -
+        """Returns tuple consting of status percents:
+
         (translated, fuzzy, failing checks)
-        '''
+        """
         # Filter translations
         translations = self
         if project is not None:
@@ -166,9 +162,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         app_label = 'trans'
 
     def __init__(self, *args, **kwargs):
-        '''
-        Constructor to initialize some cache properties.
-        '''
+        """Constructor to initialize some cache properties."""
         super(Translation, self).__init__(*args, **kwargs)
         self._store = None
         self._last_change_obj = None
@@ -184,16 +178,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def has_acl(self, user):
-        '''
-        Checks whether current user is allowed to access this
-        subproject.
-        '''
+        """Checks whether current user is allowed to access this object"""
         return self.subproject.project.has_acl(user)
 
     def check_acl(self, request):
-        '''
-        Raises an error if user is not allowed to access this project.
-        '''
+        """Raises an error if user is not allowed to access this project."""
         self.subproject.project.check_acl(request)
 
     def is_template(self):
@@ -204,10 +193,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return self.filename == self.subproject.template
 
     def clean(self):
-        '''
+        """
         Validates that filename exists and can be opened using
         translate-toolkit.
-        '''
+        """
         if not os.path.exists(self.get_filename()):
             raise ValidationError(
                 _(
@@ -227,9 +216,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
 
     def _get_percents(self):
-        '''
-        Returns percentages of translation status.
-        '''
+        """Returns percentages of translation status."""
         # No units?
         if self.total == 0:
             return (100, 0, 0)
@@ -264,9 +251,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return self.total - self.translated
 
     def get_lock_user_display(self):
-        '''
-        Returns formatted lock user.
-        '''
+        """Returns formatted lock user."""
         return get_user_display(self.lock_user)
 
     def get_lock_display(self):
@@ -277,20 +262,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def is_locked(self, user=None):
-        '''
-        Check whether the translation is locked and
-        possibly emits messages if request object is
-        provided.
-        '''
+        """Check whether the translation is locked
+
+        Possibly emits messages if request object is provided.
+        """
         return (
             self.is_user_locked(user) or
             self.subproject.locked
         )
 
     def is_user_locked(self, user=None):
-        '''
-        Checks whether there is valid user lock on this translation.
-        '''
+        """Checks whether there is valid user lock on this translation."""
         # Any user?
         if self.lock_user is None:
             return False
@@ -309,9 +291,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             return True
 
     def create_lock(self, user, explicit=False):
-        '''
-        Creates lock on translation.
-        '''
+        """Creates lock on translation."""
         is_new = self.lock_user is None
         self.lock_user = user
 
@@ -324,9 +304,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self.update_lock_time(explicit, is_new)
 
     def update_lock_time(self, explicit=False, is_new=True):
-        '''
-        Sets lock timestamp.
-        '''
+        """Sets lock timestamp."""
         if explicit:
             seconds = appsettings.LOCK_TIME
         else:
@@ -340,9 +318,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self.save()
 
     def update_lock(self, user, create=True):
-        '''
-        Updates lock timestamp.
-        '''
+        """Updates lock timestamp."""
         # Check if we can lock
         if self.is_user_locked(user):
             return False
@@ -360,15 +336,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return False
 
     def _reverse_url_name(self):
-        '''
-        Returns base name for URL reversing.
-        '''
+        """Returns base name for URL reversing."""
         return 'translation'
 
     def _reverse_url_kwargs(self):
-        '''
-        Returns kwargs for URL reversing.
-        '''
+        """Returns kwargs for URL reversing."""
         return {
             'project': self.subproject.project.slug,
             'subproject': self.subproject.slug,
@@ -376,9 +348,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         }
 
     def get_widgets_url(self):
-        '''
-        Returns absolute URL for widgets.
-        '''
+        """Returns absolute URL for widgets."""
         return get_site_url(
             '%s?lang=%s' % (
                 reverse(
@@ -391,9 +361,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def get_share_url(self):
-        '''
-        Returns absolute URL usable for sharing.
-        '''
+        """Returns absolute URL usable for sharing."""
         return get_site_url(
             reverse(
                 'engage-lang',
@@ -419,15 +387,11 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def get_filename(self):
-        '''
-        Returns absolute filename.
-        '''
+        """Returns absolute filename."""
         return os.path.join(self.subproject.get_path(), self.filename)
 
     def load_store(self):
-        '''
-        Loads translate-toolkit storage from disk.
-        '''
+        """Loads translate-toolkit storage from disk."""
         return self.subproject.file_format_cls.parse(
             self.get_filename(),
             self.subproject.template_store,
@@ -435,16 +399,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def supports_language_pack(self):
-        '''
-        Checks whether we support language pack download.
-        '''
+        """Checks whether we support language pack download."""
         return self.subproject.file_format_cls.supports_language_pack()
 
     @property
     def store(self):
-        '''
-        Returns translate-toolkit storage object for a translation.
-        '''
+        """Returns translate-toolkit storage object for a translation."""
         if self._store is None:
             try:
                 self._store = self.load_store()
@@ -455,9 +415,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return self._store
 
     def check_sync(self, force=False, request=None, change=None):
-        '''
-        Checks whether database is in sync with git and possibly does update.
-        '''
+        """Checks whether database is in sync with git and possibly updates"""
 
         if change is None:
             change = Change.ACTION_UPDATE
@@ -579,9 +537,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return self.subproject.can_push()
 
     def get_git_blob_hash(self):
-        '''
-        Returns current VCS blob hash for file.
-        '''
+        """Returns current VCS blob hash for file."""
         ret = self.subproject.repository.get_object_hash(self.get_filename())
 
         if not self.subproject.has_template():
@@ -595,9 +551,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         ])
 
     def update_stats(self):
-        '''
-        Updates translation statistics.
-        '''
+        """Updates translation statistics."""
         # Grab stats
         stats = self.unit_set.aggregate(
             Sum('num_words'),
@@ -661,17 +615,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self.store_hash()
 
     def store_hash(self):
-        '''
-        Stores current hash in database.
-        '''
+        """Stores current hash in database."""
         blob_hash = self.get_git_blob_hash()
         self.revision = blob_hash
         self.save()
 
     def get_last_author(self, email=False):
-        '''
-        Returns last autor of change done in Weblate.
-        '''
+        """Returns last autor of change done in Weblate."""
         if self.last_change_obj is None:
             return None
         return get_author_name(
@@ -696,17 +646,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     @property
     def last_change(self):
-        '''
-        Returns date of last change done in Weblate.
-        '''
+        """Returns date of last change done in Weblate."""
         if self.last_change_obj is None:
             return None
         return self.last_change_obj.timestamp
 
     def commit_pending(self, request, author=None, skip_push=False):
-        '''
-        Commits any pending changes.
-        '''
+        """Commits any pending changes."""
         # Get author of last changes
         last = self.get_last_author(True)
 
@@ -720,9 +666,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def get_commit_message(self):
-        '''
-        Formats commit message based on project configuration.
-        '''
+        """Formats commit message based on project configuration."""
         msg = self.subproject.commit_message % {
             'language': self.language_code,
             'language_name': self.language.name,
@@ -744,9 +688,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return msg
 
     def __git_commit(self, author, timestamp, sync=False):
-        '''
-        Commits translation to git.
-        '''
+        """Commits translation to git."""
 
         # Format commit message
         msg = self.get_commit_message()
@@ -781,9 +723,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.store_hash()
 
     def repo_needs_commit(self):
-        '''
-        Checks whether there are some not committed changes.
-        '''
+        """Checks whether there are some not committed changes."""
         return self.subproject.repository.needs_commit(self.filename)
 
     def repo_needs_merge(self):
@@ -794,14 +734,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def git_commit(self, request, author, timestamp, force_commit=False,
                    sync=False, skip_push=False, force_new=False):
-        '''
-        Wrapper for commiting translation to git.
+        """Wrapper for commiting translation to git.
 
         force_commit forces commit with lazy commits enabled
 
         sync updates git hash stored within the translation (otherwise
         translation rescan will be needed)
-        '''
+        """
         # Is there something for commit?
         if not force_new and not self.repo_needs_commit():
             return False
@@ -837,9 +776,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return True
 
     def update_unit(self, unit, request, user=None):
-        '''
-        Updates backend file and unit.
-        '''
+        """Updates backend file and unit."""
         if user is None:
             user = request.user
         # Save with lock acquired
@@ -917,9 +854,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return True, pounit
 
     def get_source_checks(self):
-        '''
-        Returns list of failing source checks on current subproject.
-        '''
+        """Returns list of failing source checks on current subproject."""
         result = TranslationChecklist()
         result.add(
             'all',
@@ -959,9 +894,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return result
 
     def get_translation_checks(self):
-        '''
-        Returns list of failing checks on current translation.
-        '''
+        """Returns list of failing checks on current translation."""
         result = TranslationChecklist()
 
         # All strings
@@ -1048,9 +981,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return result
 
     def merge_translations(self, request, store2, overwrite, add_fuzzy, fuzzy):
-        """
-        Merges translation unit wise, needed for template based translations to
-        add new strings.
+        """Merges translation unit wise
+
+        Needed for template based translations to add new strings.
         """
         ret = False
 
@@ -1078,9 +1011,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def merge_store(self, request, author, store2, overwrite, merge_header,
                     add_fuzzy, fuzzy, merge_comments):
-        '''
-        Merges translate-toolkit store into current translation.
-        '''
+        """Merges translate-toolkit store into current translation."""
         # Merge with lock acquired
         with self.subproject.repository_lock:
 
@@ -1127,9 +1058,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_suggestions(self, request, store, fuzzy):
-        '''
-        Merges content of translate-toolkit store as a suggestions.
-        '''
+        """Merges content of translate-toolkit store as a suggestions."""
         ret = False
         for dummy, unit in store.iterate_merge(fuzzy):
             # Calculate unit checksum
@@ -1157,9 +1086,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def merge_upload(self, request, fileobj, overwrite, author=None,
                      merge_header=True, method='', fuzzy='',
                      merge_comments=False):
-        '''
-        Top level handler for file uploads.
-        '''
+        """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
 
@@ -1233,9 +1160,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret, store.count_units()
 
     def invalidate_cache(self, cache_type=None):
-        '''
-        Invalidates any cached stats.
-        '''
+        """Invalidates any cached stats."""
         # Get parts of key cache
         slug = self.subproject.get_full_slug()
         code = self.language.code
@@ -1259,7 +1184,5 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         }
 
     def get_export_url(self):
-        '''
-        Returns URL of exported git repository.
-        '''
+        """Returns URL of exported git repository."""
         return self.subproject.get_export_url()

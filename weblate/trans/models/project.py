@@ -43,14 +43,11 @@ class ProjectManager(models.Manager):
     # pylint: disable=W0232
 
     def all_acl(self, user):
-        """
-        Returns list of projects user is allowed to access.
-        """
+        """Returns list of projects user is allowed to access."""
         return self.get_acl_status(user)[0]
 
     def get_acl_status(self, user):
-        """
-        Returns list of projects user is allowed to access
+        """Returns list of projects user is allowed to access
         and flag whether there is any filtering active.
         """
         projects = self.all()
@@ -166,17 +163,12 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name_plural = ugettext_lazy('Projects')
 
     def __init__(self, *args, **kwargs):
-        """
-        Constructor to initialize some cache properties.
-        """
+        """Constructor to initialize some cache properties."""
         super(Project, self).__init__(*args, **kwargs)
         self.permissions_cache = {}
 
     def has_acl(self, user):
-        """
-        Checks whether current user is allowed to access this
-        project.
-        """
+        """Checks whether current user is allowed to access this object"""
         if not self.enable_acl:
             return True
 
@@ -189,9 +181,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return self.owners.filter(id=user.id).exists()
 
     def check_acl(self, request):
-        """
-        Raises an error if user is not allowed to access this project.
-        """
+        """Raises an error if user is not allowed to access this project."""
         if not self.has_acl(request.user):
             messages.error(
                 request,
@@ -200,25 +190,19 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             raise PermissionDenied
 
     def all_users(self):
-        """
-        Returns all users having ACL on this project.
-        """
+        """Returns all users having ACL on this project."""
         group = Group.objects.get(name=self.name)
         return group.user_set.exclude(
             id__in=self.owners.values_list('id', flat=True)
         )
 
     def add_user(self, user):
-        """
-        Adds user based on username of email.
-        """
+        """Adds user based on username of email."""
         group = Group.objects.get(name=self.name)
         user.groups.add(group)
 
     def remove_user(self, user):
-        """
-        Adds user based on username of email.
-        """
+        """Adds user based on username of email."""
         group = Group.objects.get(name=self.name)
         user.groups.remove(group)
 
@@ -231,31 +215,23 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def _reverse_url_name(self):
-        """
-        Returns base name for URL reversing.
-        """
+        """Returns base name for URL reversing."""
         return 'project'
 
     def _reverse_url_kwargs(self):
-        """
-        Returns kwargs for URL reversing.
-        """
+        """Returns kwargs for URL reversing."""
         return {
             'project': self.slug
         }
 
     def get_widgets_url(self):
-        """
-        Returns absolute URL for widgets.
-        """
+        """Returns absolute URL for widgets."""
         return get_site_url(
             reverse('widgets', kwargs={'project': self.slug})
         )
 
     def get_share_url(self):
-        """
-        Returns absolute URL usable for sharing.
-        """
+        """Returns absolute URL usable for sharing."""
         return get_site_url(
             reverse('engage', kwargs={'project': self.slug})
         )
@@ -316,9 +292,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # pylint: disable=W0221
 
     def _get_percents(self, lang=None):
-        """
-        Returns percentages of translation status.
-        """
+        """Returns percentages of translation status."""
         # Import translations
         from weblate.trans.models.translation import Translation
 
@@ -329,17 +303,16 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # pylint: disable=W0221
 
     def get_translated_percent(self, lang=None):
-        """
-        Returns percent of translated strings.
-        """
+        """Returns percent of translated strings."""
         if lang is None:
             return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
 
     def get_total(self):
-        """
-        Calculates total number of strings to translate. This is done based on
-        assumption that all languages have same number of strings.
+        """Calculates total number of strings to translate.
+
+        This is done based on assumption that all languages have same number
+        of strings.
         """
         totals = []
         for component in self.subproject_set.all():
@@ -350,9 +323,10 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return sum(totals)
 
     def get_total_words(self):
-        """
-        Calculates total number of words to translate. This is done based on
-        assumption that all languages have same number of strings.
+        """Calculates total number of words to translate.
+
+        This is done based on assumption that all languages have same number
+        of strings.
         """
         totals = []
         for component in self.subproject_set.all():
@@ -363,23 +337,17 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return sum(totals)
 
     def get_languages(self):
-        """
-        Returns list of all languages used in project.
-        """
+        """Returns list of all languages used in project."""
         return Language.objects.filter(
             translation__subproject__project=self
         ).distinct()
 
     def get_language_count(self):
-        """
-        Returns number of languages used in this project.
-        """
+        """Returns number of languages used in this project."""
         return self.get_languages().count()
 
     def repo_needs_commit(self):
-        """
-        Checks whether there are some not committed changes.
-        """
+        """Checks whether there are some not committed changes."""
         for component in self.subproject_set.all():
             if component.repo_needs_commit():
                 return True
@@ -398,9 +366,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return False
 
     def commit_pending(self, request, on_commit=True):
-        """
-        Commits any pending changes.
-        """
+        """Commits any pending changes."""
         ret = False
 
         components = self.all_repo_components()
@@ -417,33 +383,25 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return ret
 
     def do_update(self, request=None, method=None):
-        """
-        Updates all git repos.
-        """
+        """Updates all git repos."""
         ret = True
         for component in self.all_repo_components():
             ret &= component.do_update(request, method=method)
         return ret
 
     def do_push(self, request=None):
-        """
-        Pushes all git repos.
-        """
+        """Pushes all git repos."""
         return self.commit_pending(request, on_commit=False)
 
     def do_reset(self, request=None):
-        """
-        Pushes all git repos.
-        """
+        """Pushes all git repos."""
         ret = False
         for component in self.all_repo_components():
             ret |= component.do_reset(request)
         return ret
 
     def can_push(self):
-        """
-        Checks whether any suprojects can push.
-        """
+        """Checks whether any suprojects can push."""
         ret = False
         for component in self.subproject_set.all():
             ret |= component.can_push()
@@ -451,9 +409,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @property
     def last_change(self):
-        """
-        Returns date of last change done in Weblate.
-        """
+        """Returns date of last change done in Weblate."""
         components = self.subproject_set.all()
         changes = [component.last_change for component in components]
         changes = [c for c in changes if c is not None]
