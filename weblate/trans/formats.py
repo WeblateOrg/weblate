@@ -770,13 +770,13 @@ class FileFormat(object):
         return
 
     @staticmethod
-    def untranslate_store(store, language):
+    def untranslate_store(store, language, fuzzy=False):
         """Removes translations from ttkit store"""
         store.settargetlanguage(language.code)
 
         for unit in store.units:
             if unit.istranslatable():
-                unit.markfuzzy()
+                unit.markfuzzy(fuzzy)
                 if unit.hasplural():
                     unit.settarget([''] * language.nplurals)
                 else:
@@ -887,6 +887,12 @@ class PoFormat(FileFormat):
 
         cls.untranslate_store(store, language)
 
+        store.updateheader(
+            last_translator='Automatically generated',
+            plural_forms=language.get_plural_form(),
+            language_team='none',
+        )
+
         store.savefile(filename)
 
     def merge_header(self, otherstore):
@@ -948,7 +954,7 @@ class TSFormat(FileFormat):
     def create_new_file(cls, filename, language, base):
         store = tsfile.parsefile(base)
 
-        cls.untranslate_store(store, language)
+        cls.untranslate_store(store, language, True)
 
         store.savefile(filename)
 
