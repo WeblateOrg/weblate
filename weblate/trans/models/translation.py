@@ -563,10 +563,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if was_new:
             notify_new_string(self)
 
-    @property
-    def repository(self):
-        return self.subproject.repository
-
     def get_last_remote_commit(self):
         return self.subproject.get_last_remote_commit()
 
@@ -586,14 +582,16 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Returns current VCS blob hash for file.
         '''
-        ret = self.repository.get_object_hash(self.get_filename())
+        ret = self.subproject.repository.get_object_hash(self.get_filename())
 
         if not self.subproject.has_template():
             return ret
 
         return ','.join([
             ret,
-            self.repository.get_object_hash(self.subproject.template)
+            self.subproject.repository.get_object_hash(
+                self.subproject.template
+            )
         ])
 
     def update_stats(self):
@@ -771,7 +769,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     files.append(extra_file)
 
         # Do actual commit
-        self.repository.commit(
+        self.subproject.repository.commit(
             msg, author, timestamp, files
         )
 
@@ -786,7 +784,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         '''
         Checks whether there are some not committed changes.
         '''
-        return self.repository.needs_commit(self.filename)
+        return self.subproject.repository.needs_commit(self.filename)
 
     def repo_needs_merge(self):
         return self.subproject.repo_needs_merge()
