@@ -85,7 +85,6 @@ class VCSGitTest(RepoTestCase):
     _tempdir = None
     _class = GitRepository
     _vcs = 'git'
-    _branch = 'master'
     _can_push = True
 
     def setUp(self):
@@ -128,7 +127,7 @@ class VCSGitTest(RepoTestCase):
             )
 
             # Push it
-            repo.push(self._branch)
+            repo.push()
         finally:
             shutil.rmtree(tempdir)
 
@@ -147,7 +146,7 @@ class VCSGitTest(RepoTestCase):
         self.repo.update_remote()
 
     def test_push(self):
-        self.repo.push(self._branch)
+        self.repo.push()
 
     def test_push_commit(self):
         self.test_commit()
@@ -155,11 +154,11 @@ class VCSGitTest(RepoTestCase):
 
     def test_reset(self):
         original = self.repo.last_revision
-        self.repo.reset(self._branch)
+        self.repo.reset()
         self.assertEqual(original, self.repo.last_revision)
         self.test_commit()
         self.assertNotEqual(original, self.repo.last_revision)
-        self.repo.reset(self._branch)
+        self.repo.reset()
         self.assertEqual(original, self.repo.last_revision)
 
     def test_merge_commit(self):
@@ -206,11 +205,11 @@ class VCSGitTest(RepoTestCase):
 
     def test_merge(self):
         self.test_update_remote()
-        self.repo.merge(self._branch)
+        self.repo.merge()
 
     def test_rebase(self):
         self.test_update_remote()
-        self.repo.rebase(self._branch)
+        self.repo.rebase()
 
     def test_status(self):
         status = self.repo.status()
@@ -264,12 +263,12 @@ class VCSGitTest(RepoTestCase):
         self.check_valid_info(info)
 
     def test_needs_merge(self):
-        self.assertFalse(self.repo.needs_merge(self._branch))
-        self.assertFalse(self.repo.needs_push(self._branch))
+        self.assertFalse(self.repo.needs_merge())
+        self.assertFalse(self.repo.needs_push())
 
     def test_needs_push(self):
         self.test_commit()
-        self.assertTrue(self.repo.needs_push(self._branch))
+        self.assertTrue(self.repo.needs_push())
 
     def test_is_supported(self):
         self.assertTrue(self._class.is_supported())
@@ -364,7 +363,7 @@ class VCSGitTest(RepoTestCase):
 
     def test_configure_branch(self):
         # Existing branch
-        self.repo.configure_branch(self._branch)
+        self.repo.configure_branch(self._class.default_branch)
 
         self.assertRaises(
             RepositoryException,
@@ -376,14 +375,12 @@ class VCSGitTest(RepoTestCase):
 class VCSGerritTest(VCSGitTest):
     _class = GitWithGerritRepository
     _vcs = 'git'
-    _branch = 'master'
     _can_push = False
 
 
 class VCSGithubTest(VCSGitTest):
     _class = GithubFakeRepository
     _vcs = 'git'
-    _branch = 'master'
     _can_push = False
 
 
@@ -393,17 +390,6 @@ class VCSHgTest(VCSGitTest):
     """
     _class = HgRepository
     _vcs = 'hg'
-    _branch = 'default'
-
-    def test_configure_branch(self):
-        # Existing branch
-        self.repo.configure_branch('default')
-
-        self.assertRaises(
-            RepositoryException,
-            self.repo.configure_branch,
-            'branch'
-        )
 
     def test_configure_remote(self):
         self.repo.configure_remote('/pullurl', '/pushurl', 'branch')

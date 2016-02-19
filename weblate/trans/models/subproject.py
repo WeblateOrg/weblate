@@ -583,7 +583,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.repository
 
         if self._repository is None:
-            self._repository = VCS_REGISTRY[self.vcs](self.get_path())
+            self._repository = VCS_REGISTRY[self.vcs](
+                self.get_path(), self.branch
+            )
             cache_key = '{0}-config-check'.format(self.get_full_slug())
             if cache.get(cache_key) is None:
                 self._repository.check_config()
@@ -799,7 +801,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         try:
             self.log_info('pushing to remote repo')
             with self.repository_lock:
-                self.repository.push(self.branch)
+                self.repository.push()
 
             Change.objects.create(
                 action=Change.ACTION_PUSH,
@@ -843,7 +845,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         try:
             self.log_info('reseting to remote repo')
             with self.repository_lock:
-                self.repository.reset(self.branch)
+                self.repository.reset()
 
             Change.objects.create(
                 action=Change.ACTION_RESET,
@@ -941,7 +943,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         with self.repository_lock:
             try:
                 # Try to merge it
-                method(self.branch)
+                method()
                 self.log_info(
                     '%s remote into repo',
                     self.merge_style,
@@ -1441,7 +1443,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         if self.is_repo_link:
             return self.linked_subproject.repo_needs_merge()
-        return self.repository.needs_merge(self.branch)
+        return self.repository.needs_merge()
 
     def repo_needs_push(self):
         '''
@@ -1449,7 +1451,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         if self.is_repo_link:
             return self.linked_subproject.repo_needs_push()
-        return self.repository.needs_push(self.branch)
+        return self.repository.needs_push()
 
     @property
     def file_format_cls(self):

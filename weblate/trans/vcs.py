@@ -97,8 +97,12 @@ class Repository(object):
     _is_supported = None
     _version = None
 
-    def __init__(self, path):
+    def __init__(self, path, branch=None):
         self.path = path
+        if branch is None:
+            self.branch = self.default_branch
+        else:
+            self.branch = branch
         self.last_output = ''
         if not self.is_valid():
             self.init()
@@ -189,7 +193,7 @@ class Repository(object):
         return self._last_remote_revision
 
     @classmethod
-    def clone(cls, source, target, bare=False):
+    def clone(cls, source, target, branch=None, bare=False):
         """
         Clones repository and returns Repository object for cloned
         repository.
@@ -209,25 +213,25 @@ class Repository(object):
         """
         return self.execute(self._cmd_status)
 
-    def push(self, branch):
+    def push(self):
         """
         Pushes given branch to remote repository.
         """
-        self.execute(self._cmd_push + [branch])
+        self.execute(self._cmd_push + [self.branch])
 
-    def reset(self, branch):
+    def reset(self):
         """
         Resets working copy to match remote branch.
         """
         raise NotImplementedError()
 
-    def merge(self, branch=None, abort=False):
+    def merge(self, abort=False):
         """
         Merges remote branch or reverts the merge.
         """
         raise NotImplementedError()
 
-    def rebase(self, branch=None, abort=False):
+    def rebase(self, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
@@ -239,14 +243,14 @@ class Repository(object):
         """
         raise NotImplementedError()
 
-    def needs_merge(self, branch):
+    def needs_merge(self):
         """
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
         raise NotImplementedError()
 
-    def needs_push(self, branch):
+    def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
@@ -391,7 +395,7 @@ class GitRepository(Repository):
         self.set_config('push.default', 'current')
 
     @classmethod
-    def clone(cls, source, target, bare=False):
+    def clone(cls, source, target, branch=None, bare=False):
         """
         Clones repository and returns Repository object for cloned
         repository.
@@ -400,7 +404,7 @@ class GitRepository(Repository):
             cls._popen(['clone', '--bare', source, target])
         else:
             cls._popen(['clone', source, target])
-        return cls(target)
+        return cls(target, branch)
 
     def get_config(self, path):
         """
@@ -421,30 +425,30 @@ class GitRepository(Repository):
         self.set_config('user.name', name)
         self.set_config('user.email', mail)
 
-    def reset(self, branch):
+    def reset(self):
         """
         Resets working copy to match remote branch.
         """
-        self.execute(['reset', '--hard', 'origin/{0}'.format(branch)])
+        self.execute(['reset', '--hard', 'origin/{0}'.format(self.branch)])
         self._last_revision = None
 
-    def rebase(self, branch=None, abort=False):
+    def rebase(self, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
         if abort:
             self.execute(['rebase', '--abort'])
         else:
-            self.execute(['rebase', 'origin/{0}'.format(branch)])
+            self.execute(['rebase', 'origin/{0}'.format(self.branch)])
 
-    def merge(self, branch=None, abort=False):
+    def merge(self, abort=False):
         """
         Merges remote branch or reverts the merge.
         """
         if abort:
             self.execute(['merge', '--abort'])
         else:
-            self.execute(['merge', 'origin/{0}'.format(branch)])
+            self.execute(['merge', 'origin/{0}'.format(self.branch)])
 
     def needs_commit(self, filename=None):
         """
@@ -511,19 +515,19 @@ class GitRepository(Repository):
             ['log', '--oneline', refspec, '--']
         )
 
-    def needs_merge(self, branch):
+    def needs_merge(self):
         """
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
-        return self._log_revisions('..origin/{0}'.format(branch)) != ''
+        return self._log_revisions('..origin/{0}'.format(self.branch)) != ''
 
-    def needs_push(self, branch):
+    def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
         """
-        return self._log_revisions('origin/{0}..'.format(branch)) != ''
+        return self._log_revisions('origin/{0}..'.format(self.branch)) != ''
 
     @classmethod
     def _get_version(cls):
@@ -600,6 +604,7 @@ class GitRepository(Repository):
             'remote.origin.fetch',
             '+refs/heads/{0}:refs/remotes/origin/{0}'.format(branch)
         )
+        self.branch = branch
 
     def configure_branch(self, branch):
         """
@@ -625,6 +630,7 @@ class GitRepository(Repository):
 
         # Checkout
         self.execute(['checkout', branch])
+        self.branch = branch
 
     def describe(self):
         """
@@ -638,7 +644,7 @@ class GitWithGerritRepository(GitRepository):
 
     name = 'Gerrit'
 
-    def push(self, branch):
+    def push(self):
         try:
             self.execute(['review'])
         except RepositoryException as error:
@@ -689,16 +695,16 @@ class GithubRepository(GitRepository):
         if self._hub_user not in self.execute(['remote']).splitlines():
             self.execute(['fork'])
 
-    def push(self, branch):
+    def push(self):
         """
         Forks repository on Github, pushes changes to *-weblate branch
         on fork and creates pull request against original repository.
         """
         self.fork()
-        fork_branch = '{0}-weblate'.format(branch)
-        self.push_to_fork(branch, fork_branch)
+        fork_branch = '{0}-weblate'.format(self.branch)
+        self.push_to_fork(self.branch, fork_branch)
         try:
-            self.create_pull_request(branch, fork_branch)
+            self.create_pull_request(self.branch, fork_branch)
         except RepositoryException as error:
             if error.retcode == 1:
                 # Pull request already exists.
@@ -745,7 +751,7 @@ class HgRepository(Repository):
         self.set_config('ui.ssh', ssh_file(SSH_WRAPPER))
 
     @classmethod
-    def clone(cls, source, target, bare=False):
+    def clone(cls, source, target, branch=None, bare=False):
         """
         Clones repository and returns Repository object for cloned
         repository.
@@ -754,7 +760,7 @@ class HgRepository(Repository):
             cls._popen(['clone', '--updaterev', 'null', source, target])
         else:
             cls._popen(['clone', source, target])
-        return cls(target)
+        return cls(target, branch)
 
     def get_config(self, path):
         """
@@ -801,17 +807,17 @@ class HgRepository(Repository):
             '{0} <{1}>'.format(name, mail)
         )
 
-    def reset(self, branch):
+    def reset(self):
         """
         Resets working copy to match remote branch.
         """
         self.set_config('extensions.strip', '')
         self.execute(['revert', '-a', '--no-backup'])
-        if self.needs_push(branch):
+        if self.needs_push():
             self.execute(['strip', 'roots(outgoing())'])
         self._last_revision = None
 
-    def rebase(self, branch=None, abort=False):
+    def rebase(self, abort=False):
         """
         Rebases working copy on top of remote branch.
         """
@@ -827,7 +833,7 @@ class HgRepository(Repository):
                     return
                 raise
 
-    def merge(self, branch=None, abort=False):
+    def merge(self, abort=False):
         """
         Merges remote branch or reverts the merge.
         """
@@ -919,14 +925,14 @@ class HgRepository(Repository):
 
         return result
 
-    def needs_merge(self, branch):
+    def needs_merge(self):
         """
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
         return self.execute(['log', '-r', 'only(tip,.)']) != ''
 
-    def needs_push(self, branch):
+    def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
@@ -991,11 +997,14 @@ class HgRepository(Repository):
         self.set_config('experimental.evolution', 'all')
         self.set_config('phases.publish', 'False')
 
+        self.branch = branch
+
     def configure_branch(self, branch):
         """
         Configure repository branch.
         """
         self.execute(['update', branch])
+        self.branch = branch
 
     def describe(self):
         """
@@ -1007,7 +1016,7 @@ class HgRepository(Repository):
             '--template', '{latesttag}-{latesttagdistance}-{node|short}'
         ]).strip()
 
-    def push(self, branch):
+    def push(self):
         """
         Pushes given branch to remote repository.
         """
