@@ -195,7 +195,9 @@ class PoFormatTest(AutoFormatTest):
 
     def test_add_encoding(self):
         out = tempfile.NamedTemporaryFile()
-        self.FORMAT.add_language(out.name, Language(code='cs'), TEST_POT_UNICODE)
+        self.FORMAT.add_language(
+            out.name, Language(code='cs'), TEST_POT_UNICODE
+        )
         data = out.read().decode('utf-8')
         self.assertTrue('Michal Čihař' in data)
         out.close()
