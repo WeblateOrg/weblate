@@ -24,7 +24,6 @@ File format specific behavior.
 from __future__ import unicode_literals
 
 from io import BytesIO
-import subprocess
 import os.path
 import re
 import csv
@@ -48,7 +47,7 @@ from translate.storage import mo
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
-from weblate.trans.util import get_clean_env, calculate_checksum
+from weblate.trans.util import calculate_checksum
 import weblate
 
 
