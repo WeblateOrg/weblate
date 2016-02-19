@@ -719,7 +719,7 @@ class FileFormat(object):
         return mask.replace('*', cls.get_language_code(code))
 
     @classmethod
-    def add_language(cls, filename, code, base):
+    def add_language(cls, filename, language, base):
         '''
         Adds new language file.
         '''
@@ -728,10 +728,10 @@ class FileFormat(object):
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        cls.create_new_file(filename, code, base)
+        cls.create_new_file(filename, language, base)
 
     @classmethod
-    def create_new_file(cls, filename, code, base):
+    def create_new_file(cls, filename, language, base):
         """Handles creation of new translation file."""
         if cls.new_translation is None:
             raise ValueError('Not supported')
@@ -770,15 +770,15 @@ class FileFormat(object):
         return
 
     @staticmethod
-    def untranslate_store(store, code)
+    def untranslate_store(store, language):
         """Removes translations from ttkit store"""
-        store.settargetlanguage(code)
+        store.settargetlanguage(language.code)
 
         for unit in store.units:
             if unit.istranslatable():
                 unit.markfuzzy()
                 if unit.hasplural():
-                    unit.settarget([''])
+                    unit.settarget([''] * language.nplurals)
                 else:
                     unit.settarget('')
 
@@ -881,11 +881,11 @@ class PoFormat(FileFormat):
             return False
 
     @classmethod
-    def create_new_file(cls, filename, code, base):
+    def create_new_file(cls, filename, language, base):
         """Handles creation of new translation file."""
         store = pofile.parsefile(base)
 
-        self.untranslate_store(store, code)
+        cls.untranslate_store(store, language)
 
         store.savefile(filename)
 
@@ -945,10 +945,10 @@ class TSFormat(FileFormat):
         return True
 
     @classmethod
-    def create_new_file(cls, filename, code, base):
+    def create_new_file(cls, filename, language, base):
         store = tsfile.parsefile(base)
 
-        self.untranslate_store(store, code)
+        cls.untranslate_store(store, language)
 
         store.savefile(filename)
 
@@ -991,10 +991,10 @@ class XliffFormat(FileFormat):
             return False
 
     @classmethod
-    def create_new_file(cls, filename, code, base):
+    def create_new_file(cls, filename, language, base):
         """Handles creation of new translation file."""
         content = xlifffile.parsefile(base)
-        content.settargetlanguage(code)
+        content.settargetlanguage(language.code)
         content.savefile(filename)
 
     def _find_unit_mono(self, context, store):
@@ -1155,7 +1155,7 @@ class JSONFormat(FileFormat):
         return True
 
     @classmethod
-    def create_new_file(cls, filename, code, base):
+    def create_new_file(cls, filename, language, base):
         """Handles creation of new translation file."""
         content = b'{}\n'
         if base:

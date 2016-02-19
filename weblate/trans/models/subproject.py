@@ -1438,7 +1438,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         self.file_format_cls.add_language(
             fullname,
-            language.code,
+            language,
             base_filename
         )
 
