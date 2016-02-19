@@ -769,6 +769,19 @@ class FileFormat(object):
         """Tries to merge headers"""
         return
 
+    @staticmethod
+    def untranslate_store(store, code)
+        """Removes translations from ttkit store"""
+        store.settargetlanguage(code)
+
+        for unit in store.units:
+            if unit.istranslatable():
+                unit.markfuzzy()
+                if unit.hasplural():
+                    unit.settarget([''])
+                else:
+                    unit.settarget('')
+
 
 @register_fileformat
 class AutoFormat(FileFormat):
@@ -813,7 +826,6 @@ class PoFormat(FileFormat):
     format_id = 'po'
     loader = ('po', 'pofile')
     monolingual = False
-    msginit_found = None
     autoload = ('.po', '.pot')
 
     def get_language_pack(self):
@@ -855,18 +867,7 @@ class PoFormat(FileFormat):
         '''
         Checks whether we can create new language file.
         '''
-        if cls.msginit_found is None:
-            try:
-                ret = subprocess.check_call(
-                    ['msginit', '--help'],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    env=get_clean_env(),
-                )
-                cls.msginit_found = (ret == 0)
-            except (subprocess.CalledProcessError, OSError):
-                cls.msginit_found = False
-        return cls.msginit_found
+        return True
 
     @staticmethod
     def is_valid_base_for_new(base):
@@ -882,31 +883,11 @@ class PoFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, code, base):
         """Handles creation of new translation file."""
-        with open(base, 'rb') as handle:
-            data = handle.read()
-        # Assume input is UTF-8 if not specified
-        if b'Content-Type: text/plain; charset=CHARSET' in data:
-            data = data.replace(
-                b'Content-Type: text/plain; charset=CHARSET',
-                b'Content-Type: text/plain; charset=UTF-8'
-            )
-        process = subprocess.Popen(
-            [
-                'msginit',
-                '--input', '-',
-                '--output', filename,
-                '--no-translator',
-                '--locale', code
-            ],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            env=get_clean_env(),
-        )
-        output, output_err = process.communicate(input=data)
-        retcode = process.poll()
-        if retcode:
-            raise ValueError(output_err if output_err else output)
+        store = pofile.parsefile(base)
+
+        self.untranslate_store(store, code)
+
+        store.savefile(filename)
 
     def merge_header(self, otherstore):
         """Tries to merge headers"""
@@ -967,15 +948,7 @@ class TSFormat(FileFormat):
     def create_new_file(cls, filename, code, base):
         store = tsfile.parsefile(base)
 
-        store.settargetlanguage(code)
-
-        for unit in store.units:
-            if unit.istranslatable():
-                unit.markfuzzy()
-                if unit.hasplural():
-                    unit.settarget([''])
-                else:
-                    unit.settarget('')
+        self.untranslate_store(store, code)
 
         store.savefile(filename)
 
