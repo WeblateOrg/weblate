@@ -1433,24 +1433,18 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         '''
         Checks whether there are some not committed changes.
         '''
-        if self.is_repo_link:
-            return self.linked_subproject.repo_needs_commit()
         return self.repository.needs_commit()
 
     def repo_needs_merge(self):
         '''
         Checks whether there is something to merge from remote repository.
         '''
-        if self.is_repo_link:
-            return self.linked_subproject.repo_needs_merge()
         return self.repository.needs_merge()
 
     def repo_needs_push(self):
         '''
         Checks whether there is something to push to remote repository.
         '''
-        if self.is_repo_link:
-            return self.linked_subproject.repo_needs_push()
         return self.repository.needs_push()
 
     @property
