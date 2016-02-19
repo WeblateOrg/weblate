@@ -902,17 +902,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not from_link and not skip_push:
             self.push_if_needed(request)
 
-    def notify_merge_failure(self, error, status):
-        '''
-        Sends out notifications on merge failure.
-        '''
-        # Notify subscribed users about failure
-        notify_merge_failure(self, error, status)
-
     def handle_parse_error(self, error):
         """Handler for parse error."""
         report_error(error, sys.exc_info())
-        self.notify_merge_failure(
+        notify_merge_failure(
+            self,
             str(error),
             ''.join(traceback.format_stack()),
         )
@@ -986,7 +980,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     )
 
                 # Notify subscribers and admins
-                self.notify_merge_failure(error, status)
+                notify_merge_failure(self, error, status)
 
                 # Tell user (if there is any)
                 if request is not None:
