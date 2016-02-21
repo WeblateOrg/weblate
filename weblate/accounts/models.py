@@ -573,7 +573,7 @@ class Profile(models.Model):
         try:
             return self.user.change_set.values_list(
                 'timestamp', flat=True
-                )[0]
+            )[0]
         except IndexError:
             return None
 
