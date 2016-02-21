@@ -243,7 +243,9 @@ class UnitManager(models.Manager):
 
             return base.filter(query)
         else:
-            lang = self.all()[0].translation.language.code
+            lang = self.values_list(
+                'translation__language__code', flat=True
+            )[0]
             return base.filter(
                 pk__in=fulltext_search(
                     params['q'],

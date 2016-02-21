@@ -182,12 +182,14 @@ def show_check_project(request, name, project):
         )
         for subproject in prj.subproject_set.all():
             try:
-                lang = subproject.translation_set.all()[0].language
+                lang_id = subproject.translation_set.values_list(
+                    'language_id', flat=True
+                )[0]
             except IndexError:
                 continue
             res = Unit.objects.filter(
                 contentsum__in=checks,
-                translation__language=lang,
+                translation__language_id=lang_id,
                 translation__subproject=subproject
             ).values(
                 'translation__subproject__slug',

@@ -317,7 +317,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         totals = []
         for component in self.subproject_set.all():
             try:
-                totals.append(component.translation_set.all()[0].total)
+                totals.append(
+                    component.translation_set.values_list(
+                        'total', flat=True
+                    )[0]
+                )
             except IndexError:
                 pass
         return sum(totals)
@@ -331,7 +335,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         totals = []
         for component in self.subproject_set.all():
             try:
-                totals.append(component.translation_set.all()[0].total_words)
+                totals.append(
+                    component.translation_set.values_list(
+                        'total_words', flat=True
+                    )[0]
+                )
             except IndexError:
                 pass
         return sum(totals)

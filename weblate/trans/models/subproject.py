@@ -1392,10 +1392,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def last_change(self):
         """Returns date of last change done in Weblate."""
         try:
-            change = Change.objects.content().filter(
+            return Change.objects.content().filter(
                 translation__subproject=self
-            )
-            return change[0].timestamp
+            ).values_list(
+                'timestamp', flat=True
+            )[0]
         except IndexError:
             return None
 
