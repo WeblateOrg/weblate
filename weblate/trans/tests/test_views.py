@@ -406,7 +406,7 @@ class HomeViewTest(ViewTestCase):
 
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'TestCL')
-        self.assertEquals(len(response.context['componentlists']), 1)
+        self.assertEqual(len(response.context['componentlists']), 1)
 
     def test_subscriptions(self):
         # no subscribed projects at first
@@ -416,7 +416,7 @@ class HomeViewTest(ViewTestCase):
         # subscribe a project
         self.user.profile.subscriptions.add(self.project)
         response = self.client.get(reverse('home'))
-        self.assertEquals(len(response.context['subscribed_projects']), 1)
+        self.assertEqual(len(response.context['subscribed_projects']), 1)
 
     def test_language_filters(self):
         # check language filters
@@ -428,13 +428,13 @@ class HomeViewTest(ViewTestCase):
         lang = Language.objects.get(code='cs')
         self.user.profile.languages.add(lang)
         response = self.client.get(reverse('home'))
-        self.assertEquals(len(response.context['userlanguages']), 1)
+        self.assertEqual(len(response.context['userlanguages']), 1)
         self.assertFalse(response.context['usersubscriptions'])
 
         # add a subscription
         self.user.profile.subscriptions.add(self.project)
         response = self.client.get(reverse('home'))
-        self.assertEquals(len(response.context['usersubscriptions']), 1)
+        self.assertEqual(len(response.context['usersubscriptions']), 1)
 
 
 class SourceStringsTest(ViewTestCase):
