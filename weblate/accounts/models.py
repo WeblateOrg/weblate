@@ -500,18 +500,30 @@ class Profile(models.Model):
         default=False
     )
 
-    DASHBOARD_SUBSCRIPTIONS = "your-subscriptions"
-    DASHBOARD_LANGUAGES = "your-languages"
-    DASHBOARD_ALL = "projects"
-    DASHBOARD_COMPONENT_LIST = "list"
+    DASHBOARD_SUBSCRIPTIONS = 1
+    DASHBOARD_LANGUAGES = 2
+    DASHBOARD_ALL = 3
+    DASHBOARD_COMPONENT_LIST = 4
+
     DASHBOARD_CHOICES = (
         (DASHBOARD_SUBSCRIPTIONS, _('Your subscriptions')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
         (DASHBOARD_ALL, _('All projects')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
     )
-    dashboard_view = models.CharField(
-        max_length=100,
+
+    DASHBOARD_SLUGS = {
+        DASHBOARD_SUBSCRIPTIONS: 'your-subscriptions',
+        DASHBOARD_LANGUAGES: 'your-languages',
+        DASHBOARD_ALL: 'projects',
+        DASHBOARD_COMPONENT_LIST: 'list',
+    }
+
+    DASHBOARD_SLUGMAP = {
+        d[1]: d[0] for d in DASHBOARD_SLUGS.items()
+    }
+
+    dashboard_view = models.IntegerField(
         choices=DASHBOARD_CHOICES,
         verbose_name=_('Default dashboard view'),
         default=DASHBOARD_SUBSCRIPTIONS,

@@ -92,17 +92,20 @@ def home(request):
 
     # Dashboard project/subproject view
     componentlists = ComponentList.objects.all()
+    # dashboard_choices is dict with labels of choices as a keys
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
     userlanguages = None
-    active_tab_slug = Profile.DASHBOARD_ALL
+    active_tab_id = Profile.DASHBOARD_ALL
+    active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
 
     if request.user.is_authenticated():
-        active_tab_slug = request.user.profile.dashboard_view
-        if active_tab_slug == Profile.DASHBOARD_COMPONENT_LIST:
+        active_tab_id = request.user.profile.dashboard_view
+        active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
+        if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
             clist = request.user.profile.dashboard_component_list
             active_tab_slug = clist.tab_slug()
-            dashboard_choices[active_tab_slug] = clist.name
+            dashboard_choices[active_tab_id] = clist.name
 
         subscribed_projects = request.user.profile.subscriptions.all()
 
@@ -136,7 +139,7 @@ def home(request):
             'userlanguages': userlanguages,
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
-            'active_tab_label': dashboard_choices.get(active_tab_slug)
+            'active_tab_label': dashboard_choices.get(active_tab_id)
         }
     )
 
