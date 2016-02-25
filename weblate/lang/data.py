@@ -405,6 +405,7 @@ EXTRALANGS = (
 NO_CODE_LANGUAGES = frozenset((
     'zh_TW', 'zh_CN',
     'zh_Hant', 'zh_Hans',
+    'sr_Latn', 'sr_Cyrl',
     'de_AT', 'de_CH'
 ))
 
@@ -735,9 +736,11 @@ LOCALE_ALIASES = {
     'in': 'id',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
+    'sr_RS@latin': 'sr_Latn',
     'sr@cyrillic': 'sr_Cyrl',
-    'zh_cn': 'zh_Hans',
-    'zh_tw': 'zh_Hant',
+    'sr_RS@cyrillic': 'sr_Cyrl',
+    'zh_CN': 'zh_Hans',
+    'zh_TW': 'zh_Hant',
 }
 
 # List of languages we do not want to import from translate-toolkit

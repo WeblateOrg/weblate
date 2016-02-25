@@ -152,11 +152,12 @@ class LanguageManager(models.Manager):
             return ret
 
         # Handle aliases
-        if code in data.LOCALE_ALIASES:
-            code = data.LOCALE_ALIASES[code]
-            ret = self.try_get(name=code)
-            if ret is not None:
-                return ret
+        for newcode in (code, code.replace('-', '_'), code.replace('-r', '_')):
+            if newcode in data.LOCALE_ALIASES:
+                newcode = data.LOCALE_ALIASES[newcode]
+                ret = self.try_get(code=newcode)
+                if ret is not None:
+                    return ret
 
         # Parse the string
         lang, country = self.parse_lang_country(code)

@@ -100,7 +100,7 @@ class LanguagesTest(TestCase):
         ),
         (
             'sr_RS@latin',
-            'sr_RS@latin',
+            'sr_Latn',
             'ltr',
             'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
             '(n%100<10 || n%100>=20) ? 1 : 2',
@@ -108,15 +108,15 @@ class LanguagesTest(TestCase):
         ),
         (
             'sr-RS@latin',
-            'sr_RS@latin',
+            'sr_Latn',
             'ltr',
             'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
             '(n%100<10 || n%100>=20) ? 1 : 2',
             'Serbian (latin)',
         ),
         (
-            'sr_RS_Latin',
             'sr_RS@latin',
+            'sr_Latn',
             'ltr',
             'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
             '(n%100<10 || n%100>=20) ? 1 : 2',
@@ -138,31 +138,31 @@ class LanguagesTest(TestCase):
         ),
         (
             'zh_CN',
-            'zh_CN',
+            'zh_Hans',
             'ltr',
             '0',
-            'Chinese (China)',
+            'Simplified Chinese',
         ),
         (
             'zh-CN',
-            'zh_CN',
+            'zh_Hans',
             'ltr',
             '0',
-            'Chinese (China)',
+            'Simplified Chinese',
         ),
         (
             'zh-CN@test',
             'zh_CN@test',
             'ltr',
             '0',
-            'Chinese (China)',
+            'Chinese (zh_CN@test)',
         ),
         (
             'zh-rCN',
-            'zh_CN',
+            'zh_Hans',
             'ltr',
             '0',
-            'Chinese (China)',
+            'Simplified Chinese',
         ),
         (
             'ar',
