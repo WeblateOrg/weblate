@@ -114,6 +114,22 @@ class ImportProjectTest(RepoTestCase):
         )
         self.assertEqual(project.subproject_set.count(), 1)
 
+    def test_import_name(self):
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            component_regexp=r'(?P<name>[^/-]*)/.*\.po',
+            name_template='Test name'
+        )
+        self.assertEqual(project.subproject_set.count(), 1)
+        self.assertTrue(
+            project.subproject_set.filter(name='Test name').exists()
+        )
+
     def test_import_re_missing(self):
         self.assertRaises(
             CommandError,
