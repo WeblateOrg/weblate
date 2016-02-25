@@ -733,6 +733,9 @@ LOCALE_ALIASES = {
     'iw': 'he',
     'ji': 'yi',
     'in': 'id',
+    # Prefer new variants
     'sr@latin': 'sr_Latn',
     'sr@cyrillic': 'sr_Cyrl',
+    'zh_cn': 'zh_Hans',
+    'zh_tw': 'zh_Hant',
 }
