@@ -133,8 +133,10 @@ via the admin interface first, otherwise pushing will fail.
    You can also enable automatic pushing changes on commit, this can be done in
    project configuration.
 
-.. seealso:: :ref:`vcs-repos` for setting up SSH keys
+.. seealso::
 
+    See :ref:`vcs-repos` for setting up SSH keys and :ref:`lazy-commit` for
+    information about when Weblate decides to commit changes.
 
 .. _github-push:
 
