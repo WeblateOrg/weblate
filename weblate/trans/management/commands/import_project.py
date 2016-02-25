@@ -269,11 +269,16 @@ class Command(BaseCommand):
         else:
             matches, sharedrepo = self.import_initial(project, repo, branch)
 
+        # We need to limit slug length to avoid problems with MySQL
+        # silent truncation
+        # pylint: disable=W0212
+        slug_len = SubProject._meta.get_field('slug').max_length
+
         # Create remaining subprojects sharing git repository
         for match in matches:
             name = self.format_string(self.name_template, match)
             template = self.format_string(self.base_file_template, match)
-            slug = slugify(name)
+            slug = slugify(name)[:slug_len]
             subprojects = SubProject.objects.filter(
                 Q(name=name) | Q(slug=slug),
                 project=project
