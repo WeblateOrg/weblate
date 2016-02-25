@@ -178,9 +178,19 @@ class SameCheck(TargetCheck):
         return result
 
     def check_single(self, source, target, unit):
+        translation = unit.translation
+        # Ignore this on templates
+        if translation.is_template():
+            return False
+
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
         if self.is_language(unit, ('en', 'ia')):
+            return False
+
+        # Ignore the check for source language
+        if (translation.language ==
+                translation.subproject.project.source_language):
             return False
 
         # One letter things are usually labels or decimal/thousand separators

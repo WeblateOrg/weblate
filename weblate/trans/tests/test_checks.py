@@ -61,6 +61,9 @@ class MockTranslation(object):
         self.language = MockLanguage(code)
         self.subproject = MockSubProject()
 
+    def is_template(self):
+        return False
+
 
 class MockUnit(object):
     '''
