@@ -250,10 +250,10 @@ def get_project_description(project):
     )
 
 
-def render(request, template, context=None):
+def render(request, template, context=None, status=None):
     """Wrapper around Django render to extend context"""
     if context is None:
         context = {}
     if 'project' in context:
         context['description'] = get_project_description(context['project'])
-    return django_render(request, template, context)
+    return django_render(request, template, context, status=status)
