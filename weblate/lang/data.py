@@ -726,9 +726,9 @@ LOCALE_ALIASES = {
     'german': 'de',
     'french': 'fr',
     # Android
-    'be-rBY': 'be@latin',
+    'be-rby': 'be@latin',
     # Misc invalid codes
-    'val-ES': 'ca@valencia',
+    'val_es': 'ca@valencia',
     'jp': 'ja',
     # Old locale codes
     'iw': 'he',
@@ -736,11 +736,11 @@ LOCALE_ALIASES = {
     'in': 'id',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
-    'sr_RS@latin': 'sr_Latn',
+    'sr_rs@latin': 'sr_Latn',
     'sr@cyrillic': 'sr_Cyrl',
-    'sr_RS@cyrillic': 'sr_Cyrl',
-    'zh_CN': 'zh_Hans',
-    'zh_TW': 'zh_Hant',
+    'sr_rs@cyrillic': 'sr_Cyrl',
+    'zh_cn': 'zh_Hans',
+    'zh_tw': 'zh_Hant',
 }
 
 # List of languages we do not want to import from translate-toolkit
