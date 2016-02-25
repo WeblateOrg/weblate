@@ -20,6 +20,8 @@
 
 from datetime import datetime
 
+from django.utils.translation import ugettext as _
+
 import weblate
 from weblate import appsettings
 from weblate.trans.site import get_site_url
@@ -51,8 +53,18 @@ def weblate_context(request):
             'subproject__project__name', 'subproject__name'
         ).select_related()
 
+    if appsettings.OFFER_HOSTING:
+        description = _(
+            'Hosted Weblate, the place to translate your software project.'
+        )
+    else:
+        description = _(
+            'This site runs Weblate for translating various software projects.'
+        )
+
     return {
         'version': weblate.VERSION,
+        'description': description,
 
         'weblate_url': URL_BASE % weblate.VERSION,
         'donate_url': URL_DONATE % weblate.VERSION,
