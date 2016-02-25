@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 import uuid
 import time
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
@@ -45,7 +45,7 @@ from weblate.trans.forms import (
 )
 from weblate.trans.views.helper import get_translation, import_message
 from weblate.trans.checks import CHECKS
-from weblate.trans.util import join_plural
+from weblate.trans.util import join_plural, render
 from weblate.trans.autotranslate import auto_translate
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,

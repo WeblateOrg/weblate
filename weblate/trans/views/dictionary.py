@@ -21,7 +21,7 @@
 import csv
 import sys
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -37,7 +37,7 @@ from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language
 from weblate.trans.formats import FileFormat
 from weblate.trans.site import get_site_url
-from weblate.trans.util import report_error
+from weblate.trans.util import report_error, render
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
 from weblate.trans.views.helper import get_project, import_message
 import weblate

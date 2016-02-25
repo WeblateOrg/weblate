@@ -22,7 +22,7 @@ from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
 from django.views.decorators.http import require_POST
@@ -33,6 +33,7 @@ from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source
 from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.permissions import can_edit_flags, can_edit_priority
+from weblate.trans.util import render
 
 
 def get_source(request, project, subproject):
@@ -87,6 +88,7 @@ def review_source(request, project, subproject):
         'source-review.html',
         {
             'object': obj,
+            'project': obj.project,
             'source': source,
             'page_obj': sources,
             'query_string': urlencode(query_string),
@@ -108,6 +110,7 @@ def show_source(request, project, subproject):
         'source.html',
         {
             'object': obj,
+            'project': obj.project,
             'source': source,
             'title': _('Source strings in %s') % force_text(obj),
         }

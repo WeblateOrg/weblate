@@ -19,7 +19,7 @@
 #
 
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.cache import cache_page
 
@@ -28,6 +28,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import EnageLanguageForm
 from weblate.trans.widgets import WIDGETS
 from weblate.trans.views.helper import get_project, try_set_language
+from weblate.trans.util import render
 
 
 def widgets_root(request):
@@ -109,6 +110,7 @@ def widgets(request, project):
             'widget_list': widget_list,
             'widget_base_url': widget_base_url,
             'object': obj,
+            'project': obj,
             'image_src': widget_list[0]['colors'][0]['url'],
             'form': form,
         }

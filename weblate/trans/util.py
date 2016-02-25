@@ -29,9 +29,10 @@ from six.moves.urllib.parse import urlparse
 from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url
+from django.shortcuts import resolve_url, render as django_render
 from django.conf import settings
 from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
 
 from weblate.logger import LOGGER
 from weblate.trans.data import data_dir
@@ -236,3 +237,21 @@ def report_error(error, exc_info, request=None, extra_data=None):
     # Print error when running testsuite
     if sys.argv[1:2] == ['test']:
         traceback.print_exc()
+
+
+def get_project_description(project):
+    """Returns verbose description for project translation"""
+    return _(
+        '{0} is translated into {1} languages using Weblate. '
+        'Join the translation or start translating your own project.',
+    ).format(
+        project,
+        project.get_language_count()
+    )
+
+
+def render(request, template, context):
+    """Wrapper around Django render to extend context"""
+    if 'project' in context:
+        context['description'] = get_project_description(context['project'])
+    return django_render(request, template, context)

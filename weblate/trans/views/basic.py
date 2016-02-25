@@ -22,7 +22,7 @@ import datetime
 
 from six.moves.urllib.parse import urlencode
 
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -49,6 +49,7 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
 )
+from weblate.trans.util import render
 import weblate
 
 
