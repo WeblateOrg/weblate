@@ -123,6 +123,7 @@ Pushing changes
 
 Each project can have configured push URL and in such case Weblate offers
 button to push changes to remote repository in web interface.
+Weblate can be also configured to automatically push changes on every commit.
 
 If you are using SSH to push, you will need to have a key without a passphrase
 (or use ssh-agent for Django) and the remote server needs to be verified by you
