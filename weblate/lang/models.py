@@ -241,6 +241,8 @@ class LanguageManager(models.Manager):
 
         # Languages from ttkit
         for code, props in languages.items():
+            if code in data.SKIP_TRANSLATE_TOOLKIT:
+                continue
             lang, created = Language.objects.get_or_create(
                 code=code
             )

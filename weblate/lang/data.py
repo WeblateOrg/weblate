@@ -739,3 +739,8 @@ LOCALE_ALIASES = {
     'zh_cn': 'zh_Hans',
     'zh_tw': 'zh_Hant',
 }
+
+# List of languages we do not want to import from translate-toolkit
+SKIP_TRANSLATE_TOOLKIT = frozenset((
+    'zh_CN', 'zh_TW',
+))
