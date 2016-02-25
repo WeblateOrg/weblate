@@ -55,14 +55,14 @@ EXTRALANGS = (
         '0',
     ),
     (
-        'sr@latin',
+        'sr_Latn',
         'Serbian (latin)',
         3,
         'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
         '(n%100<10 || n%100>=20) ? 1 : 2',
     ),
     (
-        'sr@cyrillic',
+        'sr_Cyrl',
         'Serbian (cyrillic)',
         3,
         'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
@@ -733,4 +733,6 @@ LOCALE_ALIASES = {
     'iw': 'he',
     'ji': 'yi',
     'in': 'id',
+    'sr@latin': 'sr_Latn',
+    'sr@cyrillic': 'sr_Cyrl',
 }
