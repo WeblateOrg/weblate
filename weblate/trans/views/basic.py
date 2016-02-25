@@ -86,8 +86,6 @@ def home(request):
         )
 
     # Some stats
-    top_translations = Profile.objects.order_by('-translated')[:10]
-    top_suggestions = Profile.objects.order_by('-suggested')[:10]
     last_changes = Change.objects.last_changes(request.user)[:10]
 
     return render(
@@ -95,8 +93,6 @@ def home(request):
         'index.html',
         {
             'projects': projects,
-            'top_translations': top_translations.select_related('user'),
-            'top_suggestions': top_suggestions.select_related('user'),
             'last_changes': last_changes,
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
@@ -383,6 +379,23 @@ def about(request):
     Shows about page with version information.
     """
     context = {}
+    context['title'] = _('About Weblate')
+    context['versions'] = get_versions() + get_optional_versions()
+
+    return render(
+        request,
+        'about.html',
+        context
+    )
+
+
+def stats(request):
+    """Various stats about Weblate"""
+
+    context = {}
+
+    context['title'] = _('Weblate statistics')
+
     totals = Profile.objects.aggregate(
         Sum('translated'), Sum('suggested'), Count('id')
     )
@@ -395,7 +408,7 @@ def about(request):
             total_words.append(translation.total_words)
         except IndexError:
             pass
-    context['title'] = _('About Weblate')
+
     context['total_translations'] = totals['translated__sum']
     context['total_suggestions'] = totals['suggested__sum']
     context['total_users'] = totals['id__count']
@@ -406,11 +419,16 @@ def about(request):
     ).distinct().count()
     context['total_checks'] = Check.objects.count()
     context['ignored_checks'] = Check.objects.filter(ignore=True).count()
-    context['versions'] = get_versions() + get_optional_versions()
+
+    top_translations = Profile.objects.order_by('-translated')[:10]
+    top_suggestions = Profile.objects.order_by('-suggested')[:10]
+
+    context['top_translations'] = top_translations.select_related('user')
+    context['top_suggestions'] = top_suggestions.select_related('user')
 
     return render(
         request,
-        'about.html',
+        'stats.html',
         context
     )
 

@@ -8,8 +8,7 @@
 {% block content %}
 
 <div class="container-fluid">
-<div class="row">
-<div class="col-lg-{% if offer_hosting %}6{% else %}12{% endif %}">
+
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "About Weblate" %}</h4></div>
 <div class="panel-body">
@@ -26,11 +25,9 @@
 <a class="btn btn-primary" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=AXN88S8GX5MQ4"><i class="fa fa-paypal"></i> {% trans "Donate to Weblate!" %}</a>
 </div>
 </div>
-</div>
 
 
 {% if offer_hosting %}
-<div class="col-lg-6">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Hosting translations" %}</h4></div>
 <div class="panel-body">
@@ -48,13 +45,9 @@
   <a class="btn btn-default" href="{% url 'contact' %}?subject=Commercial hosting">{% trans "Contact us for commercial hosting" %}</a>
   </div>
 </div>
-</div>
 {% endif %}
 
-</div>
 
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Versions" %}</h4></div>
 <div class="panel-body">
@@ -67,6 +60,7 @@
 <td>{{ version }}</td>
 </tr>
 {% for ver in versions %}
+<tr>
 <th><a href="{{ ver.1 }}">{{ ver.0 }}</a></th>
 <td>{{ ver.2 }}</td>
 </tr>
@@ -74,51 +68,7 @@
 </table>
 </div>
 </div>
-</div>
 
-<div class="col-lg-6">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
-<div class="panel-body">
-
-<table class="table table-condensed table-striped">
-<tr>
-<th>{% trans "Strings to translate" %}</th>
-<td>{{ total_strings }}</td>
-</tr>
-<tr>
-<th>{% trans "Words to translate" %}</th>
-<td>{{ total_words }}</td>
-</tr>
-<tr>
-<th>{% trans "Used languages" %}</th>
-<td>{{ total_languages }}</td>
-</tr>
-<tr>
-<th>{% trans "Registered users" %}</th>
-<td>{{ total_users }}</td>
-</tr>
-<tr>
-<th>{% trans "Suggestions made" %}</th>
-<td>{{ total_suggestions }}</td>
-</tr>
-<tr>
-<th>{% trans "Translations made" %}</th>
-<td>{{ total_translations }}</td>
-</tr>
-<tr>
-<th>{% trans "Failing checks found" %}</th>
-<td>{{ total_checks }}</td>
-</tr>
-<tr>
-<th>{% trans "Ignored checks" %}</th>
-<td>{{ ignored_checks }}</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-</div>
 </div>
 
 {% endblock %}

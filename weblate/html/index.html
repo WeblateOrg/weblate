@@ -28,7 +28,6 @@
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
 <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
-<li><a href="#stats" data-toggle="tab">{% trans "Statistics" %}</a></li>
 <li class="dropdown">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
     {% trans "Tools" %} <span class="caret"></span>
@@ -38,6 +37,7 @@
     <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
     <li><a href="{% url 'data_root' %}">{% trans "Data export" %}</a></li>
     <li><a href="{% url 'widgets_root' %}">{% trans "Widgets" %}</a></li>
+    <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
   </ul>
 </li>
 </ul>
@@ -99,60 +99,6 @@
 </div>
 
 {% include "activity-tab.html" %}
-
-<div class="tab-pane" id="stats">
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
-<div class="panel-body">
-<table class="table table-condensed">
-<thead>
-<tr>
-<th>{% trans "User" %}</th>
-<th>{% trans "Translated" %}</th>
-</tr>
-<tbody>
-{% for u in top_translations %}
-<tr>
-<td>{{ u.get_user_display_link }}</td>
-<td class="percent">{{ u.translated }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-
-<div class="col-lg-6">
-<div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Most active suggesters" %}</h4></div>
-<div class="panel-body">
-<table class="table table-condensed">
-<thead>
-<tr>
-<th>{% trans "User" %}</th>
-<th>{% trans "Suggested" %}</th>
-</tr>
-<tbody>
-{% for u in top_suggestions %}
-<tr>
-<td>{{ u.get_user_display_link }}</td>
-<td class="percent">{{ u.suggested }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}

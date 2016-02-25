@@ -685,6 +685,7 @@ urlpatterns = [
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),
     url(r'^hosting/', weblate.accounts.views.hosting, name='hosting'),
     url(r'^about/$', weblate.trans.views.basic.about, name='about'),
+    url(r'^stats/$', weblate.trans.views.basic.stats, name='stats'),
 
     # User pages
     url(

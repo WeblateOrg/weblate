@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
+<div class="panel-body">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Translated" %}</th>
+</tr>
+<tbody>
+{% for u in top_translations %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="percent">{{ u.translated }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Most active suggesters" %}</h4></div>
+<div class="panel-body">
+<table class="table table-condensed">
+<thead>
+<tr>
+<th>{% trans "User" %}</th>
+<th>{% trans "Suggested" %}</th>
+</tr>
+<tbody>
+{% for u in top_suggestions %}
+<tr>
+<td>{{ u.get_user_display_link }}</td>
+<td class="percent">{{ u.suggested }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+
+
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
+<div class="panel-body">
+
+<table class="table table-condensed table-striped">
+<tr>
+<th>{% trans "Strings to translate" %}</th>
+<td>{{ total_strings }}</td>
+</tr>
+<tr>
+<th>{% trans "Words to translate" %}</th>
+<td>{{ total_words }}</td>
+</tr>
+<tr>
+<th>{% trans "Used languages" %}</th>
+<td>{{ total_languages }}</td>
+</tr>
+<tr>
+<th>{% trans "Registered users" %}</th>
+<td>{{ total_users }}</td>
+</tr>
+<tr>
+<th>{% trans "Suggestions made" %}</th>
+<td>{{ total_suggestions }}</td>
+</tr>
+<tr>
+<th>{% trans "Translations made" %}</th>
+<td>{{ total_translations }}</td>
+</tr>
+<tr>
+<th>{% trans "Failing checks found" %}</th>
+<td>{{ total_checks }}</td>
+</tr>
+<tr>
+<th>{% trans "Ignored checks" %}</th>
+<td>{{ ignored_checks }}</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
