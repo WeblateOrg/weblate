@@ -223,6 +223,10 @@ language out of file name like
         git://git.tails.boum.org/tails master \
         'wiki/src/security/**.*.po'
 
+.. seealso::
+
+    More detailed examples can be found in the :ref:`starting` chapter.
+
 
 importuserdata <file.json>
 --------------------------
