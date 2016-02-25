@@ -405,6 +405,7 @@ EXTRALANGS = (
 NO_CODE_LANGUAGES = frozenset((
     'zh_TW', 'zh_CN',
     'zh_Hant', 'zh_Hans',
+    'sr_Latn', 'sr_Cyrl',
     'de_AT', 'de_CH'
 ))
 
@@ -725,9 +726,9 @@ LOCALE_ALIASES = {
     'german': 'de',
     'french': 'fr',
     # Android
-    'be-rBY': 'be@latin',
+    'be-rby': 'be@latin',
     # Misc invalid codes
-    'val-ES': 'ca@valencia',
+    'val_es': 'ca@valencia',
     'jp': 'ja',
     # Old locale codes
     'iw': 'he',
@@ -735,7 +736,9 @@ LOCALE_ALIASES = {
     'in': 'id',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
+    'sr_rs@latin': 'sr_Latn',
     'sr@cyrillic': 'sr_Cyrl',
+    'sr_rs@cyrillic': 'sr_Cyrl',
     'zh_cn': 'zh_Hans',
     'zh_tw': 'zh_Hant',
 }

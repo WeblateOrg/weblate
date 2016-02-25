@@ -132,6 +132,21 @@ class LanguageManager(models.Manager):
             code = code[:-1]
         return code
 
+    def aliases_get(self, code):
+        code = code.lower()
+        codes = (
+            code,
+            code.replace('-', '_'),
+            code.replace('-r', '_')
+        )
+        for newcode in codes:
+            if newcode in data.LOCALE_ALIASES:
+                newcode = data.LOCALE_ALIASES[newcode]
+                ret = self.try_get(code=newcode)
+                if ret is not None:
+                    return ret
+        return None
+
     def fuzzy_get(self, code):
         '''
         Gets matching language for code (the code does not have to be exactly
@@ -152,11 +167,9 @@ class LanguageManager(models.Manager):
             return ret
 
         # Handle aliases
-        if code in data.LOCALE_ALIASES:
-            code = data.LOCALE_ALIASES[code]
-            ret = self.try_get(name=code)
-            if ret is not None:
-                return ret
+        ret = self.aliases_get(code)
+        if ret is not None:
+            return ret
 
         # Parse the string
         lang, country = self.parse_lang_country(code)
