@@ -18,13 +18,23 @@
 
 {% whiteboard_messages %}
 
+
 <ul class="nav nav-pills">
-{% if user.is_authenticated %}
-<li class="active"><a href="#your" data-toggle="tab">{% trans "Your translations" %}</a></li>
-<li><a href="#projects" data-toggle="tab">{% trans "Projects" %}</a></li>
-{% else %}
-<li class="active"><a href="#projects" data-toggle="tab">{% trans "Projects" %}</a></li>
-{% endif %}
+<li class="dropdown active">
+  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="views-title">
+    {{active_tab_label}} <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" id="views-menu">
+    <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
+    <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
+    {% endif %}
+    {% for componentlist in componentlists %}
+    <li><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
+    {% endfor %}
+  </ul>
+</li>
 <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
 <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
@@ -44,50 +54,62 @@
 
 <div class="tab-content">
 {% if user.is_authenticated %}
-<div class="tab-pane active" id="your">
-{% if usertranslations %}
-{% with usertranslations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+<div {% active_tab "your-subscriptions" %}>
+{% if subscribed_projects %}
+    {% if usersubscriptions %}
+        {% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+        {% include "list-translations.html" %}
+        {% endwith %}
+    {% else %}
+        {% with subscribed_projects as projects %}
+        {% include "list-projects.html" %}
+        {% endwith %}
+    {% endif %}
+{% else %}
+    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in your subscribed projects." %}</p>
+{% endif %}
+<p>
+    <a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a>
+    <a class="btn btn-default" href="{% url 'profile' %}#subscriptions">{% trans "Manage your subscriptions" %}</a>
+</p>
+</div>
+
+<div {% active_tab "your-languages" %}>
+{% if userlanguages %}
+{% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
 {% endwith %}
 {% else %}
-<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages." %}</p>
-{% endif %}
-<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your translations" %}</a></p>
+<p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in all projects." %}</p>
+{% endif %} {# userlanguages #}
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
 </div>
+{% endif %} {# user.is_authenticated #}
 
-
-<div class="tab-pane" id="projects">
-{% else %}
-<div class="tab-pane active" id="projects">
-{% endif %}
-
-<table class="sort table">
-<thead>
-<tr>
-<th>{% trans "Project" %}</th>
-<th colspan="2">{% trans "Translated" %}</th>
-</tr>
-<tbody>
-{% for prj in projects %}
-{% with prj.get_translated_percent as percent and prj.get_fuzzy_percent as fuzzy and prj.get_failing_checks_percent as check_percent %}
-<tr>
-<th><a href="{{ prj.get_absolute_url }}">{{ prj }}</a></th>
-<td class="progress-cell">{% translation_progress prj %}</td>
-<td class="percent">{{ percent }}%</td>
-</tr>
-{% endwith %}
-{% endfor %}
-</tbody>
-</table>
-
-<p>
-{% include "legend.html" %}
-</p>
-
+{# All projects#}
+<div {% active_tab "projects" %}>
+{% include "list-projects.html" %}
+<p>{% include "legend.html" %}</p>
 {% if offer_hosting %}
 <p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
 {% endif %}
 </div>
+
+
+{% for componentlist in componentlists %}
+    <div {% active_tab componentlist.tab_slug %}>
+    {% if userlanguages %}
+    {% with componentlist.translations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+    {% include "list-translations.html" %}
+    {% endwith %}
+    {% else %}
+    {% with componentlist.components.all as projects %}
+    {% include "list-projects.html" %}
+    {% endwith %}
+    <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages." %}</p>
+    {% endif %} {# userlanguages #}
+    <p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+</div>{% endfor %}
 
 <div class="tab-pane" id="search">
 

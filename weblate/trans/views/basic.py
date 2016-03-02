@@ -33,7 +33,7 @@ from django.utils import timezone
 import django.views.defaults
 
 from weblate.trans.models import (
-    Project, SubProject, Translation, Check,
+    Project, SubProject, Translation, Check, ComponentList,
     Dictionary, Change, Unit, WhiteboardMessage
 )
 from weblate.requirements import get_versions, get_optional_versions
@@ -72,8 +72,9 @@ def home(request):
     wb_messages = WhiteboardMessage.objects.all()
 
     projects = Project.objects.all_acl(request.user)
+    subproject_list = None
     if projects.count() == 1:
-        projects = SubProject.objects.filter(
+        subproject_list = SubProject.objects.filter(
             project=projects[0]
         ).select_related()
 
@@ -88,15 +89,54 @@ def home(request):
     # Some stats
     last_changes = Change.objects.last_changes(request.user)[:10]
 
+    # Dashboard project/subproject view
+    componentlists = ComponentList.objects.all()
+    # dashboard_choices is dict with labels of choices as a keys
+    dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
+    usersubscriptions = None
+    userlanguages = None
+    active_tab_id = Profile.DASHBOARD_ALL
+    active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
+
+    if request.user.is_authenticated():
+        active_tab_id = request.user.profile.dashboard_view
+        active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
+        if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
+            clist = request.user.profile.dashboard_component_list
+            active_tab_slug = clist.tab_slug()
+            dashboard_choices[active_tab_id] = clist.name
+
+        subscribed_projects = request.user.profile.subscriptions.all()
+
+        components_by_language = Translation.objects.filter(
+            language__in=request.user.profile.languages.all(),
+        ).order_by(
+            'subproject__project__name', 'subproject__name'
+        ).select_related()
+
+        usersubscriptions = components_by_language.filter(
+            subproject__project__in=subscribed_projects)
+        userlanguages = components_by_language.filter(
+            subproject__project__in=projects)
+
+        for componentlist in componentlists:
+            componentlist.translations = components_by_language.filter(
+                subproject__in=componentlist.components.all())
+
     return render(
         request,
         'index.html',
         {
-            'projects': projects,
+            'projects': subproject_list or projects,
             'last_changes': last_changes,
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
             'whiteboard_messages': wb_messages,
+            'usersubscriptions': usersubscriptions,
+            'userlanguages': userlanguages,
+            'componentlists': componentlists,
+            'active_tab_slug': active_tab_slug,
+            'active_tab_label': dashboard_choices.get(active_tab_id)
         }
     )
 

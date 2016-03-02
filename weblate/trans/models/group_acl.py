@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""Whiteboard model."""
+"""Group ACL."""
 
 from django.db import models
 from django.core.exceptions import ValidationError

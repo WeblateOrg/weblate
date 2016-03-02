@@ -38,6 +38,7 @@ from weblate.trans.models.group_acl import GroupACL
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
+from weblate.trans.models.componentlist import ComponentList
 from weblate.trans.search import clean_search_unit
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
@@ -51,7 +52,7 @@ from weblate.trans.scripts import (
 __all__ = [
     'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
-    'Advertisement', 'WhiteboardMessage', 'GroupACL',
+    'Advertisement', 'WhiteboardMessage', 'GroupACL', 'ComponentList',
 ]
 
 

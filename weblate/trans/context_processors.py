@@ -26,7 +26,6 @@ import weblate
 from weblate import appsettings
 from weblate.trans.site import get_site_url
 from weblate.trans.models.project import Project
-from weblate.trans.models.translation import Translation
 
 URL_BASE = 'https://weblate.org/?utm_source=weblate&utm_term=%s'
 URL_DONATE = 'https://weblate.org/donate/?utm_source=weblate&utm_term=%s'
@@ -44,14 +43,9 @@ def weblate_context(request):
     projects = Project.objects.all_acl(request.user)
 
     # Load user translations if user is authenticated
-    usertranslations = None
+    subscribed_projects = None
     if request.user.is_authenticated():
-        usertranslations = Translation.objects.filter(
-            language__in=request.user.profile.languages.all(),
-            subproject__project__in=projects,
-        ).order_by(
-            'subproject__project__name', 'subproject__name'
-        ).select_related()
+        subscribed_projects = request.user.profile.subscriptions.all()
 
     if appsettings.OFFER_HOSTING:
         description = _(
@@ -91,5 +85,5 @@ def weblate_context(request):
 
         'registration_open': appsettings.REGISTRATION_OPEN,
         'acl_projects': projects,
-        'usertranslations': usertranslations,
+        'subscribed_projects': subscribed_projects,
     }
