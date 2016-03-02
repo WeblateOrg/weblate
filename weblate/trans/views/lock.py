@@ -131,7 +131,7 @@ def lock_project(request, project):
 
     messages.success(
         request,
-        _('All subprojects are now locked for translation updates!')
+        _('All components are now locked for translation updates!')
     )
 
     return redirect(obj)
