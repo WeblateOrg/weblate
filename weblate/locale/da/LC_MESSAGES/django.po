@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-02 09:33+0000\n"
-"PO-Revision-Date: 2016-02-25 11:27+0000\n"
+"PO-Revision-Date: 2016-03-02 11:22+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
-"Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
-">\n"
+"Language-Team: Danish "
+"<https://hosted.weblate.org/projects/weblate/master/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,8 +47,9 @@ msgid "This username is already taken. Please choose another."
 msgstr "Brugernavnet er allerede i brug. Vælg et andet."
 
 #: weblate/accounts/forms.py:250
+#, fuzzy
 msgid "Component list must be selected when used as default."
-msgstr ""
+msgstr "Komponentlisten skal vælges, når den anvendes som standard."
 
 #: weblate/accounts/forms.py:259 weblate/accounts/forms.py:329
 #: weblate/html/project.html:166
@@ -234,38 +235,34 @@ msgstr "Skjule kilden, hvis der er et sekundært sprog"
 
 #: weblate/accounts/models.py:509 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
 msgstr "Abonnementer"
 
 #: weblate/accounts/models.py:510 weblate/html/index.html.py:30
-#, fuzzy
 #| msgid "Source language"
 msgid "Your languages"
-msgstr "Kildesproget"
+msgstr "Sprog"
 
 #: weblate/accounts/models.py:511 weblate/html/index.html.py:28
-#, fuzzy
 #| msgid "All subprojects"
 msgid "All projects"
-msgstr "Alle delprojekter"
+msgstr "Alle projekter"
 
 #: weblate/accounts/models.py:512 weblate/trans/models/componentlist.py:54
-#, fuzzy
 #| msgid "Components"
 msgid "Component list"
-msgstr "Komponenter"
+msgstr "Komponentliste"
 
 #: weblate/accounts/models.py:528
+#, fuzzy
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Standardvisning betjeningspanel"
 
 #: weblate/accounts/models.py:534
-#, fuzzy
 #| msgid "All components"
 msgid "Default component list"
-msgstr "Alle komponenter"
+msgstr "Standard komponentliste"
 
 #: weblate/accounts/models.py:541 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
@@ -2411,7 +2408,6 @@ msgid "Widgets"
 msgstr "Kontroller"
 
 #: weblate/html/index.html:69
-#, fuzzy
 #| msgid ""
 #| "Choose your languages in preferences and you will get an overview here of "
 #| "available translations for those languages."
@@ -2419,24 +2415,21 @@ msgid ""
 "Choose your languages in preferences and you will get an overview here of "
 "available translations for those languages in your subscribed projects."
 msgstr ""
-"Vælg dine sprog i præferencer og få et overblik over tilgængelige "
-"oversættelser for disse sprog."
+"Vælg sprog i præferencer og få et overblik over tilgængelige oversættelser "
+"for disse sprog i de projekter der abonneres på."
 
 #: weblate/html/index.html:72 weblate/html/index.html.py:85
 #: weblate/html/index.html:111
-#, fuzzy
 #| msgid "Manage your translations"
 msgid "Manage your languages"
-msgstr "Administrer dine oversættelser"
+msgstr "Administrer sprog"
 
 #: weblate/html/index.html:73
-#, fuzzy
 #| msgid "Manage your translations"
 msgid "Manage your subscriptions"
-msgstr "Administrer dine oversættelser"
+msgstr "Administrere abonnementer"
 
 #: weblate/html/index.html:83
-#, fuzzy
 #| msgid ""
 #| "Choose your languages in preferences and you will get an overview here of "
 #| "available translations for those languages."
@@ -2444,8 +2437,8 @@ msgid ""
 "Choose your languages in preferences and you will get an overview here of "
 "available translations for those languages in all projects."
 msgstr ""
-"Vælg dine sprog i præferencer og få et overblik over tilgængelige "
-"oversættelser for disse sprog."
+"Vælg sprog i præferencer og få et overblik over tilgængelige oversættelser "
+"for disse sprog.i alle projekter."
 
 #: weblate/html/index.html:109
 msgid ""
@@ -4868,7 +4861,7 @@ msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
 #, fuzzy
 #| msgid "Component name"
 msgid "Component list name"
-msgstr "Komponent navn"
+msgstr "Komponent listenavn"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:79
 #: weblate/trans/models/subproject.py:106
@@ -4886,10 +4879,9 @@ msgid "Name used in URLs and file names."
 msgstr "Navn, der anvendes i webadresser og filnavne."
 
 #: weblate/trans/models/componentlist.py:55
-#, fuzzy
 #| msgid "Components"
 msgid "Component lists"
-msgstr "Komponenter"
+msgstr "Komponentlister"
 
 #: weblate/trans/models/group_acl.py:45
 msgid "Project, component or language must be specified"
@@ -5862,6 +5854,8 @@ msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
+"{0} er oversat til {1} sprog ved hjælp af Weblate. Deltag i oversættelsen "
+"eller start oversættelse af eget projekt."
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -5948,10 +5942,9 @@ msgstr ""
 "%(percent)s komplet."
 
 #: weblate/trans/views/basic.py:437
-#, fuzzy
 #| msgid "Weblate translations"
 msgid "Weblate statistics"
-msgstr "Weblate oversættelser"
+msgstr "Weblate statistik"
 
 #: weblate/trans/views/basic.py:515
 msgid "Chosen translation already exists in this project!"
