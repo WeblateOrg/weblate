@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-02 09:33+0000\n"
-"PO-Revision-Date: 2016-02-17 16:51+0000\n"
+"PO-Revision-Date: 2016-03-02 10:51+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +51,7 @@ msgstr "Toto uživatelské jméno je již obsazené. Prosím zvolte si jiné."
 
 #: weblate/accounts/forms.py:250
 msgid "Component list must be selected when used as default."
-msgstr ""
+msgstr "Seznam komponent musí být vybrán pokud je používán jako výchozí."
 
 #: weblate/accounts/forms.py:259 weblate/accounts/forms.py:329
 #: weblate/html/project.html:166
@@ -235,38 +235,33 @@ msgstr "Skrýt zdroj pokud je dostupný alternativní jazyk"
 
 #: weblate/accounts/models.py:509 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
-msgstr "Upozornění"
+msgstr "Vaše sledování"
 
 #: weblate/accounts/models.py:510 weblate/html/index.html.py:30
-#, fuzzy
 #| msgid "Source language"
 msgid "Your languages"
-msgstr "Jazyk zdroje"
+msgstr "Vaše jazyky"
 
 #: weblate/accounts/models.py:511 weblate/html/index.html.py:28
-#, fuzzy
 #| msgid "All subprojects"
 msgid "All projects"
-msgstr "Všechny podprojekty"
+msgstr "Všechny projekty"
 
 #: weblate/accounts/models.py:512 weblate/trans/models/componentlist.py:54
-#, fuzzy
 #| msgid "Components"
 msgid "Component list"
-msgstr "Komponenty"
+msgstr "Seznam komponent"
 
 #: weblate/accounts/models.py:528
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Výchozí pohled na nástěnce"
 
 #: weblate/accounts/models.py:534
-#, fuzzy
 #| msgid "All components"
 msgid "Default component list"
-msgstr "Všechny komponenty"
+msgstr "Výchozí seznam komponent"
 
 #: weblate/accounts/models.py:541 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
@@ -2399,7 +2394,6 @@ msgid "Widgets"
 msgstr "Widgety"
 
 #: weblate/html/index.html:69
-#, fuzzy
 #| msgid ""
 #| "Choose your languages in preferences and you will get an overview here of "
 #| "available translations for those languages."
@@ -2408,23 +2402,20 @@ msgid ""
 "available translations for those languages in your subscribed projects."
 msgstr ""
 "Zvolte si vaše jazyky v nastavení a zde se vám zobrazí překlady do těchto "
-"jazyků."
+"jazyků v přihlášených projektech."
 
 #: weblate/html/index.html:72 weblate/html/index.html.py:85
 #: weblate/html/index.html:111
-#, fuzzy
 #| msgid "Manage your translations"
 msgid "Manage your languages"
-msgstr "Spravujte svoje překlady"
+msgstr "Spravujte svoje jazyky"
 
 #: weblate/html/index.html:73
-#, fuzzy
 #| msgid "Manage your translations"
 msgid "Manage your subscriptions"
-msgstr "Spravujte svoje překlady"
+msgstr "Spravujte svoje přihlášení"
 
 #: weblate/html/index.html:83
-#, fuzzy
 #| msgid ""
 #| "Choose your languages in preferences and you will get an overview here of "
 #| "available translations for those languages."
@@ -2433,7 +2424,7 @@ msgid ""
 "available translations for those languages in all projects."
 msgstr ""
 "Zvolte si vaše jazyky v nastavení a zde se vám zobrazí překlady do těchto "
-"jazyků."
+"jazyků ve všech projektech."
 
 #: weblate/html/index.html:109
 msgid ""
@@ -4840,10 +4831,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s v %(time)s na %(translation)s provedl %(user)s"
 
 #: weblate/trans/models/componentlist.py:32
-#, fuzzy
 #| msgid "Component name"
 msgid "Component list name"
-msgstr "Název komponenty"
+msgstr "Název seznamu komponent"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:79
 #: weblate/trans/models/subproject.py:106
@@ -4861,10 +4851,9 @@ msgid "Name used in URLs and file names."
 msgstr "Jméno použité v URL a cestách souborů."
 
 #: weblate/trans/models/componentlist.py:55
-#, fuzzy
 #| msgid "Components"
 msgid "Component lists"
-msgstr "Komponenty"
+msgstr "Seznamy komponent"
 
 #: weblate/trans/models/group_acl.py:45
 msgid "Project, component or language must be specified"
@@ -5850,6 +5839,8 @@ msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
+"Projekt {0} je překládán do {1} jazyků pomocí Weblate. Připojte se k "
+"překladu nebo začněte překládat svůj projekt."
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
@@ -5932,10 +5923,9 @@ msgstr ""
 "době obsahuje %(total)s řetězců k překladu a je hotový z %(percent)s%%."
 
 #: weblate/trans/views/basic.py:437
-#, fuzzy
 #| msgid "Weblate translations"
 msgid "Weblate statistics"
-msgstr "Překlady Weblate"
+msgstr "Statistiky Weblate"
 
 #: weblate/trans/views/basic.py:515
 msgid "Chosen translation already exists in this project!"
