@@ -35,6 +35,7 @@ def widgets_root(request):
     return render(
         request,
         'widgets-root.html',
+        {},
     )
 
 
