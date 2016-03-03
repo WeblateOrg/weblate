@@ -33,6 +33,7 @@ from django.contrib.auth.models import Permission, User, Group
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 
+from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
@@ -200,12 +201,21 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         """Adds user based on username of email."""
         group = Group.objects.get(name=self.name)
         user.groups.add(group)
-        user.profile.subscriptions.add(self)
+        self.add_subscription(user)
+
+    def add_subscription(self, user):
+        """Adds user subscription to current project"""
+        try:
+            profile = user.profile
+        except Profile.DoesNotExist:
+            profile = Profile.objects.create(user=user)
+
+        profile.subscriptions.add(self)
 
     def add_owner(self, user):
         """Adds owner to the project"""
         self.owners.add(user)
-        user.profile.subscriptions.add(self)
+        self.add_subscription(user)
 
     def remove_user(self, user):
         """Adds user based on username of email."""
