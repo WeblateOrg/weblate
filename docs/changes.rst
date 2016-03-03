@@ -41,6 +41,7 @@ Released on ? 2015.
 * Added configurable dashboard views.
 * Improved notifications on parse erorrs.
 * Added option to import components with duplicate name to import_project.
+* Improved support for translating PHP files
 
 weblate 2.4
 -----------

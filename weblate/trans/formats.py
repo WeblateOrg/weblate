@@ -403,6 +403,26 @@ class RESXUnit(FileUnit):
         return get_string(self.template.target)
 
 
+class PHPUnit(FileUnit):
+    def get_locations(self):
+        return ''
+
+    def get_context(self):
+        if self.template is not None:
+            return self.template.getsource()
+        return ''
+
+    def get_source(self):
+        if self.template is not None:
+            return self.template.getsource()
+        return self.unit.getsource()
+
+    def get_target(self):
+        if self.unit is None:
+            return ''
+        return self.unit.gettarget()
+
+
 class FileFormat(object):
     '''
     Generic object defining file format loader.
@@ -1071,6 +1091,7 @@ class PhpFormat(FileFormat):
     loader = ('php', 'phpfile')
     new_translation = '<?php\n'
     autoload = ('.php',)
+    unit_class = PHPUnit
 
     @property
     def mimetype(self):

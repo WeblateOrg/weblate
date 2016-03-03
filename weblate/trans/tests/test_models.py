@@ -282,6 +282,13 @@ class RepoTestCase(TestCase):
             'csv-mono/en.csv',
         )
 
+    def create_php_mono(self):
+        return self._create_subproject(
+            'php',
+            'php-mono/*.php',
+            'php-mono/en.php',
+        )
+
     def create_java(self):
         return self._create_subproject(
             'properties',

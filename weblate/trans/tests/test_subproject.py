@@ -185,6 +185,10 @@ class SubProjectTest(RepoTestCase):
         project = self.create_csv_mono()
         self.verify_subproject(project, 2, 'cs', 4)
 
+    def test_create_php_mono(self):
+        project = self.create_php_mono()
+        self.verify_subproject(project, 2, 'cs', 4)
+
     def test_create_tsv(self):
         project = self.create_tsv()
         self.verify_subproject(project, 1, 'cs', 4, 'Hello, world!')
