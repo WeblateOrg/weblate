@@ -29,12 +29,37 @@ from django.contrib.auth.decorators import permission_required
 from django.views.decorators.http import require_POST
 from django.http import Http404
 
+from weblate.trans.site import get_site_url
+from weblate.trans.exporters import get_exporter
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import get_translation, import_message
 from weblate.trans.permissions import (
     can_author_translation, can_overwrite_translation
 )
+
+
+def download_translation_format(request, project, subproject, lang, format):
+    obj = get_translation(request, project, subproject, lang)
+
+    try:
+        exporter = get_exporter(format)(
+            obj.subproject.project,
+            obj.language,
+            get_site_url(obj.get_absolute_url())
+        )
+    except KeyError:
+        raise Http404('File format not supported')
+
+    for unit in obj.unit_set.iterator():
+        exporter.add_unit(unit)
+
+    # Save to response
+    return exporter.get_response(
+        '{{project}}-{0}-{{language}}.{{extension}}'.format(
+            subproject
+        )
+    )
 
 
 def download_translation(request, project, subproject, lang):

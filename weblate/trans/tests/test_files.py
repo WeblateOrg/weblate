@@ -373,6 +373,35 @@ class ExportTest(ViewTestCase):
             'attachment; filename=test-test-cs.po'
         )
 
+    def export_format(self, fmt):
+        kwargs = {'format': fmt}
+        kwargs.update(self.kw_translation)
+        return self.client.get(
+            reverse(
+                'download_translation_format',
+                kwargs=kwargs
+            )
+        )
+
+    def test_export_po(self):
+        response = self.export_format('po')
+        self.assertContains(
+            response, 'Orangutan has %d bananas'
+        )
+        self.assertContains(
+            response, '/projects/test/test/cs/'
+        )
+
+    def test_export_xliff(self):
+        response = self.export_format('xliff')
+        self.assertContains(
+            response, 'Orangutan has %d banana'
+        )
+
+    def test_export_invalid(self):
+        response = self.export_format('invalid')
+        self.assertEquals(response.status_code, 404)
+
     def test_language_pack(self):
         response = self.client.get(
             reverse(

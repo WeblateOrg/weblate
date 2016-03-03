@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponse
 
+from translate.misc.multistring import multistring
 from translate.storage.po import pofile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
@@ -70,6 +71,26 @@ class BaseExporter(object):
             unit.target = word.target
         self.storage.addunit(unit)
 
+    def add_unit(self, unit):
+        if unit.is_plural():
+            output = self.storage.UnitClass(
+                multistring(unit.get_source_plurals())
+            )
+            output.target = multistring(unit.get_target_plurals())
+        else:
+            output = self.storage.UnitClass(unit.source)
+            output.target = multistring(unit.target)
+        output.context = unit.context
+        for location in unit.location.split():
+            output.addlocation(unit.location)
+        output.addnote(unit.comment)
+        if hasattr(output, 'settypecomment'):
+            for flag in unit.flags.split(','):
+                output.settypecomment(flag)
+        if unit.fuzzy:
+            output.markfuzzy(True)
+        self.storage.addunit(output)
+
     def get_response(self, filetemplate='{project}-{language}.{extension}'):
         filename = filetemplate.format(
             project=self.project.slug,
@@ -108,6 +129,7 @@ class PoExporter(BaseExporter):
             project_id_version='%s (%s)' % (
                 self.language.name, self.project.name
             ),
+            plural_forms= self.language.get_plural_form(),
             language_team='%s <%s>' % (
                 self.language.name,
                 self.url,

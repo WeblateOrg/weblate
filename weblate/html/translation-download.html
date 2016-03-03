@@ -1,6 +1,8 @@
 {% load i18n %}
 
 <li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Download source file" %}</a></li>
+<li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code format='xliff'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as XLIFF" %}</a></li>
+<li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code format='po'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as Gettext PO" %}</a></li>
 {% if object.supports_language_pack %}
 <li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Download compiled translation" %}</a></li>
 {% endif %}

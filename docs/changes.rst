@@ -43,6 +43,7 @@ Released on ? 2015.
 * Added option to import components with duplicate name to import_project.
 * Improved support for translating PHP files
 * Added XLIFF export for dictionary.
+* Added XLIFF and Gettext PO export for all translations.
 
 weblate 2.4
 -----------
