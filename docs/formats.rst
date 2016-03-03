@@ -263,6 +263,11 @@ Example file:
     so please double check that your files won't get corrupted  before using
     Weblate in production setup.
 
+    Following things are known to be broken:
+
+    * Adding new units to translation, every translation has to contain all strings (even if empty).
+    * Handling of special chars like newlines.
+
 
 .. seealso::
 
