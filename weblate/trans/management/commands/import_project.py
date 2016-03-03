@@ -82,6 +82,16 @@ class Command(BaseCommand):
             ),
         ),
         make_option(
+            '--no-skip-duplicates',
+            action='store_true',
+            default=False,
+            dest='duplicates',
+            help=(
+                'Avoid skipping duplicate component names/slugs. '
+                'Use this if importing project with long names '
+            )
+        ),
+        make_option(
             '--license',
             default=None,
             help='License of imported components',
@@ -192,6 +202,21 @@ class Command(BaseCommand):
         self.logger.info('Found %d subprojects', len(names))
         return sorted(names)
 
+    def find_usable_slug(self, name, slug_len, project):
+        base = name[:slug_len - 4]
+        for i in range(1, 1000):
+            newname = '{0} {1:03d}'.format(base, i)
+            slug = slugify(newname)
+            subprojects = SubProject.objects.filter(
+                Q(name=newname) | Q(slug=slug),
+                project=project
+            )
+            if not subprojects.exists():
+                return newname, slug
+        raise CommandError(
+            'Failed to find suitable name for {0}'.format(name)
+        )
+
     def handle(self, *args, **options):
         '''
         Automatic import of project.
@@ -284,11 +309,16 @@ class Command(BaseCommand):
                 project=project
             )
             if subprojects.exists():
-                self.logger.warning(
-                    'Component %s already exists, skipping',
-                    name
-                )
-                continue
+                if not options['duplicates']:
+                    self.logger.warning(
+                        'Component %s already exists, skipping',
+                        name
+                    )
+                    continue
+                else:
+                    name, slug = self.find_usable_slug(
+                        name, slug_len, project
+                    )
 
             self.logger.info('Creating component %s', name)
             SubProject.objects.create(

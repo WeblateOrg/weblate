@@ -42,17 +42,35 @@ class RunnerTest(TestCase):
 
 
 class ImportProjectTest(RepoTestCase):
-    def test_import(self):
-        project = self.create_project()
+    def do_import(self, path=None, **kwargs):
         call_command(
             'import_project',
             'test',
-            self.git_repo_path,
+            self.git_repo_path if path is None else path,
             'master',
             '**/*.po',
+            **kwargs
         )
+
+    def test_import(self):
+        project = self.create_project()
+        self.do_import()
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 4)
+
+    def test_import_ignore(self):
+        project = self.create_project()
+        self.do_import()
+        self.do_import()
+        # We should have loaded four subprojects
+        self.assertEqual(project.subproject_set.count(), 4)
+
+    def test_import_duplicate(self):
+        project = self.create_project()
+        self.do_import()
+        self.do_import(path='weblate://test/po', duplicates=True)
+        # We should have loaded eight subprojects
+        self.assertEqual(project.subproject_set.count(), 8)
 
     def test_import_main_1(self, name='po-mono'):
         project = self.create_project()

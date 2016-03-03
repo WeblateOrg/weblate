@@ -184,6 +184,13 @@ against file name (as matched by `<filemask>`) and has to contain named group
 `name`. This can be also used for excluding files in case they do not match
 this expression. For example: ``.*/(?P<name>[^-]*)\.po``
 
+By default the import does skip already existing projects. This is to allow
+repeated importing of same repository. However if you want to force importing
+additional components even if name or slug matches existing one, you can do it
+by passing ``--no-skip-duplicates``. This is generally useful for components
+with long names, which will get truncated on import and many of them will get
+same name or slug.
+
 To give you some examples, let's try importing two projects.
 
 As first we import The Debian Handbook translations, where each language has
