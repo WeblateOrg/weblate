@@ -39,11 +39,11 @@ from weblate.trans.permissions import (
 )
 
 
-def download_translation_format(request, project, subproject, lang, format):
+def download_translation_format(request, project, subproject, lang, fmt):
     obj = get_translation(request, project, subproject, lang)
 
     try:
-        exporter = get_exporter(format)(
+        exporter = get_exporter(fmt)(
             obj.subproject.project,
             obj.language,
             get_site_url(obj.get_absolute_url())

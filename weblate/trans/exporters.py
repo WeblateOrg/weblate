@@ -82,7 +82,7 @@ class BaseExporter(object):
             output.target = multistring(unit.target)
         output.context = unit.context
         for location in unit.location.split():
-            output.addlocation(unit.location)
+            output.addlocation(location)
         output.addnote(unit.comment)
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
@@ -129,7 +129,7 @@ class PoExporter(BaseExporter):
             project_id_version='%s (%s)' % (
                 self.language.name, self.project.name
             ),
-            plural_forms= self.language.get_plural_form(),
+            plural_forms=self.language.get_plural_form(),
             language_team='%s <%s>' % (
                 self.language.name,
                 self.url,

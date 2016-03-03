@@ -374,7 +374,7 @@ class ExportTest(ViewTestCase):
         )
 
     def export_format(self, fmt):
-        kwargs = {'format': fmt}
+        kwargs = {'fmt': fmt}
         kwargs.update(self.kw_translation)
         return self.client.get(
             reverse(
