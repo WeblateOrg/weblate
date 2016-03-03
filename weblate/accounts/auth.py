@@ -81,6 +81,16 @@ class WeblateUserBackend(ModelBackend):
             user_obj, obj
         )
 
+    def _get_group_permissions(self, user_obj):
+        """Wrapper around _get_group_permissions to exclude groupacl
+
+        We don't want these to be applied direclty, they should work
+        only using group matching rules."""
+        perms = super(WeblateUserBackend, self)._get_group_permissions(
+            user_obj
+        )
+        return perms.exclude(group__groupacl__pk__gt=0)
+
     def authenticate(self, username=None, password=None, **kwargs):
         '''
         Prohibits login for anonymous user and allows to login by email.
