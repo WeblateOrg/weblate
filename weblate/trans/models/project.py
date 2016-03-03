@@ -201,6 +201,10 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         group = Group.objects.get(name=self.name)
         user.groups.add(group)
 
+    def add_owner(self, user):
+        """Adds owner to the project"""
+        self.owners.add(user)
+
     def remove_user(self, user):
         """Adds user based on username of email."""
         group = Group.objects.get(name=self.name)

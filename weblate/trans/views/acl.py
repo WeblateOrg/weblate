@@ -53,7 +53,7 @@ def make_owner(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        obj.owners.add(form.cleaned_data['user'])
+        obj.add_owner(form.cleaned_data['user'])
 
     return redirect_param(
         'project',
