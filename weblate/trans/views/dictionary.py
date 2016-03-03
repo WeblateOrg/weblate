@@ -33,6 +33,7 @@ from django.core.urlresolvers import reverse
 import six
 from six.moves.urllib.parse import urlencode
 
+from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language
 from weblate.trans.formats import FileFormat
@@ -183,68 +184,22 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
     '''
     Translate-toolkit builder for dictionary downloads.
     '''
-    # Use translate-toolkit for other formats
-    if export_format == 'po':
-        # Construct store
-        from translate.storage.po import pofile
-        store = pofile()
-
-        # Export parameters
-        content_type = 'text/x-po'
-        extension = 'po'
-        has_lang = False
-
-        # Set po file header
-        store.updateheader(
-            add=True,
-            language=lang.code,
-            x_generator='Weblate %s' % weblate.VERSION,
-            project_id_version='%s (%s)' % (lang.name, prj.name),
-            language_team='%s <%s>' % (
-                lang.name,
-                get_site_url(reverse(
-                    'show_dictionary',
-                    kwargs={'project': prj.slug, 'lang': lang.code}
-                )),
-            )
-        )
-    elif export_format == 'xliff':
-        # Construct store
-        from translate.storage.xliff import xlifffile
-        store = xlifffile()
-
-        # Export parameters
-        content_type = 'application/x-xliff+xml'
-        extension = 'xlf'
-        has_lang = True
-    else:
-        # Construct store
-        from translate.storage.tbx import tbxfile
-        store = tbxfile()
-
-        # Export parameters
-        content_type = 'application/x-tbx'
-        extension = 'tbx'
-        has_lang = True
-
-    # Setup response and headers
-    response = HttpResponse(content_type='%s; charset=utf-8' % content_type)
-    filename = 'glossary-%s-%s.%s' % (prj.slug, lang.code, extension)
-    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    exporter = get_exporter(export_format)(
+        prj, lang,
+        get_site_url(reverse(
+            'show_dictionary',
+            kwargs={'project': prj.slug, 'lang': lang.code}
+        ))
+    )
 
     # Add words
     for word in words.iterator():
-        unit = store.UnitClass(word.source)
-        if has_lang:
-            unit.settarget(word.target, lang.code)
-        else:
-            unit.target = word.target
-        store.addunit(unit)
+        exporter.add_dictionary(word)
 
     # Save to response
-    response.write(FileFormat.serialize(store))
-
-    return response
+    return exporter.get_response(
+        'glossary-{project}-{language}.{extension}'
+    )
 
 
 def download_dictionary(request, project, lang):
