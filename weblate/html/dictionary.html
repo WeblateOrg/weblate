@@ -19,7 +19,17 @@
 {% if perms.trans.upload_dictionary %}
 <li><a href="#import" data-toggle="tab">{% trans "Import glossary" %}</a></li>
 {% endif %}
-<li><a href="#export" data-toggle="tab">{% trans "Export glossary" %}</a></li>
+<li>
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Export glossary" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localisation Interchange File Format (XLIFF)" %}</a></li>
+<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
+</ul>
+</li>
 <li><a href="#changes" data-toggle="tab">{% trans "History" %}</a></li>
 </ul>
 
@@ -92,18 +102,6 @@
 
 </div>
 {% endif %}
-
-<div class="tab-pane" id="export">
-
-<p>{% trans "You can download glossary in following formats:" %}</p>
-
-<ul>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "Gettext (PO)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localisation Interchange File Format (XLIFF)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
-</ul>
-</div>
 
 <div class="tab-pane" id="changes">
 {% include "last-changes-content.html" %}
