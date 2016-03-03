@@ -38,6 +38,7 @@ Released on ? 2015.
 * Support for Python 3.
 * Dropped support for Django 1.7.
 * Dropped dependency on msginit for creating new Gettext po files.
+* Added configurable dashboard views.
 
 weblate 2.4
 -----------
