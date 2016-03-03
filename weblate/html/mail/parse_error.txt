@@ -1,0 +1,13 @@
+{% load i18n %}{% load translations %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
+
+{% blocktrans %}There has been a parse error on {{ subproject }} at {{ site_title }}.{% endblocktrans %}
+
+{% trans "Error message:" %}
+
+{{ error }}
+
+{% trans "Failing file:" %}
+
+{% if translation %}{{ translation.filename }}{% else %}{{ subproject.template }}{% endif %}
+
+{% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

@@ -1,0 +1,27 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+<p>
+{% trans "Hi,"%}
+</p>
+
+<p>
+{% blocktrans %}There has been a parse error on {{ subproject }} at {{ site_title }}.{% endblocktrans %}
+<p>
+
+
+<h2>{% trans "Error message" %}</h2>
+
+<pre>
+{{ error }}
+</pre>
+
+<h2>{% trans "Failing file" %}</h2>
+
+<p>
+{% if translation %}{{ translation.filename }}{% else %}{{ subproject.template }}{% endif %}
+</p>
+
+{% endblock %}

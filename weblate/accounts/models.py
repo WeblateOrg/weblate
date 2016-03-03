@@ -113,6 +113,47 @@ def notify_merge_failure(subproject, error, status):
     send_mails(mails)
 
 
+def notify_parse_error(subproject, translation, error):
+    '''
+    Notification on parse error.
+    '''
+    subscriptions = Profile.objects.subscribed_merge_failure(
+        subproject.project,
+    )
+    users = set()
+    mails = []
+    for subscription in subscriptions:
+        mails.append(
+            subscription.notify_parse_error(
+                subproject, translation, error
+            )
+        )
+        users.add(subscription.user_id)
+
+    for owner in subproject.project.owners.all():
+        mails.append(
+            owner.profile.notify_parse_error(
+                subproject, translation, error
+            )
+        )
+
+    # Notify admins
+    mails.append(
+        get_notification_email(
+            'en',
+            'ADMINS',
+            'parse_error',
+            subproject,
+            {
+                'subproject': subproject,
+                'translation': translation,
+                'error': error,
+            }
+        )
+    )
+    send_mails(mails)
+
+
 def notify_new_string(translation):
     '''
     Notification on new string to translate.
@@ -728,6 +769,20 @@ class Profile(models.Model):
                 'subproject': subproject,
                 'error': error,
                 'status': status,
+            }
+        )
+
+    def notify_parse_error(self, subproject, translation, error):
+        '''
+        Sends notification on parse error.
+        '''
+        return self.notify_user(
+            'parse_error',
+            subproject,
+            {
+                'subproject': subproject,
+                'translation': translation,
+                'error': error,
             }
         )
 

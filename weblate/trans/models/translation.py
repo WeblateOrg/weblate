@@ -411,7 +411,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             except ParseError:
                 raise
             except Exception as exc:
-                self.subproject.handle_parse_error(exc)
+                self.subproject.handle_parse_error(exc, self)
         return self._store
 
     def check_sync(self, force=False, request=None, change=None):

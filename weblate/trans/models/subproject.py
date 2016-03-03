@@ -22,7 +22,6 @@ from __future__ import unicode_literals
 
 from glob import glob
 import os
-import traceback
 import sys
 import time
 import fnmatch
@@ -65,7 +64,9 @@ from weblate.appsettings import (
     DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
     DEFAULT_TRANSLATION_PROPAGATION,
 )
-from weblate.accounts.models import notify_merge_failure, get_author_name
+from weblate.accounts.models import (
+    notify_parse_error, notify_merge_failure, get_author_name
+)
 from weblate.trans.models.changes import Change
 
 
@@ -845,13 +846,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not from_link and not skip_push:
             self.push_if_needed(request)
 
-    def handle_parse_error(self, error):
+    def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
         report_error(error, sys.exc_info())
-        notify_merge_failure(
+        notify_parse_error(
             self,
-            str(error),
-            ''.join(traceback.format_stack()),
+            translation,
+            str(error)
         )
         raise ParseError(str(error))
 
