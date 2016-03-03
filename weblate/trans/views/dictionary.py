@@ -208,6 +208,15 @@ def download_dictionary_ttkit(export_format, prj, lang, words):
                 )),
             )
         )
+    elif export_format == 'xliff':
+        # Construct store
+        from translate.storage.xliff import xlifffile
+        store = xlifffile()
+
+        # Export parameters
+        content_type = 'application/x-xliff+xml'
+        extension = 'xlf'
+        has_lang = True
     else:
         # Construct store
         from translate.storage.tbx import tbxfile
@@ -249,7 +258,7 @@ def download_dictionary(request, project, lang):
     export_format = None
     if 'format' in request.GET:
         export_format = request.GET['format']
-    if export_format not in ('csv', 'po', 'tbx'):
+    if export_format not in ('csv', 'po', 'tbx', 'xliff'):
         export_format = 'csv'
 
     # Grab all words
@@ -259,7 +268,7 @@ def download_dictionary(request, project, lang):
     ).order_by('source')
 
     # Translate toolkit based export
-    if export_format in ('po', 'tbx'):
+    if export_format in ('po', 'tbx', 'xliff'):
         return download_dictionary_ttkit(export_format, prj, lang, words)
 
     # Manually create CSV file

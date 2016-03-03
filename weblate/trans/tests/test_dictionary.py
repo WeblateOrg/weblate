@@ -218,6 +218,26 @@ class DictionaryTest(ViewTestCase):
             '<term>webové stránky</term>'
         )
 
+    def test_download_xliff(self):
+        '''
+        Test for downloading XLIFF file.
+        '''
+        # Import test data
+        self.import_file(TEST_TBX)
+
+        response = self.client.get(
+            self.get_url('download_dictionary'),
+            {'format': 'xliff'}
+        )
+        self.assertContains(
+            response,
+            '<source>website</source>'
+        )
+        self.assertContains(
+            response,
+            '<target state="translated">webové stránky</target>'
+        )
+
     def test_download_po(self):
         '''
         Test for downloading PO file.

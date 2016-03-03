@@ -42,6 +42,7 @@ Released on ? 2015.
 * Improved notifications on parse erorrs.
 * Added option to import components with duplicate name to import_project.
 * Improved support for translating PHP files
+* Added XLIFF export for dictionary.
 
 weblate 2.4
 -----------
