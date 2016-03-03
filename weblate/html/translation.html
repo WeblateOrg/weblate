@@ -33,13 +33,7 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-<li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Download source file" %}</a></li>
-{% if object.supports_language_pack %}
-<li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Download compiled translation" %}</a></li>
-{% endif %}
-{% if perms.trans.upload_translation %}
-<li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>
-{% endif %}
+{% include "translation-download.html" %}
     </ul>
   </li>
   <li class="dropdown">
@@ -137,11 +131,16 @@
 <tr>
 <th>{% trans "Translation file" %}</th>
 <td>
+<div class="dropdown pull-right flip">
+  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    <i class="fa fa-download"></i> {% trans "Download" %}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDownload">
+    {% include "translation-download.html" %}
+  </ul>
+</div>
 {{ object.filename }}
-<a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}"><i class="fa fa-download"></i></a>
-{% if object.supports_language_pack %}
-<a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}"><i class="fa fa-cog"></i></a>
-{% endif %}
 </td>
 </tr>
 </table>

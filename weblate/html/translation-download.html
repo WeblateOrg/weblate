@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Download source file" %}</a></li>
+{% if object.supports_language_pack %}
+<li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Download compiled translation" %}</a></li>
+{% endif %}
+{% if perms.trans.upload_translation %}
+<li role="separator" class="divider"></li>
+<li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>
+{% endif %}
