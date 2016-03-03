@@ -217,23 +217,8 @@ class Command(BaseCommand):
             'Failed to find suitable name for {0}'.format(name)
         )
 
-    def handle(self, *args, **options):
-        '''
-        Automatic import of project.
-        '''
-
-        # Check params
-        if len(args) != 4:
-            raise CommandError('Invalid number of parameters!')
-
-        if options['file_format'] not in FILE_FORMATS:
-            raise CommandError(
-                'Invalid file format: %s' % options['file_format']
-            )
-
-        # Read params
-        repo = args[1]
-        branch = args[2]
+    def parse_options(self, args, options):
+        """Parses parameters"""
         self.filemask = args[3]
         self.vcs = options['vcs']
         self.file_format = options['file_format']
@@ -260,13 +245,10 @@ class Command(BaseCommand):
                     'Component regullar expression lacks named group "name"'
                 )
 
-        # Try to get project
-        try:
-            project = Project.objects.get(slug=args[0])
-        except Project.DoesNotExist:
+        # Is file format supported?
+        if self.file_format not in FILE_FORMATS:
             raise CommandError(
-                'Project %s does not exist, you need to create it first!' %
-                args[0]
+                'Invalid file format: %s' % options['file_format']
             )
 
         # Do we have correct mask?
@@ -274,6 +256,28 @@ class Command(BaseCommand):
             raise CommandError(
                 'You need to specify double wildcard '
                 'for subproject part of the match!'
+            )
+
+    def handle(self, *args, **options):
+        '''
+        Automatic import of project.
+        '''
+        # Check params count
+        if len(args) != 4:
+            raise CommandError('Invalid number of parameters!')
+
+        # Read params
+        repo = args[1]
+        branch = args[2]
+        self.parse_options(args, options)
+
+        # Try to get project
+        try:
+            project = Project.objects.get(slug=args[0])
+        except Project.DoesNotExist:
+            raise CommandError(
+                'Project %s does not exist, you need to create it first!' %
+                args[0]
             )
 
         if is_repo_link(repo):
