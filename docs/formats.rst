@@ -335,7 +335,7 @@ following files:
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
-    :language: json
+    :language: csv
     :encoding: utf-8
 
 Others
