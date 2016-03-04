@@ -185,7 +185,9 @@ After installation on OpenShift Weblate is ready to use and preconfigured as fol
 * Django site name and ALLOWED_HOSTS set to DNS name of your OpenShift application
 * Email sender addresses set to no-reply@<OPENSHIFT_CLOUD_DOMAIN>, where <OPENSHIFT_CLOUD_DOMAIN> is the domain OpenShift runs under. In case of OpenShift Online it's rhcloud.com.
 
-.. seealso:: :ref:`customize_config`
+.. seealso:: 
+   
+   :ref:`customize_config`
 
 Retrieve Admin Password
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -267,7 +269,9 @@ To reset a setting to its preconfigured value just delete the corresponding envi
 
    rhc -aweblate env unset WEBLATE_ADMINS
 
-.. seealso:: :ref:`config`
+.. seealso:: 
+   
+   :ref:`config`
 
 Updating
 ++++++++

@@ -176,7 +176,9 @@ machine translation tools.
 
 All machine translations are available on single tab on translation page.
 
-.. seealso:: :ref:`machine-translation-setup`
+.. seealso:: 
+   
+   :ref:`machine-translation-setup`
 
 .. _auto-translation:
 

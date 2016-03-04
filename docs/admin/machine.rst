@@ -22,7 +22,9 @@ Special installation of :ref:`tmserver` run by Virtaal authors.
 To enable this service, add ``trans.machine.tmserver.AmagamaTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
-.. seealso:: http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html
+.. seealso:: 
+   
+   `Amagama Translation Memory server <http://docs.translatehouse.org/projects/virtaal/en/latest/amagama.html>`_
 
 .. _apertium:
 
@@ -39,7 +41,7 @@ To enable this service, add ``trans.machine.apertium.ApertiumTranslation`` to
 
 .. seealso::
 
-    :setting:`MT_APERTIUM_KEY`, https://www.apertium.org/
+    :setting:`MT_APERTIUM_KEY`, `Apertium website <https://www.apertium.org/>`_
 
 Glosbe
 ++++++
@@ -55,7 +57,7 @@ To enable this service, add ``trans.machine.glosbe.GlosbeTranslation`` to
 
 .. seealso::
 
-    https://glosbe.com/
+    `Glosbe website <https://glosbe.com/>`_
 
 .. _google-translate:
 
@@ -73,7 +75,7 @@ To enable this service, add ``trans.machine.google.GoogleTranslation`` to
 .. seealso::
 
     :setting:`MT_GOOGLE_KEY`,
-    https://cloud.google.com/translate/docs
+    `Google translate documentation <https://cloud.google.com/translate/docs>`_
 
 Google Web Translate
 ++++++++++++++++++++
@@ -88,14 +90,14 @@ To enable this service, add ``trans.machine.google.GoogleWebTranslation`` to
 
 .. seealso::
 
-    https://translate.google.com/
+    `Google translate service <https://translate.google.com/>`_
 
 .. _ms-translate:
 
-Microsoft Translator
-++++++++++++++++++++
+Bing Translator
++++++++++++++++
 
-Machine translation service provided by Microsoft.
+Machine translation service provided by Microsoft, it's known as Microsoft Translator as well.
 
 You need to register at Azure market and use Client ID and secret from there.
 
@@ -105,8 +107,8 @@ To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
 .. seealso::
 
     :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`,
-    http://www.bing.com/translator/,
-    https://datamarket.azure.com/developer/applications/
+    `Bing Translator <http://www.bing.com/translator/>`_,
+    `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
 
 .. _mymemory:
 
@@ -127,7 +129,7 @@ To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
     :setting:`MT_MYMEMORY_EMAIL`,
     :setting:`MT_MYMEMORY_USER`,
     :setting:`MT_MYMEMORY_KEY`,
-    http://mymemory.translated.net/
+    `MyMemory website <http://mymemory.translated.net/>`_
 
 .. _tmserver:
 
@@ -164,8 +166,8 @@ And configure Weblate to talk to it:
 .. seealso::
 
     :setting:`MT_TMSERVER`,
-    http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html,
-    http://amagama.translatehouse.org/
+    `tmserver, a Translation Memory service <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html>`_,
+    `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
 
 Weblate
 +++++++

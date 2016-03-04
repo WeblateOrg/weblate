@@ -260,7 +260,9 @@ You should also take care when running :ref:`manage`, as they should be run
 under same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
-.. seealso:: :ref:`static-files`
+.. seealso:: 
+   
+   :ref:`static-files`
 
 .. _database-setup:
 
@@ -270,7 +272,9 @@ Creating database for Weblate
 It is recommended to run Weblate on some database server. Using SQLite backend
 is really good for testing purposes only.
 
-.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+.. seealso:: 
+   
+   :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 Creating database in PostgreSQL
 +++++++++++++++++++++++++++++++
@@ -347,7 +351,9 @@ for example:
 Installation
 ------------
 
-.. seealso:: :ref:`sample-configuration`
+.. seealso:: 
+   
+   :ref:`sample-configuration`
 
 Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
 adjust it to match your setup. You will probably want to adjust following
@@ -358,7 +364,9 @@ options:
     List of site administrators to receive notifications when something goes
     wrong, for example notifications on failed merge or Django errors.
 
-    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#admins
+    .. seealso:: 
+       
+        `ADMINS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#admins>`_
 
 ``ALLOWED_HOSTS``
 
@@ -369,7 +377,9 @@ options:
 
         ALLOWED_HOSTS = ['demo.weblate.org']
 
-    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS
+    .. seealso:: 
+       
+        `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
 
 ``SESSION_ENGINE``
 
@@ -378,7 +388,9 @@ options:
     :command:`./manage.py clearsessions` to remove stale session data from the
     database.
 
-    .. seealso:: https://docs.djangoproject.com/en/stable/topics/http/sessions/#configuring-sessions
+    .. seealso:: 
+       
+        `Configuring sessions in Django <https://docs.djangoproject.com/en/stable/topics/http/sessions/#configuring-sessions>`_
 
 ``DATABASES``
 
@@ -388,8 +400,8 @@ options:
     .. seealso::
 
         :ref:`database-setup`
-        https://docs.djangoproject.com/en/stable/ref/settings/#databases,
-        https://docs.djangoproject.com/en/stable/ref/databases/
+        `DATABASES setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#databases>`_,
+        `Django databases support <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 ``DEBUG``
 
@@ -400,13 +412,17 @@ options:
     Debug mode also slows down Weblate as Django stores much more information
     internally in this case.
 
-    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#debug
+    .. seealso:: 
+       
+        `DEBUG setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#debug>`_
 
 ``DEFAULT_FROM_EMAIL``
 
     Email sender address for outgoing email, for example registration emails.
 
-    .. seealso:: `DEFAULT_FROM_EMAIL documentation`_
+    .. seealso:: 
+       
+        `DEFAULT_FROM_EMAIL setting documentation`_
 
 ``SECRET_KEY``
 
@@ -418,7 +434,9 @@ options:
     Email used as sender address for sending emails to administrator, for
     example notifications on failed merge.
 
-    .. seealso:: `SERVER_EMAIL documentation`_
+    .. seealso:: 
+       
+        `SERVER_EMAIL setting documentation`_
 
 .. _tables-setup:
 
@@ -447,7 +465,9 @@ site.
     files every time you are upgrading. You can do this by invoking script
     :file:`./scripts/generate-locales`.
 
-.. seealso:: :ref:`config`, :ref:`privileges`, :ref:`faq-site`
+.. seealso::
+   
+   :ref:`config`, :ref:`privileges`, :ref:`faq-site`
 
 .. _production:
 
@@ -470,7 +490,9 @@ Disable Django's debug mode by:
 With debug mode Django stores all executed queries and shows users backtraces
 of errors what is not desired in production setup.
 
-.. seealso:: :ref:`installation`
+.. seealso::
+   
+   :ref:`installation`
 
 .. _production-admins:
 
@@ -486,7 +508,9 @@ mail in case something goes wrong on the server, for example:
         ('Your Name', 'your_email@example.com'),
     )
 
-.. seealso:: :ref:`installation`
+.. seealso:: 
+   
+   :ref:`installation`
 
 .. _production-site:
 
@@ -506,7 +530,10 @@ https.
 
 Alternatively you can set the site name from command line using :djadmin:`changesite`.
 
-.. seealso:: :ref:`faq-site`, :djadmin:`changesite`, https://docs.djangoproject.com/en/stable/ref/contrib/sites/
+.. seealso:: 
+   
+   :ref:`faq-site`, :djadmin:`changesite`, 
+   `Django sites documentation <https://docs.djangoproject.com/en/stable/ref/contrib/sites/>`_
 
 .. _production-indexing:
 
@@ -517,7 +544,9 @@ Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
 performance. Don't forget to schedule indexing in background job to keep the
 index up to date.
 
-.. seealso:: :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
+.. seealso:: 
+   
+   :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
 
 .. _production-database:
 
@@ -540,7 +569,9 @@ environment), for example setup for MySQL:
         }
     }
 
-.. seealso:: :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+.. seealso:: 
+   
+   :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 .. _production-cache:
 
@@ -559,7 +590,9 @@ variable, for example:
         }
     }
 
-.. seealso:: :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
+.. seealso:: 
+   
+   :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-cache-avatar:
 
@@ -586,7 +619,9 @@ recommended to use separate, file backed cache for this purpose:
             },
         }
 
-.. seealso:: :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
+.. seealso:: 
+   
+   :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-email:
 
@@ -603,12 +638,13 @@ have correct sender address, please configure ``SERVER_EMAIL`` and
     DEFAULT_FROM_EMAIL = 'weblate@example.org'
 
 .. seealso::
-    :ref:`installation`,
-    `DEFAULT_FROM_EMAIL documentation`_,
-    `SERVER_EMAIL documentation`_
 
-.. _DEFAULT_FROM_EMAIL documentation: https://docs.djangoproject.com/en/stable/ref/settings/#default-from-email
-.. _SERVER_EMAIL documentation: https://docs.djangoproject.com/en/stable/ref/settings/#server-email
+    :ref:`installation`,
+    `DEFAULT_FROM_EMAIL setting documentation`_,
+    `SERVER_EMAIL setting documentation`_
+
+.. _DEFAULT_FROM_EMAIL setting documentation: https://docs.djangoproject.com/en/stable/ref/settings/#default-from-email
+.. _SERVER_EMAIL setting documentation: https://docs.djangoproject.com/en/stable/ref/settings/#server-email
 
 
 .. _production-hosts:
@@ -619,7 +655,9 @@ Allowed hosts setup
 Django 1.5 and newer require ``ALLOWED_HOSTS`` to hold list of domain names
 your site is allowed to serve, having it empty will block any request.
 
-.. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS
+.. seealso:: 
+   
+   `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
 
 .. _production-avatar:
 
@@ -654,7 +692,9 @@ really use own value rather than using the one coming from example setup.
 You can generate new key using :file:`examples/generate-secret-key` shipped
 with Weblate.
 
-    .. seealso:: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SECRET_KEY
+    .. seealso:: 
+       
+        `SECRET_KEY setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SECRET_KEY>`_
 
 .. _production-admin-files:
 
@@ -666,7 +706,9 @@ not loaded. This is usually if you are running in non-debug mode and have not
 configured your web server to serve them. Recommended setup is described in the
 :ref:`static-files` chapter.
 
-.. seealso:: :ref:`server`, :ref:`static-files`
+.. seealso:: 
+   
+   :ref:`server`, :ref:`static-files`
 
 .. _production-home:
 
@@ -697,7 +739,9 @@ example to set it to ``configuration`` directory under Weblate tree:
     ``www-data`` or ``wwwrun``, so you either have to run Weblate under
     different user or change this setting.
 
-.. seealso:: :ref:`vcs-repos`
+.. seealso:: 
+   
+   :ref:`vcs-repos`
 
 .. _production-templates:
 
@@ -717,7 +761,9 @@ configure it using following snippet:
         )),
     )
 
-.. seealso:: `Django documentation on template loading <https://docs.djangoproject.com/en/stable/ref/templates/api/#django.template.loaders.cached.Loader>`_
+.. seealso:: 
+   
+   `Django documentation on template loading <https://docs.djangoproject.com/en/stable/ref/templates/api/#django.template.loaders.cached.Loader>`_
 
 .. _production-cron:
 
@@ -740,7 +786,9 @@ On Unix system, this can be scheduled using cron:
     # Commit pending changes after 96 hours
     @hourly cd /usr/share/weblate/; ./manage.py commit_pending --all --age=96 --verbosity=0
 
-.. seealso:: :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
+.. seealso:: 
+   
+   :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
 
@@ -785,8 +833,8 @@ use that for following paths:
 
 .. seealso::
 
-    https://docs.djangoproject.com/en/stable/howto/deployment/
-    https://docs.djangoproject.com/en/stable/howto/static-files/deployment/
+    `Deploying Django <https://docs.djangoproject.com/en/stable/howto/deployment/>`_,
+    `Deploying static files <https://docs.djangoproject.com/en/stable/howto/static-files/deployment/>`_
 
 Sample configuration for Lighttpd
 +++++++++++++++++++++++++++++++++

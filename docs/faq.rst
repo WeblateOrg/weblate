@@ -21,7 +21,9 @@ without interaction unless some merge conflict occurs.
    Weblate push changes to your repository whenever they are committed at Weblate.
 4. Optionally setup cron job for :djadmin:`commit_pending`.
 
-.. seealso:: :ref:`continuous-translation`
+.. seealso:: 
+   
+   :ref:`continuous-translation`
 
 How to access repositories over SSH?
 ------------------------------------
@@ -67,7 +69,9 @@ actions.
     # Push changes to upstream respository, Weblate will fetch merge from there
     git push
 
-.. seealso:: :ref:`git-export`
+.. seealso:: 
+   
+   :ref:`git-export`
 
 How do I translate several branches at once?
 --------------------------------------------
@@ -128,7 +132,9 @@ Why does registration contain example.com as domain?
 Weblate uses Django sites framework and it defines site name inside the
 database.
 
-.. seealso:: :ref:`production-site`
+.. seealso:: 
+   
+   :ref:`production-site`
 
 Why are all commits committed by Weblate <noreply@weblate.org>?
 ---------------------------------------------------------------
@@ -139,7 +145,9 @@ You can also change it in the administration at any time.
 The author of every commit (when underlaying VCS supports it) is still recorded
 correctly as an user who has made the translation.
 
-.. seealso:: :ref:`component`
+.. seealso:: 
+   
+   :ref:`component`
 
 Why do I get warning about not reflected changes on database migration?
 -----------------------------------------------------------------------
@@ -184,7 +192,9 @@ translating:
   instance, what will make it automatically pick up translation from other
   projects as well.
 
-.. seealso:: :ref:`machine-translation-setup`, :ref:`machine-translation`
+.. seealso:: 
+   
+   :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 Does Weblate update translation files besides translations?
 -----------------------------------------------------------
@@ -203,7 +213,9 @@ Weblate also will not try to update bilingual files in any way, so if you need
 :file:`po` files being updated from :file:`pot`, you need to do it on
 your own.
 
-.. seealso:: :ref:`processing`
+.. seealso:: 
+   
+   :ref:`processing`
 
 
 Where do language definition come from and how can I add own?
@@ -305,7 +317,9 @@ better to rebuild it from scratch:
 
     ./manage.py rebuild_index --clean
 
-.. seealso:: :djadmin:`rebuild_index`
+.. seealso:: 
+   
+   :djadmin:`rebuild_index`
 
 .. _faq-ft-lock:
 
@@ -316,7 +330,9 @@ This is usually caused by concurrent updates to fulltext index. In case you are
 running multi threaded server (eg. mod_wsgi), this happens quite often. For such
 setup it is recommended to enable :setting:`OFFLOAD_INDEXING`.
 
-.. seealso:: :ref:`fulltext`
+.. seealso:: 
+   
+   :ref:`fulltext`
 
 .. _faq-ft-space:
 
@@ -331,7 +347,9 @@ as ``TEMP`` variable:
 
     TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
 
-.. seealso:: :djadmin:`rebuild_index`
+.. seealso:: 
+   
+   :djadmin:`rebuild_index`
 
 
 Database operations fail with "too many SQL variables"
@@ -341,7 +359,9 @@ This can happen with SQLite database as it is not powerful enough for some
 relations used within Weblate. The only way to fix this is to use some more
 capable database, see :ref:`production-database` for more information.
 
-.. seealso:: :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+.. seealso:: 
+   
+   :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 Features
 ++++++++

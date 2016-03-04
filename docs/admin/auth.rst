@@ -84,7 +84,9 @@ You need to register application on GitHub and then tell Weblate all the secrets
     SOCIAL_AUTH_GITHUB_SECRET = 'GitHub Client Secret'
     SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 
-.. seealso:: http://psa.matiasaguirre.net/docs/backends/index.html
+.. seealso:: 
+   
+    `Python Social Auth backends <http://psa.matiasaguirre.net/docs/backends/index.html>`_
 
 Google OAuth2
 ~~~~~~~~~~~~~
@@ -169,7 +171,9 @@ Once you have the package installed, you can hook it to Django authentication:
         'email': 'mail',
     }
 
-.. seealso:: http://pythonhosted.org/django-auth-ldap/
+.. seealso:: 
+   
+    `Django Authentication Using LDAP <http://pythonhosted.org/django-auth-ldap/>`_
 
 
 CAS authentication
@@ -230,4 +234,6 @@ cause problems, therefore it's suggested to put it:
         user.email = attributes['email']
         user.save()
 
-.. seealso:: https://github.com/mingchen/django-cas-ng
+.. seealso:: 
+   
+    `Django CAS NG <https://github.com/mingchen/django-cas-ng>`_

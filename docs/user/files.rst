@@ -30,7 +30,9 @@ Weblate accepts any file format it understands on upload, but it is still
 recommeded to use same file format as is used for translation, otherwise some
 features might not be translated properly.
 
-.. seealso:: :ref:`formats`
+.. seealso:: 
+   
+   :ref:`formats`
 
 The uploaded file is merged to current translation, overwriting existing
 entries by default (this can be changed in the upload dialog).

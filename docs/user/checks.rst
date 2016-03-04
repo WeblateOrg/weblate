@@ -11,7 +11,9 @@ errors in translated strings. This can be quite powerful feature to prevent
 common mistakes in translations, however use it with caution as it can cause
 silent corruption as well.
 
-.. seealso:: :setting:`AUTOFIX_LIST`
+.. seealso:: 
+   
+   :setting:`AUTOFIX_LIST`
 
 .. _checks:
 
@@ -22,7 +24,9 @@ Weblate does wide range of quality checks on messages. The following section
 describes them in more detail. The checks take account also special rules for
 different languages, so if you think the result is wrong, please report a bug.
 
-.. seealso:: :setting:`CHECK_LIST`, :ref:`custom-checks`
+.. seealso:: 
+   
+   :setting:`CHECK_LIST`, :ref:`custom-checks`
 
 Translation checks
 ++++++++++++++++++
@@ -140,7 +144,9 @@ real ellipsis (``…``) not for three dots (``...``).
 Ellipsis is usually rendered nicer than three dots, so it's good to keep it
 when the original string was using that as well.
 
-.. seealso:: https://en.wikipedia.org/wiki/Ellipsis
+.. seealso:: 
+   
+   `Ellipsis on wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
 .. _check-max-length:
 
@@ -181,6 +187,7 @@ Omitting format string from translation usually cause severe problems, so you
 should really keep the format string matching the original one.
 
 .. seealso::
+
     `Python string formatting <https://docs.python.org/2.7/library/stdtypes.html#string-formatting>`_,
     `Python brace format <https://docs.python.org/3.3/library/string.html#string-formatting>`_,
     `PHP format strings <https://php.net/manual/en/function.sprintf.php>`_,
@@ -245,7 +252,9 @@ Translation contains extra zero-width space (<U+200B>) character.
 This character is usually inserted by mistake, though it might have legitimate
 use. Some programs might have problems when this character is used.
 
-.. seealso:: https://en.wikipedia.org/wiki/Zero-width_space
+.. seealso:: 
+   
+    `Zero width space on wikipedia <https://en.wikipedia.org/wiki/Zero-width_space>`_
 
 .. _check-xml-tags:
 
@@ -289,7 +298,9 @@ The string uses three dots (``...``) instead of an ellipsis character (``…``).
 Using Unicode character is in most cases better approach and looks better when
 rendered.
 
-.. seealso:: https://en.wikipedia.org/wiki/Ellipsis
+.. seealso::
+
+   `Ellipsis on wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
 .. _check-multiple-failures:
 

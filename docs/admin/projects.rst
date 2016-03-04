@@ -58,7 +58,9 @@ components. Usually you create one project for one piece of software or book
 
 .. image:: ../images/add-project.png
 
-.. seealso:: :ref:`project`
+.. seealso:: 
+   
+   :ref:`project`
 
 .. _bilingual:
 
@@ -70,7 +72,9 @@ Once you have added a project, you can add translation compontents to it
 
 .. image:: ../images/add-component.png
 
-.. seealso:: :ref:`component`
+.. seealso:: 
+   
+   :ref:`component`
 
 .. _monolingual:
 
@@ -83,7 +87,9 @@ English) (see :ref:`component` for information on individual parameters):
 
 .. image:: ../images/add-component-mono.png
 
-.. seealso:: :ref:`component`
+.. seealso:: 
+   
+   :ref:`component`
 
 .. _project:
 
@@ -285,7 +291,9 @@ strings in the message:
 ``%(translated_percent)s``
     Translated strings percent
 
-.. seealso:: :ref:`faq-vcs`, :ref:`processing`
+.. seealso:: 
+   
+   :ref:`faq-vcs`, :ref:`processing`
 
 .. _import-speed:
 
@@ -345,7 +353,9 @@ at once. This can be achieved using :djadmin:`import_project`.
 First you need to create project which will contain all components and then
 it's just a matter of running :djadmin:`import_project`.
 
-.. seealso:: :ref:`manage`
+.. seealso:: 
+   
+   :ref:`manage`
 
 
 .. _vcs-repos:
@@ -439,7 +449,10 @@ or by enforcing it in VCS configuration, for example:
     jobs. The VCS configuration has to be set for the user which is running
     Weblate.
 
-.. seealso:: http://curl.haxx.se/docs/manpage.html, http://git-scm.com/docs/git-config
+.. seealso:: 
+   
+    `curl manpage <http://curl.haxx.se/docs/manpage.html>`_,
+    `git config documentation <http://git-scm.com/docs/git-config>`_
 
 .. _fulltext:
 
@@ -459,4 +472,6 @@ which items need to be reindexed and you need to schedule background process
 (:djadmin:`update_index`) to update index. This leads to faster response of the
 site and less fragmented index with cost that it might be slightly outdated.
 
-.. seealso:: :djadmin:`update_index`, :setting:`OFFLOAD_INDEXING`, :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`
+.. seealso:: 
+   
+   :djadmin:`update_index`, :setting:`OFFLOAD_INDEXING`, :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`

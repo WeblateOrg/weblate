@@ -44,6 +44,7 @@ Released on ? 2015.
 * Improved support for translating PHP files
 * Added XLIFF export for dictionary.
 * Added XLIFF and Gettext PO export for all translations.
+* Documentation improvements.
 
 weblate 2.4
 -----------

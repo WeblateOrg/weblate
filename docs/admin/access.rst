@@ -115,7 +115,9 @@ To allow access to this project, you have to add the privilege to do so either
 directly to given user or group of users in Django admin interface. Or using
 user management on project page as described in :ref:`manage-acl`.
 
-.. seealso:: https://docs.djangoproject.com/en/stable/topics/auth/default/#auth-admin
+.. seealso:: 
+   
+   `Managing users in the Django admin <https://docs.djangoproject.com/en/stable/topics/auth/default/#auth-admin>`_
 
 Managing users and groups
 -------------------------
@@ -141,5 +143,7 @@ The user management is available in :guilabel:`Tools` menu of a project:
 
 .. image:: ../images/manage-users.png
 
-.. seealso:: :ref:`acl`
+.. seealso:: 
+   
+   :ref:`acl`
 

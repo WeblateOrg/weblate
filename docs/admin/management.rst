@@ -56,7 +56,9 @@ Example:
 
     ./manage.py --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
 
-.. seealso:: :ref:`auto-translation`
+.. seealso:: 
+   
+   :ref:`auto-translation`
 
 changesite
 ----------
@@ -68,7 +70,9 @@ changesite
 You can use this to changes site name from command line with ``--set-name``
 parameter. The ``--get-name`` prints currently configured site name.
 
-.. seealso:: :ref:`production-site`
+.. seealso:: 
+   
+   :ref:`production-site`
 
 checkgit <project|project/component>
 ------------------------------------
@@ -107,7 +111,9 @@ This is most useful if executed periodically from cron or similar tool:
 
     ./manage.py commit_pending --all --age=48
 
-.. seealso:: :ref:`production-cron`
+.. seealso::
+   
+   :ref:`production-cron`
 
 cleanuptrans
 ------------
@@ -116,7 +122,9 @@ cleanuptrans
 
 Cleanups orphaned checks and translation suggestions.
 
-.. seealso:: :ref:`production-cron`
+.. seealso::
+   
+   :ref:`production-cron`
 
 createadmin
 -----------
@@ -298,7 +306,9 @@ some maintenance on underlaying repository.
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-.. seealso:: :djadmin:`unlock_translation`
+.. seealso:: 
+   
+   :djadmin:`unlock_translation`
 
 pushgit <project|project/component>
 -----------------------------------
@@ -325,7 +335,9 @@ With ``--optimize`` the index will not be processed again, only it's content
 will be optimized (removing stale entries and merging possibly split index
 files).
 
-.. seealso:: :ref:`fulltext`
+.. seealso:: 
+   
+   :ref:`fulltext`
 
 update_index
 ------------
@@ -337,7 +349,9 @@ Updates index for fulltext search when :setting:`OFFLOAD_INDEXING` is enabled.
 It is recommended to run this frequently (eg. every 5 minutes) to have index
 uptodate.
 
-.. seealso:: :ref:`fulltext`, :ref:`production-cron`, :ref:`production-indexing`
+.. seealso:: 
+   
+   :ref:`fulltext`, :ref:`production-cron`, :ref:`production-indexing`
 
 unlock_translation <project|project/component>
 ----------------------------------------------
@@ -350,7 +364,9 @@ some maintenance on underlaying repository.
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-.. seealso:: :djadmin:`lock_translation`
+.. seealso:: 
+   
+   :djadmin:`lock_translation`
 
 setupgroups
 -----------
@@ -363,7 +379,9 @@ to default group.
 The option ``--no-privs-update`` disables update of existing groups (only adds
 new ones).
 
-.. seealso:: :ref:`privileges`
+.. seealso:: 
+   
+   :ref:`privileges`
 
 setuplang
 ---------

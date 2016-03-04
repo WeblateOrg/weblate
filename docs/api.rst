@@ -207,4 +207,6 @@ Changes in translations are exported in RSS feeds.
 
     Retrieves RSS feed with recent changes for Weblate instance.
 
-.. seealso:: https://en.wikipedia.org/wiki/RSS
+.. seealso:: 
+   
+   `RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_

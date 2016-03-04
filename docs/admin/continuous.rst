@@ -89,7 +89,9 @@ You can also use generic :guilabel:`Webhook`, in that case the
 :guilabel:`Payload URL` would have to be full path to the handler, for example
 ``https://hosted.weblate.org/hooks/github/``.
 
-.. seealso:: :http:post:`/hooks/github/`, :ref:`hosted-push`
+.. seealso::
+   
+   :http:post:`/hooks/github/`, :ref:`hosted-push`
 
 .. _bitbucket-setup:
 
@@ -103,7 +105,9 @@ on your Weblate installation (for example
 
 .. image:: ../images/bitbucket-settings.png
 
-.. seealso:: :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
+.. seealso:: 
+   
+   :http:post:`/hooks/bitbucket/`, :ref:`hosted-push`
 
 .. _gitlab-setup:
 
@@ -114,7 +118,9 @@ Weblate has support for GitLab hooks, all you need to do is add project web hook
 with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/gitlab/``).
 
-.. seealso:: :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
+.. seealso:: 
+   
+   :http:post:`/hooks/gitlab/`, :ref:`hosted-push`
 
 .. _push-changes:
 
@@ -154,7 +160,9 @@ push translations to the repository, you can have them sent as a pull request in
 
 You need to configure the :guilabel:`hub` command line tool and set :setting:`GITHUB_USERNAME` for this to work.
 
-.. seealso:: :setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions
+.. seealso:: 
+   
+   :setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions
 
 
 .. _hosted-push:
@@ -188,7 +196,9 @@ Interacting with others
 
 Weblate makes it easy to interact with others using its API.
 
-.. seealso:: :ref:`api`
+.. seealso:: 
+   
+   :ref:`api`
 
 .. _lazy-commit:
 
