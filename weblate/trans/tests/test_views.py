@@ -408,6 +408,17 @@ class HomeViewTest(ViewTestCase):
         self.assertContains(response, 'TestCL')
         self.assertEqual(len(response.context['componentlists']), 1)
 
+    def test_user_component_list(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+
+        self.user.profile.dashboard_view = Profile.DASHBOARD_COMPONENT_LIST
+        self.user.profile.dashboard_component_list = clist
+        self.user.profile.save()
+
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'TestCL')
+        self.assertEqual(response.context['active_tab_label'], 'TestCL')
+
     def test_subscriptions(self):
         # no subscribed projects at first
         response = self.client.get(reverse('home'))
