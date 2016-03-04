@@ -309,6 +309,28 @@ class NewLangTest(ViewTestCase):
             ).exists()
         )
 
+        # Not selected language
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': ''},
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Please choose the language'
+        )
+
+        # Existing language
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Chosen translation already exists'
+        )
+
 
 class AndroidNewLangTest(NewLangTest):
     def create_subproject(self):
