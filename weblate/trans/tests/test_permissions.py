@@ -19,7 +19,10 @@
 #
 
 from django.contrib.auth.models import User, Group, Permission
+from django.core.exceptions import ValidationError
 from django.test import TestCase
+from django.utils.encoding import force_text
+
 from weblate.lang.models import Language
 from weblate.trans.models import (
     GroupACL, Project, Translation
@@ -131,3 +134,33 @@ class GroupACLTest(ModelTestCase):
         acl_sub.groups.add(self.group)
         self.assertTrue(
             can_edit(self.privileged, self.trans, self.PERMISSION))
+
+    def test_acl_str(self):
+        acl = GroupACL()
+        self.assertTrue(
+            'unspecified' in force_text(acl)
+        )
+        acl.language = self.language
+        self.assertTrue(
+            'language=English' in force_text(acl)
+        )
+        acl.subproject = self.subproject
+        self.assertTrue(
+            'project=Test/Test' in force_text(acl)
+        )
+        acl.subproject = None
+        acl.project = self.project
+        self.assertTrue(
+            'project=Test' in force_text(acl)
+        )
+
+    def test_acl_clean(self):
+        acl = GroupACL()
+        self.assertRaises(
+            ValidationError,
+            acl.clean
+        )
+        acl.project = self.project
+        acl.subproject = self.subproject
+        acl.clean()
+        self.assertIsNone(acl.project)
