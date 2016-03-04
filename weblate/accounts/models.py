@@ -580,6 +580,10 @@ class Profile(models.Model):
     subscriptions = models.ManyToManyField(
         'trans.Project',
         verbose_name=_('Subscribed projects'),
+        help_text=_(
+            'You can receive notifications for subscribed projects and '
+            'they are shown on dashboard by default.'
+        ),
         blank=True,
     )
 

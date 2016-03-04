@@ -197,7 +197,6 @@ class SubscriptionForm(forms.ModelForm):
 
         super(SubscriptionForm, self).__init__(*args, **kwargs)
         user = kwargs['instance'].user
-        self.fields['subscriptions'].help_text = None
         self.fields['subscriptions'].required = False
         self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
 
