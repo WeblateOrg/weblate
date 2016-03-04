@@ -10,7 +10,7 @@ import weblate.trans.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0007_alter_validators_add_error_messages'),
+        ('auth', '0006_require_contenttypes_0002'),
         ('accounts', '0014_auto_20160302_1025'),
     ]
 
