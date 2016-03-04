@@ -400,7 +400,7 @@ class ExportTest(ViewTestCase):
 
     def test_export_invalid(self):
         response = self.export_format('invalid')
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_language_pack(self):
         response = self.client.get(
