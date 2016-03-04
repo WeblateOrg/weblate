@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 import os
+import re
 import sys
 import binascii
 from smtplib import SMTPException
@@ -41,6 +42,7 @@ from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
 from weblate.trans.site import get_site_url, get_site_domain
+from weblate.trans.fields import RegexField
 from weblate.accounts.avatar import get_user_display
 from weblate.trans.util import report_error
 from weblate.trans.signals import user_pre_delete
@@ -798,6 +800,30 @@ class Profile(models.Model):
         return self.user.first_name
 
 
+@python_2_unicode_compatible
+class AutoGroup(models.Model):
+    match = RegexField(
+        verbose_name=_('Email regular expression'),
+        max_length=200,
+        default='^.*$',
+        help_text=_(
+            'Regular expression which is used to match user email.'
+        ),
+    )
+    group = models.ForeignKey(
+        Group,
+        verbose_name=_('Group to assign'),
+    )
+
+    class Meta(object):
+        verbose_name = _('Automatic group assignment')
+        verbose_name_plural = _('Automatic group assignments')
+        ordering = ('group__name', )
+
+    def __str__(self):
+        return 'Automatic rule for {0}'.format(self.group)
+
+
 def set_lang(request, profile):
     """
     Sets session language based on user preferences.
@@ -875,6 +901,9 @@ def create_groups(update):
             Permission.objects.get(codename='add_suggestion'),
             Permission.objects.get(codename='use_mt'),
         )
+
+    if not AutoGroup.objects.filter(group=group).exists():
+        AutoGroup.objects.create(group=group, match='^.*$')
 
     owner_permissions = (
         Permission.objects.get(codename='author_translation'),
@@ -999,10 +1028,8 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     '''
     Automatically adds user to Users group.
     '''
-    if created:
-        # Add user to Users group if it exists
-        try:
-            group = Group.objects.get(name='Users')
-            instance.groups.add(group)
-        except Group.DoesNotExist:
-            pass
+    if created and instance.email:
+        # Add user to automatic groups
+        for auto in AutoGroup.objects.all():
+            if re.match(auto.match, instance.email):
+                instance.groups.add(auto.group)

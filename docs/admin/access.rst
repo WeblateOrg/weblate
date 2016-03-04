@@ -119,6 +119,19 @@ user management on project page as described in :ref:`manage-acl`.
    
    `Managing users in the Django admin <https://docs.djangoproject.com/en/stable/topics/auth/default/#auth-admin>`_
 
+.. _autogroup:
+
+Automatic group assignments
+---------------------------
+
+.. versionadded:: 2.5
+
+You can configure Weblate to automatically add users to groups based on their
+email. This automatic assignment happens only at time of account creation.
+
+This can be configured in the Django admin interface (in the
+:guilabel:`Accounts` section).
+
 Managing users and groups
 -------------------------
 

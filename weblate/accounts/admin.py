@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from weblate.accounts.models import Profile, VerifiedEmail
+from weblate.accounts.models import Profile, VerifiedEmail, AutoGroup
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -45,6 +45,12 @@ class VerifiedEmailAdmin(admin.ModelAdmin):
     raw_id_fields = ('social',)
 
 admin.site.register(VerifiedEmail, VerifiedEmailAdmin)
+
+
+class AutoGroupAdmin(admin.ModelAdmin):
+    list_display = ('group', 'match')
+
+admin.site.register(AutoGroup, AutoGroupAdmin)
 
 
 class WeblateUserAdmin(UserAdmin):

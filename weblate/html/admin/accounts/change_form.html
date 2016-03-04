@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block form_top %}
+{% if opts.model_name == 'autogroup' %}
+{% doc_url 'admin/access' 'autogroup' as url %}
+<p>{% blocktrans %}Required fields are marked as bold, you can find more information in the <a href="{{ url }}">documentation</a>.{% endblocktrans %}</p>
+{% endif %}
+{% endblock %}
