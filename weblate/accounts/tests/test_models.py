@@ -33,12 +33,12 @@ class AutoGroupTest(TestCase):
 
     def test_default(self):
         user = self.create_user()
-        self.assertEquals(user.groups.count(), 1)
+        self.assertEqual(user.groups.count(), 1)
 
     def test_none(self):
         AutoGroup.objects.all().delete()
         user = self.create_user()
-        self.assertEquals(user.groups.count(), 0)
+        self.assertEqual(user.groups.count(), 0)
 
     def test_matching(self):
         AutoGroup.objects.create(
@@ -46,7 +46,7 @@ class AutoGroupTest(TestCase):
             group=Group.objects.get(name='Guests')
         )
         user = self.create_user()
-        self.assertEquals(user.groups.count(), 2)
+        self.assertEqual(user.groups.count(), 2)
 
     def test_nonmatching(self):
         AutoGroup.objects.create(
@@ -54,4 +54,4 @@ class AutoGroupTest(TestCase):
             group=Group.objects.get(name='Guests')
         )
         user = self.create_user()
-        self.assertEquals(user.groups.count(), 1)
+        self.assertEqual(user.groups.count(), 1)
