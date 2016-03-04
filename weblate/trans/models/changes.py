@@ -131,7 +131,7 @@ class ChangeManager(models.Manager):
         """Wrapper to avoid using anonymous user as change owner"""
         if user is not None and not user.is_authenticated():
             user = None
-        super(ChangeManager, self).create(user=user, **kwargs)
+        return super(ChangeManager, self).create(user=user, **kwargs)
 
 
 @python_2_unicode_compatible
