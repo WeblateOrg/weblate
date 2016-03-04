@@ -30,6 +30,7 @@ from django.core import mail
 from weblate.accounts.models import (
     Profile,
     notify_merge_failure,
+    notify_parse_error,
     notify_new_string,
     notify_new_suggestion,
     notify_new_comment,
@@ -91,6 +92,31 @@ class NotificationTest(ViewTestCase):
         notify_merge_failure(
             self.subproject,
             'Failed merge',
+            'Error\nstatus'
+        )
+
+        # Check mail (second one is for admin)
+        self.assertEqual(len(mail.outbox), 5)
+
+    def test_notify_parse_error(self):
+        notify_parse_error(
+            self.subproject,
+            self.get_translation(),
+            'Failed merge',
+        )
+
+        # Check mail (second one is for admin)
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(
+            mail.outbox[0].subject,
+            '[Weblate] Parse error in Test/Test'
+        )
+
+        # Add project owner
+        self.subproject.project.owners.add(self.second_user())
+        notify_parse_error(
+            self.subproject,
+            self.get_translation(),
             'Error\nstatus'
         )
 
