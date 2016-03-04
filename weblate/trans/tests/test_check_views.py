@@ -62,6 +62,26 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 404)
 
+        response = self.client.get(
+            reverse('show_check', kwargs={'name': 'same'}),
+            {'project': self.project.slug}
+        )
+        self.assertRedirects(
+            response,
+            reverse(
+                'show_check_project',
+                kwargs={'name': 'same', 'project': self.project.slug}
+            )
+        )
+        response = self.client.get(
+            reverse('show_check', kwargs={'name': 'same'}),
+            {'language': 'de'}
+        )
+        self.assertContains(
+            response,
+            '/checks/same/test/?language=de'
+        )
+
     def test_project(self):
         response = self.client.get(
             reverse(
