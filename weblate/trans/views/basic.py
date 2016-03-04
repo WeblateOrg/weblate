@@ -87,7 +87,7 @@ def home(request):
         )
 
     # Some stats
-    last_changes = Change.objects.last_changes(request.user)[:10]
+    last_changes = Change.objects.last_changes(request.user)
 
     # Dashboard project/subproject view
     componentlists = ComponentList.objects.all()
@@ -107,6 +107,13 @@ def home(request):
             dashboard_choices[active_tab_id] = clist.name
 
         subscribed_projects = request.user.profile.subscriptions.all()
+        # Ensure ACL filtering applies (user could have been removed
+        # from the project meanwhile)
+        subscribed_projects.filter(id__in=projects.values_list('id'))
+
+        last_changes = last_changes.filter(
+            subproject__project__in=subscribed_projects
+        )
 
         components_by_language = Translation.objects.filter(
             language__in=request.user.profile.languages.all(),
@@ -128,7 +135,7 @@ def home(request):
         'index.html',
         {
             'projects': subproject_list or projects,
-            'last_changes': last_changes,
+            'last_changes': last_changes[:10],
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
             'whiteboard_messages': wb_messages,
