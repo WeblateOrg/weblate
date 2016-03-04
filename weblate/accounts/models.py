@@ -1028,7 +1028,7 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     '''
     Automatically adds user to Users group.
     '''
-    if created and instance.email:
+    if created:
         # Add user to automatic groups
         for auto in AutoGroup.objects.all():
             if re.match(auto.match, instance.email):
