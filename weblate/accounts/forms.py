@@ -27,7 +27,6 @@ from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
-from crispy_forms.helper import FormHelper
 
 try:
     import pyuca  # pylint: disable=import-error
