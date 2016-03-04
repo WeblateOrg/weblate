@@ -4,7 +4,7 @@ Changes
 weblate 2.5
 -----------
 
-Released on ? 2015.
+Released on ? 2016.
 
 * Fixed automatic translation for project owners.
 * Improved performance of commit and push operations.
