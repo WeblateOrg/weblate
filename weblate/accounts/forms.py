@@ -190,7 +190,7 @@ class SubscriptionForm(forms.ModelForm):
             'subscriptions',
         )
         widgets = {
-            'subscriptions': forms.CheckboxSelectMultiple
+            'subscriptions': forms.SelectMultiple
         }
 
     def __init__(self, *args, **kwargs):
@@ -200,10 +200,6 @@ class SubscriptionForm(forms.ModelForm):
         self.fields['subscriptions'].help_text = None
         self.fields['subscriptions'].required = False
         self.fields['subscriptions'].queryset = Project.objects.all_acl(user)
-        self.helper = FormHelper(self)
-        self.helper.field_class = 'subscription-checkboxes'
-        self.helper.field_template = \
-            'bootstrap3/layout/checkboxselectmultiple.html'
 
 
 class SubscriptionSettingsForm(forms.ModelForm):
