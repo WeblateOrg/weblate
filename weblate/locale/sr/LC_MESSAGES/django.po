@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-03-04 09:46+0000\n"
+"POT-Creation-Date: 2016-03-06 11:49+0000\n"
 "PO-Revision-Date: 2015-11-16 18:06+0000\n"
 "Last-Translator: Mladen Pejaković <pejakm@autistici.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -197,108 +197,128 @@ msgstr ""
 msgid "Additional message"
 msgstr "Додатна порука"
 
-#: weblate/accounts/models.py:508
+#: weblate/accounts/models.py:510
 msgid "Interface Language"
 msgstr "Језик сучеља"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:516
 msgid "Translated languages"
 msgstr "Језици превода"
 
-#: weblate/accounts/models.py:516
+#: weblate/accounts/models.py:518
 msgid "Choose languages to which you can translate."
 msgstr "Изаберите језике на које можете да преводите."
 
-#: weblate/accounts/models.py:520
+#: weblate/accounts/models.py:522
 msgid "Secondary languages"
 msgstr "Секундарни језици"
 
-#: weblate/accounts/models.py:522
+#: weblate/accounts/models.py:524
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
 
-#: weblate/accounts/models.py:532
+#: weblate/accounts/models.py:534
 msgid "Hide completed translations on dashboard"
 msgstr "Не приказуј завршене преводе на командној табли"
 
-#: weblate/accounts/models.py:536
+#: weblate/accounts/models.py:538
 msgid "Show secondary translations in zen mode"
 msgstr "Прикажи секундарне преводе у зен режиму"
 
-#: weblate/accounts/models.py:540
+#: weblate/accounts/models.py:542
 msgid "Hide source if there is secondary language"
 msgstr "Сакриј извор ако постоји секундарни језик"
 
-#: weblate/accounts/models.py:550 weblate/html/base.html.py:82
+#: weblate/accounts/models.py:552 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
 #, fuzzy
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
 msgstr "Пријаве"
 
-#: weblate/accounts/models.py:551 weblate/html/index.html.py:30
+#: weblate/accounts/models.py:553 weblate/html/index.html.py:30
 #, fuzzy
 #| msgid "Secondary languages"
 msgid "Your languages"
 msgstr "Секундарни језици"
 
-#: weblate/accounts/models.py:552 weblate/html/index.html.py:28
+#: weblate/accounts/models.py:554 weblate/html/index.html.py:28
 #, fuzzy
 #| msgid "Projects"
 msgid "All projects"
 msgstr "Пројекти"
 
-#: weblate/accounts/models.py:553 weblate/trans/models/componentlist.py:54
+#: weblate/accounts/models.py:555 weblate/trans/models/componentlist.py:54
 msgid "Component list"
 msgstr ""
 
-#: weblate/accounts/models.py:569
+#: weblate/accounts/models.py:571
 msgid "Default dashboard view"
 msgstr ""
 
-#: weblate/accounts/models.py:575
+#: weblate/accounts/models.py:577
 msgid "Default component list"
 msgstr ""
 
-#: weblate/accounts/models.py:582 weblate/html/accounts/profile.html.py:113
+#: weblate/accounts/models.py:584 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
 msgstr "Пријаве на пројекте"
 
-#: weblate/accounts/models.py:584
+#: weblate/accounts/models.py:586
 msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
 msgstr ""
 
-#: weblate/accounts/models.py:591
+#: weblate/accounts/models.py:593
 msgid "Notification on any translation"
 msgstr "Обавештење за било који превод"
 
-#: weblate/accounts/models.py:595
+#: weblate/accounts/models.py:597
 msgid "Notification on new string to translate"
 msgstr "Обавештење о новим порукама за превод"
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:601
 msgid "Notification on new suggestion"
 msgstr "Обавештење о новим предлозима"
 
-#: weblate/accounts/models.py:603
+#: weblate/accounts/models.py:605
 msgid "Notification on new contributor"
 msgstr "Обавештење за новог преводиоца"
 
-#: weblate/accounts/models.py:607
+#: weblate/accounts/models.py:609
 msgid "Notification on new comment"
 msgstr "Обавештење за нови коментар"
 
-#: weblate/accounts/models.py:611
+#: weblate/accounts/models.py:613
 msgid "Notification on merge failure"
 msgstr "Обавештење за грешке стапања"
 
-#: weblate/accounts/models.py:615
+#: weblate/accounts/models.py:617
 msgid "Notification on new language request"
 msgstr "Обавештења при захтеву за нови језик"
+
+#: weblate/accounts/models.py:806
+msgid "Email regular expression"
+msgstr ""
+
+#: weblate/accounts/models.py:810
+msgid "Regular expression which is used to match user email."
+msgstr ""
+
+#: weblate/accounts/models.py:815
+msgid "Group to assign"
+msgstr ""
+
+#: weblate/accounts/models.py:819
+msgid "Automatic group assignment"
+msgstr ""
+
+#: weblate/accounts/models.py:820
+msgid "Automatic group assignments"
+msgstr ""
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -1061,6 +1081,16 @@ msgstr "Активност у последњих 30 дана"
 msgid "Activity in last year"
 msgstr "Активност у последњих годину дана"
 
+#: weblate/html/admin/accounts/change_form.html:8
+#: weblate/html/admin/trans/change_form.html:16
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Неопходна поља су подебљана. Више информација можете наћи у <a href=\"%(url)s"
+"\">документацији</a>."
+
 #: weblate/html/admin/custom-index.html:10
 msgid "Reports"
 msgstr "Извештаји"
@@ -1196,15 +1226,6 @@ msgid ""
 msgstr ""
 "Више информација о подешавању ССХ кључева можете наћи у <a href="
 "\"%(ssh_docs)s\">Веблејт упутству</a>."
-
-#: weblate/html/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Неопходна поља су подебљана. Више информација можете наћи у <a href=\"%(url)s"
-"\">документацији</a>."
 
 #: weblate/html/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."

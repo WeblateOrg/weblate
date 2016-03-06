@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-03-04 09:46+0000\n"
+"POT-Creation-Date: 2016-03-06 11:49+0000\n"
 "PO-Revision-Date: 2016-03-04 13:01+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese (Brazil) "
-"<https://hosted.weblate.org/projects/weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -197,23 +197,23 @@ msgstr ""
 msgid "Additional message"
 msgstr "Mensagem adicional"
 
-#: weblate/accounts/models.py:508
+#: weblate/accounts/models.py:510
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:516
 msgid "Translated languages"
 msgstr "Idiomas traduzidos"
 
-#: weblate/accounts/models.py:516
+#: weblate/accounts/models.py:518
 msgid "Choose languages to which you can translate."
 msgstr "Escolha idiomas para os quais você pode traduzir."
 
-#: weblate/accounts/models.py:520
+#: weblate/accounts/models.py:522
 msgid "Secondary languages"
 msgstr "Idiomas secundários"
 
-#: weblate/accounts/models.py:522
+#: weblate/accounts/models.py:524
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -221,48 +221,48 @@ msgstr ""
 "Escolha os idiomas que você entende, textos neste idioma serão exibidos "
 "adicionalmente ao texto fonte."
 
-#: weblate/accounts/models.py:532
+#: weblate/accounts/models.py:534
 msgid "Hide completed translations on dashboard"
 msgstr "Ocultar traduções completas no painel"
 
-#: weblate/accounts/models.py:536
+#: weblate/accounts/models.py:538
 msgid "Show secondary translations in zen mode"
 msgstr "Mostrar traduções secundárias no modo zen"
 
-#: weblate/accounts/models.py:540
+#: weblate/accounts/models.py:542
 msgid "Hide source if there is secondary language"
 msgstr "Ocultar o original se houver idioma secundário"
 
-#: weblate/accounts/models.py:550 weblate/html/base.html.py:82
+#: weblate/accounts/models.py:552 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
 msgid "Your subscriptions"
 msgstr "Suas inscrições"
 
-#: weblate/accounts/models.py:551 weblate/html/index.html.py:30
+#: weblate/accounts/models.py:553 weblate/html/index.html.py:30
 msgid "Your languages"
 msgstr "Seus idiomas"
 
-#: weblate/accounts/models.py:552 weblate/html/index.html.py:28
+#: weblate/accounts/models.py:554 weblate/html/index.html.py:28
 msgid "All projects"
 msgstr "Todos os projetos"
 
-#: weblate/accounts/models.py:553 weblate/trans/models/componentlist.py:54
+#: weblate/accounts/models.py:555 weblate/trans/models/componentlist.py:54
 msgid "Component list"
 msgstr "Lista de componentes"
 
-#: weblate/accounts/models.py:569
+#: weblate/accounts/models.py:571
 msgid "Default dashboard view"
 msgstr "Vista padrão do painel"
 
-#: weblate/accounts/models.py:575
+#: weblate/accounts/models.py:577
 msgid "Default component list"
 msgstr "Lista de componentes padrão"
 
-#: weblate/accounts/models.py:582 weblate/html/accounts/profile.html.py:113
+#: weblate/accounts/models.py:584 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
 msgstr "Projetos inscritos"
 
-#: weblate/accounts/models.py:584
+#: weblate/accounts/models.py:586
 msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
@@ -270,33 +270,63 @@ msgstr ""
 "Você pode receber notificações para projetos inscritos e elas serão exibidas "
 "no painel por padrão."
 
-#: weblate/accounts/models.py:591
+#: weblate/accounts/models.py:593
 msgid "Notification on any translation"
 msgstr "Notificar sobre qualquer tradução"
 
-#: weblate/accounts/models.py:595
+#: weblate/accounts/models.py:597
 msgid "Notification on new string to translate"
 msgstr "Notificar sobre novos textos a traduzir"
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:601
 msgid "Notification on new suggestion"
 msgstr "Notificar sobre novas sugestões"
 
-#: weblate/accounts/models.py:603
+#: weblate/accounts/models.py:605
 msgid "Notification on new contributor"
 msgstr "Notificar sobre novo colaborador"
 
-#: weblate/accounts/models.py:607
+#: weblate/accounts/models.py:609
 msgid "Notification on new comment"
 msgstr "Notificar sobre novo comentário"
 
-#: weblate/accounts/models.py:611
+#: weblate/accounts/models.py:613
 msgid "Notification on merge failure"
 msgstr "Notificar sobre falhas na mesclagem"
 
-#: weblate/accounts/models.py:615
+#: weblate/accounts/models.py:617
 msgid "Notification on new language request"
 msgstr "Notificar sobre nova solicitação de idioma"
+
+#: weblate/accounts/models.py:806
+msgid "Email regular expression"
+msgstr ""
+
+#: weblate/accounts/models.py:810
+#, fuzzy
+#| msgid ""
+#| "Regular expression which is used to filter translation when scanning for "
+#| "file mask."
+msgid "Regular expression which is used to match user email."
+msgstr ""
+"Expressão regular que será usada para filtrar as traduções ao examinar por "
+"uma máscara de arquivo."
+
+#: weblate/accounts/models.py:815
+msgid "Group to assign"
+msgstr ""
+
+#: weblate/accounts/models.py:819
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignment"
+msgstr "Tradução automática"
+
+#: weblate/accounts/models.py:820
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignments"
+msgstr "Tradução automática"
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -1054,6 +1084,16 @@ msgstr "Atividade nos últimos 30 dias"
 msgid "Activity in last year"
 msgstr "Atividade no último ano"
 
+#: weblate/html/admin/accounts/change_form.html:8
+#: weblate/html/admin/trans/change_form.html:16
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Campos exigidos são marcados em negrito; você pode encontrar mais "
+"informações na <a href=\"%(url)s\">documentação</a>."
+
 #: weblate/html/admin/custom-index.html:10
 msgid "Reports"
 msgstr "Relatórios"
@@ -1190,15 +1230,6 @@ msgid ""
 msgstr ""
 "Maiores informações sobre configuração de chaves SSH estão no <a href="
 "\"%(ssh_docs)s\">Manual do Weblate</a>."
-
-#: weblate/html/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Campos exigidos são marcados em negrito; você pode encontrar mais "
-"informações na <a href=\"%(url)s\">documentação</a>."
 
 #: weblate/html/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."
@@ -4889,7 +4920,6 @@ msgid "Failed rebase on repository"
 msgstr "Falha ao realocar no repositório"
 
 #: weblate/trans/models/changes.py:190
-#| msgid "Server Error"
 msgid "Parse error"
 msgstr "Erro de análise"
 

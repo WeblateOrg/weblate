@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-03-04 09:46+0000\n"
+"POT-Creation-Date: 2016-03-06 11:49+0000\n"
 "PO-Revision-Date: 2016-01-14 15:07+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -194,113 +194,137 @@ msgstr ""
 msgid "Additional message"
 msgstr "Mensaxe adicional"
 
-#: weblate/accounts/models.py:508
+#: weblate/accounts/models.py:510
 msgid "Interface Language"
 msgstr "Idioma da interface"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:516
 msgid "Translated languages"
 msgstr "Idiomas traducidos"
 
-#: weblate/accounts/models.py:516
+#: weblate/accounts/models.py:518
 msgid "Choose languages to which you can translate."
 msgstr "Escolla os idiomas aos que traducir."
 
-#: weblate/accounts/models.py:520
+#: weblate/accounts/models.py:522
 msgid "Secondary languages"
 msgstr "Segundos idiomas"
 
-#: weblate/accounts/models.py:522
+#: weblate/accounts/models.py:524
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
 
-#: weblate/accounts/models.py:532
+#: weblate/accounts/models.py:534
 msgid "Hide completed translations on dashboard"
 msgstr ""
 
-#: weblate/accounts/models.py:536
+#: weblate/accounts/models.py:538
 #, fuzzy
 msgid "Show secondary translations in zen mode"
 msgstr "Buscar nas cadeas de orixe"
 
-#: weblate/accounts/models.py:540
+#: weblate/accounts/models.py:542
 msgid "Hide source if there is secondary language"
 msgstr ""
 
-#: weblate/accounts/models.py:550 weblate/html/base.html.py:82
+#: weblate/accounts/models.py:552 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
 #, fuzzy
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
 msgstr "Subscricións"
 
-#: weblate/accounts/models.py:551 weblate/html/index.html.py:30
+#: weblate/accounts/models.py:553 weblate/html/index.html.py:30
 #, fuzzy
 msgid "Your languages"
 msgstr "Cambios recentes"
 
-#: weblate/accounts/models.py:552 weblate/html/index.html.py:28
+#: weblate/accounts/models.py:554 weblate/html/index.html.py:28
 #, fuzzy
 #| msgid "All subprojects"
 msgid "All projects"
 msgstr "Todos os subproxectos"
 
-#: weblate/accounts/models.py:553 weblate/trans/models/componentlist.py:54
+#: weblate/accounts/models.py:555 weblate/trans/models/componentlist.py:54
 #, fuzzy
 #| msgid "Comments"
 msgid "Component list"
 msgstr "Comentarios"
 
-#: weblate/accounts/models.py:569
+#: weblate/accounts/models.py:571
 msgid "Default dashboard view"
 msgstr ""
 
-#: weblate/accounts/models.py:575
+#: weblate/accounts/models.py:577
 #, fuzzy
 #| msgid "Comments"
 msgid "Default component list"
 msgstr "Comentarios"
 
-#: weblate/accounts/models.py:582 weblate/html/accounts/profile.html.py:113
+#: weblate/accounts/models.py:584 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
 msgstr "Proxectos subscritos"
 
-#: weblate/accounts/models.py:584
+#: weblate/accounts/models.py:586
 msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
 msgstr ""
 
-#: weblate/accounts/models.py:591
+#: weblate/accounts/models.py:593
 msgid "Notification on any translation"
 msgstr "Notificación en calquera tradución"
 
-#: weblate/accounts/models.py:595
+#: weblate/accounts/models.py:597
 msgid "Notification on new string to translate"
 msgstr "Notificación sobre nova cadea para traducir"
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:601
 msgid "Notification on new suggestion"
 msgstr "Notificación sobre novas suxestións"
 
-#: weblate/accounts/models.py:603
+#: weblate/accounts/models.py:605
 msgid "Notification on new contributor"
 msgstr "Notificación sobre novo colaborador"
 
-#: weblate/accounts/models.py:607
+#: weblate/accounts/models.py:609
 msgid "Notification on new comment"
 msgstr "Notificación sobre novo comentario"
 
-#: weblate/accounts/models.py:611
+#: weblate/accounts/models.py:613
 #, fuzzy
 msgid "Notification on merge failure"
 msgstr "Notificación sobre novo colaborador"
 
-#: weblate/accounts/models.py:615
+#: weblate/accounts/models.py:617
 msgid "Notification on new language request"
 msgstr "Notificación sobre a solicitude dun idioma novo"
+
+#: weblate/accounts/models.py:806
+msgid "Email regular expression"
+msgstr ""
+
+#: weblate/accounts/models.py:810
+msgid "Regular expression which is used to match user email."
+msgstr ""
+
+#: weblate/accounts/models.py:815
+msgid "Group to assign"
+msgstr ""
+
+#: weblate/accounts/models.py:819
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignment"
+msgstr "Tradución automática"
+
+#: weblate/accounts/models.py:820
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignments"
+msgstr "Tradución automática"
 
 #: weblate/accounts/pipeline.py:124
 #, fuzzy
@@ -1083,6 +1107,19 @@ msgstr ""
 msgid "Activity in last year"
 msgstr ""
 
+#: weblate/html/admin/accounts/change_form.html:8
+#: weblate/html/admin/trans/change_form.html:16
+#, fuzzy, python-format
+#| msgid ""
+#| "More information about this check is available in the <a href=\"%(link)s"
+#| "\">documentation</a>."
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Hai máis información dispoñíbel sobre esta proba na <a href=\"%(link)s"
+"\">documentación</a>."
+
 #: weblate/html/admin/custom-index.html:10
 msgid "Reports"
 msgstr "Informes"
@@ -1219,18 +1256,6 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
-
-#: weblate/html/admin/trans/change_form.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "More information about this check is available in the <a href=\"%(link)s"
-#| "\">documentation</a>."
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Hai máis información dispoñíbel sobre esta proba na <a href=\"%(link)s"
-"\">documentación</a>."
 
 #: weblate/html/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."

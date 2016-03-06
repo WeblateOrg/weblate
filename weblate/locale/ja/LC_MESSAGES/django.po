@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-03-04 09:46+0000\n"
+"POT-Creation-Date: 2016-03-06 11:49+0000\n"
 "PO-Revision-Date: 2015-12-15 00:05+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -199,112 +199,142 @@ msgstr ""
 msgid "Additional message"
 msgstr "補足メッセージ"
 
-#: weblate/accounts/models.py:508
+#: weblate/accounts/models.py:510
 msgid "Interface Language"
 msgstr "インターフェイスの言語"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:516
 msgid "Translated languages"
 msgstr "翻訳済み言語"
 
-#: weblate/accounts/models.py:516
+#: weblate/accounts/models.py:518
 msgid "Choose languages to which you can translate."
 msgstr "あなたが翻訳することのできる言語を選択してください。"
 
-#: weblate/accounts/models.py:520
+#: weblate/accounts/models.py:522
 msgid "Secondary languages"
 msgstr "第二言語"
 
-#: weblate/accounts/models.py:522
+#: weblate/accounts/models.py:524
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
 
-#: weblate/accounts/models.py:532
+#: weblate/accounts/models.py:534
 msgid "Hide completed translations on dashboard"
 msgstr "ダッシュボードでは完了した翻訳を隠す"
 
-#: weblate/accounts/models.py:536
+#: weblate/accounts/models.py:538
 msgid "Show secondary translations in zen mode"
 msgstr "Zen モードで二次翻訳を表示する"
 
-#: weblate/accounts/models.py:540
+#: weblate/accounts/models.py:542
 msgid "Hide source if there is secondary language"
 msgstr "第二言語が存在する場合はソースを隠す"
 
-#: weblate/accounts/models.py:550 weblate/html/base.html.py:82
+#: weblate/accounts/models.py:552 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
 #, fuzzy
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
 msgstr "通知設定"
 
-#: weblate/accounts/models.py:551 weblate/html/index.html.py:30
+#: weblate/accounts/models.py:553 weblate/html/index.html.py:30
 #, fuzzy
 #| msgid "Source language"
 msgid "Your languages"
 msgstr "原文の言語"
 
-#: weblate/accounts/models.py:552 weblate/html/index.html.py:28
+#: weblate/accounts/models.py:554 weblate/html/index.html.py:28
 #, fuzzy
 #| msgid "All subprojects"
 msgid "All projects"
 msgstr "すべてのサブプロジェクト"
 
-#: weblate/accounts/models.py:553 weblate/trans/models/componentlist.py:54
+#: weblate/accounts/models.py:555 weblate/trans/models/componentlist.py:54
 #, fuzzy
 #| msgid "Components"
 msgid "Component list"
 msgstr "コンポーネント"
 
-#: weblate/accounts/models.py:569
+#: weblate/accounts/models.py:571
 msgid "Default dashboard view"
 msgstr ""
 
-#: weblate/accounts/models.py:575
+#: weblate/accounts/models.py:577
 #, fuzzy
 #| msgid "All components"
 msgid "Default component list"
 msgstr "すべてのコンポーネント"
 
-#: weblate/accounts/models.py:582 weblate/html/accounts/profile.html.py:113
+#: weblate/accounts/models.py:584 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
 msgstr "加入したプロジェクト"
 
-#: weblate/accounts/models.py:584
+#: weblate/accounts/models.py:586
 msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
 msgstr ""
 
-#: weblate/accounts/models.py:591
+#: weblate/accounts/models.py:593
 msgid "Notification on any translation"
 msgstr "あらゆる翻訳を通知"
 
-#: weblate/accounts/models.py:595
+#: weblate/accounts/models.py:597
 msgid "Notification on new string to translate"
 msgstr "翻訳を新しい文字列に通知"
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:601
 msgid "Notification on new suggestion"
 msgstr "新しい提案に関するお知らせ"
 
-#: weblate/accounts/models.py:603
+#: weblate/accounts/models.py:605
 msgid "Notification on new contributor"
 msgstr "新しい貢献者に関するお知らせ"
 
-#: weblate/accounts/models.py:607
+#: weblate/accounts/models.py:609
 msgid "Notification on new comment"
 msgstr "新しいコメントを通知"
 
-#: weblate/accounts/models.py:611
+#: weblate/accounts/models.py:613
 msgid "Notification on merge failure"
 msgstr "マージの失敗を通知"
 
-#: weblate/accounts/models.py:615
+#: weblate/accounts/models.py:617
 msgid "Notification on new language request"
 msgstr "新しい言語リクエストの通知"
+
+#: weblate/accounts/models.py:806
+msgid "Email regular expression"
+msgstr ""
+
+#: weblate/accounts/models.py:810
+#, fuzzy
+#| msgid ""
+#| "Regular expression which is used to filter translation when scanning for "
+#| "file mask."
+msgid "Regular expression which is used to match user email."
+msgstr ""
+"ファイルマスクでスキャンを実施する際、翻訳をフィルタするために使用する正規表"
+"現。"
+
+#: weblate/accounts/models.py:815
+msgid "Group to assign"
+msgstr ""
+
+#: weblate/accounts/models.py:819
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignment"
+msgstr "自動翻訳"
+
+#: weblate/accounts/models.py:820
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignments"
+msgstr "自動翻訳"
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -1075,6 +1105,16 @@ msgstr "過去 30 日間の作業"
 msgid "Activity in last year"
 msgstr "昨年の作業"
 
+#: weblate/html/admin/accounts/change_form.html:8
+#: weblate/html/admin/trans/change_form.html:16
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"必須項目を太字でマークしています。詳しくは <a href=\"%(url)s\">ドキュメンテー"
+"ション</a> をお読みください。"
+
 #: weblate/html/admin/custom-index.html:10
 msgid "Reports"
 msgstr "レポート"
@@ -1210,15 +1250,6 @@ msgid ""
 msgstr ""
 "SSH 鍵の設定方法について、詳しくは <a href=\"%(ssh_docs)s\">Weblate のマニュ"
 "アル</a> をお読みください。"
-
-#: weblate/html/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"必須項目を太字でマークしています。詳しくは <a href=\"%(url)s\">ドキュメンテー"
-"ション</a> をお読みください。"
 
 #: weblate/html/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."

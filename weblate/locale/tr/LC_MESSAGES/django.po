@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-03-04 09:46+0000\n"
+"POT-Creation-Date: 2016-03-06 11:49+0000\n"
 "PO-Revision-Date: 2016-03-04 11:35+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish "
-"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
+"tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -199,23 +199,23 @@ msgstr ""
 msgid "Additional message"
 msgstr "İlave ileti"
 
-#: weblate/accounts/models.py:508
+#: weblate/accounts/models.py:510
 msgid "Interface Language"
 msgstr "Arayüz Dili"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:516
 msgid "Translated languages"
 msgstr "Çevrilen diller"
 
-#: weblate/accounts/models.py:516
+#: weblate/accounts/models.py:518
 msgid "Choose languages to which you can translate."
 msgstr "Çevirebileceğiniz dillleri seçin."
 
-#: weblate/accounts/models.py:520
+#: weblate/accounts/models.py:522
 msgid "Secondary languages"
 msgstr "İkincil diller"
 
-#: weblate/accounts/models.py:522
+#: weblate/accounts/models.py:524
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -223,48 +223,48 @@ msgstr ""
 "Anlayabildiğiniz dilleri seçin, bu dillerdeki dizgiler kaynak dizgide ilave "
 "olarak gösterilecektir."
 
-#: weblate/accounts/models.py:532
+#: weblate/accounts/models.py:534
 msgid "Hide completed translations on dashboard"
 msgstr "Panelde tamamlanan çevirileri gizle"
 
-#: weblate/accounts/models.py:536
+#: weblate/accounts/models.py:538
 msgid "Show secondary translations in zen mode"
 msgstr "İkincil çevirileri zen kipinde göster"
 
-#: weblate/accounts/models.py:540
+#: weblate/accounts/models.py:542
 msgid "Hide source if there is secondary language"
 msgstr "İkincil dil varsa kaynağı gizle"
 
-#: weblate/accounts/models.py:550 weblate/html/base.html.py:82
+#: weblate/accounts/models.py:552 weblate/html/base.html.py:82
 #: weblate/html/index.html:31
 msgid "Your subscriptions"
 msgstr "Abonelikleriniz"
 
-#: weblate/accounts/models.py:551 weblate/html/index.html.py:30
+#: weblate/accounts/models.py:553 weblate/html/index.html.py:30
 msgid "Your languages"
 msgstr "Dilleriniz"
 
-#: weblate/accounts/models.py:552 weblate/html/index.html.py:28
+#: weblate/accounts/models.py:554 weblate/html/index.html.py:28
 msgid "All projects"
 msgstr "Tüm projeler"
 
-#: weblate/accounts/models.py:553 weblate/trans/models/componentlist.py:54
+#: weblate/accounts/models.py:555 weblate/trans/models/componentlist.py:54
 msgid "Component list"
 msgstr "Bileşen litesi"
 
-#: weblate/accounts/models.py:569
+#: weblate/accounts/models.py:571
 msgid "Default dashboard view"
 msgstr "Varsayılan panel görünümü"
 
-#: weblate/accounts/models.py:575
+#: weblate/accounts/models.py:577
 msgid "Default component list"
 msgstr "Varsayılan bileşen listesi"
 
-#: weblate/accounts/models.py:582 weblate/html/accounts/profile.html.py:113
+#: weblate/accounts/models.py:584 weblate/html/accounts/profile.html.py:113
 msgid "Subscribed projects"
 msgstr "Abone olunmuş projeler"
 
-#: weblate/accounts/models.py:584
+#: weblate/accounts/models.py:586
 msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
@@ -272,33 +272,62 @@ msgstr ""
 "Abone olunan projeler için bildirimleri alabilirsiniz ve varsayılan olarak "
 "panelde gösterilirler."
 
-#: weblate/accounts/models.py:591
+#: weblate/accounts/models.py:593
 msgid "Notification on any translation"
 msgstr "Herhangi bir çeviride bildirim"
 
-#: weblate/accounts/models.py:595
+#: weblate/accounts/models.py:597
 msgid "Notification on new string to translate"
 msgstr "Yeni satır çevirmek için bildirim"
 
-#: weblate/accounts/models.py:599
+#: weblate/accounts/models.py:601
 msgid "Notification on new suggestion"
 msgstr "Yeni öneride bildirim"
 
-#: weblate/accounts/models.py:603
+#: weblate/accounts/models.py:605
 msgid "Notification on new contributor"
 msgstr "Yeni katkıda bulunmada bildirim"
 
-#: weblate/accounts/models.py:607
+#: weblate/accounts/models.py:609
 msgid "Notification on new comment"
 msgstr "Yeni yorumda bildirim"
 
-#: weblate/accounts/models.py:611
+#: weblate/accounts/models.py:613
 msgid "Notification on merge failure"
 msgstr "Birleştirmenin başarısız olmasında bildirim"
 
-#: weblate/accounts/models.py:615
+#: weblate/accounts/models.py:617
 msgid "Notification on new language request"
 msgstr "Yeni dil isteğinde bildirim"
+
+#: weblate/accounts/models.py:806
+msgid "Email regular expression"
+msgstr ""
+
+#: weblate/accounts/models.py:810
+#, fuzzy
+#| msgid ""
+#| "Regular expression which is used to filter translation when scanning for "
+#| "file mask."
+msgid "Regular expression which is used to match user email."
+msgstr ""
+"Dosya maskesi taranırken çeviriyi süzmek için kullanılan düzenli ifade."
+
+#: weblate/accounts/models.py:815
+msgid "Group to assign"
+msgstr ""
+
+#: weblate/accounts/models.py:819
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignment"
+msgstr "Otomatik Çeviri"
+
+#: weblate/accounts/models.py:820
+#, fuzzy
+#| msgid "Automatic translation"
+msgid "Automatic group assignments"
+msgstr "Otomatik Çeviri"
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -1050,6 +1079,16 @@ msgstr "Son 30 günlük etkinlik"
 msgid "Activity in last year"
 msgstr "Geçen yıldaki etkinlik"
 
+#: weblate/html/admin/accounts/change_form.html:8
+#: weblate/html/admin/trans/change_form.html:16
+#, python-format
+msgid ""
+"Required fields are marked as bold, you can find more information in the <a "
+"href=\"%(url)s\">documentation</a>."
+msgstr ""
+"Gerekli alanlar koyu olarak işaretlenir, daha fazla bilgiyi <a href=\"%(url)s"
+"\">belgelerde</a> bulabilirsiniz."
+
 #: weblate/html/admin/custom-index.html:10
 msgid "Reports"
 msgstr "Raporlar"
@@ -1186,15 +1225,6 @@ msgid ""
 msgstr ""
 "<a href=\"%(ssh_docs)s\">Weblate kılavuzu</a> içinde SSH anahtarlarını "
 "ayarlanması hakkında daha fazla bilgi bulabilirsiniz."
-
-#: weblate/html/admin/trans/change_form.html:16
-#, python-format
-msgid ""
-"Required fields are marked as bold, you can find more information in the <a "
-"href=\"%(url)s\">documentation</a>."
-msgstr ""
-"Gerekli alanlar koyu olarak işaretlenir, daha fazla bilgiyi <a href=\"%(url)s"
-"\">belgelerde</a> bulabilirsiniz."
 
 #: weblate/html/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."
@@ -4892,7 +4922,6 @@ msgid "Failed rebase on repository"
 msgstr "Havuzda yeniden konumlama başarısız: %s"
 
 #: weblate/trans/models/changes.py:190
-#| msgid "Server Error"
 msgid "Parse error"
 msgstr "Ayrıştırma hatası"
 
