@@ -604,6 +604,15 @@ class GitRepository(Repository):
             'remote.origin.fetch',
             '+refs/heads/{0}:refs/remotes/origin/{0}'.format(branch)
         )
+        self.set_config(
+            'branch.{0}.remote'.format(branch),
+            'origin'
+        )
+        self.set_config(
+            'branch.{0}.merge'.format(branch),
+            'refs/heads/{0}'.format(branch)
+        )
+
         self.branch = branch
 
     def configure_branch(self, branch):
