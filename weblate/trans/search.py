@@ -149,9 +149,9 @@ def get_target_index(lang):
         create_target_index(lang)
     index = STORAGE.open_index(name)
     if 'comment' not in index.schema:
-        index.add_field('comment', TEXT)
+        index.add_field('comment', TEXT())
     if 'pk' not in index.schema:
-        index.add_field('pk', NUMERIC)
+        index.add_field('pk', NUMERIC(stored=True, unique=True))
     if 'checksum' in index.schema:
         index.remove_field('checksum')
     return index
