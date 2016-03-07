@@ -1,0 +1,77 @@
+#! /usr/bin/env python
+"""
+Post update hook script to update message IDs in the Android strings file.
+"""
+
+from __future__ import print_function
+
+import glob
+import os
+import subprocess
+import sys
+
+from translate.storage.aresource import AndroidResourceFile
+
+
+def build_index(storage):
+    index = {}
+
+    for unit in storage.units:
+        index[unit.getid()] = unit
+
+    return index
+
+
+def update_file(template, index, filename):
+    storage = AndroidResourceFile.parsefile(filename)
+    changed = False
+
+    # Remove extra units
+    for unit in storage.units:
+        if unit.getid() not in index:
+            storage.body.remove(unit.xmlelement)
+            changed = True
+
+    if changed:
+        storage.save()
+
+
+def main():
+    if os.environ.get('WL_FILE_FORMAT') != 'aresource':
+        print('Invalid file format!')
+        sys.exit(1)
+
+    if not os.environ.get('WL_TEMPLATE'):
+        print('Missing template!')
+        sys.exit(1)
+
+    if not os.environ.get('WL_FILEMASK'):
+        print('Missing filemask!')
+        sys.exit(1)
+
+    if not os.environ.get('WL_PATH'):
+        print('Missing path!')
+        sys.exit(1)
+
+    os.chdir(os.environ.get('WL_PATH'))
+
+    templatename = os.environ.get('WL_TEMPLATE')
+
+    template = AndroidResourceFile.parsefile(templatename)
+    index = build_index(template)
+
+    for filename in glob.glob(os.environ.get('WL_FILEMASK')):
+        if filename != templatename:
+            update_file(template, index, filename)
+
+    if subprocess.call(['git', 'commit', '--dry-run', '-a']) == 0:
+        ret = subprocess.call(
+            ['git', 'commit', '-a', '-m', 'Updated translation files']
+        )
+        if ret == 0:
+            ret = subprocess.call(['git', 'push'])
+        sys.exit(ret)
+
+
+if __name__ == '__main__':
+    main()

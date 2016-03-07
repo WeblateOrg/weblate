@@ -550,6 +550,9 @@ Weblate comes with few example hook scripts which you might find useful:
     Updates resx file to match template by adding new translations and removing
     obsolete ones.
 
+:file:`examples/hook-cleanup-android`
+    Removes obsolete units from Android resource strings.
+
 .. seealso:: 
    
    :ref:`processing`
