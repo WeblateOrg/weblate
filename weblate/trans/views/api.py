@@ -329,7 +329,7 @@ def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
-    subprj = get_subproject(request, project, subproject)
+    subprj = get_subproject(request, project, subproject, True)
 
     jsonp = None
     if 'jsonp' in request.GET and request.GET['jsonp']:
