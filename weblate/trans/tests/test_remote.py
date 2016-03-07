@@ -185,7 +185,7 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         unit = translation.unit_set.get(source='Hello, world!\n')
-        unit.translate(self.request, 'Ahoj svete!\n', False)
+        unit.translate(self.request, ['Ahoj svete!\n'], False)
 
         self.assertFalse(translation.do_update(self.request))
 
