@@ -703,6 +703,7 @@ class Unit(models.Model, LoggerMixin):
             action = Change.ACTION_NEW
 
         # Should we store history of edits?
+        # pylint: disable=R0204
         if self.translation.subproject.save_history:
             history_target = self.target
         else:
