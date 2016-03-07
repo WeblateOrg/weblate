@@ -72,6 +72,7 @@ def run_hook(component, translation, script, *args):
         environment['WL_REPO'] = target.repo
         environment['WL_PATH'] = target.get_path()
         environment['WL_FILEMASK'] = component.filemask
+        environment['WL_TEMPLATE'] = component.template
         environment['WL_FILE_FORMAT'] = component.file_format
         if translation:
             environment['WL_LANGUAGE'] = translation.language_code

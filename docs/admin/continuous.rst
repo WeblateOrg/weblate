@@ -258,6 +258,10 @@ Additionally following environment variables are available:
 
     File mask for current component.
 
+.. envvar:: WL_TEMPLATE
+
+    File name of template for monolingual translations (can be empty).
+
 .. envvar:: WL_FILE_FORMAT
 
     File format used in current component.
