@@ -79,7 +79,7 @@ class BaseExporter(object):
             output.target = multistring(unit.get_target_plurals())
         else:
             output = self.storage.UnitClass(unit.source)
-            output.target = multistring(unit.target)
+            output.target = unit.target
         output.context = unit.context
         for location in unit.location.split():
             if location:
