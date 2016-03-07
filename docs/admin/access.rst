@@ -54,6 +54,8 @@ Can reset translations to match remote VCS [Managers, Owners]
     Can reset VCS repository to match remote VCS.
 Can save translation [Users, Managers, Owners]
     Can save translation (might be disabled with :ref:`voting`).
+Can save template [Users, Managers, Owners]
+    Can edit source strings (usually English)
 Can accept suggestion [Users, Managers, Owners]
     Can accept suggestion (might be disabled with :ref:`voting`).
 Can delete suggestion [Users, Managers, Owners]
