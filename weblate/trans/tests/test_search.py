@@ -22,6 +22,8 @@
 Tests for search views.
 """
 
+from __future__ import unicode_literals
+
 import re
 import shutil
 import tempfile
@@ -32,7 +34,7 @@ from whoosh.fields import Schema, ID, TEXT
 from django.core.urlresolvers import reverse
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests import OverrideSettings
-from weblate.trans.search import update_index_unit
+from weblate.trans.search import update_index_unit, fulltext_search
 import weblate.trans.search
 from weblate.trans.models import IndexUpdate
 
@@ -429,11 +431,28 @@ class SearchMigrationTest(TestCase):
         if target is not None:
             self.storage.create_index(target, 'target-cs')
 
-        self.assertIsNotNone(
-            weblate.trans.search.get_source_index()
+        sindex = weblate.trans.search.get_source_index()
+        self.assertIsNotNone(sindex)
+        tindex = weblate.trans.search.get_target_index('cs')
+        self.assertIsNotNone(tindex)
+        writer = sindex.writer()
+        writer.update_document(
+            pk=1,
+            source="text",
+            context="context",
+            location="location",
         )
-        self.assertIsNotNone(
-            weblate.trans.search.get_target_index('cs')
+        writer.commit()
+        writer = tindex.writer()
+        writer.update_document(
+            pk=1,
+            target="target",
+            comment="comment"
+        )
+        writer.commit()
+        self.assertEqual(
+            fulltext_search('text', 'cs', {'source': True}),
+            set([1])
         )
 
     def test_nonexisting(self):
