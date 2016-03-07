@@ -82,7 +82,8 @@ class BaseExporter(object):
             output.target = multistring(unit.target)
         output.context = unit.context
         for location in unit.location.split():
-            output.addlocation(location)
+            if location:
+                output.addlocation(location)
         output.addnote(unit.comment)
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
