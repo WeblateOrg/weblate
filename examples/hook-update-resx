@@ -25,18 +25,22 @@ def build_index(storage):
 def update_file(template, index, filename):
     storage = RESXFile.parsefile(filename)
     sindex = build_index(storage)
+    changed = False
 
     # Add missing units
     for unit in template.units:
         if unit.getid() not in sindex:
             storage.addunit(unit, True)
+            changed = True
 
     # Remove extra units
     for unit in storage.units:
         if unit.getid() not in index:
             storage.body.remove(unit.xmlelement)
+            changed = True
 
-    storage.save()
+    if changed:
+        storage.save()
 
 
 def main():
@@ -71,6 +75,8 @@ def main():
         ret = subprocess.call(
             ['git', 'commit', '-a', '-m', 'Updated translation files']
         )
+        if ret == 0:
+            ret = subprocess.call(['git', 'push'])
         sys.exit(ret)
 
 
