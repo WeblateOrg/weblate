@@ -499,7 +499,7 @@ class Unit(models.Model, LoggerMixin):
         """
         Checks whether message is plural.
         """
-        return is_plural(self.source)
+        return is_plural(self.source) or is_plural(self.target)
 
     def get_source_plurals(self):
         """
