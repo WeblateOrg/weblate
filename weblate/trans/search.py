@@ -127,9 +127,9 @@ def get_source_index():
         create_source_index()
     index = STORAGE.open_index('source')
     if 'location' not in index.schema:
-        index.add_field('location', TEXT)
+        index.add_field('location', TEXT())
     if 'pk' not in index.schema:
-        index.add_field('pk', NUMERIC)
+        index.add_field('pk', NUMERIC(stored=True, unique=True))
     if 'checksum' in index.schema:
         index.remove_field('checksum')
     return index
