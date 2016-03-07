@@ -438,7 +438,7 @@ class SearchMigrationTest(TestCase):
         writer = sindex.writer()
         writer.update_document(
             pk=1,
-            source="text",
+            source="source",
             context="context",
             location="location",
         )
@@ -450,10 +450,11 @@ class SearchMigrationTest(TestCase):
             comment="comment"
         )
         writer.commit()
-        self.assertEqual(
-            fulltext_search('text', 'cs', {'source': True}),
-            set([1])
-        )
+        for item in ('source', 'context', 'location', 'target'):
+            self.assertEqual(
+                fulltext_search(item, 'cs', {item: True}),
+                set([1])
+            )
 
     def test_nonexisting(self):
         self.do_test(None, None)
