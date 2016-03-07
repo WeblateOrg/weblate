@@ -544,6 +544,12 @@ POST_UPDATE_SCRIPTS
 List of scripts which are allowed as post update scripts. The script needs to be
 later enabled in the :ref:`component`.
 
+Weblate comes with few example hook scripts which you might find useful:
+
+:file:`examples/hook-update-resx`
+    Updates resx file to match template by adding new translations and removing
+    obsolete ones.
+
 .. seealso:: 
    
    :ref:`processing`
