@@ -141,6 +141,8 @@ def can_suggest(user, translation):
     """
     if not translation.subproject.enable_suggestions:
         return False
+    if has_group_perm(user, translation, 'trans.add_suggestion'):
+        return True
     return check_permission(
         user, translation.subproject.project, 'trans.add_suggestion'
     )
