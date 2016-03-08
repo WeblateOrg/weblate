@@ -433,6 +433,20 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             ret |= component.can_push()
         return ret
 
+    def get_failing_translations(self):
+        """Return list of failing suproject and translations
+
+        Return the list of tuples (subproject, [translation_list])
+        with failing units.
+
+        """
+        result = []
+        for component in self.subproject_set.all():
+            translations = component.get_failing_translations()
+            if translations:
+                result.append((component, translations))
+        return result
+
     @property
     def last_change(self):
         """Returns date of last change done in Weblate."""

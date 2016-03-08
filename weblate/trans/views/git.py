@@ -33,6 +33,12 @@ from weblate.trans.permissions import (
 )
 
 
+def _error(request, obj, message):
+    """Show an error message and redirect to the repository."""
+    messages.error(request, message)
+    return redirect_param(obj, '#repository')
+
+
 def execute_locked(request, obj, message, call, *args, **kwargs):
     """
     Helper function to catch possible lock exception.
@@ -167,6 +173,13 @@ def push_project(request, project):
     if not can_push_translation(request.user, obj):
         raise PermissionDenied()
 
+    failing_translations = obj.get_failing_translations()
+    if failing_translations:
+        msg = _("Project can't be pushed, there are failing translations. "
+                'Please check these projects: %s.')
+        subprojects = ', '.join(str(s[0]) for s in failing_translations)
+        return _error(request, obj, msg % subprojects)
+
     return perform_push(request, obj)
 
 
@@ -177,6 +190,13 @@ def push_subproject(request, project, subproject):
     if not can_push_translation(request.user, obj.project):
         raise PermissionDenied()
 
+    failing_translations = obj.get_failing_translations()
+    if failing_translations:
+        msg = _("Subproject can't be pushed, there are failing translations. "
+                'Please check these translations: %s.')
+        translations = ', '.join(str(t) for t in failing_translations)
+        return _error(request, obj, msg % translations)
+
     return perform_push(request, obj)
 
 
@@ -186,6 +206,13 @@ def push_translation(request, project, subproject, lang):
 
     if not can_push_translation(request.user, obj.subproject.project):
         raise PermissionDenied()
+
+    failing_translations = obj.subproject.get_failing_translations()
+    if failing_translations:
+        msg = _("Translation can't be pushed, there are failing translations "
+                'in the subproject. Please check these translations: %s.')
+        translations = ', '.join(str(t) for t in failing_translations)
+        return _error(request, obj, msg % translations)
 
     return perform_push(request, obj)
 

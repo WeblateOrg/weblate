@@ -717,6 +717,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return False
         if not self.repo_needs_push():
             return False
+        if self.get_failing_translations():
+            return False
         return self.do_push(
             request, force_commit=False, do_update=do_update
         )
@@ -1518,3 +1520,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not self.edit_template or not self.has_template():
             return None
         return self.translation_set.get(filename=self.template)
+
+    def get_failing_translations(self):
+        """Get the list of failing translations."""
+        return [t for t in self.translation_set.all() if t.failing_checks]
