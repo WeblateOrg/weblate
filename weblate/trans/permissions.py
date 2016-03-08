@@ -47,14 +47,16 @@ def has_group_perm(user, permission, translation=None, project=None):
     Checks whether GroupACL rules allow user to have
     given permission.
     """
-    if project is None:
+    if translation is not None:
         acls = list(GroupACL.objects.filter(
             Q(language=translation.language) |
             Q(project=translation.subproject.project) |
             Q(subproject=translation.subproject)
         ))
-    else:
+    elif project is not None:
         acls = list(GroupACL.objects.filter(project=project))
+    else:
+        return False
 
     if not acls:
         return user.has_perm(permission)
