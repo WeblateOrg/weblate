@@ -854,11 +854,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             translation,
             str(error)
         )
-        Change.objects.create(
-            subproject=self,
-            translation=translation,
-            action=Change.ACTION_PARSE_ERROR,
-        )
+        if self.id:
+            Change.objects.create(
+                subproject=self,
+                translation=translation,
+                action=Change.ACTION_PARSE_ERROR,
+            )
         raise ParseError(str(error))
 
     def update_branch(self, request=None, method=None):
