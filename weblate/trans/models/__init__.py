@@ -266,7 +266,8 @@ def user_commit_pending(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=Profile.subscriptions.through)
-def add_user_subscription(sender, instance, action, reverse, model, pk_set, **kwargs):
+def add_user_subscription(sender, instance, action, reverse, model, pk_set,
+                          **kwargs):
     if action != 'post_add':
         return
     targets = model.objects.filter(pk__in=pk_set)
