@@ -20,3 +20,4 @@ Administrators guide
     management
     whiteboard
     advertisement
+    componentlists

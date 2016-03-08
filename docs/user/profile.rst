@@ -14,6 +14,37 @@ You can register following two simple steps:
 2. Activate registration by following in email you receive
 3. Possibly adjust your profile to choose which languages you know
 
+.. _dashboard:
+
+Dashboard
+---------
+
+When you log in to Weblate, you will see an overview of projects and components
+and their translation progress.
+
+.. versionadded:: 2.5
+
+By default, this will show the components of projects you are subscribed to,
+cross-referenced with your preferred languages.  You can switch to different
+views using the drop-down menu on the highlighted button.
+
+.. image:: ../images/dashboard-dropdown.png
+
+The drop-down will have several options:
+
+- :guilabel:`All projects` will show translation status of all projects on the
+  Weblate instance.
+- :guilabel:`Your languages` will show translation status of all projects,
+  filtered by your primary languages.
+- :guilabel:`Your subscriptions` will show translation status of only those
+  projects you are subscribed to, filtered by your primary languages.
+
+In addition, the drop-down can also show any number of *component lists*, sets
+of project components preconfigured by the Weblate administrator.
+
+You can configure your preferred view in the :guilabel:`Preferences` section of
+your user profile settings.
+
 User profile
 ------------
 
@@ -39,6 +70,13 @@ Slovak language is shown as secondary:
 
 .. image:: ../images/secondary-language.png
 
+Default dashboard view
+++++++++++++++++++++++
+
+On the :guilabel:`Preferences` tab, you can pick which of the available
+dashboard views will be displayed by default. If you pick :guilabel:`Component
+list`, you have to select which component list will be displayed from the
+:guilabel:`Default component list` drop-down.
 
 .. _subscriptions:
 
