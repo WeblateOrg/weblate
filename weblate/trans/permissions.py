@@ -42,7 +42,7 @@ def check_owner(user, project, permission):
     ).exists()
 
 
-def has_group_perm(user, translation, permission):
+def has_group_perm(user, permission, translation):
     """
     Checks whether GroupACL rules allow user to have
     given permission.
@@ -114,12 +114,12 @@ def can_edit(user, translation, permission):
         return False
     if check_owner(user, translation.subproject.project, permission):
         return True
-    if not has_group_perm(user, translation, permission):
+    if not has_group_perm(user, permission, translation):
         return False
     if translation.is_template() \
-            and not has_group_perm(user, translation, 'trans.save_template'):
+            and not has_group_perm(user, 'trans.save_template', translation):
         return False
-    if (not has_group_perm(user, translation, 'trans.override_suggestion') and
+    if (not has_group_perm(user, 'trans.override_suggestion', translation) and
             translation.subproject.suggestion_voting and
             translation.subproject.suggestion_autoaccept > 0):
         return False
@@ -141,7 +141,7 @@ def can_suggest(user, translation):
     """
     if not translation.subproject.enable_suggestions:
         return False
-    if has_group_perm(user, translation, 'trans.add_suggestion'):
+    if has_group_perm(user, 'trans.add_suggestion', translation):
         return True
     return check_permission(
         user, translation.subproject.project, 'trans.add_suggestion'
@@ -176,10 +176,10 @@ def can_vote_suggestion(user, translation):
     project = translation.subproject.project
     if check_owner(user, project, 'trans.vote_suggestion'):
         return True
-    if not has_group_perm(user, translation, 'trans.vote_suggestion'):
+    if not has_group_perm(user, 'trans.vote_suggestion', translation):
         return False
     if translation.is_template() \
-            and not has_group_perm(user, translation, 'trans.save_template'):
+            and not has_group_perm(user, 'trans.save_template', translation):
         return False
     return True
 
@@ -191,7 +191,7 @@ def can_use_mt(user, translation):
     """
     if not appsettings.MACHINE_TRANSLATION_ENABLED:
         return False
-    if not has_group_perm(user, translation, 'trans.use_mt'):
+    if not has_group_perm(user, 'trans.use_mt', translation):
         return False
     if check_owner(user, translation.subproject.project, 'trans.use_mt'):
         return True
