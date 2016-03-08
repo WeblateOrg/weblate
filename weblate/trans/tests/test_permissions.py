@@ -28,7 +28,8 @@ from weblate.trans.models import (
     GroupACL, Project, Translation
 )
 from weblate.trans.permissions import (
-    check_owner, check_permission, can_delete_comment, can_edit
+    check_owner, check_permission, can_delete_comment, can_edit,
+    can_author_translation,
 )
 from weblate.trans.tests.test_models import ModelTestCase
 
@@ -164,3 +165,17 @@ class GroupACLTest(ModelTestCase):
         acl.subproject = self.subproject
         acl.clean()
         self.assertIsNone(acl.project)
+
+    def test_acl_project(self):
+        acl = GroupACL.objects.create(project=self.project)
+        acl.groups.add(self.group)
+        permission = Permission.objects.get(
+            codename='author_translation', content_type__app_label='trans'
+        )
+        self.group.permissions.add(permission)
+        self.assertFalse(
+            can_author_translation(self.user, self.project)
+        )
+        self.assertTrue(
+            can_author_translation(self.privileged, self.project)
+        )

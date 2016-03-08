@@ -42,15 +42,19 @@ def check_owner(user, project, permission):
     ).exists()
 
 
-def has_group_perm(user, permission, translation):
+def has_group_perm(user, permission, translation=None, project=None):
     """
     Checks whether GroupACL rules allow user to have
     given permission.
     """
-    acls = list(GroupACL.objects.filter(
-        Q(language=translation.language) |
-        Q(project=translation.subproject.project) |
-        Q(subproject=translation.subproject)))
+    if project is None:
+        acls = list(GroupACL.objects.filter(
+            Q(language=translation.language) |
+            Q(project=translation.subproject.project) |
+            Q(subproject=translation.subproject)
+        ))
+    else:
+        acls = list(GroupACL.objects.filter(project=project))
 
     if not acls:
         return user.has_perm(permission)
@@ -78,6 +82,7 @@ def check_permission(user, project, permission):
     Generic check for permission with owner fallback.
     """
     return (
+        has_group_perm(user, permission, project=project) or
         check_owner(user, project, permission) or
         user.has_perm(permission)
     )
