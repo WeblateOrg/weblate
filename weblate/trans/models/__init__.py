@@ -21,9 +21,10 @@
 import os
 import shutil
 
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
+from weblate.accounts.models import Profile
 from weblate.trans.models.project import Project
 from weblate.trans.models.subproject import SubProject
 from weblate.trans.models.translation import Translation
@@ -262,3 +263,16 @@ def user_commit_pending(sender, instance, **kwargs):
         last_author = translation.change_set.content()[0].author
         if last_author == instance:
             translation.commit_pending(None)
+
+
+@receiver(m2m_changed, sender=Profile.subscriptions.through)
+def add_user_subscription(sender, instance, action, reverse, model, pk_set, **kwargs):
+    if action != 'post_add':
+        return
+    targets = model.objects.filter(pk__in=pk_set)
+    if reverse:
+        for target in targets:
+            instance.add_subscription(target.user)
+    else:
+        for target in targets:
+            target.add_subscription(instance.user)
