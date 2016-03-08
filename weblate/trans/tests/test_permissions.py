@@ -179,3 +179,72 @@ class GroupACLTest(ModelTestCase):
         self.assertTrue(
             can_author_translation(self.privileged, self.project)
         )
+
+    def test_affects_unrelated(self):
+        lang_cs = Language.objects.get(code='cs')
+        lang_de = Language.objects.get(code='de')
+        trans_cs = Translation.objects.create(
+            subproject=self.subproject, language=lang_cs,
+            filename="this/is/not/a.template"
+        )
+        trans_de = Translation.objects.create(
+            subproject=self.subproject, language=lang_de,
+            filename="this/is/not/a.template"
+        )
+
+        acl = GroupACL.objects.create(language=lang_cs)
+        acl.groups.add(self.group)
+
+        self.assertTrue(can_edit(self.privileged, trans_cs, self.PERMISSION))
+        self.assertFalse(can_edit(self.user, trans_cs, self.PERMISSION))
+
+        self.assertTrue(can_edit(self.privileged, trans_de, self.PERMISSION))
+        self.assertTrue(can_edit(self.user, trans_de, self.PERMISSION))
+
+    def clear_permission_cache(self):
+        '''
+        Clear permission cache.
+
+        This is necessary when testing interaction of the built-in permissions
+        mechanism and Group ACL. The built-in mechanism will cache results
+        of `has_perm` and friends, but these can be affected by the Group ACL
+        lockout. Usually the cache will get cleared on every page request,
+        but here we need to do it manually.
+        '''
+        for cache in ('_perm_cache', '_user_perm_cache', '_group_perm_cache'):
+            delattr(self.user, cache)
+            delattr(self.privileged, cache)
+
+    def test_group_locked(self):
+        lang_cs = Language.objects.get(code='cs')
+        lang_de = Language.objects.get(code='de')
+        trans_cs = Translation.objects.create(
+            subproject=self.subproject, language=lang_cs,
+            filename="this/is/not/a.template"
+        )
+        trans_de = Translation.objects.create(
+            subproject=self.subproject, language=lang_de,
+            filename="this/is/not/a.template"
+        )
+        perm_name = 'trans.author_translation'
+
+        self.assertFalse(can_edit(self.user, trans_cs, perm_name))
+        self.assertFalse(can_edit(self.privileged, trans_cs, perm_name))
+        self.assertFalse(can_edit(self.privileged, trans_de, perm_name))
+
+        self.clear_permission_cache()
+        permission = Permission.objects.get(
+            codename='author_translation', content_type__app_label='trans'
+        )
+        self.group.permissions.add(permission)
+
+        self.assertFalse(can_edit(self.user, trans_cs, perm_name))
+        self.assertTrue(can_edit(self.privileged, trans_cs, perm_name))
+        self.assertTrue(can_edit(self.privileged, trans_de, perm_name))
+
+        self.clear_permission_cache()
+        acl = GroupACL.objects.create(language=lang_cs)
+        acl.groups.add(self.group)
+
+        self.assertTrue(can_edit(self.privileged, trans_cs, perm_name))
+        self.assertFalse(can_edit(self.privileged, trans_de, perm_name))
