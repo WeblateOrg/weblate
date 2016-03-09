@@ -26,6 +26,8 @@ To completely lock down your Weblate installation you can use
 :setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
 :setting:`REGISTRATION_OPEN` for disallowing new registrations.
 
+For more fine-grained access control, see :ref:`acl` and :ref:`groupacl`.
+
 Extra privileges
 ----------------
 
@@ -133,6 +135,64 @@ email. This automatic assignment happens only at time of account creation.
 
 This can be configured in the Django admin interface (in the
 :guilabel:`Accounts` section).
+
+.. _groupacl:
+
+Group-based access control
+--------------------------
+
+.. versionadded:: 2.5
+
+    This feature is available since Weblate 2.5.
+
+You can designate groups that have exclusive access to a particular language,
+project or component, or a combination thereof. For example, you can use this
+feature to designate a language-specific translator team with full privileges
+for their own language.
+
+This works by "locking" the group(s) in question to the object, the effect of
+which is twofold.
+
+Firstly, groups that are locked for some object are the *only* groups that have
+any privileges on that object. If a user is not a member of the locked group,
+they cannot edit the object, even if their privileges or group membership
+allows them to edit other (unlocked) objects.
+
+Secondly, privileges of the locked group don't apply on objects other than
+those to which the group is locked. If a user is a member of the locked group
+which grants them edit privileges, they can only edit the object locked to the
+group, unless something else grants them a general edit privilege.
+
+This can be configured in the Django admin interface. The recommended workflow
+is as follows:
+
+1. Create a new *group ACL* in the :guilabel:`Group ACL` section. Pick a project,
+   subproject, language, or a combination, which will be locked to this group
+   ACL.
+2. Use the ``+`` (plus sign) button to the right of :guilabel:`Groups` field
+   to create a new group. In the pop-up window, fill out the group name and
+   assign permissions.
+3. Save the newly created group ACL.
+4. In the :guilabel:`Users` section of the admin interface, assign users to the
+   newly created group.
+
+For example, you could create a group called ``czech_translators``, assign it
+full privileges, and lock it to Czech language. From that point on, all users
+in this groups would get full privileges for the Czech language in all projects
+and components, but not for any other languages. Also, users who are not
+members of the ``czech_translators`` group would get no privileges on Czech
+language in any project.
+
+In order to delete a group ACL, make sure that you first delete the group (or
+remove its privileges), and only then delete the group ACL. Otherwise, there
+will be a window of time in which the group is "unlocked" and its permissions
+apply to all objects. In our example, members of ``czech_translators`` group
+would have full privileges for everything that is not locked to other groups.
+
+It is possible to lock multiple groups within a single group ACL. One group can
+also be locked to multiple objects through multiple group ACLs. As long as
+a group is recorded in at least one group ACL, it's considered to be "locked",
+and its privileges do not apply outside the locks.
 
 Managing users and groups
 -------------------------
