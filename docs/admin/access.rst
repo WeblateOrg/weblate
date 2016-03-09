@@ -194,6 +194,15 @@ also be locked to multiple objects through multiple group ACLs. As long as
 a group is recorded in at least one group ACL, it's considered to be "locked",
 and its privileges do not apply outside the locks.
 
+Group ACLs apply in order of specificity. "Component" is considered most
+specific, "Language" is least specific. Combinations follow the most specific
+part of the combination: a group ACL that is locked to a particular component
+is more specific than a group ACL locked to this component's project and
+a particular language. That means that members of the component-specific groups
+will have privileges on the component, and members of the
+project-and-language-specific groups will not. The latter will, of course, have
+privileges on their language in all other components of the project.
+
 Managing users and groups
 -------------------------
 
