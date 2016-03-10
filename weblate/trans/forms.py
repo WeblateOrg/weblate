@@ -794,7 +794,24 @@ class EnageLanguageForm(forms.Form):
         self.fields['lang'].choices += choices
 
 
-class NewLanguageForm(forms.Form):
+class NewLanguageOwnerForm(forms.Form):
+    '''
+    Form for requesting new language.
+    '''
+    lang = forms.MultipleChoiceField(
+        label=_('Languages'),
+        choices=[]
+    )
+
+    def __init__(self, component, *args, **kwargs):
+        super(NewLanguageOwnerForm, self).__init__(*args, **kwargs)
+        languages = Language.objects.exclude(translation__subproject=component)
+        self.fields['lang'].choices = sort_choices([
+            (l.code, force_text(l)) for l in languages
+        ])
+
+
+class NewLanguageForm(NewLanguageOwnerForm):
     '''
     Form for requesting new language.
     '''
@@ -803,12 +820,20 @@ class NewLanguageForm(forms.Form):
         choices=[]
     )
 
-    def __init__(self, *args, **kwargs):
-        super(NewLanguageForm, self).__init__(*args, **kwargs)
-        choices = sort_choices([('', _('Please select'))] + [
-            (l.code, force_text(l)) for l in Language.objects.all()
-        ])
-        self.fields['lang'].choices = choices
+    def __init__(self, component, *args, **kwargs):
+        super(NewLanguageForm, self).__init__(component, *args, **kwargs)
+        self.fields['lang'].choices = (
+            [('', _('Please select'))] + self.fields['lang'].choices
+        )
+
+
+def get_new_language_form(request, component):
+    """Returns new language form for user"""
+    if request.user.is_superuser:
+        return NewLanguageOwnerForm
+    if component.project.owners.filter(id=request.user.id).exists():
+        return NewLanguageOwnerForm
+    return NewLanguageForm
 
 
 class PriorityForm(forms.Form):

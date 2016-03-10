@@ -230,7 +230,10 @@ class ViewTestCase(RepoTestCase):
 
 class NewLangTest(ViewTestCase):
     def create_subproject(self):
-        return self.create_po_new_base()
+        subproject = self.create_po_new_base()
+        subproject.new_lang = 'add'
+        subproject.save()
+        return subproject
 
     def test_none(self):
         self.subproject.new_lang = 'none'
@@ -280,9 +283,6 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add(self):
-        self.subproject.new_lang = 'add'
-        self.subproject.save()
-
         self.assertFalse(
             self.subproject.translation_set.filter(
                 language__code='af'
@@ -317,7 +317,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Please choose the language'
+            'Invalid language chosen'
         )
 
         # Existing language
@@ -328,7 +328,45 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Chosen translation already exists'
+            'Invalid language chosen'
+        )
+
+    def test_add_owner(self):
+        self.subproject.project.owners.add(self.user)
+        # None chosen
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Invalid language chosen'
+        )
+        # One chosen
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+            follow=True
+        )
+        self.assertNotContains(
+            response,
+            'Invalid language chosen'
+        )
+        # More chosen
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': ['nl', 'fr', 'uk']},
+            follow=True
+        )
+        self.assertNotContains(
+            response,
+            'Invalid language chosen'
+        )
+        self.assertEqual(
+            self.subproject.translation_set.filter(
+                language__code__in=('af', 'nl', 'fr', 'uk')
+            ).count(),
+            4
         )
 
 

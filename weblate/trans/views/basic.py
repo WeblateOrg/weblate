@@ -20,6 +20,7 @@
 
 import datetime
 
+from six import string_types
 from six.moves.urllib.parse import urlencode
 
 from django.shortcuts import redirect
@@ -40,7 +41,7 @@ from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
-    AutoForm, ReviewForm, NewLanguageForm,
+    AutoForm, ReviewForm, get_new_language_form,
     UserManageForm, ReportsForm,
 )
 from weblate.trans.permissions import can_automatic_translation
@@ -299,7 +300,7 @@ def show_subproject(request, project, subproject):
         translation__subproject=obj
     )[:10]
 
-    new_lang_form = NewLanguageForm()
+    new_lang_form = get_new_language_form(request, obj)(obj)
 
     return render(
         request,
@@ -511,34 +512,29 @@ def data_project(request, project):
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    form = NewLanguageForm(request.POST)
+    form = get_new_language_form(request, obj)(obj, request.POST)
 
     if form.is_valid():
-        language = Language.objects.get(code=form.cleaned_data['lang'])
-        same_lang = obj.translation_set.filter(language=language)
-        if same_lang.exists():
-            messages.error(
-                request,
-                _('Chosen translation already exists in this project!')
-            )
-        elif obj.new_lang == 'contact':
-            notify_new_language(obj, language, request.user)
-            messages.success(
-                request,
-                _(
-                    "A request for a new translation has been "
-                    "sent to the project's maintainers."
+        langs = form.cleaned_data['lang']
+        if isinstance(langs, string_types):
+            langs = [langs]
+        for language in Language.objects.filter(code__in=langs):
+            same_lang = obj.translation_set.filter(language=language)
+            if obj.new_lang == 'contact':
+                notify_new_language(obj, language, request.user)
+                messages.success(
+                    request,
+                    _(
+                        "A request for a new translation has been "
+                        "sent to the project's maintainers."
+                    )
                 )
-            )
-        elif obj.new_lang == 'add':
-            obj.add_new_language(language, request)
+            elif obj.new_lang == 'add':
+                obj.add_new_language(language, request)
     else:
         messages.error(
             request,
-            _(
-                'Please choose the language into which '
-                'you would like to translate.'
-            )
+            _('Invalid language chosen!')
         )
 
     return redirect(obj)

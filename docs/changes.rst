@@ -46,6 +46,7 @@ Released on ? 2016.
 * Added XLIFF and Gettext PO export for all translations.
 * Documentation improvements.
 * Added support for configurable automatic group assignments.
+* Improved adding of new translations.
 
 weblate 2.4
 -----------
