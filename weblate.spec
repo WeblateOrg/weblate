@@ -76,6 +76,7 @@ List of features includes:
 mkdir data-test
 cd data-test
 tar xvf %{SOURCE1}
+mv Weblate-test-%{version}/* .
 cd ..
 
 %build
