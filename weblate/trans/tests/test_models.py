@@ -157,6 +157,9 @@ class RepoTestCase(TestCase):
             repo = self.git_repo_path
             push = self.git_repo_path
 
+        if 'new_lang' not in kwargs:
+            kwargs['new_lang'] = 'contact'
+
         return SubProject.objects.create(
             name='Test',
             slug='test',
@@ -170,7 +173,6 @@ class RepoTestCase(TestCase):
             repoweb=REPOWEB_URL,
             save_history=True,
             new_base=new_base,
-            new_lang='contact',
             vcs=vcs,
             **kwargs
         )
