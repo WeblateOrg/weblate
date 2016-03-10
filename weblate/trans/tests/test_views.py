@@ -229,11 +229,13 @@ class ViewTestCase(RepoTestCase):
 
 
 class NewLangTest(ViewTestCase):
+    def setUp(self):
+        super(NewLangTest, self).setUp()
+        self.subproject.new_lang = 'add'
+        self.subproject.save()
+
     def create_subproject(self):
-        subproject = self.create_po_new_base()
-        subproject.new_lang = 'add'
-        subproject.save()
-        return subproject
+        return self.create_po_new_base()
 
     def test_none(self):
         self.subproject.new_lang = 'none'
