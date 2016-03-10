@@ -11,7 +11,7 @@ License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
 Url:            https://weblate.org/
 Source0:        http://dl.cihar.com/weblate/%{_name}-%{version}.tar.xz
-Source1:        test-base-repo.tar.bz2
+Source1:        %{_name}-test-%{version}.tar.xz
 BuildRequires:  bitstream-vera
 BuildRequires:  git
 BuildRequires:  graphviz
