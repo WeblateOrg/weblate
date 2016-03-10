@@ -330,6 +330,7 @@ class RepoTestCase(TestCase):
             repo='weblate://test/test',
             file_format='po',
             filemask='po/*.po',
+            new_lang='contact',
         )
 
 
