@@ -170,6 +170,7 @@ class RepoTestCase(TestCase):
             repoweb=REPOWEB_URL,
             save_history=True,
             new_base=new_base,
+            new_lang='contact',
             vcs=vcs,
             **kwargs
         )
