@@ -375,7 +375,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name=ugettext_lazy('New translation'),
         max_length=10,
         choices=NEW_LANG_CHOICES,
-        default='contact',
+        default='add',
         help_text=ugettext_lazy(
             'How to handle requests for creating new translations. '
             'Please note that availability of choices depends on '
