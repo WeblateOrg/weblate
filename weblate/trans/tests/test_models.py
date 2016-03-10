@@ -47,8 +47,8 @@ from weblate.trans.search import clean_indexes
 
 REPOWEB_URL = \
     'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
-GIT_URL = 'git://github.com/nijel/weblate-test.git'
-HG_URL = 'https://nijel@bitbucket.org/nijel/weblate-test'
+GIT_URL = 'https://github.com/nijel/weblate-test.git'
+HG_URL = 'https://bitbucket.org/nijel/weblate-test'
 
 
 class RepoTestCase(TestCase):
