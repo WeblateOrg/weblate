@@ -519,7 +519,6 @@ def new_language(request, project, subproject):
         if isinstance(langs, string_types):
             langs = [langs]
         for language in Language.objects.filter(code__in=langs):
-            same_lang = obj.translation_set.filter(language=language)
             if obj.new_lang == 'contact':
                 notify_new_language(obj, language, request.user)
                 messages.success(
