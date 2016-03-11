@@ -203,6 +203,10 @@ will have privileges on the component, and members of the
 project-and-language-specific groups will not. The latter will, of course, have
 privileges on their language in all other components of the project.
 
+For project-level actions (such as pushing upstream, setting priority, etc.),
+you must create a group ACL locked to *only* the project. Combinations, such
+as project plus language, only apply to actions on individual translations.
+
 Managing users and groups
 -------------------------
 
