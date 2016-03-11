@@ -248,3 +248,26 @@ class GroupACLTest(ModelTestCase):
 
         self.assertTrue(can_edit(self.privileged, trans_cs, perm_name))
         self.assertFalse(can_edit(self.privileged, trans_de, perm_name))
+
+    def test_project_specific(self):
+        permission = Permission.objects.get(
+            codename='author_translation', content_type__app_label='trans'
+        )
+        self.group.permissions.add(permission)
+
+        acl_project_lang = GroupACL.objects.create(
+            language=self.language,
+            project=self.project
+        )
+        acl_project_lang.groups.add(self.group)
+
+        self.assertFalse(check_permission(
+            self.privileged, self.project, 'trans.author_translation'
+        ))
+
+        acl_project_only = GroupACL.objects.create(project=self.project)
+        acl_project_only.groups.add(self.group)
+
+        self.assertTrue(check_permission(
+            self.privileged, self.project, 'trans.author_translation'
+        ))
