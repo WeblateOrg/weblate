@@ -434,13 +434,11 @@ def register(request):
     else:
         form = form_class()
 
-    backends = list(load_backends(BACKENDS).keys())
+    backends = set(load_backends(BACKENDS).keys())
 
     # Redirect if there is only one backend
-    if len(backends) == 1 and backends[0] != 'email':
-        return redirect('social:begin', backends[0])
-
-    backends = set(backends)
+    if len(backends) == 1 and 'email' not in backends:
+        return redirect('social:begin', backends.pop())
 
     return render(
         request,
