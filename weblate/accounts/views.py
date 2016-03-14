@@ -434,7 +434,7 @@ def register(request):
     else:
         form = form_class()
 
-    backends = load_backends(BACKENDS).keys()
+    backends = list(load_backends(BACKENDS).keys())
 
     # Redirect if there is only one backend
     if len(backends) == 1 and backends[0] != 'email':
