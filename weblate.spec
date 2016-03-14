@@ -30,7 +30,7 @@ BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
 BuildRequires:  python-whoosh >= 2.5.2
-BuildRequires:  translate-toolkit >= 1.14.0
+BuildRequires:  translate-toolkit >= 1.14.0rc1
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
