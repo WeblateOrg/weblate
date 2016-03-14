@@ -42,7 +42,7 @@ Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
 Requires:       python-whoosh >= 2.5.2
-Requires:       translate-toolkit >= 1.14.0
+Requires:       translate-toolkit >= 1.14.0rc1
 Recommends:     python-MySQL-python
 Recommends:     python-psycopg2
 Recommends:     python-pyuca
