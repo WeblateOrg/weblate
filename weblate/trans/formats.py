@@ -351,6 +351,11 @@ class XliffUnit(FileUnit):
     XLIFF is special in ttkit - it uses locations for what
     is context in other formats.
     """
+
+    @staticmethod
+    def get_unit_context(unit):
+        return unit.getid().replace(ID_SEPARATOR, '///')
+
     def get_context(self):
         '''
         Returns context of message. In some cases we have to use
@@ -358,7 +363,7 @@ class XliffUnit(FileUnit):
         '''
         if self.template is not None:
             return self.template.source
-        return self.mainunit.getid().replace(ID_SEPARATOR, '///')
+        return self.get_unit_context(self.mainunit)
 
     def get_locations(self):
         '''
@@ -990,15 +995,14 @@ class XliffFormat(FileFormat):
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
 
+
     def _find_unit_bilingual(self, context, source):
         # Find all units with same source
         found_units = self.store.findunits(source)
         # Find is broken for propfile, ignore results
         for ttkit_unit in found_units:
             # Does context match?
-            found_context = ttkit_unit.getid().replace(
-                ID_SEPARATOR, '///'
-            )
+            found_context = XliffUnit.get_unit_context(ttkit_unit)
             if found_context == context:
                 return (self.unit_class(ttkit_unit), False)
         return (None, False)
