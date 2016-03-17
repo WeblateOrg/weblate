@@ -34,6 +34,7 @@ from django.conf import settings
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
+from weblate import appsettings
 from weblate.logger import LOGGER
 from weblate.trans.data import data_dir
 
@@ -44,6 +45,44 @@ except ImportError:
     HAS_ROLLBAR = False
 
 PLURAL_SEPARATOR = '\x1e\x1e'
+
+
+class ClassLoader(object):
+    """Dict like object to lazy load list of classes.
+    """
+    def __init__(self, name):
+        self.name = name
+        self._data = None
+
+    @property
+    def data(self):
+        if self._data is None:
+            self._data = {}
+            for path in getattr(appsettings, self.name):
+                obj = load_class(path, self.name)()
+                self._data[obj.get_identifier()] = obj
+        return self._data
+
+    def __getitem__(self, key):
+        return self.data.__getitem__(key)
+
+    def __setitem__(self, key, value):
+        self.data.__setitem__(key, value)
+
+    def items(self):
+        return self.data.items()
+
+    def keys(self):
+        return self.data.keys()
+
+    def __iter__(self):
+        return self.data.__iter__()
+
+    def __len__(self):
+        return self.data.__len__()
+
+    def __contains__(self, item):
+        return self.data.__contains__(item)
 
 
 def calculate_checksum(source, context):

@@ -19,7 +19,7 @@
 #
 
 from weblate import appsettings
-from weblate.trans.util import load_class
+from weblate.trans.util import ClassLoader
 
 
 def highlight_string(source, unit):
@@ -53,7 +53,4 @@ def highlight_string(source, unit):
 
 
 # Initialize checks list
-CHECKS = {}
-for path in appsettings.CHECK_LIST:
-    cls = load_class(path, 'CHECK_LIST')
-    CHECKS[cls.check_id] = cls()
+CHECKS = ClassLoader('CHECK_LIST')

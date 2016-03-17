@@ -65,6 +65,9 @@ class MachineTranslation(object):
         self.request_url = None
         self.request_params = None
 
+    def get_identifier(self):
+        return self.mtid
+
     def authenticate(self, request):
         '''
         Hook for backends to allow add authentication headers to request.

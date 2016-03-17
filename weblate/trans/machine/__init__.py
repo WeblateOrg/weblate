@@ -19,10 +19,7 @@
 #
 
 from weblate import appsettings
-from weblate.trans.util import load_class
+from weblate.trans.util import ClassLoader
 
 # Initialize checks list
-MACHINE_TRANSLATION_SERVICES = {}
-for path in appsettings.MACHINE_TRANSLATION_SERVICES:
-    obj = load_class(path, 'MACHINE_TRANSLATION_SERVICES')()
-    MACHINE_TRANSLATION_SERVICES[obj.mtid] = obj
+MACHINE_TRANSLATION_SERVICES = ClassLoader('MACHINE_TRANSLATION_SERVICES')

@@ -23,6 +23,11 @@ class AutoFix(object):
     '''
     Base class for AutoFixes
     '''
+    fix_id = 'auto'
+
+    def get_identifier(self):
+        return self.fix_id
+
     def fix_single_target(self, target, source, unit):
         '''
         Fix a single target, implement this method in subclasses.

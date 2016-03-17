@@ -30,6 +30,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
     Replace Trailing Dots with an Ellipsis.
     '''
 
+    fix_id = 'end-ellipsis'
     name = _('Trailing ellipsis')
 
     def fix_single_target(self, target, source, unit):
@@ -43,6 +44,7 @@ class RemoveZeroSpace(AutoFix):
     Remove zero width space if there is none in the source.
     '''
 
+    fix_id = 'zero-width-space'
     name = _('Zero-width space')
 
     def fix_single_target(self, target, source, unit):

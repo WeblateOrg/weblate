@@ -23,11 +23,9 @@ a sortable data object so fixes are applied in desired order.
 '''
 
 from weblate import appsettings
-from weblate.trans.util import load_class
+from weblate.trans.util import ClassLoader
 
-autofixes = []
-for path in appsettings.AUTOFIX_LIST:
-    autofixes.append(load_class(path, 'AUTOFIX_LIST')())
+AUTOFIXES = ClassLoader('AUTOFIX_LIST')
 
 
 def fix_target(target, unit):
@@ -35,7 +33,7 @@ def fix_target(target, unit):
     Apply each autofix to the target translation.
     '''
     fixups = []
-    for fix in autofixes:
+    for dummy, fix in AUTOFIXES.items():
         target, fixed = fix.fix_target(target, unit)
         if fixed:
             fixups.append(fix.name)

@@ -35,6 +35,9 @@ class Check(object):
     severity = 'info'
     enable_check_value = False
 
+    def get_identifier(self):
+        return self.check_id
+
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
         self.doc_id = 'check-%s' % id_dash

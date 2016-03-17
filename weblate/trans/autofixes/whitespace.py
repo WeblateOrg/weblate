@@ -33,6 +33,7 @@ class SameBookendingWhitespace(AutoFix):
     Help non-techy translators with their whitespace
     '''
 
+    fix_id = 'end-whitespace'
     name = _('Trailing and leading whitespace')
 
     def fix_single_target(self, target, source, unit):
