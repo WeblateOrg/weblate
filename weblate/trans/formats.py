@@ -630,6 +630,10 @@ class FileFormat(object):
         '''
         self.store.save()
 
+    def find_matching(self, template_unit):
+        """Finds matching store unit for template"""
+        return self.store.findid(template_unit.getid())
+
     def all_units(self):
         '''
         Generator of all units.
@@ -644,7 +648,7 @@ class FileFormat(object):
 
                 # Create wrapper object (not translated)
                 yield self.unit_class(
-                    self.store.findid(template_unit.getid()),
+                    self.find_matching(template_unit),
                     template_unit
                 )
 
@@ -995,6 +999,12 @@ class XliffFormat(FileFormat):
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
 
+    def find_matching(self, template_unit):
+        """Finds matching store unit for template"""
+        return self._find_unit_mono(
+            template_unit.source,
+            self.store
+        )
 
     def _find_unit_bilingual(self, context, source):
         # Find all units with same source
