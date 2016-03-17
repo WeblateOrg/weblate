@@ -25,6 +25,7 @@ from __future__ import unicode_literals
 
 from io import BytesIO
 import os.path
+import inspect
 import re
 import csv
 import traceback
@@ -35,13 +36,14 @@ import six
 from django.utils.translation import ugettext_lazy as _
 
 from translate.convert import po2php
+from translate.storage.base import TranslationStore
 from translate.storage.lisa import LISAfile
 from translate.storage.properties import propunit, propfile
-from translate.storage.xliff import xliffunit, xlifffile, ID_SEPARATOR
+from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.misc import quote
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
-from translate.storage.php import phpunit
+from translate.storage.php import phpunit, phpfile
 from translate.storage.ts2 import tsunit, tsfile
 from translate.storage import mo
 from translate.storage import factory
@@ -475,6 +477,9 @@ class FileFormat(object):
         """
         Returns class for handling this module.
         """
+        # Direct class
+        if inspect.isclass(cls.loader):
+            return cls.loader
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
         if '.' not in module_name:
@@ -833,7 +838,7 @@ class AutoFormat(FileFormat):
 class PoFormat(FileFormat):
     name = _('Gettext PO file')
     format_id = 'po'
-    loader = ('po', 'pofile')
+    loader = pofile
     monolingual = False
     autoload = ('.po', '.pot')
 
@@ -940,7 +945,6 @@ class PoFormat(FileFormat):
 class PoMonoFormat(PoFormat):
     name = _('Gettext PO file (monolingual)')
     format_id = 'po-mono'
-    loader = ('po', 'pofile')
     monolingual = True
 
 
@@ -948,7 +952,7 @@ class PoMonoFormat(PoFormat):
 class TSFormat(FileFormat):
     name = _('Qt Linguist Translation File')
     format_id = 'ts'
-    loader = ('ts2', 'tsfile')
+    loader = tsfile
     autoload = ('.ts',)
     unit_class = MonolingualIDUnit
 
@@ -983,7 +987,7 @@ class TSFormat(FileFormat):
 class XliffFormat(FileFormat):
     name = _('XLIFF Translation File')
     format_id = 'xliff'
-    loader = ('xliff', 'xlifffile')
+    loader = xlifffile
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
 
@@ -1091,7 +1095,7 @@ class PropertiesFormat(PropertiesUtf8Format):
 class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'
-    loader = ('php', 'phpfile')
+    loader = phpfile
     new_translation = '<?php\n'
     autoload = ('.php',)
     unit_class = PHPUnit
