@@ -564,18 +564,8 @@ class FileFormat(object):
         # Find is broken for propfile, ignore results
         if len(found_units) > 0 and not isinstance(self.store, propfile):
             for ttkit_unit in found_units:
-                # XLIFF is special in ttkit - it uses locations for what
-                # is context in other formats
-                if isinstance(ttkit_unit, xliffunit):
-                    ttkit_unit_context = ttkit_unit.getlocations()
-                    if len(ttkit_unit.getlocations()) == 0:
-                        ttkit_unit_context = ''
-                    else:
-                        ttkit_unit_context = ttkit_unit.getlocations()[0]
-                else:
-                    ttkit_unit_context = ttkit_unit.getcontext()
                 # Does context match?
-                if ttkit_unit_context == context:
+                if ttkit_unit.getcontext() == context:
                     return (self.unit_class(ttkit_unit), False)
         else:
             # Fallback to manual find for value based files
@@ -996,6 +986,19 @@ class XliffFormat(FileFormat):
     loader = ('xliff', 'xlifffile')
     autoload = ('.xlf', '.xliff')
     unit_class = XliffUnit
+
+    def _find_unit_bilingual(self, context, source):
+        # Find all units with same source
+        found_units = self.store.findunits(source)
+        # Find is broken for propfile, ignore results
+        for ttkit_unit in found_units:
+            # Does context match?
+            found_context = ttkit_unit.getid().replace(
+                ID_SEPARATOR, '///'
+            )
+            if found_context == context:
+                return (self.unit_class(ttkit_unit), False)
+        return (None, False)
 
     @classmethod
     def supports_new_language(cls):

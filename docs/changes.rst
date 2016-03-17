@@ -7,6 +7,7 @@ weblate 2.6
 Released on ? 2016.
 
 * Fixed validation of subprojects with language filter.
+* Improved support for XLIFF files.
 
 weblate 2.5
 -----------

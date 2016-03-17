@@ -412,6 +412,13 @@ class EditJavaTest(EditTest):
         return self.create_java()
 
 
+class EditXliffComplexTest(EditTest):
+    has_plurals = False
+
+    def create_subproject(self):
+        return self.create_xliff('complex')
+
+
 class EditXliffTest(EditTest):
     has_plurals = False
 

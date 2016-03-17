@@ -201,6 +201,10 @@ class SubProjectTest(RepoTestCase):
         project = self.create_xliff()
         self.verify_subproject(project, 1, 'cs', 4)
 
+    def test_create_xliff_complex(self):
+        project = self.create_xliff('complex')
+        self.verify_subproject(project, 1, 'cs', 4)
+
     def test_create_xliff_mono(self):
         project = self.create_xliff_mono()
         self.verify_subproject(project, 2, 'cs', 4)
