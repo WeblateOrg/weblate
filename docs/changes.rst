@@ -6,6 +6,8 @@ weblate 2.6
 
 Released on ? 2016.
 
+* Fixed validation of subprojects with language filter.
+
 weblate 2.5
 -----------
 

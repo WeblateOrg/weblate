@@ -942,21 +942,28 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_mask_matches(self):
         """Returns files matching current mask."""
         prefix = os.path.join(self.get_path(), '')
-        matches = set([
-            f.replace(prefix, '')
-            for f in glob(os.path.join(self.get_path(), self.filemask))
-        ])
+        matches = set()
+        for f in glob(os.path.join(self.get_path(), self.filemask)):
+            path = f.replace(prefix, '')
+            code = self.get_lang_code(path)
+            if re.match(self.language_regex, code):
+                matches.add(path)
+            else:
+                self.log_info('skipping language %s [%s]', code, path)
+
         # We want to list template among translations as well
         if self.has_template():
             if self.edit_template:
                 matches.add(self.template)
             else:
                 matches.discard(self.template)
+
         # Remove symlinked translations
         for filename in list(matches):
             resolved = self.repository.resolve_symlinks(filename)
             if resolved != filename and resolved in matches:
                 matches.discard(filename)
+
         return sorted(matches)
 
     def create_translations(self, force=False, langs=None, request=None,
@@ -965,15 +972,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         translations = set()
         languages = set()
         matches = self.get_mask_matches()
-        language_re = re.compile(self.language_regex)
         for pos, path in enumerate(matches):
             with transaction.atomic():
                 code = self.get_lang_code(path)
                 if langs is not None and code not in langs:
                     self.log_info('skipping %s', path)
-                    continue
-                if not language_re.match(code):
-                    self.log_info('skipping language %s', code)
                     continue
 
                 self.log_info(
@@ -1252,13 +1255,19 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Template validation
         self.clean_template()
 
-        matches = self.get_mask_matches()
+        try:
+            matches = self.get_mask_matches()
 
-        # Verify language codes
-        self.clean_lang_codes(matches)
+            # Verify language codes
+            self.clean_lang_codes(matches)
 
-        # Try parsing files
-        self.clean_files(matches)
+            # Try parsing files
+            self.clean_files(matches)
+        except re.error:
+            raise ValidationError(_(
+                'Can not validate file matches due to invalid '
+                'regullar expression.'
+            ))
 
         # New language options
         self.clean_new_lang()
