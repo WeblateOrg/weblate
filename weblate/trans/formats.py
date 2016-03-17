@@ -36,16 +36,15 @@ import six
 from django.utils.translation import ugettext_lazy as _
 
 from translate.convert import po2php
-from translate.storage.base import TranslationStore
-from translate.storage.lisa import LISAfile
-from translate.storage.properties import propunit, propfile
-from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.misc import quote
+from translate.storage.lisa import LISAfile
+from translate.storage.mo import mofile, mounit
+from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
-from translate.storage.php import phpunit, phpfile
+from translate.storage.properties import propunit, propfile
 from translate.storage.ts2 import tsunit, tsfile
-from translate.storage import mo
+from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
@@ -846,11 +845,11 @@ class PoFormat(FileFormat):
         '''
         Generates compiled messages file.
         '''
-        outputfile = mo.mofile()
+        outputfile = mofile()
         for unit in self.store.units:
             if not unit.istranslated() and not unit.isheader():
                 continue
-            mounit = mo.mounit()
+            mounit = mounit()
             if unit.isheader():
                 mounit.source = ""
             else:
