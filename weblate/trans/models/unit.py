@@ -853,7 +853,7 @@ class Unit(models.Model, LoggerMixin):
 
         Returns tuple of checks to run and whether to do cleanup.
         """
-        checks_to_run = CHECKS
+        checks_to_run = CHECKS.data
         cleanup_checks = True
 
         if (not same_state or is_new) and not self.translated:

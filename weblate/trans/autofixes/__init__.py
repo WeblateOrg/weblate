@@ -22,7 +22,6 @@ Import all the autofixes defined in settings.  Note, unlike checks, using
 a sortable data object so fixes are applied in desired order.
 '''
 
-from weblate import appsettings
 from weblate.trans.util import ClassLoader
 
 AUTOFIXES = ClassLoader('AUTOFIX_LIST')

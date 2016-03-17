@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate import appsettings
 from weblate.trans.util import ClassLoader
 
 # Initialize checks list
