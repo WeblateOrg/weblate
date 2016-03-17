@@ -858,16 +858,16 @@ class PoFormat(FileFormat):
         for unit in self.store.units:
             if not unit.istranslated() and not unit.isheader():
                 continue
-            mounit = mounit()
+            outunit = mounit()
             if unit.isheader():
-                mounit.source = ""
+                outunit.source = ""
             else:
-                mounit.source = unit.source
+                outunit.source = unit.source
                 context = unit.getcontext()
                 if context:
-                    mounit.msgctxt = [context]
-            mounit.target = unit.target
-            outputfile.addunit(mounit)
+                    outunit.msgctxt = [context]
+            outunit.target = unit.target
+            outputfile.addunit(outunit)
         return self.serialize(outputfile)
 
     def get_language_pack_meta(self):
