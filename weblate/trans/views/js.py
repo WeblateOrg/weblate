@@ -23,7 +23,6 @@ from django.http import (
     HttpResponse, HttpResponseBadRequest, Http404, JsonResponse,
 )
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import login_required
 from django.utils.encoding import force_text
 
 from weblate.trans.models import Unit, Check, Change
@@ -118,7 +117,6 @@ def get_unit_changes(request, unit_id):
     )
 
 
-@login_required
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
 
@@ -132,7 +130,6 @@ def ignore_check(request, check_id):
     return HttpResponse('ok')
 
 
-@login_required
 def git_status_project(request, project):
     obj = get_project(request, project)
 
@@ -159,7 +156,6 @@ def git_status_project(request, project):
     )
 
 
-@login_required
 def git_status_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
@@ -185,7 +181,6 @@ def git_status_subproject(request, project, subproject):
     )
 
 
-@login_required
 def git_status_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
