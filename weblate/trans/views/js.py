@@ -56,7 +56,6 @@ def get_string(request, unit_id):
     return HttpResponse(unit.get_source_plurals()[plural])
 
 
-@login_required
 def translate(request, unit_id):
     '''
     AJAX handler for translating.
