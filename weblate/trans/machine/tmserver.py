@@ -56,7 +56,7 @@ class TMServerTranslation(MachineTranslation):
         '''
         return language.replace('-', '_').lower()
 
-    def is_supported(self, language):
+    def is_supported(self, source, language):
         '''
         Any language is supported.
         '''

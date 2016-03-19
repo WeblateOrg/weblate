@@ -31,7 +31,7 @@ class DummyTranslation(MachineTranslation):
         '''
         Dummy translation supports just Czech language.
         '''
-        return set(('cs',))
+        return ('en', 'cs')
 
     def download_translations(self, source, language, text, unit, user):
         '''

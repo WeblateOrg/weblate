@@ -34,7 +34,13 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         return language.replace('_', '-').lower()
 
-    def is_supported(self, language):
+    def is_supported(self, source, language):
+        '''
+        Checks whether given language combination is supported.
+        '''
+        return self.lang_supported(source) and self.lang_supported(language)
+
+    def lang_supported(self, language):
         '''
         Almost any language without modifiers is supported.
         '''

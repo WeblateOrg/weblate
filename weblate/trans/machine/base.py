@@ -213,11 +213,14 @@ class MachineTranslation(object):
 
         return languages
 
-    def is_supported(self, language):
+    def is_supported(self, source, language):
         '''
         Checks whether given language combination is supported.
         '''
-        return language in self.supported_languages
+        return (
+            language in self.supported_languages and
+            source in self.supported_languages
+        )
 
     def translate(self, language, text, unit, user):
         '''
@@ -227,13 +230,10 @@ class MachineTranslation(object):
             return []
 
         language = self.convert_language(language)
-        if not self.is_supported(language):
-            return []
-
         source = self.convert_language(
             unit.translation.subproject.project.source_language.code
         )
-        if not self.is_supported(source):
+        if not self.is_supported(source, language):
             return []
 
         try:

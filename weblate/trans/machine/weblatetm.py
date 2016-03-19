@@ -39,7 +39,7 @@ class WeblateBase(MachineTranslation):
     """Base class for Weblate based MT"""
     # pylint: disable=W0223
 
-    def is_supported(self, language):
+    def is_supported(self, source, language):
         '''
         Any language is supported.
         '''

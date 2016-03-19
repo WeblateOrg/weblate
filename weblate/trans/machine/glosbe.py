@@ -33,7 +33,7 @@ class GlosbeTranslation(MachineTranslation):
         '''
         return language.replace('_', '-').split('-')[0].lower()
 
-    def is_supported(self, language):
+    def is_supported(self, source, language):
         '''
         Any language is supported.
         '''

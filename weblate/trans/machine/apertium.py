@@ -39,9 +39,16 @@ class ApertiumTranslation(MachineTranslation):
         Downloads list of supported languages from a service.
         '''
         data = self.json_status_req('http://api.apertium.org/json/listPairs')
-        return [item['targetLanguage']
-                for item in data['responseData']
-                if item['sourceLanguage'] == appsettings.SOURCE_LANGUAGE]
+        return [
+            (item['sourceLanguage'], item['targetLanguage'])
+            for item in data['responseData']
+        ]
+
+    def is_supported(self, source, language):
+        '''
+        Checks whether given language combination is supported.
+        '''
+        return (source, language) in self.supported_languages
 
     def download_translations(self, source, language, text, unit, user):
         '''

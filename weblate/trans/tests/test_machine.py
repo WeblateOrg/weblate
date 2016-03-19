@@ -19,9 +19,13 @@
 #
 
 from __future__ import unicode_literals
-import httpretty
+import json
+
 from django.test import TestCase
 from django.core.cache import cache
+
+import httpretty
+
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
@@ -36,6 +40,7 @@ from weblate.trans.machine.google import (
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
+from weblate.trans.tests.test_checks import MockUnit
 
 GLOSBE_JSON = '''
 {
@@ -96,26 +101,26 @@ class MachineTranslationTest(TestCase):
     '''
     def test_support(self):
         machine_translation = DummyTranslation()
-        self.assertTrue(machine_translation.is_supported('cs'))
-        self.assertFalse(machine_translation.is_supported('de'))
+        self.assertTrue(machine_translation.is_supported('en', 'cs'))
+        self.assertFalse(machine_translation.is_supported('en', 'de'))
 
     def test_translate(self):
         machine_translation = DummyTranslation()
         self.assertEqual(
-            machine_translation.translate('cs', 'Hello', None, None),
+            machine_translation.translate('cs', 'Hello', MockUnit(), None),
             []
         )
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    'cs', 'Hello, world!', None, None
+                    'cs', 'Hello, world!', MockUnit(), None
                 )
             ),
             2
         )
 
     def assertTranslate(self, machine, lang='cs', word='world', empty=False):
-        translation = machine.translate(lang, word, None, None)
+        translation = machine.translate(lang, word, MockUnit(), None)
         self.assertIsInstance(translation, list)
         if not empty:
             self.assertTrue(len(translation) > 0)
@@ -124,7 +129,7 @@ class MachineTranslationTest(TestCase):
     def test_glosbe(self):
         httpretty.register_uri(
             httpretty.GET,
-            'http://glosbe.com/gapi/translate',
+            'https://glosbe.com/gapi/translate',
             body=GLOSBE_JSON
         )
         machine = GlosbeTranslation()
@@ -195,7 +200,13 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/languages',
-            body=b'{"data": {"languages": [ { "language": "cs" }]}}'
+            body=json.dumps(
+                {
+                    'data': {
+                        'languages': [{'language': 'en'}, {'language': 'cs'}]
+                    }
+                }
+            )
         )
         httpretty.register_uri(
             httpretty.GET,

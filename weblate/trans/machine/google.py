@@ -86,9 +86,9 @@ class GoogleWebTranslation(MachineTranslation):
     '''
     name = 'Google Translate'
 
-    def is_supported(self, language):
+    def is_supported(self, source, language):
         '''
-        Any language is supported.
+        Checks whether given language combination is supported.
         '''
         return True
 
@@ -100,7 +100,7 @@ class GoogleWebTranslation(MachineTranslation):
             'http://translate.google.com/translate_a/single',
             client='t',
             q=text.encode('utf-8'),
-            sl=souce,
+            sl=source,
             tl=language,
             ie='UTF-8',
             oe='UTF-8',
