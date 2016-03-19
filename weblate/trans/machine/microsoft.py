@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from datetime import timedelta
 from django.utils import timezone
 from weblate.trans.machine.base import (
@@ -127,7 +129,7 @@ class MicrosoftTranslation(MachineTranslation):
         Downloads list of possible translations from a service.
         '''
         args = {
-            'text': text[:5000].encode('utf-8'),
+            'text': text[:5000],
             'from': source,
             'to': language,
             'contentType': 'text/plain',

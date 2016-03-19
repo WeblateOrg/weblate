@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from weblate.trans.machine.base import MachineTranslation
 from weblate import appsettings
 
@@ -56,7 +58,7 @@ class ApertiumTranslation(MachineTranslation):
         '''
         args = {
             'langpair': '%s|%s' % (source, language),
-            'q': text.encode('utf-8'),
+            'q': text,
         }
         if appsettings.MT_APERTIUM_KEY is not None:
             args['key'] = appsettings.MT_APERTIUM_KEY

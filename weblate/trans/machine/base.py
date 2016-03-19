@@ -80,9 +80,11 @@ class MachineTranslation(object):
         '''
         # Encode params
         if len(kwargs) > 0:
-            params = urlencode(kwargs).encode('utf-8')
+            params = urlencode(
+                {key: val.encode('utf-8') for key, val in kwargs.items()}
+            )
         else:
-            params = b''
+            params = ''
 
         # Store for exception handling
         self.request_url = url
@@ -102,7 +104,7 @@ class MachineTranslation(object):
 
         # Fire request
         if http_post:
-            handle = urlopen(request, params)
+            handle = urlopen(request, params.encode('utf-8'))
         else:
             handle = urlopen(request)
 

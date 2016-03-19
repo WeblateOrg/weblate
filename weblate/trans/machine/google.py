@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from weblate.trans.machine.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
@@ -67,7 +69,7 @@ class GoogleTranslation(MachineTranslation):
         response = self.json_req(
             'https://www.googleapis.com/language/translate/v2/',
             key=appsettings.MT_GOOGLE_KEY,
-            q=text.encode('utf-8'),
+            q=text,
             source=source,
             target=language,
         )
@@ -99,7 +101,7 @@ class GoogleWebTranslation(MachineTranslation):
         response = self.json_req(
             'http://translate.google.com/translate_a/single',
             client='t',
-            q=text.encode('utf-8'),
+            q=text,
             sl=source,
             tl=language,
             ie='UTF-8',

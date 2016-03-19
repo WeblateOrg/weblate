@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from weblate.trans.machine.base import MachineTranslation
 from weblate import appsettings
 
@@ -79,7 +81,7 @@ class MyMemoryTranslation(MachineTranslation):
         Downloads list of possible translations from MyMemory.
         '''
         args = {
-            'q': text.split('. ')[0][:500].encode('utf-8'),
+            'q': text.split('. ')[0][:500],
             'langpair': '%s|%s' % (source, language),
         }
         if appsettings.MT_MYMEMORY_EMAIL is not None:

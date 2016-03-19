@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from weblate.trans.machine.base import MachineTranslation
 
 
@@ -47,7 +49,7 @@ class GlosbeTranslation(MachineTranslation):
             'from': source,
             'dest': language,
             'format': 'json',
-            'phrase': text.encode('utf-8')
+            'phrase': text,
         }
         response = self.json_req(
             'https://glosbe.com/gapi/translate',

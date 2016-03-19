@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.utils.encoding import force_text
 from weblate.trans.machine.base import MachineTranslation
 from weblate.trans.models.unit import Unit
