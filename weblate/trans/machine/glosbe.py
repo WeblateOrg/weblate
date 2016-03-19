@@ -48,7 +48,7 @@ class GlosbeTranslation(MachineTranslation):
             'from': appsettings.SOURCE_LANGUAGE,
             'dest': language,
             'format': 'json',
-            'phrase': text.strip(',.:?! ').encode('utf-8')
+            'phrase': text.strip(',.:?! \n\r').encode('utf-8')
         }
         response = self.json_req(
             'http://glosbe.com/gapi/translate',
