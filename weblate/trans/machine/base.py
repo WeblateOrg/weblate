@@ -198,7 +198,7 @@ class MachineTranslation(object):
 
         # Download
         try:
-            languages = self.download_languages()
+            languages = set(self.download_languages())
         except Exception as exc:
             self.report_error(
                 exc,
