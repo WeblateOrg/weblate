@@ -51,7 +51,7 @@ class GlosbeTranslation(MachineTranslation):
             'phrase': text.encode('utf-8')
         }
         response = self.json_req(
-            'http://glosbe.com/gapi/translate',
+            'https://glosbe.com/gapi/translate',
             **params
         )
 
