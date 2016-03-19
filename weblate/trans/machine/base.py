@@ -149,7 +149,7 @@ class MachineTranslation(object):
         '''
         return []
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
 
@@ -223,15 +223,22 @@ class MachineTranslation(object):
         '''
         Returns list of machine translations.
         '''
-        language = self.convert_language(language)
         if text == '':
             return []
+
+        language = self.convert_language(language)
         if not self.is_supported(language):
+            return []
+
+        source = self.convert_language(
+            unit.translation.subproject.project.source_language.code
+        )
+        if not self.is_supported(source):
             return []
 
         try:
             translations = self.download_translations(
-                language, text, unit, user
+                source, language, text, unit, user
             )
 
             return [

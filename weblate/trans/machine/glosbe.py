@@ -19,7 +19,6 @@
 #
 
 from weblate.trans.machine.base import MachineTranslation
-from weblate import appsettings
 
 
 class GlosbeTranslation(MachineTranslation):
@@ -40,12 +39,12 @@ class GlosbeTranslation(MachineTranslation):
         '''
         return True
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
         params = {
-            'from': appsettings.SOURCE_LANGUAGE,
+            'from': source,
             'dest': language,
             'format': 'json',
             'phrase': text.encode('utf-8')

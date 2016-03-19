@@ -60,7 +60,7 @@ class GoogleTranslation(MachineTranslation):
 
         return [d['language'] for d in response['data']['languages']]
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -68,7 +68,7 @@ class GoogleTranslation(MachineTranslation):
             'https://www.googleapis.com/language/translate/v2/',
             key=appsettings.MT_GOOGLE_KEY,
             q=text.encode('utf-8'),
-            source=appsettings.SOURCE_LANGUAGE,
+            source=source,
             target=language,
         )
 
@@ -92,7 +92,7 @@ class GoogleWebTranslation(MachineTranslation):
         '''
         return True
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -100,7 +100,7 @@ class GoogleWebTranslation(MachineTranslation):
             'http://translate.google.com/translate_a/single',
             client='t',
             q=text.encode('utf-8'),
-            sl=appsettings.SOURCE_LANGUAGE,
+            sl=souce,
             tl=language,
             ie='UTF-8',
             oe='UTF-8',

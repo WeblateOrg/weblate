@@ -52,7 +52,7 @@ class WeblateTranslation(WeblateBase):
     '''
     name = 'Weblate'
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
@@ -71,7 +71,7 @@ class WeblateSimilarTranslation(WeblateBase):
     '''
     name = 'Weblate similarity'
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''

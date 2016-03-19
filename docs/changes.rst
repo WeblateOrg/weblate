@@ -8,6 +8,7 @@ Released on ? 2016.
 
 * Fixed validation of subprojects with language filter.
 * Improved support for XLIFF files.
+* Fixed machine translation for non English sources.
 
 weblate 2.5
 -----------

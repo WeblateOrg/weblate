@@ -62,13 +62,13 @@ class TMServerTranslation(MachineTranslation):
         '''
         return True
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
         url = '%s/tmserver/%s/%s/unit/%s' % (
             self.url,
-            quote(appsettings.SOURCE_LANGUAGE),
+            quote(source),
             quote(language),
             quote(text[:500].replace('\r', ' ').encode('utf-8')),
         )

@@ -43,12 +43,12 @@ class ApertiumTranslation(MachineTranslation):
                 for item in data['responseData']
                 if item['sourceLanguage'] == appsettings.SOURCE_LANGUAGE]
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from Apertium.
         '''
         args = {
-            'langpair': '%s|%s' % (appsettings.SOURCE_LANGUAGE, language),
+            'langpair': '%s|%s' % (source, language),
             'q': text.encode('utf-8'),
         }
         if appsettings.MT_APERTIUM_KEY is not None:

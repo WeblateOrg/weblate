@@ -122,13 +122,13 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         return self.json_req(LIST_URL)
 
-    def download_translations(self, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
         args = {
             'text': text[:5000].encode('utf-8'),
-            'from': appsettings.SOURCE_LANGUAGE,
+            'from': source,
             'to': language,
             'contentType': 'text/plain',
             'category': 'general',
