@@ -90,7 +90,7 @@ class MachineTranslation(object):
 
         # Append parameters
         if len(params) > 0 and not http_post:
-            url = '%s?%s' % (url, params)
+            url = '?'.join((url, params))
 
         # Create request object with custom headers
         request = Request(url)
