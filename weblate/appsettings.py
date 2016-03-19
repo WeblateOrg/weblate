@@ -193,9 +193,6 @@ PIWIK_URL = getvalue('PIWIK_URL', None)
 # Google Analytics
 GOOGLE_ANALYTICS_ID = getvalue('GOOGLE_ANALYTICS_ID', None)
 
-# Source language
-SOURCE_LANGUAGE = getvalue('SOURCE_LANGUAGE', 'en')
-
 # Self advertisement
 SELF_ADVERTISEMENT = getvalue('SELF_ADVERTISEMENT', False)
 

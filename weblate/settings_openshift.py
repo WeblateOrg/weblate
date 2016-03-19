@@ -103,8 +103,6 @@ else:
 # Where to put Whoosh index
 WHOOSH_INDEX = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'whoosh-index')
 
-SOURCE_LANGUAGE = 'en'
-
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
