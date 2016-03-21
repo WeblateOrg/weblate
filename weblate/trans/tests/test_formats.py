@@ -62,6 +62,12 @@ class AutoLoadTest(TestCase):
             self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
 
+    def test_detect_android(self):
+        self.assertEqual(
+            AndroidFormat,
+            detect_filename('foo/bar/strings_baz.xml')
+        )
+
     def test_po(self):
         self.single_test(TEST_PO, PoFormat)
         self.single_test(TEST_POT, PoFormat)
