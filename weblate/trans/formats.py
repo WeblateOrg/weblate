@@ -89,6 +89,18 @@ def register_fileformat(fileformat):
     return fileformat
 
 
+def detect_filename(filename):
+    """Filename based format autodetection"""
+    name = os.path.basename(filename)
+    for autoload, storeclass in FILE_DETECT:
+        if not isinstance(autoload, tuple) and name.endswith(autoload):
+            return storeclass
+        elif (name.startswith(autoload[0]) and
+              name.endswith(autoload[1])):
+            return storeclass
+    return None
+
+
 class FileUnit(object):
     '''
     Wrapper for translate-toolkit unit to cope with ID/template based
@@ -821,13 +833,9 @@ class AutoFormat(FileFormat):
         else:
             filename = storefile
         if filename is not None:
-            name = os.path.basename(filename)
-            for autoload, storeclass in FILE_DETECT:
-                if not isinstance(autoload, tuple) and name.endswith(autoload):
-                    return storeclass(storefile, template_store, language_code)
-                elif (name.startswith(autoload[0]) and
-                      name.endswith(autoload[1])):
-                    return storeclass(storefile, template_store, language_code)
+            storeclass = detect_filename(filename)
+            if storeclass is not None:
+                return storeclass(storefile, template_store, language_code)
         return cls(storefile, template_store, language_code)
 
     @classmethod

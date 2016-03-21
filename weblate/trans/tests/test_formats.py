@@ -38,7 +38,7 @@ from weblate.lang.models import Language
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
     JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
-    FILE_FORMATS,
+    FILE_FORMATS, detect_filename,
 )
 from weblate.trans.tests.utils import get_test_file
 
@@ -60,6 +60,7 @@ class AutoLoadTest(TestCase):
         with open(filename, 'rb') as handle:
             store = AutoFormat.parse(handle)
             self.assertIsInstance(store, fileclass)
+        self.assertEqual(fileclass, detect_filename(filename))
 
     def test_po(self):
         self.single_test(TEST_PO, PoFormat)
