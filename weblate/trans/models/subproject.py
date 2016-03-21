@@ -1385,9 +1385,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def load_template_store(self):
         """Loads translate-toolkit store for template."""
-        return self.file_format_cls.load(
+        return self.file_format_cls.parse(
             self.get_template_filename(),
-        )
+        ).store
 
     @property
     def template_store(self):
