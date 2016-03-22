@@ -38,6 +38,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.utils.translation import LANGUAGE_SESSION_KEY
 
+from rest_framework.authtoken.models import Token
+
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
@@ -1033,3 +1035,5 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         for auto in AutoGroup.objects.all():
             if re.match(auto.match, instance.email):
                 instance.groups.add(auto.group)
+        # Create API token
+        Token.objects.create(user=instance)

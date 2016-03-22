@@ -294,6 +294,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'compressor',
     'rest_framework',
+    'rest_framework.authtoken',
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',
@@ -562,6 +563,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_THROTTLE_CLASSES': (
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
