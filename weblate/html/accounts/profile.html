@@ -307,7 +307,7 @@
 </tr>
 <tr>
 <th>{% trans "API root URL:" %}</th>
-<td><a href="{{ site_url }}{% url 'api-root' %}">{{ site_url }}{% url 'api-root' %}</a></td>
+<td><a href="{{ site_url }}{% url 'api:api-root' %}">{{ site_url }}{% url 'api:api-root' %}</a></td>
 </tr>
 <tr>
 <th colspan="2">{% trans "API usage example:" %}</th>
@@ -317,7 +317,7 @@
 <pre>
 curl \
     -H "Authorization: Token {{ user.auth_token.key }}" \
-    {{ site_url }}{% url 'api-root' %}
+    {{ site_url }}{% url 'api:api-root' %}
 </pre>
 </td>
 </tr>

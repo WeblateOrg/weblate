@@ -688,7 +688,7 @@ urlpatterns = [
     url(r'^accounts/', include(weblate.accounts.urls)),
 
     # Auth
-    url(r'^api/', include(weblate.api.urls)),
+    url(r'^api/', include(weblate.api.urls, namespace='api')),
 
     # Static pages
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),
