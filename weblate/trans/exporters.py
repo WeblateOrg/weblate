@@ -24,6 +24,7 @@ from django.http import HttpResponse
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
+from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
 
@@ -140,8 +141,19 @@ class PoExporter(BaseExporter):
 
 
 @register_exporter
-class XliffExporter(BaseExporter):
+class PoXliffExporter(BaseExporter):
     name = 'xliff'
+    content_type = 'application/x-xliff+xml'
+    extension = 'xlf'
+    has_lang = True
+
+    def get_storage(self):
+        return PoXliffFile()
+
+
+@register_exporter
+class XliffExporter(BaseExporter):
+    name = 'xliff12'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
     has_lang = True

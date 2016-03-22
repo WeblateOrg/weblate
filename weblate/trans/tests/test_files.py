@@ -398,6 +398,12 @@ class ExportTest(ViewTestCase):
             response, 'Orangutan has %d banana'
         )
 
+    def test_export_xliff(self):
+        response = self.export_format('xliff12')
+        self.assertContains(
+            response, 'Orangutan has %d banana'
+        )
+
     def test_export_invalid(self):
         response = self.export_format('invalid')
         self.assertEqual(response.status_code, 404)
