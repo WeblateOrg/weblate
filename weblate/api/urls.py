@@ -23,12 +23,15 @@ from __future__ import unicode_literals
 from django.conf.urls import url, include
 from rest_framework import routers, serializers, viewsets
 
-from weblate.api.views import ProjectViewSet, ComponentViewSet
+from weblate.api.views import (
+    ProjectViewSet, ComponentViewSet, TranslationViewSet,
+)
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'projects', ProjectViewSet)
 router.register(r'components', ComponentViewSet)
+router.register(r'translations', TranslationViewSet)
 
 
 # Wire up our API using automatic URL routing.

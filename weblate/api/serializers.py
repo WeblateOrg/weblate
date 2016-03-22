@@ -20,7 +20,7 @@
 
 from rest_framework import serializers
 
-from weblate.trans.models import Project, SubProject
+from weblate.trans.models import Project, SubProject, Translation
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -38,4 +38,15 @@ class ComponentSerializer(serializers.ModelSerializer):
             'id', 'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'file_format', 'license',
             'license_url',
+        )
+
+
+class TranslationSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Translation
+        fields = (
+            'language', 'subproject', 'translated', 'fuzzy', 'total',
+            'translated_words', 'fuzzy_words', 'failing_checks_words',
+            'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
+            'language_code', 'filename', 'revision',
         )

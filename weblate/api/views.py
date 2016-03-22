@@ -20,8 +20,10 @@
 
 from rest_framework import viewsets
 
-from weblate.api.serializers import ProjectSerializer, ComponentSerializer
-from weblate.trans.models import Project, SubProject
+from weblate.api.serializers import (
+    ProjectSerializer, ComponentSerializer, TranslationSerializer,
+)
+from weblate.trans.models import Project, SubProject, Translation
 
 
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
@@ -47,3 +49,18 @@ class ComponentViewSet(viewsets.ReadOnlyModelViewSet):
         if filtered:
             return SubProject.objects.filter(project__in=acl_projects)
         return SubProject.objects.all()
+
+
+class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
+    """Translation components API.
+    """
+    queryset = Translation.objects.none()
+    serializer_class = TranslationSerializer
+
+    def get_queryset(self):
+        acl_projects, filtered = Project.objects.get_acl_status(
+            self.request.user
+        )
+        if filtered:
+            return Translation.objects.filter(subproject__project__in=acl_projects)
+        return Translation.objects.all()
