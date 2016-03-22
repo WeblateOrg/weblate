@@ -191,7 +191,7 @@ urlpatterns = [
         name='download_translation',
     ),
     url(
-        r'^download/' + TRANSLATION + '(?P<fmt>[a-z]+)/$',
+        r'^download/' + TRANSLATION + '(?P<fmt>[a-z0-9]+)/$',
         weblate.trans.views.files.download_translation_format,
         name='download_translation_format',
     ),

@@ -2,6 +2,7 @@
 
 <li><a href="{% url 'download_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for an offline translation." %}">{% trans "Download original translation file" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='xliff'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as XLIFF" %}</a></li>
+<li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='xliff12'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as XLIFF 1.2" %}</a></li>
 <li><a href="{% url 'download_translation_format' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code fmt='po'%}" title="{% trans "Download for an offline translation." %}">{% trans "Download translation as Gettext PO" %}</a></li>
 {% if object.supports_language_pack %}
 <li><a href="{% url 'download_language_pack' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" title="{% trans "Download for using within an application." %}">{% trans "Download compiled translation" %}</a></li>
