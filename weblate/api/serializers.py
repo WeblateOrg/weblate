@@ -23,6 +23,7 @@ from rest_framework import serializers
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
 
+
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Project

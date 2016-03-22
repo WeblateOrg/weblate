@@ -64,7 +64,9 @@ class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
             self.request.user
         )
         if filtered:
-            return Translation.objects.filter(subproject__project__in=acl_projects)
+            return Translation.objects.filter(
+                subproject__project__in=acl_projects
+            )
         return Translation.objects.all()
 
 
