@@ -32,6 +32,7 @@ urlpatterns = [
         name='email-sent'
     ),
     url(r'^password/', weblate.accounts.views.password, name='password'),
+    url(r'^reset-api-key/', weblate.accounts.views.reset_api_key, name='reset-api-key'),
     url(
         r'^reset/', weblate.accounts.views.reset_password,
         name='password_reset'

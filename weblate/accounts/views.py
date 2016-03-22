@@ -31,11 +31,14 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
+from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
+
+from rest_framework.authtoken.models import Token
 
 from six.moves.urllib.parse import urlencode
 
@@ -567,3 +570,14 @@ def reset_password(request):
             'form': form,
         }
     )
+
+@login_required
+def reset_api_key(request):
+    """Resets user API key"""
+    request.user.auth_token.delete()
+    Token.objects.create(
+        user=request.user,
+        key=get_random_string(40)
+    )
+
+    return redirect('profile')
