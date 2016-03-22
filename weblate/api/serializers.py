@@ -24,7 +24,17 @@ from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
 
 
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Language
+        fields = (
+            'id', 'code', 'name', 'nplurals', 'pluralequation', 'direction',
+        )
+
+
 class ProjectSerializer(serializers.ModelSerializer):
+    source_language = LanguageSerializer(read_only=True)
+
     class Meta(object):
         model = Project
         fields = (
@@ -33,6 +43,8 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ComponentSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+
     class Meta(object):
         model = SubProject
         fields = (
@@ -43,6 +55,9 @@ class ComponentSerializer(serializers.ModelSerializer):
 
 
 class TranslationSerializer(serializers.ModelSerializer):
+    subproject = ComponentSerializer(read_only=True)
+    language = LanguageSerializer(read_only=True)
+
     class Meta(object):
         model = Translation
         fields = (
@@ -50,12 +65,4 @@ class TranslationSerializer(serializers.ModelSerializer):
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
             'language_code', 'filename', 'revision',
-        )
-
-
-class LanguageSerializer(serializers.ModelSerializer):
-    class Meta(object):
-        model = Language
-        fields = (
-            'id', 'code', 'name', 'nplurals', 'pluralequation', 'direction',
         )

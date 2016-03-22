@@ -33,6 +33,7 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
+    lookup_field = 'slug'
 
     def get_queryset(self):
         return Project.objects.all_acl(self.request.user)
