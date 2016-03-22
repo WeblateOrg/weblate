@@ -46,7 +46,7 @@ class TranslationSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Translation
         fields = (
-            'language', 'subproject', 'translated', 'fuzzy', 'total',
+            'id', 'language', 'subproject', 'translated', 'fuzzy', 'total',
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
             'language_code', 'filename', 'revision',
@@ -57,5 +57,5 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Language
         fields = (
-            'code', 'name', 'nplurals', 'pluralequation', 'direction',
+            'id', 'code', 'name', 'nplurals', 'pluralequation', 'direction',
         )

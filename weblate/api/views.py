@@ -71,7 +71,7 @@ class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
-    """Translation projects API.
+    """Languages API.
     """
     queryset = Language.objects.none()
     serializer_class = LanguageSerializer
