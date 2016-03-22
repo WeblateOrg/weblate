@@ -36,7 +36,9 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
 
     def get_queryset(self):
-        return Project.objects.all_acl(self.request.user)
+        return Project.objects.all_acl(self.request.user).prefetch_related(
+            'source_language'
+        )
 
 
 class ComponentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -50,8 +52,12 @@ class ComponentViewSet(viewsets.ReadOnlyModelViewSet):
             self.request.user
         )
         if filtered:
-            return SubProject.objects.filter(project__in=acl_projects)
-        return SubProject.objects.all()
+            result = SubProject.objects.filter(project__in=acl_projects)
+        result = SubProject.objects.all()
+        return result.prefetch_related(
+            'project',
+            'project__source_language'
+        )
 
 
 class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
@@ -65,10 +71,15 @@ class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
             self.request.user
         )
         if filtered:
-            return Translation.objects.filter(
+            result = Translation.objects.filter(
                 subproject__project__in=acl_projects
             )
-        return Translation.objects.all()
+        result = Translation.objects.all()
+        return result.prefetch_related(
+            'subproject', 'subproject__project',
+            'subproject__project__source_language',
+            'language',
+        )
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
