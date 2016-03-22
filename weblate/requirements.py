@@ -87,7 +87,7 @@ def get_optional_versions():
     return result
 
 
-def get_single(name,url, module, required, getter='__version__'):
+def get_single(name, url, module, required, getter='__version__'):
     """Returns version information for single module"""
     mod = get_version_module(module, name, url)
     version_getter = getattr(mod, getter)
