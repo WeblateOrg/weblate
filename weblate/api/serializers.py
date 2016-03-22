@@ -25,24 +25,29 @@ from weblate.lang.models import Language
 
 
 class LanguageSerializer(serializers.ModelSerializer):
+    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
+
     class Meta(object):
         model = Language
         fields = (
             'id', 'code', 'name', 'nplurals', 'pluralequation', 'direction',
+            'web_url',
         )
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     source_language = LanguageSerializer(read_only=True)
 
     class Meta(object):
         model = Project
         fields = (
-            'id', 'name', 'slug', 'web', 'source_language',
+            'id', 'name', 'slug', 'web', 'source_language', 'web_url'
         )
 
 
 class ComponentSerializer(serializers.ModelSerializer):
+    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
 
     class Meta(object):
@@ -50,11 +55,12 @@ class ComponentSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'file_format', 'license',
-            'license_url',
+            'license_url', 'web_url',
         )
 
 
 class TranslationSerializer(serializers.ModelSerializer):
+    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     subproject = ComponentSerializer(read_only=True)
     language = LanguageSerializer(read_only=True)
 
@@ -64,5 +70,5 @@ class TranslationSerializer(serializers.ModelSerializer):
             'id', 'language', 'subproject', 'translated', 'fuzzy', 'total',
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
-            'language_code', 'filename', 'revision',
+            'language_code', 'filename', 'revision', 'web_url',
         )
