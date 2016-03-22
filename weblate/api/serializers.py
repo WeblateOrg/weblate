@@ -18,18 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from rest_framework import viewsets
+from rest_framework import serializers
 
-from weblate.api.serializers import ProjectSerializer
 from weblate.trans.models import Project
 
 
-class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    ViewSet for viewing projects.
-    """
-    queryset = Project.objects.none()
-    serializer_class = ProjectSerializer
-
-    def get_queryset(self):
-        return Project.objects.all_acl(self.request.user)
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Project
+        fields = (
+            'id', 'name', 'slug', 'web', 'source_language'
+        )
