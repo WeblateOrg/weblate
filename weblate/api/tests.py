@@ -22,7 +22,7 @@ from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.tests.utils import get_test_file, RepoTestMixin
+from weblate.trans.tests.utils import RepoTestMixin
 
 
 class APITest(APITestCase, RepoTestMixin):
@@ -43,7 +43,7 @@ class APITest(APITestCase, RepoTestMixin):
         )
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['slug'], 'test')
-        self.assertEqual(response.data[0]['project'], 1)
+        self.assertEqual(response.data[0]['project']['slug'], 'test')
 
     def test_list_translations(self):
         response = self.client.get(
