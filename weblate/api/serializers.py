@@ -21,7 +21,7 @@
 from rest_framework import serializers
 
 from weblate.trans.models import Project, SubProject, Translation
-
+from weblate.lang.models import Language
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta(object):
@@ -49,4 +49,12 @@ class TranslationSerializer(serializers.ModelSerializer):
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
             'language_code', 'filename', 'revision',
+        )
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = Language
+        fields = (
+            'code', 'name', 'nplurals', 'pluralequation', 'direction',
         )
