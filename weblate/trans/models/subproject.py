@@ -675,7 +675,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return False
 
         # do we have something to merge?
-        if not self.repo_needs_merge() and method != 'rebase':
+        try:
+            needs_merge = self.repo_needs_merge()
+        except RepositoryException:
+            # Not yet configured repository
+            needs_merge = True
+
+        if not needs_merge and method != 'rebase':
             return True
 
         # commit possible pending changes
