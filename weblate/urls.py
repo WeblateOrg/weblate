@@ -49,6 +49,7 @@ import weblate.trans.views.source
 import weblate.trans.views.widgets
 from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
+import weblate.api.urls
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -685,6 +686,9 @@ urlpatterns = [
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),
+
+    # Auth
+    url(r'^api/', include(weblate.api.urls)),
 
     # Static pages
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),

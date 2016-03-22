@@ -293,6 +293,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'crispy_forms',
     'compressor',
+    'rest_framework',
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',
@@ -553,6 +554,15 @@ ALLOWED_HOSTS = []
 #         },
 #     }
 # }
+
+# REST framework settings for API
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Example for restricting access to logged in users
 # LOGIN_REQUIRED_URLS = (
