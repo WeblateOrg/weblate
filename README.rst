@@ -20,7 +20,7 @@ Weblate
 .. image:: https://www.codacy.com/project/badge/394a22d396414d48abb6a85054f4415e
     :alt: Codacy Badge
     :target: https://www.codacy.com/public/nijel/weblate
-    
+
 .. image:: https://buildtimetrend.herokuapp.com/badge/nijel/weblate
     :alt: Buildtime Trend badge
     :target: https://buildtimetrend.herokuapp.com/dashboard/nijel/weblate
@@ -28,6 +28,9 @@ Weblate
 .. image:: https://api.bountysource.com/badge/tracker?tracker_id=253393
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
+
+.. image:: https://img.shields.io/pypi/v/Weblate.svg
+    :target: https://pypi.python.org/pypi/Weblate
 
 Weblate is a free web-based translation tool with tight version control
 integration. It features simple and clean user interface, propagation of
