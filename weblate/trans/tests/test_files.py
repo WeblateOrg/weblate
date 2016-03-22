@@ -398,7 +398,7 @@ class ExportTest(ViewTestCase):
             response, 'Orangutan has %d banana'
         )
 
-    def test_export_xliff(self):
+    def test_export_xliff12(self):
         response = self.export_format('xliff12')
         self.assertContains(
             response, 'Orangutan has %d banana'
