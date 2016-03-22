@@ -20,12 +20,22 @@
 
 from rest_framework import serializers
 
-from weblate.trans.models import Project
+from weblate.trans.models import Project, SubProject
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Project
         fields = (
-            'id', 'name', 'slug', 'web', 'source_language'
+            'id', 'name', 'slug', 'web', 'source_language',
+        )
+
+
+class ComponentSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = SubProject
+        fields = (
+            'id', 'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
+            'branch', 'filemask', 'template', 'file_format', 'license',
+            'license_url',
         )
