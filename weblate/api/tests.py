@@ -18,6 +18,41 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.test import TestCase
+from django.core.urlresolvers import reverse
 
-# Create your tests here.
+from rest_framework.test import APITestCase
+
+from weblate.trans.tests.utils import get_test_file, RepoTestMixin
+
+
+class APITest(APITestCase, RepoTestMixin):
+    def setUp(self):
+        self.clone_test_repos()
+        self.subproject = self.create_subproject()
+
+    def test_list_projects(self):
+        response = self.client.get(
+            reverse('api:project-list')
+        )
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['slug'], 'test')
+
+    def test_list_components(self):
+        response = self.client.get(
+            reverse('api:subproject-list')
+        )
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['slug'], 'test')
+        self.assertEqual(response.data[0]['project'], 1)
+
+    def test_list_translations(self):
+        response = self.client.get(
+            reverse('api:translation-list')
+        )
+        self.assertEqual(len(response.data), 3)
+
+    def test_list_languages(self):
+        response = self.client.get(
+            reverse('api:language-list')
+        )
+        self.assertEqual(len(response.data), 3)
