@@ -34,6 +34,8 @@ django_compressor
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>=1.4.0)
     http://django-crispy-forms.readthedocs.org/
+Django REST Frameword (>=3.3)
+    http://www.django-rest-framework.org/
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)

@@ -210,6 +210,16 @@ def get_versions():
         '1.5',
     ))
 
+    name = 'djangorestframework'
+    url = 'http://www.django-rest-framework.org/'
+    mod = get_version_module('rest_framework', name, url)
+    result.append((
+        name,
+        url,
+        mod.__version__,
+        '3.3',
+    ))
+
     return result
 
 
