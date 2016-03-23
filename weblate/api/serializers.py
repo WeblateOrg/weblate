@@ -31,8 +31,14 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = (
             'code', 'name', 'nplurals', 'pluralequation', 'direction',
-            'web_url',
+            'web_url', 'url',
         )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:language-detail',
+                'lookup_field': 'code'
+            }
+        }
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -42,8 +48,14 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Project
         fields = (
-            'id', 'name', 'slug', 'web', 'source_language', 'web_url'
+            'name', 'slug', 'web', 'source_language', 'web_url', 'url',
         )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:project-detail',
+                'lookup_field': 'slug'
+            }
+        }
 
 
 class ComponentSerializer(serializers.ModelSerializer):
