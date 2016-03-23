@@ -32,45 +32,76 @@ class PercentMixin(object):
     Defines API to getting percentage status of translations.
     """
     _percents = None
+    _important_percents = None
 
-    def get_percents(self):
+    def get_percents(self, important=False):
         """
         Returns percentages of translation status.
         """
-        if self._percents is None:
-            self._percents = self._get_percents()
+        percents = self._important_percents if important else self._percents
 
-        return self._percents
+        if percents is None:
+            percents = self._get_percents(important)
+            if not important:
+                self._percents = percents
+            else:
+                self._important_percents = percents
 
-    def _get_percents(self):
+        return percents
+
+    def _get_percents(self, important):
         """
         Returns percentages of translation status.
         """
         raise NotImplementedError()
 
-    def get_translated_percent(self):
+    def get_translated_percent(self, important=False):
         """
         Returns percent of translated strings.
         """
-        return self.get_percents()[0]
+        return self.get_percents(important)[0]
 
-    def get_untranslated_percent(self):
+    def get_untranslated_percent(self, important=False):
         """
         Returns percent of untranslated strings.
         """
-        return 100 - self.get_percents()[0]
+        return 100 - self.get_percents(important)[0]
 
-    def get_fuzzy_percent(self):
+    def get_fuzzy_percent(self, important=False):
         """
         Returns percent of fuzzy strings.
         """
-        return self.get_percents()[1]
+        return self.get_percents(important)[1]
 
-    def get_failing_checks_percent(self):
+    def get_failing_checks_percent(self, important=False):
         """
         Returns percentage of failed checks.
         """
-        return self.get_percents()[2]
+        return self.get_percents(important)[2]
+
+    def get_important_translated_percent(self):
+        """
+        Returns percent of translated strings for important languages.
+        """
+        return self.get_translated_percent(important=True)
+
+    def get_important_untranslated_percent(self):
+        """
+        Returns percent of untranslated strings for important languages.
+        """
+        return self.get_untranslated_percent(important=True)
+
+    def get_important_fuzzy_percent(self):
+        """
+        Returns percent of fuzzy strings for important languages.
+        """
+        return self.get_fuzzy_percent(important=True)
+
+    def get_important_failing_checks_percent(self):
+        """
+        Returns percentage of failed checks for important languages.
+        """
+        return self.get_failing_checks_percent(important=True)
 
 
 class URLMixin(object):

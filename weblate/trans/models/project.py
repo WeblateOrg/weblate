@@ -152,6 +152,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         default=get_english_lang,
     )
 
+    track_important_languages = models.BooleanField(
+        verbose_name=ugettext_lazy('Track important languages'),
+        default=False,
+        help_text=ugettext_lazy(
+            'Show this project in the release manager dashboard'
+        )
+    )
+
     objects = ProjectManager()
 
     is_lockable = True
@@ -309,22 +317,24 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # Arguments number differs from overridden method
     # pylint: disable=W0221
 
-    def _get_percents(self, lang=None):
+    def _get_percents(self, important, lang=None):
         """Returns percentages of translation status."""
         # Import translations
         from weblate.trans.models.translation import Translation
 
         # Get percents:
-        return Translation.objects.get_percents(project=self, language=lang)
+        return Translation.objects.get_percents(project=self,
+                                                important=important,
+                                                language=lang)
 
     # Arguments number differs from overridden method
     # pylint: disable=W0221
 
-    def get_translated_percent(self, lang=None):
+    def get_translated_percent(self, important=False, lang=None):
         """Returns percent of translated strings."""
         if lang is None:
-            return super(Project, self).get_translated_percent()
-        return self._get_percents(lang)[0]
+            return super(Project, self).get_translated_percent(important)
+        return self._get_percents(important, lang)[0]
 
     def get_total(self):
         """Calculates total number of strings to translate.

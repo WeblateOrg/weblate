@@ -79,6 +79,10 @@ def home(request):
             project=projects[0]
         ).select_related()
 
+    important_projects = projects.filter(
+        track_important_languages=True
+    )
+
     # Warn about not filled in username (usually caused by migration of
     # users from older system
     if not request.user.is_anonymous() and request.user.first_name == '':
@@ -136,6 +140,7 @@ def home(request):
         'index.html',
         {
             'projects': subproject_list or projects,
+            'important_projects': important_projects,
             'last_changes': last_changes[:10],
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
@@ -218,7 +223,7 @@ def show_engage(request, project, lang=None):
         'project': obj,
         'languages': obj.get_language_count(),
         'total': obj.get_total(),
-        'percent': obj.get_translated_percent(language),
+        'percent': obj.get_translated_percent(lang=language),
         'url': obj.get_absolute_url(),
         'language': language,
     }
