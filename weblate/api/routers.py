@@ -56,4 +56,3 @@ class WeblateRouter(routers.DefaultRouter):
                 )
             )
         return '/'.join(result)
-

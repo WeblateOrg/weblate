@@ -25,6 +25,7 @@ from weblate.lang.models import Language
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+    # pylint: disable=W0622
     def get_url(self, obj, view_name, request, format):
         """
         Given an object, return the URL that hyperlinks to the object.
