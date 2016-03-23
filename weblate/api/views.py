@@ -66,7 +66,6 @@ class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
     """
     queryset = SubProject.objects.none()
     serializer_class = ComponentSerializer
-    lookup_field = 'slug'
     lookup_fields = ('project__slug', 'slug')
 
     def get_queryset(self):
@@ -88,7 +87,6 @@ class TranslationViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
     """
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
-    lookup_field = 'language__code'
     lookup_fields = (
         'subproject__project__slug', 'subproject__slug', 'language__code',
     )

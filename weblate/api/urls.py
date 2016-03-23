@@ -26,9 +26,10 @@ from rest_framework import routers
 from weblate.api.views import (
     ProjectViewSet, ComponentViewSet, TranslationViewSet, LanguageViewSet,
 )
+from weblate.api.routers import WeblateRouter
 
 # Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
+router = WeblateRouter()
 router.register(
     r'projects',
     ProjectViewSet
@@ -37,17 +38,6 @@ router.register(
     r'components',
     ComponentViewSet,
     'component',
-)
-router.register(
-    r'components/(?P<project__slug>[^/]+)',
-    ComponentViewSet,
-    'component',
-)
-router.register(
-    r'translations/'
-    r'(?P<subproject__project__slug>[^/]+)/'
-    r'(?P<subproject__slug>[^/]+)',
-    TranslationViewSet
 )
 router.register(
     r'translations',
