@@ -24,6 +24,7 @@ import os
 
 from django.core.urlresolvers import reverse
 
+from weblate.trans.site import get_site_url
 from weblate.logger import LOGGER
 
 
@@ -100,9 +101,11 @@ class URLMixin(object):
                 name,
                 self._reverse_url_name()
             )
-        return reverse(
-            urlname,
-            kwargs=self._reverse_url_kwargs()
+        return get_site_url(
+            reverse(
+                urlname,
+                kwargs=self._reverse_url_kwargs()
+            )
         )
 
     def get_absolute_url(self):
