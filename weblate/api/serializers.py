@@ -30,7 +30,7 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Language
         fields = (
-            'id', 'code', 'name', 'nplurals', 'pluralequation', 'direction',
+            'code', 'name', 'nplurals', 'pluralequation', 'direction',
             'web_url',
         )
 

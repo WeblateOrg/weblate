@@ -87,6 +87,7 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Language.objects.none()
     serializer_class = LanguageSerializer
+    lookup_field = 'code'
 
     def get_queryset(self):
         return Language.objects.have_translation()
