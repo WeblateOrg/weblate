@@ -34,25 +34,65 @@ class APITest(APITestCase, RepoTestMixin):
         response = self.client.get(
             reverse('api:project-list')
         )
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['slug'], 'test')
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['slug'], 'test')
+
+    def test_get_project(self):
+        response = self.client.get(
+            reverse('api:project-detail', kwargs={'slug': 'test'})
+        )
+        self.assertEqual(response.data['slug'], 'test')
 
     def test_list_components(self):
         response = self.client.get(
-            reverse('api:subproject-list')
+            reverse('api:component-list')
         )
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['slug'], 'test')
-        self.assertEqual(response.data[0]['project']['slug'], 'test')
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0]['slug'], 'test')
+        self.assertEqual(
+            response.data['results'][0]['project']['slug'], 'test'
+        )
+
+    def test_get_component(self):
+        response = self.client.get(
+            reverse(
+                'api:component-detail',
+                kwargs={
+                    'slug': 'test',
+                    'project__slug': 'test'
+                }
+            )
+        )
+        self.assertEqual(response.data['slug'], 'test')
+        self.assertEqual(response.data['project']['slug'], 'test')
 
     def test_list_translations(self):
         response = self.client.get(
             reverse('api:translation-list')
         )
-        self.assertEqual(len(response.data), 3)
+        self.assertEqual(response.data['count'], 3)
+
+    def test_get_translation(self):
+        response = self.client.get(
+            reverse(
+                'api:translation-detail',
+                kwargs={
+                    'language__code': 'cs',
+                    'subproject__slug': 'test',
+                    'subproject__project__slug': 'test'
+                }
+            )
+        )
+        self.assertEqual(response.data['language_code'], 'cs')
 
     def test_list_languages(self):
         response = self.client.get(
             reverse('api:language-list')
         )
-        self.assertEqual(len(response.data), 3)
+        self.assertEqual(response.data['count'], 3)
+
+    def test_get_language(self):
+        response = self.client.get(
+            reverse('api:language-detail', kwargs={'code': 'cs'})
+        )
+        self.assertEqual(response.data['name'], 'Czech')

@@ -34,6 +34,11 @@ router.register(
     ProjectViewSet
 )
 router.register(
+    r'components',
+    ComponentViewSet,
+    'component',
+)
+router.register(
     r'components/(?P<project__slug>[^/]+)',
     ComponentViewSet,
     'component',
@@ -42,6 +47,10 @@ router.register(
     r'translations/'
     r'(?P<subproject__project__slug>[^/]+)/'
     r'(?P<subproject__slug>[^/]+)',
+    TranslationViewSet
+)
+router.register(
+    r'translations',
     TranslationViewSet
 )
 router.register(
