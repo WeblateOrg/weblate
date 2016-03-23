@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.shortcuts import render, get_object_or_404
+
 from rest_framework import viewsets
 
 from weblate.api.serializers import (
@@ -26,6 +28,24 @@ from weblate.api.serializers import (
 )
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
+
+
+class MultipleFieldMixin(object):
+    """
+    Apply this mixin to any view or viewset to get multiple field filtering
+    based on a `lookup_fields` attribute, instead of the default single field
+    filtering.
+    """
+    def get_object(self):
+        # Get the base queryset
+        queryset = self.get_queryset()
+        # Apply any filter backends
+        queryset = self.filter_queryset(queryset)
+        lookup = {}
+        for field in self.lookup_fields:
+            lookup[field] = self.kwargs[field]
+        # Lookup the object
+        return get_object_or_404(queryset, **lookup)
 
 
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
@@ -41,11 +61,13 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
 
-class ComponentViewSet(viewsets.ReadOnlyModelViewSet):
+class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
     """Translation components API.
     """
     queryset = SubProject.objects.none()
     serializer_class = ComponentSerializer
+    lookup_field = 'slug'
+    lookup_fields = ('project__slug', 'slug')
 
     def get_queryset(self):
         acl_projects, filtered = Project.objects.get_acl_status(
@@ -53,18 +75,23 @@ class ComponentViewSet(viewsets.ReadOnlyModelViewSet):
         )
         if filtered:
             result = SubProject.objects.filter(project__in=acl_projects)
-        result = SubProject.objects.all()
+        else:
+            result = SubProject.objects.all()
         return result.prefetch_related(
             'project',
             'project__source_language'
         )
 
 
-class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
+class TranslationViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
     """Translation components API.
     """
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
+    lookup_field = 'language__code'
+    lookup_fields = (
+        'subproject__project__slug', 'subproject__slug', 'language__code',
+    )
 
     def get_queryset(self):
         acl_projects, filtered = Project.objects.get_acl_status(
@@ -74,7 +101,8 @@ class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
             result = Translation.objects.filter(
                 subproject__project__in=acl_projects
             )
-        result = Translation.objects.all()
+        else:
+            result = Translation.objects.all()
         return result.prefetch_related(
             'subproject', 'subproject__project',
             'subproject__project__source_language',

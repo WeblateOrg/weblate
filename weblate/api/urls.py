@@ -29,10 +29,24 @@ from weblate.api.views import (
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'projects', ProjectViewSet)
-router.register(r'components', ComponentViewSet)
-router.register(r'translations', TranslationViewSet)
-router.register(r'languages', LanguageViewSet)
+router.register(
+    r'projects',
+    ProjectViewSet
+)
+router.register(
+    r'components/(?P<project__slug>[^/]+)',
+    ComponentViewSet
+)
+router.register(
+    r'translations/'
+    r'(?P<subproject__project__slug>[^/]+)/'
+    r'(?P<subproject__slug>[^/]+)',
+    TranslationViewSet
+)
+router.register(
+    r'languages',
+    LanguageViewSet
+)
 
 
 # Wire up our API using automatic URL routing.
