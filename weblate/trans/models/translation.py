@@ -833,7 +833,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if self.subproject.project.set_translation_team:
                 headers['language_team'] = '%s <%s>' % (
                     self.language.name,
-                    get_site_url(self.get_absolute_url()),
+                    self.get_absolute_url(),
                 )
 
             # Optionally store email for reporting bugs in source

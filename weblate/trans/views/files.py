@@ -29,7 +29,6 @@ from django.contrib.auth.decorators import permission_required
 from django.views.decorators.http import require_POST
 from django.http import Http404
 
-from weblate.trans.site import get_site_url
 from weblate.trans.exporters import get_exporter
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
@@ -46,7 +45,7 @@ def download_translation_format(request, project, subproject, lang, fmt):
         exporter = get_exporter(fmt)(
             obj.subproject.project,
             obj.language,
-            get_site_url(obj.get_absolute_url())
+            obj.get_absolute_url()
         )
     except KeyError:
         raise Http404('File format not supported')

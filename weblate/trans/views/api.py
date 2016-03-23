@@ -33,7 +33,6 @@ from django.http import (
 from weblate import appsettings
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
-from weblate.trans.site import get_site_url
 from weblate.logger import LOGGER
 
 
@@ -352,7 +351,7 @@ def export_stats(request, project, subproject):
             'failing': trans.failing_checks,
             'failing_percent': trans.get_failing_checks_percent(),
             'url': trans.get_share_url(),
-            'url_translate': get_site_url(trans.get_absolute_url()),
+            'url_translate': trans.get_absolute_url(),
         })
     if jsonp:
         return HttpResponse(
