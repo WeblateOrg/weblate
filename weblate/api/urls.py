@@ -35,7 +35,8 @@ router.register(
 )
 router.register(
     r'components/(?P<project__slug>[^/]+)',
-    ComponentViewSet
+    ComponentViewSet,
+    'component',
 )
 router.register(
     r'translations/'

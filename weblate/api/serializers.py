@@ -24,6 +24,29 @@ from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
 
 
+class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+    def get_url(self, obj, view_name, request, format):
+        """
+        Given an object, return the URL that hyperlinks to the object.
+
+        May raise a `NoReverseMatch` if the `view_name` and `lookup_field`
+        attributes are not configured to correctly match the URL conf.
+        """
+        # Unsaved objects will not yet have a valid URL.
+        if hasattr(obj, 'pk') and obj.pk is None:
+            return None
+
+        kwargs = {}
+        for lookup in self.lookup_field:
+            value = obj
+            for key in lookup.split('__'):
+                value = getattr(value, key)
+            kwargs[lookup] = value
+        return self.reverse(
+            view_name, kwargs=kwargs, request=request, format=format
+        )
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
 
@@ -62,25 +85,45 @@ class ComponentSerializer(serializers.ModelSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
 
+    serializer_url_field = MultiFieldHyperlinkedIdentityField
+
     class Meta(object):
         model = SubProject
         fields = (
-            'id', 'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
+            'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'file_format', 'license',
-            'license_url', 'web_url',
+            'license_url', 'web_url', 'url',
         )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:component-detail',
+                'lookup_field': ('project__slug', 'slug'),
+            }
+        }
 
 
 class TranslationSerializer(serializers.ModelSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
-    subproject = ComponentSerializer(read_only=True)
+    component = ComponentSerializer(read_only=True, source='subproject')
     language = LanguageSerializer(read_only=True)
+
+    serializer_url_field = MultiFieldHyperlinkedIdentityField
 
     class Meta(object):
         model = Translation
         fields = (
-            'id', 'language', 'subproject', 'translated', 'fuzzy', 'total',
+            'language', 'component', 'translated', 'fuzzy', 'total',
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
-            'language_code', 'filename', 'revision', 'web_url',
+            'language_code', 'filename', 'revision', 'web_url', 'url',
         )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:translation-detail',
+                'lookup_field': (
+                    'subproject__project__slug',
+                    'subproject__slug',
+                    'language__code',
+                ),
+            }
+        }
