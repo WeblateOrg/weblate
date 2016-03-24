@@ -41,16 +41,11 @@ def download_translation_format(request, project, subproject, lang, fmt):
     obj = get_translation(request, project, subproject, lang)
 
     try:
-        exporter = get_exporter(fmt)(
-            obj.subproject.project,
-            obj.language,
-            obj.get_absolute_url()
-        )
+        exporter = get_exporter(fmt)(translation=obj)
     except KeyError:
         raise Http404('File format not supported')
 
-    for unit in obj.unit_set.iterator():
-        exporter.add_unit(unit)
+    exporter.add_units(obj)
 
     # Save to response
     return exporter.get_response(

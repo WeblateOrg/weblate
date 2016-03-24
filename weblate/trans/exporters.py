@@ -52,10 +52,16 @@ class BaseExporter(object):
     name = ''
     has_lang = False
 
-    def __init__(self, project, language, url):
-        self.project = project
-        self.language = language
-        self.url = url
+    def __init__(self, project=None, language=None, url=None,
+                 translation=None):
+        if translation is not None:
+            self.project = translation.subproject.project
+            self.langauge = obj.language
+            self.url = obj.get_absolute_url()
+        else:
+            self.project = project
+            self.language = language
+            self.url = url
         self.storage = self.get_storage()
         self.storage.setsourcelanguage(project.source_language.code)
         self.storage.settargetlanguage(language.code)
@@ -71,6 +77,10 @@ class BaseExporter(object):
         else:
             unit.target = word.target
         self.storage.addunit(unit)
+
+    def add_units(self, translation):
+        for unit intranslation .unit_set.iterator():
+            self.add_unit(unit)
 
     def add_unit(self, unit):
         if unit.is_plural():
