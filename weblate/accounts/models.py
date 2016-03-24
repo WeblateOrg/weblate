@@ -145,7 +145,7 @@ def notify_parse_error(subproject, translation, error):
             'en',
             'ADMINS',
             'parse_error',
-            subproject,
+            translation if translation is not None else subproject,
             {
                 'subproject': subproject,
                 'translation': translation,
@@ -784,7 +784,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'parse_error',
-            subproject,
+            translation if translation is not None else subproject,
             {
                 'subproject': subproject,
                 'translation': translation,
