@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
@@ -149,8 +150,8 @@ class TranslationViewSet(MultipleFieldMixin, RawFileViewSet):
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
         elif request.method in ('PUT', 'POST'):
-            if (not can_upload_translation(request.user, obj)
-                    or obj.is_locked(request.user)):
+            if (not can_upload_translation(request.user, obj) or
+                    obj.is_locked(request.user)):
                 raise PermissionDenied()
 
             ret, count = obj.merge_upload(
@@ -160,6 +161,7 @@ class TranslationViewSet(MultipleFieldMixin, RawFileViewSet):
             )
 
             return Response(data={'result': ret, 'count': count})
+
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     """Languages API.
