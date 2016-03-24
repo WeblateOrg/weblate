@@ -53,7 +53,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         )
 
 
-class APITest(APIBaseTest):
+class ProjectAPITest(APIBaseTest):
     def test_list_projects(self):
         response = self.client.get(
             reverse('api:project-list')
@@ -67,6 +67,8 @@ class APITest(APIBaseTest):
         )
         self.assertEqual(response.data['slug'], 'test')
 
+
+class ComponentAPITest(APIBaseTest):
     def test_list_components(self):
         response = self.client.get(
             reverse('api:component-list')
@@ -87,6 +89,22 @@ class APITest(APIBaseTest):
         self.assertEqual(response.data['slug'], 'test')
         self.assertEqual(response.data['project']['slug'], 'test')
 
+
+class LanguageAPITest(APIBaseTest):
+    def test_list_languages(self):
+        response = self.client.get(
+            reverse('api:language-list')
+        )
+        self.assertEqual(response.data['count'], 3)
+
+    def test_get_language(self):
+        response = self.client.get(
+            reverse('api:language-detail', kwargs={'code': 'cs'})
+        )
+        self.assertEqual(response.data['name'], 'Czech')
+
+
+class TranslationAPITest(APIBaseTest):
     def test_list_translations(self):
         response = self.client.get(
             reverse('api:translation-list')
@@ -102,20 +120,6 @@ class APITest(APIBaseTest):
         )
         self.assertEqual(response.data['language_code'], 'cs')
 
-    def test_list_languages(self):
-        response = self.client.get(
-            reverse('api:language-list')
-        )
-        self.assertEqual(response.data['count'], 3)
-
-    def test_get_language(self):
-        response = self.client.get(
-            reverse('api:language-detail', kwargs={'code': 'cs'})
-        )
-        self.assertEqual(response.data['name'], 'Czech')
-
-
-class TranslationAPITest(APIBaseTest):
     def test_download(self):
         response = self.client.get(
             reverse(
