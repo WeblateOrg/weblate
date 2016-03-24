@@ -883,6 +883,7 @@ def create_groups(update):
     group, created = Group.objects.get_or_create(name='Users')
     if created or update:
         group.permissions.add(
+            Permission.objects.get(codename='change_translation'),
             Permission.objects.get(codename='upload_translation'),
             Permission.objects.get(codename='overwrite_translation'),
             Permission.objects.get(codename='save_translation'),
@@ -906,6 +907,7 @@ def create_groups(update):
         AutoGroup.objects.create(group=group, match='^.*$')
 
     owner_permissions = (
+        Permission.objects.get(codename='change_translation'),
         Permission.objects.get(codename='author_translation'),
         Permission.objects.get(codename='upload_translation'),
         Permission.objects.get(codename='overwrite_translation'),
