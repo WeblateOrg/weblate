@@ -19,6 +19,7 @@
 #
 
 from django.shortcuts import get_object_or_404
+from django.http import Http404
 
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
@@ -27,6 +28,7 @@ from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer,
 )
+from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
@@ -48,6 +50,25 @@ class MultipleFieldMixin(object):
             lookup[field] = self.kwargs[field]
         # Lookup the object
         return get_object_or_404(queryset, **lookup)
+
+
+class RawFileMixin(object):
+    """
+    Allows to skip content negotiation for certain requests.
+    """
+    raw_urls = ()
+
+    def perform_content_negotiation(self, request, force=False):
+        """Custom content negotiation"""
+        if request.resolver_match.url_name in self.raw_urls:
+            fmt = self.format_kwarg or request.query_params.get('format')
+            if fmt is None or fmt in EXPORTERS:
+                renderers = self.get_renderers()
+                return (renderers[0], renderers[0].media_type)
+            raise Http404('Not supported exporter')
+        return super(TranslationViewSet, self).perform_content_negotiation(
+            request, force
+        )
 
 
 class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
@@ -84,13 +105,16 @@ class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
         )
 
 
-class TranslationViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
+class TranslationViewSet(RawFileMixin, MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
     """Translation components API.
     """
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
     lookup_fields = (
         'subproject__project__slug', 'subproject__slug', 'language__code',
+    )
+    raw_urls = (
+        'translation-download',
     )
 
     def get_queryset(self):
@@ -116,9 +140,7 @@ class TranslationViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
     @detail_route(methods=['get'])
     def download(self, request, **kwargs):
         obj = self.get_object()
-        fmt = None
-        if 'format' in request.GET:
-            fmt = request.GET['format']
+        fmt = self.format_kwarg or request.query_params.get('format')
         return download_translation_file(obj, fmt)
 
 

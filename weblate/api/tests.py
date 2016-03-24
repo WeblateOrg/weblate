@@ -116,3 +116,16 @@ class TranslationAPITest(APIBaseTest):
         self.assertContains(
             response, 'Project-Id-Version: Weblate Hello World 2012'
         )
+
+    def test_download_format(self):
+        args = {'format': 'xliff'}
+        args.update(self.translation_kwargs)
+        response = self.client.get(
+            reverse(
+                'api:translation-download',
+                kwargs=args
+            )
+        )
+        self.assertContains(
+            response, '<xliff'
+        )
