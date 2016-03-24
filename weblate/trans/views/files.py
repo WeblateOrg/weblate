@@ -20,6 +20,7 @@
 
 import sys
 
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.shortcuts import redirect
@@ -34,7 +35,8 @@ from weblate.trans.views.helper import (
     get_translation, import_message, download_translation_file
 )
 from weblate.trans.permissions import (
-    can_author_translation, can_overwrite_translation
+    can_author_translation, can_overwrite_translation,
+    can_upload_translation,
 )
 
 
@@ -63,12 +65,14 @@ def download_language_pack(request, project, subproject, lang):
 
 
 @require_POST
-@permission_required('trans.upload_translation')
 def upload_translation(request, project, subproject, lang):
     '''
     Handling of translation uploads.
     '''
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_upload_translation(request.user, obj):
+        raise PermissionDenied()
 
     # Check method and lock
     if obj.is_locked(request.user):

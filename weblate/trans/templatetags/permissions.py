@@ -24,6 +24,13 @@ register = template.Library()
 
 
 @register.assignment_tag
+def can_upload_translation(user, translation):
+    return weblate.trans.permissions.can_upload_translation(
+        user, translation
+    )
+
+
+@register.assignment_tag
 def can_translate(user, translation):
     return weblate.trans.permissions.can_translate(
         user, translation

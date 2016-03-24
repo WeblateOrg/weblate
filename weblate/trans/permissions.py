@@ -136,6 +136,14 @@ def can_edit(user, translation, permission):
 
 
 @cache_permission
+def can_upload_translation(user, translation):
+    """
+    Checks whether user can translate given translation.
+    """
+    return can_edit(user, translation, 'trans.upload_translation')
+
+
+@cache_permission
 def can_translate(user, translation):
     """
     Checks whether user can translate given translation.
