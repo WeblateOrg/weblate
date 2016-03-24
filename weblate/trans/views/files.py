@@ -28,10 +28,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.http import require_POST
 
-from weblate.trans.exporters import get_exporter
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
-from weblate.trans.views.helper import get_translation, import_message
+from weblate.trans.views.helper import (
+    get_translation, import_message, download_translation_file
+)
 from weblate.trans.permissions import (
     can_author_translation, can_overwrite_translation
 )
@@ -40,41 +41,13 @@ from weblate.trans.permissions import (
 def download_translation_format(request, project, subproject, lang, fmt):
     obj = get_translation(request, project, subproject, lang)
 
-    try:
-        exporter = get_exporter(fmt)(translation=obj)
-    except KeyError:
-        raise Http404('File format not supported')
-
-    exporter.add_units(obj)
-
-    # Save to response
-    return exporter.get_response(
-        '{{project}}-{0}-{{language}}.{{extension}}'.format(
-            subproject
-        )
-    )
+    return download_translation_file(obj, fmt)
 
 
 def download_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    srcfilename = obj.get_filename()
-
-    # Construct file name (do not use real filename as it is usually not
-    # that useful)
-    filename = '%s-%s-%s.%s' % (project, subproject, lang, obj.store.extension)
-
-    # Create response
-    with open(srcfilename) as handle:
-        response = HttpResponse(
-            handle.read(),
-            content_type=obj.store.mimetype
-        )
-
-    # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
-    return response
+    return download_translation_file(obj)
 
 
 def download_language_pack(request, project, subproject, lang):

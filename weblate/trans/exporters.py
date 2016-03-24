@@ -56,15 +56,19 @@ class BaseExporter(object):
                  translation=None):
         if translation is not None:
             self.project = translation.subproject.project
-            self.langauge = obj.language
-            self.url = obj.get_absolute_url()
+            self.language = translation.language
+            self.url = translation.get_absolute_url()
         else:
             self.project = project
             self.language = language
             self.url = url
         self.storage = self.get_storage()
-        self.storage.setsourcelanguage(project.source_language.code)
-        self.storage.settargetlanguage(language.code)
+        self.storage.setsourcelanguage(
+            self.project.source_language.code
+        )
+        self.storage.settargetlanguage(
+            self.language.code
+        )
 
     def get_storage(self):
         raise NotImplementedError()
@@ -79,7 +83,7 @@ class BaseExporter(object):
         self.storage.addunit(unit)
 
     def add_units(self, translation):
-        for unit intranslation .unit_set.iterator():
+        for unit in translation.unit_set.iterator():
             self.add_unit(unit)
 
     def add_unit(self, unit):
