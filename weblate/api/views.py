@@ -149,18 +149,18 @@ class TranslationViewSet(MultipleFieldMixin, FileExportViewSet):
         if request.method == 'GET':
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
-        elif request.method in ('PUT', 'POST'):
-            if (not can_upload_translation(request.user, obj) or
-                    obj.is_locked(request.user)):
-                raise PermissionDenied()
 
-            ret, count = obj.merge_upload(
-                request,
-                request.data['file'],
-                False
-            )
+        if (not can_upload_translation(request.user, obj) or
+                obj.is_locked(request.user)):
+            raise PermissionDenied()
 
-            return Response(data={'result': ret, 'count': count})
+        ret, count = obj.merge_upload(
+            request,
+            request.data['file'],
+            False
+        )
+
+        return Response(data={'result': ret, 'count': count})
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
