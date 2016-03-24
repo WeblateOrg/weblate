@@ -33,7 +33,7 @@ from weblate.api.serializers import (
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.trans.permissions import (
-    can_upload_translation, can_lock_subproject,
+    can_upload_translation, can_lock_subproject, can_see_repository_status,
 )
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
@@ -57,7 +57,7 @@ class MultipleFieldMixin(object):
         return get_object_or_404(queryset, **lookup)
 
 
-class FileExportViewSet(viewsets.ReadOnlyModelViewSet):
+class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Allows to skip content negotiation for certain requests.
     """
@@ -71,12 +71,34 @@ class FileExportViewSet(viewsets.ReadOnlyModelViewSet):
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
             raise Http404('Not supported exporter')
-        return super(FileExportViewSet, self).perform_content_negotiation(
+        return super(WeblateViewSet, self).perform_content_negotiation(
             request, force
         )
 
+    @detail_route(methods=['get', 'post'])
+    def repository(self, request, **kwargs):
+        obj = self.get_object()
 
-class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
+        if hasattr(obj, 'subproject'):
+            project = obj.subproject.project
+        elif hasattr(obj, 'project'):
+            project = obj.project
+        else:
+            project = obj
+
+        if not can_see_repository_status(request.user, project):
+            raise PermissionDenied()
+
+        return Response(
+            data={
+                'needs_commit': obj.repo_needs_commit(),
+                'needs_merge': obj.repo_needs_merge(),
+                'needs_push': obj.repo_needs_push(),
+            }
+        )
+
+
+class ProjectViewSet(WeblateViewSet):
     """Translation projects API.
     """
     queryset = Project.objects.none()
@@ -89,7 +111,7 @@ class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
 
-class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
+class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API.
     """
     queryset = SubProject.objects.none()
@@ -128,7 +150,7 @@ class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
         return Response(data=LockSerializer(obj).data)
 
 
-class TranslationViewSet(MultipleFieldMixin, FileExportViewSet):
+class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API.
     """
     queryset = Translation.objects.none()

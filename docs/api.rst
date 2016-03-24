@@ -47,6 +47,10 @@ Projects
 
     Returns information about project.
 
+.. http:get:: /api/projects/(string:project)/repository/
+
+    Returns information about VCS repository status.
+
 Components
 ++++++++++
 
@@ -63,6 +67,10 @@ Components
     Sets component lock status.
 
     :query lock: Boolean whether to lock or not.
+
+.. http:get:: /api/components/(string:project)/(string:component)/repository/
+
+    Returns information about VCS repository status.
 
 Translations
 ++++++++++++
@@ -89,6 +97,10 @@ Translations
             -F file=@strings.xml \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/translations/hello/android/cs/file/
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
+
+    Returns information about VCS repository status.
 
 .. _hooks:
 

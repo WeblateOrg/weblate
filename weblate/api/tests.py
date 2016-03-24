@@ -54,6 +54,15 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             HTTP_AUTHORIZATION='Token ' + user.auth_token.key
         )
 
+    def do_request(self, name, kwargs, data=None, code=200, superuser=False):
+        self.authenticate(superuser)
+        response = self.client.get(
+            reverse(name, kwargs=kwargs)
+        )
+        self.assertEqual(response.status_code, code)
+        if data is not None:
+            self.assertEqual(response.data, data)
+
 
 class ProjectAPITest(APIBaseTest):
     def test_list_projects(self):
@@ -68,6 +77,25 @@ class ProjectAPITest(APIBaseTest):
             reverse('api:project-detail', kwargs=self.project_kwargs)
         )
         self.assertEqual(response.data['slug'], 'test')
+
+    def test_repo_status_denied(self):
+        self.do_request(
+            'api:project-repository',
+            self.project_kwargs,
+            code=403
+        )
+
+    def test_repo_status(self):
+        self.do_request(
+            'api:project-repository',
+            self.project_kwargs,
+            superuser=True,
+            data={
+                'needs_push': False,
+                'needs_merge': False,
+                'needs_commit': False
+            }
+        )
 
 
 class ComponentAPITest(APIBaseTest):
@@ -121,6 +149,25 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(response.data, {'locked': True})
         response = self.client.post(url, {'lock': False})
         self.assertEqual(response.data, {'locked': False})
+
+    def test_repo_status_denied(self):
+        self.do_request(
+            'api:component-repository',
+            self.component_kwargs,
+            code=403
+        )
+
+    def test_repo_status(self):
+        self.do_request(
+            'api:component-repository',
+            self.component_kwargs,
+            superuser=True,
+            data={
+                'needs_push': False,
+                'needs_merge': False,
+                'needs_commit': False
+            }
+        )
 
 
 class LanguageAPITest(APIBaseTest):
@@ -202,4 +249,23 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {'count': 5, 'result': True}
+        )
+
+    def test_repo_status_denied(self):
+        self.do_request(
+            'api:translation-repository',
+            self.translation_kwargs,
+            code=403
+        )
+
+    def test_repo_status(self):
+        self.do_request(
+            'api:translation-repository',
+            self.translation_kwargs,
+            superuser=True,
+            data={
+                'needs_push': False,
+                'needs_merge': False,
+                'needs_commit': False
+            }
         )
