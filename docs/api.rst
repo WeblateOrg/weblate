@@ -51,6 +51,12 @@ Projects
 
     Returns information about VCS repository status.
 
+.. http:post:: /api/projects/(string:project)/repository/
+
+    Performs given operation on the VCS repository.
+
+    :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+
 Components
 ++++++++++
 
@@ -71,6 +77,12 @@ Components
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
     Returns information about VCS repository status.
+
+.. http:post:: /api/components/(string:project)/(string:component)/repository/
+
+    Performs given operation on the VCS repository.
+
+    :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
 Translations
 ++++++++++++
@@ -101,6 +113,12 @@ Translations
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
     Returns information about VCS repository status.
+
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
+
+    Performs given operation on the VCS repository.
+
+    :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
 .. _hooks:
 

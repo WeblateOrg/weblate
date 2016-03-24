@@ -146,3 +146,9 @@ class LockSerializer(serializers.ModelSerializer):
 
 class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()
+
+
+class RepoRequestSerializer(ReadOnlySerializer):
+    operation = serializers.ChoiceField(
+        choices=('commit', 'pull', 'push', 'reset')
+    )

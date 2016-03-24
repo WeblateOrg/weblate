@@ -29,11 +29,14 @@ from rest_framework.response import Response
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer, LockRequestSerializer, LockSerializer,
+    RepoRequestSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.trans.permissions import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
+    can_commit_translation, can_update_translation, can_reset_translation,
+    can_push_translation,
 )
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
@@ -75,6 +78,20 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
             request, force
         )
 
+    def repository_operation(self, request, obj, project, operation):
+        OPERATIONS = {
+            'push': (can_push_translation, 'do_push'),
+            'pull': (can_update_translation, 'do_update'),
+            'reset': (can_reset_translation, 'do_reset'),
+            'commit': (can_commit_translation, 'commit_pending'),
+        }
+        permission_check, method = OPERATIONS[operation]
+
+        if not permission_check(request.user, project):
+            raise PermissionDenied()
+
+        getattr(obj, method)(request)
+
     @detail_route(methods=['get', 'post'])
     def repository(self, request, **kwargs):
         obj = self.get_object()
@@ -88,6 +105,14 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
 
         if not can_see_repository_status(request.user, project):
             raise PermissionDenied()
+
+        if request.method == 'POST':
+            serializer = RepoRequestSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            self.repository_operation(
+                request, obj, project, serializer.validated_data['operation']
+            )
 
         return Response(
             data={

@@ -54,11 +54,14 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             HTTP_AUTHORIZATION='Token ' + user.auth_token.key
         )
 
-    def do_request(self, name, kwargs, data=None, code=200, superuser=False):
+    def do_request(self, name, kwargs, data=None, code=200, superuser=False,
+                  get=True, request=None):
         self.authenticate(superuser)
-        response = self.client.get(
-            reverse(name, kwargs=kwargs)
-        )
+        url = reverse(name, kwargs=kwargs)
+        if get:
+            response = self.client.get(url)
+        else:
+            response = self.client.post(url, request)
         self.assertEqual(response.status_code, code)
         if data is not None:
             self.assertEqual(response.data, data)
@@ -77,6 +80,36 @@ class ProjectAPITest(APIBaseTest):
             reverse('api:project-detail', kwargs=self.project_kwargs)
         )
         self.assertEqual(response.data['slug'], 'test')
+
+    def test_repo_op_denied(self):
+        for operation in ('push', 'pull', 'reset', 'commit'):
+            self.do_request(
+                'api:project-repository',
+                self.project_kwargs,
+                code=403,
+                get=False,
+                request={'operation': operation},
+            )
+
+    def test_repo_ops(self):
+        for operation in ('push', 'pull', 'reset', 'commit'):
+            self.do_request(
+                'api:project-repository',
+                self.project_kwargs,
+                get=False,
+                superuser=True,
+                request={'operation': operation},
+            )
+
+    def test_repo_invalid(self):
+        self.do_request(
+            'api:project-repository',
+            self.project_kwargs,
+            code=400,
+            get=False,
+            superuser=True,
+            request={'operation': 'invalid'},
+        )
 
     def test_repo_status_denied(self):
         self.do_request(
