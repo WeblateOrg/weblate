@@ -23,11 +23,10 @@ import sys
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.views.decorators.http import require_POST
-from django.http import Http404
 
 from weblate.trans.exporters import get_exporter
 from weblate.trans.util import report_error
