@@ -41,6 +41,13 @@ from weblate.trans.permissions import (
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 
+OPERATIONS = {
+    'push': (can_push_translation, 'do_push'),
+    'pull': (can_update_translation, 'do_update'),
+    'reset': (can_reset_translation, 'do_reset'),
+    'commit': (can_commit_translation, 'commit_pending'),
+}
+
 
 class MultipleFieldMixin(object):
     """
@@ -79,12 +86,6 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
     def repository_operation(self, request, obj, project, operation):
-        OPERATIONS = {
-            'push': (can_push_translation, 'do_push'),
-            'pull': (can_update_translation, 'do_update'),
-            'reset': (can_reset_translation, 'do_reset'),
-            'commit': (can_commit_translation, 'commit_pending'),
-        }
         permission_check, method = OPERATIONS[operation]
 
         if not permission_check(request.user, project):

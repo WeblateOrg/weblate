@@ -55,7 +55,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         )
 
     def do_request(self, name, kwargs, data=None, code=200, superuser=False,
-                  get=True, request=None):
+                   get=True, request=None):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
         if get:
