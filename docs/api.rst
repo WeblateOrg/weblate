@@ -54,6 +54,16 @@ Components
 
     Returns information about component.
 
+.. http:get:: /api/components/(string:project)/(string:component)/lock/
+
+    Returns component lock status.
+
+.. http:post:: /api/components/(string:project)/(string:component)/lock/
+
+    Sets component lock status.
+
+    :query lock: Boolean whether to lock or not.
+
 Translations
 ++++++++++++
 

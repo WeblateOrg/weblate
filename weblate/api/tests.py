@@ -46,8 +46,10 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             'slug': 'test'
         }
 
-    def authenticate(self):
+    def authenticate(self, superuser=False):
         user, dummy = User.objects.get_or_create(username='test')
+        user.is_superuser = superuser
+        user.save()
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + user.auth_token.key
         )
@@ -88,6 +90,37 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data['slug'], 'test')
         self.assertEqual(response.data['project']['slug'], 'test')
+
+    def test_get_lock(self):
+        response = self.client.get(
+            reverse(
+                'api:component-lock',
+                kwargs=self.component_kwargs
+            )
+        )
+        self.assertEqual(response.data, {'locked': False})
+
+    def test_set_lock_denied(self):
+        self.authenticate()
+        url = reverse(
+            'api:component-lock',
+            kwargs=self.component_kwargs
+        )
+        response = self.client.post(url, {'lock': True})
+        self.assertEqual(response.status_code, 403)
+
+    def test_set_lock(self):
+        self.authenticate(True)
+        url = reverse(
+            'api:component-lock',
+            kwargs=self.component_kwargs
+        )
+        response = self.client.get(url)
+        self.assertEqual(response.data, {'locked': False})
+        response = self.client.post(url, {'lock': True})
+        self.assertEqual(response.data, {'locked': True})
+        response = self.client.post(url, {'lock': False})
+        self.assertEqual(response.data, {'locked': False})
 
 
 class LanguageAPITest(APIBaseTest):

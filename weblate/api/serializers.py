@@ -128,3 +128,11 @@ class TranslationSerializer(serializers.ModelSerializer):
                 ),
             }
         }
+
+
+class LockSerializer(serializers.Serializer):
+    locked = serializers.BooleanField()
+
+
+class LockRequestSerializer(serializers.Serializer):
+    lock = serializers.BooleanField()

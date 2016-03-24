@@ -24,15 +24,18 @@ from django.http import Http404
 
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
+from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
-    LanguageSerializer,
+    LanguageSerializer, LockRequestSerializer, LockSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import Project, SubProject, Translation
-from weblate.trans.permissions import can_upload_translation
+from weblate.trans.permissions import (
+    can_upload_translation, can_lock_subproject,
+)
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 
@@ -106,6 +109,24 @@ class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
             'project',
             'project__source_language'
         )
+
+    @detail_route(methods=['get', 'post'])
+    def lock(self, request, **kwargs):
+        obj = self.get_object()
+
+        if request.method == 'POST':
+            if not can_lock_subproject(request.user, obj.project):
+                raise PermissionDenied()
+
+            serializer = LockRequestSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            if serializer.validated_data['lock']:
+                obj.do_lock(request.user)
+            else:
+                obj.do_unlock(request.user)
+
+        return Response(data={'locked': obj.locked})
 
 
 class TranslationViewSet(MultipleFieldMixin, FileExportViewSet):
