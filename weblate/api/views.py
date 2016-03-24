@@ -117,7 +117,7 @@ class TranslationViewSet(MultipleFieldMixin, RawFileViewSet):
         'subproject__project__slug', 'subproject__slug', 'language__code',
     )
     raw_urls = (
-        'translation-download',
+        'translation-file',
     )
 
     def get_queryset(self):
