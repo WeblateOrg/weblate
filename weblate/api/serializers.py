@@ -130,9 +130,19 @@ class TranslationSerializer(serializers.ModelSerializer):
         }
 
 
-class LockSerializer(serializers.Serializer):
-    locked = serializers.BooleanField()
+class ReadOnlySerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        return None
+
+    def create(self, validated_data):
+        return None
 
 
-class LockRequestSerializer(serializers.Serializer):
+class LockSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        model = SubProject
+        fields = ('locked', )
+
+
+class LockRequestSerializer(ReadOnlySerializer):
     lock = serializers.BooleanField()

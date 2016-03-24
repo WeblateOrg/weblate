@@ -24,7 +24,6 @@ from django.http import Http404
 
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
-from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 
 from weblate.api.serializers import (
@@ -126,7 +125,7 @@ class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
             else:
                 obj.do_unlock(request.user)
 
-        return Response(data={'locked': obj.locked})
+        return Response(data=LockSerializer(obj).data)
 
 
 class TranslationViewSet(MultipleFieldMixin, FileExportViewSet):
