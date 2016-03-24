@@ -38,7 +38,6 @@ from django.utils.translation import ugettext_lazy as _
 from translate.convert import po2php
 from translate.misc import quote
 from translate.storage.lisa import LISAfile
-from translate.storage.mo import mofile, mounit
 from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
