@@ -1099,7 +1099,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Load backend file
         try:
             # First try using own loader
-            store = self.subproject.file_format_cls.parse(
+            store = self.store.parse(
                 StringIOMode(fileobj.name, filecopy),
                 self.subproject.template_store
             )
