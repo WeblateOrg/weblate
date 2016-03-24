@@ -55,7 +55,7 @@ class MultipleFieldMixin(object):
         return get_object_or_404(queryset, **lookup)
 
 
-class RawFileViewSet(viewsets.ReadOnlyModelViewSet):
+class FileExportViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Allows to skip content negotiation for certain requests.
     """
@@ -69,7 +69,7 @@ class RawFileViewSet(viewsets.ReadOnlyModelViewSet):
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
             raise Http404('Not supported exporter')
-        return super(RawFileViewSet, self).perform_content_negotiation(
+        return super(FileExportViewSet, self).perform_content_negotiation(
             request, force
         )
 
@@ -108,7 +108,7 @@ class ComponentViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
         )
 
 
-class TranslationViewSet(MultipleFieldMixin, RawFileViewSet):
+class TranslationViewSet(MultipleFieldMixin, FileExportViewSet):
     """Translation components API.
     """
     queryset = Translation.objects.none()
