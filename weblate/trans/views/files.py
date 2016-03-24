@@ -52,21 +52,14 @@ def download_translation(request, project, subproject, lang):
 
 def download_language_pack(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
     if not obj.supports_language_pack():
         raise Http404('Language pack download not supported')
 
-    filename, mime = obj.store.get_language_pack_meta()
-
-    # Create response
-    response = HttpResponse(
-        obj.store.get_language_pack(),
-        content_type=mime
+    return download_translation_file(
+        obj,
+        obj.subproject.file_format_cls.language_pack
     )
-
-    # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
-    return response
 
 
 @require_POST

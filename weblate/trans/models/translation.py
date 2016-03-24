@@ -402,7 +402,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def supports_language_pack(self):
         """Checks whether we support language pack download."""
-        return self.subproject.file_format_cls.supports_language_pack()
+        return self.subproject.file_format_cls.language_pack is not None
 
     @property
     def store(self):

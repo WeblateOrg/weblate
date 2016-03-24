@@ -453,6 +453,7 @@ class FileFormat(object):
     unit_class = FileUnit
     new_translation = None
     autoload = ()
+    language_pack = None
 
     @staticmethod
     def serialize(store):
@@ -700,13 +701,6 @@ class FileFormat(object):
             return self.store.Extensions[0]
 
     @classmethod
-    def supports_language_pack(cls):
-        '''
-        Checks whether backend store supports generating language pack.
-        '''
-        return hasattr(cls, 'get_language_pack')
-
-    @classmethod
     def is_valid(cls, store):
         '''
         Checks whether store seems to be valid.
@@ -857,40 +851,7 @@ class PoFormat(FileFormat):
     loader = pofile
     monolingual = False
     autoload = ('.po', '.pot')
-
-    def get_language_pack(self):
-        '''
-        Generates compiled messages file.
-        '''
-        outputfile = mofile()
-        for unit in self.store.units:
-            if not unit.istranslated() and not unit.isheader():
-                continue
-            outunit = mounit()
-            if unit.isheader():
-                outunit.source = ""
-            else:
-                outunit.source = unit.source
-                context = unit.getcontext()
-                if context:
-                    outunit.msgctxt = [context]
-            outunit.target = unit.target
-            outputfile.addunit(outunit)
-        return self.serialize(outputfile)
-
-    def get_language_pack_meta(self):
-        '''
-        Returns language pack filename and mime type.
-        '''
-
-        basefile = os.path.splitext(
-            os.path.basename(self.storefile)
-        )[0]
-
-        return (
-            '%s.mo' % basefile,
-            'application/x-gettext-catalog'
-        )
+    language_pack = 'mo'
 
     @classmethod
     def supports_new_language(cls):

@@ -417,5 +417,5 @@ class ExportTest(ViewTestCase):
         )
         self.assertEqual(
             response['Content-Disposition'],
-            'attachment; filename=cs.mo'
+            'attachment; filename=test-test-cs.mo',
         )

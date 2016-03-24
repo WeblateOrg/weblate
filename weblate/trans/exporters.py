@@ -24,6 +24,7 @@ from django.http import HttpResponse
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
+from translate.storage.mo import mofile
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
@@ -185,3 +186,35 @@ class TBXExporter(BaseExporter):
 
     def get_storage(self):
         return tbxfile()
+
+
+@register_exporter
+class MoExporter(BaseExporter):
+    name = 'mo'
+    content_type = 'application/x-gettext-catalog'
+    extension = 'mo'
+    has_lang = False
+
+    def get_storage(self):
+        store = mofile()
+
+        # Set po file header
+        store.updateheader(
+            add=True,
+            language=self.language.code,
+            x_generator='Weblate %s' % weblate.VERSION,
+            project_id_version='%s (%s)' % (
+                self.language.name, self.project.name
+            ),
+            plural_forms=self.language.get_plural_form(),
+            language_team='%s <%s>' % (
+                self.language.name,
+                self.url,
+            )
+        )
+        return store
+
+    def add_unit(self, unit):
+        if not unit.translated:
+            return
+        super(MoExporter, self).add_unit(unit)
