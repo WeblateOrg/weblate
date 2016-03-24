@@ -10,8 +10,56 @@ REST API
 
     The API is available since Weblate 2.6.
 
+The API is accessible on the ``/api/`` URL. It is based on 
+`Django REST framework <http://www.django-rest-framework.org/>`_.
+
+The public project API is available without authentication, though
+unauthenticated requests are heavily throttled (by default to 100 requests per
+day), so it is recommended to use authentication. The authentication is using
+token, which you can get in your profile. Use it in the ``Authorization`` header:
+
+.. code-block:: http
+
+      GET /api/ HTTP/1.1
+      Host: example.com
+      Accept: application/json, text/javascript
+      Autorization: Token YOUR-TOKEN
+
+With command line curl you can use it as:
+
+.. code-block:: sh
+
+    curl \
+        -H "Authorization: Token TOKEN" \
+        https://example.com/api/
+
+Languages
++++++++++
+
+.. http:get:: /api/language/(string:language)/
+
+    Returns information about language.
+
+Projects
+++++++++
+
+.. http:get:: /api/projects/(string:project)/
+
+    Returns information about project.
+
+Components
+++++++++++
+
+.. http:get:: /api/components/(string:project)/(string:component)/
+
+    Returns information about component.
+
 Translations
 ++++++++++++
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/
+
+    Returns information about translation.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -27,7 +75,7 @@ Translations
 
     .. code-block:: sh
 
-        curl -v -X POST \
+        curl -X POST \
             -F file=@strings.xml \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/translations/hello/android/cs/file/
