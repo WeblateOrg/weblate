@@ -117,6 +117,19 @@ class TranslationAPITest(APIBaseTest):
             response, 'Project-Id-Version: Weblate Hello World 2012'
         )
 
+    def test_download_invalid_format(self):
+        args = {'format': 'invalid'}
+        args.update(self.translation_kwargs)
+        response = self.client.get(
+            reverse(
+                'api:translation-download',
+                kwargs=args
+            )
+        )
+        self.assertEqual(
+            response.status_code, 404
+        )
+
     def test_download_format(self):
         args = {'format': 'xliff'}
         args.update(self.translation_kwargs)
