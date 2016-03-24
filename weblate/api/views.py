@@ -21,6 +21,7 @@
 from django.shortcuts import get_object_or_404
 
 from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
@@ -28,6 +29,7 @@ from weblate.api.serializers import (
 )
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
+from weblate.trans.views.helper import download_translation_file
 
 
 class MultipleFieldMixin(object):
@@ -106,6 +108,18 @@ class TranslationViewSet(MultipleFieldMixin, viewsets.ReadOnlyModelViewSet):
             'subproject__project__source_language',
             'language',
         )
+
+    @detail_route(methods=['post', 'put'])
+    def upload(self, request):
+        obj = self.get_object()
+
+    @detail_route(methods=['get'])
+    def download(self, request, **kwargs):
+        obj = self.get_object()
+        fmt = None
+        if 'format' in request.GET:
+            fmt = request.GET['format']
+        return download_translation_file(obj, fmt)
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):

@@ -25,11 +25,25 @@ from rest_framework.test import APITestCase
 from weblate.trans.tests.utils import RepoTestMixin
 
 
-class APITest(APITestCase, RepoTestMixin):
+class APIBaseTest(APITestCase, RepoTestMixin):
     def setUp(self):
         self.clone_test_repos()
         self.subproject = self.create_subproject()
+        self.translation_kwargs = {
+            'language__code': 'cs',
+            'subproject__slug': 'test',
+            'subproject__project__slug': 'test'
+        }
+        self.component_kwargs = {
+            'slug': 'test',
+            'project__slug': 'test'
+        }
+        self.project_kwargs = {
+            'slug': 'test'
+        }
 
+
+class APITest(APIBaseTest):
     def test_list_projects(self):
         response = self.client.get(
             reverse('api:project-list')
@@ -39,7 +53,7 @@ class APITest(APITestCase, RepoTestMixin):
 
     def test_get_project(self):
         response = self.client.get(
-            reverse('api:project-detail', kwargs={'slug': 'test'})
+            reverse('api:project-detail', kwargs=self.project_kwargs)
         )
         self.assertEqual(response.data['slug'], 'test')
 
@@ -57,10 +71,7 @@ class APITest(APITestCase, RepoTestMixin):
         response = self.client.get(
             reverse(
                 'api:component-detail',
-                kwargs={
-                    'slug': 'test',
-                    'project__slug': 'test'
-                }
+                kwargs=self.component_kwargs
             )
         )
         self.assertEqual(response.data['slug'], 'test')
@@ -76,11 +87,7 @@ class APITest(APITestCase, RepoTestMixin):
         response = self.client.get(
             reverse(
                 'api:translation-detail',
-                kwargs={
-                    'language__code': 'cs',
-                    'subproject__slug': 'test',
-                    'subproject__project__slug': 'test'
-                }
+                kwargs=self.translation_kwargs
             )
         )
         self.assertEqual(response.data['language_code'], 'cs')
@@ -96,3 +103,16 @@ class APITest(APITestCase, RepoTestMixin):
             reverse('api:language-detail', kwargs={'code': 'cs'})
         )
         self.assertEqual(response.data['name'], 'Czech')
+
+
+class TranslationAPITest(APIBaseTest):
+    def test_download(self):
+        response = self.client.get(
+            reverse(
+                'api:translation-download',
+                kwargs=self.translation_kwargs
+            )
+        )
+        self.assertContains(
+            response, 'Project-Id-Version: Weblate Hello World 2012'
+        )
