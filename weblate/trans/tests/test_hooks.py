@@ -295,22 +295,6 @@ BITBUCKET_PAYLOAD_WEBHOOK = r'''
 class HooksViewTest(ViewTestCase):
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
-    def test_view_commit_hook_project(self):
-        response = self.client.get(
-            reverse('hook-commit-project', kwargs=self.kw_project)
-        )
-        self.assertContains(response, 'Commit performed')
-
-    @OverrideSettings(ENABLE_HOOKS=True)
-    @OverrideSettings(BACKGROUND_HOOKS=False)
-    def test_view_commit_hook_subproject(self):
-        response = self.client.get(
-            reverse('hook-commit-subproject', kwargs=self.kw_subproject)
-        )
-        self.assertContains(response, 'Commit performed')
-
-    @OverrideSettings(ENABLE_HOOKS=True)
-    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_project(self):
         response = self.client.get(
             reverse('hook-project', kwargs=self.kw_project)
@@ -434,14 +418,6 @@ class HooksViewTest(ViewTestCase):
         self.assert_disabled()
 
     def assert_disabled(self):
-        response = self.client.get(
-            reverse('hook-commit-project', kwargs=self.kw_project)
-        )
-        self.assertEqual(response.status_code, 405)
-        response = self.client.get(
-            reverse('hook-commit-subproject', kwargs=self.kw_subproject)
-        )
-        self.assertEqual(response.status_code, 405)
         response = self.client.get(
             reverse('hook-project', kwargs=self.kw_project)
         )
