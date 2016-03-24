@@ -18,11 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
 from weblate.trans.tests.utils import RepoTestMixin
+from weblate.trans.tests.utils import get_test_file
+
+TEST_PO = get_test_file('cs.po')
 
 
 class APIBaseTest(APITestCase, RepoTestMixin):
@@ -41,6 +45,12 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.project_kwargs = {
             'slug': 'test'
         }
+
+    def authenticate(self):
+        user, dummy = User.objects.get_or_create(username='test')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Token ' + user.auth_token.key
+        )
 
 
 class APITest(APIBaseTest):
@@ -109,7 +119,7 @@ class TranslationAPITest(APIBaseTest):
     def test_download(self):
         response = self.client.get(
             reverse(
-                'api:translation-download',
+                'api:translation-file',
                 kwargs=self.translation_kwargs
             )
         )
@@ -122,7 +132,7 @@ class TranslationAPITest(APIBaseTest):
         args.update(self.translation_kwargs)
         response = self.client.get(
             reverse(
-                'api:translation-download',
+                'api:translation-file',
                 kwargs=args
             )
         )
@@ -135,10 +145,24 @@ class TranslationAPITest(APIBaseTest):
         args.update(self.translation_kwargs)
         response = self.client.get(
             reverse(
-                'api:translation-download',
+                'api:translation-file',
                 kwargs=args
             )
         )
         self.assertContains(
             response, '<xliff'
+        )
+
+    def test_upload(self):
+        self.authenticate()
+        response = self.client.put(
+            reverse(
+                'api:translation-file',
+                kwargs=self.translation_kwargs
+            ),
+            {'file': open(TEST_PO, 'rb')},
+        )
+        self.assertEqual(
+            response.data,
+            {'count': 5, 'result': True}
         )

@@ -21,8 +21,9 @@
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
-from rest_framework import viewsets
+from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
+from rest_framework.response import Response
 
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
@@ -30,6 +31,7 @@ from weblate.api.serializers import (
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import Project, SubProject, Translation
+from weblate.trans.permissions import can_upload_translation
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 
@@ -133,16 +135,31 @@ class TranslationViewSet(MultipleFieldMixin, RawFileViewSet):
             'language',
         )
 
-    @detail_route(methods=['post', 'put'])
-    def upload(self, request):
+    @detail_route(
+        methods=['get', 'put', 'post'],
+        parser_classes=(
+            parsers.MultiPartParser,
+            parsers.FormParser,
+            parsers.FileUploadParser,
+        ),
+    )
+    def file(self, request, **kwargs):
         obj = self.get_object()
+        if request.method == 'GET':
+            fmt = self.format_kwarg or request.query_params.get('format')
+            return download_translation_file(obj, fmt)
+        elif request.method in ('PUT', 'POST'):
+            if (not can_upload_translation(request.user, obj)
+                    or obj.is_locked(request.user)):
+                raise PermissionDenied()
 
-    @detail_route(methods=['get'])
-    def download(self, request, **kwargs):
-        obj = self.get_object()
-        fmt = self.format_kwarg or request.query_params.get('format')
-        return download_translation_file(obj, fmt)
+            ret, count = obj.merge_upload(
+                request,
+                request.data['file'],
+                False
+            )
 
+            return Response(data={'result': ret, 'count': count})
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     """Languages API.

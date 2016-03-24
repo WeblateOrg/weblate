@@ -3,6 +3,35 @@
 Weblate's Web API
 =================
 
+REST API
+--------
+
+.. versionadded:: 2.6
+
+    The API is available since Weblate 2.6.
+
+Translations
+++++++++++++
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
+
+    Download current translation file.
+
+    :query format: File format to use, if not specified no format conversion happens.
+
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/file/
+
+    Upload new file with translations.
+
+    Example:
+
+    .. code-block:: sh
+
+        curl -v -X POST \
+            -F file=@strings.xml \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/translations/hello/android/cs/file/
+
 .. _hooks:
 
 Notification hooks
