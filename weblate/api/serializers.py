@@ -48,6 +48,17 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         )
 
 
+class RemovableSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        remove_fields = kwargs.pop('remove_fields', None)
+        super(RemovableSerializer, self).__init__(*args, **kwargs)
+
+        if remove_fields:
+            # for multiple fields in a list
+            for field_name in remove_fields:
+                self.fields.pop(field_name)
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
 
@@ -82,7 +93,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         }
 
 
-class ComponentSerializer(serializers.ModelSerializer):
+class ComponentSerializer(RemovableSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
 
@@ -103,7 +114,7 @@ class ComponentSerializer(serializers.ModelSerializer):
         }
 
 
-class TranslationSerializer(serializers.ModelSerializer):
+class TranslationSerializer(RemovableSerializer):
     web_url = serializers.CharField(
         source='get_absolute_url', read_only=True
     )

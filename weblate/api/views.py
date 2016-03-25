@@ -148,7 +148,8 @@ class ProjectViewSet(WeblateViewSet):
         serializer = ComponentSerializer(
             page,
             many=True,
-            context={'request': request}
+            context={'request': request},
+            remove_fields=('project',),
         )
 
         return self.get_paginated_response(serializer.data)
@@ -239,7 +240,8 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
         serializer = TranslationSerializer(
             page,
             many=True,
-            context={'request': request}
+            context={'request': request},
+            remove_fields=('component',),
         )
 
         return self.get_paginated_response(serializer.data)
