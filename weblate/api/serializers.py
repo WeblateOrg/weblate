@@ -104,10 +104,39 @@ class ComponentSerializer(serializers.ModelSerializer):
 
 
 class TranslationSerializer(serializers.ModelSerializer):
-    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
-    component = ComponentSerializer(read_only=True, source='subproject')
-    language = LanguageSerializer(read_only=True)
-    is_template = serializers.BooleanField(read_only=True)
+    web_url = serializers.CharField(
+        source='get_absolute_url', read_only=True
+    )
+    share_url = serializers.CharField(
+        source='get_share_url', read_only=True
+    )
+    translate_url = serializers.CharField(
+        source='get_translate_url', read_only=True
+    )
+    component = ComponentSerializer(
+        read_only=True, source='subproject'
+    )
+    language = LanguageSerializer(
+        read_only=True
+    )
+    is_template = serializers.BooleanField(
+        read_only=True
+    )
+    translated_percent = serializers.FloatField(
+        source='get_translated_percent', read_only=True,
+    )
+    fuzzy_percent = serializers.FloatField(
+        source='get_fuzzy_percent', read_only=True,
+    )
+    failing = serializers.IntegerField(
+        source='failing_checks', read_only=True,
+    )
+    failing_percent = serializers.FloatField(
+        source='get_failing_checks_percent', read_only=True,
+    )
+    last_author = serializers.CharField(
+        source='get_last_author', read_only=True,
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -117,8 +146,14 @@ class TranslationSerializer(serializers.ModelSerializer):
             'language', 'component', 'translated', 'fuzzy', 'total',
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
-            'language_code', 'filename', 'revision', 'web_url', 'url',
+            'language_code', 'filename', 'revision',
+            'web_url', 'share_url', 'translate_url', 'url',
             'is_template',
+            'total', 'total_words',
+            'translated', 'translated_words', 'translated_percent',
+            'fuzzy', 'fuzzy_percent',
+            'failing', 'failing_percent',
+            'last_change', 'last_author',
         )
         extra_kwargs = {
             'url': {
