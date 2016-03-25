@@ -376,7 +376,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def get_translate_url(self):
         return get_site_url(
-                reverse(
+            reverse(
                 'translate',
                 kwargs={
                     'project': self.subproject.project.slug,

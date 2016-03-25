@@ -31,9 +31,10 @@ import csv
 import traceback
 import importlib
 
-import six
 
 from django.utils.translation import ugettext_lazy as _
+
+import six
 
 from translate.convert import po2php
 from translate.misc import quote

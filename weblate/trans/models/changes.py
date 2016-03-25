@@ -18,13 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import six.moves
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Count, Q
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils import timezone
+
+import six.moves
+
 from weblate.trans.models.project import Project
 from weblate.accounts.avatar import get_user_display
 

@@ -23,7 +23,6 @@ File format specific behavior.
 from __future__ import unicode_literals
 
 from io import BytesIO
-import io
 import tempfile
 from unittest import TestCase, SkipTest
 
