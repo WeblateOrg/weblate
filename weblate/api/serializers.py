@@ -107,6 +107,7 @@ class TranslationSerializer(serializers.ModelSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     component = ComponentSerializer(read_only=True, source='subproject')
     language = LanguageSerializer(read_only=True)
+    is_template = serializers.BooleanField(read_only=True)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -117,6 +118,7 @@ class TranslationSerializer(serializers.ModelSerializer):
             'translated_words', 'fuzzy_words', 'failing_checks_words',
             'total_words', 'failing_checks', 'have_suggestion', 'have_comment',
             'language_code', 'filename', 'revision', 'web_url', 'url',
+            'is_template',
         )
         extra_kwargs = {
             'url': {
