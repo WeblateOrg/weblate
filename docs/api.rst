@@ -38,11 +38,13 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
-    :>json detail: verbose description of failure (for HTTP status codes other than :http:statuscode:`200`)
-    :>json count: total item count for object lists
-    :>json next: next page URL for object lists
-    :>json previous: previous page URL for object lists
-    :>json results: results for object lists
+    :>json string detail: verbose description of failure (for HTTP status codes other than :http:statuscode:`200`)
+    :>json int count: total item count for object lists
+    :>json string next: next page URL for object lists
+    :>json string previous: previous page URL for object lists
+    :>json array results: results for object lists
+    :>json string url: URL to access this resource using API
+    :>json string web_url: URL to access this resource using web browser
     :status 200: when request was correctly handled
     :status 400: when form parameters are missing
     :status 403: when access is denied
@@ -97,16 +99,37 @@ Languages
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
+        Language object attributes are documented at :http:get:`/api/languages/(string:language)/`.
+
 .. http:get:: /api/languages/(string:language)/
 
     Returns information about language.
 
     :param language: Language code
     :type language: string
+    :>json string code: Language code
+    :>json string direction: Text direction
+    :>json int nplurals: Number of plurals
+    :>json string pluralequation: Gettext plural equation
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "code": "en",
+            "direction": "ltr",
+            "name": "English",
+            "nplurals": 2,
+            "pluralequation": "n != 1",
+            "url": "http://example.com/api/languages/en/",
+            "web_url": "http://example.com/languages/en/"
+        }
+
 
 Projects
 ++++++++
@@ -119,16 +142,44 @@ Projects
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
+        Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
+
 .. http:get:: /api/projects/(string:project)/
 
     Returns information about project.
 
     :param project: Project URL slug
     :type project: string
+    :>json string name: project name
+    :>json string slug: project slug
+    :>json object source_language: source language object, see :http:get:`/api/languages/(string:language)/`
+    :>json string web: project website
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "name": "Hello",
+            "slug": "hello",
+            "source_language": {
+                "code": "en",
+                "direction": "ltr",
+                "name": "English",
+                "nplurals": 2,
+                "pluralequation": "n != 1",
+                "url": "http://example.com/api/languages/en/",
+                "web_url": "http://example.com/languages/en/"
+            },
+            "url": "http://example.com/api/projects/hello/",
+            "web": "http://weblate.org/",
+            "web_url": "http://example.com/projects/hello/"
+        }
+
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -136,14 +187,30 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :>json boolean needs_commit: whether there are any pending changes to commit
+    :>json boolean needs_merge: whether there are any upstream changes to merge
+    :>json boolean needs_push: whether there are any local changes to push
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "needs_commit": true,
+            "needs_merge": false,
+            "needs_push": true
+        }
+
+
 .. http:post:: /api/projects/(string:project)/repository/
 
     Performs given operation on the VCS repository.
+
+    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
@@ -160,6 +227,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :>json array results: array of component objects, see :http:get:`/api/components/(string:project)/(string:component)/`
 
     .. seealso::
 
@@ -176,6 +244,8 @@ Components
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
+        Component object attributes are documented at :http:get:`/api/components/(string:project)/(string:component)/`.
+
 .. http:get:: /api/components/(string:project)/(string:component)/
 
     Returns information about translation component.
@@ -184,10 +254,61 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :>json string branch: VCS repository branch
+    :>json string file_format: file format of translations
+    :>json string filemask: mask of translation files in the repository
+    :>json string git_export: URL of the exported VCS repository with translations
+    :>json string license: license for translations
+    :>json string license_url: URL of license for translations
+    :>json string name: name of component
+    :>json string slug: slug of component
+    :>json object project: the translation project, see :http:get:`/api/projects/(string:project)/`
+    :>json string repo: VCS repository URL
+    :>json string template: base file for monolingual translations
+    :>json string new_base: base file for adding new translations
+    :>json string vcs: version control system
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "Weblate",
+            "slug": "weblate",
+            "project": {
+                "name": "Hello",
+                "slug": "hello",
+                "source_language": {
+                    "code": "en",
+                    "direction": "ltr",
+                    "name": "English",
+                    "nplurals": 2,
+                    "pluralequation": "n != 1",
+                    "url": "http://example.com/api/languages/en/",
+                    "web_url": "http://example.com/languages/en/"
+                },
+                "url": "http://example.com/api/projects/hello/",
+                "web": "http://weblate.org/",
+                "web_url": "http://example.com/projects/hello/"
+            },
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "url": "http://example.com/api/components/hello/weblate/",
+            "vcs": "git",
+            "web_url": "http://example.com/projects/hello/weblate/"
+        }
+
 
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
 
@@ -197,14 +318,26 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :>json boolean locked: whether component is locked for updates
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "locked": false
+        }
+
+
 .. http:post:: /api/components/(string:project)/(string:component)/lock/
 
     Sets component lock status.
+
+    Response is same as :http:get:`/api/components/(string:project)/(string:component)/lock/`.
 
     :query lock: Boolean whether to lock or not.
 
@@ -221,6 +354,8 @@ Components
 
     Returns information about VCS repository status.
 
+    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -233,6 +368,8 @@ Components
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
     Performs given operation on the VCS repository.
+
+    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
@@ -247,7 +384,7 @@ Components
 
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
-    Returns base file for monolingual translations.
+    Downloads base file for monolingual translations.
 
     :param project: Project URL slug
     :type project: string
@@ -260,7 +397,7 @@ Components
 
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
-    Returns template file for new translations.
+    Downloads template file for new translations.
 
     :param project: Project URL slug
     :type project: string
@@ -279,6 +416,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :>json array results: array of transaltion objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
     .. seealso::
 
@@ -289,11 +427,13 @@ Translations
 
 .. http:get:: /api/translations/
 
-    Returns list of translaions.
+    Returns list of translations.
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+        Translation object attributes are documented at :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/
 
@@ -305,10 +445,106 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+    :>json object component: component object, see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json int failing_checks: number of units with failing check
+    :>json float failing_checks_percent: percetage of failing check units
+    :>json int failing_checks_words: number of words with failing check
+    :>json string filename: translation filename
+    :>json int fuzzy: number of units marked for review
+    :>json float fuzzy_percent: percetage of units marked for review
+    :>json int fuzzy_words: number of words marked for review
+    :>json int have_comment: number of units with comment
+    :>json int have_suggestion: number of units with suggestion
+    :>json boolean is_template: whether translation is monolingual base
+    :>json object language: source language object, see :http:get:`/api/languages/(string:language)/`
+    :>json string language_code: language code used in the repository, this can be different from language code in the language object
+    :>json string last_author: name of last author
+    :>json timestamp last_change: last change timestamp
+    :>json string revision: hash revision of the file
+    :>json string share_url: URL for sharing leading to engage page
+    :>json int total: total number of units
+    :>json int total_words: total number of words
+    :>json string translate_url: URL for translating
+    :>json int translated: number of translated units
+    :>json float translated_percent: percentage of translated units
+    :>json int translated_words: number of translated words
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "component": {
+                "branch": "master",
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "git_export": "",
+                "license": "",
+                "license_url": "",
+                "name": "Weblate",
+                "new_base": "",
+                "project": {
+                    "name": "Hello",
+                    "slug": "hello",
+                    "source_language": {
+                        "code": "en",
+                        "direction": "ltr",
+                        "name": "English",
+                        "nplurals": 2,
+                        "pluralequation": "n != 1",
+                        "url": "http://example.com/api/languages/en/",
+                        "web_url": "http://example.com/languages/en/"
+                    },
+                    "url": "http://example.com/api/projects/hello/",
+                    "web": "http://weblate.org/",
+                    "web_url": "http://example.com/projects/hello/"
+                },
+                "repo": "file:///home/nijel/work/weblate-hello",
+                "slug": "weblate",
+                "template": "",
+                "url": "http://example.com/api/components/hello/weblate/",
+                "vcs": "git",
+                "web_url": "http://example.com/projects/hello/weblate/"
+            },
+            "failing_checks": 3,
+            "failing_checks_percent": 75.0,
+            "failing_checks_words": 11,
+            "filename": "po/cs.po",
+            "fuzzy": 0,
+            "fuzzy_percent": 0.0,
+            "fuzzy_words": 0,
+            "have_comment": 0,
+            "have_suggestion": 0,
+            "is_template": false,
+            "language": {
+                "code": "cs",
+                "direction": "ltr",
+                "name": "Czech",
+                "nplurals": 3,
+                "pluralequation": "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2",
+                "url": "http://example.com/api/languages/cs/",
+                "web_url": "http://example.com/languages/cs/"
+            },
+            "language_code": "cs",
+            "last_author": "Weblate Admin",
+            "last_change": "2016-03-07T10:20:05.499",
+            "revision": "7ddfafe6daaf57fc8654cc852ea6be212b015792",
+            "share_url": "http://example.com/engage/hello/cs/",
+            "total": 4,
+            "total_words": 15,
+            "translate_url": "/translate/hello/weblate/cs/",
+            "translated": 4,
+            "translated_percent": 100.0,
+            "translated_words": 15,
+            "url": "http://example.com/api/translations/hello/weblate/cs/",
+            "web_url": "http://example.com/projects/hello/weblate/cs/"
+        }
+
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -355,6 +591,8 @@ Translations
 
     Returns information about VCS repository status.
 
+    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
+
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
@@ -369,6 +607,8 @@ Translations
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
     Performs given operation on the VCS repository.
+
+    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
