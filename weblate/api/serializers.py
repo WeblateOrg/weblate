@@ -103,8 +103,8 @@ class ComponentSerializer(RemovableSerializer):
         model = SubProject
         fields = (
             'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
-            'branch', 'filemask', 'template', 'file_format', 'license',
-            'license_url', 'web_url', 'url',
+            'branch', 'filemask', 'template', 'new_base', 'file_format',
+            'license', 'license_url', 'web_url', 'url',
         )
         extra_kwargs = {
             'url': {
@@ -139,10 +139,7 @@ class TranslationSerializer(RemovableSerializer):
     fuzzy_percent = serializers.FloatField(
         source='get_fuzzy_percent', read_only=True,
     )
-    failing = serializers.IntegerField(
-        source='failing_checks', read_only=True,
-    )
-    failing_percent = serializers.FloatField(
+    failing_checks_percent = serializers.FloatField(
         source='get_failing_checks_percent', read_only=True,
     )
     last_author = serializers.CharField(
@@ -163,7 +160,7 @@ class TranslationSerializer(RemovableSerializer):
             'total', 'total_words',
             'translated', 'translated_words', 'translated_percent',
             'fuzzy', 'fuzzy_percent',
-            'failing', 'failing_percent',
+            'failing_checks_percent',
             'last_change', 'last_author',
         )
         extra_kwargs = {
