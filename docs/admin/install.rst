@@ -12,7 +12,7 @@ Python (2.7, 3.4 or newer)
     https://www.python.org/
 Django (>= 1.8)
     https://www.djangoproject.com/
-Translate-toolkit (>= 1.10.0, >= 1.14.0 is required for Python 3)
+Translate-toolkit (>= 1.14.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six

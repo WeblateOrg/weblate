@@ -30,7 +30,7 @@ BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
 BuildRequires:  python-whoosh >= 2.5.2
-BuildRequires:  translate-toolkit >= 1.10.0
+BuildRequires:  translate-toolkit >= 1.14.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
@@ -42,7 +42,7 @@ Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
 Requires:       python-whoosh >= 2.5.2
-Requires:       translate-toolkit >= 1.10.0
+Requires:       translate-toolkit >= 1.14.0
 Recommends:     python-MySQL-python
 Recommends:     python-psycopg2
 Recommends:     python-pyuca

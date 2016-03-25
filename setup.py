@@ -32,10 +32,6 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 with open('requirements.txt') as requirements:
     REQUIRES = requirements.read().splitlines()
 
-if sys.version_info >= (3, 0):
-    REQUIRES.remove('translate-toolkit>=1.10.0')
-    REQUIRES.append('translate-toolkit>=1.14.0rc1')
-
 setup(
     name='Weblate',
     version='2.6',
