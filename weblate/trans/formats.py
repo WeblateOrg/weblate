@@ -1163,7 +1163,7 @@ class AndroidFormat(FileFormat):
 class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
-    loader = ('weblate.trans.aresource', 'JsonFile')
+    loader = ('jsonl10n', 'JsonFile')
     unit_class = MonolingualSimpleUnit
     autoload = ('.json',)
 
