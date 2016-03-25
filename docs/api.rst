@@ -138,10 +138,20 @@ repository has been updated.
 
 .. http:get:: /hooks/update/(string:project)/(string:component)/
 
+   .. deprecated:: 2.6
+
+        Please use :http:post:`/api/components/(string:project)/(string:component)/repository/`
+        instead which works properly with authentication for ACL limited projects.
+
    Triggers update of a component (pulling from VCS and scanning for
    translation changes).
 
 .. http:get:: /hooks/update/(string:project)/
+
+   .. deprecated:: 2.6
+
+        Please use :http:post:`/api/project/(string:project)/repository/`
+        instead which works properly with authentication for ACL limited projects.
 
    Triggers update of all components in a project (pulling from VCS and
    scanning for translation changes).
@@ -204,6 +214,11 @@ Weblate provides various exports to allow you further process the data.
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
     :query string jsonp: JSONP callback function to wrap the data
+   
+    .. deprecated:: 2.6
+
+        Please use :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
+        instead, it allows to access ACL controlled projects as well.
 
     Retrieves statistics for given component in JSON format. Optionally as
     JSONP when you specify the callback in the ``jsonp`` parameter.
