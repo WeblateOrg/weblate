@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-25 13:55+0000\n"
-"PO-Revision-Date: 2016-03-25 15:26+0000\n"
+"PO-Revision-Date: 2016-03-25 15:39+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -301,7 +301,6 @@ msgid "Notification on new language request"
 msgstr "Meddelelse ved anmodning om nye sprog"
 
 #: weblate/accounts/models.py:806
-#, fuzzy
 msgid "Email regular expression"
 msgstr "E-mail regulært udtryk"
 
@@ -929,10 +928,9 @@ msgid "Your personal API key:"
 msgstr "Personlig API-nøgle:"
 
 #: weblate/html/accounts/profile.html:305
-#, fuzzy
 #| msgid "Generate"
 msgid "Regenerate"
-msgstr "Opret"
+msgstr "Regenerer"
 
 #: weblate/html/accounts/profile.html:309
 msgid "API root URL:"
@@ -940,10 +938,10 @@ msgstr "API rod URL:"
 
 #: weblate/html/accounts/profile.html:313
 msgid "API usage example:"
-msgstr ""
+msgstr "API anvendelseseksempel:"
 
 #: weblate/html/accounts/profile.html:337
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Please enter a comma separated list of check flags, see <a href="
 #| "\"{url}\">documentation</a> for more details."
@@ -951,7 +949,7 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"Indtast kommasepareret liste over kontrolflag, se <a href=\"{url}\"> "
+"Styr Weblate ved hjælp af http-REST API. Se <a href=\"%(api_doc)s\"> API-"
 "dokumentation</a> for flere detaljer."
 
 #: weblate/html/accounts/profile.html:356
@@ -1462,6 +1460,7 @@ msgid ""
 "For example getting stats for all translations in one component can be done "
 "by:"
 msgstr ""
+"Få fx. statistik for alle oversættelser i en komponent, kan for gøres ved:"
 
 #: weblate/html/data.html:102 weblate/html/data.html.py:108
 msgid "Hook"
@@ -1469,7 +1468,7 @@ msgstr "Hægte"
 
 #: weblate/html/data.html:114
 msgid "For example telling Weblate to pull remote repository can be done by:"
-msgstr ""
+msgstr "Fx. fortælle Weblate om at trække fjerarkiv, kan gøres ved:"
 
 #: weblate/html/data.html:123
 msgid ""
@@ -3097,13 +3096,11 @@ msgid "There has been a parse error on %(subproject)s at %(site_title)s."
 msgstr "Der er opstået en fortolkningsfejl i %(subproject)s på %(site_title)s."
 
 #: weblate/html/mail/parse_error.html:21
-#, fuzzy
 #| msgid "Failing check"
 msgid "Failing file"
 msgstr "Manglende fil"
 
 #: weblate/html/mail/parse_error.txt:9
-#, fuzzy
 #| msgid "Failing check"
 msgid "Failing file:"
 msgstr "Manglende fil:"
@@ -3707,30 +3704,28 @@ msgid "Download for an offline translation."
 msgstr "Hent til offline oversættelse."
 
 #: weblate/html/translation-download.html:6
-#, fuzzy, python-format
+#, python-format
 #| msgid "Download original translation file"
 msgid "Download original translation file (%(format)s)"
-msgstr "Hent original oversættelsefil"
+msgstr "Hent original oversættelsefil (%(format)s)"
 
 #: weblate/html/translation-download.html:7
 msgid "Download translation as XLIFF"
 msgstr "Hent oversættelse som XLIFF"
 
 #: weblate/html/translation-download.html:8
-#, fuzzy
 #| msgid "Download translation as XLIFF"
 msgid "Download translation as XLIFF 1.2"
-msgstr "Hent oversættelse som XLIFF"
+msgstr "Hent oversættelse som XLIFF 1.2"
 
 #: weblate/html/translation-download.html:9
 msgid "Download translation as Gettext PO"
 msgstr "Hent oversættelse som Gettext PO"
 
 #: weblate/html/translation-download.html:10
-#, fuzzy
 #| msgid "Download translation as Gettext PO"
 msgid "Download translation as Gettext MO"
-msgstr "Hent oversættelse som Gettext PO"
+msgstr "Hent oversættelse som Gettext MO"
 
 #: weblate/html/translation-download.html:12
 msgid "Download for using within an application."
@@ -4987,7 +4982,6 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s per %(time)s på %(translation)s af %(user)s"
 
 #: weblate/trans/models/componentlist.py:32
-#, fuzzy
 #| msgid "Component name"
 msgid "Component list name"
 msgstr "Komponent listenavn"
@@ -5639,7 +5633,7 @@ msgstr "Kunne ikke opdatere arkiv: %s"
 
 #: weblate/trans/models/subproject.py:1274
 msgid "Can not validate file matches due to invalid regullar expression."
-msgstr ""
+msgstr "Kan ikke validere fil match grundet ugyldigt regulært udtryk."
 
 #: weblate/trans/models/subproject.py:1284
 msgid "Automatically accepting suggestions can work only with voting enabled!"
