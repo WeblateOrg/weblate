@@ -46,6 +46,10 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.project_kwargs = {
             'slug': 'test'
         }
+        self.tearDown()
+
+    def tearDown(self):
+        cache.delete(get_acl_cache_key(None))
 
     def create_acl(self):
         project = Project.objects.create(
@@ -59,7 +63,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             'po-mono/en.po',
             project=project,
         )
-        cache.delete(get_acl_cache_key(None))
 
     def authenticate(self, superuser=False):
         user, dummy = User.objects.get_or_create(username='test')
