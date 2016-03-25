@@ -25,6 +25,7 @@ BuildRequires:  python-alabaster
 BuildRequires:  python-dateutil
 BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-django_compressor
+BuildRequires:  python-djangorestframework >= 3.3
 BuildRequires:  python-httpretty
 BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-selenium
@@ -37,6 +38,7 @@ Requires:       git
 Requires:       python-Babel
 Requires:       python-Django >= 1.7
 Requires:       python-django_compressor
+Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
 Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
