@@ -74,7 +74,7 @@
 
 <pre>
 curl \
-    -H "Authorization: Token {{ request.user.auth_token.key }}" \
+    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
     {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}
 </pre>
 {% endif %}
@@ -116,7 +116,7 @@ curl \
 <pre>
 curl \
     -d operation=pull \
-    -H "Authorization: Token {{ request.user.auth_token.key }}" \
+    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
     {{ site_url }}{% url 'api:project-repository' slug=object.slug %}
 </pre>
 
