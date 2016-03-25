@@ -221,6 +221,15 @@ Projects
 
         Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            -d operation=pull \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/components/hello/weblate/repository/
+
 .. http:get:: /api/projects/(string:project)/components/
 
     Returns list of translation components in given project.
@@ -369,7 +378,7 @@ Components
 
     Performs given operation on the VCS repository.
 
-    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
+    See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
@@ -608,7 +617,7 @@ Translations
 
     Performs given operation on the VCS repository.
 
-    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
+    See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
