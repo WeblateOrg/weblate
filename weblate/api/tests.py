@@ -23,8 +23,8 @@ from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.tests.utils import RepoTestMixin
-from weblate.trans.tests.utils import get_test_file
+from weblate.trans.models import Project
+from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
 
@@ -45,6 +45,19 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.project_kwargs = {
             'slug': 'test'
         }
+
+    def create_acl(self):
+        project = Project.objects.create(
+            name='ACL',
+            slug='acl',
+            enable_acl=True,
+        )
+        self._create_subproject(
+            'po-mono',
+            'po-mono/*.po',
+            'po-mono/en.po',
+            project=project,
+        )
 
     def authenticate(self, superuser=False):
         user, dummy = User.objects.get_or_create(username='test')
@@ -76,6 +89,18 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0]['slug'], 'test')
+
+    def test_list_projects_acl(self):
+        self.create_acl()
+        response = self.client.get(
+            reverse('api:project-list')
+        )
+        self.assertEqual(response.data['count'], 1)
+        self.authenticate(True)
+        response = self.client.get(
+            reverse('api:project-list')
+        )
+        self.assertEqual(response.data['count'], 2)
 
     def test_get_project(self):
         response = self.client.get(
@@ -150,6 +175,18 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(
             response.data['results'][0]['project']['slug'], 'test'
         )
+
+    def test_list_components_acl(self):
+        self.create_acl()
+        response = self.client.get(
+            reverse('api:component-list')
+        )
+        self.assertEqual(response.data['count'], 1)
+        self.authenticate(True)
+        response = self.client.get(
+            reverse('api:component-list')
+        )
+        self.assertEqual(response.data['count'], 2)
 
     def test_get_component(self):
         response = self.client.get(
@@ -271,6 +308,18 @@ class TranslationAPITest(APIBaseTest):
             reverse('api:translation-list')
         )
         self.assertEqual(response.data['count'], 3)
+
+    def test_list_translations_acl(self):
+        self.create_acl()
+        response = self.client.get(
+            reverse('api:translation-list')
+        )
+        self.assertEqual(response.data['count'], 3)
+        self.authenticate(True)
+        response = self.client.get(
+            reverse('api:translation-list')
+        )
+        self.assertEqual(response.data['count'], 7)
 
     def test_get_translation(self):
         response = self.client.get(

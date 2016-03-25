@@ -140,7 +140,8 @@ class RepoTestMixin(object):
         """
         Creates real test subproject.
         """
-        project = self.create_project()
+        if 'project' not in kwargs:
+            kwargs['project'] = self.create_project()
 
         if vcs == 'mercurial':
             branch = 'default'
@@ -156,10 +157,10 @@ class RepoTestMixin(object):
         if 'new_lang' not in kwargs:
             kwargs['new_lang'] = 'contact'
 
+
         return SubProject.objects.create(
             name='Test',
             slug='test',
-            project=project,
             repo=repo,
             push=push,
             branch=branch,
