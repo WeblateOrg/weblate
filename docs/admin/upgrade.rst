@@ -266,6 +266,8 @@ have such, it is recommended to run:
 
     ./manage.py fixup_flags --all
 
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 Upgrade from 2.3 to 2.4
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -282,6 +284,8 @@ importantly:
 There is now also additional dependency - ``django_compressor``, please install
 it prior to upgrading.
 
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 Upgrade from 2.4 to 2.5
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -295,11 +299,15 @@ search will not work. To rebuild it, execute:
 
     ./manage.py rebuild_index --clean --all
 
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 Upgrade from 2.5 to 2.6
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Please  adjust your :file:`settings.py` to match several changes in the
 configuration (consult :file:`settings_example.py` for correct values).
+
+.. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _django-17:
 
