@@ -319,29 +319,3 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
             testdata = testdata.encode('utf-8')
             newdata = newdata.encode('utf-8')
         super(TSFormatTest, self).assert_same(newdata, testdata)
-
-
-class OutputTest(TestCase):
-    def test_json_default_output(self):
-        json_input = '{"string_xyz":"Foo Bar","string_abc": "Checkbox? ☑!"}'
-        # Expected result:
-        # - Keys sorted alphabetically
-        # - No trailing spaces
-        # - Newline at the end of the file
-        # - Embedded Unicode chars (not replaced by \uxxx versions)
-        # - UTF-8 file
-        json_expected_output = '''{
-    "string_abc": "Checkbox? ☑!",
-    "string_xyz": "Foo Bar"
-}
-'''
-        out = tempfile.NamedTemporaryFile()
-        out.write(json_input.encode('utf-8'))
-        out.flush()
-        JSONFormat(out.name).save()
-        with io.open(out.name) as handle:
-            self.assertEqual(
-                handle.read(),
-                json_expected_output
-            )
-        out.close()
