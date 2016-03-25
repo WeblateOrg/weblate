@@ -210,18 +210,36 @@ class ComponentAPITest(APIBaseTest):
             }
         )
 
-    def test_new_template(self):
+    def test_new_template_404(self):
         self.do_request(
             'api:component-new-template',
             self.component_kwargs,
             code=404,
         )
 
-    def test_monolingual(self):
+    def test_new_template(self):
+        self.subproject.new_base = 'po/cs.po'
+        self.subproject.save()
+        self.do_request(
+            'api:component-new-template',
+            self.component_kwargs,
+        )
+
+    def test_monolingual_404(self):
         self.do_request(
             'api:component-monolingual-base',
             self.component_kwargs,
             code=404,
+        )
+
+    def test_monolingual(self):
+        self.subproject.format = 'po-mono'
+        self.subproject.filemask = 'po-mono/*.po'
+        self.subproject.template = 'po-mono/en.po'
+        self.subproject.save()
+        self.do_request(
+            'api:component-monolingual-base',
+            self.component_kwargs,
         )
 
     def test_translations(self):
