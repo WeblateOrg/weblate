@@ -22,6 +22,8 @@
 Tests for sugestion views.
 """
 
+from django.core.urlresolvers import reverse
+
 from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -42,7 +44,7 @@ class SuggestionsTest(ViewTestCase):
         )
 
     def test_add(self):
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         # Try empty suggestion (should not be added)
         response = self.edit_unit(
             'Hello, world!\n',
@@ -78,7 +80,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(self.get_unit().suggestions()), 2)
 
     def test_delete(self):
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
         self.add_suggestion_2()
@@ -111,7 +113,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(self.get_unit().suggestions()), 1)
 
     def test_accept_edit(self):
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         # Create suggestion
         self.add_suggestion_1()
 
@@ -127,7 +129,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertRedirectsOffset(response, translate_url, 0)
 
     def test_accept(self):
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         # Create two suggestions
         self.add_suggestion_1()
         self.add_suggestion_2()
@@ -161,7 +163,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(len(self.get_unit().suggestions()), 1)
 
     def test_accept_anonymous(self):
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         self.client.logout()
         # Create suggestions
         self.add_suggestion_1()
@@ -194,7 +196,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!\n')
 
     def test_vote(self):
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         self.subproject.suggestion_voting = True
         self.subproject.suggestion_autoaccept = 0
         self.subproject.save()
@@ -232,7 +234,7 @@ class SuggestionsTest(ViewTestCase):
     def test_vote_autoaccept(self):
         self.add_suggestion_1()
 
-        translate_url = self.get_translation().get_translate_url()
+        translate_url = reverse('translate', kwargs=self.kw_translation)
         self.subproject.suggestion_voting = True
         self.subproject.suggestion_autoaccept = 1
         self.subproject.save()

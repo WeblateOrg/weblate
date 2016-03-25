@@ -537,7 +537,7 @@ Translations
             "share_url": "http://example.com/engage/hello/cs/",
             "total": 4,
             "total_words": 15,
-            "translate_url": "/translate/hello/weblate/cs/",
+            "translate_url": "http://example.com/translate/hello/weblate/cs/",
             "translated": 4,
             "translated_percent": 100.0,
             "translated_words": 15,
