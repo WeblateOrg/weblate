@@ -14,7 +14,7 @@ The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <http://www.django-rest-framework.org/>`_.
 
 Authentication and generic parameters
--------------------------------------
++++++++++++++++++++++++++++++++++++++
 
 The public project API is available without authentication, though
 unauthenticated requests are heavily throttled (by default to 100 requests per
