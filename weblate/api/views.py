@@ -200,11 +200,10 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
                 handle.read(),
                 content_type=content_type
             )
-            response['Content-Disposition'] = \
-                'attachment; filename="{0}"'.format(
-                    os.path.basename(filename)
-                )
-            return response
+        response['Content-Disposition'] = 'attachment; filename="{0}"'.format(
+            os.path.basename(filename)
+        )
+        return response
 
     @detail_route(methods=['get'])
     def monolingual_base(self, request, **kwargs):
