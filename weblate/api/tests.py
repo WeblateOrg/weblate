@@ -19,11 +19,12 @@
 #
 
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.models import Project
+from weblate.trans.models.project import Project, get_acl_cache_key
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
@@ -58,11 +59,13 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             'po-mono/en.po',
             project=project,
         )
+        cache.delete(get_acl_cache_key(None))
 
     def authenticate(self, superuser=False):
         user, dummy = User.objects.get_or_create(username='test')
         user.is_superuser = superuser
         user.save()
+        cache.delete(get_acl_cache_key(user))
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + user.auth_token.key
         )
