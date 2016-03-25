@@ -667,7 +667,7 @@ class SubProjectEditTest(ViewTestCase):
     def test_unit_disappear(self):
         translation = self.subproject.translation_set.get(language_code='cs')
 
-        self.remove_units(self.subproject.template_store)
+        self.remove_units(self.subproject.template_store.store)
         self.remove_units(translation.store.store)
 
         # Clean class cache, pylint: disable=W0212

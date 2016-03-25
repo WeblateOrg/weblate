@@ -561,7 +561,7 @@ class FileFormat(object):
     def _find_unit_template(self, context):
         # Need to create new unit based on template
         template_ttkit_unit = self._find_unit_mono(
-            context, self.template_store
+            context, self.template_store.store
         )
         # We search by ID when using template
         ttkit_unit = self._find_unit_mono(
@@ -656,7 +656,7 @@ class FileFormat(object):
                 # Create wrapper object
                 yield self.unit_class(tt_unit)
         else:
-            for template_unit in self.template_store.units:
+            for template_unit in self.template_store.store.units:
 
                 # Create wrapper object (not translated)
                 yield self.unit_class(
@@ -671,7 +671,7 @@ class FileFormat(object):
         if not self.has_template:
             return len(self.store.units)
         else:
-            return len(self.template_store.units)
+            return len(self.template_store.store.units)
 
     @property
     def mimetype(self):
