@@ -660,14 +660,14 @@ class SubProjectErrorTest(RepoTestCase):
 class SubProjectEditTest(ViewTestCase):
     """Tests for error handling"""
     def remove_units(self, store):
-        if store is not None:
-            store.units = []
-            store.save()
+        store.units = []
+        store.save()
 
     def test_unit_disappear(self):
         translation = self.subproject.translation_set.get(language_code='cs')
 
-        self.remove_units(self.subproject.template_store.store)
+        if self.subproject.has_template():
+            self.remove_units(self.subproject.template_store.store)
         self.remove_units(translation.store.store)
 
         # Clean class cache, pylint: disable=W0212
