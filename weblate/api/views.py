@@ -106,9 +106,6 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             project = obj
 
-        if not can_see_repository_status(request.user, project):
-            raise PermissionDenied()
-
         if request.method == 'POST':
             serializer = RepoRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -116,6 +113,9 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
             self.repository_operation(
                 request, obj, project, serializer.validated_data['operation']
             )
+
+        if not can_see_repository_status(request.user, project):
+            raise PermissionDenied()
 
         return Response(
             data={
