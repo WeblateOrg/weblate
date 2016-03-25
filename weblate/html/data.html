@@ -61,8 +61,8 @@
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
+<td>{{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}">{% trans "Download" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
@@ -86,14 +86,14 @@
 <tbody>
 <tr>
 <th>{{ object }}</th>
-<td>{{ site_url }}{% url 'hook-project' project=object.slug %}</td>
-<td><a href="{{ site_url }}{% url 'hook-project' project=object.slug %}">{% trans "Hook" %}</a></td>
+<td>{{ site_url }}{% url 'api:project-repository' slug=object.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:project-repository' slug=object.slug %}">{% trans "Hook" %}</a></td>
 </tr>
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'hook-subproject' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'hook-subproject' project=object.slug subproject=subproject.slug %}">{% trans "Hook" %}</a></td>
+<td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=subproject.slug %}">{% trans "Hook" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>

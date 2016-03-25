@@ -487,7 +487,7 @@ def data_root(request):
         'data-root.html',
         {
             'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-            'api_docs': weblate.get_doc_url('api', 'exports'),
+            'api_docs': weblate.get_doc_url('api'),
             'rss_docs': weblate.get_doc_url('api', 'rss'),
         }
     )
@@ -502,7 +502,7 @@ def data_project(request, project):
             'object': obj,
             'project': obj,
             'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-            'api_docs': weblate.get_doc_url('api', 'exports'),
+            'api_docs': weblate.get_doc_url('api'),
             'rss_docs': weblate.get_doc_url('api', 'rss'),
         }
     )
