@@ -295,6 +295,11 @@ search will not work. To rebuild it, execute:
 
     ./manage.py rebuild_index --clean --all
 
+Upgrade from 2.5 to 2.6
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please  adjust your :file:`settings.py` to match several changes in the
+configuration (consult :file:`settings_example.py` for correct values).
 
 .. _django-17:
 
