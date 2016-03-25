@@ -10,28 +10,50 @@ REST API
 
     The API is available since Weblate 2.6.
 
-The API is accessible on the ``/api/`` URL. It is based on 
+The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <http://www.django-rest-framework.org/>`_.
+
+Authentication and generic parameters
+-------------------------------------
 
 The public project API is available without authentication, though
 unauthenticated requests are heavily throttled (by default to 100 requests per
 day), so it is recommended to use authentication. The authentication is using
 token, which you can get in your profile. Use it in the ``Authorization`` header:
 
-.. code-block:: http
+.. http:get:: /api/
 
-      GET /api/ HTTP/1.1
-      Host: example.com
-      Accept: application/json, text/javascript
-      Autorization: Token YOUR-TOKEN
+    The API root entry point.
 
-With command line curl you can use it as:
+    The headers, status codes and parameters here apply to all other
+    endpoints as well.
 
-.. code-block:: sh
+    :reqheader Accept: the response content type depends on
+                       :mailheader:`Accept` header
+    :reqheader Authorization: optional token to authenticate
+    :resheader Content-Type: this depends on :mailheader:`Accept`
+                             header of request
+    :status 400: when form parameters are missing
+    :status 403: when access is denied
+    :status 429: when throttling is in place
 
-    curl \
-        -H "Authorization: Token TOKEN" \
-        https://example.com/api/
+    **Example request:**
+
+    .. code-block:: http
+
+          GET /api/ HTTP/1.1
+          Host: example.com
+          Accept: application/json, text/javascript
+          Autorization: Token YOUR-TOKEN
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            -H "Authorization: Token TOKEN" \
+            https://example.com/api/
+
 
 Languages
 +++++++++
@@ -43,6 +65,10 @@ Languages
     :param language: Language code
     :type language: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 Projects
 ++++++++
 
@@ -53,12 +79,20 @@ Projects
     :param project: Project URL slug
     :type project: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/projects/(string:project)/repository/
 
     Returns information about VCS repository status.
 
     :param project: Project URL slug
     :type project: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. http:post:: /api/projects/(string:project)/repository/
 
@@ -69,12 +103,20 @@ Projects
     :param project: Project URL slug
     :type project: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/projects/(string:project)/components/
 
     Returns list of translation components in given project.
 
     :param project: Project URL slug
     :type project: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 Components
 ++++++++++
@@ -88,6 +130,10 @@ Components
     :param component: Component URL slug
     :type component: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
 
     Returns component lock status.
@@ -96,6 +142,10 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. http:post:: /api/components/(string:project)/(string:component)/lock/
 
@@ -108,6 +158,10 @@ Components
     :param component: Component URL slug
     :type component: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
     Returns information about VCS repository status.
@@ -116,6 +170,10 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
@@ -128,6 +186,10 @@ Components
     :param component: Component URL slug
     :type component: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
     Returns base file for monolingual translations.
@@ -136,6 +198,10 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
@@ -146,6 +212,10 @@ Components
     :param component: Component URL slug
     :type component: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/components/(string:project)/(string:component)/translations/
 
     Returns list of translation objects in given component.
@@ -154,6 +224,10 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 Translations
 ++++++++++++
@@ -169,6 +243,10 @@ Translations
     :param language: Translation language code
     :type language: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Download current translation file.
@@ -182,6 +260,10 @@ Translations
     :param language: Translation language code
     :type language: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Upload new file with translations.
@@ -193,7 +275,11 @@ Translations
     :param language: Translation language code
     :type language: string
 
-    Example:
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+    **CURL example:**
 
     .. code-block:: sh
 
@@ -213,6 +299,10 @@ Translations
     :param language: Translation language code
     :type language: string
 
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
     Performs given operation on the VCS repository.
@@ -225,6 +315,10 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. _hooks:
 
@@ -248,7 +342,7 @@ repository has been updated.
 
    .. deprecated:: 2.6
 
-        Please use :http:post:`/api/project/(string:project)/repository/`
+        Please use :http:post:`/api/projects/(string:project)/repository/`
         instead which works properly with authentication for ACL limited projects.
 
    Triggers update of all components in a project (pulling from VCS and
@@ -312,7 +406,7 @@ Weblate provides various exports to allow you further process the data.
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
     :query string jsonp: JSONP callback function to wrap the data
-   
+
     .. deprecated:: 2.6
 
         Please use :http:get:`/api/components/(string:project)/(string:component)/translations/`
@@ -445,6 +539,6 @@ Changes in translations are exported in RSS feeds.
 
     Retrieves RSS feed with recent changes for Weblate instance.
 
-.. seealso:: 
-   
+.. seealso::
+
    `RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_
