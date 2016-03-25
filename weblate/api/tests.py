@@ -53,6 +53,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + user.auth_token.key
         )
+        return user
 
     def do_request(self, name, kwargs, data=None, code=200, superuser=False,
                    get=True, request=None):
@@ -315,6 +316,22 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertContains(
             response, '<xliff'
+        )
+
+    def test_upload_denied(self):
+        user = self.authenticate()
+        # Remove all permissions
+        user.groups.all()[0].permissions.clear()
+        response = self.client.put(
+            reverse(
+                'api:translation-file',
+                kwargs=self.translation_kwargs
+            ),
+            {'file': open(TEST_PO, 'rb')},
+        )
+        self.assertEqual(
+            response.status_code,
+            403
         )
 
     def test_upload(self):
