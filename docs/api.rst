@@ -28,11 +28,22 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     The headers, status codes and parameters here apply to all other
     endpoints as well.
 
+    :query format: Response format (overrides :http:header:`Accept`).
+                   Possible values depends on REST framework setup,
+                   by default ``json`` and ``api`` are supported. The
+                   latter provides web browser interface for API.
     :reqheader Accept: the response content type depends on
-                       :mailheader:`Accept` header
+                       :http:header:`Accept` header
     :reqheader Authorization: optional token to authenticate
-    :resheader Content-Type: this depends on :mailheader:`Accept`
+    :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
+    :resheader Allow: list of allowed HTTP methods on object
+    :>json detail: verbose description of failure (for HTTP status codes other than :http:statuscode:`200`)
+    :>json count: total item count for object lists
+    :>json next: next page URL for object lists
+    :>json previous: previous page URL for object lists
+    :>json results: results for object lists
+    :status 200: when request was correctly handled
     :status 400: when form parameters are missing
     :status 403: when access is denied
     :status 429: when throttling is in place
@@ -45,6 +56,26 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
           Host: example.com
           Accept: application/json, text/javascript
           Autorization: Token YOUR-TOKEN
+
+    **Example response:**
+
+    .. code-block:: http
+
+        HTTP/1.0 200 OK
+        Date: Fri, 25 Mar 2016 09:46:12 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, HEAD, OPTIONS
+
+        {
+            "projects":"http://example.com/api/projects/",
+            "components":"http://example.com/api/components/",
+            "translations":"http://example.com/api/translations/",
+            "languages":"http://example.com/api/languages/"
+        }
 
     **CURL example:**
 
