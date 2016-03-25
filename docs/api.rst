@@ -89,7 +89,15 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
 Languages
 +++++++++
 
-.. http:get:: /api/language/(string:language)/
+.. http:get:: /api/languages/
+
+    Returns listing of all languages.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
+.. http:get:: /api/languages/(string:language)/
 
     Returns information about language.
 
@@ -102,6 +110,14 @@ Languages
 
 Projects
 ++++++++
+
+.. http:get:: /api/projects/
+
+    Returns listing of projects.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -152,9 +168,17 @@ Projects
 Components
 ++++++++++
 
+.. http:get:: /api/components/
+
+    Returns listin of translation components.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+
 .. http:get:: /api/components/(string:project)/(string:component)/
 
-    Returns information about component.
+    Returns information about translation component.
 
     :param project: Project URL slug
     :type project: string
@@ -262,6 +286,14 @@ Components
 
 Translations
 ++++++++++++
+
+.. http:get:: /api/translations/
+
+    Returns list of translaions.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/
 
