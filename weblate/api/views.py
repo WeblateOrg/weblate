@@ -18,9 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os.path
+
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
-from django.http import Http404
+from django.http import Http404, HttpResponse
 
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
@@ -174,6 +176,43 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
                 obj.do_unlock(request.user)
 
         return Response(data=LockSerializer(obj).data)
+
+    def download_file(self, filename, content_type):
+        """Wrapper for file download"""
+        with open(filename, 'rb') as handle:
+            response = HttpResponse(
+                handle.read(),
+                content_type=content_type
+            )
+            response['Content-Disposition'] = \
+                'attachment; filename="{0}"'.format(
+                    os.path.basename(filename)
+                )
+            return response
+
+    @detail_route(methods=['get'])
+    def monolingual_base(self, request, **kwargs):
+        obj = self.get_object()
+
+        if not obj.template:
+            raise Http404('No template found!')
+
+        return self.download_file(
+            obj.get_template_filename(),
+            obj.template_store.mimetype
+        )
+
+    @detail_route(methods=['get'])
+    def new_template(self, request, **kwargs):
+        obj = self.get_object()
+
+        if not obj.new_base:
+            raise Http404('No file found!')
+
+        return self.download_file(
+            obj.get_new_base_filename(),
+            'application/binary',
+        )
 
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):

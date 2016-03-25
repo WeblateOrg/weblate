@@ -202,6 +202,20 @@ class ComponentAPITest(APIBaseTest):
             }
         )
 
+    def test_new_template(self):
+        self.do_request(
+            'api:component-new-template',
+            self.component_kwargs,
+            code=404,
+        )
+
+    def test_monolingual(self):
+        self.do_request(
+            'api:component-monolingual-base',
+            self.component_kwargs,
+            code=404,
+        )
+
 
 class LanguageAPITest(APIBaseTest):
     def test_list_languages(self):

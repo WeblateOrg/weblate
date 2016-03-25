@@ -84,6 +84,14 @@ Components
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
+.. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
+
+    Returns base file for monolingual translations.
+
+.. http:get:: /api/components/(string:project)/(string:component)/new_template/
+
+    Returns template file for new translations.
+
 Translations
 ++++++++++++
 
