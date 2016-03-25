@@ -157,7 +157,6 @@ class RepoTestMixin(object):
         if 'new_lang' not in kwargs:
             kwargs['new_lang'] = 'contact'
 
-
         return SubProject.objects.create(
             name='Test',
             slug='test',
