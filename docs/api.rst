@@ -40,6 +40,9 @@ Languages
 
     Returns information about language.
 
+    :param language: Language code
+    :type language: string
+
 Projects
 ++++++++
 
@@ -47,9 +50,15 @@ Projects
 
     Returns information about project.
 
+    :param project: Project URL slug
+    :type project: string
+
 .. http:get:: /api/projects/(string:project)/repository/
 
     Returns information about VCS repository status.
+
+    :param project: Project URL slug
+    :type project: string
 
 .. http:post:: /api/projects/(string:project)/repository/
 
@@ -57,9 +66,15 @@ Projects
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
+    :param project: Project URL slug
+    :type project: string
+
 .. http:get:: /api/projects/(string:project)/components/
 
     Returns list of translation components in given project.
+
+    :param project: Project URL slug
+    :type project: string
 
 Components
 ++++++++++
@@ -68,9 +83,19 @@ Components
 
     Returns information about component.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
 
     Returns component lock status.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
 
 .. http:post:: /api/components/(string:project)/(string:component)/lock/
 
@@ -78,9 +103,19 @@ Components
 
     :query lock: Boolean whether to lock or not.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
     Returns information about VCS repository status.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
 
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
@@ -88,17 +123,37 @@ Components
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
     Returns base file for monolingual translations.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
 
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
     Returns template file for new translations.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
 .. http:get:: /api/components/(string:project)/(string:component)/translations/
 
     Returns list of translation objects in given component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
 
 Translations
 ++++++++++++
@@ -107,15 +162,36 @@ Translations
 
     Returns information about translation.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Download current translation file.
 
     :query format: File format to use, if not specified no format conversion happens.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Upload new file with translations.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
 
     Example:
 
@@ -130,11 +206,25 @@ Translations
 
     Returns information about VCS repository status.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
     Performs given operation on the VCS repository.
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
 
 .. _hooks:
 
