@@ -1272,7 +1272,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         except re.error:
             raise ValidationError(_(
                 'Can not validate file matches due to invalid '
-                'regullar expression.'
+                'regular expression.'
             ))
 
         # New language options

@@ -236,13 +236,13 @@ class Command(BaseCommand):
                 )
             except re.error as error:
                 raise CommandError(
-                    'Failed to compile regullar expression "{0}": {1}'.format(
+                    'Failed to compile regular expression "{0}": {1}'.format(
                         options['component_regexp'], error
                     )
                 )
             if 'name' not in self.component_re.groupindex:
                 raise CommandError(
-                    'Component regullar expression lacks named group "name"'
+                    'Component regular expression lacks named group "name"'
                 )
 
         # Is file format supported?

@@ -175,7 +175,7 @@ You can also specify file format to use (see :ref:`formats`) by the
 ``--file-format`` parameter. The default is autodetection.
 
 You can specify language filtering (see :ref:`component`) by the
-``--language-filter`` parameter. It has to be valid regullar expression.
+``--language-filter`` parameter. It has to be valid regular expression.
 
 With ``--main-component`` you can specify which component will be chosen as
 main - the one actually containing VCS repository.
