@@ -65,6 +65,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.assertEqual(response.status_code, code)
         if data is not None:
             self.assertEqual(response.data, data)
+        return response
 
 
 class ProjectAPITest(APIBaseTest):
@@ -129,6 +130,13 @@ class ProjectAPITest(APIBaseTest):
                 'needs_commit': False
             }
         )
+
+    def test_components(self):
+        request = self.do_request(
+            'api:project-components',
+            self.project_kwargs,
+        )
+        self.assertEqual(request.data['count'], 1)
 
 
 class ComponentAPITest(APIBaseTest):
@@ -215,6 +223,13 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             code=404,
         )
+
+    def test_translations(self):
+        request = self.do_request(
+            'api:component-translations',
+            self.component_kwargs,
+        )
+        self.assertEqual(request.data['count'], 3)
 
 
 class LanguageAPITest(APIBaseTest):

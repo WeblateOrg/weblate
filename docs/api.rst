@@ -57,6 +57,10 @@ Projects
 
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
+.. http:get:: /api/projects/(string:project)/components/
+
+    Returns list of translation components in given project.
+
 Components
 ++++++++++
 
@@ -91,6 +95,10 @@ Components
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
     Returns template file for new translations.
+
+.. http:get:: /api/components/(string:project)/(string:component)/translations/
+
+    Returns list of translation objects in given component.
 
 Translations
 ++++++++++++
@@ -217,7 +225,7 @@ Weblate provides various exports to allow you further process the data.
    
     .. deprecated:: 2.6
 
-        Please use :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
+        Please use :http:get:`/api/components/(string:project)/(string:component)/translations/`
         instead, it allows to access ACL controlled projects as well.
 
     Retrieves statistics for given component in JSON format. Optionally as

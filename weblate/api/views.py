@@ -138,6 +138,21 @@ class ProjectViewSet(WeblateViewSet):
             'source_language'
         )
 
+    @detail_route(methods=['get'])
+    def components(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.subproject_set.all()
+        page = self.paginate_queryset(queryset)
+
+        serializer = ComponentSerializer(
+            page,
+            many=True,
+            context={'request': request}
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API.
@@ -213,6 +228,21 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             obj.get_new_base_filename(),
             'application/binary',
         )
+
+    @detail_route(methods=['get'])
+    def translations(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.translation_set.all()
+        page = self.paginate_queryset(queryset)
+
+        serializer = TranslationSerializer(
+            page,
+            many=True,
+            context={'request': request}
+        )
+
+        return self.get_paginated_response(serializer.data)
 
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
