@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-25 13:55+0000\n"
-"PO-Revision-Date: 2016-03-10 11:17+0000\n"
+"PO-Revision-Date: 2016-03-27 12:43+0000\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
-">\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.5-dev\n"
+"X-Generator: Weblate 2.6-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -772,7 +772,7 @@ msgstr "Άδειες"
 
 #: weblate/html/accounts/profile.html:28 weblate/html/accounts/profile.html:297
 msgid "API access"
-msgstr ""
+msgstr "Πρόσβαση API"
 
 #: weblate/html/accounts/profile.html:30
 msgid "Billing"
@@ -944,24 +944,23 @@ msgstr "Η δημόσια εμφάνισή σας σε αυτή τη σελίδ�
 
 #: weblate/html/accounts/profile.html:302
 msgid "Your personal API key:"
-msgstr ""
+msgstr "Το προσωπικό σας κλειδί API:"
 
 #: weblate/html/accounts/profile.html:305
-#, fuzzy
 #| msgid "Generate"
 msgid "Regenerate"
-msgstr "Δημιουργία"
+msgstr "Επαναδημιουργία"
 
 #: weblate/html/accounts/profile.html:309
 msgid "API root URL:"
-msgstr ""
+msgstr "Ρίζα URL για το API:"
 
 #: weblate/html/accounts/profile.html:313
 msgid "API usage example:"
-msgstr ""
+msgstr "Παράδειγμα χρήσης API:"
 
 #: weblate/html/accounts/profile.html:337
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Please enter a comma separated list of check flags, see <a href="
 #| "\"{url}\">documentation</a> for more details."
@@ -969,8 +968,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"Εισάγετε μια λίστα χωρισμένη με κόμμα των σημαιών ελέγχου, δείτε την <a href="
-"\"{url}\">τεκμηρίωση</a> για περισσότερες λεπτομέρειες."
+"Μπορείτε να ελέγχεται το Weblate με χρήση του HTTP REST API. Δείτε την <a "
+"href=\"%(api_doc)s\">τεκμηρίωση του API</a> για περισσότερες λεπτομέρειες."
 
 #: weblate/html/accounts/profile.html:356
 msgid ""
@@ -1486,6 +1485,8 @@ msgid ""
 "For example getting stats for all translations in one component can be done "
 "by:"
 msgstr ""
+"Για παράδειγμα η λήψη στατιστικών για όλες τις μεταφράσεις σε ένα "
+"περιεχόμενο μπορεί να γίνει ως:"
 
 #: weblate/html/data.html:102 weblate/html/data.html.py:108
 msgid "Hook"
@@ -1494,6 +1495,8 @@ msgstr "Άγκιστρο"
 #: weblate/html/data.html:114
 msgid "For example telling Weblate to pull remote repository can be done by:"
 msgstr ""
+"Για παράδειγμα να πείτε στο Weblate να ορίσει απομακρυσμένο αποθετήριο "
+"μπορεί να γίνει ως:"
 
 #: weblate/html/data.html:123
 msgid ""
@@ -3737,30 +3740,28 @@ msgid "Download for an offline translation."
 msgstr "Λήψη για μια εκτός σύνδεσης μετάφραση."
 
 #: weblate/html/translation-download.html:6
-#, fuzzy, python-format
+#, python-format
 #| msgid "Download original translation file"
 msgid "Download original translation file (%(format)s)"
-msgstr "Λήψη πρωτότυπου αρχείου μετάφρασης"
+msgstr "Λήψη πρωτότυπου αρχείου μετάφρασης (%(format)s)"
 
 #: weblate/html/translation-download.html:7
 msgid "Download translation as XLIFF"
 msgstr "Λήψη μετάφρασης ως XLIFF"
 
 #: weblate/html/translation-download.html:8
-#, fuzzy
 #| msgid "Download translation as XLIFF"
 msgid "Download translation as XLIFF 1.2"
-msgstr "Λήψη μετάφρασης ως XLIFF"
+msgstr "Λήψη μετάφρασης ως XLIFF 1.2"
 
 #: weblate/html/translation-download.html:9
 msgid "Download translation as Gettext PO"
 msgstr "Λήψη μετάφρασης ως Gettext PO"
 
 #: weblate/html/translation-download.html:10
-#, fuzzy
 #| msgid "Download translation as Gettext PO"
 msgid "Download translation as Gettext MO"
-msgstr "Λήψη μετάφρασης ως Gettext PO"
+msgstr "Λήψη μετάφρασης ως Gettext MO"
 
 #: weblate/html/translation-download.html:12
 msgid "Download for using within an application."
@@ -5699,6 +5700,8 @@ msgstr "Απέτυχε η ενημέρωση του αποθετηρίου: %s"
 #: weblate/trans/models/subproject.py:1274
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
+"Αδύνατη η επιβεβαίωση ταιριάσματος αρχείων λόγω μη έγκυρης κανονικής "
+"έκφρασης."
 
 #: weblate/trans/models/subproject.py:1284
 msgid "Automatically accepting suggestions can work only with voting enabled!"
