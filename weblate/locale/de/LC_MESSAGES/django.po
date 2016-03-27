@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-25 13:55+0000\n"
-"PO-Revision-Date: 2016-03-28 01:35+0000\n"
-"Last-Translator: Philipp Wolfer <ph.wolfer@gmail.com>\n"
+"PO-Revision-Date: 2016-03-28 01:42+0000\n"
+"Last-Translator: Stas Kies <stask85@gmail.com>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
 "Language: de\n"
@@ -3162,11 +3162,10 @@ msgid "New translation in %(translation)s"
 msgstr "Neue Übersetzung in %(translation)s"
 
 #: weblate/html/mail/parse_error.html:11 weblate/html/mail/parse_error.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
 msgid "There has been a parse error on %(subproject)s at %(site_title)s."
-msgstr ""
-"Die Zusammenführung ist bei %(subproject)s von %(site_title)s gescheitert."
+msgstr "Die Prüfung ist bei %(subproject)s von %(site_title)s gescheitert."
 
 #: weblate/html/mail/parse_error.html:21
 #| msgid "Failing check"
@@ -3589,10 +3588,9 @@ msgid "Alt+V - Copies source string"
 msgstr "Alt+V: Ausgangszeichenkette kopieren"
 
 #: weblate/html/translate.html:74
-#, fuzzy
 #| msgid "Alt+F - Toggle fuzzy flag"
 msgid "Alt+F - Toggle review needed flag"
-msgstr "Alt+F - Fragwürdig-Markierung umschalten"
+msgstr "Alt+F - Markierung zur Überprüfung umschalten"
 
 #: weblate/html/translate.html:76
 msgid "Editing source string"
@@ -3785,34 +3783,30 @@ msgid "Download for an offline translation."
 msgstr "Herunterladen, um offline zu übersetzen."
 
 #: weblate/html/translation-download.html:6
-#, fuzzy, python-format
+#, python-format
 #| msgid "Download compiled translation"
 msgid "Download original translation file (%(format)s)"
-msgstr "Kompilierte Übersetzung herunterladen"
+msgstr "Originale Datei der Übersetzung %(format)s herunterladen"
 
 #: weblate/html/translation-download.html:7
-#, fuzzy
 #| msgid "Good translations"
 msgid "Download translation as XLIFF"
-msgstr "Gute Übersetzungen"
+msgstr "Übersetzungen als XLIFF herunterladen"
 
 #: weblate/html/translation-download.html:8
-#, fuzzy
 #| msgid "Good translations"
 msgid "Download translation as XLIFF 1.2"
-msgstr "Gute Übersetzungen"
+msgstr "Übersetzungen als XLIFF 1.2 herunterladen"
 
 #: weblate/html/translation-download.html:9
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Download translation as Gettext PO"
-msgstr "Kompilierte Übersetzung herunterladen"
+msgstr "Übersetzungen als Gettext PO herunterladen"
 
 #: weblate/html/translation-download.html:10
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Download translation as Gettext MO"
-msgstr "Kompilierte Übersetzung herunterladen"
+msgstr "Übersetzungen als Gettext MO herunterladen"
 
 #: weblate/html/translation-download.html:12
 msgid "Download for using within an application."
@@ -4066,11 +4060,10 @@ msgid "Open in full editor"
 msgstr "Im Volleditor öffnen"
 
 #: weblate/html/zen-units.html:44
-#, fuzzy
 #| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
-msgstr "Begutachten"
+msgstr "Durchsicht"
 
 #: weblate/html/zen-units.html:52 weblate/trans/views/edit.py:498
 msgid "You have reached end of translating."
@@ -4601,11 +4594,10 @@ msgid "Message you wanted to translate is no longer available!"
 msgstr "Die Nachricht, die Sie übersetzen wollten, ist nicht mehr verfügbar!"
 
 #: weblate/trans/forms.py:308
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "Begutachten"
+msgstr "Durchsicht benötigt"
 
 #: weblate/trans/forms.py:349 weblate/trans/forms.py:689
 msgid "File"
@@ -4624,10 +4616,9 @@ msgid "Add as a suggestion"
 msgstr "Als Vorschlag hinzufügen"
 
 #: weblate/trans/forms.py:355
-#, fuzzy
 #| msgid "Add as translation"
 msgid "Add as translation needing review"
-msgstr "Diese Übersetzung hinzufügen"
+msgstr "Als Übersetzung mit nötiger Durchsicht hinzufügen"
 
 #: weblate/trans/forms.py:360
 #, fuzzy
@@ -4704,20 +4695,18 @@ msgid "Not translated strings"
 msgstr "Nicht übersetzte Zeichenketten"
 
 #: weblate/trans/forms.py:432 weblate/trans/models/translation.py:927
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing action"
-msgstr "Zeichenketten mit Vorschlägen"
+msgstr "Zeichenketten, die eine Aktion benötigen"
 
 #: weblate/trans/forms.py:433 weblate/trans/models/translation.py:918
 msgid "Translated strings"
 msgstr "Übersetzte Zeichenketten"
 
 #: weblate/trans/forms.py:434 weblate/trans/models/translation.py:945
-#, fuzzy
 #| msgid "Strings to review"
 msgid "Strings marked for review"
-msgstr "Zu begutachtende Zeichenketten"
+msgstr "Zeichenketten, die eine Durchsicht benötigen"
 
 #: weblate/trans/forms.py:435 weblate/trans/models/translation.py:954
 msgid "Strings with suggestions"
@@ -5096,10 +5085,9 @@ msgid "Failed rebase on repository"
 msgstr "Umbasieren auf der Paketquelle ist fehlgeschlagen"
 
 #: weblate/trans/models/changes.py:192
-#, fuzzy
 #| msgid "Server Error"
 msgid "Parse error"
-msgstr "Serverfehler"
+msgstr "Analysefehler"
 
 #: weblate/trans/models/changes.py:260
 #, python-format
@@ -5107,10 +5095,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s am %(time)s in %(translation)s von %(user)s"
 
 #: weblate/trans/models/componentlist.py:32
-#, fuzzy
 #| msgid "Component name"
 msgid "Component list name"
-msgstr "Name der Komponente"
+msgstr "Name der Liste der Komponente"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:95
 #: weblate/trans/models/subproject.py:107
@@ -5128,22 +5115,19 @@ msgid "Name used in URLs and file names."
 msgstr "In URLs und Dateinamen verwendeter Name."
 
 #: weblate/trans/models/componentlist.py:55
-#, fuzzy
 #| msgid "Components"
 msgid "Component lists"
-msgstr "Komponenten"
+msgstr "Komponentenliste"
 
 #: weblate/trans/models/group_acl.py:47
 msgid "Project, component or language must be specified"
 msgstr "Projekt, Komponente oder Sprache muss angegeben werden"
 
 #: weblate/trans/models/group_acl.py:69
-#, fuzzy
 msgid "Group ACL"
 msgstr "Gruppen-ACL"
 
 #: weblate/trans/models/group_acl.py:70
-#, fuzzy
 msgid "Group ACLs"
 msgstr "Gruppen-ACLs"
 
@@ -6217,10 +6201,9 @@ msgstr ""
 "%(percent)s%% abgeschlossen."
 
 #: weblate/trans/views/basic.py:445
-#, fuzzy
 #| msgid "Weblate translations"
 msgid "Weblate statistics"
-msgstr "Weblate-Übersetzungen"
+msgstr "Weblate-Statistiken"
 
 #: weblate/trans/views/basic.py:527
 msgid ""
@@ -6230,10 +6213,9 @@ msgstr ""
 "gesendet."
 
 #: weblate/trans/views/basic.py:536
-#, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Invalid language chosen!"
-msgstr "Ungültiger Vorschlag!"
+msgstr "Ungültige Sprache gewählt!"
 
 #: weblate/trans/views/changes.py:126
 msgid "Failed to find matching project!"
