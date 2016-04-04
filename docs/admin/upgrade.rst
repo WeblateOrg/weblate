@@ -9,21 +9,6 @@ Upgrading
 Generic upgrade instructions
 ++++++++++++++++++++++++++++
 
-.. versionchanged:: 1.2
-
-    Since version 1.2 the migration is done using South module, to upgrade to 1.2,
-    please see :ref:`version-specific-instructions`.
-
-.. versionchanged:: 1.9
-
-    Since version 1.9, Weblate also supports Django 1.7 migrations, please check
-    :ref:`django-17` for more information.
-
-.. versionchanged:: 2.3
-
-    Since version 2.3, Weblate supports only Django native migrations, South is
-    no longer supported, please check :ref:`django-17` for more information.
-
 Before upgrading, please check current :ref:`requirements` as they might have
 changed.
 
@@ -50,6 +35,21 @@ To upgrade default set of language definitions (optional), run:
 .. code-block:: sh
 
     ./manage.py setuplang
+
+.. versionchanged:: 1.2
+
+    Since version 1.2 the migration is done using South module, to upgrade to 1.2,
+    please see :ref:`version-specific-instructions`.
+
+.. versionchanged:: 1.9
+
+    Since version 1.9, Weblate also supports Django 1.7 migrations, please check
+    :ref:`django-17` for more information.
+
+.. versionchanged:: 2.3
+
+    Since version 2.3, Weblate supports only Django native migrations, South is
+    no longer supported, please check :ref:`django-17` for more information.
 
 .. _version-specific-instructions:
 
