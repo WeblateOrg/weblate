@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-25 13:55+0000\n"
-"PO-Revision-Date: 2016-03-25 21:24+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2016-04-04 13:36+0000\n"
+"Last-Translator: Étienne Gilli <etienne.gilli@gmail.com>\n"
 "Language-Team: French "
 "<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -963,7 +963,7 @@ msgid "API usage example:"
 msgstr "Exemple d'utilisation de l'API :"
 
 #: weblate/html/accounts/profile.html:337
-#, fuzzy, python-format
+#, python-format
 #| msgid ""
 #| "Please enter a comma separated list of check flags, see <a href="
 #| "\"{url}\">documentation</a> for more details."
@@ -971,9 +971,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
-"Veuillez entrer une liste (séparée par des virgules) des indicateurs de "
-"contrôle, consultez la <a href=\"{url}\"> documentation</a> pour plus de "
-"détails."
+"Il est possible de contrôler Weblate via une API HTTP REST. Consultez la <a "
+"href=\"%(api_doc)s\">documentation de l’API</a> pour plus de détails."
 
 #: weblate/html/accounts/profile.html:356
 msgid ""
@@ -3131,10 +3130,12 @@ msgid "New translation in %(translation)s"
 msgstr "Nouvelle traduction pour %(translation)s"
 
 #: weblate/html/mail/parse_error.html:11 weblate/html/mail/parse_error.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
 msgid "There has been a parse error on %(subproject)s at %(site_title)s."
-msgstr "Un échec de fusion s'est produit sur %(subproject)s à %(site_title)s."
+msgstr ""
+"Une erreur d’analyse syntaxique s'est produite sur %(subproject)s à "
+"%(site_title)s."
 
 #: weblate/html/mail/parse_error.html:21
 msgid "Failing file"
@@ -3145,10 +3146,10 @@ msgid "Failing file:"
 msgstr "Erreur de fichier :"
 
 #: weblate/html/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
+#, python-format
 #| msgid "Merge failure in %(subproject)s"
 msgid "Parse error in %(subproject)s"
-msgstr "Echec de la fusion dans %(subproject)s"
+msgstr "Erreur d’analyse syntaxique dans %(subproject)s"
 
 #: weblate/html/mail/reset.html:11 weblate/html/mail/reset.txt.py:3
 #, python-format
@@ -5039,10 +5040,9 @@ msgid "Failed rebase on repository"
 msgstr "Échec lors de la réinitialisation du référentiel"
 
 #: weblate/trans/models/changes.py:192
-#, fuzzy
 #| msgid "Server Error"
 msgid "Parse error"
-msgstr "Erreur serveur"
+msgstr "Erreur d’analyse syntaxique"
 
 #: weblate/trans/models/changes.py:260
 #, python-format
@@ -5071,10 +5071,9 @@ msgid "Name used in URLs and file names."
 msgstr "Nom utilisé dans les URLs et noms de fichiers."
 
 #: weblate/trans/models/componentlist.py:55
-#, fuzzy
 #| msgid "Components"
 msgid "Component lists"
-msgstr "Sous-projets"
+msgstr "Listes de sous-projets"
 
 #: weblate/trans/models/group_acl.py:47
 msgid "Project, component or language must be specified"
