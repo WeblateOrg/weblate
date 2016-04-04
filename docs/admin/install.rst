@@ -913,6 +913,18 @@ the database. The most straightforward one is to dump the database on one
 server and import it on the new one. Alternatively you can use replication in
 case your database supports it.
 
+The best approach is to use database native tools as they are usually most
+effective (eg. :command:`mysqldump` or :command:`pg_dump`). If you want to
+migrate between different databases, the only option might be to use Django
+management to dump and import the database:
+
+.. code-block:: sh
+
+    # Export current data
+    ./manage.py dumpdata > /tmp/weblate.dump
+    # Import dump
+    ./manage.py loaddata /tmp/weblate.dump
+
 Migrating VCS repositories
 +++++++++++++++++++++++++++
 
