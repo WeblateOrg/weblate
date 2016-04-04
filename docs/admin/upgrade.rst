@@ -10,7 +10,9 @@ Generic upgrade instructions
 ++++++++++++++++++++++++++++
 
 Before upgrading, please check current :ref:`requirements` as they might have
-changed.
+changed. Once all requirements are installed or updated, please adjust your
+:file:`settings.py` to match changes in the configuration (consult
+:file:`settings_example.py` for correct values).
 
 To upgrade database structure, you should run:
 
@@ -204,9 +206,6 @@ This upgrade also requires you to upgrade python-social-auth from 0.1.x to
 Upgrade from 2.0 to 2.1
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
-
 The filesystem paths configuration has changed, the :setting:`GIT_ROOT` and
 :setting:`WHOOSH_INDEX` are gone and now all data resides in
 :setting:`DATA_DIR`. The existing data should be automatically migrated by
@@ -271,9 +270,6 @@ have such, it is recommended to run:
 Upgrade from 2.3 to 2.4
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
-
 Handling of static content has been rewritten, please adjust configuration of
 your webserver accordingly (see :ref:`static-files` for more details). Most
 importantly:
@@ -289,9 +285,6 @@ it prior to upgrading.
 Upgrade from 2.4 to 2.5
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
-
 The fulltext index has been changed, so unless you rebuild it, the fulltext
 search will not work. To rebuild it, execute:
 
@@ -304,8 +297,7 @@ search will not work. To rebuild it, execute:
 Upgrade from 2.5 to 2.6
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
+Follow generic upgrade instructions, there is no special change.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
