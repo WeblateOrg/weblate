@@ -97,6 +97,7 @@ class GroupACLTest(ModelTestCase):
         self.privileged = User.objects.create(username="privileged")
         self.group = Group.objects.create(name="testgroup")
         self.project = self.subproject.project
+        self.subproject.translation_set.all().delete()
         self.language = Language.objects.get_default()
         self.trans = Translation.objects.create(
             subproject=self.subproject, language=self.language,

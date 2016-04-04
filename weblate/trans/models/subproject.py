@@ -1463,6 +1463,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         fullname = os.path.join(self.get_path(), filename)
 
+        # Ignore request if file exists (possibly race condition as
+        # the processing of new language can take some time and user
+        # can submit again)
+        if os.path.exists(fullname):
+            translation.check_sync(request=request)
+            return
+
         self.file_format_cls.add_language(
             fullname,
             language,
