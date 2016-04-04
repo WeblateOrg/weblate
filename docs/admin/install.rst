@@ -530,7 +530,12 @@ the :guilabel:`Domain name` to match your setup.
 You might want to set :setting:`ENABLE_HTTPS` as well if you serve site over
 https.
 
-Alternatively you can set the site name from command line using :djadmin:`changesite`.
+Alternatively you can set the site name from command line using
+:djadmin:`changesite`. For example for using built in server:
+
+.. code-block:: sh
+
+    ./manage.py changesite --set-name 127.0.0.1:8000
 
 .. seealso:: 
    
