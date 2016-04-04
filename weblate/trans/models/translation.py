@@ -162,6 +162,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ('use_mt', "Can use machine translation"),
         )
         app_label = 'trans'
+        unique_together = ('subproject', 'language')
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
