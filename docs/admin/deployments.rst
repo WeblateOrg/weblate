@@ -241,6 +241,12 @@ For example override the ``ADMINS`` setting like this:
 
     rhc -aweblate env set WEBLATE_ADMINS='(("John Doe", "jdoe@example.org"),)'
 
+To change site title, do not forget to include additional quotes:
+
+.. code-block:: sh
+
+    rhc -aweblate env set WEBLATE_SITE_TITLE='"Custom Title"'
+
 New settings will only take effect after restarting Weblate:
 
 .. code-block:: sh
