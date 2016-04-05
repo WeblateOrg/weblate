@@ -176,7 +176,7 @@ def translation_percent(translated, total):
     '''
     Returns translation percentage.
     '''
-    return (1000 * translated / total) / 10.0
+    return round(1000 * translated / total) / 10.0
 
 
 def add_configuration_error(name, message):
