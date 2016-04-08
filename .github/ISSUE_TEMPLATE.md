@@ -3,11 +3,11 @@
 2.
 3.
 
-### Expected behaviour
-Tell us what should happen
-
 ### Actual behaviour
 Tell us what happens instead
 
+### Expected behaviour
+Tell us what should happen
+
 ### Server configuration
-Please paste here output of ./manage.py list_versions
+Please paste the output of command `./manage.py list_versions` over here
