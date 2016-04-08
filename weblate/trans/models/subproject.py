@@ -852,6 +852,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not from_link and not skip_push:
             self.push_if_needed(request)
 
+        return True
+
     def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
         report_error(error, sys.exc_info())

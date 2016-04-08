@@ -665,12 +665,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # If it is same as current one, we don't have to commit
         if author == last or last is None:
-            return
+            return False
 
         # Commit changes
         self.git_commit(
             request, last, self.last_change, True, True, skip_push
         )
+        return True
 
     def get_commit_message(self):
         """Formats commit message based on project configuration."""
