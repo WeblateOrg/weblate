@@ -95,7 +95,10 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
 
         getattr(obj, method)(request)
 
-    @detail_route(methods=['get', 'post'])
+    @detail_route(
+        methods=['get', 'post'],
+        serializer_class=RepoRequestSerializer
+    )
     def repository(self, request, **kwargs):
         obj = self.get_object()
 
@@ -175,7 +178,10 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             'project__source_language'
         )
 
-    @detail_route(methods=['get', 'post'])
+    @detail_route(
+        methods=['get', 'post'],
+        serializer_class=LockRequestSerializer
+    )
     def lock(self, request, **kwargs):
         obj = self.get_object()
 
