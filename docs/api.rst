@@ -210,12 +210,11 @@ Projects
 
     Performs given operation on the VCS repository.
 
-    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
-
     :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
     :param project: Project URL slug
     :type project: string
+    :>json boolean result: result of the operation
 
     .. seealso::
 

@@ -93,9 +93,12 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
         if not permission_check(request.user, project):
             raise PermissionDenied()
 
-        getattr(obj, method)(request)
+        return getattr(obj, method)(request)
 
-    @detail_route(methods=['get', 'post'])
+    @detail_route(
+        methods=['get', 'post'],
+        serializer_class=RepoRequestSerializer
+    )
     def repository(self, request, **kwargs):
         obj = self.get_object()
 
@@ -110,8 +113,13 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
             serializer = RepoRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 
-            self.repository_operation(
+            result = self.repository_operation(
                 request, obj, project, serializer.validated_data['operation']
+            )
+            return Response(
+                data={
+                    'result': result
+                }
             )
 
         if not can_see_repository_status(request.user, project):
@@ -175,7 +183,10 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
             'project__source_language'
         )
 
-    @detail_route(methods=['get', 'post'])
+    @detail_route(
+        methods=['get', 'post'],
+        serializer_class=LockRequestSerializer
+    )
     def lock(self, request, **kwargs):
         obj = self.get_object()
 
