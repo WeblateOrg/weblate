@@ -32,6 +32,10 @@ Weblate
 .. image:: https://img.shields.io/pypi/v/Weblate.svg
     :target: https://pypi.python.org/pypi/Weblate
 
+.. image:: https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat
+    :alt: Documentation
+    :target: https://docs.weblate.org/
+
 Weblate is a free web-based translation tool with tight version control
 integration. It features simple and clean user interface, propagation of
 translations across components within a project, quality checks and automatic
