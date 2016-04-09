@@ -19,6 +19,7 @@ Contents:
     formats
     api
     wlc
+    python
     changes
     contributing
     license
