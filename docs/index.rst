@@ -18,6 +18,7 @@ Contents:
     faq
     formats
     api
+    wlc
     changes
     contributing
     license

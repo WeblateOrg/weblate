@@ -3,6 +3,10 @@
 Weblate's Web API
 =================
 
+.. index::
+    single: REST
+    single: API
+
 REST API
 --------
 
@@ -12,6 +16,7 @@ REST API
 
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <http://www.django-rest-framework.org/>`_.
+You can use it directly or by :ref:`wlc`.
 
 Authentication and generic parameters
 +++++++++++++++++++++++++++++++++++++
