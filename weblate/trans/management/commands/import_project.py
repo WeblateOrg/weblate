@@ -183,7 +183,7 @@ class Command(BaseCommand):
         Returns relative path of matched files.
         '''
         matches = glob(os.path.join(repo, self.filemask))
-        return [f.replace(repo, '').strip('/') for f in matches]
+        return [f.replace(repo, '').replace('\\', '/').strip('/') for f in matches]
 
     def get_matching_subprojects(self, repo):
         '''

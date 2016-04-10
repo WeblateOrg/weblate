@@ -130,8 +130,8 @@ class Repository(object):
         Resolves any symlinks in the path.
         """
         # Resolve symlinks first
-        real_path = os.path.realpath(os.path.join(self.path, path))
-        repository_path = os.path.realpath(self.path)
+        real_path = os.path.realpath(os.path.join(self.path, path)).replace('\\', '/')
+        repository_path = os.path.realpath(self.path).replace('\\', '/')
 
         if not real_path.startswith(repository_path):
             raise ValueError('Too many symlinks or link outside tree')
@@ -149,7 +149,7 @@ class Repository(object):
         process = subprocess.Popen(
             args,
             cwd=cwd,
-            env=get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)}),
+            env=get_clean_env({str('GIT_SSH'): str(ssh_file(SSH_WRAPPER))}),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
