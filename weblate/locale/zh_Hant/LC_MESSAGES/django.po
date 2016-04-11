@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-03-25 13:55+0000\n"
-"PO-Revision-Date: 2016-04-11 18:48+0000\n"
+"PO-Revision-Date: 2016-04-11 22:02+0000\n"
 "Last-Translator: Ming Tsay <mt@moztw.org>\n"
 "Language-Team: Traditional Chinese "
 "<https://hosted.weblate.org/projects/weblate/master/zh_Hant/>\n"
@@ -352,7 +352,7 @@ msgstr "連絡人"
 
 #: weblate/accounts/views.py:316 weblate/html/accounts/hosting.html.py:7
 msgid "Hosting"
-msgstr "主機"
+msgstr "託管服務"
 
 #: weblate/accounts/views.py:400 weblate/html/accounts/login.html.py:8
 #: weblate/html/accounts/login.html:43 weblate/html/base.html.py:111
@@ -421,11 +421,11 @@ msgstr "過去一年的變更"
 
 #: weblate/billing/models.py:106 weblate/trans/admin.py:46
 msgid "VCS repositories"
-msgstr "VCS 儲存庫"
+msgstr "VCS Repository 數目"
 
 #: weblate/billing/models.py:112 weblate/trans/admin.py:50
 msgid "Source strings"
-msgstr "源字串"
+msgstr "源字串數目"
 
 #: weblate/billing/models.py:118 weblate/trans/admin.py:54
 msgid "Source words"
@@ -462,7 +462,7 @@ msgstr "查無頁面"
 
 #: weblate/html/404.html:11
 msgid "The page you are looking for was not found."
-msgstr "查無您尋找的頁面。"
+msgstr "找不到您要檢視的頁面。"
 
 #: weblate/html/500.html:5 weblate/trans/views/basic.py:417
 msgid "Internal Server Error"
@@ -476,8 +476,7 @@ msgstr "伺服器錯誤"
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
-msgstr ""
-"伺服器在您請求服務時有了嚴重的問題。我們剛派了我們受過訓練的猴子去修復問題。"
+msgstr "伺服器在處理您的請求時發生嚴重錯誤，我們已通知我們的程序猿來修正該問題。"
 
 #: weblate/html/about.html:5 weblate/html/about.html.py:13
 #: weblate/html/footer.html:6 weblate/trans/views/basic.py:430
@@ -625,15 +624,15 @@ msgstr "請事先檢查您的專案，是否有資格在這個網站上獲得專
 
 #: weblate/html/accounts/hosting.html:33
 msgid "Conditions for free hosting"
-msgstr "免費主機的條件"
+msgstr "免費託管服務之條件"
 
 #: weblate/html/accounts/hosting.html:36
 msgid ""
 "Translated content has to be released under <a href=\"http://en.wikipedia."
 "org/wiki/Free_software_license\">free license</a>."
 msgstr ""
-"已翻譯的內容必須在 <a href=\"http://en.wikipedia.org/wiki/"
-"Free_software_license\">free license</a> 之下發行。"
+"翻譯之內容必須以<a href=\"http://en.wikipedia.org/wiki/Free_software_license\""
+">開放授權</a>釋出。"
 
 #: weblate/html/accounts/hosting.html:37
 msgid ""
@@ -642,7 +641,7 @@ msgstr "原始程式碼必須公開地提供支援版本控制系統。"
 
 #: weblate/html/accounts/hosting.html:38
 msgid "There is no guarantee for service availability or quality."
-msgstr "在那方面是不能保證服務的有效性和品質。"
+msgstr "我們不能保證服務的可用性與品質。"
 
 #: weblate/html/accounts/hosting.html:44
 msgid "Commercial hosting"
@@ -1226,7 +1225,7 @@ msgstr ""
 
 #: weblate/html/base.html:68
 msgid "Toggle navigation"
-msgstr "切換導覽"
+msgstr "開啟/關閉導覽選單"
 
 #: weblate/html/base.html:79 weblate/html/base.html.py:120
 msgid "Dashboard"
@@ -1290,7 +1289,7 @@ msgstr "資訊"
 msgid ""
 "Customizable quality checks will help you in improving quality of "
 "translations."
-msgstr "可自訂的翻譯品質查核將幫助您提高翻譯品質。"
+msgstr "可自訂的翻譯品質檢測將協助您提高翻譯品質。"
 
 #: weblate/html/checks.html:33
 msgid ""
@@ -1587,7 +1586,7 @@ msgstr "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: weblate/html/footer.html:7
 msgid "Contact us"
-msgstr "連絡我們"
+msgstr "與我們聯繫"
 
 #: weblate/html/git-commit-info.html:3
 #, python-format
@@ -3683,7 +3682,7 @@ msgstr "自動翻譯"
 #: weblate/html/widgets.html:64 weblate/html/widgets.html.py:71
 #: weblate/html/widgets.html:79
 msgid "Translation status"
-msgstr "翻譯的狀況"
+msgstr "翻譯狀態"
 
 #: weblate/html/translation.html:92 weblate/html/translation.html.py:299
 msgid "Strings"
@@ -3755,7 +3754,7 @@ msgstr "翻譯目前未被鎖定。"
 
 #: weblate/html/translation.html:269 weblate/html/translation.html.py:317
 msgid "Review"
-msgstr "檢討"
+msgstr "複審"
 
 #: weblate/html/translation.html:271
 msgid "Review translations touched by other users."
@@ -4946,7 +4945,7 @@ msgstr "翻譯專案的主要網站。"
 
 #: weblate/trans/models/project.py:108
 msgid "Mailing list"
-msgstr "郵寄清單"
+msgstr "郵件列表"
 
 #: weblate/trans/models/project.py:111
 msgid "Mailing list for translators."
