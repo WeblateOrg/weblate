@@ -54,7 +54,8 @@ OPERATIONS = {
 }
 
 DOC_TEXT = """
-See <a href="{0}">the Weblate's Web API documentation</a> for detailed description of the API.
+See <a href="{0}">the Weblate's Web API documentation</a> for detailed
+description of the API.
 """
 
 
