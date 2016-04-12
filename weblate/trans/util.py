@@ -24,8 +24,8 @@ import os
 import sys
 import traceback
 
-import six
 from six.moves.urllib.parse import urlparse
+import six
 
 from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
