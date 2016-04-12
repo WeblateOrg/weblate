@@ -949,10 +949,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_mask_matches(self):
         """Returns files matching current mask."""
-        prefix = os.path.join(self.get_path(), '')
+        prefix = os.path.join(self.get_path(), '').replace('\\', '/')
         matches = set()
         for filename in glob(os.path.join(self.get_path(), self.filemask)):
-            path = filename.replace(prefix, '')
+            path = filename.replace('\\', '/').replace(prefix, '')
             code = self.get_lang_code(path)
             if re.match(self.language_regex, code):
                 matches.add(path)

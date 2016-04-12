@@ -203,15 +203,15 @@ def get_clean_env(extra=None):
     Returns cleaned up environment for subprocess execution.
     """
     environ = {
-        'LANG': 'en_US.UTF-8',
-        'HOME': data_dir('home'),
+        str('LANG'): str('en_US.UTF-8'),
+        str('HOME'): str(data_dir('home')),
     }
     if extra is not None:
         environ.update(extra)
     variables = ('PATH', 'LD_LIBRARY_PATH')
     for var in variables:
         if var in os.environ:
-            environ[var] = os.environ[var]
+            environ[str(var)] = str(os.environ[var])
     return environ
 
 
