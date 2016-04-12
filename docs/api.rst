@@ -18,6 +18,8 @@ The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <http://www.django-rest-framework.org/>`_.
 You can use it directly or by :ref:`wlc`.
 
+.. _api-generic:
+
 Authentication and generic parameters
 +++++++++++++++++++++++++++++++++++++
 
@@ -26,12 +28,10 @@ unauthenticated requests are heavily throttled (by default to 100 requests per
 day), so it is recommended to use authentication. The authentication is using
 token, which you can get in your profile. Use it in the ``Authorization`` header:
 
-.. http:get:: /api/
+.. http:any:: /
 
-    The API root entry point.
-
-    The headers, status codes and parameters here apply to all other
-    endpoints as well.
+    Generic request behaviour for the API, the headers, status codes and
+    parameters here apply to all endpoints as well.
 
     :query format: Response format (overrides :http:header:`Accept`).
                    Possible values depends on REST framework setup,
@@ -54,6 +54,104 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :status 400: when form parameters are missing
     :status 403: when access is denied
     :status 429: when throttling is in place
+
+Authentication examples
+~~~~~~~~~~~~~~~~~~~~~~~
+
+**Example request:**
+
+.. code-block:: http
+
+      GET /api/ HTTP/1.1
+      Host: example.com
+      Accept: application/json, text/javascript
+      Autorization: Token YOUR-TOKEN
+
+**Example response:**
+
+.. code-block:: http
+
+    HTTP/1.0 200 OK
+    Date: Fri, 25 Mar 2016 09:46:12 GMT
+    Server: WSGIServer/0.1 Python/2.7.11+
+    Vary: Accept, Accept-Language, Cookie
+    X-Frame-Options: SAMEORIGIN
+    Content-Type: application/json
+    Content-Language: en
+    Allow: GET, HEAD, OPTIONS
+
+    {
+        "projects":"http://example.com/api/projects/",
+        "components":"http://example.com/api/components/",
+        "translations":"http://example.com/api/translations/",
+        "languages":"http://example.com/api/languages/"
+    }
+
+**CURL example:**
+
+.. code-block:: sh
+
+    curl \
+        -H "Authorization: Token TOKEN" \
+        https://example.com/api/
+
+Passing Parameters Examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For the :http:method:`POST` method the parameters can be specified either as 
+form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON
+(:mimetype:`application/json`).
+
+**Form request example:**
+
+.. sourcecode:: http
+
+    POST /api/projects/hello/repository/ HTTP/1.1
+    Host: example.com
+    Accept: application/json
+    Content-Type: application/x-www-form-urlencoded
+    Authorization: Token TOKEN
+
+    operation=pull
+
+**JSON request example:**
+
+.. sourcecode:: http
+
+    POST /api/projects/hello/repository/ HTTP/1.1
+    Host: example.com
+    Accept: application/json
+    Content-Type: application/json
+    Authorization: Token TOKEN
+    Content-Length: 20
+
+    {"operation":"pull"}
+
+**CURL example:**
+
+.. code-block:: sh
+
+    curl \
+        -d operation=pull \
+        -H "Authorization: Token TOKEN" \
+        http://example.com/api/components/hello/weblate/repository/
+
+**CURL JSON example:**
+
+.. code-block:: sh
+
+    curl \
+        --data-binary '{"operation":"pull"}' \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Token TOKEN" \
+        http://example.com/api/components/hello/weblate/repository/
+
+API Entry Point
++++++++++++++++
+
+.. http:get:: /api/
+
+    The API root entry point.
 
     **Example request:**
 
@@ -84,15 +182,6 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
             "languages":"http://example.com/api/languages/"
         }
 
-    **CURL example:**
-
-    .. code-block:: sh
-
-        curl \
-            -H "Authorization: Token TOKEN" \
-            https://example.com/api/
-
-
 Languages
 +++++++++
 
@@ -102,7 +191,7 @@ Languages
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Language object attributes are documented at :http:get:`/api/languages/(string:language)/`.
 
@@ -119,7 +208,7 @@ Languages
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -145,7 +234,7 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
 
@@ -162,7 +251,7 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -198,7 +287,7 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -223,7 +312,7 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **CURL example:**
 
@@ -273,7 +362,7 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 Components
 ++++++++++
@@ -284,7 +373,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Component object attributes are documented at :http:get:`/api/components/(string:project)/(string:component)/`.
 
@@ -312,7 +401,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -364,7 +453,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -389,7 +478,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
@@ -404,7 +493,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
@@ -421,7 +510,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
@@ -434,7 +523,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
@@ -447,7 +536,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/translations/
 
@@ -461,7 +550,7 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 Translations
 ++++++++++++
@@ -472,7 +561,7 @@ Translations
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Translation object attributes are documented at :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`.
 
@@ -512,7 +601,7 @@ Translations
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
     **Example JSON data:**
@@ -602,7 +691,7 @@ Translations
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -617,7 +706,7 @@ Translations
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **CURL example:**
 
@@ -643,7 +732,7 @@ Translations
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
@@ -662,7 +751,7 @@ Translations
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :http:get:`/api/`.
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. _hooks:
 
