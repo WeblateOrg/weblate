@@ -215,10 +215,10 @@ Projects
 
     Performs given operation on the VCS repository.
 
-    :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
 
     :param project: Project URL slug
     :type project: string
+    :<json operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -233,6 +233,35 @@ Projects
             -d operation=pull \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/components/hello/weblate/repository/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"operation":"pull"}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {"result":true}
+
 
 .. http:get:: /api/projects/(string:project)/components/
 
