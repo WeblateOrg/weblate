@@ -79,23 +79,44 @@ class LanguageSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     source_language = LanguageSerializer(read_only=True)
+    components_list_url = serializers.HyperlinkedIdentityField(
+        view_name='api:project-components',
+        lookup_field='slug',
+    )
+    repository_url = serializers.HyperlinkedIdentityField(
+        view_name='api:project-repository',
+        lookup_field='slug',
+    )
 
     class Meta(object):
         model = Project
         fields = (
             'name', 'slug', 'web', 'source_language', 'web_url', 'url',
+            'components_list_url', 'repository_url',
         )
         extra_kwargs = {
             'url': {
                 'view_name': 'api:project-detail',
                 'lookup_field': 'slug'
-            }
+            },
         }
 
 
 class ComponentSerializer(RemovableSerializer):
     web_url = serializers.CharField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
+    repository_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-repository',
+        lookup_field=('project__slug', 'slug'),
+    )
+    translations_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-translations',
+        lookup_field=('project__slug', 'slug'),
+    )
+    lock_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-lock',
+        lookup_field=('project__slug', 'slug'),
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -105,6 +126,8 @@ class ComponentSerializer(RemovableSerializer):
             'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'new_base', 'file_format',
             'license', 'license_url', 'web_url', 'url',
+            'repository_url', 'translations_url',
+            'lock_url',
         )
         extra_kwargs = {
             'url': {
@@ -145,6 +168,22 @@ class TranslationSerializer(RemovableSerializer):
     last_author = serializers.CharField(
         source='get_last_author', read_only=True,
     )
+    repository_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-repository',
+        lookup_field=(
+            'subproject__project__slug',
+            'subproject__slug',
+            'language__code',
+        ),
+    )
+    file_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-file',
+        lookup_field=(
+            'subproject__project__slug',
+            'subproject__slug',
+            'language__code',
+        ),
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -162,6 +201,7 @@ class TranslationSerializer(RemovableSerializer):
             'fuzzy', 'fuzzy_percent',
             'failing_checks_percent',
             'last_change', 'last_author',
+            'repository_url', 'file_url',
         )
         extra_kwargs = {
             'url': {

@@ -248,6 +248,8 @@ Projects
     :>json string slug: project slug
     :>json object source_language: source language object, see :http:get:`/api/languages/(string:language)/`
     :>json string web: project website
+    :>json string components_list_url: URL to components list, see :http:get:`/api/projects/(string:project)/components/`
+    :>json string repository_url: URL to repository status, see :http:get:`/api/projects/(string:project)/repository/`
 
     .. seealso::
 
@@ -398,6 +400,9 @@ Components
     :>json string template: base file for monolingual translations
     :>json string new_base: base file for adding new translations
     :>json string vcs: version control system
+    :>json string repository_url: URL to repository status, see :http:get:`/api/components/(string:project)/(string:component)/repository/`
+    :>json string translations_url: URL to translations list, see :http:get:`/api/components/(string:project)/(string:component)/translations/`
+    :>json string lock_url: URL to lock statuc, see :http:get:`/api/components/(string:project)/(string:component)/lock/`
 
     .. seealso::
 
@@ -598,6 +603,8 @@ Translations
     :>json int translated: number of translated units
     :>json float translated_percent: percentage of translated units
     :>json int translated_words: number of translated words
+    :>json string repository_url: URL to repository status, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
+    :>json string file_url: URL to file object, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
 
     .. seealso::
 

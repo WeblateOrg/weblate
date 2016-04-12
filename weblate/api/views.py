@@ -136,6 +136,7 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ProjectViewSet(WeblateViewSet):
     """Translation projects API.
+    <a href="https://docs.weblate.org/en/latest/api.html#projects">doc</a>
     """
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
