@@ -63,23 +63,24 @@ def run_hook(component, translation, script, *args):
         command = [script]
         if args:
             command.extend(args)
-        environment = get_clean_env()
         if component.is_repo_link:
             target = component.linked_subproject
         else:
             target = component
-        environment['WL_VCS'] = target.vcs
-        environment['WL_REPO'] = target.repo
-        environment['WL_PATH'] = target.get_path()
-        environment['WL_FILEMASK'] = component.filemask
-        environment['WL_TEMPLATE'] = component.template
-        environment['WL_FILE_FORMAT'] = component.file_format
+        environment = {
+            'WL_VCS': target.vcs,
+            'WL_REPO': target.repo,
+            'WL_PATH': target.get_path(),
+            'WL_FILEMASK': component.filemask,
+            'WL_TEMPLATE': component.template,
+            'WL_FILE_FORMAT': component.file_format,
+        }
         if translation:
             environment['WL_LANGUAGE'] = translation.language_code
         try:
             subprocess.check_call(
                 command,
-                env=environment,
+                env=get_clean_env(environment),
                 cwd=component.get_path(),
             )
             return True
