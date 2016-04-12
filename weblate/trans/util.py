@@ -296,3 +296,10 @@ def render(request, template, context=None, status=None):
     if 'project' in context:
         context['description'] = get_project_description(context['project'])
     return django_render(request, template, context, status=status)
+
+
+def path_separator(path):
+    """Always use / as path separator for consistency"""
+    if os.path.sep != '/':
+        return path.replace(os.path.sep, '/')
+    return path

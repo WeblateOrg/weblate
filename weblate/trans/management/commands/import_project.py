@@ -33,7 +33,7 @@ from django.utils.text import slugify
 
 from weblate.trans.models import SubProject, Project
 from weblate.trans.formats import FILE_FORMATS
-from weblate.trans.util import is_repo_link
+from weblate.trans.util import is_repo_link, path_separator
 from weblate.trans.vcs import GitRepository
 from weblate.logger import LOGGER
 
@@ -183,7 +183,9 @@ class Command(BaseCommand):
         Returns relative path of matched files.
         '''
         matches = glob(os.path.join(repo, self.filemask))
-        return [f.replace(repo, '').strip('/') for f in matches]
+        return [
+            path_separator(f.replace(repo, '')).strip('/') for f in matches
+        ]
 
     def get_matching_subprojects(self, repo):
         '''
