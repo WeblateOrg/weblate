@@ -35,7 +35,7 @@
 {% include "show-lock.html" %}
 {% endwith %}
 
-{% with unit.get_comments as comments %}
+{% with unit.get_comments as comments and unit.nearby as nearby %}
 
 <ul class="pagination">
 <li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa fa-step-backward"></i></a></li>
@@ -148,7 +148,7 @@
 </form>
 
 <ul class="nav nav-pills translation-tabs">
-<li class="active"><a href="#nearby" data-toggle="tab" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %}</a></li>
+<li class="active"><a href="#nearby" data-toggle="tab" title="{% trans "Messages placed around this one" %}">{% trans "Nearby messages" %} <span class="badge">{{ nearby.count }}</span></a></li>
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions.count }}</span></a></li>
 {% endif %}
@@ -173,7 +173,7 @@
 <tr><th></th><th>{% trans "Source" %}</th><th>{% trans "Translation" %}</th><th>{% trans "State" %}</th></tr>
 </thead>
 <tbody>
-{% for item in unit.nearby %}
+{% for item in nearby %}
 <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
 <td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.subproject.project.source_language %}</a></td>
