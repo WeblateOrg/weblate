@@ -579,6 +579,7 @@ REST_FRAMEWORK = {
         'rest_framework.pagination.PageNumberPagination'
     ),
     'PAGE_SIZE': 20,
+    'VIEW_DESCRIPTION_FUNCTION': 'weblate.api.views.get_view_description',
 }
 
 # Example for restricting access to logged in users

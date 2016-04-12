@@ -23,10 +23,12 @@ import os.path
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse
+from django.utils.encoding import smart_text
 
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from rest_framework.utils import formatting
 
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
@@ -42,6 +44,7 @@ from weblate.trans.permissions import (
 )
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
+from weblate import get_doc_url
 
 OPERATIONS = {
     'push': (can_push_translation, 'do_push'),
@@ -49,6 +52,40 @@ OPERATIONS = {
     'reset': (can_reset_translation, 'do_reset'),
     'commit': (can_commit_translation, 'commit_pending'),
 }
+
+DOC_TEXT = """
+See <a href="{0}">the Weblate's Web API documentation</a> for detailed description of the API.
+"""
+
+
+def get_view_description(view_cls, html=False):
+    """
+    Given a view class, return a textual description to represent the view.
+    This name is used in the browsable API, and in OPTIONS responses.
+
+    This function is the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
+    """
+    description = view_cls.__doc__ or ''
+    description = formatting.dedent(smart_text(description))
+
+    if hasattr(view_cls, 'serializer_class'):
+        doc_url = get_doc_url(
+            'api'
+            '{0}s'.format(
+                view_cls.serializer_class.Meta.model.__name__.lower()
+            )
+        )
+    else:
+        doc_url = get_doc_url('api')
+
+    description = '\n\n'.join((
+        description,
+        DOC_TEXT.format(doc_url)
+    ))
+
+    if html:
+        return formatting.markup_description(description)
+    return description
 
 
 class MultipleFieldMixin(object):
@@ -136,8 +173,8 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ProjectViewSet(WeblateViewSet):
     """Translation projects API.
-    <a href="https://docs.weblate.org/en/latest/api.html#projects">doc</a>
     """
+
     queryset = Project.objects.none()
     serializer_class = ProjectSerializer
     lookup_field = 'slug'
