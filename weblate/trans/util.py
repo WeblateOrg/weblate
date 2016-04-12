@@ -24,6 +24,7 @@ import os
 import sys
 import traceback
 
+import six
 from six.moves.urllib.parse import urlparse
 
 from django.core.exceptions import ImproperlyConfigured
@@ -212,6 +213,12 @@ def get_clean_env(extra=None):
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
+    # Python 2 on Windows doesn't handle Unicode objects in environment
+    # even if they can be converted to ASCII string, let's fix it here
+    if six.PY2 and sys.platform == 'win32':
+        return {
+            str(key): str(val) for key, val in environ.items()
+        }
     return environ
 
 
