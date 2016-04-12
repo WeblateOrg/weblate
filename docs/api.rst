@@ -381,12 +381,11 @@ Components
 
     Response is same as :http:get:`/api/components/(string:project)/(string:component)/lock/`.
 
-    :query lock: Boolean whether to lock or not.
-
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :<json lock: Boolean whether to lock or not.
 
     .. seealso::
 
@@ -413,12 +412,12 @@ Components
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
-    :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
-
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :<json operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :>json boolean result: result of the operation
 
     .. seealso::
 
@@ -652,14 +651,14 @@ Translations
 
     See :http:post:`/api/projects/(string:project)/repository/` for documentation.
 
-    :query operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
-
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
     :type component: string
     :param language: Translation language code
     :type language: string
+    :<json operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :>json boolean result: result of the operation
 
     .. seealso::
 
