@@ -43,7 +43,7 @@ from weblate.trans.filelock import FileLock
 from weblate.trans.fields import RegexField
 from weblate.trans.site import get_site_url
 from weblate.trans.util import (
-    is_repo_link, cleanup_repo_url, cleanup_path, report_error,
+    is_repo_link, cleanup_repo_url, cleanup_path, report_error, path_separator,
 )
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, translation_post_add
@@ -949,10 +949,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_mask_matches(self):
         """Returns files matching current mask."""
-        prefix = os.path.join(self.get_path(), '')
+        prefix = path_separator(os.path.join(self.get_path(), ''))
         matches = set()
         for filename in glob(os.path.join(self.get_path(), self.filemask)):
-            path = filename.replace(prefix, '')
+            path = path_separator(filename).replace(prefix, '')
             code = self.get_lang_code(path)
             if re.match(self.language_regex, code):
                 matches.add(path)
