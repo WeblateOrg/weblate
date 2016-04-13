@@ -21,6 +21,7 @@
 from datetime import datetime
 
 from django.utils.translation import ugettext as _
+from django.conf import settings
 
 import weblate
 from weblate import appsettings
@@ -56,6 +57,15 @@ def weblate_context(request):
             'This site runs Weblate for translating various software projects.'
         )
 
+    if (hasattr(settings, 'ROLLBAR') and
+            'client_token' in settings['ROLLBAR'] and
+            'environment' in settings['ROLLBAR']):
+        rollbar_token = settings['ROLLBAR']['client_token']
+        rollbar_environment = settings['ROLLBAR']['environment']
+    else:
+        rollbar_token = None
+        rollbar_environment = None
+
     return {
         'version': weblate.VERSION,
         'description': description,
@@ -86,4 +96,7 @@ def weblate_context(request):
         'registration_open': appsettings.REGISTRATION_OPEN,
         'acl_projects': projects,
         'subscribed_projects': subscribed_projects,
+
+        'rollbar_token': rollbar_token,
+        'rollbar_environment': rollbar_environment,
     }
