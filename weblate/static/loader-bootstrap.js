@@ -522,9 +522,9 @@ $(function () {
             activeTab.tab('show');
             window.scrollTo(0, 0);
         }
-    } else if ($('.translation-tabs').length > 0 && $.cookie('translate-tab')) {
+    } else if ($('.translation-tabs').length > 0 && Cookies.get('translate-tab')) {
         /* From cookie */
-        activeTab = $('[data-toggle=tab][href="' + $.cookie('translate-tab') + '"]');
+        activeTab = $('[data-toggle=tab][href="' + Cookies.get('translate-tab') + '"]');
         if (activeTab.length) {
             activeTab.tab('show');
         }
@@ -539,7 +539,7 @@ $(function () {
 
     /* Store active translation tab in cookie */
     $('.translation-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        $.cookie('translate-tab', $(this).attr('href'));
+        Cookies.set('translate-tab', $(this).attr('href'), { path: ''});
     });
 
     /* Navigate to a tab when the history changes */
