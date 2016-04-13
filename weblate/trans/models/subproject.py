@@ -1455,7 +1455,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def add_new_language(self, language, request):
         """Creates new language file."""
         if not self.can_add_new_language():
-            raise ValueError('Not supported operation!')
+            messages.error(
+                request,
+                __('Failed to add new translation file!')
+            )
+            return False
 
         base_filename = self.get_new_base_filename()
 
@@ -1472,7 +1476,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             Translation.objects.check_sync(
                 self, language, language.code, filename, request=request
             )
-            return
+            messages.error(
+                request,
+                __('Translation file already exists!')
+            )
+            return False
 
         self.file_format_cls.add_language(
             fullname,
@@ -1502,6 +1510,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             force=True,
             request=request
         )
+        return True
 
     def do_lock(self, user):
         """Locks component."""
