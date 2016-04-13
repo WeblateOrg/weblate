@@ -1457,7 +1457,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not self.can_add_new_language():
             messages.error(
                 request,
-                __('Failed to add new translation file!')
+                _('Failed to add new translation file!')
             )
             return False
 
@@ -1478,7 +1478,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
             messages.error(
                 request,
-                __('Translation file already exists!')
+                _('Translation file already exists!')
             )
             return False
 
