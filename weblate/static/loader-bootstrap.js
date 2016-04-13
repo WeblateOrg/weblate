@@ -517,14 +517,14 @@ $(function () {
     /* Load correct tab */
     if (location.hash !== '') {
         /* From URL hash */
-        activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
+        activeTab = $('[data-toggle=tab][href="' + location.hash + '"]');
         if (activeTab.length) {
             activeTab.tab('show');
             window.scrollTo(0, 0);
         }
     } else if ($('.translation-tabs').length > 0 && $.cookie('translate-tab')) {
         /* From cookie */
-        activeTab = $('[data-toggle=tab][href=' + $.cookie('translate-tab') + ']');
+        activeTab = $('[data-toggle=tab][href="' + $.cookie('translate-tab') + '"]');
         if (activeTab.length) {
             activeTab.tab('show');
         }
@@ -545,7 +545,7 @@ $(function () {
     /* Navigate to a tab when the history changes */
     window.addEventListener('popstate', function(e) {
         if (location.hash !== '') {
-            activeTab = $('[data-toggle=tab][href=' + location.hash + ']');
+            activeTab = $('[data-toggle=tab][href="' + location.hash + '"]');
         } else {
             activeTab = Array();
         }
@@ -561,7 +561,7 @@ $(function () {
     if (formErrors.length > 0) {
         var tab = formErrors.closest('div.tab-pane');
         if (tab.length > 0) {
-            $('[data-toggle=tab][href=#' + tab.attr('id')+ ']').tab('show');
+            $('[data-toggle=tab][href="#' + tab.attr('id')+ '"]').tab('show');
         }
     }
 
