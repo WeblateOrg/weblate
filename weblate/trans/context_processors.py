@@ -58,10 +58,10 @@ def weblate_context(request):
         )
 
     if (hasattr(settings, 'ROLLBAR') and
-            'client_token' in settings['ROLLBAR'] and
-            'environment' in settings['ROLLBAR']):
-        rollbar_token = settings['ROLLBAR']['client_token']
-        rollbar_environment = settings['ROLLBAR']['environment']
+            'client_token' in settings.ROLLBAR and
+            'environment' in settings.ROLLBAR):
+        rollbar_token = settings.ROLLBAR['client_token']
+        rollbar_environment = settings.ROLLBAR['environment']
     else:
         rollbar_token = None
         rollbar_environment = None
