@@ -539,7 +539,8 @@ $(function () {
 
     /* Store active translation tab in cookie */
     $('.translation-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        Cookies.set('translate-tab', $(this).attr('href'), { path: ''});
+        Cookies.remove('translate-tab', { path: '' });
+        Cookies.set('translate-tab', $(this).attr('href'), { path: '/'});
     });
 
     /* Navigate to a tab when the history changes */
