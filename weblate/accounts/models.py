@@ -57,7 +57,9 @@ def send_mails(mails):
     """Sends multiple mails in single connection."""
     try:
         connection = get_connection()
-        connection.send_messages(mails)
+        connection.send_messages(
+            [mail for mail in mails if mail is not None]
+        )
     except SMTPException as error:
         LOGGER.error('Failed to send email: %s', error)
         report_error(error, sys.exc_info())
