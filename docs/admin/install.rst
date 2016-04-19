@@ -44,6 +44,8 @@ babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
     Any database supported in Django will work, check their documentation for more details.
+pytz (optional, but recommended by Django)
+    https://pypi.python.org/pypi/pytz/
 hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
 

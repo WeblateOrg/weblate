@@ -54,6 +54,17 @@ def get_optional_versions():
     '''
     result = []
 
+    name = 'pytz'
+    url = 'https://pypi.python.org/pypi/pytz/'
+    mod = get_version_module('pytz', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            mod.__version__,
+            None,
+        ))
+
     name = 'pyuca'
     url = 'https://github.com/jtauber/pyuca'
     mod = get_version_module('pyuca', name, url, True)
