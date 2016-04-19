@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
-
 from django.core.management.base import BaseCommand
 
 from weblate.lang.models import Language
@@ -28,15 +26,14 @@ from weblate.lang.models import Language
 class Command(BaseCommand):
     help = 'Populates language definitions'
 
-    option_list = BaseCommand.option_list + (
-        make_option(
+    def add_arguments(self, parser):
+        parser.add_argument(
             '--no-update',
             action='store_false',
             dest='update',
             default=True,
             help='Prevents updates to existing language definitions'
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
         '''

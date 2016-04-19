@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
-
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
@@ -33,46 +31,43 @@ class Command(WeblateTranslationCommand):
     Command for mass automatic translation.
     """
     help = 'performs automatic translation based on other components'
-    option_list = WeblateTranslationCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--user',
             default='anonymous',
             help=(
                 'User performing the change'
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--source',
             default='',
             help=(
                 'Source component <project/component>'
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--overwrite',
             default=False,
             action='store_true',
             help=(
                 'Overwrite existing translations in target component'
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--inconsistent',
             default=False,
             action='store_true',
             help=(
                 'Process only inconsistent translations'
             )
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
-        # Check params
-        if len(args) != 3:
-            raise CommandError('Invalid number of parameters!')
-
         # Get translation object
-        translation = self.get_translation(args)
+        translation = self.get_translation(**options)
 
         # Get user
         try:

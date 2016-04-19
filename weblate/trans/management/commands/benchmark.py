@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
 import cProfile
 import pstats
 
@@ -32,28 +31,37 @@ class Command(BaseCommand):
     Runs simple project import to perform benchmarks.
     '''
     help = 'performs import benchmark'
-    args = '<project> <repo> <mask>'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--profile-sort',
-            type='str',
             dest='profile_sort',
             default='cumulative',
             help='sort order for profile stats',
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--profile-count',
-            type='int',
+            type=int,
             dest='profile_count',
             default=20,
             help='number of profile stats to show',
-        ),
-    )
+        )
+        parser.add_argument(
+            'project',
+            help='Existing project slug for tests',
+        )
+        parser.add_argument(
+            'repo',
+            help='VCS repository URL',
+        )
+        parser.add_argument(
+            'mask',
+            help='File mask',
+        )
 
     def handle(self, *args, **options):
-        if len(args) < 3:
-            raise CommandError('Missing arguments!')
-        project = Project.objects.get(slug=args[0])
+        project = Project.objects.get(slug=options['project'])
         # Delete any possible previous tests
         SubProject.objects.filter(
             project=project,
@@ -64,8 +72,8 @@ class Command(BaseCommand):
             SubProject.objects.create,
             name='Benchmark',
             slug='benchmark',
-            repo=args[1],
-            filemask=args[2],
+            repo=options['repo'],
+            filemask=options['mask'],
             project=project
         )
         stats = pstats.Stats(profiler)

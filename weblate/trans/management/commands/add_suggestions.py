@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
+import argparse
 
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
@@ -33,24 +33,25 @@ class Command(WeblateTranslationCommand):
     Command for mass importing suggestions.
     """
     help = 'imports suggestions'
-    args = '<project> <component> <language> <file>'
-    option_list = WeblateTranslationCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--author',
             default='noreply@weblate.org',
             help=(
                 'Email address of author (has to be registered in Weblate)'
             )
-        ),
-    )
+        )
+        parser.add_argument(
+            'file',
+            type=argparse.FileType('rb'),
+            help='File to import',
+        )
 
     def handle(self, *args, **options):
-        # Check params
-        if len(args) != 4:
-            raise CommandError('Invalid number of parameters!')
-
         # Get translation object
-        translation = self.get_translation(args)
+        translation = self.get_translation(**options)
 
         # Get user
         try:
@@ -64,10 +65,9 @@ class Command(WeblateTranslationCommand):
 
         # Process import
         try:
-            with open(args[3], 'rb') as handle:
-                translation.merge_upload(
-                    request, handle, False, method='suggest',
-                    author=get_author_name(user),
-                )
+            translation.merge_upload(
+                request, options['file'], False, method='suggest',
+                author=get_author_name(user),
+            )
         except IOError:
             raise CommandError('Failed to import translation file!')

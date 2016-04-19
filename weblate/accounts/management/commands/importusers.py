@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from optparse import make_option
+import argparse
 import json
 
 from django.core.management.base import BaseCommand, CommandError
@@ -29,13 +29,17 @@ from django.contrib.auth.models import User
 
 class Command(BaseCommand):
     help = 'imports users from JSON dump of database'
-    args = '<json-file>'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        parser.add_argument(
             '--check',
             action='store_true',
             help='Only check import, do not actually create users'
-        ),
+        )
+        parser.add_argument(
+            'json-file',
+            type=argparse.FileType('rb'),
+            help='File to import',
     )
 
     def handle(self, *args, **options):
@@ -43,10 +47,8 @@ class Command(BaseCommand):
         Creates default set of groups and optionally updates them and moves
         users around to default group.
         '''
-        if len(args) != 1:
-            raise CommandError('Please specify JSON file to import!')
 
-        data = json.load(open(args[0]))
+        data = json.load(options['json-file'])
 
         for line in data:
             if 'fields' in line:

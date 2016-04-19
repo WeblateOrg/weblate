@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
 
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.sites.models import Site
@@ -26,29 +25,28 @@ from django.contrib.sites.models import Site
 
 class Command(BaseCommand):
     help = 'changes default site name'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        parser.add_argument(
             '--set-name',
-            type='str',
             dest='set_name',
             default=None,
             help='site name to set'
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--site-id',
-            type='int',
+            type=int,
             dest='site_id',
             default=1,
             help='site ID to manipulate (1 by default)'
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--get-name',
             action='store_true',
             dest='get_name',
             default=False,
             help='just display the site name'
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
         if options['set_name']:

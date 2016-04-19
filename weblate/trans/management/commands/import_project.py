@@ -19,7 +19,6 @@
 #
 
 from glob import glob
-from optparse import make_option
 import tempfile
 import os
 import re
@@ -43,45 +42,46 @@ class Command(BaseCommand):
     Command for mass importing of repositories into Weblate.
     """
     help = 'imports projects with more components'
-    args = '<project> <gitrepo> <branch> <filemask>'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--name-template',
             default='%s',
             help=(
                 'Python formatting string, transforming the filemask '
                 'match to a project name'
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--component-regexp',
             default=None,
             help=(
                 'Regular expression to match component out of filename'
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--base-file-template',
             default='',
             help=(
                 'Python formatting string, transforming the filemask '
                 'match to a monolingual base file name'
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--file-format',
             default='auto',
             help='File format type, defaults to autodetection',
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--language-regex',
             default=None,
             help=(
                 'Language filter regular expression to be used for created'
                 ' components'
             ),
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--no-skip-duplicates',
             action='store_true',
             default=False,
@@ -90,31 +90,46 @@ class Command(BaseCommand):
                 'Avoid skipping duplicate component names/slugs. '
                 'Use this if importing project with long names '
             )
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--license',
             default=None,
             help='License of imported components',
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--license-url',
             default=None,
             help='License URL of imported components',
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--vcs',
             default='git',
             help='Version control system to use',
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--main-component',
             default=None,
             help=(
                 'Define which component will be used as main - including full'
                 ' VCS repository'
             )
-        ),
-    )
+        )
+        parser.add_argument(
+            'project',
+            help='Existing project slug',
+        )
+        parser.add_argument(
+            'repo',
+            help='VCS repository URL',
+        )
+        parser.add_argument(
+            'branch',
+            help='VCS repository branch',
+        )
+        parser.add_argument(
+            'filemask',
+            help='File mask',
+        )
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
@@ -219,9 +234,9 @@ class Command(BaseCommand):
             'Failed to find suitable name for {0}'.format(name)
         )
 
-    def parse_options(self, args, options):
+    def parse_options(self, options):
         """Parses parameters"""
-        self.filemask = args[3]
+        self.filemask = options['filemask']
         self.vcs = options['vcs']
         self.file_format = options['file_format']
         self.language_regex = options['language_regex']
@@ -264,22 +279,18 @@ class Command(BaseCommand):
         '''
         Automatic import of project.
         '''
-        # Check params count
-        if len(args) != 4:
-            raise CommandError('Invalid number of parameters!')
-
         # Read params
-        repo = args[1]
-        branch = args[2]
-        self.parse_options(args, options)
+        repo = options['repo']
+        branch = options['branch']
+        self.parse_options(options)
 
         # Try to get project
         try:
-            project = Project.objects.get(slug=args[0])
+            project = Project.objects.get(slug=options['project'])
         except Project.DoesNotExist:
             raise CommandError(
                 'Project %s does not exist, you need to create it first!' %
-                args[0]
+                options['project']
             )
 
         if is_repo_link(repo):
