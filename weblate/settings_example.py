@@ -433,6 +433,9 @@ MT_TMSERVER = None
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
+# Whether site uses https
+ENABLE_HTTPS = False
+
 # URL of login
 LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
 
