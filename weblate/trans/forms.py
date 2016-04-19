@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from datetime import date
+from datetime import date, datetime
 
 from crispy_forms.helper import FormHelper
 
@@ -28,6 +28,7 @@ from django import forms
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
+from django.forms.utils import from_current_timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
 from django.forms import ValidationError
@@ -81,6 +82,36 @@ PLURALS_TEMPLATE = '''
 COPY_TEMPLATE = '''
 data-loading-text="{0}" data-href="{1}" data-checksum="{2}"
 '''
+
+
+class WeblateDateField(forms.DateField):
+    def __init__(self, *args, **kwargs):
+        if 'widget' not in kwargs:
+            kwargs['widget'] = forms.DateInput(
+                attrs={
+                    'type': 'date',
+                    'data-provide': 'datepicker',
+                    'data-date-format': 'yyyy-mm-dd',
+                },
+                format='%Y-%m-%d'
+            )
+        super(WeblateDateField, self).__init__(*args, **kwargs)
+
+    def to_python(self, value):
+        """Produce timezone aware datetime with 00:00:00 as time"""
+        value = super(WeblateDateField, self).to_python(value)
+        if isinstance(value, date):
+            return from_current_timezone(
+                datetime(
+                    value.year,
+                    value.month,
+                    value.day,
+                    0,
+                    0,
+                    0
+                )
+            )
+        return value
 
 
 class PluralTextarea(forms.Textarea):
@@ -707,16 +738,8 @@ class ReviewForm(forms.Form):
     '''
     Translation review form.
     '''
-    date = forms.DateField(
+    date = WeblateDateField(
         label=_('Starting date'),
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'data-provide': 'datepicker',
-                'data-date-format': 'yyyy-mm-dd',
-            },
-            format='%Y-%m-%d'
-        )
     )
     type = forms.CharField(widget=forms.HiddenInput, initial='review')
 
@@ -904,27 +927,11 @@ class ReportsForm(forms.Form):
             ('html', _('HTML')),
         ),
     )
-    start_date = forms.DateField(
+    start_date = WeblateDateField(
         label=_('Starting date'),
         initial=date(2000, 1, 1),
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'data-provide': 'datepicker',
-                'data-date-format': 'yyyy-mm-dd',
-            },
-            format='%Y-%m-%d'
-        )
     )
-    end_date = forms.DateField(
+    end_date = WeblateDateField(
         label=_('Ending date'),
         initial=date(2100, 1, 1),
-        widget=forms.DateInput(
-            attrs={
-                'type': 'date',
-                'data-provide': 'datepicker',
-                'data-date-format': 'yyyy-mm-dd',
-            },
-            format='%Y-%m-%d'
-        )
     )
