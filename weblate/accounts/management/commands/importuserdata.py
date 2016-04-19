@@ -36,7 +36,7 @@ class Command(BaseCommand):
         parser.add_argument(
             'json-file',
             type=argparse.FileType('r'),
-            help='File to import',
+            help='JSON file containing user data to import',
         )
 
     def import_subscriptions(self, profile, userprofile):
