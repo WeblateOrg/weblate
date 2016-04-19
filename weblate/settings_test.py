@@ -23,6 +23,7 @@
 #
 
 from weblate.settings_example import *
+import warnings
 import os
 
 if 'CI_DATABASE' in os.environ:
@@ -121,3 +122,8 @@ class DisableMigrations(object):
 # Avoid running migrations in testsuite
 if 'TEST_MIGRATIONS' not in os.environ:
     MIGRATION_MODULES = DisableMigrations()
+
+warnings.filterwarnings(
+    'error', r"DateTimeField .* received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields'
+)
