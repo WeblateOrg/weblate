@@ -357,6 +357,7 @@ class Unit(models.Model, LoggerMixin):
         )
         ordering = ['priority', 'position']
         app_label = 'trans'
+        unique_together = ('translation', 'checksum')
 
     def __init__(self, *args, **kwargs):
         """
