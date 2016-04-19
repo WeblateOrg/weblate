@@ -21,7 +21,7 @@
 import cProfile
 import pstats
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from weblate.trans.models import SubProject, Project
 
@@ -53,7 +53,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             'repo',
-            help='VCS repository URL',
+            help='Test VCS repository URL',
         )
         parser.add_argument(
             'mask',

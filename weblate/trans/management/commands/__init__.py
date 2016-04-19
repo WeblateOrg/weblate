@@ -106,7 +106,8 @@ class WeblateCommand(BaseCommand):
         elif len(options['component']) == 0:
             # no argumets to filter projects
             self.stderr.write(
-                'Please specify either --all or at least one <project/component>'
+                'Please specify either --all '
+                'or at least one <project/component>'
             )
             raise CommandError('Nothing to process!')
         else:
