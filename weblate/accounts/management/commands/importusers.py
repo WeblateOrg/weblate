@@ -38,7 +38,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             'json-file',
-            type=argparse.FileType('rb'),
+            type=argparse.FileType('r'),
             help='File to import',
         )
 

@@ -20,7 +20,7 @@
 
 import json
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 
 from weblate.accounts.models import Profile
@@ -30,7 +30,13 @@ from weblate.trans.models import Project
 
 class Command(BaseCommand):
     help = 'imports userdata from JSON dump of database'
-    args = '<json-file>'
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            'json-file',
+            type=argparse.FileType('r'),
+            help='File to import',
+        )
 
     def import_subscriptions(self, profile, userprofile):
         """
@@ -63,15 +69,12 @@ class Command(BaseCommand):
                 Language.objects.get(code=lang)
             )
 
-    def handle(self, *args, **options):
+    def handle(self, **options):
         '''
         Creates default set of groups and optionally updates them and moves
         users around to default group.
         '''
-        if len(args) != 1:
-            raise CommandError('Please specify JSON file to import!')
-
-        userdata = json.load(open(args[0]))
+        userdata = json.load(options['json-file'])
 
         for userprofile in userdata:
             try:

@@ -20,23 +20,26 @@
 
 import json
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from weblate.accounts.models import Profile
 
 
 class Command(BaseCommand):
     help = 'dumps user data to JSON file'
-    args = '<json-file>'
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            'json-file',
+            type=argparse.FileType('w'),
+            help='File where to export',
+        )
 
     def handle(self, *args, **options):
         '''
         Creates default set of groups and optionally updates them and moves
         users around to default group.
         '''
-        if len(args) != 1:
-            raise CommandError('Please specify JSON file to create!')
-
         data = []
         fields = (
             'language',
@@ -72,4 +75,4 @@ class Command(BaseCommand):
 
             data.append(item)
 
-        json.dump(data, open(args[0], 'w'), indent=2)
+        json.dump(data, options['json-file'], indent=2)
