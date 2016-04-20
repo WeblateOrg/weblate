@@ -904,9 +904,6 @@ def create_groups(update):
             Permission.objects.get(codename='use_mt'),
         )
 
-    if not AutoGroup.objects.filter(group=group).exists():
-        AutoGroup.objects.create(group=group, match='^.*$')
-
     owner_permissions = (
         Permission.objects.get(codename='author_translation'),
         Permission.objects.get(codename='upload_translation'),
