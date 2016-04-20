@@ -17,6 +17,7 @@ def add_anonymous_profile(apps, schema_editor):
             'is_active': False
         }
     )[0]
+    Profile.objects.get_or_create(user=anon_user)
 
 
 class Migration(migrations.Migration):
