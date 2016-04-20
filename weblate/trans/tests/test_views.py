@@ -77,6 +77,8 @@ class ViewTestCase(RepoTestCase):
             'testpassword',
             first_name='Weblate Test',
         )
+        group = Group.objects.get(name='Users')
+        self.user.groups.add(group)
         # Create profile for him
         Profile.objects.create(user=self.user)
         # Create project to have some test base
