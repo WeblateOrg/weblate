@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 
@@ -66,6 +66,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
 
     def authenticate(self, superuser=False):
         user, dummy = User.objects.get_or_create(username='test')
+        group = Group.objects.get(name='Users')
+        user.groups.add(group)
         user.is_superuser = superuser
         user.save()
         cache.delete(get_acl_cache_key(user))

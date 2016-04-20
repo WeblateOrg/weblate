@@ -21,6 +21,7 @@
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
+from weblate.accounts.models import Profile
 from weblate.trans.models import SubProject
 from weblate.trans.autotranslate import auto_translate
 from weblate.trans.management.commands import WeblateTranslationCommand
@@ -72,6 +73,7 @@ class Command(WeblateTranslationCommand):
         # Get user
         try:
             user = User.objects.get(username=options['user'])
+            Profile.objects.get_or_create(user=user)
         except User.DoesNotExist:
             raise CommandError('User does not exist!')
 
