@@ -22,5 +22,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(add_users_autogroup, reverse_code=lambda apps, schema_editor: None),
+        migrations.RunPython(add_users_autogroup)
     ]
