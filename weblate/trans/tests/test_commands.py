@@ -524,7 +524,6 @@ class SuggesionCommandTest(RepoTestCase):
             'noreply@weblate.org',
             'testpassword'
         )
-        Profile.objects.create(user=user)
         call_command(
             'add_suggestions', 'test', 'test', 'cs', TEST_PO,
             author=user.email
