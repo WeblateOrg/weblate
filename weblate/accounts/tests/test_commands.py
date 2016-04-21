@@ -81,7 +81,6 @@ class CommandTest(TestCase):
     def test_userdata(self):
         # Create test user
         user = User.objects.create_user('testuser', 'test@example.com', 'x')
-        profile = Profile.objects.create(user=user)
         profile.translated = 1000
         profile.save()
 
