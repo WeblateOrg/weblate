@@ -883,7 +883,7 @@ def create_groups(update):
         )
 
     group, created = Group.objects.get_or_create(name='Users')
-    if created or update:
+    if created or update or group.permissions.count() == 0:
         group.permissions.add(
             Permission.objects.get(codename='upload_translation'),
             Permission.objects.get(codename='overwrite_translation'),
@@ -940,11 +940,11 @@ def create_groups(update):
     )
 
     group, created = Group.objects.get_or_create(name='Managers')
-    if created or update:
+    if created or update or group.permissions.count() == 0:
         group.permissions.add(*owner_permissions)
 
     group, created = Group.objects.get_or_create(name='Owners')
-    if created or update:
+    if created or update or group.permissions.count() == 0:
         group.permissions.add(*owner_permissions)
 
     created = True
