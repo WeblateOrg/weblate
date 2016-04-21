@@ -81,8 +81,8 @@ class CommandTest(TestCase):
     def test_userdata(self):
         # Create test user
         user = User.objects.create_user('testuser', 'test@example.com', 'x')
-        profile.translated = 1000
-        profile.save()
+        user.profile.translated = 1000
+        user.profile.save()
 
         with tempfile.NamedTemporaryFile() as output:
             call_command('dumpuserdata', output.name)
