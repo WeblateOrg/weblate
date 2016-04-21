@@ -1032,3 +1032,5 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
                 instance.groups.add(auto.group)
         # Create API token
         Token.objects.create(user=instance)
+        # Create profile
+        Profile.objects.get_or_create(user=instance)
