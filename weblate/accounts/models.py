@@ -876,7 +876,7 @@ def create_groups(update):
     Creates standard groups and gives them permissions.
     '''
     guest_group, created = Group.objects.get_or_create(name='Guests')
-    if created or update:
+    if created or update or guest_group.permissions.count() == 0:
         guest_group.permissions.add(
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_suggestion'),

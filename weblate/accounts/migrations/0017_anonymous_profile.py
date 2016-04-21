@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
+from django.contrib.auth.hashers import make_password
 
 from weblate.appsettings import ANONYMOUS_USER_NAME
 
@@ -10,13 +11,18 @@ from weblate.appsettings import ANONYMOUS_USER_NAME
 def add_anonymous_profile(apps, schema_editor):
     """Ensure anonymous user has profile"""
     User = apps.get_model('auth', 'User')
+    Group = apps.get_model('auth', 'Group')
     Profile = apps.get_model('accounts', 'Profile')
     anon_user = User.objects.get_or_create(
         username=ANONYMOUS_USER_NAME,
         defaults={
-            'is_active': False
+            'is_active': False,
+            'password': make_password(None),
         }
     )[0]
+    guest_group = Group.objects.get_or_create(name='Guests')[0]
+    anon_user.groups.clear()
+    anon_user.groups.add(guest_group)
     Profile.objects.get_or_create(user=anon_user)
 
 
