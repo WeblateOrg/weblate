@@ -70,7 +70,6 @@ class NotificationTest(ViewTestCase):
             username='seconduser',
             password='secondpassword'
         )
-        Profile.objects.create(user=user)
         return user
 
     def test_notify_merge_failure(self):
