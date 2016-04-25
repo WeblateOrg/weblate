@@ -28,6 +28,12 @@ To completely lock down your Weblate installation you can use
 
 For more fine-grained access control, see :ref:`acl` and :ref:`groupacl`.
 
+.. warning::
+
+    Never remove Weblate predefined groups (`Guests`, `Users`,
+    `Owners` and `Managers`). If you do not want to use these features, just
+    remove all privileges from them.
+
 Extra privileges
 ----------------
 
