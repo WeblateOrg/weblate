@@ -20,7 +20,6 @@
 """Exporter using translate-toolkit"""
 from __future__ import unicode_literals
 
-from io import BytesIO
 import string
 
 from django.http import HttpResponse
@@ -184,6 +183,9 @@ class XMLExporter(BaseExporter):
             return text.translate(None, _CHARMAP2)
         else:
             return text.translate(_CHARMAP)
+
+    def get_storage(self):
+        raise NotImplementedError()
 
 
 @register_exporter
