@@ -9,9 +9,9 @@ Weblate
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
 
-.. image:: http://codecov.io/github/nijel/weblate/coverage.svg?branch=master
+.. image:: https://codecov.io/gh/nijel/weblate/branch/master/graph/badge.svg
     :alt: Codecov Coverage Status
-    :target: http://codecov.io/github/nijel/weblate?branch=master
+    :target: https://codecov.io/gh/nijel/weblate
 
 .. image:: https://landscape.io/github/nijel/weblate/master/landscape.png
     :alt: Code Health
