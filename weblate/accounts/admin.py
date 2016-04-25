@@ -24,6 +24,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 
+from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import Profile, VerifiedEmail, AutoGroup
 
 
@@ -61,7 +62,7 @@ class WeblateUserChangeForm(UserChangeForm):
         self.fields['email'].required = True
 
 
-class WeblateUserCreationForm(UserCreationForm):
+class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     class Meta(object):
         fields = ('username', 'email')
 
