@@ -29,6 +29,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.contrib import messages
 from django.db.models.signals import post_save, post_migrate
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -862,6 +863,16 @@ def post_login_handler(sender, request, user, **kwargs):
 
     # Set language for session based on preferences
     set_lang(request, profile)
+
+    # Warn about not set email
+    if not user.email:
+        messages.error(
+            request,
+            _(
+                'You can not submit translations as '
+                'you do not have assigned any email address.'
+            )
+        )
 
 
 @receiver(user_logged_out)
