@@ -179,7 +179,7 @@ class XMLExporter(BaseExporter):
     """Wrapper for XML based exporters to strip control chars"""
 
     def string_filter(self, text):
-        if six.PY2 and not isinstance(text, unicode):
+        if six.PY2 and not isinstance(text, six.text_type):
             return text.translate(None, _CHARMAP2)
         else:
             return text.translate(_CHARMAP)
