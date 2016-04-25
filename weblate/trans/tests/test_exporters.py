@@ -31,6 +31,7 @@ from weblate.trans.models import (
 
 class PoExporterTest(TestCase):
     _class = PoExporter
+    _has_context = True
 
     def get_exporter(self):
         return self._class(
@@ -41,6 +42,7 @@ class PoExporterTest(TestCase):
     def check_export(self, exporter):
         output = exporter.serialize()
         self.assertIsNotNone(output)
+        return output
 
     def check_dict(self, word):
         exporter = self.get_exporter()
@@ -72,7 +74,7 @@ class PoExporterTest(TestCase):
         )
         exporter = self.get_exporter()
         exporter.add_unit(unit)
-        self.check_export(exporter)
+        return self.check_export(exporter)
 
     def test_unit(self):
         self.check_unit(
@@ -93,18 +95,35 @@ class PoExporterTest(TestCase):
             target='yyy',
         )
 
+    def test_context(self):
+        result = self.check_unit(
+            source='foo',
+            target='bar',
+            context='context',
+            translated=True,
+        )
+        if self._has_context:
+            self.assertIn('context', result)
+        elif self._has_context is not None:
+            self.assertNotIn('context', result)
+
 
 class PoXliffExporterTest(PoExporterTest):
     _class = PoXliffExporter
+    _has_context = False
 
 
 class XliffExporterTest(PoExporterTest):
     _class = XliffExporter
+    _has_context = False
 
 
 class TBXExporterTest(PoExporterTest):
     _class = TBXExporter
+    _has_context = False
 
 
 class MoExporterTest(PoExporterTest):
     _class = MoExporter
+    # Not supported in current translate-toolkit, but PR submitted
+    _has_context = None

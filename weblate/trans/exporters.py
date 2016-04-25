@@ -112,7 +112,7 @@ class BaseExporter(object):
         output.target = multistring(
             self.handle_plurals(unit.get_target_plurals())
         )
-        output.context = self.string_filter(unit.context)
+        output.setcontext(self.string_filter(unit.context))
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
