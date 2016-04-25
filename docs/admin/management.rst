@@ -238,6 +238,16 @@ language out of file name like
         git://git.tails.boum.org/tails master \
         'wiki/src/security/**.*.po'
 
+Filtering only translations in chosen language:
+
+.. code-block:: sh
+
+    ./manage import_project \
+        --language-regex '^(cs|sk)$' \
+        weblate \
+        https://github.com/nijel/weblate.git \
+        'weblate/locale/*/LC_MESSAGES/**.po'
+
 .. seealso::
 
     More detailed examples can be found in the :ref:`starting` chapter.
