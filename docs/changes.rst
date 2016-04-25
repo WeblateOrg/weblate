@@ -9,6 +9,9 @@ Released on ? 2016.
 * Fixed validation of subprojects with language filter.
 * Improved support for XLIFF files.
 * Fixed machine translation for non English sources.
+* Added REST API.
+* Django 1.10 compatibility.
+* Added categories to whiteboard messages.
 
 weblate 2.5
 -----------
