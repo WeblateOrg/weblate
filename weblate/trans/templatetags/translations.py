@@ -603,7 +603,7 @@ def whiteboard_messages(project=None, subproject=None, language=None):
             render_to_string(
                 'message.html',
                 {
-                    'tags': 'info whiteboard',
+                    'tags': ' '.join((whiteboard.category, 'whiteboard')),
                     'message': mark_safe(
                         urlize(whiteboard.message, autoescape=True)
                     )
