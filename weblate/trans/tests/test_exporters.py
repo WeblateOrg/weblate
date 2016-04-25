@@ -103,9 +103,9 @@ class PoExporterTest(TestCase):
             translated=True,
         )
         if self._has_context:
-            self.assertIn('context', result)
+            self.assertIn(b'context', result)
         elif self._has_context is not None:
-            self.assertNotIn('context', result)
+            self.assertNotIn(b'context', result)
 
 
 class PoXliffExporterTest(PoExporterTest):
