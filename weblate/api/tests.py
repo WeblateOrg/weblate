@@ -47,6 +47,13 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             'slug': 'test'
         }
         self.tearDown()
+        self.user = User.objects.create_user(
+            'apitest',
+            'apitest@example.org',
+            'x',
+        )
+        group = Group.objects.get(name='Users')
+        self.user.groups.add(group)
 
     def tearDown(self):
         cache.delete(get_acl_cache_key(None))
@@ -65,16 +72,13 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         )
 
     def authenticate(self, superuser=False):
-        user, dummy = User.objects.get_or_create(username='test')
-        group = Group.objects.get(name='Users')
-        user.groups.add(group)
-        user.is_superuser = superuser
-        user.save()
-        cache.delete(get_acl_cache_key(user))
+        if self.user.is_superuser != superuser:
+            self.user.is_superuser = superuser
+            self.user.save()
+        cache.delete(get_acl_cache_key(self.user))
         self.client.credentials(
-            HTTP_AUTHORIZATION='Token ' + user.auth_token.key
+            HTTP_AUTHORIZATION='Token ' + self.user.auth_token.key
         )
-        return user
 
     def do_request(self, name, kwargs, data=None, code=200, superuser=False,
                    get=True, request=None):
@@ -376,9 +380,9 @@ class TranslationAPITest(APIBaseTest):
         )
 
     def test_upload_denied(self):
-        user = self.authenticate()
+        self.authenticate()
         # Remove all permissions
-        user.groups.all()[0].permissions.clear()
+        self.user.groups.all()[0].permissions.clear()
         response = self.client.put(
             reverse(
                 'api:translation-file',
