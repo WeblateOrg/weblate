@@ -93,8 +93,10 @@ class GroupACLTest(ModelTestCase):
     def setUp(self):
         super(GroupACLTest, self).setUp()
 
-        self.user = User.objects.create(username="user")
-        self.privileged = User.objects.create(username="privileged")
+        self.user = User.objects.create("user", 'test@example.com', 'x')
+        self.privileged = User.objects.create(
+            "privileged", 'other@example.com', 'x'
+        )
         self.group = Group.objects.create(name="testgroup")
         self.project = self.subproject.project
         self.subproject.translation_set.all().delete()

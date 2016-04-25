@@ -67,8 +67,9 @@ class NotificationTest(ViewTestCase):
 
     def second_user(self):
         user = User.objects.create_user(
-            username='seconduser',
-            password='secondpassword'
+            'seconduser',
+            'noreply@example.org',
+            'testpassword'
         )
         return user
 

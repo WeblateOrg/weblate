@@ -101,8 +101,9 @@ class ProjectTest(RepoTestCase):
         """
         # Create user to verify ACL
         user = User.objects.create_user(
-            username='testuser',
-            password='testpassword'
+            'testuser',
+            'noreply@example.com',
+            'testpassword'
         )
 
         # Create project
