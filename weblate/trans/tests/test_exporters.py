@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from unittest import TestCase
+from django.test import TestCase
 
 from weblate.lang.models import Language
 from weblate.trans.exporters import (
@@ -60,7 +60,7 @@ class PoExporterTest(TestCase):
         lang = Language(code='zz', nplurals=nplurals)
         project = Project(
             slug='test',
-            source_language=Language(code='en'),
+            source_language=Language.objects.get(code='en'),
         )
         subproject = SubProject(slug='comp', project=project)
         unit = Unit(
