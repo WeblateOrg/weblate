@@ -58,7 +58,10 @@ class PoExporterTest(TestCase):
 
     def check_unit(self, nplurals=3, **kwargs):
         lang = Language(code='zz', nplurals=nplurals)
-        project = Project(slug='test')
+        project = Project(
+            slug='test',
+            source_language=Language(code='en'),
+        )
         subproject = SubProject(slug='comp', project=project)
         unit = Unit(
             translation=Translation(
