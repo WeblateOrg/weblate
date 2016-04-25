@@ -20,7 +20,12 @@
 """Exporter using translate-toolkit"""
 from __future__ import unicode_literals
 
+from io import BytesIO
+import string
+
 from django.http import HttpResponse
+
+import six
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
@@ -32,6 +37,9 @@ from translate.storage.tbx import tbxfile
 import weblate
 from weblate.trans.formats import FileFormat
 
+if six.PY2:
+    _CHARMAP2 = string.maketrans('', '')[:32]
+_CHARMAP = dict.fromkeys(range(32))
 
 EXPORTERS = {}
 
@@ -71,14 +79,25 @@ class BaseExporter(object):
             self.language.code
         )
 
+    def string_filter(self, text):
+        return text
+
+    def handle_plurals(self, plurals):
+        if len(plurals) == 1:
+            return self.string_filter(plurals[0])
+        else:
+            return multistring(
+                [self.string_filter(plural) for plural in plurals]
+            )
+
     def get_storage(self):
         raise NotImplementedError()
 
     def add_dictionary(self, word):
         """Adds dictionary word"""
-        unit = self.storage.UnitClass(word.source)
+        unit = self.storage.UnitClass(self.string_filter(word.source))
         if self.has_lang:
-            unit.settarget(word.target, self.language.code)
+            unit.settarget(self.string_filter(word.target), self.language.code)
         else:
             unit.target = word.target
         self.storage.addunit(unit)
@@ -88,19 +107,17 @@ class BaseExporter(object):
             self.add_unit(unit)
 
     def add_unit(self, unit):
-        if unit.is_plural():
-            output = self.storage.UnitClass(
-                multistring(unit.get_source_plurals())
-            )
-            output.target = multistring(unit.get_target_plurals())
-        else:
-            output = self.storage.UnitClass(unit.source)
-            output.target = unit.target
-        output.context = unit.context
+        output = self.storage.UnitClass(
+            self.handle_plurals(unit.get_source_plurals())
+        )
+        output.target = multistring(
+            self.handle_plurals(unit.get_target_plurals())
+        )
+        output.context = self.string_filter(unit.context)
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
-        output.addnote(unit.comment)
+        output.addnote(self.string_filter(unit.comment))
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
                 output.settypecomment(flag)
@@ -126,6 +143,10 @@ class BaseExporter(object):
         response.write(FileFormat.serialize(self.storage))
 
         return response
+
+    def serialize(self):
+        """Returns storage content"""
+        return FileFormat.serialize(self.storage)
 
 
 @register_exporter
@@ -155,8 +176,18 @@ class PoExporter(BaseExporter):
         return store
 
 
+class XMLExporter(BaseExporter):
+    """Wrapper for XML based exporters to strip control chars"""
+
+    def string_filter(self, text):
+        if six.PY2 and not isinstance(text, unicode):
+            return text.translate(None, _CHARMAP2)
+        else:
+            return text.translate(_CHARMAP)
+
+
 @register_exporter
-class PoXliffExporter(BaseExporter):
+class PoXliffExporter(XMLExporter):
     name = 'xliff'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
@@ -167,7 +198,7 @@ class PoXliffExporter(BaseExporter):
 
 
 @register_exporter
-class XliffExporter(BaseExporter):
+class XliffExporter(XMLExporter):
     name = 'xliff12'
     content_type = 'application/x-xliff+xml'
     extension = 'xlf'
@@ -178,7 +209,7 @@ class XliffExporter(BaseExporter):
 
 
 @register_exporter
-class TBXExporter(BaseExporter):
+class TBXExporter(XMLExporter):
     name = 'tbx'
     content_type = 'application/x-tbx'
     extension = 'tbx'
