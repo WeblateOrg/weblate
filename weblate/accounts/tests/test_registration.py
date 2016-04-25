@@ -307,11 +307,11 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'https://api.github.com/user/emails',
             body=json.dumps([
                 {
-                    'email': 'noreply@example.org',
+                    'email': 'noreply2@example.org',
                     'verified': False,
                     'primary': False,
                 }, {
-                    'email': 'noreply@weblate.org',
+                    'email': 'noreply-weblate@example.org',
                     'verified': True,
                     'primary': True
                 }
