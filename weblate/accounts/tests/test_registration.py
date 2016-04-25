@@ -38,7 +38,7 @@ from weblate.trans.tests import OverrideSettings
 
 REGISTRATION_DATA = {
     'username': 'username',
-    'email': 'noreply@weblate.org',
+    'email': 'noreply-weblate@example.org',
     'first_name': 'First Last',
     'captcha_id': '00',
     'captcha': '9999'
