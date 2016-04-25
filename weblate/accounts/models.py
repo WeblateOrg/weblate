@@ -963,6 +963,7 @@ def create_groups(update):
     except User.DoesNotExist:
         anon_user = User.objects.create(
             username=ANONYMOUS_USER_NAME,
+            email='noreply@weblate.org',
             is_active=False,
         )
 

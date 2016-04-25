@@ -18,6 +18,7 @@ def add_anonymous_profile(apps, schema_editor):
         defaults={
             'is_active': False,
             'password': make_password(None),
+            'email': 'noreply@weblate.org',
         }
     )[0]
     guest_group = Group.objects.get_or_create(name='Guests')[0]
