@@ -292,10 +292,10 @@ EXTRA_PLATFORMS = {
     },
     'Edge': {
         'platform': 'Windows 10',
-    }
+    },
     'Safari': {
         'platform': 'OS X 10.11',
-    }
+    },
     'MSIE9': {
         'browserName': 'internet explorer',
         'version': '9.0',
