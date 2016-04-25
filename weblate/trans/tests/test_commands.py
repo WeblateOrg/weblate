@@ -533,11 +533,19 @@ class SuggesionCommandTest(RepoTestCase):
         profile = Profile.objects.get(user__email=user.email)
         self.assertEqual(profile.suggested, 1)
 
+    def test_default_user(self):
+        call_command(
+            'add_suggestions', 'test', 'test', 'cs', TEST_PO,
+        )
+        profile = Profile.objects.get(user__email='noreply@weblate.org')
+        self.assertEqual(profile.suggested, 1)
+
     def test_missing_user(self):
         self.assertRaises(
             CommandError,
             call_command,
             'add_suggestions', 'test', 'test', 'cs', TEST_PO,
+            author='foo@example.org',
         )
 
     def test_missing_project(self):
