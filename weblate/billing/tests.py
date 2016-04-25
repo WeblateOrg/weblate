@@ -151,7 +151,7 @@ class BillingTest(TestCase):
         )
         self.assertEqual(302, response.status_code)
         # Not owner
-        User.objects.create_user(username='foo', password='bar')
+        User.objects.create_user('foo', 'foo@example.org', 'bar')
         self.client.login(username='foo', password='bar')
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': self.invoice.pk})

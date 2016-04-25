@@ -521,7 +521,7 @@ class SuggesionCommandTest(RepoTestCase):
     def test_add_suggestions(self):
         user = User.objects.create_user(
             'testuser',
-            'noreply@weblate.org',
+            'weblate@example.org',
             'testpassword'
         )
         call_command(
