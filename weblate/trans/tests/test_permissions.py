@@ -36,8 +36,13 @@ from weblate.trans.tests.test_models import ModelTestCase
 
 class PermissionsTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('user', 'test@example.com', 'x')
-        self.owner = User.objects.create_user('owner', 'owner@example.com', 'x')
+        self.user = User.objects.create_user(
+            'user', 'test@example.com', 'x'
+        )
+        self.owner = User.objects.create_user(
+            'owner', 'owner@example.com', 'x'
+        )
+
         self.owner.groups.add(Group.objects.get(name='Owners'))
         self.project = Project.objects.create(slug='test')
         self.project.owners.add(self.owner)
