@@ -89,8 +89,7 @@ class WhiteboardMessage(models.Model):
         max_length=25,
         verbose_name=ugettext_lazy('Category'),
         help_text=ugettext_lazy(
-            'Category matches Bootstrap ones and '
-            'defines color used for the message.'
+            'Category defines color used for the message.'
         ),
         choices=(
             ('info', ugettext_lazy('Info (light blue)')),
