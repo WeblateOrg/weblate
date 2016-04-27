@@ -113,6 +113,8 @@ class BaseExporter(object):
             self.handle_plurals(unit.get_target_plurals())
         )
         output.setcontext(self.string_filter(unit.context))
+        if hasattr(output, 'msgctxt'):
+            output.msgctxt = [self.string_filter(unit.context)]
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
