@@ -121,7 +121,7 @@ def can_edit(user, translation, permission):
     """
     if translation.subproject.locked:
         return False
-    if not user.email:
+    if user.is_authenticated() and not user.email:
         return False
     if check_owner(user, translation.subproject.project, permission):
         return True
