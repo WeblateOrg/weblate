@@ -125,5 +125,4 @@ class TBXExporterTest(PoExporterTest):
 
 class MoExporterTest(PoExporterTest):
     _class = MoExporter
-    # Not supported in current translate-toolkit, but PR submitted
-    _has_context = None
+    _has_context = True
