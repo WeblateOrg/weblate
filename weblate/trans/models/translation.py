@@ -675,7 +675,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def get_commit_message(self):
         """Formats commit message based on project configuration."""
-        msg = self.subproject.commit_message % {
+        template = self.subproject.commit_message
+        if self.commit_message == '__add__':
+            template = self.subproject.add_message
+            self.commit_message = ''
+            self.save()
+        elif self.commit_message == '__delete__':
+            template = self.subproject.delete_message
+            self.commit_message = ''
+            self.save()
+
+        msg = template % {
             'language': self.language_code,
             'language_name': self.language.name,
             'subproject': self.subproject.name,

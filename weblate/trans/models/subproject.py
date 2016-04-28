@@ -76,6 +76,14 @@ DEFAULT_COMMIT_MESSAGE = (
     '(%(translated)s of %(total)s strings)'
 )
 
+DEFAULT_ADD_MESSAGE = (
+    'Added translation using Weblate (%(language_name)s)\n\n'
+)
+
+DEFAULT_DELETE_MESSAGE = (
+    'Deleted translation using Weblate (%(language_name)s)\n\n'
+)
+
 NEW_LANG_CHOICES = (
     ('contact', ugettext_lazy('Use contact form')),
     ('url', ugettext_lazy('Point to translation instructions URL')),
@@ -395,13 +403,31 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
     commit_message = models.TextField(
-        verbose_name=ugettext_lazy('Commit message'),
+        verbose_name=ugettext_lazy('Commit message when translating'),
         help_text=ugettext_lazy(
             'You can use format strings for various information, '
             'please check documentation for more details.'
         ),
         validators=[validate_commit_message],
         default=DEFAULT_COMMIT_MESSAGE,
+    )
+    add_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when adding translation'),
+        help_text=ugettext_lazy(
+            'You can use format strings for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_commit_message],
+        default=DEFAULT_ADD_MESSAGE,
+    )
+    delete_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when removing translation'),
+        help_text=ugettext_lazy(
+            'You can use format strings for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_commit_message],
+        default=DEFAULT_DELETE_MESSAGE,
     )
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
@@ -1493,7 +1519,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             language=language,
             filename=filename,
             language_code=language.code,
-            commit_message='Created new translation.'
+            commit_message='__add__'
         )
         translation_post_add.send(
             sender=self.__class__,
