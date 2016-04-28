@@ -36,6 +36,8 @@ setup(
     version='2.6',
     packages=[
         'weblate',
+        'weblate.api',
+        'weblate.api.migrations',
         'weblate.accounts',
         'weblate.accounts.management',
         'weblate.accounts.management.commands',
