@@ -80,36 +80,3 @@ class GoogleTranslation(MachineTranslation):
         translation = response['data']['translations'][0]['translatedText']
 
         return [(translation, 100, self.name, text)]
-
-
-class GoogleWebTranslation(MachineTranslation):
-    '''
-    Google machine translation support.
-    '''
-    name = 'Google Translate'
-
-    def is_supported(self, source, language):
-        '''
-        Checks whether given language combination is supported.
-        '''
-        return True
-
-    def download_translations(self, source, language, text, unit, user):
-        '''
-        Downloads list of possible translations from a service.
-        '''
-        response = self.json_req(
-            'http://translate.google.com/translate_a/single',
-            client='t',
-            q=text,
-            sl=source,
-            tl=language,
-            ie='UTF-8',
-            oe='UTF-8',
-            dt='t'
-        )
-
-        translation = response[0][0][0]
-        source = response[0][0][1]
-
-        return [(translation, 100, self.name, source)]
