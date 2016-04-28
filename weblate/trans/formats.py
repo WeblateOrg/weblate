@@ -1024,7 +1024,7 @@ class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
-    new_translation = '\n'
+    new_translation = '\n'.encode('utf-16')
     autoload = ('.strings',)
 
 
