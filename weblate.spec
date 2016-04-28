@@ -122,12 +122,12 @@ install -d %{buildroot}/%{WLDATADIR}
 
 %post
 # Static files
-%{WLDIR}/manage.py collectstatic --noinput --link
+%{WLDIR}/manage.py collectstatic --noinput
 
 %check
 export LANG=en_US.UTF-8
 # Collect static files for testsuite
-./manage.py collectstatic --link --noinput --settings=weblate.settings_test -v 2
+./manage.py collectstatic --noinput --settings=weblate.settings_test -v 2
 # Run the testsuite
 ./manage.py test --settings=weblate.settings_test -v 2
 
