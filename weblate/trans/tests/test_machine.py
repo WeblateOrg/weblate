@@ -190,7 +190,11 @@ class MachineTranslationTest(TestCase):
             body=json.dumps(
                 {
                     'data': {
-                        'languages': [{'language': 'en'}, {'language': 'cs'}]
+                        'languages': [
+                            {'language': 'en'},
+                            {'language': 'iw'},
+                            {'language': 'cs'}
+                        ]
                     }
                 }
             )
@@ -202,6 +206,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = GoogleTranslation()
         self.assertTranslate(machine)
+        self.assertTranslate(machine, lang='he')
 
     @httpretty.activate
     def test_google_invalid(self):

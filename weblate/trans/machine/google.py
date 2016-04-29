@@ -26,6 +26,13 @@ from weblate.trans.machine.base import (
 from weblate import appsettings
 
 
+# Map old codes used by Google to new ones used by Weblate
+LANGUAGE_MAP = {
+    'he': 'iw',
+    'jv': 'jw',
+}
+
+
 class GoogleTranslation(MachineTranslation):
     '''
     Google Translate API v2 machine translation support.
@@ -46,7 +53,12 @@ class GoogleTranslation(MachineTranslation):
         '''
         Converts language to service specific code.
         '''
-        return language.replace('_', '-').split('@')[0]
+        language = language.replace('_', '-').split('@')[0]
+
+        if language in LANGUAGE_MAP:
+            return LANGUAGE_MAP[language]
+
+        return language
 
     def download_languages(self):
         '''
