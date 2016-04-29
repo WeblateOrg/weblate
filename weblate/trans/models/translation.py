@@ -60,13 +60,16 @@ class TranslationManager(models.Manager):
         """Parses translation meta info and updates translation object"""
         translation, dummy = self.get_or_create(
             language=lang,
-            language_code=code,
             subproject=subproject,
-            defaults={'filename': path},
+            defaults={
+                'filename': path,
+                'language_code': code,
+            },
         )
-        if translation.filename != path:
+        if translation.filename != path or translation.language_code != code:
             force = True
             translation.filename = path
+            translation.language_code = code
         translation.check_sync(force, request=request)
 
         return translation
