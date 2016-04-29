@@ -34,7 +34,7 @@ from weblate.trans.machine.mymemory import MyMemoryTranslation
 from weblate.trans.machine.apertium import ApertiumTranslation
 from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import MicrosoftTranslation
-from weblate.trans.machine.google import  GoogleTranslation
+from weblate.trans.machine.google import GoogleTranslation
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
