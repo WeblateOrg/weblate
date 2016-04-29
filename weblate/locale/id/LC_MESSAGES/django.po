@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-04-27 12:57+0000\n"
+"POT-Creation-Date: 2016-04-29 07:04+0000\n"
 "PO-Revision-Date: 2014-04-17 11:26+0200\n"
 "Last-Translator: Hascore Eleven <hascore@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -180,7 +180,7 @@ msgstr "Nama proyek"
 msgid "Project website"
 msgstr "Proyek situs web"
 
-#: weblate/accounts/forms.py:556 weblate/trans/models/subproject.py:130
+#: weblate/accounts/forms.py:556 weblate/trans/models/subproject.py:138
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Source code repository"
@@ -190,11 +190,11 @@ msgstr "Status repositori"
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr ""
 
-#: weblate/accounts/forms.py:563 weblate/trans/models/subproject.py:179
+#: weblate/accounts/forms.py:563 weblate/trans/models/subproject.py:187
 msgid "File mask"
 msgstr "Berkas mask"
 
-#: weblate/accounts/forms.py:565 weblate/trans/models/subproject.py:183
+#: weblate/accounts/forms.py:565 weblate/trans/models/subproject.py:191
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -1052,7 +1052,7 @@ msgstr ""
 #: weblate/html/accounts/profile.html:359 weblate/html/data.html.py:25
 #: weblate/html/data.html:56 weblate/html/data.html.py:94
 #: weblate/html/list-projects.html:8 weblate/html/list-translations.html:7
-#: weblate/trans/models/project.py:178 weblate/trans/models/subproject.py:117
+#: weblate/trans/models/project.py:178 weblate/trans/models/subproject.py:125
 #: weblate/trans/models/whiteboard.py:72
 msgid "Project"
 msgstr "Proyek"
@@ -2789,7 +2789,7 @@ msgstr "Dorong"
 msgid "Push changes to the remote repository"
 msgstr "Dorong perubahan ke remote repositori"
 
-#: weblate/html/js/git-status.html:142 weblate/trans/models/subproject.py:87
+#: weblate/html/js/git-status.html:142 weblate/trans/models/subproject.py:95
 msgid "Rebase"
 msgstr "Rebase"
 
@@ -3425,14 +3425,14 @@ msgstr ""
 msgid "Status widgets"
 msgstr "Gambar widget"
 
-#: weblate/html/project.html:73 weblate/trans/models/subproject.py:444
+#: weblate/html/project.html:73 weblate/trans/models/subproject.py:470
 #, fuzzy
 #| msgid "Comments"
 msgid "Components"
 msgstr "Komentar"
 
 #: weblate/html/project.html:79 weblate/html/translate.html.py:230
-#: weblate/trans/models/subproject.py:443 weblate/trans/models/whiteboard.py:78
+#: weblate/trans/models/subproject.py:469 weblate/trans/models/whiteboard.py:78
 msgid "Component"
 msgstr ""
 
@@ -3620,7 +3620,7 @@ msgid "Translations"
 msgstr "Penterjemahan"
 
 #: weblate/html/subproject.html:105 weblate/trans/models/changes.py:171
-#: weblate/trans/models/subproject.py:375
+#: weblate/trans/models/subproject.py:383
 msgid "New translation"
 msgstr "Penerjemahan baru"
 
@@ -3680,7 +3680,7 @@ msgstr "Status repositori"
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 
-#: weblate/html/subproject_info.html:9 weblate/trans/models/subproject.py:349
+#: weblate/html/subproject_info.html:9 weblate/trans/models/subproject.py:357
 msgid "Translation license"
 msgstr "Lisensi penerjemahan"
 
@@ -3690,7 +3690,7 @@ msgstr "Lisensi penerjemahan"
 msgid "Repository"
 msgstr "Status repositori"
 
-#: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:172
+#: weblate/html/subproject_info.html:29 weblate/trans/models/subproject.py:180
 #, fuzzy
 #| msgid "Repository browser"
 msgid "Repository branch"
@@ -4997,47 +4997,47 @@ msgstr "Surel penulis"
 msgid "Search filter"
 msgstr "Tipe Pencarian"
 
-#: weblate/trans/forms.py:461 weblate/trans/models/translation.py:869
-#: weblate/trans/models/translation.py:911 weblate/trans/views/edit.py:127
+#: weblate/trans/forms.py:461 weblate/trans/models/translation.py:879
+#: weblate/trans/models/translation.py:921 weblate/trans/views/edit.py:127
 #: weblate/trans/views/edit.py:143
 msgid "All strings"
 msgstr "Semua string"
 
-#: weblate/trans/forms.py:462 weblate/trans/models/translation.py:938
+#: weblate/trans/forms.py:462 weblate/trans/models/translation.py:948
 #, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
 msgstr "String tidak diterjemahkan"
 
-#: weblate/trans/forms.py:463 weblate/trans/models/translation.py:929
+#: weblate/trans/forms.py:463 weblate/trans/models/translation.py:939
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing action"
 msgstr "String dengan saran"
 
-#: weblate/trans/forms.py:464 weblate/trans/models/translation.py:920
+#: weblate/trans/forms.py:464 weblate/trans/models/translation.py:930
 msgid "Translated strings"
 msgstr "String telah diterjemahkan"
 
-#: weblate/trans/forms.py:465 weblate/trans/models/translation.py:947
+#: weblate/trans/forms.py:465 weblate/trans/models/translation.py:957
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Strings marked for review"
 msgstr "Peninjauan sumber string"
 
-#: weblate/trans/forms.py:466 weblate/trans/models/translation.py:956
+#: weblate/trans/forms.py:466 weblate/trans/models/translation.py:966
 msgid "Strings with suggestions"
 msgstr "String dengan saran"
 
-#: weblate/trans/forms.py:467 weblate/trans/models/translation.py:897
-#: weblate/trans/models/translation.py:984
+#: weblate/trans/forms.py:467 weblate/trans/models/translation.py:907
+#: weblate/trans/models/translation.py:994
 #, fuzzy
 #| msgid "Strings with comments (%d)"
 msgid "Strings with comments"
 msgstr "String dengan komentar (%d)"
 
-#: weblate/trans/forms.py:468 weblate/trans/models/translation.py:877
-#: weblate/trans/models/translation.py:964
+#: weblate/trans/forms.py:468 weblate/trans/models/translation.py:887
+#: weblate/trans/models/translation.py:974
 msgid "Strings with any failing checks"
 msgstr "String dengan pemeriksaan yang gagal"
 
@@ -5466,17 +5466,17 @@ msgid "Component list name"
 msgstr "Komentar ditambahkan"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:95
-#: weblate/trans/models/subproject.py:107
+#: weblate/trans/models/subproject.py:115
 msgid "Name to display"
 msgstr "Nama untuk menampilkan"
 
 #: weblate/trans/models/componentlist.py:39 weblate/trans/models/project.py:98
-#: weblate/trans/models/subproject.py:110
+#: weblate/trans/models/subproject.py:118
 msgid "URL slug"
 msgstr "URL slug"
 
 #: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:101
-#: weblate/trans/models/subproject.py:113
+#: weblate/trans/models/subproject.py:121
 msgid "Name used in URLs and file names."
 msgstr "Nama yang digunakan sebagai URL dan nama berkas."
 
@@ -5606,42 +5606,42 @@ msgstr "Lao"
 msgid "Very low"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:80
+#: weblate/trans/models/subproject.py:88
 msgid "Use contact form"
 msgstr "Gunakan formulir kontak"
 
-#: weblate/trans/models/subproject.py:81
+#: weblate/trans/models/subproject.py:89
 msgid "Point to translation instructions URL"
 msgstr "URL menunjuki ke petunjuk peterjemahan"
 
-#: weblate/trans/models/subproject.py:82
+#: weblate/trans/models/subproject.py:90
 msgid "Automatically add language file"
 msgstr "Secara otomatis menambahkan berkas bahasa"
 
-#: weblate/trans/models/subproject.py:83
+#: weblate/trans/models/subproject.py:91
 msgid "No adding of language"
 msgstr "Tidak ada penambahan bahasa"
 
-#: weblate/trans/models/subproject.py:86
+#: weblate/trans/models/subproject.py:94
 msgid "Merge"
 msgstr "Gabung"
 
-#: weblate/trans/models/subproject.py:105
+#: weblate/trans/models/subproject.py:113
 #, fuzzy
 #| msgid "Comment added"
 msgid "Component name"
 msgstr "Komentar ditambahkan"
 
-#: weblate/trans/models/subproject.py:120
+#: weblate/trans/models/subproject.py:128
 msgid "Version control system"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:123
+#: weblate/trans/models/subproject.py:131
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:133
+#: weblate/trans/models/subproject.py:141
 #, fuzzy
 #| msgid ""
 #| "URL of Git repository, use weblate://project/subproject for sharing with "
@@ -5653,23 +5653,23 @@ msgstr ""
 "URL atau Git repositori, gunakan weblate://project/subproject untuk berbagi "
 "dengan subproyek lainnya."
 
-#: weblate/trans/models/subproject.py:138
+#: weblate/trans/models/subproject.py:146
 #, fuzzy
 #| msgid "Repository status"
 msgid "Repository push URL"
 msgstr "Status repositori"
 
-#: weblate/trans/models/subproject.py:141
+#: weblate/trans/models/subproject.py:149
 #, fuzzy
 #| msgid "URL of push Git repository, pushing is disabled if empty."
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr "URL dari push repositori Git, push tidak aktif jika kosong."
 
-#: weblate/trans/models/subproject.py:146
+#: weblate/trans/models/subproject.py:154
 msgid "Repository browser"
 msgstr "Peramban repositori"
 
-#: weblate/trans/models/subproject.py:148
+#: weblate/trans/models/subproject.py:156
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -5678,13 +5678,13 @@ msgstr ""
 "Tautan ke peramban repositori, gunakan %(branch)s untuk cabang, %(file)s dan "
 "%(line)s sebagai nama berkas dan barisnya."
 
-#: weblate/trans/models/subproject.py:155
+#: weblate/trans/models/subproject.py:163
 #, fuzzy
 #| msgid "Exported Git URL"
 msgid "Exported repository URL"
 msgstr "URL Git diekspor"
 
-#: weblate/trans/models/subproject.py:158
+#: weblate/trans/models/subproject.py:166
 #, fuzzy
 #| msgid "URL of Git repository where users can fetch changes from Weblate"
 msgid "URL of a repository where users can fetch changes from Weblate"
@@ -5692,11 +5692,11 @@ msgstr ""
 "URL repositori Git di mana pengguna dapat mengambil perubahan langsung dari "
 "Weblate"
 
-#: weblate/trans/models/subproject.py:163
+#: weblate/trans/models/subproject.py:171
 msgid "Source string bug report address"
 msgstr "Alamat laporan kutu sumber string"
 
-#: weblate/trans/models/subproject.py:165
+#: weblate/trans/models/subproject.py:173
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -5704,17 +5704,17 @@ msgstr ""
 "Alamat surel dimana galat dalam sumber string akan dilaporkan, jaga kosong "
 "untuk tanpa ada surel."
 
-#: weblate/trans/models/subproject.py:174
+#: weblate/trans/models/subproject.py:182
 #, fuzzy
 #| msgid "Git branch to translate"
 msgid "Repository branch to translate"
 msgstr "Cabang Git untuk menerjemahkan"
 
-#: weblate/trans/models/subproject.py:188
+#: weblate/trans/models/subproject.py:196
 msgid "Monolingual base language file"
 msgstr "Berkas bahasa berbasis monolingual"
 
-#: weblate/trans/models/subproject.py:192
+#: weblate/trans/models/subproject.py:200
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
@@ -5722,22 +5722,22 @@ msgstr ""
 "Nama berkas dari berkas basis penerjemahan, yang berisi string dan sumber "
 "mereka; ini dianjurkan untuk menggunakan format penerjemahan monolingual."
 
-#: weblate/trans/models/subproject.py:198
+#: weblate/trans/models/subproject.py:206
 msgid "Edit base file"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:201
+#: weblate/trans/models/subproject.py:209
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr "Anda tidak dapat membasis berkas dengan penerjemahan bilingual!"
 
-#: weblate/trans/models/subproject.py:206
+#: weblate/trans/models/subproject.py:214
 msgid "Base file for new translations"
 msgstr "Berkas Dasar untuk penerjemahan baru"
 
-#: weblate/trans/models/subproject.py:210
+#: weblate/trans/models/subproject.py:218
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
@@ -5745,23 +5745,23 @@ msgstr ""
 "Nama berkas dari berkas yang digunakan untuk menciptakan penerjemahan baru. "
 "Untuk Gettext pilih berkas .pot."
 
-#: weblate/trans/models/subproject.py:215
+#: weblate/trans/models/subproject.py:223
 msgid "File format"
 msgstr "Format berkas"
 
-#: weblate/trans/models/subproject.py:220
+#: weblate/trans/models/subproject.py:228
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Deteksi otomatis mungkin gagal untuk beberapa format dan sedikit lebih "
 "lambat."
 
-#: weblate/trans/models/subproject.py:225
+#: weblate/trans/models/subproject.py:233
 #, fuzzy
 #| msgid "Additional commit file"
 msgid "Additional commit files"
 msgstr "Berkas penambahan komit"
 
-#: weblate/trans/models/subproject.py:230
+#: weblate/trans/models/subproject.py:238
 #, fuzzy
 #| msgid ""
 #| "Additional file to include in commits; please check documentation for "
@@ -5773,11 +5773,11 @@ msgstr ""
 "Berkas tambahan untuk disertakan dalam commit; silakan periksa dokumentasi "
 "untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:235
+#: weblate/trans/models/subproject.py:243
 msgid "Post-update script"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:241
+#: weblate/trans/models/subproject.py:249
 #, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
@@ -5789,11 +5789,11 @@ msgstr ""
 "Skrip akan dieksekusi dahulu sebelum meng-commit penerjemahan, silakan "
 "periksa dokumentasi untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:246
+#: weblate/trans/models/subproject.py:254
 msgid "Pre-commit script"
 msgstr "Skrip Pra-komit"
 
-#: weblate/trans/models/subproject.py:252
+#: weblate/trans/models/subproject.py:260
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -5801,13 +5801,13 @@ msgstr ""
 "Skrip akan dieksekusi dahulu sebelum meng-commit penerjemahan, silakan "
 "periksa dokumentasi untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:257
+#: weblate/trans/models/subproject.py:265
 #, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-commit script"
 msgstr "Skrip Pra-komit"
 
-#: weblate/trans/models/subproject.py:263
+#: weblate/trans/models/subproject.py:271
 #, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
@@ -5819,13 +5819,13 @@ msgstr ""
 "Skrip akan dieksekusi dahulu sebelum meng-commit penerjemahan, silakan "
 "periksa dokumentasi untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:268
+#: weblate/trans/models/subproject.py:276
 #, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-push script"
 msgstr "Skrip Pra-komit"
 
-#: weblate/trans/models/subproject.py:274
+#: weblate/trans/models/subproject.py:282
 #, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
@@ -5837,13 +5837,13 @@ msgstr ""
 "Skrip akan dieksekusi dahulu sebelum meng-commit penerjemahan, silakan "
 "periksa dokumentasi untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:279
+#: weblate/trans/models/subproject.py:287
 #, fuzzy
 #| msgid "Pre-commit script"
 msgid "Post-add script"
 msgstr "Skrip Pra-komit"
 
-#: weblate/trans/models/subproject.py:285
+#: weblate/trans/models/subproject.py:293
 #, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
@@ -5855,21 +5855,21 @@ msgstr ""
 "Skrip akan dieksekusi dahulu sebelum meng-commit penerjemahan, silakan "
 "periksa dokumentasi untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:291
+#: weblate/trans/models/subproject.py:299
 msgid "Locked"
 msgstr "Terkunci"
 
-#: weblate/trans/models/subproject.py:294
+#: weblate/trans/models/subproject.py:302
 #, fuzzy
 #| msgid "Whether subproject is locked for translation updates."
 msgid "Whether component is locked for translation updates."
 msgstr "Apakah subproyek dikunci untuk memutakhirkan penerjemahan."
 
-#: weblate/trans/models/subproject.py:298
+#: weblate/trans/models/subproject.py:306
 msgid "Allow translation propagation"
 msgstr "Dibolehkan penerjemahan propagasi"
 
-#: weblate/trans/models/subproject.py:302
+#: weblate/trans/models/subproject.py:310
 #, fuzzy
 #| msgid ""
 #| "Whether translation updates in other subproject will cause automatic "
@@ -5881,50 +5881,50 @@ msgstr ""
 "Adapun pemutakhiran penerjemahan dalam subproyek lainnya akan menyebabkan "
 "penerjemahan otomatis dalam proyek ini"
 
-#: weblate/trans/models/subproject.py:307
+#: weblate/trans/models/subproject.py:315
 msgid "Save translation history"
 msgstr "Simpan riwayat penerjemahan"
 
-#: weblate/trans/models/subproject.py:310
+#: weblate/trans/models/subproject.py:318
 msgid "Whether Weblate should keep history of translations"
 msgstr "Apakah Weblate harus menjaga sejarah penerjemahan"
 
-#: weblate/trans/models/subproject.py:314
+#: weblate/trans/models/subproject.py:322
 #, fuzzy
 #| msgid "Invalid suggestion!"
 msgid "Enable suggestions"
 msgstr "Saran tidak valid!"
 
-#: weblate/trans/models/subproject.py:317
+#: weblate/trans/models/subproject.py:325
 #, fuzzy
 #| msgid "Machine translation suggestions"
 msgid "Whether to allow translation suggestions at all."
 msgstr "Saran dari mesin penerjemahan"
 
-#: weblate/trans/models/subproject.py:321
+#: weblate/trans/models/subproject.py:329
 msgid "Suggestion voting"
 msgstr "Saran pemungutan suara"
 
-#: weblate/trans/models/subproject.py:324
+#: weblate/trans/models/subproject.py:332
 msgid "Whether users can vote for suggestions."
 msgstr "Apakah pengguna dapat memilih suara untuk saran."
 
-#: weblate/trans/models/subproject.py:328
+#: weblate/trans/models/subproject.py:336
 msgid "Autoaccept suggestions"
 msgstr "Autoaccept saran"
 
-#: weblate/trans/models/subproject.py:331
+#: weblate/trans/models/subproject.py:339
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 "Secara otomatis menerima yang disarankan berdasarkan banyak nomor suara ini, "
 "gunakan 0 untuk menonaktifkan."
 
-#: weblate/trans/models/subproject.py:337
+#: weblate/trans/models/subproject.py:345
 msgid "Quality checks flags"
 msgstr "Bendera pemeriksaan kualitas"
 
-#: weblate/trans/models/subproject.py:340
+#: weblate/trans/models/subproject.py:348
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
@@ -5932,40 +5932,40 @@ msgstr ""
 "Tambahan bendera koma terpisah untuk mempengaruhi pemeriksaan kualitas, "
 "periksa dokumentasi untuk nilai yang mungkin."
 
-#: weblate/trans/models/subproject.py:354
+#: weblate/trans/models/subproject.py:362
 msgid "Optional short summary of license used for translations."
 msgstr ""
 "Opsional ringkasan pendek dari lisensi yang digunakan untuk penerjemahan."
 
-#: weblate/trans/models/subproject.py:358
+#: weblate/trans/models/subproject.py:366
 msgid "License URL"
 msgstr "URL Lisensi"
 
-#: weblate/trans/models/subproject.py:361
+#: weblate/trans/models/subproject.py:369
 msgid "Optional URL with license details."
 msgstr "Opsional URL dengan rincian lisensi."
 
-#: weblate/trans/models/subproject.py:364
+#: weblate/trans/models/subproject.py:372
 msgid "Contributor agreement"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:368
+#: weblate/trans/models/subproject.py:376
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:380
+#: weblate/trans/models/subproject.py:388
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:388
+#: weblate/trans/models/subproject.py:396
 msgid "Merge style"
 msgstr "Gaya penggabungan"
 
-#: weblate/trans/models/subproject.py:393
+#: weblate/trans/models/subproject.py:401
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -5973,11 +5973,15 @@ msgstr ""
 "Menentukan apakah Weblate seharusnya menggabungkan repositori hulu atau "
 "rebase perubahan ke atasnya."
 
-#: weblate/trans/models/subproject.py:398
-msgid "Commit message"
-msgstr "Pesan komit"
+#: weblate/trans/models/subproject.py:406
+#, fuzzy
+#| msgid "Comments about this translation"
+msgid "Commit message when translating"
+msgstr "Komentar-komentar tentang penerjemahan ini"
 
-#: weblate/trans/models/subproject.py:400
+#: weblate/trans/models/subproject.py:408
+#: weblate/trans/models/subproject.py:417
+#: weblate/trans/models/subproject.py:426
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -5985,27 +5989,39 @@ msgstr ""
 "Anda dapat menggunakan format string untuk berbagai informasi, silakan "
 "periksa dokumentasi untuk lebih jelasnya."
 
-#: weblate/trans/models/subproject.py:407
+#: weblate/trans/models/subproject.py:415
+#, fuzzy
+#| msgid "Comments about this translation"
+msgid "Commit message when adding translation"
+msgstr "Komentar-komentar tentang penerjemahan ini"
+
+#: weblate/trans/models/subproject.py:424
+#, fuzzy
+#| msgid "Comments about this translation"
+msgid "Commit message when removing translation"
+msgstr "Komentar-komentar tentang penerjemahan ini"
+
+#: weblate/trans/models/subproject.py:433
 msgid "Committer name"
 msgstr "Nama pengkomit"
 
-#: weblate/trans/models/subproject.py:412
+#: weblate/trans/models/subproject.py:438
 msgid "Committer email"
 msgstr "Surel pengkomit"
 
-#: weblate/trans/models/subproject.py:418
+#: weblate/trans/models/subproject.py:444
 #, fuzzy
 #| msgid "Language"
 msgid "Language filter"
 msgstr "Bahasa"
 
-#: weblate/trans/models/subproject.py:422
+#: weblate/trans/models/subproject.py:448
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:638
+#: weblate/trans/models/subproject.py:664
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -6013,75 +6029,75 @@ msgstr ""
 "Gagal memverifikasi tombol host SSH, silahkan menambahkannya di halaman SSH "
 "di antarmuka admin."
 
-#: weblate/trans/models/subproject.py:642
+#: weblate/trans/models/subproject.py:668
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to fetch repository: %s"
 msgstr "Gagal untuk mengambil repositori git: %s"
 
-#: weblate/trans/models/subproject.py:736
+#: weblate/trans/models/subproject.py:762
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Dorong dinonaktifkan untuk %s."
 
-#: weblate/trans/models/subproject.py:785
+#: weblate/trans/models/subproject.py:811
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Gagal untuk mendorong ke cabang remot jauh di %s."
 
-#: weblate/trans/models/subproject.py:819
+#: weblate/trans/models/subproject.py:845
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Gagal untuk mentata ulang ke cabang remot jauh di %s."
 
-#: weblate/trans/models/subproject.py:884
+#: weblate/trans/models/subproject.py:910
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Gagal untuk rebase cabang kita ke cabang jauh %s."
 
-#: weblate/trans/models/subproject.py:889
+#: weblate/trans/models/subproject.py:915
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Gagal untuk menggabungkan cabang remot jauh didalam %s."
 
-#: weblate/trans/models/subproject.py:1069
+#: weblate/trans/models/subproject.py:1095
 #, fuzzy
 #| msgid "Can not link to linked repository!"
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr "Tidak dapat menautkan ke repositori tertaut!"
 
-#: weblate/trans/models/subproject.py:1076
+#: weblate/trans/models/subproject.py:1102
 #, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Link ke proyek Weblate yang tidak sah, gunakan weblate://project/subproject."
 
-#: weblate/trans/models/subproject.py:1083
+#: weblate/trans/models/subproject.py:1109
 #, fuzzy
 #| msgid "Invalid link to Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Link ke proyek Weblate yang tidak sah, gunakan weblate://project/subproject."
 
-#: weblate/trans/models/subproject.py:1089
+#: weblate/trans/models/subproject.py:1115
 msgid "Push URL is not used when repository is linked!"
 msgstr "Dorong URL tidak digunakan apabila repositori telah dihubungkan!"
 
-#: weblate/trans/models/subproject.py:1093
+#: weblate/trans/models/subproject.py:1119
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL eksport tidak digunakan apabila repositori telah dihubungkan!"
 
-#: weblate/trans/models/subproject.py:1099
+#: weblate/trans/models/subproject.py:1125
 msgid "The mask did not match any files!"
 msgstr "Topeng (mask) tidak cocok dengan berkas mana saja!"
 
-#: weblate/trans/models/subproject.py:1106
+#: weblate/trans/models/subproject.py:1132
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1111
+#: weblate/trans/models/subproject.py:1137
 #, fuzzy
 #| msgid ""
 #| "There are more files for single language, please adjust the mask and use "
@@ -6093,7 +6109,7 @@ msgstr ""
 "Terdapat banyak berkas untuk satu bahasa, silahkan menyesuaikan topeng "
 "(mask) dan gunakan subproyek untuk menerjemahkan sumber yang berbeda."
 
-#: weblate/trans/models/subproject.py:1117
+#: weblate/trans/models/subproject.py:1143
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -6104,21 +6120,21 @@ msgstr ""
 "seharusnya menonaktifkan SIMPLIFY_LANGUAGES untuk mencegah Weblate memetakan "
 "bahasa yang serupa ke yang satu ini."
 
-#: weblate/trans/models/subproject.py:1136
+#: weblate/trans/models/subproject.py:1162
 msgid "File does not seem to be valid!"
 msgstr "Berkas tampaknya tidak valid!"
 
-#: weblate/trans/models/subproject.py:1144
+#: weblate/trans/models/subproject.py:1170
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Format dari berkas %d ini tidak bisa dikenali."
 
-#: weblate/trans/models/subproject.py:1153
+#: weblate/trans/models/subproject.py:1179
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Gagal untuk mem-parsing berkas %d ini!"
 
-#: weblate/trans/models/subproject.py:1162
+#: weblate/trans/models/subproject.py:1188
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -6126,11 +6142,11 @@ msgstr ""
 "Format berkas yang dipilih tidak mendukung menambahan penerjemahan baru "
 "sesuai dengan pilihan dalam pengaturan proyek."
 
-#: weblate/trans/models/subproject.py:1168
+#: weblate/trans/models/subproject.py:1194
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Format berkas dasar untuk penerjemahan baru tidak dikenali!"
 
-#: weblate/trans/models/subproject.py:1173
+#: weblate/trans/models/subproject.py:1199
 #, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
@@ -6141,31 +6157,31 @@ msgstr ""
 "Berkas dasar untuk penerjemahan baru tidak digunakan karena sesuai dengan "
 "pengaturan proyek."
 
-#: weblate/trans/models/subproject.py:1184
+#: weblate/trans/models/subproject.py:1210
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "Anda tidak dapat membasis berkas dengan penerjemahan bilingual!"
 
-#: weblate/trans/models/subproject.py:1190
+#: weblate/trans/models/subproject.py:1216
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1197
+#: weblate/trans/models/subproject.py:1223
 msgid "Template file not found!"
 msgstr "Berkas templat tidak ditemukan!"
 
-#: weblate/trans/models/subproject.py:1203
+#: weblate/trans/models/subproject.py:1229
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Gagal untuk men-parsing berkas basis penerjemahan: %s"
 
-#: weblate/trans/models/subproject.py:1208
+#: weblate/trans/models/subproject.py:1234
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 "Anda tidak dapat menggunakan penerjemahan monolingual tanpa berkas basis!"
 
-#: weblate/trans/models/subproject.py:1218
+#: weblate/trans/models/subproject.py:1244
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -6173,43 +6189,43 @@ msgstr ""
 "Silakan mengisi pada URL petunjuk atau menggunakan berbagai pilihan untuk "
 "menambahkan bahasa baru."
 
-#: weblate/trans/models/subproject.py:1224
+#: weblate/trans/models/subproject.py:1250
 msgid "License URL can not be used without license summary."
 msgstr "URL lisensi tidak dapat digunakan tanpa ringkasan lisensi."
 
-#: weblate/trans/models/subproject.py:1244
+#: weblate/trans/models/subproject.py:1270
 msgid "Changing version control system is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1250
+#: weblate/trans/models/subproject.py:1276
 #, fuzzy, python-brace-format
 #| msgid "Support Weblate at {0}"
 msgid "Unsupported file format: {0}"
 msgstr "Dukung Weblate di {0}"
 
-#: weblate/trans/models/subproject.py:1257
+#: weblate/trans/models/subproject.py:1283
 #, fuzzy, python-format
 #| msgid "Failed to fetch git repository: %s"
 msgid "Failed to update repository: %s"
 msgstr "Gagal untuk mengambil repositori git: %s"
 
-#: weblate/trans/models/subproject.py:1276
+#: weblate/trans/models/subproject.py:1302
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1286
+#: weblate/trans/models/subproject.py:1312
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Secara otomatis menerima yang disarankan dapat bekerja hanya berdasarkan "
 "pemungutan suara diaktifkan!"
 
-#: weblate/trans/models/subproject.py:1460
+#: weblate/trans/models/subproject.py:1486
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Failed to add new translation file!"
 msgstr "Gagal untuk menyimpan penerjemahan!"
 
-#: weblate/trans/models/subproject.py:1481
+#: weblate/trans/models/subproject.py:1507
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation file already exists!"
@@ -7006,6 +7022,9 @@ msgstr ""
 msgid "translated"
 msgstr "telah diterjemahkan"
 
+#~ msgid "Commit message"
+#~ msgstr "Pesan komit"
+
 #~ msgid "Chosen translation already exists in this project!"
 #~ msgstr "Penerjemahan yang dipilih sudah ada dalam proyek ini!"
 
@@ -7284,9 +7303,6 @@ msgstr "telah diterjemahkan"
 
 #~ msgid "Words extracted from glossary"
 #~ msgstr "Kata-kata diambil dari glosarium"
-
-#~ msgid "Comments about this translation"
-#~ msgstr "Komentar-komentar tentang penerjemahan ini"
 
 #~ msgid "Comments (%(count)s)"
 #~ msgstr "Komentar (%(count)s)"
