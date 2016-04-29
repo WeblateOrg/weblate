@@ -496,7 +496,7 @@ class SearchForm(forms.Form):
             ('exact', _('Exact match')),
             ('substring', _('Substring')),
         ),
-        initial=False
+        initial='substring'
     )
     source = forms.BooleanField(
         label=_('Search in source strings'),
