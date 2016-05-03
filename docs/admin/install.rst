@@ -234,7 +234,7 @@ website <https://weblate.org/> or use pip installer.
 Installing Weblate by pip
 +++++++++++++++++++++++++
 
-If you decode to install Weblate using pip installer, you will notice some
+If you decide to install Weblate using pip installer, you will notice some
 differences. Most importantly the command line interface is installed  to the
 system path as :command:`weblate` instead of :command:`./manage.py` as used in
 this documentation. Also when invoking this command, you will have to specify
