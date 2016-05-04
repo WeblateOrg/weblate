@@ -20,96 +20,58 @@
 
 import sys
 
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.shortcuts import redirect
-from django.http import HttpResponse
-from django.contrib import messages
-from django.contrib.auth.decorators import permission_required
-from django.views.decorators.http import require_POST
 from django.http import Http404
+from django.contrib import messages
+from django.views.decorators.http import require_POST
 
-from weblate.trans.site import get_site_url
-from weblate.trans.exporters import get_exporter
 from weblate.trans.util import report_error
 from weblate.trans.forms import get_upload_form
-from weblate.trans.views.helper import get_translation, import_message
+from weblate.trans.views.helper import (
+    get_translation, import_message, download_translation_file
+)
 from weblate.trans.permissions import (
-    can_author_translation, can_overwrite_translation
+    can_author_translation, can_overwrite_translation,
+    can_upload_translation,
 )
 
 
 def download_translation_format(request, project, subproject, lang, fmt):
     obj = get_translation(request, project, subproject, lang)
 
-    try:
-        exporter = get_exporter(fmt)(
-            obj.subproject.project,
-            obj.language,
-            get_site_url(obj.get_absolute_url())
-        )
-    except KeyError:
-        raise Http404('File format not supported')
-
-    for unit in obj.unit_set.iterator():
-        exporter.add_unit(unit)
-
-    # Save to response
-    return exporter.get_response(
-        '{{project}}-{0}-{{language}}.{{extension}}'.format(
-            subproject
-        )
-    )
+    return download_translation_file(obj, fmt)
 
 
 def download_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
 
-    srcfilename = obj.get_filename()
-
-    # Construct file name (do not use real filename as it is usually not
-    # that useful)
-    filename = '%s-%s-%s.%s' % (project, subproject, lang, obj.store.extension)
-
-    # Create response
-    with open(srcfilename) as handle:
-        response = HttpResponse(
-            handle.read(),
-            content_type=obj.store.mimetype
-        )
-
-    # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
-    return response
+    return download_translation_file(obj)
 
 
 def download_language_pack(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
+
     if not obj.supports_language_pack():
         raise Http404('Language pack download not supported')
 
-    filename, mime = obj.store.get_language_pack_meta()
-
-    # Create response
-    response = HttpResponse(
-        obj.store.get_language_pack(),
-        content_type=mime
+    return download_translation_file(
+        obj,
+        obj.subproject.file_format_cls.language_pack
     )
-
-    # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
-    return response
 
 
 @require_POST
-@permission_required('trans.upload_translation')
 def upload_translation(request, project, subproject, lang):
     '''
     Handling of translation uploads.
     '''
     obj = get_translation(request, project, subproject, lang)
+
+    if not can_upload_translation(request.user, obj):
+        raise PermissionDenied()
 
     # Check method and lock
     if obj.is_locked(request.user):

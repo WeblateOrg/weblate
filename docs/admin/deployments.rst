@@ -231,15 +231,21 @@ Customize Weblate Configuration
 You can customize the configuration of your Weblate installation on OpenShift
 through environment variables.  Override any of Weblate's setting documented
 under :ref:`config` using ``rhc env set`` by prepending the settings name with
-``WEBLATE_``. The variable is parsed as Python string, after replacing
-environment variables in it (eg. ``$PATH``). To put literal ``$`` you need to
-escape it as ``$$``.
+``WEBLATE_``. The variable content is put verbatim to the configuration file,
+so it is parsed as Python string, after replacing environment variables in it
+(eg. ``$PATH``). To put literal ``$`` you need to escape it as ``$$``.
 
 For example override the ``ADMINS`` setting like this:
 
 .. code-block:: sh
 
     rhc -aweblate env set WEBLATE_ADMINS='(("John Doe", "jdoe@example.org"),)'
+
+To change site title, do not forget to include additional quotes:
+
+.. code-block:: sh
+
+    rhc -aweblate env set WEBLATE_SITE_TITLE='"Custom Title"'
 
 New settings will only take effect after restarting Weblate:
 

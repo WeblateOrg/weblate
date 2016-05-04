@@ -36,8 +36,13 @@ from weblate.trans.tests.test_models import ModelTestCase
 
 class PermissionsTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('user', 'test@example.com', 'x')
-        self.owner = User.objects.create_user('owner', 'test@example.com', 'x')
+        self.user = User.objects.create_user(
+            'user', 'test@example.com', 'x'
+        )
+        self.owner = User.objects.create_user(
+            'owner', 'owner@example.com', 'x'
+        )
+
         self.owner.groups.add(Group.objects.get(name='Owners'))
         self.project = Project.objects.create(slug='test')
         self.project.owners.add(self.owner)
@@ -93,10 +98,15 @@ class GroupACLTest(ModelTestCase):
     def setUp(self):
         super(GroupACLTest, self).setUp()
 
-        self.user = User.objects.create(username="user")
-        self.privileged = User.objects.create(username="privileged")
+        self.user = User.objects.create_user(
+            "user", 'test@example.com', 'x'
+        )
+        self.privileged = User.objects.create_user(
+            "privileged", 'other@example.com', 'x'
+        )
         self.group = Group.objects.create(name="testgroup")
         self.project = self.subproject.project
+        self.subproject.translation_set.all().delete()
         self.language = Language.objects.get_default()
         self.trans = Translation.objects.create(
             subproject=self.subproject, language=self.language,

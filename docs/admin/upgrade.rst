@@ -9,23 +9,10 @@ Upgrading
 Generic upgrade instructions
 ++++++++++++++++++++++++++++
 
-.. versionchanged:: 1.2
-
-    Since version 1.2 the migration is done using South module, to upgrade to 1.2,
-    please see :ref:`version-specific-instructions`.
-
-.. versionchanged:: 1.9
-
-    Since version 1.9, Weblate also supports Django 1.7 migrations, please check
-    :ref:`django-17` for more information.
-
-.. versionchanged:: 2.3
-
-    Since version 2.3, Weblate supports only Django native migrations, South is
-    no longer supported, please check :ref:`django-17` for more information.
-
 Before upgrading, please check current :ref:`requirements` as they might have
-changed.
+changed. Once all requirements are installed or updated, please adjust your
+:file:`settings.py` to match changes in the configuration (consult
+:file:`settings_example.py` for correct values).
 
 To upgrade database structure, you should run:
 
@@ -50,6 +37,21 @@ To upgrade default set of language definitions (optional), run:
 .. code-block:: sh
 
     ./manage.py setuplang
+
+.. versionchanged:: 1.2
+
+    Since version 1.2 the migration is done using South module, to upgrade to 1.2,
+    please see :ref:`version-specific-instructions`.
+
+.. versionchanged:: 1.9
+
+    Since version 1.9, Weblate also supports Django 1.7 migrations, please check
+    :ref:`django-17` for more information.
+
+.. versionchanged:: 2.3
+
+    Since version 2.3, Weblate supports only Django native migrations, South is
+    no longer supported, please check :ref:`django-17` for more information.
 
 .. _version-specific-instructions:
 
@@ -204,9 +206,6 @@ This upgrade also requires you to upgrade python-social-auth from 0.1.x to
 Upgrade from 2.0 to 2.1
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
-
 The filesystem paths configuration has changed, the :setting:`GIT_ROOT` and
 :setting:`WHOOSH_INDEX` are gone and now all data resides in
 :setting:`DATA_DIR`. The existing data should be automatically migrated by
@@ -266,11 +265,10 @@ have such, it is recommended to run:
 
     ./manage.py fixup_flags --all
 
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 Upgrade from 2.3 to 2.4
 ~~~~~~~~~~~~~~~~~~~~~~~
-
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
 
 Handling of static content has been rewritten, please adjust configuration of
 your webserver accordingly (see :ref:`static-files` for more details). Most
@@ -282,11 +280,10 @@ importantly:
 There is now also additional dependency - ``django_compressor``, please install
 it prior to upgrading.
 
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 Upgrade from 2.4 to 2.5
 ~~~~~~~~~~~~~~~~~~~~~~~
-
-Please  adjust your :file:`settings.py` to match several changes in the
-configuration (consult :file:`settings_example.py` for correct values).
 
 The fulltext index has been changed, so unless you rebuild it, the fulltext
 search will not work. To rebuild it, execute:
@@ -295,6 +292,14 @@ search will not work. To rebuild it, execute:
 
     ./manage.py rebuild_index --clean --all
 
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 2.5 to 2.6
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow generic upgrade instructions, there is no special change.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _django-17:
 

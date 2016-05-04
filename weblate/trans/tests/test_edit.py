@@ -40,7 +40,7 @@ class EditTest(ViewTestCase):
     def setUp(self):
         super(EditTest, self).setUp()
         self.translation = self.get_translation()
-        self.translate_url = self.translation.get_translate_url()
+        self.translate_url = reverse('translate', kwargs=self.kw_translation)
 
     def test_edit(self):
         response = self.edit_unit(
@@ -349,8 +349,14 @@ class EditResourceSourceTest(ViewTestCase):
     has_plurals = False
 
     def test_edit(self):
-        translation = self.get_translation()
-        translate_url = translation.get_translate_url()
+        translate_url = reverse(
+            'translate',
+            kwargs={
+                'project': 'test',
+                'subproject': 'test',
+                'lang': 'en'
+            }
+        )
 
         response = self.edit_unit(
             'Hello, world!\n',

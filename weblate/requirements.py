@@ -54,6 +54,17 @@ def get_optional_versions():
     '''
     result = []
 
+    name = 'pytz'
+    url = 'https://pypi.python.org/pypi/pytz/'
+    mod = get_version_module('pytz', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            mod.__version__,
+            None,
+        ))
+
     name = 'pyuca'
     url = 'https://github.com/jtauber/pyuca'
     mod = get_version_module('pyuca', name, url, True)
@@ -87,6 +98,22 @@ def get_optional_versions():
     return result
 
 
+def get_single(name, url, module, required, getter='__version__'):
+    """Returns version information for single module"""
+    mod = get_version_module(module, name, url)
+    version_getter = getattr(mod, getter)
+    if hasattr(version_getter, '__call__'):
+        current = version_getter()
+    else:
+        current = version_getter
+    return (
+        name,
+        url,
+        current,
+        required,
+    )
+
+
 def get_versions():
     '''
     Returns list of used versions.
@@ -100,54 +127,42 @@ def get_versions():
         '2.7',
     ))
 
-    name = 'Django'
-    url = 'https://www.djangoproject.com/'
-    mod = get_version_module('django', name, url)
-    result.append((
-        name,
-        url,
-        mod.get_version(),
+    result.append(get_single(
+        'Django',
+        'https://www.djangoproject.com/',
+        'django',
         '1.8',
+        'get_version'
     ))
 
-    name = 'six'
-    url = 'https://pypi.python.org/pypi/six'
-    mod = get_version_module('six', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
+    result.append(get_single(
+        'six',
+        'https://pypi.python.org/pypi/six',
+        'six',
         '1.7.0',
     ))
 
-    name = 'python-social-auth'
-    url = 'http://psa.matiasaguirre.net/'
-    mod = get_version_module('social', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
+    result.append(get_single(
+        'python-social-auth',
+        'http://psa.matiasaguirre.net/',
+        'social',
         '0.2.0',
     ))
 
-    name = 'Translate Toolkit'
-    url = 'http://toolkit.translatehouse.org/'
-    mod = get_version_module('translate.__version__', name, url)
-    result.append((
-        name,
-        url,
-        mod.sver,
-        '1.10.0',
+    result.append(get_single(
+        'Translate Toolkit',
+        'http://toolkit.translatehouse.org/',
+        'translate.__version__',
+        '1.14.0-rc1',
+        'sver',
     ))
 
-    name = 'Whoosh'
-    url = 'http://bitbucket.org/mchaput/whoosh/'
-    mod = get_version_module('whoosh', name, url)
-    result.append((
-        name,
-        url,
-        mod.versionstring(),
+    result.append(get_single(
+        'Whoosh',
+        'http://bitbucket.org/mchaput/whoosh/',
+        'whoosh',
         '2.5',
+        'versionstring',
     ))
 
     try:
@@ -160,54 +175,47 @@ def get_versions():
     except OSError:
         raise Exception('Failed to run git, please install it.')
 
-    name = 'Pillow (PIL)'
-    url = 'http://python-imaging.github.io/'
-    mod = get_version_module('PIL.Image', name, url)
-    result.append((
-        name,
-        url,
-        mod.VERSION,
+    result.append(get_single(
+        'Pillow (PIL)',
+        'http://python-imaging.github.io/',
+        'PIL.Image',
         '1.1.6',
+        'VERSION',
     ))
 
-    name = 'dateutil'
-    url = 'http://labix.org/python-dateutil'
-    mod = get_version_module('dateutil', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
+    result.append(get_single(
+        'dateutil',
+        'http://labix.org/python-dateutil',
+        'dateutil',
         '1.0'
     ))
 
-    name = 'lxml'
-    url = 'http://lxml.de/'
-    mod = get_version_module('lxml.etree', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
+    result.append(get_single(
+        'lxml',
+        'http://lxml.de/',
+        'lxml.etree',
         '3.1.0',
     ))
 
-    name = 'django-crispy-forms'
-    url = 'http://django-crispy-forms.readthedocs.org/'
-    mod = get_version_module('crispy_forms', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
+    result.append(get_single(
+        'django-crispy-forms',
+        'http://django-crispy-forms.readthedocs.org/',
+        'crispy_forms',
         '1.4.0',
     ))
 
-    name = 'compressor'
-    url = 'https://github.com/django-compressor/django-compressor'
-    mod = get_version_module('compressor', name, url)
-    result.append((
-        name,
-        url,
-        mod.__version__,
+    result.append(get_single(
+        'compressor',
+        'https://github.com/django-compressor/django-compressor',
+        'compressor',
         '1.5',
+    ))
+
+    result.append(get_single(
+        'djangorestframework',
+        'http://www.django-rest-framework.org/',
+        'rest_framework',
+        '3.3',
     ))
 
     return result

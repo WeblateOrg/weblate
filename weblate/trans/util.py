@@ -25,6 +25,7 @@ import sys
 import traceback
 
 from six.moves.urllib.parse import urlparse
+import six
 
 from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
@@ -176,7 +177,7 @@ def translation_percent(translated, total):
     '''
     Returns translation percentage.
     '''
-    return (1000 * translated / total) / 10.0
+    return round(1000 * translated / total) / 10.0
 
 
 def add_configuration_error(name, message):
@@ -212,6 +213,12 @@ def get_clean_env(extra=None):
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
+    # Python 2 on Windows doesn't handle Unicode objects in environment
+    # even if they can be converted to ASCII string, let's fix it here
+    if six.PY2 and sys.platform == 'win32':
+        return {
+            str(key): str(val) for key, val in environ.items()
+        }
     return environ
 
 
@@ -296,3 +303,10 @@ def render(request, template, context=None, status=None):
     if 'project' in context:
         context['description'] = get_project_description(context['project'])
     return django_render(request, template, context, status=status)
+
+
+def path_separator(path):
+    """Always use / as path separator for consistency"""
+    if os.path.sep != '/':
+        return path.replace(os.path.sep, '/')
+    return path

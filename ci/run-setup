@@ -19,5 +19,5 @@ check
 INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`
 BIN_DIR=`find $INSTALL_DIR -name 'bin' -type d`
 
-diff -ruNp weblate/html $INSTALLED_DIR/weblate/html
+diff -ruNqp -x '*.swp' -x '*.pyc' weblate $INSTALLED_DIR/weblate
 check

@@ -31,14 +31,14 @@ import csv
 import traceback
 import importlib
 
-import six
 
 from django.utils.translation import ugettext_lazy as _
+
+import six
 
 from translate.convert import po2php
 from translate.misc import quote
 from translate.storage.lisa import LISAfile
-from translate.storage.mo import mofile, mounit
 from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
@@ -453,6 +453,7 @@ class FileFormat(object):
     unit_class = FileUnit
     new_translation = None
     autoload = ()
+    language_pack = None
 
     @staticmethod
     def serialize(store):
@@ -561,7 +562,7 @@ class FileFormat(object):
     def _find_unit_template(self, context):
         # Need to create new unit based on template
         template_ttkit_unit = self._find_unit_mono(
-            context, self.template_store
+            context, self.template_store.store
         )
         # We search by ID when using template
         ttkit_unit = self._find_unit_mono(
@@ -656,7 +657,7 @@ class FileFormat(object):
                 # Create wrapper object
                 yield self.unit_class(tt_unit)
         else:
-            for template_unit in self.template_store.units:
+            for template_unit in self.template_store.store.units:
 
                 # Create wrapper object (not translated)
                 yield self.unit_class(
@@ -671,7 +672,7 @@ class FileFormat(object):
         if not self.has_template:
             return len(self.store.units)
         else:
-            return len(self.template_store.units)
+            return len(self.template_store.store.units)
 
     @property
     def mimetype(self):
@@ -698,13 +699,6 @@ class FileFormat(object):
                 return 'txt'
         else:
             return self.store.Extensions[0]
-
-    @classmethod
-    def supports_language_pack(cls):
-        '''
-        Checks whether backend store supports generating language pack.
-        '''
-        return hasattr(cls, 'get_language_pack')
 
     @classmethod
     def is_valid(cls, store):
@@ -857,40 +851,7 @@ class PoFormat(FileFormat):
     loader = pofile
     monolingual = False
     autoload = ('.po', '.pot')
-
-    def get_language_pack(self):
-        '''
-        Generates compiled messages file.
-        '''
-        outputfile = mofile()
-        for unit in self.store.units:
-            if not unit.istranslated() and not unit.isheader():
-                continue
-            outunit = mounit()
-            if unit.isheader():
-                outunit.source = ""
-            else:
-                outunit.source = unit.source
-                context = unit.getcontext()
-                if context:
-                    outunit.msgctxt = [context]
-            outunit.target = unit.target
-            outputfile.addunit(outunit)
-        return self.serialize(outputfile)
-
-    def get_language_pack_meta(self):
-        '''
-        Returns language pack filename and mime type.
-        '''
-
-        basefile = os.path.splitext(
-            os.path.basename(self.storefile)
-        )[0]
-
-        return (
-            '%s.mo' % basefile,
-            'application/x-gettext-catalog'
-        )
+    language_pack = 'mo'
 
     @classmethod
     def supports_new_language(cls):
@@ -1063,7 +1024,7 @@ class StringsFormat(FileFormat):
     name = _('OS X Strings')
     format_id = 'strings'
     loader = ('properties', 'stringsfile')
-    new_translation = '\n'
+    new_translation = '\n'.encode('utf-16')
     autoload = ('.strings',)
 
 
@@ -1203,7 +1164,7 @@ class AndroidFormat(FileFormat):
 class JSONFormat(FileFormat):
     name = _('JSON file')
     format_id = 'json'
-    loader = ('weblate.trans.aresource', 'JsonFile')
+    loader = ('jsonl10n', 'JsonFile')
     unit_class = MonolingualSimpleUnit
     autoload = ('.json',)
 

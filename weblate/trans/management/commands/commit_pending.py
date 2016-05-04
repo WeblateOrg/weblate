@@ -19,8 +19,6 @@
 #
 
 from datetime import timedelta
-from optparse import make_option
-
 from django.utils import timezone
 
 from weblate.trans.management.commands import WeblateLangCommand
@@ -28,22 +26,23 @@ from weblate.trans.management.commands import WeblateLangCommand
 
 class Command(WeblateLangCommand):
     help = 'commits pending changes older than given age'
-    option_list = WeblateLangCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--age',
             action='store',
-            type='int',
+            type=int,
             dest='age',
             default=24,
             help='Age of changes to commit in hours (default is 24 hours)'
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
 
         age = timezone.now() - timedelta(hours=options['age'])
 
-        for translation in self.get_translations(*args, **options):
+        for translation in self.get_translations(**options):
             if not translation.repo_needs_commit():
                 continue
 

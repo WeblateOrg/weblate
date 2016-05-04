@@ -4,7 +4,7 @@
 %define WLETCDIR %{_sysconfdir}/weblate
 Name:           weblate
 %define _name Weblate
-Version:        2.6
+Version:        2.7
 Release:        0
 Summary:        Web-based translation tool
 License:        GPL-3.0+
@@ -25,24 +25,26 @@ BuildRequires:  python-alabaster
 BuildRequires:  python-dateutil
 BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-django_compressor
+BuildRequires:  python-djangorestframework >= 3.3
 BuildRequires:  python-httpretty
 BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
 BuildRequires:  python-whoosh >= 2.5.2
-BuildRequires:  translate-toolkit >= 1.10.0
+BuildRequires:  translate-toolkit >= 1.14.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
 Requires:       python-Babel
 Requires:       python-Django >= 1.7
 Requires:       python-django_compressor
+Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
 Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
 Requires:       python-whoosh >= 2.5.2
-Requires:       translate-toolkit >= 1.10.0
+Requires:       translate-toolkit >= 1.14.0
 Recommends:     python-MySQL-python
 Recommends:     python-psycopg2
 Recommends:     python-pyuca
@@ -120,12 +122,12 @@ install -d %{buildroot}/%{WLDATADIR}
 
 %post
 # Static files
-%{WLDIR}/manage.py collectstatic --noinput --link
+%{WLDIR}/manage.py collectstatic --noinput
 
 %check
 export LANG=en_US.UTF-8
 # Collect static files for testsuite
-./manage.py collectstatic --link --noinput --settings=weblate.settings_test -v 2
+./manage.py collectstatic --noinput --settings=weblate.settings_test -v 2
 # Run the testsuite
 ./manage.py test --settings=weblate.settings_test -v 2
 

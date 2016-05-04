@@ -18,6 +18,8 @@ Contents:
     faq
     formats
     api
+    wlc
+    python
     changes
     contributing
     license

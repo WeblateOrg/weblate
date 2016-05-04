@@ -84,7 +84,10 @@ class AvatarTest(ViewTestCase):
                 kwargs={'user': anonymous.username, 'size': 32}
             )
         )
-        self.assertPNG(response)
+        self.assertRedirects(
+            response, '/static/weblate-32.png',
+            fetch_redirect_response=False
+        )
 
     def test_fallback_avatar(self):
         self.assertPNGData(

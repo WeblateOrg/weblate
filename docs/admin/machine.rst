@@ -76,21 +76,6 @@ To enable this service, add ``trans.machine.google.GoogleTranslation`` to
     :setting:`MT_GOOGLE_KEY`,
     `Google translate documentation <https://cloud.google.com/translate/docs>`_
 
-Google Web Translate
-++++++++++++++++++++
-
-Machine translation service provided by Google.
-
-Please note that this does not use official Translation API but rather web
-based translation interface.
-
-To enable this service, add ``trans.machine.google.GoogleWebTranslation`` to
-:setting:`MACHINE_TRANSLATION_SERVICES`.
-
-.. seealso::
-
-    `Google translate service <https://translate.google.com/>`_
-
 .. _ms-translate:
 
 Bing Translator

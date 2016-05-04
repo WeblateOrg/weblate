@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
-
 from django.core.management.base import BaseCommand
 
 from weblate.trans.models import Check, get_related_units
@@ -27,22 +25,23 @@ from weblate.trans.models import Check, get_related_units
 
 class Command(BaseCommand):
     help = 'lists top ignored checks'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--count',
-            type='int',
+            type=int,
             dest='count',
             default=100,
             help='Number of top checks to list',
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--list-all',
             action='store_true',
             dest='list_all',
             default=False,
             help='List all checks (not only ignored)',
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
         results = {}

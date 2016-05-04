@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import datetime
+import django.utils.timezone
 import weblate.trans.mixins
 import weblate.trans.validators
 import weblate.trans.models.subproject
@@ -14,6 +14,7 @@ class Migration(migrations.Migration):
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('lang', '0001_initial'),
+        ('auth', '0001_initial'),
     ]
 
     operations = [
@@ -200,7 +201,7 @@ class Migration(migrations.Migration):
                 ('have_suggestion', models.IntegerField(default=0, db_index=True)),
                 ('enabled', models.BooleanField(default=True, db_index=True)),
                 ('language_code', models.CharField(default=b'', max_length=20)),
-                ('lock_time', models.DateTimeField(default=datetime.datetime.now)),
+                ('lock_time', models.DateTimeField(default=django.utils.timezone.now)),
                 ('commit_message', models.TextField(default=b'', blank=True)),
                 ('language', models.ForeignKey(to='lang.Language')),
                 ('lock_user', models.ForeignKey(default=None, blank=True, to=settings.AUTH_USER_MODEL, null=True)),

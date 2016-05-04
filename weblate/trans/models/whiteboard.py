@@ -85,6 +85,21 @@ class WhiteboardMessage(models.Model):
         null=True,
         blank=True
     )
+    category = models.CharField(
+        max_length=25,
+        verbose_name=ugettext_lazy('Category'),
+        help_text=ugettext_lazy(
+            'Category defines color used for the message.'
+        ),
+        choices=(
+            ('info', ugettext_lazy('Info (light blue)')),
+            ('warning', ugettext_lazy('Warning (yellow)')),
+            ('danger', ugettext_lazy('Danger (red)')),
+            ('success', ugettext_lazy('Success (green)')),
+            ('primary', ugettext_lazy('Primary (dark blue)')),
+        ),
+        default='info',
+    )
 
     objects = WhiteboardManager()
 

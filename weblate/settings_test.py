@@ -22,8 +22,10 @@
 # Django settings for running testsuite
 #
 
-from weblate.settings_example import *
+import warnings
 import os
+
+from weblate.settings_example import *
 
 if 'CI_DATABASE' in os.environ:
     if os.environ['CI_DATABASE'] == 'mysql':
@@ -108,16 +110,7 @@ AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
-
-class DisableMigrations(object):
-    """Magic to disable migrations"""
-    def __contains__(self, item):
-        return True
-
-    def __getitem__(self, item):
-        return "notmigrations"
-
-
-# Avoid running migrations in testsuite
-if 'TEST_MIGRATIONS' not in os.environ:
-    MIGRATION_MODULES = DisableMigrations()
+warnings.filterwarnings(
+    'error', r"DateTimeField .* received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields'
+)

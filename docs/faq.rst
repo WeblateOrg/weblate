@@ -126,11 +126,11 @@ directly open ``/admin/performance/`` URL.
 
 .. _faq-site:
 
-Why does registration contain example.com as domain?
-----------------------------------------------------
+Why does links contain example.com as domain?
+---------------------------------------------
 
 Weblate uses Django sites framework and it defines site name inside the
-database.
+database. You need to set the domain name to match your installation.
 
 .. seealso:: 
    

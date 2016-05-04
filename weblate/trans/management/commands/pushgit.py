@@ -18,23 +18,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
-
 from weblate.trans.management.commands import WeblateCommand
 
 
 class Command(WeblateCommand):
     help = 'pushes all changes to upstream respository'
-    option_list = WeblateCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--force-commit',
             action='store_true',
             dest='force_commit',
             default=False,
             help='Forces commiting pending changes'
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
-        for subproject in self.get_subprojects(*args, **options):
+        for subproject in self.get_subprojects(**options):
             subproject.do_push(None, force_commit=options['force_commit'])

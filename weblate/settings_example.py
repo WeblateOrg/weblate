@@ -129,7 +129,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = False
+USE_TZ = True
 
 # URL prefix to use, please see documentation for more details
 URL_PREFIX = ''
@@ -268,6 +268,7 @@ SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 # Middleware
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -293,6 +294,8 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'crispy_forms',
     'compressor',
+    'rest_framework',
+    'rest_framework.authtoken',
     'weblate.trans',
     'weblate.lang',
     'weblate.accounts',
@@ -431,6 +434,9 @@ MT_TMSERVER = None
 # Title of site to use
 SITE_TITLE = 'Weblate'
 
+# Whether site uses https
+ENABLE_HTTPS = False
+
 # URL of login
 LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
 
@@ -519,7 +525,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.machine.apertium.ApertiumTranslation',
 #     'weblate.trans.machine.glosbe.GlosbeTranslation',
 #     'weblate.trans.machine.google.GoogleTranslation',
-#     'weblate.trans.machine.google.GoogleWebTranslation',
 #     'weblate.trans.machine.microsoft.MicrosoftTranslation',
 #     'weblate.trans.machine.mymemory.MyMemoryTranslation',
 #     'weblate.trans.machine.tmserver.AmagamaTranslation',
@@ -553,6 +558,32 @@ ALLOWED_HOSTS = []
 #         },
 #     }
 # }
+
+# REST framework settings for API
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    },
+    'DEFAULT_PAGINATION_CLASS': (
+        'rest_framework.pagination.PageNumberPagination'
+    ),
+    'PAGE_SIZE': 20,
+    'VIEW_DESCRIPTION_FUNCTION': 'weblate.api.views.get_view_description',
+}
 
 # Example for restricting access to logged in users
 # LOGIN_REQUIRED_URLS = (

@@ -20,9 +20,6 @@
 
 import datetime
 
-from six import string_types
-from six.moves.urllib.parse import urlencode
-
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
@@ -32,6 +29,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 import django.views.defaults
+
+from six import string_types
+from six.moves.urllib.parse import urlencode
 
 from weblate.trans.models import (
     Project, SubProject, Translation, Check, ComponentList,
@@ -487,7 +487,7 @@ def data_root(request):
         'data-root.html',
         {
             'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-            'api_docs': weblate.get_doc_url('api', 'exports'),
+            'api_docs': weblate.get_doc_url('api'),
             'rss_docs': weblate.get_doc_url('api', 'rss'),
         }
     )
@@ -502,7 +502,7 @@ def data_project(request, project):
             'object': obj,
             'project': obj,
             'hooks_docs': weblate.get_doc_url('api', 'hooks'),
-            'api_docs': weblate.get_doc_url('api', 'exports'),
+            'api_docs': weblate.get_doc_url('api'),
             'rss_docs': weblate.get_doc_url('api', 'rss'),
         }
     )

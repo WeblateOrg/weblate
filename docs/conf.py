@@ -59,7 +59,7 @@ copyright = '2012 - 2016, Michal Čihař'
 # built documents.
 #
 # The short X.Y version.
-version = '2.6'
+version = '2.7'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -106,14 +106,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-if os.environ.get('READTHEDOCS', None) == 'True':
-    html_theme = 'default'
-else:
-    try:
-        import alabaster
-        html_theme = alabaster.__name__
-    except ImportError:
-        html_theme = 'default'
+html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

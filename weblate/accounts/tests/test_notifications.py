@@ -67,10 +67,10 @@ class NotificationTest(ViewTestCase):
 
     def second_user(self):
         user = User.objects.create_user(
-            username='seconduser',
-            password='secondpassword'
+            'seconduser',
+            'noreply@example.org',
+            'testpassword'
         )
-        Profile.objects.create(user=user)
         return user
 
     def test_notify_merge_failure(self):

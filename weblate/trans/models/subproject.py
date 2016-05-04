@@ -43,7 +43,7 @@ from weblate.trans.filelock import FileLock
 from weblate.trans.fields import RegexField
 from weblate.trans.site import get_site_url
 from weblate.trans.util import (
-    is_repo_link, cleanup_repo_url, cleanup_path, report_error,
+    is_repo_link, cleanup_repo_url, cleanup_path, report_error, path_separator,
 )
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, translation_post_add
@@ -74,6 +74,14 @@ DEFAULT_COMMIT_MESSAGE = (
     'Translated using Weblate (%(language_name)s)\n\n'
     'Currently translated at %(translated_percent)s%% '
     '(%(translated)s of %(total)s strings)'
+)
+
+DEFAULT_ADD_MESSAGE = (
+    'Added translation using Weblate (%(language_name)s)\n\n'
+)
+
+DEFAULT_DELETE_MESSAGE = (
+    'Deleted translation using Weblate (%(language_name)s)\n\n'
 )
 
 NEW_LANG_CHOICES = (
@@ -395,13 +403,31 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
     commit_message = models.TextField(
-        verbose_name=ugettext_lazy('Commit message'),
+        verbose_name=ugettext_lazy('Commit message when translating'),
         help_text=ugettext_lazy(
             'You can use format strings for various information, '
             'please check documentation for more details.'
         ),
         validators=[validate_commit_message],
         default=DEFAULT_COMMIT_MESSAGE,
+    )
+    add_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when adding translation'),
+        help_text=ugettext_lazy(
+            'You can use format strings for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_commit_message],
+        default=DEFAULT_ADD_MESSAGE,
+    )
+    delete_message = models.TextField(
+        verbose_name=ugettext_lazy('Commit message when removing translation'),
+        help_text=ugettext_lazy(
+            'You can use format strings for various information, '
+            'please check documentation for more details.'
+        ),
+        validators=[validate_commit_message],
+        default=DEFAULT_DELETE_MESSAGE,
     )
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
@@ -852,6 +878,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not from_link and not skip_push:
             self.push_if_needed(request)
 
+        return True
+
     def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
         report_error(error, sys.exc_info())
@@ -947,10 +975,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_mask_matches(self):
         """Returns files matching current mask."""
-        prefix = os.path.join(self.get_path(), '')
+        prefix = path_separator(os.path.join(self.get_path(), ''))
         matches = set()
         for filename in glob(os.path.join(self.get_path(), self.filemask)):
-            path = filename.replace(prefix, '')
+            path = path_separator(filename).replace(prefix, '')
             code = self.get_lang_code(path)
             if re.match(self.language_regex, code):
                 matches.add(path)
@@ -1048,7 +1076,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
         self.configure_repo(validate)
-        self.commit_pending(None)
+        self.commit_pending(None, skip_push=validate)
         self.configure_branch()
         self.update_branch()
 
@@ -1272,7 +1300,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         except re.error:
             raise ValidationError(_(
                 'Can not validate file matches due to invalid '
-                'regullar expression.'
+                'regular expression.'
             ))
 
         # New language options
@@ -1397,7 +1425,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         """Loads translate-toolkit store for template."""
         return self.file_format_cls.parse(
             self.get_template_filename(),
-        ).store
+        )
 
     @property
     def template_store(self):
@@ -1453,7 +1481,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def add_new_language(self, language, request):
         """Creates new language file."""
         if not self.can_add_new_language():
-            raise ValueError('Not supported operation!')
+            messages.error(
+                request,
+                _('Failed to add new translation file!')
+            )
+            return False
 
         base_filename = self.get_new_base_filename()
 
@@ -1462,6 +1494,19 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             language.code
         )
         fullname = os.path.join(self.get_path(), filename)
+
+        # Ignore request if file exists (possibly race condition as
+        # the processing of new language can take some time and user
+        # can submit again)
+        if os.path.exists(fullname):
+            Translation.objects.check_sync(
+                self, language, language.code, filename, request=request
+            )
+            messages.error(
+                request,
+                _('Translation file already exists!')
+            )
+            return False
 
         self.file_format_cls.add_language(
             fullname,
@@ -1474,7 +1519,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             language=language,
             filename=filename,
             language_code=language.code,
-            commit_message='Created new translation.'
+            commit_message='__add__'
         )
         translation_post_add.send(
             sender=self.__class__,
@@ -1491,6 +1536,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             force=True,
             request=request
         )
+        return True
 
     def do_lock(self, user):
         """Locks component."""

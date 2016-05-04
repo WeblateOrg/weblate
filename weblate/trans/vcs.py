@@ -36,7 +36,9 @@ from dateutil import parser
 import six
 from six.moves.configparser import RawConfigParser
 
-from weblate.trans.util import get_clean_env, add_configuration_error
+from weblate.trans.util import (
+    get_clean_env, add_configuration_error, path_separator
+)
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
 from weblate import appsettings
 
@@ -130,8 +132,12 @@ class Repository(object):
         Resolves any symlinks in the path.
         """
         # Resolve symlinks first
-        real_path = os.path.realpath(os.path.join(self.path, path))
-        repository_path = os.path.realpath(self.path)
+        real_path = path_separator(
+            os.path.realpath(os.path.join(self.path, path))
+        )
+        repository_path = path_separator(
+            os.path.realpath(self.path)
+        )
 
         if not real_path.startswith(repository_path):
             raise ValueError('Too many symlinks or link outside tree')

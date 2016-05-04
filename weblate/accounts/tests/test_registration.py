@@ -38,7 +38,7 @@ from weblate.trans.tests import OverrideSettings
 
 REGISTRATION_DATA = {
     'username': 'username',
-    'email': 'noreply@weblate.org',
+    'email': 'noreply-weblate@example.org',
     'first_name': 'First Last',
     'captcha_id': '00',
     'captcha': '9999'
@@ -307,11 +307,11 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'https://api.github.com/user/emails',
             body=json.dumps([
                 {
-                    'email': 'noreply@example.org',
+                    'email': 'noreply2@example.org',
                     'verified': False,
                     'primary': False,
                 }, {
-                    'email': 'noreply@weblate.org',
+                    'email': 'noreply-weblate@example.org',
                     'verified': True,
                     'primary': True
                 }
@@ -337,7 +337,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
         user = User.objects.get(username='weblate')
         self.assertEqual(user.first_name, 'Weblate')
-        self.assertEqual(user.email, 'noreply@weblate.org')
+        self.assertEqual(user.email, 'noreply-weblate@example.org')
 
 
 class NoCookieRegistrationTest(RegistrationTest):

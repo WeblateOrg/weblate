@@ -21,14 +21,14 @@
 from datetime import timedelta
 import os.path
 
-from six import StringIO
-
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
 from django.core.urlresolvers import reverse
 from django.utils import timezone
+
+from six import StringIO
 
 from weblate.billing.models import Plan, Billing, Invoice
 from weblate.trans.models import Project
@@ -151,7 +151,7 @@ class BillingTest(TestCase):
         )
         self.assertEqual(302, response.status_code)
         # Not owner
-        User.objects.create_user(username='foo', password='bar')
+        User.objects.create_user('foo', 'foo@example.org', 'bar')
         self.client.login(username='foo', password='bar')
         response = self.client.get(
             reverse('invoice-download', kwargs={'pk': self.invoice.pk})

@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import io
 
+from django.core.urlresolvers import reverse
 from django.db import models, transaction
 from django.db.utils import OperationalError
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -34,6 +35,7 @@ from translate.lang.data import languages
 
 from weblate.lang import data
 from weblate.trans.mixins import PercentMixin
+from weblate.trans.site import get_site_url
 from weblate.appsettings import SIMPLIFY_LANGUAGES
 from weblate.logger import LOGGER
 
@@ -445,11 +447,13 @@ class Language(models.Model, PercentMixin):
                 return _('Plural')
             return _('Plural form %d') % idx
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('show_language', (), {
-            'lang': self.code
-        })
+        return get_site_url(
+            reverse(
+                'show_language',
+                kwargs={'lang': self.code}
+            )
+        )
 
     def _get_percents(self):
         '''

@@ -1,14 +1,26 @@
 Changes
 =======
 
-weblate 2.6
+weblate 2.7
 -----------
 
 Released on ? 2016.
 
+* Removed Google web translate machine translation.
+* Improved commit message when adding translation.
+* Fixed Google Translate API for Hebrew language.
+
+weblate 2.6
+-----------
+
+Released on Apr 28th 2016.
+
 * Fixed validation of subprojects with language filter.
 * Improved support for XLIFF files.
 * Fixed machine translation for non English sources.
+* Added REST API.
+* Django 1.10 compatibility.
+* Added categories to whiteboard messages.
 
 weblate 2.5
 -----------

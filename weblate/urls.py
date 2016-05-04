@@ -49,6 +49,7 @@ import weblate.trans.views.source
 import weblate.trans.views.widgets
 from weblate.sitemaps import SITEMAPS
 import weblate.accounts.urls
+import weblate.api.urls
 
 # URL regexp for language code
 LANGUAGE = r'(?P<lang>[^/]+)'
@@ -479,16 +480,6 @@ urlpatterns = [
         name='hook-project',
     ),
     url(
-        r'^hooks/commit/' + SUBPROJECT + '$',
-        weblate.trans.views.api.commit_subproject,
-        name='hook-commit-subproject',
-    ),
-    url(
-        r'^hooks/commit/' + PROJECT + '$',
-        weblate.trans.views.api.commit_project,
-        name='hook-commit-project',
-    ),
-    url(
         r'^hooks/github/$', weblate.trans.views.api.vcs_service_hook,
         {'service': 'github'},
         name='hook-github',
@@ -685,6 +676,9 @@ urlpatterns = [
 
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),
+
+    # Auth
+    url(r'^api/', include(weblate.api.urls, namespace='api')),
 
     # Static pages
     url(r'^contact/', weblate.accounts.views.contact, name='contact'),

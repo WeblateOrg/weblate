@@ -61,12 +61,24 @@
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'export_stats' project=object.slug subproject=subproject.slug %}">{% trans "Download" %}</a></td>
+<td>{{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}">{% trans "Download" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
+
+{% with object.subproject_set.all.0 as subproject %}
+{% if subproject %}
+<p>{% trans "For example getting stats for all translations in one component can be done by:" %}</p>
+
+<pre>
+curl \
+    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
+    {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}
+</pre>
+{% endif %}
+{% endwith %}
 
 {% if hooks_enabled and project.enable_hooks %}
 <h3>{% trans "Notification hooks" %}</h3>
@@ -86,18 +98,27 @@
 <tbody>
 <tr>
 <th>{{ object }}</th>
-<td>{{ site_url }}{% url 'hook-project' project=object.slug %}</td>
-<td><a href="{{ site_url }}{% url 'hook-project' project=object.slug %}">{% trans "Hook" %}</a></td>
+<td>{{ site_url }}{% url 'api:project-repository' slug=object.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:project-repository' slug=object.slug %}">{% trans "Hook" %}</a></td>
 </tr>
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'hook-subproject' project=object.slug subproject=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'hook-subproject' project=object.slug subproject=subproject.slug %}">{% trans "Hook" %}</a></td>
+<td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=subproject.slug %}">{% trans "Hook" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
+
+<p>{% trans "For example telling Weblate to pull remote repository can be done by:" %}</p>
+
+<pre>
+curl \
+    -d operation=pull \
+    -H "Authorization: Token {{ request.user.auth_token.key|default:"TOKEN" }}" \
+    {{ site_url }}{% url 'api:project-repository' slug=object.slug %}
+</pre>
 
 <p>{% blocktrans %}Weblate also supports direct notification from several code hosting sites:{% endblocktrans %}</p>
 

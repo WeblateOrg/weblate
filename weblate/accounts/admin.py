@@ -21,9 +21,11 @@
 from functools import partial
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User, Group
 from django.utils.translation import ugettext_lazy as _
 
+from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import Profile, VerifiedEmail, AutoGroup
 
 
@@ -55,12 +57,35 @@ class AutoGroupAdmin(admin.ModelAdmin):
 admin.site.register(AutoGroup, AutoGroupAdmin)
 
 
+class WeblateUserChangeForm(UserChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(WeblateUserChangeForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
+
+class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
+    class Meta(object):
+        fields = ('username', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super(WeblateUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
+
 class WeblateUserAdmin(UserAdmin):
     '''
     Custom UserAdmin to add listing of group membership and whether user is
     active.
     '''
     list_display = UserAdmin.list_display + ('is_active', 'user_groups', 'id')
+    form = WeblateUserChangeForm
+    add_form = WeblateUserCreationForm
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2'),
+        }),
+    )
 
     def user_groups(self, obj):
         """

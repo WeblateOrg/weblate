@@ -69,6 +69,23 @@ def sort_choices(choices):
         )
 
 
+class UniqueEmailMixin(object):
+    def clean_email(self):
+        """
+        Validate that the supplied email address is unique for the
+        site.
+
+        """
+        if User.objects.filter(email__iexact=self.cleaned_data['email']):
+            raise forms.ValidationError(
+                _(
+                    "This email address is already in use. "
+                    "Please supply a different email address."
+                )
+            )
+        return self.cleaned_data['email']
+
+
 class NoStripEmailField(forms.EmailField):
     """
     Email field which does no stripping.
@@ -311,7 +328,7 @@ class ContactForm(forms.Form):
         return ''
 
 
-class EmailForm(forms.Form):
+class EmailForm(forms.Form, UniqueEmailMixin):
     '''
     Email change form.
     '''
@@ -324,21 +341,6 @@ class EmailForm(forms.Form):
         help_text=_('Activation email will be sent here.'),
     )
     content = forms.CharField(required=False)
-
-    def clean_email(self):
-        """
-        Validate that the supplied email address is unique for the
-        site.
-
-        """
-        if User.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError(
-                _(
-                    "This email address is already in use. "
-                    "Please supply a different email address."
-                )
-            )
-        return self.cleaned_data['email']
 
     def clean_content(self):
         '''

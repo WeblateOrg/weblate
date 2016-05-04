@@ -233,8 +233,12 @@ Whether to enable anonymous remote hooks.
 ENABLE_HTTPS
 ------------
 
-Whether to send links to the Weblate as https or http. This setting only
-affects sent mails.
+Whether to send links to the Weblate as https or http. This setting
+affects sent mails and generated absolute URLs.
+
+.. seealso::
+
+    :ref:`production-site`
 
 .. setting:: ENABLE_SHARING
 

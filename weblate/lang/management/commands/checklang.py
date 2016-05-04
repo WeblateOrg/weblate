@@ -18,22 +18,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from weblate.lang.models import Language
 
 
 class Command(BaseCommand):
     help = 'Checks language definitions against rst/csv file'
-    args = '<test-file>'
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            'test-file',
+            help='File to test',
+        )
 
     def handle(self, *args, **options):
         '''
         Creates default set of languages, optionally updating them
         to match current shipped definitions.
         '''
-        if len(args) != 1:
-            raise CommandError('Use: checklang file')
-
-        errors = Language.objects.check_definitions(args[0])
+        errors = Language.objects.check_definitions(options['test-file'])
         for error in errors:
             self.stderr.write(error)

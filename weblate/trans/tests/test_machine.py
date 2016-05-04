@@ -34,9 +34,7 @@ from weblate.trans.machine.mymemory import MyMemoryTranslation
 from weblate.trans.machine.apertium import ApertiumTranslation
 from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import MicrosoftTranslation
-from weblate.trans.machine.google import (
-    GoogleWebTranslation, GoogleTranslation
-)
+from weblate.trans.machine.google import GoogleTranslation
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
@@ -92,7 +90,6 @@ MYMEMORY_JSON = '''
 AMAGAMA_JSON = '''
 [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
 '''.encode('utf-8')
-GOOGLE_JSON = '[[["violation","contravention"]]]'
 
 
 class MachineTranslationTest(TestCase):
@@ -185,16 +182,6 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
 
     @httpretty.activate
-    def test_googleweb(self):
-        httpretty.register_uri(
-            httpretty.GET,
-            'http://translate.google.com/translate_a/single',
-            body=GOOGLE_JSON
-        )
-        machine = GoogleWebTranslation()
-        self.assertTranslate(machine)
-
-    @httpretty.activate
     def test_google(self):
         cache.delete('%s-languages' % GoogleTranslation().mtid)
         httpretty.register_uri(
@@ -203,7 +190,11 @@ class MachineTranslationTest(TestCase):
             body=json.dumps(
                 {
                     'data': {
-                        'languages': [{'language': 'en'}, {'language': 'cs'}]
+                        'languages': [
+                            {'language': 'en'},
+                            {'language': 'iw'},
+                            {'language': 'cs'}
+                        ]
                     }
                 }
             )
@@ -215,6 +206,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = GoogleTranslation()
         self.assertTranslate(machine)
+        self.assertTranslate(machine, lang='he')
 
     @httpretty.activate
     def test_google_invalid(self):

@@ -22,10 +22,12 @@ Helper methods for views.
 '''
 
 from django.contrib import messages
+from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 import django.utils.translation
 from django.utils.translation import trans_real
 
+from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
 
@@ -122,3 +124,40 @@ def import_message(request, count, message_none, message_ok):
         messages.warning(request, message_none)
     else:
         messages.success(request, message_ok % count)
+
+
+def download_translation_file(translation, fmt=None):
+    if fmt is not None:
+        try:
+            exporter = get_exporter(fmt)(translation=translation)
+        except KeyError:
+            raise Http404('File format not supported')
+        exporter.add_units(translation)
+        return exporter.get_response(
+            '{{project}}-{0}-{{language}}.{{extension}}'.format(
+                translation.subproject.slug
+            )
+        )
+
+    srcfilename = translation.get_filename()
+
+    # Construct file name (do not use real filename as it is usually not
+    # that useful)
+    filename = '{0}-{1}-{2}.{3}'.format(
+        translation.subproject.project.slug,
+        translation.subproject.slug,
+        translation.language.code,
+        translation.store.extension
+    )
+
+    # Create response
+    with open(srcfilename) as handle:
+        response = HttpResponse(
+            handle.read(),
+            content_type=translation.store.mimetype
+        )
+
+    # Fill in response headers
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+    return response

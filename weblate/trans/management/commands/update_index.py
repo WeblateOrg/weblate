@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
-
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -29,16 +27,17 @@ from weblate.trans.search import update_index, delete_search_unit
 
 class Command(BaseCommand):
     help = 'updates index for fulltext search'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--limit',
             action='store',
-            type='int',
+            type=int,
             dest='limit',
             default=1000,
             help='number of updates to process in one run'
-        ),
-    )
+        )
 
     def handle(self, *args, **options):
         self.do_update(options['limit'])

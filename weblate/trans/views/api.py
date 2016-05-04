@@ -33,7 +33,6 @@ from django.http import (
 from weblate import appsettings
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
-from weblate.trans.site import get_site_url
 from weblate.logger import LOGGER
 
 
@@ -95,34 +94,6 @@ def perform_update(obj):
         thread.start()
     else:
         obj.do_update()
-
-
-@csrf_exempt
-def commit_subproject(request, project, subproject):
-    '''
-    API hook for updating git repos.
-    '''
-    if not appsettings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
-    obj = get_subproject(request, project, subproject, True)
-    if not obj.project.enable_hooks:
-        return HttpResponseNotAllowed([])
-    obj.commit_pending(request)
-    return hook_response('Commit performed')
-
-
-@csrf_exempt
-def commit_project(request, project):
-    '''
-    API hook for updating git repos.
-    '''
-    if not appsettings.ENABLE_HOOKS:
-        return HttpResponseNotAllowed([])
-    obj = get_project(request, project, True)
-    if not obj.enable_hooks:
-        return HttpResponseNotAllowed([])
-    obj.commit_pending(request)
-    return hook_response('Commit performed')
 
 
 @csrf_exempt
@@ -329,7 +300,7 @@ def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
-    subprj = get_subproject(request, project, subproject, True)
+    subprj = get_subproject(request, project, subproject)
 
     jsonp = None
     if 'jsonp' in request.GET and request.GET['jsonp']:
@@ -352,7 +323,7 @@ def export_stats(request, project, subproject):
             'failing': trans.failing_checks,
             'failing_percent': trans.get_failing_checks_percent(),
             'url': trans.get_share_url(),
-            'url_translate': get_site_url(trans.get_absolute_url()),
+            'url_translate': trans.get_absolute_url(),
         })
     if jsonp:
         return HttpResponse(

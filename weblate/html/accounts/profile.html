@@ -25,6 +25,7 @@
 <li><a data-toggle="tab" href="#auth">{% trans "Authentication" %}</a></li>
 <li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
+<li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
 {% if user.billing %}
 <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
 {% endif %}
@@ -289,6 +290,58 @@
 
 </div>
 
+<div class="tab-pane" id="api">
+<div class="row">
+<div class="col-lg-6">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "API access" %}</h4></div>
+  <div class="panel-body">
+<p>
+<table class="table">
+<tr>
+<th>{% trans "Your personal API key:" %}</th>
+<td>
+    {{ user.auth_token.key }} 
+    <a class="pull-right flip btn btn-default btn-xs" href="{% url 'reset-api-key' %}">{% trans "Regenerate" %}</a>
+</td>
+</tr>
+<tr>
+<th>{% trans "API root URL:" %}</th>
+<td><a href="{{ site_url }}{% url 'api:api-root' %}">{{ site_url }}{% url 'api:api-root' %}</a></td>
+</tr>
+<tr>
+<th colspan="2">{% trans "API usage example:" %}</th>
+</tr>
+<tr>
+<td colspan="2">
+<pre>
+curl \
+    -H "Authorization: Token {{ user.auth_token.key }}" \
+    {{ site_url }}{% url 'api:api-root' %}
+</pre>
+</td>
+</tr>
+</table>
+</p>
+
+</div>
+</div>
+
+</div>
+
+<div class="col-lg-6 hidden-xs">
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Description" %}</h4></div>
+  <div class="panel-body">
+    {% doc_url 'api' as api_doc %}
+    <p>{% blocktrans %}You can control Weblate using HTTP REST API. Please check <a href="{{ api_doc }}">API documentation</a> for more details.{% endblocktrans %}</p>
+  </div>
+</div>
+</div>
+
+</div>
+
+</div>
 <div class="tab-pane" id="licenses">
 <div class="row">
 <div class="col-lg-6">

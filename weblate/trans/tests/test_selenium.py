@@ -54,7 +54,6 @@ DO_SELENIUM = (
 class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
     caps = {
         'browserName': 'firefox',
-        'version': '39.0',
         'platform': 'Linux',
     }
 
@@ -293,8 +292,8 @@ EXTRA_PLATFORMS = {
     },
     'MSIE9': {
         'browserName': 'internet explorer',
-        'version': '9',
-        'platform': 'VISTA',
+        'version': '9.0',
+        'platform': 'Windows 7',
     },
     'IPhone': {
         'browserName': "iPhone",

@@ -36,10 +36,23 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 
 from weblate.accounts.models import Profile
+from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
+
+
+def get_acl_cache_key(user):
+    if user is None or user.id is None:
+        user_id = User.objects.filter(
+            username=ANONYMOUS_USER_NAME
+        ).values_list(
+            'pk', flat=True
+        )[0]
+    else:
+        user_id = user.id
+    return 'acl-project-{0}'.format(user_id)
 
 
 class ProjectManager(models.Manager):
@@ -55,7 +68,7 @@ class ProjectManager(models.Manager):
         """
         projects = self.all()
 
-        cache_key = 'acl-project-{0}'.format(user.id if user else 'none')
+        cache_key = get_acl_cache_key(user)
 
         last_result = cache.get(cache_key)
         if last_result is not None:
@@ -465,17 +478,17 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 @receiver(m2m_changed, sender=User.user_permissions.through)
 def user_permissions_changed(sender, instance, **kwargs):
     """Clear ACL cache once permissions are changed."""
-    cache.delete('acl-project-{0}'.format(instance.id))
+    cache.delete(get_acl_cache_key(instance))
 
 
 @receiver(m2m_changed, sender=User.groups.through)
 def user_group_changed(sender, instance, **kwargs):
     """Clear ACL cache once group is changed."""
-    cache.delete('acl-project-{0}'.format(instance.id))
+    cache.delete(get_acl_cache_key(instance))
 
 
 @receiver(m2m_changed, sender=Group.permissions.through)
 def group_permissions_changed(sender, instance, **kwargs):
     """Clear ACL cache once permissions are changed."""
     for user in instance.user_set.all():
-        cache.delete('acl-project-{0}'.format(user.id))
+        cache.delete(get_acl_cache_key(user))

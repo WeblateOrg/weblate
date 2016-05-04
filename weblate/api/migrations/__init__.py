@@ -17,27 +17,5 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-Weblate wrapper around translate-toolkit formats to add missing
-functionality.
-"""
-import json
-from translate.storage.jsonl10n import JsonFile as JsonFileTT
 
 
-class JsonFile(JsonFileTT):
-    """
-    Workaround ttkit bug on not including added units in saved file.
-
-    This is fixed in 1.13.0
-    """
-    def __str__(self):
-        data = {}
-        # This is really broken for many reasons, but works for
-        # simple JSON files.
-        for unit in self.units:
-            data[unit.getid().lstrip('.')] = unit.source
-        return (json.dumps(
-            data, sort_keys=True, separators=(',', ': '),
-            indent=4, ensure_ascii=False
-        ) + '\n').encode('utf-8')

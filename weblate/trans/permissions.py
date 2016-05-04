@@ -121,6 +121,8 @@ def can_edit(user, translation, permission):
     """
     if translation.subproject.locked:
         return False
+    if user.is_authenticated() and not user.email:
+        return False
     if check_owner(user, translation.subproject.project, permission):
         return True
     if not has_group_perm(user, permission, translation):
@@ -133,6 +135,14 @@ def can_edit(user, translation, permission):
             translation.subproject.suggestion_autoaccept > 0):
         return False
     return True
+
+
+@cache_permission
+def can_upload_translation(user, translation):
+    """
+    Checks whether user can translate given translation.
+    """
+    return can_edit(user, translation, 'trans.upload_translation')
 
 
 @cache_permission

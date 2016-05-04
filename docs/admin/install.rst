@@ -12,7 +12,7 @@ Python (2.7, 3.4 or newer)
     https://www.python.org/
 Django (>= 1.8)
     https://www.djangoproject.com/
-Translate-toolkit (>= 1.10.0, >= 1.14.0 is required for Python 3)
+Translate-toolkit (>= 1.14.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
@@ -34,6 +34,8 @@ django_compressor
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>=1.4.0)
     http://django-crispy-forms.readthedocs.org/
+Django REST Frameword (>=3.3)
+    http://www.django-rest-framework.org/
 libravatar (optional for federated avatar support)
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)
@@ -42,6 +44,8 @@ babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
     Any database supported in Django will work, check their documentation for more details.
+pytz (optional, but recommended by Django)
+    https://pypi.python.org/pypi/pytz/
 hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
 
@@ -528,7 +532,12 @@ the :guilabel:`Domain name` to match your setup.
 You might want to set :setting:`ENABLE_HTTPS` as well if you serve site over
 https.
 
-Alternatively you can set the site name from command line using :djadmin:`changesite`.
+Alternatively you can set the site name from command line using
+:djadmin:`changesite`. For example for using built in server:
+
+.. code-block:: sh
+
+    ./manage.py changesite --set-name 127.0.0.1:8000
 
 .. seealso:: 
    
@@ -905,6 +914,18 @@ Depending on your database backend, you might have several options to migrate
 the database. The most straightforward one is to dump the database on one
 server and import it on the new one. Alternatively you can use replication in
 case your database supports it.
+
+The best approach is to use database native tools as they are usually most
+effective (eg. :command:`mysqldump` or :command:`pg_dump`). If you want to
+migrate between different databases, the only option might be to use Django
+management to dump and import the database:
+
+.. code-block:: sh
+
+    # Export current data
+    ./manage.py dumpdata > /tmp/weblate.dump
+    # Import dump
+    ./manage.py loaddata /tmp/weblate.dump
 
 Migrating VCS repositories
 +++++++++++++++++++++++++++

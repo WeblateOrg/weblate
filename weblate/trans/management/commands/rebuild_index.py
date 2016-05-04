@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
-
 from weblate.trans.management.commands import WeblateCommand
 from weblate.trans.search import (
     get_source_index, get_target_index,
@@ -31,22 +29,23 @@ from weblate.lang.models import Language
 
 class Command(WeblateCommand):
     help = 'rebuilds index for fulltext search'
-    option_list = WeblateCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        super(Command, self).add_arguments(parser)
+        parser.add_argument(
             '--clean',
             action='store_true',
             dest='clean',
             default=False,
             help='removes also all words from database'
-        ),
-        make_option(
+        )
+        parser.add_argument(
             '--optimize',
             action='store_true',
             dest='optimize',
             default=False,
             help='optimize index without rebuilding it'
-        ),
-    )
+        )
 
     def optimize_index(self):
         """Optimizes index structures"""
@@ -72,7 +71,7 @@ class Command(WeblateCommand):
 
         try:
             # Process all units
-            for unit in self.iterate_units(*args, **options):
+            for unit in self.iterate_units(**options):
                 lang = unit.translation.language.code
                 # Lazy open writer
                 if lang not in target_writers:

@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from optparse import make_option
 import random
 import string
 
@@ -28,14 +27,14 @@ from django.contrib.auth.models import User
 
 class Command(BaseCommand):
     help = 'setups admin user with random password'
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        parser.add_argument(
             '--password',
             dest='password',
             default=None,
             help='Password to set, random is generated if not specified'
-        ),
-    )
+        )
 
     @staticmethod
     def make_password(length):

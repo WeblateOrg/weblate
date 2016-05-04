@@ -21,8 +21,6 @@
 Helper classes for management commands.
 '''
 
-from optparse import make_option
-
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
@@ -33,32 +31,35 @@ class WeblateCommand(BaseCommand):
     '''
     Command which accepts project/component/--all params to process.
     '''
-    args = '<project/component>'
-    option_list = BaseCommand.option_list + (
-        make_option(
+    def add_arguments(self, parser):
+        parser.add_argument(
             '--all',
             action='store_true',
             dest='all',
             default=False,
             help='process all components'
-        ),
-    )
+        )
+        parser.add_argument(
+            'component',
+            nargs='*',
+            help='Slug <project/component> of component to process'
+        )
 
-    def get_units(self, *args, **options):
+    def get_units(self, **options):
         '''
         Returns list of units matching parameters.
         '''
         if options['all']:
             return Unit.objects.all()
         return Unit.objects.filter(
-            translation__subproject__in=self.get_subprojects(*args, **options)
+            translation__subproject__in=self.get_subprojects(**options)
         )
 
-    def iterate_units(self, *args, **options):
+    def iterate_units(self, **options):
         """
         Memory effective iteration over units.
         """
-        units = self.get_units(*args, **options).order_by('pk')
+        units = self.get_units(**options).order_by('pk')
         count = units.count()
         if not count:
             return
@@ -87,25 +88,26 @@ class WeblateCommand(BaseCommand):
                     yield unit
         self.stdout.write('Operation completed')
 
-    def get_translations(self, *args, **options):
+    def get_translations(self, **options):
         '''
         Returns list of translations matching parameters.
         '''
         return Translation.objects.filter(
-            subproject__in=self.get_subprojects(*args, **options)
+            subproject__in=self.get_subprojects(**options)
         )
 
-    def get_subprojects(self, *args, **options):
+    def get_subprojects(self, **options):
         '''
         Returns list of components matching parameters.
         '''
         if options['all']:
             # all components
             result = SubProject.objects.all()
-        elif len(args) == 0:
+        elif len(options['component']) == 0:
             # no argumets to filter projects
             self.stderr.write(
-                'Please specify either --all or <project/component>'
+                'Please specify either --all '
+                'or at least one <project/component>'
             )
             raise CommandError('Nothing to process!')
         else:
@@ -113,7 +115,7 @@ class WeblateCommand(BaseCommand):
             result = SubProject.objects.none()
 
             # process arguments
-            for arg in args:
+            for arg in options['component']:
                 # do we have also component?
                 parts = arg.split('/')
 
@@ -150,22 +152,21 @@ class WeblateLangCommand(WeblateCommand):
     Command accepting additional language parameter to filter
     list of languages to process.
     '''
-    option_list = WeblateCommand.option_list + (
-        make_option(
+    def add_arguments(self, parser):
+        super(WeblateLangCommand, self).add_arguments(parser)
+        parser.add_argument(
             '--lang',
             action='store',
-            type='string',
             dest='lang',
             default=None,
             help='Limit only to given languages (comma separated list)'
-        ),
-    )
+        )
 
-    def get_units(self, *args, **options):
+    def get_units(self, **options):
         '''
         Returns list of units matching parameters.
         '''
-        units = super(WeblateLangCommand, self).get_units(*args, **options)
+        units = super(WeblateLangCommand, self).get_units(**options)
 
         if options['lang'] is not None:
             units = units.filter(
@@ -174,12 +175,12 @@ class WeblateLangCommand(WeblateCommand):
 
         return units
 
-    def get_translations(self, *args, **options):
+    def get_translations(self, **options):
         '''
         Returns list of translations matching parameters.
         '''
         result = super(WeblateLangCommand, self).get_translations(
-            *args, **options
+            **options
         )
 
         if options['lang'] is not None:
@@ -199,15 +200,28 @@ class WeblateLangCommand(WeblateCommand):
 
 class WeblateTranslationCommand(BaseCommand):
     """Command with target of one translation."""
-    args = '<project> <component> <language>'
 
-    def get_translation(self, args):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            'project',
+            help='Slug of project'
+        )
+        parser.add_argument(
+            'component',
+            help='Slug of component'
+        )
+        parser.add_argument(
+            'language',
+            help='Slug of language'
+        )
+
+    def get_translation(self, **options):
         """Get translation object"""
         try:
             return Translation.objects.get(
-                subproject__project__slug=args[0],
-                subproject__slug=args[1],
-                language__code=args[2],
+                subproject__project__slug=options['project'],
+                subproject__slug=options['component'],
+                language__code=options['language'],
             )
         except Translation.DoesNotExist:
             raise CommandError('No matching translation project found!')

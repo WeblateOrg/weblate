@@ -29,6 +29,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.contrib import messages
 from django.db.models.signals import post_save, post_migrate
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -37,6 +38,8 @@ from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.utils.translation import LANGUAGE_SESSION_KEY
+
+from rest_framework.authtoken.models import Token
 
 from social.apps.django_app.default.models import UserSocialAuth
 
@@ -55,7 +58,9 @@ def send_mails(mails):
     """Sends multiple mails in single connection."""
     try:
         connection = get_connection()
-        connection.send_messages(mails)
+        connection.send_messages(
+            [mail for mail in mails if mail is not None]
+        )
     except SMTPException as error:
         LOGGER.error('Failed to send email: %s', error)
         report_error(error, sys.exc_info())
@@ -351,9 +356,7 @@ def get_notification_email(language, email, notification,
         context['current_site_url'] = get_site_url()
         if translation_obj is not None:
             context['translation'] = translation_obj
-            context['translation_url'] = get_site_url(
-                translation_obj.get_absolute_url()
-            )
+            context['translation_url'] = translation_obj.get_absolute_url()
         context['site_title'] = SITE_TITLE
 
         # Render subject
@@ -847,7 +850,7 @@ def post_login_handler(sender, request, user, **kwargs):
     profile = Profile.objects.get_or_create(user=user)[0]
 
     # Migrate django-registration based verification to python-social-auth
-    if (user.has_usable_password() and
+    if (user.has_usable_password() and user.email and
             not user.social_auth.filter(provider='email').exists()):
         social = user.social_auth.create(
             provider='email',
@@ -860,6 +863,16 @@ def post_login_handler(sender, request, user, **kwargs):
 
     # Set language for session based on preferences
     set_lang(request, profile)
+
+    # Warn about not set email
+    if not user.email:
+        messages.error(
+            request,
+            _(
+                'You can not submit translations as '
+                'you do not have assigned any email address.'
+            )
+        )
 
 
 @receiver(user_logged_out)
@@ -874,14 +887,14 @@ def create_groups(update):
     Creates standard groups and gives them permissions.
     '''
     guest_group, created = Group.objects.get_or_create(name='Guests')
-    if created or update:
+    if created or update or guest_group.permissions.count() == 0:
         guest_group.permissions.add(
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_suggestion'),
         )
 
     group, created = Group.objects.get_or_create(name='Users')
-    if created or update:
+    if created or update or group.permissions.count() == 0:
         group.permissions.add(
             Permission.objects.get(codename='upload_translation'),
             Permission.objects.get(codename='overwrite_translation'),
@@ -901,9 +914,6 @@ def create_groups(update):
             Permission.objects.get(codename='add_suggestion'),
             Permission.objects.get(codename='use_mt'),
         )
-
-    if not AutoGroup.objects.filter(group=group).exists():
-        AutoGroup.objects.create(group=group, match='^.*$')
 
     owner_permissions = (
         Permission.objects.get(codename='author_translation'),
@@ -941,11 +951,11 @@ def create_groups(update):
     )
 
     group, created = Group.objects.get_or_create(name='Managers')
-    if created or update:
+    if created or update or group.permissions.count() == 0:
         group.permissions.add(*owner_permissions)
 
     group, created = Group.objects.get_or_create(name='Owners')
-    if created or update:
+    if created or update or group.permissions.count() == 0:
         group.permissions.add(*owner_permissions)
 
     created = True
@@ -964,10 +974,9 @@ def create_groups(update):
     except User.DoesNotExist:
         anon_user = User.objects.create(
             username=ANONYMOUS_USER_NAME,
+            email='noreply@weblate.org',
             is_active=False,
         )
-    # Ensure anonymous user has profile
-    Profile.objects.get_or_create(user=anon_user)
 
     if created or update:
         anon_user.set_unusable_password()
@@ -1033,3 +1042,7 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
         for auto in AutoGroup.objects.all():
             if re.match(auto.match, instance.email):
                 instance.groups.add(auto.group)
+        # Create API token
+        Token.objects.create(user=instance)
+        # Create profile
+        Profile.objects.get_or_create(user=instance)

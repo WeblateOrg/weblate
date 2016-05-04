@@ -60,13 +60,16 @@ class TranslationManager(models.Manager):
         """Parses translation meta info and updates translation object"""
         translation, dummy = self.get_or_create(
             language=lang,
-            language_code=code,
             subproject=subproject,
-            defaults={'filename': path},
+            defaults={
+                'filename': path,
+                'language_code': code,
+            },
         )
-        if translation.filename != path:
+        if translation.filename != path or translation.language_code != code:
             force = True
             translation.filename = path
+            translation.language_code = code
         translation.check_sync(force, request=request)
 
         return translation
@@ -162,6 +165,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             ('use_mt', "Can use machine translation"),
         )
         app_label = 'trans'
+        unique_together = ('subproject', 'language')
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -374,13 +378,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             )
         )
 
-    @models.permalink
     def get_translate_url(self):
-        return ('translate', (), {
-            'project': self.subproject.project.slug,
-            'subproject': self.subproject.slug,
-            'lang': self.language.code
-        })
+        return get_site_url(
+            reverse(
+                'translate',
+                kwargs={
+                    'project': self.subproject.project.slug,
+                    'subproject': self.subproject.slug,
+                    'lang': self.language.code
+                }
+            )
+        )
 
     def __str__(self):
         return '%s - %s' % (
@@ -402,7 +410,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def supports_language_pack(self):
         """Checks whether we support language pack download."""
-        return self.subproject.file_format_cls.supports_language_pack()
+        return self.subproject.file_format_cls.language_pack is not None
 
     @property
     def store(self):
@@ -660,16 +668,27 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # If it is same as current one, we don't have to commit
         if author == last or last is None:
-            return
+            return False
 
         # Commit changes
         self.git_commit(
             request, last, self.last_change, True, True, skip_push
         )
+        return True
 
     def get_commit_message(self):
         """Formats commit message based on project configuration."""
-        msg = self.subproject.commit_message % {
+        template = self.subproject.commit_message
+        if self.commit_message == '__add__':
+            template = self.subproject.add_message
+            self.commit_message = ''
+            self.save()
+        elif self.commit_message == '__delete__':
+            template = self.subproject.delete_message
+            self.commit_message = ''
+            self.save()
+
+        msg = template % {
             'language': self.language_code,
             'language_name': self.language.name,
             'subproject': self.subproject.name,
@@ -833,7 +852,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if self.subproject.project.set_translation_team:
                 headers['language_team'] = '%s <%s>' % (
                     self.language.name,
-                    get_site_url(self.get_absolute_url()),
+                    self.get_absolute_url(),
                 )
 
             # Optionally store email for reporting bugs in source
@@ -1099,7 +1118,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         # Load backend file
         try:
             # First try using own loader
-            store = self.subproject.file_format_cls.parse(
+            store = self.store.parse(
                 StringIOMode(fileobj.name, filecopy),
                 self.subproject.template_store
             )

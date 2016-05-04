@@ -82,7 +82,10 @@ class AutoTranslationTest(ViewTestCase):
                 'Automatic translation completed, no strings were updated.',
             )
 
-        self.assertRedirects(response, reverse('translation', kwargs=params))
+        self.assertRedirects(
+            response,
+            'http://example.com' + reverse('translation', kwargs=params)
+        )
         # Check we've translated something
         translation = self.subproject2.translation_set.get(language_code='cs')
         self.assertEqual(translation.translated, expected)

@@ -339,7 +339,7 @@ class LanguagesViewTest(ViewTestCase):
         ))
         self.assertRedirects(
             response,
-            reverse(
+            'http://example.com' + reverse(
                 'show_language',
                 kwargs={'lang': 'cs'}
             )
