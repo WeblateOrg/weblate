@@ -18,9 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from functools import partial
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
+from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.models import Profile, VerifiedEmail, AutoGroup
 
@@ -66,6 +68,25 @@ class WeblateUserAdmin(UserAdmin):
         no group
         """
         return ','.join([g.name for g in obj.groups.all()])
+
+    def __init__(self,*args,**qarx):
+        super(WeblateUserAdmin,self).__init__(*args,**qarx)
+
+        groups = Group.objects.all()
+        actions = []
+  
+        def create_group(self, request, queryset, group):
+            group.user_set.add(*queryset)
+            self.message_user(request, _("Selected users were added to group {}.").format(group.name))
+
+        for group in groups:
+            p = partial(create_group,group=group)
+            p.short_description = _("Add selected users to group {}.").format(group.name)
+            p.__name__ = group.name
+            actions.append(p)
+
+        WeblateUserAdmin.actions = actions
+
 
 # Need to unregister orignal Django UserAdmin
 admin.site.unregister(User)
