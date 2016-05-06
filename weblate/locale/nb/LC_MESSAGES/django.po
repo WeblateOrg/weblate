@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-04-29 07:04+0000\n"
-"PO-Revision-Date: 2016-05-05 15:45+0000\n"
-"Last-Translator: Ingrid Yrvin <ingrid.yrvin@gmail.com>\n"
+"PO-Revision-Date: 2016-05-06 20:59+0000\n"
+"Last-Translator: Ole-Erik <oeyrvin@gmail.com>\n"
 "Language-Team: Norwegian Bokmål "
 "<https://hosted.weblate.org/projects/weblate/master/nb/>\n"
 "Language: nb\n"
@@ -187,13 +187,12 @@ msgid "File mask"
 msgstr "Filmaske"
 
 #: weblate/accounts/forms.py:565 weblate/trans/models/subproject.py:191
-#, fuzzy
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Spor til filer for oversettelse, bruk * i stedet for språkkode, for eksempel:"
-" po/*.po eller locale/*/LC_MESSAGES/django.po."
+"Sti til filer for oversettelse, bruk * i stedet for språkkode, for eksempel: "
+"po/*.po eller locale/*/LC_MESSAGES/django.po."
 
 #: weblate/accounts/forms.py:572
 msgid "Additional message"
@@ -474,6 +473,8 @@ msgstr "Logg inn i Weblate"
 msgid ""
 "However the following translation projects are available on this server:"
 msgstr ""
+"Følgende oversettelsesprosjekter er imidlertid tilgjengelige på denne "
+"serveren:"
 
 #: weblate/html/404.html:5 weblate/trans/views/basic.py:386
 msgid "Page Not Found"
@@ -697,19 +698,21 @@ msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
+"For å teste Weblate, kan du logge inn som <code>demo</code>bruker med "
+"passord <code>demo</code>."
 
 #: weblate/html/accounts/login.html:27
 msgid "Password login"
-msgstr ""
+msgstr "Passord login"
 
 #: weblate/html/accounts/login.html:35
 #, python-format
 msgid "Forgot your password? You can <a href=\"%(reset_url)s\">reset it</a>."
-msgstr ""
+msgstr "Glemt passordet? Du kan <a href=\"%(reset_url)s\">tilbakestill</a>."
 
 #: weblate/html/accounts/login.html:55
 msgid "Third party login"
-msgstr ""
+msgstr "Tredje parts login"
 
 #: weblate/html/accounts/login.html:73
 #, python-format
@@ -717,6 +720,7 @@ msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr ""
+"Har du ikke en konto ennå? Du kan<a href=\"%(register_url)s\">register</a>."
 
 #: weblate/html/accounts/password.html:6 weblate/html/accounts/profile.html:8
 #: weblate/html/accounts/removal.html:6 weblate/html/base.html.py:117
@@ -728,6 +732,8 @@ msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
+"Skriv inn det nye passordet to ganger, slik at vi kan bekrefte at du skrev "
+"det riktig."
 
 #: weblate/html/accounts/password.html:25
 msgid "Change my password"
@@ -735,7 +741,7 @@ msgstr "Bytt passord"
 
 #: weblate/html/accounts/profile.html:14 weblate/trans/views/files.py:88
 msgid "Please fix errors in the form."
-msgstr ""
+msgstr "Du kan gjerne fikse feil i skjemaet?"
 
 #: weblate/html/accounts/profile.html:22 weblate/html/accounts/profile.html:70
 msgid "Preferences"
@@ -763,11 +769,11 @@ msgstr "Lisenser"
 
 #: weblate/html/accounts/profile.html:28 weblate/html/accounts/profile.html:297
 msgid "API access"
-msgstr ""
+msgstr "API adgang"
 
 #: weblate/html/accounts/profile.html:30
 msgid "Billing"
-msgstr ""
+msgstr "Fakturering"
 
 #: weblate/html/accounts/profile.html:44 weblate/html/accounts/profile.html:76
 #: weblate/html/accounts/profile.html:119
@@ -817,7 +823,7 @@ msgstr "Dokumentasjon"
 
 #: weblate/html/accounts/profile.html:85
 msgid "Customize Weblate behavior to match your personal preferences."
-msgstr ""
+msgstr "Å tilpasse Weblates oppførsel til dine egne preferanser."
 
 #: weblate/html/accounts/profile.html:101
 msgid "Managed projects"
@@ -826,17 +832,19 @@ msgstr "Administrerte prosjekter"
 #: weblate/html/accounts/profile.html:108
 msgid ""
 "You will automatically receive important notifications on managed projects."
-msgstr ""
+msgstr "Du vil automatisk motta viktige meldinger på administrerte prosjekter."
 
 #: weblate/html/accounts/profile.html:127
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr ""
+msgstr "Du vil motta valgte varsler via e-post for alle dine språk."
 
 #: weblate/html/accounts/profile.html:128
 msgid ""
 "Subscribed projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
+"Prosjekter du abbonerer på vises også i brukergrensesnittet, så velg alle "
+"prosjekter du ønsker å oversette .."
 
 #: weblate/html/accounts/profile.html:135
 msgid "Subscription settings"
@@ -844,7 +852,7 @@ msgstr "Abonnementsinnstillinger"
 
 #: weblate/html/accounts/profile.html:163
 msgid "Your name and email will appear as author on the commits."
-msgstr ""
+msgstr "Ditt navn og e-post vil vises som bidragsforfatter."
 
 #: weblate/html/accounts/profile.html:176
 msgid "User identities"
@@ -916,30 +924,30 @@ msgid "Your avatar"
 msgstr "Din avatar"
 
 #: weblate/html/accounts/profile.html:270
+#, fuzzy
 msgid "Avatars are provided using libravatar."
-msgstr ""
+msgstr "Avatarer er gitt ved hjelp libravatar."
 
 #: weblate/html/accounts/profile.html:281
 msgid "Your public appearance on this site."
-msgstr ""
+msgstr "Din offentlige fremtreden på dette nettstedet."
 
 #: weblate/html/accounts/profile.html:302
 msgid "Your personal API key:"
-msgstr ""
+msgstr "Din personlige API nøkkel:"
 
 #: weblate/html/accounts/profile.html:305
-#, fuzzy
 #| msgid "Generate"
 msgid "Regenerate"
-msgstr "Generer"
+msgstr "Regenerere"
 
 #: weblate/html/accounts/profile.html:309
 msgid "API root URL:"
-msgstr ""
+msgstr "API rot URL:"
 
 #: weblate/html/accounts/profile.html:313
 msgid "API usage example:"
-msgstr ""
+msgstr "API brukereksempel:"
 
 #: weblate/html/accounts/profile.html:337
 #, python-format
@@ -953,6 +961,8 @@ msgid ""
 "Following translations have explicitly specified their licensing and "
 "copyright conditions:"
 msgstr ""
+"Følgende oversettelser har eksplisitt spesifisert sine lisenser og "
+"opphavsrettsbetingelser:"
 
 #: weblate/html/accounts/profile.html:359 weblate/html/data.html.py:25
 #: weblate/html/data.html:56 weblate/html/data.html.py:94
@@ -971,44 +981,43 @@ msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
 msgstr ""
+"Vennligst ta hensyn til lisensinformasjon fordi disse angir hvordan andre "
+"har lov til å bruke dine oversettelser."
 
 #: weblate/html/accounts/profile.html:402
 msgid "Billing plan"
-msgstr ""
+msgstr "Plan for fakturering"
 
 #: weblate/html/accounts/profile.html:407
-#, fuzzy
 #| msgid "Current password"
 msgid "Current plan"
-msgstr "Gjeldende passord"
+msgstr "Gjeldende plan"
 
 #: weblate/html/accounts/profile.html:407
 msgid "See other plans"
-msgstr ""
+msgstr "Se andre planer"
 
 #: weblate/html/accounts/profile.html:408
 msgid "Monthly price"
-msgstr ""
+msgstr "Månedlig pris"
 
 #: weblate/html/accounts/profile.html:409
 msgid "Yearly price"
-msgstr ""
+msgstr "Årspris"
 
 #: weblate/html/accounts/profile.html:410
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Strings limit"
-msgstr "Strenger som skal oversettes"
+msgstr "Strengebegrensning"
 
 #: weblate/html/accounts/profile.html:415
-#, fuzzy
 #| msgid "Languages"
 msgid "Languages limit"
-msgstr "Språk"
+msgstr "Grense for antall språk"
 
 #: weblate/html/accounts/profile.html:420
 msgid "Repositories limit"
-msgstr ""
+msgstr "Kodelagergrense"
 
 #: weblate/html/accounts/profile.html:425
 #, fuzzy
@@ -1018,36 +1027,39 @@ msgstr "Prosjekter"
 
 #: weblate/html/accounts/profile.html:438
 msgid "Invoices"
-msgstr ""
+msgstr "Faktura"
 
 #: weblate/html/accounts/profile.html:443
 msgid "Invoice period"
-msgstr ""
+msgstr "Fakturaperiode"
 
 #: weblate/html/accounts/profile.html:444
 msgid "Invoice amount"
-msgstr ""
+msgstr "Fakturabeløp"
 
 #: weblate/html/accounts/profile.html:445
-#, fuzzy
 #| msgid "Download"
 msgid "Download invoice"
-msgstr "Last ned"
+msgstr "Last ned faktura"
 
 #: weblate/html/accounts/profile.html:457
 msgid "Not available"
-msgstr ""
+msgstr "Ikke tilgjengelig"
 
 #: weblate/html/accounts/profile.html:462
 msgid "No invoices found!"
-msgstr ""
+msgstr "Ingen fakturaer funnet!"
 
 #: weblate/html/accounts/register.html:16
+#, fuzzy
 msgid ""
 "By registering you agree to use your name and email in version control "
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
+"Ved å registrere deg, samtykker du til å bruke ditt navn og din e-post i "
+"versjonskontrollsystemets bidrag og gi ditt bidrag under den lisens som er "
+"definert for hvert oversettelsesprosjekt."
 
 #: weblate/html/accounts/register.html:29
 msgid "Register using email"
@@ -1063,6 +1075,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
+"Sorry, men registreringer på dette nettstedet er deaktivert. Du kan <a href="
+"\"%(contact_url)s\">kontakte oss</a> for flere detaljer."
 
 #: weblate/html/accounts/removal.html:15
 msgid "Account removal"
@@ -1073,6 +1087,8 @@ msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
 msgstr ""
+"Ved å trykke på den følgende knappen, vil du ikke lenger kunne bruke denne "
+"kontoen."
 
 #: weblate/html/accounts/removal.html:21
 msgid "Delete this account"
@@ -1095,8 +1111,9 @@ msgid "Recent changes"
 msgstr "Nylige endringer"
 
 #: weblate/html/accounts/user.html:47
+#, fuzzy
 msgid "Browse all changes for user"
-msgstr ""
+msgstr "Søk i alle brukerens endringer"
 
 #: weblate/html/activity-tab.html:5
 msgid "Activity in last 30 days"
@@ -1108,11 +1125,13 @@ msgstr "Aktivitet siste år"
 
 #: weblate/html/admin/accounts/change_form.html:8
 #: weblate/html/admin/trans/change_form.html:16
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Required fields are marked as bold, you can find more information in the <a "
 "href=\"%(url)s\">documentation</a>."
 msgstr ""
+"Feltene som kreves er merket i fet, kan du finne mer informasjon i <a href=\""
+"%(url)s\">dokumentasjon</a>."
 
 #: weblate/html/admin/custom-index.html:10
 msgid "Reports"
@@ -1121,7 +1140,7 @@ msgstr "Rapporter"
 #: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html.py:13
 msgid "Status of repositories"
-msgstr ""
+msgstr "Status for kodelagre"
 
 #: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html.py:4
 #: weblate/html/admin/ssh.html:8
@@ -1169,6 +1188,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
+"Viser ikke status for tilkoblede kodelagre. Check <a href=\"#%(slug)s\""
+">%(repo)s</a> instead."
 
 #: weblate/html/admin/ssh.html:14
 msgid "Public SSH key"
@@ -1176,7 +1197,7 @@ msgstr "Offentlig SSH-nøkkel"
 
 #: weblate/html/admin/ssh.html:15
 msgid "Weblate currently uses following SSH key:"
-msgstr ""
+msgstr "Weblate bruker i dag følgende SSH nøkkel:"
 
 #: weblate/html/admin/ssh.html:22
 msgid "Generate SSH key"
@@ -1187,6 +1208,8 @@ msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate it for you."
 msgstr ""
+"Du trenger ikke å ha en eksisterende SSH-nøkkel.Ved å trykke på knappen "
+"nedenfor vil Weblate generere den for deg."
 
 #: weblate/html/admin/ssh.html:27 weblate/html/subproject.html.py:164
 #: weblate/html/subproject.html:179
@@ -1195,11 +1218,11 @@ msgstr "Generer"
 
 #: weblate/html/admin/ssh.html:33
 msgid "Known host keys"
-msgstr ""
+msgstr "Kjente vertsnøkler"
 
 #: weblate/html/admin/ssh.html:40
 msgid "Hostname"
-msgstr ""
+msgstr "Vertsnavn"
 
 #: weblate/html/admin/ssh.html:41
 msgid "Key type"
@@ -1211,17 +1234,20 @@ msgstr "Fingeravtrykk"
 
 #: weblate/html/admin/ssh.html:55
 msgid "Add host key"
-msgstr ""
+msgstr "Legg til vertsnøkkel"
 
 #: weblate/html/admin/ssh.html:56
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
+"For å få tilgang SSH-tjenere, må vertsnøkkelen verifiseres. Du kan få en "
+"vertsnøkkel ved å skrive inn et domenenavn eller IP for tjeneren i skjemaet "
+"nedenfor."
 
 #: weblate/html/admin/ssh.html:60
 msgid "Host:"
-msgstr ""
+msgstr "Vertstjener:"
 
 #: weblate/html/admin/ssh.html:62
 msgid "Port:"
@@ -1241,10 +1267,14 @@ msgid ""
 "You can find more information about setting up SSH keys in <a href="
 "\"%(ssh_docs)s\">the Weblate manual</a>."
 msgstr ""
+"Du kan finne mer informasjon om hvordan du setter opp SSH-nøkler i <a href=\""
+"%(ssh_docs)s\">Weblate manualen</a>."
 
 #: weblate/html/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."
 msgstr ""
+"Dette er ikke stedet for å endre dette objektet. Bruk heller Weblates "
+"grensesnitt."
 
 #: weblate/html/admin/trans/change_form.html:22
 #, python-format
@@ -1252,6 +1282,8 @@ msgid ""
 "Importing a new translation can take some time, please check <a href="
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
+"Importere en ny oversettelse kan ta litt tid, se <a href=\"%(url)s\">vår "
+"dokumentasjon</a> for informasjon om hvordan du kan forbedre dette."
 
 #: weblate/html/base.html:83
 msgid "Toggle navigation"
@@ -1275,37 +1307,39 @@ msgid ""
 "some more recent browser like <a href=\"https://www.mozilla.org/firefox/"
 "\">Firefox</a>."
 msgstr ""
+"Weblate støtter ikke Microsoft Internet Explorer 8 og eldre. Bruk gjerne en "
+"nyere nettleser som <a href=\"https://www.mozilla.org/firefox/\"></a>."
 
 #: weblate/html/billing-used.html:5
 #, python-format
 msgid "Used %(used)s"
-msgstr ""
+msgstr "Brukt %(used)s"
 
 #: weblate/html/billing-used.html:7
 #, python-format
 msgid "Used %(used)s from %(total)s"
-msgstr ""
+msgstr "Brukt %(used)s fra %(total)s"
 
 #: weblate/html/check.html:6 weblate/html/check_project.html.py:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html.py:6
 #: weblate/html/js/detail.html:16
 msgid "Checks"
-msgstr ""
+msgstr "Kontroller"
 
 #: weblate/html/check.html:16 weblate/html/check_project.html.py:17
 #: weblate/html/check_subproject.html:18 weblate/html/checks.html.py:15
 msgid "Checks listing"
-msgstr ""
+msgstr "Kontrollisting"
 
 #: weblate/html/check.html:26 weblate/html/check_project.html.py:27
 #: weblate/html/check_subproject.html:28
 msgid "No matching checks found!"
-msgstr ""
+msgstr "Ingen sammenfallende kontroller funnet!"
 
 #: weblate/html/check.html:35 weblate/html/check_project.html.py:36
 #: weblate/html/check_subproject.html:37
 msgid "Check details"
-msgstr ""
+msgstr "Kontrolldetaljer"
 
 #: weblate/html/checks.html:30
 msgid "Information"
@@ -1324,6 +1358,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
+"Kontrollene kan hjelpe deg med å identifisere problematiske oversettelser "
+"eller kildestrenger som er vanskelig å oversette."
 
 #: weblate/html/data-root.html:5 weblate/html/index.html.py:48
 #: weblate/html/share.html:29
@@ -1332,17 +1368,19 @@ msgstr "Dataeksport"
 
 #: weblate/html/data-root.html:11 weblate/html/data.html.py:12
 msgid "You can retrieve various data from Weblate in machine readable format."
-msgstr ""
+msgstr "Du kan hente ulike data fra Weblate  i maskinlesbart format."
 
 #: weblate/html/data-root.html:14 weblate/html/data.html.py:15
 msgid "RSS feeds"
-msgstr ""
+msgstr "RSS oppdateringer"
 
 #: weblate/html/data-root.html:17 weblate/html/data.html.py:18
 msgid ""
 "To follow translation progress you can use RSS feeds which include all "
 "important changes in translation."
 msgstr ""
+"For å følge fremdriften i oversettelsesarbeidet kan du bruke  RSS-"
+"oppdateringer som har med alle viktige endringer i oversettelsene."
 
 #: weblate/html/data-root.html:18 weblate/html/data.html.py:19
 #, python-format
@@ -1350,6 +1388,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
+"Mer informasjon om leveranse av RSS-oppdaterer er tilgjengelig i <a href=\""
+"%(rss_docs)s\">the documentation</a>."
 
 #: weblate/html/data-root.html:24 weblate/html/data.html.py:26
 #: weblate/html/data.html:57 weblate/html/data.html.py:95
@@ -1368,18 +1408,23 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/html/data-root.html:35
+#, fuzzy
 msgid "Per project data"
-msgstr ""
+msgstr "Data etter prosjekt"
 
 #: weblate/html/data-root.html:38
+#, fuzzy
 msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
+"Det er mer data utsendt per prosjekt, kan du sjekke følgende linker for mer "
+"informasjon."
 
 #: weblate/html/data-root.html:48 weblate/html/data.html.py:84
+#, fuzzy
 msgid "Notification hooks"
-msgstr ""
+msgstr "Notifikasjonshaker"
 
 #: weblate/html/data-root.html:51 weblate/html/data.html.py:87
 #, python-format
@@ -1388,10 +1433,13 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Med notifikasjonshaker, vil Weblate automatisk importere endringer utviklere "
+"har gjort og vil tillate kontinuerlig oversettelse. Mer informasjon er "
+"tilgjengelig på <a href=\"%(hooks_docs)s\">dokumentasjonen</a>."
 
 #: weblate/html/data.html:6
 msgid "data exports"
-msgstr ""
+msgstr "datautsendelser"
 
 #: weblate/html/data.html:45
 msgid ""
@@ -6209,4 +6257,4 @@ msgstr ""
 #: weblate/trans/widgets.py:329 weblate/trans/widgets.py:360
 #: weblate/trans/widgets.py:382
 msgid "translated"
-msgstr ""
+msgstr "oversatt"
