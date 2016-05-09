@@ -848,8 +848,8 @@ class HgRepository(Repository):
                 else:
                     message = error.stderr
                 # Mercurial 3.8 changed error code and output
-                if (error.retcode in (1, 255)
-                        and 'nothing to rebase' in message):
+                if (error.retcode in (1, 255) and
+                        'nothing to rebase' in message):
                     self.execute(['update'])
                     return
                 raise
