@@ -295,6 +295,11 @@ file with English strings.
     more complex formats like the ones used by Chrome extensions are currently
     not supported by translate-toolkit and will produce invalid results.
 
+    If you are using nested dictionaries structure in your translations, you
+    can workardound above limitation by using
+    :file:`examples/hook-json_restore_hierarchy` as
+    :setting:`PRE_COMMIT_SCRIPTS`.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.json
