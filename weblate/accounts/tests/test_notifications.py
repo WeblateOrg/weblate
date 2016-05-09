@@ -103,6 +103,7 @@ class NotificationTest(ViewTestCase):
             self.subproject,
             self.get_translation(),
             'Failed merge',
+            'test/file.po',
         )
 
         # Check mail (second one is for admin)
@@ -117,7 +118,8 @@ class NotificationTest(ViewTestCase):
         notify_parse_error(
             self.subproject,
             self.get_translation(),
-            'Error\nstatus'
+            'Error\nstatus',
+            'test/file.po',
         )
 
         # Check mail (second one is for admin)

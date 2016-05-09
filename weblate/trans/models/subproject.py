@@ -883,10 +883,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def handle_parse_error(self, error, translation=None):
         """Handler for parse error."""
         report_error(error, sys.exc_info())
+        if translation is None:
+            filename = self.template
+        else:
+            filename = translation.filename
         notify_parse_error(
             self,
             translation,
-            str(error)
+            str(error),
+            filename
         )
         if self.id:
             Change.objects.create(

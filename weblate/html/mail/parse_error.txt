@@ -8,6 +8,6 @@
 
 {% trans "Failing file:" %}
 
-{% if translation %}{{ translation.filename }}{% else %}{{ subproject.template }}{% endif %}
+{{ filename }}
 
 {% endfilter%}{% endautoescape %}{% include "mail/signature.txt" %}

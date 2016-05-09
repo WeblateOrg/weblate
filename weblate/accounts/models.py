@@ -120,7 +120,7 @@ def notify_merge_failure(subproject, error, status):
     send_mails(mails)
 
 
-def notify_parse_error(subproject, translation, error):
+def notify_parse_error(subproject, translation, error, filename):
     '''
     Notification on parse error.
     '''
@@ -132,7 +132,7 @@ def notify_parse_error(subproject, translation, error):
     for subscription in subscriptions:
         mails.append(
             subscription.notify_parse_error(
-                subproject, translation, error
+                subproject, translation, error, filename
             )
         )
         users.add(subscription.user_id)
@@ -140,7 +140,7 @@ def notify_parse_error(subproject, translation, error):
     for owner in subproject.project.owners.all():
         mails.append(
             owner.profile.notify_parse_error(
-                subproject, translation, error
+                subproject, translation, error, filename
             )
         )
 
@@ -155,6 +155,7 @@ def notify_parse_error(subproject, translation, error):
                 'subproject': subproject,
                 'translation': translation,
                 'error': error,
+                'filename': filename,
             }
         )
     )
@@ -781,7 +782,7 @@ class Profile(models.Model):
             }
         )
 
-    def notify_parse_error(self, subproject, translation, error):
+    def notify_parse_error(self, subproject, translation, error, filename):
         '''
         Sends notification on parse error.
         '''
@@ -792,6 +793,7 @@ class Profile(models.Model):
                 'subproject': subproject,
                 'translation': translation,
                 'error': error,
+                'filename': filename,
             }
         )
 
