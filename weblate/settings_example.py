@@ -103,6 +103,7 @@ LANGUAGES = (
     ('ja', '日本語'),
     ('ko', '한국어'),
     ('ksh', 'Kölsch'),
+    ('nb', 'Norsk bokmål'),
     ('nl', 'Nederlands'),
     ('pl', 'Polski'),
     ('pt', 'Português'),
