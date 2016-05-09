@@ -843,7 +843,13 @@ class HgRepository(Repository):
             try:
                 self.execute(['rebase', '--tool', 'internal:merge'])
             except RepositoryException as error:
-                if error.retcode == 1 and 'nothing to rebase' in error.stdout:
+                if error.stdout:
+                    message = error.stdout
+                else:
+                    message = error.stderr
+                # Mercurial 3.8 changed error code and output
+                if (error.retcode in (1, 255)
+                        and 'nothing to rebase' in message):
                     self.execute(['update'])
                     return
                 raise

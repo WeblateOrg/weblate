@@ -9,6 +9,7 @@ Released on ? 2016.
 * Removed Google web translate machine translation.
 * Improved commit message when adding translation.
 * Fixed Google Translate API for Hebrew language.
+* Compatibility with Mercurial 3.8.
 
 weblate 2.6
 -----------
