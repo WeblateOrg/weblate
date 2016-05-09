@@ -299,6 +299,11 @@ Upgrade from 2.5 to 2.6
 
 Follow generic upgrade instructions, there is no special change.
 
+.. note::
+
+    Weblate now much more relies on correct site name in the database, please 
+    see :ref:`production-site` for instructions how to set it up.
+
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _django-17:

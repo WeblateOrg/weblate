@@ -471,7 +471,7 @@ site.
 
 .. seealso::
    
-   :ref:`config`, :ref:`privileges`, :ref:`faq-site`
+   :ref:`config`, :ref:`privileges`, :ref:`faq-site`, :ref:`production-site`
 
 .. _production:
 
@@ -529,8 +529,11 @@ Please open admin interface and edit default site name and domain under the
 ``/admin/sites/site/1/`` URL under your Weblate installation). You have to change
 the :guilabel:`Domain name` to match your setup.
 
-You might want to set :setting:`ENABLE_HTTPS` as well if you serve site over
-https.
+.. note::
+
+    This setting should contain only domain name. For configuring protocol
+    (enabling HTTPS) use :setting:`ENABLE_HTTPS` and for changing URL use
+    :setting:`URL_PREFIX`.
 
 Alternatively you can set the site name from command line using
 :djadmin:`changesite`. For example for using built in server:
