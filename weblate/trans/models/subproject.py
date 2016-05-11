@@ -1345,7 +1345,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             changed_git = (
                 (old.repo != self.repo) or
                 (old.branch != self.branch) or
-                (old.filemask != self.filemask)
+                (old.filemask != self.filemask) or
+                (old.language_regex != self.language_regex)
             )
             changed_setup = (
                 (old.file_format != self.file_format) or
