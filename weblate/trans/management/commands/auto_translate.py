@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
