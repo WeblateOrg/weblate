@@ -656,7 +656,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.log_debug('update: %s', line)
             return True
         except RepositoryException as error:
-            error_text = str(error)
+            error_text = force_text(error)
             self.log_error('failed to update repository: %s', error_text)
             if validate:
                 if 'Host key verification failed' in error_text:
