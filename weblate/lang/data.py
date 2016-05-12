@@ -400,6 +400,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'la',
+        'Latin',
+        2,
+        '(n != 1)',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
