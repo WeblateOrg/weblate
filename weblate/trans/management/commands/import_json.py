@@ -96,7 +96,9 @@ class Command(BaseCommand):
 
             if 'repo' not in item:
                 if main_component is None:
-                    raise CommandError('No main component and no repository URL!')
+                    raise CommandError(
+                        'No main component and no repository URL!'
+                    )
                 item['repo'] = main_component.get_repo_link_url()
 
             item['project'] = project
