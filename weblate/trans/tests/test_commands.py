@@ -582,3 +582,42 @@ class ImportCommandTest(RepoTestCase):
             Translation.objects.count(),
             8
         )
+
+    def test_invalid_file(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_json',
+            '--main-component', 'test',
+            '--project', 'test',
+            TEST_PO,
+        )
+
+    def test_nonexisting_project(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_json',
+            '--main-component', 'test',
+            '--project', 'test2',
+            '/nonexisting/dfile',
+        )
+
+    def test_nonexisting_component(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_json',
+            '--main-component', 'test2',
+            '--project', 'test',
+            '/nonexisting/dfile',
+        )
+
+    def test_missing_component(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_json',
+            '--project', 'test',
+            '/nonexisting/dfile',
+        )
