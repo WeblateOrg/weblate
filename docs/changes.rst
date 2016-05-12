@@ -10,6 +10,7 @@ Released on ? 2016.
 * Improved commit message when adding translation.
 * Fixed Google Translate API for Hebrew language.
 * Compatibility with Mercurial 3.8.
+* Added import_json management command.
 
 weblate 2.6
 -----------

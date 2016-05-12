@@ -143,6 +143,36 @@ Dumps userdata to file for later use by :djadmin:`importuserdata`
 
 This is useful when migrating of merging Weblate instances.
 
+import_json <json-file>
+-----------------------
+
+.. django-admin:: import_json
+
+.. versionadded:: 2.7
+
+Batch import of components based on JSON data.
+
+You need to specify ``--project`` to define where the components will be
+imported.
+
+Additionally you can specify ``--main-component`` to use VCS repository from
+this component for all.
+
+The imported JSON file structure pretty much corresponds to the component
+object (see :http:get:`/api/components/(string:project)/(string:component)/`).
+You always have to include fields ``name`` and ``filemask``.
+
+Example of JSON file:
+
+.. literalinclude:: ../../weblate/trans/tests/data/components.json
+   :language: json
+   :encoding: utf-8
+
+.. seealso::
+
+    :djadmin:`import_project`
+
+
 import_project <project> <gitrepo> <branch> <filemask>
 ------------------------------------------------------
 
@@ -250,8 +280,8 @@ Filtering only translations in chosen language:
 
 .. seealso::
 
-    More detailed examples can be found in the :ref:`starting` chapter.
-
+    More detailed examples can be found in the :ref:`starting` chapter,
+    alternatively you might want to use :djadmin:`import_json`.
 
 importuserdata <file.json>
 --------------------------

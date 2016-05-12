@@ -28,12 +28,15 @@ from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.models import SubProject, Suggestion, IndexUpdate
+from weblate.trans.models import (
+    Translation, SubProject, Suggestion, IndexUpdate
+)
 from weblate.runner import main
 from weblate.trans.tests.utils import get_test_file
 from weblate.accounts.models import Profile
 
 TEST_PO = get_test_file('cs.po')
+TEST_COMPONENTS = get_test_file('components.json')
 
 
 class RunnerTest(TestCase):
@@ -553,4 +556,29 @@ class SuggesionCommandTest(RepoTestCase):
             CommandError,
             call_command,
             'add_suggestions', 'test', 'xxx', 'cs', TEST_PO,
+        )
+
+
+class ImportCommandTest(RepoTestCase):
+    '''
+    Import test.
+    '''
+    def setUp(self):
+        super(ImportCommandTest, self).setUp()
+        self.subproject = self.create_subproject()
+
+    def test_import(self):
+        call_command(
+            'import_json',
+            '--main-component', 'test',
+            '--project', 'test',
+            TEST_COMPONENTS,
+        )
+        self.assertEqual(
+            self.subproject.project.subproject_set.count(),
+            3
+        )
+        self.assertEqual(
+            Translation.objects.count(),
+            8
         )
