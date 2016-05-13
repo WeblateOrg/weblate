@@ -87,20 +87,30 @@ Currently following subcommands are available:
 
     List translations in Weblate.
 
+.. option:: show
+
+    Shows object (translation, component or project).
+
+.. option:: ls
+
+    Lists object (translation, component or project).
+
 .. _files:
 
 Files
 +++++
 
-:file:`~/.config/wlc`
+:file:`.weblate`
+    Per project configuration file
+:file:`~/.config/weblate`
     User configuration file
-:file:`/etc/xdg/wlc`
+:file:`/etc/xdg/weblate`
     Global configration file
 
 The program follows XDG specification, so you can adjust placement of config files
 by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
 
-Following settings can be configured in the ``[wlc]`` section (you can
+Following settings can be configured in the ``[weblate]`` section (you can
 customize this by :option:`--config-section`):
 
 .. describe:: key 
@@ -111,13 +121,29 @@ customize this by :option:`--config-section`):
 
     API server URL, defaults to ``http://127.0.0.1:8000/api/``.
 
+.. describe:: translation
+
+    Path of default translation, component or project.
+
 The configuration file is INI file, for example:
 
 .. code-block:: ini
 
-    [wlc]
+    [weblate]
     url = https://hosted.weblate.org/api/
     key = APIKEY
+    translation = weblate/master
+
+Additionally API keys can be stored in the ``[keys]`` section:
+
+.. code-block:: ini
+
+    [keys]
+    https://hosted.weblate.org/api/ = APIKEY
+
+This allows you to store keys in your personal settings, while having
+:file:`.weblate` configuration in the VCS repository so that wlc knows to which
+server it should talk.
 
 Examples
 ++++++++
