@@ -50,7 +50,7 @@ class Command(BaseCommand):
             '--main-component',
             default=None,
             help=(
-                'Define which component will be used as main - including full'
+                'Define which component will be used as main for the'
                 ' VCS repository'
             )
         )
