@@ -43,6 +43,12 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
+        'ur_PK',
+        'Urdu (Pakistan)',
+        2,
+        'n != 1',
+    ),
+    (
         'uz@latin',
         'Uzbek (latin)',
         1,
