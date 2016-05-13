@@ -494,6 +494,7 @@ DEFAULT_LANGS = (
     'ms_MY',
     'mt_MT',
     'nb_NO',
+    'ne_NP',
     'nl_NL',
     'nn_NO',
     'no_NO',
@@ -753,11 +754,17 @@ LOCALE_ALIASES = {
     'be-rby': 'be@latin',
     # Misc invalid codes
     'val_es': 'ca@valencia',
+    'no_NB': 'no',
+    'ru_R': 'ru',
+    'ru_RR': 'ru',
     'jp': 'ja',
     # Old locale codes
     'iw': 'he',
     'ji': 'yi',
     'in': 'id',
+    'sr_CS': 'sr',
+    # Strip not needed country
+    'sr_Latn_RS': 'sr_Latn',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
     'sr_rs@latin': 'sr_Latn',
