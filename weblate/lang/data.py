@@ -89,7 +89,7 @@ EXTRALANGS = (
         '(n%100<10 || n%100>=20) ? 1 : 2',
     ),
     (
-        'be@latin',
+        'be_Latn',
         'Belarusian (latin)',
         3,
         'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
@@ -812,7 +812,7 @@ LOCALE_ALIASES = {
     'german': 'de',
     'french': 'fr',
     # Android
-    'be-rby': 'be@latin',
+    'be-rby': 'be_Latn',
     # Misc invalid codes
     'val_es': 'ca@valencia',
     'no_nb': 'no',
@@ -829,6 +829,7 @@ LOCALE_ALIASES = {
     'sr_latn_rs': 'sr_Latn',
     'bs_latn_ba': 'bs_Latn',
     # Prefer new variants
+    'be@latin': 'be_Latn',
     'sr@latin': 'sr_Latn',
     'sr_rs@latin': 'sr_Latn',
     'sr@cyrillic': 'sr_Cyrl',
