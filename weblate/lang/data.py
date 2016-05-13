@@ -820,6 +820,7 @@ LOCALE_ALIASES = {
     'ru_rr': 'ru',
     'ar_ar': 'ar',
     'jp': 'ja',
+    'ba_ck': 'ba',
     # Old locale codes
     'iw': 'he',
     'ji': 'yi',
