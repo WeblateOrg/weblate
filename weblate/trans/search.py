@@ -168,29 +168,32 @@ def update_index(units, source_units=None):
         source_units = units
 
     # Update source index
-    index = get_source_index()
-    writer = BufferedWriter(index)
-    try:
-        for unit in source_units.iterator():
-            update_source_unit_index(writer, unit)
-    finally:
-        writer.close()
+    if source_units.exists():
+        index = get_source_index()
+        writer = BufferedWriter(index)
+        try:
+            for unit in source_units.iterator():
+                update_source_unit_index(writer, unit)
+        finally:
+            writer.close()
 
     # Update per language indices
     for lang in languages:
-        index = get_target_index(lang.code)
-        writer = BufferedWriter(index)
-        try:
-            language_units = units.filter(
-                translation__language=lang
-            ).exclude(
-                target=''
-            )
+        language_units = units.filter(
+            translation__language=lang
+        ).exclude(
+            target=''
+        )
 
-            for unit in language_units.iterator():
-                update_target_unit_index(writer, unit)
-        finally:
-            writer.close()
+        if language_units.exists():
+            index = get_target_index(lang.code)
+            writer = BufferedWriter(index)
+            try:
+
+                for unit in language_units.iterator():
+                    update_target_unit_index(writer, unit)
+            finally:
+                writer.close()
 
 
 def add_index_update(unit_id, source, to_delete, language_code=''):
