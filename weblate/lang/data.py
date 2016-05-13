@@ -49,7 +49,7 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
-        'uz@latin',
+        'uz_Latn',
         'Uzbek (latin)',
         1,
         '0',
@@ -836,6 +836,7 @@ LOCALE_ALIASES = {
     'sr_rs@latin': 'sr_Latn',
     'sr@cyrillic': 'sr_Cyrl',
     'sr_rs@cyrillic': 'sr_Cyrl',
+    'uz@latin': 'uz_Latn',
     'zh_cn': 'zh_Hans',
     'zh_tw': 'zh_Hant',
 }
