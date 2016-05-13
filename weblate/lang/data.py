@@ -424,6 +424,18 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'ar_DZ',
+        'Arabic (Algeria)',
+        6,
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;'
+    ),
+    (
+        'ar_MA',
+        'Arabic (Morocco)',
+        6,
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;'
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
@@ -757,6 +769,7 @@ LOCALE_ALIASES = {
     'no_NB': 'no',
     'ru_R': 'ru',
     'ru_RR': 'ru',
+    'ar_AR': 'ar',
     'jp': 'ja',
     # Old locale codes
     'iw': 'he',
