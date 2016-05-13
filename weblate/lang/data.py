@@ -202,6 +202,24 @@ EXTRALANGS = (
         '(n != 1)',
     ),
     (
+        'es_MX',
+        'Spanish (Mexico)',
+        2,
+        '(n != 1)',
+    ),
+    (
+        'es_PR',
+        'Spanish (Puerto Rico)',
+        2,
+        '(n != 1)',
+    ),
+    (
+        'es_US',
+        'Spanish (American)',
+        2,
+        '(n != 1)',
+    ),
+    (
         'hne',
         'Chhattisgarhi',
         2,
