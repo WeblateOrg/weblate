@@ -202,6 +202,24 @@ EXTRALANGS = (
         '(n != 1)',
     ),
     (
+        'es_MX',
+        'Spanish (Mexico)',
+        2,
+        '(n != 1)',
+    ),
+    (
+        'es_PR',
+        'Spanish (Puerto Rico)',
+        2,
+        '(n != 1)',
+    ),
+    (
+        'es_US',
+        'Spanish (American)',
+        2,
+        '(n != 1)',
+    ),
+    (
         'hne',
         'Chhattisgarhi',
         2,
@@ -406,6 +424,18 @@ EXTRALANGS = (
         2,
         '(n != 1)',
     ),
+    (
+        'ar_DZ',
+        'Arabic (Algeria)',
+        6,
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;'
+    ),
+    (
+        'ar_MA',
+        'Arabic (Morocco)',
+        6,
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;'
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
@@ -476,6 +506,7 @@ DEFAULT_LANGS = (
     'ms_MY',
     'mt_MT',
     'nb_NO',
+    'ne_NP',
     'nl_NL',
     'nn_NO',
     'no_NO',
@@ -735,11 +766,18 @@ LOCALE_ALIASES = {
     'be-rby': 'be@latin',
     # Misc invalid codes
     'val_es': 'ca@valencia',
+    'no_NB': 'no',
+    'ru_R': 'ru',
+    'ru_RR': 'ru',
+    'ar_AR': 'ar',
     'jp': 'ja',
     # Old locale codes
     'iw': 'he',
     'ji': 'yi',
     'in': 'id',
+    'sr_CS': 'sr',
+    # Strip not needed country
+    'sr_Latn_RS': 'sr_Latn',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
     'sr_rs@latin': 'sr_Latn',
