@@ -821,6 +821,7 @@ LOCALE_ALIASES = {
     'ar_ar': 'ar',
     'jp': 'ja',
     'ba_ck': 'ba',
+    'ca_ps': 'ca',
     # Old locale codes
     'iw': 'he',
     'ji': 'yi',
