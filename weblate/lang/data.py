@@ -780,6 +780,8 @@ PLURAL_NAMES = {
     ),
 }
 
+# Aliases to map locales to consistent coding
+# The source has to be lowercase with _ as separators
 LOCALE_ALIASES = {
     # Windows
     'arabic': 'ar',
@@ -801,10 +803,10 @@ LOCALE_ALIASES = {
     'be-rby': 'be@latin',
     # Misc invalid codes
     'val_es': 'ca@valencia',
-    'no_NB': 'no',
-    'ru_R': 'ru',
-    'ru_RR': 'ru',
-    'ar_AR': 'ar',
+    'no_nb': 'no',
+    'ru_r': 'ru',
+    'ru_rr': 'ru',
+    'ar_ar': 'ar',
     'jp': 'ja',
     # Old locale codes
     'iw': 'he',
@@ -812,8 +814,8 @@ LOCALE_ALIASES = {
     'in': 'id',
     'sr_CS': 'sr',
     # Strip not needed country
-    'sr_Latn_RS': 'sr_Latn',
-    'bs_Latn_BA': 'bs_Latn',
+    'sr_latn_rs': 'sr_Latn',
+    'bs_latn_ba': 'bs_Latn',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
     'sr_rs@latin': 'sr_Latn',
