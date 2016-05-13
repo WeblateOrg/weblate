@@ -444,7 +444,12 @@ NO_CODE_LANGUAGES = frozenset((
     'zh_TW', 'zh_CN',
     'zh_Hant', 'zh_Hans',
     'sr_Latn', 'sr_Cyrl',
-    'de_AT', 'de_CH'
+    'de_AT', 'de_CH',
+    'ar_DZ', 'ar_MA',
+    'nl_BE',
+    'en_US', 'en_CA', 'en_AU',
+    'pt_BR', 'pt_PT',
+    'es_AR', 'es_MX', 'es_PR', 'es_US',
 ))
 
 # List of defaul languages - the ones, where using
