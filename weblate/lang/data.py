@@ -818,7 +818,7 @@ LOCALE_ALIASES = {
     'iw': 'he',
     'ji': 'yi',
     'in': 'id',
-    'sr_CS': 'sr',
+    'sr_cs': 'sr',
     # Strip not needed country
     'sr_latn_rs': 'sr_Latn',
     'bs_latn_ba': 'bs_Latn',
