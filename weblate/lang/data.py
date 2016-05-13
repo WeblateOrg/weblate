@@ -55,6 +55,20 @@ EXTRALANGS = (
         '0',
     ),
     (
+        'bs_Latn',
+        'Bosnian (latin)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
+        'bs_Cyrl',
+        'Bosnian (cyrillic)',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+    ),
+    (
         'sr_Latn',
         'Serbian (latin)',
         3,
@@ -444,6 +458,7 @@ NO_CODE_LANGUAGES = frozenset((
     'zh_TW', 'zh_CN',
     'zh_Hant', 'zh_Hans',
     'sr_Latn', 'sr_Cyrl',
+    'bs_Lant', 'bs_Cyrl',
     'de_AT', 'de_CH',
     'ar_DZ', 'ar_MA',
     'nl_BE',
@@ -785,6 +800,7 @@ LOCALE_ALIASES = {
     'sr_CS': 'sr',
     # Strip not needed country
     'sr_Latn_RS': 'sr_Latn',
+    'bs_Latn_BA': 'bs_Latn',
     # Prefer new variants
     'sr@latin': 'sr_Latn',
     'sr_rs@latin': 'sr_Latn',
