@@ -108,6 +108,12 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
+        'en_IE',
+        'English (Ireland)',
+        2,
+        'n != 1',
+    ),
+    (
         'nb_NO',
         'Norwegian Bokmål',
         2,
