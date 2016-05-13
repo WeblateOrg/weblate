@@ -114,6 +114,12 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
+        'en_PH',
+        'English (Philippines)',
+        2,
+        'n != 1',
+    ),
+    (
         'nb_NO',
         'Norwegian Bokmål',
         2,
@@ -468,7 +474,7 @@ NO_CODE_LANGUAGES = frozenset((
     'de_AT', 'de_CH',
     'ar_DZ', 'ar_MA',
     'nl_BE',
-    'en_US', 'en_CA', 'en_AU',
+    'en_US', 'en_CA', 'en_AU', 'en_IE', 'en_PH',
     'pt_BR', 'pt_PT',
     'es_AR', 'es_MX', 'es_PR', 'es_US',
 ))
