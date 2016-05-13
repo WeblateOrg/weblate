@@ -473,6 +473,7 @@ NO_CODE_LANGUAGES = frozenset((
     'bs_Lant', 'bs_Cyrl',
     'de_AT', 'de_CH',
     'ar_DZ', 'ar_MA',
+    'fr_CA',
     'nl_BE',
     'en_US', 'en_CA', 'en_AU', 'en_IE', 'en_PH',
     'pt_BR', 'pt_PT',
