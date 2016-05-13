@@ -428,13 +428,15 @@ EXTRALANGS = (
         'ar_DZ',
         'Arabic (Algeria)',
         6,
-        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;'
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ?'
+        ' 3 : n%100>=11 ? 4 : 5;'
     ),
     (
         'ar_MA',
         'Arabic (Morocco)',
         6,
-        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;'
+        'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ?'
+        ' 3 : n%100>=11 ? 4 : 5;'
     ),
 )
 
@@ -442,7 +444,12 @@ NO_CODE_LANGUAGES = frozenset((
     'zh_TW', 'zh_CN',
     'zh_Hant', 'zh_Hans',
     'sr_Latn', 'sr_Cyrl',
-    'de_AT', 'de_CH'
+    'de_AT', 'de_CH',
+    'ar_DZ', 'ar_MA',
+    'nl_BE',
+    'en_US', 'en_CA', 'en_AU',
+    'pt_BR', 'pt_PT',
+    'es_AR', 'es_MX', 'es_PR', 'es_US',
 ))
 
 # List of defaul languages - the ones, where using
