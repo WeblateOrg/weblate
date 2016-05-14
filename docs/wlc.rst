@@ -89,11 +89,23 @@ Currently following subcommands are available:
 
 .. option:: show
 
-    Shows object (translation, component or project).
+    Shows Weblate object (translation, component or project).
 
 .. option:: ls
 
-    Lists object (translation, component or project).
+    Lists Weblate object (translation, component or project).
+
+.. option:: commit
+
+    Commits changes in Weblate object (translation, component or project).
+
+.. option:: pull
+
+    Pulls remote repository changes into Weblate object (translation, component or project).
+
+.. option:: push
+
+    Pusches changes in Weblate object into remote repositor (translation, component or project).
 
 .. _files:
 
