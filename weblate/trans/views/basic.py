@@ -50,7 +50,7 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
 )
-from weblate.trans.util import render
+from weblate.trans.util import render, sort_objects
 import weblate
 
 
@@ -308,7 +308,7 @@ def show_subproject(request, project, subproject):
         {
             'object': obj,
             'project': obj.project,
-            'translations': obj.translation_set.enabled(),
+            'translations': sort_objects(obj.translation_set.enabled()),
             'show_language': 1,
             'reports_form': ReportsForm(),
             'last_changes': last_changes,
