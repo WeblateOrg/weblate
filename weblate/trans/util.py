@@ -334,6 +334,7 @@ def sort_unicode(choices, key):
             key=lambda tup: collator.sort_key(force_text(key(tup)))
         )
 
+
 def remove_accents(input_str):
     """
     Removes accents from a string.
