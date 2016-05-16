@@ -19,19 +19,19 @@
 #
 
 """
-Tests for user handling.
+Tests for unicode sorting.
 """
 
 from unittest import SkipTest
 
 from django.test import TestCase
 
-import weblate.accounts.forms
+import weblate.trans.util
 
 
-class FormTest(TestCase):
+class SortTest(TestCase):
     def sort_tester(self):
-        result = weblate.accounts.forms.sort_choices(
+        result = weblate.trans.util.sort_choices(
             ((2, 'zkouška'), (3, 'zkouzka'), (1, 'zkouaka'))
         )
         self.assertEqual(
@@ -40,15 +40,15 @@ class FormTest(TestCase):
         )
 
     def test_sort_pyuca(self):
-        if not weblate.accounts.forms.HAS_PYUCA:
+        if not weblate.trans.util.HAS_PYUCA:
             raise SkipTest('pyuca not installed')
         self.sort_tester()
 
     def test_sort_fallback(self):
-        backup = weblate.accounts.forms.HAS_PYUCA
+        backup = weblate.trans.util.HAS_PYUCA
         try:
-            weblate.accounts.forms.HAS_PYUCA = False
+            weblate.trans.util.HAS_PYUCA = False
 
             self.sort_tester()
         finally:
-            weblate.accounts.forms.HAS_PYUCA = backup
+            weblate.trans.util.HAS_PYUCA = backup

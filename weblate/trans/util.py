@@ -23,6 +23,13 @@ import hashlib
 import os
 import sys
 import traceback
+import unicodedata
+
+try:
+    import pyuca  # pylint: disable=import-error
+    HAS_PYUCA = True
+except ImportError:
+    HAS_PYUCA = False
 
 from six.moves.urllib.parse import urlparse
 import six
@@ -310,3 +317,35 @@ def path_separator(path):
     if os.path.sep != '/':
         return path.replace(os.path.sep, '/')
     return path
+
+
+def sort_unicode(choices, key):
+    """Unicode aware sorting if available"""
+    if not HAS_PYUCA:
+        return sorted(
+            choices,
+            key=lambda tup: remove_accents(key(tup)).lower()
+        )
+    else:
+        collator = pyuca.Collator()
+        return sorted(
+            choices,
+            key=lambda tup: collator.sort_key(force_text(key(tup)))
+        )
+
+def remove_accents(input_str):
+    """
+    Removes accents from a string.
+    """
+    nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
+    only_ascii = nkfd_form.encode('ASCII', 'ignore')
+    return only_ascii
+
+
+def sort_choices(choices):
+    '''
+    Sorts choices alphabetically.
+
+    Either using cmp or pyuca.
+    '''
+    return sort_unicode(choices, lambda tup: tup[1])
