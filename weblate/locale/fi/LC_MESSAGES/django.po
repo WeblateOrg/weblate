@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-05-13 13:44+0000\n"
-"PO-Revision-Date: 2016-05-16 16:54+0000\n"
+"PO-Revision-Date: 2016-05-16 23:35+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
@@ -183,11 +183,11 @@ msgstr "Projektin verkkosivu"
 
 #: weblate/accounts/forms.py:556 weblate/trans/models/subproject.py:138
 msgid "Source code repository"
-msgstr "Ohjelmistolähde"
+msgstr "Lähdekoodin arkisto"
 
 #: weblate/accounts/forms.py:558
 msgid "URL of source code repository for example Git or Mercurial."
-msgstr "URL ohjelmistolähteelle esimerkiksi Git tai Mercurial."
+msgstr "Lähdekoodiarkiston URL, esimerkiksi Git tai Mercurial."
 
 #: weblate/accounts/forms.py:563 weblate/trans/models/subproject.py:187
 msgid "File mask"
@@ -457,7 +457,7 @@ msgstr "Mutokset viimeisen vuoden aikana"
 #: weblate/billing/models.py:106 weblate/trans/admin.py:46
 #| msgid "Status of repositories"
 msgid "VCS repositories"
-msgstr "Versionhallinnan ohjelmavarastot"
+msgstr "Versionhallinnan arkistot"
 
 #: weblate/billing/models.py:112 weblate/trans/admin.py:50
 #| msgid "Source string:"
@@ -1048,7 +1048,7 @@ msgstr "Kielien rajoitus"
 #: weblate/html/accounts/profile.html:420
 #| msgid "Repository maintenance"
 msgid "Repositories limit"
-msgstr "Versionhallintavarastojen rajoitus"
+msgstr "Versionhallinta-arkistojen rajoitus"
 
 #: weblate/html/accounts/profile.html:425
 #| msgid "Projects"
@@ -1167,7 +1167,7 @@ msgstr "Raportit"
 #: weblate/html/admin/custom-index.html:13 weblate/html/admin/report.html:4
 #: weblate/html/admin/report.html:13
 msgid "Status of repositories"
-msgstr "Ohjelmistolähteiden tilanne"
+msgstr "Arkistojen tilanne"
 
 #: weblate/html/admin/custom-index.html:19 weblate/html/admin/ssh.html:4
 #: weblate/html/admin/ssh.html:8
@@ -1215,8 +1215,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Ei näytä linkitetyn arkiston tilaa. Tarkista <a href=\"#%(slug)s\">%(repo)s</"
-"a> sen sijasta."
+"Ei näytetä linkitetyn arkiston tilaa. Tarkista <a href=\"#%(slug)s\""
+">%(repo)s</a> sen sijasta."
 
 #: weblate/html/admin/ssh.html:14
 msgid "Public SSH key"
@@ -1531,7 +1531,8 @@ msgstr "Huomautus"
 
 #: weblate/html/data.html:137
 msgid "Enable Weblate service hook in repository settings."
-msgstr "Ota käyttöön Weblate palvelukoukku ohjelmalähde asetuksissa."
+msgstr ""
+"Ota käyttöön Weblate -palvelukoukku versionhallinta-arkiston asetuksissa."
 
 #: weblate/html/dictionaries.html:7 weblate/html/dictionary.html:8
 msgid "glossaries"
@@ -1575,7 +1576,7 @@ msgstr "Gettext (PO) tiedosto"
 
 #: weblate/html/dictionary.html:29
 msgid "XML Localization Interchange File Format (XLIFF)"
-msgstr "XML Localization Interchange File Format (XLIFF)"
+msgstr "XLIFF -tiedostomuoto (XML Localization Interchange File Format, XLIFF)"
 
 #: weblate/html/dictionary.html:30
 msgid "TermBase eXchange (TBX)"
@@ -1816,16 +1817,14 @@ msgid "Bosnian"
 msgstr "Bosnia"
 
 #: weblate/html/i18n.html:43
-#, fuzzy
 #| msgid "Belarusian (latin)"
 msgid "Bosnian (latin)"
-msgstr "Valkovenäjä(latin)"
+msgstr "Bosnia (länsimainen)"
 
 #: weblate/html/i18n.html:44
-#, fuzzy
 #| msgid "Serbian (cyrillic)"
 msgid "Bosnian (cyrillic)"
-msgstr "Serbia (Kyrillinen)"
+msgstr "Bosnia (Kyrillinen)"
 
 #: weblate/html/i18n.html:45
 msgid "Breton"
@@ -1848,14 +1847,13 @@ msgid "Central Khmer"
 msgstr "Keski-khmer"
 
 #: weblate/html/i18n.html:50
-#, fuzzy
 #| msgid "tomorrow"
 msgid "Chamorro"
-msgstr "huomenna"
+msgstr "Tšamorro"
 
 #: weblate/html/i18n.html:51
 msgid "Cherokee"
-msgstr ""
+msgstr "Cherokee"
 
 #: weblate/html/i18n.html:52
 msgid "Chhattisgarhi"
@@ -1891,7 +1889,7 @@ msgstr "Korni"
 
 #: weblate/html/i18n.html:60
 msgid "Cree"
-msgstr ""
+msgstr "Cree"
 
 #: weblate/html/i18n.html:61
 msgid "Croatian"
@@ -1915,7 +1913,7 @@ msgstr "Hollanti"
 
 #: weblate/html/i18n.html:66
 msgid "Dutch (Belgium)"
-msgstr ""
+msgstr "Hollanti (Belgia)"
 
 #: weblate/html/i18n.html:67
 msgid "Dzongkha"
@@ -1934,16 +1932,14 @@ msgid "English (Canada)"
 msgstr "Englanti (Kanada)"
 
 #: weblate/html/i18n.html:71
-#, fuzzy
 #| msgid "English (Canada)"
 msgid "English (Ireland)"
-msgstr "Englanti (Kanada)"
+msgstr "Englanti (Irlanti)"
 
 #: weblate/html/i18n.html:72
-#, fuzzy
 #| msgid "English (Australia)"
 msgid "English (Philippines)"
-msgstr "Englanti (Australia)"
+msgstr "Englanti (Filippiini)"
 
 #: weblate/html/i18n.html:73
 msgid "English (South Africa)"
@@ -1986,10 +1982,9 @@ msgid "French"
 msgstr "Ranska"
 
 #: weblate/html/i18n.html:83
-#, fuzzy
 #| msgid "English (Canada)"
 msgid "French (Canada)"
-msgstr "Englanti (Kanada)"
+msgstr "Ranska (Kanada)"
 
 #: weblate/html/i18n.html:84
 msgid "Frisian"
@@ -2045,7 +2040,7 @@ msgstr "Hausa"
 
 #: weblate/html/i18n.html:97
 msgid "Hawaiian"
-msgstr ""
+msgstr "Havaiji"
 
 #: weblate/html/i18n.html:98
 msgid "Hebrew"
@@ -2137,7 +2132,7 @@ msgstr "Lao"
 
 #: weblate/html/i18n.html:120
 msgid "Latin"
-msgstr ""
+msgstr "Latina"
 
 #: weblate/html/i18n.html:121
 msgid "Latvian"
@@ -2160,10 +2155,9 @@ msgid "Lojban"
 msgstr "Lojban"
 
 #: weblate/html/i18n.html:126
-#, fuzzy
 #| msgid "German"
 msgid "Low German"
-msgstr "Saksa"
+msgstr "Alasaksa"
 
 #: weblate/html/i18n.html:127
 msgid "Luxembourgish"
@@ -2255,7 +2249,7 @@ msgstr "Uusnorja"
 
 #: weblate/html/i18n.html:149
 msgid "Nyanja"
-msgstr ""
+msgstr "Nyanja"
 
 #: weblate/html/i18n.html:150
 msgid "Occitan"
@@ -2263,7 +2257,7 @@ msgstr "Oksitaani"
 
 #: weblate/html/i18n.html:151
 msgid "Ojibwe"
-msgstr ""
+msgstr "Odžibwan"
 
 #: weblate/html/i18n.html:152
 msgid "Oriya"
@@ -2390,24 +2384,22 @@ msgid "Spanish"
 msgstr "Espanja"
 
 #: weblate/html/i18n.html:183
-#, fuzzy
 #| msgid "English (South Africa)"
 msgid "Spanish (American)"
-msgstr "Englanti (Etelä-Afrikka)"
+msgstr "Espanja (Amerikka)"
 
 #: weblate/html/i18n.html:184
 msgid "Spanish (Argentina)"
-msgstr ""
+msgstr "Espanja (Argentiina)"
 
 #: weblate/html/i18n.html:185
-#, fuzzy
 #| msgid "Spanish"
 msgid "Spanish (Mexico)"
-msgstr "Espanja"
+msgstr "Espanja (Meksiko)"
 
 #: weblate/html/i18n.html:186
 msgid "Spanish (Puerto Rico)"
-msgstr ""
+msgstr "Espanja (Puerto Rico)"
 
 #: weblate/html/i18n.html:187
 msgid "Sundanese"
@@ -2423,7 +2415,7 @@ msgstr "Ruotsi"
 
 #: weblate/html/i18n.html:190
 msgid "Swiss High German"
-msgstr ""
+msgstr "Sveitsi (Yläsaksa)"
 
 #: weblate/html/i18n.html:191
 msgid "Tagalog"
@@ -2679,7 +2671,7 @@ msgstr "Joitakin committamattomia muutoksia!"
 
 #: weblate/html/js/git-status.html:24
 msgid "There has been a merge failure on the repository:"
-msgstr "Yhdistäminen ohjelmistolähteessä on epäonnistunut:"
+msgstr "Arkiston yhdistämisessä on tapahtunut virhe:"
 
 #: weblate/html/js/git-status.html:26 weblate/html/mail/merge_failure.html:36
 #: weblate/html/mail/merge_failure.txt:17
@@ -2688,15 +2680,15 @@ msgstr "Tarkista FAQ saadaksesi lisätietoja ongelman ratkaisemiseksi."
 
 #: weblate/html/js/git-status.html:30
 msgid "The remote repository needs to be merged!"
-msgstr "Etämuutokset täytyy yhdistää paikalliseen ohjelmistolähteeseen!"
+msgstr "Etäarkiston muutokset pitää yhdistää paikalliseen arkistoon!"
 
 #: weblate/html/js/git-status.html:33
 msgid "There are some new commits in the local repository!"
-msgstr "Joitakin uusia muutoksia on paikallisessa ohjelmistolähteessä!"
+msgstr "Joitakin uusia muutoksia on lisätty paikalliseen arkistoon!"
 
 #: weblate/html/js/git-status.html:36
 msgid "The local repository is up to date."
-msgstr "Paikallinen tietolähde on päivitetty."
+msgstr "Paikallinen arkisto on ajantasalla."
 
 #: weblate/html/js/git-status.html:44
 msgid "Last remote commit:"
@@ -2725,7 +2717,7 @@ msgstr "Suorita"
 
 #: weblate/html/js/git-status.html:112
 msgid "Commit pending changes to the local repository"
-msgstr "Suorita kaikki muutokset paikalliseen arkistoon"
+msgstr "Lisää kaikki muutokset paikalliseen arkistoon"
 
 #: weblate/html/js/git-status.html:120
 msgid "Pull"
@@ -2733,7 +2725,7 @@ msgstr "Päivitä"
 
 #: weblate/html/js/git-status.html:123
 msgid "Pull changes from the remote repository"
-msgstr "Päivitä muutokset etäohjelmistolähteestä"
+msgstr "Nouda muutokset etäarkistosta"
 
 #: weblate/html/js/git-status.html:131
 msgid "Push"
@@ -2741,7 +2733,7 @@ msgstr "Lähetä"
 
 #: weblate/html/js/git-status.html:134
 msgid "Push changes to the remote repository"
-msgstr "Lähetä muutokset etäohjelmistolähteeseen"
+msgstr "Lähetä muutokset etäarkistoon"
 
 #: weblate/html/js/git-status.html:142 weblate/trans/models/subproject.py:95
 msgid "Rebase"
@@ -2749,7 +2741,7 @@ msgstr "Rebase"
 
 #: weblate/html/js/git-status.html:145
 msgid "Rebase local changes onto the remote repository"
-msgstr "Suorita rebase paikallisille muutoksille etäohjelmistolähteeseen"
+msgstr "Suorita rebase paikallisille muutoksille etäarkistoon"
 
 #: weblate/html/js/git-status.html:153
 msgid "Reset"
@@ -2773,7 +2765,7 @@ msgstr "Lukittu"
 
 #: weblate/html/js/git-status.html:178
 msgid "Prevent any changes in the local repository"
-msgstr "Estä muutokset paikalliseen arkistoon"
+msgstr "Estä kaikki muutokset paikalliseen arkistoon"
 
 #: weblate/html/language.html:15 weblate/html/project.html:24
 #: weblate/html/subproject.html:28 weblate/html/translation.html:27
@@ -4261,10 +4253,9 @@ msgid "Owners"
 msgstr ""
 
 #: weblate/trans/admin.py:67 weblate/trans/admin.py:112
-#, fuzzy
 #| msgid "Git repository"
 msgid "Update VCS repository"
-msgstr "Git ohjelmistolähde"
+msgstr "Päivitä versionhallinta-arkisto"
 
 #: weblate/trans/admin.py:81 weblate/trans/admin.py:129
 #, fuzzy
@@ -5249,34 +5240,29 @@ msgid "Pushed changes"
 msgstr "Selaa muutoksia"
 
 #: weblate/trans/models/changes.py:187
-#, fuzzy
 #| msgid "Git repository"
 msgid "Reset repository"
-msgstr "Git ohjelmistolähde"
+msgstr "Nollaa arkisto"
 
 #: weblate/trans/models/changes.py:188
-#, fuzzy
 #| msgid "Git repository"
 msgid "Merged repository"
-msgstr "Git ohjelmistolähde"
+msgstr "Yhdistetty arkisto"
 
 #: weblate/trans/models/changes.py:189
-#, fuzzy
 #| msgid "Git repository"
 msgid "Rebased repository"
-msgstr "Git ohjelmistolähde"
+msgstr "Uudelleen alustettu (rebase) arkisto"
 
 #: weblate/trans/models/changes.py:190
-#, fuzzy
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed merge on repository"
-msgstr "Haku ohjelmistolähteestä epäonnistui: %s"
+msgstr "Arkiston yhdistäminen epäonnistui: %s"
 
 #: weblate/trans/models/changes.py:191
-#, fuzzy
 #| msgid "Failed to update repository: %s"
 msgid "Failed rebase on repository"
-msgstr "Haku ohjelmistolähteestä epäonnistui: %s"
+msgstr "Arkiston uudelleen alustaminen (rebase) epäonnistui: %s"
 
 #: weblate/trans/models/changes.py:192
 #, fuzzy
@@ -5354,7 +5340,9 @@ msgstr "Pakota sitoutuminen"
 
 #: weblate/trans/models/project.py:123
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Onko arkistoon vietävä alkupään toimitusikkunassa."
+msgstr ""
+"Pitääkö paikallinen arkisto päivittää etäarkistoon (push) jokaisen lisätyn "
+"muutoksen (commit) jälkeen."
 
 #: weblate/trans/models/project.py:128
 msgid "Set Translation-Team header"
@@ -5462,27 +5450,26 @@ msgstr "Version hallintajärjestelmä"
 #: weblate/trans/models/subproject.py:131
 msgid ""
 "Version control system to use to access your repository with translations."
-msgstr ""
-"Version hallintajärjestelmä, jota käytetään arkistoon pääsemiseen "
-"käännöksillä."
+msgstr "Versionhallintajärjestelmä, jolla käytetään käännöstesi arkistoa."
 
 #: weblate/trans/models/subproject.py:141
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"Tietolähteen URL-osoite, käytä weblate://project/component jakaaksesi toisen "
-"komponentin kanssa."
+"Arkiston URL -osoite, käytä osoitetta weblate://project/component "
+"käyttääksesi jonkin toisen Weblate -komponentin asetuksissa määriteltyä "
+"arkistoa."
 
 #: weblate/trans/models/subproject.py:146
 msgid "Repository push URL"
-msgstr "Arkiston lähetys-URL"
+msgstr "Etäarkiston päivityslinkki (push URL)"
 
 #: weblate/trans/models/subproject.py:149
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
-"Ohjelmistolähteen lähetysosoite (URL), lähetys ei ole käytössä jos tämä on "
-"tyhjä."
+"Etäarkiston päivitysosoite (push). Päivitys ei ole käytettävissä jos tämä "
+"kohta jätetään tyhjäksi."
 
 #: weblate/trans/models/subproject.py:154
 msgid "Repository browser"
@@ -5494,16 +5481,18 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
-"Linkki arkistoselaimeen, käytä %(branch)s haaralle, %(file)s ja %(line)s "
-"tiedostonimenä ja linjan malleina."
+"Linkki arkistoselaimeen, käytä %(branch)s haaran, %(file)s tiedostonnimen, "
+"ja %(line)s rivin paikkamerkkinä (placeholder)."
 
 #: weblate/trans/models/subproject.py:163
 msgid "Exported repository URL"
-msgstr "Viety arkisto-URL"
+msgstr "Viedyn arkiston osoite (URL)"
 
 #: weblate/trans/models/subproject.py:166
 msgid "URL of a repository where users can fetch changes from Weblate"
-msgstr "URL arkistoon, jossa käyttäjät voivat hakea muutoksia Weblatesta"
+msgstr ""
+"Osoite ja polku (URL) arkistoon, josta käyttäjät voivat hakea muutoksia "
+"Weblatesta"
 
 #: weblate/trans/models/subproject.py:171
 msgid "Source string bug report address"
@@ -5519,7 +5508,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:182
 msgid "Repository branch to translate"
-msgstr "Arkistohaara käännettäväksi"
+msgstr "Käännettävä arkistohaara"
 
 #: weblate/trans/models/subproject.py:196
 msgid "Monolingual base language file"
@@ -5588,7 +5577,6 @@ msgid "Post-update script"
 msgstr ""
 
 #: weblate/trans/models/subproject.py:249
-#, fuzzy
 #| msgid ""
 #| "Script to be executed before committing translation, please check "
 #| "documentation for more details."
@@ -5596,7 +5584,7 @@ msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
-"Merkkijono suoritetaan ennen sitoutumistaan käännökseen, katso lisätietoja "
+"Scripti joka suoritetaan arkistopäivityksen jälkeen. Katso lisätietoja "
 "ohjeesta."
 
 #: weblate/trans/models/subproject.py:254
@@ -5769,8 +5757,8 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Määrittää, pitäisikö Weblate yhdistää alkupään arkistoon tai rebase "
-"muutoksia sen päälle."
+"Määrittelee, miten Weblate lisää muutokset etäarkistosta. Joko yhdistämällä "
+"(merge), tai alustamalla arkiston uudelleen (rebase)."
 
 #: weblate/trans/models/subproject.py:406
 #, fuzzy
@@ -5831,7 +5819,7 @@ msgstr ""
 #: weblate/trans/models/subproject.py:668
 #, python-format
 msgid "Failed to fetch repository: %s"
-msgstr "Haku ohjelmistolähteestä epäonnistui: %s"
+msgstr "Arkiston haku (fetch) epäonnistui: %s"
 
 #: weblate/trans/models/subproject.py:762
 #, python-format
@@ -5861,7 +5849,8 @@ msgstr "Erähaaran liitääminen %s:n epäonnistui."
 #: weblate/trans/models/subproject.py:1100
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
-"Vääränlainen linkki Weblate-projektiin, ei voi linkittää tietolähteeseen!"
+"Linkki Weblate-projektiin ei toimi, projektia ei voi linkittää määriteltyyn "
+"arkistoon!"
 
 #: weblate/trans/models/subproject.py:1107
 msgid "Invalid link to a Weblate project, can not link to self!"
@@ -5876,11 +5865,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1120
 msgid "Push URL is not used when repository is linked!"
-msgstr "Lähetyksen URL-osoitetta ei käytetä, kun arkisto on liitetty!"
+msgstr "Etäarkiston päivitysosoitetta ei käytetä linkitettyyn arkistoon!"
 
 #: weblate/trans/models/subproject.py:1124
 msgid "Export URL is not used when repository is linked!"
-msgstr "Viennin URL-osoitetta ei käytetä, kun arkisto on liitetty!"
+msgstr "Etäarkiston viennin osoitetta ei käytetä jos arkisto on linkitetty!"
 
 #: weblate/trans/models/subproject.py:1130
 msgid "The mask did not match any files!"
@@ -5995,7 +5984,7 @@ msgstr "Tiedostomuotoa ei tueta: {0}"
 #: weblate/trans/models/subproject.py:1288
 #, python-format
 msgid "Failed to update repository: %s"
-msgstr "Haku ohjelmistolähteestä epäonnistui: %s"
+msgstr "Arkiston päivitys epäonnistui: %s"
 
 #: weblate/trans/models/subproject.py:1307
 msgid "Can not validate file matches due to invalid regular expression."
@@ -6025,7 +6014,7 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Tiedostonimi %s ei löydy arkistosta! Lisää uusi käännös lisäämällä "
+"Tiedostoa %s ei löydy arkistosta! Lisää uusi käännös lisäämällä "
 "kielitiedosto arkistoon."
 
 #: weblate/trans/models/translation.py:218
@@ -6696,7 +6685,8 @@ msgstr "Tiedoston sisällön liittäminen epäonnistui: %s"
 
 #: weblate/trans/views/git.py:48
 msgid "Failed to lock the repository, another operation in progress."
-msgstr "Arkistoa ei voitu lukita, toinen toiminto on työn alla."
+msgstr ""
+"Arkiston lukitseminen epäonnistui koska toinen toiminto on jo työn alla."
 
 #: weblate/trans/views/git.py:61
 msgid "All pending translations were committed."
@@ -6704,15 +6694,15 @@ msgstr "Kaikki odottavat käännökset on suoritettu."
 
 #: weblate/trans/views/git.py:73
 msgid "All repositories were updated."
-msgstr "Kaikki tietolähteet on päivitetty."
+msgstr "Kaikki arkistot ovat ajantasalla."
 
 #: weblate/trans/views/git.py:86
 msgid "All repositories were pushed."
-msgstr "Kaikki tietolähteet on lähtetty."
+msgstr "Kaikki paikalliset muutokset on lähetetty etäarkistoihin."
 
 #: weblate/trans/views/git.py:98
 msgid "All repositories have been reset."
-msgstr "Kaikki arkistot on palautettu."
+msgstr "Kaikki arkistot on nollattu."
 
 #: weblate/trans/views/lock.py:47
 msgid "Failed to update lock, probably session has expired."
