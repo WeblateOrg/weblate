@@ -8,22 +8,24 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-05-13 13:44+0000\n"
-"PO-Revision-Date: 2015-05-01 23:53+0200\n"
-"Last-Translator: Cosmo Console <cosmoconsole@gmail.com>\n"
-"Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
-"fi/>\n"
+"PO-Revision-Date: 2016-05-16 15:22+0000\n"
+"Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
+"Language-Team: Finnish "
+"<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.3-dev\n"
+"X-Generator: Weblate 2.7-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
+"Rekisteröintiäsi ei voida vahvistaa! Todennäköisesti rekisteröinnin varmiste "
+"on vanhentunut. Ole hyvä ja yritä rekisteröintiä uudelleen."
 
 #: weblate/accounts/avatar.py:177
 msgctxt "No known user"
@@ -38,7 +40,6 @@ msgstr ""
 "Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
 
 #: weblate/accounts/forms.py:103
-#, fuzzy
 #| msgid ""
 #| "Username may contain only letters, numbers and following characters: @ . "
 #| "+ - _"
@@ -46,8 +47,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Käyttäjänimi voi sisältää vain kirjaimia, numeroita ja seuraavia merkkejä: "
-"@. + - _"
+"Käyttäjänimi voi sisältää vain kirjaimia, numeroita ja seuraavia merkkejä: @"
+". + - _"
 
 #: weblate/accounts/forms.py:109 weblate/html/project.html:164
 msgid "Username"
@@ -68,7 +69,6 @@ msgid "E-mail"
 msgstr "Sähköposti"
 
 #: weblate/accounts/forms.py:272
-#, fuzzy
 #| msgid "You can add another emails on Authentication tab."
 msgid "You can add another email address on the Authentication tab."
 msgstr ""
@@ -226,6 +226,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"Valitse ne kielet joita ymmärrät. Valitsemiesi kielten käännökset näytetään "
+"käännöksen lähdetekstin lisäksi."
 
 #: weblate/accounts/models.py:538
 msgid "Hide completed translations on dashboard"
@@ -236,43 +238,40 @@ msgid "Show secondary translations in zen mode"
 msgstr "Näytä toissijaiset käännökset zen-tilassa"
 
 #: weblate/accounts/models.py:546
+#, fuzzy
 msgid "Hide source if there is secondary language"
-msgstr ""
+msgstr "Piilota lähdeteksti jos on olemassa käännös toissijaisella kielellä."
 
 #: weblate/accounts/models.py:556 weblate/html/base.html:97
 #: weblate/html/index.html:31
-#, fuzzy
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
-msgstr "Tilaukset"
+msgstr "Tilauksesi"
 
 #: weblate/accounts/models.py:557 weblate/html/index.html:30
-#, fuzzy
 #| msgid "Source change"
 msgid "Your languages"
-msgstr "Lähde muutos"
+msgstr "Valitsemasi kielet"
 
 #: weblate/accounts/models.py:558 weblate/html/index.html:28
 #, fuzzy
 #| msgid "All subprojects"
 msgid "All projects"
-msgstr "Kaikki aliprojektit"
+msgstr "Kaikki projektit"
 
 #: weblate/accounts/models.py:559 weblate/trans/models/componentlist.py:54
-#, fuzzy
 #| msgid "Components"
 msgid "Component list"
-msgstr "Komponentit"
+msgstr "Komponenttilista"
 
 #: weblate/accounts/models.py:575
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Oletushallintanäkymä"
 
 #: weblate/accounts/models.py:581
-#, fuzzy
 #| msgid "Components"
 msgid "Default component list"
-msgstr "Komponentit"
+msgstr "Oletuskomponenttilista"
 
 #: weblate/accounts/models.py:588 weblate/html/accounts/profile.html:114
 msgid "Subscribed projects"
@@ -283,6 +282,8 @@ msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
 msgstr ""
+"Voit vastaanottaa tilattujen projektien ilmoituksia ja tilatut projektit "
+"näkyvät oletuksena ohjausnäkymässä."
 
 #: weblate/accounts/models.py:597
 msgid "Notification on any translation"
@@ -314,39 +315,41 @@ msgstr "Ilmoitus uudesta kielen pyynnöstä"
 
 #: weblate/accounts/models.py:811
 msgid "Email regular expression"
-msgstr ""
+msgstr "Sähköpostiosoitteen säännöllinen lauseke (regex)"
 
 #: weblate/accounts/models.py:815
+#, fuzzy
 msgid "Regular expression which is used to match user email."
-msgstr ""
+msgstr "Säännöllinen lauseke jolla tarkistetaan käyttäjän sähköpostiosoite."
 
 #: weblate/accounts/models.py:820
+#, fuzzy
 msgid "Group to assign"
-msgstr ""
+msgstr "Liitettävä ryhmä"
 
 #: weblate/accounts/models.py:824
-#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic group assignment"
-msgstr "Automaattinen käännös"
+msgstr "Automaattinen liittäminen ryhmään"
 
 #: weblate/accounts/models.py:825
-#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic group assignments"
-msgstr "Automaattinen käännös"
+msgstr "Automaattinen liittäminen ryhmään"
 
 #: weblate/accounts/models.py:874
+#, fuzzy
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
+"Et voi lisätä käännöksiä koska et ole liittänyt tiliisi yhtään "
+"sähköpostiosoitetta."
 
 #: weblate/accounts/pipeline.py:124
-#, fuzzy
 #| msgid "Registration date"
 msgid "New registrations are disabled!"
-msgstr "Rekisteröintipäivä"
+msgstr "Uudet rekisteröinnit on estetty!"
 
 #: weblate/accounts/views.py:95 weblate/accounts/views.py:452
 msgid "User registration"
@@ -361,7 +364,6 @@ msgid "Message has been sent to administrator."
 msgstr "Viesti ylläpitäjälle on lähetetty."
 
 #: weblate/accounts/views.py:138
-#, fuzzy
 #| msgid "You can not change demo account on the demo server."
 msgid "You cannot change demo account on the demo server."
 msgstr "Et voi vaihtaa demo-tiliä demo-serverillä."
@@ -416,6 +418,7 @@ msgstr "Vaihda salasana"
 #: weblate/accounts/views.py:548
 msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
+"Salasanaa ei voi resetoida koska sähköpostitunnistautuminen ei ole käytössä!"
 
 #: weblate/accounts/views.py:569 weblate/html/accounts/reset.html:7
 #: weblate/html/accounts/reset.html:21
@@ -428,50 +431,45 @@ msgid "Projects"
 msgstr "Projektit"
 
 #: weblate/billing/models.py:69
-#, fuzzy
 #| msgid "Activity"
 msgid "Active"
-msgstr "Toiminta"
+msgstr "Aktiivinen"
 
 #: weblate/billing/models.py:70
 msgid "Trial"
-msgstr ""
+msgstr "Kokeilu"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
-msgstr ""
+msgstr "Vanhentunut"
 
 #: weblate/billing/models.py:90
 msgid "Changes in last month"
-msgstr ""
+msgstr "Muutokset viimeisen kuukauden aikana"
 
 #: weblate/billing/models.py:94
 msgid "Changes in last quarter"
-msgstr ""
+msgstr "Muutokset viimeisen neljännesvuoden aikana"
 
 #: weblate/billing/models.py:98
-#, fuzzy
 #| msgid "Activity in last year"
 msgid "Changes in last year"
-msgstr "Aktiivisuus viime vuonna"
+msgstr "Mutokset viimeisen vuoden aikana"
 
 #: weblate/billing/models.py:106 weblate/trans/admin.py:46
-#, fuzzy
 #| msgid "Status of repositories"
 msgid "VCS repositories"
-msgstr "Ohjelmistolähteiden tilanne"
+msgstr "Versionhallinnan ohjelmavarastot"
 
 #: weblate/billing/models.py:112 weblate/trans/admin.py:50
-#, fuzzy
 #| msgid "Source string:"
 msgid "Source strings"
-msgstr "Lähdemerkkijono:"
+msgstr "Lähdeteksti"
 
 #: weblate/billing/models.py:118 weblate/trans/admin.py:54
-#, fuzzy
 #| msgid "Source"
 msgid "Source words"
-msgstr "Lähde"
+msgstr "Lähdetekstin sanat"
 
 #: weblate/billing/models.py:124 weblate/html/accounts/profile.html:21
 #: weblate/html/accounts/profile.html:39 weblate/html/language.html:6
@@ -490,10 +488,9 @@ msgid "You don't have privileges to display this page."
 msgstr "Sinulla ei ole oikeuksia tämän sivun näyttämiseen."
 
 #: weblate/html/403.html:14
-#, fuzzy
 #| msgid "Donate to Weblate"
 msgid "Login to Weblate"
-msgstr "Lahjoita Weblate:lle"
+msgstr "Kirjaudu Weblateen"
 
 #: weblate/html/403.html:20 weblate/html/404.html:15
 msgid ""
@@ -510,10 +507,9 @@ msgid "The page you are looking for was not found."
 msgstr "Sivua jota etsit, ei löytynyt."
 
 #: weblate/html/500.html:5 weblate/trans/views/basic.py:417
-#, fuzzy
 #| msgid "Server Error"
 msgid "Internal Server Error"
-msgstr "Palvelinvirhe"
+msgstr "Palvelimen sisäinen virhe"
 
 #: weblate/html/500.html:9
 msgid "Server Error"
@@ -601,10 +597,9 @@ msgid "Ask for project hosting"
 msgstr "Kysy projektin isännöintiä"
 
 #: weblate/html/about.html:44
-#, fuzzy
 #| msgid "Missing plurals"
 msgid "View hosting plans"
-msgstr "Puuttuvat monikot"
+msgstr "Katso hostauspalvelupakettit"
 
 #: weblate/html/about.html:45 weblate/html/accounts/hosting.html:53
 msgid "Contact us for commercial hosting"
@@ -799,12 +794,13 @@ msgid "Licenses"
 msgstr "Lisenssit"
 
 #: weblate/html/accounts/profile.html:28 weblate/html/accounts/profile.html:297
+#, fuzzy
 msgid "API access"
-msgstr ""
+msgstr "Rajapinta (API)"
 
 #: weblate/html/accounts/profile.html:30
 msgid "Billing"
-msgstr ""
+msgstr "Laskutus"
 
 #: weblate/html/accounts/profile.html:44 weblate/html/accounts/profile.html:76
 #: weblate/html/accounts/profile.html:119
@@ -854,7 +850,7 @@ msgstr "Ohjeet"
 
 #: weblate/html/accounts/profile.html:85
 msgid "Customize Weblate behavior to match your personal preferences."
-msgstr ""
+msgstr "Muokkaa Weblaten toiminta omien tarpeidesi mukaiseksi."
 
 #: weblate/html/accounts/profile.html:101
 msgid "Managed projects"
