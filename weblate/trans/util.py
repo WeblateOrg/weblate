@@ -25,13 +25,14 @@ import sys
 import traceback
 import unicodedata
 
+from six.moves.urllib.parse import urlparse
+
 try:
     import pyuca  # pylint: disable=import-error
     HAS_PYUCA = True
 except ImportError:
     HAS_PYUCA = False
 
-from six.moves.urllib.parse import urlparse
 import six
 
 from django.core.exceptions import ImproperlyConfigured
