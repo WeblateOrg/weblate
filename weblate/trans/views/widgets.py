@@ -126,7 +126,8 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
 
     # Handle language parameter
     if lang is not None:
-        lang = try_set_language(lang)
+        try_set_language(lang)
+        lang = Language.objects.try_get(code=lang)
 
     # Get widget class
     try:
