@@ -353,7 +353,4 @@ def sort_choices(choices):
 
 def sort_objects(objects):
     """Sorts objects alphabetically"""
-    return sort_unicode(
-        objects,
-        lambda x: force_text(x)
-    )
+    return sort_unicode(objects, force_text)
