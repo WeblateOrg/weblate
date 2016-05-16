@@ -11,6 +11,8 @@ Released on ? 2016.
 * Fixed Google Translate API for Hebrew language.
 * Compatibility with Mercurial 3.8.
 * Added import_json management command.
+* Correct ordering of listed traslations.
+* Show full suggestion text, not only a diff.
 
 weblate 2.6
 -----------

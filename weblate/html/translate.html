@@ -198,6 +198,8 @@
 {% trans "Anonymous user has suggested" %}
 {% endif %}
 </strong></h5>
+{% format_translation suggestion.target unit.translation.language %}
+<p class="help-block">{% trans "Suggested change:" %}</p>
 {% format_translation suggestion.target unit.translation.language unit.target %}
 {% if user_can_vote_suggestion %}
 <p class="help-block">
