@@ -47,7 +47,7 @@ from weblate.trans.permissions import (
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
-from weblate.accounts.forms import sort_choices
+from weblate.trans.util import sort_choices
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 

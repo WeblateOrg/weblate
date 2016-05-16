@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 from itertools import chain
-import unicodedata
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _, pgettext
@@ -28,45 +27,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 
-try:
-    import pyuca  # pylint: disable=import-error
-    HAS_PYUCA = True
-except ImportError:
-    HAS_PYUCA = False
-
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
 from weblate.lang.models import Language
 from weblate.trans.models import Project
+from weblate.trans.util import sort_choices
 from weblate.logger import LOGGER
-
-
-def remove_accents(input_str):
-    """
-    Removes accents from a string.
-    """
-    nkfd_form = unicodedata.normalize('NFKD', force_text(input_str))
-    only_ascii = nkfd_form.encode('ASCII', 'ignore')
-    return only_ascii
-
-
-def sort_choices(choices):
-    '''
-    Sorts choices alphabetically.
-
-    Either using cmp or pyuca.
-    '''
-    if not HAS_PYUCA:
-        return sorted(
-            choices,
-            key=lambda tup: remove_accents(tup[1]).lower()
-        )
-    else:
-        collator = pyuca.Collator()
-        return sorted(
-            choices,
-            key=lambda tup: collator.sort_key(force_text(tup[1]))
-        )
 
 
 class UniqueEmailMixin(object):

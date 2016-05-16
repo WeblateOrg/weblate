@@ -21,9 +21,12 @@
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 from django.http import Http404
+
+from six.moves.urllib.parse import urlencode
+
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Dictionary, Change
-from six.moves.urllib.parse import urlencode
+from weblate.trans.util import sort_objects
 
 
 def show_languages(request):
@@ -31,7 +34,9 @@ def show_languages(request):
         request,
         'languages.html',
         {
-            'languages': Language.objects.have_translation(),
+            'languages': sort_objects(
+                Language.objects.have_translation()
+            ),
             'title': _('Languages'),
         }
     )

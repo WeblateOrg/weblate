@@ -36,8 +36,7 @@ from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
-from weblate.accounts.forms import HAS_PYUCA
-from weblate.trans.util import get_configuration_errors
+from weblate.trans.util import get_configuration_errors, HAS_PYUCA
 from weblate.trans.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
     get_host_keys, can_generate_key
