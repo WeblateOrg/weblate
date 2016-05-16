@@ -211,7 +211,8 @@ def show_engage(request, project, lang=None):
     # Handle language parameter
     language = None
     if lang is not None:
-        language = try_set_language(lang)
+        try_set_language(lang)
+        language = Language.objects.try_get(code=lang)
 
     context = {
         'object': obj,

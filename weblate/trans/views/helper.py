@@ -29,7 +29,6 @@ from django.utils.translation import trans_real
 
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Project, SubProject, Translation
-from weblate.lang.models import Language
 
 
 def get_translation(request, project, subproject, lang, skip_acl=False):
@@ -101,7 +100,7 @@ def get_project_translation(request, project=None, subproject=None, lang=None):
 
 def try_set_language(lang):
     '''
-    Tries to activate language, returns matching Language object.
+    Tries to activate language
     '''
 
     try:
@@ -113,10 +112,6 @@ def try_set_language(lang):
     except Exception:
         # Ignore failure on activating language
         django.utils.translation.activate('en')
-    try:
-        return Language.objects.get(code=lang)
-    except Language.DoesNotExist:
-        return None
 
 
 def import_message(request, count, message_none, message_ok):
