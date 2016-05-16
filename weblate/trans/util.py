@@ -349,3 +349,11 @@ def sort_choices(choices):
     Either using cmp or pyuca.
     '''
     return sort_unicode(choices, lambda tup: tup[1])
+
+
+def sort_objects(objects):
+    """Sorts objects alphabetically"""
+    return sort_unicode(
+        objects,
+        lambda x: force_text(x)
+    )
