@@ -687,7 +687,7 @@ Translations
 
     Download current translation file.
 
-    :query format: File format to use, if not specified no format conversion happens.
+    :query format: File format to use, if not specified no format conversion happens, supported file formats: ``po``, ``mo``, ``xliff``, ``xliff12``, ``tbx``
 
     :param project: Project URL slug
     :type project: string
