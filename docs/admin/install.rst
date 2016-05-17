@@ -87,7 +87,9 @@ need to install several Python modules manually using pip:
     # In case python-whoosh package is misssing or older than 2.5
     pip install Whoosh 
 
-    # In case your python-django-compressor package is missing
+    # In case your python-django-compressor package is missing,
+    # try installing it by older name or using pip:
+    apt-get install python-compressor
     pip install django_compressor
 
 For proper sorting of a unicode strings, it is recommended to install pyuca:
