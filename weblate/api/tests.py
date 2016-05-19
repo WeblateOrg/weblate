@@ -81,7 +81,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         )
 
     def do_request(self, name, kwargs, data=None, code=200, superuser=False,
-                   get=True, request=None):
+                   get=True, request=None, skip=()):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
         if get:
@@ -90,6 +90,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             response = self.client.post(url, request)
         self.assertEqual(response.status_code, code)
         if data is not None:
+            for item in skip:
+                del response.data[item]
             self.assertEqual(response.data, data)
         return response
 
@@ -256,8 +258,10 @@ class ComponentAPITest(APIBaseTest):
             data={
                 'needs_push': False,
                 'needs_merge': False,
-                'needs_commit': False
-            }
+                'needs_commit': False,
+                'merge_failure': None,
+            },
+            skip=('remote_commit', 'status'),
         )
 
     def test_new_template_404(self):
@@ -424,6 +428,8 @@ class TranslationAPITest(APIBaseTest):
             data={
                 'needs_push': False,
                 'needs_merge': False,
-                'needs_commit': False
-            }
+                'needs_commit': False,
+                'merge_failure': None,
+            },
+            skip=('remote_commit', 'status'),
         )
