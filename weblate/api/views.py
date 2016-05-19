@@ -20,6 +20,7 @@
 
 import os.path
 
+from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from django.http import Http404, HttpResponse
@@ -151,14 +152,18 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
             serializer = RepoRequestSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 
-            result = self.repository_operation(
-                request, obj, project, serializer.validated_data['operation']
-            )
-            return Response(
-                data={
-                    'result': result
-                }
-            )
+            data = {
+                'result': self.repository_operation(
+                    request, obj, project,
+                    serializer.validated_data['operation']
+                )
+            }
+
+            storage = get_messages(request)
+            if storage:
+                data['detail'] = '\n'.join([m.message for m in storage])
+
+            return Response(data)
 
         if not can_see_repository_status(request.user, project):
             raise PermissionDenied()
