@@ -60,7 +60,8 @@ install them you can use apt-get:
     apt-get install python-pip python-django translate-toolkit \
         python-whoosh python-pil python-libravatar \
         python-babel Git mercurial python-social-auth \
-        python-django-compressor python-django-crispy-forms
+        python-django-compressor python-django-crispy-forms \
+        python-dateutil
 
     # Optional for database backend
 
@@ -138,7 +139,8 @@ Most of requirements are available either directly in openSUSE or in
 
     zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow python-python-social-auth \
-        python-babel Git mercurial python-pyuca
+        python-babel Git mercurial python-pyuca \
+        python-dateutil
 
     # Optional for database backend
     zypper install python-MySQL-python  # For MySQL
