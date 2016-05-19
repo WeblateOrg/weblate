@@ -25,7 +25,6 @@ from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.conf import settings
-from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.core.mail.message import EmailMultiAlternatives
@@ -53,6 +52,7 @@ from weblate.accounts.forms import (
 from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
+from weblate.trans import messages
 from weblate.trans.models import Change, Project, SubProject
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,

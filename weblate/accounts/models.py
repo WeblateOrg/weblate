@@ -29,7 +29,6 @@ from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in, user_logged_out
-from django.contrib import messages
 from django.db.models.signals import post_save, post_migrate
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -44,6 +43,7 @@ from rest_framework.authtoken.models import Token
 from social.apps.django_app.default.models import UserSocialAuth
 
 from weblate.lang.models import Language
+from weblate.trans import messages
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.trans.fields import RegexField
 from weblate.accounts.avatar import get_user_display

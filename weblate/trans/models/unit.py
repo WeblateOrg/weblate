@@ -28,10 +28,10 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible
-from django.contrib import messages
 from django.core.cache import cache
 
 from weblate import appsettings
+from weblate.trans import messages
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
 from weblate.trans.models.unitdata import Check, Comment, Suggestion

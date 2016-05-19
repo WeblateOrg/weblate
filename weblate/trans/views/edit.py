@@ -28,11 +28,11 @@ from django.views.decorators.http import require_POST
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.encoding import force_text
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import formats
 from django.core.exceptions import PermissionDenied
 
+from weblate.trans import messages
 from weblate.trans.models import (
     Unit, Change, Comment, Suggestion, Dictionary,
     get_related_units,

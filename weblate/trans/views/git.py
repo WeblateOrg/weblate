@@ -19,9 +19,10 @@
 #
 
 from django.utils.translation import ugettext as _
-from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
+
+from weblate.trans import messages
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )

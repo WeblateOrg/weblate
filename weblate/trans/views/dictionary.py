@@ -25,7 +25,6 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
@@ -33,6 +32,7 @@ from django.core.urlresolvers import reverse
 import six
 from six.moves.urllib.parse import urlencode
 
+from weblate.trans import messages
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language

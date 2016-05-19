@@ -23,7 +23,6 @@ import datetime
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.db.models import Sum, Count, Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
@@ -33,6 +32,7 @@ import django.views.defaults
 from six import string_types
 from six.moves.urllib.parse import urlencode
 
+from weblate.trans import messages
 from weblate.trans.models import (
     Project, SubProject, Translation, Check, ComponentList,
     Dictionary, Change, Unit, WhiteboardMessage

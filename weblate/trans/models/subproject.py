@@ -32,11 +32,11 @@ from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.mail import mail_admins
 from django.core.exceptions import ValidationError
-from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
+from weblate.trans import messages
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.filelock import FileLock

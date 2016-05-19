@@ -22,7 +22,6 @@ import csv
 
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, activate
 from django.core.urlresolvers import reverse
@@ -31,6 +30,7 @@ from django.core.exceptions import PermissionDenied
 
 from six.moves.urllib.parse import urlencode
 
+from weblate.trans import messages
 from weblate.trans.models.changes import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language

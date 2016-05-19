@@ -26,9 +26,10 @@ from django.shortcuts import redirect, get_object_or_404
 from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
 from django.views.decorators.http import require_POST
-from django.contrib import messages
+
 from six.moves.urllib.parse import urlencode
 
+from weblate.trans import messages
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source
 from weblate.trans.forms import PriorityForm, CheckFlagsForm

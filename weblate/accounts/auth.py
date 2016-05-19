@@ -21,7 +21,6 @@
 import sys
 
 from django.contrib.auth.models import User, Permission
-from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
@@ -33,6 +32,7 @@ import social.backends.email
 from social.exceptions import AuthMissingParameter
 
 from weblate.appsettings import ANONYMOUS_USER_NAME
+from weblate.trans import messages
 from weblate.trans.util import report_error
 
 

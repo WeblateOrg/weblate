@@ -21,12 +21,12 @@
 Helper methods for views.
 '''
 
-from django.contrib import messages
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404
 import django.utils.translation
 from django.utils.translation import trans_real
 
+from weblate.trans import messages
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Project, SubProject, Translation
 

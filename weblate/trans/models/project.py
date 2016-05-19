@@ -28,7 +28,6 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models.signals import m2m_changed
 from django.contrib.auth.models import Permission, User, Group
@@ -38,6 +37,7 @@ from django.core.cache import cache
 from weblate.accounts.models import Profile
 from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.lang.models import Language, get_english_lang
+from weblate.trans import messages
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
