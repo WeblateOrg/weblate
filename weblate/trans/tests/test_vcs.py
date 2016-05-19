@@ -381,7 +381,6 @@ class VCSGerritTest(VCSGitTest):
 class VCSGithubTest(VCSGitTest):
     _class = GithubFakeRepository
     _vcs = 'git'
-    _can_push = False
 
 
 class VCSHgTest(VCSGitTest):
