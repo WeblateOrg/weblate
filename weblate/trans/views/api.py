@@ -308,23 +308,7 @@ def export_stats(request, project, subproject):
 
     response = []
     for trans in subprj.translation_set.all():
-        response.append({
-            'code': trans.language.code,
-            'name': trans.language.name,
-            'total': trans.total,
-            'total_words': trans.total_words,
-            'last_change': trans.last_change,
-            'last_author': trans.get_last_author(),
-            'translated': trans.translated,
-            'translated_words': trans.translated_words,
-            'translated_percent': trans.get_translated_percent(),
-            'fuzzy': trans.fuzzy,
-            'fuzzy_percent': trans.get_fuzzy_percent(),
-            'failing': trans.failing_checks,
-            'failing_percent': trans.get_failing_checks_percent(),
-            'url': trans.get_share_url(),
-            'url_translate': trans.get_absolute_url(),
-        })
+        response.append(trans.get_stats())
     if jsonp:
         return HttpResponse(
             '{0}({1})'.format(

@@ -1207,3 +1207,23 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def get_export_url(self):
         """Returns URL of exported git repository."""
         return self.subproject.get_export_url()
+
+    def get_stats(self):
+        """Returns stats dictionary"""
+        return {
+            'code': self.language.code,
+            'name': self.language.name,
+            'total': self.total,
+            'total_words': self.total_words,
+            'last_change': self.last_change,
+            'last_author': self.get_last_author(),
+            'translated': self.translated,
+            'translated_words': self.translated_words,
+            'translated_percent': self.get_translated_percent(),
+            'fuzzy': self.fuzzy,
+            'fuzzy_percent': self.get_fuzzy_percent(),
+            'failing': self.failing_checks,
+            'failing_percent': self.get_failing_checks_percent(),
+            'url': self.get_share_url(),
+            'url_translate': self.get_absolute_url(),
+        }
