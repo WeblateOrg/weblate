@@ -687,6 +687,18 @@ class GithubRepository(GitRepository):
     else:
         _cmd_push = ['push', _hub_user]
 
+    @staticmethod
+    def _getenv():
+        """Generates environment for process execution."""
+        env = {'GIT_SSH': ssh_file(SSH_WRAPPER)}
+
+        # Add path to config if it exists
+        userconfig = os.path.expanduser('~/.config/hub')
+        if os.path.exists(userconfig):
+            env['HUB_CONFIG'] = userconfig
+
+        return get_clean_env(env)
+
     def create_pull_request(self, origin_branch, fork_branch):
         """
         Creates pull request to merge branch in forked repository into
