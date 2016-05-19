@@ -60,7 +60,8 @@ install them you can use apt-get:
     apt-get install python-pip python-django translate-toolkit \
         python-whoosh python-pil python-libravatar \
         python-babel Git mercurial python-social-auth \
-        python-django-compressor python-django-crispy-forms
+        python-django-compressor python-django-crispy-forms \
+        python-dateutil
 
     # Optional for database backend
 
@@ -138,7 +139,8 @@ Most of requirements are available either directly in openSUSE or in
 
     zypper install python-Django translate-toolkit \
         python-Whoosh python-Pillow python-python-social-auth \
-        python-babel Git mercurial python-pyuca
+        python-babel Git mercurial python-pyuca \
+        python-dateutil
 
     # Optional for database backend
     zypper install python-MySQL-python  # For MySQL
@@ -293,7 +295,7 @@ It is usually good idea to run Weblate in separate database and separate user:
     sudo -u postgres psql postgres -c "\password postgres"
 
     # Create database user called "weblate"
-    sudo -u postgres createuser -D -A -P weblate
+    sudo -u postgres createuser -D -P weblate
 
     # Create database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
