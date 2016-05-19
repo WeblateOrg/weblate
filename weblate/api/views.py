@@ -35,7 +35,7 @@ from rest_framework.utils import formatting
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer, LockRequestSerializer, LockSerializer,
-    RepoRequestSerializer,
+    RepoRequestSerializer, StatisticsSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import Project, SubProject, Translation, Change
@@ -346,6 +346,21 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.translation_set.all()
+        page = self.paginate_queryset(queryset)
+
+        serializer = StatisticsSerializer(
+            page,
+            many=True,
+            context={'request': request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API.
@@ -400,6 +415,17 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         )
 
         return Response(data={'result': ret, 'count': count})
+
+    @detail_route(methods=['get'])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = StatisticsSerializer(
+            obj,
+            context={'request': request},
+        )
+
+        return Response(serializer.data)
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):

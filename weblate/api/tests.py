@@ -265,6 +265,16 @@ class ComponentAPITest(APIBaseTest):
             skip=('remote_commit', 'status', 'url'),
         )
 
+    def test_statistics(self):
+        self.do_request(
+            'api:component-statistics',
+            self.component_kwargs,
+            data={
+                'count': 3,
+            },
+            skip=('results', 'previous', 'next'),
+        )
+
     def test_new_template_404(self):
         self.do_request(
             'api:component-new-template',
@@ -433,4 +443,27 @@ class TranslationAPITest(APIBaseTest):
                 'merge_failure': None,
             },
             skip=('remote_commit', 'status', 'url'),
+        )
+
+    def test_statistics(self):
+        self.do_request(
+            'api:translation-statistics',
+            self.translation_kwargs,
+            data={
+                'last_author': None,
+                'code': 'cs',
+                'failing_percent': 0.0,
+                'url': 'http://example.com/engage/test/cs/',
+                'translated_percent': 0.0,
+                'total_words': 15,
+                'failing': 0,
+                'translated_words': 0,
+                'url_translate': 'http://example.com/projects/test/test/cs/',
+                'fuzzy_percent': 0.0,
+                'translated': 0,
+                'fuzzy': 0,
+                'total': 4,
+                'last_change': None,
+                'name': 'Czech'
+            }
         )

@@ -559,11 +559,23 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of transaltion objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
+    :>json array results: array of translation objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
     .. seealso::
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+.. http:get:: /api/componentss/(string:project)/(string:component)/(string:language)/statistics/
+
+    Returns paginated statistics for all translations within component.
+
+    .. versionadded:: 2.7
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of translation statis objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
 Translations
 ++++++++++++
@@ -768,6 +780,34 @@ Translations
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/statistics/
+
+    Returns detailed translation statistics.
+
+    .. versionadded:: 2.7
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json code: language code
+    :>json failing: number of failing checks
+    :>json failing_percent: percentage of failing checks
+    :>json fuzzy: number of strings needing review
+    :>json fuzzy_percent: percentage of strings needing review
+    :>json total_words: total number of words
+    :>json translated_words: number of translated words
+    :>json last_author: name of last author
+    :>json last_change: date of last change
+    :>json name: language name
+    :>json total: total number of strings
+    :>json translated: number of translated strings
+    :>json translated_percent: percentage of translated strings
+    :>json url: URL to access the translation (engagement URL)
+    :>json url_translate: URL to access the translation (real translation URL)
+
 .. _hooks:
 
 Notification hooks
@@ -862,6 +902,7 @@ Weblate provides various exports to allow you further process the data.
     .. deprecated:: 2.6
 
         Please use :http:get:`/api/components/(string:project)/(string:component)/translations/`
+        and :http:get:`/api/components/(string:project)/(string:component)/statistics/`
         instead, it allows to access ACL controlled projects as well.
 
     Retrieves statistics for given component in JSON format. Optionally as
@@ -936,33 +977,6 @@ Weblate provides various exports to allow you further process the data.
                 "url_translate": "http://hosted.weblate.org/projects/weblate/master/el/"
             },
         ]
-
-    Included data:
-
-    ``code``
-        language code
-    ``failing``, ``failing_percent``
-        number and percentage of failing checks
-    ``fuzzy``, ``fuzzy_percent``
-        number and percentage of strings needing review
-    ``total_words``
-        total number of words
-    ``translated_words``
-        number of translated words
-    ``last_author``
-        name of last author
-    ``last_change``
-        date of last change
-    ``name``
-        language name
-    ``total``
-        total number of strings
-    ``translated``, ``translated_percent``
-        number and percentage of translated strings
-    ``url``
-        URL to access the translation (engagement URL)
-    ``url_translate``
-        URL to access the translation (real translation URL)
 
 .. _rss:
 

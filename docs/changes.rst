@@ -13,6 +13,7 @@ Released on ? 2016.
 * Added import_json management command.
 * Correct ordering of listed traslations.
 * Show full suggestion text, not only a diff.
+* Extend API (detailed repository status, statistics, ...).
 
 weblate 2.6
 -----------

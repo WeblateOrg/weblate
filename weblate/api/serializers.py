@@ -113,6 +113,10 @@ class ComponentSerializer(RemovableSerializer):
         view_name='api:component-translations',
         lookup_field=('project__slug', 'slug'),
     )
+    statistics_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-statistics',
+        lookup_field=('project__slug', 'slug'),
+    )
     lock_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-lock',
         lookup_field=('project__slug', 'slug'),
@@ -126,7 +130,7 @@ class ComponentSerializer(RemovableSerializer):
             'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
             'branch', 'filemask', 'template', 'new_base', 'file_format',
             'license', 'license_url', 'web_url', 'url',
-            'repository_url', 'translations_url',
+            'repository_url', 'translations_url', 'statistics_url',
             'lock_url',
         )
         extra_kwargs = {
@@ -176,6 +180,14 @@ class TranslationSerializer(RemovableSerializer):
             'language__code',
         ),
     )
+    statistics_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-statistics',
+        lookup_field=(
+            'subproject__project__slug',
+            'subproject__slug',
+            'language__code',
+        ),
+    )
     file_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:translation-file',
         lookup_field=(
@@ -201,7 +213,7 @@ class TranslationSerializer(RemovableSerializer):
             'fuzzy', 'fuzzy_percent',
             'failing_checks_percent',
             'last_change', 'last_author',
-            'repository_url', 'file_url',
+            'repository_url', 'file_url', 'statistics_url',
         )
         extra_kwargs = {
             'url': {
@@ -237,3 +249,8 @@ class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
         choices=('commit', 'pull', 'push', 'reset')
     )
+
+
+class StatisticsSerializer(ReadOnlySerializer):
+    def to_representation(self, obj):
+        return obj.get_stats()
