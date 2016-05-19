@@ -46,7 +46,7 @@ from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 from weblate import get_doc_url
 
-OPERATIONS = {
+REPO_OPERATIONS = {
     'push': (can_push_translation, 'do_push'),
     'pull': (can_update_translation, 'do_update'),
     'reset': (can_reset_translation, 'do_reset'),
@@ -126,7 +126,7 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
     def repository_operation(self, request, obj, project, operation):
-        permission_check, method = OPERATIONS[operation]
+        permission_check, method = REPO_OPERATIONS[operation]
 
         if not permission_check(request.user, project):
             raise PermissionDenied()
