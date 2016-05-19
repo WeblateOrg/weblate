@@ -738,11 +738,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         * There is something to push
         """
         if on_commit and not self.project.push_on_commit:
-            return False
+            return True
         if not self.can_push():
-            return False
+            return True
         if not self.repo_needs_push():
-            return False
+            return True
         return self.do_push(
             request, force_commit=False, do_update=do_update
         )
