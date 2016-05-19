@@ -36,7 +36,7 @@ from weblate.api.serializers import (
     RepoRequestSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
-from weblate.trans.models import Project, SubProject, Translation
+from weblate.trans.models import Project, SubProject, Translation, Change
 from weblate.trans.permissions import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
@@ -140,9 +140,9 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
     def repository(self, request, **kwargs):
         obj = self.get_object()
 
-        if hasattr(obj, 'subproject'):
+        if isinstance(obj, Translation):
             project = obj.subproject.project
-        elif hasattr(obj, 'project'):
+        elif isinstance(obj, SubProject):
             project = obj.project
         else:
             project = obj
@@ -163,13 +163,34 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
         if not can_see_repository_status(request.user, project):
             raise PermissionDenied()
 
-        return Response(
-            data={
-                'needs_commit': obj.repo_needs_commit(),
-                'needs_merge': obj.repo_needs_merge(),
-                'needs_push': obj.repo_needs_push(),
-            }
-        )
+        data = {
+            'needs_commit': obj.repo_needs_commit(),
+            'needs_merge': obj.repo_needs_merge(),
+            'needs_push': obj.repo_needs_push(),
+        }
+
+        if not isinstance(obj, Project):
+            data['remote_commit'] = obj.get_last_remote_commit()
+
+            if isinstance(obj, Translation):
+                data['status'] = obj.subproject.repository.status()
+                changes = Change.objects.filter(
+                    action__in=Change.ACTIONS_REPOSITORY,
+                    subproject=obj.subproject,
+                )
+            else:
+                data['status'] = obj.repository.status()
+                changes = Change.objects.filter(
+                    action__in=Change.ACTIONS_REPOSITORY,
+                    subproject=obj,
+                )
+
+            if changes.exists() and changes[0].is_merge_failure():
+                data['merge_failure'] = changes[0].target
+            else:
+                data['merge_failure'] = None
+
+        return Response(data)
 
 
 class ProjectViewSet(WeblateViewSet):

@@ -279,7 +279,9 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/repository/
 
-    Returns information about VCS repository status.
+    Returns information about VCS repository status. This endpoint contains
+    only overall summary for all repositories for project. To get more detailed
+    status use :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
     :param project: Project URL slug
     :type project: string
@@ -495,6 +497,12 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
+    :>json boolean needs_commit: whether there are any pending changes to commit
+    :>json boolean needs_merge: whether there are any upstream changes to merge
+    :>json boolean needs_push: whether there are any local changes to push
+    :>json remote_commit: Remote commit information
+    :>json status: VCS repository status as reported by VCS
+    :>json merge_failure: Text describing merge failure, null if there is none
 
     .. seealso::
 
@@ -728,7 +736,7 @@ Translations
 
     Returns information about VCS repository status.
 
-    The response is same as for :http:get:`/api/projects/(string:project)/repository/`.
+    The response is same as for :http:get:`/api/components/(string:project)/(string:component)/repository/`.
 
     :param project: Project URL slug
     :type project: string
