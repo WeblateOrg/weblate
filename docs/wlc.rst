@@ -9,6 +9,11 @@ Weblate Client
 
 .. program:: wlc
 
+.. versionadded:: 2.7
+
+    The wlc utility is fully supported since Weblate 2.7. If you are using older version
+    some incompatibilities with API might occur.
+
 Instalation
 +++++++++++
 
