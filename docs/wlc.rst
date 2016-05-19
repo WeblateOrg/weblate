@@ -105,7 +105,11 @@ Currently following subcommands are available:
 
 .. option:: push
 
-    Pusches changes in Weblate object into remote repositor (translation, component or project).
+    Pusches changes in Weblate object into remote repository (translation, component or project).
+
+.. option:: repo
+
+    Displays repository status for given Weblate object (translation, component or project).
 
 .. _files:
 
