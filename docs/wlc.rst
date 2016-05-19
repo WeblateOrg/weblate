@@ -191,3 +191,36 @@ List all projects:
     url: http://example.com/api/projects/hello/
     web: http://weblate.org/
     web_url: http://example.com/projects/hello/
+
+You can also let wlc know current project and it will then operate on it:
+
+.. code-block:: sh
+
+    $ cat .weblate 
+    [weblate]
+    url = https://hosted.weblate.org/api/
+    translation = weblate/master
+    
+    $ wlc show
+    branch: master
+    file_format: po
+    filemask: weblate/locale/*/LC_MESSAGES/django.po
+    git_export: git://git.weblate.org/weblate.git
+    license: GPL-3.0+
+    license_url: https://spdx.org/licenses/GPL-3.0+
+    name: master
+    new_base: weblate/locale/django.pot
+    project: weblate
+    repo: git://github.com/nijel/weblate.git
+    slug: master
+    template: 
+    url: https://hosted.weblate.org/api/components/weblate/master/
+    vcs: git
+    web_url: https://hosted.weblate.org/projects/weblate/master/
+
+
+With such setup it is easy to commit pending changes in current project:
+
+.. code-block:: sh
+
+    $ wlc commit
