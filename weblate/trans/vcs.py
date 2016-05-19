@@ -144,6 +144,11 @@ class Repository(object):
 
         return real_path[len(repository_path):].lstrip('/')
 
+    @staticmethod
+    def _getenv():
+        """Generates environment for process execution."""
+        return get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)})
+
     @classmethod
     def _popen(cls, args, cwd=None):
         '''
@@ -155,7 +160,7 @@ class Repository(object):
         process = subprocess.Popen(
             args,
             cwd=cwd,
-            env=get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)}),
+            env=cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
