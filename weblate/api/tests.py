@@ -168,7 +168,8 @@ class ProjectAPITest(APIBaseTest):
                 'needs_push': False,
                 'needs_merge': False,
                 'needs_commit': False
-            }
+            },
+            skip=('url',),
         )
 
     def test_components(self):
@@ -261,7 +262,7 @@ class ComponentAPITest(APIBaseTest):
                 'needs_commit': False,
                 'merge_failure': None,
             },
-            skip=('remote_commit', 'status'),
+            skip=('remote_commit', 'status', 'url'),
         )
 
     def test_new_template_404(self):
@@ -431,5 +432,5 @@ class TranslationAPITest(APIBaseTest):
                 'needs_commit': False,
                 'merge_failure': None,
             },
-            skip=('remote_commit', 'status'),
+            skip=('remote_commit', 'status', 'url'),
         )

@@ -185,11 +185,12 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
             data['remote_commit'] = obj.get_last_remote_commit()
 
             if isinstance(obj, Translation):
+                subproject = obj.subproject
                 data['url'] = reverse(
                     'api:translation-repository',
                     kwargs={
-                        'subproject__project__slug': obj.subproject.project.slug,
-                        'subproject__slug': obj.subproject.slug,
+                        'subproject__project__slug': subproject.project.slug,
+                        'subproject__slug': subproject.slug,
                         'language__code': obj.language.code,
                     },
                     request=request
