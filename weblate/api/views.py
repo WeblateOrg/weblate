@@ -29,6 +29,7 @@ from django.utils.encoding import smart_text
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.utils import formatting
 
 from weblate.api.serializers import (
@@ -174,16 +175,39 @@ class WeblateViewSet(viewsets.ReadOnlyModelViewSet):
             'needs_push': obj.repo_needs_push(),
         }
 
-        if not isinstance(obj, Project):
+        if isinstance(obj, Project):
+            data['url'] = reverse(
+                'api:project-repository',
+                kwargs={'slug': obj.slug},
+                request=request
+            )
+        else:
             data['remote_commit'] = obj.get_last_remote_commit()
 
             if isinstance(obj, Translation):
+                data['url'] = reverse(
+                    'api:translation-repository',
+                    kwargs={
+                        'subproject__project__slug': obj.subproject.project.slug,
+                        'subproject__slug': obj.subproject.slug,
+                        'language__code': obj.language.code,
+                    },
+                    request=request
+                )
                 data['status'] = obj.subproject.repository.status()
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
                     subproject=obj.subproject,
                 )
             else:
+                data['url'] = reverse(
+                    'api:component-repository',
+                    kwargs={
+                        'project__slug': obj.project.slug,
+                        'slug': obj.slug,
+                    },
+                    request=request
+                )
                 data['status'] = obj.repository.status()
                 changes = Change.objects.filter(
                     action__in=Change.ACTIONS_REPOSITORY,
