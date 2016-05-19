@@ -116,6 +116,10 @@ Currently following subcommands are available:
 
     Displays repository status for given Weblate object (translation, component or project).
 
+.. option:: statistics
+
+    Displays detailed statistics for given Weblate object (translation or component).
+
 .. _files:
 
 Files
