@@ -295,7 +295,7 @@ It is usually good idea to run Weblate in separate database and separate user:
     sudo -u postgres psql postgres -c "\password postgres"
 
     # Create database user called "weblate"
-    sudo -u postgres createuser -D -A -P weblate
+    sudo -u postgres createuser -D -P weblate
 
     # Create database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
