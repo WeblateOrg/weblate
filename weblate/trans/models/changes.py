@@ -108,9 +108,15 @@ class ChangeManager(models.Manager):
         individually.
         '''
         return self.prefetch_related(
-            'user', 'translation', 'unit', 'dictionary',
-            'translation__subproject', 'translation__language',
+            'user', 'translation', 'subproject', 'unit', 'dictionary',
+            'translation__language',
+            'translation__subproject',
             'translation__subproject__project',
+            'unit__translation',
+            'unit__translation__language',
+            'unit__translation__subproject',
+            'unit__translation__subproject__project',
+            'subproject__project'
         )
 
     def last_changes(self, user):

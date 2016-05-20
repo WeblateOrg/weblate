@@ -123,9 +123,11 @@ def home(request):
         ).select_related()
 
         usersubscriptions = components_by_language.filter(
-            subproject__project__in=subscribed_projects)
+            subproject__project__in=subscribed_projects
+        )
         userlanguages = components_by_language.filter(
-            subproject__project__in=projects)
+            subproject__project__in=projects
+        )
 
         for componentlist in componentlists:
             componentlist.translations = components_by_language.filter(
