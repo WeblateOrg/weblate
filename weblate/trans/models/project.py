@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import hashlib
 import os
 import os.path
 
@@ -48,7 +49,9 @@ def get_acl_cache_key(user):
         user_id = ANONYMOUS_USER_NAME
     else:
         user_id = user.username
-    return 'acl-project-{0}'.format(user_id)
+    return 'acl-project-{0}'.format(
+        hashlib.md5(user_id.encode('utf-8')).hexdigest()
+    )
 
 
 class ProjectManager(models.Manager):
