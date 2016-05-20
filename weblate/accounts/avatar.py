@@ -121,11 +121,11 @@ def get_avatar_image(user, size):
     Returns avatar image from cache (if available) or downloads it.
     """
 
-    cache_key = '-'.join(
+    cache_key = '-'.join((
         'avatar-img',
         user.username,
         str(size)
-    )
+    ))
 
     # Try using avatar specific cache if available
     try:
