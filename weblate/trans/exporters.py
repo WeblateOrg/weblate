@@ -35,6 +35,7 @@ from translate.storage.tbx import tbxfile
 
 import weblate
 from weblate.trans.formats import FileFormat
+from weblate.trans.site import get_site_url
 
 if six.PY2:
     _CHARMAP2 = string.maketrans('', '')[:32]
@@ -65,7 +66,7 @@ class BaseExporter(object):
         if translation is not None:
             self.project = translation.subproject.project
             self.language = translation.language
-            self.url = translation.get_absolute_url()
+            self.url = get_site_url(translation.get_absolute_url())
         else:
             self.project = project
             self.language = language
