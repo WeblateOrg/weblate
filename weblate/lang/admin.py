@@ -19,7 +19,6 @@
 #
 
 from django.contrib import admin
-from django.utils.translation import ugettext as _
 
 from weblate.lang.models import Language
 from weblate.trans.util import WeblateAdmin
