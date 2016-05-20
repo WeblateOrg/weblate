@@ -492,7 +492,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @property
     def log_prefix(self):
-        return '{0}/{1}: '.format(self.project.slug, self.slug)
+        return '/'.join((self.project.slug, self.slug))
 
     def has_acl(self, user):
         """Checks whether current user is allowed to access this object"""
