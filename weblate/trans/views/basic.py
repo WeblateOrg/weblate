@@ -154,6 +154,19 @@ def home(request):
     )
 
 
+def projects(request):
+    """Lists all projects"""
+
+    return render(
+        request,
+        'projects.html',
+        {
+            'projects':  Project.objects.all_acl(request.user),
+            'title': _('Projects'),
+        }
+    )
+
+
 def search(request):
     """
     Performs site-wide search on units.

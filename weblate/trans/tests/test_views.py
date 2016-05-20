@@ -450,6 +450,10 @@ class HomeViewTest(ViewTestCase):
         response = self.client.get(reverse('home'))
         self.assertContains(response, 'Test/Test')
 
+    def test_view_projects(self):
+        response = self.client.get(reverse('projects'))
+        self.assertContains(response, 'Test')
+
     def test_home_with_whiteboard(self):
         msg = WhiteboardMessage(message='test_message')
         msg.save()

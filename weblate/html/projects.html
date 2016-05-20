@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'projects' %}">{% trans "Projects" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include "list-projects.html" %}
+
+{% endblock %}
