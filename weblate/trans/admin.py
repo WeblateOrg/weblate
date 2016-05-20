@@ -92,6 +92,10 @@ class ProjectAdmin(admin.ModelAdmin):
         )
     force_commit.short_description = _('Commit pending changes')
 
+    def render_delete_form(self, request, context):
+        context['deleted_objects'] = [_('Object listing disabled')]
+        return super(ProjectAdmin, self).render_delete_form(request, context)
+
 
 class SubProjectAdmin(admin.ModelAdmin):
     list_display = [
@@ -139,6 +143,10 @@ class SubProjectAdmin(admin.ModelAdmin):
             "Flushed changes in %d git repos." % queryset.count()
         )
     force_commit.short_description = _('Commit pending changes')
+
+    def render_delete_form(self, request, context):
+        context['deleted_objects'] = [_('Object listing disabled')]
+        return super(SubProjectAdmin, self).render_delete_form(request, context)
 
 
 class TranslationAdmin(admin.ModelAdmin):
