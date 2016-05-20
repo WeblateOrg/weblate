@@ -557,14 +557,12 @@ class Profile(models.Model):
     DASHBOARD_CHOICES = (
         (DASHBOARD_SUBSCRIPTIONS, _('Your subscriptions')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
-        (DASHBOARD_ALL, _('All projects')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
     )
 
     DASHBOARD_SLUGS = {
         DASHBOARD_SUBSCRIPTIONS: 'your-subscriptions',
         DASHBOARD_LANGUAGES: 'your-languages',
-        DASHBOARD_ALL: 'projects',
         DASHBOARD_COMPONENT_LIST: 'list',
     }
 
