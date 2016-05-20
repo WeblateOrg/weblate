@@ -78,13 +78,17 @@ def get_suggestions(request, user, projects):
 
     else:
         # Filter based on session language
-        all_matching = base.filter(
-            language__code=translation.get_language()
-        )
+        session_lang = translation.get_language()
+        if session_lang and session_lang != 'en':
+            all_matching = base.filter(
+                language__code=session_lang
+            )
 
         # Fall back to all
         if not all_matching:
-            all_matching = base
+            all_matching = base.exclude(
+                language__code='en'
+            )
 
     return all_matching[:10]
 
