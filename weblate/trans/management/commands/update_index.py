@@ -22,7 +22,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from weblate.trans.models import IndexUpdate, Unit
-from weblate.trans.search import update_index, delete_search_unit
+from weblate.trans.search import update_index, delete_search_units
 
 
 class Command(BaseCommand):
@@ -46,15 +46,21 @@ class Command(BaseCommand):
     def do_delete(self, limit):
         indexupdates = set()
 
+        langupdates = {}
+
         # Grab all updates from the database
         with transaction.atomic():
             updates = IndexUpdate.objects.filter(to_delete=True)
             for update in updates[:limit].iterator():
                 indexupdates.add(update.pk)
-                delete_search_unit(
-                    update.unitid,
-                    update.language_code
-                )
+                if update.language_code not in langupdates:
+                    langupdates[update.language_code] = set()
+                langupdates[update.language_code].add(update.pk)
+
+        delete_search_units(
+            indexupdates,
+            langupdates,
+        )
 
         # Delete processed updates
         with transaction.atomic():

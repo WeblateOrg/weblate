@@ -330,3 +330,27 @@ def delete_search_unit(pk, lang):
                 writer.delete_by_term('pk', pk)
     except IOError:
         return
+
+
+def delete_search_units(source_units, languages):
+    '''
+    Delete fulltext index for given set of units.
+    '''
+    # Update source index
+    if source_units:
+        index = get_source_index()
+        writer = BufferedWriter(index)
+        try:
+            for pk in source_units:
+                writer.delete_by_term('pk', pk)
+        finally:
+            writer.close()
+
+    for lang, units in languages.items():
+        index = get_target_index(lang)
+        writer = BufferedWriter(index)
+        try:
+            for pk in source_units:
+                writer.delete_by_term('pk', pk)
+        finally:
+            writer.close()
