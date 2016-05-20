@@ -105,9 +105,6 @@ def home(request):
         )
         return redirect('password')
 
-    # TODO: Really needed?
-    wb_messages = WhiteboardMessage.objects.all()
-
     projects = Project.objects.all_acl(request.user)
 
     suggestions = get_suggestions(
@@ -179,7 +176,6 @@ def home(request):
             'last_changes': last_changes[:10],
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
-            'whiteboard_messages': wb_messages,
             'usersubscriptions': usersubscriptions,
             'userlanguages': userlanguages,
             'componentlists': componentlists,
