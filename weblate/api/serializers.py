@@ -22,6 +22,7 @@ from rest_framework import serializers
 
 from weblate.trans.models import Project, SubProject, Translation
 from weblate.lang.models import Language
+from weblate.trans.site import get_site_url
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -48,6 +49,14 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         )
 
 
+class AbsoluteURLField(serializers.CharField):
+    def get_attribute(self, instance):
+        value = super(AbsoluteURLField, self).get_attribute(instance)
+        if 'http:/' not in value and 'https:/' not in value:
+            return get_site_url(value)
+        return value
+
+
 class RemovableSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         remove_fields = kwargs.pop('remove_fields', None)
@@ -60,7 +69,7 @@ class RemovableSerializer(serializers.ModelSerializer):
 
 
 class LanguageSerializer(serializers.ModelSerializer):
-    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
+    web_url = AbsoluteURLField(source='get_absolute_url', read_only=True)
 
     class Meta(object):
         model = Language
@@ -77,7 +86,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
+    web_url = AbsoluteURLField(source='get_absolute_url', read_only=True)
     source_language = LanguageSerializer(read_only=True)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name='api:project-components',
@@ -103,7 +112,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ComponentSerializer(RemovableSerializer):
-    web_url = serializers.CharField(source='get_absolute_url', read_only=True)
+    web_url = AbsoluteURLField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
     repository_url = MultiFieldHyperlinkedIdentityField(
         view_name='api:component-repository',
@@ -142,13 +151,13 @@ class ComponentSerializer(RemovableSerializer):
 
 
 class TranslationSerializer(RemovableSerializer):
-    web_url = serializers.CharField(
+    web_url = AbsoluteURLField(
         source='get_absolute_url', read_only=True
     )
-    share_url = serializers.CharField(
+    share_url = AbsoluteURLField(
         source='get_share_url', read_only=True
     )
-    translate_url = serializers.CharField(
+    translate_url = AbsoluteURLField(
         source='get_translate_url', read_only=True
     )
     component = ComponentSerializer(
