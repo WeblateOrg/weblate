@@ -25,7 +25,7 @@
     {{active_tab_label}} <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" id="views-menu">
-    <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
+    <li><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %}</a></li>
     {% if user.is_authenticated %}
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
@@ -87,13 +87,11 @@
 </div>
 {% endif %} {# user.is_authenticated #}
 
-{# All projects#}
-<div {% active_tab "projects" %}>
-{% include "list-projects.html" %}
-<p>{% include "legend.html" %}</p>
-{% if offer_hosting %}
-<p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
-{% endif %}
+{# Suggested translations #}
+<div {% active_tab "suggestions" %}>
+{% with suggestions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+{% include "list-translations.html" %}
+{% endwith %}
 </div>
 
 

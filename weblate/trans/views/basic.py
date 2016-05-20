@@ -21,6 +21,7 @@
 import datetime
 
 from django.shortcuts import redirect
+from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Q
@@ -54,6 +55,20 @@ from weblate.trans.util import render, sort_objects
 import weblate
 
 
+def get_suggestions(request, user, projects):
+    """Returns suggested translations for user"""
+    session_lang = translation.get_language()
+    if not user.is_authenticated():
+        all_matching = Translation.objects.filter(
+            subproject__project__in=projects,
+            language__code=session_lang
+        )
+    else:
+        all_matching = Translation.objects.none()
+
+    return all_matching
+
+
 def home(request):
     """
     Home page of Weblate showing list of projects, stats
@@ -70,14 +85,14 @@ def home(request):
         )
         return redirect('password')
 
+    # TODO: Really needed?
     wb_messages = WhiteboardMessage.objects.all()
 
     projects = Project.objects.all_acl(request.user)
-    subproject_list = None
-    if projects.count() == 1:
-        subproject_list = SubProject.objects.filter(
-            project=projects[0]
-        ).select_related()
+
+    suggestions = get_suggestions(
+        request, request.user, projects
+    )
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
@@ -96,7 +111,7 @@ def home(request):
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
     userlanguages = None
-    active_tab_id = Profile.DASHBOARD_ALL
+    active_tab_id = Profile.DASHBOARD_SUGGESTIONS
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
 
     if request.user.is_authenticated():
@@ -140,7 +155,7 @@ def home(request):
         request,
         'index.html',
         {
-            'projects': subproject_list or projects,
+            'suggestions': suggestions,
             'last_changes': last_changes[:10],
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
