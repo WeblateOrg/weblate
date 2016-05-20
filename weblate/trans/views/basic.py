@@ -196,7 +196,7 @@ def projects(request):
         request,
         'projects.html',
         {
-            'projects':  Project.objects.all_acl(request.user),
+            'projects': Project.objects.all_acl(request.user),
             'title': _('Projects'),
         }
     )
