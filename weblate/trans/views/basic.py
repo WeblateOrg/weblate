@@ -116,11 +116,11 @@ def home(request):
             subproject__project__in=subscribed_projects
         )
 
-        components_by_language = Translation.objects.filter(
+        components_by_language = Translation.objects.prefetch().filter(
             language__in=request.user.profile.languages.all(),
         ).order_by(
             'subproject__project__name', 'subproject__name'
-        ).select_related()
+        )
 
         usersubscriptions = components_by_language.filter(
             subproject__project__in=subscribed_projects
@@ -131,7 +131,8 @@ def home(request):
 
         for componentlist in componentlists:
             componentlist.translations = components_by_language.filter(
-                subproject__in=componentlist.components.all())
+                subproject__in=componentlist.components.all()
+            )
 
     return render(
         request,

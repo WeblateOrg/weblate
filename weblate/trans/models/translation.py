@@ -55,6 +55,11 @@ from weblate.trans.checklists import TranslationChecklist
 class TranslationManager(models.Manager):
     # pylint: disable=W0232
 
+    def prefetch(self):
+        return self.select_related(
+            'subproject', 'subproject__project', 'language'
+        )
+
     def check_sync(self, subproject, lang, code, path, force=False,
                    request=None):
         """Parses translation meta info and updates translation object"""
@@ -76,7 +81,7 @@ class TranslationManager(models.Manager):
 
     def enabled(self):
         """Filters enabled translations."""
-        return self.filter(enabled=True).select_related()
+        return self.prefetch().filter(enabled=True)
 
     def get_percents(self, project=None, subproject=None, language=None):
         """Returns tuple consting of status percents:
