@@ -36,6 +36,7 @@ class EditTest(ViewTestCase):
     Tests for manipulating translation.
     '''
     has_plurals = True
+    monolingual = False
 
     def setUp(self):
         super(EditTest, self).setUp()
@@ -340,6 +341,8 @@ class EditTest(ViewTestCase):
         '''
         Test for fuzzy flag handling.
         '''
+        if self.monolingual:
+            return
         unit = self.get_unit()
         self.assertFalse(unit.fuzzy)
         self.edit_unit(
@@ -363,6 +366,7 @@ class EditTest(ViewTestCase):
 
 class EditResourceTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_android()
@@ -410,12 +414,15 @@ class EditMercurialTest(EditTest):
 
 
 class EditPoMonoTest(EditTest):
+    monolingual = True
+
     def create_subproject(self):
         return self.create_po_mono()
 
 
 class EditIphoneTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_iphone()
@@ -423,6 +430,7 @@ class EditIphoneTest(EditTest):
 
 class EditJSONTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_json()
@@ -430,6 +438,7 @@ class EditJSONTest(EditTest):
 
 class EditJSONMonoTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_json_mono()
@@ -437,6 +446,7 @@ class EditJSONMonoTest(EditTest):
 
 class EditJavaTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_java()
@@ -458,6 +468,7 @@ class EditXliffTest(EditTest):
 
 class EditXliffMonoTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_xliff_mono()
@@ -475,6 +486,7 @@ class EditTSTest(EditTest):
 
 class EditTSMonoTest(EditTest):
     has_plurals = False
+    monolingual = True
 
     def create_subproject(self):
         return self.create_ts_mono()
