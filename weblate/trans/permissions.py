@@ -103,14 +103,19 @@ def cache_permission(func):
                 username=appsettings.ANONYMOUS_USER_NAME,
             )
         if target_object is None:
-            return func(user, target_object)
+            obj_key = None
+        else:
+            obj_key = target_object.get_full_slug()
 
-        key = (func.__name__, user.id)
+        if not hasattr(user, 'acl_permissions_cache'):
+            user.acl_permissions_cache = {}
 
-        if key not in target_object.permissions_cache:
-            target_object.permissions_cache[key] = func(user, target_object)
+        key = (func.__name__, obj_key)
 
-        return target_object.permissions_cache[key]
+        if key not in user.acl_permissions_cache:
+            user.acl_permissions_cache[key] = func(user, target_object)
+
+        return user.acl_permissions_cache[key]
 
     return wrapper
 

@@ -173,15 +173,21 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self._store = None
         self._last_change_obj = None
         self._last_change_obj_valid = False
-        self.permissions_cache = {}
 
     @property
     def log_prefix(self):
-        return '{0}/{1}/{2}: '.format(
+        return '/'.join((
             self.subproject.project.slug,
             self.subproject.slug,
             self.language.code,
-        )
+        ))
+
+    def get_full_slug(self):
+        return '__'.join((
+            self.subproject.project.slug,
+            self.subproject.slug,
+            self.language.code,
+        ))
 
     def has_acl(self, user):
         """Checks whether current user is allowed to access this object"""

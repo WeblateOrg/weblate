@@ -83,11 +83,11 @@ class PermissionsTest(TestCase):
         self.assertFalse(can_delete_comment(self.user, self.project))
 
     def test_cache(self):
-        key = ('can_delete_comment', self.user.id)
-        self.assertNotIn(key, self.project.permissions_cache)
+        key = ('can_delete_comment', self.project.get_full_slug())
+        self.assertTrue(not hasattr(self.user, 'alc_permissions_cache'))
         self.assertFalse(can_delete_comment(self.user, self.project))
-        self.assertFalse(self.project.permissions_cache[key])
-        self.project.permissions_cache[key] = True
+        self.assertFalse(self.user.acl_permissions_cache[key])
+        self.user.acl_permissions_cache[key] = True
         self.assertTrue(can_delete_comment(self.user, self.project))
 
 
@@ -221,9 +221,16 @@ class GroupACLTest(ModelTestCase):
         lockout. Usually the cache will get cleared on every page request,
         but here we need to do it manually.
         '''
-        for cache in ('_perm_cache', '_user_perm_cache', '_group_perm_cache'):
-            delattr(self.user, cache)
-            delattr(self.privileged, cache)
+        attribs = (
+            '_perm_cache',
+            '_user_perm_cache',
+            '_group_perm_cache',
+            'acl_permissions_cache',
+        )
+        for cache in attribs:
+            for user in (self.user, self.privileged):
+                if hasattr(user, cache):
+                    delattr(user, cache)
 
     def test_group_locked(self):
         lang_cs = Language.objects.get(code='cs')

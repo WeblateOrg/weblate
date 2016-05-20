@@ -178,10 +178,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')
 
-    def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
-        super(Project, self).__init__(*args, **kwargs)
-        self.permissions_cache = {}
+    def get_full_slug(self):
+        return self.slug
 
     def has_acl(self, user):
         """Checks whether current user is allowed to access this object"""
