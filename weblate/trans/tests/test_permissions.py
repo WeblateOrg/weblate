@@ -148,21 +148,21 @@ class GroupACLTest(ModelTestCase):
 
     def test_acl_str(self):
         acl = GroupACL()
-        self.assertTrue(
-            'unspecified' in force_text(acl)
+        self.assertIn(
+            'unspecified', force_text(acl)
         )
         acl.language = self.language
-        self.assertTrue(
-            'language=English' in force_text(acl)
+        self.assertIn(
+            'language=English', force_text(acl)
         )
         acl.subproject = self.subproject
-        self.assertTrue(
-            'project=Test/Test' in force_text(acl)
+        self.assertIn(
+            'subproject=Test/Test', force_text(acl)
         )
         acl.subproject = None
         acl.project = self.project
-        self.assertTrue(
-            'project=Test' in force_text(acl)
+        self.assertIn(
+            'project=Test', force_text(acl)
         )
 
     def test_acl_clean(self):
