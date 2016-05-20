@@ -76,11 +76,11 @@ class MathCaptcha(object):
         if operation == '-':
             first += self.interval[1]
 
-        return '{0} {1} {2}'.format(
-            first,
+        return ' '.join((
+            str(first),
             operation,
-            second
-        )
+            str(second)
+        ))
 
     @staticmethod
     def from_hash(hashed):
@@ -119,11 +119,11 @@ class MathCaptcha(object):
         Gets unicode for display.
         '''
         parts = self.question.split()
-        return '{0} {1} {2}'.format(
+        return ' '.join((
             parts[0],
             self.operators_display[parts[1]],
             parts[2],
-        )
+        ))
 
 
 def format_timestamp(timestamp):
@@ -148,11 +148,11 @@ def hash_question(question, timestamp):
     '''
     timestamp = format_timestamp(timestamp)
     hexsha = checksum_question(question, timestamp)
-    return '{0}{1}{2}'.format(
+    return ''.join((
         hexsha,
         timestamp,
         b64encode(question.encode('utf-8')).decode('ascii')
-    )
+    ))
 
 
 def unhash_question(question):

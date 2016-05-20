@@ -22,7 +22,6 @@
 Tests for user handling.
 """
 
-from unittest import TestCase as UnitTestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import mail
@@ -37,9 +36,6 @@ from weblate.accounts.models import (
     notify_new_translation,
     notify_new_contributor,
     notify_new_language,
-)
-from weblate.accounts.captcha import (
-    hash_question, unhash_question, MathCaptcha
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unitdata import Suggestion, Comment
@@ -258,60 +254,6 @@ class NotificationTest(ViewTestCase):
             mail.outbox[1].subject,
             '[Weblate] New comment in Test/Test'
         )
-
-
-class CaptchaTest(UnitTestCase):
-    def test_decode(self):
-        question = '1 + 1'
-        timestamp = 1000
-        hashed = hash_question(question, timestamp)
-        self.assertEqual(
-            (question, timestamp),
-            unhash_question(hashed)
-        )
-
-    def test_tamper(self):
-        hashed = hash_question('', 0) + '00'
-        self.assertRaises(
-            ValueError,
-            unhash_question,
-            hashed
-        )
-
-    def test_invalid(self):
-        self.assertRaises(
-            ValueError,
-            unhash_question,
-            ''
-        )
-
-    def test_object(self):
-        captcha = MathCaptcha('1 * 2')
-        self.assertFalse(
-            captcha.validate(1)
-        )
-        self.assertTrue(
-            captcha.validate(2)
-        )
-        restored = MathCaptcha.from_hash(captcha.hashed)
-        self.assertEqual(
-            captcha.question,
-            restored.question
-        )
-        self.assertRaises(
-            ValueError,
-            MathCaptcha.from_hash,
-            captcha.hashed[:40]
-        )
-
-    def test_generate(self):
-        '''
-        Test generating of captcha for every operator.
-        '''
-        captcha = MathCaptcha()
-        for operator in MathCaptcha.operators:
-            captcha.operators = (operator,)
-            self.assertIn(operator, captcha.generate_question())
 
 
 class RemoveAcccountTest(ViewTestCase):
