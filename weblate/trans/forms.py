@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from datetime import date, datetime
+import json
 
 from crispy_forms.helper import FormHelper
 
@@ -31,8 +32,8 @@ from django.utils.translation import (
 from django.forms.utils import from_current_timezone
 from django.utils.safestring import mark_safe
 from django.utils.encoding import smart_text, force_text
+from django.utils.html import escape
 from django.forms import ValidationError
-from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -80,7 +81,7 @@ PLURALS_TEMPLATE = '''
 <p class="help-block">{2}</p>
 '''
 COPY_TEMPLATE = '''
-data-loading-text="{0}" data-href="{1}" data-checksum="{2}"
+data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
 '''
 
 
@@ -123,18 +124,16 @@ class PluralTextarea(forms.Textarea):
         Returns toolbar HTML code.
         """
         groups = []
-        if idx:
-            append = '?plural=1'
+        plurals = unit.get_source_plurals()
+        if idx and len(plurals) > 1:
+            source = plurals[1]
         else:
-            append = ''
+            source = plurals[0]
         # Copy button
         extra_params = COPY_TEMPLATE.format(
-            ugettext('Loading…'),
-            ''.join((
-                reverse('js-get', kwargs={'unit_id': unit.id}),
-                append,
-            )),
+            escape(ugettext('Loading…')),
             unit.checksum,
+            escape(json.dumps(source))
         )
         groups.append(
             GROUP_TEMPLATE.format(

@@ -132,15 +132,12 @@ function initEditor(editors) {
     $('.copy-text').click(function (e) {
         var $this = $(this);
         $this.button('loading');
-        $.get($this.data('href'), function (data) {
-            $this.parents('.translation-item').find('.translation-editor').val(data);
-            autosize.update($('.translation-editor'));
-            $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
-            $this.button('reset');
-        }).fail(function(jqXHR, textStatus, errorThrown) {
-            $this.button('reset');
-            console.log('Failed to fetch ' + $this.data('href') + ': ' + textStatus);
-        });
+        $this.parents('.translation-item').find('.translation-editor').val(
+            $.parseJSON($this.data('content'))
+        );
+        autosize.update($('.translation-editor'));
+        $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
+        $this.button('reset');
         e.preventDefault();
     });
 

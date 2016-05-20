@@ -40,21 +40,6 @@ from weblate.trans.permissions import (
 from six.moves.urllib.parse import urlencode
 
 
-def get_string(request, unit_id):
-    '''
-    AJAX handler for getting raw string.
-    '''
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
-
-    try:
-        plural = int(request.GET.get('plural', '0'))
-    except ValueError:
-        plural = 0
-
-    return HttpResponse(unit.get_source_plurals()[plural])
-
-
 def translate(request, unit_id):
     '''
     AJAX handler for translating.

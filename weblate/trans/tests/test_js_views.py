@@ -45,22 +45,6 @@ class JSViewsTest(ViewTestCase):
         service = load_class(name, 'TEST')()
         MACHINE_TRANSLATION_SERVICES[service.mtid] = service
 
-    def test_get_string(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse('js-get', kwargs={'unit_id': unit.id}),
-        )
-        self.assertContains(response, 'Hello')
-        self.assertEqual(
-            unit.get_source_plurals()[0],
-            response.content.decode('utf-8')
-        )
-
-        response = self.client.get(
-            reverse('js-get', kwargs={'unit_id': 0}),
-        )
-        self.assertEqual(response.status_code, 404)
-
     def test_get_detail(self):
         unit = self.get_unit()
         response = self.client.get(

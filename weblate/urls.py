@@ -590,11 +590,6 @@ urlpatterns = [
 
     # AJAX/JS backends
     url(
-        r'^js/get/(?P<unit_id>[0-9]+)/$',
-        weblate.trans.views.js.get_string,
-        name='js-get',
-    ),
-    url(
         r'^js/lock/' + TRANSLATION + '$',
         weblate.trans.views.lock.update_lock,
         name='js-lock',
