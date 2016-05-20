@@ -110,7 +110,9 @@ def home(request):
         subscribed_projects = request.user.profile.subscriptions.all()
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects.filter(id__in=projects.values_list('id'))
+        subscribed_projects = subscribed_projects.filter(
+            id__in=projects.values_list('id')
+        )
 
         last_changes = last_changes.filter(
             subproject__project__in=subscribed_projects
