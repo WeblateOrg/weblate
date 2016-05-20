@@ -845,3 +845,13 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
             name='invoice-download',
         ),
     ]
+
+if getattr(settings, 'HEALTHCHECK_ENABLED', False):
+    from django.http import HttpResponse
+    def _healthz(request):
+        return HttpResponse("ok")
+
+    health_check_path = getattr(settings, "HEALTHCHECK_PATH", r'^healthz/$')
+    urlpatterns += [
+        url(health_check_path, _healthz, name="health_check"),
+    ]

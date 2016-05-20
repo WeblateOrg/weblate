@@ -586,6 +586,10 @@ REST_FRAMEWORK = {
     'VIEW_DESCRIPTION_FUNCTION': 'weblate.api.views.get_view_description',
 }
 
+# standard health checks for cluster environments
+HEALTHCHECK_ENABLED = True
+HEALTHCHECK_PATH =  r'^healthz/$'
+
 # Example for restricting access to logged in users
 # LOGIN_REQUIRED_URLS = (
 #     r'/(.*)$',
@@ -598,6 +602,7 @@ REST_FRAMEWORK = {
 #    r'/widgets/(.*)$',  # Allowing public access to widgets
 #    r'/data/(.*)$',     # Allowing public access to data exports
 #    r'/hooks/(.*)$',    # Allowing public access to notification hooks
+#    HEALTHCHECK_PATH,   # Allow for cluster health check
 # )
 
 # Force sane test runner
