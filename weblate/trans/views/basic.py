@@ -505,9 +505,9 @@ def stats(request):
     total_words = []
     for project in SubProject.objects.iterator():
         try:
-            translation = project.translation_set.all()[0]
-            total_strings.append(translation.total)
-            total_words.append(translation.total_words)
+            translation_obj = project.translation_set.all()[0]
+            total_strings.append(translation_obj.total)
+            total_words.append(translation_obj.total_words)
         except IndexError:
             pass
 
