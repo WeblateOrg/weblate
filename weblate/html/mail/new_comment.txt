@@ -12,6 +12,6 @@
 
 {% trans "You can edit this string at:" %}
 
-{{ unit.get_absolute_url }}#comments
+{{ current_site_url }}{{ unit.get_absolute_url }}#comments
 
 {% endfilter%}{% endautoescape %}{% include "mail/footer.txt" %}

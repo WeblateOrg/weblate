@@ -357,7 +357,9 @@ def get_notification_email(language, email, notification,
         context['current_site_url'] = get_site_url()
         if translation_obj is not None:
             context['translation'] = translation_obj
-            context['translation_url'] = translation_obj.get_absolute_url()
+            context['translation_url'] = get_site_url(
+                translation_obj.get_absolute_url()
+            )
         context['site_title'] = SITE_TITLE
 
         # Render subject

@@ -70,7 +70,7 @@ class LockTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            self.subproject_url,
+            reverse('subproject', kwargs=self.kw_subproject)
         )
         self.assertComponentLocked()
 
@@ -79,7 +79,7 @@ class LockTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            self.subproject_url,
+            reverse('subproject', kwargs=self.kw_subproject)
         )
         self.assertComponentNotLocked()
 
@@ -89,7 +89,7 @@ class LockTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            self.project_url,
+            reverse('project', kwargs=self.kw_project)
         )
         self.assertComponentLocked()
 
@@ -106,7 +106,7 @@ class LockTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            self.project_url,
+            reverse('project', kwargs=self.kw_project)
         )
         self.assertComponentNotLocked()
 
@@ -116,7 +116,7 @@ class LockTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            self.translation_url,
+            reverse('translation', kwargs=self.kw_translation)
         )
         self.assertTrue(self.get_translation().is_user_locked())
 
@@ -125,7 +125,7 @@ class LockTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            self.translation_url,
+            reverse('translation', kwargs=self.kw_translation)
         )
         self.assertFalse(self.get_translation().is_user_locked())
 
