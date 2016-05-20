@@ -30,6 +30,9 @@ You can fine tune checks for each source string (in source strings review) or
 in the :ref:`component` (:guilabel:`Quality checks flags`), here is current
 list of flags accepted:
 
+``skip-review-flag``
+    Ignore whether unit is marked for review when importing from VCS. This 
+    can be useful for :ref:`xliff`.
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``

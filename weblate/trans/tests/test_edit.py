@@ -336,6 +336,25 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
 
+    def test_skip_fuzzy(self):
+        '''
+        Test for fuzzy flag handling.
+        '''
+        unit = self.get_unit()
+        self.assertFalse(unit.fuzzy)
+        self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n',
+            fuzzy='yes'
+        )
+        unit = self.get_unit()
+        self.assertTrue(unit.fuzzy)
+        self.subproject.check_flags = 'skip-review-flag'
+        self.subproject.save()
+        self.subproject.create_translations(True)
+        unit = self.get_unit()
+        self.assertFalse(unit.fuzzy)
+
 
 class EditResourceTest(EditTest):
     has_plurals = False

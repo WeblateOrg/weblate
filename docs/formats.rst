@@ -134,6 +134,10 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
     If the translation unit doesn't have ``approved="yes"`` it will be imported into
     Weblate as needing review (what matches XLIFF specification).
 
+    You can override this by adding ``skip-review-flag`` flag to the component,
+    see :ref:`component`, what will make Weblate ignore this and all strings
+    will appear as approved.
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,

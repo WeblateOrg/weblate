@@ -417,8 +417,12 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        fuzzy = unit.is_fuzzy()
-        translated = unit.is_translated()
+        if 'skip-review-flag' in self.translation.subproject.all_flags:
+            fuzzy = False
+            translated = bool(target)
+        else:
+            fuzzy = unit.is_fuzzy()
+            translated = unit.is_translated()
         previous_source = unit.get_previous_source()
         contentsum = unit.get_contentsum()
 
