@@ -58,10 +58,11 @@ def avatar_for_email(email, size=80):
     mail_hash = hashlib.md5(email.lower().encode('utf-8')).hexdigest()
 
     # Retrieve from cache
-    cache_key = 'avatar-{0}-{1}'.format(
+    cache_key = '-'.join((
+        'avatar',
         mail_hash,
-        size
-    )
+        str(size)
+    ))
     cache = caches['default']
     url = cache.get(cache_key)
     if url is not None:
@@ -120,9 +121,10 @@ def get_avatar_image(user, size):
     Returns avatar image from cache (if available) or downloads it.
     """
 
-    cache_key = 'avatar-img-{0}-{1}'.format(
+    cache_key = '-'.join(
+        'avatar-img',
         user.username,
-        size
+        str(size)
     )
 
     # Try using avatar specific cache if available

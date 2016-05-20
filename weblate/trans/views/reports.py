@@ -104,13 +104,13 @@ def get_credits(request, project, subproject):
         result.append(row_start)
         result.append(language_format.format(name))
         result.append(
-            '{0}{1}{2}'.format(
+            ''.join((
                 translator_start,
                 '\n'.join(
                     [translator_format.format(*t) for t in translators]
                 ),
                 translator_end,
-            )
+            ))
         )
         result.append(row_end)
 

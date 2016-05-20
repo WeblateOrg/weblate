@@ -199,10 +199,10 @@ def show_check_project(request, name, project):
 
     counts = {}
     for unit in units:
-        key = '{0}/{1}'.format(
+        key = '/'.join((
             unit['translation__subproject__project__slug'],
             unit['translation__subproject__slug']
-        )
+        ))
         if key in counts:
             counts[key] += unit['count']
         else:
