@@ -83,13 +83,16 @@ class TranslationManager(models.Manager):
         """Filters enabled translations."""
         return self.prefetch().filter(enabled=True)
 
-    def get_percents(self, project=None, subproject=None, language=None):
+    def get_percents(self, important=False, project=None, subproject=None,
+                     language=None):
         """Returns tuple consting of status percents:
 
         (translated, fuzzy, failing checks)
         """
         # Filter translations
         translations = self
+        if important:
+            translations = translations.filter(language__important=True)
         if project is not None:
             translations = translations.filter(subproject__project=project)
         if subproject is not None:
@@ -232,7 +235,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 }
             )
 
-    def _get_percents(self):
+    def _get_percents(self, important):
         """Returns percentages of translation status."""
         # No units?
         if self.total == 0:

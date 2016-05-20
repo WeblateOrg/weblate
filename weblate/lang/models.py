@@ -394,6 +394,7 @@ class Language(models.Model, PercentMixin):
         choices=PLURAL_CHOICES,
         default=data.PLURAL_ONE_OTHER
     )
+    important = models.BooleanField(default=False)
 
     objects = LanguageManager()
 

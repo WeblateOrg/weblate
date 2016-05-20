@@ -30,6 +30,7 @@
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
     {% endif %}
+    <li><a href="#manager" data-toggle="tab">{% trans "Manager dashboard" %}</a></li>
     {% for componentlist in componentlists %}
     <li><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
     {% endfor %}
@@ -88,13 +89,21 @@
 
 {# All projects#}
 <div {% active_tab "projects" %}>
+{% with important=False projects_=projects %}
 {% include "list-projects.html" %}
+{% endwith %}
 <p>{% include "legend.html" %}</p>
 {% if offer_hosting %}
 <p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
 {% endif %}
 </div>
 
+{# Manager dashboard #}
+<div {% active_tab "manager" %}>
+{% with important=True projects_=important_projects %}
+{% include "list-projects.html" %}
+{% endwith %}
+</div>
 
 {% for componentlist in componentlists %}
     <div {% active_tab componentlist.tab_slug %}>

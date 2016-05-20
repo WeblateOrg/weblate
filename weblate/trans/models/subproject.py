@@ -1390,9 +1390,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if changed_project:
             old.project.suggestion_set.copy(self.project)
 
-    def _get_percents(self):
+    def _get_percents(self, important):
         """Returns percentages of translation status"""
-        return self.translation_set.get_percents()
+        if important:
+            percents = self.translation_set.filter(
+                language__important=True
+            ).get_percents()
+        else:
+            percents = self.translation_set.get_percents()
+        return percents
 
     def repo_needs_commit(self):
         """Checks whether there are some not committed changes"""

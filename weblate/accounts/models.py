@@ -553,12 +553,14 @@ class Profile(models.Model):
     DASHBOARD_LANGUAGES = 2
     DASHBOARD_ALL = 3
     DASHBOARD_COMPONENT_LIST = 4
+    DASHBOARD_MANAGER = 5
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_SUBSCRIPTIONS, _('Your subscriptions')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
         (DASHBOARD_ALL, _('All projects')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
+        (DASHBOARD_MANAGER, _('Manager dashboard')),
     )
 
     DASHBOARD_SLUGS = {
@@ -566,6 +568,7 @@ class Profile(models.Model):
         DASHBOARD_LANGUAGES: 'your-languages',
         DASHBOARD_ALL: 'projects',
         DASHBOARD_COMPONENT_LIST: 'list',
+        DASHBOARD_MANAGER: 'manager',
     }
 
     DASHBOARD_SLUGMAP = {
