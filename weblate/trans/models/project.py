@@ -45,13 +45,9 @@ from weblate.trans.data import data_dir
 
 def get_acl_cache_key(user):
     if user is None or user.id is None:
-        user_id = User.objects.filter(
-            username=ANONYMOUS_USER_NAME
-        ).values_list(
-            'pk', flat=True
-        )[0]
+        user_id = ANONYMOUS_USER_NAME
     else:
-        user_id = user.id
+        user_id = user.username
     return 'acl-project-{0}'.format(user_id)
 
 
