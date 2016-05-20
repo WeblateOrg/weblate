@@ -54,11 +54,11 @@ class GroupACL(models.Model):
     def __str__(self):
         params = []
         if self.language:
-            params.append("language={}".format(self.language))
+            params.append('='.join(('language', self.language)))
         if self.subproject:
-            params.append("project={}".format(self.subproject))
+            params.append('='.join(('subproject', self.subproject)))
         elif self.project:
-            params.append("project={}".format(self.project))
+            params.append('='.join(('project', self.project)))
         if not params:
             # in case the object is not valid
             params.append("(unspecified)")
