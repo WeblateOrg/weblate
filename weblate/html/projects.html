@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'projects' %}">{% trans "Projects" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% include "list-projects.html" %}
+
+{% if offer_hosting %}
+<p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
+{% endif %}
+
+{% endblock %}

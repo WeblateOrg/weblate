@@ -21,9 +21,10 @@
 import datetime
 
 from django.shortcuts import redirect
+from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, Q
+from django.db.models import Sum, Count, Q, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.utils import timezone
@@ -54,6 +55,40 @@ from weblate.trans.util import render, sort_objects
 import weblate
 
 
+def get_suggestions(request, user, projects):
+    """Returns suggested translations for user"""
+
+    # Grab all untranslated translations
+    base = Translation.objects.prefetch().filter(
+        subproject__project__in=projects,
+    ).exclude(
+        total=F('translated'),
+    ).order_by(
+        '-translated'
+    )
+    all_matching = base.none()
+
+    if user.is_authenticated() and user.profile.languages.exists():
+        # Find other translations for user language
+        all_matching = base.filter(
+            language__in=user.profile.languages.all(),
+        ).exclude(
+            subproject__project__in=user.profile.subscriptions.all()
+        )
+
+    else:
+        # Filter based on session language
+        all_matching = base.filter(
+            language__code=translation.get_language()
+        )
+
+        # Fall back to all
+        if not all_matching:
+            all_matching = base
+
+    return all_matching[:10]
+
+
 def home(request):
     """
     Home page of Weblate showing list of projects, stats
@@ -70,14 +105,14 @@ def home(request):
         )
         return redirect('password')
 
+    # TODO: Really needed?
     wb_messages = WhiteboardMessage.objects.all()
 
     projects = Project.objects.all_acl(request.user)
-    subproject_list = None
-    if projects.count() == 1:
-        subproject_list = SubProject.objects.filter(
-            project=projects[0]
-        ).select_related()
+
+    suggestions = get_suggestions(
+        request, request.user, projects
+    )
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
@@ -96,7 +131,7 @@ def home(request):
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
     userlanguages = None
-    active_tab_id = Profile.DASHBOARD_ALL
+    active_tab_id = Profile.DASHBOARD_SUGGESTIONS
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
 
     if request.user.is_authenticated():
@@ -140,7 +175,7 @@ def home(request):
         request,
         'index.html',
         {
-            'projects': subproject_list or projects,
+            'suggestions': suggestions,
             'last_changes': last_changes[:10],
             'last_changes_url': '',
             'search_form': SiteSearchForm(),
@@ -150,6 +185,19 @@ def home(request):
             'componentlists': componentlists,
             'active_tab_slug': active_tab_slug,
             'active_tab_label': dashboard_choices.get(active_tab_id)
+        }
+    )
+
+
+def projects(request):
+    """Lists all projects"""
+
+    return render(
+        request,
+        'projects.html',
+        {
+            'projects':  Project.objects.all_acl(request.user),
+            'title': _('Projects'),
         }
     )
 

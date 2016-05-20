@@ -551,21 +551,21 @@ class Profile(models.Model):
 
     DASHBOARD_SUBSCRIPTIONS = 1
     DASHBOARD_LANGUAGES = 2
-    DASHBOARD_ALL = 3
     DASHBOARD_COMPONENT_LIST = 4
+    DASHBOARD_SUGGESTIONS = 5
 
     DASHBOARD_CHOICES = (
         (DASHBOARD_SUBSCRIPTIONS, _('Your subscriptions')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
-        (DASHBOARD_ALL, _('All projects')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
+        (DASHBOARD_SUGGESTIONS, _('Suggested translations')),
     )
 
     DASHBOARD_SLUGS = {
         DASHBOARD_SUBSCRIPTIONS: 'your-subscriptions',
         DASHBOARD_LANGUAGES: 'your-languages',
-        DASHBOARD_ALL: 'projects',
         DASHBOARD_COMPONENT_LIST: 'list',
+        DASHBOARD_SUGGESTIONS: 'suggestions',
     }
 
     DASHBOARD_SLUGMAP = {

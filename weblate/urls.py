@@ -90,7 +90,8 @@ urlpatterns = [
     ),
     url(
         r'^projects/$',
-        RedirectView.as_view(url='/', permanent=False)
+        weblate.trans.views.basic.projects,
+        name='projects',
     ),
     url(
         r'^projects/' + PROJECT + '$',

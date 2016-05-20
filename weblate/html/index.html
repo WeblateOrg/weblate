@@ -25,7 +25,7 @@
     {{active_tab_label}} <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" id="views-menu">
-    <li><a href="#projects" data-toggle="tab">{% trans "All projects" %}</a></li>
+    <li><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %}</a></li>
     {% if user.is_authenticated %}
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
     <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
@@ -44,6 +44,7 @@
   </a>
   <ul class="dropdown-menu">
     <li><a href="{% url 'languages' %}">{% trans "Languages summary" %}</a></li>
+    <li><a href="{% url 'projects' %}">{% trans "All projects" %}</a></li>
     <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
     <li><a href="{% url 'data_root' %}">{% trans "Data export" %}</a></li>
     <li><a href="{% url 'widgets_root' %}">{% trans "Widgets" %}</a></li>
@@ -86,12 +87,19 @@
 </div>
 {% endif %} {# user.is_authenticated #}
 
-{# All projects#}
-<div {% active_tab "projects" %}>
-{% include "list-projects.html" %}
-<p>{% include "legend.html" %}</p>
-{% if offer_hosting %}
-<p><a class="btn btn-default" href="{% url 'hosting' %}">{% trans "Ask for project hosting" %}</a>
+{# Suggested translations #}
+<div {% active_tab "suggestions" %}>
+{% if suggestions %}
+{% with suggestions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
+{% include "list-translations.html" %}
+{% endwith %}
+{% else %}
+<p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in preferences to get more suggestions." %}</p>
+{% endif %}
+{% if user.is_authenticated %}
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+{% else %}
+<p><a class="btn btn-default" href="{% url 'register' %}">{% trans "Register to manage your languages" %}</a></p>
 {% endif %}
 </div>
 
