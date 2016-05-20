@@ -90,7 +90,7 @@ urlpatterns = [
     ),
     url(
         r'^projects/$',
-        weblate.trans.views.basic.projects,
+        weblate.trans.views.basic.list_projects,
         name='projects',
     ),
     url(

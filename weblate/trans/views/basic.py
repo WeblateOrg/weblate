@@ -189,7 +189,7 @@ def home(request):
     )
 
 
-def projects(request):
+def list_projects(request):
     """Lists all projects"""
 
     return render(
