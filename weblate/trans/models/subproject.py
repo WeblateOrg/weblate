@@ -99,6 +99,11 @@ MERGE_CHOICES = (
 class SubProjectManager(models.Manager):
     # pylint: disable=W0232
 
+    def prefetch(self):
+        return self.select_related(
+            'project'
+        )
+
     def get_linked(self, val):
         """Returns subproject for linked repo."""
         if not is_repo_link(val):

@@ -67,7 +67,7 @@ class ComponentSitemap(WeblateSitemap):
     priority = 0.6
 
     def items(self):
-        return SubProject.objects.filter(
+        return SubProject.objects.prefetch().filter(
             project__in=Project.objects.all_acl(None)
         )
 
@@ -76,7 +76,7 @@ class TranslationSitemap(WeblateSitemap):
     priority = 0.2
 
     def items(self):
-        return Translation.objects.filter(
+        return Translation.objects.prefetch().filter(
             subproject__project__in=Project.objects.all_acl(None)
         )
 
