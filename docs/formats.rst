@@ -129,6 +129,11 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
 
+.. note::
+
+    If the translation unit doesn't have ``approved="yes"`` it will be imported into
+    Weblate as needing review (what matches XLIFF specification).
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
