@@ -391,12 +391,12 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def log_prefix(self):
-        return '{0}/{1}/{2}[{3}]: '.format(
+        return '/'.join((
             self.translation.subproject.project.slug,
             self.translation.subproject.slug,
             self.translation.language.code,
-            self.pk
-        )
+            str(self.pk)
+        ))
 
     def get_absolute_url(self):
         return '%s?checksum=%s' % (

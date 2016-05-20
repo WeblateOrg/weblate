@@ -133,26 +133,26 @@ class LoggerMixin(object):
     """
     @property
     def log_prefix(self):
-        return 'default: '
+        return 'default'
 
     def log_debug(self, msg, *args):
         return LOGGER.debug(
-            self.log_prefix + msg, *args
+            ': '.join((self.log_prefix, msg)), *args
         )
 
     def log_info(self, msg, *args):
         return LOGGER.info(
-            self.log_prefix + msg, *args
+            ': '.join((self.log_prefix, msg)), *args
         )
 
     def log_warning(self, msg, *args):
         return LOGGER.warning(
-            self.log_prefix + msg, *args
+            ': '.join((self.log_prefix, msg)), *args
         )
 
     def log_error(self, msg, *args):
         return LOGGER.error(
-            self.log_prefix + msg, *args
+            ': '.join((self.log_prefix, msg)), *args
         )
 
 
