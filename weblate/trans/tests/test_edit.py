@@ -354,6 +354,11 @@ class EditTest(ViewTestCase):
         self.subproject.create_translations(True)
         unit = self.get_unit()
         self.assertFalse(unit.fuzzy)
+        self.subproject.check_flags = ''
+        self.subproject.save()
+        self.subproject.create_translations(True)
+        unit = self.get_unit()
+        self.assertTrue(unit.fuzzy)
 
 
 class EditResourceTest(EditTest):
