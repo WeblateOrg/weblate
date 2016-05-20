@@ -22,16 +22,13 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 
 from weblate.lang.models import Language
+from weblate.trans.util import WeblateAdmin
 
 
-class LanguageAdmin(admin.ModelAdmin):
+class LanguageAdmin(WeblateAdmin):
     list_display = ['name', 'code', 'get_plural_form', 'direction']
     search_fields = ['name', 'code']
     list_filter = ('direction', 'plural_type')
-
-    def render_delete_form(self, request, context):
-        context['deleted_objects'] = [_('Object listing disabled')]
-        return super(LanguageAdmin, self).render_delete_form(request, context)
 
 
 admin.site.register(Language, LanguageAdmin)

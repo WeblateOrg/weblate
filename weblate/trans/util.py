@@ -35,6 +35,7 @@ except ImportError:
 
 import six
 
+from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
@@ -356,3 +357,10 @@ def sort_choices(choices):
 def sort_objects(objects):
     """Sorts objects alphabetically"""
     return sort_unicode(objects, force_text)
+
+
+class WeblateAdmin(ModelAdmin):
+    """Model admin which doesn't list objects to delete"""
+    def render_delete_form(self, request, context):
+        context['deleted_objects'] = [_('Object listing disabled')]
+        return super(WeblateAdmin, self).render_delete_form(request, context)

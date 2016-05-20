@@ -26,9 +26,10 @@ from weblate.trans.models import (
     Unit, Suggestion, Comment, Check, Dictionary, Change,
     Source, WhiteboardMessage, GroupACL, ComponentList,
 )
+from weblate.trans.util import WeblateAdmin
 
 
-class ProjectAdmin(admin.ModelAdmin):
+class ProjectAdmin(WeblateAdmin):
     list_display = (
         'name', 'slug', 'web', 'list_owners', 'enable_acl', 'enable_hooks',
         'num_vcs', 'num_strings', 'num_words', 'num_langs',
@@ -92,12 +93,8 @@ class ProjectAdmin(admin.ModelAdmin):
         )
     force_commit.short_description = _('Commit pending changes')
 
-    def render_delete_form(self, request, context):
-        context['deleted_objects'] = [_('Object listing disabled')]
-        return super(ProjectAdmin, self).render_delete_form(request, context)
 
-
-class SubProjectAdmin(admin.ModelAdmin):
+class SubProjectAdmin(WeblateAdmin):
     list_display = [
         'name', 'slug', 'project', 'repo', 'branch', 'vcs', 'file_format'
     ]
@@ -144,12 +141,8 @@ class SubProjectAdmin(admin.ModelAdmin):
         )
     force_commit.short_description = _('Commit pending changes')
 
-    def render_delete_form(self, request, context):
-        context['deleted_objects'] = [_('Object listing disabled')]
-        return super(SubProjectAdmin, self).render_delete_form(request, context)
 
-
-class TranslationAdmin(admin.ModelAdmin):
+class TranslationAdmin(WeblateAdmin):
     list_display = [
         'subproject', 'language', 'translated', 'total',
         'fuzzy', 'revision', 'filename', 'enabled'
