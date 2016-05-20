@@ -24,7 +24,7 @@ from django.shortcuts import redirect
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, Q
+from django.db.models import Sum, Count, Q, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.utils import timezone
@@ -57,16 +57,36 @@ import weblate
 
 def get_suggestions(request, user, projects):
     """Returns suggested translations for user"""
-    session_lang = translation.get_language()
-    if not user.is_authenticated():
-        all_matching = Translation.objects.filter(
-            subproject__project__in=projects,
-            language__code=session_lang
-        )
-    else:
-        all_matching = Translation.objects.none()
 
-    return all_matching
+    # Grab all untranslated translations
+    base = Translation.objects.prefetch().filter(
+        subproject__project__in=projects,
+    ).exclude(
+        total=F('translated'),
+    ).order_by(
+        '-translated'
+    )
+    all_matching = base.none()
+
+    if user.is_authenticated() and user.profile.languages.exists():
+        # Find other translations for user language
+        all_matching = base.filter(
+            language__in=user.profile.languages.all(),
+        ).exclude(
+            subproject__project__in=user.profile.subscriptions.all()
+        )
+
+    else:
+        # Filter based on session language
+        all_matching = base.filter(
+            language__code=translation.get_language()
+        )
+
+        # Fall back to all
+        if not all_matching:
+            all_matching = base
+
+    return all_matching[:10]
 
 
 def home(request):

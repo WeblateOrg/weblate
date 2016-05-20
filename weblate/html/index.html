@@ -89,9 +89,18 @@
 
 {# Suggested translations #}
 <div {% active_tab "suggestions" %}>
+{% if suggestions %}
 {% with suggestions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
 {% endwith %}
+{% else %}
+<p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in preferences to get more suggestions." %}</p>
+{% endif %}
+{% if user.is_authenticated %}
+<p><a class="btn btn-default" href="{% url 'profile' %}#languages">{% trans "Manage your languages" %}</a></p>
+{% else %}
+<p><a class="btn btn-default" href="{% url 'register' %}">{% trans "Register to manage your languages" %}</a></p>
+{% endif %}
 </div>
 
 
