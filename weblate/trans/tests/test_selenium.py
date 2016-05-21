@@ -201,7 +201,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
         # We should be back on home page
         self.expand_navbar()
-        self.driver.find_element_by_id('projects')
+        self.driver.find_element_by_id('suggestions')
 
     def register_user(self):
         # open home page
