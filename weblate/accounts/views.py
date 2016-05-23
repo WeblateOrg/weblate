@@ -557,6 +557,9 @@ def reset_password(request):
             user.save()
             if not request.session.session_key:
                 request.session.create()
+            # Remove possile old reset data
+            del request.session['email_validation_address']
+            del request.session['partial_pipeline']
             request.session['password_reset'] = True
             return complete(request, 'email')
     else:
