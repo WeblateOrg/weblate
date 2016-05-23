@@ -48,6 +48,9 @@ from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 from weblate import get_doc_url
 
+from logging import getLogger
+log = getLogger(__name__)
+
 REPO_OPERATIONS = {
     'push': (can_push_translation, 'do_push'),
     'pull': (can_update_translation, 'do_update'),
@@ -437,3 +440,32 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Language.objects.have_translation()
+
+
+## maintenance views to attack from crons:
+## /update_index, cleantrans, commit_pending
+class MaintenanceListView(viewsets.ViewSet):
+
+    items = [
+        "update_index",
+        "cleanuptrans",
+        "commit_pending",
+    ]
+    def list(self, request, format=None):
+        return Response(self.items)
+
+class MaintenanceActionView(viewsets.ViewSet):
+
+    def exec_manage(self, request, format=None, action=None):
+        # TODO pending auth token
+        if action not in MaintenanceListView.items:
+            from django.http import Http404
+            raise Http404("Action not allowed")
+        import importlib
+        module = "weblate.trans.management.commands.{}".format(action)
+
+        loaded_module = importlib.import_module(module)
+        log.info("Running manage command {}".format(loaded_module))
+        command = loaded_module.Command()
+        command.handle()
+        return Response("ok")

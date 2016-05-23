@@ -25,6 +25,9 @@ from django.conf.urls import url, include
 from weblate.api.views import (
     ProjectViewSet, ComponentViewSet, TranslationViewSet, LanguageViewSet,
 )
+from weblate.api.views import (
+    MaintenanceListView, MaintenanceActionView,
+)
 from weblate.api.routers import WeblateRouter
 
 # Routers provide an easy way of automatically determining the URL conf.
@@ -58,5 +61,16 @@ urlpatterns = [
     url(
         r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')
-    )
+    ),
+]
+
+urlpatterns += [
+    url(
+        r"^maintenance/$",
+        MaintenanceListView.as_view({'get': 'list'}),
+    ),
+    url(
+        r"^maintenance/(?P<action>[\w_]+)/$",
+        MaintenanceActionView.as_view({'get': 'exec_manage'}),
+    ),
 ]
