@@ -839,6 +839,8 @@ LOCALE_ALIASES = {
     'uz@latin': 'uz_Latn',
     'zh_cn': 'zh_Hans',
     'zh_tw': 'zh_Hant',
+    # ios translations
+    'base': 'en',
 }
 
 # List of languages we do not want to import from translate-toolkit
