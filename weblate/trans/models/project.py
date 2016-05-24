@@ -49,7 +49,7 @@ def get_acl_cache_key(user):
         user_id = ANONYMOUS_USER_NAME
     else:
         user_id = user.username
-    return 'acl-project-{0}'.format(
+    return '{0}-user-acl'.format(
         hashlib.md5(user_id.encode('utf-8')).hexdigest()
     )
 
