@@ -65,12 +65,12 @@ class ProjectManager(models.Manager):
 
         last_result = cache.get(cache_key)
         if last_result is not None:
-            project_ids = last_result
-        else:
-            project_ids = [
-                project.id for project in self.all() if project.has_acl(user)
-            ]
-            cache.set(cache_key, project_ids)
+            return last_result
+
+        project_ids = [
+            project.id for project in self.all() if project.has_acl(user)
+        ]
+        cache.set(cache_key, project_ids)
 
         return project_ids
 
