@@ -555,13 +555,12 @@ def reset_password(request):
             user = form.cleaned_data['email']
             user.set_unusable_password()
             user.save()
-            if not request.session.session_key:
-                request.session.create()
-            # Remove possile old reset data
-            if 'email_validation_address' in request.session:
-                del request.session['email_validation_address']
-            if 'partial_pipeline' in request.session:
-                del request.session['partial_pipeline']
+
+            # Force creating new session
+            request.session.create()
+            if request.user.is_authenticated():
+                logout(request)
+
             request.session['password_reset'] = True
             return complete(request, 'email')
     else:

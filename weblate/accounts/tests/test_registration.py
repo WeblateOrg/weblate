@@ -201,6 +201,31 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         self.assert_registration('[Weblate] Password reset on Weblate')
 
+    def test_reset_twice(self):
+        '''
+        Test for password reset.
+        '''
+        User.objects.create_user('testuser', 'test@example.com', 'x')
+        User.objects.create_user('testuser2', 'test2@example.com', 'x')
+
+        response = self.client.post(
+            reverse('password_reset'),
+            {'email': 'test@example.com'}
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+        self.assert_registration('[Weblate] Password reset on Weblate')
+        sent_mail = mail.outbox.pop()
+        self.assertEqual(['test@example.com'], sent_mail.to)
+
+        response = self.client.post(
+            reverse('password_reset'),
+            {'email': 'test2@example.com'}
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+        self.assert_registration('[Weblate] Password reset on Weblate')
+        sent_mail = mail.outbox.pop()
+        self.assertEqual(['test2@example.com'], sent_mail.to)
+
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
         data['username'] = ''
