@@ -261,15 +261,9 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     lookup_fields = ('project__slug', 'slug')
 
     def get_queryset(self):
-        acl_projects, filtered = Project.objects.get_acl_ids_status(
-            self.request.user
-        )
-        if filtered:
-            result = SubProject.objects.filter(project_id__in=acl_projects)
-        else:
-            result = SubProject.objects.all()
-        return result.prefetch_related(
-            'project',
+        return SubProject.objects.prefetch().filter(
+            project_id__in=Project.objects.get_acl_ids(self.request.user)
+        ).prefetch_related(
             'project__source_language'
         )
 
@@ -375,19 +369,12 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
 
     def get_queryset(self):
-        acl_projects, filtered = Project.objects.get_acl_ids_status(
-            self.request.user
-        )
-        if filtered:
-            result = Translation.objects.filter(
-                subproject__project_id__in=acl_projects
+        return Translation.objects.prefetch().filter(
+            subproject__project_id__in=Project.objects.get_acl_ids(
+                self.request.user
             )
-        else:
-            result = Translation.objects.all()
-        return result.prefetch_related(
-            'subproject', 'subproject__project',
+        ).prefetch_related(
             'subproject__project__source_language',
-            'language',
         )
 
     @detail_route(

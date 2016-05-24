@@ -211,21 +211,17 @@ def search(request):
     }
 
     if search_form.is_valid():
+        # Filter results by ACL
+        acl_projects = Project.objects.get_acl_ids(request.user)
+
         units = Unit.objects.search(
             None,
             search_form.cleaned_data,
+        ).filter(
+            translation__subproject__project_id__in=acl_projects
         ).select_related(
             'translation',
         )
-
-        # Filter results by ACL
-        acl_projects, filtered = Project.objects.get_acl_ids_status(
-            request.user
-        )
-        if filtered:
-            units = units.filter(
-                translation__subproject__project_id__in=acl_projects
-            )
 
         limit = request.GET.get('limit', 50)
         page = request.GET.get('page', 1)

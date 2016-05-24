@@ -124,16 +124,11 @@ class ChangeManager(models.Manager):
         Prefilters Changes by ACL for users and fetches related fields
         for last changes display.
         '''
-        result = self.prefetch()
-
-        acl_projects, filtered = Project.objects.get_acl_ids_status(user)
-        if filtered:
-            result = result.filter(
-                Q(subproject__project_id__in=acl_projects) |
-                Q(dictionary__project_id__in=acl_projects)
-            )
-
-        return result
+        acl_projects = Project.objects.get_acl_ids(user)
+        return self.prefetch().filter(
+            Q(subproject__project_id__in=acl_projects) |
+            Q(dictionary__project_id__in=acl_projects)
+        )
 
     def create(self, user=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner"""

@@ -57,15 +57,7 @@ def get_acl_cache_key(user):
 class ProjectManager(models.Manager):
     # pylint: disable=W0232
 
-    def all_acl(self, user):
-        """Returns list of projects user is allowed to access."""
-        return self.get_acl_status(user)[0]
-
     def get_acl_ids(self, user):
-        """Returns list of project IDs for current user filtered by ACL"""
-        return self.get_acl_ids_status(user)[0]
-
-    def get_acl_ids_status(self, user):
         """Returns list of project IDs and status
         for current user filtered by ACL
         """
@@ -73,26 +65,20 @@ class ProjectManager(models.Manager):
 
         last_result = cache.get(cache_key)
         if last_result is not None:
-            filtered, project_ids = last_result
+            project_ids = last_result
         else:
             project_ids = [
                 project.id for project in self.all() if project.has_acl(user)
             ]
-            filtered = (self.count() != len(project_ids))
+            cache.set(cache_key, project_ids)
 
-            cache.set(cache_key, (filtered, project_ids))
+        return project_ids
 
-        return project_ids, filtered
-
-    def get_acl_status(self, user):
+    def all_acl(self, user):
         """Returns list of projects user is allowed to access
         and flag whether there is any filtering active.
         """
-        project_ids, filtered = self.get_acl_ids_status(user)
-
-        if not filtered:
-            return self.all(), False
-        return self.filter(id__in=project_ids), True
+        return self.filter(id__in=self.get_acl_ids(user))
 
 
 @python_2_unicode_compatible
