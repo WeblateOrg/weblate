@@ -73,24 +73,24 @@ class ProjectManager(models.Manager):
 
         last_result = cache.get(cache_key)
         if last_result is not None:
-            all_projects, project_ids = last_result
+            filtered, project_ids = last_result
         else:
             project_ids = [
                 project.id for project in self.all() if project.has_acl(user)
             ]
-            all_projects = (self.count() == len(project_ids))
+            filtered = (self.count() != len(project_ids))
 
-            cache.set(cache_key, (all_projects, project_ids))
+            cache.set(cache_key, (filtered, project_ids))
 
-        return project_ids, all_projects
+        return project_ids, filtered
 
     def get_acl_status(self, user):
         """Returns list of projects user is allowed to access
         and flag whether there is any filtering active.
         """
-        project_ids, all_projects = self.get_acl_ids_status(user)
+        project_ids, filtered = self.get_acl_ids_status(user)
 
-        if all_projects:
+        if not filtered:
             return self.all(), False
         return self.filter(id__in=project_ids), True
 
