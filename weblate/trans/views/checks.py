@@ -34,9 +34,9 @@ from weblate.trans.util import redirect_param
 
 def acl_checks(user):
     """Filter checks by ACL."""
-    acl_projects, filtered = Project.objects.get_acl_status(user)
+    acl_projects, filtered = Project.objects.get_acl_ids_status(user)
     if filtered:
-        return Check.objects.filter(project__in=acl_projects)
+        return Check.objects.filter(project_id__in=acl_projects)
     else:
         return Check.objects.all()
 

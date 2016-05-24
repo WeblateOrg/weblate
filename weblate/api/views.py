@@ -261,11 +261,11 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     lookup_fields = ('project__slug', 'slug')
 
     def get_queryset(self):
-        acl_projects, filtered = Project.objects.get_acl_status(
+        acl_projects, filtered = Project.objects.get_acl_ids_status(
             self.request.user
         )
         if filtered:
-            result = SubProject.objects.filter(project__in=acl_projects)
+            result = SubProject.objects.filter(project_id__in=acl_projects)
         else:
             result = SubProject.objects.all()
         return result.prefetch_related(
@@ -375,12 +375,12 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     )
 
     def get_queryset(self):
-        acl_projects, filtered = Project.objects.get_acl_status(
+        acl_projects, filtered = Project.objects.get_acl_ids_status(
             self.request.user
         )
         if filtered:
             result = Translation.objects.filter(
-                subproject__project__in=acl_projects
+                subproject__project_id__in=acl_projects
             )
         else:
             result = Translation.objects.all()

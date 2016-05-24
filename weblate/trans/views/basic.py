@@ -219,10 +219,12 @@ def search(request):
         )
 
         # Filter results by ACL
-        acl_projects, filtered = Project.objects.get_acl_status(request.user)
+        acl_projects, filtered = Project.objects.get_acl_ids_status(
+            request.user
+        )
         if filtered:
             units = units.filter(
-                translation__subproject__project__in=acl_projects
+                translation__subproject__project_id__in=acl_projects
             )
 
         limit = request.GET.get('limit', 50)
