@@ -45,13 +45,12 @@ from weblate.trans.data import data_dir
 
 
 def get_acl_cache_key(user):
+    """Returns key for per user ACL cache"""
     if user is None or user.id is None:
         user_id = ANONYMOUS_USER_NAME
     else:
-        user_id = user.username
-    return '{0}-user-acl'.format(
-        hashlib.md5(user_id.encode('utf-8')).hexdigest()
-    )
+        user_id = str(user.id)
+    return ':'.join((user_id, 'useracl'))
 
 
 class ProjectManager(models.Manager):
