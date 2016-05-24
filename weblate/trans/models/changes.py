@@ -126,11 +126,11 @@ class ChangeManager(models.Manager):
         '''
         result = self.prefetch()
 
-        acl_projects, filtered = Project.objects.get_acl_status(user)
+        acl_projects, filtered = Project.objects.get_acl_ids_status(user)
         if filtered:
             result = result.filter(
-                Q(subproject__project__in=acl_projects) |
-                Q(dictionary__project__in=acl_projects)
+                Q(subproject__project_id__in=acl_projects) |
+                Q(dictionary__project_id__in=acl_projects)
             )
 
         return result
