@@ -55,12 +55,12 @@ from weblate.trans.util import render, sort_objects
 import weblate
 
 
-def get_suggestions(request, user, projects):
+def get_suggestions(request, user, project_ids):
     """Returns suggested translations for user"""
 
     # Grab all untranslated translations
     base = Translation.objects.prefetch().filter(
-        subproject__project__in=projects,
+        subproject__project_id__in=project_ids,
     ).exclude(
         total=F('translated'),
     ).order_by(
@@ -109,10 +109,10 @@ def home(request):
         )
         return redirect('password')
 
-    projects = Project.objects.all_acl(request.user)
+    project_ids = Project.objects.get_acl_ids(request.user)
 
     suggestions = get_suggestions(
-        request, request.user, projects
+        request, request.user, project_ids
     )
 
     # Warn about not filled in username (usually caused by migration of
@@ -143,11 +143,10 @@ def home(request):
             active_tab_slug = clist.tab_slug()
             dashboard_choices[active_tab_id] = clist.name
 
-        subscribed_projects = request.user.profile.subscriptions.all()
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = subscribed_projects.filter(
-            id__in=projects.values_list('id')
+        subscribed_projects = request.user.profile.subscriptions.filter(
+            id__in=project_ids
         )
 
         last_changes = last_changes.filter(
@@ -164,7 +163,7 @@ def home(request):
             subproject__project__in=subscribed_projects
         )
         userlanguages = components_by_language.filter(
-            subproject__project__in=projects
+            subproject__project_id__in=project_ids
         )
 
         for componentlist in componentlists:

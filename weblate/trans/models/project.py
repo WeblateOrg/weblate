@@ -61,12 +61,14 @@ class ProjectManager(models.Manager):
         """Returns list of projects user is allowed to access."""
         return self.get_acl_status(user)[0]
 
-    def get_acl_status(self, user):
-        """Returns list of projects user is allowed to access
-        and flag whether there is any filtering active.
-        """
-        projects = self.all()
+    def get_acl_ids(self, user):
+        """Returns list of project IDs for current user filtered by ACL"""
+        return self.get_acl_ids_status(user)[0]
 
+    def get_acl_ids_status(self, user):
+        """Returns list of project IDs and status
+        for current user filtered by ACL
+        """
         cache_key = get_acl_cache_key(user)
 
         last_result = cache.get(cache_key)
@@ -74,14 +76,22 @@ class ProjectManager(models.Manager):
             all_projects, project_ids = last_result
         else:
             project_ids = [
-                project.id for project in projects if project.has_acl(user)
+                project.id for project in self.all() if project.has_acl(user)
             ]
-            all_projects = (projects.count() == len(project_ids))
+            all_projects = (self.count() == len(project_ids))
 
             cache.set(cache_key, (all_projects, project_ids))
 
+        return project_ids, all_projects
+
+    def get_acl_status(self, user):
+        """Returns list of projects user is allowed to access
+        and flag whether there is any filtering active.
+        """
+        project_ids, all_projects = self.get_acl_ids_status(user)
+
         if all_projects:
-            return projects, False
+            return self.all(), False
         return self.filter(id__in=project_ids), True
 
 
