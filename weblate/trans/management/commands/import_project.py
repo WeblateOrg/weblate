@@ -183,6 +183,7 @@ class Command(BaseCommand):
         '''
         # Create temporary working dir
         workdir = tempfile.mkdtemp(dir=project.get_path())
+        # Make the temporary directory readable by others
         os.chmod(workdir, 0o755)
 
         # Initialize git repository
