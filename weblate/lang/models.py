@@ -322,7 +322,7 @@ class LanguageManager(models.Manager):
         Checks database language definitions with supplied ones.
         """
         errors = []
-        with io.open(filename) as handle:
+        with io.open(filename, 'r', encoding='utf-8') as handle:
             for line in handle:
                 line = line.strip()
                 parts = [part.strip() for part in line.split(',')]
