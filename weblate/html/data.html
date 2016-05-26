@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -134,17 +135,17 @@ curl \
 <tr>
 <th><a href="https://github.com/">GitHub</a></th>
 <td>{{ site_url }}{% url 'hook-github' %}</td>
-<td>{% trans "Enable Weblate service hook in repository settings." %}</td>
+<td><a href="{% documentation "admin/continuous" "github-setup" %}">{% trans "See documentation for detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://about.gitlab.com/">GitLab</a></th>
 <td>{{ site_url }}{% url 'hook-gitlab' %}</td>
-<td></td>
+<td><a href="{% documentation "admin/continuous" "gitlab-setup" %}">{% trans "See documentation for detailed instructions" %}</a></td>
 </tr>
 <tr>
 <th><a href="https://bitbucket.org/">Bitbucket</a></th>
 <td>{{ site_url }}{% url 'hook-bitbucket' %}</td>
-<td></td>
+<td><a href="{% documentation "admin/continuous" "bitbucket-setup" %}">{% trans "See documentation for detailed instructions" %}</a></td>
 </tr>
 </tbody>
 </table>
