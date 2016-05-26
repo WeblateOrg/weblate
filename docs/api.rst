@@ -565,7 +565,7 @@ Components
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-.. http:get:: /api/componentss/(string:project)/(string:component)/(string:language)/statistics/
+.. http:get:: /api/components/(string:project)/(string:component)/statistics/
 
     Returns paginated statistics for all translations within component.
 
@@ -901,8 +901,8 @@ Weblate provides various exports to allow you further process the data.
 
     .. deprecated:: 2.6
 
-        Please use :http:get:`/api/components/(string:project)/(string:component)/translations/`
-        and :http:get:`/api/components/(string:project)/(string:component)/statistics/`
+        Please use :http:get:`/api/components/(string:project)/(string:component)/statistics/`
+        and :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
         instead, it allows to access ACL controlled projects as well.
 
     Retrieves statistics for given component in JSON format. Optionally as
