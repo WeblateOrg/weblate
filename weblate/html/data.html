@@ -61,8 +61,8 @@
 {% for subproject in object.subproject_set.all %}
 <tr>
 <th>{{ subproject }}</th>
-<td>{{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}</td>
-<td><a href="{{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=subproject.slug %}">{% trans "Download" %}</a></td>
+<td>{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=subproject.slug %}</td>
+<td><a href="{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=subproject.slug %}">{% trans "View" %}</a></td>
 </tr>
 {% endfor %}
 </tbody>
