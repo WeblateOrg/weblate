@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-05-20 15:41+0000\n"
-"PO-Revision-Date: 2016-05-31 15:40+0000\n"
-"Last-Translator: Malte Blättermann <malte.blaettermann@gmail.com>\n"
+"PO-Revision-Date: 2016-05-31 16:12+0000\n"
+"Last-Translator: Microgamer <ungespielts.fan@gmail.com>\n"
 "Language-Team: German "
 "<https://hosted.weblate.org/projects/weblate/master/de/>\n"
 "Language: de\n"
@@ -25,12 +25,12 @@ msgid ""
 "expired. Please try the registration again."
 msgstr ""
 "Verifizierung Ihrer Registrierung ist fehlgeschlagen! Wahrscheinlich ist Ihr "
-"Verifikations-Token abgelaufen. Bitte versuchen Sie die Registrierung erneut."
+"Verifikationstoken abgelaufen. Bitte versuchen Sie die Registrierung erneut."
 
 #: weblate/accounts/avatar.py:179
 msgctxt "No known user"
 msgid "None"
-msgstr "–"
+msgstr "Kein"
 
 #: weblate/accounts/forms.py:48
 msgid ""
@@ -60,7 +60,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:227
 msgid "Component list must be selected when used as default."
-msgstr "Für Standardansicht bitte eine Komponentenliste auswählen"
+msgstr "Für Standardansicht bitte eine Komponentenliste auswählen."
 
 #: weblate/accounts/forms.py:236 weblate/accounts/forms.py:306
 #: weblate/html/project.html:166
@@ -1568,7 +1568,7 @@ msgstr "Gettext (PO)"
 
 #: weblate/html/dictionary.html:29
 msgid "XML Localization Interchange File Format (XLIFF)"
-msgstr ""
+msgstr "XML-Übersetzungsaustauschformat (XLIFF)"
 
 #: weblate/html/dictionary.html:30
 msgid "TermBase eXchange (TBX)"
@@ -1743,11 +1743,11 @@ msgstr "Arabisch"
 
 #: weblate/html/i18n.html:26
 msgid "Arabic (Algeria)"
-msgstr ""
+msgstr "Arabisch (Algerien)"
 
 #: weblate/html/i18n.html:27
 msgid "Arabic (Morocco)"
-msgstr ""
+msgstr "Arabisch (Marokko)"
 
 #: weblate/html/i18n.html:28
 msgid "Aragonese"
@@ -1817,7 +1817,7 @@ msgstr "Weißrussisch (lateinisch)"
 #: weblate/html/i18n.html:44
 #| msgid "Serbian (cyrillic)"
 msgid "Bosnian (cyrillic)"
-msgstr ""
+msgstr "Bosnisch (Kyrillisch)"
 
 #: weblate/html/i18n.html:45
 msgid "Breton"
@@ -1901,11 +1901,11 @@ msgstr "Dogri"
 
 #: weblate/html/i18n.html:65
 msgid "Dutch"
-msgstr "Holländisch"
+msgstr "Niederländisch"
 
 #: weblate/html/i18n.html:66
 msgid "Dutch (Belgium)"
-msgstr "Holländisch (Belgien)"
+msgstr "Niederländisch (Belgien)"
 
 #: weblate/html/i18n.html:67
 msgid "Dzongkha"
@@ -2228,7 +2228,7 @@ msgstr "Nördliches Sami"
 
 #: weblate/html/i18n.html:146
 msgid "Norwegian (old code)"
-msgstr "Norwegisch (alter Kode)"
+msgstr "Norwegisch (alte Rechtschreibung)"
 
 #: weblate/html/i18n.html:147
 msgid "Norwegian Bokmål"
@@ -2471,7 +2471,7 @@ msgstr "Urdu"
 
 #: weblate/html/i18n.html:206
 msgid "Urdu (Pakistan)"
-msgstr ""
+msgstr "Urdu (Pakistani)"
 
 #: weblate/html/i18n.html:207
 msgid "Uzbek"
@@ -2621,6 +2621,8 @@ msgid ""
 "Could not find any suggestions for you, please choose your languages in "
 "preferences to get more suggestions."
 msgstr ""
+"Konnte keine Vorschläge für Sie finden. Bitte wählen Sie Ihre Sprachen in "
+"den Einstellungen aus um mehr Vorschläge zu erhalten."
 
 #: weblate/html/index.html:102
 #| msgid "Manage your languages"
@@ -4661,20 +4663,18 @@ msgid "Add as translation needing review"
 msgstr "Als Übersetzung mit nötiger Durchsicht hinzufügen"
 
 #: weblate/trans/forms.py:390
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Ausgangszeichenketten begutachten"
+msgstr "Zeichenketten, die eine Durchsicht benötigen"
 
 #: weblate/trans/forms.py:392
 msgid "Do not import"
 msgstr "Nicht importieren"
 
 #: weblate/trans/forms.py:393
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Ausgangszeichenketten begutachten"
+msgstr "Der Import als Zeichenkette benötigt eine Revision"
 
 #: weblate/trans/forms.py:394
 msgid "Import as translated"
@@ -5795,8 +5795,7 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1260
 msgid "License URL can not be used without license summary."
-msgstr ""
-"Die Lizenz-URL kann nicht ohne die Kurz-Nennung der Lizenz verwendet werden."
+msgstr "Die Lizenz-URL kann nicht ohne den Namen der Lizenz verwendet werden."
 
 #: weblate/trans/models/subproject.py:1280
 msgid "Changing version control system is not supported!"
@@ -5815,6 +5814,8 @@ msgstr "Aktualisieren der Paketquelle fehlgeschlagen: %s"
 #: weblate/trans/models/subproject.py:1312
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
+"Konnte die Dateinamen nicht verifizieren, weil der reguläre Ausdruck nicht "
+"eingehalten wurde."
 
 #: weblate/trans/models/subproject.py:1322
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -6171,7 +6172,7 @@ msgstr[1] "in %(count)s Stunden"
 
 #: weblate/trans/templatetags/translations.py:526
 msgid "Message needs review"
-msgstr ""
+msgstr "Nachricht braucht Revision"
 
 #: weblate/trans/templatetags/translations.py:531
 msgid "Message is not translated"
@@ -6200,10 +6201,12 @@ msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
+"{0} ist mit Weblate in {1} Sprachen übersetzt worden. Hilf beim Übersetzen "
+"oder übersetze dein eigenes Projekt."
 
 #: weblate/trans/util.py:365
 msgid "Object listing disabled"
-msgstr ""
+msgstr "Objekttistung deaktiviert"
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
