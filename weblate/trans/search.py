@@ -347,10 +347,11 @@ def delete_search_units(source_units, languages):
             writer.close()
 
     for lang, units in languages.items():
-        index = get_target_index(lang)
-        writer = BufferedWriter(index)
-        try:
-            for pk in units:
-                writer.delete_by_term('pk', pk)
-        finally:
-            writer.close()
+        if units:
+            index = get_target_index(lang)
+            writer = BufferedWriter(index)
+            try:
+                for pk in units:
+                    writer.delete_by_term('pk', pk)
+            finally:
+                writer.close()
