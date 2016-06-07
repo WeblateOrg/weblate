@@ -917,6 +917,7 @@ def create_groups(update):
             Permission.objects.get(codename='add_comment'),
             Permission.objects.get(codename='add_suggestion'),
             Permission.objects.get(codename='use_mt'),
+            Permission.objects.get(codename='add_translation'),
         )
 
     owner_permissions = (

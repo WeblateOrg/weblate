@@ -566,7 +566,7 @@ def data_project(request, project):
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    if not can_add_translation(request.user, obj.subproject.project):
+    if not can_add_translation(request.user, obj.project):
         raise PermissionDenied()
 
     form = get_new_language_form(request, obj)(obj, request.POST)

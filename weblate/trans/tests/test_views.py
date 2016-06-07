@@ -237,6 +237,30 @@ class NewLangTest(ViewTestCase):
     def create_subproject(self):
         return self.create_po_new_base()
 
+    def test_no_permission(self):
+        self.user.groups.clear()
+
+        # Test there is no add form
+        response = self.client.get(
+            reverse('subproject', kwargs=self.kw_subproject)
+        )
+        self.assertNotContains(response, 'New translation')
+
+        # Test adding fails
+        response = self.client.post(
+            reverse('new-language', kwargs=self.kw_subproject),
+            {'lang': 'af'},
+        )
+        self.assertEquals(
+            response.status_code,
+            403
+        )
+        self.assertFalse(
+            self.subproject.translation_set.filter(
+                language__code='af'
+            ).exists()
+        )
+
     def test_none(self):
         self.subproject.new_lang = 'none'
         self.subproject.save()

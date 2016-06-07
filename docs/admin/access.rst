@@ -99,7 +99,7 @@ Can download changes [Managers, Owners]
     Can download changes in a CSV format.
 Can display reports [Managers, Owners]
     Can display detailed translation reports.
-Can add translation [Managers, Owners]
+Can add translation [Users, Managers, Owners]
     Can start translations in new language.
 
 .. _acl:
