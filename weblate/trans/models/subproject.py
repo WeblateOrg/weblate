@@ -538,11 +538,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         else:
             return os.path.join(self.project.get_path(), self.slug)
 
-    @property
     def repository_lock(self):
         """Returns lock object for current translation instance."""
         if self.is_repo_link:
-            return self.linked_subproject.repository_lock
+            return self.linked_subproject.repository_lock()
 
         if self._repository_lock is None:
             lock_path = os.path.join(
@@ -652,7 +651,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Update
         self.log_info('updating repository')
         try:
-            with self.repository_lock:
+            with self.repository_lock():
                 start = time.time()
                 self.repository.update_remote()
                 timediff = time.time() - start
@@ -679,7 +678,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
 
-        with self.repository_lock:
+        with self.repository_lock():
             self.repository.configure_remote(self.repo, self.push, self.branch)
             self.repository.set_committer(
                 self.committer_name,
@@ -693,7 +692,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
 
-        with self.repository_lock:
+        with self.repository_lock():
             self.repository.configure_branch(self.branch)
 
     def do_update(self, request=None, method=None):
@@ -787,7 +786,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Do actual push
         try:
             self.log_info('pushing to remote repo')
-            with self.repository_lock:
+            with self.repository_lock():
                 self.repository.push()
 
             Change.objects.create(
@@ -829,7 +828,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Do actual reset
         try:
             self.log_info('reseting to remote repo')
-            with self.repository_lock:
+            with self.repository_lock():
                 self.repository.reset()
 
             Change.objects.create(
@@ -926,7 +925,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
 
-        with self.repository_lock:
+        with self.repository_lock():
             try:
                 # Try to merge it
                 method()
