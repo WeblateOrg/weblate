@@ -398,6 +398,11 @@ class SVGBadgeWidget(Widget):
         else:
             color = '#e05d44'
 
+        if self.lang:
+            lang = self.lang.code
+        else:
+            lang = 'en'
+
         self.image = render_to_string(
             'badge.svg',
             {
@@ -409,6 +414,7 @@ class SVGBadgeWidget(Widget):
                 'color': color,
                 'translated_offset': translated_width / 2,
                 'percent_offset': translated_width + percent_width / 2,
+                'lang': lang,
             }
         )
 
