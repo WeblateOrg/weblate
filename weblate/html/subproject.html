@@ -21,6 +21,7 @@
 {% can_commit_translation user object.project as user_can_commit_translation %}
 {% can_manage_acl user object.project as user_can_manage_acl %}
 {% can_view_reports user object.project as user_can_view_reports %}
+{% can_add_translation user object.project as user_can_add_translation %}
 
 {% include "show-lock.html" %}
 
@@ -98,7 +99,7 @@
 </div>
 </div>
 
-{% if object.can_add_language and user.is_authenticated %}
+{% if object.can_add_language and user_can_add_translation %}
 <form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">

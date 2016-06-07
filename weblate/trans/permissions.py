@@ -359,3 +359,11 @@ def can_overwrite_translation(user, project):
     Checks whether user can overwrite translation on given project.
     """
     return check_permission(user, project, 'trans.overwrite_translation')
+
+
+@cache_permission
+def can_add_translation(user, project):
+    """
+    Checks whether user can view reports on given project.
+    """
+    return check_permission(user, project, 'trans.add_translation')

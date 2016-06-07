@@ -23,6 +23,7 @@ import datetime
 from django.shortcuts import redirect
 from django.utils import translation
 from django.utils.translation import ugettext as _
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Q, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -45,7 +46,9 @@ from weblate.trans.forms import (
     AutoForm, ReviewForm, get_new_language_form,
     UserManageForm, ReportsForm,
 )
-from weblate.trans.permissions import can_automatic_translation
+from weblate.trans.permissions import (
+    can_automatic_translation, can_add_translation,
+)
 from weblate.accounts.models import Profile, notify_new_language
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
@@ -562,6 +565,9 @@ def data_project(request, project):
 @login_required
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
+
+    if not can_add_translation(request.user, obj.subproject.project):
+        raise PermissionDenied()
 
     form = get_new_language_form(request, obj)(obj, request.POST)
 
