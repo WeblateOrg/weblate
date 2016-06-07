@@ -30,6 +30,11 @@ from django.template.loader import render_to_string
 
 from weblate.trans.fonts import is_base, get_font
 
+try:
+    from bidi.algorithm import get_display
+except ImportError:
+    from django.utils.encoding import force_text as get_display
+
 
 COLOR_DATA = {
     'grey': {
@@ -224,7 +229,7 @@ class Widget(object):
             # Render text
             self.draw.text(
                 (pos_x, pos_y + offset),
-                line,
+                get_display(line),
                 font=font,
                 fill=COLOR_DATA[self.color]['text']
             )

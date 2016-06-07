@@ -46,6 +46,8 @@ Database backend
     Any database supported in Django will work, check their documentation for more details.
 pytz (optional, but recommended by Django)
     https://pypi.python.org/pypi/pytz/
+python-bidi (optional for proper rendering of badges in RTL languages)
+    https://github.com/MeirKriheli/python-bidi
 hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
 

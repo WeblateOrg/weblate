@@ -76,6 +76,17 @@ def get_optional_versions():
             None,
         ))
 
+    name = 'python-bidi'
+    url = 'https://github.com/MeirKriheli/python-bidi'
+    mod = get_version_module('bidi', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            mod.VERSION,
+            None,
+        ))
+
     name = 'pyLibravatar'
     url = 'https://pypi.python.org/pypi/pyLibravatar'
     mod = get_version_module('libravatar', name, url, True)
