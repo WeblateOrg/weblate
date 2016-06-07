@@ -1,0 +1,25 @@
+#!/bin/sh
+# Packs test data for Weblate
+
+# Output directory
+OUT=`pwd`/weblate/trans/tests/data/
+
+# Working directory
+WD=`mktemp -d`
+cd $WD
+
+# Clone and cleanup Mercurial repo
+hg clone https://bitbucket.org/nijel/weblate-test test-base-repo.hg
+cd test-base-repo.hg
+hg update null
+cd ..
+
+# Close bare Git repo
+git clone --bare https://github.com/nijel/weblate-test.git test-base-repo.git
+
+# Pack them
+tar cf $OUT/test-base-repo.hg.tar test-base-repo.hg
+tar cf $OUT/test-base-repo.git.tar test-base-repo.git
+
+# Remove working dir
+echo rm -rf $WD

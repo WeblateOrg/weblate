@@ -14,6 +14,7 @@ Released on ? 2016.
 * Correct ordering of listed traslations.
 * Show full suggestion text, not only a diff.
 * Extend API (detailed repository status, statistics, ...).
+* Testsuite no longer requires network access to test repositories.
 
 weblate 2.6
 -----------

@@ -20,6 +20,7 @@
 
 import os.path
 import shutil
+from tarfile import TarFile
 from unittest import SkipTest
 
 from django.conf import settings
@@ -27,7 +28,7 @@ from django.conf import settings
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.models import Project, SubProject
 from weblate.trans.search import clean_indexes
-from weblate.trans.vcs import GitRepository, HgRepository
+from weblate.trans.vcs import HgRepository
 
 # Directory holding test data
 TEST_DATA = os.path.join(
@@ -51,6 +52,29 @@ def get_test_file(name):
 
 
 class RepoTestMixin(object):
+    def optional_extract(self, output, tarname):
+        """Extracts test repository data if needed
+
+        Checks whether directory exists or is older than archive.
+        """
+
+        tarname = get_test_file(tarname)
+
+        if (not os.path.exists(output) or
+                os.path.getmtime(output) < os.path.getmtime(tarname)):
+
+            # Remove directory if outdated
+            if os.path.exists(output):
+                shutil.rmtree(output)
+
+            # Extract new content
+            tar = TarFile(tarname)
+            tar.extractall(settings.DATA_DIR)
+            tar.close()
+
+            # Update directory timestamp
+            os.utime(output, None)
+
     def clone_test_repos(self):
         # Path where to clone remote repo for tests
         self.git_base_repo_path = os.path.join(
@@ -74,18 +98,11 @@ class RepoTestMixin(object):
             'test-repo.hg'
         )
 
-        # Clone repo for testing
-        if not os.path.exists(self.git_base_repo_path):
-            print(
-                'Cloning Git test repository to {0}...'.format(
-                    self.git_base_repo_path
-                )
-            )
-            GitRepository.clone(
-                GIT_URL,
-                self.git_base_repo_path,
-                bare=True
-            )
+        # Extract repo for testing
+        self.optional_extract(
+            self.git_base_repo_path,
+            'test-base-repo.git.tar'
+        )
 
         # Remove possibly existing directory
         if os.path.exists(self.git_repo_path):
@@ -94,26 +111,18 @@ class RepoTestMixin(object):
         # Create repository copy for the test
         shutil.copytree(self.git_base_repo_path, self.git_repo_path)
 
-        if HgRepository.is_supported():
-            # Clone repo for testing
-            if not os.path.exists(self.hg_base_repo_path):
-                print(
-                    'Cloning Mercurial test repository to {0}...'.format(
-                        self.hg_base_repo_path
-                    )
-                )
-                HgRepository.clone(
-                    HG_URL,
-                    self.hg_base_repo_path,
-                    bare=True
-                )
+        # Extract repo for testing
+        self.optional_extract(
+            self.hg_base_repo_path,
+            'test-base-repo.hg.tar'
+        )
 
-            # Remove possibly existing directory
-            if os.path.exists(self.hg_repo_path):
-                shutil.rmtree(self.hg_repo_path)
+        # Remove possibly existing directory
+        if os.path.exists(self.hg_repo_path):
+            shutil.rmtree(self.hg_repo_path)
 
-            # Create repository copy for the test
-            shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
+        # Create repository copy for the test
+        shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
 
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
