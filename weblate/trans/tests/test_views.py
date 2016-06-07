@@ -251,7 +251,7 @@ class NewLangTest(ViewTestCase):
             reverse('new-language', kwargs=self.kw_subproject),
             {'lang': 'af'},
         )
-        self.assertEquals(
+        self.assertEqual(
             response.status_code,
             403
         )
