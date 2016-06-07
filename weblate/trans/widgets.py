@@ -25,15 +25,15 @@ from PIL import Image, ImageDraw
 
 from six.moves.urllib.parse import quote
 
-from django.utils.translation import ugettext as _
-from django.template.loader import render_to_string
-
-from weblate.trans.fonts import is_base, get_font
-
 try:
     from bidi.algorithm import get_display
 except ImportError:
     from django.utils.encoding import force_text as get_display
+
+from django.utils.translation import ugettext as _
+from django.template.loader import render_to_string
+
+from weblate.trans.fonts import is_base, get_font
 
 
 COLOR_DATA = {
