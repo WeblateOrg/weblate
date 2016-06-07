@@ -299,10 +299,29 @@ Upgrade from 2.5 to 2.6
 
 Follow generic upgrade instructions, there is no special change.
 
+Notable configuration or dependencies changes:
+
+* new dependecy on Django REST Framework, see :ref:`requirements`
+* example configuration now configures Django REST Framework, please adjust
+  your settings accordingly
+* the USE_TZ settings is now enabled by default
+
 .. note::
 
     Weblate now much more relies on correct site name in the database, please 
     see :ref:`production-site` for instructions how to set it up.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 2.6 to 2.7
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow generic upgrade instructions, there is no special change.
+
+Notable configuration or dependencies changes:
+
+* new optional dependency on python-bidi, see :ref:`requirements`
+* Google Web Translation was removed, remove it from your configuration
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
