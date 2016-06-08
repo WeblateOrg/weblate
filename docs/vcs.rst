@@ -164,6 +164,11 @@ This just adds thin layer on top of :ref:`vcs-git` to allow push translation
 changes as pull requests instead of pushing directory to the repository.
 It currently uses the `hub`_ tool to do the integration.
 
+There is no need to use this to access Git repositories, ordinary
+:ref:`vcs-git` works same, the only difference is how pushing to repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository, while 
+:ref:`vcs-github` creates pull requests.
+
 .. note::
 
     This feature is currently not available on Hosted Weblate due to technical
