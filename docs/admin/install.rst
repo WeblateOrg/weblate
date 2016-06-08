@@ -335,27 +335,6 @@ The mail server setup is configured using settings ``EMAIL_HOST``,
 Their names are quite self-explaining, but you can find our more information in the
 `Django documentation on them <https://docs.djangoproject.com/en/stable/ref/settings/#email-host>`_.
 
-
-.. _hub-setup:
-
-Setting up hub
-++++++++++++++
-
-:ref:`github-push` requires a configured :guilabel:`hub` installation on
-your server. Follow the installation instructions at https://hub.github.com
-and perform an action with :guilabel:`hub` to finish the configuration,
-for example:
-
-.. code-block:: sh
-
-    hub clone octocat/Spoon-Knife
-
-:guilabel:`hub` will ask you for your GitHub credentials, retrieve a token and store it into :file:`~/.config/hub`.
-
-.. note::
-
-    Use the username you configured :guilabel:`hub` with as :setting:`GITHUB_USERNAME`.
-
 .. _installation:
 
 Installation

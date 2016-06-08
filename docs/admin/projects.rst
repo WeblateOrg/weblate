@@ -155,6 +155,8 @@ next release.
 The component contains all important parameters for working with VCS and
 getting translations out of it:
 
+Version control system
+    VCS to use, see :ref:`vcs` for details.
 Source code repository
     VCS repository used to pull changes, see :ref:`vcs-repos` for more details.
     
@@ -358,103 +360,6 @@ it's just a matter of running :djadmin:`import_project` or
 .. seealso:: 
    
    :ref:`manage`
-
-
-.. _vcs-repos:
-
-Accessing repositories
-----------------------
-
-The VCS repository you want to use has to be accessible to Weblate. With
-publicly available repository you just need to enter correct URL (for example
-``git://github.com/nijel/weblate.git`` or
-``https://github.com/nijel/weblate.git``), but for private repositories the
-setup might be more complex.
-
-Weblate internal URLs
-+++++++++++++++++++++
-
-To share one repository between different components you can use special URL
-like ``weblate://project/component``. This way the component will share the VCS
-repository configuration with referenced component and the VCS repository will
-be stored just once on the disk.
-
-SSH repositories
-++++++++++++++++
-
-Most frequently used method to access private repositories is based on SSH. To
-have access to such repository, you generate SSH key for Weblate and authorize
-it to access the repository.
-
-You can generate or display key currently used by Weblate in the admin
-interface (follow :guilabel:`SSH keys` link on main admin page). Once you've
-done this, Weblate should be able to access your repository.
-
-.. note::
-
-    The keys need to be without password to make it work, so be sure they are
-    well protected against malicious usage.
-
-Before connecting to the repository, you also need to verify SSH host keys of
-servers you are going to access in the same section of the admin interface.
-
-.. note:: 
-   
-    On GitHub, you can add the key to only one repository. See following
-    sections for other solutions for GitHub.
-   
-HTTPS repositories
-++++++++++++++++++
-
-To access protected HTTPS repositories, you need to include user and password
-in the URL. Don't worry, Weblate will strip this information when showing URL
-to the users (if they are allowed to see the repository URL at all).
-
-For example the GitHub URL with authentication might look like 
-``https://user:your_access_token@github.com/nijel/weblate.git``.
-
-GitHub repositories
-+++++++++++++++++++
-
-You can access GitHub repositories by SSH as mentioned above, but in case you
-need to access more repositories, you will hit GitHub limitation on the SSH key
-usage (one key can be used only for one repository). There are several ways to
-workaround this limitation. 
-
-For smaller deployments, you can use HTTPS authentication using personal access
-token and your account, see `Creating an access token for command-line use`_.
-
-.. _Creating an access token for command-line use: https://help.github.com/articles/creating-an-access-token-for-command-line-use/
-
-For bigger setup, it is usually better to create dedicated user for Weblate,
-assign him the SSH key generated in Weblate and grant him access to all
-repositories you want.
-
-Using proxy
-+++++++++++
-
-If you need to access http/https VCS repositories using a proxy server, you
-need to configure VCS to use it.
-
-This can be configured using the ``http_proxy``, ``https_proxy``, and
-``all_proxy`` environment variables (check cURL documentation for more details)
-or by enforcing it in VCS configuration, for example:
-
-.. code-block:: sh
-
-    git config --global http.proxy http://user:password@proxy.example.com:80
-
-.. note::
-
-    The proxy setting needs to be done in context which is used to execute
-    Weblate. For the environment it should be set for both server and cron
-    jobs. The VCS configuration has to be set for the user which is running
-    Weblate.
-
-.. seealso:: 
-   
-    `curl manpage <http://curl.haxx.se/docs/manpage.html>`_,
-    `git config documentation <http://git-scm.com/docs/git-config>`_
 
 .. _fulltext:
 

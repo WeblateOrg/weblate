@@ -371,44 +371,20 @@ Features
 Does Weblate support other VCS than Git and Mercurial?
 ------------------------------------------------------
 
-Weblate currently does not have native support for anything else than Git and
-Mercurial, but it is possible to write backends for other VCSes.
+Weblate currently does not have native support for anything else than
+:ref:`vcs-git` (with extended support for :ref:`vcs-github`) and
+:ref:`vcs-mercurial`, but it is possible to write backends for other VCSes.
 
-You can also use Git `remote helpers`_ for supporting other VCS as well, but
-this usually leads to smaller or bigger problems, so be prepared to debug them.
+You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.
 
-At this time, helpers for Bazaar and Mercurial are available within separate
-repositories on GitHub: `git-remote-hg`_ and `git-remote-bzr`_. You can
-download them manually and put somewhere in your search path (for example
-:file:`~/bin`). You also need to have installed appropriate version control
-programs as well.
-
-Once you have these installed, you can use such remotes to specify repository
-in Weblate.
-
-To clone ``gnuhello`` project from Launchpad with Bazaar use::
-
-    bzr::lp:gnuhello
-
-For ``hello`` repository from selenic.com with Mercurial use::
-
-    hg::http://selenic.com/repo/hello
-
-.. _remote helpers: http://git-scm.com/docs/git-remote-helpers
-.. _git-remote-hg: https://github.com/felipec/git-remote-hg
-.. _git-remote-bzr: https://github.com/felipec/git-remote-bzr
-
-.. warning::
-
-    Please be prepared to some incovenience when using Git remote helpers,
-    for example with Mercurial, the remote helper sometimes tends to create new
-    tip when pushing changes back.
 
 .. note::
 
     For native support of other VCS, Weblate requires distributed VCS and could
     be probably adjusted to work with anything else than Git and Mercurial, but
     somebody has to implement this support.
+
+.. seealso:: :ref:`vcs`
 
 How does Weblate credit translators?
 ------------------------------------
