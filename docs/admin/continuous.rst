@@ -135,6 +135,9 @@ If you are using SSH to push, you will need to have a key without a passphrase
 (or use ssh-agent for Django) and the remote server needs to be verified by you
 via the admin interface first, otherwise pushing will fail.
 
+The push options differ based on used :ref:`vcs`, please check that chapter for
+more details.
+
 .. note::
 
    You can also enable automatic pushing changes on commit, this can be done in
@@ -144,26 +147,6 @@ via the admin interface first, otherwise pushing will fail.
 
     See :ref:`vcs-repos` for setting up SSH keys and :ref:`lazy-commit` for
     information about when Weblate decides to commit changes.
-
-.. _github-push:
-
-Pushing changes to GitHub as pull request
-+++++++++++++++++++++++++++++++++++++++++
-
-.. note::
-
-    This feature is currently not available on Hosted Weblate due to technical
-    limitations. See :ref:`hosted-push` for available options.
-
-If you are translating a project that's hosted on GitHub and don't want to
-push translations to the repository, you can have them sent as a pull request instead.
-
-You need to configure the :guilabel:`hub` command line tool and set :setting:`GITHUB_USERNAME` for this to work.
-
-.. seealso:: 
-   
-   :setting:`GITHUB_USERNAME`, :ref:`hub-setup` for configuration instructions
-
 
 .. _hosted-push:
 

@@ -17,6 +17,7 @@ Contents:
     admin/index
     faq
     formats
+    vcs
     api
     wlc
     python
