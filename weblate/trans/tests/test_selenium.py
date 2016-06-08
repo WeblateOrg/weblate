@@ -295,11 +295,6 @@ EXTRA_PLATFORMS = {
         'version': '9.0',
         'platform': 'Windows 7',
     },
-    'IPhone': {
-        'browserName': "iPhone",
-        'deviceName': "iPhone Simulator",
-        'device-orientation': "portrait",
-    },
     'Android': {
         'browserName': "android",
         'deviceName': "Android Emulator",
