@@ -337,21 +337,21 @@ def delete_search_units(source_units, languages):
     Delete fulltext index for given set of units.
     '''
     # Update source index
-    if source_units:
-        index = get_source_index()
-        writer = BufferedWriter(index)
-        try:
-            for pk in source_units:
-                writer.delete_by_term('pk', pk)
-        finally:
+    index = get_source_index()
+    writer = BufferedWriter(index)
+    try:
+        for pk in source_units:
+            writer.delete_by_term('pk', pk)
+    finally:
+        if not writer.is_closed:
             writer.close()
 
     for lang, units in languages.items():
-        if units:
-            index = get_target_index(lang)
-            writer = BufferedWriter(index)
-            try:
-                for pk in units:
-                    writer.delete_by_term('pk', pk)
-            finally:
+        index = get_target_index(lang)
+        writer = BufferedWriter(index)
+        try:
+            for pk in units:
+                writer.delete_by_term('pk', pk)
+        finally:
+            if not writer.is_closed:
                 writer.close()
