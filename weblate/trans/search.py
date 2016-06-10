@@ -339,11 +339,17 @@ def delete_search_units(source_units, languages):
     # Update source index
     index = get_source_index()
     writer = index.writer()
-    for pk in source_units:
-        writer.delete_by_term('pk', pk)
+    try:
+        for pk in source_units:
+            writer.delete_by_term('pk', pk)
+    finally:
+        writer.commit()
 
     for lang, units in languages.items():
         index = get_target_index(lang)
         writer = index.writer()
-        for pk in units:
-            writer.delete_by_term('pk', pk)
+        try:
+            for pk in units:
+                writer.delete_by_term('pk', pk)
+        finally:
+            writer.commit()
