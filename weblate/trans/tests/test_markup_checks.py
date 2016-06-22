@@ -67,3 +67,21 @@ class XMLTagsCheckTest(CheckTestCase):
 
     def test_unicode(self):
         self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))
+
+    def test_not_well_formed(self):
+        self.do_test(
+            True,
+            (
+                '<emphasis>1st test case</emphasis>',
+                '<emphasis>not well-formed (invalid token) XML case</ emphasis>',
+                ''
+            )
+        )
+        self.do_test(
+            True,
+            (
+                '<emphasis>2nd test case</emphasis>',
+                '<emphasis>not well-formed (invalid token) XML case< /emphasis>',
+                ''
+            )
+        )
