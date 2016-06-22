@@ -54,6 +54,9 @@ matrix:
       env: CI_PIP_DEPS="Django>=1.9,<1.10" CI_MODE=selenium
     - python: "2.7"
       env: CI_PIP_DEPS="--pre django"
+  allow_failures:
+    - python: "2.7"
+      env: CI_PIP_DEPS="--pre django"
 addons:
   apt:
     packages:
