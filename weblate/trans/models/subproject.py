@@ -584,7 +584,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         if self._repository is None:
             self._repository = VCS_REGISTRY[self.vcs](
-                self.get_path(), self.branch
+                self.get_path(), self.branch, self
             )
             cache_key = '{0}-config-check'.format(self.get_full_slug())
             if cache.get(cache_key) is None:

@@ -99,12 +99,13 @@ class Repository(object):
     _is_supported = None
     _version = None
 
-    def __init__(self, path, branch=None):
+    def __init__(self, path, branch=None, component=None):
         self.path = path
         if branch is None:
             self.branch = self.default_branch
         else:
             self.branch = branch
+        self.component = component
         self.last_output = ''
         if not self.is_valid():
             self.init()
