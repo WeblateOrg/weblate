@@ -63,11 +63,11 @@ install them you can use apt-get:
         python-whoosh python-pil python-libravatar \
         python-babel Git mercurial python-social-auth \
         python-django-compressor python-django-crispy-forms \
-        python-dateutil
+        python-djangorestframework python-dateutil
 
     # Optional for database backend
 
-    apt-get install python-mysqldb   # For MySQL
+    apt-get install python-pymysql   # For MySQL
     apt-get install python-psycopg2  # For PostgreSQL
 
 On older versions, some required dependencies are missing or outdated, so you
