@@ -27,6 +27,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, Q, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 import django.views.defaults
@@ -594,3 +595,8 @@ def new_language(request, project, subproject):
         )
 
     return redirect(obj)
+
+
+def healthz(request):
+    """Simple health check endpoint"""
+    return HttpResponse('ok')

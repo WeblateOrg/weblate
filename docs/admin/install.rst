@@ -889,6 +889,13 @@ Additionally you will have to adjust :file:`weblate/settings.py`:
 
     URL_PREFIX = '/weblate'
 
+
+Monitoring Weblate
+------------------
+
+Weblate provides ``/healthz/`` URL to be used in simple health checks, for example
+using Kubernetes.
+
 Migrating Weblate to another server
 -----------------------------------
 

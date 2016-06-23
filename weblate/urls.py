@@ -833,6 +833,13 @@ urlpatterns = [
         weblate.trans.views.basic.search,
         name="search"
     ),
+
+    # Health check
+    url(
+        r'^healthz/$',
+        weblate.trans.views.basic.healthz,
+        name='healthz',
+    ),
 ]
 
 if 'weblate.billing' in settings.INSTALLED_APPS:

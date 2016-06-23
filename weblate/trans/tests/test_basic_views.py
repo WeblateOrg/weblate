@@ -39,3 +39,9 @@ class BasicViewTest(ViewTestCase):
             reverse('stats')
         )
         self.assertContains(response, 'Weblate statistics')
+
+    def test_healthz(self):
+        response = self.client.get(
+            reverse('healthz')
+        )
+        self.assertContains(response, 'ok')
