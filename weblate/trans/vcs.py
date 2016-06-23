@@ -734,7 +734,13 @@ class GithubRepository(GitRepository):
         on fork and creates pull request against original repository.
         """
         self.fork()
-        fork_branch = '{0}-weblate'.format(self.branch)
+        if self.component is not None:
+            fork_branch = 'weblate-{0}-{1}'.format(
+                self.component.project.slug,
+                self.component.slug,
+            )
+        else:
+            fork_branch = '{0}-weblate'.format(self.branch)
         self.push_to_fork(self.branch, self.branch)
         self.push_to_fork(self.branch, fork_branch)
         try:
