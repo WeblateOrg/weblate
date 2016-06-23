@@ -73,7 +73,7 @@ class XMLTagsCheckTest(CheckTestCase):
             True,
             (
                 '<emphasis>1st test case</emphasis>',
-                '<emphasis>not well-formed (invalid token) XML case</ emphasis>',
+                '<emphasis>not well-formed XML case</ emphasis>',
                 ''
             )
         )
@@ -81,7 +81,7 @@ class XMLTagsCheckTest(CheckTestCase):
             True,
             (
                 '<emphasis>2nd test case</emphasis>',
-                '<emphasis>not well-formed (invalid token) XML case< /emphasis>',
+                '<emphasis>not well-formed XML case< /emphasis>',
                 ''
             )
         )
