@@ -242,37 +242,21 @@ class SameCheckTest(CheckTestCase):
     def test_same_email(self):
         self.do_test(
             False,
-            (
-                'michal@cihar.com',
-                'michal@cihar.com',
-                ''
-            )
+            ('michal@cihar.com', 'michal@cihar.com', '')
         )
         self.do_test(
             True,
-            (
-                'Please contact michal@cihar.com',
-                'Please contact michal@cihar.com',
-                ''
-            )
+            ('Contact michal@cihar.com', 'Contact michal@cihar.com', '')
         )
 
     def test_same_url(self):
         self.do_test(
             False,
-            (
-                'https://weblate.org/',
-                'https://weblate.org/',
-                ''
-            )
+            ('https://weblate.org/', 'https://weblate.org/', '')
         )
         self.do_test(
             True,
-            (
-                'Please see https://weblate.org/',
-                'Please see https://weblate.org/',
-                ''
-            )
+            ('See https://weblate.org/', 'See https://weblate.org/', '')
         )
         self.do_test(
             False,
@@ -294,53 +278,29 @@ class SameCheckTest(CheckTestCase):
     def test_same_channel(self):
         self.do_test(
             False,
-            (
-                '#weblate',
-                '#weblate',
-                ''
-            )
+            ('#weblate', '#weblate', '')
         )
         self.do_test(
             True,
-            (
-                'Please use #weblate',
-                'Please use #weblate',
-                ''
-            )
+            ('Please use #weblate', 'Please use #weblate', '')
         )
 
     def test_same_domain(self):
         self.do_test(
             False,
-            (
-                'weblate.org',
-                'weblate.org',
-                ''
-            )
+            ('weblate.org', 'weblate.org', '')
         )
         self.do_test(
             False,
-            (
-                'demo.weblate.org',
-                'demo.weblate.org',
-                ''
-            )
+            ('demo.weblate.org', 'demo.weblate.org', '')
         )
         self.do_test(
             False,
-            (
-                '#weblate @ irc.freenode.net',
-                '#weblate @ irc.freenode.net',
-                ''
-            )
+            ('#weblate @ irc.freenode.net', '#weblate @ irc.freenode.net', '')
         )
         self.do_test(
             True,
-            (
-                'Please see demo.weblate.org',
-                'Please see demo.weblate.org',
-                ''
-            )
+            ('Please see demo.weblate.org', 'Please see demo.weblate.org', '')
         )
 
     def test_same_path(self):
@@ -354,63 +314,35 @@ class SameCheckTest(CheckTestCase):
         )
         self.do_test(
             True,
-            (
-                'File/directory',
-                'File/directory',
-                ''
-            )
+            ('File/directory', 'File/directory', '')
         )
 
     def test_same_template(self):
         self.do_test(
             False,
-            (
-                '{building}: {description}',
-                '{building}: {description}',
-                ''
-            )
+            ('{building}: {description}', '{building}: {description}', '')
         )
         self.do_test(
             False,
-            (
-                '@NAME@: @BOO@',
-                '@NAME@: @BOO@',
-                ''
-            )
+            ('@NAME@: @BOO@', '@NAME@: @BOO@', '')
         )
         self.do_test(
             True,
-            (
-                '{building}: some description',
-                '{building}: some description',
-                ''
-            )
+            ('{building}: description', '{building}: description', '')
         )
         self.do_test(
             True,
-            (
-                '@NAME@: long text',
-                '@NAME@: long text',
-                ''
-            )
+            ('@NAME@: long text', '@NAME@: long text', '')
         )
 
     def test_same_lists(self):
         self.do_test(
             False,
-            (
-                'a.,b.,c.,d.',
-                'a.,b.,c.,d.',
-                ''
-            )
+            ('a.,b.,c.,d.', 'a.,b.,c.,d.', '')
         )
         self.do_test(
             False,
-            (
-                'i.,ii.,iii.,iv.',
-                'i.,ii.,iii.,iv.',
-                ''
-            )
+            ('i.,ii.,iii.,iv.', 'i.,ii.,iii.,iv.', '')
         )
 
     def test_same_alphabet(self):

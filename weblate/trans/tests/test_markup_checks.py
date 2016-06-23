@@ -71,17 +71,9 @@ class XMLTagsCheckTest(CheckTestCase):
     def test_not_well_formed(self):
         self.do_test(
             True,
-            (
-                '<emphasis>1st test case</emphasis>',
-                '<emphasis>not well-formed XML case</ emphasis>',
-                ''
-            )
+            ('<emphasis>1st</emphasis>', '<emphasis>not</ emphasis>', '')
         )
         self.do_test(
             True,
-            (
-                '<emphasis>2nd test case</emphasis>',
-                '<emphasis>not well-formed XML case< /emphasis>',
-                ''
-            )
+            ('<emphasis>2nd</emphasis>', '<emphasis>not< /emphasis>', '')
         )
