@@ -328,7 +328,7 @@ class SameCheckTest(CheckTestCase):
         )
         self.do_test(
             True,
-            ('{building}: description', '{building}: description', '')
+            ('{building}: summary', '{building}: summary', '')
         )
         self.do_test(
             True,
