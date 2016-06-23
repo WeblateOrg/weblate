@@ -246,7 +246,7 @@ class SameCheckTest(CheckTestCase):
         )
         self.do_test(
             True,
-            ('Contact michal@cihar.com', 'Contact michal@cihar.com', '')
+            ('Write michal@cihar.com', 'Write michal@cihar.com', '')
         )
 
     def test_same_url(self):
