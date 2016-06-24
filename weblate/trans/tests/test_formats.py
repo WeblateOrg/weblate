@@ -121,8 +121,6 @@ class AutoFormatTest(SimpleTestCase):
         self.assertEqual(storage.extension, self.EXT)
 
     def test_save(self):
-        # Show full diff on error
-        self.maxDiff = None
         # Read test content
         with open(self.FILE, 'rb') as handle:
             testdata = handle.read()
@@ -161,6 +159,9 @@ class AutoFormatTest(SimpleTestCase):
         This can be implemented in subclasses to implement content
         aware comparing of translation files.
         """
+        # Show full diff on error
+        # pylint: disable=C0103
+        self.maxDiff = None
         self.assertEqual(testdata.strip(), newdata.strip())
 
     def test_find(self):
