@@ -161,7 +161,7 @@ class AutoFormatTest(SimpleTestCase):
         This can be implemented in subclasses to implement content
         aware comparing of translation files.
         """
-        self.assertEqual(newdata.strip(), testdata.strip())
+        self.assertEqual(testdata.strip(), newdata.strip())
 
     def test_find(self):
         storage = self.FORMAT(self.FILE)
