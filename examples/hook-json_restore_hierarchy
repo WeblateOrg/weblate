@@ -26,8 +26,8 @@ class HierarchicalDict(dict):
                 self[key] = val
 
     def _decode(self, keys, value):
+        storage = self
         for key in keys[:-1]:
-            storage = self
             if key not in storage:
                 storage[key] = {}
             storage = storage[key]
