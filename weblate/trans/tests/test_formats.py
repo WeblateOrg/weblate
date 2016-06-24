@@ -121,6 +121,8 @@ class AutoFormatTest(SimpleTestCase):
         self.assertEqual(storage.extension, self.EXT)
 
     def test_save(self):
+        # Show full diff on error
+        self.maxDiff = None
         # Read test content
         with open(self.FILE, 'rb') as handle:
             testdata = handle.read()
