@@ -231,6 +231,35 @@ class GroupACLTest(ModelTestCase):
         self.assertTrue(can_edit(self.privileged, trans_de, self.PERMISSION))
         self.assertTrue(can_edit(self.user, trans_de, self.PERMISSION))
 
+    def test_affects_partial_match(self):
+        '''
+        Partial match test.
+        If I set an ACL on two criteria, e.g., subproject and language,
+        it should not affect objects that only match one of the criteria.
+        '''
+        lang_cs = Language.objects.get(code='cs')
+        lang_de = Language.objects.get(code='de')
+        trans_cs = Translation.objects.create(
+            subproject=self.subproject, language=lang_cs,
+            filename="this/is/not/a.template"
+        )
+        trans_de = Translation.objects.create(
+            subproject=self.subproject, language=lang_de,
+            filename="this/is/not/a.template"
+        )
+
+        acl = GroupACL.objects.create(
+            language=lang_cs,
+            subproject=self.subproject
+        )
+        acl.groups.add(self.group)
+
+        self.assertTrue(can_edit(self.privileged, trans_cs, self.PERMISSION))
+        self.assertFalse(can_edit(self.user, trans_cs, self.PERMISSION))
+
+        self.assertTrue(can_edit(self.privileged, trans_de, self.PERMISSION))
+        self.assertTrue(can_edit(self.user, trans_de, self.PERMISSION))
+
     def clear_permission_cache(self):
         '''
         Clear permission cache.
