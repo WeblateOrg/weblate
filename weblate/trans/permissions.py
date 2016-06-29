@@ -52,7 +52,7 @@ def has_group_perm(user, permission, translation=None, project=None):
             (Q(language=translation.language) | Q(language=None)) &
             (Q(project=translation.subproject.project) | Q(project=None)) &
             (Q(subproject=translation.subproject) | Q(subproject=None)) &
-            ~Q(language=None, project=None, subproject=None)
+            (~Q(language=None, project=None, subproject=None))
         ))
     elif project is not None:
         acls = list(GroupACL.objects.filter(
