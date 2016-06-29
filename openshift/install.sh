@@ -59,12 +59,12 @@ sed -e 's/Django[<>=]\+.*/Django>=1.8,<1.9/' \
   $OPENSHIFT_REPO_DIR/requirements.txt \
   >/tmp/requirements.txt
 
-sh "pip install -U -r /tmp/requirements.txt"
+sh "pip install --no-cache-dir --disable-pip-version-check -U -r /tmp/requirements.txt"
 
 # Install optional dependencies without failing if some can't be installed.
 while read line; do
   if [[ $line != -r* ]] && [[ $line != \#* ]]; then
-    sh "pip install $line" || true
+    sh "pip install --no-cache-dir --disable-pip-version-check $line" || true
   fi
 done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
