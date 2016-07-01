@@ -37,6 +37,7 @@ from weblate.trans.mixins import PercentMixin
 from weblate.appsettings import SIMPLIFY_LANGUAGES
 from weblate.logger import LOGGER
 
+from caching.base import CachingManager, CachingMixin
 
 def get_plural_type(code, pluralequation):
     '''
@@ -80,7 +81,7 @@ def get_english_lang():
         return 65535
 
 
-class LanguageManager(models.Manager):
+class LanguageManager(CachingManager):
     # pylint: disable=W0232
 
     _default_lang = None
@@ -365,7 +366,7 @@ def setup_lang(sender, **kwargs):
 
 
 @python_2_unicode_compatible
-class Language(models.Model, PercentMixin):
+class Language(models.Model, PercentMixin, CachingMixin):
     PLURAL_CHOICES = (
         (data.PLURAL_NONE, 'None'),
         (data.PLURAL_ONE_OTHER, 'One/other (classic plural)'),

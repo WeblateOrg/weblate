@@ -68,7 +68,6 @@ def more_like_queue(pk, source, top, queue):
     result = more_like(pk, source, top)
     queue.put(result)
 
-
 class UnitManager(models.Manager):
     # pylint: disable=W0232
 
@@ -465,10 +464,8 @@ class Unit(models.Model, LoggerMixin):
             return
 
         # Ensure we track source string
-        source_info, source_created = Source.objects.get_or_create(
-            checksum=self.checksum,
-            subproject=self.translation.subproject
-        )
+        source_info, source_created = \
+            Source.objects.get_by_checksum(self.checksum, self.translation.subproject)
         contentsum_changed = self.contentsum != contentsum
 
         # Store updated values
@@ -1053,10 +1050,10 @@ class Unit(models.Model, LoggerMixin):
         Returns related source string object.
         """
         if self._source_info is None:
-            self._source_info = Source.objects.get(
-                checksum=self.checksum,
-                subproject=self.translation.subproject
-            )
+            self._source_info = Source.objects.get_by_checksum(
+                self.checksum,
+                self.translation.subproject,
+                create=False)
         return self._source_info
 
     def get_secondary_units(self, user):

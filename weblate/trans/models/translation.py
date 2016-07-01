@@ -51,8 +51,10 @@ from weblate.accounts.models import notify_new_string, get_author_name
 from weblate.trans.models.changes import Change
 from weblate.trans.checklists import TranslationChecklist
 
+from caching.base import CachingManager, CachingMixin
 
-class TranslationManager(models.Manager):
+
+class TranslationManager(CachingManager):
     # pylint: disable=W0232
 
     def prefetch(self):
@@ -122,7 +124,7 @@ class TranslationManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
+class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin, CachingMixin):
     subproject = models.ForeignKey('SubProject')
     language = models.ForeignKey(Language)
     revision = models.CharField(max_length=100, default='', blank=True)
