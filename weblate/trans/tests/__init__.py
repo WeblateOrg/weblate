@@ -47,7 +47,7 @@ class OverrideSettings(object):
         return self
 
     def __exit__(self, *args, **kwds):
-        for name in self._values.keys():
+        for name in self._values:
             setattr(appsettings, name, self._backup[name])
         if self._tempdir is not None:
             shutil.rmtree(self._tempdir)
