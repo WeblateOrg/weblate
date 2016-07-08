@@ -234,7 +234,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'weblate', 'Weblate Documentation',
+    ('wlc', 'wlc', 'Weblate Client Documentation',
      ['Michal Čihař'], 1)
 ]
 
