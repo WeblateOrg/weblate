@@ -43,3 +43,17 @@ Translating
 Weblate is being translated using Weblate on <https://hosted.weblate.org/>, feel
 free to join us in effort to make Weblate available in as many world languages
 as possible.
+
+
+Funding Weblate development
+---------------------------
+
+You can fund further Weblate development on `Bountysource`_. Funds collected
+there are used to fund free hosting for free software projects and further
+development of Weblate. Please check the `Bountysource`_ page for details such
+as funding goals and rewards you can get for funding.
+
+.. include:: ../BACKERS.rst
+
+
+.. _Bountysource: https://salt.bountysource.com/teams/weblate
