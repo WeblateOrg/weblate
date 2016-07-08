@@ -36,12 +36,8 @@ TEST_DATA = os.path.join(
     'data'
 )
 
-# Upstream location of test repositories
-GIT_URL = 'https://github.com/nijel/weblate-test.git'
-HG_URL = 'https://bitbucket.org/nijel/weblate-test'
-
 REPOWEB_URL = \
-    'https://github.com/nijel/weblate-test/blob/master/%(file)s#L%(line)s'
+    'https://github.com/WeblateOrg/test/blob/master/%(file)s#L%(line)s'
 
 
 def get_test_file(name):
