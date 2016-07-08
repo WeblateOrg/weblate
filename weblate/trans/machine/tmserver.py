@@ -23,9 +23,9 @@ from __future__ import unicode_literals
 from weblate.trans.machine.base import (
     MachineTranslation, MissingConfiguration
 )
-from six.moves.urllib.parse import quote
-
 from weblate import appsettings
+
+from six.moves.urllib.parse import quote
 
 
 class TMServerTranslation(MachineTranslation):

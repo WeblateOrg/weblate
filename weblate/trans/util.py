@@ -27,6 +27,7 @@ import sys
 import traceback
 import unicodedata
 
+import six
 from six.moves.urllib.parse import urlparse
 
 try:
@@ -34,8 +35,6 @@ try:
     HAS_PYUCA = True
 except ImportError:
     HAS_PYUCA = False
-
-import six
 
 from django.contrib.admin import ModelAdmin
 from django.core.exceptions import ImproperlyConfigured
