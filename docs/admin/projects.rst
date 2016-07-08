@@ -171,7 +171,7 @@ Repository browser
     are used). When empty no such links will be generated.
 
     For example on GitHub, you would use something like
-    ``https://github.com/nijel/weblate-hello/blob/%(branch)s/%(file)s#L%(line)s``.
+    ``https://github.com/WeblateOrg/hello/blob/%(branch)s/%(file)s#L%(line)s``.
 Exported repository URL
     URL where changes made by Weblate are exported. This is important when
     :ref:`continuous-translation` is not used or when there is need to manually

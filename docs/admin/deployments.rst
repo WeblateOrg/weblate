@@ -55,7 +55,7 @@ this.
 
 .. code-block:: sh
 
-    git clone https://github.com/nijel/weblate-docker.git
+    git clone https://github.com/WeblateOrg/docker.git weblate-docker
     cd weblate-docker
 
 2. Optionally change the database provider in :file:`docker-compose.yml`.
