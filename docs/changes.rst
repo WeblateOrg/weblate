@@ -4,7 +4,7 @@ Changes
 weblate 2.7
 -----------
 
-Released on ? 2016.
+Released on Jul 10th 2016.
 
 * Removed Google web translate machine translation.
 * Improved commit message when adding translation.
