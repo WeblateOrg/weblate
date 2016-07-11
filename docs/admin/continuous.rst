@@ -100,6 +100,15 @@ The script for doing updates can look like:
     # Unlock translations
     wlc unlock
 
+If you have multiple components sharing same repository, you need to lock them
+all separatey:
+
+.. code-block:: sh
+
+    wlc lock foo/bar
+    wlc lock foo/baz
+    wlc lock foo/baj
+
 .. note::
 
     The example uses :ref:`wlc`, which will need configuration (API keys) to be
