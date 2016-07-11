@@ -23,7 +23,7 @@ without interaction unless some merge conflict occurs.
 
 .. seealso:: 
    
-   :ref:`continuous-translation`
+   :ref:`continuous-translation`, :ref:`avoid-merge-conflicts`
 
 How to access repositories over SSH?
 ------------------------------------

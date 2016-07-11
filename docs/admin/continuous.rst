@@ -68,6 +68,44 @@ And enable its use by defining proper attributes in given repository (eg. in
     This merge driver assumes the changes in POT files always are done in branch
     we're trying to merge.
 
+
+.. _avoid-merge-conflicts:
+
+Avoiding merge conflicts
+++++++++++++++++++++++++
+
+To avoid merge conflicts you should control when to update translation files in
+upstream repository to avoid Weblate having changes on same file.
+
+You can achieve this using :ref:`api` to force Weblate push all pending changes
+and lock translation while you are doing changes on your side.
+
+The script for doing updates can look like:
+
+.. code-block:: sh
+
+    # Lock Weblate translation
+    wlc lock
+    # Push changes from Weblate to upstream repository
+    wlc push
+    # Pull changes from upstream repository to your local copy
+    git pull
+    # Update translation files, this example is for Django
+    ./manage.py makemessages --keep-pot -a
+    # Push changes to upstream repository
+    git push
+    # Tell Weblate to pull changes (not needed if Weblate follows your repo 
+    # automatically)
+    wlc pull
+    # Unlock translations
+    wlc unlock
+
+.. note::
+
+    The example uses :ref:`wlc`, which will need configuration (API keys) to be
+    able to control Weblate remotely. You can achieve same using any HTTP
+    client instead of wlc, eg. curl, see :ref:`api`.
+
 .. _github-setup:
 
 Automatically receiving changes from GitHub
