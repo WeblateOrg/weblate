@@ -92,6 +92,7 @@ The script for doing updates can look like:
     git pull
     # Update translation files, this example is for Django
     ./manage.py makemessages --keep-pot -a
+    git commit -m 'Locale updates' -- locale
     # Push changes to upstream repository
     git push
     # Tell Weblate to pull changes (not needed if Weblate follows your repo 
