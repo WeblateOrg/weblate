@@ -120,6 +120,30 @@ Currently following subcommands are available:
 
     Displays detailed statistics for given Weblate object (translation or component).
 
+.. option:: lock-status
+
+    .. versionadded:: 0.5
+
+        Supported since wlc 0.5.
+
+    Displays lock status.
+
+.. option:: lock
+
+    .. versionadded:: 0.5
+
+        Supported since wlc 0.5.
+
+    Locks compontent from translating in Weblate.
+
+.. option:: unlock
+
+    .. versionadded:: 0.5
+
+        Supported since wlc 0.5.
+
+    Unlocks compontent from translating in Weblate.
+
 .. _files:
 
 Files
