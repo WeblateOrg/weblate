@@ -5,6 +5,16 @@
 # Exit on failure
 set -e
 
+# Lock Weblate
+wlc lock weblate/master
+wlc lock weblate/javascript
+
+# Push changes from Weblate to GitHub
+wlc push
+
+# Pull changes from GitHub
+git pull
+
 # Update po files itself
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' --settings=weblate.settings_test
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs --settings=weblate.settings_test
@@ -19,3 +29,10 @@ git add weblate/locale/django.pot weblate/locale/djangojs.pot
 git commit -s -m "Update po files
 
 [CI skip]"
+
+# Push changes
+git push
+
+# Unlock Weblate
+wlc unlock weblate/master
+wlc unlock weblate/javascript
