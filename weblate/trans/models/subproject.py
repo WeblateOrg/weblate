@@ -773,7 +773,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Do we have anything to push?
         if not self.repo_needs_push():
-            return False
+            return True
 
         if do_update:
             # Update the repo
