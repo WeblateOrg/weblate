@@ -404,7 +404,7 @@ Components
     :>json string vcs: version control system
     :>json string repository_url: URL to repository status, see :http:get:`/api/components/(string:project)/(string:component)/repository/`
     :>json string translations_url: URL to translations list, see :http:get:`/api/components/(string:project)/(string:component)/translations/`
-    :>json string lock_url: URL to lock statuc, see :http:get:`/api/components/(string:project)/(string:component)/lock/`
+    :>json string lock_url: URL to lock status, see :http:get:`/api/components/(string:project)/(string:component)/lock/`
 
     .. seealso::
 
