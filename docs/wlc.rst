@@ -22,7 +22,7 @@ it also includes Python module :mod:`wlc`:
 
 .. code-block:: sh
 
-    pip install wlc
+    pip3 install wlc
 
 Synopsis
 ++++++++
