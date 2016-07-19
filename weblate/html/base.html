@@ -35,6 +35,7 @@
 var _rollbarConfig = {
     accessToken: "{{ rollbar_token }}",
     captureUncaught: true,
+    ignoredMessages: ["__gCrWeb"],
     captureUnhandledRejections: false,
     payload: {
         environment: "{{ rollbar_environment }}"
