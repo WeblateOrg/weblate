@@ -26,6 +26,7 @@ from django.core.cache import cache
 
 import httpretty
 
+from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
@@ -132,6 +133,8 @@ class MachineTranslationTest(TestCase):
         machine = GlosbeTranslation()
         self.assertTranslate(machine)
 
+
+    @OverrideSettings(MT_MYMEMORY_EMAIL='test@weblate.org')
     @httpretty.activate
     def test_mymemory(self):
         httpretty.register_uri(
@@ -159,6 +162,7 @@ class MachineTranslationTest(TestCase):
         machine = ApertiumTranslation()
         self.assertTranslate(machine, 'es')
 
+    @OverrideSettings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
     @httpretty.activate
     def test_microsoft(self):
         httpretty.register_uri(
@@ -181,6 +185,7 @@ class MachineTranslationTest(TestCase):
         machine = MicrosoftTranslation()
         self.assertTranslate(machine)
 
+    @OverrideSettings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
     def test_google(self):
         cache.delete('%s-languages' % GoogleTranslation().mtid)
@@ -208,6 +213,7 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine)
         self.assertTranslate(machine, lang='he')
 
+    @OverrideSettings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
     def test_google_invalid(self):
         """Test handling of server failure."""

@@ -50,16 +50,6 @@ ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, '..', 'data-test')
 
-# Fake access to Microsoft Translator
-MT_MICROSOFT_ID = 'ID'
-MT_MICROSOFT_SECRET = 'SECRET'
-
-# Fake Google translate API key
-MT_GOOGLE_KEY = 'KEY'
-
-# To get higher limit for testing
-MT_MYMEMORY_EMAIL = 'test@weblate.org'
-
 # Enable some machine translations
 MACHINE_TRANSLATION_SERVICES = (
     'weblate.trans.machine.microsoft.MicrosoftTranslation',
