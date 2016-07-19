@@ -6,6 +6,10 @@ weblate 2.8
 
 Released on ? 2016.
 
+* Documentation improvements.
+* Translations.
+* Updated bundled javascript libraries.
+
 weblate 2.7
 -----------
 
