@@ -27,6 +27,7 @@ import os.path
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.parse import urlencode
 
+from django.contrib.staticfiles import finders
 from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -108,11 +109,9 @@ def get_fallback_avatar(size):
     """
     Returns fallback avatar.
     """
-    fallback = os.path.join(
-        settings.STATIC_ROOT,
-        'weblate-{0}.png'.format(size)
-    )
-    with open(fallback, 'rb') as handle:
+    filename = 'weblate-{0}.png'.format(size)
+    filename = finders.find(filename)
+    with open(filename, 'rb') as handle:
         return handle.read()
 
 
