@@ -133,7 +133,6 @@ class MachineTranslationTest(TestCase):
         machine = GlosbeTranslation()
         self.assertTranslate(machine)
 
-
     @OverrideSettings(MT_MYMEMORY_EMAIL='test@weblate.org')
     @httpretty.activate
     def test_mymemory(self):
