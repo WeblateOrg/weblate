@@ -40,6 +40,11 @@ class GithubFakeRepository(GithubRepository):
     _cmd = get_test_file('hub')
 
 
+class GitSvnFakeRepository(GitRepository):
+    _is_supported = None
+    _version = None
+
+
 class GitTestRepository(GitRepository):
     _is_supported = None
     _version = None
@@ -380,6 +385,11 @@ class VCSGerritTest(VCSGitTest):
 
 class VCSGithubTest(VCSGitTest):
     _class = GithubFakeRepository
+    _vcs = 'git'
+
+
+class VCSSubversionTest(VCSGitTest):
+    _class = GitSvnFakeRepository
     _vcs = 'git'
 
 
