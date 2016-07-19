@@ -3,10 +3,29 @@
 Installation instructions
 =========================
 
+Hardware requirements
+---------------------
+
+Weblate should run on any contemporary hardware without problems, following are
+minimal configuration required to run Weblate on single host (Weblate, database
+and web server):
+
+* 1 GB of RAM memory
+* 2 CPU cores
+* 1 GB of storage space
+
+The more memory you have, the better - it will be used for caching on all
+levels (filesystem, database and Weblate).
+
+.. note::
+   
+    The actual requirements for your installation heavily vary on size of
+    translations managed by Weblate.
+
 .. _requirements:
 
-Requirements
-------------
+Software requirements
+---------------------
 
 Python (2.7, 3.4 or newer)
     https://www.python.org/
