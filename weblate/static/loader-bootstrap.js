@@ -399,6 +399,26 @@ function zenEditor(e) {
     );
 }
 
+/* Thin wrappers for django to avoid problems when i18n js can not be loaded */
+function gettext(msgid) {
+    if (typeof django !== 'undefined') {
+        return django.gettext(msgid);
+    }
+    return msgid;
+}
+function pgettext(context, msgid) {
+    if (typeof django !== 'undefined') {
+        return django.pgettext(context, msgid);
+    }
+    return msgid;
+}
+function interpolate(fmt, obj, named) {
+    if (typeof django !== 'undefined') {
+        return django.interpolate(fmt, obj, named);
+    }
+    return fmt.replace(/%s/g, function(match){return String(obj.shift())});
+}
+
 $(function () {
     var $window = $(window), $document = $(document);
     /* AJAX loading of tabs/pills */
@@ -833,6 +853,10 @@ $(function () {
     });
 
     /* Datepicker localization */
+    var week_start = "1";
+    if (typeof django !== 'undefined') {
+        week_start = django.formats.FIRST_DAY_OF_WEEK;
+    }
     $.fn.datepicker.dates.en = {
         days: [
             gettext("Sunday"), gettext("Monday"), gettext("Tuesday"),
@@ -881,7 +905,7 @@ $(function () {
         ],
         today: gettext("Today"),
         clear: gettext("Clear"),
-        weekStart: django.formats.FIRST_DAY_OF_WEEK,
+        weekStart: week_start,
         titleFormat: "MM yyyy"
     };
 
