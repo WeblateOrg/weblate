@@ -50,12 +50,6 @@ ADMINS = (('Weblate test', 'noreply@weblate.org'), )
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, '..', 'data-test')
 
-# Enable some machine translations
-MACHINE_TRANSLATION_SERVICES = (
-    'weblate.trans.machine.microsoft.MicrosoftTranslation',
-    'weblate.trans.machine.dummy.DummyTranslation',
-)
-
 # Silent logging setup
 LOGGING = {
     'version': 1,
