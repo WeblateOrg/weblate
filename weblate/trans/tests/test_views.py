@@ -244,7 +244,7 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertNotContains(response, 'New translation')
+        self.assertNotContains(response, 'Start new translation')
 
         # Test adding fails
         response = self.client.post(
@@ -265,7 +265,7 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertNotContains(response, 'New translation')
+        self.assertNotContains(response, 'Start new translation')
 
     def test_url(self):
         self.subproject.new_lang = 'url'
@@ -276,7 +276,7 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertContains(response, 'New translation')
+        self.assertContains(response, 'Start new translation')
         self.assertContains(response, 'http://example.com/instructions')
 
     def test_contact(self):
@@ -286,7 +286,7 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertContains(response, 'New translation')
+        self.assertContains(response, 'Start new translation')
         self.assertContains(response, '/new-lang/')
 
         response = self.client.post(
@@ -315,7 +315,7 @@ class NewLangTest(ViewTestCase):
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertContains(response, 'New translation')
+        self.assertContains(response, 'Start new translation')
         self.assertContains(response, '/new-lang/')
 
         response = self.client.post(
