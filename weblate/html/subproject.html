@@ -103,7 +103,7 @@
 <form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "New translation" %}</h4></div>
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
   <div class="panel-body">
 {% if object.new_lang == 'url' %}
 <p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</p>
