@@ -706,12 +706,14 @@ urlpatterns = [
     url(
         r'^sitemap\.xml$',
         django.contrib.sitemaps.views.index,
-        {'sitemaps': SITEMAPS}
+        {'sitemaps': SITEMAPS},
+        name='sitemap-index',
     ),
     url(
         r'^sitemap-(?P<section>.+)\.xml$',
         django.contrib.sitemaps.views.sitemap,
-        {'sitemaps': SITEMAPS}
+        {'sitemaps': SITEMAPS},
+        name='sitemap',
     ),
 
     # Compatibility redirects
