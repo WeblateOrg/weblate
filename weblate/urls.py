@@ -706,7 +706,7 @@ urlpatterns = [
     url(
         r'^sitemap\.xml$',
         django.contrib.sitemaps.views.index,
-        {'sitemaps': SITEMAPS},
+        {'sitemaps': SITEMAPS, 'sitemap_url_name': 'sitemap'},
         name='sitemap-index',
     ),
     url(
