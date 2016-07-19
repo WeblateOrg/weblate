@@ -829,7 +829,8 @@ class NewLanguageOwnerForm(forms.Form):
         super(NewLanguageOwnerForm, self).__init__(*args, **kwargs)
         languages = Language.objects.exclude(translation__subproject=component)
         self.fields['lang'].choices = sort_choices([
-            (l.code, force_text(l)) for l in languages
+            (l.code, '{0} ({1})'.format(force_text(l), l.code))
+            for l in languages
         ])
 
 
