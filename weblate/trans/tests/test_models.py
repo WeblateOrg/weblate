@@ -143,15 +143,11 @@ class TranslationTest(RepoTestCase):
         Test extra commit file handling.
         """
         subproject = self.create_subproject()
-        subproject.pre_commit_script = get_test_file(
-            '../../../../examples/hook-generate-mo'
-        )
+        subproject.pre_commit_script = get_test_file('hook-generate-mo')
         appsettings.PRE_COMMIT_SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-generate-mo')
         )
-        subproject.pre_commit_script = get_test_file(
-            '../../../../examples/hook-update-linguas'
-        )
+        subproject.pre_commit_script = get_test_file('hook-update-linguas')
         appsettings.PRE_COMMIT_SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-update-linguas')
         )
