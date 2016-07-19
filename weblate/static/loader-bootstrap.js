@@ -629,7 +629,7 @@ $(function () {
     $('.tooltip-control').tooltip();
 
     /* Check ignoring */
-    $('.check').bind('close.bs.alert', function () {
+    $('.check').on('close.bs.alert', function () {
         var $this = $(this);
         $.get($this.data('href'));
         $this.tooltip('destroy');
