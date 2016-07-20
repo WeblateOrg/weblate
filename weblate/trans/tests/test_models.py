@@ -202,12 +202,12 @@ class WhiteboardMessageTest(TestCase):
 class ComponentListTest(TestCase):
     """Test(s) for ComponentList model."""
 
-    def test_can_be_imported(self):
-        """Test that ComponentList model can be imported.
-
-        Rather dumb test just to make sure there are no obvious parsing errors.
+    def test_slug(self):
+        """Test ComponentList slug
         """
-        ComponentList()
+        clist = ComponentList()
+        clist.slug = 'slug'
+        self.assertEqual(clist.tab_slug(), 'list-slug')
 
 
 class ModelTestCase(RepoTestCase):
