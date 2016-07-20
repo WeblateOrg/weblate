@@ -109,8 +109,7 @@ def get_fallback_avatar(size):
     """
     Returns fallback avatar.
     """
-    filename = 'weblate-{0}.png'.format(size)
-    filename = finders.find(filename)
+    filename = finders.find('weblate-{0}.png'.format(size))
     with open(filename, 'rb') as handle:
         return handle.read()
 
