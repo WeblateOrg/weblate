@@ -114,7 +114,7 @@ class Repository(object):
         """
         Checks VCS configuration.
         """
-        return
+        raise NotImplementedError()
 
     def is_valid(self):
         '''
