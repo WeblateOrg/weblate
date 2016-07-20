@@ -103,25 +103,58 @@ class Billing(models.Model):
         ).exclude(
             repo__startswith='weblate:/'
         ).count()
-    count_repositories.short_description = _('VCS repositories')
+
+    def display_repositories(self):
+        return '{0} / {1}'.format(
+            self.count_repositories(),
+            self.plan.display_limit_repositories
+        )
+    display_repositories.short_description = _('VCS repositories')
+
+    def count_projects(self):
+        return self.projects.count()
+
+    def display_projects(self):
+        return '{0} / {1}'.format(
+            self.count_projects(),
+            self.plan.display_limit_projects
+        )
+    display_projects.short_description = _('Projects')
 
     def count_strings(self):
         return sum(
             [p.get_total() for p in self.projects.all()]
         )
-    count_strings.short_description = _('Source strings')
+
+    def display_strings(self):
+        return '{0} / {1}'.format(
+            self.count_strings(),
+            self.plan.display_limit_strings
+        )
+    display_strings.short_description = _('Source strings')
 
     def count_words(self):
         return sum(
             [p.get_total_words() for p in self.projects.all()]
         )
-    count_words.short_description = _('Source words')
+
+    def display_words(self):
+        return '{0}'.format(
+            self.count_words(),
+        )
+    display_words.short_description = _('Source words')
 
     def count_languages(self):
         return Language.objects.filter(
             translation__subproject__project__in=self.projects.all()
         ).distinct().count()
-    count_languages.short_description = _('Languages')
+
+    def display_languages(self):
+        return '{0} / {1}'.format(
+            self.count_languages(),
+            self.plan.display_limit_languages
+        )
+    display_languages.short_description = _('Languages')
 
     def in_limits(self):
         return (
@@ -131,7 +164,7 @@ class Billing(models.Model):
             ) and
             (
                 self.plan.limit_projects == 0 or
-                self.projects.count() <= self.plan.limit_projects
+                self.count_projects() <= self.plan.limit_projects
             ) and
             (
                 self.plan.limit_strings == 0 or

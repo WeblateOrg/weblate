@@ -39,8 +39,8 @@ class BillingAdmin(admin.ModelAdmin):
         'user', 'plan', 'state',
         'list_projects',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
-        'count_repositories', 'count_strings', 'count_words',
-        'count_languages',
+        'display_projects', 'display_repositories', 'display_strings',
+        'display_words', 'display_languages',
         'in_limits',
     )
     list_filter = ('plan', 'state')
