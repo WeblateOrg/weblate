@@ -37,6 +37,7 @@ from weblate.trans.models import (
     get_related_units,
 )
 from weblate import appsettings
+from weblate.lang.models import Language
 from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
@@ -188,23 +189,11 @@ class TranslationTest(RepoTestCase):
         translation.update_stats()
 
 
-class WhiteboardMessageTest(TestCase):
-    """Test(s) for WhiteboardMessage model."""
-
-    def test_can_be_imported(self):
-        """Test that whiteboard model can be imported.
-
-        Rather dumb test just to make sure there are no obvious parsing errors.
-        """
-        WhiteboardMessage()
-
-
 class ComponentListTest(TestCase):
     """Test(s) for ComponentList model."""
 
     def test_slug(self):
-        """Test ComponentList slug
-        """
+        """Test ComponentList slug."""
         clist = ComponentList()
         clist.slug = 'slug'
         self.assertEqual(clist.tab_slug(), 'list-slug')
@@ -266,3 +255,87 @@ class UnitTest(ModelTestCase):
     def test_more_like_no_fork(self):
         unit = Unit.objects.all()[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
+
+
+class WhiteboardMessageTest(ModelTestCase):
+    """Test(s) for WhiteboardMessage model."""
+    def setUp(self):
+        super(WhiteboardMessageTest, self).setUp()
+        WhiteboardMessage.objects.create(
+            language=Language.objects.get(code='cs'),
+            message='test cs',
+        )
+        WhiteboardMessage.objects.create(
+            language=Language.objects.get(code='de'),
+            message='test de',
+        )
+        WhiteboardMessage.objects.create(
+            project=self.subproject.project,
+            message='test project',
+        )
+        WhiteboardMessage.objects.create(
+            subproject=self.subproject,
+            project=self.subproject.project,
+            message='test subproject',
+        )
+        WhiteboardMessage.objects.create(
+            message='test global',
+        )
+
+    def verify_filter(self, messages, count, message=None):
+        """
+        Verifies whether messages have given count and first
+        contains string.
+        """
+        self.assertEqual(len(messages), count)
+        if message is not None:
+            self.assertEqual(messages[0].message, message)
+
+    def test_contextfilter_global(self):
+        self.verify_filter(
+            WhiteboardMessage.objects.context_filter(),
+            1,
+            'test global'
+        )
+
+    def test_contextfilter_project(self):
+        self.verify_filter(
+            WhiteboardMessage.objects.context_filter(
+                project=self.subproject.project,
+            ),
+            1,
+            'test project'
+        )
+
+    def test_contextfilter_subproject(self):
+        self.verify_filter(
+            WhiteboardMessage.objects.context_filter(
+                subproject=self.subproject,
+            ),
+            2
+        )
+
+    def test_contextfilter_translation(self):
+        self.verify_filter(
+            WhiteboardMessage.objects.context_filter(
+                subproject=self.subproject,
+                language=Language.objects.get(code='cs'),
+            ),
+            3,
+        )
+
+    def test_contextfilter_language(self):
+        self.verify_filter(
+            WhiteboardMessage.objects.context_filter(
+                language=Language.objects.get(code='cs'),
+            ),
+            1,
+            'test cs'
+        )
+        self.verify_filter(
+            WhiteboardMessage.objects.context_filter(
+                language=Language.objects.get(code='de'),
+            ),
+            1,
+            'test de'
+        )

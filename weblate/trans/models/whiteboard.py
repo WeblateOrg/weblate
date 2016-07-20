@@ -33,11 +33,6 @@ class WhiteboardManager(models.Manager):
         """Filters whiteboard messages by context."""
         base = self.all()
 
-        if language is None and project is None and subproject is None:
-            return base.filter(
-                project=None, subproject=None, language=None
-            )
-
         if language and project is None and subproject is None:
             return base.filter(
                 project=None, subproject=None, language=language
@@ -58,7 +53,10 @@ class WhiteboardManager(models.Manager):
                 Q(subproject=subproject) | Q(project=subproject.project)
             )
 
-        return base
+        # All are None
+        return base.filter(
+            project=None, subproject=None, language=None
+        )
 
 
 @python_2_unicode_compatible
