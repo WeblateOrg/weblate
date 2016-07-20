@@ -38,7 +38,7 @@ class JSViewsTest(ViewTestCase):
     Testing of AJAX/JS views.
     '''
     @staticmethod
-    def ensure_dummy_mt(self):
+    def ensure_dummy_mt():
         """Ensures we have dummy mt installed"""
         if 'dummy' in MACHINE_TRANSLATION_SERVICES:
             return
