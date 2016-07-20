@@ -23,6 +23,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from weblate.trans.validators import validate_check_flags
 
+from caching.base import CachingManager, CachingMixin, cache, invalidator, DEFAULT_TIMEOUT
+
 PRIORITY_CHOICES = (
     (60, _('Very high')),
     (80, _('High')),
@@ -31,9 +33,39 @@ PRIORITY_CHOICES = (
     (140, _('Very low')),
 )
 
+class SourceManager(CachingManager):
+    def get_by_checksum(self, checksum, subproject, create=True):
+        created = False
+        key = "src:%s:%s" % (checksum, subproject.id)
+
+        # Try to get the source from cache
+        val = cache.get(key)
+        if val is None:
+            # Get or create the value
+            if create:
+                val, created = self.get_or_create(
+                    checksum=checksum,
+                    subproject_id=subproject.id
+                )
+            else:
+                val = self.get(
+                    checksum=checksum,
+                    subproject_id=subproject.id
+                )
+            # Add to the cache
+            cache.set(key, val, DEFAULT_TIMEOUT)
+            # Setup flush list for source key
+            invalidator.add_to_flush_list(
+                {val.flush_key(): [key]}
+            )
+        
+        if create:
+            return val, created
+        return val
+
 
 @python_2_unicode_compatible
-class Source(models.Model):
+class Source(models.Model, CachingMixin):
     checksum = models.CharField(max_length=40)
     subproject = models.ForeignKey('SubProject')
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -46,6 +78,8 @@ class Source(models.Model):
         validators=[validate_check_flags],
         blank=True,
     )
+
+    objects = SourceManager()
 
     class Meta(object):
         permissions = (

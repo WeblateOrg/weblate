@@ -42,6 +42,8 @@ from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
 
+from caching.base import CachingManager, CachingMixin
+
 
 def get_acl_cache_key(user):
     """Returns key for per user ACL cache"""
@@ -52,7 +54,7 @@ def get_acl_cache_key(user):
     return ':'.join((user_id, 'useracl'))
 
 
-class ProjectManager(models.Manager):
+class ProjectManager(CachingManager):
     # pylint: disable=W0232
 
     def get_acl_ids(self, user):
@@ -80,7 +82,7 @@ class ProjectManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Project(models.Model, PercentMixin, URLMixin, PathMixin):
+class Project(models.Model, PercentMixin, URLMixin, PathMixin, CachingMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Project name'),
         max_length=100,

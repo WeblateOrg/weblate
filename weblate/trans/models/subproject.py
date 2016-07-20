@@ -69,6 +69,7 @@ from weblate.accounts.models import (
 )
 from weblate.trans.models.changes import Change
 
+from caching.base import CachingManager, CachingMixin
 
 DEFAULT_COMMIT_MESSAGE = (
     'Translated using Weblate (%(language_name)s)\n\n'
@@ -96,7 +97,7 @@ MERGE_CHOICES = (
 )
 
 
-class SubProjectManager(models.Manager):
+class SubProjectManager(CachingManager):
     # pylint: disable=W0232
 
     def prefetch(self):
@@ -113,7 +114,7 @@ class SubProjectManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
+class SubProject(models.Model, PercentMixin, URLMixin, PathMixin, CachingMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy('Component name'),
         max_length=100,
