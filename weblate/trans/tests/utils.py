@@ -48,6 +48,7 @@ def get_test_file(name):
 
 
 class RepoTestMixin(object):
+    @staticmethod
     def optional_extract(self, output, tarname):
         """Extracts test repository data if needed
 
