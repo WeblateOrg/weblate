@@ -1491,10 +1491,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def add_new_language(self, language, request):
         """Creates new language file."""
         if not self.can_add_new_language():
-            messages.error(
-                request,
-                _('Failed to add new translation file!')
-            )
+            if request:
+                messages.error(
+                    request,
+                    _('Failed to add new translation file!')
+                )
             return False
 
         base_filename = self.get_new_base_filename()
@@ -1509,13 +1510,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # the processing of new language can take some time and user
         # can submit again)
         if os.path.exists(fullname):
-            Translation.objects.check_sync(
-                self, language, language.code, filename, request=request
-            )
-            messages.error(
-                request,
-                _('Translation file already exists!')
-            )
+            if request:
+                Translation.objects.check_sync(
+                    self, language, language.code, filename, request=request
+                )
+                messages.error(
+                    request,
+                    _('Translation file already exists!')
+                )
             return False
 
         self.file_format_cls.add_language(
@@ -1537,7 +1539,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         translation.git_commit(
             request,
-            get_author_name(request.user),
+            get_author_name(request.user)
+            if request else 'Weblate <noreply@weblate.org>',
             timezone.now(),
             force_commit=True,
             force_new=True,

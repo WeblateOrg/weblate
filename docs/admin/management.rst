@@ -50,6 +50,9 @@ username by ``--user``.
 The ``--overwrite`` and ``--inconsistent`` parameters control which strings
 will be updated.
 
+You can also specify ``--add`` and if the language doesn't exist in the
+component, it will be automatically added (if supported).
+
 Example:
 
 .. code-block:: sh

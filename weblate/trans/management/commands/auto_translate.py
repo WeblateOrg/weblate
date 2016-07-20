@@ -52,6 +52,14 @@ class Command(WeblateTranslationCommand):
             )
         )
         parser.add_argument(
+            '--add',
+            default=False,
+            action='store_true',
+            help=(
+                'Add translations if they do not exist'
+            )
+        )
+        parser.add_argument(
             '--overwrite',
             default=False,
             action='store_true',

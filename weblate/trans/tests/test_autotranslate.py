@@ -107,6 +107,35 @@ class AutoTranslationTest(ViewTestCase):
             'cs',
         )
 
+    def test_command_add_error(self):
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'auto_translate',
+            'test',
+            'test',
+            'ia',
+            add=True,
+        )
+    def test_command_add(self):
+        self.subproject.file_format = 'po'
+        self.subproject.new_lang = 'add'
+        self.subproject.new_base = 'po/cs.po'
+        self.subproject.clean()
+        self.subproject.save()
+        call_command(
+            'auto_translate',
+            'test',
+            'test',
+            'ia',
+            add=True,
+        )
+        self.assertTrue(
+            self.subproject.translation_set.filter(
+                language__code='ia'
+            ).exists()
+        )
+
     def test_command_different(self):
         self.make_different()
         call_command(

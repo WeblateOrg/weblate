@@ -24,6 +24,7 @@ Helper classes for management commands.
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
+from weblate.lang.models import Language
 from weblate.trans.models import Unit, SubProject, Translation
 
 
@@ -218,12 +219,24 @@ class WeblateTranslationCommand(BaseCommand):
     def get_translation(self, **options):
         """Get translation object"""
         try:
+            component = SubProject.objects.get(
+                project__slug=options['project'],
+                slug=options['component'],
+            )
             return Translation.objects.get(
-                subproject__project__slug=options['project'],
-                subproject__slug=options['component'],
+                subproject=component,
                 language__code=options['language'],
             )
+        except SubProject.DoesNotExist:
+            raise CommandError('No matching translation component found!')
         except Translation.DoesNotExist:
+            if 'add' in options and options['add']:
+                language = Language.objects.fuzzy_get(options['language'])
+                if component.add_new_language(language, None):
+                    return Translation.objects.get(
+                        subproject=component,
+                        language=language,
+                    )
             raise CommandError('No matching translation project found!')
 
     def handle(self, *args, **options):
