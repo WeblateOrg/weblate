@@ -22,7 +22,7 @@
 Tests for management commands.
 """
 
-from io import StringIO
+from six import StringIO
 
 from django.test import TestCase
 from django.core.management import call_command
@@ -304,7 +304,12 @@ class ImportProjectTest(RepoTestCase):
 
 class BasicCommandTest(TestCase):
     def test_versions(self):
-        call_command('list_versions')
+        output = StringIO()
+        call_command(
+            'list_versions',
+            stdout=output
+        )
+        self.assertIn('Weblate', output.getvalue())
 
 
 class PeriodicCommandTest(RepoTestCase):
@@ -349,27 +354,46 @@ class PeriodicCommandTest(RepoTestCase):
             to_delete=False,
             source=True,
         )
+        output = StringIO()
         call_command(
-            'update_index'
+            'update_index',
+            stdout=output
         )
+        self.assertEqual('', output.getvalue())
 
     def test_list_checks(self):
-        call_command(
-            'list_ignored_checks'
-        )
+        output = StringIO()
         call_command(
             'list_ignored_checks',
-            list_all=True
+            stdout=output
         )
+        self.assertEqual('', output.getvalue())
+
+    def test_list_all_checks(self):
+        output = StringIO()
         call_command(
             'list_ignored_checks',
-            count=10
+            list_all=True,
+            stdout=output
         )
+        self.assertEqual(2, len(output.getvalue().splitlines()))
+
+    def test_list_count_checks(self):
+        output = StringIO()
+        call_command(
+            'list_ignored_checks',
+            count=10,
+            stdout=output
+        )
+        self.assertEqual('', output.getvalue())
 
     def test_list_same_checks(self):
+        output = StringIO()
         call_command(
-            'list_same_checks'
+            'list_same_checks',
+            stdout=output
         )
+        self.assertEqual(1, len(output.getvalue().splitlines()))
 
 
 class CheckGitTest(RepoTestCase):
@@ -378,17 +402,24 @@ class CheckGitTest(RepoTestCase):
     based commands.
     '''
     command_name = 'checkgit'
+    expected_string = 'On branch master'
 
     def setUp(self):
         super(CheckGitTest, self).setUp()
         self.create_subproject()
 
     def do_test(self, *args, **kwargs):
+        output = StringIO()
         call_command(
             self.command_name,
             *args,
+            stdout=output,
             **kwargs
         )
+        if self.expected_string:
+            self.assertIn(self.expected_string, output.getvalue())
+        else:
+            self.assertEqual('', output.getvalue())
 
     def test_all(self):
         self.do_test(
@@ -422,30 +453,37 @@ class CheckGitTest(RepoTestCase):
 
 class CommitPendingTest(CheckGitTest):
     command_name = 'commit_pending'
+    expected_string = ''
 
 
 class CommitGitTest(CheckGitTest):
     command_name = 'commitgit'
+    expected_string = ''
 
 
 class PushGitTest(CheckGitTest):
     command_name = 'pushgit'
+    expected_string = ''
 
 
 class LoadTest(CheckGitTest):
     command_name = 'loadpo'
+    expected_string = ''
 
 
 class UpdateChecksTest(CheckGitTest):
     command_name = 'updatechecks'
+    expected_string = 'Processing'
 
 
 class UpdateGitTest(CheckGitTest):
     command_name = 'updategit'
+    expected_string = ''
 
 
 class RebuildIndexTest(CheckGitTest):
     command_name = 'rebuild_index'
+    expected_string = 'Processing'
 
     def test_all_clean(self):
         self.do_test(
@@ -456,14 +494,17 @@ class RebuildIndexTest(CheckGitTest):
 
 class LockTranslationTest(CheckGitTest):
     command_name = 'lock_translation'
+    expected_string = ''
 
 
 class UnLockTranslationTest(CheckGitTest):
     command_name = 'unlock_translation'
+    expected_string = ''
 
 
 class FixupFlagsTest(CheckGitTest):
     command_name = 'fixup_flags'
+    expected_string = 'Processing'
 
 
 class ListTranslatorsTest(RepoTestCase):
@@ -485,8 +526,7 @@ class ListTranslatorsTest(RepoTestCase):
             ),
             stdout=output
         )
-        output.seek(0)
-        self.assertEqual(output.read(), '')
+        self.assertEqual(output.getvalue(), '')
 
 
 class LockingCommandTest(RepoTestCase):
@@ -533,9 +573,12 @@ class BenchmarkCommandTest(RepoTestCase):
         self.create_subproject()
 
     def test_benchmark(self):
+        output = StringIO()
         call_command(
-            'benchmark', 'test', 'weblate://test/test', 'po/*.po'
+            'benchmark', 'test', 'weblate://test/test', 'po/*.po',
+            stdout=output
         )
+        self.assertIn('function calls', output.getvalue())
 
 
 class SuggesionCommandTest(RepoTestCase):
@@ -593,11 +636,13 @@ class ImportCommandTest(RepoTestCase):
         self.subproject = self.create_subproject()
 
     def test_import(self):
+        output = StringIO()
         call_command(
             'import_json',
             '--main-component', 'test',
             '--project', 'test',
             TEST_COMPONENTS,
+            stdout=output
         )
         self.assertEqual(
             self.subproject.project.subproject_set.count(),
@@ -606,6 +651,10 @@ class ImportCommandTest(RepoTestCase):
         self.assertEqual(
             Translation.objects.count(),
             8
+        )
+        self.assertIn(
+            'Imported Test/Gettext PO with 3 translations',
+            output.getvalue()
         )
 
     def test_invalid_file(self):
