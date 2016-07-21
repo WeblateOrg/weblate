@@ -667,6 +667,16 @@ class GitWithGerritRepository(GitRepository):
 
     name = 'Gerrit'
 
+    _is_supported = None
+    _version = None
+
+    @classmethod
+    def _get_version(cls):
+        """
+        Returns VCS program version.
+        """
+        return cls._popen(['review', '--version'], err=True).split()[-1]
+
     def push(self):
         try:
             self.execute(['review'])
