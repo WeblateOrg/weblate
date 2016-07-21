@@ -28,7 +28,8 @@ from weblate.accounts.models import AutoGroup
 
 
 class AutoGroupTest(TestCase):
-    def create_user(self):
+    @staticmethod
+    def create_user():
         return User.objects.create_user('test1', 'noreply@weblate.org', 'pass')
 
     def test_default(self):

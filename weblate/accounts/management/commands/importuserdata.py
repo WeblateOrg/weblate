@@ -39,7 +39,8 @@ class Command(BaseCommand):
             help='JSON file containing user data to import',
         )
 
-    def import_subscriptions(self, profile, userprofile):
+    @staticmethod
+    def import_subscriptions(profile, userprofile):
         """
         Imports user subscriptions.
         """
@@ -56,7 +57,8 @@ class Command(BaseCommand):
         for field in Profile.SUBSCRIPTION_FIELDS:
             setattr(profile, field, userprofile[field])
 
-    def update_languages(self, profile, userprofile):
+    @staticmethod
+    def update_languages(profile, userprofile):
         """
         Updates user language preferences.
         """
