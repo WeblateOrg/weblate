@@ -30,7 +30,8 @@ from django.utils import timezone
 
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.vcs import GitRepository, HgRepository, \
-    RepositoryException, GitWithGerritRepository, GithubRepository
+    RepositoryException, GitWithGerritRepository, GithubRepository, \
+    SubversionRepository
 from weblate.trans.tests.utils import get_test_file
 
 
@@ -38,11 +39,6 @@ class GithubFakeRepository(GithubRepository):
     _is_supported = None
     _version = None
     _cmd = get_test_file('hub')
-
-
-class GitSvnFakeRepository(GitRepository):
-    _is_supported = None
-    _version = None
 
 
 class GitTestRepository(GitRepository):
@@ -102,7 +98,7 @@ class VCSGitTest(RepoTestCase):
 
     def clone_repo(self, path):
         return self._class.clone(
-            getattr(self, '{0}_repo_path'.format(self._vcs)),
+            'file://' + getattr(self, '{0}_repo_path'.format(self._vcs)),
             path,
         )
 
@@ -218,8 +214,8 @@ class VCSGitTest(RepoTestCase):
 
     def test_status(self):
         status = self.repo.status()
-        self.assertTrue(
-            "Your branch is up-to-date with 'origin/master'." in status
+        self.assertIn(
+            "Your branch is up-to-date with 'origin/master'.", status
         )
 
     def test_needs_commit(self):
@@ -389,9 +385,35 @@ class VCSGithubTest(VCSGitTest):
 
 
 class VCSSubversionTest(VCSGitTest):
-    _class = GitSvnFakeRepository
+    _class = SubversionRepository
     _vcs = 'svn'
 
+    def test_clone(self):
+        self.assertTrue(os.path.exists(
+            os.path.join(self._tempdir, '.git', 'svn')
+        ))
+    def test_revision_info(self):
+        # Latest commit
+        info = self.repo.get_revision_info(self.repo.last_revision)
+        self.check_valid_info(info)
+
+    def test_status(self):
+        status = self.repo.status()
+        self.assertIn('nothing to commit', status)
+
+    def test_configure_remote(self):
+        self.repo.configure_remote('pullurl', 'pushurl', 'branch')
+        self.verify_pull_url()
+
+    def test_configure_remote_no_push(self):
+        self.repo.configure_remote('pullurl', '', 'branch')
+        self.verify_pull_url()
+
+    def verify_pull_url(self):
+        self.assertEqual(
+            self.repo.get_config('svn-remote.svn.url'),
+            'pullurl',
+        )
 
 class VCSHgTest(VCSGitTest):
     """
