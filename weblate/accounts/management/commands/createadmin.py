@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import random
+from random import SystemRandom
 import string
 
 from django.core.management.base import BaseCommand
@@ -38,8 +38,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def make_password(length):
+        generator = SystemRandom()
         chars = string.ascii_letters + string.digits + '!@#$%^&*()'
-        return ''.join(random.choice(chars) for i in range(length))
+        return ''.join(generator.choice(chars) for i in range(length))
 
     def handle(self, *args, **options):
         '''
