@@ -9,6 +9,7 @@ Released on ? 2016.
 * Documentation improvements.
 * Translations.
 * Updated bundled javascript libraries.
+* Added list_translators management command.
 
 weblate 2.7
 -----------
