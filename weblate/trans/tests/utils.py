@@ -95,6 +95,17 @@ class RepoTestMixin(object):
             'test-repo.hg'
         )
 
+        # Path where to clone remote repo for tests
+        self.svn_base_repo_path = os.path.join(
+            settings.DATA_DIR,
+            'test-base-repo.svn'
+        )
+        # Repository on which tests will be performed
+        self.svn_repo_path = os.path.join(
+            settings.DATA_DIR,
+            'test-repo.svn'
+        )
+
         # Extract repo for testing
         self.optional_extract(
             self.git_base_repo_path,
@@ -120,6 +131,19 @@ class RepoTestMixin(object):
 
         # Create repository copy for the test
         shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
+
+        # Extract repo for testing
+        self.optional_extract(
+            self.svn_base_repo_path,
+            'test-base-repo.svn.tar'
+        )
+
+        # Remove possibly existing directory
+        if os.path.exists(self.svn_repo_path):
+            shutil.rmtree(self.svn_repo_path)
+
+        # Create repository copy for the test
+        shutil.copytree(self.svn_base_repo_path, self.svn_repo_path)
 
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
