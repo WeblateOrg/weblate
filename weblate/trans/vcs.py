@@ -730,6 +730,26 @@ class SubversionRepository(GitRepository):
         else:
             self.execute(['svn', 'rebase'])
 
+    def needs_merge(self):
+        """
+        Checks whether repository needs merge with upstream
+        (is missing some revisions).
+        """
+        return self._log_revisions('..origin/trunk') != ''
+
+    def needs_push(self):
+        """
+        Checks whether repository needs push to upstream
+        (has additional revisions).
+        """
+        return self._log_revisions('origin/trunk..') != ''
+
+    def reset(self):
+        """
+        Resets working copy to match remote branch.
+        """
+        self.execute(['reset', '--hard', 'origin/trunk'])
+        self._last_revision = None
 
 
 @register_vcs
