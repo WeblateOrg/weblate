@@ -710,8 +710,8 @@ class SubversionRepository(GitRepository):
         Clones svn repository with git-svn and returns
         Repository object for cloned repository.
         """
-        clone_command = ['svn', 'clone', source, target]
-        cls.execute(clone_command)
+        clone_command = ['svn', 'clone', '-s', '--prefix=origin/', source, target]
+        cls._popen(clone_command)
         return cls(target, branch)
 
     def merge(self, abort=False):
