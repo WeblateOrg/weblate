@@ -676,6 +676,66 @@ class GitWithGerritRepository(GitRepository):
 
 
 @register_vcs
+class SubversionWithGitSvnRepository(GitRepository):
+
+    name = 'Subversion (git-svn)'
+
+    _cmd_update_remote = ['svn', 'fetch']
+    _cmd_push = ['svn', 'dcommit']
+
+    def configure_remote(self, pull_url, push_url, branch):
+        '''
+        Initializes the git-svn repository.
+        '''
+        try:
+            self.get_config('svn-remote.svn.url')
+        except subprocess.CalledProcessError:
+            self.execute(['svn', 'init', '-s',
+                          '--prefix=origin/',
+                          pull_url, self.path])
+
+    @classmethod
+    def clone(cls, source, target, branch=None, bare=False):
+        """
+        Clones svn repository with git-svn and returns
+        Repository object for cloned repository.
+        """
+        clone_command = ['svn', 'clone', source, target]
+        cls.execute(clone_command)
+        return cls(target, branch)
+
+    def merge(self, abort=False):
+        """
+        Rebases. Git-svn does not support merge.
+        """
+        self.rebase(abort)
+
+    def rebase(self, abort=False):
+        """
+        Rebases remote branch or reverts the rebase.
+        Git-svn does not support merge.
+        """
+        if abort:
+            pass
+        else:
+            self.execute(['svn', 'rebase'])
+
+    # @property
+    # def last_remote_revision(self):
+    #     '''
+    #     Returns last remote revision.
+    #     '''
+    #     if self._last_remote_revision is None:
+    #         _svn_log = self.execute(
+    #             ['svn', 'log', '-n', '1', '@{upstream}']
+    #         )
+    #         _revision_line = _svn_log.split('\n')[1]
+    #         self._last_remote_revision = \
+    #             re.search('^r(\d+)', _revision_line).group(1)
+    #     return self._last_remote_revision
+
+
+@register_vcs
 class GithubRepository(GitRepository):
 
     name = 'GitHub'
