@@ -390,7 +390,7 @@ class VCSGithubTest(VCSGitTest):
 
 class VCSSubversionTest(VCSGitTest):
     _class = GitSvnFakeRepository
-    _vcs = 'git-svn'
+    _vcs = 'svn'
 
 
 class VCSHgTest(VCSGitTest):

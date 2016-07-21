@@ -676,9 +676,9 @@ class GitWithGerritRepository(GitRepository):
 
 
 @register_vcs
-class SubversionWithGitSvnRepository(GitRepository):
+class SubversionRepository(GitRepository):
 
-    name = 'git-svn'
+    name = 'svn'
 
     _cmd_update_remote = ['svn', 'fetch']
     _cmd_push = ['svn', 'dcommit']
