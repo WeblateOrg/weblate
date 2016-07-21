@@ -28,7 +28,7 @@ from django.conf import settings
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.models import Project, SubProject
 from weblate.trans.search import clean_indexes
-from weblate.trans.vcs import HgRepository
+from weblate.trans.vcs import HgRepository, SubversionRepository
 
 # Directory holding test data
 TEST_DATA = os.path.join(
@@ -179,6 +179,12 @@ class RepoTestMixin(object):
             push = self.hg_repo_path
             if not HgRepository.is_supported():
                 raise SkipTest('Mercurial not available!')
+        elif vcs == 'svn':
+            branch = 'master'
+            repo = 'file://' + self.svn_repo_path
+            push = 'file://' + self.svn_repo_path
+            if not SubversionRepository.is_supported():
+                raise SkipTest('Subversion not available!')
         else:
             branch = 'master'
             repo = self.git_repo_path
@@ -231,6 +237,13 @@ class RepoTestMixin(object):
             'po',
             'po/*.po',
             vcs='mercurial'
+        )
+
+    def create_po_svn(self):
+        return self._create_subproject(
+            'po',
+            'po/*.po',
+            vcs='svn'
         )
 
     def create_po_new_base(self):
