@@ -61,7 +61,8 @@ class MockTranslation(object):
         self.language = MockLanguage(code)
         self.subproject = MockSubProject()
 
-    def is_template(self):
+    @staticmethod
+    def is_template():
         return False
 
 
