@@ -21,7 +21,10 @@ git clone --bare https://github.com/WeblateOrg/test.git test-base-repo.git
 # Create SVN repo with same content as Git
 git clone --reference test-base-repo.git https://github.com/WeblateOrg/test.git test-data
 svnadmin create test-base-repo.svn
-svn import -m 'Import po files' test-data/po file://$WD/test-base-repo.svn/svn-test/trunk/po
+cd test-data
+rm -rf .git
+svn import -m 'Import po files' . file://$WD/test-base-repo.svn/trunk
+cd ..
 
 # Pack them
 tar cf $OUT/test-base-repo.hg.tar test-base-repo.hg
