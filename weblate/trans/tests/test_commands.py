@@ -488,6 +488,7 @@ class ListTranslatorsTest(RepoTestCase):
         output.seek(0)
         self.assertEqual(output.read(), '')
 
+
 class LockingCommandTest(RepoTestCase):
     '''
     Test locking and unlocking.

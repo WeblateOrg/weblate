@@ -117,6 +117,7 @@ class AutoTranslationTest(ViewTestCase):
             'ia',
             add=True,
         )
+
     def test_command_add(self):
         self.subproject.file_format = 'po'
         self.subproject.new_lang = 'add'
