@@ -713,12 +713,17 @@ class SubversionRepository(GitRepository):
         '''
         Initializes the git-svn repository.
         '''
+        self.get_config('svn-remote.svn.url')
         try:
-            self.get_config('svn-remote.svn.url')
+            oldurl = self.get_config('svn-remote.svn.url')
         except subprocess.CalledProcessError:
-            self.execute(['svn', 'init', '-s',
-                          '--prefix=origin/',
-                          pull_url, self.path])
+            oldurl = pull_url
+            self.execute(
+                ['svn', 'init', '-s', '--prefix=origin/', pull_url, self.path]
+            )
+        if oldurl != pull_url:
+            self.set_config('svn-remote.svn.url', pull_url)
+
 
     @classmethod
     def clone(cls, source, target, branch=None, bare=False):
