@@ -136,7 +136,7 @@ class ChangeManager(models.Manager):
             translation=translation
         )
         if date_range is not None:
-            author = authors.filter(
+            authors = authors.filter(
                 timestamp__range=date_range
             )
         return authors.values_list(
