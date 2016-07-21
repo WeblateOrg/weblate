@@ -25,7 +25,9 @@ import sys
 # For some reasons, this fails in PyLint sometimes...
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
-from weblate.trans.vcs import GitRepository, HgRepository
+from weblate.trans.vcs import (
+    GitRepository, HgRepository, SubversionRepository, GitWithGerritRepository
+)
 
 
 def get_version_module(module, name, url, optional=False):
@@ -104,6 +106,22 @@ def get_optional_versions():
             'http://mercurial.selenic.com/',
             HgRepository.get_version(),
             '2.8',
+        ))
+
+    if SubversionRepository.is_supported():
+        result.append((
+            'git-svn',
+            'https://git-scm.com/docs/git-svn',
+            SubversionRepository.get_version(),
+            '1.6',
+        ))
+
+    if GitWithGerritRepository.is_supported():
+        result.append((
+            'git-review',
+            'https://pypi.python.org/pypi/git-review',
+            GitWithGerritRepository.get_version(),
+            '1.0',
         ))
 
     return result
