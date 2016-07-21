@@ -49,11 +49,6 @@ USER_AGENT = 'Weblate/{0}'.format(VERSION)
 try:
     # Describe current checkout
     GIT_VERSION = GitRepository(get_root_dir()).describe()
-
-    # Check if we're close to release tag
-    parts = GIT_VERSION.split('-')
-    GIT_RELEASE = (len(parts) <= 2 or int(parts[2]) < 20)
-    del parts
 except (RepositoryException, OSError):
     # Import failed or git has troubles reading
     # repo (eg. swallow clone)
