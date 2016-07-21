@@ -238,24 +238,24 @@ class PluralTextarea(forms.Textarea):
             )
 
         # Show plural equation for more strings
-        pluralmsg = ''
         if len(values) > 1:
-            pluralinfo = '<abbr title="{0}">{1}</abbr>: {2}'.format(
-                ugettext(
-                    'This equation identifies which plural form '
-                    'will be used based on given count (n).'
-                ),
-                ugettext('Plural equation'),
-                lang.pluralequation
-            )
-            pluralmsg = PLURALS_TEMPLATE.format(
-                get_doc_url('user/translating', 'plurals'),
-                ugettext('Documentation for plurals.'),
-                pluralinfo
+            ret.append(
+                PLURALS_TEMPLATE.format(
+                    get_doc_url('user/translating', 'plurals'),
+                    ugettext('Documentation for plurals.'),
+                    '<abbr title="{0}">{1}</abbr>: {2}'.format(
+                        ugettext(
+                            'This equation identifies which plural form '
+                            'will be used based on given count (n).'
+                        ),
+                        ugettext('Plural equation'),
+                        lang.pluralequation
+                    )
+                )
             )
 
         # Join output
-        return mark_safe(''.join(ret) + pluralmsg)
+        return mark_safe(''.join(ret))
 
     def value_from_datadict(self, data, files, name):
         '''
