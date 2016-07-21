@@ -235,7 +235,7 @@ Subversion
 
 .. versionadded:: 2.8
 
-Thanks to `_git-svn`, Weblate can work with `_subversion` repositories. Git-svn
+Thanks to `git-svn`_, Weblate can work with `subversion`_ repositories. Git-svn
 is a Perl script that enables the usage of subversion with a git client, enabling
 users to have a full clone of the internal repository and commit locally.
 
