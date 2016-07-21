@@ -27,6 +27,8 @@ from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.contrib.auth.models import User
 
+from io import StringIO
+
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.models import (
     Translation, SubProject, Suggestion, IndexUpdate
@@ -463,6 +465,28 @@ class UnLockTranslationTest(CheckGitTest):
 class FixupFlagsTest(CheckGitTest):
     command_name = 'fixup_flags'
 
+
+class ListTranslatorsTest(RepoTestCase):
+    '''
+    Test translators list
+    '''
+    def setUp(self):
+        super(ListTranslatorsTest, self).setUp()
+        self.create_subproject()
+
+    def test_output(self):
+        subproject = SubProject.objects.all()[0]
+        output = StringIO()
+        call_command(
+            'list_translators',
+            '{0}/{1}'.format(
+                subproject.project.slug,
+                subproject.slug,
+            ),
+            stdout=output
+        )
+        output.seek(0)
+        self.assertEqual(output.read(), '')
 
 class LockingCommandTest(RepoTestCase):
     '''

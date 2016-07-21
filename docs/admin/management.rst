@@ -457,3 +457,22 @@ Fetches remote VCS repositories and updates internal cache.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
+
+list_translators <project|project/component>
+----------------------------------------
+
+.. django-admin:: list_translators
+
+Renders the list of translators by language for the given project::
+
+    [French]
+    Jean Dupont <jean.dupont@example.com>
+    [English]
+    John Doe <jd@exemple.com>
+
+You can use the --language-code version to use language code instead of language name.
+
+You can either define which project or component to use (eg.
+``weblate/master``) or use ``--all`` to list translators from all existing
+components.
+
