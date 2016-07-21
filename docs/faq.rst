@@ -396,6 +396,8 @@ standard VCS tools you use for code.
 Additionally, when translation file format supports it, the file headers are
 updated to include translator name.
 
+.. seealso:: :djadmin:`list_translators`
+
 Why does Weblate force to have show all po files in single tree?
 ----------------------------------------------------------------
 
