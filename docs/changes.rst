@@ -11,6 +11,7 @@ Released on ? 2016.
 * Updated bundled javascript libraries.
 * Added list_translators management command.
 * Django 1.8 is no longer supported.
+* Added Subversion support.
 
 weblate 2.7
 -----------
