@@ -231,24 +231,25 @@ Mercurial is another VCS you can use directly in Weblate.
     repositories.
 
 Subversion
----------
+----------
 
 .. versionadded:: 2.8
 
 Thanks to `_git-svn`, Weblate can work with `_subversion` repositories. Git-svn
-is a perl script that enables the usage of subversion witha git client, enabling
+is a Perl script that enables the usage of subversion with a git client, enabling
 users to have a full clone of the internal repository and commit locally.
 
-.. note:: 
+.. note::
+
     Weblate supports only subversion repositories with standard layout (branches/,
     tags/ and trunk/).
 
 .. _git-svn: https://git-scm.com/docs/git-svn
 
-.. _subversion: http://subversion.apache.org
+.. _subversion: https://subversion.apache.org/
 
-Credential
-++++++++++
+Credentials
++++++++++++
 
 Weblate expects you to have accepted the certificate upfront and inserted your
 credential, if needed. It will look into the DATA_DIR directory. To insert your
@@ -260,4 +261,3 @@ environment variable set to the DATA_DIR::
 .. seealso::
 
     :setting:`DATA_DIR`
-
