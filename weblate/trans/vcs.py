@@ -723,15 +723,15 @@ class SubversionRepository(GitRepository):
         if oldurl != pull_url:
             self.set_config('svn-remote.svn.url', pull_url)
 
-
     @classmethod
     def clone(cls, source, target, branch=None, bare=False):
         """
         Clones svn repository with git-svn and returns
         Repository object for cloned repository.
         """
-        clone_command = ['svn', 'clone', '-s', '--prefix=origin/', source, target]
-        cls._popen(clone_command)
+        cls._popen([
+            'svn', 'clone', '-s', '--prefix=origin/', source, target
+        ])
         return cls(target, branch)
 
     def merge(self, abort=False):

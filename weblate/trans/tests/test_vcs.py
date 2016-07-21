@@ -392,6 +392,7 @@ class VCSSubversionTest(VCSGitTest):
         self.assertTrue(os.path.exists(
             os.path.join(self._tempdir, '.git', 'svn')
         ))
+
     def test_revision_info(self):
         # Latest commit
         info = self.repo.get_revision_info(self.repo.last_revision)
@@ -414,6 +415,7 @@ class VCSSubversionTest(VCSGitTest):
             self.repo.get_config('svn-remote.svn.url'),
             'pullurl',
         )
+
 
 class VCSHgTest(VCSGitTest):
     """
