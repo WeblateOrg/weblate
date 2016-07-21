@@ -223,12 +223,13 @@ class WeblateTranslationCommand(BaseCommand):
                 project__slug=options['project'],
                 slug=options['component'],
             )
+        except SubProject.DoesNotExist:
+            raise CommandError('No matching translation component found!')
+        try:
             return Translation.objects.get(
                 subproject=component,
                 language__code=options['language'],
             )
-        except SubProject.DoesNotExist:
-            raise CommandError('No matching translation component found!')
         except Translation.DoesNotExist:
             if 'add' in options and options['add']:
                 language = Language.objects.fuzzy_get(options['language'])
