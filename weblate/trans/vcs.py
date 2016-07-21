@@ -716,7 +716,7 @@ class SubversionWithGitSvnRepository(GitRepository):
         Git-svn does not support merge.
         """
         if abort:
-            pass
+            self.execute(['svn', 'rebase', '--abort'])
         else:
             self.execute(['svn', 'rebase'])
 
