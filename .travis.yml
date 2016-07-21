@@ -44,11 +44,6 @@ matrix:
   include:
     - python: "3.5"
       env: CI_PIP_DEPS="Django>=1.9,<1.10"
-    - python: "2.7"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" USECPO=2
-  allow_failures:
-    - python: "2.7"
-      env: CI_PIP_DEPS="Django>=1.9,<1.10" USECPO=2
 addons:
   apt:
     packages:
