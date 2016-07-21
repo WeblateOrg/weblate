@@ -76,7 +76,7 @@ class Command(BaseCommand):
             filemask=options['mask'],
             project=project
         )
-        stats = pstats.Stats(profiler)
+        stats = pstats.Stats(profiler, stream=self.stdout)
         stats.sort_stats(options['profile_sort'])
         stats.print_stats(options['profile_count'])
         # Delete after testing
