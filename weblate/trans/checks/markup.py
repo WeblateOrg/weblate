@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from xml.etree import cElementTree
+from defusedxml import lxml
 import re
 
 from django.utils.translation import ugettext_lazy as _
@@ -102,9 +102,9 @@ class XMLTagsCheck(TargetCheck):
         )
 
         if six.PY2:
-            return cElementTree.fromstring(text.encode('utf-8'))
+            return lxml.fromstring(text.encode('utf-8'))
 
-        return cElementTree.fromstring(text)
+        return lxml.fromstring(text)
 
     def check_single(self, source, target, unit):
         # Quick check if source looks like XML
