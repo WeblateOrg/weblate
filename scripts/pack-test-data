@@ -9,14 +9,10 @@ WD=`mktemp -d`
 cd $WD
 
 # Clone and cleanup Mercurial repo
-hg clone https://bitbucket.org/nijel/weblate-test test-base-repo.hg
-cd test-base-repo.hg
-hg update null
-cd ..
+hg clone --updaterev null https://bitbucket.org/nijel/weblate-test test-base-repo.hg
 
 # Close bare Git repo
 git clone --bare https://github.com/WeblateOrg/test.git test-base-repo.git
-
 
 # Create SVN repo with same content as Git
 git clone --reference test-base-repo.git https://github.com/WeblateOrg/test.git test-data
