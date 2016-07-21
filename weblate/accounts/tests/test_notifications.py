@@ -61,13 +61,13 @@ class NotificationTest(ViewTestCase):
         )
         profile.save()
 
-    def second_user(self):
-        user = User.objects.create_user(
+    @staticmethod
+    def second_user()
+        return User.objects.create_user(
             'seconduser',
             'noreply@example.org',
             'testpassword'
         )
-        return user
 
     def test_notify_merge_failure(self):
         notify_merge_failure(
