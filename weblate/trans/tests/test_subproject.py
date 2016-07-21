@@ -688,7 +688,8 @@ class SubProjectEditMonoTest(SubProjectEditTest):
     def create_subproject(self):
         return self.create_ts_mono()
 
-    def remove_units(self, store):
+    @staticmethod
+    def remove_units(store):
         store.parse(store.XMLskeleton.replace("\n", "").encode('utf-8'))
         store.save()
 
