@@ -47,6 +47,8 @@ PIL or Pillow library
     https://python-pillow.github.io/
 lxml (>= 3.1.0)
     http://lxml.de/
+defusedxml (>= 0.4)
+    https://bitbucket.org/tiran/defusedxml
 dateutil
     http://labix.org/python-dateutil
 django_compressor

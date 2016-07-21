@@ -176,6 +176,13 @@ def get_versions():
         'versionstring',
     ))
 
+    result.append(get_single(
+        'defusedxml',
+        'https://bitbucket.org/tiran/defusedxml',
+        'defusedxml',
+        '0.4',
+    ))
+
     try:
         result.append((
             'Git',
