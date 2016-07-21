@@ -682,6 +682,9 @@ class SubversionRepository(GitRepository):
 
     _cmd_update_remote = ['svn', 'fetch']
     _cmd_push = ['svn', 'dcommit']
+    _cmd_last_remote_revision = [
+        'log', '-n', '1', '--format=format:%H', 'origin/trunk'
+    ]
 
     def configure_remote(self, pull_url, push_url, branch):
         '''
@@ -720,19 +723,6 @@ class SubversionRepository(GitRepository):
         else:
             self.execute(['svn', 'rebase'])
 
-    # @property
-    # def last_remote_revision(self):
-    #     '''
-    #     Returns last remote revision.
-    #     '''
-    #     if self._last_remote_revision is None:
-    #         _svn_log = self.execute(
-    #             ['svn', 'log', '-n', '1', '@{upstream}']
-    #         )
-    #         _revision_line = _svn_log.split('\n')[1]
-    #         self._last_remote_revision = \
-    #             re.search('^r(\d+)', _revision_line).group(1)
-    #     return self._last_remote_revision
 
 
 @register_vcs
