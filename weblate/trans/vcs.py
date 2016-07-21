@@ -686,6 +686,13 @@ class SubversionRepository(GitRepository):
         'log', '-n', '1', '--format=format:%H', 'origin/trunk'
     ]
 
+    @classmethod
+    def _get_version(cls):
+        """
+        Returns VCS program version.
+        """
+        return cls._popen(['svn', '--version']).split()[2]
+
     def configure_remote(self, pull_url, push_url, branch):
         '''
         Initializes the git-svn repository.
