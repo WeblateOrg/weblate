@@ -130,6 +130,19 @@ class ChangeManager(models.Manager):
             Q(dictionary__project_id__in=acl_projects)
         )
 
+    def authors_list(self, translation, date_range=None):
+        """Return list of authors."""
+        authors = self.content().filter(
+            translation=translation
+        )
+        if date_range is not None:
+            author = authors.filter(
+                timestamp__range=date_range
+            )
+        return authors.values_list(
+            'author__email', 'author__first_name'
+        )
+
     def create(self, user=None, **kwargs):
         """Wrapper to avoid using anonymous user as change owner"""
         if user is not None and not user.is_authenticated():

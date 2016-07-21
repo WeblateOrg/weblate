@@ -38,11 +38,9 @@ def generate_credits(component, start_date, end_date):
     result = []
 
     for translation in component.translation_set.all():
-        authors = Change.objects.content().filter(
-            translation=translation,
-            timestamp__range=(start_date, end_date),
-        ).values_list(
-            'author__email', 'author__first_name'
+        authors = Change.objects.authors_list(
+            translation,
+            (start_date, end_date),
         )
         if not authors:
             continue

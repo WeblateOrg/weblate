@@ -39,11 +39,7 @@ class Command(WeblateCommand):
         data = []
         for subproject in self.get_subprojects(*args, **options):
             for translation in subproject.translation_set.all():
-                authors = Change.objects.content().filter(
-                    translation=translation
-                ).values_list(
-                    'author__email', 'author__first_name'
-                )
+                authors = Change.objects.authors_list(translation)
                 if not authors:
                     continue
                 if options['code']:
