@@ -151,7 +151,7 @@ class Repository(object):
         return get_clean_env({'GIT_SSH': ssh_file(SSH_WRAPPER)})
 
     @classmethod
-    def _popen(cls, args, cwd=None):
+    def _popen(cls, args, cwd=None, err=False):
         '''
         Executes the command using popen.
         '''
@@ -173,6 +173,8 @@ class Repository(object):
                 output_err.decode('utf-8'),
                 output.decode('utf-8')
             )
+        if not output and err:
+            return output_err.decode('utf-8')
         return output.decode('utf-8')
 
     def execute(self, args):
