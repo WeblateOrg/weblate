@@ -207,7 +207,7 @@ class Repository(object):
         return self._last_remote_revision
 
     @classmethod
-    def clone(cls, source, target, branch=None, bare=False):
+    def clone(cls, source, target, branch=None):
         """
         Clones repository and returns Repository object for cloned
         repository.
@@ -409,15 +409,12 @@ class GitRepository(Repository):
         self.set_config('push.default', 'current')
 
     @classmethod
-    def clone(cls, source, target, branch=None, bare=False):
+    def clone(cls, source, target, branch=None):
         """
         Clones repository and returns Repository object for cloned
         repository.
         """
-        if bare:
-            cls._popen(['clone', '--bare', source, target])
-        else:
-            cls._popen(['clone', source, target])
+        cls._popen(['clone', source, target])
         return cls(target, branch)
 
     def get_config(self, path):
@@ -724,7 +721,7 @@ class SubversionRepository(GitRepository):
             self.set_config('svn-remote.svn.url', pull_url)
 
     @classmethod
-    def clone(cls, source, target, branch=None, bare=False):
+    def clone(cls, source, target, branch=None):
         """
         Clones svn repository with git-svn and returns
         Repository object for cloned repository.
@@ -888,15 +885,12 @@ class HgRepository(Repository):
         self.set_config('ui.ssh', ssh_file(SSH_WRAPPER))
 
     @classmethod
-    def clone(cls, source, target, branch=None, bare=False):
+    def clone(cls, source, target, branch=None):
         """
         Clones repository and returns Repository object for cloned
         repository.
         """
-        if bare:
-            cls._popen(['clone', '--updaterev', 'null', source, target])
-        else:
-            cls._popen(['clone', source, target])
+        cls._popen(['clone', source, target])
         return cls(target, branch)
 
     def get_config(self, path):
