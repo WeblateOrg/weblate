@@ -180,7 +180,11 @@ class AutoFormatTest(SimpleTestCase):
                 suffix='.{0}'.format(self.EXT),
                 mode='w+'
             )
-            self.FORMAT.add_language(out.name, Language(code='cs'), self.BASE)
+            self.FORMAT.add_language(
+                out.name,
+                Language(code='cs', nplurals=2),
+                self.BASE
+            )
             data = out.read()
             self.assertTrue(self.MATCH in data)
             out.close()
@@ -205,7 +209,9 @@ class PoFormatTest(AutoFormatTest):
     def test_add_encoding(self):
         out = tempfile.NamedTemporaryFile()
         self.FORMAT.add_language(
-            out.name, Language(code='cs'), TEST_POT_UNICODE
+            out.name,
+            Language(code='cs', nplurals=2),
+            TEST_POT_UNICODE
         )
         data = out.read().decode('utf-8')
         self.assertTrue('Michal Čihař' in data)

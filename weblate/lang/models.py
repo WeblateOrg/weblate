@@ -383,7 +383,7 @@ class Language(models.Model, PercentMixin):
     )
     code = models.SlugField(unique=True)
     name = models.CharField(max_length=100)
-    nplurals = models.SmallIntegerField(default=0)
+    nplurals = models.SmallIntegerField(default=2)
     pluralequation = models.CharField(max_length=255, blank=True)
     direction = models.CharField(
         max_length=3,
