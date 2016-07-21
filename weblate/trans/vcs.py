@@ -286,7 +286,7 @@ class Repository(object):
             return cls._is_supported
         try:
             version = cls.get_version()
-        except OSError:
+        except (OSError, RepositoryException):
             cls._is_supported = False
             return False
         if cls.req_version is None:
