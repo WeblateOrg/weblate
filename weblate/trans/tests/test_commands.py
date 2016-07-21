@@ -331,9 +331,12 @@ class PeriodicCommandTest(RepoTestCase):
         )
 
     def test_update_index_empty(self):
+        output = StringIO()
         call_command(
-            'update_index'
+            'update_index',
+            stdout=output
         )
+        self.assertEquals('', output.getvalue())
 
     def test_update_index(self):
         IndexUpdate.objects.create(

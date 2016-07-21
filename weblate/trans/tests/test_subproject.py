@@ -659,7 +659,8 @@ class SubProjectErrorTest(RepoTestCase):
 
 class SubProjectEditTest(ViewTestCase):
     """Tests for error handling"""
-    def remove_units(self, store):
+    @staticmethod
+    def remove_units(store):
         store.units = []
         store.save()
 
