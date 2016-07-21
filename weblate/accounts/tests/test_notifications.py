@@ -62,7 +62,7 @@ class NotificationTest(ViewTestCase):
         profile.save()
 
     @staticmethod
-    def second_user()
+    def second_user():
         return User.objects.create_user(
             'seconduser',
             'noreply@example.org',
