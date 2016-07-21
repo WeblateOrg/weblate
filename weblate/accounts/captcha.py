@@ -27,7 +27,7 @@ import ast
 from base64 import b64encode, b64decode
 import hashlib
 import operator
-from random import randint, choice
+from random import SystemRandom
 import time
 
 from django.conf import settings
@@ -68,9 +68,10 @@ class MathCaptcha(object):
         '''
         Generates random question.
         '''
-        operation = choice(self.operators)
-        first = randint(self.interval[0], self.interval[1])
-        second = randint(self.interval[0], self.interval[1])
+        generator = SystemRandom()
+        operation = generator.choice(self.operators)
+        first = generator.randint(self.interval[0], self.interval[1])
+        second = generator.randint(self.interval[0], self.interval[1])
 
         # We don't want negative answers
         if operation == '-':
