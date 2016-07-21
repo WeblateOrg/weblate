@@ -691,12 +691,16 @@ class GitWithGerritRepository(GitRepository):
 class SubversionRepository(GitRepository):
 
     name = 'svn'
+    req_version = '1.6'
 
     _cmd_update_remote = ['svn', 'fetch']
     _cmd_push = ['svn', 'dcommit']
     _cmd_last_remote_revision = [
         'log', '-n', '1', '--format=format:%H', 'origin/trunk'
     ]
+
+    _is_supported = None
+    _version = None
 
     @classmethod
     def _get_version(cls):
