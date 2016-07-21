@@ -14,7 +14,7 @@ log pyflakes
 pyflakes `find . -name '*.py' -not -name 'settings_test_*.py' -not -name 'settings_test.py' -not -name 'settings_openshift.py' -not -path './data/*'`
 pyflakes_ret=$?
 log pylint
-pylint --rcfile=pylint.rc weblate openshift *.py
+pylint --rcfile=.pylintrc weblate openshift *.py
 pylint_ret=$?
 
 exit $(($pep_ret + $pylint_ret + $pyflakes_ret))
