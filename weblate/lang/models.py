@@ -120,7 +120,8 @@ class LanguageManager(models.Manager):
 
         return lang, country
 
-    def sanitize_code(self, code):
+    @staticmethod
+    def sanitize_code(code):
         """
         Language code sanitization.
         """
@@ -218,7 +219,7 @@ class LanguageManager(models.Manager):
         of parameters.
         '''
         # Create standard language
-        lang = Language.objects.create(
+        lang = self.create(
             code=code,
             name='%s (generated)' % code,
             nplurals=2,
@@ -256,9 +257,7 @@ class LanguageManager(models.Manager):
         for code, props in languages.items():
             if code in data.SKIP_TRANSLATE_TOOLKIT:
                 continue
-            lang, created = Language.objects.get_or_create(
-                code=code
-            )
+            lang, created = self.get_or_create(code=code)
 
             # Should we update existing?
             if not update and not created:
@@ -287,9 +286,7 @@ class LanguageManager(models.Manager):
 
         # Create Weblate extra languages
         for props in data.EXTRALANGS:
-            lang, created = Language.objects.get_or_create(
-                code=props[0]
-            )
+            lang, created = self.get_or_create(code=props[0])
 
             # Should we update existing?
             if not update and not created:
@@ -333,7 +330,7 @@ class LanguageManager(models.Manager):
                 nplurals = int(nplurals.split('=', 1)[1])
                 pluralform = pluralform.split('=', 1)[1]
                 try:
-                    language = Language.objects.get(code=lang)
+                    language = self.get(code=lang)
                 except Language.DoesNotExist:
                     errors.append(
                         'missing language {0}: {1} ({2})'.format(
