@@ -42,7 +42,8 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         return self.lang_supported(source) and self.lang_supported(language)
 
-    def lang_supported(self, language):
+    @staticmethod
+    def lang_supported(language):
         '''
         Almost any language without modifiers is supported.
         '''
