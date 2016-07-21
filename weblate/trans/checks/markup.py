@@ -20,8 +20,9 @@
 
 from __future__ import unicode_literals
 
-from defusedxml import lxml
 import re
+
+from defusedxml import lxml
 
 from django.utils.translation import ugettext_lazy as _
 
