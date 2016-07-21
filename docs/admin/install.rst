@@ -71,6 +71,10 @@ python-bidi (optional for proper rendering of badges in RTL languages)
     https://github.com/MeirKriheli/python-bidi
 hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
+git-review (optional for Gerrit support)
+    https://pypi.python.org/pypi/git-review
+git-svn (optional for Subversion support)
+    https://git-scm.com/docs/git-svn
 
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
