@@ -72,7 +72,7 @@ class MultiRepoTest(ViewTestCase):
         if self._vcs == 'git':
             repo = self.git_repo_path
             push = self.git_repo_path
-        elif self._vcs == 'svn':
+        elif self._vcs == 'subversion':
             if not SubversionRepository.is_supported():
                 raise SkipTest('Subversion not available!')
             repo = 'file://' + self.svn_repo_path
@@ -270,7 +270,7 @@ class MercurialMultiRepoTest(MultiRepoTest):
 
 
 class SubversionMultiRepoTest(MultiRepoTest):
-    _vcs = 'svn'
+    _vcs = 'subversion'
 
     def create_subproject(self):
         return self.create_po_svn()

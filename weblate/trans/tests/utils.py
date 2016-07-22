@@ -179,7 +179,7 @@ class RepoTestMixin(object):
             push = self.hg_repo_path
             if not HgRepository.is_supported():
                 raise SkipTest('Mercurial not available!')
-        elif vcs == 'svn':
+        elif vcs == 'subversion':
             branch = 'master'
             repo = 'file://' + self.svn_repo_path
             push = 'file://' + self.svn_repo_path
@@ -243,7 +243,7 @@ class RepoTestMixin(object):
         return self._create_subproject(
             'po',
             'po/*.po',
-            vcs='svn'
+            vcs='subversion'
         )
 
     def create_po_new_base(self):
