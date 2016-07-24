@@ -106,6 +106,18 @@ class BaseXMLCheck(TargetCheck):
                 return False
         return True
 
+    def check_single(self, source, target, unit):
+        '''
+        Check for single phrase, not dealing with plurals.
+        '''
+        raise NotImplementedError()
+
+    def check_source(self, source, unit):
+        '''
+        Checks source string
+        '''
+        raise NotImplementedError()
+
 
 class XMLValidityCheck(BaseXMLCheck):
     '''
