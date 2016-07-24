@@ -120,17 +120,21 @@ class XMLValidityCheck(BaseXMLCheck):
         if not self.is_source_xml(unit.all_flags, source):
             return False
 
+        # Check if source is XML
+        try:
+            self.parse_xml(source)
+        except SyntaxError:
+            # Source is not valid XML, we give up
+            return False
+
         # Check target
         try:
             self.parse_xml(target)
-            return
-            target_tags = [x.tag for x in target_tree]
         except SyntaxError:
             # Target is not valid XML
             return True
 
-        # Compare tags
-        return source_tags != target_tags
+        return False
 
 
 class XMLTagsCheck(BaseXMLCheck):

@@ -51,9 +51,13 @@ class XMLValidityCheckTest(CheckTestCase):
 
     def setUp(self):
         super(XMLValidityCheckTest, self).setUp()
-        self.test_good_matching = ('<a>string</a>', '<a>string</a>', 'xml-text')
+        self.test_good_matching = (
+            '<a>string</a>', '<a>string</a>', 'xml-text'
+        )
         self.test_good_none = ('string', 'string', '')
-        self.test_good_ignore = ('<a>string</a>', '<a>string</a>', '')
+        self.test_good_ignore = (
+            '<http://weblate.org/>', '<http://weblate.org/>', ''
+        )
         self.test_failure_1 = ('<a>string</a>', '<a>string</b>', 'xml-text')
         self.test_failure_2 = ('<a>string</a>', '<a>string', '')
         self.test_failure_3 = ('<a>string</a>', '<b>string</a>', 'xml-text')
