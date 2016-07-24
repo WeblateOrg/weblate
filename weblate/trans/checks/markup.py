@@ -112,12 +112,6 @@ class BaseXMLCheck(TargetCheck):
         '''
         raise NotImplementedError()
 
-    def check_source(self, source, unit):
-        '''
-        Checks source string
-        '''
-        raise NotImplementedError()
-
 
 class XMLValidityCheck(BaseXMLCheck):
     '''
