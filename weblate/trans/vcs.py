@@ -748,20 +748,20 @@ class SubversionRepository(GitRepository):
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
-        return self._log_revisions('..origin/%s' % self.get_remote_branch_name()) != ''
+        return self._log_revisions('..%s' % self.get_remote_branch_name()) != ''
 
     def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
         """
-        return self._log_revisions('origin/%s..' % self.get_remote_branch_name()) != ''
+        return self._log_revisions('%s..' % self.get_remote_branch_name()) != ''
 
     def reset(self):
         """
         Resets working copy to match remote branch.
         """
-        self.execute(['reset', '--hard', 'origin/%s' % self.get_remote_branch_name()])
+        self.execute(['reset', '--hard', self.get_remote_branch_name()])
         self._last_revision = None
 
     @property
@@ -772,7 +772,7 @@ class SubversionRepository(GitRepository):
         if self._last_remote_revision is None:
             self._last_remote_revision = self.execute(
                 [ 'log', '-n', '1', '--format=format:%H',
-                 'origin/%s' % self.get_remote_branch_name() ]
+                 self.get_remote_branch_name() ]
             )
         return self._last_remote_revision
 
@@ -781,9 +781,9 @@ class SubversionRepository(GitRepository):
         Returns the remote branch name: trunk if local branch is master, local branch otherwise.
         '''
         if self.branch == 'master':
-            return 'trunk'
+            return 'origin/trunk'
         else:
-            return self.branch
+            return 'origin/{0}'.format(self.branch)
 
 
 @register_vcs
