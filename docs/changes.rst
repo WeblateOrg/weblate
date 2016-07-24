@@ -12,6 +12,7 @@ Released on ? 2016.
 * Added list_translators management command.
 * Django 1.8 is no longer supported.
 * Added Subversion support.
+* Separated XML validity check from XML mismatched tags.
 
 weblate 2.7
 -----------

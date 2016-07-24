@@ -35,6 +35,8 @@ list of flags accepted:
     can be useful for :ref:`xliff`.
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
+``xml-text``
+    Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``
     Treats all string like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
@@ -71,6 +73,8 @@ list of flags accepted:
     Skip the "Trailing exclamation" quality check.
 ``ignore-end-colon``
     Skip the "Trailing colon" quality check.
+``ignore-xml-invalid``
+    Skip the "Invalid XML markup" quality check.
 ``ignore-xml-tags``
     Skip the "XML tags mismatch" quality check.
 ``ignore-python-format``

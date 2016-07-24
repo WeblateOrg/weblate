@@ -136,6 +136,7 @@ CHECK_LIST = getvalue('CHECK_LIST', (
     'weblate.trans.checks.chars.NewlineCountingCheck',
     'weblate.trans.checks.markup.BBCodeCheck',
     'weblate.trans.checks.chars.ZeroWidthSpaceCheck',
+    'weblate.trans.checks.markup.XMLValidityCheck',
     'weblate.trans.checks.markup.XMLTagsCheck',
     'weblate.trans.checks.source.OptionalPluralCheck',
     'weblate.trans.checks.source.EllipsisCheck',

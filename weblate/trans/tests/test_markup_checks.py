@@ -26,6 +26,7 @@ from __future__ import unicode_literals
 from weblate.trans.checks.markup import (
     BBCodeCheck,
     XMLTagsCheck,
+    XMLValidityCheck,
 )
 from weblate.trans.tests.test_checks import CheckTestCase
 
@@ -45,25 +46,17 @@ class BBCodeCheckTest(CheckTestCase):
         )
 
 
-class XMLTagsCheckTest(CheckTestCase):
-    check = XMLTagsCheck()
+class XMLValidityCheckTest(CheckTestCase):
+    check = XMLValidityCheck()
 
     def setUp(self):
-        super(XMLTagsCheckTest, self).setUp()
-        self.test_good_matching = ('<a>string</a>', '<a>string</a>', '')
-        self.test_failure_1 = ('<a>string</a>', '<b>string</b>', '')
-        self.test_failure_2 = ('<a>string</a>', 'string', '')
-        self.test_failure_3 = ('<a>string</a>', '<b>string</a>', '')
-        self.test_highlight = (
-            '',
-            '<b><a href="foo">bar</a></b>',
-            [
-                (0, 3, '<b>'),
-                (3, 17, '<a href="foo">'),
-                (20, 24, '</a>'),
-                (24, 28, '</b>'),
-            ]
-        )
+        super(XMLValidityCheckTest, self).setUp()
+        self.test_good_matching = ('<a>string</a>', '<a>string</a>', 'xml-text')
+        self.test_good_none = ('string', 'string', '')
+        self.test_good_ignore = ('<a>string</a>', '<a>string</a>', '')
+        self.test_failure_1 = ('<a>string</a>', '<a>string</b>', 'xml-text')
+        self.test_failure_2 = ('<a>string</a>', '<a>string', '')
+        self.test_failure_3 = ('<a>string</a>', '<b>string</a>', 'xml-text')
 
     def test_unicode(self):
         self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))
@@ -77,3 +70,26 @@ class XMLTagsCheckTest(CheckTestCase):
             True,
             ('<emphasis>2nd</emphasis>', '<emphasis>not< /emphasis>', '')
         )
+
+
+class XMLTagsCheckTest(CheckTestCase):
+    check = XMLTagsCheck()
+
+    def setUp(self):
+        super(XMLTagsCheckTest, self).setUp()
+        self.test_good_matching = ('<a>string</a>', '<a>string</a>', '')
+        self.test_failure_1 = ('<a>string</a>', '<b>string</b>', '')
+        self.test_failure_2 = ('<a>string</a>', 'string', '')
+        self.test_highlight = (
+            '',
+            '<b><a href="foo">bar</a></b>',
+            [
+                (0, 3, '<b>'),
+                (3, 17, '<a href="foo">'),
+                (20, 24, '</a>'),
+                (24, 28, '</b>'),
+            ]
+        )
+
+    def test_unicode(self):
+        self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))

@@ -333,6 +333,7 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * new dependency on defusedxml, see :ref:`requirements`
+* there is new quality check: :ref:`check-xml-invalid`
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

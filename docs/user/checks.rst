@@ -256,6 +256,16 @@ use. Some programs might have problems when this character is used.
    
     `Zero width space on wikipedia <https://en.wikipedia.org/wiki/Zero-width_space>`_
 
+
+.. _check-xml-invalid:
+
+Invalid XML markup
+~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 2.8
+
+The XML markup is invalid.
+
 .. _check-xml-tags:
 
 XML tags mismatch

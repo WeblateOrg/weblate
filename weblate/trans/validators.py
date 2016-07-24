@@ -28,6 +28,7 @@ EXTRA_FLAGS = {
 }
 
 EXTRA_FLAGS['rst-text'] = ugettext_lazy('RST text')
+EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
 EXTRA_FLAGS['skip-review-flag'] = ugettext_lazy(
     'Skip review flag when importing'
 )

@@ -85,15 +85,7 @@ class BBCodeCheck(TargetCheck):
         return ret
 
 
-class XMLTagsCheck(TargetCheck):
-    '''
-    Check whether XML in target matches source.
-    '''
-    check_id = 'xml-tags'
-    name = _('XML tags mismatch')
-    description = _('XML tags in translation do not match source')
-    severity = 'warning'
-
+class BaseXMLCheck(TargetCheck):
     def parse_xml(self, text):
         '''
         Wrapper for parsing XML.
@@ -107,10 +99,53 @@ class XMLTagsCheck(TargetCheck):
 
         return lxml.fromstring(text)
 
+    def is_source_xml(self, flags, source):
+        """Quick check if source looks like XML."""
+        if 'xml-text' not in flags:
+            if '<' not in source or len(XML_MATCH.findall(source)) == 0:
+                return False
+        return True
+
+
+class XMLValidityCheck(BaseXMLCheck):
+    '''
+    Check whether XML in target is valid.
+    '''
+    check_id = 'xml-invalid'
+    name = _('Invalid XML markup')
+    description = _('The translaton is not valid XML')
+    severity = 'danger'
+
     def check_single(self, source, target, unit):
-        # Quick check if source looks like XML
-        if '<' not in source or len(XML_MATCH.findall(source)) == 0:
+        if not self.is_source_xml(unit.all_flags, source):
             return False
+
+        # Check target
+        try:
+            self.parse_xml(target)
+            return
+            target_tags = [x.tag for x in target_tree]
+        except SyntaxError:
+            # Target is not valid XML
+            return True
+
+        # Compare tags
+        return source_tags != target_tags
+
+
+class XMLTagsCheck(BaseXMLCheck):
+    '''
+    Check whether XML in target matches source.
+    '''
+    check_id = 'xml-tags'
+    name = _('XML tags mismatch')
+    description = _('XML tags in translation do not match source')
+    severity = 'warning'
+
+    def check_single(self, source, target, unit):
+        if not self.is_source_xml(unit.all_flags, source):
+            return False
+
         # Check if source is XML
         try:
             source_tree = self.parse_xml(source)
@@ -125,7 +160,7 @@ class XMLTagsCheck(TargetCheck):
             target_tags = [x.tag for x in target_tree]
         except SyntaxError:
             # Target is not valid XML
-            return True
+            return False
 
         # Compare tags
         return source_tags != target_tags
