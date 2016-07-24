@@ -318,7 +318,7 @@ Lists most frequently ignored checks. This can be useful for tuning your setup,
 if users have to ignore too many of consistency checks.
 
 list_translators <project|project/component>
-----------------------------------------
+--------------------------------------------
 
 .. django-admin:: list_translators
 
