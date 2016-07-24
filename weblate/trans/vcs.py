@@ -748,14 +748,18 @@ class SubversionRepository(GitRepository):
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
-        return self._log_revisions('..%s' % self.get_remote_branch_name()) != ''
+        return self._log_revisions(
+            '..%s' % self.get_remote_branch_name()
+        ) != ''
 
     def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
         """
-        return self._log_revisions('%s..' % self.get_remote_branch_name()) != ''
+        return self._log_revisions(
+            '%s..' % self.get_remote_branch_name()
+        ) != ''
 
     def reset(self):
         """
@@ -770,15 +774,16 @@ class SubversionRepository(GitRepository):
         Returns last remote revision.
         '''
         if self._last_remote_revision is None:
-            self._last_remote_revision = self.execute(
-                [ 'log', '-n', '1', '--format=format:%H',
-                 self.get_remote_branch_name() ]
-            )
+            self._last_remote_revision = self.execute([
+                'log', '-n', '1', '--format=format:%H',
+                self.get_remote_branch_name()
+            ])
         return self._last_remote_revision
 
     def get_remote_branch_name(self):
         '''
-        Returns the remote branch name: trunk if local branch is master, local branch otherwise.
+        Returns the remote branch name: trunk if local branch is master,
+        local branch otherwise.
         '''
         if self.branch == 'master':
             return 'origin/trunk'
