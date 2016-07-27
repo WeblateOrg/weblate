@@ -374,6 +374,7 @@ SAME_BLACKLIST = frozenset((
     'lzma',
     'magazine',
     'magazines',
+    'magenta',
     'mah',
     'manager',
     'mandrake',
