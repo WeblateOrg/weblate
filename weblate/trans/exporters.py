@@ -113,9 +113,11 @@ class BaseExporter(object):
         output.target = multistring(
             self.handle_plurals(unit.get_target_plurals())
         )
-        output.setcontext(self.string_filter(unit.context))
-        if hasattr(output, 'msgctxt'):
-            output.msgctxt = [self.string_filter(unit.context)]
+        context = self.string_filter(unit.context)
+        if context:
+            output.setcontext(context)
+            if hasattr(output, 'msgctxt'):
+                output.msgctxt = [context]
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
