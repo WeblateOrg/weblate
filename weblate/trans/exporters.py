@@ -110,19 +110,22 @@ class BaseExporter(object):
         output = self.storage.UnitClass(
             self.handle_plurals(unit.get_source_plurals())
         )
-        output.target = multistring(
-            self.handle_plurals(unit.get_target_plurals())
-        )
-        output.setcontext(self.string_filter(unit.context))
-        if hasattr(output, 'msgctxt'):
-            output.msgctxt = [self.string_filter(unit.context)]
+        output.target = self.handle_plurals(unit.get_target_plurals())
+        context = self.string_filter(unit.context)
+        if context:
+            output.setcontext(context)
+            if hasattr(output, 'msgctxt'):
+                output.msgctxt = [context]
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
-        output.addnote(self.string_filter(unit.comment))
+        note = self.string_filter(unit.comment)
+        if note:
+            output.addnote(note)
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
-                output.settypecomment(flag)
+                if flag:
+                    output.settypecomment(flag)
         if unit.fuzzy:
             output.markfuzzy(True)
         self.storage.addunit(output)
