@@ -47,8 +47,8 @@ class PoExporterTest(TestCase):
         return output
 
     def check_plurals(self, result):
-        self.assertIn('msgid_plural', result)
-        self.assertIn('msgstr[2]', result)
+        self.assertIn(b'msgid_plural', result)
+        self.assertIn(b'msgstr[2]', result)
 
     def check_dict(self, word):
         exporter = self.get_exporter()
@@ -138,7 +138,7 @@ class PoXliffExporterTest(PoExporterTest):
     _has_context = False
 
     def check_plurals(self, result):
-        self.assertIn('[2]', result)
+        self.assertIn(b'[2]', result)
 
 
 class XliffExporterTest(PoExporterTest):
