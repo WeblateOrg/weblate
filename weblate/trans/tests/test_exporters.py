@@ -46,6 +46,10 @@ class PoExporterTest(TestCase):
         self.assertIsNotNone(output)
         return output
 
+    def check_plurals(self, result):
+        self.assertIn('msgid_plural', result)
+        self.assertIn('msgstr[2]', result)
+
     def check_dict(self, word):
         exporter = self.get_exporter()
         exporter.add_dictionary(word)
@@ -93,16 +97,27 @@ class PoExporterTest(TestCase):
         )
 
     def test_unit_plural(self):
-        self.check_unit(
+        result = self.check_unit(
             source='xxx\x1e\x1efff',
             target='yyy\x1e\x1efff\x1e\x1ewww',
+            translated=True,
         )
+        self.check_plurals(result)
 
     def test_unit_plural_one(self):
         self.check_unit(
             nplurals=1,
             source='xxx\x1e\x1efff',
             target='yyy',
+            translated=True,
+        )
+
+    def test_unit_not_translated(self):
+        self.check_unit(
+            nplurals=1,
+            source='xxx\x1e\x1efff',
+            target='yyy',
+            translated=False,
         )
 
     def test_context(self):
@@ -122,17 +137,31 @@ class PoXliffExporterTest(PoExporterTest):
     _class = PoXliffExporter
     _has_context = False
 
+    def check_plurals(self, result):
+        self.assertIn('[2]', result)
+
 
 class XliffExporterTest(PoExporterTest):
     _class = XliffExporter
     _has_context = False
+
+    def check_plurals(self, result):
+        # Doesn't support plurals
+        return
 
 
 class TBXExporterTest(PoExporterTest):
     _class = TBXExporter
     _has_context = False
 
+    def check_plurals(self, result):
+        # Doesn't support plurals
+        return
+
 
 class MoExporterTest(PoExporterTest):
     _class = MoExporter
     _has_context = True
+
+    def check_plurals(self, result):
+        self.assertIn(b'www', result)
