@@ -130,6 +130,7 @@ class ComponentSerializer(RemovableSerializer):
         view_name='api:component-lock',
         lookup_field=('project__slug', 'slug'),
     )
+    repo = serializers.CharField(source='get_repo_url')
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 

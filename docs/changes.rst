@@ -13,6 +13,7 @@ Released on ? 2016.
 * Django 1.8 is no longer supported.
 * Added Subversion support.
 * Separated XML validity check from XML mismatched tags.
+* Fixed API to honor HIDE_REPO_CREDENTIALS settings.
 
 weblate 2.7
 -----------
