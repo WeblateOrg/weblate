@@ -476,6 +476,12 @@ EXTRALANGS = (
         2,
         'n > 1',
     ),
+    (
+        'kab',
+        'Kabyle',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
