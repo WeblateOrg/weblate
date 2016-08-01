@@ -33,9 +33,11 @@ class PoExporterTest(TestCase):
     _class = PoExporter
     _has_context = True
 
-    def get_exporter(self):
+    def get_exporter(self, lang=None):
+        if lang is None:
+            lang = Language(code='xx')
         return self._class(
-            language=Language(code='xx'),
+            language=lang,
             project=Project(slug='test', name='TEST'),
         )
 
@@ -59,7 +61,15 @@ class PoExporterTest(TestCase):
         self.check_dict(Dictionary(source='bar\x1e\x1efoo', target='br\x1eff'))
 
     def check_unit(self, nplurals=3, **kwargs):
-        lang = Language(code='zz', nplurals=nplurals)
+        if nplurals == 3:
+            equation = 'n==0 ? 0 : n==1 ? 1 : 2'
+        else:
+            equation = '0'
+        lang = Language(
+            code='zz',
+            nplurals=nplurals,
+            pluralequation=equation
+        )
         project = Project(
             slug='test',
             source_language=Language.objects.get(code='en'),
@@ -72,7 +82,7 @@ class PoExporterTest(TestCase):
             ),
             **kwargs
         )
-        exporter = self.get_exporter()
+        exporter = self.get_exporter(lang)
         exporter.add_unit(unit)
         return self.check_export(exporter)
 

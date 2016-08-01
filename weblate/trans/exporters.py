@@ -130,8 +130,6 @@ class BaseExporter(object):
                     output.settypecomment(flag)
         if unit.fuzzy:
             output.markfuzzy(True)
-        else:
-            output.markfuzzy(False)
         self.storage.addunit(output)
 
     def get_response(self, filetemplate='{project}-{language}.{extension}'):
