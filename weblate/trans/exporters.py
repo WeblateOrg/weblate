@@ -121,12 +121,17 @@ class BaseExporter(object):
         for location in unit.location.split():
             if location:
                 output.addlocation(location)
-        output.addnote(self.string_filter(unit.comment))
+        note = self.string_filter(unit.comment)
+        if note:
+            output.addnote(note)
         if hasattr(output, 'settypecomment'):
             for flag in unit.flags.split(','):
-                output.settypecomment(flag)
+                if flag:
+                    output.settypecomment(flag)
         if unit.fuzzy:
             output.markfuzzy(True)
+        else:
+            output.markfuzzy(False)
         self.storage.addunit(output)
 
     def get_response(self, filetemplate='{project}-{language}.{extension}'):
