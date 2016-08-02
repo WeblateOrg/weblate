@@ -23,7 +23,7 @@ import csv
 from django.views.generic.list import ListView
 from django.http import Http404, HttpResponse
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _, activate
+from django.utils.translation import ugettext as _, activate, pgettext
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.core.exceptions import PermissionDenied
@@ -59,7 +59,6 @@ class ChangesView(ListView):
         context = super(ChangesView, self).get_context_data(
             **kwargs
         )
-        context['title'] = _('Changes')
         context['project'] = self.project
 
         url = {}
@@ -72,6 +71,9 @@ class ChangesView(ListView):
                 'rss-translation',
                 kwargs=url,
             )
+            context['title'] = pgettext(
+                'Changes in translation', 'Changes in %s'
+            ) % self.translation
         elif self.subproject is not None:
             url['subproject'] = self.subproject.slug
             url['project'] = self.subproject.project.slug
@@ -79,12 +81,18 @@ class ChangesView(ListView):
                 'rss-subproject',
                 kwargs=url,
             )
+            context['title'] = pgettext(
+                'Changes in component', 'Changes in %s'
+            ) % self.subproject
         elif self.project is not None:
             url['project'] = self.project.slug
             context['changes_rss'] = reverse(
                 'rss-project',
                 kwargs=url,
             )
+            context['title'] = pgettext(
+                'Changes in project', 'Changes in %s'
+            ) % self.project
 
         if self.language is not None:
             url['lang'] = self.language.code
@@ -93,15 +101,26 @@ class ChangesView(ListView):
                     'rss-language',
                     kwargs=url,
                 )
+            if 'title' not in context:
+                context['title'] = pgettext(
+                    'Changes in language', 'Changes in %s'
+                ) % self.language
 
         if self.user is not None:
             url['user'] = self.user.username.encode('utf-8')
+            if 'title' not in context:
+                context['title'] = pgettext(
+                    'Changes by user', 'Changes by %s'
+                ) % self.user.first_name
 
         if self.glossary:
             url['glossary'] = 1
 
         if len(url) == 0:
             context['changes_rss'] = reverse('rss')
+
+        if 'title' not in context:
+            context['title'] = _('Changes')
 
         context['query_string'] = urlencode(url)
 
