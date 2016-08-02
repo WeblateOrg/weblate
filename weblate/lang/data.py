@@ -482,6 +482,19 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'pr',
+        'Pirate',
+        2,
+        'n != 1',
+    ),
+    (
+        'hsb',
+        'Upper Sorbian',
+        3,
+        'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+        '(n%100<10 || n%100>=20) ? 1 : 2',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
