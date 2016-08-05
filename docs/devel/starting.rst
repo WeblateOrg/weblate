@@ -48,6 +48,9 @@ As a widely spread tool, it has many wrappers which make it's usage really
 simple, instead of manual invoking of Gettext described below, you might want
 to try one of them, for example `intltool`_.
 
+Sample program
+++++++++++++++
+
 The simple program in C using Gettext might look like following:
 
 .. code-block:: c
@@ -74,6 +77,9 @@ The simple program in C using Gettext might look like following:
         printf("%s\n", gettext("Thank you for using Weblate."));
         exit(0);
     }
+
+Extracting translatable strings
++++++++++++++++++++++++++++++++
 
 Once you have code using the gettext calls, you can use :program:`xgettext` to
 extract message from it:
@@ -123,6 +129,9 @@ structured text file:
 The each ``msgid`` line defines string to translate, the special empty string
 in the beginning is the file header containing metadata about the translation.
 
+Starting new translation
+++++++++++++++++++++++++
+
 With the template in place, we can start first translation:
 
 .. code-block:: console
@@ -166,6 +175,26 @@ can see number of plurals have changed according to that:
     #: main.c:20
     msgid "Thank you for using Weblate."
     msgstr ""
+
+Updating strings
+++++++++++++++++
+
+Once you add more strings or change some strings in your program, you execute again
+:program:`xgettext` which regenerates the template file:
+
+.. code-block:: console
+
+    $ xgettext main.c -o po/hello.pot
+
+Then you can update individual translation files to match newly created templates
+(this includes reordering the strings to match new template):
+
+.. code-block:: console
+
+    $ msgmerge --previous --update po/cs.po po/hello.pot
+
+Importing to Weblate
+++++++++++++++++++++
 
 To import such translation into Weblate, all you need to define are following
 fields when creating component (see :ref:`component` for detailed description
