@@ -28,6 +28,7 @@ from django.utils.encoding import smart_text
 
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import detail_route
+from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.utils import formatting
@@ -394,6 +395,9 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         if (not can_upload_translation(request.user, obj) or
                 obj.is_locked(request.user)):
             raise PermissionDenied()
+
+        if 'file' not in request.data:
+            raise ParseError('Missing file parameter')
 
         ret, count = obj.merge_upload(
             request,

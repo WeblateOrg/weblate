@@ -419,6 +419,16 @@ class TranslationAPITest(APIBaseTest):
             {'count': 5, 'result': True}
         )
 
+    def test_upload_invalid(self):
+        self.authenticate()
+        response = self.client.put(
+            reverse(
+                'api:translation-file',
+                kwargs=self.translation_kwargs
+            ),
+        )
+        self.assertEqual(response.status_code, 400)
+
     def test_repo_status_denied(self):
         self.do_request(
             'api:translation-repository',
