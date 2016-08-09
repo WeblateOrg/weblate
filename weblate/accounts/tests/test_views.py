@@ -220,6 +220,7 @@ class ProfileTest(ViewTestCase):
         # Get profile page
         response = self.client.get(reverse('profile'))
         self.assertContains(response, 'action="/accounts/profile/"')
+        self.assertContains(response, 'name="secondary_languages"')
 
         # Save profile
         response = self.client.post(
