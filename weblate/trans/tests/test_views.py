@@ -227,6 +227,46 @@ class ViewTestCase(RepoTestCase):
             )
         )
 
+class TranslationManipulationTest(ViewTestCase):
+    def setUp(self):
+        super(TranslationManipulationTest, self).setUp()
+        self.subproject.new_lang = 'add'
+        self.subproject.save()
+
+    def create_subproject(self):
+        return self.create_po_new_base()
+
+    def test_model_add(self):
+        self.assertTrue(
+            self.subproject.add_new_language(
+                Language.objects.get(code='af'),
+                self.get_request('/')
+            )
+        )
+        self.assertTrue(
+            self.subproject.translation_set.filter(
+                language_code='af'
+            ).exists()
+        )
+
+    def test_model_add_duplicate(self):
+        self.assertFalse(
+            self.subproject.add_new_language(
+                Language.objects.get(code='de'),
+                self.get_request('/')
+            )
+        )
+
+    def test_model_add_disabled(self):
+        self.subproject.new_lang = 'contact'
+        self.subproject.save()
+        self.assertFalse(
+            self.subproject.add_new_language(
+                Language.objects.get(code='de'),
+                self.get_request('/')
+            )
+        )
+
 
 class NewLangTest(ViewTestCase):
     def setUp(self):
