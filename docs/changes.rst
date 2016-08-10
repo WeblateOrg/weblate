@@ -17,6 +17,7 @@ Released on ? 2016.
 * Fixed API to honor HIDE_REPO_CREDENTIALS settings.
 * Show source change in zen mode.
 * Alt+PageUp/PageDown/Home/End now works in zen mode as well.
+* Add tooltip showing exact time of changes.
 
 weblate 2.7
 -----------

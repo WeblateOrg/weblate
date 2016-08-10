@@ -456,9 +456,15 @@ def naturaltime(value, now=None):
     if now is None:
         now = timezone.now()
     if value < now:
-        return naturaltime_past(value, now)
+        text = naturaltime_past(value, now)
     else:
-        return naturaltime_future(value, now)
+        text = naturaltime_future(value, now)
+    return mark_safe(
+        '<span title="{0}">{1}</span>'.format(
+            escape(value.replace(microsecond=0).isoformat()),
+            escape(text)
+        )
+    )
 
 
 @register.simple_tag
