@@ -14,6 +14,7 @@ Released on ? 2016.
 * Added Subversion support.
 * Separated XML validity check from XML mismatched tags.
 * Fixed API to honor HIDE_REPO_CREDENTIALS settings.
+* Show source change in zen mode.
 
 weblate 2.7
 -----------
