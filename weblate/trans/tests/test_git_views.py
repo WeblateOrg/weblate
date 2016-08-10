@@ -53,25 +53,25 @@ class GitNoChangeProjectTest(ViewTestCase):
         return getattr(self, '%s_url' % self.TEST_TYPE) + '#repository'
 
     def test_commit(self):
-        response = self.client.get(
+        response = self.client.post(
             self.get_test_url('commit')
         )
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_update(self):
-        response = self.client.get(
+        response = self.client.post(
             self.get_test_url('update')
         )
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_project_push(self):
-        response = self.client.get(
+        response = self.client.post(
             self.get_test_url('push')
         )
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_project_reset(self):
-        response = self.client.get(
+        response = self.client.post(
             self.get_test_url('reset')
         )
         self.assertRedirects(response, self.get_expected_redirect())
