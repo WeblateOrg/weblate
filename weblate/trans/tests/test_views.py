@@ -267,6 +267,17 @@ class TranslationManipulationTest(ViewTestCase):
             )
         )
 
+    def test_remove(self):
+        translation = self.subproject.translation_set.get(language_code='de')
+        translation.remove(self.user)
+        # Force scanning of the repository
+        self.subproject.create_translations()
+        self.assertFalse(
+            self.subproject.translation_set.filter(
+                language_code='de'
+            ).exists()
+        )
+
 
 class NewLangTest(ViewTestCase):
     def setUp(self):

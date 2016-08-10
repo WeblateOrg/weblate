@@ -1234,3 +1234,33 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'url': self.get_share_url(),
             'url_translate': get_site_url(self.get_absolute_url()),
         }
+
+    def remove(self, user):
+        """Remove translation from the VCS"""
+        author = get_author_name(user)
+        # Log
+        self.log_info(
+            'removing %s as %s',
+            self.filename,
+            author
+        )
+
+        # Remove file from VCS
+        self.commit_message = '__delete__'
+        self.subproject.repository.remove(
+            [self.filename],
+            self.get_commit_message(),
+            author,
+        )
+
+        # Delete from the database
+        self.delete()
+
+        # Record change
+        Change.objects.create(
+            subproject=self.subproject,
+            action=Change.ACTION_REMOVE,
+            target=self.filename,
+            user=user,
+            author=user
+        )
