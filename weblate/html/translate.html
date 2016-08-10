@@ -37,19 +37,34 @@
 
 {% with unit.get_comments as comments and unit.nearby as nearby %}
 
+<div class="btn-group">
 <ul class="pagination">
 <li><a id="button-first" href="{{ first_unit_url }}" title="{% trans "First" %}"><i class="fa fa-step-backward"></i></a></li>
 <li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa fa-backward"></i></a></li>
-<li><a>
+<li>
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 {% if filter_name %}
 {% blocktrans %}{{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
 {% else %}
 {% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}
 {% endif %}
-</a></li>
+<span class="caret"></span>
+</a>
+  <div class="dropdown-menu">
+
+<div class="panel-group">
+<form action="{{ unit.translation.get_translate_url }}" method="GET">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+</div>
+
+</div>
+</li>
 <li><a id="button-next" href="{{ next_unit_url }}" title="{% trans "Next" %}"><i class="fa fa-forward"></i></a></li>
 <li><a id="button-end" href="{{ last_unit_url }}" title="{% trans "Last" %}"><i class="fa fa-step-forward"></i></a></li>
 </ul>
+</div>
 
 
 <div class="container-fluid">
@@ -161,7 +176,6 @@
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
 {% endif %}
-<li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li><a href="#history" data-toggle="tab" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
@@ -248,13 +262,6 @@
     </table>
 </div>
 {% endif %}
-
-<div class="tab-pane" id="search">
-<form action="{{ unit.translation.get_translate_url }}" method="GET">
-{{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
-</form>
-</div>
 
 <div class="tab-pane" id="history">
 <p>{% trans "Loading…" %}</p>

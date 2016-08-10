@@ -997,5 +997,7 @@ $(function () {
       $("#views-title").html($(this).text()+' <span class="caret"></span>');
     });
 
-
+    $('.dropdown-menu').find('form').click(function (e) {
+        e.stopPropagation();
+    });
 });
