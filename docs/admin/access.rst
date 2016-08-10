@@ -101,6 +101,8 @@ Can display reports [Managers, Owners]
     Can display detailed translation reports.
 Can add translation [Users, Managers, Owners]
     Can start translations in new language.
+Can delete translation [Managers, Owners]
+    Can remove translation.
 
 .. _acl:
 

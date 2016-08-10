@@ -138,3 +138,8 @@ def can_view_reports(user, project):
 @register.assignment_tag
 def can_add_translation(user, project):
     return weblate.trans.permissions.can_add_translation(user, project)
+
+
+@register.assignment_tag
+def can_remove_translation(user, project):
+    return weblate.trans.permissions.can_remove_translation(user, project)

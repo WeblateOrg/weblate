@@ -19,6 +19,7 @@ Released on ? 2016.
 * Alt+PageUp/PageDown/Home/End now works in zen mode as well.
 * Add tooltip showing exact time of changes.
 * Add option to select filters and search from translation page.
+* Added UI for translation removal.
 
 weblate 2.7
 -----------

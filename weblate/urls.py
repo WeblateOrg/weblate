@@ -391,6 +391,13 @@ urlpatterns = [
         name='reset_translation',
     ),
 
+    # VCS manipulation - remove
+    url(
+        r'^remove/' + TRANSLATION + '$',
+        weblate.trans.views.git.remove_translation,
+        name='remove_translation',
+    ),
+
     # Locking
     url(
         r'^lock/' + PROJECT + '$',

@@ -30,7 +30,7 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.util import redirect_param
 from weblate.trans.permissions import (
     can_commit_translation, can_update_translation, can_reset_translation,
-    can_push_translation,
+    can_push_translation, can_remove_translation,
 )
 
 
@@ -39,7 +39,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     Helper function to catch possible lock exception.
     """
     try:
-        result = call(request, *args, **kwargs)
+        result = call(*args, **kwargs)
         # With False the call is supposed to show errors on its own
         if result is None or result:
             messages.success(request, message)
@@ -61,6 +61,7 @@ def perform_commit(request, obj):
         obj,
         _('All pending translations were committed.'),
         obj.commit_pending,
+        request,
     )
 
 
@@ -73,7 +74,8 @@ def perform_update(request, obj):
         obj,
         _('All repositories were updated.'),
         obj.do_update,
-        method=request.GET.get('method', None)
+        request,
+        method=request.GET.get('method', None),
     )
 
 
@@ -85,7 +87,8 @@ def perform_push(request, obj):
         request,
         obj,
         _('All repositories were pushed.'),
-        obj.do_push
+        obj.do_push,
+        request,
     )
 
 
@@ -97,7 +100,8 @@ def perform_reset(request, obj):
         request,
         obj,
         _('All repositories have been reset.'),
-        obj.do_reset
+        obj.do_reset,
+        request,
     )
 
 
@@ -219,3 +223,19 @@ def reset_translation(request, project, subproject, lang):
         raise PermissionDenied()
 
     return perform_reset(request, obj)
+
+
+@login_required
+def remove_translation(request, project, subproject, lang):
+    obj = get_translation(request, project, subproject, lang)
+
+    if not can_remove_translation(request.user, obj.subproject.project):
+        raise PermissionDenied()
+
+    return execute_locked(
+        request,
+        obj.subproject,
+        _('Translation has been removed.'),
+        obj.remove,
+        user=request.user,
+    )

@@ -7,6 +7,7 @@
 {% can_update_translation user project as user_can_update_translation %}
 {% can_push_translation user project as user_can_push_translation %}
 {% can_reset_translation user project as user_can_reset_translation %}
+{% can_remove_translation user project as user_can_remove_translation %}
 {% can_lock_subproject user project as user_can_lock_subproject %}
 
 
@@ -179,6 +180,17 @@
 </td>
 </tr>
 {% endif %}
+{% endif %}
+
+{% if translation and user_can_remove_translation %}
+<tr>
+<td>
+<a href="{% url 'remove_translation' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}" class="btn btn-danger">{% trans "Delete" %}</a>
+</td>
+<td>
+<p class="helptext">{% trans "Allow changes in the local repository" %}</p>
+</td>
+</tr>
 {% endif %}
 
 

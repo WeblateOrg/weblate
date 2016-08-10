@@ -181,6 +181,7 @@ def git_status_translation(request, project, subproject, lang):
         'js/git-status.html',
         {
             'object': obj,
+            'translation': obj,
             'project': obj.subproject.project,
             'changes': Change.objects.filter(
                 action__in=Change.ACTIONS_REPOSITORY,
