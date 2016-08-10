@@ -54,7 +54,7 @@ class PermissionsTest(TestCase):
 
     def test_owner_no_perm(self):
         self.assertFalse(
-            check_owner(self.owner, self.project, 'trans.delete_translation')
+            check_owner(self.owner, self.project, 'trans.delete_project')
         )
 
     def test_owner_user(self):
