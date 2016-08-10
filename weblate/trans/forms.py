@@ -484,7 +484,7 @@ class SearchForm(forms.Form):
     # pylint: disable=C0103
     q = forms.CharField(
         label=_('Query'),
-        min_length=2,
+        min_length=1,
         required=False,
     )
     search = forms.ChoiceField(
@@ -541,6 +541,11 @@ class SearchForm(forms.Form):
             cleaned_data['search'] = 'ftx'
         if 'type' not in cleaned_data or cleaned_data['type'] == '':
             cleaned_data['type'] = 'all'
+
+        if (cleaned_data['q'] and
+                cleaned_data['search'] != 'exact' and
+                len(cleaned_data['q']) < 2):
+            raise ValidationError(_('The query string has to be longer!'))
 
         # Default to source and target search
         if (not cleaned_data['source'] and
