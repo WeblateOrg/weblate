@@ -325,6 +325,16 @@ class VCSGitTest(RepoTestCase):
             'Foo <bar@example.com>',
         )
 
+    def test_remove(self):
+        self.repo.set_committer('Foo Bar', 'foo@example.net')
+        self.assertTrue(
+            os.path.exists(os.path.join(self._tempdir, 'po/cs.po'))
+        )
+        self.repo.remove(['po/cs.po'], 'Remove Czech translation')
+        self.assertFalse(
+            os.path.exists(os.path.join(self._tempdir, 'po/cs.po'))
+        )
+
     def test_object_hash(self):
         obj_hash = self.repo.get_object_hash('README.md')
         self.assertEqual(

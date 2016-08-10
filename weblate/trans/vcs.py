@@ -326,9 +326,15 @@ class Repository(object):
         """
         raise NotImplementedError()
 
-    def commit(self, message, author, timestamp, files):
+    def commit(self, message, author=None, timestamp=None, files=None):
         """
         Creates new revision.
+        """
+        raise NotImplementedError()
+
+    def remove(self, files, message, author=None):
+        """
+        Removes files and creates new revision.
         """
         raise NotImplementedError()
 
@@ -568,6 +574,13 @@ class GitRepository(Repository):
         self.execute(cmd)
         # Clean cache
         self._last_revision = None
+
+    def remove(self, files, message, author=None):
+        """
+        Removes files and creates new revision.
+        """
+        self.execute(['rm', '--force', '--'] + files)
+        self.commit(message, author)
 
     def get_object_hash(self, path):
         """
@@ -1135,6 +1148,13 @@ class HgRepository(Repository):
         self.execute(cmd)
         # Clean cache
         self._last_revision = None
+
+    def remove(self, files, message, author=None):
+        """
+        Removes files and creates new revision.
+        """
+        self.execute(['remove', '--force', '--'] + files)
+        self.commit(message, author)
 
     def configure_remote(self, pull_url, push_url, branch):
         """
