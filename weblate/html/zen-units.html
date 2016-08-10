@@ -27,7 +27,7 @@
 {% endif %}
 
 {% if not user.profile.hide_source_secondary or not item.secondary %}
-{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.language.nplurals %}
+{% format_translation item.unit.source item.unit.translation.subproject.project.source_language search_match=search_query num_plurals=item.unit.translation.language.nplurals unit=item.unit %}
 {% endif %}
 
 {% if item.secondary %}
