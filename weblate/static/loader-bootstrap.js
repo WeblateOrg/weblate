@@ -666,7 +666,11 @@ $(function () {
     /* Copy from dictionary */
     $('.copydict').click(function (e) {
         var text = $(this).parents('tr').find('.target').text();
-        $('.translation-editor').insertAtCaret($.trim(text)).trigger('autosize.resize');;
+        var editor = $('.translation-editor:focus');
+        if (editor.length === 0) {
+            editor = $('.translation-editor:first');
+        }
+        editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
         e.preventDefault();
     });
 
@@ -676,7 +680,11 @@ $(function () {
         var text = $(this).clone();
         text.find(".highlight-number").remove();
         text=text.text();
-        $('.translation-editor').insertAtCaret($.trim(text)).trigger('autosize.resize');;
+        var editor = $('.translation-editor:focus');
+        if (editor.length === 0) {
+            editor = $('.translation-editor:first');
+        }
+        editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
         e.preventDefault();
     });
     /* and shortcuts */
