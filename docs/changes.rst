@@ -11,6 +11,7 @@ Released on ? 2016.
 * Updated bundled javascript libraries.
 * Added list_translators management command.
 * Django 1.8 is no longer supported.
+* Fixed compatibility with Django 1.10.
 * Added Subversion support.
 * Separated XML validity check from XML mismatched tags.
 * Fixed API to honor HIDE_REPO_CREDENTIALS settings.
