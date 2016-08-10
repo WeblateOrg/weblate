@@ -17,10 +17,14 @@
 
 {% include "show-lock.html" %}
 
+<a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?sid={{ search_id }}" title="{% trans "Edit in single unit mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
+
 {% if filter_name %}
-<div class="alert alert-info">
+<ul class="pagination">
+<li><a>
 {% blocktrans %}Current filter: {{ filter_name }} ({{ filter_count }}){% endblocktrans %}
-</div>
+</a></li>
+</ul>
 {% endif %}
 
 <table class="zen table table-condensed">
