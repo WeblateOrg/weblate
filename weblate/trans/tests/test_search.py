@@ -193,7 +193,12 @@ class SearchViewTest(ViewTestCase):
         # Short string
         self.do_search(
             {'q': 'x'},
-            'Ensure this value has at least 2 characters (it has 1).'
+            'The query string has to be longer!',
+        )
+        # Short exact
+        self.do_search(
+            {'q': 'x', 'search': 'exact'},
+            None
         )
         # Wrong type
         self.do_search(
