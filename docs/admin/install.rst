@@ -263,6 +263,8 @@ To get latest sources using Git use:
 Alternatively you can use released archives. You can either download them from our 
 website <https://weblate.org/> or use pip installer.
 
+.. _install-pip:
+
 Installing Weblate by pip
 +++++++++++++++++++++++++
 
@@ -276,6 +278,8 @@ example:
 .. code-block:: sh
 
     weblate --settings=yourproject.settings migrate
+
+.. seealso:: :ref:`invoke-manage`
 
 .. _file-permissions:
 

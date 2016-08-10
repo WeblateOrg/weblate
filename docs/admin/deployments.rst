@@ -97,6 +97,8 @@ this.
 
 Enjoy your Weblate deployment, it's accessible on port 8000 of the container.
 
+.. seealso:: :ref:`invoke-manage`
+
 Select your machine - local or cloud providers
 ++++++++++++++++++++++++++++++++++++++++++++++
 

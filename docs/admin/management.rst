@@ -9,7 +9,54 @@ Management commands
     webserver can cause wrong permissions on some files, please check
     :ref:`file-permissions` for more details.
 
-The ./manage.py is extended with following commands:
+Django comes with management script (available as :file:`./manage.py` in
+sources or installed as :command:`weblate` when Weblate is installed). It
+provides various management commands and Weblate extends it with several
+additional commands.
+
+.. _invoke-manage:
+
+Invoking management commands
+----------------------------
+
+As mentioned before, invocation depends on how you have installed Weblate.
+
+If you are using source code directly (either tarball or Git checkout), the
+management script is :file:`./manage.py` in Weblate sources. Execution can be
+done as:
+
+.. code-block:: sh
+
+    python ./manage.py list_versions
+
+If you've istalled Weblate using PIP installer or by :file:`./setup.py` script,
+the :command:`weblate` is installed to your path and you can use it to control
+Weblate:
+
+.. code-block:: sh
+
+    weblate list_versions
+
+For Docker image, the script is installed same as above, you can execute it
+using :command:`docker exec`:
+
+.. code-block:: sh
+
+    docker exec <container> weblate list_versions
+
+With :program:`docker-compose` this is quite similar, you just have to use
+:command:`docker-compose run`:
+
+.. code-block:: sh
+
+    docker-compose run <container> weblate list_versions
+
+
+.. seealso::
+
+    :ref:`docker`,
+    :ref:`install-pip`
+
 
 add_suggestions <project> <component> <language> <file>
 -------------------------------------------------------
