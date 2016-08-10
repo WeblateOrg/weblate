@@ -107,7 +107,10 @@
 {% if user_can_commit_translation %}
 <tr>
 <td>
-<a href="{{ object.get_commit_url }}" class="btn btn-default{% if not needs_commit %} disabled{% endif %}">{% trans "Commit" %}</a>
+<form method="POST" action="{{ object.get_commit_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default{% if not needs_commit %} disabled{% endif %}" value="{% trans "Commit" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Commit pending changes to the local repository" %}</p>
@@ -118,7 +121,10 @@
 {% if user_can_update_translation %}
 <tr>
 <td>
-<a href="{{ object.get_update_url }}" class="btn btn-default">{% trans "Pull" %}</a>
+<form method="POST" action="{{ object.get_update_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default" value="{% trans "Pull" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Pull changes from the remote repository" %}</p>
@@ -129,7 +135,10 @@
 {% if user_can_push_translation %}
 <tr>
 <td>
-<a href="{{ object.get_push_url }}" class="btn btn-default{% if not object.can_push %} disabled{% endif %}">{% trans "Push" %}</a>
+<form method="POST" action="{{ object.get_push_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default{% if not object.can_push %} disabled{% endif %}" value="{% trans "Push" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Push changes to the remote repository" %}</p>
@@ -140,7 +149,10 @@
 {% if user_can_update_translation %}
 <tr>
 <td>
-<a href="{{ object.get_update_url }}?method=rebase" class="btn btn-default">{% trans "Rebase" %}</a>
+<form method="POST" action="{{ object.get_update_url }}?method=rebase">
+{% csrf_token %}
+<input type="submit" class="btn btn-default" value="{% trans "Rebase" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Rebase local changes onto the remote repository" %}</p>
@@ -151,7 +163,10 @@
 {% if user_can_reset_translation %}
 <tr>
 <td>
-<a href="{{ object.get_reset_url }}" class="btn btn-default confirm-reset">{% trans "Reset" %}</a>
+<form method="POST" action="{{ object.get_reset_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default confirm-reset" value="{% trans "Reset" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Reset all changes in the local repository" %}</p>
@@ -164,7 +179,10 @@
 {% if object.locked %}
 <tr>
 <td>
-<a href="{{ object.get_unlock_url }}" class="btn btn-default">{% trans "Unlock" %}</a>
+<form method="POST" action="{{ object.get_unlock_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default" value="{% trans "Unlock" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Allow changes in the local repository" %}</p>
@@ -173,7 +191,10 @@
 {% else %}
 <tr>
 <td>
-<a href="{{ object.get_lock_url }}" class="btn btn-default">{% trans "Lock" %}</a>
+<form method="POST" action="{{ object.get_lock_url }}">
+{% csrf_token %}
+<input type="submit" class="btn btn-default" value="{% trans "Lock" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Prevent any changes in the local repository" %}</p>
@@ -185,7 +206,10 @@
 {% if translation and user_can_remove_translation %}
 <tr>
 <td>
-<a href="{% url 'remove_translation' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}" class="btn btn-danger">{% trans "Delete" %}</a>
+<form method="POST" action="{% url 'remove_translation' project=translation.subproject.project.slug subproject=translation.subproject.slug lang=translation.language.code %}">
+{% csrf_token %}
+<input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+</form>
 </td>
 <td>
 <p class="helptext">{% trans "Allow changes in the local repository" %}</p>
