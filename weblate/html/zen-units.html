@@ -3,6 +3,7 @@
 {% load static %}
 
 {% for item in unitdata %}
+<tbody class="zen-unit">
 <tr id="row-status-{{ item.unit.checksum }}">
 <td>{{ item.unit.position }}</td>
 <td>
@@ -55,10 +56,13 @@
 </form>
 </td>
 </tr>
+</tbody>
 {% endfor %}
 
 {% if last_section %}
+<tbody>
 <tr><td colspan="3" id="last-section">
 {% show_message 'info' _('You have reached end of translating.') %}
 </td></tr>
+</tbody>
 {% endif %}

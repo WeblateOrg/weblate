@@ -826,7 +826,7 @@ $(function () {
                     function (data) {
                         $loadingNext.hide();
 
-                        $('.zen tbody').append(data);
+                        $('.zen tfoot').before(data);
 
                         initEditor();
                     }
@@ -836,6 +836,33 @@ $(function () {
 
         $document.on('change', '.translation-editor', zenEditor);
         $document.on('change', '.fuzzy_checkbox', zenEditor);
+
+        Mousetrap.bindGlobal('alt+end', function(e) {
+            $('.zen-unit:last').find('.translation-editor:first').focus();
+            return false;
+        });
+        Mousetrap.bindGlobal('alt+home', function(e) {
+            $('.zen-unit:first').find('.translation-editor:first').focus();
+            return false;
+        });
+        Mousetrap.bindGlobal('alt+pagedown', function(e) {
+            var focus = $(':focus');
+            if (focus.length === 0) {
+                $('.zen-unit:first').find('.translation-editor:first').focus();
+            } else {
+                focus.parents('.zen-unit').next().find('.translation-editor:first').focus();
+            }
+            return false;
+        });
+        Mousetrap.bindGlobal('alt+pageup', function(e) {
+            var focus = $(':focus');
+            if (focus.length === 0) {
+                $('.zen-unit:last').find('.translation-editor:first').focus();
+            } else {
+                focus.parents('.zen-unit').prev().find('.translation-editor:first').focus();
+            }
+            return false;
+        });
 
         $window.on('beforeunload', function(){
             if ($('.translation-modified').length > 0) {

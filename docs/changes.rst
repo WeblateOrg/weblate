@@ -15,6 +15,7 @@ Released on ? 2016.
 * Separated XML validity check from XML mismatched tags.
 * Fixed API to honor HIDE_REPO_CREDENTIALS settings.
 * Show source change in zen mode.
+* Alt+PageUp/PageDown/Home/End now works in zen mode as well.
 
 weblate 2.7
 -----------

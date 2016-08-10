@@ -24,6 +24,7 @@
 {% endif %}
 
 <table class="zen table table-condensed">
+{% include 'zen-units.html' %}
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
 <i id="loading-next" class="fa fa-spinner fa-spin" style="display: none"></i>
@@ -31,9 +32,6 @@
 <a href="{% url 'js-lock' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" class="hidden" id="js-lock"></a>
 </td></tr>
 </tfoot>
-<tbody>
-{% include 'zen-units.html' %}
-</tbody>
 </table>
 
 {% endblock %}
