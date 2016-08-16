@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import copy
 import uuid
 import time
 
@@ -99,7 +100,10 @@ def search(translation, request):
             messages.error(request, _('Invalid search string!'))
             return redirect(translation)
 
-        return request.session[search_id]
+        search_result = copy.copy(request.session[search_id])
+        search_result['form'] = SearchForm(search_result['params'])
+
+        return search_result
 
     # Possible new search
     search_form = SearchForm(request.GET)
@@ -166,6 +170,7 @@ def search(translation, request):
     # Store in cache and return
     search_id = str(uuid.uuid1())
     search_result = {
+        'params': request.GET,
         'query': search_query,
         'name': force_text(name) if name else None,
         'ids': unit_ids,
@@ -176,6 +181,8 @@ def search(translation, request):
 
     request.session['search_%s' % search_id] = search_result
 
+    search_result = copy.copy(search_result)
+    search_result['form'] = search_form
     return search_result
 
 
@@ -590,6 +597,7 @@ def translate(request, project, subproject, lang):
             'antispam': antispam,
             'comment_form': CommentForm(),
             'search_form': SearchForm(request.GET),
+            'search_form': search_result['form'],
             'update_lock': own_lock,
             'secondary': secondary,
             'locked': locked,
@@ -758,6 +766,7 @@ def zen(request, project, subproject, lang):
             'last_section': search_result['last_section'],
             'search_id': search_result['search_id'],
             'offset': search_result['offset'],
+            'search_form': search_result['form'],
         }
     )
 
