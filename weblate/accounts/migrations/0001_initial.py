@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('email', models.EmailField(max_length=75)),
-                ('social', models.ForeignKey(to='default.UserSocialAuth')),
+                ('social', models.ForeignKey(to='{0}.UserSocialAuth'.format(SOCIAL_AUTH))),
             ],
             options={
             },
