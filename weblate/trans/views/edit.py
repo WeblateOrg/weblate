@@ -589,7 +589,7 @@ def translate(request, project, subproject, lang):
             'form': form,
             'antispam': antispam,
             'comment_form': CommentForm(),
-            'search_form': SearchForm(),
+            'search_form': SearchForm(request.GET),
             'update_lock': own_lock,
             'secondary': secondary,
             'locked': locked,
