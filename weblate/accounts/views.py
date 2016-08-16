@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.decorators.cache import cache_page
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from django.conf import settings
@@ -354,7 +353,6 @@ def user_page(request, user):
     )
 
 
-@cache_page(3600 * 24 * 7)
 def user_avatar(request, user, size):
     '''
     User avatar page.
