@@ -172,7 +172,7 @@ def search(translation, request):
     search_result = {
         'params': request.GET,
         'query': search_query,
-        'name': force_text(name) if name else None,
+        'name': force_text(name),
         'ids': unit_ids,
         'search_id': search_id,
         'ttl': int(time.time()) + 86400,

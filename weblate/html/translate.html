@@ -43,11 +43,7 @@
 <li><a id="button-prev" href="{{ prev_unit_url }}" title="{% trans "Previous" %}"><i class="fa fa-backward"></i></a></li>
 <li>
 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-{% if filter_name %}
 {% blocktrans %}{{ filter_name }} ({{ filter_pos }} / {{ filter_count }}){% endblocktrans %}
-{% else %}
-{% blocktrans with unit.position as position %}{{ position }} / {{ total }}{% endblocktrans %}
-{% endif %}
 <span class="caret"></span>
 </a>
   <div class="dropdown-menu">
