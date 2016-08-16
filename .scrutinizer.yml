@@ -11,10 +11,10 @@ filter:
         - '*/migrations/*'
 before_commands:
     - pip3 install -r ci/requirements-scrutinizer.txt
-    - pip install -r ci/requirements-scrutinizer.txt
-    - pip install Django
     - pip3 install Django
 build:
+    environment:
+            python: 3.5.0
     dependencies:
         override:
             - pip install -r ci/requirements-scrutinizer.txt
@@ -26,4 +26,5 @@ build:
                 command: coverage run --source . ./manage.py test --settings=weblate.settings_test
                 coverage:
                     file: .coverage
+                    config: .coveragerc
                     format: py-cc
