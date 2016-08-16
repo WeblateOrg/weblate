@@ -90,7 +90,7 @@ def avatar_for_email(email, size=80):
         )
 
     # Store result in cache
-    cache.set(cache_key, url, 3600 * 24)
+    cache.set(cache_key, url)
 
     return url
 
