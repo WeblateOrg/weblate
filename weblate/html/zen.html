@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
@@ -19,13 +20,26 @@
 
 <a href="{% url 'translate' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}?sid={{ search_id }}" title="{% trans "Edit in single unit mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-edit"></i> {% trans "Exit Zen" %}</a>
 
-{% if filter_name %}
-<ul class="pagination">
-<li><a>
+<div class="btn-group">
+<ul class="pagination unit-navi">
+<li>
+<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 {% blocktrans %}{{ filter_name }} ({{ filter_count }}){% endblocktrans %}
-</a></li>
+<span class="caret"></span>
+</a>
+  <div class="dropdown-menu">
+
+<div class="panel-group">
+<form action="" method="GET">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+</div>
+
+</div>
+</li>
 </ul>
-{% endif %}
+</div>
 
 <table class="zen table table-condensed">
 {% include 'zen-units.html' %}
