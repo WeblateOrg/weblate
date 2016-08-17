@@ -1155,8 +1155,11 @@ class AndroidFormat(FileFormat):
         """
         Does any possible formatting needed for language code.
         """
-        if len(code) == 3:
-            return 'b+{0}'.format(code)
+        # Android doesn't use Hans/Hant, but rahter TW/CN variants
+        if code == 'zh_Hans':
+            return 'zh_rCN'
+        elif code == 'zh_Hant':
+            return 'zh_rTW'
         return code.replace('_', '-r')
 
 
