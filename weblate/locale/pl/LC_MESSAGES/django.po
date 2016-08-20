@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-10 16:28+0000\n"
-"PO-Revision-Date: 2016-08-16 12:01+0000\n"
+"PO-Revision-Date: 2016-08-20 19:18+0000\n"
 "Last-Translator: Stanisław Krukowski <dfk0077@riseup.net>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
@@ -57,7 +57,7 @@ msgstr "Nazwa użytkownika zajęta. Proszę wybrać inną."
 
 #: weblate/accounts/forms.py:232
 msgid "Component list must be selected when used as default."
-msgstr ""
+msgstr "Lista składników musi być wybrana, gdy jest użyta jako domyślna."
 
 #: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
 #: weblate/html/project.html:164
@@ -219,10 +219,12 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"Wybierz języki, które rozumiesz. Ciągi w tych językach pojawią się jako "
+"dodatkowe w ciągu źródłowym."
 
 #: weblate/accounts/models.py:540
 msgid "Hide completed translations on dashboard"
-msgstr "Ukryj zakończone tłumaczenia na stronie głównej"
+msgstr "Ukryj zakończone tłumaczenia na pulpicie tłumacza"
 
 #: weblate/accounts/models.py:544
 #| msgid "Review of translations since %s"
@@ -231,13 +233,13 @@ msgstr "Pokaż dodatkowe tłumaczenia w trybie Zen"
 
 #: weblate/accounts/models.py:548
 msgid "Hide source if there is secondary language"
-msgstr ""
+msgstr "Ukryj źródło, jeśli jest dodatkowy język"
 
 #: weblate/accounts/models.py:558 weblate/html/base.html:98
 #: weblate/html/index.html:31
 #| msgid "Subscriptions"
 msgid "Your subscriptions"
-msgstr "Twoje subskrypcje"
+msgstr "Subskrypcje"
 
 #: weblate/accounts/models.py:559 weblate/html/index.html:30
 #| msgid "Source language"
@@ -256,7 +258,7 @@ msgstr "Tłumaczenia sugerowane"
 
 #: weblate/accounts/models.py:577
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Domyślny widok pulpitu tłumacza"
 
 #: weblate/accounts/models.py:583
 #| msgid "All components"
@@ -272,6 +274,8 @@ msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
 msgstr ""
+"Możesz otrzymywać powiadomienia o subskrybowanych projektach. Domyślnie będą "
+"one widoczne na pulpicie tłumacza."
 
 #: weblate/accounts/models.py:599
 msgid "Notification on any translation"
@@ -303,15 +307,17 @@ msgstr "Powiadomienie o żądaniu nowego języka"
 
 #: weblate/accounts/models.py:813
 msgid "Email regular expression"
-msgstr ""
+msgstr "Wyrażenie regularne e-mail"
 
 #: weblate/accounts/models.py:817
 msgid "Regular expression which is used to match user email."
 msgstr ""
+"Wyrażenie regularne, które jest używane do dopasowania adresu e-mail "
+"użytkownika."
 
 #: weblate/accounts/models.py:822
 msgid "Group to assign"
-msgstr ""
+msgstr "Grupa do przypisania"
 
 #: weblate/accounts/models.py:826
 #| msgid "Automatic translation"
@@ -328,6 +334,7 @@ msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
+"Nie możesz przesłać tłumaczeń, ponieważ nie masz przypisanego adresu e-mail."
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -398,7 +405,7 @@ msgstr "Zmień hasło"
 
 #: weblate/accounts/views.py:548
 msgid "Can not reset password, email authentication is disabled!"
-msgstr ""
+msgstr "Nie można zresetować hasła, wyłączone jest uwierzytelnienie e-mail!"
 
 #: weblate/accounts/views.py:573 weblate/html/accounts/reset.html:7
 #: weblate/html/accounts/reset.html:21
@@ -419,7 +426,7 @@ msgstr "Aktywny"
 
 #: weblate/billing/models.py:70
 msgid "Trial"
-msgstr ""
+msgstr "Próba"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
@@ -796,6 +803,8 @@ msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
+"Wybierz języki, które chcesz tłumaczyć. Będą one oferowane na pulpicie "
+"tłumacza, abyś miał łatwiejszy dostęp do wybranych tłumaczeń."
 
 #: weblate/html/accounts/profile.html:56
 msgid ""
@@ -846,6 +855,8 @@ msgid ""
 "Subscribed projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
+"Subskrybowane projekty pojawiają się też na pulpicie tłumacza, więc wybierz "
+"wszystkie projekty, które chcesz tłumaczyć."
 
 #: weblate/html/accounts/profile.html:138
 msgid "Subscription settings"
@@ -1278,7 +1289,7 @@ msgstr "Przełącz nawigację"
 
 #: weblate/html/base.html:95 weblate/html/base.html:136
 msgid "Dashboard"
-msgstr "Kokpit"
+msgstr "Pulpit tłumacza"
 
 #: weblate/html/base.html:120
 msgid "Administration"
@@ -2582,10 +2593,9 @@ msgid "Manage your languages"
 msgstr "Zarządzaj swoimi tłumaczeniami"
 
 #: weblate/html/index.html:74
-#, fuzzy
 #| msgid "Manage your translations"
 msgid "Manage your subscriptions"
-msgstr "Zarządzaj swoimi tłumaczeniami"
+msgstr "Zarządzaj swoimi subskrypcjami"
 
 #: weblate/html/index.html:84
 msgid ""
