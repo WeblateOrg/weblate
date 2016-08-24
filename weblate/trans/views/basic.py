@@ -516,6 +516,7 @@ def stats(request):
     context['total_suggestions'] = totals['suggested__sum']
     context['total_users'] = totals['id__count']
     context['total_strings'] = sum(total_strings)
+    context['total_units'] = Unit.objects.count()
     context['total_words'] = sum(total_words)
     context['total_languages'] = Language.objects.filter(
         translation__total__gt=0
