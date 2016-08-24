@@ -707,6 +707,13 @@ Translations
 
     Download current translation file.
 
+    .. note:
+
+        This API endpoint uses different logic for output than rest of API as
+        it operates on whole file rather than on data. Set of accepted `format`
+        parameters differ and without such parameter you get translation file
+        as stored in VCS.
+
     :query format: File format to use, if not specified no format conversion happens, supported file formats: ``po``, ``mo``, ``xliff``, ``xliff12``, ``tbx``
 
     :param project: Project URL slug
