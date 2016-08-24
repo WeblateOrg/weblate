@@ -147,6 +147,17 @@ Component is real component for translating. You enter VCS repository location
 and file mask which files to translate and Weblate automatically fetches the VCS
 and finds all matching translatable files.
 
+.. note::
+
+    It is recommended to have translation components of reasonable size - split
+    the translation by anything what makes sense in your case (individual
+    applications or addons, book chapters or websites).
+
+    Weblate handles just fine translations with 10000 of units, but it is harder
+    to split work and coordinate amongh translators with such big translation.
+    Also when one translator is working on a component, this translation is locked
+    for others, see :ref:`locking`.
+
 Should the language definition for translation be missing, empty definition is
 created and named as "cs_CZ (generated)". You should adjust the definition and
 report this back to Weblate authors so that missing language can be included in
