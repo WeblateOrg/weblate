@@ -705,14 +705,14 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
-    Download current translation file as stored in VCS (without `format`
+    Download current translation file as stored in VCS (without ``format``
     parameter) or converted to one of standard formats (currently supported are
     Gettext PO, MO, Xliff or TBX).
 
-    .. note:
+    .. note::
 
         This API endpoint uses different logic for output than rest of API as
-        it operates on whole file rather than on data. Set of accepted `format`
+        it operates on whole file rather than on data. Set of accepted ``format``
         parameters differ and without such parameter you get translation file
         as stored in VCS.
 
