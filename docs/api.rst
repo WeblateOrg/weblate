@@ -705,7 +705,9 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
-    Download current translation file.
+    Download current translation file as stored in VCS (without `format`
+    parameter) or converted to one of standard formats (currently supported are
+    Gettext PO, MO, Xliff or TBX).
 
     .. note:
 
