@@ -5,6 +5,10 @@ Weblate
     :alt: Build status
     :target: https://travis-ci.org/nijel/weblate
 
+.. image:: https://ci.appveyor.com/api/projects/status/92elnra2etjgfpc8/branch/master?svg=true
+    :target: https://ci.appveyor.com/project/nijel/weblate/branch/master
+    :target: Build status
+
 .. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
