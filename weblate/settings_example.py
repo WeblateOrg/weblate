@@ -19,6 +19,7 @@
 #
 
 from __future__ import unicode_literals
+import platform
 import os
 from logging.handlers import SysLogHandler
 import django
@@ -318,11 +319,13 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = \
 #   after configuring it below
 
 # Detect if we can connect to syslog
-try:
-    SysLogHandler(address='/dev/log', facility=SysLogHandler.LOG_LOCAL2)
-    HAVE_SYSLOG = True
-except IOError:
-    HAVE_SYSLOG = False
+HAVE_SYSLOG = False
+if platform.system() != 'Windows':
+    try:
+        SysLogHandler(address='/dev/log', facility=SysLogHandler.LOG_LOCAL2)
+        HAVE_SYSLOG = True
+    except IOError:
+        HAVE_SYSLOG = False
 
 if DEBUG or not HAVE_SYSLOG:
     DEFAULT_LOG = 'console'
