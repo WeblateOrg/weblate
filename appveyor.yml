@@ -30,7 +30,7 @@ build: off
 test_script:
   - "python.exe manage.py collectstatic --settings weblate.settings_test --noinput"
   - "python.exe manage.py check --settings weblate.settings_test"
-  - "coverage manage.py test --settings weblate.settings_test -v2"
+  - "coverage python manage.py test --settings weblate.settings_test -v2"
 
 after_test:
   - "codecov"
