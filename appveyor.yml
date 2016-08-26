@@ -28,11 +28,11 @@ build: off
 
 test_script:
   - "%PYTHON%\\python.exe manage.py collectstatic --noinput"
-  - "%PYTHON%\\python.exe manage.py check"
+  - "%PYTHON%\\Scripts\\coverage manage.py check"
   - "%PYTHON%\\python.exe manage.py test -v2"
 
 after_test:
-  # This step builds your wheels.
+  - "%PYTHON%\\Scripts\\codecov"
   - "%PYTHON%\\python.exe setup.py bdist_wheel"
 
 artifacts:
