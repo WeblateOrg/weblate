@@ -28,9 +28,9 @@ install:
 build: off
 
 test_script:
-  - "python.exe manage.py collectstatic --noinput"
-  - "coverage manage.py check --settings weblate.settings_test"
-  - "python.exe manage.py test -v2"
+  - "python.exe manage.py collectstatic --settings weblate.settings_test --noinput"
+  - "manage.py check --settings weblate.settings_test"
+  - "coverage manage.py test --settings weblate.settings_test -v2"
 
 after_test:
   - "codecov"
