@@ -19,6 +19,8 @@ environment:
 install:
   # We need wheel installed to build wheels
   - "%PYTHON%\\python.exe -m pip install wheel"
+  # lxml 3.6.0 has binaries built for Windows
+  - "%PYTHON%\\python.exe -m pip install lxml=3.6.0"
   - "%PYTHON%\\python.exe -m pip install -r requirements-optional.txt"
   - "%PYTHON%\\python.exe -m pip install -r ci/requirements-travis.txt"
 
