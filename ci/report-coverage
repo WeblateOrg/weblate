@@ -2,9 +2,12 @@
 
 set -x
 
+# Process
+coverage combine
+coverage xml
+
 # CodeCov
 codecov
 
 # Codacy
-coverage xml
 python-codacy-coverage -r coverage.xml

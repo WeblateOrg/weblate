@@ -33,6 +33,8 @@ test_script:
   - "coverage run ./manage.py test --settings weblate.settings_test -v2"
 
 after_test:
+  - "coverage combine"
+  - "coverage xml"
   - "codecov"
   - "python.exe setup.py bdist_wheel"
 
