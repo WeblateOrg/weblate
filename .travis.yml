@@ -33,7 +33,7 @@ script:
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
-  - if [ -f ".coverage" ] ; then ./ci/report-coverage ; fi
+  - ./ci/report-coverage
 # use docker based faster build
 sudo: false
 # trigger Buildtime Trend Service to parse Travis CI log
