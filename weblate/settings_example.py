@@ -602,6 +602,7 @@ REST_FRAMEWORK = {
 #    r'/widgets/(.*)$',  # Allowing public access to widgets
 #    r'/data/(.*)$',     # Allowing public access to data exports
 #    r'/hooks/(.*)$',    # Allowing public access to notification hooks
+#    r'/api/(.*)$',      # Allowing access to API
 # )
 
 # Force sane test runner

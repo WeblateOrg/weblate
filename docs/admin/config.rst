@@ -346,6 +346,7 @@ Some of exceptions you might want to include:
         r'/widgets/(.*)$',  # Allowing public access to widgets
         r'/data/(.*)$',     # Allowing public access to data exports
         r'/hooks/(.*)$',    # Allowing public access to notification hooks
+        r'/api/(.*)$',      # Allowing access to API
     )
 
 .. setting:: MACHINE_TRANSLATION_SERVICES
