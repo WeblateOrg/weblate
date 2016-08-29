@@ -20,6 +20,7 @@ Released on ? 2016.
 * Add tooltip showing exact time of changes.
 * Add option to select filters and search from translation page.
 * Added UI for translation removal.
+* Improved behavior when inserting placeables.
 
 weblate 2.7
 -----------

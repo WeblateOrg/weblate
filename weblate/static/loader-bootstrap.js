@@ -1,6 +1,7 @@
 var loading = 0;
 var machineTranslationLoaded = false;
 var activityDataLoaded = false;
+var lastEditor = null;
 
 if (window.location.hash && window.location.hash.indexOf("=") > -1) {
     window.location.hash = '';
@@ -399,6 +400,32 @@ function zenEditor(e) {
     );
 }
 
+
+function insertEditor(text, element)
+{
+    var root;
+
+    /* Find withing root element */
+    if (typeof element != 'undefined') {
+        root = element.parents('.zen-unit');
+        if (root.length === 0) {
+            root = element.parents('.translation-form');
+        }
+    } else {
+        root = $(document);
+    }
+
+    var editor = root.find('.translation-editor:focus');
+    if (editor.length === 0) {
+        editor = root.find(lastEditor);
+        if (editor.length === 0) {
+            editor = root.find('.translation-editor:first');
+        }
+    }
+
+    editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
+}
+
 /* Thin wrappers for django to avoid problems when i18n js can not be loaded */
 function gettext(msgid) {
     if (typeof django !== 'undefined') {
@@ -592,6 +619,7 @@ $(function () {
     if (translationEditor.length > 0) {
         $document.on('change', '.translation-editor', testChangeHandler);
         $document.on('keypress', '.translation-editor', testChangeHandler);
+        $document.on('focusin', '.translation-editor', function () { lastEditor = $(this); });
         initEditor();
         translationEditor.get(0).focus();
         if ($('#button-first').length > 0) {
@@ -666,11 +694,7 @@ $(function () {
     /* Copy from dictionary */
     $('.copydict').click(function (e) {
         var text = $(this).parents('tr').find('.target').text();
-        var editor = $('.translation-editor:focus');
-        if (editor.length === 0) {
-            editor = $('.translation-editor:first');
-        }
-        editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
+        insertEditor(text);
         e.preventDefault();
     });
 
@@ -680,11 +704,7 @@ $(function () {
         var text = $(this).clone();
         text.find(".highlight-number").remove();
         text=text.text();
-        var editor = $('.translation-editor:focus');
-        if (editor.length === 0) {
-            editor = $('.translation-editor:first');
-        }
-        editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
+        insertEditor(text, $(this));
         e.preventDefault();
     });
     /* and shortcuts */
