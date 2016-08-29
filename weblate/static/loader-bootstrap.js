@@ -794,7 +794,7 @@ $(function () {
     if ($('#js-lock').length > 0) {
         var jsLockUpdate = window.setInterval(function () {
             /* No locking for idle users */
-            if (idleTime >= 5) {
+            if (idleTime >= 120) {
                 return;
             }
             $.ajax({
@@ -817,7 +817,7 @@ $(function () {
             function () {
                 idleTime = idleTime + 1;
             },
-            60000 // 1 minute
+            10000 // 10 seconds
         );
 
         // Zero the idle timer on mouse movement.
