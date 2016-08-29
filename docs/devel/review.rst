@@ -29,6 +29,22 @@ sentence, but there are more such cases.
 Reviewing all failing checks on your translation can bring you valuable
 feedback for improving source strings as well.
 
+You can find the :guilabel:`Source strings review` in the :guilabel:`Tools`
+menu of a translation component. You will get similar view when opening
+translation, with slightly different checks being displayed:
+
+.. image:: ../images/source-review.png
+
+One of the most interesting check here is the :ref:`check-multiple-failures` -
+it fires whenever there is failure on multiple translations of given string.
+Usually this is something to look for as this is string where translators have
+problems doing the translation properly. It might be just wrong punctation at
+the end of sentence or something more problematic.
+
+The detailed listing then shows you overview per language:
+
+.. image:: ../images/source-review-detail.png
+
 String comments
 ---------------
 
