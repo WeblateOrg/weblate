@@ -482,7 +482,6 @@ def translate(request, project, subproject, lang):
     # Check locks
     user_locked = translation.is_user_locked(request.user)
     project_locked = translation.subproject.locked
-    own_lock = translation.lock_user == request.user
     locked = project_locked or user_locked
 
     # Search results
@@ -598,7 +597,7 @@ def translate(request, project, subproject, lang):
             'comment_form': CommentForm(),
             'search_form': SearchForm(request.GET),
             'search_form': search_result['form'],
-            'update_lock': own_lock,
+            'update_lock': translation.lock_user == request.user,
             'secondary': secondary,
             'locked': locked,
             'user_locked': user_locked,
