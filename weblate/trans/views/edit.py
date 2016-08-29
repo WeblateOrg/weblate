@@ -766,6 +766,7 @@ def zen(request, project, subproject, lang):
             'search_id': search_result['search_id'],
             'offset': search_result['offset'],
             'search_form': search_result['form'],
+            'update_lock': translation.lock_user == request.user,
         }
     )
 

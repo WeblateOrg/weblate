@@ -2,6 +2,9 @@ var loading = 0;
 var machineTranslationLoaded = false;
 var activityDataLoaded = false;
 var lastEditor = null;
+var jsLockUpdate = null;
+var idleTime = 0;
+
 
 if (window.location.hash && window.location.hash.indexOf("=") > -1) {
     window.location.hash = '';
@@ -396,6 +399,9 @@ function zenEditor(e) {
                 });
             };
             $row.removeClass('translation-modified').addClass('translation-saved');
+
+            // Start locking
+            jsLockUpdate = window.setInterval(updateLock, 19000);
         }
     );
 }
@@ -424,6 +430,25 @@ function insertEditor(text, element)
     }
 
     editor.insertAtCaret($.trim(text)).trigger('autosize.resize');;
+}
+
+function updateLock() {
+    /* No locking for idle users */
+    if (idleTime >= 120) {
+        return;
+    }
+    $.ajax({
+        url: $('#js-lock').attr('href'),
+        success: function(data) {
+            if (! data.status) {
+                $('.lock-error').remove();
+                var message = $('<div class="alert lock-error alert-danger"></div>');
+                message.text(data.message);
+                $('.content').prepend(message);
+            }
+        },
+        dataType: 'json'
+    });
 }
 
 /* Thin wrappers for django to avoid problems when i18n js can not be loaded */
@@ -792,26 +817,9 @@ $(function () {
 
     /* Lock updates */
     if ($('#js-lock').length > 0) {
-        var jsLockUpdate = window.setInterval(function () {
-            /* No locking for idle users */
-            if (idleTime >= 120) {
-                return;
-            }
-            $.ajax({
-                url: $('#js-lock').attr('href'),
-                success: function(data) {
-                    if (! data.status) {
-                        $('.lock-error').remove();
-                        var message = $('<div class="alert lock-error alert-danger"></div>');
-                        message.text(data.message);
-                        $('.content').prepend(message);
-                    }
-                },
-                dataType: 'json'
-            });
-        }, 19000);
-
-        var idleTime = 0;
+        if ($('#js-lock').data('autostart') == '1') {
+            jsLockUpdate = window.setInterval(updateLock, 19000);
+        }
 
         var idleInterval = setInterval(
             function () {
@@ -832,7 +840,9 @@ $(function () {
         });
 
         window.setInterval(function () {
-            window.clearInterval(jsLockUpdate);
+            if (jsLockUpdate != null) {
+                window.clearInterval(jsLockUpdate);
+            }
         }, 3600000);
     };
 

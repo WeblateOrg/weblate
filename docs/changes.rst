@@ -21,6 +21,7 @@ Released on ? 2016.
 * Add option to select filters and search from translation page.
 * Added UI for translation removal.
 * Improved behavior when inserting placeables.
+* Fixed auto locking issues in zen mode.
 
 weblate 2.7
 -----------
