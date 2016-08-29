@@ -186,7 +186,8 @@ class PathMixin(LoggerMixin):
         Detects slug changes and possibly renames underlaying directory.
         """
         # No moving for links
-        if getattr(self, 'is_repo_link', False):
+        if (getattr(self, 'is_repo_link', False) or
+                getattr(old, 'is_repo_link', False)):
             return
 
         old_path = old.get_path()
