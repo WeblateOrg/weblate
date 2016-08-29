@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-24 13:41+0000\n"
-"PO-Revision-Date: 2016-08-29 09:03+0000\n"
-"Last-Translator: Stanisław Krukowski <dfk0077@riseup.net>\n"
+"PO-Revision-Date: 2016-08-29 20:14+0000\n"
+"Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
@@ -25,7 +25,7 @@ msgid ""
 "Failed to verify your registration! Probably the verification token has "
 "expired. Please try the registration again."
 msgstr ""
-"Twoja rejestracja nie powiodła się! Prawdopodobnie wygasł token. Proszę "
+"Nie udało się zweryfikować rejestracji! Prawdopodobnie wygasł token. Proszę "
 "spróbować zarejestrować się ponownie."
 
 #: weblate/accounts/avatar.py:177
@@ -53,7 +53,7 @@ msgstr "Nazwa użytkownika"
 
 #: weblate/accounts/forms.py:95 weblate/accounts/pipeline.py:137
 msgid "This username is already taken. Please choose another."
-msgstr "Nazwa użytkownika zajęta. Proszę wybrać inną."
+msgstr "Ta nazwa użytkownika jest zajęta. Proszę wybrać inną."
 
 #: weblate/accounts/forms.py:232
 msgid "Component list must be selected when used as default."
@@ -71,7 +71,7 @@ msgstr "Możesz dodać inne adresy email w zakładce Autentykacja."
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:333
 #: weblate/html/project.html:163
 msgid "Full name"
-msgstr "Twoje imię i nazwisko"
+msgstr "Imię i nazwisko"
 
 #: weblate/accounts/forms.py:279
 msgid "Subject"
@@ -442,7 +442,7 @@ msgstr "Repozytoria VCS"
 
 #: weblate/billing/models.py:134 weblate/trans/admin.py:51
 msgid "Source strings"
-msgstr "Źródłowe ciągi znaków"
+msgstr "Ciągi źródłowe"
 
 #: weblate/billing/models.py:145 weblate/trans/admin.py:55
 msgid "Source words"
@@ -466,7 +466,7 @@ msgstr "Nie masz uprawnień do wyświetlenia tej strony."
 
 #: weblate/html/403.html:14
 msgid "Login to Weblate"
-msgstr "Zaloguj się do Weblate"
+msgstr "Zaloguj do Weblate"
 
 #: weblate/html/403.html:20 weblate/html/404.html:15
 msgid ""
@@ -2775,7 +2775,7 @@ msgstr ""
 #: weblate/html/language.html:15 weblate/html/project.html:24
 #: weblate/html/subproject.html:29 weblate/html/translation.html:27
 msgid "Overview"
-msgstr "Przegląd"
+msgstr "Podsumowanie"
 
 #: weblate/html/language.html:18 weblate/html/project.html:113
 msgid "Glossaries"
@@ -2861,11 +2861,10 @@ msgstr "Słowa"
 
 #: weblate/html/list-translations.html:12
 #: weblate/html/list-translations.html:23
-#, fuzzy
 #| msgid "Review"
 msgctxt "Number of strings needing review"
 msgid "Review"
-msgstr "Przegląd"
+msgstr "Sprawdzone"
 
 #: weblate/html/list-translations.html:13
 #: weblate/html/list-translations.html:24
@@ -2900,14 +2899,14 @@ msgstr[1] "%(words)s słowa do tłumaczenia!"
 msgstr[2] "%(words)s słów do tłumaczenia!"
 
 #: weblate/html/list-translations.html:45
-#, fuzzy, python-format
+#, python-format
 #| msgid "There is %(count)s fuzzy string."
 #| msgid_plural "There are %(count)s fuzzy strings."
 msgid "There is %(count)s string needing review."
 msgid_plural "There are %(count)s strings needing review."
-msgstr[0] "Jest %(count)s niepewnych tłumaczeń ciągu."
-msgstr[1] "Są %(count)s niepewne tłumaczenia ciągów."
-msgstr[2] "Jest %(count)s niepewnych tłumaczeń ciągów."
+msgstr[0] "%(count)s ciąg wymaga sprawdzenia."
+msgstr[1] "%(count)s ciągi wymagają sprawdzenia."
+msgstr[2] "%(count)s ciągów wymaga sprawdzenia."
 
 #: weblate/html/list-translations.html:54
 #, python-format
@@ -3042,23 +3041,21 @@ msgstr "Podsumowanie tłumaczenia:"
 
 #: weblate/html/mail/footer.html:7 weblate/html/mail/footer.txt:3
 msgid "Total strings:"
-msgstr "Wszystkie napisy:"
+msgstr "Wszystkie ciągi:"
 
 #: weblate/html/mail/footer.html:10 weblate/html/mail/footer.txt:4
 msgid "Translated strings:"
-msgstr "Napisy przetłumaczone:"
+msgstr "Ciągi przetłumaczone:"
 
 #: weblate/html/mail/footer.html:13 weblate/html/mail/footer.txt:5
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Untranslated strings:"
-msgstr "Napisy nieprzetłumaczone"
+msgstr "Ciągi nieprzetłumaczone:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt:6
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings marked for review:"
-msgstr "Recenzja ciągów źródłowych"
+msgstr "Ciągi oznaczone do sprawdzenia:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3852,7 +3849,7 @@ msgstr "Skopiuj słowo do tłumaczenia"
 
 #: weblate/html/translate.html:368 weblate/trans/forms.py:145
 msgid "Copy"
-msgstr "Kopiuj"
+msgstr "Skopiuj"
 
 #: weblate/html/translate.html:375
 msgid "No related strings were found in the glossary."
@@ -3885,38 +3882,34 @@ msgid "Download for an offline translation."
 msgstr "Pobierz do tłumaczenia offline."
 
 #: weblate/html/translation-download.html:6
-#, fuzzy, python-format
+#, python-format
 #| msgid "Download compiled translation"
 msgid "Download original translation file (%(format)s)"
-msgstr "Pobierz skompilowane tłumaczenie"
+msgstr "Pobierz pierwotny plik tłumaczenia (%(format)s)"
 
 #: weblate/html/translation-download.html:7
-#, fuzzy
 #| msgid "Good translations"
 msgid "Download translation as XLIFF"
-msgstr "Dobre tłumaczenia"
+msgstr "Pobierz w formacie XLIFF"
 
 #: weblate/html/translation-download.html:8
-#, fuzzy
 #| msgid "Good translations"
 msgid "Download translation as XLIFF 1.2"
-msgstr "Dobre tłumaczenia"
+msgstr "Pobierz w formacie XLIFF 1.2"
 
 #: weblate/html/translation-download.html:9
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Download translation as Gettext PO"
-msgstr "Pobierz skompilowane tłumaczenie"
+msgstr "Pobierz w formacie Gettext PO"
 
 #: weblate/html/translation-download.html:10
-#, fuzzy
 #| msgid "Download compiled translation"
 msgid "Download translation as Gettext MO"
-msgstr "Pobierz skompilowane tłumaczenie"
+msgstr "Pobierz w formacie Gettext MO"
 
 #: weblate/html/translation-download.html:12
 msgid "Download for using within an application."
-msgstr ""
+msgstr "Pobiera plik tłumaczenia do użycia w programie"
 
 #: weblate/html/translation-download.html:12
 msgid "Download compiled translation"
@@ -3950,14 +3943,14 @@ msgid "Strings"
 msgstr "Ciągi"
 
 #: weblate/html/translation.html:114
-#, fuzzy, python-format
+#, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s głos"
-msgstr[1] "%(count)s głosy"
-msgstr[2] "%(count)s głosów"
+msgstr[0] "%(count)s słowo"
+msgstr[1] "%(count)s słowa"
+msgstr[2] "%(count)s słów"
 
 #: weblate/html/translation.html:133 weblate/html/unit-details.html:26
 msgid "Translation file"
@@ -4747,11 +4740,10 @@ msgstr ""
 "Komunikat, który chciałbyś/chciałabyś przetłumaczyć, nie jest już dostępny!"
 
 #: weblate/trans/forms.py:338
-#, fuzzy
 #| msgid "review"
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "przegląd"
+msgstr "Wymaga sprawdzenia"
 
 #: weblate/trans/forms.py:379 weblate/trans/forms.py:724
 msgid "File"
@@ -4776,20 +4768,18 @@ msgid "Add as translation needing review"
 msgstr "Dodaj jako tłumaczenie"
 
 #: weblate/trans/forms.py:390
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Processing of strings needing review"
-msgstr "Recenzja ciągów źródłowych"
+msgstr "Przetwarzanie ciągów wymagających sprawdzenia"
 
 #: weblate/trans/forms.py:392
 msgid "Do not import"
 msgstr ""
 
 #: weblate/trans/forms.py:393
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Import as string needing review"
-msgstr "Recenzja ciągów źródłowych"
+msgstr "Zaimportuj jako ciąg wymagający sprawdzenia"
 
 #: weblate/trans/forms.py:394
 msgid "Import as translated"
@@ -4848,16 +4838,14 @@ msgid "All strings"
 msgstr "Wszystkie napisy"
 
 #: weblate/trans/forms.py:461 weblate/trans/models/translation.py:958
-#, fuzzy
 #| msgid "Untranslated strings"
 msgid "Not translated strings"
-msgstr "Napisy nieprzetłumaczone"
+msgstr "Ciągi nieprzetłumaczone"
 
 #: weblate/trans/forms.py:462 weblate/trans/models/translation.py:949
-#, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings needing action"
-msgstr "Napisy z sugestiami"
+msgstr "Ciągi wymagające podjęcia czynności"
 
 #: weblate/trans/forms.py:463 weblate/trans/models/translation.py:940
 msgid "Translated strings"
@@ -4905,23 +4893,23 @@ msgstr "Fragment"
 
 #: weblate/trans/forms.py:501
 msgid "Search in source strings"
-msgstr "Szukaj w źródłowych ciągach znaków"
+msgstr "Wyszukanie w ciągach źródłowych"
 
 #: weblate/trans/forms.py:506
 msgid "Search in target strings"
-msgstr "Szukaj w docelowych ciagach znaków"
+msgstr "Wyszukanie w ciągach tłumaczeń"
 
 #: weblate/trans/forms.py:511
 msgid "Search in context strings"
-msgstr "Szukaj w kontekstowych ciągach znaków"
+msgstr "Wyszukanie w kontekstowych ciągach"
 
 #: weblate/trans/forms.py:516
 msgid "Search in location strings"
-msgstr "Szukaj w ciągach lokalizacji"
+msgstr "Wyszukanie w ciągach położenia"
 
 #: weblate/trans/forms.py:521
 msgid "Search in comment strings"
-msgstr "Szukaj w ciągach komentarzy"
+msgstr "Wyszukanie w ciągach komentarzy"
 
 #: weblate/trans/forms.py:528
 msgid "Show ignored checks as well"
@@ -4929,7 +4917,7 @@ msgstr "Pokaż również zignorowane testy"
 
 #: weblate/trans/forms.py:548
 msgid "The query string has to be longer!"
-msgstr ""
+msgstr "Poszukiwany ciąg musi być dłuższy!"
 
 #: weblate/trans/forms.py:594
 #, python-format
@@ -4944,7 +4932,7 @@ msgstr "Szukaj dokładnie napisu \"%s\""
 #: weblate/trans/forms.py:598
 #, python-format
 msgid "Substring search for \"%s\""
-msgstr "Wyszukiwanie fragmentu ciągu dla \"%s\""
+msgstr "Wyszukiwanie fragmentu ciągu „%s”"
 
 #: weblate/trans/forms.py:609
 #, python-brace-format
@@ -4958,7 +4946,7 @@ msgstr "Wszystkie języki"
 
 #: weblate/trans/forms.py:660
 msgid "Overwrite strings"
-msgstr "Nadpisz ciągi znaków"
+msgstr "Zastąp ciągi"
 
 #: weblate/trans/forms.py:665
 msgid "Replace inconsistent"
@@ -4988,7 +4976,7 @@ msgstr "Aktualne informacje"
 
 #: weblate/trans/forms.py:734
 msgid "Overwrite existing"
-msgstr "Nadpisz istniejące"
+msgstr "Zastąp istniejące"
 
 #: weblate/trans/forms.py:735
 msgid "Add as other translation"
@@ -6098,15 +6086,15 @@ msgstr ""
 
 #: weblate/trans/specialchars.py:32
 msgid "Insert tab character"
-msgstr "Wstaw znak tabulacji"
+msgstr "Wstawia znak tabulacji"
 
 #: weblate/trans/specialchars.py:33
 msgid "Insert new line"
-msgstr "Włóż nową linię"
+msgstr "Wstawia nowy wiersz"
 
 #: weblate/trans/specialchars.py:34
 msgid "Insert horizontal ellipsis"
-msgstr "Wstaw poziomy wielokropek"
+msgstr "Wstawia poziomy wielokropek"
 
 #: weblate/trans/specialchars.py:35
 msgid "Danda"
@@ -6123,33 +6111,32 @@ msgstr "Wstaw znak {0}"
 
 #: weblate/trans/specialchars.py:455
 msgid "Opening double quote"
-msgstr ""
+msgstr "Wstawia podwójny cudzysłów otwierający"
 
 #: weblate/trans/specialchars.py:456
 msgid "Closing double quote"
-msgstr ""
+msgstr "Wstawia podwójny cudzysłów zamykający"
 
 #: weblate/trans/specialchars.py:457
 msgid "Opening single quote"
-msgstr ""
+msgstr "Wstawia pojedynczy otwierający cudzysłów"
 
 #: weblate/trans/specialchars.py:458
-#, fuzzy
 #| msgid "Hosting site"
 msgid "Closing single quote"
-msgstr "Nazwa strony"
+msgstr "Wstawia pojedynczy zamykający cudzysłów"
 
 #: weblate/trans/specialchars.py:461
 msgid "Hyphen"
-msgstr "Łącznik"
+msgstr "Wstawia łącznik"
 
 #: weblate/trans/specialchars.py:464
 msgid "En dash"
-msgstr "Półpauza"
+msgstr "Wstawia półpauzę"
 
 #: weblate/trans/specialchars.py:467
 msgid "Em dash"
-msgstr "Myślnik"
+msgstr "Wstawia myślnik"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
