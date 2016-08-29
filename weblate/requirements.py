@@ -103,7 +103,7 @@ def get_optional_versions():
     if HgRepository.is_supported():
         result.append((
             'Mercurial',
-            'http://mercurial.selenic.com/',
+            'https://www.mercurial-scm.org/',
             HgRepository.get_version(),
             '2.8',
         ))
@@ -204,7 +204,7 @@ def get_versions():
     try:
         result.append((
             'Git',
-            'http://git-scm.com/',
+            'https://git-scm.com/',
             GitRepository.get_version(),
             '1.6',
         ))
@@ -213,7 +213,7 @@ def get_versions():
 
     result.append(get_single(
         'Pillow (PIL)',
-        'http://python-imaging.github.io/',
+        'http://python-pillow.org/',
         'PIL.Image',
         '1.1.6',
         'VERSION',
@@ -235,7 +235,7 @@ def get_versions():
 
     result.append(get_single(
         'django-crispy-forms',
-        'http://django-crispy-forms.readthedocs.org/',
+        'http://django-crispy-forms.readthedocs.io/',
         'crispy_forms',
         '1.4.0',
     ))

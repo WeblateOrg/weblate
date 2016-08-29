@@ -82,8 +82,8 @@ or by enforcing it in VCS configuration, for example:
 
 .. seealso:: 
    
-    `curl manpage <http://curl.haxx.se/docs/manpage.html>`_,
-    `git config documentation <http://git-scm.com/docs/git-config>`_
+    `curl manpage <https://curl.haxx.se/docs/manpage.html>`_,
+    `git config documentation <https://git-scm.com/docs/git-config>`_
 
 
 .. _vcs-git:
@@ -143,7 +143,7 @@ For ``hello`` repository from selenic.com with Mercurial use::
 
     hg::http://selenic.com/repo/hello
 
-.. _remote helpers: http://git-scm.com/docs/git-remote-helpers
+.. _remote helpers: https://git-scm.com/docs/git-remote-helpers
 .. _git-remote-hg: https://github.com/felipec/git-remote-hg
 .. _git-remote-bzr: https://github.com/felipec/git-remote-bzr
 
@@ -229,6 +229,8 @@ Mercurial is another VCS you can use directly in Weblate.
    
     See :ref:`vcs-repos` for information how to access different kind of
     repositories.
+
+.. _vcs-git-svn:
 
 Subversion
 ----------

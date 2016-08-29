@@ -514,7 +514,7 @@ PIWIK_URL
 ---------
 
 URL of a Piwik installation you want to use to track Weblate users. For more
-information about Piwik see <http://piwik.org/>.
+information about Piwik see <https://piwik.org/>.
 
 .. seealso:: 
    
