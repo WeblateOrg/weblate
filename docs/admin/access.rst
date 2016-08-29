@@ -133,6 +133,13 @@ user management on project page as described in :ref:`manage-acl`.
    
    `Managing users in the Django admin <https://docs.djangoproject.com/en/stable/topics/auth/default/#auth-admin>`_
 
+.. note::
+
+    Even with ACL enabled some summary information will be available about your project:
+
+    * Site wide statistics includes counts for all projects
+    * Site wide languages summary includes counts for all projects
+
 .. _autogroup:
 
 Automatic group assignments
