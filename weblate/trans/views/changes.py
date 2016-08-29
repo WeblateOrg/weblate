@@ -119,9 +119,6 @@ class ChangesView(ListView):
         if len(url) == 0:
             context['changes_rss'] = reverse('rss')
 
-        if 'title' not in context:
-            context['title'] = _('Changes')
-
         context['query_string'] = urlencode(url)
 
         return context

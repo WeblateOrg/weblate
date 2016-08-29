@@ -4,7 +4,12 @@
 {% load permissions %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'changes' %}">{% if title %}{{ title }}{% else %}{% trans "Changes" %}{% endif %}</a></li>
+{% if title %}
+<li><a href="{% url 'changes' %}">{% trans "Changes" %}</a></li>
+<li><a href="{% url 'changes' %}?{{ query_string }}">{{ title }}</a></li>
+{% else %}
+<li><a href="{% url 'changes' %}">{% trans "Changes" %}</a></li>
+{% endif %}
 {% endblock %}
 
 {% block content %}
