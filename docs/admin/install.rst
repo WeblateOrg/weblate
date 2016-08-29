@@ -36,15 +36,15 @@ Translate-toolkit (>= 1.14.0)
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
 Git (>= 1.6)
-    http://git-scm.com/
+    https://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
-    https://mercurial.selenic.com/
+    https://www.mercurial-scm.org/
 python-social-auth (>= 0.2.0)
     http://psa.matiasaguirre.net/
 Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
     https://bitbucket.org/mchaput/whoosh/wiki/Home
 PIL or Pillow library
-    https://python-pillow.github.io/
+    http://python-pillow.org/
 lxml (>= 3.1.0)
     http://lxml.de/
 defusedxml (>= 0.4)
@@ -54,7 +54,7 @@ dateutil
 django_compressor
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>=1.4.0)
-    http://django-crispy-forms.readthedocs.org/
+    http://django-crispy-forms.readthedocs.io/
 Django REST Framework (>=3.3)
     http://www.django-rest-framework.org/
 libravatar (optional for federated avatar support)

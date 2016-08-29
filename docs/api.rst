@@ -878,7 +878,7 @@ update individual repositories, see
 
         :ref:`gitlab-setup`
             For instruction on setting up GitLab integration
-        http://doc.gitlab.com/ce/web_hooks/web_hooks.html
+        http://docs.gitlab.com/ce/web_hooks/web_hooks.html
             Generic information about GitLab Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

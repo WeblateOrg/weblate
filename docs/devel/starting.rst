@@ -219,7 +219,7 @@ And that's it, you're now ready to start translating your software!
 .. seealso::
 
     You can find more complex of using Gettext in the Weblate Hello project on
-    GitHub: <http://github.com/WeblateOrg/hello>.
+    GitHub: <https://github.com/WeblateOrg/hello>.
 
 Translating documentation using Sphinx
 --------------------------------------
@@ -277,8 +277,8 @@ direcly supported, you currently have to list them separately:
 
 .. _Odorik: https://github.com/nijel/odorik/
 .. _GNU Gettext: http://www.gnu.org/software/gettext/
-.. _Sphinx: http://sphinx-doc.org/
+.. _Sphinx: http://www.sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.org/
-.. _Internationalization Quick Guide: http://sphinx-doc.org/latest/intl.html#quick-guide
-.. _Localization of Documentation: https://docs.readthedocs.org/en/latest/localization.html
-.. _intltool: http://freedesktop.org/wiki/Software/intltool/
+.. _Internationalization Quick Guide: http://www.sphinx-doc.org/en/stable/intl.html#quick-guide
+.. _Localization of Documentation: https://docs.readthedocs.io/en/latest/localization.html
+.. _intltool: https://freedesktop.org/wiki/Software/intltool/
