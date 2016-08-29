@@ -230,6 +230,8 @@ Mercurial is another VCS you can use directly in Weblate.
     See :ref:`vcs-repos` for information how to access different kind of
     repositories.
 
+.. _vcs-git-svn:
+
 Subversion
 ----------
 
