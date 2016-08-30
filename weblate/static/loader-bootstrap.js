@@ -1030,4 +1030,11 @@ $(function () {
     $('.dropdown-menu').find('form').click(function (e) {
         e.stopPropagation();
     });
+
+    $('.link-post').click(function () {
+        var $form = $('#link-post');
+        $form.attr('action', $(this).attr('href'));
+        $form.submit();
+        return false;
+    });
 });
