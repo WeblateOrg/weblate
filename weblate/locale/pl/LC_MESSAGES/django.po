@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-30 12:02+0000\n"
-"PO-Revision-Date: 2016-08-29 20:14+0000\n"
+"PO-Revision-Date: 2016-08-30 14:10+0000\n"
 "Last-Translator: Piotr Sokół <psokol@jabster.pl>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1301,7 +1301,7 @@ msgstr "Przełącz nawigację"
 
 #: weblate/html/base.html:95 weblate/html/base.html:136
 msgid "Dashboard"
-msgstr "Pulpit tłumacza"
+msgstr "Kokpit"
 
 #: weblate/html/base.html:120
 msgid "Administration"
@@ -3454,7 +3454,7 @@ msgstr "Brak znalezienia dopasowania ciągów źródłowych!"
 
 #: weblate/html/source.html:19 weblate/html/translation.html:110
 msgid "Strings to check"
-msgstr "Napisy do sprawdzenia"
+msgstr "Ciągi do sprawdzenia"
 
 #: weblate/html/stats.html:15
 msgid "Most active translators"
@@ -3470,13 +3470,12 @@ msgstr "Zasugerowane"
 
 #: weblate/html/stats.html:71
 msgid "Strings to translate"
-msgstr "Napisy do przetłumaczenia"
+msgstr "Ciągi do przetłumaczenia"
 
 #: weblate/html/stats.html:75
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Units to translate"
-msgstr "Napisy do przetłumaczenia"
+msgstr "Jednostki do przetłumaczenia"
 
 #: weblate/html/stats.html:79
 msgid "Words to translate"
@@ -3988,8 +3987,8 @@ msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
 msgstr ""
-"Przesłany plik będzie scalony z aktualnym tłumaczeniem. Jeśli chcesz "
-"nadpisać obecnie przetłumaczone napisy, zaznacz odpowiednią opcję."
+"Przesłany plik zostanie połączony z aktualnym tłumaczeniem. Proszę wybrać "
+"odpowiednią opcję, aby zastąpić już przetłumaczone ciągi."
 
 #: weblate/html/translation.html:203
 msgid "Uploaded file will be merged with current translation."
@@ -4165,7 +4164,7 @@ msgstr "Przegląd"
 
 #: weblate/html/zen-units.html:65 weblate/trans/views/edit.py:508
 msgid "You have reached end of translating."
-msgstr "Został osiągnięty koniec tłumaczenia."
+msgstr "Osiągnięto koniec tłumaczenia."
 
 #: weblate/html/zen.html:14
 msgid "zen"
@@ -4476,7 +4475,7 @@ msgstr "Brakująca liczba mnoga"
 
 #: weblate/trans/checks/consistency.py:31
 msgid "Some plural forms are not translated"
-msgstr "Niektóre napisy w formie liczby mnogiej nie są przetłumaczone"
+msgstr "Niektóre ciągi w formie liczby mnogiej nie są przetłumaczone"
 
 #: weblate/trans/checks/consistency.py:56
 msgid "Inconsistent"
@@ -4568,7 +4567,7 @@ msgstr "Niezmienione tłumaczenie"
 
 #: weblate/trans/checks/same.py:142
 msgid "Source and translated strings are same"
-msgstr "Napisy: źródłowy i tłumaczenie są takie same"
+msgstr "Ciąg źródłowy i tłumaczenia są takie same"
 
 #: weblate/trans/checks/source.py:39
 msgid "Optional plural"
@@ -4825,7 +4824,7 @@ msgstr "Filtr wyszukiwania"
 #: weblate/trans/models/translation.py:931 weblate/trans/views/edit.py:134
 #: weblate/trans/views/edit.py:150
 msgid "All strings"
-msgstr "Wszystkie napisy"
+msgstr "Wszystkie ciągi"
 
 #: weblate/trans/forms.py:461 weblate/trans/models/translation.py:958
 msgid "Not translated strings"
@@ -4837,17 +4836,16 @@ msgstr "Ciągi wymagające podjęcia czynności"
 
 #: weblate/trans/forms.py:463 weblate/trans/models/translation.py:940
 msgid "Translated strings"
-msgstr "Napisy przetłumaczone"
+msgstr "Ciągi przetłumaczone"
 
 #: weblate/trans/forms.py:464 weblate/trans/models/translation.py:967
-#, fuzzy
 #| msgid "Source strings review"
 msgid "Strings marked for review"
-msgstr "Recenzja ciągów źródłowych"
+msgstr "Ciągi oznaczone do sprawdzenia"
 
 #: weblate/trans/forms.py:465 weblate/trans/models/translation.py:976
 msgid "Strings with suggestions"
-msgstr "Napisy z sugestiami"
+msgstr "Ciągi z sugestiami"
 
 #: weblate/trans/forms.py:466 weblate/trans/models/translation.py:917
 #: weblate/trans/models/translation.py:1004
@@ -4857,7 +4855,7 @@ msgstr "Ciągi z komentarzami"
 #: weblate/trans/forms.py:467 weblate/trans/models/translation.py:897
 #: weblate/trans/models/translation.py:984
 msgid "Strings with any failing checks"
-msgstr "Napisy z nieudanymi testami"
+msgstr "Ciągi z nieudanymi testami"
 
 #: weblate/trans/forms.py:486
 msgid "Query"
@@ -5500,9 +5498,8 @@ msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
-"Nazwa pliku szablonu tłumaczeń, który zawiera wszystkie napisy i ich źródła. "
-"Jest to zalecane do tłumaczeń, które przechowują jedynie przetłumaczony "
-"napis."
+"Nazwa pliku szablonu tłumaczeń, który zawiera wszystkie ciągi i ich źródła. "
+"Jest to zalecane do tłumaczeń, które przechowują jedynie przetłumaczony ciąg."
 
 #: weblate/trans/models/subproject.py:211
 msgid "Edit base file"
