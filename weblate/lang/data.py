@@ -489,6 +489,12 @@ EXTRALANGS = (
         'n != 1',
     ),
     (
+        'ig',
+        'Igbo',
+        2,
+        'n != 1',
+    ),
+    (
         'hsb',
         'Upper Sorbian',
         3,
