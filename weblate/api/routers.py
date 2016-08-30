@@ -43,7 +43,7 @@ class WeblateRouter(routers.DefaultRouter):
         if lookup_fields is None:
             lookup_fields = [lookup_field]
 
-        lookup_value = getattr(viewset, 'lookup_value_regex', '[^/.]+')
+        lookup_value = getattr(viewset, 'lookup_value_regex', '[^/]+')
 
         result = []
 
