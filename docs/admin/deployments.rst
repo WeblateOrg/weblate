@@ -59,8 +59,6 @@ this.
     cd weblate-docker
 
 2. Optionally change the database provider in :file:`docker-compose.yml`.
-   Following options were tested, but other versions will most likely work as
-   well: ``mysql:5.6``, ``mariadb:10.0``, ``postgres:9.4``
 
 3. Change the predefined passwords for the database
    in the :file:`weblate/environment`.
@@ -75,19 +73,19 @@ this.
 
 .. code-block:: sh
 
-    docker-compose run weblate migrate
+    docker-compose run --rm weblate migrate
 
 6. Prepare static files:
 
 .. code-block:: sh
 
-    docker-compose run weblate collectstatic
+    docker-compose run --rm weblate collectstatic
 
 7. Create admin user:
 
 .. code-block:: sh
 
-    docker-compose run weblate createadmin
+    docker-compose run --rm weblate createadmin
 
 8. Start Weblate containers:
 
