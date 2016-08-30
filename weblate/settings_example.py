@@ -454,7 +454,7 @@ LOGIN_REDIRECT_URL = '%s/' % URL_PREFIX
 ANONYMOUS_USER_NAME = 'anonymous'
 
 # Sending HTML in mails
-EMAIL_SEND_HTML = False
+EMAIL_SEND_HTML = True
 
 # Subject of emails includes site title
 EMAIL_SUBJECT_PREFIX = '[{0}] '.format(SITE_TITLE)
