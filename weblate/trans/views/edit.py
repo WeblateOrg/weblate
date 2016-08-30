@@ -101,7 +101,10 @@ def search(translation, request):
             return redirect(translation)
 
         search_result = copy.copy(request.session[search_id])
-        search_result['form'] = SearchForm(search_result['params'])
+        if 'params' in search_result:
+            search_result['form'] = SearchForm(search_result['params'])
+        else:
+            search_result['form'] = SearchForm()
 
         return search_result
 
