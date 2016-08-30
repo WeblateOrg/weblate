@@ -156,6 +156,9 @@ var _rollbarConfig = {
 
 {% if not request.is_ajax %}
 </div>
+<form id="link-post" method="POST">
+{% csrf_token %}
+</form>
 {% include 'footer.html' %}
  </body>
 </html>
