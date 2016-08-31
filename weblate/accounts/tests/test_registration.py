@@ -27,10 +27,13 @@ import json
 import httpretty
 from six.moves.urllib.parse import parse_qs, urlparse
 
-from django.test import TestCase
-from django.core.urlresolvers import reverse
+import social.apps.django_app.utils
+
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.core import mail
+from django.test import TestCase
+from django.test.utils import override_settings
 
 from weblate.accounts.models import VerifiedEmail
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -43,6 +46,12 @@ REGISTRATION_DATA = {
     'captcha_id': '00',
     'captcha': '9999'
 }
+
+GH_BACKENDS = (
+    'weblate.accounts.auth.EmailAuth',
+    'social.backends.github.GithubOAuth2',
+    'weblate.accounts.auth.WeblateUserBackend',
+)
 
 
 class RegistrationTest(TestCase, RegistrationTestMixin):
@@ -307,62 +316,70 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         )
 
     @httpretty.activate
+    @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self):
-        """Test GitHub integration"""
-        httpretty.register_uri(
-            httpretty.POST,
-            'https://github.com/login/oauth/access_token',
-            body=json.dumps({
-                'access_token': '123',
-                'token_type': 'bearer',
-            })
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'https://api.github.com/user',
-            body=json.dumps({
-                'email': 'foo@example.net',
-                'login': 'weblate',
-                'id': 1,
-                'name': 'Weblate',
-            }),
-        )
-        httpretty.register_uri(
-            httpretty.GET,
-            'https://api.github.com/user/emails',
-            body=json.dumps([
-                {
-                    'email': 'noreply2@example.org',
-                    'verified': False,
-                    'primary': False,
-                }, {
-                    'email': 'noreply-weblate@example.org',
-                    'verified': True,
-                    'primary': True
-                }
-            ])
-        )
-        response = self.client.get(reverse('social:begin', args=('github',)))
-        self.assertEqual(response.status_code, 302)
-        self.assertTrue(
-            response['Location'].startswith(
-                'https://github.com/login/oauth/authorize'
+        try:
+            # psa creates copy of settings...
+            orig_backends = social.apps.django_app.utils.BACKENDS
+            social.apps.django_app.utils.BACKENDS = GH_BACKENDS
+
+            """Test GitHub integration"""
+            httpretty.register_uri(
+                httpretty.POST,
+                'https://github.com/login/oauth/access_token',
+                body=json.dumps({
+                    'access_token': '123',
+                    'token_type': 'bearer',
+                })
             )
-        )
-        query = parse_qs(urlparse(response['Location']).query)
-        return_query = parse_qs(urlparse(query['redirect_uri'][0]).query)
-        response = self.client.get(
-            reverse('social:complete', args=('github',)),
-            {
-                'state': query['state'][0],
-                'redirect_state': return_query['redirect_state'][0],
-                'code': 'XXX'
-            },
-            follow=True
-        )
-        user = User.objects.get(username='weblate')
-        self.assertEqual(user.first_name, 'Weblate')
-        self.assertEqual(user.email, 'noreply-weblate@example.org')
+            httpretty.register_uri(
+                httpretty.GET,
+                'https://api.github.com/user',
+                body=json.dumps({
+                    'email': 'foo@example.net',
+                    'login': 'weblate',
+                    'id': 1,
+                    'name': 'Weblate',
+                }),
+            )
+            httpretty.register_uri(
+                httpretty.GET,
+                'https://api.github.com/user/emails',
+                body=json.dumps([
+                    {
+                        'email': 'noreply2@example.org',
+                        'verified': False,
+                        'primary': False,
+                    }, {
+                        'email': 'noreply-weblate@example.org',
+                        'verified': True,
+                        'primary': True
+                    }
+                ])
+            )
+            response = self.client.get(reverse('social:begin', args=('github',)))
+            self.assertEqual(response.status_code, 302)
+            self.assertTrue(
+                response['Location'].startswith(
+                    'https://github.com/login/oauth/authorize'
+                )
+            )
+            query = parse_qs(urlparse(response['Location']).query)
+            return_query = parse_qs(urlparse(query['redirect_uri'][0]).query)
+            response = self.client.get(
+                reverse('social:complete', args=('github',)),
+                {
+                    'state': query['state'][0],
+                    'redirect_state': return_query['redirect_state'][0],
+                    'code': 'XXX'
+                },
+                follow=True
+            )
+            user = User.objects.get(username='weblate')
+            self.assertEqual(user.first_name, 'Weblate')
+            self.assertEqual(user.email, 'noreply-weblate@example.org')
+        finally:
+            social.apps.django_app.utils.BACKENDS = orig_backends
 
 
 class NoCookieRegistrationTest(RegistrationTest):
