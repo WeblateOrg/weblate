@@ -290,10 +290,9 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'MSIE9': {
+    'MSIE': {
         'browserName': 'internet explorer',
-        'version': '9.0',
-        'platform': 'Windows 7',
+        'platform': 'Windows 10',
     },
     'Android': {
         'browserName': "android",
