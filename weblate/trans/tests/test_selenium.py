@@ -166,7 +166,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         )
 
         # We should end up on login page as user was invalid
-        self.driver.find_element_by_name('username')
+        self.driver.find_element_by_id('id_username')
 
         # Do proper login with new user
         User.objects.create_user(
