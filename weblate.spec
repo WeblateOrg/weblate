@@ -11,7 +11,6 @@ License:        GPL-3.0+
 Group:          Productivity/Networking/Web/Frontends
 Url:            https://weblate.org/
 Source0:        http://dl.cihar.com/weblate/%{_name}-%{version}.tar.xz
-Source1:        %{_name}-test-%{version}.tar.xz
 BuildRequires:  bitstream-vera
 BuildRequires:  git
 BuildRequires:  graphviz
@@ -23,6 +22,7 @@ BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
 BuildRequires:  python-alabaster
 BuildRequires:  python-dateutil
+BuildRequires:  python-defusedxml
 BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-django_compressor
 BuildRequires:  python-djangorestframework >= 3.3
@@ -36,6 +36,7 @@ Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
 Requires:       python-Babel
+Requires:       python-defusedxml
 Requires:       python-Django >= 1.7
 Requires:       python-django_compressor
 Requires:       python-djangorestframework >= 3.3
@@ -73,13 +74,6 @@ List of features includes:
 
 %prep
 %setup -q -n %{_name}-%{version}
-
-# Extract test data
-mkdir data-test
-cd data-test
-tar xvf %{SOURCE1}
-mv Weblate-test-%{version}/* .
-cd ..
 
 %build
 make %{?_smp_mflags} -C docs html
