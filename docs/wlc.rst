@@ -213,7 +213,7 @@ List all projects:
     slug: hello
     source_language: en
     url: http://example.com/api/projects/hello/
-    web: http://weblate.org/
+    web: https://weblate.org/
     web_url: http://example.com/projects/hello/
 
 You can also let wlc know current project and it will then operate on it:

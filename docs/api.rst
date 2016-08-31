@@ -272,7 +272,7 @@ Projects
                 "web_url": "http://example.com/languages/en/"
             },
             "url": "http://example.com/api/projects/hello/",
-            "web": "http://weblate.org/",
+            "web": "https://weblate.org/",
             "web_url": "http://example.com/projects/hello/"
         }
 
@@ -436,7 +436,7 @@ Components
                     "web_url": "http://example.com/languages/en/"
                 },
                 "url": "http://example.com/api/projects/hello/",
-                "web": "http://weblate.org/",
+                "web": "https://weblate.org/",
                 "web_url": "http://example.com/projects/hello/"
             },
             "repo": "file:///home/nijel/work/weblate-hello",
@@ -658,7 +658,7 @@ Translations
                         "web_url": "http://example.com/languages/en/"
                     },
                     "url": "http://example.com/api/projects/hello/",
-                    "web": "http://weblate.org/",
+                    "web": "https://weblate.org/",
                     "web_url": "http://example.com/projects/hello/"
                 },
                 "repo": "file:///home/nijel/work/weblate-hello",

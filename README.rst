@@ -67,7 +67,7 @@ Documentation
 Detailed documentation is available in ``docs`` directory in the sources.
 
 The documentation can be also viewed online on
-http://docs.weblate.org/.
+https://docs.weblate.org/.
 
 Installation
 ------------
@@ -75,7 +75,7 @@ Installation
 Installation and setup instructions are provided in our manual, check
 quick setup guide:
 
-http://docs.weblate.org/en/latest/admin/quick.html
+https://docs.weblate.org/en/latest/admin/quick.html
 
 Bugs
 ----
