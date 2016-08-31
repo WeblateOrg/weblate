@@ -4,7 +4,7 @@ Changes
 weblate 2.8
 -----------
 
-Released on ? 2016.
+Released on Aug 31st 2016.
 
 * Documentation improvements.
 * Translations.
