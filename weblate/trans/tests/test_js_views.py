@@ -29,6 +29,7 @@ import json
 from django.core.urlresolvers import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests import OverrideSettings
 from weblate.trans.util import load_class
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 
@@ -57,6 +58,7 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertContains(response, 'Czech')
 
+    @OverrideSettings(MACHINE_TRANSLATION_ENABLED=True)
     def test_translate(self):
         self.ensure_dummy_mt()
         unit = self.get_unit()
@@ -98,6 +100,7 @@ class JSViewsTest(ViewTestCase):
         )
         self.assertContains(response, 'href="/changes/?')
 
+    @OverrideSettings(MACHINE_TRANSLATION_ENABLED=True)
     def test_mt_services(self):
         self.ensure_dummy_mt()
         response = self.client.get(reverse('js-mt-services'))
