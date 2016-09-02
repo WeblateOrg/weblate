@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-30 12:02+0000\n"
-"PO-Revision-Date: 2016-08-30 11:03+0000\n"
+"PO-Revision-Date: 2016-09-02 10:44+0000\n"
 "Last-Translator: Sijera <sijeravl@gmail.com>\n"
-"Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
-"sr/>\n"
+"Language-Team: Serbian "
+"<https://hosted.weblate.org/projects/weblate/master/sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.8\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -299,7 +299,7 @@ msgstr "Обавештења при захтеву за нови језик"
 
 #: weblate/accounts/models.py:813
 msgid "Email regular expression"
-msgstr ""
+msgstr "Регуларни израз е-поште"
 
 #: weblate/accounts/models.py:817
 msgid "Regular expression which is used to match user email."
@@ -321,7 +321,7 @@ msgstr ""
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
-msgstr ""
+msgstr "Не можете послати преводе јер нисте доделили ниједну адресу е-поште."
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -392,7 +392,7 @@ msgstr "Измени лозинку"
 
 #: weblate/accounts/views.py:546
 msgid "Can not reset password, email authentication is disabled!"
-msgstr ""
+msgstr "Не може се поништити лозинка, потврда идентитета је онемогућена!"
 
 #: weblate/accounts/views.py:571 weblate/html/accounts/reset.html:7
 #: weblate/html/accounts/reset.html:21
@@ -755,11 +755,11 @@ msgstr "Лиценце"
 
 #: weblate/html/accounts/profile.html:28 weblate/html/accounts/profile.html:300
 msgid "API access"
-msgstr ""
+msgstr "API приступ"
 
 #: weblate/html/accounts/profile.html:30
 msgid "Billing"
-msgstr ""
+msgstr "Наплата"
 
 #: weblate/html/accounts/profile.html:44 weblate/html/accounts/profile.html:79
 #: weblate/html/accounts/profile.html:122
@@ -799,6 +799,8 @@ msgid ""
 "to translate to another language, please request it first on the project you "
 "want to translate."
 msgstr ""
+"Само језици који се тренутно преводе су на списку. Ако желите да преводите "
+"на други језик, пошаљите захтев на пројекту који желите де преведете."
 
 #: weblate/html/accounts/profile.html:63 weblate/html/accounts/profile.html:92
 #: weblate/html/accounts/profile.html:134
@@ -829,13 +831,15 @@ msgstr ""
 
 #: weblate/html/accounts/profile.html:130
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr "Добијаћете изабрана обавештења е-поштом за све ваше језика."
+msgstr "Добијаћете изабрана обавештења е-поштом за све ваше језике."
 
 #: weblate/html/accounts/profile.html:131
 msgid ""
 "Subscribed projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
+"Пројекти на које сте се претплатили су приказани на контролној табли, зато "
+"изаберите све пројекте које желите да преводите."
 
 #: weblate/html/accounts/profile.html:138
 msgid "Subscription settings"
@@ -925,7 +929,7 @@ msgstr "Ваш јавни профил на овом сајту."
 
 #: weblate/html/accounts/profile.html:305
 msgid "Your personal API key:"
-msgstr ""
+msgstr "Ваш лични API кључ:"
 
 #: weblate/html/accounts/profile.html:308
 msgid "Regenerate"
@@ -945,6 +949,8 @@ msgid ""
 "You can control Weblate using HTTP REST API. Please check <a href="
 "\"%(api_doc)s\">API documentation</a> for more details."
 msgstr ""
+"Можете контролисати Веблејт користећи HTTP REST API. Погледајте <a href=\""
+"%(api_doc)s\">API документацију</a> за више детаља."
 
 #: weblate/html/accounts/profile.html:359
 msgid ""
@@ -988,11 +994,11 @@ msgstr "Прикажи остале планове"
 
 #: weblate/html/accounts/profile.html:411
 msgid "Monthly price"
-msgstr ""
+msgstr "Месечна цена"
 
 #: weblate/html/accounts/profile.html:412
 msgid "Yearly price"
-msgstr ""
+msgstr "Годишња цена"
 
 #: weblate/html/accounts/profile.html:413
 msgid "Strings limit"
@@ -1092,7 +1098,7 @@ msgstr "Недавне измене"
 
 #: weblate/html/accounts/user.html:47
 msgid "Browse all changes for user"
-msgstr ""
+msgstr "Прегледајте све измене корисника"
 
 #: weblate/html/activity-tab.html:5
 msgid "Activity in last 30 days"
@@ -1364,6 +1370,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
+"Више информација о извезеним RSS каналима је доступно у <a href=\"%(rss_docs)"
+"s\">документацији</a>."
 
 #: weblate/html/data-root.html:24 weblate/html/data.html:27
 #: weblate/html/data.html:58 weblate/html/data.html:96
@@ -1390,6 +1398,8 @@ msgid ""
 "There is more data exported per project, please check following links for "
 "more information."
 msgstr ""
+"Постоји још извезених података за сваки пројекат, проверите следеће везе за "
+"више информација."
 
 #: weblate/html/data-root.html:48 weblate/html/data.html:85
 msgid "Notification hooks"
@@ -1436,6 +1446,8 @@ msgid ""
 "For example getting stats for all translations in one component can be done "
 "by:"
 msgstr ""
+"На пример, статистика за све преводе у једној компоненти се може добити "
+"преко:"
 
 #: weblate/html/data.html:103 weblate/html/data.html:109
 msgid "Hook"
@@ -1456,12 +1468,12 @@ msgstr ""
 
 #: weblate/html/data.html:131 weblate/trans/models/advertisement.py:119
 msgid "Note"
-msgstr ""
+msgstr "Белешка"
 
 #: weblate/html/data.html:138 weblate/html/data.html:143
 #: weblate/html/data.html:148
 msgid "See documentation for detailed instructions"
-msgstr ""
+msgstr "Погледај документацију за детаљно упутство"
 
 #: weblate/html/dictionaries.html:7 weblate/html/dictionary.html:8
 msgid "glossaries"
@@ -1645,7 +1657,7 @@ msgstr "африкански"
 
 #: weblate/html/i18n.html:21
 msgid "Akan"
-msgstr ""
+msgstr "акан"
 
 #: weblate/html/i18n.html:22
 msgid "Albanian"
@@ -1693,7 +1705,7 @@ msgstr "аустријски немачки"
 
 #: weblate/html/i18n.html:33
 msgid "Aymará"
-msgstr ""
+msgstr "ајмара"
 
 #: weblate/html/i18n.html:34
 msgid "Azerbaijani"
@@ -1701,7 +1713,7 @@ msgstr "азербејџански"
 
 #: weblate/html/i18n.html:35
 msgid "Bashkir"
-msgstr ""
+msgstr "башкирски"
 
 #: weblate/html/i18n.html:36
 msgid "Basque"
@@ -1725,7 +1737,7 @@ msgstr "бенгалски (Индија)"
 
 #: weblate/html/i18n.html:41
 msgid "Bodo"
-msgstr ""
+msgstr "бодо"
 
 #: weblate/html/i18n.html:42
 msgid "Bosnian"
@@ -1765,7 +1777,7 @@ msgstr ""
 
 #: weblate/html/i18n.html:51
 msgid "Cherokee"
-msgstr ""
+msgstr "чероки"
 
 #: weblate/html/i18n.html:52
 msgid "Chhattisgarhi"
