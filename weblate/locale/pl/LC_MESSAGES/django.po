@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-30 12:02+0000\n"
-"PO-Revision-Date: 2016-09-03 09:48+0200\n"
+"PO-Revision-Date: 2016-09-03 10:06+0200\n"
 "Last-Translator: Piotr Sokół <psokol.l10n@gmail.com>\n"
 "Language-Team: polski <>\n"
 "Language: pl\n"
@@ -1432,6 +1432,7 @@ msgstr "„Zaczepy” powiadomień"
 
 #: weblate/html/data-root.html:51 weblate/html/data.html:88
 #, python-format, python-format
+#, python-format
 msgid ""
 "With notification hooks, Weblate will automatically import changes done by "
 "your developers and will allow continuous translation. More information is "
@@ -1462,6 +1463,7 @@ msgstr "Statystyki"
 
 #: weblate/html/data.html:51
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "Translation statistics for every subproject in JSON format allow you to "
 #| "use these data in other websites or tools. Format of the data is "
@@ -3053,6 +3055,7 @@ msgstr "Możesz tłumaczyć na %(translation_url)s"
 #: weblate/html/mail/merge_failure.html:11
 #: weblate/html/mail/merge_failure.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
 msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
 msgstr ""
@@ -3100,6 +3103,7 @@ msgstr "Nowy komentarz w %(subproject)s"
 #: weblate/html/mail/new_contributor.html:11
 #: weblate/html/mail/new_contributor.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "%(username)s has just made a first contribution on %(translation)s at "
 #| "%(site_title)s."
@@ -3117,6 +3121,7 @@ msgstr "Nowy współpracownik w %(translation)s"
 
 #: weblate/html/mail/new_language.html:11 weblate/html/mail/new_language.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "there has been a request for new language on %(translation)s at "
 #| "%(site_title)s."
@@ -3133,6 +3138,7 @@ msgstr ""
 
 #: weblate/html/mail/new_language.html:20
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "More information about exported RSS feeds is available in <a href="
 #| "\"%(rss_docs)s\">the documentation</a>."
@@ -3169,6 +3175,7 @@ msgstr "Żądanie nowego języka w %(translation)s"
 
 #: weblate/html/mail/new_string.html:11 weblate/html/mail/new_string.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "there are new strings to translate on %(translation)s at %(site_title)s."
 msgid ""
@@ -3183,6 +3190,7 @@ msgstr "Nowy napis do przetłumaczenia w %(translation)s"
 #: weblate/html/mail/new_suggestion.html:11
 #: weblate/html/mail/new_suggestion.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "there is a new suggestion to evaluate on %(translation)s at "
 #| "%(site_title)s."
@@ -3208,6 +3216,7 @@ msgstr "Nowa sugestia w %(translation)s"
 #: weblate/html/mail/new_translation.html:11
 #: weblate/html/mail/new_translation.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid "There has been a new translation on %(translation)s at %(site_title)s."
@@ -3224,6 +3233,7 @@ msgstr "Nowe tłumaczenie w %(translation)s"
 
 #: weblate/html/mail/parse_error.html:11 weblate/html/mail/parse_error.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
 msgid "There has been a parse error on %(subproject)s at %(site_title)s."
 msgstr ""
@@ -3242,6 +3252,7 @@ msgstr "Test nieudany"
 
 #: weblate/html/mail/parse_error_subject.txt:3
 #, python-format, python-format
+#, python-format
 #| msgid "Merge failure in %(subproject)s"
 msgid "Parse error in %(subproject)s"
 msgstr "Błąd scalania w %(subproject)s"
@@ -4146,6 +4157,7 @@ msgstr "Zakończ tryb Zen"
 
 #: weblate/html/zen.html:27
 #, python-format, python-format
+#, python-format
 #| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "Aktualny filtr: %(filter_name)s (%(filter_count)s)"
@@ -4578,6 +4590,7 @@ msgstr "Wszystkie ostatnie zmiany wprowadzono za pomocą Weblate w %s."
 
 #: weblate/trans/fields.py:32
 #, python-brace-format, python-brace-format
+#, python-brace-format
 #| msgid "Failed to add comment!"
 msgid "Failed to compile: {0}"
 msgstr "Nie udało się skompilować: {0}"
@@ -5844,20 +5857,18 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1232
 msgid "Template file not found!"
-msgstr "Nie znaleziono pliku szablonu!"
+msgstr "Nie odnaleziono pliku szablonu!"
 
 #: weblate/trans/models/subproject.py:1238
 #, python-format
 msgid "Failed to parse translation base file: %s"
-msgstr "Analiza szablonu tłumaczenia %s nie powiodła się"
+msgstr "Nie udało się przetworzyć pliku szablonu tłumaczenia: %s"
 
 #: weblate/trans/models/subproject.py:1243
 #| msgid ""
 #| "You can share comments about this translation with other translators."
 msgid "You can not use monolingual translation without base file!"
-msgstr ""
-"Możesz podzielić się komentarzem na temat tego tłumaczenia z innymi "
-"tłumaczami."
+msgstr "Nie można używać jednojęzycznego tłumaczenia bez pliku szablonu!"
 
 #: weblate/trans/models/subproject.py:1253
 msgid ""
@@ -5873,7 +5884,7 @@ msgstr "URL Licencji nie może być użyty bez podsumowania licencji."
 
 #: weblate/trans/models/subproject.py:1279
 msgid "Changing version control system is not supported!"
-msgstr ""
+msgstr "Zmiana systemu kontroli wersji nie jest obsługiwana!"
 
 #: weblate/trans/models/subproject.py:1285
 #, python-brace-format
@@ -5883,7 +5894,7 @@ msgstr "Nieobsługiwany format pliku: {0}"
 #: weblate/trans/models/subproject.py:1292
 #, python-format
 msgid "Failed to update repository: %s"
-msgstr "Pobranie repozytorium nie powiodło się: %s"
+msgstr "Nie udało się uaktualnić repozytorium: %s"
 
 #: weblate/trans/models/subproject.py:1311
 msgid "Can not validate file matches due to invalid regular expression."
@@ -5892,13 +5903,13 @@ msgstr ""
 #: weblate/trans/models/subproject.py:1321
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
-"Automatyczne akceptowanie sugesti może działać tylko gdy głosowanie jest "
+"Automatyczne akceptowanie sugestii może działać tylko gdy głosowanie jest "
 "włączone!"
 
 #: weblate/trans/models/subproject.py:1497
 #| msgid "Failed to save translation!"
 msgid "Failed to add new translation file!"
-msgstr "Zapisanie tłumaczenia nie powiodło się!"
+msgstr "Nie udało się dodać nowego pliku tłumaczenia!"
 
 #: weblate/trans/models/subproject.py:1519
 #| msgid "Translation file"
@@ -5911,13 +5922,13 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Nie znaleziono nazwy pliku %s w repozytorium! Aby dodać nowe tłumaczenie, "
-"dodaj plik języka do repozytorium."
+"Nie odnaleziono pliku %s w repozytorium! Aby dodać nowe tłumaczenie, proszę "
+"dodać plik języka do repozytorium."
 
 #: weblate/trans/models/translation.py:229
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "Nie powiodła się analiza pliku %(file)s: %(error)s"
+msgstr "Nie udało się przetworzyć pliku %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:276
 #, python-format
@@ -5940,7 +5951,7 @@ msgstr "Kategoria"
 
 #: weblate/trans/models/whiteboard.py:90
 msgid "Category defines color used for the message."
-msgstr ""
+msgstr "Kategoria określa kolor używany dla komentarza."
 
 #: weblate/trans/models/whiteboard.py:93
 msgid "Info (light blue)"
@@ -6262,23 +6273,23 @@ msgstr[2] "za %(count)s godzin"
 
 #: weblate/trans/templatetags/translations.py:532
 msgid "Message needs review"
-msgstr ""
+msgstr "Ciąg wymaga sprawdzenia"
 
 #: weblate/trans/templatetags/translations.py:537
 msgid "Message is not translated"
-msgstr "Komunikat nie jest przetłumaczony"
+msgstr "Ciąg nie jest przetłumaczony"
 
 #: weblate/trans/templatetags/translations.py:542
 msgid "Message has failing checks"
-msgstr "Komunikat posiada nieudane testy"
+msgstr "Ciąg ma nieudane testy"
 
 #: weblate/trans/templatetags/translations.py:547
 msgid "Message is translated"
-msgstr "Komunikat jest przetłumaczony"
+msgstr "Ciąg jest przetłumaczony"
 
 #: weblate/trans/templatetags/translations.py:553
 msgid "Message has comments"
-msgstr "Komunikat ma komentarze"
+msgstr "Ciąg ma komentarze"
 
 #: weblate/trans/templatetags/translations.py:575
 #, python-format
@@ -6291,6 +6302,8 @@ msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
+"Projekt {0} jest przetłumaczony na {1} języków za pomocą Weblate. Dołącz do "
+"tłumaczy lub rozpocznij tłumaczenie własnego projektu."
 
 #: weblate/trans/util.py:366
 msgid "Object listing disabled"
@@ -6313,7 +6326,7 @@ msgstr ""
 #: weblate/trans/validators.py:77
 #, python-format
 msgid "Bad format string (%s)"
-msgstr "Nieprawidłowy format napisu (%s)"
+msgstr "Nieprawidłowy format ciągu (%s)"
 
 #: weblate/trans/validators.py:86
 msgid "File mask does not contain * as a language placeholder!"
@@ -6395,15 +6408,16 @@ msgstr "Tłumaczenia Weblate"
 #: weblate/trans/views/basic.py:586
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr "Żądanie nowego tłumaczenia zostało wysłane do utrzymujących projekt."
+msgstr "Wysłano żądanie nowego tłumaczenia do utrzymujących projekt."
 
 #: weblate/trans/views/basic.py:595
 #| msgid "Invalid suggestion!"
 msgid "Invalid language chosen!"
-msgstr "Nieprawidłowa sugestia!"
+msgstr "Wybrano nieprawidłowy język!"
 
 #: weblate/trans/views/changes.py:75
 #, python-format, python-format
+#, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in translation"
 msgid "Changes in %s"
@@ -6411,6 +6425,7 @@ msgstr "Zmiany w %s"
 
 #: weblate/trans/views/changes.py:85
 #, python-format, python-format
+#, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in component"
 msgid "Changes in %s"
@@ -6418,6 +6433,7 @@ msgstr "Zmiany w %s"
 
 #: weblate/trans/views/changes.py:94
 #, python-format, python-format
+#, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in project"
 msgid "Changes in %s"
@@ -6425,6 +6441,7 @@ msgstr "Zmiany w %s"
 
 #: weblate/trans/views/changes.py:106
 #, python-format, python-format
+#, python-format
 #| msgid "Recent changes in %s"
 msgctxt "Changes in language"
 msgid "Changes in %s"
@@ -6432,6 +6449,7 @@ msgstr "Zmiany w %s"
 
 #: weblate/trans/views/changes.py:113
 #, python-format, python-format
+#, python-format
 #| msgid "Changes"
 msgctxt "Changes by user"
 msgid "Changes by %s"
@@ -6439,15 +6457,15 @@ msgstr "Zmiany"
 
 #: weblate/trans/views/changes.py:142
 msgid "Failed to find matching project!"
-msgstr "Nie udało się znaleźć pasującego projektu!"
+msgstr "Nie udało się odnaleźć pasującego projektu!"
 
 #: weblate/trans/views/changes.py:157
 msgid "Failed to find matching language!"
-msgstr "Nie udało się znaleźć pasującego języka!"
+msgstr "Nie udało się odnaleźć pasującego języka!"
 
 #: weblate/trans/views/changes.py:172
 msgid "Failed to find matching user!"
-msgstr "Nie udało się znaleźć pasującego użytkownika!"
+msgstr "Nie udało się odnaleźć pasującego użytkownika!"
 
 #: weblate/trans/views/charts.py:100
 #, python-brace-format
@@ -6472,7 +6490,7 @@ msgstr "Słowniki"
 
 #: weblate/trans/views/dictionary.py:160
 msgid "No words to import found in file."
-msgstr "W pliku nie znaleziono słów do zaimportowania."
+msgstr "W pliku nie odnaleziono słów do zaimportowania."
 
 #: weblate/trans/views/dictionary.py:162
 #, python-format
@@ -6485,17 +6503,18 @@ msgstr[2] "Zaimportowano %d słów z wysłanego pliku."
 #: weblate/trans/views/dictionary.py:170
 #, python-format
 msgid "File upload has failed: %s"
-msgstr "Załadowanie pliku nie powiodło się: %s"
+msgstr "Nie udało się przesłać pliku: %s"
 
 #: weblate/trans/views/dictionary.py:173 weblate/trans/views/edit.py:625
 msgid "Failed to process form!"
-msgstr "Przetworzenie formularza nie powiodło się!"
+msgstr "Nie udało się przetworzyć formularza!"
 
 #: weblate/trans/views/edit.py:81
 #, python-format, python-format
+#, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr "Nie powiodła się analiza pliku %(file)s: %(error)s"
+msgstr "Błąd w parametrze %(field)s: %(error)s"
 
 #: weblate/trans/views/edit.py:100 weblate/trans/views/edit.py:563
 msgid "Invalid search string!"
@@ -6583,6 +6602,7 @@ msgstr "Tłumaczenie automatyczne zakończone."
 
 #: weblate/trans/views/edit.py:640
 #, python-format, python-format
+#, python-format
 #| msgid "Automatic translation completed."
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -6622,9 +6642,9 @@ msgstr "Nie zaimportowano ciągów z przesłanego pliku."
 #| msgid "Imported %d words from file."
 msgid "Processed %d string from the uploaded files."
 msgid_plural "Processed %d strings from the uploaded files."
-msgstr[0] "Zaimportowano %d ciąg z przesłanych plików."
-msgstr[1] "Zaimportowano %d ciągi z przesłanych plików."
-msgstr[2] "Zaimportowano %d ciągów z przesłanych plików."
+msgstr[0] "Przetworzono %d ciąg z przesłanych plików."
+msgstr[1] "Przetworzono %d ciągi z przesłanych plików."
+msgstr[2] "Przetworzono %d ciągów z przesłanych plików."
 
 #: weblate/trans/views/files.py:130
 #| msgid "There were no new strings in uploaded file, processed %d string."
@@ -6640,23 +6660,23 @@ msgstr "Nie udało się połączyć zawartości pliku: %s"
 
 #: weblate/trans/views/git.py:50
 msgid "Failed to lock the repository, another operation in progress."
-msgstr ""
+msgstr "Nie udało się zablokować repozytorium. Trwa inna operacja."
 
 #: weblate/trans/views/git.py:63
 msgid "All pending translations were committed."
-msgstr "Wszystkie oczekujące tłumaczenia zostały przesłane."
+msgstr "Wprowadzono wszystkie oczekujące tłumaczenia."
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were updated."
-msgstr "Wszystkie repozytoria zostały zaktualizowane."
+msgstr "Uaktualniono wszystkie repozytoria."
 
 #: weblate/trans/views/git.py:90
 msgid "All repositories were pushed."
-msgstr "Wszystkie repozytoria zostały przesłane."
+msgstr "Przesłano wszystkie repozytoria."
 
 #: weblate/trans/views/git.py:103
 msgid "All repositories have been reset."
-msgstr "Wszystkie repozytoria zostały zresetowane."
+msgstr "Zresetowano wszystkie repozytoria."
 
 #: weblate/trans/views/git.py:252
 #| msgid "Translation comment has been deleted."
