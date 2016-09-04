@@ -165,6 +165,9 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             self.driver.find_element_by_xpath('//input[@value="Login"]')
         )
 
+        # Wait for submit
+        time.sleep(1)
+
         # We should end up on login page as user was invalid
         self.driver.find_element_by_id('id_username')
 
