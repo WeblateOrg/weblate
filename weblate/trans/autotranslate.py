@@ -60,7 +60,7 @@ def auto_translate(user, translation, source, inconsistent, overwrite):
     translation.commit_pending(None)
 
     for unit in units.iterator():
-        with translaction.atomic():
+        with transaction.atomic():
             # Get first matching entry
             update = sources.filter(source=unit.source)[0]
             # No save if translation is same
