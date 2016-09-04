@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-30 12:02+0000\n"
-"PO-Revision-Date: 2016-08-23 21:52+0000\n"
-"Last-Translator: Péter Báthory <bathory86p@gmail.com>\n"
-"Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
-"hu/>\n"
+"PO-Revision-Date: 2016-09-04 16:38+0000\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian "
+"<https://hosted.weblate.org/projects/weblate/master/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.8-dev\n"
+"X-Generator: Weblate 2.8\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -58,6 +58,7 @@ msgstr "Ez a felhasználónév már használatban van. Válasszon egy másikat."
 #: weblate/accounts/forms.py:232
 msgid "Component list must be selected when used as default."
 msgstr ""
+"Az összetevőlistát ki kell választani, ha alapértelmezettként használják."
 
 #: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
 #: weblate/html/project.html:164
@@ -253,7 +254,7 @@ msgstr "Ajánlott fordítások"
 
 #: weblate/accounts/models.py:577
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Alapértelmezett vezérlőpult áttekintő"
 
 #: weblate/accounts/models.py:583
 msgid "Default component list"
@@ -268,6 +269,8 @@ msgid ""
 "You can receive notifications for subscribed projects and they are shown on "
 "dashboard by default."
 msgstr ""
+"Értesítéseket kaphat a feliratkozott projektekről, és azok alapértelmezetten "
+"megjelennek a vezérlőpulton."
 
 #: weblate/accounts/models.py:599
 msgid "Notification on any translation"
@@ -299,39 +302,38 @@ msgstr "Értesítés új nyelv kéréséről"
 
 #: weblate/accounts/models.py:813
 msgid "Email regular expression"
-msgstr ""
+msgstr "E-mail reguláris kifejezés"
 
 #: weblate/accounts/models.py:817
-#, fuzzy
 #| msgid ""
 #| "Regular expression which is used to filter translation when scanning for "
 #| "file mask."
 msgid "Regular expression which is used to match user email."
 msgstr ""
-"Reguláris kifejezés, amivel a fordításokat lehet szűrni a fájlmaszk "
-"keresésekor."
+"Reguláris kifejezés, amelyet a felhasználó e-mail címének illesztéséhez "
+"használnak."
 
 #: weblate/accounts/models.py:822
 msgid "Group to assign"
-msgstr ""
+msgstr "Csoport a hozzárendeléshez"
 
 #: weblate/accounts/models.py:826
-#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic group assignment"
-msgstr "Automatikus fordítás"
+msgstr "Automatikus csoport-hozzárendelés"
 
 #: weblate/accounts/models.py:827
-#, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic group assignments"
-msgstr "Automatikus fordítás"
+msgstr "Automatikus csoport-hozzárendelések"
 
 #: weblate/accounts/models.py:876
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
+"Nem küldheti be a fordításokat, mivel nem rendelt hozzá egyetlen e-mail "
+"címet sem."
 
 #: weblate/accounts/pipeline.py:124
 msgid "New registrations are disabled!"
@@ -424,7 +426,7 @@ msgstr "Aktív"
 
 #: weblate/billing/models.py:70
 msgid "Trial"
-msgstr ""
+msgstr "Próba"
 
 #: weblate/billing/models.py:71
 msgid "Expired"
@@ -814,7 +816,6 @@ msgstr ""
 "Fordítás közben a másodlagos nyelvek megjelennek a forrásszöveg mellett."
 
 #: weblate/html/accounts/profile.html:59
-#, fuzzy
 #| msgid ""
 #| "Only languages which are currently being translated are listed. If you "
 #| "want to translate to other language, please request it first on the "
@@ -824,8 +825,9 @@ msgid ""
 "to translate to another language, please request it first on the project you "
 "want to translate."
 msgstr ""
-"Csak a jelenleg fordított nyelvek vannak kilistázva. Ha más nyelvekre "
-"szeretne fordítani, előbb kérvényezze a fordítandó projektben."
+"Csak a jelenleg fordítás alatt lévő nyelvek vannak felsorolva. Ha más "
+"nyelvekre szeretne fordítani, akkor előbb kérvényezze a fordítandó "
+"projektben."
 
 #: weblate/html/accounts/profile.html:63 weblate/html/accounts/profile.html:92
 #: weblate/html/accounts/profile.html:134
@@ -866,6 +868,8 @@ msgid ""
 "Subscribed projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
+"A feliratkozott projektek a vezérlőpulton is megjelennek, ezért válassza ki "
+"az összes olyan projektet, amelyeket fordítani szeretne."
 
 #: weblate/html/accounts/profile.html:138
 msgid "Subscription settings"
@@ -1051,7 +1055,7 @@ msgstr "Számlázási periódus"
 
 #: weblate/html/accounts/profile.html:447
 msgid "Invoice amount"
-msgstr ""
+msgstr "Számla összege"
 
 #: weblate/html/accounts/profile.html:448
 msgid "Download invoice"
@@ -1325,12 +1329,12 @@ msgstr ""
 #: weblate/html/billing-used.html:5
 #, python-format
 msgid "Used %(used)s"
-msgstr ""
+msgstr "Használt %(used)s"
 
 #: weblate/html/billing-used.html:7
 #, python-format
 msgid "Used %(used)s from %(total)s"
-msgstr ""
+msgstr "Használt %(used)s innen: %(total)s"
 
 #: weblate/html/check.html:6 weblate/html/check_project.html:6
 #: weblate/html/check_subproject.html:6 weblate/html/checks.html:6
@@ -1484,6 +1488,8 @@ msgid ""
 "For example getting stats for all translations in one component can be done "
 "by:"
 msgstr ""
+"Például az összes fordítás statisztikájának lekérése egy összetevőben a "
+"következővel végezhető el:"
 
 #: weblate/html/data.html:103 weblate/html/data.html:109
 msgid "Hook"
@@ -1492,6 +1498,8 @@ msgstr "Horog"
 #: weblate/html/data.html:115
 msgid "For example telling Weblate to pull remote repository can be done by:"
 msgstr ""
+"Például a következővel azt mondhatja a Weblate-nek, hogy kérje le a távoli "
+"tárolót:"
 
 #: weblate/html/data.html:124
 msgid ""
@@ -2032,7 +2040,7 @@ msgstr "Izlandi"
 
 #: weblate/html/i18n.html:102
 msgid "Igbo"
-msgstr ""
+msgstr "Igbo"
 
 #: weblate/html/i18n.html:103
 msgid "Indonesian"
@@ -2264,7 +2272,7 @@ msgstr "Piemonti"
 
 #: weblate/html/i18n.html:160
 msgid "Pirate"
-msgstr ""
+msgstr "Kalóz"
 
 #: weblate/html/i18n.html:161
 msgid "Polish"
@@ -2611,6 +2619,8 @@ msgid ""
 "Could not find any suggestions for you, please choose your languages in "
 "preferences to get more suggestions."
 msgstr ""
+"Nem található egyetlen javaslat sem. Válassza ki a nyelvet a beállításokban, "
+"hogy több javaslatot kapjon."
 
 #: weblate/html/index.html:102
 msgid "Register to manage your languages"
@@ -3431,10 +3441,9 @@ msgid "Strings to translate"
 msgstr "Lefordítandó szövegek"
 
 #: weblate/html/stats.html:75
-#, fuzzy
 #| msgid "Strings to translate"
 msgid "Units to translate"
-msgstr "Lefordítandó szövegek"
+msgstr "Lefordítandó egységek"
 
 #: weblate/html/stats.html:79
 msgid "Words to translate"
@@ -4123,10 +4132,10 @@ msgid "Exit Zen"
 msgstr "Kilépés Zen módból"
 
 #: weblate/html/zen.html:27
-#, fuzzy, python-format
+#, python-format
 #| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgid "%(filter_name)s (%(filter_count)s)"
-msgstr "Jelenlegi szűrés: %(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -5165,11 +5174,11 @@ msgstr "Meg kell adni a projektet, összetevőt, vagy nyelvet"
 
 #: weblate/trans/models/group_acl.py:75
 msgid "Group ACL"
-msgstr ""
+msgstr "Csoport ACL"
 
 #: weblate/trans/models/group_acl.py:76
 msgid "Group ACLs"
-msgstr ""
+msgstr "Csoport ACL-ek"
 
 #: weblate/trans/models/project.py:98
 msgid "Main website of translated project."
@@ -5803,6 +5812,8 @@ msgstr "Nem sikerült frissíteni a tárolót: %s"
 #: weblate/trans/models/subproject.py:1311
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
+"Nem lehet ellenőrizni a fájlilleszkedéseket egy érvénytelen reguláris "
+"kifejezés miatt."
 
 #: weblate/trans/models/subproject.py:1321
 msgid "Automatically accepting suggestions can work only with voting enabled!"
@@ -5853,7 +5864,7 @@ msgstr "Kategória"
 
 #: weblate/trans/models/whiteboard.py:90
 msgid "Category defines color used for the message."
-msgstr ""
+msgstr "A kategória meghatározza az üzenethez használt színt."
 
 #: weblate/trans/models/whiteboard.py:93
 msgid "Info (light blue)"
