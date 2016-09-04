@@ -19,6 +19,7 @@
 #
 
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 
 from weblate.trans.models import Unit, Change, SubProject
 
@@ -59,23 +60,24 @@ def auto_translate(user, translation, source, inconsistent, overwrite):
     translation.commit_pending(None)
 
     for unit in units.iterator():
-        # Get first matching entry
-        update = sources.filter(source=unit.source)[0]
-        # No save if translation is same
-        if unit.fuzzy == update.fuzzy and unit.target == update.target:
-            continue
-        # Copy translation
-        unit.fuzzy = update.fuzzy
-        unit.target = update.target
-        # Create signle change object for whole merge
-        Change.objects.create(
-            action=Change.ACTION_AUTO,
-            unit=unit,
-            user=user,
-            author=user
-        )
-        # Save unit to backend
-        unit.save_backend(None, False, False, user=user)
-        updated += 1
+        with translaction.atomic():
+            # Get first matching entry
+            update = sources.filter(source=unit.source)[0]
+            # No save if translation is same
+            if unit.fuzzy == update.fuzzy and unit.target == update.target:
+                continue
+            # Copy translation
+            unit.fuzzy = update.fuzzy
+            unit.target = update.target
+            # Create signle change object for whole merge
+            Change.objects.create(
+                action=Change.ACTION_AUTO,
+                unit=unit,
+                user=user,
+                author=user
+            )
+            # Save unit to backend
+            unit.save_backend(None, False, False, user=user)
+            updated += 1
 
     return updated
