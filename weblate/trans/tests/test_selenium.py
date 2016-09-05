@@ -293,14 +293,20 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'MSIE': {
-        'browserName': 'internet explorer',
+    'Edge': {
+        'browserName': 'MicrosoftEdge',
         'platform': 'Windows 10',
+        'version': '13.10586',
+    },
+    'Safari': {
+        'browserName': 'safari',
+        'platform': 'OS X 10.11',
+        'version': '9.0',
     },
     'Android': {
-        'browserName': "android",
-        'deviceName': "Android Emulator",
-        'device-orientation': "portrait",
+        'browserName': 'android',
+        'deviceName': 'Android Emulator',
+        'device-orientation': 'portrait',
     },
 }
 
