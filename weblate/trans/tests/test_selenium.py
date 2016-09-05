@@ -293,11 +293,6 @@ EXTRA_PLATFORMS = {
         'browserName': 'chrome',
         'platform': 'XP',
     },
-    'Safari': {
-        'browserName': 'safari',
-        'platform': 'OS X 10.11',
-        'version': '9.0',
-    },
     'Android': {
         'browserName': 'android',
         'deviceName': 'Android Emulator',
