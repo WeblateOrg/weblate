@@ -94,7 +94,7 @@ class WeblateUserBackend(ModelBackend):
         Prohibits login for anonymous user and allows to login by email.
         '''
         if username == ANONYMOUS_USER_NAME:
-            return False
+            return None
 
         if '@' in username:
             kwargs = {'email': username}
