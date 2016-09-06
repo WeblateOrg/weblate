@@ -33,6 +33,7 @@ SOCIALS = {
     'google-plus': {'name': 'Google+', 'fa_icon': 'google-plus'},
     'github': {'name': 'GitHub', 'fa_icon': 'github'},
     'github-enterprise': {'name': 'GitHub Enterprise', 'fa_icon': 'github'},
+    'gitlab': {'name': 'GitLab', 'fa_icon': 'gitlab'},
     'bitbucket': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'bitbucket-oauth2': {'name': 'Bitbucket', 'fa_icon': 'bitbucket'},
     'coinbase': {'name': 'Coinbase', 'fa_icon': 'bitcoin'},
