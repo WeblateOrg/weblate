@@ -186,6 +186,11 @@ to provide password on the command line, by ``--username`` you can create user
 of different name, by ``--email`` you can specify his email and with ``--replace`` 
 you can change existing user as well.
 
+.. versionchanged:: 2.9
+
+    Additional parameters ``--username``, ``--email`` and ``--replace`` are supported since 
+    Weblate 2.9.
+
 dumpuserdata <file.json>
 ------------------------
 

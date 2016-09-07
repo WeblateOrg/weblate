@@ -1,6 +1,13 @@
 Changes
 =======
 
+weblate 2.9
+-----------
+
+Released on ?.
+
+* Extended parameters for createadmin management command.
+
 weblate 2.8
 -----------
 
