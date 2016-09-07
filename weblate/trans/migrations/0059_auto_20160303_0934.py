@@ -19,12 +19,15 @@ def fill_in_subscriptions(apps, schema_editor):
                 pass
 
         if project.enable_acl:
-            group = Group.objects.get(name=project.name)
-            for user in group.user_set.all():
-                try:
-                    user.profile.subscriptions.add(project)
-                except Profile.DoesNotExist:
-                    pass
+            try:
+                group = Group.objects.get(name=project.name)
+                for user in group.user_set.all():
+                    try:
+                        user.profile.subscriptions.add(project)
+                    except Profile.DoesNotExist:
+                        pass
+            except Group.DoesNotExist:
+                pass
 
 
 class Migration(migrations.Migration):
