@@ -51,6 +51,14 @@ class CommandTest(TestCase):
         self.assertEqual(user.last_name, '')
         self.assertTrue(user.check_password('admin'))
 
+    def test_createadmin_twice(self):
+        call_command('createadmin')
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'createadmin'
+        )
+
     def test_setupgroups(self):
         call_command('setupgroups')
         group = Group.objects.get(name='Users')

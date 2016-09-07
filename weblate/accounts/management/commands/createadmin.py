@@ -21,7 +21,7 @@
 from random import SystemRandom
 import string
 
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 
 
@@ -49,6 +49,9 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         '''
+        if User.objects.filter(username='admin').exists():
+            raise CommandError('User admin exists')
+
         if options['password']:
             password = options['password']
             self.stdout.write('Creating user admin')
