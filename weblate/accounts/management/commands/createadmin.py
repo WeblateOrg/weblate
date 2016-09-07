@@ -45,7 +45,7 @@ class Command(BaseCommand):
             help='Admin email, defaults to "admin@example.com"'
         )
         parser.add_argument(
-            '--replace',
+            '--update',
             action='store_true',
             default=False,
             help='Change password for this account if exists'
@@ -65,8 +65,8 @@ class Command(BaseCommand):
         to be able to login remotely and change password then.
         '''
         exists = User.objects.filter(username=options['username']).exists()
-        if exists and not options['replace']:
-            raise CommandError('User admin exists')
+        if exists and not options['update']:
+            raise CommandError('User exists, specify --update to update existing')
 
         if options['password']:
             password = options['password']
@@ -75,7 +75,7 @@ class Command(BaseCommand):
             password = self.make_password(13)
             self.stdout.write('Creating user admin with password ' + password)
 
-        if exists and options['replace']:
+        if exists and options['update']:
             user = User.objects.get(username=options['username'])
             user.email = options['email']
             user.set_password(password)

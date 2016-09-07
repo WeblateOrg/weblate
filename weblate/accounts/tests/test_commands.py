@@ -70,9 +70,9 @@ class CommandTest(TestCase):
             'createadmin'
         )
 
-    def test_createadmin_replace(self):
-        call_command('createadmin', replace=True)
-        call_command('createadmin', replace=True, password='123456')
+    def test_createadmin_update(self):
+        call_command('createadmin', update=True)
+        call_command('createadmin', update=True, password='123456')
         user = User.objects.get(username='admin')
         self.assertTrue(user.check_password('123456'))
 
