@@ -93,7 +93,7 @@ this.
 
     docker-compose run --rm weblate collectstatic --noinput
 
-7. Create admin user (this command will print your random password for admin, you can change it later):
+7. Create admin user (this command will print your random password for admin, you can change it later, see :djadmin:`createadmin`):
 
 .. code-block:: sh
 
