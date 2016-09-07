@@ -705,20 +705,6 @@ class ImportCommandTest(RepoTestCase):
             '--update',
             TEST_COMPONENTS,
         )
-    def test_import_ignore(self):
-        call_command(
-            'import_json',
-            '--main-component', 'test',
-            '--project', 'test',
-            TEST_COMPONENTS,
-        )
-        call_command(
-            'import_json',
-            '--main-component', 'test',
-            '--project', 'test',
-            '--ignore',
-            TEST_COMPONENTS,
-        )
 
     def test_invalid_file(self):
         self.assertRaises(
