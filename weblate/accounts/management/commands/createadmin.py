@@ -39,6 +39,11 @@ class Command(BaseCommand):
             default='admin',
             help='Admin username, defaults to "admin"'
         )
+        parser.add_argument(
+            '--email',
+            default='admin@example.com',
+            help='Admin email, defaults to "admin@example.com"'
+        )
 
     @staticmethod
     def make_password(length):
@@ -65,7 +70,7 @@ class Command(BaseCommand):
 
         user = User.objects.create_user(
             options['username'],
-            'admin@example.com',
+            options['email'],
             password
         )
         user.first_name = 'Weblate Admin'
