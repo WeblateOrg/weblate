@@ -7,6 +7,7 @@ weblate 2.9
 Released on ? 2016.
 
 * Extended parameters for createadmin management command.
+* Extended import_json to be able to handle with existing components.
 
 weblate 2.8
 -----------

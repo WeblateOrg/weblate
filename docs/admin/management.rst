@@ -218,6 +218,10 @@ The imported JSON file structure pretty much corresponds to the component
 object (see :http:get:`/api/components/(string:project)/(string:component)/`).
 You always have to include fields ``name`` and ``filemask``.
 
+.. versionchanged:: 2.9
+
+    Added parameters ``--ignore`` and ``--update``.
+
 Example of JSON file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/components.json

@@ -47,6 +47,22 @@ class Command(BaseCommand):
             )
         )
         parser.add_argument(
+            '--ignore',
+            default=False,
+            action='store_true',
+            help=(
+                'Ignore already existing entries'
+            )
+        )
+        parser.add_argument(
+            '--update',
+            default=False,
+            action='store_true',
+            help=(
+                'Update already existing entries'
+            )
+        )
+        parser.add_argument(
             '--main-component',
             default=None,
             help=(
@@ -103,10 +119,29 @@ class Command(BaseCommand):
 
             item['project'] = project
 
-            component = SubProject.objects.create(**item)
-            self.stdout.write(
-                'Imported {0} with {1} translations'.format(
-                    component,
-                    component.translation_set.count()
+            try:
+                component = SubProject.objects.get(
+                    slug=item['slug'], project=item['project']
                 )
-            )
+                self.stderr.write('Component {0} already exists'.format(component))
+                if options['ignore']:
+                    continue
+                if options['update']:
+                    for key in item:
+                        if key in ('project', 'slug'):
+                            continue
+                        setattr(component, key, item[key])
+                    component.save()
+                    continue
+                raise CommandError(
+                    'Component already exists, use --ignore or --update!'
+                )
+
+            except SubProject.DoesNotExist:
+                component = SubProject.objects.create(**item)
+                self.stdout.write(
+                    'Imported {0} with {1} translations'.format(
+                        component,
+                        component.translation_set.count()
+                    )
+                )
