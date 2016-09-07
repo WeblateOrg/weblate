@@ -65,6 +65,8 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
+.. _github_auth:
+
 GitHub authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -84,9 +86,36 @@ You need to register application on GitHub and then tell Weblate all the secrets
     SOCIAL_AUTH_GITHUB_SECRET = 'GitHub Client Secret'
     SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 
-.. seealso:: 
-   
+.. seealso::
+
     `Python Social Auth backends <http://psa.matiasaguirre.net/docs/backends/index.html>`_
+
+.. _bitbucket_auth:
+
+Bitbucket authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+You need to register application on Bitbucket and then tell Weblate all the secrets:
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social.backends.bitbucket.BitbucketOAuth',
+        'social.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_BITBUCKET_KEY = 'Bitbucket Client ID'
+    SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
+    SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+
+.. seealso::
+
+    `Python Social Auth backends <http://psa.matiasaguirre.net/docs/backends/index.html>`_
+
+.. _google_auth:
 
 Google OAuth2
 ~~~~~~~~~~~~~
@@ -108,6 +137,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     # Social auth backends setup
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
+
+.. _facebook_auth:
 
 Facebook OAuth2
 ~~~~~~~~~~~~~~~
@@ -171,8 +202,8 @@ Once you have the package installed, you can hook it to Django authentication:
         'email': 'mail',
     }
 
-.. seealso:: 
-   
+.. seealso::
+
     `Django Authentication Using LDAP <http://pythonhosted.org/django-auth-ldap/>`_
 
 
@@ -234,6 +265,6 @@ cause problems, therefore it's suggested to put it:
         user.email = attributes['email']
         user.save()
 
-.. seealso:: 
-   
+.. seealso::
+
     `Django CAS NG <https://github.com/mingchen/django-cas-ng>`_

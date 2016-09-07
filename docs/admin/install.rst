@@ -18,7 +18,7 @@ The more memory you have, the better - it will be used for caching on all
 levels (filesystem, database and Weblate).
 
 .. note::
-   
+
     The actual requirements for your installation heavily vary on size of
     translations managed by Weblate.
 
@@ -105,7 +105,7 @@ need to install several Python modules manually using pip:
     apt-get install python-requests-oauthlib python-six python-openid
 
     # In case python-social-auth package is missing
-    pip install python-social-auth 
+    pip install python-social-auth
 
     # In case your distribution has python-django older than 1.7
     pip install Django
@@ -114,7 +114,7 @@ need to install several Python modules manually using pip:
     pip install django-crispy-forms
 
     # In case python-whoosh package is misssing or older than 2.5
-    pip install Whoosh 
+    pip install Whoosh
 
     # In case your python-django-compressor package is missing,
     # try installing it by older name or using pip:
@@ -257,10 +257,10 @@ production ready.
 To get latest sources using Git use:
 
 .. code-block:: sh
-    
+
     git clone https://github.com/nijel/weblate.git
 
-Alternatively you can use released archives. You can either download them from our 
+Alternatively you can use released archives. You can either download them from our
 website <https://weblate.org/> or use pip installer.
 
 .. _install-pip:
@@ -300,8 +300,8 @@ You should also take care when running :ref:`manage`, as they should be run
 under same user as Weblate itself is running, otherwise permissions on some
 files might be wrong.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`static-files`
 
 .. _database-setup:
@@ -312,8 +312,8 @@ Creating database for Weblate
 It is recommended to run Weblate on some database server. Using SQLite backend
 is really good for testing purposes only.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 Creating database in PostgreSQL
@@ -370,8 +370,8 @@ Their names are quite self-explaining, but you can find our more information in 
 Installation
 ------------
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`sample-configuration`
 
 Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py` and
@@ -383,8 +383,8 @@ options:
     List of site administrators to receive notifications when something goes
     wrong, for example notifications on failed merge or Django errors.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `ADMINS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#admins>`_
 
 ``ALLOWED_HOSTS``
@@ -396,8 +396,8 @@ options:
 
         ALLOWED_HOSTS = ['demo.weblate.org']
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
 
 ``SESSION_ENGINE``
@@ -407,8 +407,8 @@ options:
     :command:`./manage.py clearsessions` to remove stale session data from the
     database.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `Configuring sessions in Django <https://docs.djangoproject.com/en/stable/topics/http/sessions/#configuring-sessions>`_
 
 ``DATABASES``
@@ -431,16 +431,16 @@ options:
     Debug mode also slows down Weblate as Django stores much more information
     internally in this case.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `DEBUG setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#debug>`_
 
 ``DEFAULT_FROM_EMAIL``
 
     Email sender address for outgoing email, for example registration emails.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `DEFAULT_FROM_EMAIL setting documentation`_
 
 ``SECRET_KEY``
@@ -453,8 +453,8 @@ options:
     Email used as sender address for sending emails to administrator, for
     example notifications on failed merge.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `SERVER_EMAIL setting documentation`_
 
 .. _tables-setup:
@@ -485,7 +485,7 @@ site.
     :file:`./scripts/generate-locales`.
 
 .. seealso::
-   
+
    :ref:`config`, :ref:`privileges`, :ref:`faq-site`, :ref:`production-site`
 
 .. _production:
@@ -510,7 +510,7 @@ With debug mode Django stores all executed queries and shows users backtraces
 of errors what is not desired in production setup.
 
 .. seealso::
-   
+
    :ref:`installation`
 
 .. _production-admins:
@@ -527,8 +527,8 @@ mail in case something goes wrong on the server, for example:
         ('Your Name', 'your_email@example.com'),
     )
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`installation`
 
 .. _production-site:
@@ -557,9 +557,9 @@ Alternatively you can set the site name from command line using
 
     ./manage.py changesite --set-name 127.0.0.1:8000
 
-.. seealso:: 
-   
-   :ref:`faq-site`, :djadmin:`changesite`, 
+.. seealso::
+
+   :ref:`faq-site`, :djadmin:`changesite`,
    `Django sites documentation <https://docs.djangoproject.com/en/stable/ref/contrib/sites/>`_
 
 .. _production-indexing:
@@ -571,8 +571,8 @@ Enable :setting:`OFFLOAD_INDEXING` to prevent locking issues and improve
 performance. Don't forget to schedule indexing in background job to keep the
 index up to date.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`fulltext`, :setting:`OFFLOAD_INDEXING`, :ref:`production-cron`
 
 .. _production-database:
@@ -596,8 +596,8 @@ environment), for example setup for MySQL:
         }
     }
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 .. _production-cache:
@@ -617,8 +617,8 @@ variable, for example:
         }
     }
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-cache-avatar`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-cache-avatar:
@@ -646,8 +646,8 @@ recommended to use separate, file backed cache for this purpose:
             },
         }
 
-.. seealso:: 
-   
+.. seealso::
+
    :setting:`ENABLE_AVATARS`, :ref:`production-cache`, `Django’s cache framework <https://docs.djangoproject.com/en/stable/topics/cache/>`_
 
 .. _production-email:
@@ -682,8 +682,8 @@ Allowed hosts setup
 Django 1.5 and newer require ``ALLOWED_HOSTS`` to hold list of domain names
 your site is allowed to serve, having it empty will block any request.
 
-.. seealso:: 
-   
+.. seealso::
+
    `ALLOWED_HOSTS setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-ALLOWED_HOSTS>`_
 
 .. _production-avatar:
@@ -719,8 +719,8 @@ really use own value rather than using the one coming from example setup.
 You can generate new key using :file:`examples/generate-secret-key` shipped
 with Weblate.
 
-    .. seealso:: 
-       
+    .. seealso::
+
         `SECRET_KEY setting documentation <https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SECRET_KEY>`_
 
 .. _production-admin-files:
@@ -733,8 +733,8 @@ not loaded. This is usually if you are running in non-debug mode and have not
 configured your web server to serve them. Recommended setup is described in the
 :ref:`static-files` chapter.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`server`, :ref:`static-files`
 
 .. _production-home:
@@ -766,8 +766,8 @@ example to set it to ``configuration`` directory under Weblate tree:
     ``www-data`` or ``wwwrun``, so you either have to run Weblate under
     different user or change this setting.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`vcs-repos`
 
 .. _production-templates:
@@ -788,8 +788,8 @@ configure it using following snippet:
         )),
     )
 
-.. seealso:: 
-   
+.. seealso::
+
    `Django documentation on template loading <https://docs.djangoproject.com/en/stable/ref/templates/api/#django.template.loaders.cached.Loader>`_
 
 .. _production-cron:
@@ -813,8 +813,8 @@ On Unix system, this can be scheduled using cron:
     # Commit pending changes after 96 hours
     @hourly cd /usr/share/weblate/; ./manage.py commit_pending --all --age=96 --verbosity=0
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`production-indexing`, :djadmin:`update_index`, :djadmin:`cleanuptrans`, :djadmin:`commit_pending`
 
 .. _server:
@@ -881,7 +881,7 @@ mod_wsgi (available as :file:`examples/apache.conf`):
 .. literalinclude:: ../../examples/apache.conf
     :language: apache
 
-This configuration is for Apache 2.4 and later. For earlier versions of Apache, 
+This configuration is for Apache 2.4 and later. For earlier versions of Apache,
 replace `Require all granted` with `Allow from all`.
 
 Sample configuration for nginx
