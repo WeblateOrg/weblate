@@ -73,7 +73,7 @@ hub (optional for sending pull requests to GitHub)
     https://hub.github.com/
 git-review (optional for Gerrit support)
     https://pypi.python.org/pypi/git-review
-git-svn (optional for Subversion support)
+git-svn (>= 2.10.0) (optional for Subversion support)
     https://git-scm.com/docs/git-svn
 
 Requirements on Debian or Ubuntu
