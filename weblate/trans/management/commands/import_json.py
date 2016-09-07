@@ -123,7 +123,9 @@ class Command(BaseCommand):
                 component = SubProject.objects.get(
                     slug=item['slug'], project=item['project']
                 )
-                self.stderr.write('Component {0} already exists'.format(component))
+                self.stderr.write(
+                    'Component {0} already exists'.format(component)
+                )
                 if options['ignore']:
                     continue
                 if options['update']:

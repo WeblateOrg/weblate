@@ -66,7 +66,9 @@ class Command(BaseCommand):
         '''
         exists = User.objects.filter(username=options['username']).exists()
         if exists and not options['update']:
-            raise CommandError('User exists, specify --update to update existing')
+            raise CommandError(
+                'User exists, specify --update to update existing'
+            )
 
         if options['password']:
             password = options['password']
