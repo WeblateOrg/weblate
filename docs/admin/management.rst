@@ -188,8 +188,7 @@ you can change existing user as well.
 
 .. versionchanged:: 2.9
 
-    Additional parameters ``--username``, ``--email`` and ``--replace`` are supported since 
-    Weblate 2.9.
+    Added parameters ``--username``, ``--email`` and ``--replace``.
 
 dumpuserdata <file.json>
 ------------------------
