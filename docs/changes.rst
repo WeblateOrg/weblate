@@ -4,7 +4,7 @@ Changes
 weblate 2.9
 -----------
 
-Released on ?.
+Released on ? 2016.
 
 * Extended parameters for createadmin management command.
 
