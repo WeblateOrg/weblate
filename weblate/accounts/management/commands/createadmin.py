@@ -31,9 +31,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--password',
-            dest='password',
             default=None,
             help='Password to set, random is generated if not specified'
+        )
+        parser.add_argument(
+            '--username',
+            default='admin',
+            help='Admin username, defaults to "admin"'
         )
 
     @staticmethod
@@ -49,7 +53,7 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         '''
-        if User.objects.filter(username='admin').exists():
+        if User.objects.filter(username=options['username']).exists():
             raise CommandError('User admin exists')
 
         if options['password']:
@@ -59,7 +63,11 @@ class Command(BaseCommand):
             password = self.make_password(13)
             self.stdout.write('Creating user admin with password ' + password)
 
-        user = User.objects.create_user('admin', 'admin@example.com', password)
+        user = User.objects.create_user(
+            options['username'],
+            'admin@example.com',
+            password
+        )
         user.first_name = 'Weblate Admin'
         user.last_name = ''
         user.is_superuser = True

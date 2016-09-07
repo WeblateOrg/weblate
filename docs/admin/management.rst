@@ -182,7 +182,8 @@ createadmin
 .. django-admin:: createadmin
 
 Creates ``admin`` account with random password. You can specify ``--password``
-to provide password on the command line.
+to provide password on the command line, by ``--username`` you can create user
+of different name.
 
 dumpuserdata <file.json>
 ------------------------

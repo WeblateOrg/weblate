@@ -51,6 +51,13 @@ class CommandTest(TestCase):
         self.assertEqual(user.last_name, '')
         self.assertTrue(user.check_password('admin'))
 
+    def test_createadmin_username(self):
+        call_command('createadmin', username='admin2', password='admin')
+        user = User.objects.get(username='admin2')
+        self.assertEqual(user.first_name, 'Weblate Admin')
+        self.assertEqual(user.last_name, '')
+        self.assertTrue(user.check_password('admin'))
+
     def test_createadmin_twice(self):
         call_command('createadmin')
         self.assertRaises(
