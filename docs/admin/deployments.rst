@@ -113,6 +113,17 @@ Enjoy your Weblate deployment, it's accessible on port 8000 of the container.
 
 .. seealso:: :ref:`invoke-manage`
 
+Maintenance tasks
++++++++++++++++++
+
+There are some cron jobs to run. You should set :envvar:`WEBLATE_OFFLOAD_INDEXING` to ``1`` when these are setup
+
+.. code-block:: crontab
+
+    */5 * * * * cd /usr/share/weblate/; docker-compose run --rm weblate update_index
+    @daily cd /usr/share/weblate/; docker-compose run --rm weblate cleanuptrans
+    @hourly cd /usr/share/weblate-docker/; docker-compose run --rm weblate commit_pending --all --age=96
+
 .. _docker-environment:
 
 Docker environment variables
