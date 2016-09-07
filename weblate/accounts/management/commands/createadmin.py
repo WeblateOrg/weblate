@@ -44,6 +44,12 @@ class Command(BaseCommand):
             default='admin@example.com',
             help='Admin email, defaults to "admin@example.com"'
         )
+        parser.add_argument(
+            '--replace',
+            action='store_true',
+            default=False,
+            help='Change password for this account if exists'
+        )
 
     @staticmethod
     def make_password(length):
@@ -58,7 +64,8 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants
         to be able to login remotely and change password then.
         '''
-        if User.objects.filter(username=options['username']).exists():
+        exists = User.objects.filter(username=options['username']).exists()
+        if exists and not options['replace']:
             raise CommandError('User admin exists')
 
         if options['password']:
@@ -68,11 +75,16 @@ class Command(BaseCommand):
             password = self.make_password(13)
             self.stdout.write('Creating user admin with password ' + password)
 
-        user = User.objects.create_user(
-            options['username'],
-            options['email'],
-            password
-        )
+        if exists and options['replace']:
+            user = User.objects.get(username=options['username'])
+            user.email = options['email']
+            user.set_password(password)
+        else:
+            user = User.objects.create_user(
+                options['username'],
+                options['email'],
+                password
+            )
         user.first_name = 'Weblate Admin'
         user.last_name = ''
         user.is_superuser = True

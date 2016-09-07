@@ -183,7 +183,8 @@ createadmin
 
 Creates ``admin`` account with random password. You can specify ``--password``
 to provide password on the command line, by ``--username`` you can create user
-of different name, by ``--email`` you can specify his email.
+of different name, by ``--email`` you can specify his email and with ``--replace`` 
+you can change existing user as well.
 
 dumpuserdata <file.json>
 ------------------------
