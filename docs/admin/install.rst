@@ -90,11 +90,14 @@ install them you can use apt-get:
         python-django-compressor python-django-crispy-forms \
         python-djangorestframework python-dateutil
 
-    # Optional for database backend
+    # Optional packages for database backend:
 
-    apt-get install python-pymysql   # For MySQL on Ubuntu
-    apt-get install python-mysqldb   # For MySQL on Debian
-    apt-get install python-psycopg2  # For PostgreSQL
+    # For MySQL on Ubuntu (if using Ubuntu package for Django)
+    apt-get install python-pymysql
+    # For MySQL on Debian (or Ubuntu if using upstream Django packages)
+    apt-get install python-mysqldb
+    # For PostgreSQL
+    apt-get install python-psycopg2
 
 On older versions, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
