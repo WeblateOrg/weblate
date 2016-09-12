@@ -110,7 +110,7 @@ need to install several Python modules manually using pip:
     # In case python-social-auth package is missing
     pip install python-social-auth
 
-    # In case your distribution has python-django older than 1.7
+    # In case your distribution has python-django older than 1.9
     pip install Django
 
     # In case python-django-crispy-forms package is missing
