@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-30 12:02+0000\n"
-"PO-Revision-Date: 2016-09-08 21:21+0000\n"
-"Last-Translator: Piotr Sokół <psokol.l10n@gmail.com>\n"
+"PO-Revision-Date: 2016-09-12 15:00+0000\n"
+"Last-Translator: Stanisław Krukowski <dfk0077@riseup.net>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
@@ -2656,12 +2656,9 @@ msgid "There are some not committed changes!"
 msgstr "Istnieją jakieś nieprzesłane zmiany!"
 
 #: weblate/html/js/git-status.html:25
-#, fuzzy
 #| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
 msgid "There has been a merge failure on the repository:"
-msgstr ""
-"Witaj,/n\n"
-"Pojawiło się nowe tłumaczenie do %(subproject)s w %(site_title)s."
+msgstr "Nastąpiła awaria scalania w repozytorium:"
 
 #: weblate/html/js/git-status.html:27 weblate/html/mail/merge_failure.html:36
 #: weblate/html/mail/merge_failure.txt:17
@@ -3139,7 +3136,7 @@ msgid ""
 msgstr ""
 
 #: weblate/html/mail/new_language.html:20
-#, fuzzy, python-format, python-format, python-format
+#, python-format, python-format, python-format
 #| msgid ""
 #| "More information about exported RSS feeds is available in <a href="
 #| "\"%(rss_docs)s\">the documentation</a>."
@@ -3147,8 +3144,8 @@ msgid ""
 "More information on adding new language files is available in <a href="
 "\"%(doc_url)s\">the documentation</a>."
 msgstr ""
-"Więcej informacji o źródłach RSS znajdziesz w <a href=\"%(rss_docs)s\""
-">dokumentacji</a>."
+"Więcej informacji na temat dodawania plików w nowym języku jest dosŧępnych w "
+"<a href=\"%(doc_url)s\">dokumentacji</a>."
 
 #: weblate/html/mail/new_language.html:27 weblate/html/mail/new_language.txt:9
 msgid "Requested language:"
@@ -3159,7 +3156,6 @@ msgid "Requesting user:"
 msgstr "Żądający użytkownik:"
 
 #: weblate/html/mail/new_language.txt:7
-#, fuzzy
 #| msgid ""
 #| "More information about this check is available in the <a href=\"%(link)s"
 #| "\">documentation</a>."
@@ -3167,8 +3163,8 @@ msgid ""
 "More information on adding new language files is available in the "
 "documentation:"
 msgstr ""
-"Więcej informacji o tym teście znajdziesz w <a href=\"%(link)s\""
-">dokumentacji</a>."
+"W dokumentacji dostępnych jest więcej informacji o dodawaniu plików w nowym "
+"języku:"
 
 #: weblate/html/mail/new_language_subject.txt:3
 #, python-format
@@ -3248,10 +3244,9 @@ msgid "Failing file"
 msgstr "Test nieudany"
 
 #: weblate/html/mail/parse_error.txt:9
-#, fuzzy
 #| msgid "Failing check"
 msgid "Failing file:"
-msgstr "Test nieudany"
+msgstr "Failing file:"
 
 #: weblate/html/mail/parse_error_subject.txt:3
 #, python-format, python-format
@@ -3991,7 +3986,6 @@ msgid "Translation is currently not locked."
 msgstr "Tłumaczenie nie jest aktualnie zablokowanie."
 
 #: weblate/html/translation.html:269 weblate/html/translation.html:317
-#, fuzzy
 msgid "Review"
 msgstr "Przegląd"
 
@@ -4565,14 +4559,11 @@ msgid "The translations in several languages have failing checks"
 msgstr "Tłumaczenia w kilku językach nie przeszły testów"
 
 #: weblate/trans/context_processors.py:53
-#, fuzzy
 #| msgid ""
 #| "This Weblate instance hosts translations for various free software "
 #| "projects."
 msgid "Hosted Weblate, the place to translate your software project."
-msgstr ""
-"Ta instancja Weblate hostów tłumaczeń dla różnych projektów darmowego "
-"oprogramowania."
+msgstr "Hosted Weblate, miejsce do tłumaczenia twojego projektu oprogramowania."
 
 #: weblate/trans/context_processors.py:57
 #| msgid ""
@@ -5608,10 +5599,9 @@ msgid "Enable suggestions"
 msgstr "Włącz sugestie"
 
 #: weblate/trans/models/subproject.py:330
-#, fuzzy
 #| msgid "Machine translation suggestions"
 msgid "Whether to allow translation suggestions at all."
-msgstr "Sugestie tłumaczenia maszynowego"
+msgstr "Czy w ogóle pozwolić na sugestie tłumaczeń."
 
 #: weblate/trans/models/subproject.py:334
 msgid "Suggestion voting"
@@ -6452,11 +6442,11 @@ msgid "Changes in %s"
 msgstr "Zmiany w %s"
 
 #: weblate/trans/views/changes.py:113
-#, fuzzy, python-format, python-format, python-format, python-format
+#, python-format, python-format, python-format, python-format
 #| msgid "Changes"
 msgctxt "Changes by user"
 msgid "Changes by %s"
-msgstr "Zmiany"
+msgstr "Zmiany za pomocą %s"
 
 #: weblate/trans/views/changes.py:142
 msgid "Failed to find matching project!"
