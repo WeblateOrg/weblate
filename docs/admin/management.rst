@@ -220,7 +220,8 @@ You always have to include fields ``name`` and ``filemask``.
 
 .. versionchanged:: 2.9
 
-    Added parameters ``--ignore`` and ``--update``.
+    Added parameters ``--ignore`` and ``--update`` to deal with already
+    imported components.
 
 Example of JSON file:
 
