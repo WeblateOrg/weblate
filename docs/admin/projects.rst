@@ -360,8 +360,8 @@ information how to configure this.
 Automatic creation of components
 --------------------------------
 
-In case you have project with dozen of po files, you might want to import all
-at once. This can be achieved using :djadmin:`import_project` or
+In case you have project with dozen of translation files, you might want to
+import all at once. This can be achieved using :djadmin:`import_project` or
 :djadmin:`import_json`.
 
 First you need to create project which will contain all components and then
