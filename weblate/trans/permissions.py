@@ -24,7 +24,6 @@ from django.db.models import Q
 from django.contrib.auth.models import Group, User, Permission
 
 from weblate import appsettings
-from weblate.trans.models.group_acl import GroupACL
 
 
 def check_owner(user, project, permission):
@@ -58,16 +57,9 @@ def has_group_perm(user, permission, translation=None, project=None):
     given permission.
     """
     if translation is not None:
-        acls = list(GroupACL.objects.filter(
-            (Q(language=translation.language) | Q(language=None)) &
-            (Q(project=translation.subproject.project) | Q(project=None)) &
-            (Q(subproject=translation.subproject) | Q(subproject=None)) &
-            (~Q(language=None, project=None, subproject=None))
-        ))
+        acls = translation.get_acl_groups()
     elif project is not None:
-        acls = list(GroupACL.objects.filter(
-            project=project, subproject=None, language=None
-        ))
+        acls = project.get_acl_groups()
     else:
         return False
 

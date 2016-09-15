@@ -39,6 +39,7 @@ from weblate import appsettings
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode, ParseError
 from weblate.trans.checks import CHECKS
+from weblate.trans.models.group_acl import GroupACL
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.unitdata import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
@@ -178,6 +179,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         self._store = None
         self._last_change_obj = None
         self._last_change_obj_valid = False
+        self._acl_groups = None
+
+    def get_acl_groups(self):
+        if self._acl_groups is None:
+            self._acl_group = list(GroupACL.objects.filter(
+                (Q(language=self.language) | Q(language=None)) &
+                (Q(project=self.subproject.project) | Q(project=None)) &
+                (Q(subproject=self.subproject) | Q(subproject=None)) &
+                (~Q(language=None, project=None, subproject=None))
+            ))
+        return self._acl_group
 
     @property
     def log_prefix(self):
