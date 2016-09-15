@@ -73,6 +73,12 @@ this.
           - WEBLATE_EMAIL_HOST_PASSWORD=pass
           - WEBLATE_SECRET_KEY=something more secret
           - WEBLATE_ALLOWED_HOSTS=your hosts
+          - WEBLATE_ADMIN_PASSWORD=password for admin user
+
+.. note::
+
+    If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, admin user is created with
+    random password printed out on first startup.
 
 4. Build Weblate containers:
 
@@ -80,17 +86,7 @@ this.
 
     docker-compose build
 
-5. Create admin user (this command will print your random password for admin, you can change it later, see :djadmin:`createadmin`):
-
-.. code-block:: sh
-
-    docker-compose run --rm weblate createadmin
-
-.. note::
-
-    Remember to write down the admin password, you will need it to manage Weblate later.
-
-6. Start Weblate containers:
+5. Start Weblate containers:
 
 .. code-block:: sh
 
@@ -138,6 +134,17 @@ Generic settings
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
     Configures site admins name and email, see :ref:`production-admins`.
+
+.. envvar:: WEBLATE_ADMIN_PASSWORD
+
+    Sets password for admin user. If not set, admin user is created with random
+    password printed out on first startup.
+
+    .. versionchanged:: 2.9
+
+        Since version 2.9, the admin user is adjusted on every container
+        startup to match :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`
+        and :envvar:`WEBLATE_ADMIN_EMAIL`.
 
 .. envvar:: WEBLATE_SERVER_EMAIL
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
