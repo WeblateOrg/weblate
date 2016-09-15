@@ -36,7 +36,7 @@ def get_translation(request, project, subproject, lang, skip_acl=False):
     Returns translation matching parameters.
     '''
     translation = get_object_or_404(
-        Translation,
+        Translation.objects.prefetch(),
         language__code=lang,
         subproject__slug=subproject,
         subproject__project__slug=project,
@@ -52,7 +52,7 @@ def get_subproject(request, project, subproject, skip_acl=False):
     Returns subproject matching parameters.
     '''
     subproject = get_object_or_404(
-        SubProject,
+        SubProject.objects.prefetch(),
         project__slug=project,
         slug=subproject
     )
