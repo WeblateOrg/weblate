@@ -419,7 +419,7 @@ def show_translation(request, project, subproject, lang):
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,
-            'other_translations': Translation.objects.filter(
+            'other_translations': Translation.objects.prefetch().filter(
                 subproject__project=obj.subproject.project,
                 language=obj.language,
             ).exclude(
