@@ -79,13 +79,13 @@ this.
     If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, admin user is created with
     random password printed out on first startup.
 
-4. Build Weblate containers:
+3. Build Weblate containers:
 
 .. code-block:: sh
 
     docker-compose build
 
-5. Start Weblate containers:
+4. Start Weblate containers:
 
 .. code-block:: sh
 
