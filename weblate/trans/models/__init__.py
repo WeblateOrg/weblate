@@ -260,7 +260,11 @@ def user_commit_pending(sender, instance, **kwargs):
 
     # Commit changes where user is last author
     for translation in Translation.objects.filter(pk__in=user_translation_ids):
-        last_author = translation.change_set.content()[0].author
+        try:
+            last_author = translation.change_set.content()[0].author
+        except IndexError:
+            # Non content changes
+            continue
         if last_author == instance:
             translation.commit_pending(None)
 
