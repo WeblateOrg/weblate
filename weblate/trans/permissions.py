@@ -33,8 +33,18 @@ def check_owner(user, project, permission):
     """
     if project is None:
         return False
-    if not project.owners.filter(id=user.id).exists():
+
+    if not hasattr(user, 'acl_permissions_owner'):
+        user.acl_permissions_owner = {}
+
+    if project.pk not in user.acl_permissions_owner:
+        user.acl_permissions_owner[project.pk] = project.owners.filter(
+            id=user.id
+        ).exists()
+
+    if not user.acl_permissions_owner[project.pk]:
         return False
+
     group = Group.objects.get(name='Owners')
     app, perm = permission.split('.')
     return group.permissions.filter(

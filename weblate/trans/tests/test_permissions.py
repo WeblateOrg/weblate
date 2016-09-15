@@ -275,6 +275,7 @@ class GroupACLTest(ModelTestCase):
             '_user_perm_cache',
             '_group_perm_cache',
             'acl_permissions_cache',
+            'acl_permissions_owner',
         )
         for cache in attribs:
             for user in (self.user, self.privileged):
