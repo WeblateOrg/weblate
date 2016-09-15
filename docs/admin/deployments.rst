@@ -80,19 +80,7 @@ this.
 
     docker-compose build
 
-5. Create Weblate database:
-
-.. code-block:: sh
-
-    docker-compose run --rm weblate migrate
-
-6. Prepare static files:
-
-.. code-block:: sh
-
-    docker-compose run --rm weblate collectstatic --noinput
-
-7. Create admin user (this command will print your random password for admin, you can change it later, see :djadmin:`createadmin`):
+5. Create admin user (this command will print your random password for admin, you can change it later, see :djadmin:`createadmin`):
 
 .. code-block:: sh
 
@@ -102,7 +90,7 @@ this.
 
     Remember to write down the admin password, you will need it to manage Weblate later.
 
-8. Start Weblate containers:
+6. Start Weblate containers:
 
 .. code-block:: sh
 
