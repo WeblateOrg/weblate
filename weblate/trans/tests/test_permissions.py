@@ -132,6 +132,7 @@ class GroupACLTest(ModelTestCase):
 
         acl = GroupACL.objects.create(subproject=self.subproject)
         acl.groups.add(self.group)
+        self.clear_permission_cache()
 
         self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
         self.assertFalse(can_edit(self.user, self.trans, self.PERMISSION))
@@ -149,6 +150,7 @@ class GroupACLTest(ModelTestCase):
             can_edit(self.privileged, self.trans, self.PERMISSION))
 
         acl_sub = GroupACL.objects.create(subproject=self.subproject)
+        self.clear_permission_cache()
         self.assertFalse(
             can_edit(self.privileged, self.trans, self.PERMISSION))
 
@@ -276,6 +278,7 @@ class GroupACLTest(ModelTestCase):
             '_group_perm_cache',
             'acl_permissions_cache',
             'acl_permissions_owner',
+            'acl_permissions_groups',
         )
         for cache in attribs:
             for user in (self.user, self.privileged):
@@ -349,6 +352,7 @@ class GroupACLTest(ModelTestCase):
 
         acl_project_only = GroupACL.objects.create(project=self.project)
         acl_project_only.groups.add(self.group)
+        self.clear_permission_cache()
 
         self.assertTrue(check_permission(
             self.privileged, self.project, 'trans.author_translation'

@@ -38,7 +38,6 @@ from weblate.accounts.models import Profile
 from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans import messages
-from weblate.trans.models.group_acl import GroupACL
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
@@ -171,18 +170,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')
-
-    def __init__(self, *args, **kwargs):
-        """Constructor to initialize some cache properties."""
-        super(Project, self).__init__(*args, **kwargs)
-        self._acl_groups = None
-
-    def get_acl_groups(self):
-        if self._acl_groups is None:
-            self._acl_group = list(GroupACL.objects.filter(
-                project=self, subproject=None, language=None
-            ))
-        return self._acl_group
 
     def get_full_slug(self):
         return self.slug
