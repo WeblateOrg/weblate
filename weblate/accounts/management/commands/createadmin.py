@@ -45,6 +45,11 @@ class Command(BaseCommand):
             help='Admin email, defaults to "admin@example.com"'
         )
         parser.add_argument(
+            '--name',
+            default='Weblate Admin',
+            help='Admin name, defaults to "Weblate Admin"'
+        )
+        parser.add_argument(
             '--update',
             action='store_true',
             default=False,
@@ -87,7 +92,7 @@ class Command(BaseCommand):
                 options['email'],
                 password
             )
-        user.first_name = 'Weblate Admin'
+        user.first_name = options['name']
         user.last_name = ''
         user.is_superuser = True
         user.is_staff = True
