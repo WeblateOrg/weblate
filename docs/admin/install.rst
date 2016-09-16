@@ -928,6 +928,49 @@ Monitoring Weblate
 Weblate provides ``/healthz/`` URL to be used in simple health checks, for example
 using Kubernetes.
 
+Collecting error reports
+------------------------
+
+It is good idea to collect errors from any Django application in structured way
+and Weblate is not an exception from this. You might find several services providing
+this, for example:
+
+* `Sentry <https://sentry.io>`_
+* `Rollbar <https://rollbar.com/>`_
+
+Rollbar
++++++++
+
+Weblate has built in support for `Rollbar <https://rollbar.com/>`_. To use 
+it it's enough to follow instructions for `Rollbar notifier for Python <https://rollbar.com/docs/notifier/pyrollbar/>`_.
+
+In short, you need to adjust :file:`settings.py`:
+
+.. code-block:: python
+
+    # Add rollbar as last middleware:
+    MIDDLEWARE_CLASSES = (
+        # ... other middleware classes ...
+        'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
+    )
+
+    # Configure client access
+    ROLLBAR = {
+        'access_token': 'POST_SERVER_ITEM_ACCESS_TOKEN',
+        'client_token': 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+        'environment': 'development' if DEBUG else 'production',
+        'branch': 'master',
+        'root': '/absolute/path/to/code/root',
+    }
+
+Everything else is integrated automatically, you will now collect both server
+and client side errors.
+
+.. note:
+
+    Error logging also includes exceptions which were gracefully handled, but
+    might indicate problem - such as failed parsing of uploaded file.
+
 Migrating Weblate to another server
 -----------------------------------
 
