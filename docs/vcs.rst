@@ -250,15 +250,15 @@ users to have a full clone of the internal repository and commit locally.
 
 .. _subversion: https://subversion.apache.org/
 
-Credentials
-+++++++++++
+Subversion Credentials
+++++++++++++++++++++++
 
 Weblate expects you to have accepted the certificate upfront and inserted your
 credential, if needed. It will look into the DATA_DIR directory. To insert your
 credential and accept the certificate, you can run svn once with the `$HOME`
 environment variable set to the DATA_DIR::
 
-    HOME=${DATA_DIR} svn co https://svn.example.com/example
+    HOME=${DATA_DIR}/home svn co https://svn.example.com/example
 
 .. seealso::
 
