@@ -39,6 +39,14 @@ var _rollbarConfig = {
     captureUnhandledRejections: false,
     payload: {
         environment: "{{ rollbar_environment }}"
+    },
+    checkIgnore: function(isUncaught, args, payload) {
+        if (window.navigator.userAgent && (window.navigator.userAgent.indexOf('Baiduspider') !== -1 || window.navigator.userAgent.indexOf('Seznam screenshot-generator') !== -1)) {
+            // ignore javascript errors from spiders with know javascript problems
+            return true;
+        }
+        // no other ignores
+        return false;
     }
 };
 // Rollbar Snippet
