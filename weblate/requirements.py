@@ -100,6 +100,17 @@ def get_optional_versions():
             None,
         ))
 
+    name = 'PyYAML'
+    url = 'http://pyyaml.org/wiki/PyYAML'
+    mod = get_version_module('yaml', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            mod.__version__,
+            None,
+        ))
+
     if HgRepository.is_supported():
         result.append((
             'Mercurial',

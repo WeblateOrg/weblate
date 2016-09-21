@@ -47,6 +47,8 @@ PIL or Pillow library
     http://python-pillow.org/
 lxml (>= 3.1.0)
     http://lxml.de/
+PyYaML (>= 3.0) (optional for YAML support)
+    http://pyyaml.org/wiki/PyYAML
 defusedxml (>= 0.4)
     https://bitbucket.org/tiran/defusedxml
 dateutil
