@@ -37,7 +37,7 @@ from weblate.lang.models import Language
 from weblate.trans.formats import (
     AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
     JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
-    FILE_FORMATS, detect_filename,
+    YAMLFormat, RubyYAMLFormat, FILE_FORMATS, detect_filename,
 )
 from weblate.trans.tests.utils import get_test_file
 
@@ -52,6 +52,8 @@ TEST_POT = get_test_file('hello.pot')
 TEST_POT_UNICODE = get_test_file('unicode.pot')
 TEST_RESX = get_test_file('cs.resx')
 TEST_TS = get_test_file('cs.ts')
+TEST_YAML = get_test_file('cs.pyml')
+TEST_RUBY_YAML = get_test_file('cs.ryml')
 
 
 class AutoLoadTest(TestCase):
@@ -89,6 +91,14 @@ class AutoLoadTest(TestCase):
     def test_resx(self):
         if 'resx' in FILE_FORMATS:
             self.single_test(TEST_RESX, RESXFormat)
+
+    def test_yaml(self):
+        if 'yaml' in FILE_FORMATS:
+            self.single_test(TEST_YAML, YAMLFormat)
+
+    def test_ruby_yaml(self):
+        if 'tuby_yaml' in FILE_FORMATS:
+            self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
 
     def test_content(self):
         """Test content based guess from ttkit"""
@@ -305,6 +315,31 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
         super(RESXFormatTest, self).setUp()
         if 'resx' not in FILE_FORMATS:
             raise SkipTest('resx not supported!')
+
+
+class YAMLFormatTest(AutoFormatTest):
+    FORMAT = YAMLFormat
+    FILE = TEST_YAML
+    BASE = TEST_YAML
+    MIME = 'text/yaml'
+    EXT = 'yml'
+    COUNT = 4
+    MASK = 'yaml/*.yml'
+    EXPECTED_PATH = 'yaml/cs_CZ.yml'
+    FIND = 'weblate / hello'
+    FIND_MATCH = ''
+    MATCH = 'weblate:'
+
+    def setUp(self):
+        super(YAMLFormatTest, self).setUp()
+        if 'yaml' not in FILE_FORMATS:
+            raise SkipTest('yaml not supported!')
+
+
+class RubyYAMLFormatTest(YAMLFormatTest):
+    FORMAT = RubyYAMLFormat
+    FILE = TEST_RUBY_YAML
+    BASE = TEST_RUBY_YAML
 
 
 class TSFormatTest(XMLMixin, AutoFormatTest):

@@ -359,6 +359,38 @@ Example file:
     :language: csv
     :encoding: utf-8
 
+YAML files
+----------
+
+.. index::
+    pair: YAML; file format
+    pair: YAML Ain't Markup Language; file format
+
+.. versionadded:: 2.9
+
+There are several variants of using YAML as a translation format. Weblate
+currently supports following:
+
+* Plain YAML files with string keys and values
+* Ruby i18n YAML files with language as root node
+
+.. note::
+
+    You currently need patched version of translate-toolkit to support YAML.
+    Check `translate-toolkit issue tracker <https://github.com/translate/translate/issues/3248>`_ for more details.
+
+Example YAML file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs.pyml
+    :language: yaml
+    :encoding: utf-8
+
+Example Ruby i18n YAML file:
+
+.. literalinclude:: ../weblate/trans/tests/data/cs.ryml
+    :language: yaml
+    :encoding: utf-8
+
 Others
 ------
 

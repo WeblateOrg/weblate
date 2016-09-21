@@ -360,6 +360,24 @@ class RepoTestMixin(object):
             'resx/en.resx',
         )
 
+    def create_yaml(self):
+        if 'yaml' not in FILE_FORMATS:
+            raise SkipTest('yaml not supported')
+        return self._create_subproject(
+            'yaml',
+            'yml/*.yml',
+            'yml/en.yml',
+        )
+
+    def create_ruby_yaml(self):
+        if 'ruby-yaml' not in FILE_FORMATS:
+            raise SkipTest('yaml not supported')
+        return self._create_subproject(
+            'ruby-yaml',
+            'ruby-yml/*.yml',
+            'ruby-yml/en.yml',
+        )
+
     def create_link(self):
         parent = self.create_iphone()
         return SubProject.objects.create(

@@ -229,6 +229,14 @@ class SubProjectTest(RepoTestCase):
         project = self.create_resx()
         self.verify_subproject(project, 2, 'cs', 4)
 
+    def test_create_yaml(self):
+        project = self.create_yaml()
+        self.verify_subproject(project, 2, 'cs', 4)
+
+    def test_create_ruby_yaml(self):
+        project = self.create_ruby_yaml()
+        self.verify_subproject(project, 2, 'cs', 4)
+
     def test_link(self):
         project = self.create_link()
         self.verify_subproject(project, 3, 'cs', 4)

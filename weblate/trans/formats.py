@@ -1318,6 +1318,55 @@ class CSVSimpleFormatISO(CSVSimpleFormat):
     encoding = 'iso-8859-1'
 
 
+@register_fileformat
+class YAMLFormat(FileFormat):
+    name = _('YAML file')
+    format_id = 'yaml'
+    loader = ('yaml', 'YAMLFile')
+    unit_class = MonolingualSimpleUnit
+    autoload = ('.pyml',)
+
+    @classmethod
+    def supports_new_language(cls):
+        '''
+        Checks whether we can create new language file.
+        '''
+        return True
+
+    @classmethod
+    def create_new_file(cls, filename, language, base):
+        """Handles creation of new translation file."""
+        content = b'{}\n'
+        if base:
+            # TODO: clean translations
+            with open(base, 'rb') as handle:
+                content = handle.read()
+        with open(filename, 'wb') as output:
+            output.write(content)
+
+    @property
+    def mimetype(self):
+        '''
+        Returns most common mime type for format.
+        '''
+        return 'text/yaml'
+
+    @property
+    def extension(self):
+        '''
+        Returns most common file extension for format.
+        '''
+        return 'yml'
+
+
+@register_fileformat
+class RubyYAMLFormat(YAMLFormat):
+    name = _('Ruby YAML file')
+    format_id = 'ruby-yaml'
+    loader = ('yaml', 'RubyYAMLFile')
+    autoload = ('.ryml', '.yml', '.yaml')
+
+
 FILE_FORMAT_CHOICES = [
     (fmt, FILE_FORMATS[fmt].name) for fmt in sorted(FILE_FORMATS)
 ]
