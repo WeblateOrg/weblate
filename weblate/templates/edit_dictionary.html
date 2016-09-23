@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-<li><a href="{% url 'show_dictionaries' project=project.slug %}">{% trans "dictionaries" %}</a></li>
+<li><a href="{% url 'show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
 <li><a href="{% url 'show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endblock %}
 
