@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-08-30 12:02+0000\n"
-"PO-Revision-Date: 2016-09-24 09:26+0200\n"
+"PO-Revision-Date: 2016-09-24 10:07+0200\n"
 "Last-Translator: Piotr Sokół <psokol.l10n@gmail.com>\n"
 "Language-Team: polski <>\n"
 "Language: pl\n"
@@ -1473,8 +1473,8 @@ msgid ""
 "use these data in other websites or tools. Format of the data is described "
 "in <a href=\"%(api_docs)s\">the documentation</a>."
 msgstr ""
-"Statystyki tłumaczeń dla każdego podprojektu w formacie JSON pozwalają "
-"korzystać z tych danych na innych stronach internetowych lub narzędziach. "
+"Statystyki tłumaczeń dla każdego składnika w formacie JSON umożliwiają "
+"korzystanie z tych danych na innych stronach internetowych lub narzędziach. "
 "Format danych jest opisany w <a href=\"%(api_docs)s\">dokumentacji</a>."
 
 #: weblate/html/data.html:66
@@ -1585,7 +1585,7 @@ msgstr "Ciąg tłumaczenia"
 #: weblate/html/dictionary.html:62 weblate/html/js/detail.html:17
 #: weblate/html/js/detail.html:26 weblate/html/zen-units.html:16
 msgid "Edit"
-msgstr "Edytuj"
+msgstr "Zmodyfikuj"
 
 #: weblate/html/dictionary.html:69 weblate/html/js/git-status.html:211
 #: weblate/html/list-comments.html:23 weblate/html/translate.html:229
@@ -1749,7 +1749,7 @@ msgstr "asturyjski"
 #: weblate/html/i18n.html:32
 #| msgid "Asturian"
 msgid "Austrian German"
-msgstr "asturyjski"
+msgstr "austracki niemiecki"
 
 #: weblate/html/i18n.html:33
 msgid "Aymará"
@@ -1794,12 +1794,12 @@ msgstr "bośniacki"
 #: weblate/html/i18n.html:43
 #| msgid "Belarusian (latin)"
 msgid "Bosnian (latin)"
-msgstr "białoruski (łacina)"
+msgstr "bośniacki (łacina)"
 
 #: weblate/html/i18n.html:44
 #| msgid "Serbian (cyrillic)"
 msgid "Bosnian (cyrillic)"
-msgstr "serbski (cyrylica)"
+msgstr "bośniacki (cyrylica)"
 
 #: weblate/html/i18n.html:45
 msgid "Breton"
@@ -1913,7 +1913,7 @@ msgstr "angielski (Irlandia)"
 #: weblate/html/i18n.html:72
 #| msgid "English (Australia)"
 msgid "English (Philippines)"
-msgstr "angielski (Australia)"
+msgstr "angielski (Filipiny)"
 
 #: weblate/html/i18n.html:73
 msgid "English (South Africa)"
@@ -2376,12 +2376,12 @@ msgstr "hiszpański (Ameryka)"
 
 #: weblate/html/i18n.html:187
 msgid "Spanish (Argentina)"
-msgstr ""
+msgstr "hiszpański (Argentyna)"
 
 #: weblate/html/i18n.html:188
 #| msgid "Spanish"
 msgid "Spanish (Mexico)"
-msgstr "hiszpański"
+msgstr "hiszpański (Meksyk)"
 
 #: weblate/html/i18n.html:189
 msgid "Spanish (Puerto Rico)"
@@ -2725,7 +2725,7 @@ msgstr "Prześlij zmiany do zdalnego repozytorium"
 
 #: weblate/html/js/git-status.html:154 weblate/trans/models/subproject.py:95
 msgid "Rebase"
-msgstr "Rebase"
+msgstr "Zmień bazę"
 
 #: weblate/html/js/git-status.html:158
 #| msgid "Push changes to remote repository"
@@ -2989,7 +2989,7 @@ msgstr "Nastąpiła zmiana w tłumaczeniu w %(translation)s na %(site_title)s."
 #: weblate/html/mail/new_translation.html:18
 #: weblate/html/mail/new_translation.txt:5
 msgid "Source string:"
-msgstr "Źródłowy ciąg znaków:"
+msgstr "Ciąg źródłowy:"
 
 #: weblate/html/mail/changed_translation.html:28
 #: weblate/html/mail/changed_translation.txt:9
@@ -3038,7 +3038,7 @@ msgstr "Ciągi nieprzetłumaczone:"
 
 #: weblate/html/mail/footer.html:16 weblate/html/mail/footer.txt:6
 msgid "Strings marked for review:"
-msgstr "Ciągi oznaczone do sprawdzenia:"
+msgstr "Ciągi do sprawdzenia:"
 
 #: weblate/html/mail/footer.html:20
 #, python-format
@@ -3078,17 +3078,18 @@ msgstr "Wiadomość błędu:"
 
 #: weblate/html/mail/merge_failure.txt:9
 msgid "Repository status:"
-msgstr "Status repozytorium:"
+msgstr "Stan repozytorium:"
 
 #: weblate/html/mail/merge_failure_subject.txt:3
 #, python-format
 msgid "Merge failure in %(subproject)s"
-msgstr "Błąd scalania w %(subproject)s"
+msgstr "Błąd scalania w projekcie %(subproject)s"
 
 #: weblate/html/mail/new_comment.html:11 weblate/html/mail/new_comment.txt:3
 #, python-format
 msgid "There has been a new comment on %(subproject)s at %(site_title)s."
-msgstr "Pojawił się nowy komentarz na %(subproject)s na %(site_title)s."
+msgstr ""
+"Dodano nowy komentarz w projekcie %(subproject)s na stronie %(site_title)s."
 
 #: weblate/html/mail/new_comment.html:28 weblate/html/mail/new_comment.txt:9
 #: weblate/html/unit-context.html:8
@@ -3098,7 +3099,7 @@ msgstr "Komentarz:"
 #: weblate/html/mail/new_comment_subject.txt:3
 #, python-format
 msgid "New comment in %(subproject)s"
-msgstr "Nowy komentarz w %(subproject)s"
+msgstr "Nowy komentarz w projekcie %(subproject)s"
 
 #: weblate/html/mail/new_contributor.html:11
 #: weblate/html/mail/new_contributor.txt:3
@@ -3117,7 +3118,7 @@ msgstr ""
 #: weblate/html/mail/new_contributor_subject.txt:3
 #, python-format
 msgid "New contributor in %(translation)s"
-msgstr "Nowy współpracownik w %(translation)s"
+msgstr "Nowy współtwórca w projekcie %(translation)s"
 
 #: weblate/html/mail/new_language.html:11 weblate/html/mail/new_language.txt:3
 #, python-format, python-format
@@ -3128,7 +3129,8 @@ msgstr "Nowy współpracownik w %(translation)s"
 msgid ""
 "There has been a request for new language on %(translation)s at "
 "%(site_title)s."
-msgstr "pojawiła się prośba o nowy język dla %(translation)s na %(site_title)s."
+msgstr ""
+"Zażądano nowego języka w projekcie %(translation)s na stronie %(site_title)s."
 
 #: weblate/html/mail/new_language.html:15 weblate/html/mail/new_language.txt:5
 msgid ""
@@ -3181,7 +3183,7 @@ msgstr "Żądanie nowego języka w projekcie %(translation)s"
 msgid ""
 "There are new strings to translate on %(translation)s at %(site_title)s."
 msgstr ""
-"Nowe ciągi do przetłumaczenia w projekcie %(translation)s na stronie "
+"Dodano nowe ciągi do przetłumaczenia w projekcie %(translation)s na stronie "
 "%(site_title)s."
 
 #: weblate/html/mail/new_string_subject.txt:3
@@ -3199,7 +3201,7 @@ msgstr "Nowy ciąg do przetłumaczenia w projekcie %(translation)s"
 msgid ""
 "There is a new suggestion to evaluate on %(translation)s at %(site_title)s."
 msgstr ""
-"Nowa sugestia tłumaczenia w projekcie %(translation)s na stronie "
+"Dodano nową propozycję tłumaczenia w projekcie %(translation)s na stronie "
 "%(site_title)s."
 
 #: weblate/html/mail/new_suggestion.html:28
@@ -3224,7 +3226,9 @@ msgstr "Nowa sugestia w projekcie %(translation)s"
 #| msgid ""
 #| "there has been a new translation on %(translation)s at %(site_title)s."
 msgid "There has been a new translation on %(translation)s at %(site_title)s."
-msgstr "Nowe tłumaczenie w projekcie %(translation)s na stronie %(site_title)s."
+msgstr ""
+"Dodano nowe tłumaczenie w projekcie %(translation)s na stronie "
+"%(site_title)s."
 
 #: weblate/html/mail/new_translation.txt:13
 msgid "Previously not translated"
@@ -3500,7 +3504,7 @@ msgstr "Recenzja ciągów źródłowych"
 #: weblate/html/subproject.html:49
 #| msgid "Translation reverted"
 msgid "Translation reports"
-msgstr "Tłumaczenie wycofane"
+msgstr "Raporty tłumaczenia"
 
 #: weblate/html/subproject.html:79
 msgid "Translations"
@@ -3551,7 +3555,7 @@ msgstr ""
 #: weblate/html/subproject.html:173
 #| msgid "Repository status"
 msgid "Contributor stats"
-msgstr "Status repozytorium"
+msgstr "Statystyki użytkownika"
 
 #: weblate/html/subproject.html:175
 msgid "Reports number of strings and words translated by each translator."
@@ -3791,7 +3795,7 @@ msgstr "Akceptuj i edytuj"
 #: weblate/html/translate.html:252
 #| msgid "Use this translation for all subprojects"
 msgid "Use this translation for all components"
-msgstr "Użyj tego tłumaczenia dla wszystkich podprojektów"
+msgstr "Użyj tego tłumaczenia dla wszystkich składników"
 
 #: weblate/html/translate.html:252
 msgid "Use this translation"
@@ -3840,7 +3844,7 @@ msgstr "Nie znaleziono powiązanych ciągów w słowniku."
 #: weblate/html/translate.html:385
 #| msgid "Import glossary"
 msgid "Add word to glossary"
-msgstr "Zaimportuj słownik"
+msgstr "Dodaj słowo do słownika"
 
 #: weblate/html/translate.html:394
 msgid "Source information"
@@ -3961,7 +3965,7 @@ msgstr "Przetwarzaj"
 
 #: weblate/html/translation.html:198 weblate/html/translation.html:209
 msgid "Upload"
-msgstr "Prześlij"
+msgstr "Wyślij"
 
 #: weblate/html/translation.html:201
 msgid ""
@@ -4164,7 +4168,7 @@ msgstr "Zakończ tryb Zen"
 #, python-format
 #| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
 msgid "%(filter_name)s (%(filter_count)s)"
-msgstr "Aktualny filtr: %(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -5173,22 +5177,22 @@ msgstr "Resetuj repozytorium"
 #: weblate/trans/models/changes.py:203
 #| msgid "Git repository"
 msgid "Merged repository"
-msgstr "Repozytorium Git"
+msgstr "Połączone repozytorium"
 
 #: weblate/trans/models/changes.py:204
 #| msgid "Git repository"
 msgid "Rebased repository"
-msgstr "Repozytorium Git"
+msgstr "Repozytorium ze zmienioną bazą"
 
 #: weblate/trans/models/changes.py:205
 #| msgid "Failed to fetch repository: %s"
 msgid "Failed merge on repository"
-msgstr "Pobranie repozytorium nie powiodło się: %s"
+msgstr "Nieudane łączenie repozytorium"
 
 #: weblate/trans/models/changes.py:206
 #| msgid "Failed to update repository: %s"
 msgid "Failed rebase on repository"
-msgstr "Pobranie repozytorium nie powiodło się: %s"
+msgstr "Nieudane zmienianie bazy repozytorium"
 
 #: weblate/trans/models/changes.py:207
 #| msgid "Server Error"
@@ -5198,7 +5202,7 @@ msgstr "Błąd przetwarzania"
 #: weblate/trans/models/changes.py:208
 #| msgid "Good translations"
 msgid "Removed translation"
-msgstr "Dobre tłumaczenia"
+msgstr "Usunięte tłumaczenie"
 
 #: weblate/trans/models/changes.py:276
 #, python-format
@@ -5299,7 +5303,7 @@ msgstr ""
 #: weblate/trans/models/project.py:138
 #| msgid "Enable ACL"
 msgid "Enable hooks"
-msgstr "Włącz ACL"
+msgstr "Włącz zaczepy"
 
 #: weblate/trans/models/project.py:141
 msgid "Whether to allow updating this repository by remote hooks."
@@ -6318,7 +6322,7 @@ msgstr "Tekst RST"
 #: weblate/trans/validators.py:31
 #| msgid "RST text"
 msgid "XML text"
-msgstr "Tekst RST"
+msgstr "Tekst XML"
 
 #: weblate/trans/validators.py:33
 msgid "Skip review flag when importing"
