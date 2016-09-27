@@ -109,7 +109,7 @@ class TranslationManager(models.Manager):
 
         # Catch no translations (division by zero)
         if total == 0 or total is None:
-            return (100, 0, 0)
+            return (0, 0, 0)
 
         # Fetch values
         result = [
@@ -236,7 +236,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         """Returns percentages of translation status."""
         # No units?
         if self.total == 0:
-            return (100, 0, 0)
+            return (0, 0, 0)
 
         return (
             translation_percent(self.translated, self.total),
