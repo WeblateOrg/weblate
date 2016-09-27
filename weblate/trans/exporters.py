@@ -28,7 +28,7 @@ import six
 
 from translate.misc.multistring import multistring
 from translate.storage.po import pofile
-from translate.storage.mo import mofile
+from translate.storage.mo import mofile, mounit
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
@@ -114,7 +114,7 @@ class BaseExporter(object):
         context = self.string_filter(unit.context)
         if context:
             output.setcontext(context)
-            if hasattr(output, 'msgctxt'):
+            if isinstance(output, mounit):
                 output.msgctxt = [context]
         for location in unit.location.split():
             if location:
