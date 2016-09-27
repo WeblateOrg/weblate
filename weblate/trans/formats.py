@@ -357,6 +357,17 @@ class FileUnit(object):
         self.unit.markfuzzy(fuzzy)
 
 
+class PoUnit(FileUnit):
+    """Wrapper for Gettext PO unit"""
+    def mark_fuzzy(self, fuzzy):
+        '''
+        Sets fuzzy flag on translated unit.
+        '''
+        super(PoUnit, self).mark_fuzzy(fuzzy)
+        if not fuzzy:
+            self.unit.prev_source = ''
+
+
 class XliffUnit(FileUnit):
     """Wrapper unit for XLIFF
 
@@ -852,6 +863,7 @@ class PoFormat(FileFormat):
     monolingual = False
     autoload = ('.po', '.pot')
     language_pack = 'mo'
+    unit_class = PoUnit
 
     @classmethod
     def supports_new_language(cls):
