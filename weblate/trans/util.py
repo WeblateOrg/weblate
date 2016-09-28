@@ -187,7 +187,13 @@ def translation_percent(translated, total):
     '''
     Returns translation percentage.
     '''
-    return round(1000 * translated / total) / 10.0
+    perc = round(1000 * translated / total) / 10.0
+    # Avoid displaying misleading rounded 0.0% or 100.0%
+    if perc == 0.0 and translated != 0:
+        return 0.1
+    if perc == 100.0 and translated != total:
+        return 99.9
+    return perc
 
 
 def add_configuration_error(name, message):
