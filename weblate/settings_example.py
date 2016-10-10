@@ -22,17 +22,6 @@ from __future__ import unicode_literals
 import platform
 import os
 from logging.handlers import SysLogHandler
-import django
-
-#
-# Safety check for running with too old Django version
-#
-
-if django.VERSION < (1, 4, 0):
-    raise Exception(
-        'Weblate needs Django 1.4 or newer, you are using %s!' %
-        django.get_version()
-    )
 
 #
 # Django settings for Weblate project.
