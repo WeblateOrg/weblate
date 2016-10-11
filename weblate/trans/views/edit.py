@@ -598,7 +598,6 @@ def translate(request, project, subproject, lang):
             'form': form,
             'antispam': antispam,
             'comment_form': CommentForm(),
-            'search_form': SearchForm(request.GET),
             'search_form': search_result['form'],
             'update_lock': translation.lock_user == request.user,
             'secondary': secondary,

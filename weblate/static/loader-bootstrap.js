@@ -27,7 +27,7 @@ function decreaseLoading(sel) {
 
 function getNumericKey(idx) {
     var ret = idx + 1;
-    if (ret == 10) {
+    if (ret === 10) {
         return '0';
     }
     return ret;
@@ -35,7 +35,7 @@ function getNumericKey(idx) {
 
 jQuery.fn.extend({
     insertAtCaret: function (myValue) {
-        return this.each(function (i) {
+        return this.each(function () {
             if (document.selection) {
                 // For browsers like Internet Explorer
                 this.focus();
@@ -64,7 +64,7 @@ jQuery.fn.extend({
 function submitForm(evt) {
     var $target = $(evt.target);
     var $form = $target.parents('form');
-    if ($form.length == 0) {
+    if ($form.length === 0) {
         $form = $('.translation-form');
     }
     if ($form.length > 0) {
@@ -88,7 +88,7 @@ function configureChart($chart) {
 
         $toolTip.find('.tooltip-inner').html(value);
         pos.top = pos.top - $toolTip.outerHeight();
-        pos.left = pos.left - ($toolTip.outerWidth() / 2) + 7.5 /* stroke-width / 2 */;
+        pos.left = pos.left - $toolTip.outerWidth() / 2 + 7.5 /* stroke-width / 2 */;
         $toolTip.offset(pos);
         $toolTip.css('opacity', 1);
     });
@@ -128,7 +128,7 @@ function loadActivityChart(element) {
     });
 }
 
-function initEditor(editors) {
+function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
 
@@ -146,7 +146,7 @@ function initEditor(editors) {
     });
 
     /* Direction toggling */
-    $('.direction-toggle').change(function (e) {
+    $('.direction-toggle').change(function () {
         var $this = $(this);
         $this.parents('.translation-item').find('.translation-editor').attr(
             'dir',

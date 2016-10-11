@@ -36,7 +36,10 @@ from weblate.accounts import avatar
 from weblate.trans.tests.test_views import ViewTestCase
 
 
-TEST_URL = 'https://seccdn.libravatar.org/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32'
+TEST_URL = (
+    'https://seccdn.libravatar.org/avatar/'
+    '55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32'
+)
 
 
 class AvatarTest(ViewTestCase):
@@ -64,7 +67,7 @@ class AvatarTest(ViewTestCase):
 
     @httpretty.activate
     def test_avatar(self):
-        image = Image.new('RGB',(32, 32))
+        image = Image.new('RGB', (32, 32))
         storage = BytesIO()
         image.save(storage, 'PNG')
         imagedata = storage.getvalue()

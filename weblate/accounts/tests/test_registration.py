@@ -318,12 +318,12 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
     @httpretty.activate
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self):
+        """Test GitHub integration"""
         try:
             # psa creates copy of settings...
             orig_backends = social.apps.django_app.utils.BACKENDS
             social.apps.django_app.utils.BACKENDS = GH_BACKENDS
 
-            """Test GitHub integration"""
             httpretty.register_uri(
                 httpretty.POST,
                 'https://github.com/login/oauth/access_token',
