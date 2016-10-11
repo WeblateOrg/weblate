@@ -92,6 +92,24 @@ class AvatarTest(ViewTestCase):
         self.assertPNG(response)
         self.assertEqual(response.content, imagedata)
 
+    @httpretty.activate
+    def test_avatar_error(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            TEST_URL,
+            status=503,
+        )
+        # Choose different username to avoid using cache
+        self.user.username = 'test2'
+        self.user.save()
+        response = self.client.get(
+            reverse(
+                'user_avatar',
+                kwargs={'user': self.user.username, 'size': 32}
+            )
+        )
+        self.assertPNG(response)
+
     def test_anonymous_avatar(self):
         anonymous = User.objects.get(username='anonymous')
         # Anonymous user
