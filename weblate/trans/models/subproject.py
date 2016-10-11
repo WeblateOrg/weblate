@@ -1199,6 +1199,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 ))
             filename = self.get_new_base_filename()
             if not self.file_format_cls.is_valid_base_for_new(filename):
+                if filename is not None:
+                    raise ValidationError(_(
+                        'You have configured Weblate to add new translation '
+                        'files, but did not provide base file to do that!'
+                    ))
                 raise ValidationError(_(
                     'Format of base file for new translations '
                     'was not recognized!'
