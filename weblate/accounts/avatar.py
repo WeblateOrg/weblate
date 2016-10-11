@@ -112,7 +112,7 @@ def get_fallback_avatar(size):
         return handle.read()
 
 
-def get_avatar_image(user, size):
+def get_avatar_image(request, user, size):
     """
     Returns avatar image from cache (if available) or downloads it.
     """
@@ -136,7 +136,7 @@ def get_avatar_image(user, size):
             cache.set(cache_key, image)
         except IOError as error:
             report_error(
-                error, sys.exc_info(),
+                error, sys.exc_info(), request,
                 extra_data={'avatar': user.username}
             )
             LOGGER.error(

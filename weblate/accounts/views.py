@@ -364,7 +364,7 @@ def user_avatar(request, user, size):
 
     response = HttpResponse(
         content_type='image/png',
-        content=get_avatar_image(user, size)
+        content=get_avatar_image(request, user, size)
     )
 
     patch_response_headers(response, 3600 * 24 * 7)
