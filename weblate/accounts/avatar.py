@@ -137,7 +137,8 @@ def get_avatar_image(request, user, size):
         except IOError as error:
             report_error(
                 error, sys.exc_info(), request,
-                extra_data={'avatar': user.username}
+                extra_data={'avatar': user.username},
+                level='debug',
             )
             LOGGER.error(
                 'Failed to fetch avatar for %s: %s',

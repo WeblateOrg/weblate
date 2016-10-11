@@ -281,14 +281,16 @@ def cleanup_path(path):
     return path
 
 
-def report_error(error, exc_info, request=None, extra_data=None):
+def report_error(error, exc_info, request=None, extra_data=None, level=None):
     """Wrapper for error reporting
 
     This can be used for store exceptions in error reporting solutions as
     rollbar while handling error gracefully and giving user cleaner message.
     """
     if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
-        rollbar.report_exc_info(exc_info, request, extra_data=extra_data)
+        rollbar.report_exc_info(
+            exc_info, request, extra_data=extra_data, level=level
+        )
 
     LOGGER.error(
         'Handled exception %s: %s',
