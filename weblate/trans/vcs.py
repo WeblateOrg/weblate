@@ -69,7 +69,7 @@ class RepositoryException(Exception):
         self.stderr = stderr.strip()
         self.stdout = stdout.strip()
 
-    def __str__(self):
+    def get_message(self):
         if self.stderr:
             message = self.stderr
         else:
@@ -77,6 +77,9 @@ class RepositoryException(Exception):
         if self.retcode != 0:
             return '{0} ({1})'.format(message, self.retcode)
         return message
+
+    def __str__(self):
+        return self.get_message()
 
 
 class Repository(object):

@@ -949,7 +949,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 return True
             except RepositoryException as error:
                 # In case merge has failer recover
-                error = str(error)
+                error = error.get_message()
                 status = self.repository.status()
 
                 # Log error
