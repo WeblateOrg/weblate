@@ -22,10 +22,15 @@
 Tests for user handling.
 """
 
+from io import BytesIO
 from unittest import SkipTest
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+
+import httpretty
+
+from PIL import Image
 
 from weblate.accounts import avatar
 from weblate.trans.tests.test_views import ViewTestCase
@@ -57,7 +62,17 @@ class AvatarTest(ViewTestCase):
             raise SkipTest('Libravatar not installed')
         self.assert_url()
 
+    @httpretty.activate
     def test_avatar(self):
+        image = Image.new('RGB',(32, 32))
+        storage = BytesIO()
+        image.save(storage, 'PNG')
+        imagedata = storage.getvalue()
+        httpretty.register_uri(
+            httpretty.GET,
+            TEST_URL,
+            body=imagedata,
+        )
         # Real user
         response = self.client.get(
             reverse(
@@ -66,6 +81,7 @@ class AvatarTest(ViewTestCase):
             )
         )
         self.assertPNG(response)
+        self.assertEqual(response.content, imagedata)
         # Test caching
         response = self.client.get(
             reverse(
@@ -74,6 +90,7 @@ class AvatarTest(ViewTestCase):
             )
         )
         self.assertPNG(response)
+        self.assertEqual(response.content, imagedata)
 
     def test_anonymous_avatar(self):
         anonymous = User.objects.get(username='anonymous')
