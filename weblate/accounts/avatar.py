@@ -80,13 +80,11 @@ def avatar_for_email(email, size=80):
 
     else:
         # Fallback to standard method
-        url = "{0}avatar/{1}?{2}".format(
+        url = "{0}avatar/{1}?d={2}&s={3}".format(
             appsettings.AVATAR_URL_PREFIX,
             mail_hash,
-            urlencode({
-                's': str(size),
-                'd': appsettings.AVATAR_DEFAULT_IMAGE
-            })
+            urlencode(appsettings.AVATAR_DEFAULT_IMAGE),
+            str(size),
         )
 
     # Store result in cache

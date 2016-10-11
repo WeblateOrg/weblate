@@ -23,11 +23,15 @@ Tests for user handling.
 """
 
 from unittest import SkipTest
+
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from weblate.accounts import avatar
 from weblate.trans.tests.test_views import ViewTestCase
+
+
+TEST_URL = 'https://seccdn.libravatar.org/avatar/55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32'
 
 
 class AvatarTest(ViewTestCase):
@@ -37,12 +41,8 @@ class AvatarTest(ViewTestCase):
         self.user.save()
 
     def assert_url(self):
-        url = avatar.avatar_for_email(self.user.email)
-        self.assertEqual(
-            'https://seccdn.libravatar.org/avatar/'
-            '55502f40dc8b7c769880b10874abc9d0',
-            url.split('?')[0]
-        )
+        url = avatar.avatar_for_email(self.user.email, size=32)
+        self.assertEqual(TEST_URL, url)
 
     def test_avatar_for_email_own(self):
         backup = avatar.HAS_LIBRAVATAR
