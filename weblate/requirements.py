@@ -26,7 +26,8 @@ import sys
 # pylint: disable=E0611,F0401
 from distutils.version import LooseVersion
 from weblate.trans.vcs import (
-    GitRepository, HgRepository, SubversionRepository, GitWithGerritRepository
+    GitRepository, HgRepository, SubversionRepository, GitWithGerritRepository,
+    GithubRepository,
 )
 
 
@@ -132,6 +133,14 @@ def get_optional_versions():
             'git-review',
             'https://pypi.python.org/pypi/git-review',
             GitWithGerritRepository.get_version(),
+            '1.0',
+        ))
+
+    if GithubRepository.is_supported():
+        result.append((
+            'hub',
+            'https://hub.github.com/',
+            GithubRepository.get_version(),
             '1.0',
         ))
 
