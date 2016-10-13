@@ -816,7 +816,8 @@ class GithubRepository(GitRepository):
 
     _hub_user = appsettings.GITHUB_USERNAME
 
-    _cmd_push = ['push', '--force', _hub_user] if _hub_user else ['push']
+    _cmd_push = ['push', '--force', _hub_user] if _hub_user \
+        else ['push', 'origin']
 
     _is_supported = False if _hub_user is None else None
     _version = None
