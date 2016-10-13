@@ -200,7 +200,7 @@ action with `hub`_ to finish the configuration, for example:
 
 .. code-block:: sh
 
-    hub clone octocat/Spoon-Knife
+    HOME=${DATA_DIR}/home hub clone octocat/Spoon-Knife
 
 The `hub`_ will ask you for your GitHub credentials, retrieve a token and
 store it into :file:`~/.config/hub`.
