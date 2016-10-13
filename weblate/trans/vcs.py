@@ -813,12 +813,13 @@ class GithubRepository(GitRepository):
     name = 'GitHub'
 
     _cmd = 'hub'
+
     _hub_user = appsettings.GITHUB_USERNAME
 
-    if _hub_user is None:
-        _is_supported = False
-    else:
-        _cmd_push = ['push', _hub_user]
+    _cmd_push = ['push', _hub_user] if _hub_user else ['push']
+
+    _is_supported = False if _hub_user is None else None
+    _version = None
 
     @staticmethod
     def _getenv():
