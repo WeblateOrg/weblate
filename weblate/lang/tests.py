@@ -141,14 +141,14 @@ class LanguagesTest(TestCase):
             'zh_Hans',
             'ltr',
             '0',
-            'Simplified Chinese',
+            'Chinese (Simplified)',
         ),
         (
             'zh-CN',
             'zh_Hans',
             'ltr',
             '0',
-            'Simplified Chinese',
+            'Chinese (Simplified)',
         ),
         (
             'zh-CN@test',
@@ -162,7 +162,7 @@ class LanguagesTest(TestCase):
             'zh_Hans',
             'ltr',
             '0',
-            'Simplified Chinese',
+            'Chinese (Simplified)',
         ),
         (
             'ar',

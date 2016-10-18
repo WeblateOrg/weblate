@@ -355,13 +355,13 @@ EXTRALANGS = (
     ),
     (
         'zh_Hant',
-        'Traditional Chinese',
+        'Chinese (Traditional)',
         1,
         '0',
     ),
     (
         'zh_Hans',
-        'Simplified Chinese',
+        'Chinese (Simplified)',
         1,
         '0',
     ),
