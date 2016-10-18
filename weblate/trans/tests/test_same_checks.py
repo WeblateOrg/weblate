@@ -215,6 +215,14 @@ class SameCheckTest(CheckTestCase):
             )
         )
         self.do_test(
+            False,
+            (
+                ':config:option:`$cfg[\'Servers\'][$i][\'pmadb\']`',
+                ':config:option:`$cfg[\'Servers\'][$i][\'pmadb\']`',
+                'rst-text',
+            )
+        )
+        self.do_test(
             True,
             (
                 'See :ref:`index`',
