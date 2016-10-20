@@ -34,7 +34,7 @@ fi
 ./scripts/generate-locales
 
 # Create tarball
-./setup.py sdist --formats bztar,gztar,zip
+fakeroot ./setup.py sdist --formats bztar,gztar,zip
 
 # Build tarballs
 zcat dist/$tarver.tar.gz | xz > dist/$tarver.tar.xz
