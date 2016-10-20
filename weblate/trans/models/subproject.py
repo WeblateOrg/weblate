@@ -1100,46 +1100,52 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             repo = SubProject.objects.get_linked(self.repo)
             if repo is not None and repo.is_repo_link:
                 raise ValidationError(
-                    _(
+                    {'repo': _(
                         'Invalid link to a Weblate project, '
                         'can not link to linked repository!'
-                    )
+                    )}
                 )
             if repo.pk == self.pk:
                 raise ValidationError(
-                    _(
+                    {'repo': _(
+                        'Invalid link to a Weblate project, '
                         'Invalid link to a Weblate project, '
                         'can not link to self!'
-                    )
+                    )}
                 )
         except (SubProject.DoesNotExist, ValueError):
             raise ValidationError(
-                _(
+                {'repo': _(
                     'Invalid link to a Weblate project, '
                     'use weblate://project/component.'
-                )
+                )}
             )
         if self.push != '':
             raise ValidationError(
-                _('Push URL is not used when repository is linked!')
+                {'push': _('Push URL is not used when repository is linked!')}
             )
         if self.git_export != '':
             raise ValidationError(
-                _('Export URL is not used when repository is linked!')
+                {
+                    'git_export':
+                        _('Export URL is not used when repository is linked!')
+                }
             )
 
     def clean_lang_codes(self, matches):
         """Validates that there are no double language codes"""
         if len(matches) == 0 and not self.can_add_new_language():
-            raise ValidationError(_('The mask did not match any files!'))
+            raise ValidationError(
+                {'filemask': _('The mask did not match any files!')}
+            )
         langs = set()
         translated_langs = set()
         for match in matches:
             code = self.get_lang_code(match)
             if not code:
-                raise ValidationError(_(
+                raise ValidationError({'filemask': _(
                     'Got empty language code for %s, please check filemask!'
-                ) % match)
+                ) % match})
             lang = Language.objects.auto_get_or_create(code=code)
             if code in langs:
                 raise ValidationError(_(
@@ -1193,10 +1199,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         """Validates new language choices."""
         if self.new_lang == 'add':
             if not self.file_format_cls.supports_new_language():
-                raise ValidationError(_(
+                msg = _(
                     'Chosen file format does not support adding '
                     'new translations as chosen in project settings.'
-                ))
+                )
+                raise ValidationError({'file_format': msg, 'new_lang': msg})
             filename = self.get_new_base_filename()
             if not self.file_format_cls.is_valid_base_for_new(filename):
                 if filename is not None:
@@ -1209,44 +1216,44 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     'was not recognized!'
                 ))
         elif self.new_lang != 'add' and self.new_base:
-            raise ValidationError(_(
+            msg = _(
                 'Base file for new translations is not used because of '
                 'component settings. '
                 'You probably want to enable automatic adding of new '
                 'translations.'
-            ))
+            )
+            raise ValidationError({'new_lang': msg, 'new_base': msg})
 
     def clean_template(self):
         """Validates template value."""
         # Test for unexpected template usage
         if self.template != '' and self.file_format_cls.monolingual is False:
-            raise ValidationError(
-                _('You can not use base file with bilingual translation!')
-            )
+            msg = _('You can not use base file with bilingual translation!')
+            raise ValidationError({'template': msg, 'file_format': msg})
 
         # Special case for Gettext
         if self.template.endswith('.pot') and self.filemask.endswith('.po'):
-            raise ValidationError(
-                _('Using .pot file as base file is not supported!')
-            )
+            msg = _('Using .pot file as base file is not supported!')
+            raise ValidationError({'template': msg})
 
         # Validate template loading
         if self.has_template():
             full_path = os.path.join(self.get_path(), self.template)
             if not os.path.exists(full_path):
-                raise ValidationError(_('Template file not found!'))
+                msg = _('Template file not found!')
+                raise ValidationError({'template': msg})
 
             try:
                 self.template_store
             except ParseError as exc:
-                raise ValidationError(
-                    _('Failed to parse translation base file: %s') % str(exc)
-                )
+                msg = _('Failed to parse translation base file: %s') % str(exc)
+                raise ValidationError({'template': msg})
 
         elif self.file_format_cls.monolingual:
-            raise ValidationError(
-                _('You can not use monolingual translation without base file!')
+            msg = _(
+                'You can not use monolingual translation without base file!'
             )
+            raise ValidationError({'template': msg})
 
     def clean(self):
         """Validator fetches repository
@@ -1254,15 +1261,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         It tries to find translation files and it checks them for validity.
         """
         if self.new_lang == 'url' and self.project.instructions == '':
-            raise ValidationError(_(
+            msg = _(
                 'Please either fill in instructions URL '
                 'or use different option for adding new language.'
-            ))
+            )
+            raise ValidationError({'new_lang': msg})
 
         if self.license == '' and self.license_url != '':
-            raise ValidationError(_(
+            msg = _(
                 'License URL can not be used without license summary.'
-            ))
+            )
+            raise ValidationError({'license_url': msg, 'license': msg})
 
         # Skip validation if we don't have valid project
         if self.project_id is None:
@@ -1280,21 +1289,20 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 # object is saved the linked repos still see old vcs leading
                 # to horrible mess. Changing vcs from the manage.py shell
                 # works fine though.
-                raise ValidationError(
-                    _('Changing version control system is not supported!')
-                )
+                msg = _('Changing version control system is not supported!')
+                raise ValidationError({'vcs': msg})
 
         # Check file format
         if self.file_format not in FILE_FORMATS:
-            raise ValidationError(
-                _('Unsupported file format: {0}').format(self.file_format)
-            )
+            msg = _('Unsupported file format: {0}').format(self.file_format)
+            raise ValidationError({'file_format': msg})
 
         # Validate VCS repo
         try:
             self.sync_git_repo(True)
         except RepositoryException as exc:
-            raise ValidationError(_('Failed to update repository: %s') % exc)
+            msg = _('Failed to update repository: %s') % exc
+            raise ValidationError({'repo': msg})
 
         # Push repo is not used with link
         if self.is_repo_link:
@@ -1322,10 +1330,13 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         # Suggestions
         if self.suggestion_autoaccept and not self.suggestion_voting:
-            raise ValidationError(_(
+            msg = _(
                 'Automatically accepting suggestions can work only with '
                 'voting enabled!'
-            ))
+            )
+            raise ValidationError(
+                {'suggestion_autoaccept': msg, 'suggestion_voting': msg}
+            )
 
     def get_template_filename(self):
         """Creates absolute filename for template."""
