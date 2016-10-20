@@ -726,6 +726,7 @@ SAME_BLACKLIST = frozenset((
     'vcalendar',
     'vcard',
     'vector',
+    'vendor',
     'version',
     'versions',
     'vertical',
