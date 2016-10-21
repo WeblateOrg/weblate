@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-10-21 15:03+0000\n"
+"POT-Creation-Date: 2016-10-21 15:06+0000\n"
 "PO-Revision-Date: 2015-01-06 17:26+0200\n"
 "Last-Translator: Viktar Palstsiuk <vipals@gmail.com>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -245,7 +245,8 @@ msgstr "Prahliadzieć pieraklady ad %s"
 msgid "Hide source if there is secondary language"
 msgstr ""
 
-#: weblate/accounts/models.py:558
+#: weblate/accounts/models.py:558 weblate/templates/base.html:106
+#: weblate/templates/index.html:31
 #, fuzzy
 #| msgid "Mismatched \\n"
 msgid "Watched"
@@ -1445,12 +1446,6 @@ msgstr "Pierakliučyć nakіrunak ruchu"
 #: weblate/templates/base.html:103 weblate/templates/base.html:144
 msgid "Dashboard"
 msgstr "Prybornaja paneĺ"
-
-#: weblate/templates/base.html:106 weblate/templates/index.html:31
-#, fuzzy
-#| msgid "Subscriptions"
-msgid "Your subscriptions"
-msgstr "Padpіskі"
 
 #: weblate/templates/base.html:128
 #, fuzzy
@@ -6114,15 +6109,14 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1111
 #, fuzzy
-#| msgid "Invalid link to a Weblate project, can not link to self!"
-msgid ""
-"Invalid link to a Weblate project, Invalid link to a Weblate project, can "
-"not link to self!"
+#| msgid ""
+#| "Invalid link to a Weblate project, can not link to linked repository!"
+msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
-"Niekarektnaja spasylka na prajekt Weblate, niemahčyma stvaryć spasylku na "
-"samoha siabie!"
+"Niapravіĺnaja spasylka na prajekt Weblate, niemahčyma stvaryć spasylku na "
+"zviazany repazіtar!"
 
-#: weblate/trans/models/subproject.py:1119
+#: weblate/trans/models/subproject.py:1118
 #, fuzzy
 #| msgid "Invalid link to a Weblate project, use weblate://project/subproject."
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -6130,25 +6124,25 @@ msgstr ""
 "Niadziejsnaja spasylka na prajekt Weblate. Užyvajcie weblate://prajekt/"
 "padprajekt."
 
-#: weblate/trans/models/subproject.py:1125
+#: weblate/trans/models/subproject.py:1124
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 "URL dlia adsylannia nie vykarystoŭvajecca dlia zviazanaha repazіtoryja!"
 
-#: weblate/trans/models/subproject.py:1131
+#: weblate/trans/models/subproject.py:1130
 msgid "Export URL is not used when repository is linked!"
 msgstr "URL ekspartu nie vykarystoŭvajecca dlia zviazanaha repazіtoryja!"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1138
 msgid "The mask did not match any files!"
 msgstr "Maska nie vylučyla nіvodnaha fajla!"
 
-#: weblate/trans/models/subproject.py:1147
+#: weblate/trans/models/subproject.py:1146
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1152
+#: weblate/trans/models/subproject.py:1151
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -6156,7 +6150,7 @@ msgstr ""
 "Znojdziena niekaĺkі fajlaŭ dlia adnoj movy. Kalі laska, adrehuliujcie masku "
 "і vykarystoŭvajcie kampanienty dlia pierakladu roznych fajlaŭ."
 
-#: weblate/trans/models/subproject.py:1158
+#: weblate/trans/models/subproject.py:1157
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -6166,21 +6160,21 @@ msgstr ""
 "Šmat pierakladaŭ pryznačany adnamu moŭnamu kodu (%s). Patrebna vymknuć "
 "SIMPLIFY_LANGUAGES, kab nia źmiešvalіsia padobnyja movy."
 
-#: weblate/trans/models/subproject.py:1177
+#: weblate/trans/models/subproject.py:1176
 msgid "File does not seem to be valid!"
 msgstr "Vydaje na toje, što fajl nievalіdny!"
 
-#: weblate/trans/models/subproject.py:1185
+#: weblate/trans/models/subproject.py:1184
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Farmat %d trapnych fajlaŭ nie raspaznany."
 
-#: weblate/trans/models/subproject.py:1194
+#: weblate/trans/models/subproject.py:1193
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Nie ŭdalosia pračytać %d trapnych fajlaŭ!"
 
-#: weblate/trans/models/subproject.py:1203
+#: weblate/trans/models/subproject.py:1202
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -6188,17 +6182,17 @@ msgstr ""
 "Vybrany farmat fajlu nie dazvaliaje dadavać novyja pieraklady, jak vybrana ŭ "
 "nastaŭlienniach prajekta."
 
-#: weblate/trans/models/subproject.py:1211
+#: weblate/trans/models/subproject.py:1210
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1215
+#: weblate/trans/models/subproject.py:1214
 msgid "Format of base file for new translations was not recognized!"
 msgstr "Nie ŭdalosia raspaznać farmat bazavaha fajla dlia novaha pierakladu!"
 
-#: weblate/trans/models/subproject.py:1220
+#: weblate/trans/models/subproject.py:1219
 #, fuzzy
 #| msgid ""
 #| "Base file for new translations is not used because of project settings."
@@ -6209,32 +6203,32 @@ msgstr ""
 "Bazavy fajl dlia novych pierakladaŭ nie vykarystoŭvajecca praz nastaŭliennі "
 "prajekta."
 
-#: weblate/trans/models/subproject.py:1231
+#: weblate/trans/models/subproject.py:1230
 #, fuzzy
 #| msgid "You can not base file with bilingual translation!"
 msgid "You can not use base file with bilingual translation!"
 msgstr "Niemahčyma ŭžyvać bazavy fajl dlia dzviuchmoŭnaha pierakladu!"
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1235
 #, fuzzy
 #| msgid "Changing version control system is not supported!"
 msgid "Using .pot file as base file is not supported!"
 msgstr "Zmianiennie sіstemy kіravannia viersіjamі nie padtrymlіvajecca!"
 
-#: weblate/trans/models/subproject.py:1243
+#: weblate/trans/models/subproject.py:1242
 msgid "Template file not found!"
 msgstr "Fajl šablona nie znojdzieny!"
 
-#: weblate/trans/models/subproject.py:1249
+#: weblate/trans/models/subproject.py:1248
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Nie ŭdalosia pračytać bazavy fajl pierakladu: %s"
 
-#: weblate/trans/models/subproject.py:1254
+#: weblate/trans/models/subproject.py:1253
 msgid "You can not use monolingual translation without base file!"
 msgstr "Niemahčyma vykarystoŭvać adnamoŭny pieraklad biez bazavaha fajla!"
 
-#: weblate/trans/models/subproject.py:1265
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -6242,40 +6236,40 @@ msgstr ""
 "Aĺbo zadajcie URL z іnstrukcyjamі, aĺbo skarystajcie z іnšaha sposabu "
 "dadannia novaj movy."
 
-#: weblate/trans/models/subproject.py:1272
+#: weblate/trans/models/subproject.py:1271
 msgid "License URL can not be used without license summary."
 msgstr "Nie možna zadavać URL lіcenzіі biez scіslaha jaje apіsannia."
 
-#: weblate/trans/models/subproject.py:1292
+#: weblate/trans/models/subproject.py:1291
 msgid "Changing version control system is not supported!"
 msgstr "Zmianiennie sіstemy kіravannia viersіjamі nie padtrymlіvajecca!"
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Niepadtrymlіvajemy farmat fajla: {0}"
 
-#: weblate/trans/models/subproject.py:1304
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Nie ŭdalosia abnavіć repazіtoryj: %s"
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1323
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1334
+#: weblate/trans/models/subproject.py:1333
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Aŭtamatyčnaje pryniaccio prapanoŭ pracuje toĺkі z dazvolienym halasavanniem!"
 
-#: weblate/trans/models/subproject.py:1513
+#: weblate/trans/models/subproject.py:1512
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Failed to add new translation file!"
 msgstr "Nie ŭdalosia zachavać pieraklad!"
 
-#: weblate/trans/models/subproject.py:1535
+#: weblate/trans/models/subproject.py:1534
 #, fuzzy
 #| msgid "Translation file"
 msgid "Translation file already exists!"
@@ -7151,6 +7145,20 @@ msgstr ""
 #: weblate/trans/widgets.py:390
 msgid "translated"
 msgstr "pierakladziena"
+
+#, fuzzy
+#~| msgid "Subscriptions"
+#~ msgid "Your subscriptions"
+#~ msgstr "Padpіskі"
+
+#, fuzzy
+#~| msgid "Invalid link to a Weblate project, can not link to self!"
+#~ msgid ""
+#~ "Invalid link to a Weblate project, Invalid link to a Weblate project, can "
+#~ "not link to self!"
+#~ msgstr ""
+#~ "Niekarektnaja spasylka na prajekt Weblate, niemahčyma stvaryć spasylku na "
+#~ "samoha siabie!"
 
 #~ msgid "Subscribed projects"
 #~ msgstr "Prajekty, na jakіja vy padpіsanyja"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-10-21 15:03+0000\n"
+"POT-Creation-Date: 2016-10-21 15:06+0000\n"
 "PO-Revision-Date: 2016-10-12 01:51+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -237,7 +237,8 @@ msgstr "Zen モードで二次翻訳を表示する"
 msgid "Hide source if there is secondary language"
 msgstr "第二言語が存在する場合はソースを隠す"
 
-#: weblate/accounts/models.py:558
+#: weblate/accounts/models.py:558 weblate/templates/base.html:106
+#: weblate/templates/index.html:31
 #, fuzzy
 #| msgid "Mismatched \\n"
 msgid "Watched"
@@ -1392,10 +1393,6 @@ msgstr "ナビゲーションの切り替え"
 #: weblate/templates/base.html:103 weblate/templates/base.html:144
 msgid "Dashboard"
 msgstr "ダッシュボード"
-
-#: weblate/templates/base.html:106 weblate/templates/index.html:31
-msgid "Your subscriptions"
-msgstr "あなたの加入状況"
 
 #: weblate/templates/base.html:128
 msgid "Administration"
@@ -5766,38 +5763,37 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1111
 #, fuzzy
-#| msgid "Invalid link to a Weblate project, can not link to self!"
-msgid ""
-"Invalid link to a Weblate project, Invalid link to a Weblate project, can "
-"not link to self!"
+#| msgid ""
+#| "Invalid link to a Weblate project, can not link to linked repository!"
+msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
-"Weblate プロジェクトに対するリンクが正しくありません。自分自身へのリンクはで"
-"きません！"
+"Weblate プロジェクトに対するリンクが正しくありません。リンクされているリポジ"
+"トリへのリンクはできません！"
 
-#: weblate/trans/models/subproject.py:1119
+#: weblate/trans/models/subproject.py:1118
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate プロジェクトに対するリンクが正しくありません。 weblate://プロジェク"
 "ト/コンポーネント の形式で指定してください。"
 
-#: weblate/trans/models/subproject.py:1125
+#: weblate/trans/models/subproject.py:1124
 msgid "Push URL is not used when repository is linked!"
 msgstr "リポジトリがリンクされている場合、送信先の URL は使用されません！"
 
-#: weblate/trans/models/subproject.py:1131
+#: weblate/trans/models/subproject.py:1130
 msgid "Export URL is not used when repository is linked!"
 msgstr "リポジトリがリンクされている場合、エクスポート URL は使用されません！"
 
-#: weblate/trans/models/subproject.py:1139
+#: weblate/trans/models/subproject.py:1138
 msgid "The mask did not match any files!"
 msgstr "マスクがどのファイルにも一致しませんでした!"
 
-#: weblate/trans/models/subproject.py:1147
+#: weblate/trans/models/subproject.py:1146
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr "%s で言語コードが設定されていません。ファイルマスクをご確認ください！"
 
-#: weblate/trans/models/subproject.py:1152
+#: weblate/trans/models/subproject.py:1151
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -5805,7 +5801,7 @@ msgstr ""
 "単一の言語に対して複数のファイルが存在しています。マスクを調整し、異なるリ"
 "ソースの翻訳コンポーネントを使用するようにしてください。"
 
-#: weblate/trans/models/subproject.py:1158
+#: weblate/trans/models/subproject.py:1157
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -5816,21 +5812,21 @@ msgstr ""
 "言語を 1 つにまとめないようにするには、 SIMPLIFY_LANGUAGES を無効化すべきで"
 "す。"
 
-#: weblate/trans/models/subproject.py:1177
+#: weblate/trans/models/subproject.py:1176
 msgid "File does not seem to be valid!"
 msgstr "ファイルの形式が正しくないものと思われます！"
 
-#: weblate/trans/models/subproject.py:1185
+#: weblate/trans/models/subproject.py:1184
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "%d 個の該当ファイルの形式を認識できませんでした。"
 
-#: weblate/trans/models/subproject.py:1194
+#: weblate/trans/models/subproject.py:1193
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "%d 個の該当ファイルの処理に失敗しました！"
 
-#: weblate/trans/models/subproject.py:1203
+#: weblate/trans/models/subproject.py:1202
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -5838,17 +5834,17 @@ msgstr ""
 "選択したファイル形式は、プロジェクト側の設定で新しい翻訳の追加には対応してい"
 "ません。"
 
-#: weblate/trans/models/subproject.py:1211
+#: weblate/trans/models/subproject.py:1210
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1215
+#: weblate/trans/models/subproject.py:1214
 msgid "Format of base file for new translations was not recognized!"
 msgstr "新しい翻訳に対するベースファイルの形式が認識できません！"
 
-#: weblate/trans/models/subproject.py:1220
+#: weblate/trans/models/subproject.py:1219
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
@@ -5856,28 +5852,28 @@ msgstr ""
 "新しい翻訳に対するベースファイルの指定は、コンポーネント側の設定により使用さ"
 "れません。新しい翻訳に対する自動追加を有効化する必要があるはずです。"
 
-#: weblate/trans/models/subproject.py:1231
+#: weblate/trans/models/subproject.py:1230
 msgid "You can not use base file with bilingual translation!"
 msgstr "複数言語翻訳に対してベースファイルを使用することはできません！"
 
-#: weblate/trans/models/subproject.py:1236
+#: weblate/trans/models/subproject.py:1235
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot ファイルをベースファイルとして使用するのはサポートしていません！"
 
-#: weblate/trans/models/subproject.py:1243
+#: weblate/trans/models/subproject.py:1242
 msgid "Template file not found!"
 msgstr "テンプレートファイルが見つかりませんでした！"
 
-#: weblate/trans/models/subproject.py:1249
+#: weblate/trans/models/subproject.py:1248
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "翻訳のベースファイルがパースできませんでした：%s"
 
-#: weblate/trans/models/subproject.py:1254
+#: weblate/trans/models/subproject.py:1253
 msgid "You can not use monolingual translation without base file!"
 msgstr "ベースファイルなしで単一言語の翻訳をすることはできません！"
 
-#: weblate/trans/models/subproject.py:1265
+#: weblate/trans/models/subproject.py:1264
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -5885,37 +5881,37 @@ msgstr ""
 "新しい言語を追加するには、手順の URL を指定するか、異なるオプションを使用して"
 "ください。"
 
-#: weblate/trans/models/subproject.py:1272
+#: weblate/trans/models/subproject.py:1271
 msgid "License URL can not be used without license summary."
 msgstr "ライセンス URL はライセンス概要無しでは使用できません。"
 
-#: weblate/trans/models/subproject.py:1292
+#: weblate/trans/models/subproject.py:1291
 msgid "Changing version control system is not supported!"
 msgstr "バージョンコントロールシステムの変更には対応していません！"
 
-#: weblate/trans/models/subproject.py:1297
+#: weblate/trans/models/subproject.py:1296
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "未対応のファイル形式です: {0}"
 
-#: weblate/trans/models/subproject.py:1304
+#: weblate/trans/models/subproject.py:1303
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "リポジトリの更新に失敗しました: %s"
 
-#: weblate/trans/models/subproject.py:1324
+#: weblate/trans/models/subproject.py:1323
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "正規表現が正しくないため、ファイルマッチを検証することができません。"
 
-#: weblate/trans/models/subproject.py:1334
+#: weblate/trans/models/subproject.py:1333
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr "提案の自動採用は、投票機能が有効化されている場合にのみ動作します！"
 
-#: weblate/trans/models/subproject.py:1513
+#: weblate/trans/models/subproject.py:1512
 msgid "Failed to add new translation file!"
 msgstr "新しい翻訳ファイルの追加に失敗しました！"
 
-#: weblate/trans/models/subproject.py:1535
+#: weblate/trans/models/subproject.py:1534
 msgid "Translation file already exists!"
 msgstr "翻訳ファイルは既に存在しています！"
 
@@ -6729,6 +6725,18 @@ msgstr ""
 #: weblate/trans/widgets.py:390
 msgid "translated"
 msgstr "翻訳済"
+
+#~ msgid "Your subscriptions"
+#~ msgstr "あなたの加入状況"
+
+#, fuzzy
+#~| msgid "Invalid link to a Weblate project, can not link to self!"
+#~ msgid ""
+#~ "Invalid link to a Weblate project, Invalid link to a Weblate project, can "
+#~ "not link to self!"
+#~ msgstr ""
+#~ "Weblate プロジェクトに対するリンクが正しくありません。自分自身へのリンクは"
+#~ "できません！"
 
 #~ msgid "Subscribed projects"
 #~ msgstr "加入したプロジェクト"
