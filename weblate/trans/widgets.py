@@ -34,6 +34,7 @@ from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 
 from weblate.trans.fonts import is_base, get_font
+from weblate.trans.stats import get_per_language_stats
 
 
 COLOR_DATA = {
@@ -354,7 +355,7 @@ class ShieldsBadgeWidget(Widget):
     colors = ('badge', )
     extension = 'svg'
     content_type = 'image/svg+xml'
-    order = 80
+    order = 85
 
     def redirect(self):
         if self.percent >= 90:
@@ -429,3 +430,43 @@ class SVGBadgeWidget(Widget):
         Text rendering method to be overridden.
         '''
         raise Exception('Not supported')
+
+
+@register_widget
+class MultiLanguageWidget(SVGBadgeWidget):
+    name = 'multi'
+    order = 81
+    colors = ('red', 'green', 'blue')
+
+    COLOR_MAP = {
+        'red': '#fa3939',
+        'green': '#3fed48',
+        'blue': '#3f85ed',
+    }
+
+    def render(self):
+        translations = []
+        offset = 30
+        for language, translated, total in get_per_language_stats(self.obj):
+            if total == 0:
+                percent = 0
+            else:
+                percent = int(100 * translated / total)
+            translations.append((
+                language.name,
+                percent,
+                offset,
+                offset - 10,
+                int(percent * 1.5),
+            ))
+            offset += 20
+
+        self.image = render_to_string(
+            'multi-language-badge.svg',
+            {
+                'height': len(translations) * 20 + 20,
+                'boxheight': len(translations) * 20 + 10,
+                'color': self.COLOR_MAP[self.color],
+                'translations': translations,
+            }
+        )
