@@ -28,7 +28,7 @@
     <li><a href="#suggestions" data-toggle="tab">{% trans "Suggested translations" %}</a></li>
     {% if user.is_authenticated %}
     <li><a href="#your-languages" data-toggle="tab">{% trans "Your languages" %}</a></li>
-    <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Your subscriptions" %}</a></li>
+    <li><a href="#your-subscriptions" data-toggle="tab">{% trans "Watched" %}</a></li>
     {% endif %}
     {% for componentlist in componentlists %}
     <li><a href="#{{ componentlist.tab_slug }}" data-toggle="tab">{{ componentlist.name }}</a></li>
