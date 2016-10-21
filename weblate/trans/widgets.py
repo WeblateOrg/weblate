@@ -67,6 +67,7 @@ def register_widget(widget):
     Registers widget in dictionary.
     '''
     WIDGETS[widget.name] = widget
+    return widget
 
 
 class Widget(object):
@@ -255,6 +256,7 @@ class Widget(object):
         return out.getvalue()
 
 
+@register_widget
 class NormalWidget(Widget):
     name = '287x66'
     progress = {
@@ -287,9 +289,8 @@ class NormalWidget(Widget):
             72, 22
         )
 
-register_widget(NormalWidget)
 
-
+@register_widget
 class SmallWidget(Widget):
     name = '88x31'
     order = 120
@@ -311,9 +312,8 @@ class SmallWidget(Widget):
             23, 11
         )
 
-register_widget(SmallWidget)
 
-
+@register_widget
 class BadgeWidget(Widget):
     name = 'status'
     colors = ('badge', )
@@ -347,9 +347,8 @@ class BadgeWidget(Widget):
             60, 3
         )
 
-register_widget(BadgeWidget)
 
-
+@register_widget
 class ShieldsBadgeWidget(Widget):
     name = 'shields'
     colors = ('badge', )
@@ -377,9 +376,8 @@ class ShieldsBadgeWidget(Widget):
         '''
         raise Exception('Not supported')
 
-register_widget(ShieldsBadgeWidget)
 
-
+@register_widget
 class SVGBadgeWidget(Widget):
     name = 'svg'
     colors = ('badge', )
@@ -431,5 +429,3 @@ class SVGBadgeWidget(Widget):
         Text rendering method to be overridden.
         '''
         raise Exception('Not supported')
-
-register_widget(SVGBadgeWidget)
