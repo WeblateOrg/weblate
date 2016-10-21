@@ -62,6 +62,9 @@
     </ul>
   </li>
 {% endif %}
+{% with object as project %}
+{% include "watch-dropdown.html" %}
+{% endwith %}
 </ul>
 
 <div class="tab-content">

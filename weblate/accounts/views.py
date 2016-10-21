@@ -53,6 +53,7 @@ from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.trans import messages
 from weblate.trans.models import Change, Project, SubProject
+from weblate.trans.views.helper import get_project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
@@ -584,3 +585,17 @@ def reset_api_key(request):
     )
 
     return redirect('profile')
+
+
+@login_required
+def watch(request, project):
+    obj = get_project(request, project)
+    request.user.profile.subscriptions.add(obj)
+    return redirect(obj)
+
+
+@login_required
+def unwatch(request, project):
+    obj = get_project(request, project)
+    request.user.profile.subscriptions.remove(obj)
+    return redirect(obj)

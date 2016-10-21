@@ -11,6 +11,7 @@ Released on ? 2016.
 * Added support for YAML files.
 * Project owners can now configure translation component and project details.
 * Use "Watched" instead of "Subscribed" projects.
+* Projects can be watched directly from project page.
 
 weblate 2.8
 -----------

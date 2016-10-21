@@ -43,6 +43,16 @@ urlpatterns = [
     ),
     url(r'^logout/', weblate.accounts.views.weblate_logout, name='logout'),
     url(r'^profile/', weblate.accounts.views.user_profile, name='profile'),
+    url(
+        r'^watch/(?P<project>[^/]+)/',
+        weblate.accounts.views.watch,
+        name='watch'
+    ),
+    url(
+        r'^unwatch/(?P<project>[^/]+)/',
+        weblate.accounts.views.unwatch,
+        name='unwatch'
+    ),
     url(r'^remove/', weblate.accounts.views.user_remove, name='remove'),
     url(r'^login/$', weblate.accounts.views.weblate_login, name='login'),
     url(r'^register/$', weblate.accounts.views.register, name='register'),

@@ -1,0 +1,14 @@
+{% load i18n %}
+{% if user.is_authenticated %}
+  <li class="pull-right flip">
+  {% if project in user.profile.subscriptions.all %}
+    <a class="link-post html-tooltip" href="{% url 'unwatch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on dashboard by default." %}">
+      <i class="fa fa-eye-slash" aria-hidden="true"></i> {% trans "Unwatch" %}
+    </a>
+  {% else %}
+    <a class="link-post html-tooltip" href="{% url 'watch' project=project.slug %}" data-toggle="tooltip" data-placement="bottom" data-title="{% trans "You can receive notifications for watched projects and they are shown on dashboard by default." %}">
+      <i class="fa fa-eye" aria-hidden="true"></i> {% trans "Watch" %}
+    </a>
+  {% endif %}
+  </li>
+{% endif %}
