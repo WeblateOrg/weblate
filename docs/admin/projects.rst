@@ -129,6 +129,11 @@ Source language
     Language used for source strings in all components. Change this if you are 
     translating from something else than English.
 
+.. note::
+
+    Most of the fields can be edited by project owners or managers in the 
+    Weblate interface.
+
 Adjusting interaction
 +++++++++++++++++++++
 
