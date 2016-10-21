@@ -232,7 +232,7 @@ class ProfileTest(ViewTestCase):
                 'first_name': 'First Last',
                 'email': 'noreply@weblate.org',
                 'username': 'testik',
-                'dashboard_view': Profile.DASHBOARD_SUBSCRIPTIONS,
+                'dashboard_view': Profile.DASHBOARD_WATCHED,
             }
         )
         self.assertRedirects(response, reverse('profile'))

@@ -24,7 +24,7 @@ and their translation progress.
 
 .. versionadded:: 2.5
 
-By default, this will show the components of projects you are subscribed to,
+By default, this will show the components of projects you are watching,
 cross-referenced with your preferred languages.  You can switch to different
 views using the drop-down menu on the highlighted button.
 
@@ -36,8 +36,8 @@ The drop-down will have several options:
   Weblate instance.
 - :guilabel:`Your languages` will show translation status of all projects,
   filtered by your primary languages.
-- :guilabel:`Your subscriptions` will show translation status of only those
-  projects you are subscribed to, filtered by your primary languages.
+- :guilabel:`Watched` will show translation status of only those
+  projects you are watching, filtered by your primary languages.
 
 In addition, the drop-down can also show any number of *component lists*, sets
 of project components preconfigured by the Weblate administrator.

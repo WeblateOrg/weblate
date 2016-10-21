@@ -549,20 +549,20 @@ class Profile(models.Model):
         default=False
     )
 
-    DASHBOARD_SUBSCRIPTIONS = 1
+    DASHBOARD_WATCHED = 1
     DASHBOARD_LANGUAGES = 2
     DASHBOARD_COMPONENT_LIST = 4
     DASHBOARD_SUGGESTIONS = 5
 
     DASHBOARD_CHOICES = (
-        (DASHBOARD_SUBSCRIPTIONS, _('Your subscriptions')),
+        (DASHBOARD_WATCHED, _('Watched')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
         (DASHBOARD_SUGGESTIONS, _('Suggested translations')),
     )
 
     DASHBOARD_SLUGS = {
-        DASHBOARD_SUBSCRIPTIONS: 'your-subscriptions',
+        DASHBOARD_WATCHED: 'your-subscriptions',
         DASHBOARD_LANGUAGES: 'your-languages',
         DASHBOARD_COMPONENT_LIST: 'list',
         DASHBOARD_SUGGESTIONS: 'suggestions',
@@ -575,7 +575,7 @@ class Profile(models.Model):
     dashboard_view = models.IntegerField(
         choices=DASHBOARD_CHOICES,
         verbose_name=_('Default dashboard view'),
-        default=DASHBOARD_SUBSCRIPTIONS,
+        default=DASHBOARD_WATCHED,
     )
 
     dashboard_component_list = models.ForeignKey(
@@ -587,9 +587,9 @@ class Profile(models.Model):
 
     subscriptions = models.ManyToManyField(
         'trans.Project',
-        verbose_name=_('Subscribed projects'),
+        verbose_name=_('Watched projects'),
         help_text=_(
-            'You can receive notifications for subscribed projects and '
+            'You can receive notifications for watched projects and '
             'they are shown on dashboard by default.'
         ),
         blank=True,
