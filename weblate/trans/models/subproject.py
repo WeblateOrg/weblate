@@ -1109,7 +1109,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 raise ValidationError(
                     {'repo': _(
                         'Invalid link to a Weblate project, '
-                        'Invalid link to a Weblate project, '
                         'can not link to self!'
                     )}
                 )
