@@ -4,12 +4,21 @@
 {% load permissions %}
 
 {% block breadcrumbs %}
-{% if title %}
-<li><a href="{% url 'changes' %}">{% trans "Changes" %}</a></li>
-<li><a href="{% url 'changes' %}?{{ query_string }}">{{ title }}</a></li>
-{% else %}
-<li><a href="{% url 'changes' %}">{% trans "Changes" %}</a></li>
+{% if project %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+{% if subproject %}
+<li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
+{% if translation %}
+<li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
 {% endif %}
+{% endif %}
+{% elif changes_user %}
+<li><a href="{{ changes_user.profile.get_absolute_url }}">{{ changes_user.profile.get_user_name }}</a></li>
+{% elif language %}
+<li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
+<li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
+{% endif %}
+<li><a href="{% url 'changes' %}?{{ query_string }}">Changes</a></li>
 {% endblock %}
 
 {% block content %}

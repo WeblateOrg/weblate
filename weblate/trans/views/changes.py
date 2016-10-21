@@ -64,6 +64,9 @@ class ChangesView(ListView):
         url = {}
 
         if self.translation is not None:
+            context['project'] = self.translation.subproject.project
+            context['subproject'] = self.translation.subproject
+            context['translation'] = self.translation
             url['lang'] = self.translation.language.code
             url['subproject'] = self.translation.subproject.slug
             url['project'] = self.translation.subproject.project.slug
@@ -75,6 +78,8 @@ class ChangesView(ListView):
                 'Changes in translation', 'Changes in %s'
             ) % self.translation
         elif self.subproject is not None:
+            context['project'] = self.subproject.project
+            context['subproject'] = self.subproject
             url['subproject'] = self.subproject.slug
             url['project'] = self.subproject.project.slug
             context['changes_rss'] = reverse(
@@ -85,6 +90,7 @@ class ChangesView(ListView):
                 'Changes in component', 'Changes in %s'
             ) % self.subproject
         elif self.project is not None:
+            context['project'] = self.project
             url['project'] = self.project.slug
             context['changes_rss'] = reverse(
                 'rss-project',
@@ -95,6 +101,7 @@ class ChangesView(ListView):
             ) % self.project
 
         if self.language is not None:
+            context['language'] = self.language
             url['lang'] = self.language.code
             if 'changes_rss' not in context:
                 context['changes_rss'] = reverse(
@@ -107,6 +114,7 @@ class ChangesView(ListView):
                 ) % self.language
 
         if self.user is not None:
+            context['changes_user'] = self.user
             url['user'] = self.user.username.encode('utf-8')
             if 'title' not in context:
                 context['title'] = pgettext(
