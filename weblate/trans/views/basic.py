@@ -46,11 +46,11 @@ from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
     UserManageForm, ReportsForm,
-    SubprojectSettingsForm,
+    SubprojectSettingsForm, ProjectSettingsForm,
 )
 from weblate.trans.permissions import (
     can_automatic_translation, can_add_translation,
-    can_edit_subproject,
+    can_edit_subproject, can_edit_project,
 )
 from weblate.accounts.models import Profile, notify_new_language
 from weblate.trans.views.helper import (
@@ -317,6 +317,17 @@ def show_project(request, project):
         'language', flat=True
     ).distinct()
 
+    if request.method == 'POST' and can_edit_project(request.user, obj):
+        settings_form = ProjectSettingsForm(request.POST, instance=obj)
+        if settings_form.is_valid():
+            settings_form.save()
+            messages.success(request, _('Settings saved'))
+            return redirect(obj)
+        else:
+            messages.error(request, _('Invalid settings, please check the form for errors!'))
+    else:
+        settings_form = ProjectSettingsForm(instance=obj)
+
     dicts = []
     for language in Language.objects.filter(id__in=dict_langs):
         dicts.append(
@@ -346,6 +357,7 @@ def show_project(request, project):
                 {'project': obj.slug}
             ),
             'add_user_form': UserManageForm(),
+            'settings_form': settings_form,
         }
     )
 

@@ -402,3 +402,11 @@ def can_edit_subproject(user, project):
     Checks whether user can edit subprojects on given project.
     """
     return check_permission(user, project, 'trans.change_subproject')
+
+
+@cache_permission
+def can_edit_project(user, project):
+    """
+    Checks whether user can edit given project.
+    """
+    return check_permission(user, project, 'trans.change_project')

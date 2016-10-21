@@ -105,6 +105,8 @@ Can delete translation [Managers, Owners]
     Can remove translation.
 Can change sub project [Managers, Owners]
     Can edit component settings.
+Can change project [Managers, Owners]
+    Can edit project settings.
 
 .. _acl:
 

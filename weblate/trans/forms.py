@@ -41,7 +41,7 @@ from django.contrib.auth.models import User
 from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
-from weblate.trans.models import SubProject, Unit
+from weblate.trans.models import SubProject, Unit, Project
 from weblate.trans.models.unit import SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
@@ -1005,4 +1005,15 @@ class SubprojectSettingsForm(forms.ModelForm):
                 'save_history',
                 'check_flags',
             ),
+        )
+
+
+class ProjectSettingsForm(forms.ModelForm):
+    """Project settings form."""
+    class Meta(object):
+        model = Project
+        fields = (
+            'web',
+            'mail',
+            'instructions',
         )
