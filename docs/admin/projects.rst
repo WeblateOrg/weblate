@@ -277,6 +277,11 @@ Language filter
     (eg. ``^(cs|de|es)$`` will include only those there languages. Please note
     that you need to list language codes as they appear in the filename.
 
+.. note::
+
+    Most of the fields can be edited by project owners or managers in the 
+    Weblate interface.
+
 .. _commit-message:
 
 Commit message formatting

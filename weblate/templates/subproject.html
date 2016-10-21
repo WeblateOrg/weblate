@@ -22,6 +22,7 @@
 {% can_manage_acl user object.project as user_can_manage_acl %}
 {% can_view_reports user object.project as user_can_view_reports %}
 {% can_add_translation user object.project as user_can_add_translation %}
+{% can_edit_subproject user object.project as user_can_edit_subproject %}
 
 {% include "show-lock.html" %}
 
@@ -47,6 +48,9 @@
       {% endif %}
       {% if user_can_view_reports %}
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
+      {% endif %}
+      {% if user_can_edit_subproject %}
+      <li><a href="#settings" data-toggle="tab">{% trans "Settings" %}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -183,6 +187,31 @@
 </form>
 </div>
 </div>
+</div>
+{% endif %}
+
+{% if user_can_edit_subproject %}
+<div class="tab-pane" id="settings">
+<form action="{% url 'subproject' project=object.project.slug subproject=object.slug %}#settings" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading">
+{% doc_url 'admin/projects' 'subproject' as settings_doc_url %}
+<h4 class="panel-title">
+<a class="pull-right flip" href="{{ settings_doc_url }}"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
+{% trans "Settings" %}
+</h4>
+</div>
+<div class="panel-body">
+{% crispy settings_form %}
+</div>
+<div class="panel-footer">
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</div>
+</div>
+</div>
+</div>
+</form>
 </div>
 {% endif %}
 

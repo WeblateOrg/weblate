@@ -394,3 +394,11 @@ def can_remove_translation(user, project):
     Checks whether user can view reports on given project.
     """
     return check_permission(user, project, 'trans.delete_translation')
+
+
+@cache_permission
+def can_edit_subproject(user, project):
+    """
+    Checks whether user can edit subprojects on given project.
+    """
+    return check_permission(user, project, 'trans.change_subproject')

@@ -143,3 +143,8 @@ def can_add_translation(user, project):
 @register.assignment_tag
 def can_remove_translation(user, project):
     return weblate.trans.permissions.can_remove_translation(user, project)
+
+
+@register.assignment_tag
+def can_edit_subproject(user, project):
+    return weblate.trans.permissions.can_edit_subproject(user, project)

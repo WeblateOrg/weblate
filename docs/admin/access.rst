@@ -103,6 +103,8 @@ Can add translation [Users, Managers, Owners]
     Can start translations in new language.
 Can delete translation [Managers, Owners]
     Can remove translation.
+Can change sub project [Managers, Owners]
+    Can edit component settings.
 
 .. _acl:
 

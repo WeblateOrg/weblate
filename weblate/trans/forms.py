@@ -24,6 +24,7 @@ from datetime import date, datetime
 import json
 
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset
 
 from django import forms
 from django.utils.translation import (
@@ -40,7 +41,8 @@ from django.contrib.auth.models import User
 from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
-from weblate.trans.models.unit import Unit, SEARCH_FILTERS
+from weblate.trans.models import SubProject, Unit
+from weblate.trans.models.unit import SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
@@ -940,3 +942,67 @@ class ReportsForm(forms.Form):
         label=_('Ending date'),
         initial=date(2100, 1, 1),
     )
+
+
+class SubprojectSettingsForm(forms.ModelForm):
+    """Component settings form."""
+    class Meta(object):
+        model = SubProject
+        fields = (
+            'repoweb',
+            'report_source_bugs',
+            'edit_template',
+            'allow_translation_propagation',
+            'save_history',
+            'enable_suggestions',
+            'suggestion_voting',
+            'suggestion_autoaccept',
+            'check_flags',
+            'license',
+            'license_url',
+            'new_lang',
+            'commit_message',
+            'add_message',
+            'delete_message',
+            'language_regex',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super(SubprojectSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                _('License'),
+                'license',
+                'license_url',
+            ),
+            Fieldset(
+                _('Suggestions'),
+                'enable_suggestions',
+                'suggestion_voting',
+                'suggestion_autoaccept',
+            ),
+            Fieldset(
+                _('Commit messages'),
+                'commit_message',
+                'add_message',
+                'delete_message',
+            ),
+            Fieldset(
+                _('Languages processing'),
+                'language_regex',
+                'edit_template',
+                'new_lang',
+            ),
+            Fieldset(
+                _('Upstream links'),
+                'repoweb',
+                'report_source_bugs',
+            ),
+            Fieldset(
+                _('Translation settings'),
+                'allow_translation_propagation',
+                'save_history',
+                'check_flags',
+            ),
+        )

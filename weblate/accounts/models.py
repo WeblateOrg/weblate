@@ -956,6 +956,7 @@ def create_groups(update):
         Permission.objects.get(codename='view_reports'),
         Permission.objects.get(codename='add_translation'),
         Permission.objects.get(codename='delete_translation'),
+        Permission.objects.get(codename='change_subproject'),
     )
 
     group, created = Group.objects.get_or_create(name='Managers')
