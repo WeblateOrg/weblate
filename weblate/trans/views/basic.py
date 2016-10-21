@@ -324,7 +324,10 @@ def show_project(request, project):
             messages.success(request, _('Settings saved'))
             return redirect(obj)
         else:
-            messages.error(request, _('Invalid settings, please check the form for errors!'))
+            messages.error(
+                request,
+                _('Invalid settings, please check the form for errors!')
+            )
     else:
         settings_form = ProjectSettingsForm(instance=obj)
 
@@ -379,7 +382,10 @@ def show_subproject(request, project, subproject):
             messages.success(request, _('Settings saved'))
             return redirect(obj)
         else:
-            messages.error(request, _('Invalid settings, please check the form for errors!'))
+            messages.error(
+                request,
+                _('Invalid settings, please check the form for errors!')
+            )
     else:
         settings_form = SubprojectSettingsForm(instance=obj)
 
