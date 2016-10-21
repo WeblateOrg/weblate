@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from weblate.lang.models import Language
 from weblate.trans.models import Translation
-from django.db.models import Q, Sum, Count
+from django.db.models import Sum
 
 
 def get_per_language_stats(project):
