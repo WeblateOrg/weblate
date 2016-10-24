@@ -139,6 +139,21 @@ class Suggestion(models.Model):
 
         self.delete()
 
+    def delete_log(self, translation, request):
+        """Delete with logging change"""
+        allunits = translation.unit_set.filter(
+            contentsum=self.contentsum,
+        )
+        for unit in allunits:
+            Change.objects.create(
+                unit=unit,
+                action=Change.ACTION_SUGGESTION_DELETE,
+                translation=unit.translation,
+                user=request.user,
+                author=request.user
+            )
+        self.delete()
+
     def get_user_display(self):
         return get_user_display(self.user, link=True)
 

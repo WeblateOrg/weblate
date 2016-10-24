@@ -14,6 +14,7 @@ Released on ? 2016.
 * Projects can be watched directly from project page.
 * Added multi language status widget.
 * Highlight secondary language if not showing source.
+* Record suggestion deletion in history.
 
 weblate 2.8
 -----------

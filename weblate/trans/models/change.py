@@ -178,6 +178,7 @@ class Change(models.Model):
     ACTION_FAILED_REBASE = 23
     ACTION_PARSE_ERROR = 24
     ACTION_REMOVE = 25
+    ACTION_SUGGESTION_DELETE = 26
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -206,6 +207,7 @@ class Change(models.Model):
         (ACTION_FAILED_REBASE, ugettext_lazy('Failed rebase on repository')),
         (ACTION_PARSE_ERROR, ugettext_lazy('Parse error')),
         (ACTION_REMOVE, ugettext_lazy('Removed translation')),
+        (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
     )
 
     ACTIONS_SUBPROJECT = set((
