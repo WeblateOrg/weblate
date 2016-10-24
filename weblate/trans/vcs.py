@@ -885,6 +885,10 @@ class GithubRepository(GitRepository):
                 return
             raise
 
+    def configure_remote(self, pull_url, push_url, branch):
+        # We don't use push URL at all
+        super(GithubRepository, self).configure_remote(pull_url, '', branch)
+
 
 @register_vcs
 class HgRepository(Repository):
