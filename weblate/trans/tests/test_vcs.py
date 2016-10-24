@@ -87,6 +87,7 @@ class VCSGitTest(RepoTestCase):
     _class = GitRepository
     _vcs = 'git'
     _can_push = True
+    _sets_push = True
 
     def setUp(self):
         super(VCSGitTest, self).setUp()
@@ -348,10 +349,11 @@ class VCSGitTest(RepoTestCase):
             self.repo.get_config('remote.origin.url'),
             'pullurl',
         )
-        self.assertEqual(
-            self.repo.get_config('remote.origin.pushURL'),
-            'pushurl',
-        )
+        if self._sets_push:
+            self.assertEqual(
+                self.repo.get_config('remote.origin.pushURL'),
+                'pushurl',
+            )
         # Test that we handle not set fetching
         self.repo.execute(['config', '--unset', 'remote.origin.fetch'])
         self.repo.configure_remote('pullurl', 'pushurl', 'branch')
@@ -367,10 +369,11 @@ class VCSGitTest(RepoTestCase):
             '',
         )
         self.repo.configure_remote('pullurl', 'push', 'branch')
-        self.assertEqual(
-            self.repo.get_config('remote.origin.pushURL'),
-            'push',
-        )
+        if self._sets_push:
+            self.assertEqual(
+                self.repo.get_config('remote.origin.pushURL'),
+                'push',
+            )
 
     def test_configure_branch(self):
         # Existing branch
@@ -392,6 +395,7 @@ class VCSGerritTest(VCSGitTest):
 class VCSGithubTest(VCSGitTest):
     _class = GithubFakeRepository
     _vcs = 'git'
+    _sets_push = False
 
 
 class VCSSubversionTest(VCSGitTest):
