@@ -514,10 +514,10 @@ def password(request):
         if form.is_valid() and do_change:
 
             # Clear flag forcing user to set password
-            redirect = '#auth'
+            redirect_page = '#auth'
             if 'show_set_password' in request.session:
                 del request.session['show_set_password']
-                redirect = ''
+                redirect_page = ''
 
             request.user.set_password(
                 form.cleaned_data['password1']
@@ -531,7 +531,7 @@ def password(request):
                 request,
                 _('Your password has been changed.')
             )
-            return redirect_profile(redirect)
+            return redirect_profile(redirect_page)
     else:
         form = PasswordForm()
 
