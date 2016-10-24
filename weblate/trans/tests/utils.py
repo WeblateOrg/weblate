@@ -20,6 +20,7 @@
 
 import os.path
 import shutil
+import stat
 from tarfile import TarFile
 from unittest import SkipTest
 
@@ -47,6 +48,25 @@ def get_test_file(name):
     return os.path.join(TEST_DATA, name)
 
 
+def rmtree_onerror(func, path, exc_info):
+    """
+    Error handler for ``shutil.rmtree``.
+
+    If the error is due to an access error (read only file)
+    it attempts to add write permission and then retries.
+
+    If the error is for another reason it re-raises the error.
+
+    Usage : ``shutil.rmtree(path, onerror=onerror)``
+    """
+    if not os.access(path, os.W_OK):
+        # Is the error an access error ?
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise
+
+
 class RepoTestMixin(object):
     @staticmethod
     def optional_extract(output, tarname):
@@ -62,7 +82,7 @@ class RepoTestMixin(object):
 
             # Remove directory if outdated
             if os.path.exists(output):
-                shutil.rmtree(output)
+                shutil.rmtree(output, onerror=rmtree_onerror)
 
             # Extract new content
             tar = TarFile(tarname)
@@ -114,7 +134,7 @@ class RepoTestMixin(object):
 
         # Remove possibly existing directory
         if os.path.exists(self.git_repo_path):
-            shutil.rmtree(self.git_repo_path)
+            shutil.rmtree(self.git_repo_path, onerror=rmtree_onerror)
 
         # Create repository copy for the test
         shutil.copytree(self.git_base_repo_path, self.git_repo_path)
@@ -127,7 +147,7 @@ class RepoTestMixin(object):
 
         # Remove possibly existing directory
         if os.path.exists(self.hg_repo_path):
-            shutil.rmtree(self.hg_repo_path)
+            shutil.rmtree(self.hg_repo_path, onerror=rmtree_onerror)
 
         # Create repository copy for the test
         shutil.copytree(self.hg_base_repo_path, self.hg_repo_path)
@@ -140,7 +160,7 @@ class RepoTestMixin(object):
 
         # Remove possibly existing directory
         if os.path.exists(self.svn_repo_path):
-            shutil.rmtree(self.svn_repo_path)
+            shutil.rmtree(self.svn_repo_path, onerror=rmtree_onerror)
 
         # Create repository copy for the test
         shutil.copytree(self.svn_base_repo_path, self.svn_repo_path)
@@ -148,7 +168,7 @@ class RepoTestMixin(object):
         # Remove possibly existing project directory
         test_repo_path = os.path.join(settings.DATA_DIR, 'vcs', 'test')
         if os.path.exists(test_repo_path):
-            shutil.rmtree(test_repo_path)
+            shutil.rmtree(test_repo_path, onerror=rmtree_onerror)
 
         # Remove indexes
         clean_indexes()
