@@ -978,6 +978,8 @@ $(function () {
     $('select[multiple]').each(function () {
         $(this).multiSelect({
             afterInit: function (target) {
+                this.$selectableContainer.prepend(gettext('Available:'));
+                this.$selectionContainer.prepend(gettext('Selected:'));
                 $(target.children()[0]).after(
                     '<div class="fa-multiselect"><i class="fa fa-exchange"></i></div>'
                 );

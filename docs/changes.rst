@@ -15,6 +15,7 @@ Released on ? 2016.
 * Added multi language status widget.
 * Highlight secondary language if not showing source.
 * Record suggestion deletion in history.
+* Improved intuitivity of languages selection in profile.
 
 weblate 2.8
 -----------
