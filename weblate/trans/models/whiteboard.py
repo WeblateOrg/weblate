@@ -38,9 +38,6 @@ class WhiteboardManager(models.Manager):
                 project=None, subproject=None, language=language
             )
 
-        if project:
-            return base.filter(Q(project=project) & Q(subproject=None))
-
         if subproject:
             if language:
                 return base.filter(
@@ -52,6 +49,9 @@ class WhiteboardManager(models.Manager):
             return base.filter(
                 Q(subproject=subproject) | Q(project=subproject.project)
             )
+
+        if project:
+            return base.filter(Q(project=project) & Q(subproject=None))
 
         # All are None
         return base.filter(

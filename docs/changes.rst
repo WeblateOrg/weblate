@@ -16,6 +16,7 @@ Released on ? 2016.
 * Highlight secondary language if not showing source.
 * Record suggestion deletion in history.
 * Improved intuitivity of languages selection in profile.
+* Fixed showing whiteboard messages for component.
 
 weblate 2.8
 -----------
