@@ -18,6 +18,7 @@ Released on ? 2016.
 * Improved intuitivity of languages selection in profile.
 * Fixed showing whiteboard messages for component.
 * Keep preferectes tab selected after saving.
+* Show source string comment more prominently.
 
 weblate 2.8
 -----------

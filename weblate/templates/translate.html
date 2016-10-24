@@ -118,10 +118,24 @@
     {% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals %}
     </div>
     {% else %}
-    <!-- source -->
-    {% if not user.profile.hide_source_secondary or not secondary %}
+
+    {% if unit.comment %}
+    <!-- comment -->
     <div class="form-group">
-    {% include "unit-context.html" %}
+    <label>{% trans "Source string comment" %}</label>
+    {% format_translation unit.comment unit.translation.subproject.project.source_language %}
+    </div>
+    {% endif %}
+
+    {% if not user.profile.hide_source_secondary or not secondary %}
+    <!-- source -->
+    <div class="form-group">
+    {% if unit.context %}
+    <div class="pull-right flip">
+    <label>{% trans "Context:" %}</label>
+    {{ unit.context }}
+    </div>
+    {% endif %}
     <label>{% trans "Source" %}</label>
     {% with unit.translation.subproject.get_editable_template as edit_template %}
     {% if edit_template %}
@@ -135,6 +149,8 @@
     </div>
     {% endif %}
     {% endif %}
+
+    <!-- edit form -->
     {{ form|crispy }}
   </div>
   <div class="panel-footer">
