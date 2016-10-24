@@ -40,7 +40,7 @@ from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode, ParseError
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.unitdata import Suggestion
+from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.signals import vcs_pre_commit, vcs_post_commit
 from weblate.trans.site import get_site_url
 from weblate.trans.util import translation_percent, split_plural
@@ -48,7 +48,7 @@ from weblate.accounts.avatar import get_user_display
 from weblate.trans.mixins import URLMixin, PercentMixin, LoggerMixin
 from weblate.trans.boolean_sum import do_boolean_sum
 from weblate.accounts.models import notify_new_string, get_author_name
-from weblate.trans.models.changes import Change
+from weblate.trans.models.change import Change
 from weblate.trans.checklists import TranslationChecklist
 
 

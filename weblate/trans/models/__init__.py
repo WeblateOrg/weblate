@@ -29,11 +29,11 @@ from weblate.trans.models.project import Project
 from weblate.trans.models.subproject import SubProject
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.unitdata import (
-    Check, Suggestion, Comment, Vote
-)
+from weblate.trans.models.comment import Comment
+from weblate.trans.models.suggestion import Suggestion, Vote
+from weblate.trans.models.check import Check
 from weblate.trans.models.search import IndexUpdate
-from weblate.trans.models.changes import Change
+from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.group_acl import GroupACL
 from weblate.trans.models.source import Source

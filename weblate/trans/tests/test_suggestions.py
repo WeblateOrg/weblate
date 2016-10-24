@@ -24,7 +24,7 @@ Tests for sugestion views.
 
 from django.core.urlresolvers import reverse
 
-from weblate.trans.models.unitdata import Suggestion
+from weblate.trans.models import Suggestion
 from weblate.trans.tests.test_views import ViewTestCase
 
 

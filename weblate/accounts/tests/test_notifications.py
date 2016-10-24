@@ -38,7 +38,7 @@ from weblate.accounts.models import (
     notify_new_language,
 )
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.models.unitdata import Suggestion, Comment
+from weblate.trans.models import Suggestion, Comment
 from weblate.lang.models import Language
 
 

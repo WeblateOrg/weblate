@@ -67,7 +67,7 @@ from weblate.appsettings import (
 from weblate.accounts.models import (
     notify_parse_error, notify_merge_failure, get_author_name
 )
-from weblate.trans.models.changes import Change
+from weblate.trans.models.change import Change
 
 
 DEFAULT_COMMIT_MESSAGE = (

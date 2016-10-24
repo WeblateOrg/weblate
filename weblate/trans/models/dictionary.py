@@ -45,7 +45,7 @@ class DictionaryManager(models.Manager):
         '''
         Handles dictionary upload.
         '''
-        from weblate.trans.models.changes import Change
+        from weblate.trans.models.change import Change
         store = AutoFormat.parse(fileobj)
 
         ret = 0
@@ -97,7 +97,7 @@ class DictionaryManager(models.Manager):
         '''
         Creates new dictionary object.
         '''
-        from weblate.trans.models.changes import Change
+        from weblate.trans.models.change import Change
         action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
         created = super(DictionaryManager, self).create(**kwargs)
         Change.objects.create(
@@ -209,7 +209,7 @@ class Dictionary(models.Model):
         '''
         Edits word in a dictionary.
         '''
-        from weblate.trans.models.changes import Change
+        from weblate.trans.models.change import Change
         self.source = source
         self.target = target
         self.save()

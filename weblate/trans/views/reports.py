@@ -26,7 +26,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
-from weblate.trans.models.changes import Change
+from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.permissions import can_view_reports

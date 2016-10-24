@@ -34,8 +34,10 @@ from weblate import appsettings
 from weblate.trans import messages
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
-from weblate.trans.models.unitdata import Check, Comment, Suggestion
-from weblate.trans.models.changes import Change
+from weblate.trans.models.check import Check
+from weblate.trans.models.comment import Comment
+from weblate.trans.models.suggestion import Suggestion
+from weblate.trans.models.change import Change
 from weblate.trans.search import update_index_unit, fulltext_search, more_like
 from weblate.accounts.models import (
     notify_new_contributor, notify_new_translation

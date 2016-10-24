@@ -19,7 +19,7 @@
 #
 
 from weblate.trans.management.commands import WeblateCommand
-from weblate.trans.models.changes import Change
+from weblate.trans.models.change import Change
 
 
 class Command(WeblateCommand):

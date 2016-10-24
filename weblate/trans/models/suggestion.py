@@ -25,11 +25,10 @@ from django.db.models import Count
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from weblate.lang.models import Language
-from weblate.trans.checks import CHECKS
-from weblate.trans.models.changes import Change
+from weblate.trans.models.change import Change
 from weblate.trans.permissions import can_vote_suggestion
 from weblate.accounts.avatar import get_user_display
-from weblate.accounts.models import notify_new_suggestion, notify_new_comment
+from weblate.accounts.models import notify_new_suggestion
 
 
 class SuggestionManager(models.Manager):
@@ -194,129 +193,3 @@ class Vote(models.Model):
             self.suggestion,
             self.user.username,
         )
-
-
-class CommentManager(models.Manager):
-    # pylint: disable=W0232
-
-    def add(self, unit, user, lang, text):
-        '''
-        Adds comment to this unit.
-        '''
-        new_comment = self.create(
-            user=user,
-            contentsum=unit.contentsum,
-            project=unit.translation.subproject.project,
-            comment=text,
-            language=lang
-        )
-        Change.objects.create(
-            unit=unit,
-            action=Change.ACTION_COMMENT,
-            translation=unit.translation,
-            user=user,
-            author=user
-        )
-
-        # Notify subscribed users
-        notify_new_comment(
-            unit,
-            new_comment,
-            user,
-            unit.translation.subproject.report_source_bugs
-        )
-
-
-@python_2_unicode_compatible
-class Comment(models.Model):
-    contentsum = models.CharField(max_length=40, db_index=True)
-    comment = models.TextField()
-    user = models.ForeignKey(User, null=True, blank=True)
-    project = models.ForeignKey('Project')
-    language = models.ForeignKey(Language, null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
-
-    objects = CommentManager()
-
-    class Meta(object):
-        ordering = ['timestamp']
-        app_label = 'trans'
-
-    def __str__(self):
-        return 'comment for {0} by {1}'.format(
-            self.contentsum,
-            self.user.username if self.user else 'unknown',
-        )
-
-    def get_user_display(self):
-        return get_user_display(self.user, link=True)
-
-
-CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
-
-
-@python_2_unicode_compatible
-class Check(models.Model):
-    contentsum = models.CharField(max_length=40, db_index=True)
-    project = models.ForeignKey('Project')
-    language = models.ForeignKey(Language, null=True, blank=True)
-    check = models.CharField(max_length=20, choices=CHECK_CHOICES)
-    ignore = models.BooleanField(db_index=True, default=False)
-
-    _for_unit = None
-    _check_obj = None
-    _check_obj_valid = False
-
-    @property
-    def for_unit(self):
-        return self._for_unit
-
-    @property
-    def check_obj(self):
-        if not self._check_obj_valid:
-            try:
-                self._check_obj = CHECKS[self.check]
-            except KeyError:
-                self._check_obj = None
-            self._check_obj_valid = True
-        return self._check_obj
-
-    @for_unit.setter
-    def for_unit(self, value):
-        self._for_unit = value
-
-    class Meta(object):
-        permissions = (
-            ('ignore_check', "Can ignore check results"),
-        )
-        app_label = 'trans'
-        unique_together = ('contentsum', 'project', 'language', 'check')
-
-    def __str__(self):
-        return '{0}/{1}: {2}'.format(
-            self.project,
-            self.language,
-            self.check,
-        )
-
-    def get_description(self):
-        if self.check_obj:
-            return self.check_obj.description
-        return self.check
-
-    def get_severity(self):
-        if self.check_obj:
-            return self.check_obj.severity
-        return 'info'
-
-    def get_doc_url(self):
-        if self.check_obj:
-            return self.check_obj.get_doc_url()
-        return ''
-
-    def set_ignore(self):
-        '''
-        Sets ignore flag.
-        '''
-        self.ignore = True
-        self.save()
