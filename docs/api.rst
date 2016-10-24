@@ -311,7 +311,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -500,8 +500,8 @@ Components
     :>json boolean needs_commit: whether there are any pending changes to commit
     :>json boolean needs_merge: whether there are any upstream changes to merge
     :>json boolean needs_push: whether there are any local changes to push
-    :>json remote_commit: Remote commit information
-    :>json status: VCS repository status as reported by VCS
+    :>json string remote_commit: Remote commit information
+    :>json string status: VCS repository status as reported by VCS
     :>json merge_failure: Text describing merge failure, null if there is none
 
     .. seealso::
@@ -518,7 +518,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :<json operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -782,7 +782,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :<json operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
+    :<json string operation: Operation to perform, one of ``push``, ``pull``, ``commit``, ``reset``
     :>json boolean result: result of the operation
 
     .. seealso::
@@ -801,21 +801,21 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json code: language code
-    :>json failing: number of failing checks
-    :>json failing_percent: percentage of failing checks
-    :>json fuzzy: number of strings needing review
-    :>json fuzzy_percent: percentage of strings needing review
-    :>json total_words: total number of words
-    :>json translated_words: number of translated words
-    :>json last_author: name of last author
-    :>json last_change: date of last change
-    :>json name: language name
-    :>json total: total number of strings
-    :>json translated: number of translated strings
-    :>json translated_percent: percentage of translated strings
-    :>json url: URL to access the translation (engagement URL)
-    :>json url_translate: URL to access the translation (real translation URL)
+    :>json string code: language code
+    :>json int failing: number of failing checks
+    :>json float failing_percent: percentage of failing checks
+    :>json int fuzzy: number of strings needing review
+    :>json float fuzzy_percent: percentage of strings needing review
+    :>json int total_words: total number of words
+    :>json int translated_words: number of translated words
+    :>json string last_author: name of last author
+    :>json timestamp last_change: date of last change
+    :>json string name: language name
+    :>json int total: total number of strings
+    :>json int translated: number of translated strings
+    :>json float translated_percent: percentage of translated strings
+    :>json string url: URL to access the translation (engagement URL)
+    :>json string url_translate: URL to access the translation (real translation URL)
 
 .. _hooks:
 

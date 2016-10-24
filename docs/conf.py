@@ -343,3 +343,15 @@ epub_exclude_files = ['search.html']
 graphviz_output_format = 'svg'
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
+
+# Ignore missing targets for the http:obj <type>, it's how we declare the types
+# for input/output fields in the API docs.
+nitpick_ignore = [
+    ('http:obj', 'array'),
+    ('http:obj', 'boolean'),
+    ('http:obj', 'int'),
+    ('http:obj', 'float'),
+    ('http:obj', 'object'),
+    ('http:obj', 'string'),
+    ('http:obj', 'timestamp'),
+]
