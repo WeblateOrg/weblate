@@ -21,7 +21,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -137,7 +137,14 @@ def deny_demo(request):
         request,
         _('You cannot change demo account on the demo server.')
     )
-    return redirect('profile')
+    return redirect_profile(request.POST.get('activetab'))
+
+
+def redirect_profile(page=''):
+    url = reverse('profile')
+    if page and page.startswith('#'):
+        url = url + page
+    return HttpResponseRedirect(url)
 
 
 @login_required
@@ -170,7 +177,7 @@ def user_profile(request):
             set_lang(request, request.user.profile)
 
             # Redirect after saving (and possibly changing language)
-            response = redirect('profile')
+            response = redirect_profile(request.POST.get('activetab'))
 
             # Set language cookie and activate new language (for message below)
             lang_code = profile.language
@@ -380,7 +387,7 @@ def weblate_login(request):
 
     # Redirect logged in users to profile
     if request.user.is_authenticated():
-        return redirect('profile')
+        return redirect_profile()
 
     # Redirect if there is only one backend
     auth_backends = list(load_backends(BACKENDS).keys())
@@ -507,8 +514,10 @@ def password(request):
         if form.is_valid() and do_change:
 
             # Clear flag forcing user to set password
+            redirect = '#auth'
             if 'show_set_password' in request.session:
                 del request.session['show_set_password']
+                redirect = ''
 
             request.user.set_password(
                 form.cleaned_data['password1']
@@ -522,7 +531,7 @@ def password(request):
                 request,
                 _('Your password has been changed.')
             )
-            return redirect('profile')
+            return redirect_profile(redirect)
     else:
         form = PasswordForm()
 
@@ -584,7 +593,7 @@ def reset_api_key(request):
         key=get_random_string(40)
     )
 
-    return redirect('profile')
+    return redirect_profile('#api')
 
 
 @login_required

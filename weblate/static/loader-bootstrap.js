@@ -496,6 +496,14 @@ $(function () {
         );
     });
 
+    if ($('#form-activetab').length > 0) {
+        $document.on('show.bs.tab', '[data-toggle="tab"]', function (e) {
+            var $target = $(e.target);
+            console.log($target.attr('href'));
+            $('#form-activetab').attr('value', $target.attr('href'));
+        });
+    }
+
     /* Activity charts on tabs */
     $document.on('show.bs.tab', '[data-load="activity"]', function (e) {
         loadActivityChart($(this));

@@ -17,6 +17,7 @@ Released on ? 2016.
 * Record suggestion deletion in history.
 * Improved intuitivity of languages selection in profile.
 * Fixed showing whiteboard messages for component.
+* Keep preferectes tab selected after saving.
 
 weblate 2.8
 -----------

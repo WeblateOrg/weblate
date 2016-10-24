@@ -209,7 +209,7 @@ class ViewTest(TestCase):
             }
         )
 
-        self.assertRedirects(response, reverse('profile'))
+        self.assertRedirects(response, reverse('profile') + '#auth')
         self.assertTrue(
             User.objects.get(username='testuser').check_password('123456')
         )

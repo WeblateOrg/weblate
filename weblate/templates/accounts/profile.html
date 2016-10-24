@@ -16,6 +16,7 @@
 
 <form method="post" action="{% url 'profile' %}">
 {% csrf_token %}
+<input type="hidden" id="form-activetab" name="activetab" value="" />
 
 <ul class="nav nav-pills">
 <li class="active"><a data-toggle="tab" href="#languages">{% trans "Languages" %}</a></li>
