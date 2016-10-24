@@ -555,7 +555,7 @@ class Profile(models.Model):
     DASHBOARD_SUGGESTIONS = 5
 
     DASHBOARD_CHOICES = (
-        (DASHBOARD_WATCHED, _('Watched')),
+        (DASHBOARD_WATCHED, _('Watched translations')),
         (DASHBOARD_LANGUAGES, _('Your languages')),
         (DASHBOARD_COMPONENT_LIST, _('Component list')),
         (DASHBOARD_SUGGESTIONS, _('Suggested translations')),
