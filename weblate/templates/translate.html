@@ -88,6 +88,8 @@
   <div class="panel-body">
     {% csrf_token %}
     {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
+
+    <!-- secondary -->
     {% if secondary %}
     {% for secondary_unit in secondary %}
     <div class="form-group">
@@ -100,18 +102,23 @@
     </div>
     {% endfor %}
     {% endif %}
+
+    <!-- source change -->
     {% if unit.previous_source and unit.fuzzy %}
     <div class="form-group">
     <label>{% trans "Source change" %}</label>
     {% format_translation unit.source unit.translation.subproject.project.source_language diff=unit.previous_source num_plurals=unit.translation.language.nplurals %}
     </div>
     {% endif %}
+
     {% if unit.translation.is_template %}
+    <!-- editing template -->
     <div class="form-group">
     <label>{% trans "Context" %}</label>
     {% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query num_plurals=unit.translation.language.nplurals %}
     </div>
     {% else %}
+    <!-- source -->
     {% if not user.profile.hide_source_secondary or not secondary %}
     <div class="form-group">
     {% include "unit-context.html" %}
