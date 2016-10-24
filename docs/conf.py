@@ -36,6 +36,7 @@ extensions = [
     'djangodocs',
     'sphinxcontrib.httpdomain',
     'sphinx.ext.graphviz',
+    'sphinx.ext.intersphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -340,3 +341,5 @@ epub_exclude_files = ['search.html']
 #epub_use_index = True
 
 graphviz_output_format = 'svg'
+
+intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}

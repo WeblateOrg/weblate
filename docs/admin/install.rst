@@ -277,8 +277,8 @@ If you decide to install Weblate using pip installer, you will notice some
 differences. Most importantly the command line interface is installed  to the
 system path as :command:`weblate` instead of :command:`./manage.py` as used in
 this documentation. Also when invoking this command, you will have to specify
-settings, either by :envvar:`DJANGO_SETTINGS` or on the command line, for
-example:
+settings, either by environment variable `DJANGO_SETTINGS` or on the command
+line, for example:
 
 .. code-block:: sh
 
@@ -807,7 +807,7 @@ background.
 
 On Unix system, this can be scheduled using cron:
 
-.. code-block:: crontab
+.. code-block:: text
 
     # Fulltext index updates
     */5 * * * * cd /usr/share/weblate/; ./manage.py update_index

@@ -42,7 +42,7 @@ Updating repositories
 
 You should set up some way how backend repositories are updated from their
 source. You can either use hooks (see :ref:`hooks`) or just regularly run
-:djadmin:`updategit --all`.
+:djadmin:`updategit` (with selection of project or `--all` for updating all).
 
 Whenever Weblate updates the repository, the :guilabel:`Post-update script`
 hooks are executed.

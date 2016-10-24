@@ -33,7 +33,7 @@ it also include :ref:`wlc`:
 :class:`Weblate`
 ----------------
 
-.. class:: Weblate(key='', url=None, config=None):
+.. class:: Weblate(key='', url=None, config=None)
 
     :param key: User key
     :type key: string
@@ -62,7 +62,7 @@ it also include :ref:`wlc`:
 
 
 :mod:`wlc.config`
-====================
+=================
 
 .. module:: wlc.config
     :synopsis: Configuration parsing
@@ -96,10 +96,10 @@ it also include :ref:`wlc`:
 
 .. function:: main(settings=None, stdout=None, args=None)
 
-    :param settings: settings to override
-    :type settings: list of tuples
-    :param stdout: stdout for printing output, uses ``sys.stdout`` as default
-    :type stdout: file
+    :param settings: settings to override as list of tuples
+    :type settings: list
+    :param stdout: stdout file object for printing output, uses ``sys.stdout`` as default
+    :type stdout: object
     :param args: command line argumets to process, uses ``sys.args`` as default
     :type args: list
 

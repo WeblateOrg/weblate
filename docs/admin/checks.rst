@@ -108,7 +108,7 @@ Writing own checks
 Weblate comes with wide range of quality checks (see :ref:`checks`), though
 they might not 100% cover all you want to check. The list of performed checks
 can be adjusted using :setting:`CHECK_LIST` and you can also add custom checks.
-All you need to do is to subclass :class:`trans.checks.Check`, set few
+All you need to do is to subclass `weblate.trans.checks.Check`, set few
 attributes and implement either ``check`` or ``check_single`` methods (first
 one if you want to deal with plurals in your code, the latter one does this for
 you). You will find below some examples.

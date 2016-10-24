@@ -356,7 +356,7 @@ following files:
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
-    :language: csv
+    :language: text
     :encoding: utf-8
 
 YAML files

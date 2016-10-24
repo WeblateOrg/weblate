@@ -100,7 +100,7 @@ Maintenance tasks
 
 There are some cron jobs to run. You should set :envvar:`WEBLATE_OFFLOAD_INDEXING` to ``1`` when these are setup
 
-.. code-block:: crontab
+.. code-block:: text
 
     */5 * * * * cd /usr/share/weblate/; docker-compose run --rm weblate update_index
     @daily cd /usr/share/weblate/; docker-compose run --rm weblate cleanuptrans
