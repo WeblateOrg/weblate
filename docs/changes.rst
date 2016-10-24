@@ -13,6 +13,7 @@ Released on ? 2016.
 * Use "Watched" instead of "Subscribed" projects.
 * Projects can be watched directly from project page.
 * Added multi language status widget.
+* Highlight secondary language if not showing source.
 
 weblate 2.8
 -----------

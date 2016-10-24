@@ -92,7 +92,11 @@
     {% for secondary_unit in secondary %}
     <div class="form-group">
     <label>{{ secondary_unit.translation.language }}</label>
+    {% if user.profile.hide_source_secondary %}
+    {% format_translation secondary_unit.target secondary_unit.translation.language search_match=search_query num_plurals=unit.translation.language.nplurals unit=unit %}
+    {% else %}
     {% format_translation secondary_unit.target secondary_unit.translation.language %}
+    {% endif %}
     </div>
     {% endfor %}
     {% endif %}
