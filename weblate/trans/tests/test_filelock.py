@@ -110,11 +110,13 @@ class LockTest(TestCase):
         '''
         lock = FileLock(self.testfile)
         lock.acquire()
-        process = Process(target=self.second_lock)
-        process.start()
-        process.join()
-        self.assertEqual(process.exitcode, 1)
-        lock.release()
+        try:
+            process = Process(target=self.second_lock)
+            process.start()
+            process.join()
+            self.assertEqual(process.exitcode, 1)
+        finally:
+            lock.release()
         process = Process(target=self.second_lock)
         process.start()
         process.join()
