@@ -623,7 +623,7 @@ class GitRepository(Repository):
             # URL changed?
             self.execute(['remote', 'set-url', 'origin', pull_url])
 
-        if old_push != push_url:
+        if push_url is not None and old_push != push_url:
             self.execute(['remote', 'set-url', '--push', 'origin', push_url])
 
         # Set branch to track
@@ -887,7 +887,7 @@ class GithubRepository(GitRepository):
 
     def configure_remote(self, pull_url, push_url, branch):
         # We don't use push URL at all
-        super(GithubRepository, self).configure_remote(pull_url, '', branch)
+        super(GithubRepository, self).configure_remote(pull_url, None, branch)
 
 
 @register_vcs
