@@ -679,9 +679,9 @@ class GitRepository(Repository):
         """Performs global settings"""
         merge_driver = os.path.abspath(
             os.path.join(
-               os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-               'examples',
-               'git-merge-gettext-po'
+                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                'examples',
+                'git-merge-gettext-po'
             )
         )
         if os.path.exists(merge_driver):
