@@ -179,6 +179,7 @@ class Change(models.Model):
     ACTION_PARSE_ERROR = 24
     ACTION_REMOVE = 25
     ACTION_SUGGESTION_DELETE = 26
+    ACTION_REPLACE = 27
 
     ACTION_CHOICES = (
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
@@ -208,6 +209,7 @@ class Change(models.Model):
         (ACTION_PARSE_ERROR, ugettext_lazy('Parse error')),
         (ACTION_REMOVE, ugettext_lazy('Removed translation')),
         (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
+        (ACTION_REPLACE, ugettext_lazy('Search and replace')),
     )
 
     ACTIONS_SUBPROJECT = set((
@@ -227,6 +229,7 @@ class Change(models.Model):
         ACTION_REVERT,
         ACTION_CHANGE,
         ACTION_NEW,
+        ACTION_REPLACE,
     ))
 
     ACTIONS_CONTENT = set((
@@ -236,6 +239,7 @@ class Change(models.Model):
         ACTION_ACCEPT,
         ACTION_REVERT,
         ACTION_UPLOAD,
+        ACTION_REPLACE,
     ))
 
     ACTIONS_REPOSITORY = set((

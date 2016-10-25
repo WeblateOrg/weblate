@@ -41,7 +41,7 @@ from weblate.trans.models import (
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     TranslationForm, SearchForm, InlineWordForm,
-    MergeForm, AutoForm, ReviewForm,
+    MergeForm, AutoForm, ReviewForm, ReplaceForm,
     AntispamForm, CommentForm, RevertForm
 )
 from weblate.trans.views.helper import get_translation, import_message
@@ -824,3 +824,39 @@ def save_zen(request, project, subproject, lang):
         'zen-response.html',
         {},
     )
+
+
+@login_required
+@require_POST
+def search_replace(request, project, subproject, lang):
+    translation = get_translation(request, project, subproject, lang)
+    if not can_translate(request.user, translation):
+        raise PermissionDenied()
+
+    form = ReplaceForm(request.POST)
+
+    if translation.subproject.locked or not form.is_valid():
+        messages.error(request, _('Failed to process form!'))
+        return redirect(translation)
+
+    search = form.cleaned_data['search']
+    replacement = form.cleaned_data['replacement']
+
+    matching = translation.unit_set.filter(target__contains=search)
+    updated = matching.count()
+
+    for unit in matching.iterator():
+        unit.target = unit.target.replace(search, replacement)
+        unit.save_backend(request, change_action=Change.ACTION_REPLACE)
+
+    import_message(
+        request, updated,
+        _('Search and replace completed, no strings were updated.'),
+        ungettext(
+            'Search and replace completed, %d string was updated.',
+            'Search and replace completed, %d strings were updated.',
+            updated
+        )
+    )
+
+    return redirect(translation)

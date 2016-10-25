@@ -20,6 +20,7 @@ Released on ? 2016.
 * Keep preferectes tab selected after saving.
 * Show source string comment more prominently.
 * Automatically install Gettext PO merge driver for Git repositories.
+* Added search and replace feature.
 
 weblate 2.8
 -----------

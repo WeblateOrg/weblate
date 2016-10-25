@@ -45,12 +45,13 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    UserManageForm, ReportsForm,
+    UserManageForm, ReportsForm, ReplaceForm,
     SubprojectSettingsForm, ProjectSettingsForm,
 )
 from weblate.trans.permissions import (
     can_automatic_translation, can_add_translation,
     can_edit_subproject, can_edit_project,
+    can_translate,
 )
 from weblate.accounts.models import Profile, notify_new_language
 from weblate.trans.views.helper import (
@@ -439,6 +440,10 @@ def show_translation(request, project, subproject, lang):
             }
         )
 
+    replace_form = None
+    if can_translate(request.user, obj):
+        replace_form = ReplaceForm()
+
     return render(
         request,
         'translation.html',
@@ -449,6 +454,7 @@ def show_translation(request, project, subproject, lang):
             'autoform': autoform,
             'search_form': search_form,
             'review_form': review_form,
+            'replace_form': replace_form,
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_kwargs()),
             'show_only_component': True,

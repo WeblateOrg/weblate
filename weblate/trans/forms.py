@@ -1017,3 +1017,16 @@ class ProjectSettingsForm(forms.ModelForm):
             'mail',
             'instructions',
         )
+
+
+class ReplaceForm(forms.Form):
+    search = forms.CharField(
+        label=_('Search string'),
+        min_length=1,
+        required=True,
+    )
+    replacement = forms.CharField(
+        label=_('Replacement string'),
+        min_length=1,
+        required=True,
+    )

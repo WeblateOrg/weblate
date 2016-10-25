@@ -212,6 +212,11 @@ urlpatterns = [
         name='auto_translation',
     ),
     url(
+        r'^replace/' + TRANSLATION + '$',
+        weblate.trans.views.edit.search_replace,
+        name='replace',
+    ),
+    url(
         r'^credits/' + SUBPROJECT + '$',
         weblate.trans.views.reports.get_credits,
         name='credits',
