@@ -624,7 +624,7 @@ class GitRepository(Repository):
             self.execute(['remote', 'set-url', 'origin', pull_url])
 
         if old_push != push_url:
-            self.execute(['remote', 'set-url', 'origin', '--push', push_url])
+            self.execute(['remote', 'set-url', '--push', 'origin', push_url])
 
         # Set branch to track
         self.set_config(
