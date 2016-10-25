@@ -674,6 +674,28 @@ class GitRepository(Repository):
         """
         return self.execute(['describe', '--always']).strip()
 
+    @classmethod
+    def global_setup(cls):
+        """Performs global settings"""
+        merge_driver = os.path.abspath(
+            os.path.join(
+               os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+               'examples',
+               'git-merge-gettext-po'
+            )
+        )
+        if os.path.exists(merge_driver):
+            cls._popen([
+                'config', '--global',
+                'merge.weblate-merge-gettext-po.name',
+                'Weblate merge driver for Gettext PO files'
+            ])
+            cls._popen([
+                'config', '--global',
+                'merge.weblate-merge-gettext-po.driver',
+                merge_driver,
+            ])
+
 
 @register_vcs
 class GitWithGerritRepository(GitRepository):

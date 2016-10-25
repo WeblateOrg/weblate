@@ -19,6 +19,7 @@ Released on ? 2016.
 * Fixed showing whiteboard messages for component.
 * Keep preferectes tab selected after saving.
 * Show source string comment more prominently.
+* Automatically install Gettext PO merge driver for Git repositories.
 
 weblate 2.8
 -----------
