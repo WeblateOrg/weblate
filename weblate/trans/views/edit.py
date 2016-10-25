@@ -839,14 +839,14 @@ def search_replace(request, project, subproject, lang):
         messages.error(request, _('Failed to process form!'))
         return redirect(translation)
 
-    search = form.cleaned_data['search']
+    search_text = form.cleaned_data['search']
     replacement = form.cleaned_data['replacement']
 
-    matching = translation.unit_set.filter(target__contains=search)
+    matching = translation.unit_set.filter(target__contains=search_text)
     updated = matching.count()
 
     for unit in matching.iterator():
-        unit.target = unit.target.replace(search, replacement)
+        unit.target = unit.target.replace(search_text, replacement)
         unit.save_backend(request, change_action=Change.ACTION_REPLACE)
 
     import_message(
