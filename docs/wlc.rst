@@ -11,11 +11,11 @@ Weblate Client
 
 .. versionadded:: 2.7
 
-    The wlc utility is fully supported since Weblate 2.7. If you are using older version
+    The wlc utility is fully supported since Weblate 2.7. If you are using an older version
     some incompatibilities with API might occur.
 
-Instalation
-+++++++++++
+Installation
+++++++++++++
 
 The Weblate Client is shipped separately, you need to install wlc to have it,
 it also includes Python module :mod:`wlc`:
