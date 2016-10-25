@@ -645,7 +645,7 @@ class Unit(models.Model, LoggerMixin):
             Change.objects.create(
                 translation=self.translation,
                 action=Change.ACTION_COMPLETE,
-                user=request.user,
+                user=user,
                 author=user
             )
 
