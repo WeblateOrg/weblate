@@ -185,7 +185,8 @@ class SameCheck(TargetCheck):
 
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
-        if self.is_language(unit, ('en', 'ia')):
+        if (translation.subproject.project.source_language.code == 'en' and
+                self.is_language(unit, ('en', 'ia'))):
             return False
 
         # Ignore the check for source language
