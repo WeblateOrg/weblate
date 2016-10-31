@@ -68,7 +68,7 @@ this.
         ports:
           - "80:8000"
         environment:
-          - WEBLATE_EMAIL_HOST=email.com
+          - WEBLATE_EMAIL_HOST=smtp.example.com
           - WEBLATE_EMAIL_HOST_USER=user
           - WEBLATE_EMAIL_HOST_PASSWORD=pass
           - WEBLATE_ALLOWED_HOSTS=your hosts
