@@ -222,7 +222,7 @@ Authentication settings
 PostgreSQL databse setup
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The databse is created by :file:`docker-compose.yml`, so this settings affects
+The database is created by :file:`docker-compose.yml`, so this settings affects
 both Weblate and PostgreSQL containers.
 
 .. envvar:: POSTGRES_PASSWORD
