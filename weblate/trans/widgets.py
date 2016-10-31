@@ -458,6 +458,7 @@ class MultiLanguageWidget(SVGBadgeWidget):
                 offset,
                 offset - 10,
                 int(percent * 1.5),
+                self.COLOR_MAP[self.color],
             ))
             offset += 20
 
@@ -466,7 +467,6 @@ class MultiLanguageWidget(SVGBadgeWidget):
             {
                 'height': len(translations) * 20 + 20,
                 'boxheight': len(translations) * 20 + 10,
-                'color': self.COLOR_MAP[self.color],
                 'translations': translations,
             }
         )
