@@ -242,6 +242,8 @@ Email server setup
 
 To make outgoing email work, you need to provide mail server.
 
+.. seealso:: :ref:`out-mail`
+
 .. envvar:: WEBLATE_EMAIL_HOST
 
     Mail server, the server has to listen on port 587 and understand TLS.
