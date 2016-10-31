@@ -436,29 +436,38 @@ class SVGBadgeWidget(Widget):
 class MultiLanguageWidget(SVGBadgeWidget):
     name = 'multi'
     order = 81
-    colors = ('red', 'green', 'blue')
+    colors = ('red', 'green', 'blue', 'auto')
 
     COLOR_MAP = {
         'red': '#fa3939',
         'green': '#3fed48',
         'blue': '#3f85ed',
+        'auto': None,
     }
 
     def render(self):
         translations = []
         offset = 30
+        color = self.COLOR_MAP[self.color]
         for language, translated, total in get_per_language_stats(self.obj):
             if total == 0:
                 percent = 0
             else:
                 percent = int(100 * translated / total)
+            if self.color == 'auto':
+                if percent >= 90:
+                    color = '#4c1'
+                elif percent >= 75:
+                    color = '#dfb317'
+                else:
+                    color = '#e05d44'
             translations.append((
                 language.name,
                 percent,
                 offset,
                 offset - 10,
                 int(percent * 1.5),
-                self.COLOR_MAP[self.color],
+                color,
             ))
             offset += 20
 
