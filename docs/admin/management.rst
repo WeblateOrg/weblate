@@ -69,8 +69,10 @@ Imports translation from the file as a suggestions to given translation. It
 skips translations which are same as existing ones, only different ones are
 added.
 
-You should specify existing user using ``--author`` parameter (you can create
-one in the admin interface if needed).
+.. django-admin-option:: --author USER@EXAMPLE.COM
+
+    Email of author for the suggestions. This user has to exist prior importing
+    (you can create one in the admin interface if needed).
 
 Example:
 
@@ -88,17 +90,28 @@ auto_translate <project> <component> <language>
 
 Performs automatic translation based on other component translations.
 
-By default it uses all other components from current project, but you can
-specify other source component by ``--source`` parameter.
+.. django-admin-option:: --source PROJECT/COMPONENT
 
-All changes are by default authored by anonymous user, you can specify another
-username by ``--user``.
+    Specifies component to use as source for translation. If not specified
+    all components in the project are used.
 
-The ``--overwrite`` and ``--inconsistent`` parameters control which strings
-will be updated.
+.. django-admin-option:: --user USERNAME
 
-You can also specify ``--add`` and if the language doesn't exist in the
-component, it will be automatically added (if supported).
+    Specify username who will be author of the translations. Anonymous user
+    is used if not specified.
+
+.. django-admin-option:: --overwrite
+
+    Whether to overwrite existing translations.
+
+.. django-admin-option:: --inconsistent
+
+    Whether to overwrite existing translations which are inconsistent (see
+    :ref:`check-inconsistent`).
+
+.. django-admin-option:: --add
+
+    Automatically add language if given translation does not exist.
 
 Example:
 
@@ -117,8 +130,16 @@ changesite
 
 .. versionadded:: 2.4
 
-You can use this to changes site name from command line with ``--set-name``
-parameter. The ``--get-name`` prints currently configured site name.
+You can use this to change or display site name from command line without using
+admin interface.
+
+.. django-admin-option:: --set-name NAME
+
+    Sets name for the site.
+
+.. django-admin-option:: --get-name
+
+    Prints currently configured site name.
 
 .. seealso:: 
    
@@ -149,11 +170,14 @@ commit_pending <project|project/component>
 
 .. django-admin:: commit_pending
 
-Commits pending changes older than given age (using ``--age`` parameter,
-defaults to 24 hours).
+Commits pending changes older than given age.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
+
+.. django-admin-option:: --age HOURS
+
+    Age in hours for committing.
 
 This is most useful if executed periodically from cron or similar tool:
 
@@ -181,11 +205,27 @@ createadmin
 
 .. django-admin:: createadmin
 
-Creates ``admin`` account with random password. You can specify ``--password``
-to provide password on the command line, by ``--username`` you can create user
-of different name, by ``--email`` you can specify his email, by ``--name`` you
-can specify his name and with ``--update`` you can change existing user as
-well.
+Creates ``admin`` account with random password unless it is specified.
+
+.. django-admin-option:: --password PASSWORD
+   
+    Provide password on the command line and skip generating random one.
+    
+.. django-admin-option:: --username USERNAME
+   
+    Use given name instead of ``admin``.
+
+.. django-admin-option:: --email USER@EXAMPLE.COM
+   
+    Specify admin email.
+    
+.. django-admin-option:: --name
+
+    Specify admin name (visible).
+
+.. django-admin-option:: --update
+   
+    Update existing user (you can use this to change password).
 
 .. versionchanged:: 2.9
 
@@ -209,15 +249,25 @@ import_json <json-file>
 
 Batch import of components based on JSON data.
 
-You need to specify ``--project`` to define where the components will be
-imported.
-
-Additionally you can specify ``--main-component`` to use VCS repository from
-this component for all.
-
 The imported JSON file structure pretty much corresponds to the component
 object (see :http:get:`/api/components/(string:project)/(string:component)/`).
 You always have to include fields ``name`` and ``filemask``.
+
+.. django-admin-option:: --project PROJECT
+
+    Specifies where the components will be imported.
+
+.. django-admin-option:: --main-component COMPONENT
+
+    Use VCS repository from this component for all.
+
+.. django-admin-option:: --ignore
+
+    Skip already imported components.
+
+.. django-admin-option:: --update
+
+    Update already imported components.
 
 .. versionchanged:: 2.9
 
@@ -256,40 +306,60 @@ Each of these is then added as a component, named after the matched
 directory.
 Existing components will be skipped.
 
-To customise the component's name, use the ``--name-template`` option.
-Its parameter is a python formatting string, which will expect the
-match from `<filemask>`.
 
-By format string passed by the ``--base-file-template`` option you can customize
-base file for monolingual translations.
+.. django-admin-option:: --name-template TEMPLATE
 
-You can also specify file format to use (see :ref:`formats`) by the
-``--file-format`` parameter. The default is autodetection.
+    Customise the component's name, its parameter is a python formatting
+    string, which will expect the match from `<filemask>`.
 
-You can specify language filtering (see :ref:`component`) by the
-``--language-regex`` parameter. It has to be valid regular expression.
+.. django-admin-option:: --base-file-template TEMPLATE
 
-With ``--main-component`` you can specify which component will be chosen as
-main - the one actually containing VCS repository.
+    Customize base file for monolingual translations.
 
-Using ``--license`` and ``--license-url`` you can specify license and it's URL
-for imported components.
+.. django-admin-option:: --file-format FORMAT
 
-In case you need to specify version control system to use, you can do this using
-``--vcs`` parameter. The default version control is Git.
+    You can also specify file format to use (see :ref:`formats`), the default
+    is autodetection.
 
-You can override parsing of component name from matched files by
-``--component-regexp``. This is a regular expression which will be matched
-against file name (as matched by `<filemask>`) and has to contain named group
-`name`. This can be also used for excluding files in case they do not match
-this expression. For example: ``.*/(?P<name>[^-]*)\.po``
+.. django-admin-option:: --language-regex REGEX
 
-By default the import does skip already existing projects. This is to allow
-repeated importing of same repository. However if you want to force importing
-additional components even if name or slug matches existing one, you can do it
-by passing ``--no-skip-duplicates``. This is generally useful for components
-with long names, which will get truncated on import and many of them will get
-same name or slug.
+    You can specify language filtering (see :ref:`component`) by this
+    parameter. It has to be valid regular expression.
+
+.. django-admin-option:: --main-component
+   
+    You can specify which component will be chosen as main - the one actually
+    containing VCS repository.
+
+.. django-admin-option:: --license NAME
+
+    Specify translation license.
+
+.. django-admin-option:: --license-url URL
+
+    Specify translation license URL.
+
+.. django-admin-option:: --vcs NAME
+
+    In case you need to specify version control system to use, you can do it
+    here. The default version control is Git.
+
+.. django-admin-option:: --component-regexp REGEX
+
+    You can override parsing of component name from matched files here. This is
+    a regular expression which will be matched against file name (as matched by
+    `<filemask>`) and has to contain named group `name`. This can be also used
+    for excluding files in case they do not match this expression. For example:
+    ``.*/(?P<name>[^-]*)\.po``
+
+.. django-admin-option:: --no-skip-duplicates
+
+    By default the import does skip already existing projects. This is to allow
+    repeated importing of same repository. However if you want to force
+    importing additional components even if name or slug matches existing one,
+    you can do it by passing ``--no-skip-duplicates``. This is generally useful
+    for components with long names, which will get truncated on import and many
+    of them will get same name or slug.
 
 To give you some examples, let's try importing two projects.
 
@@ -359,8 +429,11 @@ importusers --check <file.json>
 
 Imports users from JSON dump of Django auth_users database.
 
-With ``--check`` it will just check whether given file can be imported and
-report possible conflicts on usernames or emails.
+
+.. django-admin-option:: --check
+
+    With this option it will just check whether given file can be imported and
+    report possible conflicts on usernames or emails.
 
 You can dump users from existing Django installation using:
 
@@ -388,7 +461,9 @@ Renders the list of translators by language for the given project::
     [English]
     John Doe <jd@exemple.com>
 
-You can use the --language-code version to use language code instead of language name.
+.. django-admin-option:: --language-code
+
+    Use language code instead of language name in output.
 
 You can either define which project or component to use (eg.
 ``weblate/master``) or use ``--all`` to list translators from all existing
@@ -409,8 +484,13 @@ loadpo <project|project/component>
 Reloads translations from disk (eg. in case you did some updates in VCS
 repository).
 
-You can use ``--force`` to force update even if the files should be up
-to date. Additionally you can limit languages to process with ``--lang``.
+.. django-admin-option:: --force
+
+    Force update even if the files should be up to date. 
+    
+.. django-admin-option:: --lang LANGUAGE
+
+    Limit processing to single languaguage.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
@@ -435,8 +515,11 @@ pushgit <project|project/component>
 
 .. django-admin:: pushgit
 
-Pushes committed changes to upstream VCS repository. With ``--force-commit``
-it also commits any pending changes.
+Pushes committed changes to upstream VCS repository. 
+
+.. django-admin-option:: --force-commit
+
+    Force committing any pending changes prior to push.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
@@ -449,11 +532,14 @@ rebuild_index <project|project/component>
 Rebuilds index for fulltext search. This might be lengthy operation if you
 have huge set of translation units.
 
-You can use ``--clean`` to remove all words from database prior updating.
+.. django-admin-option:: --clean
 
-With ``--optimize`` the index will not be processed again, only it's content
-will be optimized (removing stale entries and merging possibly split index
-files).
+    Removes all words from database prior updating.
+
+.. django-admin-option:: --optimize
+
+    The index will not be processed again, only it's content will be optimized
+    (removing stale entries and merging possibly split index files).
 
 .. seealso:: 
    
@@ -493,11 +579,15 @@ setupgroups
 
 .. django-admin:: setupgroups
 
-Configures default groups and (if called with ``--move``) assigns all users
-to default group.
+Configures default groups and optionally assigns all users to default group.
 
-The option ``--no-privs-update`` disables update of existing groups (only adds
-new ones).
+.. django-admin-option:: --move
+
+    Assigns all users to the default group.
+
+.. django-admin-option:: --no-privs-update
+
+    Disables update of existing groups (only adds new ones).
 
 .. seealso:: 
    
@@ -511,8 +601,9 @@ setuplang
 Setups list of languages (it has own list and all defined in
 translate-toolkit).
 
-The option ``--no-update`` disables update of existing languages (only adds
-new ones).
+.. django-admin-option:: --no-update
+    
+    Disables update of existing languages (only adds new ones).
 
 updatechecks <project|project/component>
 ----------------------------------------
