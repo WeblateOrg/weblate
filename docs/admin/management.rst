@@ -58,10 +58,10 @@ With :program:`docker-compose` this is quite similar, you just have to use
     :ref:`install-pip`
 
 
-add_suggestions <project> <component> <language> <file>
--------------------------------------------------------
+add_suggestions
+---------------
 
-.. django-admin:: add_suggesstions
+.. django-admin:: add_suggesstions <project> <component> <language> <file>
 
 .. versionadded:: 2.5
 
@@ -81,10 +81,10 @@ Example:
     ./manage.py --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
 
 
-auto_translate <project> <component> <language>
------------------------------------------------
+auto_translate
+--------------
 
-.. django-admin:: auto_translate
+.. django-admin:: auto_translate <project> <component> <language>
 
 .. versionadded:: 2.5
 
@@ -145,30 +145,30 @@ admin interface.
    
    :ref:`production-site`
 
-checkgit <project|project/component>
-------------------------------------
+checkgit
+--------
 
-.. django-admin:: checkgit
+.. django-admin:: checkgit <project|project/component>
 
 Prints current state of backend git repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-commitgit <project|project/component>
--------------------------------------
+commitgit
+---------
 
-.. django-admin:: commitgit
+.. django-admin:: commitgit <project|project/component>
 
 Commits any possible pending changes to backend git repository.
 
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-commit_pending <project|project/component>
-------------------------------------------
+commit_pending
+--------------
 
-.. django-admin:: commit_pending
+.. django-admin:: commit_pending <project|project/component>
 
 Commits pending changes older than given age.
 
@@ -231,19 +231,19 @@ Creates ``admin`` account with random password unless it is specified.
 
     Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
 
-dumpuserdata <file.json>
-------------------------
+dumpuserdata
+------------
 
-.. django-admin:: dumpuserdata
+.. django-admin:: dumpuserdata <file.json>
 
 Dumps userdata to file for later use by :djadmin:`importuserdata`
 
 This is useful when migrating of merging Weblate instances.
 
-import_json <json-file>
------------------------
+import_json
+-----------
 
-.. django-admin:: import_json
+.. django-admin:: import_json <json-file>
 
 .. versionadded:: 2.7
 
@@ -285,10 +285,10 @@ Example of JSON file:
     :djadmin:`import_project`
 
 
-import_project <project> <gitrepo> <branch> <filemask>
-------------------------------------------------------
+import_project
+--------------
 
-.. django-admin:: import_project
+.. django-admin:: import_project <project> <gitrepo> <branch> <filemask>
 
 Batch imports components into project based on file mask.
 
@@ -415,17 +415,17 @@ Filtering only translations in chosen language:
     More detailed examples can be found in the :ref:`starting` chapter,
     alternatively you might want to use :djadmin:`import_json`.
 
-importuserdata <file.json>
---------------------------
+importuserdata
+--------------
 
-.. django-admin:: importuserdata
+.. django-admin:: importuserdata <file.json>
 
 Imports userdata from file created by :djadmin:`dumpuserdata`
 
-importusers --check <file.json>
--------------------------------
+importusers
+-----------
 
-.. django-admin:: importusers
+.. django-admin:: importusers --check <file.json>
 
 Imports users from JSON dump of Django auth_users database.
 
@@ -449,10 +449,10 @@ list_ignored_checks
 Lists most frequently ignored checks. This can be useful for tuning your setup,
 if users have to ignore too many of consistency checks.
 
-list_translators <project|project/component>
---------------------------------------------
+list_translators
+----------------
 
-.. django-admin:: list_translators
+.. django-admin:: list_translators <project|project/component>
 
 Renders the list of translators by language for the given project::
 
@@ -476,10 +476,10 @@ list_versions
 
 Lists versions of Weblate dependencies.
 
-loadpo <project|project/component>
-----------------------------------
+loadpo
+------
 
-.. django-admin:: loadpo
+.. django-admin:: loadpo <project|project/component>
 
 Reloads translations from disk (eg. in case you did some updates in VCS
 repository).
@@ -495,10 +495,10 @@ repository).
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-lock_translation <project|project/component>
---------------------------------------------
+lock_translation
+----------------
 
-.. django-admin:: lock_translation
+.. django-admin:: lock_translation <project|project/component>
 
 Locks given component for translating. This is useful in case you want to do
 some maintenance on underlaying repository.
@@ -510,10 +510,10 @@ You can either define which project or component to update (eg.
    
    :djadmin:`unlock_translation`
 
-pushgit <project|project/component>
------------------------------------
+pushgit
+-------
 
-.. django-admin:: pushgit
+.. django-admin:: pushgit <project|project/component>
 
 Pushes committed changes to upstream VCS repository. 
 
@@ -524,10 +524,10 @@ Pushes committed changes to upstream VCS repository.
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-rebuild_index <project|project/component>
------------------------------------------
+rebuild_index
+-------------
 
-.. django-admin:: rebuild_index
+.. django-admin:: rebuild_index <project|project/component>
 
 Rebuilds index for fulltext search. This might be lengthy operation if you
 have huge set of translation units.
@@ -559,10 +559,10 @@ uptodate.
    
    :ref:`fulltext`, :ref:`production-cron`, :ref:`production-indexing`
 
-unlock_translation <project|project/component>
-----------------------------------------------
+unlock_translation
+------------------
 
-.. django-admin:: unlock_translation
+.. django-admin:: unlock_translation <project|project/component>
 
 Unnocks given component for translating. This is useful in case you want to do
 some maintenance on underlaying repository.
@@ -605,10 +605,10 @@ translate-toolkit).
     
     Disables update of existing languages (only adds new ones).
 
-updatechecks <project|project/component>
-----------------------------------------
+updatechecks
+------------
 
-.. django-admin:: updatechecks
+.. django-admin:: updatechecks <project|project/component>
 
 Updates all check for all units. This could be useful only on upgrades
 which do major changes to checks.
@@ -616,10 +616,10 @@ which do major changes to checks.
 You can either define which project or component to update (eg.
 ``weblate/master``) or use ``--all`` to update all existing components.
 
-updategit <project|project/component>
--------------------------------------
+updategit
+---------
 
-.. django-admin:: updategit
+.. django-admin:: updategit <project|project/component>
 
 Fetches remote VCS repositories and updates internal cache.
 
