@@ -124,6 +124,9 @@ class AutoFormatTest(SimpleTestCase):
     FIND = 'Hello, world!\n'
     FIND_MATCH = 'Ahoj světe!\n'
 
+    # Show full diff on error
+    maxDiff = None
+
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
         self.assertEqual(storage.count_units(), self.COUNT)
@@ -169,9 +172,6 @@ class AutoFormatTest(SimpleTestCase):
         This can be implemented in subclasses to implement content
         aware comparing of translation files.
         """
-        # Show full diff on error
-        # pylint: disable=C0103
-        self.maxDiff = None
         self.assertEqual(testdata.strip(), newdata.strip())
 
     def test_find(self):
