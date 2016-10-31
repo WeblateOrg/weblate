@@ -64,6 +64,26 @@ class WidgetsTest(ViewTestCase):
         )
         self.assertContains(response, 'Test')
 
+
+class WidgetsMeta(type):
+    def __new__(mcs, name, bases, dict):
+
+        def gen_test(widget, color):
+            def test(self):
+                self.perform_test(widget, color)
+            return test
+
+
+        for widget in WIDGETS:
+            for color in WIDGETS[widget].colors:
+                test_name = 'test_{0}_{1}'.format(widget, color)
+                dict[test_name] = gen_test(widget, color)
+        return type.__new__(mcs, name, bases, dict)
+
+
+class WidgetsRenderTest(ViewTestCase):
+    __metaclass__ = WidgetsMeta
+
     def assert_widget(self, widget, response):
         if hasattr(WIDGETS[widget], 'redirect'):
             self.assertEqual(response.status_code, 302)
@@ -72,56 +92,53 @@ class WidgetsTest(ViewTestCase):
         else:
             self.assertPNG(response)
 
-    def test_view_widget_percents(self):
+    def perform_test(self, widget, color):
+        response = self.client.get(
+            reverse(
+                'widget-image',
+                kwargs={
+                    'project': self.project.slug,
+                    'widget': widget,
+                    'color': color,
+                    'extension': 'png',
+                }
+            )
+        )
+
+        self.assert_widget(widget, response)
+
+
+class WidgetsPercentRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color):
         for translated in (0, 3, 4):
             Translation.objects.update(translated=translated)
-            for widget in WIDGETS:
-                color = WIDGETS[widget].colors[0]
-                response = self.client.get(
-                    reverse(
-                        'widget-image',
-                        kwargs={
-                            'project': self.project.slug,
-                            'widget': widget,
-                            'color': color,
-                            'extension': 'png',
-                        }
-                    )
+            response = self.client.get(
+                reverse(
+                    'widget-image',
+                    kwargs={
+                        'project': self.project.slug,
+                        'widget': widget,
+                        'color': color,
+                        'extension': 'png',
+                    }
                 )
+            )
 
-                self.assert_widget(widget, response)
+            self.assert_widget(widget, response)
 
-    def test_view_widget_image(self):
-        for widget in WIDGETS:
-            for color in WIDGETS[widget].colors:
-                response = self.client.get(
-                    reverse(
-                        'widget-image',
-                        kwargs={
-                            'project': self.project.slug,
-                            'widget': widget,
-                            'color': color,
-                            'extension': 'png',
-                        }
-                    )
-                )
+class WidgetsLanguageRenderTest(WidgetsRenderTest):
+    def perform_test(self, widget, color):
+        response = self.client.get(
+            reverse(
+                'widget-image-lang',
+                kwargs={
+                    'project': self.project.slug,
+                    'widget': widget,
+                    'color': color,
+                    'lang': 'cs',
+                    'extension': 'png',
+                }
+            )
+        )
 
-                self.assert_widget(widget, response)
-
-    def test_view_widget_image_lang(self):
-        for widget in WIDGETS:
-            for color in WIDGETS[widget].colors:
-                response = self.client.get(
-                    reverse(
-                        'widget-image-lang',
-                        kwargs={
-                            'project': self.project.slug,
-                            'widget': widget,
-                            'color': color,
-                            'lang': 'cs',
-                            'extension': 'png',
-                        }
-                    )
-                )
-
-                self.assert_widget(widget, response)
+        self.assert_widget(widget, response)
