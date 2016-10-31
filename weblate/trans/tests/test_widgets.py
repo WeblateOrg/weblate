@@ -66,7 +66,7 @@ class WidgetsTest(ViewTestCase):
 
 
 class WidgetsMeta(type):
-    def __new__(mcs, name, bases, dict):
+    def __new__(mcs, name, bases, attrs):
 
         def gen_test(widget, color):
             def test(self):
@@ -77,8 +77,8 @@ class WidgetsMeta(type):
         for widget in WIDGETS:
             for color in WIDGETS[widget].colors:
                 test_name = 'test_{0}_{1}'.format(widget, color)
-                dict[test_name] = gen_test(widget, color)
-        return type.__new__(mcs, name, bases, dict)
+                attrs[test_name] = gen_test(widget, color)
+        return type.__new__(mcs, name, bases, attrs)
 
 
 class WidgetsRenderTest(ViewTestCase):
