@@ -225,6 +225,8 @@ PostgreSQL databse setup
 The database is created by :file:`docker-compose.yml`, so this settings affects
 both Weblate and PostgreSQL containers.
 
+.. seealso:: :ref:`database-setup`
+
 .. envvar:: POSTGRES_PASSWORD
 
     PostgreSQL password.
