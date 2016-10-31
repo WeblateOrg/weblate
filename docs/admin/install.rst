@@ -358,8 +358,8 @@ Other configurations
 
 .. _out-mail:
 
-Outgoing mail
-+++++++++++++
+Configuring outgoing mail
++++++++++++++++++++++++++
 
 Weblate sends out emails on various occasions - for account activation and on
 various notifications configured by users. For this it needs access to the SMTP
