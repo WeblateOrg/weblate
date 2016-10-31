@@ -357,7 +357,9 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
                     }
                 ])
             )
-            response = self.client.get(reverse('social:begin', args=('github',)))
+            response = self.client.get(
+                reverse('social:begin', args=('github',))
+            )
             self.assertEqual(response.status_code, 302)
             self.assertTrue(
                 response['Location'].startswith(
