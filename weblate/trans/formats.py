@@ -1350,13 +1350,18 @@ class YAMLFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, language, base):
         """Handles creation of new translation file."""
-        content = b'{}\n'
         if base:
-            # TODO: clean translations
-            with open(base, 'rb') as handle:
-                content = handle.read()
-        with open(filename, 'wb') as output:
-            output.write(content)
+            storeclass = cls.get_class()
+
+            # Parse file
+            store = storeclass.parsefile(storefile)
+
+            cls.untranslate_store(store, language)
+
+            store.savefile(filename)
+        else:
+            with open(filename, 'wb') as output:
+                output.write(b'{}\n')
 
     @property
     def mimetype(self):
