@@ -1354,7 +1354,7 @@ class YAMLFormat(FileFormat):
             storeclass = cls.get_class()
 
             # Parse file
-            store = storeclass.parsefile(storefile)
+            store = storeclass.parsefile(filename)
 
             cls.untranslate_store(store, language)
 
