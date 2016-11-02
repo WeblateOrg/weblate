@@ -426,7 +426,7 @@
     <th>{% trans "Screenshot context" %}</th>
     </tr>
     <tr>
-    <td><img class="img-responsive" src="{{ unit.source_info.screenshot.url }}" /></td>
+    <td><a href="{{ unit.source_info.screenshot.url }}" class="thumbnail"><img class="img-responsive" src="{{ unit.source_info.screenshot.url }}" /></a></td>
     </tr>
     {% endif %}
     {% if unit.context %}
