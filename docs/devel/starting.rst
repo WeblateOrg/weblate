@@ -230,7 +230,7 @@ looking for an example, this documentation is also build using it. The very
 useful companion for using Sphinx is the `Read the Docs`_ service, which will
 build and publish your documentation for free.
 
-I will not focus on writing documentation itself, you you need guidance with
+I will not focus on writing documentation itself, if you need guidance with
 that, just follow instructions on the `Sphinx`_ website. Once you have
 documentation ready, translating it is quite easy as Sphinx comes with support
 for this and it is quite nicely covered in their
