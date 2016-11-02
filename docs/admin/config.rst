@@ -154,6 +154,8 @@ Following subdirectories usually exist:
     SSH keys and configuration.
 :file:`static`
     Default location for Django static files, specified by ``STATIC_ROOT``.
+:file:`media`
+    Default location for Django media files, specified by ``MEDIA_ROOT``.
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`

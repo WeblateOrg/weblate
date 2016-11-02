@@ -337,6 +337,14 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 2.8 to 2.9
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow generic upgrade instructions, the only notable 
+change is addition of media storage to :setting:`DATA_DIR`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _django-17:
 
 Upgrading to Django 1.7

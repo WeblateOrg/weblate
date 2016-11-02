@@ -858,6 +858,8 @@ use that for following paths:
 :file:`/static/`
     Serves static files for Weblate and admin interface
     (from defined by ``STATIC_ROOT``).
+:file:`/media/`
+    Used for user media uploads (eg. screenshots).
 :file:`/favicon.ico`
     Should be rewritten to rewrite rule to serve :file:`/static/favicon.ico`
 :file:`/robots.txt`
