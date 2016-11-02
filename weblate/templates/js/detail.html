@@ -75,7 +75,13 @@
 <th>{% trans "Screenshot context" %}</th>
 </tr>
 <tr>
-<td><a href="{{ source.screenshot.url }}" class="thumbnail"><img class="img-responsive" src="{{ source.screenshot.url }}" /></a></td>
+<td>
+{% if source.screenshot %}
+<a href="{{ source.screenshot.url }}" class="thumbnail"><img class="img-responsive" src="{{ source.screenshot.url }}" /></a>
+{% else %}
+{% trans "No screenshot currently associated!" %}
+{% endif %}
+</td>
 </tr>
 {% with units.0 as unit %}
 {% include "unit-details.html" %}
