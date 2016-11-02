@@ -126,7 +126,7 @@ structured text file:
     msgid "Thank you for using Weblate."
     msgstr ""
 
-The each ``msgid`` line defines string to translate, the special empty string
+Each ``msgid`` line defines a string to translate, the special empty string
 in the beginning is the file header containing metadata about the translation.
 
 Starting new translation
