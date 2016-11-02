@@ -218,7 +218,7 @@ And that's it, you're now ready to start translating your software!
 
 .. seealso::
 
-    You can find more complex of using Gettext in the Weblate Hello project on
+    You can find a Gettext example with many languages in the Weblate Hello project on
     GitHub: <https://github.com/WeblateOrg/hello>.
 
 Translating documentation using Sphinx
