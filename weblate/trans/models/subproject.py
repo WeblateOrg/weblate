@@ -714,6 +714,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not needs_merge and method != 'rebase':
             return True
 
+        # TODO: we should held lock all time here
+        # to avoid somebody writing between commit and merge/rebase
+
         # commit possible pending changes
         self.commit_pending(request, skip_push=True)
 
