@@ -71,6 +71,12 @@
 </td>
 </tr>
 {% endif %}
+<tr>
+<th>{% trans "Screenshot context" %}</th>
+</tr>
+<tr>
+<td><img class="img-responsive" src="{{ source.screenshot.url }}" /></td>
+</tr>
 {% with units.0 as unit %}
 {% include "unit-details.html" %}
 {% with unit.get_source_comments as comments %}
