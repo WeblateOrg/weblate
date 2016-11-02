@@ -18,13 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import datetime
 import re
-from io import BytesIO
 
-from PIL import Image
-
-from django.db.models import CharField, FileField, ImageField
+from django.db.models import CharField, ImageField
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
