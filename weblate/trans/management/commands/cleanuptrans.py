@@ -18,10 +18,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os.path
+
+from django.core.files.storage import DefaultStorage
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from weblate.trans.models import Suggestion, Comment, Check, Unit, Project
+from weblate.trans.models import (
+    Suggestion, Comment, Check, Unit, Project, Source
+)
 from weblate.lang.models import Language
 
 
@@ -32,6 +37,19 @@ class Command(BaseCommand):
         '''
         Perfoms cleanup of Weblate database.
         '''
+        self.cleanup_database()
+        self.cleanup_files()
+
+    def cleanup_files(self):
+        """Removes stale screenshots"""
+        storage = DefaultStorage()
+        for name in storage.listdir('screenshots')[1]:
+            fullname = os.path.join('screenshots', name)
+            if not Source.objects.filter(screenshot=fullname).exists():
+                storage.delete(fullname)
+
+    def cleanup_database(self):
+        """Cleanups the database"""
         for prj in Project.objects.all():
             with transaction.atomic():
 
