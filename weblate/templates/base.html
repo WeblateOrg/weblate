@@ -161,6 +161,23 @@ var _rollbarConfig = {
 <form id="link-post" method="POST">
 {% csrf_token %}
 </form>
+<!-- Creates the bootstrap modal where the image will appear -->
+<div class="modal fade fullmodal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Screenshot context" %}</h4>
+      </div>
+      <div class="modal-body">
+        <img src="" id="imagepreview" class="img-responsive">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% include 'footer.html' %}
  </body>
 </html>

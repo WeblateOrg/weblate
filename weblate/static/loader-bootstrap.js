@@ -1047,4 +1047,9 @@ $(function () {
         $form.submit();
         return false;
     });
+    $document.on('click', '.thumbnail', function() {
+        $('#imagepreview').attr('src', $(this).attr('href'));
+        $('#imagemodal').modal('show');
+        return false;
+    });
 });
