@@ -18,11 +18,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import datetime
 import re
+from io import BytesIO
 
-from django.db.models.fields import CharField
+from PIL import Image
+
+from django.db.models import CharField, FileField, ImageField
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+
+
+ALLOWED_IMAGES = (
+    'image/jpeg',
+    'image/png',
+)
 
 
 def validate_re(value):
@@ -32,5 +42,29 @@ def validate_re(value):
         raise ValidationError(_('Failed to compile: {0}').format(error))
 
 
+def validate_bitmap(value):
+    """Validates bitmap, based on django.forms.fields.ImageField"""
+    if value is None:
+        return
+
+    # Check image type
+    if value.file.content_type not in ALLOWED_IMAGES:
+        raise ValidationError(
+            _('Not supported image type: %s') % value.file.content_type
+        )
+
+    # Check dimensions
+    width, height = value.file.image.size
+    if width > 2000 or height > 2000:
+        raise ValidationError(
+            _('Image is too big, please scale it down or crop relevant part!')
+        )
+
+
 class RegexField(CharField):
     default_validators = [validate_re]
+
+
+class ScreenshotField(ImageField):
+    """File field which forces certain image types"""
+    default_validators = [validate_bitmap]

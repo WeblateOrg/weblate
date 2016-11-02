@@ -21,6 +21,8 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.trans.fields import ScreenshotField
 from weblate.trans.validators import validate_check_flags
 
 PRIORITY_CHOICES = (
@@ -44,6 +46,12 @@ class Source(models.Model):
     check_flags = models.TextField(
         default='',
         validators=[validate_check_flags],
+        blank=True,
+    )
+    screenshot = ScreenshotField(
+        verbose_name=_('Screenshot showing usage of this string'),
+        help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
+        upload_to='screenshots/',
         blank=True,
     )
 
