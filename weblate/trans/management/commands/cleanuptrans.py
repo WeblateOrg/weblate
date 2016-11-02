@@ -43,7 +43,11 @@ class Command(BaseCommand):
     def cleanup_files(self):
         """Removes stale screenshots"""
         storage = DefaultStorage()
-        for name in storage.listdir('screenshots')[1]:
+        try:
+            files = storage.listdir('screenshots')[1]
+        except OSError:
+            return
+        for name in files:
             fullname = os.path.join('screenshots', name)
             if not Source.objects.filter(screenshot=fullname).exists():
                 storage.delete(fullname)
