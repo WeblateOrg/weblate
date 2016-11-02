@@ -24,6 +24,7 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 import django.contrib.sitemaps.views
 import django.views.i18n
+import django.views.static
 
 from weblate.trans.feeds import (
     TranslationChangesFeed, SubProjectChangesFeed,
@@ -864,5 +865,14 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
             r'^invoice/(?P<pk>[0-9]+)/download/$',
             weblate.billing.views.download_invoice,
             name='invoice-download',
+        ),
+    ]
+
+if settings.DEBUG:
+    urlpatterns += [
+        url(
+            r'^media/(?P<path>.*)$',
+            django.views.static.serve,
+            {'document_root': settings.MEDIA_ROOT}
         ),
     ]
