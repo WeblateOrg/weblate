@@ -439,23 +439,27 @@
     {% endif %}
     {% if unit.flags or user_can_edit_flags %}
     <tr>
-    <th>{% trans "Flags" %}</th>
+    <th>
+    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% trans "Flags" %}
+    </th>
     </tr>
     <tr>
     <td>
     {{ unit.all_flags|join:", " }}
-    {% if user_can_edit_flags %} <a class="button smallbutton" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     </td>
     </tr>
     {% endif %}
     {% include "unit-details.html" %}
     <tr>
-    <th>{% trans "String priority" %}</th>
+    <th>
+    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% trans "String priority" %}
+    </th>
     </tr>
     <tr>
     <td>
     {{ unit.source_info.get_priority_display }}
-    {% if user_can_edit_priority %} <a class="button smallbutton" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     </td>
     </tr>
     {% with unit.active_source_checks as checks %}
