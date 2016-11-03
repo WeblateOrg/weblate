@@ -56,6 +56,8 @@
 {% endfor %}
 </tbody>
 </table>
+
+{% include "paginator.html" %}
 {% else %}
 <p>{% trans "No matching source strings found!" %}</p>
 {% endif %}
