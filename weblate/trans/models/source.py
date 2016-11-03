@@ -59,6 +59,7 @@ class Source(models.Model):
         permissions = (
             ('edit_priority', "Can edit priority"),
             ('edit_flags', "Can edit check flags"),
+            ('upload_screenshot', 'Can upload screenshot'),
         )
         app_label = 'trans'
         unique_together = ('checksum', 'subproject')

@@ -410,3 +410,11 @@ def can_edit_project(user, project):
     Checks whether user can edit given project.
     """
     return check_permission(user, project, 'trans.change_project')
+
+
+@cache_permission
+def can_upload_screenshot(user, project):
+    """
+    Checks whether user can upload screenshot for given project.
+    """
+    return check_permission(user, project, 'trans.upload_screenshot')

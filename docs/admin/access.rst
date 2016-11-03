@@ -107,6 +107,8 @@ Can change sub project [Managers, Owners]
     Can edit component settings.
 Can change project [Managers, Owners]
     Can edit project settings.
+Can upload screenshot [Managers, Owners]
+    Can upload source string screenshot context.
 
 .. _acl:
 

@@ -153,3 +153,8 @@ def can_edit_subproject(user, project):
 @register.assignment_tag
 def can_edit_project(user, project):
     return weblate.trans.permissions.can_edit_project(user, project)
+
+
+@register.assignment_tag
+def can_upload_screenshot(user, project):
+    return weblate.trans.permissions.can_upload_screenshot(user, project)
