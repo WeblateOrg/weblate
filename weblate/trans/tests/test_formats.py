@@ -335,6 +335,14 @@ class YAMLFormatTest(AutoFormatTest):
         if 'yaml' not in FILE_FORMATS:
             raise SkipTest('yaml not supported!')
 
+    def assert_same(self, newdata, testdata):
+        # Fixup quotes as different translate toolkit versions behave
+        # differently
+        self.assertEqual(
+            newdata.replace("'", '"').strip().splitlines(),
+            testdata.strip().splitlines(),
+        )
+
 
 class RubyYAMLFormatTest(YAMLFormatTest):
     FORMAT = RubyYAMLFormat
