@@ -21,6 +21,7 @@ Released on ? 2016.
 * Show source string comment more prominently.
 * Automatically install Gettext PO merge driver for Git repositories.
 * Added search and replace feature.
+* Added support for uploading visual context (screnshots) for translations.
 
 weblate 2.8
 -----------

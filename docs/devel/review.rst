@@ -1,3 +1,5 @@
+.. _source-review:
+
 Reviewing source strings
 ========================
 

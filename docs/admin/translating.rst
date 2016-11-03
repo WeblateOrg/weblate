@@ -54,3 +54,46 @@ automatically extended on every translation made and while user has opened
 translation page.
 
 User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
+
+Additional information on source strings
+----------------------------------------
+
+Weblate allows you to enhance translation process with information 
+available in the translation files. This includes strings prioritization, check
+flags or providing visual context. All these features can be set on the
+:ref:`source-review`:
+
+.. image:: ../images/source-review-edit.png
+
+Strings prioritization
+++++++++++++++++++++++
+
+.. versionadded:: 2.0
+
+You can change string priority, strings with higher priority are offered first
+for translation. This can be useful for prioritizing translation of strings
+which are seen first by users or are otherwise important.
+
+Quaity check flags
+++++++++++++++++++
+
+.. versionadded:: 2.4
+
+Default set of quality check flags is determined from the translation
+:ref:`component` and the translation file. However you might want to customize
+this per source string and you have the option here.
+
+.. seealso:: :ref:`checks`
+
+Visual context for strings
+++++++++++++++++++++++++++
+
+.. versionadded:: 2.9
+
+You can upload screenshot showing usage of given source string within your
+application. This can help translators to understand where it is used and how
+it should be translated.
+
+Uploaded screenshot is shown in the translation context sidebar:
+
+.. image:: ../images/screenshot-context.png
