@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-11-03 13:35+0000\n"
-"PO-Revision-Date: 2016-10-25 10:15+0000\n"
+"PO-Revision-Date: 2016-11-03 17:01+0000\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
-">\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1430,14 +1430,12 @@ msgstr ""
 
 #: weblate/templates/base.html:169 weblate/templates/base.html:176
 msgid "Close"
-msgstr ""
+msgstr "Κλείσιμο"
 
 #: weblate/templates/base.html:170 weblate/templates/js/detail.html:76
 #: weblate/templates/translate.html:429
-#, fuzzy
-#| msgid "Translation context"
 msgid "Screenshot context"
-msgstr "Συνοδευτικά μετάφρασης"
+msgstr "Περιεχόμενο στιγμιότυπου"
 
 #: weblate/templates/billing-used.html:5
 #, python-format
@@ -2768,10 +2766,8 @@ msgid "Ignore: %(check)s"
 msgstr "Αγνόηση: %(check)s"
 
 #: weblate/templates/js/detail.html:83 weblate/templates/translate.html:437
-#, fuzzy
-#| msgid "Currently associated:"
 msgid "No screenshot currently associated!"
-msgstr "Τρέχουσες συσχετισμένες:"
+msgstr "Κανένα στιγμιότυπο δεν έχει συσχετιστεί!"
 
 #: weblate/templates/js/detail.html:104
 msgid "User comments"
@@ -4036,10 +4032,8 @@ msgstr "Αυτόματη μετάφραση"
 
 #: weblate/templates/translation.html:57 weblate/templates/translation.html:201
 #: weblate/trans/models/change.py:212
-#, fuzzy
-#| msgid "Search type"
 msgid "Search and replace"
-msgstr "Τύπος αναζήτησης"
+msgstr "Αναζήτηση και αντικατάσταση"
 
 #: weblate/templates/translation.html:86 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -4098,6 +4092,8 @@ msgid ""
 "You can replace string in all units at once. The search is simple substring "
 "case sensitive search."
 msgstr ""
+"Μπορείτε να αντικαταστήσετε το κείμενο σε όλες τις μονάδες άμεσα. Η "
+"αναζήτηση είναι αναζήτηση με ταίριασμα πεζών-κεφαλαίων απλού υποκειμένου."
 
 #: weblate/templates/translation.html:219
 #: weblate/templates/translation.html:230
@@ -4666,11 +4662,11 @@ msgstr "Απέτυχε η κατάρτηση: {0}"
 #: weblate/trans/fields.py:49
 #, python-format
 msgid "Not supported image type: %s"
-msgstr ""
+msgstr "Μη υποστηριζόμενος τύπος εικόνας: %s"
 
 #: weblate/trans/fields.py:56
 msgid "Image is too big, please scale it down or crop relevant part!"
-msgstr ""
+msgstr "Η εικόνα είναι πολύ μεγάλη, μικρύνετέ την ή κόψτε κάποιο κομμάτι!"
 
 #: weblate/trans/formats.py:829
 msgid "Automatic detection"
@@ -5123,16 +5119,12 @@ msgid "Translation settings"
 msgstr "Ρυθμίσεις μετάφρασης"
 
 #: weblate/trans/forms.py:1024
-#, fuzzy
-#| msgid "Source strings"
 msgid "Search string"
-msgstr "Κείμενα προέλευσης"
+msgstr "Κείμενο αναζήτησης"
 
 #: weblate/trans/forms.py:1029
-#, fuzzy
-#| msgid "Search in comment strings"
 msgid "Replacement string"
-msgstr "Αναζήτηση στα κείμενα σχολίου"
+msgstr "Κείμενο αντικατάστασης"
 
 #: weblate/trans/models/advertisement.py:38
 #, python-brace-format
@@ -5453,11 +5445,11 @@ msgstr "Πολύ χαμηλά"
 
 #: weblate/trans/models/source.py:52
 msgid "Screenshot showing usage of this string"
-msgstr ""
+msgstr "Το στιγμιότυπο δείχνει τη χρήση αυτού του κειμένου"
 
 #: weblate/trans/models/source.py:53
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr ""
+msgstr "Αποστολή εικόνων JPEG ή PNG έως 2.000x2.000 εικονοστοιχεία."
 
 #: weblate/trans/models/subproject.py:88
 msgid "Use contact form"
@@ -6707,19 +6699,16 @@ msgid "Failed to save translation!"
 msgstr "Απέτυχε η αποθήκευση της μετάφρασης!"
 
 #: weblate/trans/views/edit.py:854
-#, fuzzy
-#| msgid "Automatic translation completed, no strings were updated."
 msgid "Search and replace completed, no strings were updated."
-msgstr "Ολοκλήρωση αυτόματης μετάφρασης, κανένα κείμενο δεν ενημερώθηκε."
+msgstr ""
+"Η αναζήτηση και αντικατάτασταση ολοκληρώθηκε, κανένα κείμενο δεν ενημερώθηκε."
 
 #: weblate/trans/views/edit.py:856
-#, fuzzy, python-format
-#| msgid "Automatic translation completed, %d string was updated."
-#| msgid_plural "Automatic translation completed, %d strings were updated."
+#, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Ολοκλήρωση αυτόματης μετάφρασης, %d κείμενο ενημερώθηκε."
-msgstr[1] "Ολοκλήρωση αυτόματης μετάφρασης, %d κείμενα ενημερώθηκαν."
+msgstr[0] "Η αναζήτηση και αντικατάσταση ολοκληρώθηκε, %d κείμενο ενημερώθηκε."
+msgstr[1] "Η αναζήτηση και αντικατάσταση ολοκληρώθηκε, %d κείμενα ενημερώθηκαν."
 
 #: weblate/trans/views/files.py:78
 msgid "Access denied."
