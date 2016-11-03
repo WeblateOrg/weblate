@@ -30,7 +30,9 @@ from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-from weblate.trans.forms import PriorityForm, CheckFlagsForm
+from weblate.trans.forms import (
+    PriorityForm, CheckFlagsForm, ScreenshotUploadForm,
+)
 from weblate.trans.validators import EXTRA_FLAGS
 from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
@@ -235,9 +237,11 @@ def get_detail(request, project, subproject, checksum):
             'priority_form': PriorityForm(
                 initial={'priority': source.priority}
             ),
+
             'check_flags_form': CheckFlagsForm(
                 initial={'flags': source.check_flags}
             ),
+            'screenshot_form': ScreenshotUploadForm(instance=source),
             'extra_flags': extra_flags,
             'check_flags': check_flags,
         }

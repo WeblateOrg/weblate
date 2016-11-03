@@ -5,6 +5,7 @@
 
 {% can_edit_flags user project as user_can_edit_flags %}
 {% can_edit_priority user project as user_can_edit_priority %}
+{% can_upload_screenshot user project as user_can_upload_screenshot %}
 
 <div class="row">
 <div class="col-lg-6">
@@ -83,6 +84,18 @@
 {% endif %}
 </td>
 </tr>
+{% if user_can_upload_screenshot %}
+<tr>
+<td>
+<form method="POST" action="{% url 'upload_screenshot' pk=source.pk %}" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}" />
+{{ screenshot_form|crispy }}
+<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+</form>
+</td>
+</tr>
+{% endif %}
 {% with units.0 as unit %}
 {% include "unit-details.html" %}
 {% with unit.get_source_comments as comments %}
