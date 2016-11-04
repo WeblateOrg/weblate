@@ -29,6 +29,7 @@ from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
 
+from weblate.lang.models import Language
 from weblate.trans.tests.utils import get_test_file
 from weblate.accounts.models import Profile
 
@@ -117,16 +118,29 @@ class CommandTest(TestCase):
 
     def test_userdata(self):
         # Create test user
+        language = Language.objects.get(code='cs')
         user = User.objects.create_user('testuser', 'test@example.com', 'x')
         user.profile.translated = 1000
+        user.profile.languages.add(language)
+        user.profile.secondary_languages.add(language)
         user.profile.save()
 
         with tempfile.NamedTemporaryFile() as output:
             call_command('dumpuserdata', output.name)
+
+            user.profile.languages.clear()
+            user.profile.secondary_languages.clear()
+
             call_command('importuserdata', output.name)
 
         profile = Profile.objects.get(user__username='testuser')
         self.assertEqual(profile.translated, 2000)
+        self.assertTrue(
+            profile.languages.filter(code='cs').exists()
+        )
+        self.assertTrue(
+            profile.secondary_languages.filter(code='cs').exists()
+        )
 
     def test_changesite(self):
         call_command('changesite', get_name=True)
