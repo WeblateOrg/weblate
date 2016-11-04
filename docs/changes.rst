@@ -15,13 +15,13 @@ Released on Nov 4th 2016.
 * Added multi language status widget.
 * Highlight secondary language if not showing source.
 * Record suggestion deletion in history.
-* Improved intuitivity of languages selection in profile.
+* Improved UX of languages selection in profile.
 * Fixed showing whiteboard messages for component.
-* Keep preferectes tab selected after saving.
+* Keep preferences tab selected after saving.
 * Show source string comment more prominently.
 * Automatically install Gettext PO merge driver for Git repositories.
 * Added search and replace feature.
-* Added support for uploading visual context (screnshots) for translations.
+* Added support for uploading visual context (screenshots) for translations.
 
 weblate 2.8
 -----------
