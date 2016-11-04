@@ -227,6 +227,7 @@ class ViewTestCase(RepoTestCase):
             )
         )
 
+
 class TranslationManipulationTest(ViewTestCase):
     def setUp(self):
         super(TranslationManipulationTest, self).setUp()
