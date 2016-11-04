@@ -37,7 +37,7 @@ class SampleTranslation(MachineTranslation):
         '''
         return set(('cs',))
 
-    def download_translations(self, language, text, unit, request):
+    def download_translations(self, source, language, text, unit, user):
         '''
         Returns tuple with translations.
         '''
