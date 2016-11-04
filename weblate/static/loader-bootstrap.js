@@ -179,10 +179,10 @@ function testChangeHandler(e) {
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
-function processMachineTranslation(data, textStatus, jqXHR) {
+function processMachineTranslation(data, textStatus) {
     decreaseLoading('#mt-loading');
     if (data.responseStatus === 200) {
-        data.translations.forEach(function (el, idx, ar) {
+        data.translations.forEach(function (el, idx) {
             var newRow = $('<tr/>').data('quality', el.quality);
             var done = false;
             newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
@@ -275,9 +275,9 @@ function failedMachineTranslation(jqXHR, textStatus, errorThrown) {
     );
 }
 
-function loadMachineTranslations(data, textStatus, jqXHR) {
+function loadMachineTranslations(data, textStatus) {
     decreaseLoading('#mt-loading');
-    data.forEach(function (el, idx, ar) {
+    data.forEach(function (el, idx) {
         increaseLoading('#mt-loading');
         $.ajax({
             url: $('#js-translate').attr('href') + '?service=' + el,
