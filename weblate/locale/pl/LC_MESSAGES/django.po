@@ -7,17 +7,17 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-11-03 13:35+0000\n"
-"PO-Revision-Date: 2016-10-28 13:32+0000\n"
+"PO-Revision-Date: 2016-11-08 08:59+0000\n"
 "Last-Translator: Stanisław Krukowski <dfk0077@riseup.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.9\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -1421,10 +1421,8 @@ msgstr ""
 
 #: weblate/templates/base.html:170 weblate/templates/js/detail.html:76
 #: weblate/templates/translate.html:429
-#, fuzzy
-#| msgid "Translation context"
 msgid "Screenshot context"
-msgstr "Kontekst tłumaczenia"
+msgstr "Kontekst zrzutu ekranu"
 
 #: weblate/templates/billing-used.html:5
 #, python-format
@@ -2740,10 +2738,8 @@ msgid "Ignore: %(check)s"
 msgstr "Ignoruj: %(check)s"
 
 #: weblate/templates/js/detail.html:83 weblate/templates/translate.html:437
-#, fuzzy
-#| msgid "Currently associated:"
 msgid "No screenshot currently associated!"
-msgstr "Aktualnie powiązane:"
+msgstr "Obecnie, nie skojarzony żaden zrzut ekranu!"
 
 #: weblate/templates/js/detail.html:104
 msgid "User comments"
@@ -3756,19 +3752,19 @@ msgstr "Alt+S - Przejście do karty wyszukiwania"
 
 #: weblate/templates/translate.html:85
 msgid "Alt+V - Copies source string"
-msgstr "Alt+V - Skopiowanie napisu źródłowego"
+msgstr "Alt+V - Kopiuje napis źródłowy"
 
 #: weblate/templates/translate.html:86
 msgid "Alt+F - Toggle review needed flag"
-msgstr "Alt+F - Przełączenie wymagania sprawdzenia"
+msgstr "Alt+F - Przełącza przegląd wymagający flagi sprawdzenia"
 
 #: weblate/templates/translate.html:88
 msgid "Editing source string"
-msgstr "Edytowanie ciągu źródłowego"
+msgstr "Modyfikowanie napisu źródłowego"
 
 #: weblate/templates/translate.html:110 weblate/templates/zen-units.html:37
 msgid "Source change"
-msgstr "Zmiana ciągu źródłowego"
+msgstr "Zmiana napisu źródłowego"
 
 #: weblate/templates/translate.html:118 weblate/templates/translate.html:444
 msgid "Context"
@@ -3780,7 +3776,7 @@ msgstr "Kontekst:"
 
 #: weblate/templates/translate.html:145
 msgid "Edit source string"
-msgstr "Edytuj ciąg źródłowy"
+msgstr "Modyfikuj napis źródłowy"
 
 #: weblate/templates/translate.html:163
 #, python-format
@@ -3797,21 +3793,23 @@ msgstr "Zasugeruj"
 
 #: weblate/templates/translate.html:170
 msgid "No privileges for adding suggestions!"
-msgstr "Nie masz uprawnień do dodawania sugestii!"
+msgstr "Brak uprawnień, aby dodawać sugestie!"
 
 #: weblate/templates/translate.html:175
 msgid "Commit message:"
-msgstr "Komentarz do zmiany:"
+msgstr "Prześlij wiadomość:"
 
 #: weblate/templates/translate.html:178
 msgid "Additional text to include in the commit message."
-msgstr "Dodatkowy tekst dołączany do wysyłanych tłumaczeń."
+msgstr "Dodatkowy tekst dołączany do wysyłanej wiadomości."
 
 #: weblate/templates/translate.html:181
 msgid ""
 "You can leave this empty in most cases as Weblate generates basic commit "
 "messages automatically."
 msgstr ""
+"Można to, w większości przypadków, pozostawić puste, ponieważ Weblate "
+"automatycznie generuje podstawowe przesłania wiadomości."
 
 #: weblate/templates/translate.html:190
 msgid "Messages placed around this one"
@@ -3824,7 +3822,7 @@ msgstr "Pobliskie wiadomości"
 #: weblate/templates/translate.html:192 weblate/templates/translate.html:356
 #: weblate/trans/forms.py:980
 msgid "Suggestions"
-msgstr "Propozycje"
+msgstr "Sugestie"
 
 #: weblate/templates/translate.html:195 weblate/templates/translate.html:359
 msgid "Other translations"
@@ -3837,7 +3835,7 @@ msgstr "Komentarze"
 
 #: weblate/templates/translate.html:201
 msgid "Machine translation suggestions"
-msgstr "Propozycje tłumaczenia maszynowego"
+msgstr "Sugestie tłumaczenia maszynowego"
 
 #: weblate/templates/translate.html:201
 msgid "Machine translation"
@@ -3854,15 +3852,15 @@ msgstr "Stan"
 #: weblate/templates/translate.html:234
 #, python-format
 msgid "%(user)s has suggested"
-msgstr "%(user)s zaproponował"
+msgstr "%(user)s zasugerował"
 
 #: weblate/templates/translate.html:236
 msgid "Anonymous user has suggested"
-msgstr "Anonimowy użytkownik zaproponował"
+msgstr "Anonimowy użytkownik zasugerował"
 
 #: weblate/templates/translate.html:240
 msgid "Suggested change:"
-msgstr "Proponowana zmiana:"
+msgstr "Sugerowana zmiana:"
 
 #: weblate/templates/translate.html:244
 #, python-format
@@ -3886,7 +3884,7 @@ msgstr "Akceptuj"
 
 #: weblate/templates/translate.html:254
 msgid "Accept and edit"
-msgstr "Akceptuj i edytuj"
+msgstr "Akceptuj i modyfikuj"
 
 #: weblate/templates/translate.html:280
 msgid "Use this translation for all components"
@@ -3909,12 +3907,12 @@ msgid ""
 "You can share comments about this string with other translators and "
 "developers."
 msgstr ""
-"Możesz podzielić się komentarzami na temat tego ciągu z innymi tłumaczami i "
+"Można podzielić się komentarzami na temat tego napisu z innymi tłumaczami i "
 "deweloperami."
 
 #: weblate/templates/translate.html:353
 msgid "Things to check"
-msgstr "Pozycje do sprawdzenia"
+msgstr "Rzeczy do sprawdzenia"
 
 #: weblate/templates/translate.html:373
 msgid "Manage glossary"
@@ -3934,7 +3932,7 @@ msgstr "Skopiuj"
 
 #: weblate/templates/translate.html:403
 msgid "No related strings were found in the glossary."
-msgstr "Nie odnaleziono powiązanych ciągów w słowniku."
+msgstr "Nie odnaleziono powiązanych napisów w słowniku."
 
 #: weblate/templates/translate.html:413
 msgid "Add word to glossary"
@@ -3942,7 +3940,7 @@ msgstr "Dodaj słowo do słownika"
 
 #: weblate/templates/translate.html:422
 msgid "Source information"
-msgstr "Informacja o ciągu źródłowym"
+msgstr "Informacja źródłowa"
 
 #: weblate/templates/translate.html:454
 msgid "Flags"
@@ -3950,7 +3948,7 @@ msgstr "Flagi"
 
 #: weblate/templates/translate.html:467
 msgid "String priority"
-msgstr "Priorytet ciągu"
+msgstr "Priorytet napisu"
 
 #: weblate/templates/translation-download.html:6
 #: weblate/templates/translation-download.html:7
@@ -3958,40 +3956,40 @@ msgstr "Priorytet ciągu"
 #: weblate/templates/translation-download.html:9
 #: weblate/templates/translation-download.html:10
 msgid "Download for an offline translation."
-msgstr "Pobiera plik do tłumaczenia bez połączenia z siecią."
+msgstr "Pobierz plik do tłumaczenia bez połączenia z siecią."
 
 #: weblate/templates/translation-download.html:6
 #, python-format
 msgid "Download original translation file (%(format)s)"
-msgstr "Pobierz pierwotny plik tłumaczenia (%(format)s)"
+msgstr "Pobierz oryginalny plik tłumaczenia (%(format)s)"
 
 #: weblate/templates/translation-download.html:7
 msgid "Download translation as XLIFF"
-msgstr "Pobierz w formacie XLIFF"
+msgstr "Pobierz tłumaczenie jako XLIFF"
 
 #: weblate/templates/translation-download.html:8
 msgid "Download translation as XLIFF 1.2"
-msgstr "Pobierz w formacie XLIFF 1.2"
+msgstr "Pobierz tłumaczenie jako XLIFF 1.2"
 
 #: weblate/templates/translation-download.html:9
 msgid "Download translation as Gettext PO"
-msgstr "Pobierz w formacie Gettext PO"
+msgstr "Pobierz tłumaczenie jako Gettext PO"
 
 #: weblate/templates/translation-download.html:10
 msgid "Download translation as Gettext MO"
-msgstr "Pobierz w formacie Gettext MO"
+msgstr "Pobierz tłumaczenie jako Gettext MO"
 
 #: weblate/templates/translation-download.html:12
 msgid "Download for using within an application."
-msgstr "Pobiera plik tłumaczenia do użycia w programie"
+msgstr "Pobierz do użycia w programie."
 
 #: weblate/templates/translation-download.html:12
 msgid "Download compiled translation"
-msgstr "Pobierz skompilowane tłumaczenie"
+msgstr "Pobierz tłumaczenie skompilowane"
 
 #: weblate/templates/translation-download.html:16
 msgid "Upload translation"
-msgstr "Wyślij tłumaczenie"
+msgstr "Wczytaj tłumaczenie"
 
 #: weblate/templates/translation.html:34
 msgid "Files"
@@ -3999,7 +3997,7 @@ msgstr "Pliki"
 
 #: weblate/templates/translation.html:46 weblate/templates/translation.html:246
 msgid "Locking"
-msgstr "Blokowanie"
+msgstr "Zamykanie"
 
 #: weblate/templates/translation.html:54 weblate/templates/translation.html:183
 #: weblate/trans/models/change.py:191
@@ -4053,10 +4051,10 @@ msgid ""
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
 msgstr ""
-"Automatyczne tłumaczenie zajmuje istniejące tłumaczenia w tym projekcie i "
-"stosuje je w aktualnym komponencie. Może być używane do wysyłania "
-"tłumaczenia do innej gałęzi w celu naprawienia niespójnych tłumaczeń lub "
-"przetłumaczenia nowego komponentu z użyciem pamięci tłumaczeń."
+"Automatyczne tłumaczenie przejmuje rolę istniejącego tłumaczenia w tym "
+"projekcie i stosuje je w aktualnym składniku. Może być używane do wysyłania "
+"tłumaczeń do innej gałęzi, w celu naprawienia niespójnych tłumaczeń lub "
+"przetłumaczenia nowego składnika z użyciem pamięci tłumaczeń."
 
 #: weblate/templates/translation.html:190
 #: weblate/templates/translation.html:208
