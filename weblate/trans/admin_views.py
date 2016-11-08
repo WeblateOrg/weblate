@@ -36,15 +36,14 @@ from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
 from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
-from weblate.trans.util import get_configuration_errors, HAS_PYUCA
+from weblate.trans.util import (
+    get_configuration_errors, HAS_PYUCA, check_domain
+)
 from weblate.trans.ssh import (
     generate_ssh_key, get_key_data, add_host_key,
     get_host_keys, can_generate_key
 )
 import weblate
-
-# List of default domain names on which warn user
-DEFAULT_DOMAINS = ('example.net', 'example.com')
 
 
 def admin_context(request):
@@ -101,11 +100,12 @@ def performance(request):
         settings.DEBUG,
     ))
     # Check for domain configuration
+    domain = Site.objects.get_current().domain
     checks.append((
         _('Site domain'),
-        Site.objects.get_current().domain not in DEFAULT_DOMAINS,
+        check_domain(domain),
         'production-site',
-        Site.objects.get_current().domain,
+        domain,
     ))
     # Check database being used
     checks.append((

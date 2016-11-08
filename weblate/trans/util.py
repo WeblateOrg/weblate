@@ -57,6 +57,9 @@ except ImportError:
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
+# List of default domain names on which warn user
+DEFAULT_DOMAINS = ('example.net', 'example.com')
+
 
 class ClassLoader(object):
     """Dict like object to lazy load list of classes.
@@ -373,3 +376,13 @@ class WeblateAdmin(ModelAdmin):
     def render_delete_form(self, request, context):
         context['deleted_objects'] = [_('Object listing disabled')]
         return super(WeblateAdmin, self).render_delete_form(request, context)
+
+
+def check_domain(domain):
+    """Checks whether site domain is correctly set"""
+    return (
+        domain not in DEFAULT_DOMAINS and
+        not domain.startswith('http:') and
+        not domain.startswith('https:') and
+        not domain.endswith('/')
+    )
