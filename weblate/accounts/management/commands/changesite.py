@@ -22,6 +22,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.sites.models import Site
 
+from weblate.trans.util import check_domain
+
 
 class Command(BaseCommand):
     help = 'changes default site name'
@@ -50,6 +52,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['set_name']:
+            if not check_domain(options['set_name']):
+                raise CommandError('Please provide valid domain name!')
             site, created = Site.objects.get_or_create(
                 pk=options['site_id'],
                 defaults={
