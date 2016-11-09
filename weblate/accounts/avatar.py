@@ -44,7 +44,7 @@ except ImportError:
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate import appsettings
-from weblate.trans.util import report_error
+from weblate.utils.errors import report_error
 
 
 def avatar_for_email(email, size=80):

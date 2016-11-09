@@ -28,7 +28,7 @@ from django.http import Http404
 from django.views.decorators.http import require_POST
 
 from weblate.trans import messages
-from weblate.trans.util import report_error
+from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import (
     get_translation, import_message, download_translation_file

@@ -35,7 +35,7 @@ from whoosh.lang import has_stemmer
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat
 from weblate.trans.models.project import Project
-from weblate.trans.util import report_error
+from weblate.utils.errors import report_error
 
 
 class DictionaryManager(models.Manager):

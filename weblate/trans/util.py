@@ -24,7 +24,6 @@ from importlib import import_module
 import hashlib
 import os
 import sys
-import traceback
 import unicodedata
 
 import six
@@ -41,19 +40,11 @@ from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render as django_render
-from django.conf import settings
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
 from weblate import appsettings
-from weblate.logger import LOGGER
 from weblate.trans.data import data_dir
-
-try:
-    import rollbar
-    HAS_ROLLBAR = True
-except ImportError:
-    HAS_ROLLBAR = False
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
@@ -282,28 +273,6 @@ def cleanup_path(path):
     if path.startswith('/'):
         path = path[1:]
     return path
-
-
-def report_error(error, exc_info, request=None, extra_data=None, level=None):
-    """Wrapper for error reporting
-
-    This can be used for store exceptions in error reporting solutions as
-    rollbar while handling error gracefully and giving user cleaner message.
-    """
-    if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
-        rollbar.report_exc_info(
-            exc_info, request, extra_data=extra_data, level=level
-        )
-
-    LOGGER.error(
-        'Handled exception %s: %s',
-        error.__class__.__name__,
-        force_text(error).encode('utf-8')
-    )
-
-    # Print error when running testsuite
-    if sys.argv[1:2] == ['test']:
-        traceback.print_exc()
 
 
 def get_project_description(project):

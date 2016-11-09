@@ -33,7 +33,7 @@ from social.exceptions import AuthMissingParameter
 
 from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.trans import messages
-from weblate.trans.util import report_error
+from weblate.utils.errors import report_error
 
 
 class EmailAuth(social.backends.email.EmailAuth):

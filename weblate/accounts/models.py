@@ -47,7 +47,7 @@ from weblate.trans import messages
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.trans.fields import RegexField
 from weblate.accounts.avatar import get_user_display
-from weblate.trans.util import report_error
+from weblate.utils.errors import report_error
 from weblate.trans.signals import user_pre_delete
 from weblate import VERSION
 from weblate.logger import LOGGER
