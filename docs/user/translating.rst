@@ -109,6 +109,8 @@ While translating you can use following keyboard shortcuts:
 :kbd:`Alt+F`
     Toggles fuzzy flag.
 
+.. _source-context:
+
 Translation context
 +++++++++++++++++++
 
@@ -117,6 +119,9 @@ string.
 
 String attributes
     Things like message ID, context (msgctxt) or location in source code.
+Screenshots
+    Screenshots can be uploaded to Weblate to better show translators
+    where the string is used, see :ref:`screenshots`.
 Nearby messages
     Displays messages which are located nearby in translation file. These
     usually are also used in similar context and you might want to check them

@@ -85,6 +85,8 @@ this per source string and you have the option here.
 
 .. seealso:: :ref:`checks`
 
+.. _screenshots:
+
 Visual context for strings
 ++++++++++++++++++++++++++
 
