@@ -345,6 +345,17 @@ change is addition of media storage to :setting:`DATA_DIR`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 2.9 to 2.10
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow generic upgrade instructions, there is no special change.
+
+Notable configuration or dependencies changes:
+
+* The `INSTALLED_APPS` now should include `weblate.utils`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _django-17:
 
 Upgrading to Django 1.7
