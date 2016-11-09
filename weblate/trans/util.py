@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-from importlib import import_module
 import hashlib
 import os
 import sys
@@ -36,58 +35,18 @@ except ImportError:
     HAS_PYUCA = False
 
 from django.contrib.admin import ModelAdmin
-from django.core.exceptions import ImproperlyConfigured
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render as django_render
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
-from weblate import appsettings
 from weblate.trans.data import data_dir
 
 PLURAL_SEPARATOR = '\x1e\x1e'
 
 # List of default domain names on which warn user
 DEFAULT_DOMAINS = ('example.net', 'example.com')
-
-
-class ClassLoader(object):
-    """Dict like object to lazy load list of classes.
-    """
-    def __init__(self, name):
-        self.name = name
-        self._data = None
-
-    @property
-    def data(self):
-        if self._data is None:
-            self._data = {}
-            for path in getattr(appsettings, self.name):
-                obj = load_class(path, self.name)()
-                self._data[obj.get_identifier()] = obj
-        return self._data
-
-    def __getitem__(self, key):
-        return self.data.__getitem__(key)
-
-    def __setitem__(self, key, value):
-        self.data.__setitem__(key, value)
-
-    def items(self):
-        return self.data.items()
-
-    def keys(self):
-        return self.data.keys()
-
-    def __iter__(self):
-        return self.data.__iter__()
-
-    def __len__(self):
-        return self.data.__len__()
-
-    def __contains__(self, item):
-        return self.data.__contains__(item)
 
 
 def calculate_checksum(source, context):
@@ -131,34 +90,6 @@ def is_repo_link(val):
     Checks whether repository is just a link for other one.
     '''
     return val.startswith('weblate://')
-
-
-def load_class(name, setting):
-    '''
-    Imports module and creates class given by name in string.
-    '''
-    try:
-        module, attr = name.rsplit('.', 1)
-    except ValueError as error:
-        raise ImproperlyConfigured(
-            'Error importing class %s in %s: "%s"' %
-            (name, setting, error)
-        )
-    try:
-        mod = import_module(module)
-    except ImportError as error:
-        raise ImproperlyConfigured(
-            'Error importing module %s in %s: "%s"' %
-            (module, setting, error)
-        )
-    try:
-        cls = getattr(mod, attr)
-    except AttributeError:
-        raise ImproperlyConfigured(
-            'Module "%s" does not define a "%s" class in %s' %
-            (module, attr, setting)
-        )
-    return cls
 
 
 def get_distinct_translations(units):

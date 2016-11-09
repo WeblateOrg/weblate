@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.util import ClassLoader
+from weblate.utils.classloader import ClassLoader
 
 
 def highlight_string(source, unit):

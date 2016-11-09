@@ -24,7 +24,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from six import assertRaisesRegex
 
-from weblate.trans.util import load_class
+from weblate.utils.classloader import load_class
 
 
 class LoadClassTest(TestCase):
