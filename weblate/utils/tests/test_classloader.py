@@ -54,6 +54,6 @@ class LoadClassTest(TestCase):
         assertRaisesRegex(
             self,
             ImproperlyConfigured,
-            '"weblate.trans.tests.test_utils" does not define a "Foo" class',
-            load_class, 'weblate.trans.tests.test_utils.Foo', 'TEST'
+            '"weblate.utils.tests.test_classloader" does not define a "Foo" class',
+            load_class, 'weblate.utils.tests.test_classloader.Foo', 'TEST'
         )
