@@ -43,7 +43,7 @@ from translate.storage.php import phpunit, phpfile
 from translate.storage.po import pounit, pofile
 from translate.storage.poheader import default_header
 from translate.storage.properties import propunit, propfile
-from translate.storage.ts2 import tsunit, tsfile
+from translate.storage.ts2 import tsfile
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage import factory
 
@@ -198,15 +198,6 @@ class FileUnit(object):
         '''
         Returns source string from a ttkit unit.
         '''
-        if (isinstance(self.mainunit, tsunit) and
-                self.template is None and
-                self.mainunit.hasplural()):
-            # Need to apply special magic for plurals here
-            # as there is no singlular/plural in the source string
-            return join_plural([
-                self.unit.source,
-                self.unit.source,
-            ])
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.mainunit, propunit):
@@ -230,11 +221,6 @@ class FileUnit(object):
         '''
         if self.unit is None:
             return ''
-        if (isinstance(self.unit, tsunit) and
-                not self.unit.isreview() and
-                not self.unit.istranslated()):
-            # For Qt ts, empty translated string means source should be used
-            return self.get_source()
         if self.is_unit_key_value():
             # Need to decode property encoded string
             if isinstance(self.unit, propunit):
@@ -312,9 +298,6 @@ class FileUnit(object):
             return False
         if self.is_unit_key_value():
             return not self.unit.isfuzzy() and self.unit.value != ''
-        elif isinstance(self.mainunit, tsunit):
-            # For Qt ts, empty translated string means source should be used
-            return not self.unit.isreview() or self.unit.istranslated()
         else:
             return self.unit.istranslated()
 
@@ -401,6 +384,39 @@ class MonolingualIDUnit(FileUnit):
             return self.template.getid()
         else:
             return self.mainunit.getcontext()
+
+
+class TSUnit(MonolingualIDUnit):
+    def get_source(self):
+        if self.template is None and self.mainunit.hasplural():
+            # Need to apply special magic for plurals here
+            # as there is no singlular/plural in the source string
+            source = self.unit.source
+            return join_plural([
+                source,
+                source.replace('(s)', 's'),
+            ])
+        return super(TSUnit, self).get_source()
+
+    def get_target(self):
+        '''
+        Returns target string from a ttkit unit.
+        '''
+        if self.unit is None:
+            return ''
+        if not self.unit.isreview() and not self.unit.istranslated():
+            # For Qt ts, empty translated string means source should be used
+            return self.get_source()
+        return super(TSUnit, self).get_target()
+
+    def is_translated(self):
+        '''
+        Checks whether unit is translated.
+        '''
+        if self.unit is None:
+            return False
+        # For Qt ts, empty translated string means source should be used
+        return not self.unit.isreview() or self.unit.istranslated()
 
 
 class MonolingualSimpleUnit(MonolingualIDUnit):
@@ -945,7 +961,7 @@ class TSFormat(FileFormat):
     format_id = 'ts'
     loader = tsfile
     autoload = ('.ts',)
-    unit_class = MonolingualIDUnit
+    unit_class = TSUnit
 
     @classmethod
     def supports_new_language(cls):
