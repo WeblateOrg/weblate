@@ -110,7 +110,13 @@
 </div>
 
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Strings to check" %}</h4></div>
+<div class="panel-heading">
+<h4 class="panel-title">
+{% doc_url 'user/translating' 'strings-to-check' as strings_doc_url %}
+<a class="pull-right flip" href="{{ strings_doc_url }}"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+{% trans "Strings to check" %}
+</h4>
+</div>
   <div class="panel-body">
 <div class="list-group">
 {% for c in object.get_translation_checks %}

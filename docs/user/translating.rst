@@ -1,6 +1,8 @@
 Translating using Weblate
 =========================
 
+.. _strings-to-check:
+
 Translation links
 -----------------
 
