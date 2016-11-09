@@ -79,7 +79,9 @@ EDITOR_TEMPLATE = '''
 </div>
 '''
 PLURALS_TEMPLATE = '''
-<p class="help-block pull-right flip"><a href="{0}">{1}</a></p>
+<p class="help-block pull-right flip">
+<a href="{0}" title="{1}"><i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
+</p>
 <p class="help-block">{2}</p>
 '''
 COPY_TEMPLATE = '''
