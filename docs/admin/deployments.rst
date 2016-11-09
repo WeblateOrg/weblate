@@ -6,34 +6,6 @@ Weblate deployments
 Weblate comes with support for deployment using several technologies. This
 section brings overview of them.
 
-.. _appliance:
-
-SUSE Studio appliance
----------------------
-
-Weblate appliance provides preconfigured Weblate running with MySQL database as
-backend and Apache as web server. It is provided in many formats suitable for
-any form of virtualization, cloud or hardware installation.
-
-It comes with standard set of passwords you will want to change:
-
-======== ======== ======= ==================================================
-Username Password Scope   Description
-======== ======== ======= ==================================================
-root     linux    System  Administrator account, use for local or SSH login
-root              MySQL   MySQL administrator
-weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
-admin    admin    Weblate Weblate/Django admin user
-======== ======== ======= ==================================================
-
-The appliance is built using SUSE Studio and is based on openSUSE 12.3.
-
-You should also adjust some settings to match your environment, namely:
-
-* :ref:`production-debug`
-* :ref:`production-site`
-* :ref:`production-email`
-
 .. _docker:
 
 Weblate and Docker
@@ -490,3 +462,31 @@ Bitnami provides Weblate stack for many platforms at
 <https://bitnami.com/stack/weblate>. The setup will be adjusted during
 installation, see <https://bitnami.com/stack/weblate/README.txt> for more
 documentation.
+
+.. _appliance:
+
+SUSE Studio appliance
+---------------------
+
+Weblate appliance provides preconfigured Weblate running with MySQL database as
+backend and Apache as web server. It is provided in many formats suitable for
+any form of virtualization, cloud or hardware installation.
+
+It comes with standard set of passwords you will want to change:
+
+======== ======== ======= ==================================================
+Username Password Scope   Description
+======== ======== ======= ==================================================
+root     linux    System  Administrator account, use for local or SSH login
+root              MySQL   MySQL administrator
+weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
+admin    admin    Weblate Weblate/Django admin user
+======== ======== ======= ==================================================
+
+The appliance is built using SUSE Studio and is based on openSUSE 12.3.
+
+You should also adjust some settings to match your environment, namely:
+
+* :ref:`production-debug`
+* :ref:`production-site`
+* :ref:`production-email`
