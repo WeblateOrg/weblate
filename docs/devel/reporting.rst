@@ -13,6 +13,8 @@ in HTML, reStructuredText or JSON. The first two formats are suitable for
 embedding into existing documentation, while JSON is useful for further
 processing of the data.
 
+.. _credits:
+
 Translator credits
 ------------------
 
@@ -41,6 +43,8 @@ And it will get rendered as:
     * Dutch
 
         * Weblate Admin <admin@example.com>
+
+.. _stats:
 
 
 Contributor stats
