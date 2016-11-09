@@ -119,6 +119,7 @@ For example you can enable only few of them:
         'weblate.trans.checks.format.PHPFormatCheck',
         'weblate.trans.checks.format.CFormatCheck',
         'weblate.trans.checks.format.JavascriptFormatCheck',
+        'weblate.trans.checks.consistency.SamePluralsCheck',
         'weblate.trans.checks.consistency.PluralsCheck',
         'weblate.trans.checks.consistency.ConsistencyCheck',
         'weblate.trans.checks.chars.NewlineCountingCheck',

@@ -205,6 +205,14 @@ which counts each plural form is being used.
 Not filling in some plural forms will lead to showing no text in the
 application in case this plural would be displayed.
 
+.. _check-same-plurals:
+
+Same plurals
+~~~~~~~~~~~~
+
+Some plural forms are translated same. In most languages the plural forms have
+to be different, that's why this feature is actually used.
+
 .. _check-inconsistent:
 
 Inconsistent

@@ -48,6 +48,30 @@ class PluralsCheck(TargetCheck):
         return False
 
 
+class SamePluralsCheck(TargetCheck):
+    '''
+    Check for same plural forms
+    '''
+    check_id = 'same-plurals'
+    name = _('Same plurals')
+    description = _('Some plural forms are translated same')
+    severity = 'warning'
+
+    def check_target_unit(self, sources, targets, unit):
+        # Is this plural?
+        if len(sources) == 1:
+            return False
+        if targets[0] == '':
+            return False
+        return len(set(targets)) != len(targets)
+
+    def check_single(self, source, target, unit):
+        '''
+        We don't check target strings here.
+        '''
+        return False
+
+
 class ConsistencyCheck(TargetCheck):
     '''
     Check for inconsistent translations

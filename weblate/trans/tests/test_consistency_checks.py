@@ -24,7 +24,7 @@ Tests for quality checks.
 
 from django.test import TestCase
 from weblate.trans.checks.consistency import (
-    PluralsCheck,
+    PluralsCheck, SamePluralsCheck,
 )
 from weblate.trans.tests.test_checks import MockUnit
 
@@ -47,9 +47,28 @@ class PluralsCheckTest(TestCase):
             MockUnit('plural_empty'),
         ))
 
-    def test_partial_empty(self):
+    def test_hit(self):
         self.assertTrue(self.check.check_target(
             ['string', 'plural'],
             ['string', ''],
+            MockUnit('plural_partial_empty'),
+        ))
+
+    def test_good(self):
+        self.assertFalse(self.check.check_target(
+            ['string', 'plural'],
+            ['translation', 'trplural'],
+            MockUnit('plural_good'),
+        ))
+
+
+class SamePluralsCheckTest(PluralsCheckTest):
+    def setUp(self):
+        self.check = SamePluralsCheck()
+
+    def test_hit(self):
+        self.assertTrue(self.check.check_target(
+            ['string', 'plural'],
+            ['string', 'string'],
             MockUnit('plural_partial_empty'),
         ))
