@@ -1247,11 +1247,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Remove file from VCS
         self.commit_message = '__delete__'
-        self.subproject.repository.remove(
-            [self.filename],
-            self.get_commit_message(),
-            author,
-        )
+        with self.subproject.repository.lock():
+            self.subproject.repository.remove(
+                [self.filename],
+                self.get_commit_message(),
+                author,
+            )
 
         # Delete from the database
         self.delete()
