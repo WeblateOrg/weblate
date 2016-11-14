@@ -577,11 +577,13 @@ class SubProjectErrorTest(RepoTestCase):
         super(SubProjectErrorTest, self).setUp()
         self.component = self.create_ts_mono()
         # Change to invalid pull/push URL
-        self.component.repository.configure_remote(
-            'file:/dev/null',
-            'file:/dev/null',
-            'master'
-        )
+        repository = self.component.repository
+        with repository.lock():
+            repository.configure_remote(
+                'file:/dev/null',
+                'file:/dev/null',
+                'master'
+            )
 
     def test_failed_update(self):
         self.assertFalse(
@@ -597,7 +599,8 @@ class SubProjectErrorTest(RepoTestCase):
         testfile = os.path.join(self.component.get_path(), 'README.md')
         with open(testfile, 'a') as handle:
             handle.write('CHANGE')
-        self.component.repository.commit('test', files=['README.md'])
+        with self.component.repository.lock():
+            self.component.repository.commit('test', files=['README.md'])
         self.assertFalse(
             self.component.do_push(None)
         )

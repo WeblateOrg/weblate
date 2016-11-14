@@ -39,7 +39,6 @@ from django.utils import timezone
 from weblate.trans import messages
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
-from weblate.trans.filelock import FileLock
 from weblate.trans.fields import RegexField
 from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
@@ -478,7 +477,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super(SubProject, self).__init__(*args, **kwargs)
-        self._repository_lock = None
         self._file_format = None
         self._template_store = None
         self._all_flags = None
@@ -538,22 +536,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return self.linked_subproject.get_path()
         else:
             return os.path.join(self.project.get_path(), self.slug)
-
-    def repository_lock(self):
-        """Returns lock object for current translation instance."""
-        if self.is_repo_link:
-            return self.linked_subproject.repository_lock()
-
-        if self._repository_lock is None:
-            lock_path = os.path.join(
-                self.project.get_path(),
-                self.slug + '.lock'
-            )
-            self._repository_lock = FileLock(
-                lock_path,
-                timeout=30
-            )
-        return self._repository_lock
 
     def can_push(self):
         """Returns true if push is possible for this subproject."""
@@ -652,7 +634,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Update
         self.log_info('updating repository')
         try:
-            with self.repository_lock():
+            with self.repository.lock():
                 start = time.time()
                 self.repository.update_remote()
                 timediff = time.time() - start
@@ -679,7 +661,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
 
-        with self.repository_lock():
+        with self.repository.lock():
             self.repository.configure_remote(self.repo, self.push, self.branch)
             self.repository.set_committer(
                 self.committer_name,
@@ -693,7 +675,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return
 
-        with self.repository_lock():
+        with self.repository.lock():
             self.repository.configure_branch(self.branch)
 
     def do_update(self, request=None, method=None):
@@ -790,7 +772,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Do actual push
         try:
             self.log_info('pushing to remote repo')
-            with self.repository_lock():
+            with self.repository.lock():
                 self.repository.push()
 
             Change.objects.create(
@@ -832,7 +814,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         # Do actual reset
         try:
             self.log_info('reseting to remote repo')
-            with self.repository_lock():
+            with self.repository.lock():
                 self.repository.reset()
 
             Change.objects.create(
@@ -929,7 +911,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             action = Change.ACTION_MERGE
             action_failed = Change.ACTION_FAILED_MERGE
 
-        with self.repository_lock():
+        with self.repository.lock():
             try:
                 # Try to merge it
                 method()

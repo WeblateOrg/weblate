@@ -39,6 +39,7 @@ from six.moves.configparser import RawConfigParser
 from weblate.trans.util import (
     get_clean_env, add_configuration_error, path_separator
 )
+from weblate.trans.filelock import FileLock
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
 from weblate import appsettings
 
@@ -101,6 +102,7 @@ class Repository(object):
 
     _is_supported = None
     _version = None
+    _lock = None
 
     def __init__(self, path, branch=None, component=None):
         self.path = path
@@ -112,6 +114,15 @@ class Repository(object):
         self.last_output = ''
         if not self.is_valid():
             self.init()
+
+    def lock(self):
+        """Returns lock object for the repository"""
+        if self._lock is None:
+            self._lock = FileLock(
+                self.path.rstrip('/') + '.lock',
+                timeout=30
+            )
+        return self._lock
 
     def check_config(self):
         """
@@ -180,10 +191,12 @@ class Repository(object):
             return output_err.decode('utf-8')
         return output.decode('utf-8')
 
-    def execute(self, args):
+    def execute(self, args, needs_lock=True):
         '''
         Executes command and caches its output.
         '''
+        if needs_lock and (self._lock is None or not self._lock.is_locked):
+            raise RuntimeWarning('Repository operation without lock held!')
         self.last_output = self._popen(args, self.path)
         return self.last_output
 
@@ -194,7 +207,8 @@ class Repository(object):
         '''
         if self._last_revision is None:
             self._last_revision = self.execute(
-                self._cmd_last_revision
+                self._cmd_last_revision,
+                needs_lock=False
             )
         return self._last_revision
 
@@ -205,7 +219,8 @@ class Repository(object):
         '''
         if self._last_remote_revision is None:
             self._last_remote_revision = self.execute(
-                self._cmd_last_remote_revision
+                self._cmd_last_remote_revision,
+                needs_lock=False
             )
         return self._last_remote_revision
 
@@ -228,7 +243,10 @@ class Repository(object):
         """
         Returns status of the repository.
         """
-        return self.execute(self._cmd_status)
+        return self.execute(
+            self._cmd_status,
+            needs_lock=False
+        )
 
     def push(self):
         """
@@ -430,13 +448,19 @@ class GitRepository(Repository):
         """
         Reads entry from configuration.
         """
-        return self.execute(['config', path]).strip()
+        return self.execute(
+            ['config', path],
+            needs_lock=False
+        ).strip()
 
     def set_config(self, path, value):
         """
         Set entry in local configuration.
         """
-        self.execute(['config', path, value.encode('utf-8')])
+        self.execute(
+            ['config', path, value.encode('utf-8')],
+            needs_lock=False
+        )
 
     def set_committer(self, name, mail):
         """
@@ -475,23 +499,27 @@ class GitRepository(Repository):
         Checks whether repository needs commit.
         """
         if filename is None:
-            status = self.execute(['status', '--porcelain'])
+            cmd = ['status', '--porcelain']
         else:
-            status = self.execute(['status', '--porcelain', '--', filename])
+            cmd = ['status', '--porcelain', '--', filename]
+        status = self.execute(cmd, needs_lock=False)
         return status != ''
 
     def get_revision_info(self, revision):
         """
         Returns dictionary with detailed revision information.
         """
-        text = self.execute([
-            'log',
-            '-1',
-            '--format=fuller',
-            '--date=rfc',
-            '--abbrev-commit',
-            revision
-        ])
+        text = self.execute(
+            [
+                'log',
+                '-1',
+                '--format=fuller',
+                '--date=rfc',
+                '--abbrev-commit',
+                revision
+            ],
+            needs_lock=False
+        )
 
         result = {
             'revision': revision,
@@ -532,7 +560,8 @@ class GitRepository(Repository):
         Returns revisin log for given refspec.
         """
         return self.execute(
-            ['log', '--oneline', refspec, '--']
+            ['log', '--oneline', refspec, '--'],
+            needs_lock=False
         )
 
     def needs_merge(self):
@@ -540,14 +569,18 @@ class GitRepository(Repository):
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
-        return self._log_revisions('..origin/{0}'.format(self.branch)) != ''
+        return self._log_revisions(
+            '..origin/{0}'.format(self.branch)
+        ) != ''
 
     def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
         """
-        return self._log_revisions('origin/{0}..'.format(self.branch)) != ''
+        return self._log_revisions(
+            'origin/{0}..'.format(self.branch)
+        ) != ''
 
     @classmethod
     def _get_version(cls):
@@ -591,7 +624,10 @@ class GitRepository(Repository):
         """
         real_path = self.resolve_symlinks(path)
 
-        git_hash = self.execute(['ls-tree', 'HEAD', real_path])
+        git_hash = self.execute(
+            ['ls-tree', 'HEAD', real_path],
+            needs_lock=False
+        )
 
         if not git_hash:
             return super(GitRepository, self).get_object_hash(path)
@@ -672,7 +708,10 @@ class GitRepository(Repository):
         """
         Verbosely describes current revision.
         """
-        return self.execute(['describe', '--always']).strip()
+        return self.execute(
+            ['describe', '--always'],
+            needs_lock=False
+        ).strip()
 
     @classmethod
     def global_setup(cls):
@@ -812,10 +851,13 @@ class SubversionRepository(GitRepository):
         Returns last remote revision.
         '''
         if self._last_remote_revision is None:
-            self._last_remote_revision = self.execute([
-                'log', '-n', '1', '--format=format:%H',
-                self.get_remote_branch_name()
-            ])
+            self._last_remote_revision = self.execute(
+                [
+                    'log', '-n', '1', '--format=format:%H',
+                    self.get_remote_branch_name()
+                ],
+                needs_lock=False
+            )
         return self._last_remote_revision
 
     def get_remote_branch_name(self):
@@ -1069,9 +1111,10 @@ class HgRepository(Repository):
         Checks whether repository needs commit.
         """
         if filename is None:
-            status = self.execute(['status'])
+            cmd = ['status']
         else:
-            status = self.execute(['status', '--', filename])
+            cmd = ['status', '--', filename]
+        status = self.execute(cmd, needs_lock=False)
         return status != ''
 
     def get_revision_info(self, revision):
@@ -1091,12 +1134,15 @@ class HgRepository(Repository):
         message:
         {desc}
         '''
-        text = self.execute([
-            'log',
-            '--limit', '1',
-            '--template', template,
-            '--rev', revision
-        ])
+        text = self.execute(
+            [
+                'log',
+                '--limit', '1',
+                '--template', template,
+                '--rev', revision
+            ],
+            needs_lock=False
+        )
 
         result = {
             'revision': revision,
@@ -1133,14 +1179,20 @@ class HgRepository(Repository):
         Checks whether repository needs merge with upstream
         (is missing some revisions).
         """
-        return self.execute(['log', '-r', 'only(tip,.)']) != ''
+        return self.execute(
+            ['log', '-r', 'only(tip,.)'],
+            needs_lock=False
+        ) != ''
 
     def needs_push(self):
         """
         Checks whether repository needs push to upstream
         (has additional revisions).
         """
-        return self.execute(['log', '-r', 'outgoing()']) != ''
+        return self.execute(
+            ['log', '-r', 'outgoing()'],
+            needs_lock=False
+        ) != ''
 
     @classmethod
     def _get_version(cls):
@@ -1220,11 +1272,14 @@ class HgRepository(Repository):
         """
         Verbosely describes current revision.
         """
-        return self.execute([
-            'log',
-            '-r', '.',
-            '--template', '{latesttag}-{latesttagdistance}-{node|short}'
-        ]).strip()
+        return self.execute(
+            [
+                'log',
+                '-r', '.',
+                '--template', '{latesttag}-{latesttagdistance}-{node|short}'
+            ],
+            needs_lock=False
+        ).strip()
 
     def push(self):
         """

@@ -120,16 +120,17 @@ class VCSGitTest(RepoTestCase):
             with open(os.path.join(tempdir, filename), 'w') as handle:
                 handle.write('SECOND TEST FILE\n')
 
-            # Commit it
-            repo.commit(
-                'Test commit',
-                'Foo Bar <foo@bar.com>',
-                timezone.now(),
-                [filename]
-            )
+            with repo.lock():
+                # Commit it
+                repo.commit(
+                    'Test commit',
+                    'Foo Bar <foo@bar.com>',
+                    timezone.now(),
+                    [filename]
+                )
 
-            # Push it
-            repo.push()
+                # Push it
+                repo.push()
         finally:
             shutil.rmtree(tempdir)
 
@@ -145,23 +146,27 @@ class VCSGitTest(RepoTestCase):
         )
 
     def test_update_remote(self):
-        self.repo.update_remote()
+        with self.repo.lock():
+            self.repo.update_remote()
 
     def test_push(self):
-        self.repo.push()
+        with self.repo.lock():
+            self.repo.push()
 
     def test_push_commit(self):
         self.test_commit()
         self.test_push()
 
     def test_reset(self):
-        original = self.repo.last_revision
-        self.repo.reset()
-        self.assertEqual(original, self.repo.last_revision)
+        with self.repo.lock():
+            original = self.repo.last_revision
+            self.repo.reset()
+            self.assertEqual(original, self.repo.last_revision)
         self.test_commit()
-        self.assertNotEqual(original, self.repo.last_revision)
-        self.repo.reset()
-        self.assertEqual(original, self.repo.last_revision)
+        with self.repo.lock():
+            self.assertNotEqual(original, self.repo.last_revision)
+            self.repo.reset()
+            self.assertEqual(original, self.repo.last_revision)
 
     def test_merge_commit(self):
         self.test_commit()
@@ -207,11 +212,13 @@ class VCSGitTest(RepoTestCase):
 
     def test_merge(self):
         self.test_update_remote()
-        self.repo.merge()
+        with self.repo.lock():
+            self.repo.merge()
 
     def test_rebase(self):
         self.test_update_remote()
-        self.repo.rebase()
+        with self.repo.lock():
+            self.repo.rebase()
 
     def test_status(self):
         status = self.repo.status()
@@ -295,12 +302,13 @@ class VCSGitTest(RepoTestCase):
 
         oldrev = self.repo.last_revision
         # Commit it
-        self.repo.commit(
-            'Test commit',
-            'Foo Bar <foo@bar.com>',
-            timezone.now(),
-            ['testfile']
-        )
+        with self.repo.lock():
+            self.repo.commit(
+                'Test commit',
+                'Foo Bar <foo@bar.com>',
+                timezone.now(),
+                ['testfile']
+            )
         # Check we have new revision
         self.assertNotEqual(
             oldrev,
@@ -319,19 +327,21 @@ class VCSGitTest(RepoTestCase):
         )
 
         # Check invalid commit
-        self.assertRaises(
-            RepositoryException,
-            self.repo.commit,
-            'test commit',
-            'Foo <bar@example.com>',
-        )
+        with self.repo.lock():
+            self.assertRaises(
+                RepositoryException,
+                self.repo.commit,
+                'test commit',
+                'Foo <bar@example.com>',
+            )
 
     def test_remove(self):
         self.repo.set_committer('Foo Bar', 'foo@example.net')
         self.assertTrue(
             os.path.exists(os.path.join(self._tempdir, 'po/cs.po'))
         )
-        self.repo.remove(['po/cs.po'], 'Remove Czech translation')
+        with self.repo.lock():
+            self.repo.remove(['po/cs.po'], 'Remove Czech translation')
         self.assertFalse(
             os.path.exists(os.path.join(self._tempdir, 'po/cs.po'))
         )
@@ -344,46 +354,49 @@ class VCSGitTest(RepoTestCase):
         )
 
     def test_configure_remote(self):
-        self.repo.configure_remote('pullurl', 'pushurl', 'branch')
-        self.assertEqual(
-            self.repo.get_config('remote.origin.url'),
-            'pullurl',
-        )
-        if self._sets_push:
+        with self.repo.lock():
+            self.repo.configure_remote('pullurl', 'pushurl', 'branch')
             self.assertEqual(
-                self.repo.get_config('remote.origin.pushURL'),
-                'pushurl',
+                self.repo.get_config('remote.origin.url'),
+                'pullurl',
             )
-        # Test that we handle not set fetching
-        self.repo.execute(['config', '--unset', 'remote.origin.fetch'])
-        self.repo.configure_remote('pullurl', 'pushurl', 'branch')
-        self.assertEqual(
-            self.repo.get_config('remote.origin.fetch'),
-            '+refs/heads/branch:refs/remotes/origin/branch',
-        )
+            if self._sets_push:
+                self.assertEqual(
+                    self.repo.get_config('remote.origin.pushURL'),
+                    'pushurl',
+                )
+            # Test that we handle not set fetching
+            self.repo.execute(['config', '--unset', 'remote.origin.fetch'])
+            self.repo.configure_remote('pullurl', 'pushurl', 'branch')
+            self.assertEqual(
+                self.repo.get_config('remote.origin.fetch'),
+                '+refs/heads/branch:refs/remotes/origin/branch',
+            )
 
     def test_configure_remote_no_push(self):
-        if self._sets_push:
-            self.repo.configure_remote('pullurl', '', 'branch')
-            self.assertEqual(
-                self.repo.get_config('remote.origin.pushURL'),
-                '',
-            )
-            self.repo.configure_remote('pullurl', 'push', 'branch')
-            self.assertEqual(
-                self.repo.get_config('remote.origin.pushURL'),
-                'push',
-            )
+        with self.repo.lock():
+            if self._sets_push:
+                self.repo.configure_remote('pullurl', '', 'branch')
+                self.assertEqual(
+                    self.repo.get_config('remote.origin.pushURL'),
+                    '',
+                )
+                self.repo.configure_remote('pullurl', 'push', 'branch')
+                self.assertEqual(
+                    self.repo.get_config('remote.origin.pushURL'),
+                    'push',
+                )
 
     def test_configure_branch(self):
         # Existing branch
-        self.repo.configure_branch(self._class.default_branch)
+        with self.repo.lock():
+            self.repo.configure_branch(self._class.default_branch)
 
-        self.assertRaises(
-            RepositoryException,
-            self.repo.configure_branch,
-            'branch'
-        )
+            self.assertRaises(
+                RepositoryException,
+                self.repo.configure_branch,
+                'branch'
+            )
 
 
 class VCSGerritTest(VCSGitTest):
