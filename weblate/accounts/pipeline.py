@@ -171,6 +171,11 @@ def user_full_name(strategy, details, user=None, **kwargs):
 
         full_name = full_name.strip()
 
+        # The Django User model limit is 30 chars, this should
+        # be raised if we switch to custom User model
+        if len(full_name) > 30:
+            full_name = full_name[:30]
+
         if full_name and full_name != user.first_name:
             user.first_name = full_name
             strategy.storage.user.changed(user)
