@@ -278,10 +278,8 @@ class NormalWidget(Widget):
         )
         self.render_text(
             # Translators: please keep the text short to fit into widget
-            _(
-                'translating %(count)d strings into %(languages)d languages\n'
-                '%(percent)d%% complete, help us improve!'
-            ),
+            _('translating %(count)d strings into %(languages)d languages\n'
+              '%(percent)d%% complete, help us improve!'),
             # Translators: please use your language name instead of English
             # and keep the text short to fit into widget
             _('translating %(count)d strings into English\n%(percent)d%%'

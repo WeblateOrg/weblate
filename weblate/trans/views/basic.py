@@ -292,11 +292,10 @@ def show_engage(request, project, lang=None):
     else:
         # Translators: line of text in engagement widget, please use your
         # language name instead of English
-        status_text = _(
-            '<a href="%(url)s">Translation project for %(project)s</a> into '
-            'English currently contains %(total)s strings for translation and '
-            'is %(percent)s%% complete.'
-        )
+        status_text = _('<a href="%(url)s">Translation project for '
+                        '%(project)s</a> into English currently contains '
+                        '%(total)s strings for translation and is '
+                        '%(percent)s%% complete.')
         if 'English' in status_text:
             status_text = status_text.replace('English', language.name)
 
