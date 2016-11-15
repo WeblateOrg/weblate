@@ -180,17 +180,14 @@ def vcs_service_hook(request, service):
     )
 
     # Trigger updates
-    updates = 0
     for obj in subprojects:
-        updates += 1
         LOGGER.info(
             '%s notification will update %s',
             service_long_name,
             obj
         )
         perform_update(obj)
-
-    if updates == 0:
+    else:
         return hook_response('No matching repositories found!', 'failure')
 
     return hook_response()
