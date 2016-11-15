@@ -165,17 +165,19 @@ def vcs_service_hook(request, service):
     repo_url = service_data['repo_url']
     branch = service_data['branch']
 
-    LOGGER.info(
-        'received %s notification on repository %s, branch %s',
-        service_long_name, repo_url, branch
-    )
-
     all_subprojects = SubProject.objects.filter(repo__in=repos)
 
     if branch is not None:
-        all_subprojects = subprojects.filter(branch=branch)
+        all_subprojects = all_subprojects.filter(branch=branch)
 
     subprojects = all_subprojects.filter(project__enable_hooks=True)
+
+    LOGGER.info(
+        'received %s notification on repository %s, branch %s,'
+        '%d matching components, %d to process',
+        service_long_name, repo_url, branch,
+        all_subprojects.count(), subprojects.count(),
+    )
 
     # Trigger updates
     updates = 0
