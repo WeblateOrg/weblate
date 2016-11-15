@@ -170,16 +170,16 @@ def vcs_service_hook(request, service):
         service_long_name, repo_url, branch
     )
 
-    subprojects = SubProject.objects.filter(repo__in=repos)
+    all_subprojects = SubProject.objects.filter(repo__in=repos)
 
     if branch is not None:
-        subprojects = subprojects.filter(branch=branch)
+        all_subprojects = subprojects.filter(branch=branch)
+
+    subprojects = all_subprojects.filter(project__enable_hooks=True)
 
     # Trigger updates
     updates = 0
     for obj in subprojects:
-        if not obj.project.enable_hooks:
-            continue
         updates += 1
         LOGGER.info(
             '%s notification will update %s',
