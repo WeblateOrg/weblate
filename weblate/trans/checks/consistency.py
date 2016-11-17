@@ -54,7 +54,7 @@ class SamePluralsCheck(TargetCheck):
     '''
     check_id = 'same-plurals'
     name = _('Same plurals')
-    description = _('Some plural forms are translated same')
+    description = _('Some plural forms are translated in the same way')
     severity = 'warning'
 
     def check_target_unit(self, sources, targets, unit):
