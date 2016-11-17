@@ -49,7 +49,11 @@ class AvatarTest(ViewTestCase):
         self.user.save()
 
     def assert_url(self):
-        url = avatar.avatar_for_email(self.user.email, size=32)
+        url = avatar.avatar_for_email(
+            self.user.email,
+            size=32,
+            skip_cache=True
+        )
         self.assertEqual(TEST_URL, url)
 
     def test_avatar_for_email_own(self):

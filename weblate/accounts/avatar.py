@@ -25,7 +25,7 @@ import hashlib
 import os.path
 
 from six.moves.urllib.request import Request, urlopen
-from six.moves.urllib.parse import urlencode
+from six.moves.urllib.parse import quote
 
 from django.contrib.staticfiles import finders
 from django.core.cache import caches, InvalidCacheBackendError
@@ -47,7 +47,7 @@ from weblate import appsettings
 from weblate.utils.errors import report_error
 
 
-def avatar_for_email(email, size=80):
+def avatar_for_email(email, size=80, skip_cache=False):
     """
     Generates url for avatar.
     """
@@ -66,7 +66,7 @@ def avatar_for_email(email, size=80):
     ))
     cache = caches['default']
     url = cache.get(cache_key)
-    if url is not None:
+    if url is not None: # and not skip_cache:
         return url
 
     if HAS_LIBRAVATAR:
@@ -83,7 +83,7 @@ def avatar_for_email(email, size=80):
         url = "{0}avatar/{1}?d={2}&s={3}".format(
             appsettings.AVATAR_URL_PREFIX,
             mail_hash,
-            urlencode(appsettings.AVATAR_DEFAULT_IMAGE),
+            quote(appsettings.AVATAR_DEFAULT_IMAGE),
             str(size),
         )
 
