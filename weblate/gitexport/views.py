@@ -19,10 +19,9 @@
 #
 
 from base64 import b64decode
+from email import message_from_string
 import os.path
 import subprocess
-from mimetools import Message
-from io import BytesIO
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -119,7 +118,7 @@ def git_export(request, project, subproject, path):
         return HttpResponseServerError(output_err)
 
     headers, content = output.split('\r\n\r\n', 1)
-    message = Message(BytesIO(headers))
+    message = message_from_string(headers)
 
     # Handle status in response
     if 'status' in message:
