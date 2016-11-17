@@ -565,10 +565,6 @@ def reset_password(request):
     if request.method == 'POST':
         form = ResetForm(request.POST)
         if form.is_valid():
-            user = form.cleaned_data['email']
-            user.set_unusable_password()
-            user.save()
-
             # Force creating new session
             request.session.create()
             if request.user.is_authenticated():

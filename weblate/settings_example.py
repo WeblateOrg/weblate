@@ -238,6 +238,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.load_extra_data',
     'weblate.accounts.pipeline.user_full_name',
     'weblate.accounts.pipeline.store_email',
+    'weblate.accounts.pipeline.password_reset',
 )
 
 # Custom authentication strategy

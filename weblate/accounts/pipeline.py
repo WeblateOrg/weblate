@@ -98,10 +98,11 @@ def send_validation(strategy, backend, code):
     if strategy.request.session.pop('password_reset', False):
         template = 'reset'
 
-    url = '{}?verification_code={}&id={}'.format(
+    url = '{}?verification_code={}&id={}&type={}'.format(
         reverse('social:complete', args=(backend.name,)),
         code.code,
-        strategy.request.session.session_key
+        strategy.request.session.session_key,
+        template
     )
 
     send_notification_email(
@@ -113,6 +114,16 @@ def send_validation(strategy, backend, code):
             'url': url
         }
     )
+
+def password_reset(strategy, details, user=None, request=None, **kwargs):
+    """
+    Sets unusable password on reset.
+    """
+    if (request is not None and
+            user is not None and
+            request.get('type', '') == 'reset'):
+        user.set_unusable_password()
+        user.save()
 
 
 def verify_open(strategy, backend, user=None, **kwargs):
