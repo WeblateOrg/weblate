@@ -180,7 +180,7 @@ def format_translation(value, language, diff=None, search_match=None,
         # Show label for plural (if there are any)
         title = ''
         if len(plurals) > 1:
-            title = language.get_plural_label(idx)
+            title = language.get_plural_name(idx)
 
         # Join paragraphs
         content = mark_safe(newline.join(paras))
