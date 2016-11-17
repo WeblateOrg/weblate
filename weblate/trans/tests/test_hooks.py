@@ -325,7 +325,7 @@ class HooksViewTest(ViewTestCase):
     @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_github_auth(self):
         # Adjust matching repo
-        self.subproject.repo = 'https://user:passsword@github.com/defunkt/github.git'
+        self.subproject.repo = 'https://user:pwd@github.com/defunkt/github.git'
         self.subproject.save()
         response = self.client.post(
             reverse('hook-github'),
