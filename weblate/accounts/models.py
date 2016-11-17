@@ -835,7 +835,8 @@ def set_lang(request, profile):
     """
     Sets session language based on user preferences.
     """
-    request.session[LANGUAGE_SESSION_KEY] = profile.language
+    if profile.language:
+        request.session[LANGUAGE_SESSION_KEY] = profile.language
 
 
 @receiver(user_logged_in)

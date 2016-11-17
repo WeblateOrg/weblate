@@ -30,6 +30,7 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
+from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
@@ -151,6 +152,10 @@ def redirect_profile(page=''):
 def user_profile(request):
 
     profile = request.user.profile
+
+    if not profile.language:
+        profile.language = get_language()
+        profile.save()
 
     form_classes = [
         ProfileForm,
