@@ -58,6 +58,7 @@ class FileLockBase(object):
         # Remember parameters
         self.timeout = timeout
         self.delay = delay
+        self.depth = 0
 
         # Initial state
         self.is_locked = False
@@ -83,6 +84,7 @@ class FileLockBase(object):
         this until it either gets the lock or exceeds `timeout` number of
         seconds, in which case it throws an exception.
         """
+        self.depth += 1
         if self.is_locked:
             return
 
@@ -126,7 +128,8 @@ class FileLockBase(object):
         """
         Release the lock and delete underlaying file.
         """
-        if self.is_locked:
+        self.depth -= 1
+        if self.is_locked and self.depth == 0:
             self.unlock(self.handle)
             os.close(self.handle)
             self.handle = None

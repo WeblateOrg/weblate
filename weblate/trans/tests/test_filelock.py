@@ -55,6 +55,8 @@ class LockTest(TestCase):
         lock.acquire()
         self.assertTrue(lock.is_locked)
         lock.release()
+        self.assertTrue(lock.is_locked)
+        lock.release()
         self.assertFalse(lock.is_locked)
 
     def test_lock_invalid(self):
