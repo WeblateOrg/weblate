@@ -732,7 +732,7 @@ class GitRepository(Repository):
             cls._popen([
                 'config', '--global',
                 'merge.weblate-merge-gettext-po.driver',
-                merge_driver,
+                '{0} %O %A %B'.format(merge_driver),
             ])
 
 
