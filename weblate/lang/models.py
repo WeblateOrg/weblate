@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import gettext
 import io
 
 from django.db import models, transaction
@@ -405,6 +406,7 @@ class Language(models.Model, PercentMixin):
         '''
         super(Language, self).__init__(*args, **kwargs)
         self._percents = None
+        self._plural_examples = {}
 
     def __str__(self):
         if self.show_language_code:
@@ -429,9 +431,9 @@ class Language(models.Model, PercentMixin):
         '''
         return 'nplurals=%d; plural=%s;' % (self.nplurals, self.pluralequation)
 
-    def get_plural_label(self, idx):
+    def get_plural_name(self, idx):
         '''
-        Returns label for plural form.
+        Returns name for plural form.
         '''
         try:
             return force_text(data.PLURAL_NAMES[self.plural_type][idx])
@@ -441,6 +443,27 @@ class Language(models.Model, PercentMixin):
             elif idx == 1:
                 return _('Plural')
             return _('Plural form %d') % idx
+
+    def get_plural_label(self, idx):
+        '''
+        Returns label for plural form.
+        '''
+        if len(self._plural_examples) == 0:
+            func = gettext.c2py(self.pluralequation)
+            for i in range(0, 1000):
+                ret = func(i)
+                if ret not in self._plural_examples:
+                    self._plural_examples[ret] = []
+                if len(self._plural_examples[ret]) >= 10:
+                    continue
+                self._plural_examples[ret].append(str(i))
+
+        # Translators: Label for plurals with example counts
+        return _('{name} (e.g. {examples})').format(
+            name=self.get_plural_name(idx),
+            examples=', '.join(self._plural_examples[idx])
+        )
+
 
     @models.permalink
     def get_absolute_url(self):

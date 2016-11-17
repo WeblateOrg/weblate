@@ -240,18 +240,33 @@ class LanguagesTest(TestCase):
             'nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;'
         )
 
-    def test_plural_labels(self):
+    def test_plural_names(self):
         lang = Language.objects.get(code='cs')
-        self.assertEqual(lang.get_plural_label(0), 'One')
-        self.assertEqual(lang.get_plural_label(1), 'Few')
-        self.assertEqual(lang.get_plural_label(2), 'Other')
+        self.assertEqual(lang.get_plural_name(0), 'One')
+        self.assertEqual(lang.get_plural_name(1), 'Few')
+        self.assertEqual(lang.get_plural_name(2), 'Other')
 
-    def test_plural_labels_invalid(self):
+    def test_plural_names_invalid(self):
         lang = Language.objects.get(code='cs')
         lang.plural_type = -1
-        self.assertEqual(lang.get_plural_label(0), 'Singular')
-        self.assertEqual(lang.get_plural_label(1), 'Plural')
-        self.assertEqual(lang.get_plural_label(2), 'Plural form 2')
+        self.assertEqual(lang.get_plural_name(0), 'Singular')
+        self.assertEqual(lang.get_plural_name(1), 'Plural')
+        self.assertEqual(lang.get_plural_name(2), 'Plural form 2')
+
+    def test_plural_labels(self):
+        lang = Language.objects.get(code='cs')
+        self.assertEqual(
+            lang.get_plural_label(0),
+            'One (e.g. 1)'
+        )
+        self.assertEqual(
+            lang.get_plural_label(1),
+            'Few (e.g. 2, 3, 4)'
+        )
+        self.assertEqual(
+            lang.get_plural_label(2),
+            'Other (e.g. 0, 5, 6, 7, 8, 9, 10, 11, 12, 13)'
+        )
 
 
 class CommandTest(TestCase):
