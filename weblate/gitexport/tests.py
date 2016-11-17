@@ -20,7 +20,6 @@
 
 from base64 import b64encode
 
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 
@@ -29,19 +28,36 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class GitExportTest(ViewTestCase):
-    def test_authenticate(self):
-        user = User.objects.create_user('somebody', 'foo@example.net', 'x')
+    def get_auth_string(self, code):
+        encoded = b64encode(
+            '{0}:{1}'.format(self.user.username, code).encode('utf-8')
+        )
+        return 'basic ' + encoded.decode('ascii')
+
+    def test_authenticate_invalid(self):
         request = HttpRequest()
         self.assertFalse(authenticate(request, 'foo'))
+
+    def test_authenticate_missing(self):
+        request = HttpRequest()
         self.assertFalse(authenticate(request, 'basic '))
+
+    def test_authenticate_basic_invalid(self):
+        request = HttpRequest()
         self.assertFalse(authenticate(request, 'basic fdsafds'))
+
+    def test_authenticate_basic_wrong(self):
+        request = HttpRequest()
         self.assertFalse(authenticate(
             request,
-            'basic ' + b64encode('somebody:invalid')
+            self.get_auth_string('invalid')
         ))
+
+    def test_authenticate_basic(self):
+        request = HttpRequest()
         self.assertTrue(authenticate(
             request,
-            'basic ' + b64encode('somebody:' + user.auth_token.key)
+            self.get_auth_string(self.user.auth_token.key)
         ))
 
     def get_git_url(self, path):
