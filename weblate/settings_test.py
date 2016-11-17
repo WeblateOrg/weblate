@@ -82,9 +82,10 @@ LOGGING = {
 # Selenium can not clear HttpOnly cookies in MSIE
 SESSION_COOKIE_HTTPONLY = False
 
-# Test billing app as well
+# Test optional apps as well
 INSTALLED_APPS += (
     'weblate.billing',
+    'weblate.gitexport',
 )
 
 # Test GitHub auth

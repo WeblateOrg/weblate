@@ -873,6 +873,17 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
         ),
     ]
 
+if 'weblate.gitexport' in settings.INSTALLED_APPS:
+    # pylint: disable=C0413
+    import weblate.gitexport.views
+    urlpatterns += [
+        url(
+            r'^git/' + SUBPROJECT + '(?P<path>[a-z0-9_/-]*)$',
+            weblate.gitexport.views.git_export,
+            name='git-export',
+        ),
+    ]
+
 if settings.DEBUG:
     urlpatterns += [
         url(
