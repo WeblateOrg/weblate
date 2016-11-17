@@ -117,8 +117,8 @@ def git_export(request, project, subproject, path):
     if retcode:
         return HttpResponseServerError(output_err)
 
-    headers, content = output.split('\r\n\r\n', 1)
-    message = message_from_string(headers)
+    headers, content = output.split(b'\r\n\r\n', 1)
+    message = message_from_string(headers.decode('utf-8'))
 
     # Handle status in response
     if 'status' in message:
