@@ -697,14 +697,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not needs_merge and method != 'rebase':
             return True
 
-        # TODO: we should held lock all time here
-        # to avoid somebody writing between commit and merge/rebase
+        # Hold lock all time here to avoid somebody writing between commit
+        # and merge/rebase.
+        with self.repository.lock():
+            # commit possible pending changes
+            self.commit_pending(request, skip_push=True)
 
-        # commit possible pending changes
-        self.commit_pending(request, skip_push=True)
-
-        # update local branch
-        ret = self.update_branch(request, method=method)
+            # update local branch
+            ret = self.update_branch(request, method=method)
 
         # create translation objects for all files
         try:
