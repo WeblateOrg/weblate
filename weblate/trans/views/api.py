@@ -23,6 +23,7 @@ import re
 import threading
 
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import (
@@ -165,7 +166,19 @@ def vcs_service_hook(request, service):
     repo_url = service_data['repo_url']
     branch = service_data['branch']
 
-    all_subprojects = SubProject.objects.filter(repo__in=repos)
+    # Generate filter
+    spfilter = Q(repo__in=repos)
+
+    # We need to match also URLs which include username and password
+    for repo in repos:
+        if not repo.startswith('https://'):
+            continue
+        spfilter = spfilter | (
+            Q(repo__startswith='https://') &
+            Q(repo__endswith='@{0}'.format(repo[8:]))
+        )
+
+    all_subprojects = SubProject.objects.filter(spfilter)
 
     if branch is not None:
         all_subprojects = all_subprojects.filter(branch=branch)

@@ -323,6 +323,18 @@ class HooksViewTest(ViewTestCase):
 
     @OverrideSettings(ENABLE_HOOKS=True)
     @OverrideSettings(BACKGROUND_HOOKS=False)
+    def test_view_hook_github_auth(self):
+        # Adjust matching repo
+        self.subproject.repo = 'https://user:passsword@github.com/defunkt/github.git'
+        self.subproject.save()
+        response = self.client.post(
+            reverse('hook-github'),
+            {'payload': GITHUB_PAYLOAD}
+        )
+        self.assertContains(response, 'Update triggered')
+
+    @OverrideSettings(ENABLE_HOOKS=True)
+    @OverrideSettings(BACKGROUND_HOOKS=False)
     def test_view_hook_github_disabled(self):
         # Adjust matching repo
         self.subproject.repo = 'git://github.com/defunkt/github.git'
