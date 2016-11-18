@@ -355,6 +355,7 @@ Notable configuration or dependencies changes:
 * The `INSTALLED_APPS` now should include `weblate.utils`.
 * There is new check in default set (`SamePluralsCheck`).
 * There is change in `SOCIAL_AUTH_PIPELINE` default settings.
+* You might want to enable optional :ref:`git-exporter`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
