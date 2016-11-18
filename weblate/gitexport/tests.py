@@ -46,6 +46,10 @@ class GitExportTest(ViewTestCase):
         request = HttpRequest()
         self.assertFalse(authenticate(request, 'basic fdsafds'))
 
+    def test_authenticate_digest(self):
+        request = HttpRequest()
+        self.assertFalse(authenticate(request, 'digest fdsafds'))
+
     def test_authenticate_basic_wrong(self):
         request = HttpRequest()
         self.assertFalse(authenticate(
@@ -56,6 +60,15 @@ class GitExportTest(ViewTestCase):
     def test_authenticate_basic(self):
         request = HttpRequest()
         self.assertTrue(authenticate(
+            request,
+            self.get_auth_string(self.user.auth_token.key)
+        ))
+
+    def test_authenticate_basic_inactive(self):
+        self.user.is_active = False
+        self.user.save()
+        request = HttpRequest()
+        self.assertFalse(authenticate(
             request,
             self.get_auth_string(self.user.auth_token.key)
         ))
