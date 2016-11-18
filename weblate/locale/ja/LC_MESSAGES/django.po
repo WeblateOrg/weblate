@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-11-17 13:26+0000\n"
+"POT-Creation-Date: 2016-11-18 11:31+0000\n"
 "PO-Revision-Date: 2016-11-17 08:21+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Username"
 msgstr "ユーザ名"
 
-#: weblate/accounts/forms.py:95 weblate/accounts/pipeline.py:137
+#: weblate/accounts/forms.py:95 weblate/accounts/pipeline.py:148
 msgid "This username is already taken. Please choose another."
 msgstr "このユーザ名は既に使用されています。別の名前にしてください。"
 
@@ -323,87 +323,87 @@ msgstr "自動的なグループの割り当て"
 msgid "Automatic group assignments"
 msgstr "自動的なグループの割り当て"
 
-#: weblate/accounts/models.py:876
+#: weblate/accounts/models.py:877
 msgid ""
 "You can not submit translations as you do not have assigned any email "
 "address."
 msgstr ""
 "電子メールアドレスが設定されていないため、翻訳を送信することができません。"
 
-#: weblate/accounts/pipeline.py:124
+#: weblate/accounts/pipeline.py:135
 msgid "New registrations are disabled!"
 msgstr "新規登録は無効化されています！"
 
-#: weblate/accounts/views.py:95 weblate/accounts/views.py:458
+#: weblate/accounts/views.py:96 weblate/accounts/views.py:463
 msgid "User registration"
 msgstr "ユーザ登録"
 
-#: weblate/accounts/views.py:110
+#: weblate/accounts/views.py:111
 msgid "Message could not be sent to administrator!"
 msgstr "管理者にメッセージを送信できませんでした！"
 
-#: weblate/accounts/views.py:128
+#: weblate/accounts/views.py:129
 msgid "Message has been sent to administrator."
 msgstr "管理者にメッセージを送信しました。"
 
-#: weblate/accounts/views.py:138
+#: weblate/accounts/views.py:139
 msgid "You cannot change demo account on the demo server."
 msgstr "デモサーバ内では、デモアカウントを変更することはできません。"
 
-#: weblate/accounts/views.py:187
+#: weblate/accounts/views.py:192
 msgid "Your profile has been updated."
 msgstr "個人情報を更新しました。"
 
-#: weblate/accounts/views.py:218
+#: weblate/accounts/views.py:223
 msgid "User profile"
 msgstr "個人情報"
 
-#: weblate/accounts/views.py:243
+#: weblate/accounts/views.py:248
 msgid "Your account has been removed."
 msgstr "アカウントは削除されました。"
 
-#: weblate/accounts/views.py:288 weblate/templates/accounts/contact.html:6
+#: weblate/accounts/views.py:293 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:21
 msgid "Contact"
 msgstr "連絡"
 
-#: weblate/accounts/views.py:323 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:328 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "ホスティング"
 
-#: weblate/accounts/views.py:406 weblate/templates/accounts/login.html:8
+#: weblate/accounts/views.py:411 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:43 weblate/templates/base.html:129
 msgid "Login"
 msgstr "ログイン"
 
-#: weblate/accounts/views.py:416
+#: weblate/accounts/views.py:421
 msgid "Thanks for using Weblate!"
 msgstr "Weblate のご利用ありがとうございました！"
 
-#: weblate/accounts/views.py:480 weblate/templates/accounts/email.html:16
+#: weblate/accounts/views.py:485 weblate/templates/accounts/email.html:16
 msgid "Register email"
 msgstr "メールアドレスの登録"
 
-#: weblate/accounts/views.py:507
+#: weblate/accounts/views.py:512
 msgid "You have entered an invalid password."
 msgstr "入力したパスワードが無効です。"
 
-#: weblate/accounts/views.py:532
+#: weblate/accounts/views.py:537
 msgid "Your password has been changed."
 msgstr "パスワードを変更しました。"
 
-#: weblate/accounts/views.py:542 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:547 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:196
 msgid "Change password"
 msgstr "パスワードを変更する"
 
-#: weblate/accounts/views.py:556
+#: weblate/accounts/views.py:561
 msgid "Can not reset password, email authentication is disabled!"
 msgstr ""
 "パスワードをリセットすることができません。電子メール認証が無効化されていま"
 "す！"
 
-#: weblate/accounts/views.py:581 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:582 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:21
 msgid "Password reset"
 msgstr "パスワードのリセット"
@@ -720,7 +720,7 @@ msgid "Please fix errors in the registration form."
 msgstr "登録フォーム内のエラーを修正してください。"
 
 #: weblate/templates/accounts/email.html:22
-#: weblate/templates/accounts/profile.html:356
+#: weblate/templates/accounts/profile.html:358
 msgid ""
 "By registering you agree to use your name and email in the commits and "
 "provide your contribution under license defined by each translated project."
@@ -851,7 +851,7 @@ msgid "Profile"
 msgstr "個人情報"
 
 #: weblate/templates/accounts/profile.html:28
-#: weblate/templates/accounts/profile.html:353
+#: weblate/templates/accounts/profile.html:355
 msgid "Licenses"
 msgstr "バージョン情報、ライセンス、プロジェクトメンバー"
 
@@ -884,7 +884,7 @@ msgstr "保存"
 #: weblate/templates/accounts/profile.html:238
 #: weblate/templates/accounts/profile.html:283
 #: weblate/templates/accounts/profile.html:338
-#: weblate/templates/accounts/profile.html:388
+#: weblate/templates/accounts/profile.html:390
 msgid "Description"
 msgstr "解説"
 
@@ -1061,13 +1061,25 @@ msgstr ""
 "Weblate は HTTP REST API を利用して制御することができます。詳しくは <a href="
 "\"%(api_doc)s\">ドキュメンテーション</a> をお読みください。"
 
-#: weblate/templates/accounts/profile.html:360
+#: weblate/templates/accounts/profile.html:343
+#, fuzzy, python-format
+#| msgid ""
+#| "You can control Weblate using HTTP REST API. Please check <a href="
+#| "\"%(api_doc)s\">API documentation</a> for more details."
+msgid ""
+"The API key is also used to access exported Git repositories, please check "
+"<a href=\"%(git_doc)s\">documentation</a> for more details."
+msgstr ""
+"Weblate は HTTP REST API を利用して制御することができます。詳しくは <a href="
+"\"%(api_doc)s\">ドキュメンテーション</a> をお読みください。"
+
+#: weblate/templates/accounts/profile.html:362
 msgid ""
 "Following translations have explicitly specified their licensing and "
 "copyright conditions:"
 msgstr "下記の翻訳には、ライセンスと著作権に関する条件が明記されています:"
 
-#: weblate/templates/accounts/profile.html:363 weblate/templates/data.html:26
+#: weblate/templates/accounts/profile.html:365 weblate/templates/data.html:26
 #: weblate/templates/data.html:57 weblate/templates/data.html:95
 #: weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
@@ -1076,11 +1088,11 @@ msgstr "下記の翻訳には、ライセンスと著作権に関する条件が
 msgid "Project"
 msgstr "プロジェクト"
 
-#: weblate/templates/accounts/profile.html:363 weblate/trans/forms.py:979
+#: weblate/templates/accounts/profile.html:365 weblate/trans/forms.py:979
 msgid "License"
 msgstr "ライセンス"
 
-#: weblate/templates/accounts/profile.html:390
+#: weblate/templates/accounts/profile.html:392
 msgid ""
 "Please pay attention to the licensing information as these specify how "
 "others are allowed to use your translations."
@@ -1088,63 +1100,63 @@ msgstr ""
 "ライセンス情報には、他のユーザが翻訳を使用できるかどうかが書かれていますの"
 "で、注意してお読みください。"
 
-#: weblate/templates/accounts/profile.html:406
+#: weblate/templates/accounts/profile.html:408
 msgid "Billing plan"
 msgstr "課金プラン"
 
-#: weblate/templates/accounts/profile.html:411
+#: weblate/templates/accounts/profile.html:413
 msgid "Current plan"
 msgstr "現在のプラン"
 
-#: weblate/templates/accounts/profile.html:411
+#: weblate/templates/accounts/profile.html:413
 msgid "See other plans"
 msgstr "その他のプランの表示"
 
-#: weblate/templates/accounts/profile.html:412
+#: weblate/templates/accounts/profile.html:414
 msgid "Monthly price"
 msgstr "月額費用"
 
-#: weblate/templates/accounts/profile.html:413
+#: weblate/templates/accounts/profile.html:415
 msgid "Yearly price"
 msgstr "年額費用"
 
-#: weblate/templates/accounts/profile.html:414
+#: weblate/templates/accounts/profile.html:416
 msgid "Strings limit"
 msgstr "文字列数の制限"
 
-#: weblate/templates/accounts/profile.html:419
+#: weblate/templates/accounts/profile.html:421
 msgid "Languages limit"
 msgstr "言語数の制限"
 
-#: weblate/templates/accounts/profile.html:424
+#: weblate/templates/accounts/profile.html:426
 msgid "Repositories limit"
 msgstr "リポジトリ数の制限"
 
-#: weblate/templates/accounts/profile.html:429
+#: weblate/templates/accounts/profile.html:431
 msgid "Projects limit"
 msgstr "プロジェクト数の制限"
 
-#: weblate/templates/accounts/profile.html:442
+#: weblate/templates/accounts/profile.html:444
 msgid "Invoices"
 msgstr "インボイス"
 
-#: weblate/templates/accounts/profile.html:447
+#: weblate/templates/accounts/profile.html:449
 msgid "Invoice period"
 msgstr "インボイスの期間"
 
-#: weblate/templates/accounts/profile.html:448
+#: weblate/templates/accounts/profile.html:450
 msgid "Invoice amount"
 msgstr "インボイスの金額"
 
-#: weblate/templates/accounts/profile.html:449
+#: weblate/templates/accounts/profile.html:451
 msgid "Download invoice"
 msgstr "インボイスのダウンロード"
 
-#: weblate/templates/accounts/profile.html:461
+#: weblate/templates/accounts/profile.html:463
 msgid "Not available"
 msgstr "ご利用いただけません"
 
-#: weblate/templates/accounts/profile.html:466
+#: weblate/templates/accounts/profile.html:468
 msgid "No invoices found!"
 msgstr "インボイスが見つかりません！"
 
@@ -4488,7 +4500,9 @@ msgid "Same plurals"
 msgstr "同じ複数形"
 
 #: weblate/trans/checks/consistency.py:57
-msgid "Some plural forms are translated same"
+#, fuzzy
+#| msgid "Some plural forms are translated same"
+msgid "Some plural forms are translated in the same way"
 msgstr "同じように翻訳されている複数形のもの"
 
 #: weblate/trans/checks/consistency.py:80
