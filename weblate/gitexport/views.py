@@ -26,10 +26,9 @@ import subprocess
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseServerError, HttpResponse
+from django.utils.six import text_type
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
-
-from rest_framework.authentication import get_authorization_header
 
 from weblate.trans.views.helper import get_subproject
 
@@ -47,6 +46,8 @@ def authenticate(request, auth):
     """
     Performs authentication with HTTP Basic auth
     """
+    if not isinstance(auth, text_type):
+        auth = auth.decode('iso-8859-1')
     try:
         method, data = auth.split(None, 1)
         if method.lower() == 'basic':
@@ -79,7 +80,8 @@ def git_export(request, project, subproject, path):
     """
 
     # HTTP authentication
-    auth = get_authorization_header(request)
+    auth = request.META.get('HTTP_AUTHORIZATION', b'')
+
     if auth:
         if not authenticate(request, auth):
             return response_authenticate()
