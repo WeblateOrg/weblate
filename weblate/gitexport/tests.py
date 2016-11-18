@@ -28,6 +28,11 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 
 class GitExportTest(ViewTestCase):
+    def setUp(self):
+        super(GitExportTest, self).setUp()
+        # We don't want standard Django authentication
+        self.client.logout()
+
     def get_auth_string(self, code):
         encoded = b64encode(
             '{0}:{1}'.format(self.user.username, code).encode('utf-8')
@@ -80,12 +85,44 @@ class GitExportTest(ViewTestCase):
 
     def test_git_root(self):
         response = self.client.get(self.get_git_url(''))
-        self.assertEquals(404, response.status_code)
+        self.assertEqual(404, response.status_code)
 
-    def test_git_receive(self):
-        response = self.client.get(
+    def git_receive(self, **kwargs):
+        return self.client.get(
             self.get_git_url('info/refs'),
             QUERY_STRING='?service=git-receive-pack',
             CONTENT_TYPE='application/x-git-upload-pack-advertisement',
+            **kwargs
+        )
+
+    def test_git_receive_wrong_auth(self):
+        response = self.git_receive(HTTP_AUTHORIZATION='foo')
+        self.assertEqual(401, response.status_code)
+
+    def test_git_receive(self):
+        response = self.git_receive()
+        self.assertContains(response, 'refs/heads/master')
+
+    def enable_acl(self):
+        self.project.enable_acl = True
+        self.project.save()
+
+    def test_git_receive_acl_denied(self):
+        self.enable_acl()
+        response = self.git_receive()
+        self.assertEqual(401, response.status_code)
+
+    def test_git_receive_acl_auth(self):
+        self.enable_acl()
+        self.project.add_user(self.user)
+        response = self.git_receive(
+            HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )
         self.assertContains(response, 'refs/heads/master')
+
+    def test_git_receive_acl_auth_denied(self):
+        self.enable_acl()
+        response = self.git_receive(
+            HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
+        )
+        self.assertEqual(403, response.status_code)
