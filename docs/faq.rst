@@ -101,6 +101,8 @@ have SSH access to this machine, you can use the repository directly.
 For anonymous access you might want to run git server and let it serve the
 repository to outside world.
 
+Alternatively you can use :ref:`git-exporter` inside Weblate to automate this.
+
 What are options of pushing changes back upstream?
 --------------------------------------------------
 

@@ -191,7 +191,8 @@ Repository browser
 Exported repository URL
     URL where changes made by Weblate are exported. This is important when
     :ref:`continuous-translation` is not used or when there is need to manually
-    merge changes.
+    merge changes. You can use :ref:`git-exporter` to automate this for Git
+    repositories.
 Repository branch
     Which branch to checkout from the VCS and where to look for translations.
 File mask

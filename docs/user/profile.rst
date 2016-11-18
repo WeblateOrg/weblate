@@ -45,6 +45,8 @@ of project components preconfigured by the Weblate administrator.
 You can configure your preferred view in the :guilabel:`Preferences` section of
 your user profile settings.
 
+.. _user-profile:
+
 User profile
 ------------
 
