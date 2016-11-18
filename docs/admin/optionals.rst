@@ -9,6 +9,8 @@ setup.
 Git exporter
 ------------
 
+.. versionadded:: 2.10
+
 The Git exporter provides you read only access to underlaying Git repository
 using http.
 
@@ -47,6 +49,8 @@ case you need to authenticate using your API token (you can obtain it in your
 
 Billing
 -------
+
+.. versionadded:: 2.4
 
 Billing module is used on `Hosted Weblate <https://weblate.org/hosting/>`_
 and is used to define billing plans, track invoices and usage limits.
