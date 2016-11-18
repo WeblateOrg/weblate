@@ -339,6 +339,8 @@ curl \
   <div class="panel-body">
     {% doc_url 'api' as api_doc %}
     <p>{% blocktrans %}You can control Weblate using HTTP REST API. Please check <a href="{{ api_doc }}">API documentation</a> for more details.{% endblocktrans %}</p>
+    {% doc_url 'admin/optionals' 'git-exporter' as git_doc %}
+    <p>{% blocktrans %}The API key is also used to access exported Git repositories, please check <a href="{{ git_doc }}">documentation</a> for more details.{% endblocktrans %}</p>
   </div>
 </div>
 </div>
