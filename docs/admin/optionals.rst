@@ -1,0 +1,46 @@
+Optional Weblate modules
+========================
+
+Weblate comes with several optional modules which might be useful for your
+setup.
+
+.. _git-exporter:
+
+Git exporter
+------------
+
+The Git exporter provides you read only access to underlaying Git repository
+using http.
+
+Installation
+++++++++++++
+
+To install, simply add ``weblate.gitexport`` to installed applications in
+:file:`settings.py`:
+
+.. code-block:: python
+
+    INSTALLED_APPS += (
+        'weblate.gitexport',
+    )
+
+Usage
++++++
+
+The module automatically hooks into Weblate and sets exported repository URL in
+the :ref:`component`.
+
+The repositories are accessible under ``/git/`` path of the Weblate, for example
+``https://example.org/git/weblate/master/``:
+
+.. code-block:: sh
+
+    git clone 'https://example.org/git/weblate/master/'
+
+Repositories are available anonymously unless :ref:`acl` is enabled. In that
+case you need to authenticate using your API token (you can obtain it in your
+:ref:`user-profile`):
+
+.. code-block:: sh
+
+    git clone 'https://user:KEY@example.org/git/weblate/master/'

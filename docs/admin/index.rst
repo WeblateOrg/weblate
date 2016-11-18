@@ -21,3 +21,4 @@ Administrators guide
     whiteboard
     advertisement
     componentlists
+    optionals

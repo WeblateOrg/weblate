@@ -8,6 +8,7 @@ Released on ? 2016.
 
 * Added quality check to check whether plurals are translated differently.
 * Fixed GitHub hooks for repositories with authentication.
+* Added optional Git exporter module.
 
 weblate 2.9
 -----------
