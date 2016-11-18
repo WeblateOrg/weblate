@@ -17,6 +17,8 @@ publicly available repository you just need to enter correct URL (for example
 ``https://github.com/nijel/weblate.git``), but for private repositories the
 setup might be more complex.
 
+.. _internal-urls:
+
 Weblate internal URLs
 +++++++++++++++++++++
 

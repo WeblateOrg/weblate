@@ -13,6 +13,10 @@ mask of files to translate. Bellow :ref:`component` there are individual
 translations, which are handled automatically by Weblate as the translation
 files (matching mask defined in :ref:`component`) appear in VCS repository.
 
+.. note::
+
+    You can share cloned VCS repositories using :ref:`internal-urls`.
+
 .. _admin-interface:
 
 Administration
@@ -178,6 +182,7 @@ Source code repository
     
     This can be either real VCS URL or ``weblate://project/component``
     indicating that the repository should be shared with another component.
+    See :ref:`internal-urls` for more details.
 Repository push URL
     Repository URL used for pushing, this is completely optional and push
     support will be disabled when this is empty. See :ref:`vcs-repos` for more
