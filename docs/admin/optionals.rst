@@ -44,3 +44,28 @@ case you need to authenticate using your API token (you can obtain it in your
 .. code-block:: sh
 
     git clone 'https://user:KEY@example.org/git/weblate/master/'
+
+Billing
+-------
+
+Billing module is used on `Hosted Weblate <https://weblate.org/hosting/>`_
+and is used to define billing plans, track invoices and usage limits.
+
+Installation
+++++++++++++
+
+To install, simply add ``weblate.billing`` to installed applications in
+:file:`settings.py`:
+
+.. code-block:: python
+
+    INSTALLED_APPS += (
+        'weblate.billing',
+    )
+
+Usage
++++++
+
+After installation you can control billing in the admin interface. Users with
+billing enabled will get new :guilabel:`Billing` tab in their
+:ref:`user-profile`.
