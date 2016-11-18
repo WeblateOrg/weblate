@@ -86,6 +86,10 @@ class GitExportTest(ViewTestCase):
 
     def test_git_root(self):
         response = self.client.get(self.get_git_url(''))
+        self.assertEqual(302, response.status_code)
+
+    def test_git_info(self):
+        response = self.client.get(self.get_git_url('info'))
         self.assertEqual(404, response.status_code)
 
     def git_receive(self, **kwargs):

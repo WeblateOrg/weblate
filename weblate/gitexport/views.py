@@ -26,6 +26,7 @@ import subprocess
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseServerError, HttpResponse
+from django.shortcuts import redirect
 from django.utils.six import text_type
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -78,6 +79,14 @@ def git_export(request, project, subproject, path):
     Wrapper around git-http-backend to provide Git
     repositories export over HTTP.
     """
+    # Probably browser access
+    if path == '':
+        return redirect(
+            'subproject',
+            project=project,
+            subproject=subproject,
+            permanent=False
+        )
 
     # HTTP authentication
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
