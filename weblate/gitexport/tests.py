@@ -24,6 +24,7 @@ from django.core.urlresolvers import reverse
 from django.http.request import HttpRequest
 
 from weblate.gitexport.views import authenticate
+from weblate.gitexport.models import get_export_url
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -126,3 +127,9 @@ class GitExportTest(ViewTestCase):
             HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )
         self.assertEqual(403, response.status_code)
+
+    def test_get_export_url(self):
+        self.assertEqual(
+            'http://example.com/git/test/test/',
+            get_export_url(self.subproject)
+        )

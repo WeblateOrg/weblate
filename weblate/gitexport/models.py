@@ -17,3 +17,43 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from django.core.urlresolvers import reverse
+from django.dispatch import receiver
+from django.db.models.signals import post_save, pre_save
+
+from weblate.trans.models import SubProject, Project
+from weblate.trans.site import get_site_url
+
+
+SUPPORTED_VCS = frozenset(('git', 'gerrit', 'github', 'subversion'))
+
+
+def get_export_url(component):
+    """Returns Git export URL for component"""
+    return get_site_url(
+        reverse(
+            'git-export',
+            kwargs={
+                'project': component.project.slug,
+                'subproject': component.slug,
+                'path': '',
+            }
+        )
+    )
+
+
+@receiver(pre_save, sender=SubProject)
+def save_component(sender, instance, **kwargs):
+    if not instance.is_repo_link and instance.vcs in SUPPORTED_VCS:
+        instance.git_export = get_export_url(instance)
+
+
+@receiver(post_save, sender=Project)
+def save_project(sender, instance, **kwargs):
+    for component in instance.subproject_set.all():
+        if not component.is_repo_link and component.vcs in SUPPORTED_VCS:
+            new_url = get_export_url(component)
+            if component.git_export != new_url:
+                component.git_export = new_url
+                component.save()
