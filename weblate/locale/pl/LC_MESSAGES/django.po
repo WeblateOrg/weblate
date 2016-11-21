@@ -7,17 +7,17 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-11-18 14:27+0000\n"
-"PO-Revision-Date: 2016-11-08 08:59+0000\n"
+"PO-Revision-Date: 2016-11-21 16:17+0000\n"
 "Last-Translator: Stanisław Krukowski <dfk0077@riseup.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.9\n"
+"X-Generator: Weblate 2.10-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -529,7 +529,7 @@ msgstr "Forma liczby mnogiej %d"
 #: weblate/lang/models.py:462
 #, python-brace-format
 msgid "{name} (e.g. {examples})"
-msgstr ""
+msgstr "{name} (np. {examples})"
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:494
 msgid "Permission Denied"
@@ -1068,16 +1068,14 @@ msgstr ""
 "\"%(api_doc)s\"> dokumentację API</a>, aby uzyskać więcej szczegółów."
 
 #: weblate/templates/accounts/profile.html:343
-#, fuzzy, python-format
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
+#, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"Możesz kontrolować Weblate używając HTTP REST API. Sprawdź proszę <a href="
-"\"%(api_doc)s\"> dokumentację API</a>, aby uzyskać więcej szczegółów."
+"Klucz API jest używany także w celu dostępu do eksportowanych repozytoriów "
+"Git. Proszę sprawdzić<a href=\"%(git_doc)s\">dokumentację</a>, aby "
+"dowiedzieć się więcej."
 
 #: weblate/templates/accounts/profile.html:362
 msgid ""
@@ -1435,7 +1433,7 @@ msgstr ""
 
 #: weblate/templates/base.html:169 weblate/templates/base.html:176
 msgid "Close"
-msgstr ""
+msgstr "Zamknij"
 
 #: weblate/templates/base.html:170 weblate/templates/js/detail.html:76
 #: weblate/templates/translate.html:435
@@ -1560,6 +1558,10 @@ msgid ""
 "your developers and will allow continuous translation. More information is "
 "available in <a href=\"%(hooks_docs)s\">the documentation</a>."
 msgstr ""
+"Za pomocą zaczepów powiadomień (ang. notification hooks) Weblate będzie "
+"automatycznie importować zmiany dokonane przez twoich deweloperów i pozwoli "
+"na ciągłe tłumaczenie. Więcej informacji jest dostępnych w <a href=\""
+"%(hooks_docs)s\">dokumentacji</a>."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -2157,7 +2159,7 @@ msgstr "islandzki"
 
 #: weblate/templates/i18n.html:104
 msgid "Igbo"
-msgstr ""
+msgstr "lgbo"
 
 #: weblate/templates/i18n.html:105
 msgid "Indonesian"
@@ -2185,7 +2187,7 @@ msgstr "jawajski"
 
 #: weblate/templates/i18n.html:111
 msgid "Kabyle"
-msgstr ""
+msgstr "kabyle"
 
 #: weblate/templates/i18n.html:112
 msgid "Kannada"
@@ -2237,7 +2239,7 @@ msgstr "laotański"
 
 #: weblate/templates/i18n.html:124
 msgid "Latin"
-msgstr ""
+msgstr "łaciński"
 
 #: weblate/templates/i18n.html:125
 msgid "Latvian"
@@ -2257,7 +2259,7 @@ msgstr "litewski"
 
 #: weblate/templates/i18n.html:129
 msgid "Lojban"
-msgstr ""
+msgstr "lojban"
 
 #: weblate/templates/i18n.html:130
 msgid "Low German"
@@ -2293,11 +2295,11 @@ msgstr "maltański"
 
 #: weblate/templates/i18n.html:138
 msgid "Mandinka"
-msgstr ""
+msgstr "mandinka"
 
 #: weblate/templates/i18n.html:139
 msgid "Manipuri"
-msgstr ""
+msgstr "manipuri"
 
 #: weblate/templates/i18n.html:140
 msgid "Maori"
@@ -2321,7 +2323,7 @@ msgstr "maurytyjski"
 
 #: weblate/templates/i18n.html:145
 msgid "N'Ko"
-msgstr ""
+msgstr "N'Ko"
 
 #: weblate/templates/i18n.html:146
 msgid "Nahuatl languages"
@@ -2337,7 +2339,7 @@ msgstr "nepalski"
 
 #: weblate/templates/i18n.html:149
 msgid "Northern Sami"
-msgstr ""
+msgstr "północny sami"
 
 #: weblate/templates/i18n.html:150
 msgid "Norwegian (old code)"
@@ -2353,7 +2355,7 @@ msgstr "norweski (Nynorsk)"
 
 #: weblate/templates/i18n.html:153
 msgid "Nyanja"
-msgstr ""
+msgstr "nyanja"
 
 #: weblate/templates/i18n.html:154
 msgid "Occitan"
@@ -2389,7 +2391,7 @@ msgstr "piemoncki"
 
 #: weblate/templates/i18n.html:162
 msgid "Pirate"
-msgstr ""
+msgstr "pirate"
 
 #: weblate/templates/i18n.html:163
 msgid "Polish"
@@ -2429,7 +2431,7 @@ msgstr "rosyjski"
 
 #: weblate/templates/i18n.html:172
 msgid "Santali"
-msgstr ""
+msgstr "santali"
 
 #: weblate/templates/i18n.html:173
 msgid "Sardinian"
@@ -2457,11 +2459,11 @@ msgstr "serbsko-chorwacki"
 
 #: weblate/templates/i18n.html:179
 msgid "Shona"
-msgstr ""
+msgstr "shona"
 
 #: weblate/templates/i18n.html:180
 msgid "Sindhi"
-msgstr ""
+msgstr "sindhi"
 
 #: weblate/templates/i18n.html:181
 msgid "Sinhala"
@@ -2505,7 +2507,7 @@ msgstr "hiszpański (Meksyk)"
 
 #: weblate/templates/i18n.html:191
 msgid "Spanish (Puerto Rico)"
-msgstr ""
+msgstr "Hiszpański (Puerto Rico)"
 
 #: weblate/templates/i18n.html:192
 msgid "Sundanese"
@@ -2521,11 +2523,11 @@ msgstr "szwedzki"
 
 #: weblate/templates/i18n.html:195
 msgid "Swiss High German"
-msgstr ""
+msgstr "szwajcarski wysokoniemiecki"
 
 #: weblate/templates/i18n.html:196
 msgid "Tagalog"
-msgstr ""
+msgstr "tagalog"
 
 #: weblate/templates/i18n.html:197
 msgid "Tajik"
@@ -2557,7 +2559,7 @@ msgstr "tigrinia"
 
 #: weblate/templates/i18n.html:204
 msgid "Tsonga"
-msgstr ""
+msgstr "tsonga"
 
 #: weblate/templates/i18n.html:205
 msgid "Turkish"
@@ -2585,7 +2587,7 @@ msgstr "urdu"
 
 #: weblate/templates/i18n.html:211
 msgid "Urdu (Pakistan)"
-msgstr ""
+msgstr "urdu (Pakistan)"
 
 #: weblate/templates/i18n.html:212
 msgid "Uzbek"
@@ -2601,7 +2603,7 @@ msgstr "walencki"
 
 #: weblate/templates/i18n.html:215
 msgid "Venda"
-msgstr ""
+msgstr "venda"
 
 #: weblate/templates/i18n.html:216
 msgid "Venetian"
@@ -2621,11 +2623,11 @@ msgstr "walijski"
 
 #: weblate/templates/i18n.html:220
 msgid "West Flemish"
-msgstr ""
+msgstr "zachodni flemish"
 
 #: weblate/templates/i18n.html:221
 msgid "Wolof"
-msgstr ""
+msgstr "wolof"
 
 #: weblate/templates/i18n.html:222
 msgid "Yakut"
@@ -2633,7 +2635,7 @@ msgstr "jakucki"
 
 #: weblate/templates/i18n.html:223
 msgid "Yiddish"
-msgstr ""
+msgstr "yiddish"
 
 #: weblate/templates/i18n.html:224
 msgid "Yoruba"
@@ -2721,12 +2723,16 @@ msgid ""
 "Choose your languages in preferences and you will get an overview here of "
 "available translations for those languages in all projects."
 msgstr ""
+"Wybierz w preferencjach swoje języki, a otrzymasz przegląd dostępnych "
+"tłumaczeń dla tych języków we wszystkich projektach."
 
 #: weblate/templates/index.html:97
 msgid ""
 "Could not find any suggestions for you, please choose your languages in "
 "preferences to get more suggestions."
 msgstr ""
+"Nie można znaleźć żadnych sugestii. Proszę wybrać swoje języki w "
+"preferencjach, aby uzyskać więcej sugestii."
 
 #: weblate/templates/index.html:102
 msgid "Register to manage your languages"
@@ -2737,6 +2743,8 @@ msgid ""
 "Choose your languages in preferences and you will get an overview here of "
 "available translations for those languages."
 msgstr ""
+"Wybierz języki w preferencjach, a dostaniesz tutaj przegląd dostępnych "
+"tłumaczeń dla tych języków."
 
 #: weblate/templates/index.html:135
 msgid "Browse all changes"
@@ -2776,7 +2784,7 @@ msgstr "Nastąpiło nieudane scalanie w repozytorium:"
 #: weblate/templates/mail/merge_failure.html:36
 #: weblate/templates/mail/merge_failure.txt:17
 msgid "Check our FAQ for information how to resolve this."
-msgstr ""
+msgstr "Sprawdź nasze FAQ, aby znaleźć informacje, jak to rozwiązać."
 
 #: weblate/templates/js/git-status.html:31
 msgid "The remote repository needs to be merged!"
@@ -2872,7 +2880,7 @@ msgstr "Nie zezwalaj na zmiany w repozytorium lokalnym"
 
 #: weblate/templates/js/git-status.html:215
 msgid "Removes current translation from the repository."
-msgstr ""
+msgstr "Usuwa bieżące tłumaczenie z repozytorium."
 
 #: weblate/templates/language.html:15 weblate/templates/project.html:25
 #: weblate/templates/subproject.html:30 weblate/templates/translation.html:27
@@ -3240,6 +3248,8 @@ msgid ""
 "User %(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
+"Użytkownik %(username)s właśnie dokonał pierwszego wkładu do %(translation)s "
+"na %(site_title)s."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -3261,6 +3271,8 @@ msgid ""
 "Please add the language file to VCS, Weblate will automatically discover it "
 "on next update."
 msgstr ""
+"Proszę dodać plik języka do VCS, a Weblate wykryje go automatycznie podczas "
+"następnej aktualizacji."
 
 #: weblate/templates/mail/new_language.html:20
 #, python-format
@@ -3359,11 +3371,11 @@ msgstr ""
 
 #: weblate/templates/mail/parse_error.html:21
 msgid "Failing file"
-msgstr ""
+msgstr "Plik, który zawiódł"
 
 #: weblate/templates/mail/parse_error.txt:9
 msgid "Failing file:"
-msgstr ""
+msgstr "Plik, który zawiódł:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, python-format
@@ -3486,11 +3498,11 @@ msgstr "Usuń"
 
 #: weblate/templates/project.html:198
 msgid "Revoke ownership"
-msgstr ""
+msgstr "Odwołaj posiadanie"
 
 #: weblate/templates/project.html:226
 msgid "Make owner"
-msgstr ""
+msgstr "Uczyń właścicielem"
 
 #: weblate/templates/project.html:251
 msgid "Add new user"
@@ -3640,10 +3652,11 @@ msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
 msgstr ""
+"Opiekunowie projektu będą powiadomieni o tym żądaniu i dodadzą język ręcznie."
 
 #: weblate/templates/subproject.html:123
 msgid "Can't find your language in the list above?"
-msgstr ""
+msgstr "Czy możesz znaleźć swój język na powyższej liście?"
 
 #: weblate/templates/subproject.html:127
 msgid "Request new translation"
@@ -3659,6 +3672,9 @@ msgid ""
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
+"Lista podziękowań dla wszystkich tłumaczy, którzy przyczynili się do tego "
+"składnika w danym okresie czasu. Dołączenie podziękowań dla tłumaczy w "
+"twojej dokumentacji lub programie może okazać się pożyteczne."
 
 #: weblate/templates/subproject.html:190
 msgid "Contributor stats"
@@ -3693,7 +3709,7 @@ msgstr "Pobierz wszystkie zmiany jako CSV"
 
 #: weblate/templates/trans/change_list.html:37
 msgid "Follow using RSS"
-msgstr ""
+msgstr "Obserwuj za pomocą RSS"
 
 #: weblate/templates/translate.html:16
 msgid "translate"
@@ -4080,6 +4096,8 @@ msgid ""
 "You can replace string in all units at once. The search is simple substring "
 "case sensitive search."
 msgstr ""
+"Napisy we wszystkich jednostkach można zastąpić za jednym razem. "
+"Wyszukiwanie jest prostym przypadkiem pod-napisu podatnego na wyszukiwanie."
 
 #: weblate/templates/translation.html:225
 #: weblate/templates/translation.html:236
@@ -4174,11 +4192,11 @@ msgstr "Data rejestracji"
 
 #: weblate/templates/watch-dropdown.html:6
 msgid "Unwatch"
-msgstr ""
+msgstr "Nie obserwuj"
 
 #: weblate/templates/watch-dropdown.html:10
 msgid "Watch"
-msgstr ""
+msgstr "Obserwuj"
 
 #: weblate/templates/widgets-root.html:10 weblate/templates/widgets.html:11
 msgid "Promoting translation projects"
@@ -4258,7 +4276,7 @@ msgstr "Kod Textile"
 
 #: weblate/templates/widgets.html:48
 msgid "Image URL"
-msgstr ""
+msgstr "URL obrazu"
 
 #: weblate/templates/zen-units.html:19
 msgid "Open in full editor"
@@ -4503,10 +4521,8 @@ msgid "Same plurals"
 msgstr ""
 
 #: weblate/trans/checks/consistency.py:57
-#, fuzzy
-#| msgid "Source and translated strings are same"
 msgid "Some plural forms are translated in the same way"
-msgstr "Ciąg źródłowy i tłumaczenia są takie same"
+msgstr "Niektóre formy mnogie są tłumaczone w ten sam sposób"
 
 #: weblate/trans/checks/consistency.py:80
 msgid "Inconsistent"
@@ -5120,10 +5136,8 @@ msgid "Donate to Weblate"
 msgstr "Złóż darowiznę dla Weblate"
 
 #: weblate/trans/models/advertisement.py:46
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate on Liberapay"
-msgstr "Wspomóż Weblate na {0}"
+msgstr "Wspieraj Weblate na Liberapay"
 
 #: weblate/trans/models/advertisement.py:47
 msgid "Support Weblate on Bountysource"
