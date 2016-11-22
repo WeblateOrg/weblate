@@ -22,7 +22,9 @@
 {% can_edit_project user object as user_can_edit_project %}
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
+  <li class="active"><a href="#components" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#glossaries" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.slug %}">{% trans "Activity" %}</a></li>
   <li class="dropdown">
@@ -68,17 +70,7 @@
 </ul>
 
 <div class="tab-content">
-<div class="tab-pane active" id="overview">
-<div class="container-fluid">
-
-<div class="row">
-
-<div class="col-lg-6">
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Components" %}</h4></div>
-  <div class="panel-body">
+<div class="tab-pane active" id="components">
 
 <table class="sort table">
 <thead>
@@ -98,27 +90,19 @@
 </table>
 
 {% include "legend.html" %}
-</div>
-</div>
-
 
 </div>
 
-<div class="col-lg-6">
-
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
-  <div class="panel-body">
+<div class="tab-pane" id="information">
 
 <table class="table">
 {% include "project_info.html" %}
 </table>
-</div>
+
 </div>
 
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Glossaries" %}</h4></div>
-  <div class="panel-body">
+<div class="tab-pane" id="glossaries">
+
 {% if dicts %}
 <div class="list-group">
 {% for dict in dicts %}
@@ -128,16 +112,8 @@
 {% else %}
 <p>{% trans "There are currently no glossaries defined for this project." %}</p>
 {% endif %}
-</div>
-<div class="panel-footer">
+
 <a class="btn btn-default" href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Manage all glossaries" %}</a>
-</div>
-</div>
-
-
-</div>
-</div>
-</div>
 
 </div>
 

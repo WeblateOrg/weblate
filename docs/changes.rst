@@ -10,6 +10,7 @@ Released on ? 2016.
 * Fixed GitHub hooks for repositories with authentication.
 * Added optional Git exporter module.
 * Support for Microsoft Cognitive Services Translator API.
+* Simplified project and component user interface.
 
 weblate 2.9
 -----------

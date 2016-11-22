@@ -27,7 +27,8 @@
 {% include "show-lock.html" %}
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
+  <li class="active"><a href="#translations" data-toggle="tab">{% trans "Translations" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug subproject=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug subproject=object.slug %}">{% trans "Activity" %}</a></li>
   <li class="dropdown">
@@ -48,6 +49,9 @@
       {% endif %}
       {% if user_can_view_reports %}
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
+      {% endif %}
+      {% if object.can_add_language and user_can_add_translation %}
+      <li><a href="#newlang" data-toggle="tab">{% trans "Start new translation" %}</a></li>
       {% endif %}
       {% if user_can_edit_subproject %}
       <li><a href="#settings" data-toggle="tab">{% trans "Settings" %}</a></li>
@@ -75,38 +79,26 @@
 </ul>
 
 
-
 <div class="tab-content">
-<div class="tab-pane active" id="overview">
-<div class="container-fluid">
-<div class="row">
-
-<div class="col-lg-6">
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Translations" %}</h4></div>
-  <div class="panel-body">
+<div class="tab-pane active" id="translations">
 
 {% include "list-translations.html" %}
 
 </div>
-</div>
 
-
-</div>
-
-<div class="col-lg-6">
-
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
-  <div class="panel-body">
+<div class="tab-pane" id="information">
 
 <table class="table">
 {% include "subproject_info.html" %}
 </table>
-</div>
+
 </div>
 
+
 {% if object.can_add_language and user_can_add_translation %}
+
+<div class="tab-pane" id="newlang">
+
 <form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">
@@ -134,14 +126,7 @@
 </form>
 {% endif %}
 
-
 </div>
-</div>
-
-</div>
-
-</div>
-
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
