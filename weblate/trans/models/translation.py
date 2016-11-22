@@ -769,35 +769,35 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         sync updates git hash stored within the translation (otherwise
         translation rescan will be needed)
         """
-        # Is there something for commit?
-        if not force_new and not self.repo_needs_commit():
-            return False
+        with self.subproject.repository.lock():
+            # Is there something for commit?
+            if not force_new and not self.repo_needs_commit():
+                return False
 
-        # Can we delay commit?
-        if not force_commit and appsettings.LAZY_COMMITS:
+            # Can we delay commit?
+            if not force_commit and appsettings.LAZY_COMMITS:
+                self.log_info(
+                    'delaying commiting %s as %s',
+                    self.filename,
+                    author
+                )
+                return False
+
+            # Do actual commit with git lock
             self.log_info(
-                'delaying commiting %s as %s',
+                'commiting %s as %s',
                 self.filename,
                 author
             )
-            return False
-
-        # Do actual commit with git lock
-        self.log_info(
-            'commiting %s as %s',
-            self.filename,
-            author
-        )
-        Change.objects.create(
-            action=Change.ACTION_COMMIT,
-            translation=self,
-        )
-        with self.subproject.repository.lock():
+            Change.objects.create(
+                action=Change.ACTION_COMMIT,
+                translation=self,
+            )
             self.__git_commit(author, timestamp, sync)
 
-        # Push if we should
-        if not skip_push:
-            self.subproject.push_if_needed(request)
+            # Push if we should
+            if not skip_push:
+                self.subproject.push_if_needed(request)
 
         self._last_change_obj_valid = False
 
