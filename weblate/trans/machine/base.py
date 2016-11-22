@@ -74,7 +74,8 @@ class MachineTranslation(object):
         '''
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, raw=False, **kwargs):
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+                 **kwargs):
         '''
         Performs JSON request.
         '''
