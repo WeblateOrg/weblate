@@ -63,7 +63,7 @@ def download_invoice(request, pk):
 
 @login_required
 def overview(request):
-    if request.user.has_perm('billing.add_billing') and False:
+    if request.user.has_perm('billing.add_billing'):
         billings = Billing.objects.all()
     else:
         billings = Billing.objects.filter(user=request.user)
