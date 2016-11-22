@@ -60,6 +60,10 @@ MT_APERTIUM_KEY = getvalue('MT_APERTIUM_KEY', None)
 MT_MICROSOFT_ID = getvalue('MT_MICROSOFT_ID', None)
 MT_MICROSOFT_SECRET = getvalue('MT_MICROSOFT_SECRET', None)
 
+# Microsoft Conginite Services Translator, register at
+# https://portal.azure.com/
+MT_MICROSOFT_COGNITIVE_KEY = getvalue('MT_MICROSOFT_COGNITIVE_KEY', None)
+
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
 MT_MYMEMORY_EMAIL = getvalue('MT_MYMEMORY_EMAIL', None)

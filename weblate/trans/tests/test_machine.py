@@ -34,7 +34,9 @@ from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
 from weblate.trans.machine.apertium import ApertiumTranslation
 from weblate.trans.machine.tmserver import AmagamaTranslation
-from weblate.trans.machine.microsoft import MicrosoftTranslation
+from weblate.trans.machine.microsoft import (
+    MicrosoftTranslation, MicrosoftCognitiveTranslation,
+)
 from weblate.trans.machine.google import GoogleTranslation
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
@@ -182,6 +184,30 @@ class MachineTranslationTest(TestCase):
         )
 
         machine = MicrosoftTranslation()
+        self.assertTranslate(machine)
+
+    @OverrideSettings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
+    @httpretty.activate
+    def test_microsoft_cognitive(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'
+            '?Subscription-Key=KEY',
+            body='TOKEN'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.microsofttranslator.com/V2/Ajax.svc/'
+            'GetLanguagesForTranslate',
+            body='["en","cs"]'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
+            body='"svět"'.encode('utf-8')
+        )
+
+        machine = MicrosoftCognitiveTranslation()
         self.assertTranslate(machine)
 
     @OverrideSettings(MT_GOOGLE_KEY='KEY')

@@ -78,10 +78,17 @@ To enable this service, add ``trans.machine.google.GoogleTranslation`` to
 
 .. _ms-translate:
 
-Bing Translator
-+++++++++++++++
+Microsoft Translator
+++++++++++++++++++++
 
-Machine translation service provided by Microsoft, it's known as Microsoft Translator as well.
+.. deprecated:: 2.10
+
+.. note::
+
+    This service is deprecated by Microsoft as needs to be replaced by 
+    :ref:`ms-cognitive-translate`.
+
+Machine translation service provided by Microsoft, it's known as Bing Translator as well.
 
 You need to register at Azure market and use Client ID and secret from there.
 
@@ -93,6 +100,31 @@ To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
     :setting:`MT_MICROSOFT_ID`, :setting:`MT_MICROSOFT_SECRET`,
     `Bing Translator <http://www.bing.com/translator/>`_,
     `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
+
+.. _ms-cognitive-translate:
+
+Microsoft Cognitive Services Translator
++++++++++++++++++++++++++++++++++++++++
+
+.. versionadded:: 2.10
+
+.. note::
+
+    This is replacement service for :ref:`ms-translate`.
+
+Machine transation service provided by Microsoft in Azure portal as a one of
+Cognitive Services.
+
+You need to register at Azure portal and use key you obtain there.
+
+To enable this service, add ``trans.machine.microsoft.MicrosoftCognitiveTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. seealso::
+    
+    :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
+    `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
+    `Microsfot Azure Portal <https://portal.azure.com/>`_
 
 .. _mymemory:
 

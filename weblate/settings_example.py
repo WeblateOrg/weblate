@@ -413,6 +413,10 @@ MT_APERTIUM_KEY = None
 MT_MICROSOFT_ID = None
 MT_MICROSOFT_SECRET = None
 
+# Microsoft Cognitive Services Translator API, register at
+# https://portal.azure.com/
+MT_MICROSOFT_COGNITIVE_KEY = None
+
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
 MT_MYMEMORY_EMAIL = None
@@ -523,7 +527,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.machine.apertium.ApertiumTranslation',
 #     'weblate.trans.machine.glosbe.GlosbeTranslation',
 #     'weblate.trans.machine.google.GoogleTranslation',
-#     'weblate.trans.machine.microsoft.MicrosoftTranslation',
+#     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
 #     'weblate.trans.machine.mymemory.MyMemoryTranslation',
 #     'weblate.trans.machine.tmserver.AmagamaTranslation',
 #     'weblate.trans.machine.tmserver.TMServerTranslation',

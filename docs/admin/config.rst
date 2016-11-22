@@ -427,6 +427,18 @@ Client secret for Microsoft Translator service.
    :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`, 
    `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
 
+.. setting:: MT_MICROSOFT_COGNITIVE_KEY
+
+MT_MICROSOFT_COGNITIVE_KEY
+--------------------------
+
+Client key for Microsoft Cognitive Services Translator API.
+
+.. seealso::
+    :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`, 
+    `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
+    `Microsfot Azure Portal <https://portal.azure.com/>`_
+
 .. setting:: MT_MYMEMORY_EMAIL
 
 MT_MYMEMORY_EMAIL
