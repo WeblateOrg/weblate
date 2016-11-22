@@ -22,11 +22,11 @@ import os.path
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, Http404
 
 from weblate import appsettings
-from weblate.billing.models import Invoice
+from weblate.billing.models import Invoice, Billing
 
 
 @login_required
@@ -59,3 +59,12 @@ def download_invoice(request, pk):
     response['Content-Length'] = len(data)
 
     return response
+
+
+@login_required
+def overview(request):
+    if request.user.has_perm('billing.add_billing') and False:
+        billings = Billing.objects.all()
+    else:
+        billings = Billing.objects.filter(user=request.user)
+    return render(request, 'billing/overview.html', {'billings': billings})

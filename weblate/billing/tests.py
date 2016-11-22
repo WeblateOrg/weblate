@@ -66,6 +66,28 @@ class BillingTest(TestCase):
             Project.objects.create(name=name, slug=name)
         )
 
+    def test_view_billing(self):
+        # Not authenticated
+        response = self.client.get(reverse('billing'))
+        self.assertEqual(302, response.status_code,)
+
+        # Random user
+        User.objects.create_user('foo', 'foo@example.org', 'bar')
+        self.client.login(username='foo', password='bar')
+        response = self.client.get(reverse('billing'))
+        self.assertNotContains(response, 'Current plan')
+
+        # Owner
+        self.client.login(username='bill', password='kill')
+        response = self.client.get(reverse('billing'))
+        self.assertContains(response, 'Current plan')
+
+        # Admin
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.get(reverse('billing'))
+        self.assertContains(response, 'Current plan')
+
     def test_limit_projects(self):
         self.assertTrue(self.billing.in_limits())
         self.add_project()

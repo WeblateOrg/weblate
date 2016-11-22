@@ -871,6 +871,11 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
             weblate.billing.views.download_invoice,
             name='invoice-download',
         ),
+        url(
+            r'^billing/$',
+            weblate.billing.views.overview,
+            name='billing',
+        ),
     ]
 
 if 'weblate.gitexport' in settings.INSTALLED_APPS:
