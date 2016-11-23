@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-11-23 11:58+0000\n"
-"PO-Revision-Date: 2016-11-21 16:17+0000\n"
+"PO-Revision-Date: 2016-11-23 17:27+0000\n"
 "Last-Translator: Stanisław Krukowski <dfk0077@riseup.net>\n"
-"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
-">\n"
+"Language-Team: Polish "
+"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1449,8 +1449,7 @@ msgid "Used %(used)s"
 msgstr "Użyte %(used)s"
 
 #: weblate/templates/billing/used.html:7
-#, fuzzy, python-format
-#| msgid "Used %(used)s from %(total)s"
+#, python-format
 msgid "Used %(used)s of %(total)s"
 msgstr "Użyte %(used)s z %(total)s"
 
@@ -4388,7 +4387,7 @@ msgstr "Hosty dozwolone"
 
 #: weblate/trans/admin_views.py:220
 msgid "Cached template loader"
-msgstr ""
+msgstr "Buforowany program wczytujący szablon"
 
 #: weblate/trans/admin_views.py:228
 msgid "Admin static files"
@@ -4441,6 +4440,7 @@ msgstr "Spacje początkowe"
 #: weblate/trans/checks/chars.py:65
 msgid "Source and translation do not both start with same number of spaces"
 msgstr ""
+"Zarówno źródło, jak i tłumaczenie nie zaczynają się tą samą liczbą spacji"
 
 #: weblate/trans/checks/chars.py:94
 msgid "Trailing space"
@@ -4448,7 +4448,7 @@ msgstr "Końcowa spacja"
 
 #: weblate/trans/checks/chars.py:95
 msgid "Source and translation do not both end with a space"
-msgstr ""
+msgstr "Zarówno źródło, jak i tłumaczenie nie kończą się spacją"
 
 #: weblate/trans/checks/chars.py:128
 msgid "Trailing stop"
@@ -4456,7 +4456,7 @@ msgstr "Końcowa kropka"
 
 #: weblate/trans/checks/chars.py:129
 msgid "Source and translation do not both end with a full stop"
-msgstr ""
+msgstr "Zarówno źródło, jak i tłumaczenie nie kończą się kropką"
 
 #: weblate/trans/checks/chars.py:175
 msgid "Trailing colon"
@@ -4467,6 +4467,8 @@ msgid ""
 "Source and translation do not both end with a colon or colon is not "
 "correctly spaced"
 msgstr ""
+"Zarówno źródło, jak i tłumaczenie nie kończą się dwukropkiem lub dwukropek "
+"nie ma poprawnej ustawionych spacji"
 
 #: weblate/trans/checks/chars.py:232
 msgid "Trailing question"
@@ -4477,6 +4479,8 @@ msgid ""
 "Source and translation do not both end with a question mark or it is not "
 "correctly spaced"
 msgstr ""
+"Zarówno źródło, jak i tłumaczenie nie kończą się znakiem zapytania lub znak "
+"zapytania nie ma poprawnie ustawionych spacji"
 
 #: weblate/trans/checks/chars.py:289
 msgid "Trailing exclamation"
@@ -4487,10 +4491,12 @@ msgid ""
 "Source and translation do not both end with an exclamation mark or it is not "
 "correctly spaced"
 msgstr ""
+"Zarówno źródło, jak i tłumaczenie nie kończą się wykrzyknikiem lub "
+"wykrzyknik nie ma poprawnie ustawionych spacji"
 
 #: weblate/trans/checks/chars.py:334
 msgid "Source and translation do not both end with an ellipsis"
-msgstr ""
+msgstr "Zarówno źródło, jak i tłumaczenie nie kończą się wielokropkiem"
 
 #: weblate/trans/checks/chars.py:352
 msgid "Mismatched \\n"
@@ -4518,11 +4524,11 @@ msgstr "Brakująca forma liczby mnogiej"
 
 #: weblate/trans/checks/consistency.py:31
 msgid "Some plural forms are not translated"
-msgstr ""
+msgstr "Niektóre formy liczby mnogiej nie są przetłumaczone"
 
 #: weblate/trans/checks/consistency.py:56
 msgid "Same plurals"
-msgstr ""
+msgstr "Te same liczby mnogie"
 
 #: weblate/trans/checks/consistency.py:57
 msgid "Some plural forms are translated in the same way"
@@ -4661,11 +4667,12 @@ msgstr "Nie udało się skompilować: {0}"
 #: weblate/trans/fields.py:49
 #, python-format
 msgid "Not supported image type: %s"
-msgstr ""
+msgstr "Nie obsługiwany typ obrazu %s"
 
 #: weblate/trans/fields.py:56
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr ""
+"Obraz jest zbyt duży, proszę go przeskalować lub odciąć odpowiednią część!"
 
 #: weblate/trans/formats.py:845
 msgid "Automatic detection"
@@ -4737,11 +4744,11 @@ msgstr "Plik uproszczony CSV (ISO-8859-1)"
 
 #: weblate/trans/formats.py:1353
 msgid "YAML file"
-msgstr ""
+msgstr "Plik YAML"
 
 #: weblate/trans/formats.py:1397
 msgid "Ruby YAML file"
-msgstr ""
+msgstr "Plik Ruby YAML"
 
 #: weblate/trans/forms.py:149
 msgid "Fill in with source string"
@@ -5021,6 +5028,8 @@ msgstr "Zakres"
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
+"Czy twój komentarz jest specyficzny dla tego tłumaczenia lub ogólny dla "
+"wszystkich tłumaczeń?"
 
 #: weblate/trans/forms.py:798
 msgid "Source string comment, suggestions to change this string"
@@ -5036,7 +5045,7 @@ msgstr "Cały projekt"
 
 #: weblate/trans/forms.py:860
 msgid "Please select"
-msgstr ""
+msgstr "Proszę wybrać"
 
 #: weblate/trans/forms.py:878
 msgid "Strings with higher priority are offered first to translators."
@@ -5052,16 +5061,20 @@ msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
+"Proszę wpisać, oddzielone przecinkami, listy flag kontrolnych, zobacz więcej "
+"szczegółów w <a href=\"{url}\">dokumentacji</a>."
 
 #: weblate/trans/forms.py:912
 msgid "User to add"
-msgstr ""
+msgstr "Użytkownik do dodania"
 
 #: weblate/trans/forms.py:914
 msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
+"Proszę wpisać nazwę użytkownika lub email. Użytkownik musi już mieć aktywne "
+"konto na Weblate."
 
 #: weblate/trans/forms.py:926
 msgid "No matching user found!"
@@ -5069,7 +5082,7 @@ msgstr "Nie znaleziono pasującego użytkownika!"
 
 #: weblate/trans/forms.py:928
 msgid "More users matched!"
-msgstr ""
+msgstr "Dopasowanych jest więcej użytkowników!"
 
 #: weblate/trans/forms.py:933
 msgid "Report format"
@@ -5081,7 +5094,7 @@ msgstr "Wybierz format pliku dla raportu"
 
 #: weblate/trans/forms.py:936
 msgid "reStructuredText"
-msgstr ""
+msgstr "reStructuredText"
 
 #: weblate/trans/forms.py:937
 msgid "JSON"
@@ -5105,7 +5118,7 @@ msgstr "Przetwarzanie języków"
 
 #: weblate/trans/forms.py:1002
 msgid "Upstream links"
-msgstr ""
+msgstr "Odsyłacze upstream"
 
 #: weblate/trans/forms.py:1007
 msgid "Translation settings"
@@ -5177,7 +5190,7 @@ msgstr "Tekst"
 
 #: weblate/trans/models/advertisement.py:118
 msgid "Depending on placement, HTML can be allowed."
-msgstr ""
+msgstr "Zależnie od umieszczenia, może być dozwolony HTML."
 
 #: weblate/trans/models/advertisement.py:124
 msgid "Free form note for your notes, not used within Weblate."
