@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-11-18 14:27+0000\n"
+"POT-Creation-Date: 2016-11-23 11:58+0000\n"
 "PO-Revision-Date: 2016-05-26 12:42+0000\n"
 "Last-Translator: rtjweblate <tuomas.harju@veppi.net>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -47,7 +47,7 @@ msgstr ""
 "Käyttäjänimi voi sisältää vain kirjaimia, numeroita ja seuraavia merkkejä: "
 "@. + - _"
 
-#: weblate/accounts/forms.py:75 weblate/templates/project.html:169
+#: weblate/accounts/forms.py:75 weblate/templates/project.html:145
 msgid "Username"
 msgstr "Käyttäjänimi"
 
@@ -61,7 +61,7 @@ msgid "Component list must be selected when used as default."
 msgstr ""
 
 #: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
-#: weblate/templates/project.html:171
+#: weblate/templates/project.html:147
 msgid "E-mail"
 msgstr "Sähköposti"
 
@@ -71,7 +71,7 @@ msgstr ""
 "Voit lisätä toisen sähköpostiosoitteen Todennus(Authentication) välilehdellä."
 
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:333
-#: weblate/templates/project.html:170
+#: weblate/templates/project.html:146
 msgid "Full name"
 msgstr "Koko nimi"
 
@@ -417,7 +417,8 @@ msgid "Password reset"
 msgstr "Salasanan palauttaminen"
 
 #: weblate/billing/admin.py:51 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30 weblate/templates/projects.html:5
+#: weblate/templates/accounts/user.html:30
+#: weblate/templates/billing/detail.html:32 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:172 weblate/trans/views/basic.py:206
 msgid "Projects"
 msgstr "Projektit"
@@ -818,6 +819,7 @@ msgstr ""
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
 #: weblate/templates/accounts/removal.html:6 weblate/templates/base.html:120
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Profiilisi"
 
@@ -870,6 +872,7 @@ msgid "API access"
 msgstr "Rajapinta (API)"
 
 #: weblate/templates/accounts/profile.html:31
+#: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr "Laskutus"
 
@@ -880,8 +883,8 @@ msgstr "Laskutus"
 #: weblate/templates/accounts/profile.html:159
 #: weblate/templates/edit_dictionary.html:23
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:70
-#: weblate/templates/js/detail.html:94 weblate/templates/project.html:288
-#: weblate/templates/subproject.html:224 weblate/templates/translate.html:159
+#: weblate/templates/js/detail.html:94 weblate/templates/project.html:264
+#: weblate/templates/subproject.html:210 weblate/templates/translate.html:159
 #: weblate/templates/translate.html:334
 msgid "Save"
 msgstr "Tallenna"
@@ -1115,63 +1118,27 @@ msgstr ""
 "Ole hyvä ja huomioi lisensöinti tiedot, koska ne määrittävät miten muut "
 "saavat käyttää käännöksiäsi."
 
-#: weblate/templates/accounts/profile.html:408
-msgid "Billing plan"
-msgstr "Tilaus"
-
 #: weblate/templates/accounts/profile.html:413
-msgid "Current plan"
-msgstr "Nykyinen tilaus"
-
-#: weblate/templates/accounts/profile.html:413
-msgid "See other plans"
-msgstr "Katso muita tilausvaihtoehtoja"
-
-#: weblate/templates/accounts/profile.html:414
-msgid "Monthly price"
-msgstr "Kuukausihinta"
-
-#: weblate/templates/accounts/profile.html:415
-msgid "Yearly price"
-msgstr "Vuosihinta"
-
-#: weblate/templates/accounts/profile.html:416
-msgid "Strings limit"
-msgstr "Merkkijonojen rajoitus"
-
-#: weblate/templates/accounts/profile.html:421
-msgid "Languages limit"
-msgstr "Kielien rajoitus"
-
-#: weblate/templates/accounts/profile.html:426
-msgid "Repositories limit"
-msgstr "Versionhallinta-arkistojen rajoitus"
-
-#: weblate/templates/accounts/profile.html:431
-msgid "Projects limit"
-msgstr "Projektien rajoitus"
-
-#: weblate/templates/accounts/profile.html:444
 msgid "Invoices"
 msgstr "Laskut"
 
-#: weblate/templates/accounts/profile.html:449
+#: weblate/templates/accounts/profile.html:418
 msgid "Invoice period"
 msgstr "Laskutusjakso"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:419
 msgid "Invoice amount"
 msgstr "Laskun summa"
 
-#: weblate/templates/accounts/profile.html:451
+#: weblate/templates/accounts/profile.html:420
 msgid "Download invoice"
 msgstr "Lataa lasku"
 
-#: weblate/templates/accounts/profile.html:463
+#: weblate/templates/accounts/profile.html:432
 msgid "Not available"
 msgstr "Ei saatavilla"
 
-#: weblate/templates/accounts/profile.html:468
+#: weblate/templates/accounts/profile.html:437
 msgid "No invoices found!"
 msgstr "Yhtään laskua ei löytynyt!"
 
@@ -1333,8 +1300,8 @@ msgstr ""
 "Sinulla ei näytä olevan olemassa olevaa SSH avainta, painamalla alla olevaa "
 "nappia Weblate keksii sen sinulle."
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:178
-#: weblate/templates/subproject.html:199
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:164
+#: weblate/templates/subproject.html:185
 msgid "Generate"
 msgstr "Keksi"
 
@@ -1450,14 +1417,51 @@ msgstr ""
 msgid "Screenshot context"
 msgstr "Käännöksen asiayhteys"
 
-#: weblate/templates/billing-used.html:5
+#: weblate/templates/billing/detail.html:4
+msgid "Billing plan"
+msgstr "Tilaus"
+
+#: weblate/templates/billing/detail.html:9
+msgid "Current plan"
+msgstr "Nykyinen tilaus"
+
+#: weblate/templates/billing/detail.html:9
+msgid "See other plans"
+msgstr "Katso muita tilausvaihtoehtoja"
+
+#: weblate/templates/billing/detail.html:10
+msgid "Monthly price"
+msgstr "Kuukausihinta"
+
+#: weblate/templates/billing/detail.html:11
+msgid "Yearly price"
+msgstr "Vuosihinta"
+
+#: weblate/templates/billing/detail.html:12
+msgid "Strings limit"
+msgstr "Merkkijonojen rajoitus"
+
+#: weblate/templates/billing/detail.html:17
+msgid "Languages limit"
+msgstr "Kielien rajoitus"
+
+#: weblate/templates/billing/detail.html:22
+msgid "Repositories limit"
+msgstr "Versionhallinta-arkistojen rajoitus"
+
+#: weblate/templates/billing/detail.html:27
+msgid "Projects limit"
+msgstr "Projektien rajoitus"
+
+#: weblate/templates/billing/used.html:5
 #, python-format
 msgid "Used %(used)s"
 msgstr "Käytettyt %(used)s"
 
-#: weblate/templates/billing-used.html:7
-#, python-format
-msgid "Used %(used)s from %(total)s"
+#: weblate/templates/billing/used.html:7
+#, fuzzy, python-format
+#| msgid "Used %(used)s from %(total)s"
+msgid "Used %(used)s of %(total)s"
 msgstr "Käytetty %(used)s / %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
@@ -1481,7 +1485,8 @@ msgstr "Vastaavia tarkistuksia ei löytynyt!"
 msgid "Check details"
 msgstr "Tarkista lisätiedot"
 
-#: weblate/templates/checks.html:30
+#: weblate/templates/checks.html:30 weblate/templates/project.html:26
+#: weblate/templates/subproject.html:31
 msgid "Information"
 msgstr "Tiedot"
 
@@ -1687,8 +1692,8 @@ msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:33
 #: weblate/templates/edit_dictionary.html:32 weblate/templates/index.html:39
-#: weblate/templates/language.html:16 weblate/templates/project.html:26
-#: weblate/templates/subproject.html:31 weblate/templates/translate.html:203
+#: weblate/templates/language.html:16 weblate/templates/project.html:28
+#: weblate/templates/subproject.html:32 weblate/templates/translate.html:203
 #: weblate/templates/translation.html:29
 msgid "History"
 msgstr "Historia"
@@ -1724,7 +1729,7 @@ msgid "No words found!"
 msgstr "Sanoja ei löydetty!"
 
 #: weblate/templates/dictionary.html:88 weblate/templates/js/detail.html:41
-#: weblate/templates/project.html:260 weblate/templates/translate.html:413
+#: weblate/templates/project.html:236 weblate/templates/translate.html:413
 msgid "Add"
 msgstr "Lisää"
 
@@ -2692,13 +2697,13 @@ msgid "Search"
 msgstr "Etsi"
 
 #: weblate/templates/index.html:40 weblate/templates/language.html:17
-#: weblate/templates/project.html:27 weblate/templates/subproject.html:32
+#: weblate/templates/project.html:29 weblate/templates/subproject.html:33
 #: weblate/templates/translation.html:30
 msgid "Activity"
 msgstr "Toiminta"
 
 #: weblate/templates/index.html:43 weblate/templates/language.html:21
-#: weblate/templates/project.html:30 weblate/templates/subproject.html:35
+#: weblate/templates/project.html:32 weblate/templates/subproject.html:36
 #: weblate/templates/translation.html:42
 msgid "Tools"
 msgstr "Työkalut"
@@ -2777,7 +2782,7 @@ msgstr ""
 msgid "Browse all changes"
 msgstr "Selaa muutoksia"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:148
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:134
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all component changes"
@@ -2849,8 +2854,8 @@ msgstr "Arkiston muutokset"
 msgid "Repository tools"
 msgstr "Arkistotyökalut"
 
-#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:35
-#: weblate/templates/subproject.html:40 weblate/templates/translation.html:48
+#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:37
+#: weblate/templates/subproject.html:41 weblate/templates/translation.html:48
 msgid "Commit"
 msgstr "Suorita"
 
@@ -2913,22 +2918,21 @@ msgstr "Estä kaikki muutokset paikalliseen arkistoon"
 msgid "Removes current translation from the repository."
 msgstr ""
 
-#: weblate/templates/language.html:15 weblate/templates/project.html:25
-#: weblate/templates/subproject.html:30 weblate/templates/translation.html:27
+#: weblate/templates/language.html:15 weblate/templates/translation.html:27
 msgid "Overview"
 msgstr "Katsaus"
 
-#: weblate/templates/language.html:18 weblate/templates/project.html:120
+#: weblate/templates/language.html:18 weblate/templates/project.html:27
 msgid "Glossaries"
 msgstr "Sanastot"
 
-#: weblate/templates/language.html:24 weblate/templates/project.html:40
+#: weblate/templates/language.html:24 weblate/templates/project.html:42
 #: weblate/templates/source-review.html:24 weblate/templates/translate.html:484
 #: weblate/trans/views/checks.py:78
 msgid "Failing checks"
 msgstr "Epäonnistuvat tarkistukset"
 
-#: weblate/templates/language.html:25 weblate/templates/project.html:41
+#: weblate/templates/language.html:25 weblate/templates/project.html:43
 #: weblate/templates/stats.html:103
 msgid "Ignored checks"
 msgstr "Huomioimatta jätetyt tarkistukset"
@@ -2944,7 +2948,7 @@ msgid "There are no glossaries defined for this language."
 msgstr "Tälle kielelle ei ole määritelty sanastoja."
 
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
-#: weblate/templates/list-translations.html:9 weblate/templates/project.html:87
+#: weblate/templates/list-translations.html:9 weblate/templates/project.html:79
 #: weblate/templates/stats.html:21 weblate/templates/translation.html:338
 msgid "Translated"
 msgstr "Käännetty"
@@ -3456,117 +3460,112 @@ msgstr "Muuta tilausasetuksia:"
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/project.html:33 weblate/templates/subproject.html:38
+#: weblate/templates/project.html:25 weblate/trans/models/subproject.py:475
+msgid "Components"
+msgstr "Komponentit"
+
+#: weblate/templates/project.html:35 weblate/templates/subproject.html:39
 #: weblate/templates/translation.html:45
 msgid "Data exports"
 msgstr "Tietojen viennit"
 
-#: weblate/templates/project.html:38 weblate/templates/subproject.html:43
+#: weblate/templates/project.html:40 weblate/templates/subproject.html:44
 #: weblate/templates/translation.html:51
 msgid "Repository maintenance"
 msgstr "Arkiston ylläpito"
 
-#: weblate/templates/project.html:43 weblate/templates/subproject.html:47
+#: weblate/templates/project.html:45 weblate/templates/subproject.html:48
 msgid "Manage users"
 msgstr "Hallitse käyttäjiä"
 
-#: weblate/templates/project.html:46 weblate/templates/project.html:281
-#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:217
+#: weblate/templates/project.html:48 weblate/templates/project.html:257
+#: weblate/templates/subproject.html:57 weblate/templates/subproject.html:203
 #, fuzzy
 #| msgid "Strings"
 msgid "Settings"
 msgstr "Merkkijonot"
 
-#: weblate/templates/project.html:53 weblate/templates/subproject.html:60
+#: weblate/templates/project.html:55 weblate/templates/subproject.html:64
 #: weblate/templates/translation.html:64
 msgid "Share"
 msgstr "Jaa"
 
-#: weblate/templates/project.html:57 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:64 weblate/templates/translation.html:68
+#: weblate/templates/project.html:59 weblate/templates/share.html:9
+#: weblate/templates/subproject.html:68 weblate/templates/translation.html:68
 msgid "Share on Facebook!"
 msgstr "Jaa Facebookissa!"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Käännä %(object)s käyttäen %%23Weblatea %(share_url)s!"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 msgid "Tweet this translation!"
 msgstr "Twiittaa tämä käännös!"
 
-#: weblate/templates/project.html:59 weblate/templates/subproject.html:66
+#: weblate/templates/project.html:61 weblate/templates/subproject.html:70
 #: weblate/templates/translation.html:70
 msgid "Engage page"
 msgstr ""
 
-#: weblate/templates/project.html:60 weblate/templates/subproject.html:67
+#: weblate/templates/project.html:62 weblate/templates/subproject.html:71
 #: weblate/templates/translation.html:71
 msgid "Status widgets"
 msgstr "Tilawidgetit"
 
-#: weblate/templates/project.html:80 weblate/trans/models/subproject.py:475
-msgid "Components"
-msgstr "Komponentit"
-
-#: weblate/templates/project.html:86 weblate/templates/translate.html:270
+#: weblate/templates/project.html:78 weblate/templates/translate.html:270
 #: weblate/trans/models/subproject.py:474 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr "Komponentti"
 
-#: weblate/templates/project.html:110 weblate/templates/source.html:36
-#: weblate/templates/subproject.html:100 weblate/templates/translation.html:134
-msgid "Project Information"
-msgstr "Projektitiedot"
-
-#: weblate/templates/project.html:129
+#: weblate/templates/project.html:113
 msgid "There are currently no glossaries defined for this project."
 msgstr "Tälle projektille ei ole tällä hetkellä määritelty sanastoja."
 
-#: weblate/templates/project.html:133
+#: weblate/templates/project.html:116
 msgid "Manage all glossaries"
 msgstr "Hallitse kaikkia sanastoja"
 
-#: weblate/templates/project.html:146
+#: weblate/templates/project.html:122
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all project changes"
 msgstr "Selaa muutoksia"
 
-#: weblate/templates/project.html:153 weblate/templates/subproject.html:155
+#: weblate/templates/project.html:129 weblate/templates/subproject.html:141
 #: weblate/templates/translate.html:291 weblate/templates/translation.html:246
 #: weblate/trans/forms.py:140
 msgid "Loading…"
 msgstr "Ladataan…"
 
-#: weblate/templates/project.html:164
+#: weblate/templates/project.html:140
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: weblate/templates/project.html:178
+#: weblate/templates/project.html:154
 msgid "Owner"
 msgstr ""
 
-#: weblate/templates/project.html:189 weblate/templates/project.html:218
+#: weblate/templates/project.html:165 weblate/templates/project.html:194
 msgid "Remove"
 msgstr "Poista"
 
-#: weblate/templates/project.html:198
+#: weblate/templates/project.html:174
 msgid "Revoke ownership"
 msgstr ""
 
-#: weblate/templates/project.html:226
+#: weblate/templates/project.html:202
 msgid "Make owner"
 msgstr ""
 
-#: weblate/templates/project.html:251
+#: weblate/templates/project.html:227
 msgid "Add new user"
 msgstr "Lisää uusi käyttäjä"
 
-#: weblate/templates/project.html:253
+#: weblate/templates/project.html:229
 #, fuzzy
 #| msgid "Add new word"
 msgid "Add new owner"
@@ -3634,6 +3633,10 @@ msgstr "Vastaavia merkkijonoja ei löytynyt!"
 msgid "Strings to check"
 msgstr "Merkkiketjut tarkistettaviksi"
 
+#: weblate/templates/source.html:36 weblate/templates/translation.html:134
+msgid "Project Information"
+msgstr "Projektitiedot"
+
 #: weblate/templates/stats.html:15
 msgid "Most active translators"
 msgstr "Aktiivisimmat kääntäjät"
@@ -3680,25 +3683,26 @@ msgstr "Luodut käännökset"
 msgid "Failing checks found"
 msgstr "Löytyneet epäonnistuneet tarkistukset"
 
-#: weblate/templates/subproject.html:45
+#: weblate/templates/subproject.html:30
+msgid "Translations"
+msgstr "Käännökset"
+
+#: weblate/templates/subproject.html:46
 msgid "Source strings review"
 msgstr "Arvostele lähdemerkkijonoja"
 
-#: weblate/templates/subproject.html:50
+#: weblate/templates/subproject.html:51
 #, fuzzy
 #| msgid "Translation reverted"
 msgid "Translation reports"
 msgstr "Käännös palautunut"
 
-#: weblate/templates/subproject.html:86
-msgid "Translations"
-msgstr "Käännökset"
-
-#: weblate/templates/subproject.html:113 weblate/templates/subproject.html:129
+#: weblate/templates/subproject.html:54 weblate/templates/subproject.html:105
+#: weblate/templates/subproject.html:121
 msgid "Start new translation"
 msgstr "Aloita uusi käännös"
 
-#: weblate/templates/subproject.html:116
+#: weblate/templates/subproject.html:108
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -3707,46 +3711,46 @@ msgstr ""
 "Mikäli kielesi puuttuu, ole hyvä ja katso <a href=\"%(url)s\">kääntäjien "
 "ohjeet</a>."
 
-#: weblate/templates/subproject.html:118
+#: weblate/templates/subproject.html:110
 msgid "Please choose the language into which you would like to translate."
 msgstr "Valitse kieli, jolle haluat kääntää."
 
-#: weblate/templates/subproject.html:120
+#: weblate/templates/subproject.html:112
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
 msgstr ""
 
-#: weblate/templates/subproject.html:123
+#: weblate/templates/subproject.html:115
 #, fuzzy
 #| msgid "Can not find your language in above list?"
 msgid "Can't find your language in the list above?"
 msgstr "Etkö voi löytää kieltäsi ylemmästä listasta?"
 
-#: weblate/templates/subproject.html:127
+#: weblate/templates/subproject.html:119
 #, fuzzy
 #| msgid "Start new translation"
 msgid "Request new translation"
 msgstr "Aloita uusi käännös"
 
-#: weblate/templates/subproject.html:169
+#: weblate/templates/subproject.html:155
 msgid "Credits"
 msgstr ""
 
-#: weblate/templates/subproject.html:173
+#: weblate/templates/subproject.html:159
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
 
-#: weblate/templates/subproject.html:190
+#: weblate/templates/subproject.html:176
 #, fuzzy
 #| msgid "Repository status"
 msgid "Contributor stats"
 msgstr "Arkiston tila"
 
-#: weblate/templates/subproject.html:194
+#: weblate/templates/subproject.html:180
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 

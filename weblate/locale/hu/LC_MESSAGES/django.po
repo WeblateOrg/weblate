@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-11-18 14:27+0000\n"
+"POT-Creation-Date: 2016-11-23 11:58+0000\n"
 "PO-Revision-Date: 2016-11-03 14:56+0000\n"
 "Last-Translator: Tacsipacsi <tacsipacsi@jnet.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -47,7 +47,7 @@ msgstr ""
 "A felhasználónév csak betűket, számokat vagy az alábbi karaktereket "
 "tartalmazhatja: @ . + - _"
 
-#: weblate/accounts/forms.py:75 weblate/templates/project.html:169
+#: weblate/accounts/forms.py:75 weblate/templates/project.html:145
 msgid "Username"
 msgstr "Felhasználói név"
 
@@ -61,7 +61,7 @@ msgstr ""
 "Az összetevőlistát ki kell választani, ha alapértelmezettként használják."
 
 #: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
-#: weblate/templates/project.html:171
+#: weblate/templates/project.html:147
 msgid "E-mail"
 msgstr "E-mail cím"
 
@@ -70,7 +70,7 @@ msgid "You can add another email address on the Authentication tab."
 msgstr "További e-mail címeket a Hitelesítés fülön adhat meg."
 
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:333
-#: weblate/templates/project.html:170
+#: weblate/templates/project.html:146
 msgid "Full name"
 msgstr "Teljes név"
 
@@ -410,7 +410,8 @@ msgid "Password reset"
 msgstr "Jelszó alaphelyzetbe állítása"
 
 #: weblate/billing/admin.py:51 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30 weblate/templates/projects.html:5
+#: weblate/templates/accounts/user.html:30
+#: weblate/templates/billing/detail.html:32 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:172 weblate/trans/views/basic.py:206
 msgid "Projects"
 msgstr "Projektek"
@@ -809,6 +810,7 @@ msgstr "Még nincs fiókja? <a href=\"%(register_url)s\">Regisztáljon itt</a>."
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
 #: weblate/templates/accounts/removal.html:6 weblate/templates/base.html:120
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Adatlap"
 
@@ -859,6 +861,7 @@ msgid "API access"
 msgstr "API-elérés"
 
 #: weblate/templates/accounts/profile.html:31
+#: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr "Számlázás"
 
@@ -869,8 +872,8 @@ msgstr "Számlázás"
 #: weblate/templates/accounts/profile.html:159
 #: weblate/templates/edit_dictionary.html:23
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:70
-#: weblate/templates/js/detail.html:94 weblate/templates/project.html:288
-#: weblate/templates/subproject.html:224 weblate/templates/translate.html:159
+#: weblate/templates/js/detail.html:94 weblate/templates/project.html:264
+#: weblate/templates/subproject.html:210 weblate/templates/translate.html:159
 #: weblate/templates/translate.html:334
 msgid "Save"
 msgstr "Mentés"
@@ -1106,63 +1109,27 @@ msgstr ""
 "Kérjük olvassa el figyelmesen a licenc információkat, ezek határozzák meg, "
 "hogy mások hogyan használhatják fel az Ön fordításait."
 
-#: weblate/templates/accounts/profile.html:408
-msgid "Billing plan"
-msgstr "Számlázási konstrukció"
-
 #: weblate/templates/accounts/profile.html:413
-msgid "Current plan"
-msgstr "Jelenlegi konstrukció"
-
-#: weblate/templates/accounts/profile.html:413
-msgid "See other plans"
-msgstr "További konstrukciók megtekintése"
-
-#: weblate/templates/accounts/profile.html:414
-msgid "Monthly price"
-msgstr "Havidíj"
-
-#: weblate/templates/accounts/profile.html:415
-msgid "Yearly price"
-msgstr "Éves díj"
-
-#: weblate/templates/accounts/profile.html:416
-msgid "Strings limit"
-msgstr "Szöveg limit"
-
-#: weblate/templates/accounts/profile.html:421
-msgid "Languages limit"
-msgstr "Nyelv limit"
-
-#: weblate/templates/accounts/profile.html:426
-msgid "Repositories limit"
-msgstr "Tároló limit"
-
-#: weblate/templates/accounts/profile.html:431
-msgid "Projects limit"
-msgstr "Projekt limit"
-
-#: weblate/templates/accounts/profile.html:444
 msgid "Invoices"
 msgstr "Számlák"
 
-#: weblate/templates/accounts/profile.html:449
+#: weblate/templates/accounts/profile.html:418
 msgid "Invoice period"
 msgstr "Számlázási periódus"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:419
 msgid "Invoice amount"
 msgstr "Számla összege"
 
-#: weblate/templates/accounts/profile.html:451
+#: weblate/templates/accounts/profile.html:420
 msgid "Download invoice"
 msgstr "Számla letöltése"
 
-#: weblate/templates/accounts/profile.html:463
+#: weblate/templates/accounts/profile.html:432
 msgid "Not available"
 msgstr "Nem elérhető"
 
-#: weblate/templates/accounts/profile.html:468
+#: weblate/templates/accounts/profile.html:437
 msgid "No invoices found!"
 msgstr "Nem található számla!"
 
@@ -1324,8 +1291,8 @@ msgstr ""
 "Úgy tűnik, nem rendelkezel SSH kulccsal. Az alábbi gomb megnyomásával a "
 "Weblate generál egyet neked."
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:178
-#: weblate/templates/subproject.html:199
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:164
+#: weblate/templates/subproject.html:185
 msgid "Generate"
 msgstr "Generálás"
 
@@ -1437,14 +1404,51 @@ msgstr "Bezárás"
 msgid "Screenshot context"
 msgstr "Képernyőkép környezete"
 
-#: weblate/templates/billing-used.html:5
+#: weblate/templates/billing/detail.html:4
+msgid "Billing plan"
+msgstr "Számlázási konstrukció"
+
+#: weblate/templates/billing/detail.html:9
+msgid "Current plan"
+msgstr "Jelenlegi konstrukció"
+
+#: weblate/templates/billing/detail.html:9
+msgid "See other plans"
+msgstr "További konstrukciók megtekintése"
+
+#: weblate/templates/billing/detail.html:10
+msgid "Monthly price"
+msgstr "Havidíj"
+
+#: weblate/templates/billing/detail.html:11
+msgid "Yearly price"
+msgstr "Éves díj"
+
+#: weblate/templates/billing/detail.html:12
+msgid "Strings limit"
+msgstr "Szöveg limit"
+
+#: weblate/templates/billing/detail.html:17
+msgid "Languages limit"
+msgstr "Nyelv limit"
+
+#: weblate/templates/billing/detail.html:22
+msgid "Repositories limit"
+msgstr "Tároló limit"
+
+#: weblate/templates/billing/detail.html:27
+msgid "Projects limit"
+msgstr "Projekt limit"
+
+#: weblate/templates/billing/used.html:5
 #, python-format
 msgid "Used %(used)s"
 msgstr "Használt %(used)s"
 
-#: weblate/templates/billing-used.html:7
-#, python-format
-msgid "Used %(used)s from %(total)s"
+#: weblate/templates/billing/used.html:7
+#, fuzzy, python-format
+#| msgid "Used %(used)s from %(total)s"
+msgid "Used %(used)s of %(total)s"
 msgstr "Használt %(used)s innen: %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
@@ -1468,7 +1472,8 @@ msgstr "Nem található ilyen elenőrzés!"
 msgid "Check details"
 msgstr "Ellenőrzések részletei"
 
-#: weblate/templates/checks.html:30
+#: weblate/templates/checks.html:30 weblate/templates/project.html:26
+#: weblate/templates/subproject.html:31
 msgid "Information"
 msgstr "Információ"
 
@@ -1676,8 +1681,8 @@ msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:33
 #: weblate/templates/edit_dictionary.html:32 weblate/templates/index.html:39
-#: weblate/templates/language.html:16 weblate/templates/project.html:26
-#: weblate/templates/subproject.html:31 weblate/templates/translate.html:203
+#: weblate/templates/language.html:16 weblate/templates/project.html:28
+#: weblate/templates/subproject.html:32 weblate/templates/translate.html:203
 #: weblate/templates/translation.html:29
 msgid "History"
 msgstr "Előzmények"
@@ -1713,7 +1718,7 @@ msgid "No words found!"
 msgstr "Szavak nem találhatók!"
 
 #: weblate/templates/dictionary.html:88 weblate/templates/js/detail.html:41
-#: weblate/templates/project.html:260 weblate/templates/translate.html:413
+#: weblate/templates/project.html:236 weblate/templates/translate.html:413
 msgid "Add"
 msgstr "Hozzáadás"
 
@@ -2672,13 +2677,13 @@ msgid "Search"
 msgstr "Keresés"
 
 #: weblate/templates/index.html:40 weblate/templates/language.html:17
-#: weblate/templates/project.html:27 weblate/templates/subproject.html:32
+#: weblate/templates/project.html:29 weblate/templates/subproject.html:33
 #: weblate/templates/translation.html:30
 msgid "Activity"
 msgstr "Aktivitás"
 
 #: weblate/templates/index.html:43 weblate/templates/language.html:21
-#: weblate/templates/project.html:30 weblate/templates/subproject.html:35
+#: weblate/templates/project.html:32 weblate/templates/subproject.html:36
 #: weblate/templates/translation.html:42
 msgid "Tools"
 msgstr "Eszközök"
@@ -2745,7 +2750,7 @@ msgstr ""
 msgid "Browse all changes"
 msgstr "Minden módosítás tallózása"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:148
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:134
 msgid "Browse all component changes"
 msgstr "Minden komponens módosítás tallózása"
 
@@ -2815,8 +2820,8 @@ msgstr "Változások a tárban"
 msgid "Repository tools"
 msgstr "Tároló eszközök"
 
-#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:35
-#: weblate/templates/subproject.html:40 weblate/templates/translation.html:48
+#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:37
+#: weblate/templates/subproject.html:41 weblate/templates/translation.html:48
 msgid "Commit"
 msgstr "Kommit"
 
@@ -2879,22 +2884,21 @@ msgstr "Változtatások letiltása a helyi tárolóban"
 msgid "Removes current translation from the repository."
 msgstr "Eltávolítja a jelenlegi fordítást a tárolóból."
 
-#: weblate/templates/language.html:15 weblate/templates/project.html:25
-#: weblate/templates/subproject.html:30 weblate/templates/translation.html:27
+#: weblate/templates/language.html:15 weblate/templates/translation.html:27
 msgid "Overview"
 msgstr "Áttekintés"
 
-#: weblate/templates/language.html:18 weblate/templates/project.html:120
+#: weblate/templates/language.html:18 weblate/templates/project.html:27
 msgid "Glossaries"
 msgstr "Szójegyzékek"
 
-#: weblate/templates/language.html:24 weblate/templates/project.html:40
+#: weblate/templates/language.html:24 weblate/templates/project.html:42
 #: weblate/templates/source-review.html:24 weblate/templates/translate.html:484
 #: weblate/trans/views/checks.py:78
 msgid "Failing checks"
 msgstr "Sikertelen ellenőrzések"
 
-#: weblate/templates/language.html:25 weblate/templates/project.html:41
+#: weblate/templates/language.html:25 weblate/templates/project.html:43
 #: weblate/templates/stats.html:103
 msgid "Ignored checks"
 msgstr "Figyelmen kívül hagyott ellenőrzések"
@@ -2908,7 +2912,7 @@ msgid "There are no glossaries defined for this language."
 msgstr "Nincs szójegyzék meghatározva ehhez a nyelvhez."
 
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
-#: weblate/templates/list-translations.html:9 weblate/templates/project.html:87
+#: weblate/templates/list-translations.html:9 weblate/templates/project.html:79
 #: weblate/templates/stats.html:21 weblate/templates/translation.html:338
 msgid "Translated"
 msgstr "Lefordítva"
@@ -3393,115 +3397,110 @@ msgstr "Feliratkozási beállítások módosítása:"
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/project.html:33 weblate/templates/subproject.html:38
+#: weblate/templates/project.html:25 weblate/trans/models/subproject.py:475
+msgid "Components"
+msgstr "Összetevők"
+
+#: weblate/templates/project.html:35 weblate/templates/subproject.html:39
 #: weblate/templates/translation.html:45
 msgid "Data exports"
 msgstr "Adat exportok"
 
-#: weblate/templates/project.html:38 weblate/templates/subproject.html:43
+#: weblate/templates/project.html:40 weblate/templates/subproject.html:44
 #: weblate/templates/translation.html:51
 msgid "Repository maintenance"
 msgstr "Tároló karbantartás"
 
-#: weblate/templates/project.html:43 weblate/templates/subproject.html:47
+#: weblate/templates/project.html:45 weblate/templates/subproject.html:48
 msgid "Manage users"
 msgstr "Felhasználók kezelése"
 
-#: weblate/templates/project.html:46 weblate/templates/project.html:281
-#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:217
+#: weblate/templates/project.html:48 weblate/templates/project.html:257
+#: weblate/templates/subproject.html:57 weblate/templates/subproject.html:203
 msgid "Settings"
 msgstr "Beállítások"
 
-#: weblate/templates/project.html:53 weblate/templates/subproject.html:60
+#: weblate/templates/project.html:55 weblate/templates/subproject.html:64
 #: weblate/templates/translation.html:64
 msgid "Share"
 msgstr "Megosztás"
 
-#: weblate/templates/project.html:57 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:64 weblate/templates/translation.html:68
+#: weblate/templates/project.html:59 weblate/templates/share.html:9
+#: weblate/templates/subproject.html:68 weblate/templates/translation.html:68
 msgid "Share on Facebook!"
 msgstr "Megosztás Facebookon"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr ""
 "Vegyél részt a %(object)s fordításban %%23Weblate segítségével itt: "
 "%(share_url)s!"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 msgid "Tweet this translation!"
 msgstr "Megosztás Twitteren"
 
-#: weblate/templates/project.html:59 weblate/templates/subproject.html:66
+#: weblate/templates/project.html:61 weblate/templates/subproject.html:70
 #: weblate/templates/translation.html:70
 msgid "Engage page"
 msgstr "Buzdítás"
 
-#: weblate/templates/project.html:60 weblate/templates/subproject.html:67
+#: weblate/templates/project.html:62 weblate/templates/subproject.html:71
 #: weblate/templates/translation.html:71
 msgid "Status widgets"
 msgstr "Státuszjelző widgetek"
 
-#: weblate/templates/project.html:80 weblate/trans/models/subproject.py:475
-msgid "Components"
-msgstr "Összetevők"
-
-#: weblate/templates/project.html:86 weblate/templates/translate.html:270
+#: weblate/templates/project.html:78 weblate/templates/translate.html:270
 #: weblate/trans/models/subproject.py:474 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr "Összetevő"
 
-#: weblate/templates/project.html:110 weblate/templates/source.html:36
-#: weblate/templates/subproject.html:100 weblate/templates/translation.html:134
-msgid "Project Information"
-msgstr "Projektinformáció"
-
-#: weblate/templates/project.html:129
+#: weblate/templates/project.html:113
 msgid "There are currently no glossaries defined for this project."
 msgstr "Jelenleg nincs szójegyzék meghatározva ehhez a projekthez."
 
-#: weblate/templates/project.html:133
+#: weblate/templates/project.html:116
 msgid "Manage all glossaries"
 msgstr "Az összes szójegyzék kezelése"
 
-#: weblate/templates/project.html:146
+#: weblate/templates/project.html:122
 msgid "Browse all project changes"
 msgstr "Minden projektmódosítás tallózása"
 
-#: weblate/templates/project.html:153 weblate/templates/subproject.html:155
+#: weblate/templates/project.html:129 weblate/templates/subproject.html:141
 #: weblate/templates/translate.html:291 weblate/templates/translation.html:246
 #: weblate/trans/forms.py:140
 msgid "Loading…"
 msgstr "Betöltés…"
 
-#: weblate/templates/project.html:164
+#: weblate/templates/project.html:140
 msgid "Users"
 msgstr "Felhasználók"
 
-#: weblate/templates/project.html:178
+#: weblate/templates/project.html:154
 msgid "Owner"
 msgstr "Tulajdonos"
 
-#: weblate/templates/project.html:189 weblate/templates/project.html:218
+#: weblate/templates/project.html:165 weblate/templates/project.html:194
 msgid "Remove"
 msgstr "Eltávolítás"
 
-#: weblate/templates/project.html:198
+#: weblate/templates/project.html:174
 msgid "Revoke ownership"
 msgstr "Tulajdonjog visszavonása"
 
-#: weblate/templates/project.html:226
+#: weblate/templates/project.html:202
 msgid "Make owner"
 msgstr "Tulajdonossá tesz"
 
-#: weblate/templates/project.html:251
+#: weblate/templates/project.html:227
 msgid "Add new user"
 msgstr "Új felhasználó hozzáadása"
 
-#: weblate/templates/project.html:253
+#: weblate/templates/project.html:229
 msgid "Add new owner"
 msgstr "Új felelős hozzáadása"
 
@@ -3567,6 +3566,10 @@ msgstr "Nem található hasonló forrásszöveg!"
 msgid "Strings to check"
 msgstr "Ellenőrizendő szövegek"
 
+#: weblate/templates/source.html:36 weblate/templates/translation.html:134
+msgid "Project Information"
+msgstr "Projektinformáció"
+
 #: weblate/templates/stats.html:15
 msgid "Most active translators"
 msgstr "Legaktívabb fordítók"
@@ -3611,23 +3614,24 @@ msgstr "Beküldött fordítások"
 msgid "Failing checks found"
 msgstr "Sikertelen ellenőrzések találhatók"
 
-#: weblate/templates/subproject.html:45
-msgid "Source strings review"
-msgstr "Forrásszövegek áttekintése"
-
-#: weblate/templates/subproject.html:50
-msgid "Translation reports"
-msgstr "Fordítási jelentések"
-
-#: weblate/templates/subproject.html:86
+#: weblate/templates/subproject.html:30
 msgid "Translations"
 msgstr "Fordítások"
 
-#: weblate/templates/subproject.html:113 weblate/templates/subproject.html:129
+#: weblate/templates/subproject.html:46
+msgid "Source strings review"
+msgstr "Forrásszövegek áttekintése"
+
+#: weblate/templates/subproject.html:51
+msgid "Translation reports"
+msgstr "Fordítási jelentések"
+
+#: weblate/templates/subproject.html:54 weblate/templates/subproject.html:105
+#: weblate/templates/subproject.html:121
 msgid "Start new translation"
 msgstr "Új nyelv fordítása"
 
-#: weblate/templates/subproject.html:116
+#: weblate/templates/subproject.html:108
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -3636,11 +3640,11 @@ msgstr ""
 "Amennyiben az Ön nyelve nem szerepel itt, kérjük, kövesse <a href=\"%(url)s"
 "\">fordítói utasításokat</a> ."
 
-#: weblate/templates/subproject.html:118
+#: weblate/templates/subproject.html:110
 msgid "Please choose the language into which you would like to translate."
 msgstr "Kérem válassza ki, hogy milyen nyelven kíván fordítani."
 
-#: weblate/templates/subproject.html:120
+#: weblate/templates/subproject.html:112
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
@@ -3648,19 +3652,19 @@ msgstr ""
 "A projekt fenntartói értesítést kapnak erről a kérésről és kézzel hozzáadják "
 "a nyelvet."
 
-#: weblate/templates/subproject.html:123
+#: weblate/templates/subproject.html:115
 msgid "Can't find your language in the list above?"
 msgstr "Nem találja a nyelvét a fenti listában?"
 
-#: weblate/templates/subproject.html:127
+#: weblate/templates/subproject.html:119
 msgid "Request new translation"
 msgstr "Új fordítás igénylése"
 
-#: weblate/templates/subproject.html:169
+#: weblate/templates/subproject.html:155
 msgid "Credits"
 msgstr "Készítők"
 
-#: weblate/templates/subproject.html:173
+#: weblate/templates/subproject.html:159
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3670,11 +3674,11 @@ msgstr ""
 "a komponenshez egy adott időszakban. Hasznos lehet a dokumentációban vagy az "
 "alkalmazásban a fordítóknak szánt köszönetnél."
 
-#: weblate/templates/subproject.html:190
+#: weblate/templates/subproject.html:176
 msgid "Contributor stats"
 msgstr "Közreműködési statisztikák"
 
-#: weblate/templates/subproject.html:194
+#: weblate/templates/subproject.html:180
 msgid "Reports number of strings and words translated by each translator."
 msgstr "A lefordított szövegek és szavak fordítókkénti számának kimutatása."
 

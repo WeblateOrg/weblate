@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-11-18 14:27+0000\n"
+"POT-Creation-Date: 2016-11-23 11:58+0000\n"
 "PO-Revision-Date: 2016-11-18 13:08+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
@@ -48,7 +48,7 @@ msgstr ""
 "L’identifiant doit contenir uniquement : des lettres, des chiffres et les "
 "caractères suivants : @ . + - _"
 
-#: weblate/accounts/forms.py:75 weblate/templates/project.html:169
+#: weblate/accounts/forms.py:75 weblate/templates/project.html:145
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
@@ -63,7 +63,7 @@ msgstr ""
 "comme valeur par défaut."
 
 #: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
-#: weblate/templates/project.html:171
+#: weblate/templates/project.html:147
 msgid "E-mail"
 msgstr "Courriel"
 
@@ -74,7 +74,7 @@ msgstr ""
 "Authentification."
 
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:333
-#: weblate/templates/project.html:170
+#: weblate/templates/project.html:146
 msgid "Full name"
 msgstr "Votre nom complet"
 
@@ -416,7 +416,8 @@ msgid "Password reset"
 msgstr "Mot de passe réinitialisé"
 
 #: weblate/billing/admin.py:51 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30 weblate/templates/projects.html:5
+#: weblate/templates/accounts/user.html:30
+#: weblate/templates/billing/detail.html:32 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:172 weblate/trans/views/basic.py:206
 msgid "Projects"
 msgstr "Projets"
@@ -825,6 +826,7 @@ msgstr ""
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
 #: weblate/templates/accounts/removal.html:6 weblate/templates/base.html:120
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Votre profil"
 
@@ -877,6 +879,7 @@ msgid "API access"
 msgstr "Accès par API"
 
 #: weblate/templates/accounts/profile.html:31
+#: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr "Facturation"
 
@@ -887,8 +890,8 @@ msgstr "Facturation"
 #: weblate/templates/accounts/profile.html:159
 #: weblate/templates/edit_dictionary.html:23
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:70
-#: weblate/templates/js/detail.html:94 weblate/templates/project.html:288
-#: weblate/templates/subproject.html:224 weblate/templates/translate.html:159
+#: weblate/templates/js/detail.html:94 weblate/templates/project.html:264
+#: weblate/templates/subproject.html:210 weblate/templates/translate.html:159
 #: weblate/templates/translate.html:334
 msgid "Save"
 msgstr "Enregistrer"
@@ -1124,63 +1127,27 @@ msgstr ""
 "Portez attention aux informations de licence car elles précisent comment "
 "d'autres personnes sont autorisées à utiliser vos traductions."
 
-#: weblate/templates/accounts/profile.html:408
-msgid "Billing plan"
-msgstr "Mode de facturation"
-
 #: weblate/templates/accounts/profile.html:413
-msgid "Current plan"
-msgstr "Mode actuel"
-
-#: weblate/templates/accounts/profile.html:413
-msgid "See other plans"
-msgstr "Voir les autres modes de facturation"
-
-#: weblate/templates/accounts/profile.html:414
-msgid "Monthly price"
-msgstr "Tarif mensuel"
-
-#: weblate/templates/accounts/profile.html:415
-msgid "Yearly price"
-msgstr "Tarif annuel"
-
-#: weblate/templates/accounts/profile.html:416
-msgid "Strings limit"
-msgstr "Limite des chaînes"
-
-#: weblate/templates/accounts/profile.html:421
-msgid "Languages limit"
-msgstr "Limite de langues"
-
-#: weblate/templates/accounts/profile.html:426
-msgid "Repositories limit"
-msgstr "Limite des référentiels"
-
-#: weblate/templates/accounts/profile.html:431
-msgid "Projects limit"
-msgstr "Limite des projets"
-
-#: weblate/templates/accounts/profile.html:444
 msgid "Invoices"
 msgstr "Factures"
 
-#: weblate/templates/accounts/profile.html:449
+#: weblate/templates/accounts/profile.html:418
 msgid "Invoice period"
 msgstr "Période de facturation"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:419
 msgid "Invoice amount"
 msgstr "Montant de la facture"
 
-#: weblate/templates/accounts/profile.html:451
+#: weblate/templates/accounts/profile.html:420
 msgid "Download invoice"
 msgstr "Télécharger la facture"
 
-#: weblate/templates/accounts/profile.html:463
+#: weblate/templates/accounts/profile.html:432
 msgid "Not available"
 msgstr "Non disponible"
 
-#: weblate/templates/accounts/profile.html:468
+#: weblate/templates/accounts/profile.html:437
 msgid "No invoices found!"
 msgstr "Aucune facture n'a été trouvée !"
 
@@ -1345,8 +1312,8 @@ msgstr ""
 "Vous n'avez pas de clé SSH existante, en utilisant le bouton ci-dessous "
 "Weblate en génèrera une pour vous."
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:178
-#: weblate/templates/subproject.html:199
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:164
+#: weblate/templates/subproject.html:185
 msgid "Generate"
 msgstr "Générer"
 
@@ -1458,14 +1425,51 @@ msgstr "Fermer"
 msgid "Screenshot context"
 msgstr "Contexte de la capture écran"
 
-#: weblate/templates/billing-used.html:5
+#: weblate/templates/billing/detail.html:4
+msgid "Billing plan"
+msgstr "Mode de facturation"
+
+#: weblate/templates/billing/detail.html:9
+msgid "Current plan"
+msgstr "Mode actuel"
+
+#: weblate/templates/billing/detail.html:9
+msgid "See other plans"
+msgstr "Voir les autres modes de facturation"
+
+#: weblate/templates/billing/detail.html:10
+msgid "Monthly price"
+msgstr "Tarif mensuel"
+
+#: weblate/templates/billing/detail.html:11
+msgid "Yearly price"
+msgstr "Tarif annuel"
+
+#: weblate/templates/billing/detail.html:12
+msgid "Strings limit"
+msgstr "Limite des chaînes"
+
+#: weblate/templates/billing/detail.html:17
+msgid "Languages limit"
+msgstr "Limite de langues"
+
+#: weblate/templates/billing/detail.html:22
+msgid "Repositories limit"
+msgstr "Limite des référentiels"
+
+#: weblate/templates/billing/detail.html:27
+msgid "Projects limit"
+msgstr "Limite des projets"
+
+#: weblate/templates/billing/used.html:5
 #, python-format
 msgid "Used %(used)s"
 msgstr "Utilisé par %(used)s"
 
-#: weblate/templates/billing-used.html:7
-#, python-format
-msgid "Used %(used)s from %(total)s"
+#: weblate/templates/billing/used.html:7
+#, fuzzy, python-format
+#| msgid "Used %(used)s from %(total)s"
+msgid "Used %(used)s of %(total)s"
 msgstr "%(used)s utilisé sur %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
@@ -1489,7 +1493,8 @@ msgstr "Aucune vérification correspondante n'a été trouvée !"
 msgid "Check details"
 msgstr "Détails de la vérification"
 
-#: weblate/templates/checks.html:30
+#: weblate/templates/checks.html:30 weblate/templates/project.html:26
+#: weblate/templates/subproject.html:31
 msgid "Information"
 msgstr "Informations"
 
@@ -1701,8 +1706,8 @@ msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:33
 #: weblate/templates/edit_dictionary.html:32 weblate/templates/index.html:39
-#: weblate/templates/language.html:16 weblate/templates/project.html:26
-#: weblate/templates/subproject.html:31 weblate/templates/translate.html:203
+#: weblate/templates/language.html:16 weblate/templates/project.html:28
+#: weblate/templates/subproject.html:32 weblate/templates/translate.html:203
 #: weblate/templates/translation.html:29
 msgid "History"
 msgstr "Historique"
@@ -1738,7 +1743,7 @@ msgid "No words found!"
 msgstr "Aucun mot n'a été trouvé !"
 
 #: weblate/templates/dictionary.html:88 weblate/templates/js/detail.html:41
-#: weblate/templates/project.html:260 weblate/templates/translate.html:413
+#: weblate/templates/project.html:236 weblate/templates/translate.html:413
 msgid "Add"
 msgstr "Ajouter"
 
@@ -2698,13 +2703,13 @@ msgid "Search"
 msgstr "Rechercher"
 
 #: weblate/templates/index.html:40 weblate/templates/language.html:17
-#: weblate/templates/project.html:27 weblate/templates/subproject.html:32
+#: weblate/templates/project.html:29 weblate/templates/subproject.html:33
 #: weblate/templates/translation.html:30
 msgid "Activity"
 msgstr "Activité"
 
 #: weblate/templates/index.html:43 weblate/templates/language.html:21
-#: weblate/templates/project.html:30 weblate/templates/subproject.html:35
+#: weblate/templates/project.html:32 weblate/templates/subproject.html:36
 #: weblate/templates/translation.html:42
 msgid "Tools"
 msgstr "Outils"
@@ -2771,7 +2776,7 @@ msgstr ""
 msgid "Browse all changes"
 msgstr "Parcourir toutes les modifications"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:148
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:134
 msgid "Browse all component changes"
 msgstr "Parcourir les modifications pour tous les composants"
 
@@ -2839,8 +2844,8 @@ msgstr "Modifications dans le référentiel"
 msgid "Repository tools"
 msgstr "Outils de référentiel"
 
-#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:35
-#: weblate/templates/subproject.html:40 weblate/templates/translation.html:48
+#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:37
+#: weblate/templates/subproject.html:41 weblate/templates/translation.html:48
 msgid "Commit"
 msgstr "Enregistrer"
 
@@ -2903,22 +2908,21 @@ msgstr "Empêcher les changements dans le référentiel local"
 msgid "Removes current translation from the repository."
 msgstr "Supprime la traduction actuelle du référentiel."
 
-#: weblate/templates/language.html:15 weblate/templates/project.html:25
-#: weblate/templates/subproject.html:30 weblate/templates/translation.html:27
+#: weblate/templates/language.html:15 weblate/templates/translation.html:27
 msgid "Overview"
 msgstr "Vue d'ensemble"
 
-#: weblate/templates/language.html:18 weblate/templates/project.html:120
+#: weblate/templates/language.html:18 weblate/templates/project.html:27
 msgid "Glossaries"
 msgstr "Glossaires"
 
-#: weblate/templates/language.html:24 weblate/templates/project.html:40
+#: weblate/templates/language.html:24 weblate/templates/project.html:42
 #: weblate/templates/source-review.html:24 weblate/templates/translate.html:484
 #: weblate/trans/views/checks.py:78
 msgid "Failing checks"
 msgstr "Validation en échec"
 
-#: weblate/templates/language.html:25 weblate/templates/project.html:41
+#: weblate/templates/language.html:25 weblate/templates/project.html:43
 #: weblate/templates/stats.html:103
 msgid "Ignored checks"
 msgstr "Vérifications ignorées"
@@ -2932,7 +2936,7 @@ msgid "There are no glossaries defined for this language."
 msgstr "Il n'existe aucun glossaire pour cette langue."
 
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
-#: weblate/templates/list-translations.html:9 weblate/templates/project.html:87
+#: weblate/templates/list-translations.html:9 weblate/templates/project.html:79
 #: weblate/templates/stats.html:21 weblate/templates/translation.html:338
 msgid "Translated"
 msgstr "Traduit"
@@ -3416,113 +3420,108 @@ msgstr "Modifiez vos abonnements :"
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/project.html:33 weblate/templates/subproject.html:38
+#: weblate/templates/project.html:25 weblate/trans/models/subproject.py:475
+msgid "Components"
+msgstr "Sous-projets"
+
+#: weblate/templates/project.html:35 weblate/templates/subproject.html:39
 #: weblate/templates/translation.html:45
 msgid "Data exports"
 msgstr "Exportation des données"
 
-#: weblate/templates/project.html:38 weblate/templates/subproject.html:43
+#: weblate/templates/project.html:40 weblate/templates/subproject.html:44
 #: weblate/templates/translation.html:51
 msgid "Repository maintenance"
 msgstr "Gestion du référentiel"
 
-#: weblate/templates/project.html:43 weblate/templates/subproject.html:47
+#: weblate/templates/project.html:45 weblate/templates/subproject.html:48
 msgid "Manage users"
 msgstr "Gérer les utilisateurs"
 
-#: weblate/templates/project.html:46 weblate/templates/project.html:281
-#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:217
+#: weblate/templates/project.html:48 weblate/templates/project.html:257
+#: weblate/templates/subproject.html:57 weblate/templates/subproject.html:203
 msgid "Settings"
 msgstr "Paramètres"
 
-#: weblate/templates/project.html:53 weblate/templates/subproject.html:60
+#: weblate/templates/project.html:55 weblate/templates/subproject.html:64
 #: weblate/templates/translation.html:64
 msgid "Share"
 msgstr "Partager"
 
-#: weblate/templates/project.html:57 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:64 weblate/templates/translation.html:68
+#: weblate/templates/project.html:59 weblate/templates/share.html:9
+#: weblate/templates/subproject.html:68 weblate/templates/translation.html:68
 msgid "Share on Facebook!"
 msgstr "Partager sur Facebook !"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Traduire %(object)s en utilisant %%23Weblate à %(share_url)s !"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 msgid "Tweet this translation!"
 msgstr "Partagez cette traduction via Twitter !"
 
-#: weblate/templates/project.html:59 weblate/templates/subproject.html:66
+#: weblate/templates/project.html:61 weblate/templates/subproject.html:70
 #: weblate/templates/translation.html:70
 msgid "Engage page"
 msgstr "Page d'inscription"
 
-#: weblate/templates/project.html:60 weblate/templates/subproject.html:67
+#: weblate/templates/project.html:62 weblate/templates/subproject.html:71
 #: weblate/templates/translation.html:71
 msgid "Status widgets"
 msgstr "Widgets de statut"
 
-#: weblate/templates/project.html:80 weblate/trans/models/subproject.py:475
-msgid "Components"
-msgstr "Sous-projets"
-
-#: weblate/templates/project.html:86 weblate/templates/translate.html:270
+#: weblate/templates/project.html:78 weblate/templates/translate.html:270
 #: weblate/trans/models/subproject.py:474 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr "Sous-projet"
 
-#: weblate/templates/project.html:110 weblate/templates/source.html:36
-#: weblate/templates/subproject.html:100 weblate/templates/translation.html:134
-msgid "Project Information"
-msgstr "Informations sur le projet"
-
-#: weblate/templates/project.html:129
+#: weblate/templates/project.html:113
 msgid "There are currently no glossaries defined for this project."
 msgstr "Il n'y a actuellement aucun glossaire pour ce projet."
 
-#: weblate/templates/project.html:133
+#: weblate/templates/project.html:116
 msgid "Manage all glossaries"
 msgstr "Gérer tous les glossaires"
 
-#: weblate/templates/project.html:146
+#: weblate/templates/project.html:122
 msgid "Browse all project changes"
 msgstr "Parcourir les modifications pour tout le projet"
 
-#: weblate/templates/project.html:153 weblate/templates/subproject.html:155
+#: weblate/templates/project.html:129 weblate/templates/subproject.html:141
 #: weblate/templates/translate.html:291 weblate/templates/translation.html:246
 #: weblate/trans/forms.py:140
 msgid "Loading…"
 msgstr "Chargement…"
 
-#: weblate/templates/project.html:164
+#: weblate/templates/project.html:140
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: weblate/templates/project.html:178
+#: weblate/templates/project.html:154
 msgid "Owner"
 msgstr "Propriétaire"
 
-#: weblate/templates/project.html:189 weblate/templates/project.html:218
+#: weblate/templates/project.html:165 weblate/templates/project.html:194
 msgid "Remove"
 msgstr "Supprimer"
 
-#: weblate/templates/project.html:198
+#: weblate/templates/project.html:174
 msgid "Revoke ownership"
 msgstr "Ne plus être propriétaire"
 
-#: weblate/templates/project.html:226
+#: weblate/templates/project.html:202
 msgid "Make owner"
 msgstr "Devenir propriétaire"
 
-#: weblate/templates/project.html:251
+#: weblate/templates/project.html:227
 msgid "Add new user"
 msgstr "Ajouter un utilisateur"
 
-#: weblate/templates/project.html:253
+#: weblate/templates/project.html:229
 msgid "Add new owner"
 msgstr "Ajouter un nouveau propriétaire"
 
@@ -3588,6 +3587,10 @@ msgstr "Aucun message source correspondant n'a été trouvé !"
 msgid "Strings to check"
 msgstr "Chaînes à vérifier"
 
+#: weblate/templates/source.html:36 weblate/templates/translation.html:134
+msgid "Project Information"
+msgstr "Informations sur le projet"
+
 #: weblate/templates/stats.html:15
 msgid "Most active translators"
 msgstr "Traducteurs les plus actifs"
@@ -3632,23 +3635,24 @@ msgstr "Traductions réalisées"
 msgid "Failing checks found"
 msgstr "Erreurs de validation"
 
-#: weblate/templates/subproject.html:45
-msgid "Source strings review"
-msgstr "Revue des chaînes source"
-
-#: weblate/templates/subproject.html:50
-msgid "Translation reports"
-msgstr "Rapports de traduction"
-
-#: weblate/templates/subproject.html:86
+#: weblate/templates/subproject.html:30
 msgid "Translations"
 msgstr "Traductions"
 
-#: weblate/templates/subproject.html:113 weblate/templates/subproject.html:129
+#: weblate/templates/subproject.html:46
+msgid "Source strings review"
+msgstr "Revue des chaînes source"
+
+#: weblate/templates/subproject.html:51
+msgid "Translation reports"
+msgstr "Rapports de traduction"
+
+#: weblate/templates/subproject.html:54 weblate/templates/subproject.html:105
+#: weblate/templates/subproject.html:121
 msgid "Start new translation"
 msgstr "Débuter une nouvelle traduction"
 
-#: weblate/templates/subproject.html:116
+#: weblate/templates/subproject.html:108
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -3657,11 +3661,11 @@ msgstr ""
 "Si votre langue n'apparaît pas, veuillez vous référer aux <a href=\"%(url)s"
 "\">directives pour les traducteurs</a>."
 
-#: weblate/templates/subproject.html:118
+#: weblate/templates/subproject.html:110
 msgid "Please choose the language into which you would like to translate."
 msgstr "Veuillez choisir la langue vers laquelle vous souhaitez traduire."
 
-#: weblate/templates/subproject.html:120
+#: weblate/templates/subproject.html:112
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
@@ -3669,19 +3673,19 @@ msgstr ""
 "Les responsables du projet vont être notifiés de vote demande et pourront "
 "ajouter la langue souhaitée."
 
-#: weblate/templates/subproject.html:123
+#: weblate/templates/subproject.html:115
 msgid "Can't find your language in the list above?"
 msgstr "Vous ne trouvez pas votre langue dans la liste ci-dessus ?"
 
-#: weblate/templates/subproject.html:127
+#: weblate/templates/subproject.html:119
 msgid "Request new translation"
 msgstr "Demander une nouvelle traduction"
 
-#: weblate/templates/subproject.html:169
+#: weblate/templates/subproject.html:155
 msgid "Credits"
 msgstr "Crédits"
 
-#: weblate/templates/subproject.html:173
+#: weblate/templates/subproject.html:159
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3691,11 +3695,11 @@ msgstr ""
 "une période déterminée. A utiliser pour remercier les traducteurs dans votre "
 "documentation ou dans l'application."
 
-#: weblate/templates/subproject.html:190
+#: weblate/templates/subproject.html:176
 msgid "Contributor stats"
 msgstr "Statistiques du contributeur"
 
-#: weblate/templates/subproject.html:194
+#: weblate/templates/subproject.html:180
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 "Affiche le nombre de chaînes et de mots traduits par chaque traducteur."

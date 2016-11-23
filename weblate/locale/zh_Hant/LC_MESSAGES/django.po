@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-11-18 14:27+0000\n"
+"POT-Creation-Date: 2016-11-23 11:58+0000\n"
 "PO-Revision-Date: 2016-10-14 16:17+0000\n"
 "Last-Translator: Mingye Wang <arthur200126@gmail.com>\n"
 "Language-Team: Traditional Chinese <https://hosted.weblate.org/projects/"
@@ -42,7 +42,7 @@ msgid ""
 "+ - _"
 msgstr "使用者名稱僅能以英文字母、數字與以下字元組成：@ . + - _"
 
-#: weblate/accounts/forms.py:75 weblate/templates/project.html:169
+#: weblate/accounts/forms.py:75 weblate/templates/project.html:145
 msgid "Username"
 msgstr "使用者名稱"
 
@@ -55,7 +55,7 @@ msgid "Component list must be selected when used as default."
 msgstr "必須選擇元件列表作為預設。"
 
 #: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
-#: weblate/templates/project.html:171
+#: weblate/templates/project.html:147
 msgid "E-mail"
 msgstr "Email"
 
@@ -64,7 +64,7 @@ msgid "You can add another email address on the Authentication tab."
 msgstr "您可於登入驗證分頁中加入其他 Email 地址。"
 
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:333
-#: weblate/templates/project.html:170
+#: weblate/templates/project.html:146
 msgid "Full name"
 msgstr "全名"
 
@@ -399,7 +399,8 @@ msgid "Password reset"
 msgstr "重設密碼"
 
 #: weblate/billing/admin.py:51 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30 weblate/templates/projects.html:5
+#: weblate/templates/accounts/user.html:30
+#: weblate/templates/billing/detail.html:32 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:172 weblate/trans/views/basic.py:206
 msgid "Projects"
 msgstr "專案"
@@ -773,6 +774,7 @@ msgstr "您還沒有帳號嗎？您可以<a href=\"%(register_url)s\">註冊新�
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
 #: weblate/templates/accounts/removal.html:6 weblate/templates/base.html:120
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "您的個人設定"
 
@@ -823,6 +825,7 @@ msgid "API access"
 msgstr "API 存取"
 
 #: weblate/templates/accounts/profile.html:31
+#: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr "帳單"
 
@@ -833,8 +836,8 @@ msgstr "帳單"
 #: weblate/templates/accounts/profile.html:159
 #: weblate/templates/edit_dictionary.html:23
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:70
-#: weblate/templates/js/detail.html:94 weblate/templates/project.html:288
-#: weblate/templates/subproject.html:224 weblate/templates/translate.html:159
+#: weblate/templates/js/detail.html:94 weblate/templates/project.html:264
+#: weblate/templates/subproject.html:210 weblate/templates/translate.html:159
 #: weblate/templates/translate.html:334
 msgid "Save"
 msgstr "儲存"
@@ -1055,63 +1058,27 @@ msgid ""
 "others are allowed to use your translations."
 msgstr "請注意授權資訊，因為這些載明如何允許其他人使用您的翻譯。"
 
-#: weblate/templates/accounts/profile.html:408
-msgid "Billing plan"
-msgstr "付費方案"
-
 #: weblate/templates/accounts/profile.html:413
-msgid "Current plan"
-msgstr "目前方案"
-
-#: weblate/templates/accounts/profile.html:413
-msgid "See other plans"
-msgstr "檢視其他方案"
-
-#: weblate/templates/accounts/profile.html:414
-msgid "Monthly price"
-msgstr "月繳價格"
-
-#: weblate/templates/accounts/profile.html:415
-msgid "Yearly price"
-msgstr "年繳價格"
-
-#: weblate/templates/accounts/profile.html:416
-msgid "Strings limit"
-msgstr "字串限制"
-
-#: weblate/templates/accounts/profile.html:421
-msgid "Languages limit"
-msgstr "語言限制"
-
-#: weblate/templates/accounts/profile.html:426
-msgid "Repositories limit"
-msgstr "Repository 限制"
-
-#: weblate/templates/accounts/profile.html:431
-msgid "Projects limit"
-msgstr "專案限制"
-
-#: weblate/templates/accounts/profile.html:444
 msgid "Invoices"
 msgstr "收據"
 
-#: weblate/templates/accounts/profile.html:449
+#: weblate/templates/accounts/profile.html:418
 msgid "Invoice period"
 msgstr "收據期間"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:419
 msgid "Invoice amount"
 msgstr "收據金額"
 
-#: weblate/templates/accounts/profile.html:451
+#: weblate/templates/accounts/profile.html:420
 msgid "Download invoice"
 msgstr "下載收據"
 
-#: weblate/templates/accounts/profile.html:463
+#: weblate/templates/accounts/profile.html:432
 msgid "Not available"
 msgstr "不可使用"
 
-#: weblate/templates/accounts/profile.html:468
+#: weblate/templates/accounts/profile.html:437
 msgid "No invoices found!"
 msgstr "查無收據！"
 
@@ -1269,8 +1236,8 @@ msgid ""
 "will generate it for you."
 msgstr "您似乎沒有現成的 SSH 金鑰，按下方按鈕 Weblate 會為您產生。"
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:178
-#: weblate/templates/subproject.html:199
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:164
+#: weblate/templates/subproject.html:185
 msgid "Generate"
 msgstr "產生"
 
@@ -1382,14 +1349,51 @@ msgstr ""
 msgid "Screenshot context"
 msgstr "翻譯內容"
 
-#: weblate/templates/billing-used.html:5
+#: weblate/templates/billing/detail.html:4
+msgid "Billing plan"
+msgstr "付費方案"
+
+#: weblate/templates/billing/detail.html:9
+msgid "Current plan"
+msgstr "目前方案"
+
+#: weblate/templates/billing/detail.html:9
+msgid "See other plans"
+msgstr "檢視其他方案"
+
+#: weblate/templates/billing/detail.html:10
+msgid "Monthly price"
+msgstr "月繳價格"
+
+#: weblate/templates/billing/detail.html:11
+msgid "Yearly price"
+msgstr "年繳價格"
+
+#: weblate/templates/billing/detail.html:12
+msgid "Strings limit"
+msgstr "字串限制"
+
+#: weblate/templates/billing/detail.html:17
+msgid "Languages limit"
+msgstr "語言限制"
+
+#: weblate/templates/billing/detail.html:22
+msgid "Repositories limit"
+msgstr "Repository 限制"
+
+#: weblate/templates/billing/detail.html:27
+msgid "Projects limit"
+msgstr "專案限制"
+
+#: weblate/templates/billing/used.html:5
 #, python-format
 msgid "Used %(used)s"
 msgstr "已使用 %(used)s"
 
-#: weblate/templates/billing-used.html:7
-#, python-format
-msgid "Used %(used)s from %(total)s"
+#: weblate/templates/billing/used.html:7
+#, fuzzy, python-format
+#| msgid "Used %(used)s from %(total)s"
+msgid "Used %(used)s of %(total)s"
 msgstr "已使用 %(used)s，總共 %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
@@ -1413,7 +1417,8 @@ msgstr "未找到符合的查核！"
 msgid "Check details"
 msgstr "查核的詳細資訊"
 
-#: weblate/templates/checks.html:30
+#: weblate/templates/checks.html:30 weblate/templates/project.html:26
+#: weblate/templates/subproject.html:31
 msgid "Information"
 msgstr "資訊"
 
@@ -1604,8 +1609,8 @@ msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:33
 #: weblate/templates/edit_dictionary.html:32 weblate/templates/index.html:39
-#: weblate/templates/language.html:16 weblate/templates/project.html:26
-#: weblate/templates/subproject.html:31 weblate/templates/translate.html:203
+#: weblate/templates/language.html:16 weblate/templates/project.html:28
+#: weblate/templates/subproject.html:32 weblate/templates/translate.html:203
 #: weblate/templates/translation.html:29
 msgid "History"
 msgstr "歷史"
@@ -1641,7 +1646,7 @@ msgid "No words found!"
 msgstr "沒有找到單字！"
 
 #: weblate/templates/dictionary.html:88 weblate/templates/js/detail.html:41
-#: weblate/templates/project.html:260 weblate/templates/translate.html:413
+#: weblate/templates/project.html:236 weblate/templates/translate.html:413
 msgid "Add"
 msgstr "增加"
 
@@ -2612,13 +2617,13 @@ msgid "Search"
 msgstr "搜尋"
 
 #: weblate/templates/index.html:40 weblate/templates/language.html:17
-#: weblate/templates/project.html:27 weblate/templates/subproject.html:32
+#: weblate/templates/project.html:29 weblate/templates/subproject.html:33
 #: weblate/templates/translation.html:30
 msgid "Activity"
 msgstr "活動"
 
 #: weblate/templates/index.html:43 weblate/templates/language.html:21
-#: weblate/templates/project.html:30 weblate/templates/subproject.html:35
+#: weblate/templates/project.html:32 weblate/templates/subproject.html:36
 #: weblate/templates/translation.html:42
 msgid "Tools"
 msgstr "工具"
@@ -2683,7 +2688,7 @@ msgstr "選擇您語言的偏好，您將在這裡獲得他們語言的翻譯概
 msgid "Browse all changes"
 msgstr "瀏覽所有變更"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:148
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:134
 msgid "Browse all component changes"
 msgstr "瀏覽所有元件變更"
 
@@ -2753,8 +2758,8 @@ msgstr "儲存庫變更"
 msgid "Repository tools"
 msgstr "資源庫工具"
 
-#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:35
-#: weblate/templates/subproject.html:40 weblate/templates/translation.html:48
+#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:37
+#: weblate/templates/subproject.html:41 weblate/templates/translation.html:48
 msgid "Commit"
 msgstr "提交"
 
@@ -2817,22 +2822,21 @@ msgstr "防止在本地資源庫中的任何變更"
 msgid "Removes current translation from the repository."
 msgstr ""
 
-#: weblate/templates/language.html:15 weblate/templates/project.html:25
-#: weblate/templates/subproject.html:30 weblate/templates/translation.html:27
+#: weblate/templates/language.html:15 weblate/templates/translation.html:27
 msgid "Overview"
 msgstr "概要"
 
-#: weblate/templates/language.html:18 weblate/templates/project.html:120
+#: weblate/templates/language.html:18 weblate/templates/project.html:27
 msgid "Glossaries"
 msgstr "詞彙表"
 
-#: weblate/templates/language.html:24 weblate/templates/project.html:40
+#: weblate/templates/language.html:24 weblate/templates/project.html:42
 #: weblate/templates/source-review.html:24 weblate/templates/translate.html:484
 #: weblate/trans/views/checks.py:78
 msgid "Failing checks"
 msgstr "缺點查核"
 
-#: weblate/templates/language.html:25 weblate/templates/project.html:41
+#: weblate/templates/language.html:25 weblate/templates/project.html:43
 #: weblate/templates/stats.html:103
 msgid "Ignored checks"
 msgstr "忽略查核"
@@ -2846,7 +2850,7 @@ msgid "There are no glossaries defined for this language."
 msgstr "沒有為此語言定義的詞彙表。"
 
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
-#: weblate/templates/list-translations.html:9 weblate/templates/project.html:87
+#: weblate/templates/list-translations.html:9 weblate/templates/project.html:79
 #: weblate/templates/stats.html:21 weblate/templates/translation.html:338
 msgid "Translated"
 msgstr "已翻譯"
@@ -3302,115 +3306,110 @@ msgstr "更改訂閱設定："
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/project.html:33 weblate/templates/subproject.html:38
+#: weblate/templates/project.html:25 weblate/trans/models/subproject.py:475
+msgid "Components"
+msgstr "組成元件"
+
+#: weblate/templates/project.html:35 weblate/templates/subproject.html:39
 #: weblate/templates/translation.html:45
 msgid "Data exports"
 msgstr "資料匯出"
 
-#: weblate/templates/project.html:38 weblate/templates/subproject.html:43
+#: weblate/templates/project.html:40 weblate/templates/subproject.html:44
 #: weblate/templates/translation.html:51
 msgid "Repository maintenance"
 msgstr "維護資源庫"
 
-#: weblate/templates/project.html:43 weblate/templates/subproject.html:47
+#: weblate/templates/project.html:45 weblate/templates/subproject.html:48
 msgid "Manage users"
 msgstr "管理使用者"
 
-#: weblate/templates/project.html:46 weblate/templates/project.html:281
-#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:217
+#: weblate/templates/project.html:48 weblate/templates/project.html:257
+#: weblate/templates/subproject.html:57 weblate/templates/subproject.html:203
 #, fuzzy
 #| msgid "Strings"
 msgid "Settings"
 msgstr "字串"
 
-#: weblate/templates/project.html:53 weblate/templates/subproject.html:60
+#: weblate/templates/project.html:55 weblate/templates/subproject.html:64
 #: weblate/templates/translation.html:64
 msgid "Share"
 msgstr "分享"
 
-#: weblate/templates/project.html:57 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:64 weblate/templates/translation.html:68
+#: weblate/templates/project.html:59 weblate/templates/share.html:9
+#: weblate/templates/subproject.html:68 weblate/templates/translation.html:68
 msgid "Share on Facebook!"
 msgstr "在 Facebook 上分享！"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "翻譯 %(object)s 使用 %%23Weblate 在 %(share_url)s!"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:60 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:69 weblate/templates/translation.html:69
 msgid "Tweet this translation!"
 msgstr "Tweet 這個翻譯！"
 
-#: weblate/templates/project.html:59 weblate/templates/subproject.html:66
+#: weblate/templates/project.html:61 weblate/templates/subproject.html:70
 #: weblate/templates/translation.html:70
 msgid "Engage page"
 msgstr "入門頁面"
 
-#: weblate/templates/project.html:60 weblate/templates/subproject.html:67
+#: weblate/templates/project.html:62 weblate/templates/subproject.html:71
 #: weblate/templates/translation.html:71
 msgid "Status widgets"
 msgstr "狀態小工具"
 
-#: weblate/templates/project.html:80 weblate/trans/models/subproject.py:475
-msgid "Components"
-msgstr "組成元件"
-
-#: weblate/templates/project.html:86 weblate/templates/translate.html:270
+#: weblate/templates/project.html:78 weblate/templates/translate.html:270
 #: weblate/trans/models/subproject.py:474 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr "組成元件"
 
-#: weblate/templates/project.html:110 weblate/templates/source.html:36
-#: weblate/templates/subproject.html:100 weblate/templates/translation.html:134
-msgid "Project Information"
-msgstr "專案資訊"
-
-#: weblate/templates/project.html:129
+#: weblate/templates/project.html:113
 msgid "There are currently no glossaries defined for this project."
 msgstr "目前沒有為此專案定義詞彙表。"
 
-#: weblate/templates/project.html:133
+#: weblate/templates/project.html:116
 msgid "Manage all glossaries"
 msgstr "管理所有詞彙表"
 
-#: weblate/templates/project.html:146
+#: weblate/templates/project.html:122
 msgid "Browse all project changes"
 msgstr "瀏覽所有專案的變更"
 
-#: weblate/templates/project.html:153 weblate/templates/subproject.html:155
+#: weblate/templates/project.html:129 weblate/templates/subproject.html:141
 #: weblate/templates/translate.html:291 weblate/templates/translation.html:246
 #: weblate/trans/forms.py:140
 msgid "Loading…"
 msgstr "載入中…"
 
-#: weblate/templates/project.html:164
+#: weblate/templates/project.html:140
 msgid "Users"
 msgstr "使用者"
 
-#: weblate/templates/project.html:178
+#: weblate/templates/project.html:154
 msgid "Owner"
 msgstr "擁有者"
 
-#: weblate/templates/project.html:189 weblate/templates/project.html:218
+#: weblate/templates/project.html:165 weblate/templates/project.html:194
 msgid "Remove"
 msgstr "移除"
 
-#: weblate/templates/project.html:198
+#: weblate/templates/project.html:174
 msgid "Revoke ownership"
 msgstr "廢除擁有者"
 
-#: weblate/templates/project.html:226
+#: weblate/templates/project.html:202
 msgid "Make owner"
 msgstr "建立擁有者"
 
-#: weblate/templates/project.html:251
+#: weblate/templates/project.html:227
 msgid "Add new user"
 msgstr "新增使用者"
 
-#: weblate/templates/project.html:253
+#: weblate/templates/project.html:229
 msgid "Add new owner"
 msgstr "加入新擁有者"
 
@@ -3474,6 +3473,10 @@ msgstr "未找到符合的源文字串！"
 msgid "Strings to check"
 msgstr "要查核的字串"
 
+#: weblate/templates/source.html:36 weblate/templates/translation.html:134
+msgid "Project Information"
+msgstr "專案資訊"
+
 #: weblate/templates/stats.html:15
 msgid "Most active translators"
 msgstr "最活躍的翻譯者"
@@ -3520,52 +3523,53 @@ msgstr "已作翻譯"
 msgid "Failing checks found"
 msgstr "查核發現缺點"
 
-#: weblate/templates/subproject.html:45
-msgid "Source strings review"
-msgstr "源文字串評論"
-
-#: weblate/templates/subproject.html:50
-msgid "Translation reports"
-msgstr "翻譯報告"
-
-#: weblate/templates/subproject.html:86
+#: weblate/templates/subproject.html:30
 msgid "Translations"
 msgstr "翻譯"
 
-#: weblate/templates/subproject.html:113 weblate/templates/subproject.html:129
+#: weblate/templates/subproject.html:46
+msgid "Source strings review"
+msgstr "源文字串評論"
+
+#: weblate/templates/subproject.html:51
+msgid "Translation reports"
+msgstr "翻譯報告"
+
+#: weblate/templates/subproject.html:54 weblate/templates/subproject.html:105
+#: weblate/templates/subproject.html:121
 msgid "Start new translation"
 msgstr "開始新翻譯"
 
-#: weblate/templates/subproject.html:116
+#: weblate/templates/subproject.html:108
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr "應該遺漏了您的語言，請隨著<a href=\"%(url)s\">翻譯指示</a>。"
 
-#: weblate/templates/subproject.html:118
+#: weblate/templates/subproject.html:110
 msgid "Please choose the language into which you would like to translate."
 msgstr "請選擇您想翻譯的是哪個語言。"
 
-#: weblate/templates/subproject.html:120
+#: weblate/templates/subproject.html:112
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
 msgstr "專案維護者將會收到通知並手動新增語言。"
 
-#: weblate/templates/subproject.html:123
+#: weblate/templates/subproject.html:115
 msgid "Can't find your language in the list above?"
 msgstr "在上面清單找不到您的語言嗎？"
 
-#: weblate/templates/subproject.html:127
+#: weblate/templates/subproject.html:119
 msgid "Request new translation"
 msgstr "請求開始新翻譯"
 
-#: weblate/templates/subproject.html:169
+#: weblate/templates/subproject.html:155
 msgid "Credits"
 msgstr "作者群"
 
-#: weblate/templates/subproject.html:173
+#: weblate/templates/subproject.html:159
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -3574,11 +3578,11 @@ msgstr ""
 "作者群將列出於指定期間內對此元件有貢獻的翻譯者，適合置於您的說明文件或應用程"
 "式當中來翻譯者。"
 
-#: weblate/templates/subproject.html:190
+#: weblate/templates/subproject.html:176
 msgid "Contributor stats"
 msgstr "貢獻者統計"
 
-#: weblate/templates/subproject.html:194
+#: weblate/templates/subproject.html:180
 msgid "Reports number of strings and words translated by each translator."
 msgstr "回報各個翻譯者翻譯的字串與單字。"
 
