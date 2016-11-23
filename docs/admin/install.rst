@@ -66,7 +66,8 @@ pyuca (>= 1.1) (optional for proper sorting of strings)
 babel (optional for Android resources support)
     http://babel.pocoo.org/
 Database backend
-    Any database supported in Django will work, check their documentation for more details.
+    Any database supported in Django will work, see :ref:`database-setup` and
+    backends documentation for more details.
 pytz (optional, but recommended by Django)
     https://pypi.python.org/pypi/pytz/
 python-bidi (optional for proper rendering of badges in RTL languages)
@@ -94,12 +95,12 @@ install them you can use apt-get:
 
     # Optional packages for database backend:
 
+    # For PostgreSQL
+    apt-get install python-psycopg2
     # For MySQL on Ubuntu (if using Ubuntu package for Django)
     apt-get install python-pymysql
     # For MySQL on Debian (or Ubuntu if using upstream Django packages)
     apt-get install python-mysqldb
-    # For PostgreSQL
-    apt-get install python-psycopg2
 
 On older versions, some required dependencies are missing or outdated, so you
 need to install several Python modules manually using pip:
@@ -146,14 +147,14 @@ you might need additional components:
     # Caching backend: memcached
     apt-get install memcached
 
-    # Database option 1: mariadb
+    # Database option 1: postgresql
+    apt-get install postgresql
+
+    # Database option 2: mariadb
     apt-get install mariadb-server
 
-    # Database option 2: mysql
+    # Database option 3: mysql
     apt-get install mysql-server
-
-    # Database option 3: postgresql
-    apt-get install postgresql
 
     # SMTP server
     apt-get install exim4
@@ -176,8 +177,8 @@ Most of requirements are available either directly in openSUSE or in
         python-dateutil
 
     # Optional for database backend
-    zypper install python-MySQL-python  # For MySQL
     zypper install python-psycopg2      # For PostgreSQL
+    zypper install python-MySQL-python  # For MySQL
 
 Depending on how you intend to run Weblate and what you already have installed,
 you might need additional components:
@@ -193,14 +194,14 @@ you might need additional components:
     # Caching backend: memcached
     zypper install memcached
 
-    # Database option 1: mariadb
+    # Database option 1: postgresql
+    zypper install postgresql
+
+    # Database option 2: mariadb
     zypper install mariadb
 
-    # Database option 2: mysql
+    # Database option 3: mysql
     zypper install mysql
-
-    # Database option 3: postgresql
-    zypper install postgresql
 
     # SMTP server
     zypper install postfix
@@ -311,8 +312,8 @@ files might be wrong.
 
 .. _database-setup:
 
-Creating database for Weblate
------------------------------
+Database setup for Weblate
+--------------------------
 
 It is recommended to run Weblate on some database server. Using SQLite backend
 is really good for testing purposes only.
@@ -321,8 +322,18 @@ is really good for testing purposes only.
 
    :ref:`production-database`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
+PostgreSQL
+++++++++++
+
+PostgreSQL is usually best choice for Django based sites. It's the reference
+database using for implementing Django database layer.
+
+.. seealso::
+
+    `PostgreSQL notes <https://docs.djangoproject.com/en/stable/ref/databases/#postgresql-notes>`_
+
 Creating database in PostgreSQL
-+++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is usually good idea to run Weblate in separate database and separate user:
 
@@ -337,21 +348,135 @@ It is usually good idea to run Weblate in separate database and separate user:
     # Create database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
 
+Configuring Weblate to use PostgreSQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The :file:`settings.py` snippet for PostgreSQL:
+
+.. code-block:: python
+
+    DATABASES = {
+        'default': {
+            # Database engine
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            # Database name
+            'NAME': 'weblate',
+            # Database user
+            'USER': 'weblate',
+            # Database password
+            'PASSWORD': 'password',
+            # Set to empty string for localhost
+            'HOST': 'database.example.com',
+            # Set to empty string for default
+            'PORT': '',
+        }
+    }
+
+MySQL or MariaDB
+++++++++++++++++
+
+MySQL or MariaDB are quite good choice to run Weblate. However when using MySQL
+you might hit some problems caused by it.
+
+.. seealso::
+    
+    `MySQL notes <https://docs.djangoproject.com/en/stable/ref/databases/#mysql-notes>`_
+
+Unicode issues in MySQL
+~~~~~~~~~~~~~~~~~~~~~~~
+
+MySQL by default uses something called ``utf8``, what can not store all Unicode
+characters, only those who fit into three bytes in ``utf-8`` encoding. In case
+you're using emojis or some other higher Unicode symbols you might hit errors
+when saving such data. Depending on MySQL and Python bindings version, the
+error might look like:
+
+* ``OperationalError: (1366, "Incorrect string value: '\\xF0\\xA8\\xAB\\xA1' for column 'target' at row 1")``
+* ``UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)``
+
+To solve this, you need to change your database to use ``utf8mb4`` (what is again
+subset of Unicode, but this time which can be stored in four bytes in ``utf-8``
+encoding, thus covering all chars currently defined in Unicode.
+
+This can be achieved at database creation time by creating it with this charset
+and specifying the charset in connection settings (see :ref:`mysql-config`):
+
+.. code-block:: mysql
+
+    # Create database on MySQL >= 5.7.7
+    CREATE DATABASE weblate CHARACTER SET utf8mb4;
+    # Use utf8 for older versions
+    # CREATE DATABASE weblate CHARACTER SET utf8;
+
+Transaction locking
+~~~~~~~~~~~~~~~~~~~
+
+MySQL by default uses has different transaction locking scheme than other
+databases and in case you see errors like `Deadlock found when trying to get
+lock; try restarting transaction` it might be good idea to enable
+`STRICT_TRANS_TABLES` mode in MySQL. This can be done in the server
+configuration file (usually :file:`/etc/mysql/my.cnf` on Linux):
+
+.. code-block:: ini
+
+    [mysqld]
+    sql-mode=STRICT_TRANS_TABLES
+
+.. seealso::
+
+    `Setting sql_mode <https://docs.djangoproject.com/en/stable/ref/databases/#setting-sql-mode>`_
 
 Creating database in MySQL
-++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using MySQL, don't forget to create database with UTF-8 encoding:
+Create ``weblate`` user to access the ``weblate`` database:
 
 .. code-block:: mysql
 
     # Grant all privileges to  weblate user
     GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
 
+There are some recommendation
+When using MySQL, don't forget to create database with UTF-8 encoding:
+
     # Create database on MySQL >= 5.7.7
     CREATE DATABASE weblate CHARACTER SET utf8mb4;
     # Use utf8 for older versions
     # CREATE DATABASE weblate CHARACTER SET utf8;
+
+.. _mysql-config:
+
+Configuring Weblate to use MySQL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The :file:`settings.py` snippet for MySQL:
+
+.. code-block:: python
+
+    DATABASES = {
+        'default': {
+            # Database engine
+            'ENGINE': 'django.db.backends.mysql',
+            # Database name
+            'NAME': 'weblate',
+            # Database user
+            'USER': 'weblate',
+            # Database password
+            'PASSWORD': 'password',
+            # Set to empty string for localhost
+            'HOST': 'database.example.com',
+            # Set to empty string for default
+            'PORT': '',
+            # Additional database options
+            'OPTIONS': {
+                # In case of older MySQL server which has default MariaDB
+                # 'init_command': 'SET storage_engine=INNODB',
+                # If your server supports it, see Unicode issues above           
+               'charset': 'utf8mb4',
+            }
+
+        }
+    }
 
 Other configurations
 --------------------
@@ -586,24 +711,12 @@ Use powerful database engine
 ++++++++++++++++++++++++++++
 
 Use powerful database engine (SQLite is usually not good enough for production
-environment), for example setup for MySQL:
-
-.. code-block:: python
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'weblate',
-            'USER': 'weblate',
-            'PASSWORD': 'weblate',
-            'HOST': '127.0.0.1',
-            'PORT': '',
-        }
-    }
+environment), see :ref:`database-setup` for more information.
 
 .. seealso::
 
-   :ref:`installation`, `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
+   :ref:`database-setup`, :ref:`installation`, 
+   `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 .. _production-cache:
 
