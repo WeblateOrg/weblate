@@ -443,14 +443,6 @@ Create ``weblate`` user to access the ``weblate`` database:
     # Grant all privileges to  weblate user
     GRANT ALL PRIVILEGES ON weblate.* TO 'weblate'@'localhost'  IDENTIFIED BY 'password';
 
-There are some recommendation
-When using MySQL, don't forget to create database with UTF-8 encoding:
-
-    # Create database on MySQL >= 5.7.7
-    CREATE DATABASE weblate CHARACTER SET utf8mb4;
-    # Use utf8 for older versions
-    # CREATE DATABASE weblate CHARACTER SET utf8;
-
 .. _mysql-config:
 
 Configuring Weblate to use MySQL
