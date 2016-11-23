@@ -379,7 +379,7 @@ MySQL or MariaDB are quite good choice to run Weblate. However when using MySQL
 you might hit some problems caused by it.
 
 .. seealso::
-    
+
     `MySQL notes <https://docs.djangoproject.com/en/stable/ref/databases/#mysql-notes>`_
 
 Unicode issues in MySQL
@@ -396,10 +396,11 @@ error might look like:
 
 To solve this, you need to change your database to use ``utf8mb4`` (what is again
 subset of Unicode, but this time which can be stored in four bytes in ``utf-8``
-encoding, thus covering all chars currently defined in Unicode.
+encoding, thus covering all chars currently defined in Unicode).
 
-This can be achieved at database creation time by creating it with this charset
-and specifying the charset in connection settings (see :ref:`mysql-config`):
+This can be achieved at database creation time by creating it with this
+character set and specifying the character set in connection settings (see
+:ref:`mysql-config`):
 
 .. code-block:: mysql
 
@@ -407,6 +408,12 @@ and specifying the charset in connection settings (see :ref:`mysql-config`):
     CREATE DATABASE weblate CHARACTER SET utf8mb4;
     # Use utf8 for older versions
     # CREATE DATABASE weblate CHARACTER SET utf8;
+
+In case you have existing database, you can change it to ``utf8mb4`` by:
+
+.. code-block:: mysql
+
+    ALTER DATABASE weblate CHARACTER SET utf8mb4;
 
 Transaction locking
 ~~~~~~~~~~~~~~~~~~~
@@ -471,7 +478,7 @@ The :file:`settings.py` snippet for MySQL:
             'OPTIONS': {
                 # In case of older MySQL server which has default MariaDB
                 # 'init_command': 'SET storage_engine=INNODB',
-                # If your server supports it, see Unicode issues above           
+                # If your server supports it, see Unicode issues above
                'charset': 'utf8mb4',
             }
 
@@ -715,7 +722,7 @@ environment), see :ref:`database-setup` for more information.
 
 .. seealso::
 
-   :ref:`database-setup`, :ref:`installation`, 
+   :ref:`database-setup`, :ref:`installation`,
    `Django's databases <https://docs.djangoproject.com/en/stable/ref/databases/>`_
 
 .. _production-cache:
@@ -1058,7 +1065,7 @@ this, for example:
 Rollbar
 +++++++
 
-Weblate has built in support for `Rollbar <https://rollbar.com/>`_. To use 
+Weblate has built in support for `Rollbar <https://rollbar.com/>`_. To use
 it it's enough to follow instructions for `Rollbar notifier for Python <https://rollbar.com/docs/notifier/pyrollbar/>`_.
 
 In short, you need to adjust :file:`settings.py`:
