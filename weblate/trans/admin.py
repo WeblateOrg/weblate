@@ -26,7 +26,7 @@ from weblate.trans.models import (
     Unit, Suggestion, Comment, Check, Dictionary, Change,
     Source, WhiteboardMessage, GroupACL, ComponentList,
 )
-from weblate.trans.util import WeblateAdmin
+from weblate.trans.util import WeblateAdmin, sort_choices
 
 
 class ProjectAdmin(WeblateAdmin):
@@ -92,6 +92,13 @@ class ProjectAdmin(WeblateAdmin):
             "Flushed changes in %d git repos." % queryset.count()
         )
     force_commit.short_description = _('Commit pending changes')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Wrapper to sort languages by localized names"""
+        result = super(ProjectAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        if db_field.name == 'source_language':
+            result.choices = sort_choices(result.choices)
+        return result
 
 
 class SubProjectAdmin(WeblateAdmin):
