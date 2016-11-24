@@ -193,7 +193,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=200,
         validators=[validate_filemask],
         help_text=ugettext_lazy(
-            'Path of files to translate, use * instead of language code, '
+            'Path of files to translate relative to repository root,'
+            ' use * instead of language code, '
             'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
         )
     )
