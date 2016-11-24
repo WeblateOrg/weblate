@@ -12,6 +12,7 @@ Released on ? 2016.
 * Support for Microsoft Cognitive Services Translator API.
 * Simplified project and component user interface.
 * Added automatic fix to remove control chars.
+* Added per language overview to project.
 
 weblate 2.9
 -----------

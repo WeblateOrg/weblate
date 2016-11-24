@@ -54,6 +54,7 @@ from weblate.trans.permissions import (
     can_translate,
 )
 from weblate.accounts.models import Profile, notify_new_language
+from weblate.trans.stats import get_per_language_stats
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
@@ -361,6 +362,7 @@ def show_project(request, project):
             ),
             'add_user_form': UserManageForm(),
             'settings_form': settings_form,
+            'language_stats': get_per_language_stats(obj),
         }
     )
 

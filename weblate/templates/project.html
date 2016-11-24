@@ -23,6 +23,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#components" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#languages" data-toggle="tab">{% trans "Languages" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
   <li><a href="#glossaries" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
@@ -97,6 +98,27 @@
 
 <table class="table">
 {% include "project_info.html" %}
+</table>
+
+</div>
+<div class="tab-pane" id="languages">
+
+<table class="table">
+<thead>
+<tr>
+<th>{% trans "Language" %}</th>
+<th colspan="2">{% trans "Translated" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for language in language_stats %}
+<tr>
+<th>{{ language.0 }}</th>
+<td class="progress-cell">{% generic_progress language.1 %}</td>
+<td class="percent">{{ language.1 }}%</td>
+</tr>
+{% endfor %}
+</tbody>
 </table>
 
 </div>

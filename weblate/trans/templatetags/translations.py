@@ -503,6 +503,11 @@ def translation_progress_data(translated, fuzzy, checks):
 
 
 @register.inclusion_tag('progress.html')
+def generic_progress(translated):
+    return translation_progress_data(translated, 0, 0)
+
+
+@register.inclusion_tag('progress.html')
 def translation_progress(translation):
     translated = translation.get_translated_percent()
     fuzzy = translation.get_fuzzy_percent()
