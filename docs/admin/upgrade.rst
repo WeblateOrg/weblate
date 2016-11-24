@@ -352,9 +352,9 @@ Follow generic upgrade instructions, there is no special change.
 
 Notable configuration or dependencies changes:
 
-* The `INSTALLED_APPS` now should include `weblate.utils`.
-* There is new check in default set (`SamePluralsCheck`).
-* There is change in `SOCIAL_AUTH_PIPELINE` default settings.
+* The ``INSTALLED_APPS`` now should include ``weblate.utils``.
+* There is new check in default set (``SamePluralsCheck``).
+* There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
 * You might want to enable optional :ref:`git-exporter`.
 * There is new ``RemoveControlChars`` in default :setting:`AUTOFIX_LIST`.
 * If you are using Microsoft Translator, please replace
