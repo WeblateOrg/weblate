@@ -30,6 +30,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.utils.safestring import mark_safe
 from django.utils import timezone
+from django.utils.encoding import force_text
 import django.views.defaults
 
 from six import string_types
@@ -59,7 +60,7 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
 )
-from weblate.trans.util import render, sort_objects
+from weblate.trans.util import render, sort_objects, sort_unicode
 import weblate
 
 
@@ -362,7 +363,9 @@ def show_project(request, project):
             ),
             'add_user_form': UserManageForm(),
             'settings_form': settings_form,
-            'language_stats': get_per_language_stats(obj),
+            'language_stats': sort_unicode(
+                get_per_language_stats(obj), lambda tup: force_text(tup[0])
+            ),
         }
     )
 
