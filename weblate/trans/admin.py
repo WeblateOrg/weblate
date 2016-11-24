@@ -95,7 +95,9 @@ class ProjectAdmin(WeblateAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """Wrapper to sort languages by localized names"""
-        result = super(ProjectAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        result = super(ProjectAdmin, self).formfield_for_foreignkey(
+            db_field, request, **kwargs
+        )
         if db_field.name == 'source_language':
             result.choices = sort_choices(result.choices)
         return result
