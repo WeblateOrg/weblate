@@ -792,7 +792,7 @@ $(function () {
     /* Table column changing */
     var columnsMenu = $('#columns-menu');
     if (columnsMenu.length > 0) {
-        var columnsPanel = columnsMenu.closest('div.panel');
+        var columnsPanel = columnsMenu.closest('div.tab-pane');
         var width = columnsPanel.width();
 
         columnsMenu.on('click', function(e) {
