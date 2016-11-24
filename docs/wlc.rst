@@ -110,7 +110,15 @@ Currently following subcommands are available:
 
 .. option:: push
 
-    Pusches changes in Weblate object into remote repository (translation, component or project).
+    Pushes changes in Weblate object into remote repository (translation, component or project).
+
+.. option:: reset
+
+    .. versionadded:: 0.7
+
+        Supported since wlc 0.7.
+
+    Resets changes in Weblate object to match remote repository (translation, component or project).
 
 .. option:: repo
 
