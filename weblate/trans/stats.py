@@ -20,9 +20,10 @@
 
 from __future__ import unicode_literals
 
+from django.db.models import Sum
+
 from weblate.lang.models import Language
 from weblate.trans.models import Translation
-from django.db.models import Sum
 
 
 def get_per_language_stats(project):
