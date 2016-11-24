@@ -28,7 +28,7 @@ from django.utils.encoding import force_text
 from weblate.trans.tests.test_checks import MockUnit
 from weblate.trans.autofixes import fix_target
 from weblate.trans.autofixes.chars import (
-    ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace,
+    ReplaceTrailingDotsWithEllipsis, RemoveZeroSpace, RemoveControlChars,
 )
 from weblate.trans.autofixes.whitespace import SameBookendingWhitespace
 
@@ -109,6 +109,38 @@ class AutoFixTest(TestCase):
         self.assertEqual(
             fix.fix_target(['Bar\u200b'], unit),
             (['Bar'], True)
+        )
+
+    def test_controlchars(self):
+        unit = MockUnit(source='Foo\x1b')
+        fix = RemoveControlChars()
+        self.assertEqual(
+            fix.fix_target(['Bar'], unit),
+            (['Bar'], False)
+        )
+        self.assertEqual(
+            fix.fix_target(['Bar\x1b'], unit),
+            (['Bar\x1b'], False)
+        )
+        self.assertEqual(
+            fix.fix_target(['Bar\n'], unit),
+            (['Bar\n'], False)
+        )
+
+    def test_no_controlchars(self):
+        unit = MockUnit(source='Foo')
+        fix = RemoveControlChars()
+        self.assertEqual(
+            fix.fix_target(['Bar'], unit),
+            (['Bar'], False)
+        )
+        self.assertEqual(
+            fix.fix_target(['Bar\x1b'], unit),
+            (['Bar'], True)
+        )
+        self.assertEqual(
+            fix.fix_target(['Bar\n'], unit),
+            (['Bar\n'], False)
         )
 
     def test_fix_target(self):

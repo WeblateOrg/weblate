@@ -514,6 +514,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
 #     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
 #     'weblate.trans.autofixes.chars.RemoveZeroSpace',
+#     'weblate.trans.autofixes.chars.RemoveControlChars',
 # )
 
 # List of scripts to use in custom processing

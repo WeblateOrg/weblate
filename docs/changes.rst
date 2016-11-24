@@ -11,6 +11,7 @@ Released on ? 2016.
 * Added optional Git exporter module.
 * Support for Microsoft Cognitive Services Translator API.
 * Simplified project and component user interface.
+* Added automatic fix to remove control chars.
 
 weblate 2.9
 -----------

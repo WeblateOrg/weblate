@@ -153,6 +153,7 @@ AUTOFIX_LIST = getvalue('AUTOFIX_LIST', (
     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
     'weblate.trans.autofixes.chars.RemoveZeroSpace',
+    'weblate.trans.autofixes.chars.RemoveControlChars',
 ))
 
 # List of machine translations

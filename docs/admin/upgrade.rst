@@ -356,6 +356,7 @@ Notable configuration or dependencies changes:
 * There is new check in default set (`SamePluralsCheck`).
 * There is change in `SOCIAL_AUTH_PIPELINE` default settings.
 * You might want to enable optional :ref:`git-exporter`.
+* There is new ``RemoveControlChars`` in default :setting:`AUTOFIX_LIST`.
 * If you are using Microsoft Translator, please replace
   :ref:`ms-translate` with :ref:`ms-cognitive-translate`,
   Microsoft has changed authentication scheme.
