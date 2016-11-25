@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import sys
+
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
@@ -33,6 +35,7 @@ from weblate.trans.permissions import (
     can_commit_translation, can_update_translation, can_reset_translation,
     can_push_translation, can_remove_translation,
 )
+from weblate.utils.errors import report_error
 
 
 def execute_locked(request, obj, message, call, *args, **kwargs):
@@ -44,10 +47,13 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
         # With False the call is supposed to show errors on its own
         if result is None or result:
             messages.success(request, message)
-    except FileLockException:
+    except FileLockException as error:
         messages.error(
             request,
             _('Failed to lock the repository, another operation in progress.')
+        )
+        report_error(
+            error, sys.exc_info(),
         )
 
     return redirect_param(obj, '#repository')
