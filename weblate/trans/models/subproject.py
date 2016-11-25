@@ -848,9 +848,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_linked_childs(self):
         """Returns list of subprojects which link repository to us."""
-        return SubProject.objects.filter(
+        result = SubProject.objects.prefetch().filter(
             repo=self.get_repo_link_url()
         )
+        for child in result:
+            child._linked_subproject = self
+        return result
 
     def commit_pending(self, request, from_link=False, skip_push=False):
         """Checks whether there is any translation which needs commit."""

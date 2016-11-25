@@ -60,7 +60,9 @@ from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
 )
-from weblate.trans.util import render, sort_objects, sort_unicode
+from weblate.trans.util import (
+    render, sort_objects, sort_unicode, translation_percent,
+)
 import weblate
 
 
@@ -350,6 +352,15 @@ def show_project(request, project):
         Q(dictionary__project=obj)
     )[:10]
 
+    language_stats = sort_unicode(
+        get_per_language_stats(obj), lambda tup: force_text(tup[0])
+    )
+
+    language_stats = [
+        (tup[0], translation_percent(tup[1], tup[2]))
+        for tup in language_stats
+    ]
+
     return render(
         request,
         'project.html',
@@ -363,9 +374,7 @@ def show_project(request, project):
             ),
             'add_user_form': UserManageForm(),
             'settings_form': settings_form,
-            'language_stats': sort_unicode(
-                get_per_language_stats(obj), lambda tup: force_text(tup[0])
-            ),
+            'language_stats': language_stats,
         }
     )
 
