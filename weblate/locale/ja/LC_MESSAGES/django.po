@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: weblate-website-ja\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-11-23 11:58+0000\n"
-"PO-Revision-Date: 2016-11-17 08:21+0000\n"
+"PO-Revision-Date: 2016-11-25 00:48+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
-"ja/>\n"
+"Language-Team: Japanese "
+"<https://hosted.weblate.org/projects/weblate/master/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -534,7 +534,7 @@ msgstr "複数形 %d"
 #: weblate/lang/models.py:462
 #, python-brace-format
 msgid "{name} (e.g. {examples})"
-msgstr ""
+msgstr "{name} (例: {examples})"
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:494
 msgid "Permission Denied"
@@ -1065,16 +1065,13 @@ msgstr ""
 "\"%(api_doc)s\">ドキュメンテーション</a> をお読みください。"
 
 #: weblate/templates/accounts/profile.html:343
-#, fuzzy, python-format
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
+#, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"Weblate は HTTP REST API を利用して制御することができます。詳しくは <a href="
-"\"%(api_doc)s\">ドキュメンテーション</a> をお読みください。"
+"API キーはエクスポートされた git リポジトリにアクセスする際にも利用します。詳しくは <a href=\"%(git_doc)s\""
+">ドキュメンテーション</a> をお読みください。"
 
 #: weblate/templates/accounts/profile.html:362
 msgid ""
@@ -1440,10 +1437,9 @@ msgid "Used %(used)s"
 msgstr "使用済み %(used)s"
 
 #: weblate/templates/billing/used.html:7
-#, fuzzy, python-format
-#| msgid "Used %(used)s from %(total)s"
+#, python-format
 msgid "Used %(used)s of %(total)s"
-msgstr "%(total)s 内の使用済み %(used)s"
+msgstr "%(used)s / %(total)s を使用済み"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
 #: weblate/templates/check_subproject.html:6 weblate/templates/checks.html:6
@@ -4500,8 +4496,6 @@ msgid "Same plurals"
 msgstr "同じ複数形"
 
 #: weblate/trans/checks/consistency.py:57
-#, fuzzy
-#| msgid "Some plural forms are translated same"
 msgid "Some plural forms are translated in the same way"
 msgstr "同じように翻訳されている複数形のもの"
 
