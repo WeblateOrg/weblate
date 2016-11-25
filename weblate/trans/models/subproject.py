@@ -848,7 +848,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_linked_childs(self):
         """Returns list of subprojects which link repository to us."""
-        return SubProject.objects.filter(
+        return SubProject.objects.prefetch().filter(
             repo=self.get_repo_link_url()
         )
 
