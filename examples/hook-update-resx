@@ -1,6 +1,10 @@
 #! /usr/bin/env python
 """
 Post update hook script to update message IDs in the resx file.
+
+- Removes messages no longer present in template
+- Adds new units not present in template
+- Resets translation if string has been changed in template
 """
 
 from __future__ import print_function
