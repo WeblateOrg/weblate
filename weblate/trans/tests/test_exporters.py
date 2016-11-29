@@ -22,7 +22,8 @@ from django.test import TestCase
 
 from weblate.lang.models import Language
 from weblate.trans.exporters import (
-    PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter, CSVExporter
+    PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter,
+    CSVExporter,
 )
 from weblate.trans.models import (
     Dictionary, Project, SubProject, Translation, Unit,
