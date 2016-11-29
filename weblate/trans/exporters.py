@@ -32,6 +32,7 @@ from translate.storage.mo import mofile, mounit
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.xliff import xlifffile
 from translate.storage.tbx import tbxfile
+from translate.storage.csvl10n import csvfile
 
 import weblate
 from weblate.trans.formats import FileFormat
@@ -257,3 +258,14 @@ class MoExporter(BaseExporter):
         if not unit.translated:
             return
         super(MoExporter, self).add_unit(unit)
+
+
+@register_exporter
+class CSVExporter(BaseExporter):
+    name = 'csv'
+    content_type = 'text/csv'
+    extension = 'csv'
+    has_lang = False
+
+    def get_storage(self):
+        return csvfile()
