@@ -22,7 +22,7 @@ from django.test import TestCase
 
 from weblate.lang.models import Language
 from weblate.trans.exporters import (
-    PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter,
+    PoExporter, PoXliffExporter, XliffExporter, TBXExporter, MoExporter, CSVExporter
 )
 from weblate.trans.models import (
     Dictionary, Project, SubProject, Translation, Unit,
@@ -132,6 +132,24 @@ class PoExporterTest(TestCase):
         elif self._has_context is not None:
             self.assertNotIn(b'context', result)
 
+    def setUp(self):
+        self.exporter = self.get_exporter()
+
+    def test_has_get_storage(self):
+        self.assertTrue(hasattr(self.exporter, 'get_storage'))
+
+    def test_has_setsourcelanguage(self):
+        self.assertTrue(hasattr(self.exporter.storage, 'setsourcelanguage'))
+
+    def test_has_settargetlanguage(self):
+        self.assertTrue(hasattr(self.exporter.storage, 'settargetlanguage'))
+
+    def test_has_UnitClass(self):
+        self.assertTrue(hasattr(self.exporter.storage, 'UnitClass'))
+
+    def test_has_addunit(self):
+        self.assertTrue(hasattr(self.exporter.storage, 'addunit'))
+
 
 class PoXliffExporterTest(PoExporterTest):
     _class = PoXliffExporter
@@ -165,3 +183,12 @@ class MoExporterTest(PoExporterTest):
 
     def check_plurals(self, result):
         self.assertIn(b'www', result)
+
+
+class CSVExporterTest(PoExporterTest):
+    _class = CSVExporter
+    _has_context = True
+
+    def check_plurals(self, result):
+        # Doesn't support plurals
+        pass

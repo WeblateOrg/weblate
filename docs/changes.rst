@@ -13,6 +13,7 @@ Released on ? 2016.
 * Simplified project and component user interface.
 * Added automatic fix to remove control chars.
 * Added per language overview to project.
+* Added support for CSV export.
 
 weblate 2.9
 -----------
