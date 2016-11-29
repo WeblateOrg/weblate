@@ -307,6 +307,10 @@ Additionally following environment variables are available:
     Language of currently processed translation (not available for component
     level hooks).
 
+.. envvar:: WL_PREVIOUS_HEAD
+
+    Previous HEAD on update (available only for :setting:`POST_UPDATE_SCRIPTS`).
+
 .. seealso::
 
     :setting:`POST_UPDATE_SCRIPTS`,

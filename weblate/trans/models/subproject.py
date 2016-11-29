@@ -917,6 +917,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         with self.repository.lock():
             try:
+                previous_head = self.repository.last_revision
                 # Try to merge it
                 method()
                 self.log_info(
@@ -931,10 +932,16 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     )
 
                     # run post update hook
-                    vcs_post_update.send(sender=self.__class__, component=self)
+                    vcs_post_update.send(
+                        sender=self.__class__,
+                        component=self,
+                        previous_head=previous_head
+                    )
                     for component in self.get_linked_childs():
                         vcs_post_update.send(
-                            sender=component.__class__, component=component
+                            sender=component.__class__,
+                            component=component,
+                            previous_head=previous_head
                         )
                 return True
             except RepositoryException as error:
