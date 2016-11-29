@@ -260,10 +260,31 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine, empty=True)
 
     @httpretty.activate
+    def test_amagama_nolang(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/languages/',
+            body='',
+            status=404,
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
+            body=AMAGAMA_JSON
+        )
+        machine = AmagamaTranslation()
+        self.assertTranslate(machine)
+
+    @httpretty.activate
     def test_amagama(self):
         httpretty.register_uri(
             httpretty.GET,
-            'http://amagama.locamotion.org/tmserver/en/cs/unit/world',
+            'https://amagama-live.translatehouse.org/api/v1/languages/',
+            body='{"sourceLanguages": ["en"], "targetLanguages": ["cs"]}',
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
             body=AMAGAMA_JSON
         )
         machine = AmagamaTranslation()

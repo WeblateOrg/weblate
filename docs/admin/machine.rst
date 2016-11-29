@@ -177,7 +177,7 @@ And configure Weblate to talk to it:
 
 .. code-block:: python
 
-    MT_TMSERVER = 'http://localhost:8888/'
+    MT_TMSERVER = 'http://localhost:8888/tmserver/'
 
 .. seealso::
 
