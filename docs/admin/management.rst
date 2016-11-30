@@ -177,7 +177,7 @@ You can either define which project or component to update (eg.
 
 .. django-admin-option:: --age HOURS
 
-    Age in hours for committing.
+    Age in hours for committing, default value can be set by :setting:`COMMIT_PENDING_HOURS`.
 
 This is most useful if executed periodically from cron or similar tool:
 
@@ -186,8 +186,9 @@ This is most useful if executed periodically from cron or similar tool:
     ./manage.py commit_pending --all --age=48
 
 .. seealso::
-   
-   :ref:`production-cron`
+
+    :ref:`production-cron`,
+    :setting:`COMMIT_PENDING_HOURS`
 
 cleanuptrans
 ------------

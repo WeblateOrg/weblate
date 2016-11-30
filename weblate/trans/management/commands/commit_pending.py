@@ -24,6 +24,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 from weblate.trans.management.commands import WeblateLangCommand
+from weblate import appsettings
 
 
 class Command(WeblateLangCommand):
@@ -36,8 +37,8 @@ class Command(WeblateLangCommand):
             action='store',
             type=int,
             dest='age',
-            default=24,
-            help='Age of changes to commit in hours (default is 24 hours)'
+            default=appsettings.COMMIT_PENDING_HOURS,
+            help='Age of changes to commit in hours'
         )
 
     def handle(self, *args, **options):

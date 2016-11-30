@@ -135,12 +135,27 @@ For example you can enable only few of them:
    
    :ref:`checks`, :ref:`custom-checks`
 
+.. setting:: COMMIT_PENDING_HOURS
+
+COMMIT_PENDING_HOURS
+--------------------
+
+.. versionadded:: 2.10
+
+Default interval for commiting pending changes using :djadmin:`commit_pending`.
+
+.. seealso::
+
+   :ref:`production-cron`,
+   :djadmin:`commit_pending`
+
 .. setting:: DATA_DIR
 
 DATA_DIR
 --------
 
 .. versionadded:: 2.1
+
     In previous versions the directories were configured separately as
     :setting:`GIT_ROOT` and :setting:`WHOOSH_INDEX`.
 

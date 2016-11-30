@@ -107,6 +107,7 @@ SIMILAR_MESSAGES = getvalue('SIMILAR_MESSAGES', 5)
 
 # Enable lazy commits
 LAZY_COMMITS = getvalue('LAZY_COMMITS', True)
+COMMIT_PENDING_HOURS = getvalue('COMMIT_PENDING_HOURS', 24)
 
 # Offload indexing
 OFFLOAD_INDEXING = getvalue('OFFLOAD_INDEXING', False)
