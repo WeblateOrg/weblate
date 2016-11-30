@@ -90,6 +90,13 @@ Generic settings
 
     Configures Django debug mode, see :ref:`production-debug`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_DEBUG=1
+
 .. envvar:: WEBLATE_LOGLEVEL
 
     Configures verbosity of logging.
@@ -103,6 +110,14 @@ Generic settings
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
     Configures site admins name and email, see :ref:`production-admins`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_ADMIN_NAME=Weblate Admin
+          - WEBLATE_ADMIN_EMAIL=noreply@example.com
 
 .. envvar:: WEBLATE_ADMIN_PASSWORD
 
@@ -124,6 +139,13 @@ Generic settings
 
     Configures allowed HTTP hostnames, see :ref:`production-hosts`
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_ALLOWED_HOSTS=weblate.example.com,example.com
+
 .. envvar:: WEBLATE_SECRET_KEY
 
     Configures secret for cookies signing, see :ref:`production-secret`.
@@ -137,6 +159,13 @@ Generic settings
 
     Configures whether registrations are open, see :std:setting:`REGISTRATION_OPEN`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_REGISTRATION_OPEN=0
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures used time zone.
@@ -145,13 +174,34 @@ Generic settings
 
     Configures offloaded indexing, see :ref:`production-indexing`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_OFFLOAD_INDEXING=1
+
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
     Configures when use https in email and API links, see :ref:`production-site`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_ENABLE_HTTPS=1
+
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
     Configures login required for whole Weblate using :setting:`LOGIN_REQUIRED_URLS`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_REQUIRE_LOGIN=1
 
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
