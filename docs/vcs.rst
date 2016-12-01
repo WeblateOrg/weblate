@@ -246,7 +246,8 @@ users to have a full clone of the internal repository and commit locally.
 .. note::
 
     Weblate supports only subversion repositories with standard layout (branches/,
-    tags/ and trunk/).
+    tags/ and trunk/). See `git-svn documentation <https://git-scm.com/docs/git-svn#git-svn---stdlayout>`_
+    for more information.
 
 .. _git-svn: https://git-scm.com/docs/git-svn
 
