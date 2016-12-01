@@ -33,6 +33,10 @@ list of flags accepted:
 ``skip-review-flag``
     Ignore whether unit is marked for review when importing from VCS. This 
     can be useful for :ref:`xliff`.
+``add-source-review``
+    Whether to mark all new string in source language for review. This can
+    be useful if you want to proofread the source language. This flag has no
+    meaning for bilingual translations.
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
 ``xml-text``
