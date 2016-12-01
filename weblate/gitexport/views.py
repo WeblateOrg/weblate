@@ -122,7 +122,7 @@ def git_export(request, project, subproject, path):
 
     # Log error
     if output_err:
-        obj.log_error('git: {0}'.format(output_err))
+        obj.log_error('git: {0}'.format(output_err.decode('utf-8')))
 
     # Handle failure
     if retcode:
