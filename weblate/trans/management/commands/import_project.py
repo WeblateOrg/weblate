@@ -372,6 +372,11 @@ class Command(BaseCommand):
         '''
         Import the first repository of a project
         '''
+        if repo.startswith('weblate:'):
+            component = SubProject.objects.get_linked(repo)
+            matches = self.get_matching_subprojects(component.get_path())
+            return repo, matches
+
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
         matches = self.get_matching_subprojects(workdir)
