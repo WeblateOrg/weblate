@@ -298,10 +298,7 @@ class Command(BaseCommand):
         if is_repo_link(repo):
             sharedrepo = repo
             try:
-                sub_project = SubProject.objects.get(
-                    project=project,
-                    slug=repo.rsplit('/', 1)[-1]
-                )
+                sub_project = SubProject.objects.get_linked(repo)
             except SubProject.DoesNotExist:
                 raise CommandError(
                     'SubProject %s does not exist, '
@@ -372,11 +369,6 @@ class Command(BaseCommand):
         '''
         Import the first repository of a project
         '''
-        if repo.startswith('weblate:'):
-            component = SubProject.objects.get_linked(repo)
-            matches = self.get_matching_subprojects(component.get_path())
-            return repo, matches
-
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
         matches = self.get_matching_subprojects(workdir)
