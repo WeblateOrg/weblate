@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-11-23 11:58+0000\n"
-"PO-Revision-Date: 2016-12-03 08:49+0000\n"
+"PO-Revision-Date: 2016-12-05 15:27+0000\n"
 "Last-Translator: Igor <f2404@yandex.ru>\n"
 "Language-Team: Russian "
 "<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
@@ -586,15 +586,14 @@ msgid "About Weblate"
 msgstr "О Weblate"
 
 #: weblate/templates/about.html:16
-#, fuzzy
 msgid ""
 "Weblate is a web based translation tool with tight version control "
 "integration. It features simple and clean user interface, propagation of "
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate — это, основанный на вэб, инструмент для перевода, имеющий глубокую "
-"интеграцию с контролем за версиями. Его особенностями являются чёткий и "
+"Weblate — это веб-ориентированный инструмент для перевода, имеющий глубокую "
+"интеграцию с системами контроля версий. Его особенностями являются чёткий и "
 "простой пользовательский интерфейс, распространение переводов через "
 "компоненты, контроль качества и автоматические ссылки на исходные файлы."
 
@@ -1069,16 +1068,13 @@ msgstr ""
 "информации читайте <a href=\"%(api_doc)s\">документацию</a>."
 
 #: weblate/templates/accounts/profile.html:343
-#, fuzzy, python-format
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
+#, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"Вы можете использовать HTTP REST API для контроля Weblate. Для большей "
-"информации читайте <a href=\"%(api_doc)s\">документацию</a>."
+"Ключ API также используется для доступа к экспортированным репозиториям Git. "
+"Для большей информации читайте <a href=\"%(git_doc)s\">документацию</a>."
 
 #: weblate/templates/accounts/profile.html:362
 msgid ""
@@ -5048,10 +5044,8 @@ msgid "Commit messages"
 msgstr "Commit-сообщения"
 
 #: weblate/trans/forms.py:996
-#, fuzzy
-#| msgid "Fuzzy strings processing"
 msgid "Languages processing"
-msgstr "Обработка нечётких строк"
+msgstr "Обработка языков"
 
 #: weblate/trans/forms.py:1002
 msgid "Upstream links"
@@ -5253,10 +5247,8 @@ msgstr ""
 "%(translation)s пользователем %(user)s"
 
 #: weblate/trans/models/componentlist.py:32
-#, fuzzy
-#| msgid "Component name"
 msgid "Component list name"
-msgstr "Название компонента"
+msgstr "Название списка компонентов"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:88
 #: weblate/trans/models/subproject.py:120
@@ -5274,10 +5266,8 @@ msgid "Name used in URLs and file names."
 msgstr "Название, которое используется в URL-ах и именах файлов."
 
 #: weblate/trans/models/componentlist.py:55
-#, fuzzy
-#| msgid "Components"
 msgid "Component lists"
-msgstr "Компоненты"
+msgstr "Списки компонентов"
 
 #: weblate/trans/models/group_acl.py:47
 msgid "Project, component or language must be specified"
@@ -5668,13 +5658,15 @@ msgstr "URL подробной лицензии (необязательно)."
 
 #: weblate/trans/models/subproject.py:377
 msgid "Contributor agreement"
-msgstr ""
+msgstr "Соглашение участников"
 
 #: weblate/trans/models/subproject.py:381
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
 msgstr ""
+"Соглашение, которое должно быть принято пользователем для того, чтобы он "
+"смог переводить этот компонент."
 
 #: weblate/trans/models/subproject.py:393
 msgid ""
@@ -5693,10 +5685,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/subproject.py:411
-#, fuzzy
-#| msgid "Commit message"
 msgid "Commit message when translating"
-msgstr "Сообщение транзакции"
+msgstr "Сообщение транзакции при переводе"
 
 #: weblate/trans/models/subproject.py:413
 #: weblate/trans/models/subproject.py:422
@@ -5710,11 +5700,11 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:420
 msgid "Commit message when adding translation"
-msgstr ""
+msgstr "Сообщение транзакции при добавлении перевода"
 
 #: weblate/trans/models/subproject.py:429
 msgid "Commit message when removing translation"
-msgstr ""
+msgstr "Сообщение транзакции при удалении перевода"
 
 #: weblate/trans/models/subproject.py:438
 msgid "Committer name"
@@ -5768,7 +5758,7 @@ msgstr ""
 #: weblate/trans/models/subproject.py:910
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "Не удалось смёржить удалённую ветку в %s."
 
 #: weblate/trans/models/subproject.py:1090
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
@@ -5829,7 +5819,7 @@ msgstr "Формат %d файлов не распознан."
 #: weblate/trans/models/subproject.py:1179
 #, python-format
 msgid "Failed to parse %d matched files!"
-msgstr ""
+msgstr "Не удалось распознать %d совпадающих файлов!"
 
 #: weblate/trans/models/subproject.py:1188
 msgid ""
@@ -5903,6 +5893,8 @@ msgstr "Не удалось обновить репозиторий: %s"
 #: weblate/trans/models/subproject.py:1309
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
+"Не удалось проверить совпадения файлов из-за некорректного регулярного "
+"выражения."
 
 #: weblate/trans/models/subproject.py:1319
 msgid "Automatically accepting suggestions can work only with voting enabled!"
