@@ -686,6 +686,12 @@ Alternatively you can set the site name from command line using
 
     ./manage.py changesite --set-name 127.0.0.1:8000
 
+For production site, you want something like:
+
+.. code-block:: sh
+
+    ./manage.py changesite --set-name weblate.example.com
+
 .. seealso::
 
    :ref:`faq-site`, :djadmin:`changesite`,
