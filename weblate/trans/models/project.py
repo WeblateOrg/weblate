@@ -24,32 +24,19 @@ import os
 import os.path
 
 from django.db import models
-from django.dispatch import receiver
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.urlresolvers import reverse
-from django.db.models.signals import m2m_changed
 from django.contrib.auth.models import Permission, User, Group
 from django.contrib.contenttypes.models import ContentType
-from django.core.cache import cache
 
 from weblate.accounts.models import Profile
-from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.lang.models import Language, get_english_lang
 from weblate.trans import messages
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
-
-
-def get_acl_cache_key(user):
-    """Returns key for per user ACL cache"""
-    if user is None or user.id is None:
-        user_id = ANONYMOUS_USER_NAME
-    else:
-        user_id = str(user.id)
-    return ':'.join((user_id, 'useracl'))
 
 
 class ProjectManager(models.Manager):
@@ -59,18 +46,12 @@ class ProjectManager(models.Manager):
         """Returns list of project IDs and status
         for current user filtered by ACL
         """
-        cache_key = get_acl_cache_key(user)
+        if not hasattr(user, 'acl_ids_cache'):
+            user.acl_ids_cache = [
+                project.id for project in self.all() if project.has_acl(user)
+            ]
 
-        last_result = cache.get(cache_key)
-        if last_result is not None:
-            return last_result
-
-        project_ids = [
-            project.id for project in self.all() if project.has_acl(user)
-        ]
-        cache.set(cache_key, project_ids)
-
-        return project_ids
+        return user.acl_ids_cache
 
     def all_acl(self, user):
         """Returns list of projects user is allowed to access
@@ -464,22 +445,3 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             result.append(other)
 
         return result
-
-
-@receiver(m2m_changed, sender=User.user_permissions.through)
-def user_permissions_changed(sender, instance, **kwargs):
-    """Clear ACL cache once permissions are changed."""
-    cache.delete(get_acl_cache_key(instance))
-
-
-@receiver(m2m_changed, sender=User.groups.through)
-def user_group_changed(sender, instance, **kwargs):
-    """Clear ACL cache once group is changed."""
-    cache.delete(get_acl_cache_key(instance))
-
-
-@receiver(m2m_changed, sender=Group.permissions.through)
-def group_permissions_changed(sender, instance, **kwargs):
-    """Clear ACL cache once permissions are changed."""
-    for user in instance.user_set.all():
-        cache.delete(get_acl_cache_key(user))

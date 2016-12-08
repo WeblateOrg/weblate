@@ -19,12 +19,11 @@
 #
 
 from django.contrib.auth.models import User, Group
-from django.core.cache import cache
 from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.models.project import Project, get_acl_cache_key
+from weblate.trans.models.project import Project
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
@@ -55,9 +54,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         group = Group.objects.get(name='Users')
         self.user.groups.add(group)
 
-    def tearDown(self):
-        cache.delete(get_acl_cache_key(None))
-
     def create_acl(self):
         project = Project.objects.create(
             name='ACL',
@@ -75,7 +71,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         if self.user.is_superuser != superuser:
             self.user.is_superuser = superuser
             self.user.save()
-        cache.delete(get_acl_cache_key(self.user))
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + self.user.auth_token.key
         )
