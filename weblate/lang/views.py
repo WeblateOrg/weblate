@@ -105,7 +105,9 @@ def show_project(request, lang, project):
             'language': obj,
             'project': pobj,
             'last_changes': last_changes,
-            'last_changes_url': urlencode({'lang': obj.code, 'project': pobj.slug}),
+            'last_changes_url': urlencode(
+                {'lang': obj.code, 'project': pobj.slug}
+            ),
             'translations': translations,
             'title': '{0} - {1}'.format(pobj, obj),
             'show_only_component': True,
