@@ -78,6 +78,7 @@
 <tr>
 <th>{% trans "Component" %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
+<th colspan="2">{% trans "Words" %}</th>
 </tr>
 <tbody>
 {% for prj in object.subproject_set.select_related %}
@@ -85,6 +86,8 @@
 <th><a href="{{ prj.get_absolute_url }}">{{ prj.name }}</a></th>
 <td class="progress-cell">{% translation_progress prj %}</td>
 <td class="percent">{{ prj.get_translated_percent }}%</td>
+<td class="progress-cell">{% generic_progress prj.get_words_percent %}</td>
+<td class="percent">{{ prj.get_words_percent }}%</td>
 </tr>
 {% endfor %}
 </tbody>
