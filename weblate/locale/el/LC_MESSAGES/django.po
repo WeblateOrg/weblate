@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-12-09 16:12+0000\n"
-"PO-Revision-Date: 2016-11-24 22:00+0000\n"
+"PO-Revision-Date: 2016-12-09 20:03+0000\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
-">\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3076,13 +3076,11 @@ msgid "Translate"
 msgstr "Μετάφραση"
 
 #: weblate/templates/list-translations.html:74
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "Υπάρχει %(count)s αμετάφραστο κείμενο."
-msgstr[1] "Υπάρχουν %(count)s αμετάφραστα κείμενα."
+msgstr[0] "Υπάρχει %(count)s μεταφρασμένο κείμενο."
+msgstr[1] "Υπάρχουν %(count)s μεταφρασμένα κείμενα."
 
 #: weblate/templates/mail/activation.html:7
 #: weblate/templates/mail/activation.txt:1
@@ -3427,17 +3425,15 @@ msgstr "Αλλαγή ρυθμίσεων συνδρομής:"
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
-msgstr ""
+msgstr "μήτρα"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Name to display"
 msgid "Select languages to display"
-msgstr "Όνομα για εμφάνιση"
+msgstr "Επιλογή γλωσσών για προβολή"
 
 #: weblate/templates/matrix.html:39
 msgid "Select"
-msgstr ""
+msgstr "Επιλογή"
 
 #: weblate/templates/paginator.html:6
 #, python-format
@@ -3450,14 +3446,12 @@ msgid "Data exports"
 msgstr "Εξαγωγές δεδομένων"
 
 #: weblate/templates/project.html:37 weblate/templates/subproject.html:40
-#, fuzzy
-#| msgid "Download all changes as CSV"
 msgid "Download statistics (CSV)"
-msgstr "Λήψη όλων των αλλαγών ως CSV"
+msgstr "Λήψη στατιστικών CSV"
 
 #: weblate/templates/project.html:38 weblate/templates/subproject.html:41
 msgid "Download statistics (JSON)"
-msgstr ""
+msgstr "Λήψη στατιστικών (JSON)"
 
 #: weblate/templates/project.html:43 weblate/templates/subproject.html:47
 #: weblate/templates/translation.html:51
@@ -3671,10 +3665,8 @@ msgid "Translations"
 msgstr "Μεταφράσεις"
 
 #: weblate/templates/subproject.html:42
-#, fuzzy
-#| msgid "Start review"
 msgid "Matrix view"
-msgstr "Έναρξη ελέγχου"
+msgstr "Προβολή μήτρας"
 
 #: weblate/templates/subproject.html:49
 msgid "Source strings review"
@@ -4068,10 +4060,8 @@ msgid "Download translation as Gettext MO"
 msgstr "Λήψη μετάφρασης ως Gettext MO"
 
 #: weblate/templates/translation-download.html:11
-#, fuzzy
-#| msgid "Download translation as XLIFF"
 msgid "Download translation as CSV"
-msgstr "Λήψη μετάφρασης ως XLIFF"
+msgstr "Λήψη μετάφρασης ως CSV"
 
 #: weblate/templates/translation-download.html:13
 msgid "Download for using within an application."
@@ -4472,10 +4462,8 @@ msgid "Zero-width space"
 msgstr "Διάστημα μηδενικού πλάτους"
 
 #: weblate/trans/autofixes/chars.py:96
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Control chars"
-msgstr "Στατιστικά διανομέα"
+msgstr "Χαρακτήρες ελέγχου"
 
 #: weblate/trans/autofixes/whitespace.py:37
 msgid "Trailing and leading whitespace"
@@ -5635,16 +5623,13 @@ msgid "Repository branch to translate"
 msgstr "Κλάδος αποθετηρίου για μετάφραση"
 
 #: weblate/trans/models/subproject.py:196
-#, fuzzy
-#| msgid ""
-#| "Path of files to translate, use * instead of language code, for example: "
-#| "po/*.po or locale/*/LC_MESSAGES/django.po."
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Διαδρομή αρχείων για μετάφραση, χρήση του * αντί για κωδικό γλώσσας, για "
-"παράδειγμα: po/*.po ή locale/*/LC_MESSAGES/django.po."
+"Διαδρομή αρχείων για μετάφραση, σχετικά με τη ρίζα απόθεσης, χρήση του * "
+"αντί για κωδικό γλώσσας, για παράδειγμα: po/*.po ή "
+"locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:202
 msgid "Monolingual base language file"
@@ -6508,10 +6493,8 @@ msgid "Skip review flag when importing"
 msgstr "Αγνόηση σημαίας επισκόπησης κατά την εισαγωγή"
 
 #: weblate/trans/validators.py:36
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Add review flag for new source strings"
-msgstr "Αναζήτηση στα κείμενα προέλευσης"
+msgstr "Προσθήκη σημαίας επισκόπησης για νέα κείμενα προέλευσης"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:60
 #: weblate/trans/validators.py:80
