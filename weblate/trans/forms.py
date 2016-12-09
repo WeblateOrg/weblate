@@ -1043,3 +1043,21 @@ class ScreenshotUploadForm(forms.ModelForm):
         fields = (
             'screenshot',
         )
+
+
+class MatrixLanguageForm(forms.Form):
+    '''
+    Form for requesting new language.
+    '''
+    lang = forms.MultipleChoiceField(
+        label=_('Languages'),
+        choices=[]
+    )
+
+    def __init__(self, component, *args, **kwargs):
+        super(MatrixLanguageForm, self).__init__(*args, **kwargs)
+        languages = Language.objects.filter(translation__subproject=component)
+        self.fields['lang'].choices = sort_choices([
+            (l.code, '{0} ({1})'.format(force_text(l), l.code))
+            for l in languages
+        ])

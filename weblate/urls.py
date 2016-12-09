@@ -161,6 +161,16 @@ urlpatterns = [
         name='review_source',
     ),
     url(
+        r'^matrix/' + SUBPROJECT + '$',
+        weblate.trans.views.source.matrix,
+        name='matrix',
+    ),
+    url(
+        r'^js/matrix/' + SUBPROJECT + '$',
+        weblate.trans.views.source.matrix_load,
+        name='matrix-load',
+    ),
+    url(
         r'^source/(?P<pk>[0-9]+)/priority/$',
         weblate.trans.views.source.edit_priority,
         name='edit_priority'

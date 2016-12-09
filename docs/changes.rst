@@ -15,6 +15,7 @@ Released on ? 2016.
 * Added per language overview to project.
 * Added support for CSV export.
 * Added CSV download for stats.
+* Added matrix view for quick overview of all translations
 
 weblate 2.9
 -----------

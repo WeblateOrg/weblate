@@ -39,6 +39,7 @@
       <li><a href="{% url 'data_project' project=object.project.slug  %}">{% trans "Data exports" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug subproject=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
+      <li><a href="{% url 'matrix' project=object.project.slug subproject=object.slug %}">{% trans "Matrix view" %}</a></li>
       {% if user_can_commit_translation %}
       <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
       {% endif %}

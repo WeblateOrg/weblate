@@ -471,6 +471,27 @@ function interpolate(fmt, obj, named) {
     return fmt.replace(/%s/g, function(match){return String(obj.shift())});
 }
 
+function load_matrix() {
+    var $loadingNext = $('#loading-next');
+    var $loader = $('#matrix-load');
+    var offset = parseInt($loader.data('offset'));
+
+    if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
+        return;
+    }
+    $loadingNext.show();
+
+    $loader.data('offset', 20 + offset);
+
+    $.get(
+        $loader.attr('href') + '&offset=' + offset,
+        function (data) {
+            $loadingNext.hide();
+            $('.matrix tfoot').before(data);
+        }
+    );
+}
+
 $(function () {
     var $window = $(window), $document = $(document);
     /* AJAX loading of tabs/pills */
@@ -853,6 +874,17 @@ $(function () {
             }
         }, 3600000);
     };
+
+    /* Matrix mode handling */
+    if ($('.matrix').length > 0) {
+        load_matrix();
+        $window.scroll(function(){
+            if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
+                load_matrix();
+            }
+        });
+    };
+
 
     /* Zen mode handling */
     if ($('.zen').length > 0) {

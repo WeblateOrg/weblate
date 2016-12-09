@@ -638,3 +638,16 @@ class SourceStringsTest(ViewTestCase):
             reverse('show_source', kwargs=self.kw_subproject)
         )
         self.assertContains(response, 'Test/Test')
+
+    def test_matrix(self):
+        response = self.client.get(
+            reverse('matrix', kwargs=self.kw_subproject)
+        )
+        self.assertContains(response, 'Czech')
+
+    def test_matrix_load(self):
+        response = self.client.get(
+            reverse('matrix-load', kwargs=self.kw_subproject) +
+            '?offset=0&lang=cs'
+        )
+        self.assertContains(response, 'lang="cs"')
