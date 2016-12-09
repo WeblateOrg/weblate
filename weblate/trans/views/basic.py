@@ -355,7 +355,6 @@ def show_project(request, project):
     language_stats = sort_unicode(
         get_per_language_stats(obj), lambda tup: force_text(tup[0])
     )
-    print language_stats
 
     language_stats = [
         (tup[0], translation_percent(tup[1], tup[2]), translation_percent(tup[3], tup[4]))
