@@ -30,10 +30,12 @@ try:
 except ImportError:
     from django.utils.encoding import force_text as get_display
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 
 from weblate.trans.fonts import is_base, get_font
+from weblate.trans.site import get_site_url
 from weblate.trans.stats import get_per_language_stats
 
 
@@ -460,12 +462,25 @@ class MultiLanguageWidget(SVGBadgeWidget):
                 else:
                     color = '#e05d44'
             translations.append((
+                # Language name
                 language.name,
+                # Translation percent
                 percent,
+                # Text y offset
                 offset,
+                # Bar y offset
                 offset - 10,
+                # Bar width
                 int(percent * 1.5),
+                # Bar color
                 color,
+                # Row URL
+                get_site_url(reverse(
+                    'project-language',
+                    kwargs={'lang': language.code, 'project': self.obj.slug}
+                )),
+                # Bounding box y offset
+                offset - 15,
             ))
             offset += 20
 
