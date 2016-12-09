@@ -40,20 +40,27 @@ def get_per_language_stats(project):
 
     # Calculates total strings in project
     total = 0
+    total_words = 0
     for component in project.subproject_set.all():
         try:
-            total += component.translation_set.all()[0].total
+            translation = component.translation_set.all()[0]
+            total += translation.total
+            total_words += translation.total_words
         except IndexError:
             pass
 
     # Translated strings in language
     for language in Language.objects.filter(pk__in=languages):
-        translated = Translation.objects.filter(
+        data = Translation.objects.filter(
             language=language,
             subproject__project=project
         ).aggregate(
             Sum('translated'),
-        )['translated__sum']
+            Sum('translated_words'),
+        )
+
+        translated = data['translated__sum']
+        translated_words = data['translated_words__sum']
 
         # Insert sort
         pos = None
@@ -61,7 +68,7 @@ def get_per_language_stats(project):
             if translated >= result[i][1]:
                 pos = i
                 break
-        value = (language, translated, total)
+        value = (language, translated, total, translated_words, total_words)
         if pos is not None:
             result.insert(pos, value)
         else:

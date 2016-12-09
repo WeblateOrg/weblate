@@ -108,6 +108,7 @@
 <tr>
 <th>{% trans "Language" %}</th>
 <th colspan="2">{% trans "Translated" %}</th>
+<th colspan="2">{% trans "Words" %}</th>
 </tr>
 </thead>
 <tbody>
@@ -116,6 +117,8 @@
 <th><a href="{% url 'project-language' lang=language.0.code project=object.slug %}">{{ language.0 }}</a></th>
 <td class="progress-cell">{% generic_progress language.1 %}</td>
 <td class="percent">{{ language.1 }}%</td>
+<td class="progress-cell">{% generic_progress language.2 %}</td>
+<td class="percent">{{ language.2 }}%</td>
 </tr>
 {% endfor %}
 </tbody>
