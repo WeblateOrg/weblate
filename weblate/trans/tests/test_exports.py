@@ -68,6 +68,20 @@ class ExportsViewTest(ViewTestCase):
         )
         self.assertContains(response, 'name,code')
 
+    def test_export_project_stats(self):
+        response = self.client.get(
+            reverse('export_stats', kwargs=self.kw_project)
+        )
+        parsed = json.loads(response.content.decode('utf-8'))
+        self.assertIn('Czech', [i['language'] for i in parsed])
+
+    def test_export_project_stats_csv(self):
+        response = self.client.get(
+            reverse('export_stats', kwargs=self.kw_project),
+            {'format': 'csv'}
+        )
+        self.assertContains(response, 'language,code')
+
     def test_data(self):
         response = self.client.get(
             reverse('data_root')

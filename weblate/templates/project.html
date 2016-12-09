@@ -34,6 +34,8 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
+      <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
+      <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
       {% if user_can_commit_translation %}
       <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
       {% endif %}

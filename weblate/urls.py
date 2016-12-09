@@ -535,6 +535,11 @@ urlpatterns = [
         weblate.trans.views.api.export_stats,
         name='export_stats',
     ),
+    url(
+        r'^exports/stats/' + PROJECT + '$',
+        weblate.trans.views.api.export_stats_project,
+        name='export_stats',
+    ),
 
     # RSS exports
     url(
