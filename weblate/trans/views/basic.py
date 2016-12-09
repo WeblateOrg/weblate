@@ -357,7 +357,11 @@ def show_project(request, project):
     )
 
     language_stats = [
-        (tup[0], translation_percent(tup[1], tup[2]), translation_percent(tup[3], tup[4]))
+        (
+            tup[0],
+            translation_percent(tup[1], tup[2]),
+            translation_percent(tup[3], tup[4])
+        )
         for tup in language_stats
     ]
 
