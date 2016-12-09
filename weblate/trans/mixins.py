@@ -54,6 +54,12 @@ class PercentMixin(object):
         """
         return self.get_percents()[0]
 
+    def get_words_percent(self):
+        """
+        Returns percent of translated strings.
+        """
+        return self.get_percents()[3]
+
     def get_untranslated_percent(self):
         """
         Returns percent of untranslated strings.
