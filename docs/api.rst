@@ -906,7 +906,7 @@ Weblate provides various exports to allow you further process the data.
 
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
-    :query string jsonp: JSONP callback function to wrap the data
+    :query string format: Output format, either ``json`` or ``csv``
 
     .. deprecated:: 2.6
 
@@ -914,8 +914,7 @@ Weblate provides various exports to allow you further process the data.
         and :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
         instead, it allows to access ACL controlled projects as well.
 
-    Retrieves statistics for given component in JSON format. Optionally as
-    JSONP when you specify the callback in the ``jsonp`` parameter.
+    Retrieves statistics for given component in given format.
 
     **Example request**:
 

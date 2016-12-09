@@ -18,12 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import json
+import csv
 import re
 import threading
 
+import six
+
 from django.contrib.auth.decorators import login_required
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -319,25 +320,53 @@ def export_stats(request, project, subproject):
     '''
     subprj = get_subproject(request, project, subproject)
 
-    jsonp = None
-    if 'jsonp' in request.GET and request.GET['jsonp']:
-        jsonp = request.GET['jsonp']
+    output = request.GET.get('format', 'json')
+    if output not in ('json', 'csv'):
+        output = 'json'
 
-    response = []
-    for trans in subprj.translation_set.all():
-        response.append(trans.get_stats())
-    if jsonp:
-        return HttpResponse(
-            '{0}({1})'.format(
-                jsonp,
-                json.dumps(
-                    response,
-                    cls=DjangoJSONEncoder,
-                )
-            ),
-            content_type='application/javascript'
+    data = [
+        trans.get_stats() for trans in subprj.translation_set.all()
+    ]
+
+    if output == 'csv':
+        response = HttpResponse(content_type='text/csv; charset=utf-8')
+        filename = 'stats-%s-%s.csv' % (subprj.project.slug, subprj.slug)
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+        writer = csv.DictWriter(
+            response,
+            (
+                'name',
+                'code',
+                'total',
+                'translated',
+                'translated_percent',
+                'total_words',
+                'translated_words',
+                'failing',
+                'failing_percent',
+                'fuzzy',
+                'fuzzy_percent',
+                'url_translate',
+                'url',
+                'last_change',
+                'last_author',
+            )
         )
+
+        writer.writeheader()
+        if six.PY2:
+            for row in data:
+                for item in row:
+                    if isinstance(row[item], six.text_type):
+                        row[item] = row[item].encode('utf-8')
+                writer.writerow(row)
+        else:
+            for row in data:
+                writer.writerow(row)
+        return response
     return JsonResponse(
-        data=response,
-        safe=False
+        data=data,
+        safe=False,
+        json_dumps_params={'indent': 2}
     )
