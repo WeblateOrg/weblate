@@ -22,6 +22,7 @@ import json
 import re
 import threading
 
+from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
@@ -311,6 +312,7 @@ def gitlab_hook_helper(data):
     }
 
 
+@login_required
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
