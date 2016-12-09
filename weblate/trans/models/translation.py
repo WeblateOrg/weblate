@@ -111,10 +111,6 @@ class TranslationManager(models.Manager):
         words = translations['total_words__sum']
         translated_words = translations['translated_words__sum']
 
-        # Catch no translations (division by zero)
-        if total == 0 or total is None:
-            return (0, 0, 0)
-
         # Fetch values
         result = [
             translations['translated__sum'],
@@ -241,10 +237,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def _get_percents(self):
         """Returns percentages of translation status."""
-        # No units?
-        if self.total == 0:
-            return (0, 0, 0)
-
         return (
             translation_percent(self.translated, self.total),
             translation_percent(self.fuzzy, self.total),
@@ -253,13 +245,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         )
 
     def get_fuzzy_words_percent(self):
-        if self.total_words == 0:
-            return 0
         return translation_percent(self.fuzzy_words, self.total_words)
 
     def get_failing_checks_words_percent(self):
-        if self.total_words == 0:
-            return 0
         return translation_percent(self.failing_checks_words, self.total_words)
 
     @property
