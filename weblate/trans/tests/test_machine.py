@@ -119,6 +119,26 @@ class MachineTranslationTest(TestCase):
             2
         )
 
+    def test_translate_fallback(self):
+        machine_translation = DummyTranslation()
+        self.assertEqual(
+            len(
+                machine_translation.translate(
+                    'cs_CZ', 'Hello, world!', MockUnit(), None
+                )
+            ),
+            2
+        )
+
+    def test_translate_fallback_missing(self):
+        machine_translation = DummyTranslation()
+        self.assertEqual(
+            machine_translation.translate(
+                'de_CZ', 'Hello, world!', MockUnit(), None
+            ),
+            []
+        )
+
     def assertTranslate(self, machine, lang='cs', word='world', empty=False):
         translation = machine.translate(lang, word, MockUnit(), None)
         self.assertIsInstance(translation, list)

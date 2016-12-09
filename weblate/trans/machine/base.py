@@ -240,7 +240,13 @@ class MachineTranslation(object):
             unit.translation.subproject.project.source_language.code
         )
         if not self.is_supported(source, language):
-            return []
+            # Try without country code
+            if '_' in language or '-' in language:
+                language = language.replace('-', '_').split('_')[0]
+                if not self.is_supported(source, language):
+                    return []
+            else:
+                return []
 
         try:
             translations = self.download_translations(
