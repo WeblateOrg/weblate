@@ -27,6 +27,7 @@ from six.moves.urllib.parse import urlencode
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Dictionary, Change
 from weblate.trans.util import sort_objects
+from weblate.trans.views.helper import get_project
 
 
 def show_languages(request):
@@ -73,5 +74,41 @@ def show_language(request, lang):
             'last_changes_url': urlencode({'lang': obj.code}),
             'dicts': projects.filter(id__in=dicts),
             'translations': translations,
+        }
+    )
+
+
+def show_project(request, lang, project):
+    try:
+        obj = Language.objects.get(code=lang)
+    except Language.DoesNotExist:
+        obj = Language.objects.fuzzy_get(lang)
+        if isinstance(obj, Language):
+            return redirect(obj)
+        raise Http404('No Language matches the given query.')
+
+    pobj = get_project(request, project)
+
+    last_changes = Change.objects.last_changes(request.user).filter(
+        translation__language=obj,
+        subproject__project=pobj
+    )[:10]
+    translations = obj.translation_set.enabled().filter(
+        subproject__project=pobj
+    ).order_by(
+        'subproject__project__slug', 'subproject__slug'
+    )
+
+    return render(
+        request,
+        'language-project.html',
+        {
+            'language': obj,
+            'project': pobj,
+            'last_changes': last_changes,
+            'last_changes_url': urlencode({'lang': obj.code, 'project': pobj.slug}),
+            'translations': translations,
+            'title': '{0} - {1}'.format(pobj, obj),
+            'show_only_component': True,
         }
     )

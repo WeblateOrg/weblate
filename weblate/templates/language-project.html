@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% whiteboard_messages language=language project=project %}
+
+<ul class="nav nav-pills">
+  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
+  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' lang=language.code project=project.slug %}" data-monthly="{% url 'monthly_activity' lang=language.code project=project.slug %}">{% trans "Activity" %}</a></li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      {% trans "Tools" %} <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
+      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+    </ul>
+   </li>
+</ul>
+
+<div class="tab-content">
+
+<div class="tab-pane active" id="overview">
+{% include "list-translations.html" %}
+</div>
+
+<div class="tab-pane" id="history">
+{% include "last-changes-content.html" %}
+<a class="btn btn-default" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
+</div>
+
+{% include "activity-tab.html" %}
+
+</div>
+
+{% endblock %}
+

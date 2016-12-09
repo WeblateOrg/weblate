@@ -285,6 +285,11 @@ urlpatterns = [
         name='monthly_activity',
     ),
     url(
+        r'^activity/language/month/' + LANGUAGE + '/' + PROJECT + '$',
+        weblate.trans.views.charts.monthly_activity,
+        name='monthly_activity',
+    ),
+    url(
         r'^activity/user/month/(?P<user>[^/]+)/$',
         weblate.trans.views.charts.monthly_activity,
         name='monthly_activity',
@@ -313,6 +318,11 @@ urlpatterns = [
     ),
     url(
         r'^activity/language/year/' + LANGUAGE + '/$',
+        weblate.trans.views.charts.yearly_activity,
+        name='yearly_activity',
+    ),
+    url(
+        r'^activity/language/year/' + LANGUAGE + '/' + PROJECT + '$',
         weblate.trans.views.charts.yearly_activity,
         name='yearly_activity',
     ),
@@ -451,6 +461,11 @@ urlpatterns = [
         r'^languages/' + LANGUAGE + '/$',
         weblate.lang.views.show_language,
         name='show_language',
+    ),
+    url(
+        r'^languages/' + LANGUAGE + '/' + PROJECT + '$',
+        weblate.lang.views.show_project,
+        name='project-language',
     ),
 
     # Checks browsing

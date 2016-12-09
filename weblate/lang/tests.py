@@ -347,6 +347,14 @@ class LanguagesViewTest(ViewTestCase):
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Test/Test')
 
+    def test_project_language(self):
+        response = self.client.get(reverse(
+            'project-language',
+            kwargs={'lang': 'cs', 'project': 'test'}
+        ))
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, '/projects/test/test/cs/')
+
     def test_language_redirect(self):
         response = self.client.get(reverse(
             'show_language',
