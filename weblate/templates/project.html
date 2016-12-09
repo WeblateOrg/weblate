@@ -113,7 +113,7 @@
 <tbody>
 {% for language in language_stats %}
 <tr>
-<th>{{ language.0 }}</th>
+<th><a href="{% url 'project-language' lang=language.0.code project=object.slug %}">{{ language.0 }}</a></th>
 <td class="progress-cell">{% generic_progress language.1 %}</td>
 <td class="percent">{{ language.1 }}%</td>
 </tr>
