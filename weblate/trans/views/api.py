@@ -320,38 +320,45 @@ def export_stats(request, project, subproject):
     '''
     subprj = get_subproject(request, project, subproject)
 
+    data = [
+        trans.get_stats() for trans in subprj.translation_set.all()
+    ]
+    return export_response(
+        request,
+        'stats-%s-%s.csv' % (subprj.project.slug, subprj.slug),
+        (
+            'name',
+            'code',
+            'total',
+            'translated',
+            'translated_percent',
+            'total_words',
+            'translated_words',
+            'failing',
+            'failing_percent',
+            'fuzzy',
+            'fuzzy_percent',
+            'url_translate',
+            'url',
+            'last_change',
+            'last_author',
+        ),
+        data
+    )
+
+
+def export_response(request, filename, fields, data):
+    """Generic handler for stats exports"""
     output = request.GET.get('format', 'json')
     if output not in ('json', 'csv'):
         output = 'json'
 
-    data = [
-        trans.get_stats() for trans in subprj.translation_set.all()
-    ]
-
     if output == 'csv':
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        filename = 'stats-%s-%s.csv' % (subprj.project.slug, subprj.slug)
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
         writer = csv.DictWriter(
-            response,
-            (
-                'name',
-                'code',
-                'total',
-                'translated',
-                'translated_percent',
-                'total_words',
-                'translated_words',
-                'failing',
-                'failing_percent',
-                'fuzzy',
-                'fuzzy_percent',
-                'url_translate',
-                'url',
-                'last_change',
-                'last_author',
-            )
+            response, fields
         )
 
         writer.writeheader()
