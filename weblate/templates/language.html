@@ -12,7 +12,7 @@
 {% whiteboard_messages language=object %}
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
+  <li class="active"><a href="#overview" data-toggle="tab">{% trans "Projects" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' lang=object.code %}" data-monthly="{% url 'monthly_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
   <li><a href="#dicts" data-toggle="tab">{% trans "Glossaries" %}</a></li>
@@ -30,7 +30,7 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="overview">
-{% include "list-translations.html" %}
+{% include "list-projects.html" %}
 </div>
 
 <div class="tab-pane" id="history">

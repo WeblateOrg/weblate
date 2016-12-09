@@ -59,11 +59,9 @@ def show_language(request, lang):
         language=obj
     ).values_list('project', flat=True).distinct()
     projects = Project.objects.all_acl(request.user)
-    translations = obj.translation_set.enabled().filter(
-        subproject__project__in=projects
-    ).order_by(
-        'subproject__project__slug', 'subproject__slug'
-    )
+    projects = projects.filter(
+        subproject__translation__language=obj
+    ).distinct()
 
     return render(
         request,
@@ -73,7 +71,8 @@ def show_language(request, lang):
             'last_changes': last_changes,
             'last_changes_url': urlencode({'lang': obj.code}),
             'dicts': projects.filter(id__in=dicts),
-            'translations': translations,
+            'projects': projects,
+            'link_language': True,
         }
     )
 
