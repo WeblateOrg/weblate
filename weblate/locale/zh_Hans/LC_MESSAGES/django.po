@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-12-09 16:12+0000\n"
-"PO-Revision-Date: 2016-11-03 14:15+0000\n"
+"PO-Revision-Date: 2016-12-09 16:30+0000\n"
 "Last-Translator: YFdyh000 <yfdyh000@gmail.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"weblate/master/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) "
+"<https://hosted.weblate.org/projects/weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.10-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -1015,16 +1015,11 @@ msgstr ""
 "\">API 文档</a>。"
 
 #: weblate/templates/accounts/profile.html:343
-#, fuzzy, python-format
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
+#, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
-msgstr ""
-"您可以使用 HTTP REST API 控制 Weblate。更多信息请查阅 <a href=\"%(api_doc)s"
-"\">API 文档</a>。"
+msgstr "此 API 密钥也用于访问导出的 Git 仓库，请查阅<a href=\"%(git_doc)s\">文档</a>了解详情。"
 
 #: weblate/templates/accounts/profile.html:362
 msgid ""
@@ -1374,10 +1369,9 @@ msgid "Used %(used)s"
 msgstr "已用 %(used)s"
 
 #: weblate/templates/billing/used.html:7
-#, fuzzy, python-format
-#| msgid "Used %(used)s from %(total)s"
+#, python-format
 msgid "Used %(used)s of %(total)s"
-msgstr "已用 %(used)s，总计 %(total)s"
+msgstr "已使用 %(used)s / %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
 #: weblate/templates/check_subproject.html:6 weblate/templates/checks.html:6
@@ -2940,12 +2934,10 @@ msgid "Translate"
 msgstr "翻译"
 
 #: weblate/templates/list-translations.html:74
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "还有 %(count)s 个字符串未翻译。"
+msgstr[0] "已有 %(count)s 个字符串被翻译。"
 
 #: weblate/templates/mail/activation.html:7
 #: weblate/templates/mail/activation.txt:1
@@ -3275,17 +3267,15 @@ msgstr "更改订阅设置："
 
 #: weblate/templates/matrix.html:8
 msgid "matrix"
-msgstr ""
+msgstr "矩阵"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Name to display"
 msgid "Select languages to display"
-msgstr "要显示的名称"
+msgstr "选择要显示的语言"
 
 #: weblate/templates/matrix.html:39
 msgid "Select"
-msgstr ""
+msgstr "选择"
 
 #: weblate/templates/paginator.html:6
 #, python-format
@@ -3298,14 +3288,12 @@ msgid "Data exports"
 msgstr "数据导出"
 
 #: weblate/templates/project.html:37 weblate/templates/subproject.html:40
-#, fuzzy
-#| msgid "Download all changes as CSV"
 msgid "Download statistics (CSV)"
-msgstr "以CSV格式下载所有改动"
+msgstr "下载统计信息 (CSV)"
 
 #: weblate/templates/project.html:38 weblate/templates/subproject.html:41
 msgid "Download statistics (JSON)"
-msgstr ""
+msgstr "下载统计信息 (JSON)"
 
 #: weblate/templates/project.html:43 weblate/templates/subproject.html:47
 #: weblate/templates/translation.html:51
@@ -3517,10 +3505,8 @@ msgid "Translations"
 msgstr "翻译"
 
 #: weblate/templates/subproject.html:42
-#, fuzzy
-#| msgid "Start review"
 msgid "Matrix view"
-msgstr "开始复查"
+msgstr "矩阵界面"
 
 #: weblate/templates/subproject.html:49
 msgid "Source strings review"
@@ -3900,10 +3886,8 @@ msgid "Download translation as Gettext MO"
 msgstr "下载译文为 Gettext MO"
 
 #: weblate/templates/translation-download.html:11
-#, fuzzy
-#| msgid "Download translation as XLIFF"
 msgid "Download translation as CSV"
-msgstr "下载译文为 XLIFF"
+msgstr "下载译文为 CSV"
 
 #: weblate/templates/translation-download.html:13
 msgid "Download for using within an application."
@@ -4292,10 +4276,8 @@ msgid "Zero-width space"
 msgstr "零宽空格"
 
 #: weblate/trans/autofixes/chars.py:96
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Control chars"
-msgstr "贡献者统计"
+msgstr "控制字符"
 
 #: weblate/trans/autofixes/whitespace.py:37
 msgid "Trailing and leading whitespace"
@@ -4413,13 +4395,11 @@ msgstr "一些复数形式没有翻译"
 
 #: weblate/trans/checks/consistency.py:56
 msgid "Same plurals"
-msgstr ""
+msgstr "相同复数"
 
 #: weblate/trans/checks/consistency.py:57
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are translated in the same way"
-msgstr "一些复数形式没有翻译"
+msgstr "一些复数形式采用了相同的翻译"
 
 #: weblate/trans/checks/consistency.py:80
 msgid "Inconsistent"
@@ -5026,10 +5006,8 @@ msgid "Donate to Weblate"
 msgstr "捐助 Weblate"
 
 #: weblate/trans/models/advertisement.py:46
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Support Weblate on Liberapay"
-msgstr "在  {0} 支持 Weblate"
+msgstr "在 Liberapay 上支持 Weblate"
 
 #: weblate/trans/models/advertisement.py:47
 msgid "Support Weblate on Bountysource"
@@ -5411,16 +5389,11 @@ msgid "Repository branch to translate"
 msgstr "要翻译的代码库分支"
 
 #: weblate/trans/models/subproject.py:196
-#, fuzzy
-#| msgid ""
-#| "Path of files to translate, use * instead of language code, for example: "
-#| "po/*.po or locale/*/LC_MESSAGES/django.po."
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"要翻译的文件路径，使用 * 代替语言代码，例如：po/*.po 或 locale/*/LC_MESSAGES/"
-"django.po。"
+"要翻译的文件与仓库根的相对路径，使用 * 代替语言代码，例如：po/*.po 或 locale/*/LC_MESSAGES/django.po。"
 
 #: weblate/trans/models/subproject.py:202
 msgid "Monolingual base language file"
@@ -6205,10 +6178,8 @@ msgid "Skip review flag when importing"
 msgstr "导入时跳过复查标志"
 
 #: weblate/trans/validators.py:36
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Add review flag for new source strings"
-msgstr "搜索源字符串"
+msgstr "为新的源字符串添加复查标记"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:60
 #: weblate/trans/validators.py:80
