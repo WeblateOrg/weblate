@@ -25,7 +25,6 @@ import threading
 
 import six
 
-from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils.encoding import force_text
 from django.views.decorators.csrf import csrf_exempt
@@ -317,7 +316,6 @@ def gitlab_hook_helper(data):
     }
 
 
-@login_required
 def export_stats_project(request, project):
     '''
     Exports stats in JSON format.
@@ -354,7 +352,6 @@ def export_stats_project(request, project):
     )
 
 
-@login_required
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
