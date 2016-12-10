@@ -33,7 +33,7 @@ from six.moves.urllib.parse import urlencode
 from weblate.lang.models import Language
 from weblate.trans import messages
 from weblate.trans.views.helper import get_subproject
-from weblate.trans.models import Translation, Source
+from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, ScreenshotUploadForm,
     MatrixLanguageForm,
