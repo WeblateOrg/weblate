@@ -174,6 +174,13 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(request.data['count'], 1)
 
+    def test_statistics(self):
+        request = self.do_request(
+            'api:project-statistics',
+            self.project_kwargs,
+        )
+        self.assertEqual(len(request.data), 3)
+
 
 class ComponentAPITest(APIBaseTest):
     def test_list_components(self):
