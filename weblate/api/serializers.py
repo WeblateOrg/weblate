@@ -236,6 +236,14 @@ class TranslationSerializer(RemovableSerializer):
             'language__code',
         ),
     )
+    units_list_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-units',
+        lookup_field=(
+            'subproject__project__slug',
+            'subproject__slug',
+            'language__code',
+        ),
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -254,6 +262,7 @@ class TranslationSerializer(RemovableSerializer):
             'failing_checks_percent',
             'last_change', 'last_author',
             'repository_url', 'file_url', 'statistics_url', 'changes_list_url',
+            'units_list_url',
         )
         extra_kwargs = {
             'url': {

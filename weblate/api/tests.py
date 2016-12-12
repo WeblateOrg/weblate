@@ -496,6 +496,13 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertEqual(request.data['count'], 5)
 
+    def test_units(self):
+        request = self.do_request(
+            'api:translation-units',
+            self.translation_kwargs,
+        )
+        self.assertEqual(request.data['count'], 4)
+
 
 class UnitAPITest(APIBaseTest):
     def test_list_units(self):

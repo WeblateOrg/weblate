@@ -673,6 +673,7 @@ Translations
     :>json string repository_url: URL to repository status, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
     :>json string file_url: URL to file object, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
+    :>json string units_list_url: URL to units list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
 
     .. seealso::
 
@@ -766,6 +767,22 @@ Translations
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/units/
+
+    Returns list of translation units.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json array results: array of component objects, see :http:get:`/api/unit/(integer:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/

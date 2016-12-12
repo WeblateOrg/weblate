@@ -473,6 +473,21 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def units(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.unit_set.all()
+        page = self.paginate_queryset(queryset)
+
+        serializer = UnitSerializer(
+            page,
+            many=True,
+            context={'request': request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     """Languages API.
