@@ -152,6 +152,14 @@ Currently following subcommands are available:
 
     Unlocks compontent from translating in Weblate.
 
+.. option:: changes
+
+    .. versionadded:: 0.7
+
+        Supported since wlc 0.7 and Weblate 2.10.
+
+    Displays changes for given object.
+
 .. _files:
 
 Files
