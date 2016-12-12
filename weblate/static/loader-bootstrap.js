@@ -412,7 +412,7 @@ function insertEditor(text, element)
     var root;
 
     /* Find withing root element */
-    if (typeof element != 'undefined') {
+    if (typeof element !== 'undefined') {
         root = element.parents('.zen-unit');
         if (root.length === 0) {
             root = element.parents('.translation-form');
