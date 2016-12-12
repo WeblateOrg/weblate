@@ -112,6 +112,9 @@ def git_export(request, project, subproject, path):
             'GIT_HTTP_EXPORT_ALL': '1',
             'CONTENT_TYPE': request.META.get('CONTENT_TYPE', ''),
             'QUERY_STRING': request.META.get('QUERY_STRING', ''),
+            'HTTP_CONTENT_ENCODING': request.META.get(
+                'HTTP_CONTENT_ENCODING', ''
+            ),
         },
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
