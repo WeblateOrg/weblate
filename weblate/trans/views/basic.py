@@ -25,7 +25,7 @@ from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, Q, F
+from django.db.models import Sum, Count, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.utils.safestring import mark_safe
