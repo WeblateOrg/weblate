@@ -283,7 +283,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of component objects, see :http:get:`/api/change/(integer:pk)/`
+    :>json array results: array of component objects, see :http:get:`/api/changes/(integer:pk)/`
 
     .. seealso::
 
@@ -488,7 +488,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of component objects, see :http:get:`/api/change/(integer:pk)/`
+    :>json array results: array of component objects, see :http:get:`/api/changes/(integer:pk)/`
 
     .. seealso::
 
@@ -761,7 +761,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects, see :http:get:`/api/change/(integer:pk)/`
+    :>json array results: array of component objects, see :http:get:`/api/changes/(integer:pk)/`
 
     .. seealso::
 
@@ -778,7 +778,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects, see :http:get:`/api/unit/(integer:pk)/`
+    :>json array results: array of component objects, see :http:get:`/api/units/(integer:pk)/`
 
     .. seealso::
 
@@ -944,7 +944,7 @@ Changes
 
 .. versionadded:: 2.10
 
-.. http:get:: /api/change/
+.. http:get:: /api/changes/
 
     Returns list of translation changes.
 
@@ -952,9 +952,9 @@ Changes
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Translation object attributes are documented at :http:get:`/api/change/(int:pk)/`.
+        Translation object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
 
-.. http:get:: /api/change/(integer:pk)/
+.. http:get:: /api/changes/(integer:pk)/
 
     Returns information about translation change.
 
