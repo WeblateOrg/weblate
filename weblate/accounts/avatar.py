@@ -66,7 +66,7 @@ def avatar_for_email(email, size=80, skip_cache=False):
     ))
     cache = caches['default']
     url = cache.get(cache_key)
-    if url is not None: # and not skip_cache:
+    if url is not None and not skip_cache:
         return url
 
     if HAS_LIBRAVATAR:
