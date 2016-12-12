@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.models.project import Project
+from weblate.trans.models import Project, Change, Unit
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
@@ -513,11 +513,14 @@ class UnitAPITest(APIBaseTest):
 
     def test_get_unit(self):
         response = self.client.get(
-            reverse('api:unit-detail', kwargs={'pk': 1})
+            reverse(
+                'api:unit-detail',
+                kwargs={'pk': Unit.objects.all()[0].pk}
+            )
         )
-        self.assertEqual(
-            response.data['translation'],
-            'http://testserver/api/translations/test/test/cs/'
+        self.assertIn(
+            'translation',
+            response.data,
         )
 
 
@@ -530,9 +533,12 @@ class ChangeAPITest(APIBaseTest):
 
     def test_get_change(self):
         response = self.client.get(
-            reverse('api:change-detail', kwargs={'pk': 1})
+            reverse(
+                'api:change-detail',
+                kwargs={'pk': Change.objects.all()[0].pk}
+            )
         )
-        self.assertEqual(
-            response.data['translation'],
-            None
+        self.assertIn(
+            'translation',
+            response.data,
         )
