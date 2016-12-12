@@ -325,7 +325,8 @@ class UnitSerializer(RemovableSerializer):
             'translation', 'source', 'previous_source', 'target', 'checksum',
             'contentsum', 'location', 'context', 'comment', 'flags', 'fuzzy',
             'translated', 'position', 'has_suggestion', 'has_comment',
-            'has_failing_check', 'num_words', 'priority', 'id', 'web_url', 'url',
+            'has_failing_check', 'num_words', 'priority', 'id', 'web_url',
+            'url',
         )
         extra_kwargs = {
             'url': {
@@ -361,7 +362,8 @@ class ChangeSerializer(RemovableSerializer):
         model = Change
         fields = (
             'unit', 'component', 'translation', 'dictionary', 'user',
-            'author', 'timestamp', 'action', 'target', 'id', 'action_name', 'url',
+            'author', 'timestamp', 'action', 'target', 'id', 'action_name',
+            'url',
         )
         extra_kwargs = {
             'url': {
