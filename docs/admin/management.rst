@@ -408,7 +408,7 @@ Filtering only translations in chosen language:
     ./manage import_project \
         --language-regex '^(cs|sk)$' \
         weblate \
-        https://github.com/nijel/weblate.git \
+        https://github.com/WeblateOrg/weblate.git \
         'weblate/locale/*/LC_MESSAGES/**.po'
 
 .. seealso::

@@ -264,7 +264,7 @@ To get latest sources using Git use:
 
 .. code-block:: sh
 
-    git clone https://github.com/nijel/weblate.git
+    git clone https://github.com/WeblateOrg/weblate.git
 
 Alternatively you can use released archives. You can either download them from our
 website <https://weblate.org/> or use pip installer.
