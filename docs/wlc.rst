@@ -126,7 +126,7 @@ Currently following subcommands are available:
 
 .. option:: statistics
 
-    Displays detailed statistics for given Weblate object (translation or component).
+    Displays detailed statistics for given Weblate object (translation, component or project).
 
 .. option:: lock-status
 
