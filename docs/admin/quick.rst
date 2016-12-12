@@ -50,7 +50,7 @@ Installing on OpenShift
 
    .. parsed-literal::
 
-        rhc -aweblate app create -t python-2.7 --from-code \https://github.com/nijel/weblate.git --no-git
+        rhc -aweblate app create -t python-2.7 --from-code \https://github.com/WeblateOrg/weblate.git --no-git
 
 #. After installation everything should be preconfigured and you can immediately start to add a translation
    project as described below. For more information, including on how to retrieve the generated admin password, see :ref:`openshift`.

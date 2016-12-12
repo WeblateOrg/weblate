@@ -44,8 +44,8 @@ class HideCredentialsTest(TestCase):
 
     def test_github(self):
         self.assertEqual(
-            cleanup_repo_url('git@github.com:nijel/weblate.git'),
-            'git@github.com:nijel/weblate.git',
+            cleanup_repo_url('git@github.com:WeblateOrg/weblate.git'),
+            'git@github.com:WeblateOrg/weblate.git',
         )
 
     def test_git_hg(self):

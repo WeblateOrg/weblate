@@ -105,7 +105,7 @@ class ViewTest(TestCase):
                 'email': 'noreply@weblate.org',
                 'project': 'HOST',
                 'url': 'http://example.net',
-                'repo': 'https://github.com/nijel/weblate.git',
+                'repo': 'https://github.com/WeblateOrg/weblate.git',
                 'mask': 'po/*.po',
                 'message': 'Hi\n\nI want to use it!',
             }

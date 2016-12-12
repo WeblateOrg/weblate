@@ -243,7 +243,7 @@ You can also let wlc know current project and it will then operate on it:
     name: master
     new_base: weblate/locale/django.pot
     project: weblate
-    repo: git://github.com/nijel/weblate.git
+    repo: git://github.com/WeblateOrg/weblate.git
     slug: master
     template: 
     url: https://hosted.weblate.org/api/components/weblate/master/

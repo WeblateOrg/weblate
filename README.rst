@@ -80,7 +80,7 @@ https://docs.weblate.org/en/latest/admin/quick.html
 Bugs
 ----
 
-Please report bugs to https://github.com/nijel/weblate/issues.
+Please report bugs to https://github.com/WeblateOrg/weblate/issues.
 
 License
 -------
