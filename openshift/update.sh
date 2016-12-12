@@ -34,7 +34,7 @@ if [ $# -ne 1 ]; then
   echo ""
   echo "  --force:   Force update that could overwrite changes you made to the OpenShift repository. Also necessary when downgrading or switching branches."
   echo "  <git_url>: URL of git repository to update from. A branch can be specified by appending '#<branch>'"
-  echo "             Example: https://github.com/nijel/weblate.git#master"
+  echo "             Example: https://github.com/WeblateOrg/weblate.git#master"
   echo ""
 
   exit 1

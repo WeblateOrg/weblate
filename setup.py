@@ -73,7 +73,7 @@ setup(
     keywords='i18n l10n gettext git mercurial translate',
     url='https://weblate.org/',
     download_url='https://weblate.org/download/',
-    bugtrack_url='https://github.com/nijel/weblate/issues',
+    bugtrack_url='https://github.com/WeblateOrg/weblate/issues',
     author='Michal Čihař',
     author_email='michal@cihar.com',
     install_requires=REQUIRES,
