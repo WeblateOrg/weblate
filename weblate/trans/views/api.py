@@ -132,11 +132,10 @@ def parse_hook_payload(request):
     """Parses hook payload."""
     # GitLab sends json as application/json
     if request.META['CONTENT_TYPE'] == 'application/json':
-        data = request.body
+        return json.loads(request.body.decode('utf-8'))
     # Bitbucket and GitHub sends json as x-www-form-data
     else:
-        data = request.POST['payload']
-    return json.loads(data.decode('utf-8'))
+        return json.loads(request.POST['payload'])
 
 
 @require_POST
