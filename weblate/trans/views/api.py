@@ -130,17 +130,13 @@ def update_project(request, project):
 
 def parse_hook_payload(request):
     """Parses hook payload."""
-    # Check if we got payload
-    try:
-        # GitLab sends json as application/json
-        if request.META['CONTENT_TYPE'] == 'application/json':
-            data = json.loads(request.body.decode('utf-8'))
-        # Bitbucket and GitHub sends json as x-www-form-data
-        else:
-            data = json.loads(request.POST['payload'])
-    except (ValueError, KeyError, UnicodeError):
-        return HttpResponseBadRequest('Could not parse JSON payload!')
-    return data
+    # GitLab sends json as application/json
+    if request.META['CONTENT_TYPE'] == 'application/json':
+        data = request.body
+    # Bitbucket and GitHub sends json as x-www-form-data
+    else:
+        data = request.POST['payload']
+    return json.loads(data.decode('utf-8'))
 
 
 @require_POST
@@ -158,7 +154,10 @@ def vcs_service_hook(request, service):
         return HttpResponseNotAllowed(())
 
     # Check if we got payload
-    data = parse_hook_payload(request)
+    try:
+        data = parse_hook_payload(request)
+    except (ValueError, KeyError, UnicodeError):
+        return HttpResponseBadRequest('Could not parse JSON payload!')
 
     # Get service helper
     hook_helper = HOOK_HANDLERS[service]
