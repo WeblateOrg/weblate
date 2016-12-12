@@ -57,6 +57,7 @@ CONTROLCHARS = (
     u'\x1f'
 )
 
+
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
     '''
     Replace Trailing Dots with an Ellipsis.

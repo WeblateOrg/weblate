@@ -145,7 +145,7 @@ class PoExporterTest(TestCase):
     def test_has_settargetlanguage(self):
         self.assertTrue(hasattr(self.exporter.storage, 'settargetlanguage'))
 
-    def test_has_UnitClass(self):
+    def test_has_unitclass(self):
         self.assertTrue(hasattr(self.exporter.storage, 'UnitClass'))
 
     def test_has_addunit(self):

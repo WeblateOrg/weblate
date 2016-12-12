@@ -464,7 +464,6 @@ class Language(models.Model, PercentMixin):
             examples=', '.join(self._plural_examples[idx])
         )
 
-
     @models.permalink
     def get_absolute_url(self):
         return ('show_language', (), {
