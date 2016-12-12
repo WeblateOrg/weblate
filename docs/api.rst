@@ -250,6 +250,7 @@ Projects
     :>json string web: project website
     :>json string components_list_url: URL to components list, see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status, see :http:get:`/api/projects/(string:project)/repository/`
+    :>json string changes_list_url: URL to changes list, see :http:get:`/api/projects/(string:project)/changes/`
 
     .. seealso::
 
@@ -276,6 +277,17 @@ Projects
             "web_url": "http://example.com/projects/hello/"
         }
 
+.. http:get:: /api/projects/(string:project)/changes/
+
+    Returns list of project changes.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json array results: array of component objects, see :http:get:`/api/change/(integer:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -425,6 +437,7 @@ Components
     :>json string repository_url: URL to repository status, see :http:get:`/api/components/(string:project)/(string:component)/repository/`
     :>json string translations_url: URL to translations list, see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status, see :http:get:`/api/components/(string:project)/(string:component)/lock/`
+    :>json string changes_list_url: URL to changes list, see :http:get:`/api/components/(string:project)/(string:component)/changes/`
 
     .. seealso::
 
@@ -466,6 +479,20 @@ Components
             "vcs": "git",
             "web_url": "http://example.com/projects/hello/weblate/"
         }
+
+.. http:get::  /api/components/(string:project)/(string:component)/changes/
+
+    Returns list of component changes.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of component objects, see :http:get:`/api/change/(integer:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
@@ -645,6 +672,7 @@ Translations
     :>json int translated_words: number of translated words
     :>json string repository_url: URL to repository status, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
     :>json string file_url: URL to file object, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+    :>json string changes_list_url: URL to changes list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
 
     .. seealso::
 
@@ -721,6 +749,23 @@ Translations
             "url": "http://example.com/api/translations/hello/weblate/cs/",
             "web_url": "http://example.com/projects/hello/weblate/cs/"
         }
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
+
+    Returns list of translation changes.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json array results: array of component objects, see :http:get:`/api/change/(integer:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
 
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
@@ -892,7 +937,7 @@ Changes
 
         Translation object attributes are documented at :http:get:`/api/change/(int:pk)/`.
 
-.. http:get:: /api/change/(int:pk)/
+.. http:get:: /api/change/(integer:pk)/
 
     Returns information about translation change.
 

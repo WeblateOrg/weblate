@@ -174,6 +174,13 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(request.data['count'], 1)
 
+    def test_changes(self):
+        request = self.do_request(
+            'api:project-changes',
+            self.project_kwargs,
+        )
+        self.assertEqual(request.data['count'], 7)
+
     def test_statistics(self):
         request = self.do_request(
             'api:project-statistics',
@@ -315,6 +322,13 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
         )
         self.assertEqual(request.data['count'], 3)
+
+    def test_changes(self):
+        request = self.do_request(
+            'api:component-changes',
+            self.component_kwargs,
+        )
+        self.assertEqual(request.data['count'], 7)
 
 
 class LanguageAPITest(APIBaseTest):
@@ -474,6 +488,13 @@ class TranslationAPITest(APIBaseTest):
                 'name': 'Czech'
             }
         )
+
+    def test_changes(self):
+        request = self.do_request(
+            'api:translation-changes',
+            self.translation_kwargs,
+        )
+        self.assertEqual(request.data['count'], 5)
 
 
 class UnitAPITest(APIBaseTest):

@@ -101,6 +101,10 @@ class ProjectSerializer(serializers.ModelSerializer):
         view_name='api:project-components',
         lookup_field='slug',
     )
+    changes_list_url = serializers.HyperlinkedIdentityField(
+        view_name='api:project-changes',
+        lookup_field='slug',
+    )
     repository_url = serializers.HyperlinkedIdentityField(
         view_name='api:project-repository',
         lookup_field='slug',
@@ -115,6 +119,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             'name', 'slug', 'web', 'source_language', 'web_url', 'url',
             'components_list_url', 'repository_url', 'statistics_url',
+            'changes_list_url',
         )
         extra_kwargs = {
             'url': {
@@ -143,6 +148,10 @@ class ComponentSerializer(RemovableSerializer):
         view_name='api:component-lock',
         lookup_field=('project__slug', 'slug'),
     )
+    changes_list_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-changes',
+        lookup_field=('project__slug', 'slug'),
+    )
     repo = serializers.CharField(source='get_repo_url')
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
@@ -154,7 +163,7 @@ class ComponentSerializer(RemovableSerializer):
             'branch', 'filemask', 'template', 'new_base', 'file_format',
             'license', 'license_url', 'web_url', 'url',
             'repository_url', 'translations_url', 'statistics_url',
-            'lock_url',
+            'lock_url', 'changes_list_url',
         )
         extra_kwargs = {
             'url': {
@@ -219,6 +228,14 @@ class TranslationSerializer(RemovableSerializer):
             'language__code',
         ),
     )
+    changes_list_url = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-changes',
+        lookup_field=(
+            'subproject__project__slug',
+            'subproject__slug',
+            'language__code',
+        ),
+    )
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -236,7 +253,7 @@ class TranslationSerializer(RemovableSerializer):
             'fuzzy', 'fuzzy_percent',
             'failing_checks_percent',
             'last_change', 'last_author',
-            'repository_url', 'file_url', 'statistics_url',
+            'repository_url', 'file_url', 'statistics_url', 'changes_list_url',
         )
         extra_kwargs = {
             'url': {

@@ -347,10 +347,7 @@ def show_project(request, project):
             }
         )
 
-    last_changes = Change.objects.prefetch().filter(
-        Q(translation__subproject__project=obj) |
-        Q(dictionary__project=obj)
-    )[:10]
+    last_changes = Change.objects.for_project(obj)[:10]
 
     language_stats = sort_unicode(
         get_per_language_stats(obj), lambda tup: force_text(tup[0])
@@ -386,9 +383,7 @@ def show_project(request, project):
 def show_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    last_changes = Change.objects.prefetch().filter(
-        translation__subproject=obj
-    )[:10]
+    last_changes = Change.objects.for_component(obj)[:10]
 
     new_lang_form = get_new_language_form(request, obj)(obj)
 
@@ -428,9 +423,7 @@ def show_subproject(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
-    last_changes = Change.objects.prefetch().filter(
-        translation=obj
-    )[:10]
+    last_changes = Change.objects.for_translation(obj)[:10]
 
     # Check locks
     obj.is_locked(request.user)
