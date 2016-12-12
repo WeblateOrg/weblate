@@ -474,3 +474,37 @@ class TranslationAPITest(APIBaseTest):
                 'name': 'Czech'
             }
         )
+
+
+class UnitAPITest(APIBaseTest):
+    def test_list_units(self):
+        response = self.client.get(
+            reverse('api:unit-list')
+        )
+        self.assertEqual(response.data['count'], 12)
+
+    def test_get_unit(self):
+        response = self.client.get(
+            reverse('api:unit-detail', kwargs={'pk': 1})
+        )
+        self.assertEqual(
+            response.data['translation'],
+            'http://testserver/api/translations/test/test/cs/'
+        )
+
+
+class ChangeAPITest(APIBaseTest):
+    def test_list_changes(self):
+        response = self.client.get(
+            reverse('api:change-list')
+        )
+        self.assertEqual(response.data['count'], 8)
+
+    def test_get_change(self):
+        response = self.client.get(
+            reverse('api:change-detail', kwargs={'pk': 1})
+        )
+        self.assertEqual(
+            response.data['translation'],
+            None
+        )

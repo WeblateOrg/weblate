@@ -16,6 +16,7 @@ Released on ? 2016.
 * Added support for CSV export.
 * Added CSV download for stats.
 * Added matrix view for quick overview of all translations
+* Added basic API for changes and units.
 
 weblate 2.9
 -----------

@@ -36,10 +36,13 @@ from rest_framework.utils import formatting
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer, LockRequestSerializer, LockSerializer,
-    RepoRequestSerializer, StatisticsSerializer,
+    RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
+    ChangeSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
-from weblate.trans.models import Project, SubProject, Translation, Change
+from weblate.trans.models import (
+    Project, SubProject, Translation, Change, Unit,
+)
 from weblate.trans.permissions import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
@@ -435,3 +438,24 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Language.objects.have_translation()
+
+
+class UnitViewSet(viewsets.ReadOnlyModelViewSet):
+    """Units API"""
+    queryset = Unit.objects.none()
+    serializer_class = UnitSerializer
+
+    def get_queryset(self):
+        acl_projects = Project.objects.get_acl_ids(self.request.user)
+        return Unit.objects.filter(
+            translation__subproject__project__in=acl_projects
+        )
+
+
+class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
+    """Changes API"""
+    queryset = Change.objects.none()
+    serializer_class = ChangeSerializer
+
+    def get_queryset(self):
+        return Change.objects.last_changes(self.request.user)

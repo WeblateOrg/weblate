@@ -20,12 +20,16 @@
 
 from rest_framework import serializers
 
-from weblate.trans.models import Project, SubProject, Translation
+from weblate.trans.models import Project, SubProject, Translation, Unit, Change
 from weblate.lang.models import Language
 from weblate.trans.site import get_site_url
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
+    def __init__(self, strip_parts=0, **kwargs):
+        self.strip_parts = strip_parts
+        super(MultiFieldHyperlinkedIdentityField, self).__init__(**kwargs)
+
     # pylint: disable=W0622
     def get_url(self, obj, view_name, request, format):
         """
@@ -42,7 +46,12 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         for lookup in self.lookup_field:
             value = obj
             for key in lookup.split('__'):
+                # NULL value
+                if value is None:
+                    return None
                 value = getattr(value, key)
+            if self.strip_parts:
+                lookup = '__'.join(lookup.split('__')[self.strip_parts:])
             kwargs[lookup] = value
         return self.reverse(
             view_name, kwargs=kwargs, request=request, format=format
@@ -268,3 +277,68 @@ class RepoRequestSerializer(ReadOnlySerializer):
 class StatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, obj):
         return obj.get_stats()
+
+
+class UnitSerializer(RemovableSerializer):
+    web_url = AbsoluteURLField(
+        source='get_absolute_url', read_only=True
+    )
+    translation = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-detail',
+        lookup_field=(
+            'translation__subproject__project__slug',
+            'translation__subproject__slug',
+            'translation__language__code',
+        ),
+        strip_parts=1,
+    )
+
+    class Meta(object):
+        model = Unit
+        fields = (
+            'translation', 'source', 'previous_source', 'target', 'checksum',
+            'contentsum', 'location', 'context', 'comment', 'flags', 'fuzzy',
+            'translated', 'position', 'has_suggestion', 'has_comment',
+            'has_failing_check', 'num_words', 'priority', 'id', 'web_url',
+        )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:unit-detail',
+            },
+        }
+
+
+class ChangeSerializer(RemovableSerializer):
+    action_name = serializers.CharField(
+        source='get_action_display', read_only=True
+    )
+    component = MultiFieldHyperlinkedIdentityField(
+        view_name='api:component-detail',
+        lookup_field=('subproject__project__slug', 'subproject__slug'),
+        strip_parts=1,
+    )
+    translation = MultiFieldHyperlinkedIdentityField(
+        view_name='api:translation-detail',
+        lookup_field=(
+            'translation__subproject__project__slug',
+            'translation__subproject__slug',
+            'translation__language__code'
+        ),
+        strip_parts=1,
+    )
+    unit = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        view_name='api:unit-detail'
+    )
+
+    class Meta(object):
+        model = Change
+        fields = (
+            'unit', 'component', 'translation', 'dictionary', 'user',
+            'author', 'timestamp', 'action', 'target', 'id', 'action_name',
+        )
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:change-detail',
+            },
+        }

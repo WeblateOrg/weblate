@@ -837,6 +837,78 @@ Translations
     :>json string url: URL to access the translation (engagement URL)
     :>json string url_translate: URL to access the translation (real translation URL)
 
+Units
++++++
+
+.. versionadded:: 2.10
+
+.. http:get:: /api/units/
+
+    Returns list of translation unitss.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Translation object attributes are documented at :http:get:`/api/units/(int:pk)/`.
+
+.. http:get:: /api/units/(int:pk)/
+
+    Returns information about translation unit.
+
+    :>json string translation: URL of a related translation object
+    :>json string source: source string
+    :>json string previous_source: previous source string used for fuzzy matching
+    :>json string target: target string
+    :>json string checksum: unique identifier of the unit
+    :>json string contentsum: unique identifier of the source string
+    :>json string location: location of the unit in source code
+    :>json string context: translation unit context
+    :>json string comment: translation unit comment
+    :>json string flags: translation unit flags
+    :>json boolean fuzzy: whether unit is fuzzy or marked for review
+    :>json boolean translated: whteher unit is translated
+    :>json integer position: unit position in translation file
+    :>json boolean has_suggestion: whether unit has suggestions
+    :>json boolean has_comment: whether unit has comments
+    :>json boolean has_failing_check: whether unit has failing checks
+    :>json integer num_words: number of source words
+    :>json integer priority: translation priority, 100 is default
+    :>json integer id: unit identifier
+    :>json string web_url: URL where unit can be edited
+
+Changes
++++++++
+
+.. versionadded:: 2.10
+
+.. http:get:: /api/change/
+
+    Returns list of translation changes.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Translation object attributes are documented at :http:get:`/api/change/(int:pk)/`.
+
+.. http:get:: /api/change/(int:pk)/
+
+    Returns information about translation change.
+
+
+    :>json string unit: URL of a related unit object
+    :>json string translation: URL of a related translation object
+    :>json string component: URL of a related component object
+    :>json string dictionary: URL of a related dictionary object
+    :>json string user: URL of a related user object
+    :>json string author: URL of a related author object
+    :>json timestamp timestamp: event timestamp
+    :>json integer action: numeric identification of action
+    :>json string action_name: text description of action
+    :>json string target: event changed text or detail
+    :>json integer id: change identifier
+
 .. _hooks:
 
 Notification hooks
