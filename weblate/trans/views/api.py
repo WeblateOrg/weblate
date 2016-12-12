@@ -26,7 +26,6 @@ import threading
 import six
 
 from django.db.models import Q
-from django.utils.encoding import force_text
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.http import (
@@ -37,8 +36,7 @@ from django.http import (
 from weblate import appsettings
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
-from weblate.trans.stats import get_per_language_stats
-from weblate.trans.util import translation_percent
+from weblate.trans.stats import get_project_stats
 from weblate.logger import LOGGER
 
 
@@ -329,19 +327,7 @@ def export_stats_project(request, project):
     '''
     obj = get_project(request, project)
 
-    data = [
-        {
-            'language': force_text(tup[0]),
-            'code': tup[0].code,
-            'total': tup[2],
-            'translated': tup[1],
-            'translated_percent': translation_percent(tup[1], tup[2]),
-            'total_words': tup[4],
-            'translated_words': tup[3],
-            'words_percent': translation_percent(tup[3], tup[4])
-        }
-        for tup in get_per_language_stats(obj)
-    ]
+    data = get_project_stats(obj)
     return export_response(
         request,
         'stats-%s.csv' % obj.slug,

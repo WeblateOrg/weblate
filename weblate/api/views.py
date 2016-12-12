@@ -45,6 +45,7 @@ from weblate.trans.permissions import (
     can_commit_translation, can_update_translation, can_reset_translation,
     can_push_translation,
 )
+from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 from weblate import get_doc_url
@@ -252,6 +253,12 @@ class ProjectViewSet(WeblateViewSet):
         )
 
         return self.get_paginated_response(serializer.data)
+
+    @detail_route(methods=['get'])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        return Response(get_project_stats(obj))
 
 
 class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):

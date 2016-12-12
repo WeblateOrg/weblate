@@ -21,9 +21,11 @@
 from __future__ import unicode_literals
 
 from django.db.models import Sum
+from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
 from weblate.trans.models import Translation
+from weblate.trans.util import translation_percent
 
 
 def get_per_language_stats(project):
@@ -75,3 +77,20 @@ def get_per_language_stats(project):
             result.append(value)
 
     return result
+
+
+def get_project_stats(project):
+    """Returns stats for project"""
+    return [
+        {
+            'language': force_text(tup[0]),
+            'code': tup[0].code,
+            'total': tup[2],
+            'translated': tup[1],
+            'translated_percent': translation_percent(tup[1], tup[2]),
+            'total_words': tup[4],
+            'translated_words': tup[3],
+            'words_percent': translation_percent(tup[3], tup[4])
+        }
+        for tup in get_per_language_stats(project)
+    ]
