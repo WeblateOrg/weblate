@@ -44,7 +44,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
     :>json string detail: verbose description of failure (for HTTP status codes other than :http:statuscode:`200`)
-    :>json int count: total item count for object lists
+    :>json integer count: total item count for object lists
     :>json string next: next page URL for object lists
     :>json string previous: previous page URL for object lists
     :>json array results: results for object lists
@@ -203,7 +203,7 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
-    :>json int nplurals: Number of plurals
+    :>json integer nplurals: Number of plurals
     :>json string pluralequation: Gettext plural equation
 
     .. seealso::
@@ -393,11 +393,11 @@ Projects
     :>json array results: array of translation statistics objects
     :>json string language: language name
     :>json string code: language code
-    :>json int total: total number of strings
-    :>json int translated: number of translated strings
+    :>json integer total: total number of strings
+    :>json integer translated: number of translated strings
     :>json float translated_percent: percentage of translated strings
-    :>json int total_words: total number of words
-    :>json int translated_words: number of translated words
+    :>json integer total_words: total number of words
+    :>json integer translated_words: number of translated words
     :>json float words_percent: percentage of translated words
 
 Components
@@ -648,15 +648,15 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json object component: component object, see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json int failing_checks: number of units with failing check
+    :>json integer failing_checks: number of units with failing check
     :>json float failing_checks_percent: percetage of failing check units
-    :>json int failing_checks_words: number of words with failing check
+    :>json integer failing_checks_words: number of words with failing check
     :>json string filename: translation filename
-    :>json int fuzzy: number of units marked for review
+    :>json integer fuzzy: number of units marked for review
     :>json float fuzzy_percent: percetage of units marked for review
-    :>json int fuzzy_words: number of words marked for review
-    :>json int have_comment: number of units with comment
-    :>json int have_suggestion: number of units with suggestion
+    :>json integer fuzzy_words: number of words marked for review
+    :>json integer have_comment: number of units with comment
+    :>json integer have_suggestion: number of units with suggestion
     :>json boolean is_template: whether translation is monolingual base
     :>json object language: source language object, see :http:get:`/api/languages/(string:language)/`
     :>json string language_code: language code used in the repository, this can be different from language code in the language object
@@ -664,12 +664,12 @@ Translations
     :>json timestamp last_change: last change timestamp
     :>json string revision: hash revision of the file
     :>json string share_url: URL for sharing leading to engage page
-    :>json int total: total number of units
-    :>json int total_words: total number of words
+    :>json integer total: total number of units
+    :>json integer total_words: total number of words
     :>json string translate_url: URL for translating
-    :>json int translated: number of translated units
+    :>json integer translated: number of translated units
     :>json float translated_percent: percentage of translated units
-    :>json int translated_words: number of translated words
+    :>json integer translated_words: number of translated words
     :>json string repository_url: URL to repository status, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
     :>json string file_url: URL to file object, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
@@ -884,17 +884,17 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json string code: language code
-    :>json int failing: number of failing checks
+    :>json integer failing: number of failing checks
     :>json float failing_percent: percentage of failing checks
-    :>json int fuzzy: number of strings needing review
+    :>json integer fuzzy: number of strings needing review
     :>json float fuzzy_percent: percentage of strings needing review
-    :>json int total_words: total number of words
-    :>json int translated_words: number of translated words
+    :>json integer total_words: total number of words
+    :>json integer translated_words: number of translated words
     :>json string last_author: name of last author
     :>json timestamp last_change: date of last change
     :>json string name: language name
-    :>json int total: total number of strings
-    :>json int translated: number of translated strings
+    :>json integer total: total number of strings
+    :>json integer translated: number of translated strings
     :>json float translated_percent: percentage of translated strings
     :>json string url: URL to access the translation (engagement URL)
     :>json string url_translate: URL to access the translation (real translation URL)
@@ -912,9 +912,9 @@ Units
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Translation object attributes are documented at :http:get:`/api/units/(int:pk)/`.
+        Translation object attributes are documented at :http:get:`/api/units/(integer:pk)/`.
 
-.. http:get:: /api/units/(int:pk)/
+.. http:get:: /api/units/(integer:pk)/
 
     Returns information about translation unit.
 
@@ -952,7 +952,7 @@ Changes
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Translation object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
+        Translation object attributes are documented at :http:get:`/api/changes/(integer:pk)/`.
 
 .. http:get:: /api/changes/(integer:pk)/
 
