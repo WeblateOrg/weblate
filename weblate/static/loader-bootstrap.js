@@ -179,7 +179,7 @@ function testChangeHandler(e) {
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
-function processMachineTranslation(data, textStatus) {
+function processMachineTranslation(data) {
     decreaseLoading('#mt-loading');
     if (data.responseStatus === 200) {
         data.translations.forEach(function (el, idx) {
