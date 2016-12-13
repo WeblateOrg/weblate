@@ -55,6 +55,8 @@ translation page.
 
 User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
 
+.. _additional:
+
 Additional information on source strings
 ----------------------------------------
 
