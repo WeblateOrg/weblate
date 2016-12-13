@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: French (Weblate)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-11 18:36+0200\n"
-"PO-Revision-Date: 2016-12-13 07:55+0100\n"
+"PO-Revision-Date: 2016-12-13 07:58+0100\n"
 "Last-Translator: Jean-Baptiste Holcroft <jean-baptiste@holcroft.fr>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -398,6 +398,7 @@ msgstr "Contact"
 
 #: weblate/accounts/views.py:328 weblate/templates/accounts/hosting.html:7
 #: weblate/accounts/views.py:328,
+#: weblate_web/html/base.html:83
 msgid "Hosting"
 msgstr "Hébergement"
 
@@ -487,11 +488,13 @@ msgstr "Modifications de l’année"
 
 #: weblate/billing/models.py:112 weblate/trans/admin.py:47
 #: weblate/billing/models.py:112,
+#: weblate_web/html/hosting.html:61
 msgid "VCS repositories"
 msgstr "Référentiels VCS"
 
 #: weblate/billing/models.py:134 weblate/trans/admin.py:51
 #: weblate/billing/models.py:134,
+#: weblate_web/html/hosting.html:45
 msgid "Source strings"
 msgstr "Chaînes sources"
 
@@ -517,6 +520,7 @@ msgstr "Mots sources"
 #: weblate/templates/trans/change_list.html:18,
 #: weblate/trans/admin.py:59,
 #: weblate/trans/forms.py:835,
+#: weblate_web/html/features.html:119
 msgid "Languages"
 msgstr "Langues"
 
@@ -671,6 +675,7 @@ msgid "Page Not Found"
 msgstr "Page introuvable"
 
 #: weblate/templates/404.html:11
+#: weblate_web/html/404.html:15
 msgid "The page you are looking for was not found."
 msgstr "La page que vous recherchez n’existe pas."
 
@@ -684,6 +689,7 @@ msgid "Server Error"
 msgstr "Erreur serveur"
 
 #: weblate/templates/500.html:12
+#: weblate_web/html/500.html:15
 msgid ""
 "The server had serious problems while serving your request. We've just sent "
 "our trained monkeys to fix the issue."
@@ -776,6 +782,7 @@ msgid "Ask for project hosting"
 msgstr "Demande d’hébergement de projet"
 
 #: weblate/templates/about.html:44
+#: weblate_web/html/index.html:15
 msgid "View hosting plans"
 msgstr "Voir les solutions d’hébergement"
 
@@ -880,6 +887,7 @@ msgstr ""
 "hébergement sur ce site."
 
 #: weblate/templates/accounts/hosting.html:33
+#: weblate_web/html/hosting.html:213
 msgid "Conditions for free hosting"
 msgstr "Conditions pour un hébergement gratuit"
 
@@ -899,6 +907,7 @@ msgstr ""
 "de versions supporté."
 
 #: weblate/templates/accounts/hosting.html:38
+#: weblate_web/html/hosting.html:218
 msgid "There is no guarantee for service availability or quality."
 msgstr ""
 "Aucune garantie de disponibilité ou de qualité du service n’est fournie."
@@ -1107,6 +1116,7 @@ msgstr ""
 #: weblate/templates/check_project.html:43,
 #: weblate/templates/check_subproject.html:44,
 #: weblate/templates/checks.html:36,
+#: weblate_web/html/features.html:103
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -1573,6 +1583,7 @@ msgstr ""
 "améliorer ceci."
 
 #: weblate/templates/base.html:92
+#: weblate_web/html/base.html:66
 msgid "Toggle navigation"
 msgstr "Basculer la navigation"
 
@@ -1702,6 +1713,8 @@ msgid "Information"
 msgstr "Informations"
 
 #: weblate/templates/checks.html:32
+#: weblate_web/data.py:63,
+#: weblate_web/html/base-features.html:15
 msgid ""
 "Customizable quality checks will help you in improving quality of "
 "translations."
@@ -2097,6 +2110,7 @@ msgid "Powered by <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 msgstr "Propulsé par <a href=\"%(weblate_url)s\">Weblate %(version)s</a>"
 
 #: weblate/templates/footer.html:7
+#: weblate_web/html/hosting.html:161
 msgid "Contact us"
 msgstr "Nous contacter"
 
@@ -3412,6 +3426,8 @@ msgstr[1] "Il y a %(count)s chaînes non traduites."
 #: weblate/templates/translate.html:88
 #: weblate/templates/list-translations.html:72,
 #: weblate/templates/list-translations.html:74,
+#: weblate_web/html/contribute.html:11,
+#: weblate_web/html/contribute.html:38
 msgid "Translate"
 msgstr "Traduire"
 
@@ -4218,6 +4234,8 @@ msgid "Follow using RSS"
 msgstr "Flux RSS"
 
 #: weblate/templates/translate.html:16
+#: weblate_web/html/base.html:12
+#, fuzzy
 msgid "translate"
 msgstr "traduire"
 
@@ -4466,6 +4484,9 @@ msgid "Manage glossary"
 msgstr "Gérer le glossaire"
 
 #: weblate/templates/translate.html:374
+#: weblate_web/data.py:58,
+#: weblate_web/html/features.html:71,
+#: weblate_web/html/hosting.html:125
 msgid "Glossary"
 msgstr "Glossaire"
 
@@ -4584,6 +4605,7 @@ msgstr "Rechercher et remplacer"
 #: weblate/templates/widgets.html:56,
 #: weblate/templates/widgets.html:64,
 #: weblate/templates/widgets.html:71,
+#: weblate_web/html/contribute.html:46
 msgid "Translation status"
 msgstr "État de la traduction"
 
@@ -4606,6 +4628,8 @@ msgid "Translation file"
 msgstr "Fichier de traduction"
 
 #: weblate/templates/translation.html:146
+#: weblate_web/html/base.html:82,
+#: weblate_web/html/download.html:34
 msgid "Download"
 msgstr "Télécharger"
 
@@ -4684,6 +4708,7 @@ msgstr "Cette traduction n’est pas verrouillée."
 #: weblate/templates/translation.html:296
 #: weblate/templates/translation.html:344
 #: weblate/templates/translation.html:296,
+#: weblate_web/html/features.html:111
 msgid "Review"
 msgstr "Examen"
 
@@ -5750,6 +5775,8 @@ msgid "More information about Weblate can be found at {0}"
 msgstr "Plus d’informations sur Weblate sont disponibles sur {0}"
 
 #: weblate/trans/models/advertisement.py:45
+#: weblate_web/html/donate.html:3,
+#: weblate_web/html/donate.html:4
 msgid "Donate to Weblate"
 msgstr "Faire un don à Weblate"
 
@@ -5962,6 +5989,7 @@ msgid "Main website of translated project."
 msgstr "Site web du projet traduit."
 
 #: weblate/trans/models/project.py:82
+#: weblate_web/html/support.html:22
 msgid "Mailing list"
 msgstr "Liste de diffusion"
 
@@ -6049,6 +6077,8 @@ msgid "High"
 msgstr "Haute"
 
 #: weblate/trans/models/source.py:31
+#: weblate_web/html/hosting.html:30
+#, fuzzy
 msgid "Medium"
 msgstr "Moyen"
 
