@@ -20,7 +20,9 @@
 
 from __future__ import unicode_literals
 
-from weblate.trans.machine.base import MachineTranslation
+from weblate.trans.machine.base import (
+    MachineTranslation, MissingConfiguration
+)
 from weblate import appsettings
 
 
