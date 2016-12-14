@@ -55,6 +55,9 @@ DATA_DIR = getvalue('DATA_DIR', os.path.join(BASE_DIR, '..', 'data'))
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
 MT_APERTIUM_KEY = getvalue('MT_APERTIUM_KEY', None)
 
+# URL of the Apertium APy server
+MT_APERTIUM_APY = getvalue('MT_APERTIUM_APY', None)
+
 # Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = getvalue('MT_MICROSOFT_ID', None)

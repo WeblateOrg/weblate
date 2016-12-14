@@ -33,14 +33,18 @@ Apertium
 A free/open-source machine translation platform providing translation to
 limited set of languages.
 
-You should get API key from them, otherwise number of requests is rate limited.
+The recommended way how to use Apertium is to run own Apertium APy server.
 
-To enable this service, add ``trans.machine.apertium.ApertiumTranslation`` to
+Alternatively you can use Apertium server, but you should get API key from
+them, otherwise number of requests is rate limited.
+
+To enable this service, add ``trans.machine.apertium.ApertiumAPYTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
 
-    :setting:`MT_APERTIUM_KEY`, `Apertium website <https://www.apertium.org/>`_
+    :setting:`MT_APERTIUM_KEY`, `Apertium website <https://www.apertium.org/>`_,
+    `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_
 
 Glosbe
 ++++++

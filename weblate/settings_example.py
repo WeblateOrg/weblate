@@ -408,6 +408,9 @@ if not HAVE_SYSLOG:
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
 MT_APERTIUM_KEY = None
 
+# URL of the Apertium APy server
+MT_APERTIUM_APY = None
+
 # Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = None
@@ -525,7 +528,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # List of machine translations
 # MACHINE_TRANSLATION_SERVICES = (
-#     'weblate.trans.machine.apertium.ApertiumTranslation',
+#     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
 #     'weblate.trans.machine.glosbe.GlosbeTranslation',
 #     'weblate.trans.machine.google.GoogleTranslation',
 #     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',

@@ -32,7 +32,9 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
-from weblate.trans.machine.apertium import ApertiumTranslation
+from weblate.trans.machine.apertium import (
+    ApertiumTranslation, ApertiumAPYTranslation,
+)
 from weblate.trans.machine.tmserver import AmagamaTranslation
 from weblate.trans.machine.microsoft import (
     MicrosoftTranslation, MicrosoftCognitiveTranslation,
@@ -181,6 +183,24 @@ class MachineTranslationTest(TestCase):
             '"responseDetails":null,"responseStatus":200}'
         )
         machine = ApertiumTranslation()
+        self.assertTranslate(machine, 'es')
+
+    @OverrideSettings(MT_APERTIUM_APY='http://apertium.example.com/')
+    @httpretty.activate
+    def test_apertium_apy(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://apertium.example.com/listPairs',
+            body='{"responseStatus": 200, "responseData":'
+            '[{"sourceLanguage": "en","targetLanguage": "es"}]}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://apertium.example.com/translate',
+            body='{"responseData":{"translatedText":"Mundial"},'
+            '"responseDetails":null,"responseStatus":200}'
+        )
+        machine = ApertiumAPYTranslation()
         self.assertTranslate(machine, 'es')
 
     @OverrideSettings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')

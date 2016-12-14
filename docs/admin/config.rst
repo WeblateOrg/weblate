@@ -382,7 +382,7 @@ List of enabled machine translation services to use.
 .. code-block:: python
 
     MACHINE_TRANSLATION_SERVICES = (
-        'weblate.trans.machine.apertium.ApertiumTranslation',
+        'weblate.trans.machine.apertium.ApertiumAPYTranslation',
         'weblate.trans.machine.glosbe.GlosbeTranslation',
         'weblate.trans.machine.google.GoogleTranslation',
         'weblate.trans.machine.microsoft.MicrosoftTranslation',
@@ -396,12 +396,27 @@ List of enabled machine translation services to use.
    
    :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+
+.. setting:: MT_APERTIUM_APY
+
+MT_APERTIUM_APY
+---------------
+
+URL of the Apertium APy server, see http://wiki.apertium.org/wiki/Apertium-apy
+
+.. seealso::
+   
+   :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+
 .. setting:: MT_APERTIUM_KEY
 
 MT_APERTIUM_KEY
 ---------------
 
 API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
+
+Not needed when running own Apertium APy server.
 
 .. seealso::
    
