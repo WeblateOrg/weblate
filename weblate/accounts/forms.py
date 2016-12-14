@@ -21,7 +21,11 @@
 from __future__ import unicode_literals
 from itertools import chain
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, HTML
+
 from django import forms
+from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _, pgettext
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -195,6 +199,35 @@ class SubscriptionSettingsForm(forms.ModelForm):
     class Meta(object):
         model = Profile
         fields = Profile.SUBSCRIPTION_FIELDS
+
+    def __init__(self, *args, **kwargs):
+        super(SubscriptionSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset(
+                _('Component wide notifications'),
+                HTML(escape(_(
+                    'You will receive notification on every such event'
+                    ' in your watched projects.'
+                ))),
+                'subscribe_merge_failure',
+                'subscribe_new_language',
+            ),
+            Fieldset(
+                _('Translation notifications'),
+                HTML(escape(_(
+                    'You will receive these notifications only for your'
+                    'translated languages in your watched projects.'
+                ))),
+                'suggestion_voting',
+                'suggestion_autoaccept',
+                'subscribe_any_translation',
+                'subscribe_new_string',
+                'subscribe_new_suggestion',
+                'subscribe_new_contributor',
+                'subscribe_new_comment',
+            ),
+        )
 
 
 class UserSettingsForm(forms.ModelForm):
