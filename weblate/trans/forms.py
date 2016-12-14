@@ -802,7 +802,7 @@ class CommentForm(forms.Form):
                 _('Translation comment, discussions with other translators')
             ),
         ),
-        initial='global',
+        initial='translation',
     )
 
 
