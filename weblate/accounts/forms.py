@@ -217,7 +217,7 @@ class SubscriptionSettingsForm(forms.ModelForm):
                 _('Translation notifications'),
                 HTML(escape(_(
                     'You will receive these notifications only for your'
-                    'translated languages in your watched projects.'
+                    ' translated languages in your watched projects.'
                 ))),
                 'suggestion_voting',
                 'suggestion_autoaccept',
