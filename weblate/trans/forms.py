@@ -782,10 +782,6 @@ class CommentForm(forms.Form):
     '''
     Simple commenting form.
     '''
-    comment = forms.CharField(
-        widget=forms.Textarea(attrs={'dir': 'auto'}),
-        label=_('New comment'),
-    )
     scope = forms.ChoiceField(
         label=_('Scope'),
         help_text=_(
@@ -803,6 +799,10 @@ class CommentForm(forms.Form):
             ),
         ),
         initial='translation',
+    )
+    comment = forms.CharField(
+        widget=forms.Textarea(attrs={'dir': 'auto'}),
+        label=_('New comment'),
     )
 
 
