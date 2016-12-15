@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: French (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-12-14 16:59+0000\n"
-"PO-Revision-Date: 2016-12-14 17:05+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2016-12-15 06:52+0000\n"
+"Last-Translator: Jean-Baptiste <jean-baptiste@holcroft.fr>\n"
 "Language-Team: French "
 "<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
@@ -53,40 +53,32 @@ msgid "This username is already taken. Please choose another."
 msgstr "Ce nom d’utilisateur existe déjà. Veuillez en choisir un autre."
 
 #: weblate/accounts/forms.py:208
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component wide notifications"
-msgstr "Listes de sous-projets"
+msgstr "Notifications par composants"
 
 #: weblate/accounts/forms.py:210
-#, fuzzy
-#| msgid ""
-#| "You will automatically receive important notifications on managed "
-#| "projects."
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
-"Vous recevrez automatiquement les notifications importantes pour les projets "
-"pilotés."
+"Vous recevrez des notifications pour chaque évènement de ce type dans les "
+"projets que vous surveillez."
 
 #: weblate/accounts/forms.py:217
 msgid "Translation notifications"
 msgstr "Notifications sur les traductions"
 
 #: weblate/accounts/forms.py:219
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
 msgstr ""
-"Vous recevrez les avis sélectionnés par courriel pour toutes vos langues."
+"Vous recevrez ces notifications uniquement pour vos langues de traduction et "
+"vos projets surveillés."
 
 #: weblate/accounts/forms.py:265
 msgid "Component list must be selected when used as default."
 msgstr ""
-"La liste des composantes doit être sélectionnée lorsqu’elle est utilisée "
+"La liste des composants doit être sélectionnée lorsqu’elle est utilisée "
 "comme valeur par défaut."
 
 #: weblate/accounts/forms.py:274 weblate/accounts/forms.py:344
@@ -629,11 +621,10 @@ msgid ""
 "translations across components, quality checks and automatic linking to "
 "source files."
 msgstr ""
-"Weblate est un outil de traduction qui fonctionne en mode web, possède une "
-"interface utilisateur simple et communique avec les outils de gestion de "
-"versions. Weblate permet de propager les traductions entre sous-projets, de "
-"vérifier la qualité des traductions et assure automatiquement les échanges "
-"avec les fichiers sources."
+"Weblate est un outil de traduction finement intégré aux outils de gestion de "
+"version. Il offre une interface propre et simple, la propagation des "
+"traductions entre les composants, des tests qualité et des liens "
+"automatiques avec les fichiers sources."
 
 #: weblate/templates/about.html:18 weblate/templates/accounts/contact.html:13
 #, python-format
@@ -2941,7 +2932,7 @@ msgstr "Supprime la traduction actuelle du référentiel."
 #: weblate/templates/language-project.html:15 weblate/templates/project.html:25
 #: weblate/trans/models/subproject.py:476
 msgid "Components"
-msgstr "Sous-projets"
+msgstr "Composants"
 
 #: weblate/templates/language-project.html:23
 #: weblate/templates/language.html:24 weblate/templates/project.html:45
@@ -3055,7 +3046,7 @@ msgstr "Paramétrer les colonnes"
 #: weblate/templates/list-translations.html:36
 #: weblate/templates/translation.html:90
 msgid "This translation is being used as source strings within this component."
-msgstr "Cette traduction est utilisée comme chaîne source dans le sous-projet."
+msgstr "Cette traduction est utilisée comme chaîne source dans le composant."
 
 #: weblate/templates/list-translations.html:36
 msgid "source"
@@ -3536,7 +3527,7 @@ msgstr "Widgets de statut"
 #: weblate/templates/project.html:81 weblate/templates/translate.html:270
 #: weblate/trans/models/subproject.py:475 weblate/trans/models/whiteboard.py:76
 msgid "Component"
-msgstr "Sous-projet"
+msgstr "Composant"
 
 #: weblate/templates/project.html:143
 msgid "There are currently no glossaries defined for this project."
@@ -4060,10 +4051,8 @@ msgid "Flags"
 msgstr "Drapeaux"
 
 #: weblate/templates/translate.html:468
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No flags currently set!"
-msgstr "Aucune capture d’écran associée !"
+msgstr "Aucun paramètre n’est actuellement renseigné !"
 
 #: weblate/templates/translate.html:477
 msgid "String priority"
@@ -4165,7 +4154,7 @@ msgstr "Télécharger"
 
 #: weblate/templates/translation.html:162
 msgid "Other components"
-msgstr "Autres sous-projets"
+msgstr "Autres composants"
 
 #: weblate/templates/translation.html:181
 msgid "Browse all translation changes"
@@ -4179,10 +4168,9 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "La traduction automatique prend les traductions de ce projet et les applique "
-"au sous-projet courant. Elle peut être utilisée pour propager les "
-"traductions sur différentes branches, pour corriger des traductions "
-"incohérentes ou pour traduire un nouveau sous-projet en utilisant la mémoire "
-"de traduction."
+"au composant courant. Elle peut être utilisée pour propager les traductions "
+"sur différentes branches, pour corriger des traductions incohérentes ou pour "
+"traduire un nouveau composant en utilisant la mémoire de traduction."
 
 #: weblate/templates/translation.html:196
 #: weblate/templates/translation.html:214
@@ -5098,7 +5086,7 @@ msgstr "Remplacer ce qui est incohérent"
 
 #: weblate/trans/forms.py:676
 msgid "Component to use"
-msgstr "Sous-projet à utiliser"
+msgstr "Composant à utiliser"
 
 #: weblate/trans/forms.py:704
 msgid "All components in current project"
@@ -5381,11 +5369,11 @@ msgstr "Nouvelle chaîne source"
 
 #: weblate/trans/models/change.py:215
 msgid "Component locked"
-msgstr "Verrouillé"
+msgstr "Le composant est verrouillé"
 
 #: weblate/trans/models/change.py:216
 msgid "Component unlocked"
-msgstr "Dévérouillé"
+msgstr "Le composant est déverrouillé"
 
 #: weblate/trans/models/change.py:217
 msgid "Detected duplicate string"
@@ -5438,7 +5426,7 @@ msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)
 
 #: weblate/trans/models/componentlist.py:32
 msgid "Component list name"
-msgstr "Nom du sous-projet"
+msgstr "Nom de la liste des composants"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:69
 #: weblate/trans/models/subproject.py:120
@@ -5457,7 +5445,7 @@ msgstr "Nom utilisé dans les URL et noms de fichiers."
 
 #: weblate/trans/models/componentlist.py:55
 msgid "Component lists"
-msgstr "Listes de sous-projets"
+msgstr "Listes de composants"
 
 #: weblate/trans/models/group_acl.py:47
 msgid "Project, component or language must be specified"
@@ -5604,7 +5592,7 @@ msgstr "Fusionner"
 
 #: weblate/trans/models/subproject.py:118
 msgid "Component name"
-msgstr "Nom du sous-projet"
+msgstr "Nom du composant"
 
 #: weblate/trans/models/subproject.py:133
 msgid "Version control system"
@@ -5620,8 +5608,8 @@ msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"URL du référentiel Git, utilisez weblate://projet/sous-projet pour le "
-"partager avec une autre ressource."
+"URL d'un référentiel, utilisez weblate://projet/composant pour le partager "
+"avec un autre composant."
 
 #: weblate/trans/models/subproject.py:151
 msgid "Repository push URL"
@@ -5805,8 +5793,7 @@ msgstr "Verrouillé"
 
 #: weblate/trans/models/subproject.py:308
 msgid "Whether component is locked for translation updates."
-msgstr ""
-"Pour verrouiller le sous-projet lors des mises à jour de la traduction."
+msgstr "Si le composant est verrouillé pour les mises à jour de traduction."
 
 #: weblate/trans/models/subproject.py:312
 msgid "Allow translation propagation"
@@ -5817,8 +5804,8 @@ msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
-"Pour déclencher la traductions automatique ici lors de la mise à jour de "
-"traductions dans les autres sous-projets"
+"Pour déclencher la traduction automatique ici lors de la mise à jour de "
+"traductions dans les autres composants"
 
 #: weblate/trans/models/subproject.py:321
 msgid "Save translation history"
@@ -6088,7 +6075,7 @@ msgid ""
 "You probably want to enable automatic adding of new translations."
 msgstr ""
 "Le fichier de base pour de nouvelles traductions n’est pas utilisé en raison "
-"des paramètres du projet. Vous souhaitez probablement activer l’ajout "
+"des paramètres du composant. Vous souhaitez probablement activer l’ajout "
 "automatique de nouvelles langues de traduction."
 
 #: weblate/trans/models/subproject.py:1227
@@ -6935,11 +6922,11 @@ msgstr "La traduction est maintenant ouverte aux mises à jour."
 #: weblate/trans/views/lock.py:97
 msgid "Component is now locked for translation updates!"
 msgstr ""
-"Le projet est maintenant verrouillé pour les mises à jour de traduction !"
+"Le composant est maintenant verrouillé pour les mises à jour de traduction !"
 
 #: weblate/trans/views/lock.py:114
 msgid "Component is now open for translation updates."
-msgstr "Le projet est maintenant ouvert aux mises à jour de traduction."
+msgstr "Le composant est maintenant ouvert aux mises à jour de traduction."
 
 #: weblate/trans/views/lock.py:134
 msgid "All components are now locked for translation updates!"
