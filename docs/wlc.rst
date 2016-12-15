@@ -160,6 +160,23 @@ Currently following subcommands are available:
 
     Displays changes for given object.
 
+.. option:: download
+
+    .. versionadded:: 0.7
+
+        Supported since wlc 0.7.
+
+    Downloads translation file.
+
+    .. option:: --convert
+
+        Convert file format, if not specified not conversion happens on server
+        and file is downloaded as is in the repository.
+
+    .. option:: --output
+
+        File where to store output, if not specified file is printed to stdout.
+
 .. _files:
 
 Files
