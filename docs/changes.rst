@@ -4,7 +4,7 @@ Changes
 weblate 2.10
 ------------
 
-Released on ? 2016.
+Released on Dec 15th 2016.
 
 * Added quality check to check whether plurals are translated differently.
 * Fixed GitHub hooks for repositories with authentication.
