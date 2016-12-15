@@ -403,6 +403,19 @@ if (os.environ.get('DJANGO_IS_MANAGEMENT_COMMAND', False) and
 if not HAVE_SYSLOG:
     del LOGGING['handlers']['syslog']
 
+# List of machine translations
+# MACHINE_TRANSLATION_SERVICES = (
+#     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
+#     'weblate.trans.machine.glosbe.GlosbeTranslation',
+#     'weblate.trans.machine.google.GoogleTranslation',
+#     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
+#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
+#     'weblate.trans.machine.tmserver.AmagamaTranslation',
+#     'weblate.trans.machine.tmserver.TMServerTranslation',
+#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
+#     'weblate.trans.machine.weblatetm.WeblateTranslation',
+# )
+
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
@@ -524,19 +537,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 # POST_UPDATE_SCRIPTS = (
 # )
 # PRE_COMMIT_SCRIPTS = (
-# )
-
-# List of machine translations
-# MACHINE_TRANSLATION_SERVICES = (
-#     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
-#     'weblate.trans.machine.glosbe.GlosbeTranslation',
-#     'weblate.trans.machine.google.GoogleTranslation',
-#     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
-#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
-#     'weblate.trans.machine.tmserver.AmagamaTranslation',
-#     'weblate.trans.machine.tmserver.TMServerTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateTranslation',
 # )
 
 # E-mail address that error messages come from.
