@@ -17,7 +17,7 @@ Released on Dec 15th 2016.
 * Added CSV download for stats.
 * Added matrix view for quick overview of all translations
 * Added basic API for changes and units.
-* Added supoort for Apertium APy server for machine translations.
+* Added support for Apertium APy server for machine translations.
 
 weblate 2.9
 -----------
