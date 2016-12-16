@@ -34,6 +34,33 @@ from django.views.decorators.cache import never_cache
 from weblate.trans.views.helper import get_subproject
 
 
+GIT_HTTP_BACKEND = None
+GIT_PATHS = [
+    '/usr/lib/git',
+    '/usr/lib/git-core',
+]
+
+
+def find_git_http_backend():
+    """Finds git http backend"""
+
+    if hasattr(find_git_http_backend, 'result'):
+        return find_git_http_backend.result
+
+    try:
+        path = subprocess.check_output(['git', '--exec-path']).decode('utf-8')
+        if path:
+            GIT_PATHS.insert(0, path)
+    except OSError:
+        pass
+
+    for path in GIT_PATHS:
+        name = os.path.join(path, 'git-http-backend')
+        if os.path.exists(name):
+            find_git_http_backend.result = name
+            return name
+
+
 def response_authenticate():
     """
     Returns 401 response with authenticate header.
@@ -88,6 +115,7 @@ def git_export(request, project, subproject, path):
             permanent=False
         )
 
+
     # HTTP authentication
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
 
@@ -103,9 +131,14 @@ def git_export(request, project, subproject, path):
             return response_authenticate()
         raise
 
+    # Find Git HTTP backend
+    git_http_backend = find_git_http_backend()
+    if git_http_backend is None:
+        return HttpResponseServerError('git-http-backend not found')
+
     # Invoke Git HTTP backend
     process = subprocess.Popen(
-        ['/usr/lib/git-core/git-http-backend'],
+        [git_http_backend],
         env={
             'REQUEST_METHOD': request.method,
             'PATH_TRANSLATED': os.path.join(obj.get_path(), path),
