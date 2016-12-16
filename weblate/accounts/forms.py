@@ -219,8 +219,6 @@ class SubscriptionSettingsForm(forms.ModelForm):
                     'You will receive these notifications only for your'
                     ' translated languages in your watched projects.'
                 ))),
-                'suggestion_voting',
-                'suggestion_autoaccept',
                 'subscribe_any_translation',
                 'subscribe_new_string',
                 'subscribe_new_suggestion',
