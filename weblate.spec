@@ -124,7 +124,7 @@ install -d %{buildroot}/%{WLDATADIR}
 
 %post
 # Static files
-%{WLDIR}/manage.py collectstatic --noinput
+su - wwwrun -s /bin/bash -c '%{WLDIR}/manage.py collectstatic --noinput'
 
 %check
 export LANG=en_US.UTF-8
