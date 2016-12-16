@@ -17,38 +17,46 @@ BuildRequires:  graphviz
 BuildRequires:  graphviz-gd
 BuildRequires:  mercurial
 BuildRequires:  python-Babel
-BuildRequires:  python-Django >= 1.7
+BuildRequires:  python-Django >= 1.9
 BuildRequires:  python-Pillow
 BuildRequires:  python-Sphinx
-BuildRequires:  python-alabaster
 BuildRequires:  python-dateutil
 BuildRequires:  python-defusedxml
 BuildRequires:  python-django-crispy-forms >= 1.4.0
-BuildRequires:  python-django_compressor
+BuildRequires:  python-django_compressor >= 2.1
 BuildRequires:  python-djangorestframework >= 3.3
 BuildRequires:  python-httpretty
 BuildRequires:  python-python-social-auth >= 0.2
 BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
-BuildRequires:  python-whoosh >= 2.5.2
+BuildRequires:  python-Whoosh >= 2.6.1
+BuildRequires:  git-review
+BuildRequires:  git-svn
+BuildRequires:  python-PyYAML
 BuildRequires:  translate-toolkit >= 1.14.0
 Requires:       apache2-mod_wsgi
 Requires:       cron
 Requires:       git
 Requires:       python-Babel
 Requires:       python-defusedxml
-Requires:       python-Django >= 1.7
-Requires:       python-django_compressor
+Requires:       python-Django >= 1.9
+Requires:       python-django_compressor >= 2.1
 Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
 Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-python-social-auth >= 0.2
-Requires:       python-whoosh >= 2.5.2
+Requires:       python-Whoosh >= 2.6.1
 Requires:       translate-toolkit >= 1.14.0
+Recommends:     git-review
+Recommends:     git-svn
+Recommends:     mercurial
+Recommends:     python-PyYAML
 Recommends:     python-MySQL-python
 Recommends:     python-psycopg2
 Recommends:     python-pyuca
+Recommends:     python-python-bidi
+Recommends:     python-python-memcached
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 %py_requires
