@@ -8,17 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-12-14 16:59+0000\n"
-"PO-Revision-Date: 2016-11-18 15:56+0000\n"
+"PO-Revision-Date: 2016-12-17 22:40+0000\n"
 "Last-Translator: Sijera <sijeravl@gmail.com>\n"
-"Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
-"sr/>\n"
+"Language-Team: Serbian "
+"<https://hosted.weblate.org/projects/weblate/master/sr/>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.10\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -60,29 +60,21 @@ msgid "Component wide notifications"
 msgstr ""
 
 #: weblate/accounts/forms.py:210
-#, fuzzy
-#| msgid ""
-#| "You will automatically receive important notifications on managed "
-#| "projects."
 msgid ""
 "You will receive notification on every such event in your watched projects."
-msgstr ""
-"Аутоматски ћете добијати важна обавештења за пројекте којима управљате."
+msgstr "Примаћете обавештења за сваки догађај у надгледаним пројектима."
 
 #: weblate/accounts/forms.py:217
-#, fuzzy
-#| msgid "Translation settings"
 msgid "Translation notifications"
-msgstr "Подешавање превода"
+msgstr "Обавештења о преводима"
 
 #: weblate/accounts/forms.py:219
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr "Добијаћете изабрана обавештења е-поштом за све ваше језике."
+msgstr ""
+"Примаћете ова обавештења само за језике на којима преводите у надгледаним "
+"пројектима."
 
 #: weblate/accounts/forms.py:265
 msgid "Component list must be selected when used as default."
@@ -1080,16 +1072,13 @@ msgstr ""
 "\"%(api_doc)s\">API документацију</a> за више детаља."
 
 #: weblate/templates/accounts/profile.html:343
-#, fuzzy, python-format
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
+#, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"Можете контролисати Веблејт користећи HTTP REST API. Погледајте <a href="
-"\"%(api_doc)s\">API документацију</a> за више детаља."
+"API кључ се такође користи за приступање извезеним Git складиштима. "
+"Погледајте <a href=\"%(git_doc)s\">документацију</a> за више детаља."
 
 #: weblate/templates/accounts/profile.html:362
 msgid ""
@@ -1453,8 +1442,7 @@ msgid "Used %(used)s"
 msgstr "Искоришћено %(used)s"
 
 #: weblate/templates/billing/used.html:7
-#, fuzzy, python-format
-#| msgid "Used %(used)s from %(total)s"
+#, python-format
 msgid "Used %(used)s of %(total)s"
 msgstr "Искоришћено %(used)s од %(total)s"
 
@@ -3025,14 +3013,12 @@ msgid "Translate"
 msgstr "Преведи"
 
 #: weblate/templates/list-translations.html:74
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion."
-#| msgid_plural "There are %(count)s suggestions."
+#, python-format
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "Постоји %(count)s предлог."
-msgstr[1] "Постоје %(count)s предлога."
-msgstr[2] "Постоји %(count)s предлога."
+msgstr[0] "Постоји %(count)s преведени низ."
+msgstr[1] "Постоје %(count)s преведена низа."
+msgstr[2] "Постоји %(count)s преведених низова."
 
 #: weblate/templates/mail/activation.html:7
 #: weblate/templates/mail/activation.txt:1
@@ -3381,10 +3367,8 @@ msgid "Data exports"
 msgstr "Извоз података"
 
 #: weblate/templates/project.html:37 weblate/templates/subproject.html:40
-#, fuzzy
-#| msgid "Weblate statistics"
 msgid "Download statistics (CSV)"
-msgstr "Weblate статистика"
+msgstr "Преузми статистику (CSV)"
 
 #: weblate/templates/project.html:38 weblate/templates/subproject.html:41
 msgid "Download statistics (JSON)"
@@ -3597,10 +3581,8 @@ msgid "Translations"
 msgstr "Преводи"
 
 #: weblate/templates/subproject.html:42
-#, fuzzy
-#| msgid "Start review"
 msgid "Matrix view"
-msgstr "Започни оверу"
+msgstr "Matrix приказ"
 
 #: weblate/templates/subproject.html:49
 msgid "Source strings review"
@@ -3682,10 +3664,8 @@ msgid "Repository with Weblate translations"
 msgstr "Спремиште са Weblate-преводима"
 
 #: weblate/templates/trans/change_list.html:32
-#, fuzzy
-#| msgid "Download translation as XLIFF"
 msgid "Download latest changes as CSV"
-msgstr "Преузми превод као XLIFF"
+msgstr "Преузми најновије измене као CSV"
 
 #: weblate/templates/trans/change_list.html:37
 msgid "Follow using RSS"
@@ -3954,10 +3934,8 @@ msgid "Flags"
 msgstr "Заставице"
 
 #: weblate/templates/translate.html:468
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No flags currently set!"
-msgstr "Нема придруженог снимка екрана!"
+msgstr "Тренутно нема постављених заставица!"
 
 #: weblate/templates/translate.html:477
 msgid "String priority"
@@ -3994,10 +3972,8 @@ msgid "Download translation as Gettext MO"
 msgstr "Преузми превод као Gettext MO"
 
 #: weblate/templates/translation-download.html:11
-#, fuzzy
-#| msgid "Download translation as XLIFF"
 msgid "Download translation as CSV"
-msgstr "Преузми превод као XLIFF"
+msgstr "Преузми превод као CSV"
 
 #: weblate/templates/translation-download.html:13
 msgid "Download for using within an application."
@@ -5493,16 +5469,12 @@ msgid "Repository branch to translate"
 msgstr "Грана спремишта за превођење"
 
 #: weblate/trans/models/subproject.py:196
-#, fuzzy
-#| msgid ""
-#| "Path of files to translate, use * instead of language code, for example: "
-#| "po/*.po or locale/*/LC_MESSAGES/django.po."
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Путања до фајла за превод. Користите * уместо кôда језика, нпр: po/*.po или "
-"locale/*/LC_MESSAGES/django.po."
+"Путања датотека за превод у односу на основно спремиште. Користите * уместо "
+"кода језика, нпр: po/*.po или locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:202
 msgid "Monolingual base language file"
@@ -6297,21 +6269,19 @@ msgstr ""
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
-msgstr ""
+msgstr "RST текст"
 
 #: weblate/trans/validators.py:31
 msgid "XML text"
-msgstr ""
+msgstr "XML текст"
 
 #: weblate/trans/validators.py:33
 msgid "Skip review flag when importing"
 msgstr ""
 
 #: weblate/trans/validators.py:36
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Add review flag for new source strings"
-msgstr "Провери изворне поруке у %s"
+msgstr "Додај заставице за преглед за нове изворне низове"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:60
 #: weblate/trans/validators.py:80
