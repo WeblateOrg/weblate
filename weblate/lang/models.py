@@ -115,6 +115,8 @@ class LanguageManager(models.Manager):
                 country = country[1:]
         elif '_' in code:
             lang, country = code.split('_', 1)
+        elif '+' in code:
+            lang, country = code.split('+', 1)
         else:
             lang = code
             country = None
@@ -164,7 +166,7 @@ class LanguageManager(models.Manager):
             return ret
 
         # Try using name
-        ret = self.try_get(name__iexact=code.lower())
+        ret = self.try_get(name__iexact=code)
         if ret is not None:
             return ret
 
@@ -191,7 +193,7 @@ class LanguageManager(models.Manager):
         else:
             newcode = lang.lower()
 
-        ret = self.try_get(code=newcode)
+        ret = self.try_get(code__iexact=newcode)
         if ret is not None:
             return ret
 
