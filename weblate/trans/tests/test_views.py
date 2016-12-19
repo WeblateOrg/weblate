@@ -482,6 +482,11 @@ class BasicResourceViewTest(BasicViewTest):
         return self.create_android()
 
 
+class BasicBranchViewTest(BasicViewTest):
+    def create_subproject(self):
+        return self.create_po_branch()
+
+
 class BasicMercurialViewTest(BasicViewTest):
     def create_subproject(self):
         return self.create_po_mercurial()

@@ -173,7 +173,7 @@ class RepoTestMixin(object):
         return project
 
     def _create_subproject(self, file_format, mask, template='',
-                           new_base='', vcs='git', **kwargs):
+                           new_base='', vcs='git', branch=None, **kwargs):
         """
         Creates real test subproject.
         """
@@ -181,24 +181,27 @@ class RepoTestMixin(object):
             kwargs['project'] = self.create_project()
 
         if vcs == 'mercurial':
-            branch = 'default'
+            d_branch = 'default'
             repo = self.hg_repo_path
             push = self.hg_repo_path
             if not HgRepository.is_supported():
                 raise SkipTest('Mercurial not available!')
         elif vcs == 'subversion':
-            branch = 'master'
+            d_branch = 'master'
             repo = 'file://' + self.svn_repo_path
             push = 'file://' + self.svn_repo_path
             if not SubversionRepository.is_supported():
                 raise SkipTest('Subversion not available!')
         else:
-            branch = 'master'
+            d_branch = 'master'
             repo = self.git_repo_path
             push = self.git_repo_path
 
         if 'new_lang' not in kwargs:
             kwargs['new_lang'] = 'contact'
+
+        if branch is None:
+            branch = d_branch
 
         return SubProject.objects.create(
             name='Test',
@@ -229,6 +232,13 @@ class RepoTestMixin(object):
         return self._create_subproject(
             'po',
             'po/*.po',
+        )
+
+    def create_po_branch(self):
+        return self._create_subproject(
+            'po',
+            'translations/*.po',
+            branch='translations'
         )
 
     def create_po_empty(self):

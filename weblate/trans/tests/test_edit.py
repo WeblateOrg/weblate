@@ -433,6 +433,11 @@ class EditResourceSourceTest(ViewTestCase):
         return self.create_android()
 
 
+class EditBranchTest(EditTest):
+    def create_subproject(self):
+        return self.create_po_branch()
+
+
 class EditMercurialTest(EditTest):
     def create_subproject(self):
         return self.create_po_mercurial()
