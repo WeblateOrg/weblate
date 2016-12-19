@@ -381,7 +381,7 @@ class TranslationAPITest(APIBaseTest):
             )
         )
         self.assertContains(
-            response, 'Project-Id-Version: Weblate Hello World 2012'
+            response, 'Project-Id-Version: Weblate Hello World 2016'
         )
 
     def test_download_invalid_format(self):
