@@ -66,7 +66,7 @@ class MultiRepoTest(ViewTestCase):
     Tests handling of remote changes, conflicts and so on.
     '''
     _vcs = 'git'
-    _branch = None
+    _branch = 'master'
     _filemask = 'po/*.po'
 
     def setUp(self):
@@ -276,6 +276,7 @@ class GitBranchMultiRepoTest(MultiRepoTest):
 
 class MercurialMultiRepoTest(MultiRepoTest):
     _vcs = 'mercurial'
+    _branch = 'default'
 
     def create_subproject(self):
         return self.create_po_mercurial()
