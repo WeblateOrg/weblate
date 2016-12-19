@@ -139,6 +139,10 @@ class SubProjectTest(RepoTestCase):
         project = self.create_po_mercurial()
         self.verify_subproject(project, 3, 'cs', 4)
 
+    def test_create_po_branch(self):
+        project = self.create_po_branch()
+        self.verify_subproject(project, 3, 'cs', 4)
+
     def test_create_po_svn(self):
         project = self.create_po_svn()
         self.verify_subproject(project, 3, 'cs', 4)

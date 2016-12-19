@@ -66,6 +66,8 @@ class MultiRepoTest(ViewTestCase):
     Tests handling of remote changes, conflicts and so on.
     '''
     _vcs = 'git'
+    _branch = None
+    _filemask = 'po/*.po'
 
     def setUp(self):
         super(MultiRepoTest, self).setUp()
@@ -89,11 +91,12 @@ class MultiRepoTest(ViewTestCase):
             repo=repo,
             push=push,
             vcs=self._vcs,
-            filemask='po/*.po',
+            filemask=self._filemask,
             template='',
             file_format='po',
             repoweb=REPOWEB_URL,
             new_base='',
+            branch=self._branch,
         )
         self.request = self.get_request('/')
 
@@ -260,6 +263,15 @@ class MultiRepoTest(ViewTestCase):
             language_code='cs'
         )
         self.assertEqual(translation.total, 1)
+
+
+class GitBranchMultiRepoTest(MultiRepoTest):
+    _vcs = 'git'
+    _branch = 'translations'
+    _filemask = 'translations/*.po'
+
+    def create_subproject(self):
+        return self.create_po_branch()
 
 
 class MercurialMultiRepoTest(MultiRepoTest):
