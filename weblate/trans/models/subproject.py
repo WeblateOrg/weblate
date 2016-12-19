@@ -955,10 +955,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.merge_style,
                     error
                 )
-
-                # Reset repo back
-                method(abort=True)
-
                 if self.id:
                     Change.objects.create(
                         subproject=self,
@@ -969,6 +965,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
                 # Notify subscribers and admins
                 notify_merge_failure(self, error, status)
+
+                # Reset repo back
+                method(abort=True)
 
                 # Tell user (if there is any)
                 if request is not None:
