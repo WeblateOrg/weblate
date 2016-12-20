@@ -1,6 +1,6 @@
 /*global define:false */
 /**
- * Copyright 2015 Craig Campbell
+ * Copyright 2016 Craig Campbell
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,15 @@
  * Mousetrap is a simple keyboard shortcut library for Javascript with
  * no external dependencies
  *
- * @version 1.5.3
+ * @version 1.6.0
  * @url craig.is/killing/mice
  */
 (function(window, document, undefined) {
+
+    // Check if mousetrap is used inside browser, if not, return
+    if (!window) {
+        return;
+    }
 
     /**
      * mapping of special keycodes to their corresponding keys
@@ -151,7 +156,13 @@
      * loop through to map numbers on the numeric keypad
      */
     for (i = 0; i <= 9; ++i) {
-        _MAP[i + 96] = i;
+
+        // This needs to use a string cause otherwise since 0 is falsey
+        // mousetrap will never fire for numpad 0 pressed as part of a keydown
+        // event.
+        //
+        // @see https://github.com/ccampbell/mousetrap/pull/258
+        _MAP[i + 96] = i.toString();
     }
 
     /**
@@ -219,25 +230,12 @@
     /**
      * checks if two arrays are equal
      *
-     * @param {Array} arr1
-     * @param {Array} arr2
+     * @param {Array} modifiers1
+     * @param {Array} modifiers2
      * @returns {boolean}
      */
-    function _modifiersMatch(arr1, arr2) {
-        var i,
-            len = arr1.length;
-
-        if (len !== arr2.length) {
-            return false;
-        }
-        arr1 = arr1.sort();
-        arr2 = arr2.sort();
-        for (i = 0; i < len; i++) {
-            if (arr1[i] !== arr2[i]) {
-                return false;
-            }
-        }
-        return true;
+    function _modifiersMatch(modifiers1, modifiers2) {
+        return modifiers1.sort().join(',') === modifiers2.sort().join(',');
     }
 
     /**
@@ -997,6 +995,18 @@
     };
 
     /**
+     * allow custom key mappings
+     */
+    Mousetrap.addKeycodes = function(object) {
+        for (var key in object) {
+            if (object.hasOwnProperty(key)) {
+                _MAP[key] = object[key];
+            }
+        }
+        _REVERSE_MAP = null;
+    };
+
+    /**
      * Init the global mousetrap functions
      *
      * This method is needed to allow the global mousetrap functions to work
@@ -1031,4 +1041,4 @@
             return Mousetrap;
         });
     }
-}) (window, document);
+}) (typeof window !== 'undefined' ? window : null, typeof  window !== 'undefined' ? document : null);

@@ -25,6 +25,39 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.autofixes.base import AutoFix
 
 
+CONTROLCHARS = (
+    u'\x00',
+    u'\x01',
+    u'\x02',
+    u'\x03',
+    u'\x04',
+    u'\x05',
+    u'\x06',
+    u'\x07',
+    u'\x08',
+    u'\x0b',
+    u'\x0c',
+    u'\x0e',
+    u'\x0f',
+    u'\x10',
+    u'\x11',
+    u'\x12',
+    u'\x13',
+    u'\x14',
+    u'\x15',
+    u'\x16',
+    u'\x17',
+    u'\x18',
+    u'\x19',
+    u'\x1a',
+    u'\x1b',
+    u'\x1c',
+    u'\x1d',
+    u'\x1e',
+    u'\x1f'
+)
+
+
 class ReplaceTrailingDotsWithEllipsis(AutoFix):
     '''
     Replace Trailing Dots with an Ellipsis.
@@ -53,3 +86,20 @@ class RemoveZeroSpace(AutoFix):
         if '\u200b' not in source and '\u200b' in target:
             return target.replace('\u200b', ''), True
         return target, False
+
+
+class RemoveControlChars(AutoFix):
+    '''
+    Remove control chars from the string.
+    '''
+
+    fix_id = 'control-chars'
+    name = _('Control chars')
+
+    def fix_single_target(self, target, source, unit):
+        modified = False
+        for char in CONTROLCHARS:
+            if char not in source and char in target:
+                target = target.replace(char, '')
+                modified = True
+        return target, modified

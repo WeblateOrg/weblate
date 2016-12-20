@@ -99,6 +99,14 @@ class LanguagesTest(TestCase):
             'Portuguese (Brazil)',
         ),
         (
+            'sr+latn',
+            'sr_Latn',
+            'ltr',
+            'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && '
+            '(n%100<10 || n%100>=20) ? 1 : 2',
+            'Serbian (latin)',
+        ),
+        (
             'sr_RS@latin',
             'sr_Latn',
             'ltr',
@@ -346,6 +354,14 @@ class LanguagesViewTest(ViewTestCase):
         ))
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Test/Test')
+
+    def test_project_language(self):
+        response = self.client.get(reverse(
+            'project-language',
+            kwargs={'lang': 'cs', 'project': 'test'}
+        ))
+        self.assertContains(response, 'Czech')
+        self.assertContains(response, '/projects/test/test/cs/')
 
     def test_language_redirect(self):
         response = self.client.get(reverse(

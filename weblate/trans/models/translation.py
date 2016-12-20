@@ -103,13 +103,13 @@ class TranslationManager(models.Manager):
             Sum('fuzzy'),
             Sum('failing_checks'),
             Sum('total'),
+            Sum('translated_words'),
+            Sum('total_words'),
         )
 
         total = translations['total__sum']
-
-        # Catch no translations (division by zero)
-        if total == 0 or total is None:
-            return (0, 0, 0)
+        words = translations['total_words__sum']
+        translated_words = translations['translated_words__sum']
 
         # Fetch values
         result = [
@@ -118,7 +118,10 @@ class TranslationManager(models.Manager):
             translations['failing_checks__sum'],
         ]
         # Calculate percent
-        return tuple([translation_percent(value, total) for value in result])
+        return tuple(
+            [translation_percent(value, total) for value in result] +
+            [translation_percent(translated_words, words)]
+        )
 
 
 @python_2_unicode_compatible
@@ -234,29 +237,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
     def _get_percents(self):
         """Returns percentages of translation status."""
-        # No units?
-        if self.total == 0:
-            return (0, 0, 0)
-
         return (
             translation_percent(self.translated, self.total),
             translation_percent(self.fuzzy, self.total),
             translation_percent(self.failing_checks, self.total),
+            translation_percent(self.translated_words, self.total_words),
         )
 
-    def get_words_percent(self):
-        if self.total_words == 0:
-            return 0
-        return translation_percent(self.translated_words, self.total_words)
-
     def get_fuzzy_words_percent(self):
-        if self.total_words == 0:
-            return 0
         return translation_percent(self.fuzzy_words, self.total_words)
 
     def get_failing_checks_words_percent(self):
-        if self.total_words == 0:
-            return 0
         return translation_percent(self.failing_checks_words, self.total_words)
 
     @property
@@ -769,35 +760,35 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         sync updates git hash stored within the translation (otherwise
         translation rescan will be needed)
         """
-        # Is there something for commit?
-        if not force_new and not self.repo_needs_commit():
-            return False
+        with self.subproject.repository.lock():
+            # Is there something for commit?
+            if not force_new and not self.repo_needs_commit():
+                return False
 
-        # Can we delay commit?
-        if not force_commit and appsettings.LAZY_COMMITS:
+            # Can we delay commit?
+            if not force_commit and appsettings.LAZY_COMMITS:
+                self.log_info(
+                    'delaying commiting %s as %s',
+                    self.filename,
+                    author
+                )
+                return False
+
+            # Do actual commit with git lock
             self.log_info(
-                'delaying commiting %s as %s',
+                'commiting %s as %s',
                 self.filename,
                 author
             )
-            return False
-
-        # Do actual commit with git lock
-        self.log_info(
-            'commiting %s as %s',
-            self.filename,
-            author
-        )
-        Change.objects.create(
-            action=Change.ACTION_COMMIT,
-            translation=self,
-        )
-        with self.subproject.repository.lock():
+            Change.objects.create(
+                action=Change.ACTION_COMMIT,
+                translation=self,
+            )
             self.__git_commit(author, timestamp, sync)
 
-        # Push if we should
-        if not skip_push:
-            self.subproject.push_if_needed(request)
+            # Push if we should
+            if not skip_push:
+                self.subproject.push_if_needed(request)
 
         self._last_change_obj_valid = False
 

@@ -32,6 +32,9 @@ EXTRA_FLAGS['xml-text'] = ugettext_lazy('XML text')
 EXTRA_FLAGS['skip-review-flag'] = ugettext_lazy(
     'Skip review flag when importing'
 )
+EXTRA_FLAGS['add-source-review'] = ugettext_lazy(
+    'Add review flag for new source strings'
+)
 
 IGNORE_CHECK_FLAGS = set([CHECKS[x].ignore_string for x in CHECKS])
 

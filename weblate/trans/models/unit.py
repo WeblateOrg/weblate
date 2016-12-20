@@ -419,12 +419,17 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        if 'skip-review-flag' in self.translation.subproject.all_flags:
+        all_flags = self.translation.subproject.all_flags
+        translated = unit.is_translated()
+        if 'skip-review-flag' in all_flags:
             fuzzy = False
             translated = bool(target)
+        elif (translated and created and
+              'add-source-review' in all_flags and
+              self.translation.is_template()):
+            fuzzy = True
         else:
             fuzzy = unit.is_fuzzy()
-            translated = unit.is_translated()
         previous_source = unit.get_previous_source()
         contentsum = unit.get_contentsum()
 
@@ -860,6 +865,9 @@ class Unit(models.Model, LoggerMixin):
 
         Returns tuple of checks to run and whether to do cleanup.
         """
+        if self.translation.is_template():
+            return [], True
+
         checks_to_run = CHECKS.data
         cleanup_checks = True
 

@@ -25,11 +25,12 @@ from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count, Q, F
+from django.db.models import Sum, Count, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.utils.safestring import mark_safe
 from django.utils import timezone
+from django.utils.encoding import force_text
 import django.views.defaults
 
 from six import string_types
@@ -54,11 +55,14 @@ from weblate.trans.permissions import (
     can_translate,
 )
 from weblate.accounts.models import Profile, notify_new_language
+from weblate.trans.stats import get_per_language_stats
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation,
     try_set_language,
 )
-from weblate.trans.util import render, sort_objects
+from weblate.trans.util import (
+    render, sort_objects, sort_unicode, translation_percent,
+)
 import weblate
 
 
@@ -343,10 +347,20 @@ def show_project(request, project):
             }
         )
 
-    last_changes = Change.objects.prefetch().filter(
-        Q(translation__subproject__project=obj) |
-        Q(dictionary__project=obj)
-    )[:10]
+    last_changes = Change.objects.for_project(obj)[:10]
+
+    language_stats = sort_unicode(
+        get_per_language_stats(obj), lambda tup: force_text(tup[0])
+    )
+
+    language_stats = [
+        (
+            tup[0],
+            translation_percent(tup[1], tup[2]),
+            translation_percent(tup[3], tup[4])
+        )
+        for tup in language_stats
+    ]
 
     return render(
         request,
@@ -361,6 +375,7 @@ def show_project(request, project):
             ),
             'add_user_form': UserManageForm(),
             'settings_form': settings_form,
+            'language_stats': language_stats,
         }
     )
 
@@ -368,9 +383,7 @@ def show_project(request, project):
 def show_subproject(request, project, subproject):
     obj = get_subproject(request, project, subproject)
 
-    last_changes = Change.objects.prefetch().filter(
-        translation__subproject=obj
-    )[:10]
+    last_changes = Change.objects.for_component(obj)[:10]
 
     new_lang_form = get_new_language_form(request, obj)(obj)
 
@@ -410,9 +423,7 @@ def show_subproject(request, project, subproject):
 
 def show_translation(request, project, subproject, lang):
     obj = get_translation(request, project, subproject, lang)
-    last_changes = Change.objects.prefetch().filter(
-        translation=obj
-    )[:10]
+    last_changes = Change.objects.for_translation(obj)[:10]
 
     # Check locks
     obj.is_locked(request.user)

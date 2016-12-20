@@ -18,8 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from __future__ import unicode_literals
+
 from django.db import models
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
@@ -33,4 +35,4 @@ class IndexUpdate(models.Model):
         app_label = 'trans'
 
     def __str__(self):
-        return force_text(self.unit)
+        return '{0}:{1}'.format(self.language_code, self.unitid)

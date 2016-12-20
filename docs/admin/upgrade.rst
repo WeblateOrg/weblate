@@ -352,10 +352,14 @@ Follow generic upgrade instructions, there is no special change.
 
 Notable configuration or dependencies changes:
 
-* The `INSTALLED_APPS` now should include `weblate.utils`.
-* There is new check in default set (`SamePluralsCheck`).
-* There is change in `SOCIAL_AUTH_PIPELINE` default settings.
+* The ``INSTALLED_APPS`` now should include ``weblate.utils``.
+* There is new check in default set (``SamePluralsCheck``).
+* There is change in ``SOCIAL_AUTH_PIPELINE`` default settings.
 * You might want to enable optional :ref:`git-exporter`.
+* There is new ``RemoveControlChars`` in default :setting:`AUTOFIX_LIST`.
+* If you are using Microsoft Translator, please replace
+  :ref:`ms-translate` with :ref:`ms-cognitive-translate`,
+  Microsoft has changed authentication scheme.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -363,6 +367,12 @@ Notable configuration or dependencies changes:
 
 Upgrading to Django 1.7
 -----------------------
+
+.. versionchanged:: 2.3
+
+    This migration is supported only in Weblate 2.2, in case you are 
+    upgrading from some older version, you will have to do intermediate update
+    to 2.2.
 
 Django 1.7 has a new feature to handle database schema upgrade called
 "migrations" which is incompatible with South (used before by Weblate).

@@ -13,8 +13,8 @@ Accessing repositories
 
 The VCS repository you want to use has to be accessible to Weblate. With
 publicly available repository you just need to enter correct URL (for example
-``git://github.com/nijel/weblate.git`` or
-``https://github.com/nijel/weblate.git``), but for private repositories the
+``git://github.com/WeblateOrg/weblate.git`` or
+``https://github.com/WeblateOrg/weblate.git``), but for private repositories the
 setup might be more complex.
 
 .. _internal-urls:
@@ -59,7 +59,7 @@ in the URL. Don't worry, Weblate will strip this information when showing URL
 to the users (if they are allowed to see the repository URL at all).
 
 For example the GitHub URL with authentication might look like 
-``https://user:your_access_token@github.com/nijel/weblate.git``.
+``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
 
 Using proxy
 +++++++++++
@@ -246,7 +246,8 @@ users to have a full clone of the internal repository and commit locally.
 .. note::
 
     Weblate supports only subversion repositories with standard layout (branches/,
-    tags/ and trunk/).
+    tags/ and trunk/). See `git-svn documentation <https://git-scm.com/docs/git-svn#git-svn---stdlayout>`_
+    for more information.
 
 .. _git-svn: https://git-scm.com/docs/git-svn
 

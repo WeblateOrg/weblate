@@ -19,6 +19,7 @@
 #
 
 from django.http import Http404
+from django.http.response import HttpResponseServerError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
@@ -29,11 +30,13 @@ from django.views.decorators.http import require_POST
 
 from six.moves.urllib.parse import urlencode
 
+from weblate.lang.models import Language
 from weblate.trans import messages
 from weblate.trans.views.helper import get_subproject
-from weblate.trans.models import Translation, Source
+from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, ScreenshotUploadForm,
+    MatrixLanguageForm,
 )
 from weblate.trans.permissions import (
     can_edit_flags, can_edit_priority, can_upload_screenshot,
@@ -181,3 +184,79 @@ def upload_screenshot(request, pk):
             for message in form.errors[error]:
                 messages.error(request, message)
     return redirect(request.POST.get('next', source.get_absolute_url()))
+
+
+@login_required
+def matrix(request, project, subproject):
+    """Matrix view of all strings"""
+    obj = get_subproject(request, project, subproject)
+
+    show = False
+    languages = None
+    language_codes = None
+
+    if 'lang' in request.GET:
+        form = MatrixLanguageForm(obj, request.GET)
+        show = form.is_valid()
+    else:
+        form = MatrixLanguageForm(obj)
+
+    if show:
+        languages = Language.objects.filter(
+            code__in=form.cleaned_data['lang']
+        )
+        language_codes = ','.join(languages.values_list('code', flat=True))
+
+    return render(
+        request,
+        'matrix.html',
+        {
+            'object': obj,
+            'project': obj.project,
+            'languages': languages,
+            'language_codes': language_codes,
+            'languages_form': form,
+        }
+    )
+
+
+@login_required
+def matrix_load(request, project, subproject):
+    """Backend for matrix view of all strings"""
+    obj = get_subproject(request, project, subproject)
+
+    try:
+        offset = int(request.GET.get('offset', None))
+    except ValueError:
+        return HttpResponseServerError('Missing offset')
+    language_codes = request.GET.get('lang', None)
+    if not language_codes or offset is None:
+        return HttpResponseServerError('Missing lang')
+
+    # Can not use filter to keep ordering
+    translations = [
+        get_object_or_404(obj.translation_set, language__code=lang)
+        for lang in language_codes.split(',')
+    ]
+
+    data = []
+
+    for unit in translations[0].unit_set.all()[offset:offset + 20]:
+        units = []
+        for translation in translations:
+            try:
+                units.append(translation.unit_set.get(checksum=unit.checksum))
+            except Unit.DoesNotExist:
+                units.append(None)
+
+        data.append((unit, units))
+
+    return render(
+        request,
+        'matrix-table.html',
+        {
+            'object': obj,
+            'data': data,
+            'last': translations[0].unit_set.count() <= offset + 20
+        }
+    )

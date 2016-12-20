@@ -9,17 +9,17 @@ coding help, graphics design, documentation or sponsorship.
 Code and development
 --------------------
 
-Weblate is being developed on GitHub <https://github.com/nijel/weblate>. You
+Weblate is being developed on GitHub <https://github.com/WeblateOrg/weblate>. You
 are welcome to fork the code and open pull requests. Patches in any other form
 are welcome as well. The code should follow PEP-8 coding guidelines.
 
 We do write testsuite for our code, so please add testcases for any new
 functionality and verify that it works. You can see current test results on
-Travis <https://travis-ci.org/nijel/weblate> and coverage on Codecov
-<https://codecov.io/github/nijel/weblate>.
+Travis <https://travis-ci.org/WeblateOrg/weblate> and coverage on Codecov
+<https://codecov.io/github/WeblateOrg/weblate>.
 
 The issue tracker is hosted on GitHub as well:
-<https://github.com/nijel/weblate/issues>
+<https://github.com/WeblateOrg/weblate/issues>
 
 Starting with our codebase
 --------------------------
@@ -27,7 +27,7 @@ Starting with our codebase
 If you are looking for some bugs which should be good for starting with our
 codebase, you can find them labelled with :guilabel:`newbie` tag:
 
-https://github.com/nijel/weblate/labels/newbie
+https://github.com/WeblateOrg/weblate/labels/newbie
 
 Earning money by coding
 -----------------------
@@ -35,7 +35,7 @@ Earning money by coding
 We're using Bountysource to fund our development, you can participate on this
 as well by implementing issues with bounties:
 
-https://github.com/nijel/weblate/labels/bounty
+https://github.com/WeblateOrg/weblate/labels/bounty
 
 Translating
 -----------

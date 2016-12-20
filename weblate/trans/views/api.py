@@ -18,11 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import csv
 import json
 import re
 import threading
 
-from django.core.serializers.json import DjangoJSONEncoder
+import six
+
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -34,6 +36,7 @@ from django.http import (
 from weblate import appsettings
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
+from weblate.trans.stats import get_project_stats
 from weblate.logger import LOGGER
 
 
@@ -125,6 +128,16 @@ def update_project(request, project):
     return hook_response()
 
 
+def parse_hook_payload(request):
+    """Parses hook payload."""
+    # GitLab sends json as application/json
+    if request.META['CONTENT_TYPE'] == 'application/json':
+        return json.loads(request.body.decode('utf-8'))
+    # Bitbucket and GitHub sends json as x-www-form-data
+    else:
+        return json.loads(request.POST['payload'])
+
+
 @require_POST
 @csrf_exempt
 def vcs_service_hook(request, service):
@@ -141,12 +154,7 @@ def vcs_service_hook(request, service):
 
     # Check if we got payload
     try:
-        # GitLab sends json as application/json
-        if request.META['CONTENT_TYPE'] == 'application/json':
-            data = json.loads(request.body.decode('utf-8'))
-        # Bitbucket and GitHub sends json as x-www-form-data
-        else:
-            data = json.loads(request.POST['payload'])
+        data = parse_hook_payload(request)
     except (ValueError, KeyError, UnicodeError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
@@ -311,31 +319,90 @@ def gitlab_hook_helper(data):
     }
 
 
+def export_stats_project(request, project):
+    '''
+    Exports stats in JSON format.
+    '''
+    obj = get_project(request, project)
+
+    data = get_project_stats(obj)
+    return export_response(
+        request,
+        'stats-%s.csv' % obj.slug,
+        (
+            'language',
+            'code',
+            'total',
+            'translated',
+            'translated_percent',
+            'total_words',
+            'translated_words',
+            'words_percent',
+        ),
+        data
+    )
+
+
 def export_stats(request, project, subproject):
     '''
     Exports stats in JSON format.
     '''
     subprj = get_subproject(request, project, subproject)
 
-    jsonp = None
-    if 'jsonp' in request.GET and request.GET['jsonp']:
-        jsonp = request.GET['jsonp']
+    data = [
+        trans.get_stats() for trans in subprj.translation_set.all()
+    ]
+    return export_response(
+        request,
+        'stats-%s-%s.csv' % (subprj.project.slug, subprj.slug),
+        (
+            'name',
+            'code',
+            'total',
+            'translated',
+            'translated_percent',
+            'total_words',
+            'translated_words',
+            'failing',
+            'failing_percent',
+            'fuzzy',
+            'fuzzy_percent',
+            'url_translate',
+            'url',
+            'last_change',
+            'last_author',
+        ),
+        data
+    )
 
-    response = []
-    for trans in subprj.translation_set.all():
-        response.append(trans.get_stats())
-    if jsonp:
-        return HttpResponse(
-            '{0}({1})'.format(
-                jsonp,
-                json.dumps(
-                    response,
-                    cls=DjangoJSONEncoder,
-                )
-            ),
-            content_type='application/javascript'
+
+def export_response(request, filename, fields, data):
+    """Generic handler for stats exports"""
+    output = request.GET.get('format', 'json')
+    if output not in ('json', 'csv'):
+        output = 'json'
+
+    if output == 'csv':
+        response = HttpResponse(content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+
+        writer = csv.DictWriter(
+            response, fields
         )
+
+        writer.writeheader()
+        if six.PY2:
+            for row in data:
+                for item in row:
+                    if isinstance(row[item], six.text_type):
+                        row[item] = row[item].encode('utf-8')
+                writer.writerow(row)
+        else:
+            for row in data:
+                writer.writerow(row)
+        return response
     return JsonResponse(
-        data=response,
-        safe=False
+        data=data,
+        safe=False,
+        json_dumps_params={'indent': 2}
     )

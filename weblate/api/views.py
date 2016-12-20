@@ -36,15 +36,19 @@ from rest_framework.utils import formatting
 from weblate.api.serializers import (
     ProjectSerializer, ComponentSerializer, TranslationSerializer,
     LanguageSerializer, LockRequestSerializer, LockSerializer,
-    RepoRequestSerializer, StatisticsSerializer,
+    RepoRequestSerializer, StatisticsSerializer, UnitSerializer,
+    ChangeSerializer,
 )
 from weblate.trans.exporters import EXPORTERS
-from weblate.trans.models import Project, SubProject, Translation, Change
+from weblate.trans.models import (
+    Project, SubProject, Translation, Change, Unit,
+)
 from weblate.trans.permissions import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
     can_push_translation,
 )
+from weblate.trans.stats import get_project_stats
 from weblate.lang.models import Language
 from weblate.trans.views.helper import download_translation_file
 from weblate import get_doc_url
@@ -253,6 +257,27 @@ class ProjectViewSet(WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        return Response(get_project_stats(obj))
+
+    @detail_route(methods=['get'])
+    def changes(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = Change.objects.for_project(obj)
+        page = self.paginate_queryset(queryset)
+
+        serializer = ChangeSerializer(
+            page,
+            many=True,
+            context={'request': request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API.
@@ -356,6 +381,21 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def changes(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = Change.objects.for_component(obj)
+        page = self.paginate_queryset(queryset)
+
+        serializer = ChangeSerializer(
+            page,
+            many=True,
+            context={'request': request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
     """Translation components API.
@@ -418,6 +458,36 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
 
         return Response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def changes(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = Change.objects.for_translation(obj)
+        page = self.paginate_queryset(queryset)
+
+        serializer = ChangeSerializer(
+            page,
+            many=True,
+            context={'request': request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
+    @detail_route(methods=['get'])
+    def units(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = obj.unit_set.all()
+        page = self.paginate_queryset(queryset)
+
+        serializer = UnitSerializer(
+            page,
+            many=True,
+            context={'request': request},
+        )
+
+        return self.get_paginated_response(serializer.data)
+
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     """Languages API.
@@ -428,3 +498,24 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Language.objects.have_translation()
+
+
+class UnitViewSet(viewsets.ReadOnlyModelViewSet):
+    """Units API"""
+    queryset = Unit.objects.none()
+    serializer_class = UnitSerializer
+
+    def get_queryset(self):
+        acl_projects = Project.objects.get_acl_ids(self.request.user)
+        return Unit.objects.filter(
+            translation__subproject__project__in=acl_projects
+        )
+
+
+class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
+    """Changes API"""
+    queryset = Change.objects.none()
+    serializer_class = ChangeSerializer
+
+    def get_queryset(self):
+        return Change.objects.last_changes(self.request.user)

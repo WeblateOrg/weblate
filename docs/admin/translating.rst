@@ -55,6 +55,8 @@ translation page.
 
 User can also explicitly lock translation for :setting:`LOCK_TIME` seconds.
 
+.. _additional:
+
 Additional information on source strings
 ----------------------------------------
 
@@ -64,6 +66,12 @@ flags or providing visual context. All these features can be set on the
 :ref:`source-review`:
 
 .. image:: ../images/source-review-edit.png
+
+You can access this also directly from translating interface when clicking on the 
+edit icon next to :guilabel:`Screenshot context`, :guilabel:`Flags`
+or :guilabel:`String priority`:
+
+.. image:: ../images/source-information.png
 
 Strings prioritization
 ++++++++++++++++++++++

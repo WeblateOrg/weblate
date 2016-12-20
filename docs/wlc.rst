@@ -110,7 +110,15 @@ Currently following subcommands are available:
 
 .. option:: push
 
-    Pusches changes in Weblate object into remote repository (translation, component or project).
+    Pushes changes in Weblate object into remote repository (translation, component or project).
+
+.. option:: reset
+
+    .. versionadded:: 0.7
+
+        Supported since wlc 0.7.
+
+    Resets changes in Weblate object to match remote repository (translation, component or project).
 
 .. option:: repo
 
@@ -118,7 +126,7 @@ Currently following subcommands are available:
 
 .. option:: statistics
 
-    Displays detailed statistics for given Weblate object (translation or component).
+    Displays detailed statistics for given Weblate object (translation, component or project).
 
 .. option:: lock-status
 
@@ -143,6 +151,31 @@ Currently following subcommands are available:
         Supported since wlc 0.5.
 
     Unlocks compontent from translating in Weblate.
+
+.. option:: changes
+
+    .. versionadded:: 0.7
+
+        Supported since wlc 0.7 and Weblate 2.10.
+
+    Displays changes for given object.
+
+.. option:: download
+
+    .. versionadded:: 0.7
+
+        Supported since wlc 0.7.
+
+    Downloads translation file.
+
+    .. option:: --convert
+
+        Convert file format, if not specified not conversion happens on server
+        and file is downloaded as is in the repository.
+
+    .. option:: --output
+
+        File where to store output, if not specified file is printed to stdout.
 
 .. _files:
 
@@ -235,7 +268,7 @@ You can also let wlc know current project and it will then operate on it:
     name: master
     new_base: weblate/locale/django.pot
     project: weblate
-    repo: git://github.com/nijel/weblate.git
+    repo: git://github.com/WeblateOrg/weblate.git
     slug: master
     template: 
     url: https://hosted.weblate.org/api/components/weblate/master/

@@ -20,15 +20,35 @@
 
 from __future__ import unicode_literals
 
-from weblate.trans.machine.base import MachineTranslation
+from weblate.trans.machine.base import (
+    MachineTranslation, MissingConfiguration
+)
 from weblate import appsettings
 
 
-class ApertiumTranslation(MachineTranslation):
+class ApertiumAPYTranslation(MachineTranslation):
     '''
     Apertium machine translation support.
     '''
-    name = 'Apertium'
+    name = 'Apertium APy'
+
+    def __init__(self):
+        '''
+        Checks configuration.
+        '''
+        super(ApertiumAPYTranslation, self).__init__()
+        self.url = self.get_server_url()
+
+    def get_server_url(self):
+        '''
+        Returns URL of a server.
+        '''
+        if appsettings.MT_APERTIUM_APY is None:
+            raise MissingConfiguration(
+                'Not configured Apertium APy URL'
+            )
+
+        return appsettings.MT_APERTIUM_APY.rstrip('/')
 
     def convert_language(self, language):
         '''
@@ -40,7 +60,7 @@ class ApertiumTranslation(MachineTranslation):
         '''
         Downloads list of supported languages from a service.
         '''
-        data = self.json_status_req('http://api.apertium.org/json/listPairs')
+        data = self.json_status_req('%s/listPairs' % self.url)
         return [
             (item['sourceLanguage'], item['targetLanguage'])
             for item in data['responseData']
@@ -63,7 +83,7 @@ class ApertiumTranslation(MachineTranslation):
         if appsettings.MT_APERTIUM_KEY is not None:
             args['key'] = appsettings.MT_APERTIUM_KEY
         response = self.json_status_req(
-            'http://api.apertium.org/json/translate',
+            '%s/translate' % self.url,
             **args
         )
 
@@ -73,3 +93,13 @@ class ApertiumTranslation(MachineTranslation):
             self.name,
             text
         )]
+
+
+class ApertiumTranslation(ApertiumAPYTranslation):
+    '''
+    Apertium machine translation support.
+    '''
+    name = 'Apertium'
+
+    def get_server_url(self):
+        return 'http://api.apertium.org/json'

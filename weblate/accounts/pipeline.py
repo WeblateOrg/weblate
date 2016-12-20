@@ -115,6 +115,7 @@ def send_validation(strategy, backend, code):
         }
     )
 
+
 def password_reset(strategy, details, user=None, request=None, **kwargs):
     """
     Sets unusable password on reset.

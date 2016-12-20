@@ -26,15 +26,21 @@ Customizing checks
 Fine tuning existing checks
 +++++++++++++++++++++++++++
 
-You can fine tune checks for each source string (in source strings review) or
-in the :ref:`component` (:guilabel:`Quality checks flags`), here is current
-list of flags accepted:
+You can fine tune checks for each source string (in source strings review, see
+:ref:`additional`) or in the :ref:`component` (:guilabel:`Quality checks
+flags`), here is current list of flags accepted:
 
 ``skip-review-flag``
     Ignore whether unit is marked for review when importing from VCS. This 
     can be useful for :ref:`xliff`.
+``add-source-review``
+    Whether to mark all new string in source language for review. This can
+    be useful if you want to proofread the source language. This flag has no
+    meaning for bilingual translations.
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
+``max-length:N``
+    Limit maximal length for string to N chars, see :ref:`check-max-length`
 ``xml-text``
     Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-xml-tags`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``

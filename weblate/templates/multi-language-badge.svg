@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="{{ height }}" xml:lang="en">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="{{ height }}" xml:lang="en">
 <g id="layer1">
 
 <rect
@@ -10,6 +10,14 @@
    y="10" />
 
 {% for translation in translations %}
+<a xlink:href="{{ translation.6 }}">
+<rect
+   style="fill:#ffffff;fill-opacity:0;"
+   id="box{{ translation.2 }}"
+   width="400"
+   height="20"
+   x="0"
+   y="{{ translation.7 }}" />
 <text
    xml:space="preserve"
    style="font-style:normal;font-weight:normal;font-size:10px;font-family:Sans;fill:#808080;text-anchor:end;"
@@ -29,6 +37,7 @@
    height="10"
    x="200"
    y="{{ translation.3 }}" />
+</a>
 {% endfor %}
 
 </g>

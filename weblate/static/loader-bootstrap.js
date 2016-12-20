@@ -6,7 +6,7 @@ var jsLockUpdate = null;
 var idleTime = 0;
 
 
-if (window.location.hash && window.location.hash.indexOf("=") > -1) {
+if (window.location.hash && window.location.hash.indexOf('=') > -1) {
     window.location.hash = '';
 }
 
@@ -179,7 +179,7 @@ function testChangeHandler(e) {
     $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
 }
 
-function processMachineTranslation(data, textStatus) {
+function processMachineTranslation(data) {
     decreaseLoading('#mt-loading');
     if (data.responseStatus === 200) {
         data.translations.forEach(function (el, idx) {
@@ -239,11 +239,11 @@ function processMachineTranslation(data, textStatus) {
             if (idx < 10) {
                 var key = getNumericKey(idx);
                 $(this).find('.mt-number').html(
-                    " <span class='badge kbd-badge' title='" +
+                    ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+M then %s'), [key]) +
-                    "'>" +
+                    '">' +
                     key +
-                    "</span>"
+                    '</span>'
                 );
                 Mousetrap.bindGlobal(
                     'alt+m ' + key,
@@ -412,7 +412,7 @@ function insertEditor(text, element)
     var root;
 
     /* Find withing root element */
-    if (typeof element != 'undefined') {
+    if (typeof element !== 'undefined') {
         root = element.parents('.zen-unit');
         if (root.length === 0) {
             root = element.parents('.translation-form');
@@ -469,6 +469,27 @@ function interpolate(fmt, obj, named) {
         return django.interpolate(fmt, obj, named);
     }
     return fmt.replace(/%s/g, function(match){return String(obj.shift())});
+}
+
+function load_matrix() {
+    var $loadingNext = $('#loading-next');
+    var $loader = $('#matrix-load');
+    var offset = parseInt($loader.data('offset'));
+
+    if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
+        return;
+    }
+    $loadingNext.show();
+
+    $loader.data('offset', 20 + offset);
+
+    $.get(
+        $loader.attr('href') + '&offset=' + offset,
+        function (data) {
+            $loadingNext.hide();
+            $('.matrix tfoot').before(data);
+        }
+    );
 }
 
 $(function () {
@@ -735,7 +756,7 @@ $(function () {
     /* Copy from source text highlight check */
     $('.hlcheck').click(function (e) {
         var text = $(this).clone();
-        text.find(".highlight-number").remove();
+        text.find('.highlight-number').remove();
         text=text.text();
         insertEditor(text, $(this));
         e.preventDefault();
@@ -743,34 +764,34 @@ $(function () {
     /* and shortcuts */
     for (var i = 1; i < 10; i++) {
         Mousetrap.bindGlobal(
-            "alt+" + i,
+            'alt+' + i,
             function(e) {
                 return false;
             }
         );
     }
-    if ($(".hlcheck").length>0) {
+    if ($('.hlcheck').length>0) {
         $('.hlcheck').each(function(idx){
             var $this = $(this);
             if (idx < 10) {
                 var key = getNumericKey(idx);
                 $(this).find('.highlight-number').html(
-                    " <span class='badge kbd-badge' title='" +
+                    ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+%s'), [key]) +
-                    "'>" +
+                    '">' +
                     key +
-                    "</span>"
+                    '</span>'
                 );
 
                 Mousetrap.bindGlobal(
-                    "alt+" + key,
+                    'alt+' + key,
                     function(e) {
                         $this.click();
                         return false;
                     }
                 );
             } else {
-                $this.find(".highlight-number").html("");
+                $this.find('.highlight-number').html('');
             }
         });
     }
@@ -792,7 +813,7 @@ $(function () {
     /* Table column changing */
     var columnsMenu = $('#columns-menu');
     if (columnsMenu.length > 0) {
-        var columnsPanel = columnsMenu.closest('div.panel');
+        var columnsPanel = columnsMenu.closest('div.tab-pane');
         var width = columnsPanel.width();
 
         columnsMenu.on('click', function(e) {
@@ -853,6 +874,17 @@ $(function () {
             }
         }, 3600000);
     };
+
+    /* Matrix mode handling */
+    if ($('.matrix').length > 0) {
+        load_matrix();
+        $window.scroll(function(){
+            if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
+                load_matrix();
+            }
+        });
+    };
+
 
     /* Zen mode handling */
     if ($('.zen').length > 0) {
@@ -926,60 +958,60 @@ $(function () {
     });
 
     /* Datepicker localization */
-    var week_start = "1";
+    var week_start = '1';
     if (typeof django !== 'undefined') {
         week_start = django.formats.FIRST_DAY_OF_WEEK;
     }
     $.fn.datepicker.dates.en = {
         days: [
-            gettext("Sunday"), gettext("Monday"), gettext("Tuesday"),
-            gettext("Wednesday"), gettext("Thursday"), gettext("Friday"),
-            gettext("Saturday"), gettext("Sunday")
+            gettext('Sunday'), gettext('Monday'), gettext('Tuesday'),
+            gettext('Wednesday'), gettext('Thursday'), gettext('Friday'),
+            gettext('Saturday'), gettext('Sunday')
         ],
         daysShort: [
-            pgettext("Short (eg. three letter) name of day in week", "Sun"),
-            pgettext("Short (eg. three letter) name of day in week", "Mon"),
-            pgettext("Short (eg. three letter) name of day in week", "Tue"),
-            pgettext("Short (eg. three letter) name of day in week", "Wed"),
-            pgettext("Short (eg. three letter) name of day in week", "Thu"),
-            pgettext("Short (eg. three letter) name of day in week", "Fri"),
-            pgettext("Short (eg. three letter) name of day in week", "Sat"),
-            pgettext("Short (eg. three letter) name of day in week", "Sun")
+            pgettext('Short (eg. three letter) name of day in week', 'Sun'),
+            pgettext('Short (eg. three letter) name of day in week', 'Mon'),
+            pgettext('Short (eg. three letter) name of day in week', 'Tue'),
+            pgettext('Short (eg. three letter) name of day in week', 'Wed'),
+            pgettext('Short (eg. three letter) name of day in week', 'Thu'),
+            pgettext('Short (eg. three letter) name of day in week', 'Fri'),
+            pgettext('Short (eg. three letter) name of day in week', 'Sat'),
+            pgettext('Short (eg. three letter) name of day in week', 'Sun')
         ],
         daysMin: [
-            pgettext("Minimal (eg. two letter) name of day in week", "Su"),
-            pgettext("Minimal (eg. two letter) name of day in week", "Mo"),
-            pgettext("Minimal (eg. two letter) name of day in week", "Tu"),
-            pgettext("Minimal (eg. two letter) name of day in week", "We"),
-            pgettext("Minimal (eg. two letter) name of day in week", "Th"),
-            pgettext("Minimal (eg. two letter) name of day in week", "Fr"),
-            pgettext("Minimal (eg. two letter) name of day in week", "Sa"),
-            pgettext("Minimal (eg. two letter) name of day in week", "Su")
+            pgettext('Minimal (eg. two letter) name of day in week', 'Su'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'Mo'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'Tu'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'We'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'Th'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'Fr'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'Sa'),
+            pgettext('Minimal (eg. two letter) name of day in week', 'Su')
         ],
         months: [
-            gettext("January"), gettext("February"), gettext("March"),
-            gettext("April"), gettext("May"), gettext("June"), gettext("July"),
-            gettext("August"), gettext("September"), gettext("October"),
-            gettext("November"), gettext("December")
+            gettext('January'), gettext('February'), gettext('March'),
+            gettext('April'), gettext('May'), gettext('June'), gettext('July'),
+            gettext('August'), gettext('September'), gettext('October'),
+            gettext('November'), gettext('December')
         ],
         monthsShort: [
-            pgettext("Short name of month", "Jan"),
-            pgettext("Short name of month", "Feb"),
-            pgettext("Short name of month", "Mar"),
-            pgettext("Short name of month", "Apr"),
-            pgettext("Short name of month", "May"),
-            pgettext("Short name of month", "Jun"),
-            pgettext("Short name of month", "Jul"),
-            pgettext("Short name of month", "Aug"),
-            pgettext("Short name of month", "Sep"),
-            pgettext("Short name of month", "Oct"),
-            pgettext("Short name of month", "Nov"),
-            pgettext("Short name of month", "Dec")
+            pgettext('Short name of month', 'Jan'),
+            pgettext('Short name of month', 'Feb'),
+            pgettext('Short name of month', 'Mar'),
+            pgettext('Short name of month', 'Apr'),
+            pgettext('Short name of month', 'May'),
+            pgettext('Short name of month', 'Jun'),
+            pgettext('Short name of month', 'Jul'),
+            pgettext('Short name of month', 'Aug'),
+            pgettext('Short name of month', 'Sep'),
+            pgettext('Short name of month', 'Oct'),
+            pgettext('Short name of month', 'Nov'),
+            pgettext('Short name of month', 'Dec')
         ],
-        today: gettext("Today"),
-        clear: gettext("Clear"),
+        today: gettext('Today'),
+        clear: gettext('Clear'),
         weekStart: week_start,
-        titleFormat: "MM yyyy"
+        titleFormat: 'MM yyyy'
     };
 
     /* Override all multiple selects, use font awesome for exchange icon */
@@ -996,31 +1028,31 @@ $(function () {
     });
 
     /* Check dismiss shortcuts */
-    Mousetrap.bindGlobal("alt+i", function(e) {});
+    Mousetrap.bindGlobal('alt+i', function(e) {});
     for (var i = 1; i < 10; i++) {
         Mousetrap.bindGlobal(
-            "alt+i " + i,
+            'alt+i ' + i,
             function(e) {
                 return false;
             }
         );
     }
 
-    if ($(".check").length > 0) {
-        $($('.check')[0].parentNode).children(".check").each(function(idx){
+    if ($('.check').length > 0) {
+        $($('.check')[0].parentNode).children('.check').each(function(idx){
             var $this = $(this);
             if (idx < 10) {
                 var key = getNumericKey(idx);
                 $(this).find('.check-number').html(
-                    " <span class='badge kbd-badge' title='" +
+                    ' <span class="badge kbd-badge" title="' +
                     interpolate(gettext('Alt+I then %s'), [key]) +
-                    "'>" +
+                    '">' +
                     key +
-                    "</span>"
+                    '</span>'
                 );
 
                 Mousetrap.bindGlobal(
-                    "alt+i " + key,
+                    'alt+i ' + key,
                     function(e) {
                         $this.find('.close').click();
                         return false;
@@ -1033,8 +1065,8 @@ $(function () {
     }
 
     /* Labels in dropdown menu in Dashboard */
-    $("#views-menu li a").click(function(){
-      $("#views-title").html($(this).text()+' <span class="caret"></span>');
+    $('#views-menu li a').click(function(){
+      $('#views-title').html($(this).text()+' <span class="caret"></span>');
     });
 
     $('.dropdown-menu').find('form').click(function (e) {

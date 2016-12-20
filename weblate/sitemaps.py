@@ -60,7 +60,7 @@ class ProjectSitemap(WeblateSitemap):
     priority = 0.8
 
     def items(self):
-        return Project.objects.all_acl(None)
+        return Project.objects.filter(enable_acl=False)
 
 
 class ComponentSitemap(WeblateSitemap):
@@ -68,7 +68,7 @@ class ComponentSitemap(WeblateSitemap):
 
     def items(self):
         return SubProject.objects.prefetch().filter(
-            project__in=Project.objects.all_acl(None)
+            project__enable_acl=False
         )
 
 
@@ -77,7 +77,7 @@ class TranslationSitemap(WeblateSitemap):
 
     def items(self):
         return Translation.objects.prefetch().filter(
-            subproject__project__in=Project.objects.all_acl(None)
+            subproject__project__enable_acl=False
         )
 
 
@@ -109,7 +109,7 @@ class EngageLangSitemap(Sitemap):
         Return list of existing project, langauge tuples.
         '''
         ret = []
-        for project in Project.objects.all_acl(None):
+        for project in Project.objects.filter(enable_acl=False):
             for lang in project.get_languages():
                 ret.append((project, lang))
         return ret

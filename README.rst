@@ -1,9 +1,9 @@
 Weblate
 =======
 
-.. image:: https://travis-ci.org/nijel/weblate.svg
+.. image:: https://travis-ci.org/WeblateOrg/weblate.svg
     :alt: Build status
-    :target: https://travis-ci.org/nijel/weblate
+    :target: https://travis-ci.org/WeblateOrg/weblate
 
 .. image:: https://ci.appveyor.com/api/projects/status/92elnra2etjgfpc8/branch/master?svg=true
     :target: https://ci.appveyor.com/project/nijel/weblate/branch/master
@@ -13,25 +13,29 @@ Weblate
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
 
-.. image:: https://codecov.io/gh/nijel/weblate/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/WeblateOrg/weblate/branch/master/graph/badge.svg
     :alt: Codecov Coverage Status
-    :target: https://codecov.io/gh/nijel/weblate
+    :target: https://codecov.io/gh/WeblateOrg/weblate
 
-.. image:: https://landscape.io/github/nijel/weblate/master/landscape.png
+.. image:: https://landscape.io/github/WeblateOrg/weblate/master/landscape.png
     :alt: Code Health
-    :target: https://landscape.io/github/nijel/weblate/master
+    :target: https://landscape.io/github/WeblateOrg/weblate/master
 
 .. image:: https://www.codacy.com/project/badge/394a22d396414d48abb6a85054f4415e
     :alt: Codacy Badge
     :target: https://www.codacy.com/public/nijel/weblate
 
-.. image:: https://buildtimetrend.herokuapp.com/badge/nijel/weblate
+.. image:: https://buildtimetrend.herokuapp.com/badge/WeblateOrg/weblate
     :alt: Buildtime Trend badge
-    :target: https://buildtimetrend.herokuapp.com/dashboard/nijel/weblate
+    :target: https://buildtimetrend.herokuapp.com/dashboard/WeblateOrg/weblate
 
 .. image:: https://api.bountysource.com/badge/tracker?tracker_id=253393
     :alt: Bountysource
     :target: https://www.bountysource.com/trackers/253393-weblate?utm_source=253393&utm_medium=shield&utm_campaign=TRACKER_BADGE
+
+.. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
+    :alt: CII Best Practices
+    :target: https://bestpractices.coreinfrastructure.org/projects/552
 
 .. image:: https://img.shields.io/pypi/v/Weblate.svg
     :target: https://pypi.python.org/pypi/Weblate
@@ -80,7 +84,7 @@ https://docs.weblate.org/en/latest/admin/quick.html
 Bugs
 ----
 
-Please report bugs to https://github.com/nijel/weblate/issues.
+Please report bugs to https://github.com/WeblateOrg/weblate/issues.
 
 License
 -------

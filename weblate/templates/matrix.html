@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'matrix' project=object.project.slug subproject=object.slug %}">{% trans "matrix" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% if languages %}
+<table class="table matrix">
+<thead>
+<tr>
+<th><a href="{% url 'show_source' project=object.project.slug subproject=object.slug %}">{% trans "Source" %}</a></th>
+{% for language in languages %}
+<th><a href="{% url 'translation' project=object.project.slug subproject=object.slug lang=language.code %}">{{ language }}</a></th>
+{% endfor %}
+</tr>
+</thead>
+<tfoot>
+<tr><td colspan="3" class="loading-icon">
+<i id="loading-next" class="fa fa-spinner fa-spin" style="display: none"></i>
+<a href="{% url 'matrix-load' project=object.project.slug subproject=object.slug %}?lang={{ language_codes }}" class="hidden" id="matrix-load" data-offset="0" data-last="0"></a>
+</td></tr>
+</tfoot>
+</table>
+{% endif %}
+
+<form>
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Select languages to display" %}</h4></div>
+  <div class="panel-body">
+{{ languages_form | crispy }}
+  </div>
+<div class="panel-footer">
+<input class="btn btn-default" type="submit" value="{% trans "Select" %}" />
+</div>
+</div>
+</form>
+
+
+{% endblock %}

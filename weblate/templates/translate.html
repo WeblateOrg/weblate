@@ -453,7 +453,7 @@
     <td>{% format_translation unit.context unit.translation.subproject.project.source_language search_match=search_query simple=True %}</td>
     </tr>
     {% endif %}
-    {% if unit.flags or user_can_edit_flags %}
+    {% if unit.all_flags or user_can_edit_flags %}
     <tr>
     <th>
     {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
@@ -462,7 +462,11 @@
     </tr>
     <tr>
     <td>
+    {% if unit.all_flags %}
     {{ unit.all_flags|join:", " }}
+    {% else %}
+    {% trans "No flags currently set!" %}
+    {% endif %}
     </td>
     </tr>
     {% endif %}

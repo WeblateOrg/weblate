@@ -4,11 +4,20 @@ Changes
 weblate 2.10
 ------------
 
-Released on ? 2016.
+Released on Dec 15th 2016.
 
 * Added quality check to check whether plurals are translated differently.
 * Fixed GitHub hooks for repositories with authentication.
 * Added optional Git exporter module.
+* Support for Microsoft Cognitive Services Translator API.
+* Simplified project and component user interface.
+* Added automatic fix to remove control chars.
+* Added per language overview to project.
+* Added support for CSV export.
+* Added CSV download for stats.
+* Added matrix view for quick overview of all translations
+* Added basic API for changes and units.
+* Added support for Apertium APy server for machine translations.
 
 weblate 2.9
 -----------

@@ -348,7 +348,7 @@ repository and you can use ``--reference`` option while cloning:
 
     git clone \
         --reference /path/to/checkout \
-        https://github.com/nijel/weblate.git \
+        https://github.com/WeblateOrg/weblate.git \
         weblate/repos/project/component
 
 Optimize configuration

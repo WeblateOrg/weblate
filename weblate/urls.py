@@ -161,6 +161,16 @@ urlpatterns = [
         name='review_source',
     ),
     url(
+        r'^matrix/' + SUBPROJECT + '$',
+        weblate.trans.views.source.matrix,
+        name='matrix',
+    ),
+    url(
+        r'^js/matrix/' + SUBPROJECT + '$',
+        weblate.trans.views.source.matrix_load,
+        name='matrix-load',
+    ),
+    url(
         r'^source/(?P<pk>[0-9]+)/priority/$',
         weblate.trans.views.source.edit_priority,
         name='edit_priority'
@@ -285,6 +295,11 @@ urlpatterns = [
         name='monthly_activity',
     ),
     url(
+        r'^activity/language/month/' + LANGUAGE + '/' + PROJECT + '$',
+        weblate.trans.views.charts.monthly_activity,
+        name='monthly_activity',
+    ),
+    url(
         r'^activity/user/month/(?P<user>[^/]+)/$',
         weblate.trans.views.charts.monthly_activity,
         name='monthly_activity',
@@ -313,6 +328,11 @@ urlpatterns = [
     ),
     url(
         r'^activity/language/year/' + LANGUAGE + '/$',
+        weblate.trans.views.charts.yearly_activity,
+        name='yearly_activity',
+    ),
+    url(
+        r'^activity/language/year/' + LANGUAGE + '/' + PROJECT + '$',
         weblate.trans.views.charts.yearly_activity,
         name='yearly_activity',
     ),
@@ -452,6 +472,11 @@ urlpatterns = [
         weblate.lang.views.show_language,
         name='show_language',
     ),
+    url(
+        r'^languages/' + LANGUAGE + '/' + PROJECT + '$',
+        weblate.lang.views.show_project,
+        name='project-language',
+    ),
 
     # Checks browsing
     url(
@@ -518,6 +543,11 @@ urlpatterns = [
     url(
         r'^exports/stats/' + SUBPROJECT + '$',
         weblate.trans.views.api.export_stats,
+        name='export_stats',
+    ),
+    url(
+        r'^exports/stats/' + PROJECT + '$',
+        weblate.trans.views.api.export_stats_project,
         name='export_stats',
     ),
 
@@ -870,6 +900,11 @@ if 'weblate.billing' in settings.INSTALLED_APPS:
             r'^invoice/(?P<pk>[0-9]+)/download/$',
             weblate.billing.views.download_invoice,
             name='invoice-download',
+        ),
+        url(
+            r'^billing/$',
+            weblate.billing.views.overview,
+            name='billing',
         ),
     ]
 

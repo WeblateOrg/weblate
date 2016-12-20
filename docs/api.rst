@@ -250,6 +250,7 @@ Projects
     :>json string web: project website
     :>json string components_list_url: URL to components list, see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status, see :http:get:`/api/projects/(string:project)/repository/`
+    :>json string changes_list_url: URL to changes list, see :http:get:`/api/projects/(string:project)/changes/`
 
     .. seealso::
 
@@ -276,6 +277,17 @@ Projects
             "web_url": "http://example.com/projects/hello/"
         }
 
+.. http:get:: /api/projects/(string:project)/changes/
+
+    Returns list of project changes.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json array results: array of component objects, see :http:get:`/api/changes/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -368,6 +380,26 @@ Projects
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
+.. http:get:: /api/components/(string:project)/(string:component)/statistics/
+
+    Returns paginated statistics for all languages within project.
+
+    .. versionadded:: 2.10
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of translation statistics objects
+    :>json string language: language name
+    :>json string code: language code
+    :>json int total: total number of strings
+    :>json int translated: number of translated strings
+    :>json float translated_percent: percentage of translated strings
+    :>json int total_words: total number of words
+    :>json int translated_words: number of translated words
+    :>json float words_percent: percentage of translated words
+
 Components
 ++++++++++
 
@@ -405,6 +437,7 @@ Components
     :>json string repository_url: URL to repository status, see :http:get:`/api/components/(string:project)/(string:component)/repository/`
     :>json string translations_url: URL to translations list, see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status, see :http:get:`/api/components/(string:project)/(string:component)/lock/`
+    :>json string changes_list_url: URL to changes list, see :http:get:`/api/components/(string:project)/(string:component)/changes/`
 
     .. seealso::
 
@@ -446,6 +479,20 @@ Components
             "vcs": "git",
             "web_url": "http://example.com/projects/hello/weblate/"
         }
+
+.. http:get::  /api/components/(string:project)/(string:component)/changes/
+
+    Returns list of component changes.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of component objects, see :http:get:`/api/changes/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
@@ -575,7 +622,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of translation statis objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
+    :>json array results: array of translation statistics objects, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
 
 Translations
 ++++++++++++
@@ -625,6 +672,8 @@ Translations
     :>json int translated_words: number of translated words
     :>json string repository_url: URL to repository status, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/repository/`
     :>json string file_url: URL to file object, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+    :>json string changes_list_url: URL to changes list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
+    :>json string units_list_url: URL to units list, see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
 
     .. seealso::
 
@@ -701,6 +750,39 @@ Translations
             "url": "http://example.com/api/translations/hello/weblate/cs/",
             "web_url": "http://example.com/projects/hello/weblate/cs/"
         }
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
+
+    Returns list of translation changes.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json array results: array of component objects, see :http:get:`/api/changes/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/units/
+
+    Returns list of translation units.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json array results: array of component objects, see :http:get:`/api/units/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
@@ -817,6 +899,78 @@ Translations
     :>json string url: URL to access the translation (engagement URL)
     :>json string url_translate: URL to access the translation (real translation URL)
 
+Units
++++++
+
+.. versionadded:: 2.10
+
+.. http:get:: /api/units/
+
+    Returns list of translation unitss.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Translation object attributes are documented at :http:get:`/api/units/(int:pk)/`.
+
+.. http:get:: /api/units/(int:pk)/
+
+    Returns information about translation unit.
+
+    :>json string translation: URL of a related translation object
+    :>json string source: source string
+    :>json string previous_source: previous source string used for fuzzy matching
+    :>json string target: target string
+    :>json string checksum: unique identifier of the unit
+    :>json string contentsum: unique identifier of the source string
+    :>json string location: location of the unit in source code
+    :>json string context: translation unit context
+    :>json string comment: translation unit comment
+    :>json string flags: translation unit flags
+    :>json boolean fuzzy: whether unit is fuzzy or marked for review
+    :>json boolean translated: whteher unit is translated
+    :>json int position: unit position in translation file
+    :>json boolean has_suggestion: whether unit has suggestions
+    :>json boolean has_comment: whether unit has comments
+    :>json boolean has_failing_check: whether unit has failing checks
+    :>json int num_words: number of source words
+    :>json int priority: translation priority, 100 is default
+    :>json int id: unit identifier
+    :>json string web_url: URL where unit can be edited
+
+Changes
++++++++
+
+.. versionadded:: 2.10
+
+.. http:get:: /api/changes/
+
+    Returns list of translation changes.
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+        Translation object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
+
+.. http:get:: /api/changes/(int:pk)/
+
+    Returns information about translation change.
+
+
+    :>json string unit: URL of a related unit object
+    :>json string translation: URL of a related translation object
+    :>json string component: URL of a related component object
+    :>json string dictionary: URL of a related dictionary object
+    :>json string user: URL of a related user object
+    :>json string author: URL of a related author object
+    :>json timestamp timestamp: event timestamp
+    :>json int action: numeric identification of action
+    :>json string action_name: text description of action
+    :>json string target: event changed text or detail
+    :>json int id: change identifier
+
 .. _hooks:
 
 Notification hooks
@@ -906,7 +1060,7 @@ Weblate provides various exports to allow you further process the data.
 
 .. http:get:: /exports/stats/(string:project)/(string:component)/
 
-    :query string jsonp: JSONP callback function to wrap the data
+    :query string format: Output format, either ``json`` or ``csv``
 
     .. deprecated:: 2.6
 
@@ -914,8 +1068,7 @@ Weblate provides various exports to allow you further process the data.
         and :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/statistics/`
         instead, it allows to access ACL controlled projects as well.
 
-    Retrieves statistics for given component in JSON format. Optionally as
-    JSONP when you specify the callback in the ``jsonp`` parameter.
+    Retrieves statistics for given component in given format.
 
     **Example request**:
 

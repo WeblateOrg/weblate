@@ -1,6 +1,10 @@
 #! /usr/bin/env python
 """
 Post update hook script to update message IDs in the resx file.
+
+- Removes messages no longer present in template
+- Adds new units not present in template
+- Resets translation if string has been changed in template
 """
 
 from __future__ import print_function
@@ -22,7 +26,21 @@ def build_index(storage):
     return index
 
 
-def update_file(template, index, filename):
+def find_changes(index, storage):
+    """Finds changed units in storage"""
+    result = set()
+
+    for unit in storage.units:
+        unitid = unit.getid()
+        if unitid not in index:
+            continue
+        if unit.target != index[unitid].target:
+            result.add(unitid)
+
+    return result
+
+
+def update_file(template, index, changes, filename):
     storage = RESXFile.parsefile(filename)
     sindex = build_index(storage)
     changed = False
@@ -33,10 +51,14 @@ def update_file(template, index, filename):
             storage.addunit(unit, True)
             changed = True
 
-    # Remove extra units
+    # Remove extra units and apply target changes
     for unit in storage.units:
-        if unit.getid() not in index:
+        unitid = unit.getid()
+        if unitid not in index:
             storage.body.remove(unit.xmlelement)
+            changed = True
+        if unitid in changes:
+            unit.target = index[unitid].target
             changed = True
 
     if changed:
@@ -60,6 +82,10 @@ def main():
         print('Missing path!')
         sys.exit(1)
 
+    if not os.environ.get('WL_PREVIOUS_HEAD'):
+        print('Missing previous HEAD!')
+        sys.exit(1)
+
     os.chdir(os.environ.get('WL_PATH'))
 
     templatename = os.environ.get('WL_TEMPLATE')
@@ -67,9 +93,20 @@ def main():
     template = RESXFile.parsefile(templatename)
     index = build_index(template)
 
+    oldtemplate = subprocess.check_output([
+        'git', 'show', '{0}:{1}'.format(
+            os.environ.get('WL_PREVIOUS_HEAD'),
+            templatename
+        )
+    ])
+
+    old = RESXFile.parsestring(oldtemplate)
+
+    changes = find_changes(index, old)
+
     for filename in glob.glob(os.environ.get('WL_FILEMASK')):
         if filename != templatename:
-            update_file(template, index, filename)
+            update_file(template, index, changes, filename)
 
     if subprocess.call(['git', 'commit', '--dry-run', '-a']) == 0:
         ret = subprocess.call(

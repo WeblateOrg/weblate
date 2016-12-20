@@ -13,14 +13,14 @@ Many bugs might be also caused by third party libraries, so please include
 their versions as well. You can collect all using
 ``./manage.py list_versions``.
 
-[1]: https://github.com/nijel/weblate/issues
+[1]: https://github.com/WeblateOrg/weblate/issues
 
 ## Patches submission
 
 Patches are welcome either as [pull requests on GitHub][2] or using email on
 [our mailing list][3].
 
-[2]: https://github.com/nijel/weblate/pulls
+[2]: https://github.com/WeblateOrg/weblate/pulls
 [3]: https://lists.cihar.com/cgi-bin/mailman/listinfo/weblate
 
 ## More information

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2016-11-18 14:27+0000\n"
-"PO-Revision-Date: 2016-11-18 15:56+0000\n"
+"POT-Creation-Date: 2016-12-14 16:59+0000\n"
+"PO-Revision-Date: 2016-12-17 22:40+0000\n"
 "Last-Translator: Sijera <sijeravl@gmail.com>\n"
 "Language-Team: Serbian "
 "<https://hosted.weblate.org/projects/weblate/master/sr/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.10\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -33,13 +33,13 @@ msgctxt "No known user"
 msgid "None"
 msgstr "ништа"
 
-#: weblate/accounts/forms.py:48
+#: weblate/accounts/forms.py:52
 msgid ""
 "This email address is already in use. Please supply a different email "
 "address."
 msgstr "Ова е-адреса се већ користи. Дајте другу адресу е-поште."
 
-#: weblate/accounts/forms.py:69
+#: weblate/accounts/forms.py:73
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -47,111 +47,132 @@ msgstr ""
 "Корисничко име може садржати само слова, бројеве или следеће знакове: @ . + "
 "- _"
 
-#: weblate/accounts/forms.py:75 weblate/templates/project.html:169
+#: weblate/accounts/forms.py:79 weblate/templates/project.html:175
 msgid "Username"
 msgstr "Корисничко име"
 
-#: weblate/accounts/forms.py:95 weblate/accounts/pipeline.py:148
+#: weblate/accounts/forms.py:99 weblate/accounts/pipeline.py:149
 msgid "This username is already taken. Please choose another."
 msgstr "Корисничко име је заузето. Изаберите друго."
 
-#: weblate/accounts/forms.py:232
+#: weblate/accounts/forms.py:208
+msgid "Component wide notifications"
+msgstr ""
+
+#: weblate/accounts/forms.py:210
+msgid ""
+"You will receive notification on every such event in your watched projects."
+msgstr "Примаћете обавештења за сваки догађај у надгледаним пројектима."
+
+#: weblate/accounts/forms.py:217
+msgid "Translation notifications"
+msgstr "Обавештења о преводима"
+
+#: weblate/accounts/forms.py:219
+msgid ""
+"You will receive these notifications only for your translated languages in "
+"your watched projects."
+msgstr ""
+"Примаћете ова обавештења само за језике на којима преводите у надгледаним "
+"пројектима."
+
+#: weblate/accounts/forms.py:265
 msgid "Component list must be selected when used as default."
 msgstr "Списак компоненти мора бити одабран када се користи као подразумевани."
 
-#: weblate/accounts/forms.py:241 weblate/accounts/forms.py:311
-#: weblate/templates/project.html:171
+#: weblate/accounts/forms.py:274 weblate/accounts/forms.py:344
+#: weblate/templates/project.html:177
 msgid "E-mail"
 msgstr "е-пошта"
 
-#: weblate/accounts/forms.py:243
+#: weblate/accounts/forms.py:276
 msgid "You can add another email address on the Authentication tab."
 msgstr "Можете додати друге е-адресе у језичку „Аутентификација“."
 
-#: weblate/accounts/forms.py:270 weblate/accounts/forms.py:333
-#: weblate/templates/project.html:170
+#: weblate/accounts/forms.py:303 weblate/accounts/forms.py:366
+#: weblate/templates/project.html:176
 msgid "Full name"
 msgstr "Пуно име"
 
-#: weblate/accounts/forms.py:279
+#: weblate/accounts/forms.py:312
 msgid "Subject"
 msgstr "Тема"
 
-#: weblate/accounts/forms.py:280 weblate/accounts/forms.py:522
+#: weblate/accounts/forms.py:313 weblate/accounts/forms.py:555
 msgid "Your name"
 msgstr "Ваше име"
 
-#: weblate/accounts/forms.py:281 weblate/accounts/forms.py:523
+#: weblate/accounts/forms.py:314 weblate/accounts/forms.py:556
 msgid "Your email"
 msgstr "Ваша е-пошта"
 
-#: weblate/accounts/forms.py:283 weblate/templates/admin/performance.html:47
+#: weblate/accounts/forms.py:316 weblate/templates/admin/performance.html:47
 #: weblate/trans/models/whiteboard.py:65
 msgid "Message"
 msgstr "Порука"
 
-#: weblate/accounts/forms.py:286
+#: weblate/accounts/forms.py:319
 msgid ""
 "Please contact us in English, otherwise we might be unable to understand "
 "your request."
 msgstr "Контактирајте нас на енглеском јер можда нећемо разумети ваш захтев."
 
-#: weblate/accounts/forms.py:312
+#: weblate/accounts/forms.py:345
 msgid "Activation email will be sent here."
 msgstr "Активациона порука биће тамо послата."
 
-#: weblate/accounts/forms.py:374
+#: weblate/accounts/forms.py:407
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
 msgstr "Колико је %s?"
 
-#: weblate/accounts/forms.py:385
+#: weblate/accounts/forms.py:418
 msgid "Please check your math and try again."
 msgstr "Проверите рачун и покушајте поново."
 
-#: weblate/accounts/forms.py:404
+#: weblate/accounts/forms.py:437
 msgid "New password"
 msgstr "Нова лозинка"
 
-#: weblate/accounts/forms.py:405
+#: weblate/accounts/forms.py:438
 msgid "At least six characters long."
 msgstr "Бар шест знакова дугачка."
 
-#: weblate/accounts/forms.py:409
+#: weblate/accounts/forms.py:442
 msgid "New password (again)"
 msgstr "Нова лозинка (поново)"
 
-#: weblate/accounts/forms.py:411
+#: weblate/accounts/forms.py:444
 msgid "Repeat the password so we can verify you typed it in correctly."
 msgstr "Поновите лозинку да упоредимо да ли је исправно унета."
 
-#: weblate/accounts/forms.py:422
+#: weblate/accounts/forms.py:455
 msgid "Password needs to have at least six characters."
 msgstr "Лозинка треба да има бар шест знакова."
 
-#: weblate/accounts/forms.py:439
+#: weblate/accounts/forms.py:472
 msgid "You must type the same password each time."
 msgstr "Морате унети исту лозинку оба пута."
 
-#: weblate/accounts/forms.py:448
+#: weblate/accounts/forms.py:481
 msgid "Current password"
 msgstr "Тренутна лозинка"
 
-#: weblate/accounts/forms.py:458
+#: weblate/accounts/forms.py:491
 msgid "User with this email address was not found."
 msgstr "Корисник са овом е-адресом није нађен."
 
-#: weblate/accounts/forms.py:466
+#: weblate/accounts/forms.py:499
 msgid "Username or email"
 msgstr "Корисничко име или е-адреса"
 
-#: weblate/accounts/forms.py:469 weblate/templates/accounts/profile.html:193
+#: weblate/accounts/forms.py:502 weblate/templates/accounts/profile.html:193
 msgid "Password"
 msgstr "Лозинка"
 
-#: weblate/accounts/forms.py:474
+#: weblate/accounts/forms.py:507
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
@@ -159,32 +180,32 @@ msgstr ""
 "Унесите исправно корисничко име и лозинку. Обратите пажњу да су оба поља "
 "осетљива на величину слова."
 
-#: weblate/accounts/forms.py:476
+#: weblate/accounts/forms.py:509
 msgid "This account is inactive."
 msgstr "Овај налог је неактиван."
 
-#: weblate/accounts/forms.py:524 weblate/trans/models/project.py:85
+#: weblate/accounts/forms.py:557 weblate/trans/models/project.py:66
 msgid "Project name"
 msgstr "Назив пројекта"
 
-#: weblate/accounts/forms.py:525 weblate/templates/project_info.html:3
-#: weblate/trans/models/project.py:97
+#: weblate/accounts/forms.py:558 weblate/templates/project_info.html:3
+#: weblate/trans/models/project.py:78
 msgid "Project website"
 msgstr "Веб сајт пројекта"
 
-#: weblate/accounts/forms.py:527 weblate/trans/models/subproject.py:143
+#: weblate/accounts/forms.py:560 weblate/trans/models/subproject.py:143
 msgid "Source code repository"
 msgstr "Спремиште изворног кôда"
 
-#: weblate/accounts/forms.py:529
+#: weblate/accounts/forms.py:562
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "УРЛ спремишта изворног кôда, нпр. Гитхаб или Меркјуриал."
 
-#: weblate/accounts/forms.py:534 weblate/trans/models/subproject.py:192
+#: weblate/accounts/forms.py:567 weblate/trans/models/subproject.py:192
 msgid "File mask"
 msgstr "Маска фајла"
 
-#: weblate/accounts/forms.py:536 weblate/trans/models/subproject.py:196
+#: weblate/accounts/forms.py:569
 msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
@@ -192,7 +213,7 @@ msgstr ""
 "Путања до фајла за превод. Користите * уместо кôда језика, нпр: po/*.po или "
 "locale/*/LC_MESSAGES/django.po."
 
-#: weblate/accounts/forms.py:543
+#: weblate/accounts/forms.py:576
 msgid "Additional message"
 msgstr "Додатна порука"
 
@@ -324,7 +345,7 @@ msgid ""
 "address."
 msgstr "Не можете послати преводе јер нисте доделили ниједну адресу е-поште."
 
-#: weblate/accounts/pipeline.py:135
+#: weblate/accounts/pipeline.py:136
 msgid "New registrations are disabled!"
 msgstr "Нове регистрације су онемогућене!"
 
@@ -401,8 +422,10 @@ msgid "Password reset"
 msgstr "Ресетуј лозинку"
 
 #: weblate/billing/admin.py:51 weblate/billing/models.py:122
-#: weblate/templates/accounts/user.html:30 weblate/templates/projects.html:5
-#: weblate/trans/models/project.py:172 weblate/trans/views/basic.py:206
+#: weblate/templates/accounts/user.html:30
+#: weblate/templates/billing/detail.html:32 weblate/templates/language.html:15
+#: weblate/templates/projects.html:5 weblate/trans/models/project.py:153
+#: weblate/trans/views/basic.py:210
 msgid "Projects"
 msgstr "Пројекти"
 
@@ -443,11 +466,11 @@ msgid "Source words"
 msgstr "Изворне речи"
 
 #: weblate/billing/models.py:157 weblate/lang/models.py:401
-#: weblate/lang/views.py:40 weblate/templates/accounts/profile.html:22
+#: weblate/lang/views.py:41 weblate/templates/accounts/profile.html:22
 #: weblate/templates/accounts/profile.html:40 weblate/templates/language.html:6
-#: weblate/templates/languages.html:6
+#: weblate/templates/languages.html:6 weblate/templates/project.html:26
 #: weblate/templates/trans/change_list.html:18 weblate/trans/admin.py:59
-#: weblate/trans/forms.py:835
+#: weblate/trans/forms.py:835 weblate/trans/forms.py:1053
 msgid "Languages"
 msgstr "Језици"
 
@@ -503,7 +526,8 @@ msgstr ""
 
 #: weblate/lang/models.py:400 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/languages.html:14
-#: weblate/templates/list-translations.html:7 weblate/trans/forms.py:629
+#: weblate/templates/list-translations.html:7
+#: weblate/templates/project.html:114 weblate/trans/forms.py:629
 #: weblate/trans/forms.py:853 weblate/trans/models/whiteboard.py:82
 msgid "Language"
 msgstr "Језик"
@@ -527,7 +551,7 @@ msgstr ""
 msgid "{name} (e.g. {examples})"
 msgstr ""
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:494
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:505
 msgid "Permission Denied"
 msgstr "Приступ одбијен"
 
@@ -544,7 +568,7 @@ msgid ""
 "However the following translation projects are available on this server:"
 msgstr "Следећи пројекти превођења су доступни на овом серверу:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:479
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:490
 msgid "Page Not Found"
 msgstr "Страница није нађена"
 
@@ -552,7 +576,7 @@ msgstr "Страница није нађена"
 msgid "The page you are looking for was not found."
 msgstr "Страница коју сте тражили није пронађена."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:510
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:521
 msgid "Internal Server Error"
 msgstr "Интерна грешка сервера"
 
@@ -569,7 +593,7 @@ msgstr ""
 "нашег тренираног мајмуна да реши проблем."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:523
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:534
 msgid "About Weblate"
 msgstr "О Веблејту"
 
@@ -793,6 +817,7 @@ msgstr ""
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
 #: weblate/templates/accounts/removal.html:6 weblate/templates/base.html:120
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Ваш профил"
 
@@ -844,6 +869,7 @@ msgid "API access"
 msgstr "API приступ"
 
 #: weblate/templates/accounts/profile.html:31
+#: weblate/templates/billing/overview.html:6
 msgid "Billing"
 msgstr "Наплата"
 
@@ -854,8 +880,8 @@ msgstr "Наплата"
 #: weblate/templates/accounts/profile.html:159
 #: weblate/templates/edit_dictionary.html:23
 #: weblate/templates/js/detail.html:58 weblate/templates/js/detail.html:70
-#: weblate/templates/js/detail.html:94 weblate/templates/project.html:288
-#: weblate/templates/subproject.html:224 weblate/templates/translate.html:159
+#: weblate/templates/js/detail.html:94 weblate/templates/project.html:294
+#: weblate/templates/subproject.html:213 weblate/templates/translate.html:159
 #: weblate/templates/translate.html:334
 msgid "Save"
 msgstr "Сачувај"
@@ -1046,16 +1072,13 @@ msgstr ""
 "\"%(api_doc)s\">API документацију</a> за више детаља."
 
 #: weblate/templates/accounts/profile.html:343
-#, fuzzy, python-format
-#| msgid ""
-#| "You can control Weblate using HTTP REST API. Please check <a href="
-#| "\"%(api_doc)s\">API documentation</a> for more details."
+#, python-format
 msgid ""
 "The API key is also used to access exported Git repositories, please check "
 "<a href=\"%(git_doc)s\">documentation</a> for more details."
 msgstr ""
-"Можете контролисати Веблејт користећи HTTP REST API. Погледајте <a href="
-"\"%(api_doc)s\">API документацију</a> за више детаља."
+"API кључ се такође користи за приступање извезеним Git складиштима. "
+"Погледајте <a href=\"%(git_doc)s\">документацију</a> за више детаља."
 
 #: weblate/templates/accounts/profile.html:362
 msgid ""
@@ -1069,7 +1092,7 @@ msgstr ""
 #: weblate/templates/data.html:57 weblate/templates/data.html:95
 #: weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
-#: weblate/trans/models/project.py:171 weblate/trans/models/subproject.py:130
+#: weblate/trans/models/project.py:152 weblate/trans/models/subproject.py:130
 #: weblate/trans/models/whiteboard.py:70
 msgid "Project"
 msgstr "Пројекат"
@@ -1086,63 +1109,27 @@ msgstr ""
 "Обратите пажњу на лиценцирање јер се ту наводи како је другима дозвољено да "
 "користе ваше преводе."
 
-#: weblate/templates/accounts/profile.html:408
-msgid "Billing plan"
-msgstr "План наплате"
-
 #: weblate/templates/accounts/profile.html:413
-msgid "Current plan"
-msgstr "Тренутни план"
-
-#: weblate/templates/accounts/profile.html:413
-msgid "See other plans"
-msgstr "Прикажи остале планове"
-
-#: weblate/templates/accounts/profile.html:414
-msgid "Monthly price"
-msgstr "Месечна цена"
-
-#: weblate/templates/accounts/profile.html:415
-msgid "Yearly price"
-msgstr "Годишња цена"
-
-#: weblate/templates/accounts/profile.html:416
-msgid "Strings limit"
-msgstr "Ограничење низова"
-
-#: weblate/templates/accounts/profile.html:421
-msgid "Languages limit"
-msgstr "Ограничење језика"
-
-#: weblate/templates/accounts/profile.html:426
-msgid "Repositories limit"
-msgstr "Ограничење спремишта"
-
-#: weblate/templates/accounts/profile.html:431
-msgid "Projects limit"
-msgstr "Ограничење пројеката"
-
-#: weblate/templates/accounts/profile.html:444
 msgid "Invoices"
 msgstr "Рачуни"
 
-#: weblate/templates/accounts/profile.html:449
+#: weblate/templates/accounts/profile.html:418
 msgid "Invoice period"
 msgstr "Период рачуна"
 
-#: weblate/templates/accounts/profile.html:450
+#: weblate/templates/accounts/profile.html:419
 msgid "Invoice amount"
 msgstr "Износ рачуна"
 
-#: weblate/templates/accounts/profile.html:451
+#: weblate/templates/accounts/profile.html:420
 msgid "Download invoice"
 msgstr "Преузми рачун"
 
-#: weblate/templates/accounts/profile.html:463
+#: weblate/templates/accounts/profile.html:432
 msgid "Not available"
 msgstr "Није доступно"
 
-#: weblate/templates/accounts/profile.html:468
+#: weblate/templates/accounts/profile.html:437
 msgid "No invoices found!"
 msgstr "Нема пронађених рачуна!"
 
@@ -1303,8 +1290,8 @@ msgstr ""
 "Изгледа да немате ССХ кључ. Притиском на дугме испод, Веблејт ће га "
 "генерисати за вас."
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:178
-#: weblate/templates/subproject.html:199
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:167
+#: weblate/templates/subproject.html:188
 msgid "Generate"
 msgstr "Генериши"
 
@@ -1413,14 +1400,50 @@ msgstr "Затвори"
 msgid "Screenshot context"
 msgstr ""
 
-#: weblate/templates/billing-used.html:5
+#: weblate/templates/billing/detail.html:4
+msgid "Billing plan"
+msgstr "План наплате"
+
+#: weblate/templates/billing/detail.html:9
+msgid "Current plan"
+msgstr "Тренутни план"
+
+#: weblate/templates/billing/detail.html:9
+msgid "See other plans"
+msgstr "Прикажи остале планове"
+
+#: weblate/templates/billing/detail.html:10
+msgid "Monthly price"
+msgstr "Месечна цена"
+
+#: weblate/templates/billing/detail.html:11
+msgid "Yearly price"
+msgstr "Годишња цена"
+
+#: weblate/templates/billing/detail.html:12
+msgid "Strings limit"
+msgstr "Ограничење низова"
+
+#: weblate/templates/billing/detail.html:17
+msgid "Languages limit"
+msgstr "Ограничење језика"
+
+#: weblate/templates/billing/detail.html:22
+msgid "Repositories limit"
+msgstr "Ограничење спремишта"
+
+#: weblate/templates/billing/detail.html:27
+msgid "Projects limit"
+msgstr "Ограничење пројеката"
+
+#: weblate/templates/billing/used.html:5
 #, python-format
 msgid "Used %(used)s"
 msgstr "Искоришћено %(used)s"
 
-#: weblate/templates/billing-used.html:7
+#: weblate/templates/billing/used.html:7
 #, python-format
-msgid "Used %(used)s from %(total)s"
+msgid "Used %(used)s of %(total)s"
 msgstr "Искоришћено %(used)s од %(total)s"
 
 #: weblate/templates/check.html:6 weblate/templates/check_project.html:6
@@ -1444,7 +1467,8 @@ msgstr "Нема одговарајућих провера!"
 msgid "Check details"
 msgstr "Детаљи провере"
 
-#: weblate/templates/checks.html:30
+#: weblate/templates/checks.html:30 weblate/templates/project.html:27
+#: weblate/templates/subproject.html:31
 msgid "Information"
 msgstr "Информација"
 
@@ -1599,8 +1623,9 @@ msgstr "Погледај документацију за детаљно упут
 msgid "glossaries"
 msgstr "речници"
 
-#: weblate/templates/dictionaries.html:15
-#: weblate/templates/translation.html:101
+#: weblate/templates/dictionaries.html:15 weblate/templates/languages.html:16
+#: weblate/templates/list-projects.html:10 weblate/templates/project.html:83
+#: weblate/templates/project.html:116 weblate/templates/translation.html:101
 #: weblate/templates/translation.html:327
 msgid "Words"
 msgstr "Речи"
@@ -1639,16 +1664,18 @@ msgstr ""
 
 #: weblate/templates/dictionary.html:33
 #: weblate/templates/edit_dictionary.html:32 weblate/templates/index.html:39
-#: weblate/templates/language.html:16 weblate/templates/project.html:26
-#: weblate/templates/subproject.html:31 weblate/templates/translate.html:203
+#: weblate/templates/language-project.html:16
+#: weblate/templates/language.html:16 weblate/templates/project.html:29
+#: weblate/templates/subproject.html:32 weblate/templates/translate.html:203
 #: weblate/templates/translation.html:29
 msgid "History"
 msgstr "Историјат"
 
-#: weblate/templates/dictionary.html:48 weblate/templates/search.html:20
-#: weblate/templates/source-review.html:22 weblate/templates/translate.html:140
-#: weblate/templates/translate.html:211 weblate/templates/translate.html:301
-#: weblate/templates/translate.html:384 weblate/trans/forms.py:711
+#: weblate/templates/dictionary.html:48 weblate/templates/matrix.html:17
+#: weblate/templates/search.html:20 weblate/templates/source-review.html:22
+#: weblate/templates/translate.html:140 weblate/templates/translate.html:211
+#: weblate/templates/translate.html:301 weblate/templates/translate.html:384
+#: weblate/trans/forms.py:711
 msgid "Source"
 msgstr "Извор"
 
@@ -1676,7 +1703,7 @@ msgid "No words found!"
 msgstr "Нема пронађених речи!"
 
 #: weblate/templates/dictionary.html:88 weblate/templates/js/detail.html:41
-#: weblate/templates/project.html:260 weblate/templates/translate.html:413
+#: weblate/templates/project.html:266 weblate/templates/translate.html:413
 msgid "Add"
 msgstr "Додај"
 
@@ -2618,15 +2645,15 @@ msgstr ""
 msgid "Search"
 msgstr "Тражи"
 
-#: weblate/templates/index.html:40 weblate/templates/language.html:17
-#: weblate/templates/project.html:27 weblate/templates/subproject.html:32
-#: weblate/templates/translation.html:30
+#: weblate/templates/index.html:40 weblate/templates/language-project.html:17
+#: weblate/templates/language.html:17 weblate/templates/project.html:30
+#: weblate/templates/subproject.html:33 weblate/templates/translation.html:30
 msgid "Activity"
 msgstr "Активност"
 
-#: weblate/templates/index.html:43 weblate/templates/language.html:21
-#: weblate/templates/project.html:30 weblate/templates/subproject.html:35
-#: weblate/templates/translation.html:42
+#: weblate/templates/index.html:43 weblate/templates/language-project.html:20
+#: weblate/templates/language.html:21 weblate/templates/project.html:33
+#: weblate/templates/subproject.html:36 weblate/templates/translation.html:42
 msgid "Tools"
 msgstr "Алатке"
 
@@ -2684,7 +2711,7 @@ msgstr ""
 msgid "Browse all changes"
 msgstr ""
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:148
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:137
 msgid "Browse all component changes"
 msgstr "Прегледај све измене компоненти"
 
@@ -2752,8 +2779,8 @@ msgstr "Измене спремишта"
 msgid "Repository tools"
 msgstr "Алатке спремишта"
 
-#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:35
-#: weblate/templates/subproject.html:40 weblate/templates/translation.html:48
+#: weblate/templates/js/git-status.html:112 weblate/templates/project.html:40
+#: weblate/templates/subproject.html:44 weblate/templates/translation.html:48
 msgid "Commit"
 msgstr ""
 
@@ -2816,37 +2843,41 @@ msgstr "Спречи било какве промене у локалном сп
 msgid "Removes current translation from the repository."
 msgstr "Уклања тренутни превод из спремишта."
 
-#: weblate/templates/language.html:15 weblate/templates/project.html:25
-#: weblate/templates/subproject.html:30 weblate/templates/translation.html:27
-msgid "Overview"
-msgstr "Преглед"
+#: weblate/templates/language-project.html:15 weblate/templates/project.html:25
+#: weblate/trans/models/subproject.py:476
+msgid "Components"
+msgstr ""
 
-#: weblate/templates/language.html:18 weblate/templates/project.html:120
-msgid "Glossaries"
-msgstr "Речници"
-
-#: weblate/templates/language.html:24 weblate/templates/project.html:40
-#: weblate/templates/source-review.html:24 weblate/templates/translate.html:484
+#: weblate/templates/language-project.html:23
+#: weblate/templates/language.html:24 weblate/templates/project.html:45
+#: weblate/templates/source-review.html:24 weblate/templates/translate.html:488
 #: weblate/trans/views/checks.py:78
 msgid "Failing checks"
 msgstr "Грешке при провери"
 
-#: weblate/templates/language.html:25 weblate/templates/project.html:41
+#: weblate/templates/language-project.html:24
+#: weblate/templates/language.html:25 weblate/templates/project.html:46
 #: weblate/templates/stats.html:103
 msgid "Ignored checks"
 msgstr "Игнорисано"
 
+#: weblate/templates/language-project.html:37
 #: weblate/templates/language.html:38
 msgid "Browse all language changes"
 msgstr ""
+
+#: weblate/templates/language.html:18 weblate/templates/project.html:28
+msgid "Glossaries"
+msgstr "Речници"
 
 #: weblate/templates/language.html:51
 msgid "There are no glossaries defined for this language."
 msgstr ""
 
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
-#: weblate/templates/list-translations.html:9 weblate/templates/project.html:87
-#: weblate/templates/stats.html:21 weblate/templates/translation.html:338
+#: weblate/templates/list-translations.html:9 weblate/templates/project.html:82
+#: weblate/templates/project.html:115 weblate/templates/stats.html:21
+#: weblate/templates/translation.html:338
 msgid "Translated"
 msgstr "Преведено"
 
@@ -2976,9 +3007,18 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: weblate/templates/list-translations.html:72
+#: weblate/templates/list-translations.html:74
 #: weblate/templates/translate.html:88
 msgid "Translate"
 msgstr "Преведи"
+
+#: weblate/templates/list-translations.html:74
+#, python-format
+msgid "There is %(count)s translated string."
+msgid_plural "There are %(count)s translated strings."
+msgstr[0] "Постоји %(count)s преведени низ."
+msgstr[1] "Постоје %(count)s преведена низа."
+msgstr[2] "Постоји %(count)s преведених низова."
 
 #: weblate/templates/mail/activation.html:7
 #: weblate/templates/mail/activation.txt:1
@@ -3304,118 +3344,129 @@ msgstr ""
 msgid "Change subscription settings:"
 msgstr "Измени подешавања претплата:"
 
+#: weblate/templates/matrix.html:8
+msgid "matrix"
+msgstr ""
+
+#: weblate/templates/matrix.html:34
+msgid "Select languages to display"
+msgstr ""
+
+#: weblate/templates/matrix.html:39
+msgid "Select"
+msgstr ""
+
 #: weblate/templates/paginator.html:6
 #, python-format
 msgid "%(position)s / %(total)s"
 msgstr ""
 
-#: weblate/templates/project.html:33 weblate/templates/subproject.html:38
+#: weblate/templates/project.html:36 weblate/templates/subproject.html:39
 #: weblate/templates/translation.html:45
 msgid "Data exports"
 msgstr "Извоз података"
 
-#: weblate/templates/project.html:38 weblate/templates/subproject.html:43
+#: weblate/templates/project.html:37 weblate/templates/subproject.html:40
+msgid "Download statistics (CSV)"
+msgstr "Преузми статистику (CSV)"
+
+#: weblate/templates/project.html:38 weblate/templates/subproject.html:41
+msgid "Download statistics (JSON)"
+msgstr ""
+
+#: weblate/templates/project.html:43 weblate/templates/subproject.html:47
 #: weblate/templates/translation.html:51
 msgid "Repository maintenance"
 msgstr ""
 
-#: weblate/templates/project.html:43 weblate/templates/subproject.html:47
+#: weblate/templates/project.html:48 weblate/templates/subproject.html:51
 msgid "Manage users"
 msgstr "Управљајте корисницима"
 
-#: weblate/templates/project.html:46 weblate/templates/project.html:281
-#: weblate/templates/subproject.html:53 weblate/templates/subproject.html:217
+#: weblate/templates/project.html:51 weblate/templates/project.html:287
+#: weblate/templates/subproject.html:60 weblate/templates/subproject.html:206
 msgid "Settings"
 msgstr "Поставке"
 
-#: weblate/templates/project.html:53 weblate/templates/subproject.html:60
+#: weblate/templates/project.html:58 weblate/templates/subproject.html:67
 #: weblate/templates/translation.html:64
 msgid "Share"
 msgstr "Подели"
 
-#: weblate/templates/project.html:57 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:64 weblate/templates/translation.html:68
+#: weblate/templates/project.html:62 weblate/templates/share.html:9
+#: weblate/templates/subproject.html:71 weblate/templates/translation.html:68
 msgid "Share on Facebook!"
 msgstr "Подели на фејсбуку!"
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:63 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:72 weblate/templates/translation.html:69
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr ""
 
-#: weblate/templates/project.html:58 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:65 weblate/templates/translation.html:69
+#: weblate/templates/project.html:63 weblate/templates/share.html:10
+#: weblate/templates/subproject.html:72 weblate/templates/translation.html:69
 msgid "Tweet this translation!"
 msgstr "Твитуј овај превод!"
 
-#: weblate/templates/project.html:59 weblate/templates/subproject.html:66
+#: weblate/templates/project.html:64 weblate/templates/subproject.html:73
 #: weblate/templates/translation.html:70
 msgid "Engage page"
 msgstr ""
 
-#: weblate/templates/project.html:60 weblate/templates/subproject.html:67
+#: weblate/templates/project.html:65 weblate/templates/subproject.html:74
 #: weblate/templates/translation.html:71
 msgid "Status widgets"
 msgstr "Виџети статуса"
 
-#: weblate/templates/project.html:80 weblate/trans/models/subproject.py:475
-msgid "Components"
-msgstr ""
-
-#: weblate/templates/project.html:86 weblate/templates/translate.html:270
-#: weblate/trans/models/subproject.py:474 weblate/trans/models/whiteboard.py:76
+#: weblate/templates/project.html:81 weblate/templates/translate.html:270
+#: weblate/trans/models/subproject.py:475 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr ""
 
-#: weblate/templates/project.html:110 weblate/templates/source.html:36
-#: weblate/templates/subproject.html:100 weblate/templates/translation.html:134
-msgid "Project Information"
-msgstr "Информације о пројекту"
-
-#: weblate/templates/project.html:129
+#: weblate/templates/project.html:143
 msgid "There are currently no glossaries defined for this project."
 msgstr ""
 
-#: weblate/templates/project.html:133
+#: weblate/templates/project.html:146
 msgid "Manage all glossaries"
 msgstr "Управљај свим речницима"
 
-#: weblate/templates/project.html:146
+#: weblate/templates/project.html:152
 msgid "Browse all project changes"
 msgstr ""
 
-#: weblate/templates/project.html:153 weblate/templates/subproject.html:155
+#: weblate/templates/project.html:159 weblate/templates/subproject.html:144
 #: weblate/templates/translate.html:291 weblate/templates/translation.html:246
 #: weblate/trans/forms.py:140
 msgid "Loading…"
 msgstr "Учитавам…"
 
-#: weblate/templates/project.html:164
+#: weblate/templates/project.html:170
 msgid "Users"
 msgstr "Корисници"
 
-#: weblate/templates/project.html:178
+#: weblate/templates/project.html:184
 msgid "Owner"
 msgstr "Власник"
 
-#: weblate/templates/project.html:189 weblate/templates/project.html:218
+#: weblate/templates/project.html:195 weblate/templates/project.html:224
 msgid "Remove"
 msgstr "Уклони"
 
-#: weblate/templates/project.html:198
+#: weblate/templates/project.html:204
 msgid "Revoke ownership"
 msgstr "Опозови власништво"
 
-#: weblate/templates/project.html:226
+#: weblate/templates/project.html:232
 msgid "Make owner"
 msgstr "Учини власником"
 
-#: weblate/templates/project.html:251
+#: weblate/templates/project.html:257
 msgid "Add new user"
 msgstr "Додај новог корисника"
 
-#: weblate/templates/project.html:253
+#: weblate/templates/project.html:259
 msgid "Add new owner"
 msgstr "Додај новог власника"
 
@@ -3477,6 +3528,10 @@ msgstr ""
 msgid "Strings to check"
 msgstr "Низови за проверу"
 
+#: weblate/templates/source.html:36 weblate/templates/translation.html:134
+msgid "Project Information"
+msgstr "Информације о пројекту"
+
 #: weblate/templates/stats.html:15
 msgid "Most active translators"
 msgstr "Најактивнији преводиоци"
@@ -3521,23 +3576,28 @@ msgstr "Превода дато"
 msgid "Failing checks found"
 msgstr "Грешака у провери нађено"
 
-#: weblate/templates/subproject.html:45
-msgid "Source strings review"
-msgstr "Овера изворних низова"
-
-#: weblate/templates/subproject.html:50
-msgid "Translation reports"
-msgstr "Извештаји превода"
-
-#: weblate/templates/subproject.html:86
+#: weblate/templates/subproject.html:30
 msgid "Translations"
 msgstr "Преводи"
 
-#: weblate/templates/subproject.html:113 weblate/templates/subproject.html:129
+#: weblate/templates/subproject.html:42
+msgid "Matrix view"
+msgstr "Matrix приказ"
+
+#: weblate/templates/subproject.html:49
+msgid "Source strings review"
+msgstr "Овера изворних низова"
+
+#: weblate/templates/subproject.html:54
+msgid "Translation reports"
+msgstr "Извештаји превода"
+
+#: weblate/templates/subproject.html:57 weblate/templates/subproject.html:108
+#: weblate/templates/subproject.html:124
 msgid "Start new translation"
 msgstr "Започните нови превод"
 
-#: weblate/templates/subproject.html:116
+#: weblate/templates/subproject.html:111
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -3546,11 +3606,11 @@ msgstr ""
 "Ако ваш језик недостаје, испратите <a href=\"%(url)s\">упутства за "
 "преводиоце</a>."
 
-#: weblate/templates/subproject.html:118
+#: weblate/templates/subproject.html:113
 msgid "Please choose the language into which you would like to translate."
 msgstr "Изаберите језик на који желите да преводите."
 
-#: weblate/templates/subproject.html:120
+#: weblate/templates/subproject.html:115
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
@@ -3558,35 +3618,35 @@ msgstr ""
 "Администратори пројекта ће бити обавештени о овом захтеву и додаће језик "
 "ручно."
 
-#: weblate/templates/subproject.html:123
+#: weblate/templates/subproject.html:118
 msgid "Can't find your language in the list above?"
 msgstr "Не можете пронаћи ваш језик на списку изнад?"
 
-#: weblate/templates/subproject.html:127
+#: weblate/templates/subproject.html:122
 msgid "Request new translation"
 msgstr "Затражи нови превод"
 
-#: weblate/templates/subproject.html:169
+#: weblate/templates/subproject.html:158
 msgid "Credits"
 msgstr "Заслуге"
 
-#: weblate/templates/subproject.html:173
+#: weblate/templates/subproject.html:162
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
 
-#: weblate/templates/subproject.html:190
+#: weblate/templates/subproject.html:179
 msgid "Contributor stats"
 msgstr ""
 
-#: weblate/templates/subproject.html:194
+#: weblate/templates/subproject.html:183
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 
 #: weblate/templates/subproject_info.html:9
-#: weblate/trans/models/subproject.py:362
+#: weblate/trans/models/subproject.py:363
 msgid "Translation license"
 msgstr "Лиценца превода"
 
@@ -3604,8 +3664,8 @@ msgid "Repository with Weblate translations"
 msgstr "Спремиште са Weblate-преводима"
 
 #: weblate/templates/trans/change_list.html:32
-msgid "Download all changes as CSV"
-msgstr ""
+msgid "Download latest changes as CSV"
+msgstr "Преузми најновије измене као CSV"
 
 #: weblate/templates/trans/change_list.html:37
 msgid "Follow using RSS"
@@ -3826,7 +3886,7 @@ msgstr "Користи овај превод"
 msgid "Service"
 msgstr "Сервис"
 
-#: weblate/templates/translate.html:328 weblate/trans/forms.py:787
+#: weblate/templates/translate.html:328 weblate/trans/forms.py:805
 msgid "New comment"
 msgstr "Нови коментар"
 
@@ -3873,7 +3933,11 @@ msgstr "Информације о извору"
 msgid "Flags"
 msgstr "Заставице"
 
-#: weblate/templates/translate.html:473
+#: weblate/templates/translate.html:468
+msgid "No flags currently set!"
+msgstr "Тренутно нема постављених заставица!"
+
+#: weblate/templates/translate.html:477
 msgid "String priority"
 msgstr "Приоритет низа"
 
@@ -3882,6 +3946,7 @@ msgstr "Приоритет низа"
 #: weblate/templates/translation-download.html:8
 #: weblate/templates/translation-download.html:9
 #: weblate/templates/translation-download.html:10
+#: weblate/templates/translation-download.html:11
 msgid "Download for an offline translation."
 msgstr ""
 
@@ -3906,17 +3971,25 @@ msgstr "Преузми превод као Gettext PO"
 msgid "Download translation as Gettext MO"
 msgstr "Преузми превод као Gettext MO"
 
-#: weblate/templates/translation-download.html:12
+#: weblate/templates/translation-download.html:11
+msgid "Download translation as CSV"
+msgstr "Преузми превод као CSV"
+
+#: weblate/templates/translation-download.html:13
 msgid "Download for using within an application."
 msgstr "Преузимање за коришћење унутар апликације."
 
-#: weblate/templates/translation-download.html:12
+#: weblate/templates/translation-download.html:13
 msgid "Download compiled translation"
 msgstr "Преузми компајлирани превод"
 
-#: weblate/templates/translation-download.html:16
+#: weblate/templates/translation-download.html:17
 msgid "Upload translation"
 msgstr "Отпреми превод"
+
+#: weblate/templates/translation.html:27
+msgid "Overview"
+msgstr "Преглед"
 
 #: weblate/templates/translation.html:34
 msgid "Files"
@@ -3927,12 +4000,12 @@ msgid "Locking"
 msgstr "Закључавање"
 
 #: weblate/templates/translation.html:54 weblate/templates/translation.html:189
-#: weblate/trans/models/change.py:191
+#: weblate/trans/models/change.py:207
 msgid "Automatic translation"
 msgstr "Аутоматско превођење"
 
 #: weblate/templates/translation.html:57 weblate/templates/translation.html:207
-#: weblate/trans/models/change.py:212
+#: weblate/trans/models/change.py:228
 msgid "Search and replace"
 msgstr "Тражи и замени"
 
@@ -4188,23 +4261,23 @@ msgstr "Напусти зен"
 msgid "%(filter_name)s (%(filter_count)s)"
 msgstr ""
 
-#: weblate/trans/admin.py:43 weblate/trans/models/project.py:146
+#: weblate/trans/admin.py:43 weblate/trans/models/project.py:127
 msgid "Owners"
 msgstr "Власници"
 
-#: weblate/trans/admin.py:68 weblate/trans/admin.py:113
+#: weblate/trans/admin.py:68 weblate/trans/admin.py:122
 msgid "Update VCS repository"
 msgstr "Ажурирај VCS спремиште"
 
-#: weblate/trans/admin.py:82 weblate/trans/admin.py:130
+#: weblate/trans/admin.py:82 weblate/trans/admin.py:139
 msgid "Update quality checks"
 msgstr ""
 
-#: weblate/trans/admin.py:94 weblate/trans/admin.py:142
+#: weblate/trans/admin.py:94 weblate/trans/admin.py:151
 msgid "Commit pending changes"
 msgstr ""
 
-#: weblate/trans/admin.py:262
+#: weblate/trans/admin.py:271
 msgid "Project / Component"
 msgstr "Пројекат / Компонента"
 
@@ -4274,12 +4347,16 @@ msgstr ""
 msgid "Weblate translations"
 msgstr "Weblate преводи"
 
-#: weblate/trans/autofixes/chars.py:34 weblate/trans/checks/chars.py:333
+#: weblate/trans/autofixes/chars.py:67 weblate/trans/checks/chars.py:333
 msgid "Trailing ellipsis"
 msgstr ""
 
-#: weblate/trans/autofixes/chars.py:48 weblate/trans/checks/chars.py:362
+#: weblate/trans/autofixes/chars.py:81 weblate/trans/checks/chars.py:362
 msgid "Zero-width space"
+msgstr ""
+
+#: weblate/trans/autofixes/chars.py:97
+msgid "Control chars"
 msgstr ""
 
 #: weblate/trans/autofixes/whitespace.py:37
@@ -4728,39 +4805,39 @@ msgstr "Е-пошта аутора"
 msgid "Search filter"
 msgstr "Филтер претраге"
 
-#: weblate/trans/forms.py:466 weblate/trans/models/translation.py:889
-#: weblate/trans/models/translation.py:931 weblate/trans/views/edit.py:134
+#: weblate/trans/forms.py:466 weblate/trans/models/translation.py:880
+#: weblate/trans/models/translation.py:922 weblate/trans/views/edit.py:134
 #: weblate/trans/views/edit.py:150
 msgid "All strings"
 msgstr "Сви низови"
 
-#: weblate/trans/forms.py:467 weblate/trans/models/translation.py:958
+#: weblate/trans/forms.py:467 weblate/trans/models/translation.py:949
 msgid "Not translated strings"
 msgstr "Непреведени низови"
 
-#: weblate/trans/forms.py:468 weblate/trans/models/translation.py:949
+#: weblate/trans/forms.py:468 weblate/trans/models/translation.py:940
 msgid "Strings needing action"
 msgstr "Низови који захтевају радњу"
 
-#: weblate/trans/forms.py:469 weblate/trans/models/translation.py:940
+#: weblate/trans/forms.py:469 weblate/trans/models/translation.py:931
 msgid "Translated strings"
 msgstr "Преведени низови"
 
-#: weblate/trans/forms.py:470 weblate/trans/models/translation.py:967
+#: weblate/trans/forms.py:470 weblate/trans/models/translation.py:958
 msgid "Strings marked for review"
 msgstr "Низови означени за оверу"
 
-#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:976
+#: weblate/trans/forms.py:471 weblate/trans/models/translation.py:967
 msgid "Strings with suggestions"
 msgstr "Низови са предлозима"
 
-#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:917
-#: weblate/trans/models/translation.py:1004
+#: weblate/trans/forms.py:472 weblate/trans/models/translation.py:908
+#: weblate/trans/models/translation.py:995
 msgid "Strings with comments"
 msgstr "Низови са коментарима"
 
-#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:897
-#: weblate/trans/models/translation.py:984
+#: weblate/trans/forms.py:473 weblate/trans/models/translation.py:888
+#: weblate/trans/models/translation.py:975
 msgid "Strings with any failing checks"
 msgstr ""
 
@@ -4884,20 +4961,20 @@ msgstr ""
 msgid "Starting letter"
 msgstr ""
 
-#: weblate/trans/forms.py:790
+#: weblate/trans/forms.py:786
 msgid "Scope"
 msgstr ""
 
-#: weblate/trans/forms.py:792
+#: weblate/trans/forms.py:788
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr ""
 
-#: weblate/trans/forms.py:798
+#: weblate/trans/forms.py:794
 msgid "Source string comment, suggestions to change this string"
 msgstr ""
 
-#: weblate/trans/forms.py:802
+#: weblate/trans/forms.py:798
 msgid "Translation comment, discussions with other translators"
 msgstr ""
 
@@ -5062,111 +5139,111 @@ msgstr ""
 msgid "Advertisements"
 msgstr ""
 
-#: weblate/trans/models/change.py:185
+#: weblate/trans/models/change.py:201
 msgid "Resource update"
 msgstr ""
 
-#: weblate/trans/models/change.py:186
+#: weblate/trans/models/change.py:202
 msgid "Translation completed"
 msgstr ""
 
-#: weblate/trans/models/change.py:187
+#: weblate/trans/models/change.py:203
 msgid "Translation changed"
 msgstr ""
 
-#: weblate/trans/models/change.py:188 weblate/trans/models/subproject.py:388
+#: weblate/trans/models/change.py:204 weblate/trans/models/subproject.py:389
 msgid "New translation"
 msgstr ""
 
-#: weblate/trans/models/change.py:189
+#: weblate/trans/models/change.py:205
 msgid "Comment added"
 msgstr ""
 
-#: weblate/trans/models/change.py:190
+#: weblate/trans/models/change.py:206
 msgid "Suggestion added"
 msgstr ""
 
-#: weblate/trans/models/change.py:192
+#: weblate/trans/models/change.py:208
 msgid "Suggestion accepted"
 msgstr ""
 
-#: weblate/trans/models/change.py:193
+#: weblate/trans/models/change.py:209
 msgid "Translation reverted"
 msgstr ""
 
-#: weblate/trans/models/change.py:194
+#: weblate/trans/models/change.py:210
 msgid "Translation uploaded"
 msgstr ""
 
-#: weblate/trans/models/change.py:195
+#: weblate/trans/models/change.py:211
 msgid "Glossary added"
 msgstr ""
 
-#: weblate/trans/models/change.py:196
+#: weblate/trans/models/change.py:212
 msgid "Glossary updated"
 msgstr ""
 
-#: weblate/trans/models/change.py:197
+#: weblate/trans/models/change.py:213
 msgid "Glossary uploaded"
 msgstr ""
 
-#: weblate/trans/models/change.py:198
+#: weblate/trans/models/change.py:214
 msgid "New source string"
 msgstr ""
 
-#: weblate/trans/models/change.py:199
+#: weblate/trans/models/change.py:215
 msgid "Component locked"
 msgstr ""
 
-#: weblate/trans/models/change.py:200
+#: weblate/trans/models/change.py:216
 msgid "Component unlocked"
 msgstr ""
 
-#: weblate/trans/models/change.py:201
+#: weblate/trans/models/change.py:217
 msgid "Detected duplicate string"
 msgstr ""
 
-#: weblate/trans/models/change.py:202
+#: weblate/trans/models/change.py:218
 msgid "Commited changes"
 msgstr ""
 
-#: weblate/trans/models/change.py:203
+#: weblate/trans/models/change.py:219
 msgid "Pushed changes"
 msgstr ""
 
-#: weblate/trans/models/change.py:204
+#: weblate/trans/models/change.py:220
 msgid "Reset repository"
 msgstr ""
 
-#: weblate/trans/models/change.py:205
+#: weblate/trans/models/change.py:221
 msgid "Merged repository"
 msgstr ""
 
-#: weblate/trans/models/change.py:206
+#: weblate/trans/models/change.py:222
 msgid "Rebased repository"
 msgstr ""
 
-#: weblate/trans/models/change.py:207
+#: weblate/trans/models/change.py:223
 msgid "Failed merge on repository"
 msgstr ""
 
-#: weblate/trans/models/change.py:208
+#: weblate/trans/models/change.py:224
 msgid "Failed rebase on repository"
 msgstr ""
 
-#: weblate/trans/models/change.py:209
+#: weblate/trans/models/change.py:225
 msgid "Parse error"
 msgstr "Грешка анализе"
 
-#: weblate/trans/models/change.py:210
+#: weblate/trans/models/change.py:226
 msgid "Removed translation"
 msgstr "Уклоњени превод"
 
-#: weblate/trans/models/change.py:211
+#: weblate/trans/models/change.py:227
 msgid "Suggestion removed"
 msgstr "Сугестија уклоњена"
 
-#: weblate/trans/models/change.py:282
+#: weblate/trans/models/change.py:298
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
@@ -5175,17 +5252,17 @@ msgstr ""
 msgid "Component list name"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:88
+#: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:69
 #: weblate/trans/models/subproject.py:120
 msgid "Name to display"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:39 weblate/trans/models/project.py:91
+#: weblate/trans/models/componentlist.py:39 weblate/trans/models/project.py:72
 #: weblate/trans/models/subproject.py:123
 msgid "URL slug"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:94
+#: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:75
 #: weblate/trans/models/subproject.py:126
 msgid "Name used in URLs and file names."
 msgstr ""
@@ -5206,79 +5283,79 @@ msgstr ""
 msgid "Group ACLs"
 msgstr ""
 
-#: weblate/trans/models/project.py:98
+#: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
 msgstr ""
 
-#: weblate/trans/models/project.py:101
+#: weblate/trans/models/project.py:82
 msgid "Mailing list"
 msgstr "Листа слања"
 
-#: weblate/trans/models/project.py:104
+#: weblate/trans/models/project.py:85
 msgid "Mailing list for translators."
 msgstr "Листа слања за преводиоце."
 
-#: weblate/trans/models/project.py:107
+#: weblate/trans/models/project.py:88
 msgid "Translation instructions"
 msgstr ""
 
-#: weblate/trans/models/project.py:109
+#: weblate/trans/models/project.py:90
 msgid "URL with instructions for translators."
 msgstr "URL упутстава за преводиоце."
 
-#: weblate/trans/models/project.py:113
+#: weblate/trans/models/project.py:94
 msgid "Push on commit"
 msgstr ""
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:97
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 
-#: weblate/trans/models/project.py:121
+#: weblate/trans/models/project.py:102
 msgid "Set Translation-Team header"
 msgstr ""
 
-#: weblate/trans/models/project.py:124
+#: weblate/trans/models/project.py:105
 msgid ""
 "Whether the Translation-Team in file headers should be updated by Weblate."
 msgstr ""
 
-#: weblate/trans/models/project.py:130
+#: weblate/trans/models/project.py:111
 msgid "Enable ACL"
 msgstr ""
 
-#: weblate/trans/models/project.py:133
+#: weblate/trans/models/project.py:114
 msgid ""
 "Whether to enable ACL for this project, please check documentation before "
 "enabling this."
 msgstr ""
 
-#: weblate/trans/models/project.py:138
+#: weblate/trans/models/project.py:119
 msgid "Enable hooks"
 msgstr ""
 
-#: weblate/trans/models/project.py:141
+#: weblate/trans/models/project.py:122
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
 
-#: weblate/trans/models/project.py:149
+#: weblate/trans/models/project.py:130
 msgid "Owners of the project."
 msgstr ""
 
-#: weblate/trans/models/project.py:154
+#: weblate/trans/models/project.py:135
 msgid "Source language"
 msgstr "Изворни језик"
 
-#: weblate/trans/models/project.py:156
+#: weblate/trans/models/project.py:137
 msgid "Language used for source strings in all components"
 msgstr ""
 
-#: weblate/trans/models/project.py:195
+#: weblate/trans/models/project.py:176
 #, python-format
 msgid "You are not allowed to access project %s."
 msgstr ""
 
-#: weblate/trans/models/project.py:236
+#: weblate/trans/models/project.py:217
 #, python-format
 msgid "Could not create project directory: %s"
 msgstr ""
@@ -5391,312 +5468,320 @@ msgstr ""
 msgid "Repository branch to translate"
 msgstr "Грана спремишта за превођење"
 
-#: weblate/trans/models/subproject.py:201
+#: weblate/trans/models/subproject.py:196
+msgid ""
+"Path of files to translate relative to repository root, use * instead of "
+"language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
+msgstr ""
+"Путања датотека за превод у односу на основно спремиште. Користите * уместо "
+"кода језика, нпр: po/*.po или locale/*/LC_MESSAGES/django.po."
+
+#: weblate/trans/models/subproject.py:202
 msgid "Monolingual base language file"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:205
+#: weblate/trans/models/subproject.py:206
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:211
+#: weblate/trans/models/subproject.py:212
 msgid "Edit base file"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:214
+#: weblate/trans/models/subproject.py:215
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:219
+#: weblate/trans/models/subproject.py:220
 msgid "Base file for new translations"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:223
+#: weblate/trans/models/subproject.py:224
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:228
+#: weblate/trans/models/subproject.py:229
 msgid "File format"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:233
+#: weblate/trans/models/subproject.py:234
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:238
+#: weblate/trans/models/subproject.py:239
 msgid "Additional commit files"
 msgstr "Додатни фајлови за извршавање"
 
-#: weblate/trans/models/subproject.py:243
+#: weblate/trans/models/subproject.py:244
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:248
+#: weblate/trans/models/subproject.py:249
 msgid "Post-update script"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:254
+#: weblate/trans/models/subproject.py:255
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:259
+#: weblate/trans/models/subproject.py:260
 msgid "Pre-commit script"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:265
+#: weblate/trans/models/subproject.py:266
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:270
+#: weblate/trans/models/subproject.py:271
 msgid "Post-commit script"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:276
+#: weblate/trans/models/subproject.py:277
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:281
+#: weblate/trans/models/subproject.py:282
 msgid "Post-push script"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:287
+#: weblate/trans/models/subproject.py:288
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:292
+#: weblate/trans/models/subproject.py:293
 msgid "Post-add script"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:298
+#: weblate/trans/models/subproject.py:299
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:304
+#: weblate/trans/models/subproject.py:305
 msgid "Locked"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:307
+#: weblate/trans/models/subproject.py:308
 msgid "Whether component is locked for translation updates."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:311
+#: weblate/trans/models/subproject.py:312
 msgid "Allow translation propagation"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:315
+#: weblate/trans/models/subproject.py:316
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:320
+#: weblate/trans/models/subproject.py:321
 msgid "Save translation history"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:323
+#: weblate/trans/models/subproject.py:324
 msgid "Whether Weblate should keep history of translations"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:327
+#: weblate/trans/models/subproject.py:328
 msgid "Enable suggestions"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:330
+#: weblate/trans/models/subproject.py:331
 msgid "Whether to allow translation suggestions at all."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:334
+#: weblate/trans/models/subproject.py:335
 msgid "Suggestion voting"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:337
+#: weblate/trans/models/subproject.py:338
 msgid "Whether users can vote for suggestions."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:341
+#: weblate/trans/models/subproject.py:342
 msgid "Autoaccept suggestions"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:344
+#: weblate/trans/models/subproject.py:345
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:350
+#: weblate/trans/models/subproject.py:351
 msgid "Quality checks flags"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:353
+#: weblate/trans/models/subproject.py:354
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:367
+#: weblate/trans/models/subproject.py:368
 msgid "Optional short summary of license used for translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:371
+#: weblate/trans/models/subproject.py:372
 msgid "License URL"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:374
+#: weblate/trans/models/subproject.py:375
 msgid "Optional URL with license details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:377
+#: weblate/trans/models/subproject.py:378
 msgid "Contributor agreement"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:381
+#: weblate/trans/models/subproject.py:382
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:393
+#: weblate/trans/models/subproject.py:394
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:401
+#: weblate/trans/models/subproject.py:402
 msgid "Merge style"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:406
+#: weblate/trans/models/subproject.py:407
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:411
+#: weblate/trans/models/subproject.py:412
 msgid "Commit message when translating"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:413
-#: weblate/trans/models/subproject.py:422
-#: weblate/trans/models/subproject.py:431
+#: weblate/trans/models/subproject.py:414
+#: weblate/trans/models/subproject.py:423
+#: weblate/trans/models/subproject.py:432
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:420
+#: weblate/trans/models/subproject.py:421
 msgid "Commit message when adding translation"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:429
+#: weblate/trans/models/subproject.py:430
 msgid "Commit message when removing translation"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:438
+#: weblate/trans/models/subproject.py:439
 msgid "Committer name"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:443
+#: weblate/trans/models/subproject.py:444
 msgid "Committer email"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:449
+#: weblate/trans/models/subproject.py:450
 msgid "Language filter"
 msgstr "Филтер језика"
 
-#: weblate/trans/models/subproject.py:453
+#: weblate/trans/models/subproject.py:454
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:651
+#: weblate/trans/models/subproject.py:652
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:655
+#: weblate/trans/models/subproject.py:656
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:752
+#: weblate/trans/models/subproject.py:753
 #, python-format
 msgid "Push is disabled for %s."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:801
+#: weblate/trans/models/subproject.py:802
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:835
+#: weblate/trans/models/subproject.py:836
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:905
+#: weblate/trans/models/subproject.py:909
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:910
+#: weblate/trans/models/subproject.py:914
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1090
+#: weblate/trans/models/subproject.py:1101
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1097
+#: weblate/trans/models/subproject.py:1108
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1104
+#: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1110
+#: weblate/trans/models/subproject.py:1121
 msgid "Push URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1116
+#: weblate/trans/models/subproject.py:1127
 msgid "Export URL is not used when repository is linked!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1124
+#: weblate/trans/models/subproject.py:1135
 msgid "The mask did not match any files!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1132
+#: weblate/trans/models/subproject.py:1143
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1137
+#: weblate/trans/models/subproject.py:1148
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1143
+#: weblate/trans/models/subproject.py:1154
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -5704,125 +5789,125 @@ msgid ""
 "one."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1162
+#: weblate/trans/models/subproject.py:1173
 msgid "File does not seem to be valid!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1170
+#: weblate/trans/models/subproject.py:1181
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1179
+#: weblate/trans/models/subproject.py:1190
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1188
+#: weblate/trans/models/subproject.py:1199
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1196
+#: weblate/trans/models/subproject.py:1207
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1200
+#: weblate/trans/models/subproject.py:1211
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1205
+#: weblate/trans/models/subproject.py:1216
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1216
+#: weblate/trans/models/subproject.py:1227
 msgid "You can not use base file with bilingual translation!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1221
+#: weblate/trans/models/subproject.py:1232
 msgid "Using .pot file as base file is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1228
+#: weblate/trans/models/subproject.py:1239
 msgid "Template file not found!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1234
+#: weblate/trans/models/subproject.py:1245
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1239
+#: weblate/trans/models/subproject.py:1250
 msgid "You can not use monolingual translation without base file!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1250
+#: weblate/trans/models/subproject.py:1261
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1257
+#: weblate/trans/models/subproject.py:1268
 msgid "License URL can not be used without license summary."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1277
+#: weblate/trans/models/subproject.py:1288
 msgid "Changing version control system is not supported!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1282
+#: weblate/trans/models/subproject.py:1293
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1289
+#: weblate/trans/models/subproject.py:1300
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1309
+#: weblate/trans/models/subproject.py:1320
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1319
+#: weblate/trans/models/subproject.py:1330
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 
-#: weblate/trans/models/subproject.py:1498
+#: weblate/trans/models/subproject.py:1509
 msgid "Failed to add new translation file!"
 msgstr "Није успело додавање фајла превода!"
 
-#: weblate/trans/models/subproject.py:1520
+#: weblate/trans/models/subproject.py:1531
 msgid "Translation file already exists!"
 msgstr "Фајл превода већ постоји!"
 
-#: weblate/trans/models/translation.py:220
+#: weblate/trans/models/translation.py:223
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
 
-#: weblate/trans/models/translation.py:229
+#: weblate/trans/models/translation.py:232
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/models/translation.py:276
+#: weblate/trans/models/translation.py:267
 #, python-format
 msgid "This translation is locked by %(user)s!"
 msgstr ""
 
-#: weblate/trans/models/unit.py:582
+#: weblate/trans/models/unit.py:587
 msgid "Failed to store message in the backend, lock timeout occurred!"
 msgstr ""
 
-#: weblate/trans/models/unit.py:594
+#: weblate/trans/models/unit.py:599
 msgid "Message not found in backend storage, it is probably corrupted."
 msgstr ""
 
@@ -6146,71 +6231,75 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: weblate/trans/templatetags/translations.py:532
+#: weblate/trans/templatetags/translations.py:537
 msgid "Message needs review"
 msgstr "Потребна је овера поруке"
 
-#: weblate/trans/templatetags/translations.py:537
+#: weblate/trans/templatetags/translations.py:542
 msgid "Message is not translated"
 msgstr "Порука није преведена"
 
-#: weblate/trans/templatetags/translations.py:542
+#: weblate/trans/templatetags/translations.py:547
 msgid "Message has failing checks"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:547
+#: weblate/trans/templatetags/translations.py:552
 msgid "Message is translated"
 msgstr "Порука је преведена"
 
-#: weblate/trans/templatetags/translations.py:553
+#: weblate/trans/templatetags/translations.py:558
 msgid "Message has comments"
 msgstr "Порука има коментаре"
 
-#: weblate/trans/templatetags/translations.py:575
+#: weblate/trans/templatetags/translations.py:580
 #, python-format
 msgid "unit ID %s"
 msgstr ""
 
-#: weblate/trans/util.py:212
+#: weblate/trans/util.py:214
 #, python-brace-format
 msgid ""
 "{0} is translated into {1} languages using Weblate. Join the translation or "
 "start translating your own project."
 msgstr ""
 
-#: weblate/trans/util.py:277
+#: weblate/trans/util.py:279
 msgid "Object listing disabled"
 msgstr ""
 
 #: weblate/trans/validators.py:30
 msgid "RST text"
-msgstr ""
+msgstr "RST текст"
 
 #: weblate/trans/validators.py:31
 msgid "XML text"
-msgstr ""
+msgstr "XML текст"
 
 #: weblate/trans/validators.py:33
 msgid "Skip review flag when importing"
 msgstr ""
 
-#: weblate/trans/validators.py:47 weblate/trans/validators.py:57
-#: weblate/trans/validators.py:77
+#: weblate/trans/validators.py:36
+msgid "Add review flag for new source strings"
+msgstr "Додај заставице за преглед за нове изворне низове"
+
+#: weblate/trans/validators.py:50 weblate/trans/validators.py:60
+#: weblate/trans/validators.py:80
 #, python-format
 msgid "Bad format string (%s)"
 msgstr ""
 
-#: weblate/trans/validators.py:86
+#: weblate/trans/validators.py:89
 msgid "File mask does not contain * as a language placeholder!"
 msgstr ""
 
-#: weblate/trans/validators.py:96
+#: weblate/trans/validators.py:99
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
 msgstr ""
 
-#: weblate/trans/validators.py:111
+#: weblate/trans/validators.py:114
 #, python-format
 msgid "Invalid check flag: \"%s\""
 msgstr ""
@@ -6227,26 +6316,26 @@ msgstr ""
 msgid "User has been removed from this project."
 msgstr ""
 
-#: weblate/trans/views/basic.py:113
+#: weblate/trans/views/basic.py:117
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
 
-#: weblate/trans/views/basic.py:130
+#: weblate/trans/views/basic.py:134
 msgid "Please set your full name in your profile."
 msgstr ""
 
-#: weblate/trans/views/basic.py:249
+#: weblate/trans/views/basic.py:253
 #, python-format
 msgid "Search for %s"
 msgstr ""
 
-#: weblate/trans/views/basic.py:255
+#: weblate/trans/views/basic.py:259
 msgid "Invalid search query!"
 msgstr "Неважећи упит за претрагу!"
 
-#: weblate/trans/views/basic.py:287
+#: weblate/trans/views/basic.py:291
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -6257,7 +6346,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:295
+#: weblate/trans/views/basic.py:299
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -6265,24 +6354,24 @@ msgid ""
 "complete."
 msgstr ""
 
-#: weblate/trans/views/basic.py:324 weblate/trans/views/basic.py:382
+#: weblate/trans/views/basic.py:328 weblate/trans/views/basic.py:395
 msgid "Settings saved"
 msgstr ""
 
-#: weblate/trans/views/basic.py:329 weblate/trans/views/basic.py:387
+#: weblate/trans/views/basic.py:333 weblate/trans/views/basic.py:400
 msgid "Invalid settings, please check the form for errors!"
 msgstr ""
 
-#: weblate/trans/views/basic.py:538
+#: weblate/trans/views/basic.py:549
 msgid "Weblate statistics"
 msgstr "Weblate статистика"
 
-#: weblate/trans/views/basic.py:624
+#: weblate/trans/views/basic.py:635
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 
-#: weblate/trans/views/basic.py:633
+#: weblate/trans/views/basic.py:644
 msgid "Invalid language chosen!"
 msgstr "Одабран неважећи језик!"
 
@@ -6518,27 +6607,27 @@ msgstr "Нема нових порука у отпремљеном фајлу!"
 msgid "File content merge failed: %s"
 msgstr "Неуспело стапање садржаја фајла: %s"
 
-#: weblate/trans/views/git.py:50
+#: weblate/trans/views/git.py:53
 msgid "Failed to lock the repository, another operation in progress."
 msgstr "Неуспело закључавање спремишта. Друга операција је у току."
 
-#: weblate/trans/views/git.py:63
+#: weblate/trans/views/git.py:69
 msgid "All pending translations were committed."
 msgstr "Превод на чекању је одаслат."
 
-#: weblate/trans/views/git.py:76
+#: weblate/trans/views/git.py:82
 msgid "All repositories were updated."
 msgstr "Сва спремишта су ажурирана."
 
-#: weblate/trans/views/git.py:90
+#: weblate/trans/views/git.py:96
 msgid "All repositories were pushed."
 msgstr "Сва спремишта су послата."
 
-#: weblate/trans/views/git.py:103
+#: weblate/trans/views/git.py:109
 msgid "All repositories have been reset."
 msgstr "Сва спремишта су ресетована."
 
-#: weblate/trans/views/git.py:252
+#: weblate/trans/views/git.py:258
 msgid "Translation has been removed."
 msgstr "Превод је уклоњен."
 
@@ -6570,26 +6659,26 @@ msgstr "Све компоненте су сада закључане за ажу
 msgid "Project is now open for translation updates."
 msgstr "Пројекат је сада отворен за ажурирања превода."
 
-#: weblate/trans/views/source.py:102
+#: weblate/trans/views/source.py:105
 #, python-format
 msgid "Review source strings in %s"
 msgstr "Провери изворне поруке у %s"
 
-#: weblate/trans/views/source.py:120
+#: weblate/trans/views/source.py:123
 #, python-format
 msgid "Source strings in %s"
 msgstr "Изворне поруке у %s"
 
-#: weblate/trans/views/source.py:141
+#: weblate/trans/views/source.py:144
 msgid "Failed to change a priority!"
 msgstr "Не могу да променим важност!"
 
-#: weblate/trans/views/source.py:161
+#: weblate/trans/views/source.py:164
 msgid "Failed to change check flags!"
 msgstr "Не могу да променим заставицу „проверено“!"
 
 #. Translators: please keep the text short to fit into widget
-#: weblate/trans/widgets.py:281
+#: weblate/trans/widgets.py:283
 #, python-format
 msgid ""
 "translating %(count)d strings into %(languages)d languages\n"
@@ -6600,7 +6689,7 @@ msgstr ""
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
-#: weblate/trans/widgets.py:285
+#: weblate/trans/widgets.py:287
 #, python-format
 msgid ""
 "translating %(count)d strings into English\n"
@@ -6610,7 +6699,7 @@ msgstr ""
 "%(percent)d%% завршено. Помозите у превођењу!"
 
 #. Translators: please keep the text short to fit into widget
-#: weblate/trans/widgets.py:306
+#: weblate/trans/widgets.py:308
 #, python-format
 msgid ""
 "translation\n"
@@ -6621,7 +6710,7 @@ msgstr ""
 
 #. Translators: please use your language name instead of English
 #. and keep the text short to fit into widget
-#: weblate/trans/widgets.py:309
+#: weblate/trans/widgets.py:311
 #, python-format
 msgid ""
 "English translation\n"
@@ -6630,8 +6719,8 @@ msgstr ""
 "српски превод\n"
 "%(percent)d%% завршено"
 
-#: weblate/trans/widgets.py:337 weblate/trans/widgets.py:367
-#: weblate/trans/widgets.py:388
+#: weblate/trans/widgets.py:339 weblate/trans/widgets.py:369
+#: weblate/trans/widgets.py:390
 msgid "translated"
 msgstr "преведено"
 

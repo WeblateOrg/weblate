@@ -58,17 +58,32 @@ class TMServerTranslation(MachineTranslation):
         '''
         return language.replace('-', '_').lower()
 
+    def download_languages(self):
+        '''
+        Downloads list of supported languages from a service.
+        '''
+        data = self.json_req('%s/languages/' % self.url)
+        return [
+            (src, tgt)
+            for src in data['sourceLanguages']
+            for tgt in data['targetLanguages']
+        ]
+
     def is_supported(self, source, language):
         '''
-        Any language is supported.
+        Checks whether given language combination is supported.
         '''
-        return True
+        if len(self.supported_languages) == 0:
+            # Fallback for old tmserver which does not export list of
+            # supported languages
+            return True
+        return (source, language) in self.supported_languages
 
     def download_translations(self, source, language, text, unit, user):
         '''
         Downloads list of possible translations from a service.
         '''
-        url = '%s/tmserver/%s/%s/unit/%s' % (
+        url = '%s/%s/%s/unit/%s' % (
             self.url,
             quote(source),
             quote(language),
@@ -87,4 +102,4 @@ class AmagamaTranslation(TMServerTranslation):
     name = 'Amagama'
 
     def get_server_url(self):
-        return 'http://amagama.locamotion.org'
+        return 'https://amagama-live.translatehouse.org/api/v1'

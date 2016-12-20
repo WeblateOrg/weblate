@@ -212,6 +212,9 @@ class Command(BaseCommand):
         matches = self.get_matching_files(repo)
         self.logger.info('Found %d matching files', len(matches))
 
+        if len(matches) == 0:
+            raise CommandError('Your mask did not match any files!')
+
         # Parse subproject names out of them
         names = set()
         for match in matches:
@@ -298,10 +301,7 @@ class Command(BaseCommand):
         if is_repo_link(repo):
             sharedrepo = repo
             try:
-                sub_project = SubProject.objects.get(
-                    project=project,
-                    slug=repo.rsplit('/', 1)[-1]
-                )
+                sub_project = SubProject.objects.get_linked(repo)
             except SubProject.DoesNotExist:
                 raise CommandError(
                     'SubProject %s does not exist, '

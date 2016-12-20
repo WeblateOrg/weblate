@@ -27,20 +27,13 @@ from weblate.trans.machine.base import (
 )
 from weblate import appsettings
 
+COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
+COGNITIVE_TOKEN = COGNITIVE_BASE_URL + '/issueToken?Subscription-Key={0}'
+
 BASE_URL = 'http://api.microsofttranslator.com/V2/Ajax.svc/'
 TRANSLATE_URL = BASE_URL + 'Translate'
 LIST_URL = BASE_URL + 'GetLanguagesForTranslate'
 TOKEN_EXPIRY = timedelta(minutes=9)
-
-
-def microsoft_translation_supported():
-    '''
-    Checks whether service is supported.
-    '''
-    return (
-        appsettings.MT_MICROSOFT_ID is not None and
-        appsettings.MT_MICROSOFT_SECRET is not None
-    )
 
 
 class MicrosoftTranslation(MachineTranslation):
@@ -56,10 +49,19 @@ class MicrosoftTranslation(MachineTranslation):
         super(MicrosoftTranslation, self).__init__()
         self._access_token = None
         self._token_expiry = None
-        if not microsoft_translation_supported():
+        if not self.ms_supported():
             raise MissingConfiguration(
                 'Microsoft Translator requires credentials'
             )
+
+    def ms_supported(self):
+        '''
+        Checks whether service is supported.
+        '''
+        return (
+            appsettings.MT_MICROSOFT_ID is not None and
+            appsettings.MT_MICROSOFT_SECRET is not None
+        )
 
     def is_token_expired(self):
         '''
@@ -137,3 +139,33 @@ class MicrosoftTranslation(MachineTranslation):
         }
         response = self.json_req(TRANSLATE_URL, **args)
         return [(response, 100, self.name, text)]
+
+
+class MicrosoftCognitiveTranslation(MicrosoftTranslation):
+    '''
+    Microsoft Cognitive Services Translator API machine translation support.
+    '''
+    name = 'Microsoft Translator'
+
+    def ms_supported(self):
+        '''
+        Checks whether service is supported.
+        '''
+        return appsettings.MT_MICROSOFT_COGNITIVE_KEY is not None
+
+    @property
+    def access_token(self):
+        '''
+        Obtains and caches access token.
+        '''
+        if self._access_token is None or self.is_token_expired():
+            self._access_token = self.json_req(
+                COGNITIVE_TOKEN.format(appsettings.MT_MICROSOFT_COGNITIVE_KEY),
+                skip_auth=True,
+                http_post=True,
+                raw=True,
+                fake='1',
+            )
+            self._token_expiry = timezone.now() + TOKEN_EXPIRY
+
+        return self._access_token

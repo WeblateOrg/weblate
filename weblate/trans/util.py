@@ -112,6 +112,8 @@ def translation_percent(translated, total):
     '''
     Returns translation percentage.
     '''
+    if total == 0 or total is None:
+        return 0.0
     perc = round(1000 * translated / total) / 10.0
     # Avoid displaying misleading rounded 0.0% or 100.0%
     if perc == 0.0 and translated != 0:

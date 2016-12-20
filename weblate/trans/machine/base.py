@@ -74,7 +74,8 @@ class MachineTranslation(object):
         '''
         return
 
-    def json_req(self, url, http_post=False, skip_auth=False, **kwargs):
+    def json_req(self, url, http_post=False, skip_auth=False, raw=False,
+                 **kwargs):
         '''
         Performs JSON request.
         '''
@@ -124,6 +125,9 @@ class MachineTranslation(object):
         # Needed for Google
         while ',,' in text or '[,' in text:
             text = text.replace(',,', ',null,').replace('[,', '[')
+
+        if raw:
+            return text
 
         # Parse JSON
         response = json.loads(text)
@@ -236,7 +240,13 @@ class MachineTranslation(object):
             unit.translation.subproject.project.source_language.code
         )
         if not self.is_supported(source, language):
-            return []
+            # Try without country code
+            if '_' in language or '-' in language:
+                language = language.replace('-', '_').split('_')[0]
+                if not self.is_supported(source, language):
+                    return []
+            else:
+                return []
 
         try:
             translations = self.download_translations(

@@ -407,7 +407,7 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = [
         'log', '-n', '1', '--format=format:%H', '@{upstream}'
     ]
-    _cmd_update_remote = ['remote', 'update', 'origin']
+    _cmd_update_remote = ['fetch', 'origin']
     _cmd_push = ['push', 'origin']
     name = 'Git'
     req_version = '1.6'

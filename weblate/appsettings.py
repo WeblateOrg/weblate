@@ -55,10 +55,17 @@ DATA_DIR = getvalue('DATA_DIR', os.path.join(BASE_DIR, '..', 'data'))
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
 MT_APERTIUM_KEY = getvalue('MT_APERTIUM_KEY', None)
 
+# URL of the Apertium APy server
+MT_APERTIUM_APY = getvalue('MT_APERTIUM_APY', None)
+
 # Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = getvalue('MT_MICROSOFT_ID', None)
 MT_MICROSOFT_SECRET = getvalue('MT_MICROSOFT_SECRET', None)
+
+# Microsoft Conginite Services Translator, register at
+# https://portal.azure.com/
+MT_MICROSOFT_COGNITIVE_KEY = getvalue('MT_MICROSOFT_COGNITIVE_KEY', None)
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
@@ -103,6 +110,7 @@ SIMILAR_MESSAGES = getvalue('SIMILAR_MESSAGES', 5)
 
 # Enable lazy commits
 LAZY_COMMITS = getvalue('LAZY_COMMITS', True)
+COMMIT_PENDING_HOURS = getvalue('COMMIT_PENDING_HOURS', 24)
 
 # Offload indexing
 OFFLOAD_INDEXING = getvalue('OFFLOAD_INDEXING', False)
@@ -149,6 +157,7 @@ AUTOFIX_LIST = getvalue('AUTOFIX_LIST', (
     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
     'weblate.trans.autofixes.chars.RemoveZeroSpace',
+    'weblate.trans.autofixes.chars.RemoveControlChars',
 ))
 
 # List of machine translations

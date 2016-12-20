@@ -20,9 +20,12 @@
 
 from __future__ import unicode_literals
 
+from django.db.models import Sum
+from django.utils.encoding import force_text
+
 from weblate.lang.models import Language
 from weblate.trans.models import Translation
-from django.db.models import Sum
+from weblate.trans.util import translation_percent
 
 
 def get_per_language_stats(project):
@@ -39,20 +42,27 @@ def get_per_language_stats(project):
 
     # Calculates total strings in project
     total = 0
+    total_words = 0
     for component in project.subproject_set.all():
         try:
-            total += component.translation_set.all()[0].total
+            translation = component.translation_set.all()[0]
+            total += translation.total
+            total_words += translation.total_words
         except IndexError:
             pass
 
     # Translated strings in language
     for language in Language.objects.filter(pk__in=languages):
-        translated = Translation.objects.filter(
+        data = Translation.objects.filter(
             language=language,
             subproject__project=project
         ).aggregate(
             Sum('translated'),
-        )['translated__sum']
+            Sum('translated_words'),
+        )
+
+        translated = data['translated__sum']
+        translated_words = data['translated_words__sum']
 
         # Insert sort
         pos = None
@@ -60,10 +70,27 @@ def get_per_language_stats(project):
             if translated >= result[i][1]:
                 pos = i
                 break
-        value = (language, translated, total)
+        value = (language, translated, total, translated_words, total_words)
         if pos is not None:
             result.insert(pos, value)
         else:
             result.append(value)
 
     return result
+
+
+def get_project_stats(project):
+    """Returns stats for project"""
+    return [
+        {
+            'language': force_text(tup[0]),
+            'code': tup[0].code,
+            'total': tup[2],
+            'translated': tup[1],
+            'translated_percent': translation_percent(tup[1], tup[2]),
+            'total_words': tup[4],
+            'translated_words': tup[3],
+            'words_percent': translation_percent(tup[3], tup[4])
+        }
+        for tup in get_per_language_stats(project)
+    ]

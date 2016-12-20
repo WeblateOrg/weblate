@@ -5,4 +5,4 @@ Helper files for continuous itegration.
 
 Travis:
 
-https://travis-ci.org/nijel/weblate
+https://travis-ci.org/WeblateOrg/weblate

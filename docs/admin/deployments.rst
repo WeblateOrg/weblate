@@ -90,6 +90,13 @@ Generic settings
 
     Configures Django debug mode, see :ref:`production-debug`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_DEBUG=1
+
 .. envvar:: WEBLATE_LOGLEVEL
 
     Configures verbosity of logging.
@@ -103,6 +110,14 @@ Generic settings
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
     Configures site admins name and email, see :ref:`production-admins`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_ADMIN_NAME=Weblate Admin
+          - WEBLATE_ADMIN_EMAIL=noreply@example.com
 
 .. envvar:: WEBLATE_ADMIN_PASSWORD
 
@@ -124,6 +139,13 @@ Generic settings
 
     Configures allowed HTTP hostnames, see :ref:`production-hosts`
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_ALLOWED_HOSTS=weblate.example.com,example.com
+
 .. envvar:: WEBLATE_SECRET_KEY
 
     Configures secret for cookies signing, see :ref:`production-secret`.
@@ -137,6 +159,13 @@ Generic settings
 
     Configures whether registrations are open, see :std:setting:`REGISTRATION_OPEN`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_REGISTRATION_OPEN=0
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures used time zone.
@@ -145,13 +174,34 @@ Generic settings
 
     Configures offloaded indexing, see :ref:`production-indexing`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_OFFLOAD_INDEXING=1
+
 .. envvar:: WEBLATE_ENABLE_HTTPS
 
     Configures when use https in email and API links, see :ref:`production-site`.
 
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_ENABLE_HTTPS=1
+
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
     Configures login required for whole Weblate using :setting:`LOGIN_REQUIRED_URLS`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          - WEBLATE_REQUIRE_LOGIN=1
 
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
@@ -278,16 +328,16 @@ with the following command:
 
 .. code-block:: sh
 
-    rhc -aweblate app create -t python-2.7 --from-code https://github.com/nijel/weblate.git --no-git
+    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
 this instance. You are free to specify a different name.
 
 Optionally you can specify tag identifier right of the ``#`` sign to identify
 the version of Weblate to install (for example specify
-``https://github.com/nijel/weblate.git#weblate-2.0`` to install Weblate 2.0).
+``https://github.com/WeblateOrg/weblate.git#weblate-2.0`` to install Weblate 2.0).
 For a list of available versions see here:
-https://github.com/nijel/weblate/tags. Please note that only version 2.0 and
+https://github.com/WeblateOrg/weblate/tags. Please note that only version 2.0 and
 newer can be installed on OpenShift, as older versions don't include the
 necessary configuration files. The ``--no-git`` option skips the creation of a
 local git repository.
@@ -297,10 +347,10 @@ You can also specify which database you want to use:
 .. code-block:: sh
 
     # For MySQL
-    rhc -aweblate app create -t python-2.7 -t mysql-5.5 --from-code https://github.com/nijel/weblate.git --no-git
+    rhc -aweblate app create -t python-2.7 -t mysql-5.5 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
     # For PostgreSQL
-    rhc -aweblate app create -t python-2.7 -t postgresql-9.2 --from-code https://github.com/nijel/weblate.git --no-git
+    rhc -aweblate app create -t python-2.7 -t postgresql-9.2 --from-code https://github.com/WeblateOrg/weblate.git --no-git
 
 Default Configuration
 +++++++++++++++++++++
@@ -427,17 +477,17 @@ You can update your Weblate installation on OpenShift directly from Weblate's gi
 
 .. code-block:: sh
 
-    rhc -aweblate2 ssh update https://github.com/nijel/weblate.git
+    rhc -aweblate2 ssh update https://github.com/WeblateOrg/weblate.git
 
 The identifier right of the ``#`` sign identifies the version of Weblate to install.
-For a list of available versions see here: https://github.com/nijel/weblate/tags.
+For a list of available versions see here: https://github.com/WeblateOrg/weblate/tags.
 Please note that the update process will not work if you modified the git repository of you weblate installation.
 You can force an update by specifying the ``--force`` option to the update script. However any changes you made to the
 git repository of your installation will be discarded:
 
 .. code-block:: sh
 
-   rhc -aweblate2 ssh update --force https://github.com/nijel/weblate.git
+   rhc -aweblate2 ssh update --force https://github.com/WeblateOrg/weblate.git
 
 The ``--force`` option is also needed when downgrading to an older version.
 Please note that only version 2.0 and newer can be installed on OpenShift,
@@ -466,22 +516,21 @@ documentation.
 SUSE Studio appliance
 ---------------------
 
-Weblate appliance provides preconfigured Weblate running with MySQL database as
-backend and Apache as web server. It is provided in many formats suitable for
-any form of virtualization, cloud or hardware installation.
+Weblate appliance provides preconfigured Weblate running with PostgreSQL
+database as backend and Apache as web server. It is provided in many formats
+suitable for any form of virtualization, cloud or hardware installation.
 
 It comes with standard set of passwords you will want to change:
 
-======== ======== ======= ==================================================
-Username Password Scope   Description
-======== ======== ======= ==================================================
-root     linux    System  Administrator account, use for local or SSH login
-root              MySQL   MySQL administrator
-weblate  weblate  MySQL   Account in MySQL database for storing Weblate data
-admin    admin    Weblate Weblate/Django admin user
-======== ======== ======= ==================================================
+======== ======== ========== =======================================================
+Username Password Scope      Description
+======== ======== ========== =======================================================
+root     linux    System     Administrator account, use for local or SSH login
+weblate  weblate  PostgreSQL Account in PostgreSQL database for storing Weblate data
+admin    admin    Weblate    Weblate/Django admin user
+======== ======== ========== =======================================================
 
-The appliance is built using SUSE Studio and is based on openSUSE 12.3.
+The appliance is built using SUSE Studio and is based on openSUSE 42.1.
 
 You should also adjust some settings to match your environment, namely:
 

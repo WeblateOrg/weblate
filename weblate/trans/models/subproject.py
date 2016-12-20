@@ -193,7 +193,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         max_length=200,
         validators=[validate_filemask],
         help_text=ugettext_lazy(
-            'Path of files to translate, use * instead of language code, '
+            'Path of files to translate relative to repository root,'
+            ' use * instead of language code, '
             'for example: po/*.po or locale/*/LC_MESSAGES/django.po.'
         )
     )
@@ -847,9 +848,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_linked_childs(self):
         """Returns list of subprojects which link repository to us."""
-        return SubProject.objects.filter(
+        result = SubProject.objects.prefetch().filter(
             repo=self.get_repo_link_url()
         )
+        for child in result:
+            child._linked_subproject = self
+        return result
 
     def commit_pending(self, request, from_link=False, skip_push=False):
         """Checks whether there is any translation which needs commit."""
@@ -913,6 +917,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
         with self.repository.lock():
             try:
+                previous_head = self.repository.last_revision
                 # Try to merge it
                 method()
                 self.log_info(
@@ -927,10 +932,16 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     )
 
                     # run post update hook
-                    vcs_post_update.send(sender=self.__class__, component=self)
+                    vcs_post_update.send(
+                        sender=self.__class__,
+                        component=self,
+                        previous_head=previous_head
+                    )
                     for component in self.get_linked_childs():
                         vcs_post_update.send(
-                            sender=component.__class__, component=component
+                            sender=component.__class__,
+                            component=component,
+                            previous_head=previous_head
                         )
                 return True
             except RepositoryException as error:
@@ -944,10 +955,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     self.merge_style,
                     error
                 )
-
-                # Reset repo back
-                method(abort=True)
-
                 if self.id:
                     Change.objects.create(
                         subproject=self,
@@ -958,6 +965,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
                 # Notify subscribers and admins
                 notify_merge_failure(self, error, status)
+
+                # Reset repo back
+                method(abort=True)
 
                 # Tell user (if there is any)
                 if request is not None:

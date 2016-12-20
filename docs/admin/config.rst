@@ -135,12 +135,27 @@ For example you can enable only few of them:
    
    :ref:`checks`, :ref:`custom-checks`
 
+.. setting:: COMMIT_PENDING_HOURS
+
+COMMIT_PENDING_HOURS
+--------------------
+
+.. versionadded:: 2.10
+
+Default interval for commiting pending changes using :djadmin:`commit_pending`.
+
+.. seealso::
+
+   :ref:`production-cron`,
+   :djadmin:`commit_pending`
+
 .. setting:: DATA_DIR
 
 DATA_DIR
 --------
 
 .. versionadded:: 2.1
+
     In previous versions the directories were configured separately as
     :setting:`GIT_ROOT` and :setting:`WHOOSH_INDEX`.
 
@@ -367,7 +382,7 @@ List of enabled machine translation services to use.
 .. code-block:: python
 
     MACHINE_TRANSLATION_SERVICES = (
-        'weblate.trans.machine.apertium.ApertiumTranslation',
+        'weblate.trans.machine.apertium.ApertiumAPYTranslation',
         'weblate.trans.machine.glosbe.GlosbeTranslation',
         'weblate.trans.machine.google.GoogleTranslation',
         'weblate.trans.machine.microsoft.MicrosoftTranslation',
@@ -381,12 +396,27 @@ List of enabled machine translation services to use.
    
    :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+
+.. setting:: MT_APERTIUM_APY
+
+MT_APERTIUM_APY
+---------------
+
+URL of the Apertium APy server, see http://wiki.apertium.org/wiki/Apertium-apy
+
+.. seealso::
+   
+   :ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+
 .. setting:: MT_APERTIUM_KEY
 
 MT_APERTIUM_KEY
 ---------------
 
 API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
+
+Not needed when running own Apertium APy server.
 
 .. seealso::
    
@@ -426,6 +456,18 @@ Client secret for Microsoft Translator service.
    
    :ref:`ms-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`, 
    `Azure datamarket <https://datamarket.azure.com/developer/applications/>`_
+
+.. setting:: MT_MICROSOFT_COGNITIVE_KEY
+
+MT_MICROSOFT_COGNITIVE_KEY
+--------------------------
+
+Client key for Microsoft Cognitive Services Translator API.
+
+.. seealso::
+    :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`, 
+    `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
+    `Microsfot Azure Portal <https://portal.azure.com/>`_
 
 .. setting:: MT_MYMEMORY_EMAIL
 

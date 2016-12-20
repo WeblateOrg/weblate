@@ -220,8 +220,8 @@ def post_push(sender, component, **kwargs):
 
 
 @receiver(vcs_post_update)
-def post_update(sender, component, **kwargs):
-    run_post_update_script(component)
+def post_update(sender, component, previous_head, **kwargs):
+    run_post_update_script(component, previous_head)
 
 
 @receiver(vcs_pre_commit)

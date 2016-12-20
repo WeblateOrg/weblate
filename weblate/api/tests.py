@@ -19,12 +19,11 @@
 #
 
 from django.contrib.auth.models import User, Group
-from django.core.cache import cache
 from django.core.urlresolvers import reverse
 
 from rest_framework.test import APITestCase
 
-from weblate.trans.models.project import Project, get_acl_cache_key
+from weblate.trans.models import Project, Change, Unit
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 
 TEST_PO = get_test_file('cs.po')
@@ -55,9 +54,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         group = Group.objects.get(name='Users')
         self.user.groups.add(group)
 
-    def tearDown(self):
-        cache.delete(get_acl_cache_key(None))
-
     def create_acl(self):
         project = Project.objects.create(
             name='ACL',
@@ -75,7 +71,6 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         if self.user.is_superuser != superuser:
             self.user.is_superuser = superuser
             self.user.save()
-        cache.delete(get_acl_cache_key(self.user))
         self.client.credentials(
             HTTP_AUTHORIZATION='Token ' + self.user.auth_token.key
         )
@@ -178,6 +173,20 @@ class ProjectAPITest(APIBaseTest):
             self.project_kwargs,
         )
         self.assertEqual(request.data['count'], 1)
+
+    def test_changes(self):
+        request = self.do_request(
+            'api:project-changes',
+            self.project_kwargs,
+        )
+        self.assertEqual(request.data['count'], 7)
+
+    def test_statistics(self):
+        request = self.do_request(
+            'api:project-statistics',
+            self.project_kwargs,
+        )
+        self.assertEqual(len(request.data), 3)
 
 
 class ComponentAPITest(APIBaseTest):
@@ -314,6 +323,13 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(request.data['count'], 3)
 
+    def test_changes(self):
+        request = self.do_request(
+            'api:component-changes',
+            self.component_kwargs,
+        )
+        self.assertEqual(request.data['count'], 7)
+
 
 class LanguageAPITest(APIBaseTest):
     def test_list_languages(self):
@@ -365,7 +381,7 @@ class TranslationAPITest(APIBaseTest):
             )
         )
         self.assertContains(
-            response, 'Project-Id-Version: Weblate Hello World 2012'
+            response, 'Project-Id-Version: Weblate Hello World 2016'
         )
 
     def test_download_invalid_format(self):
@@ -471,4 +487,58 @@ class TranslationAPITest(APIBaseTest):
                 'last_change': None,
                 'name': 'Czech'
             }
+        )
+
+    def test_changes(self):
+        request = self.do_request(
+            'api:translation-changes',
+            self.translation_kwargs,
+        )
+        self.assertEqual(request.data['count'], 5)
+
+    def test_units(self):
+        request = self.do_request(
+            'api:translation-units',
+            self.translation_kwargs,
+        )
+        self.assertEqual(request.data['count'], 4)
+
+
+class UnitAPITest(APIBaseTest):
+    def test_list_units(self):
+        response = self.client.get(
+            reverse('api:unit-list')
+        )
+        self.assertEqual(response.data['count'], 12)
+
+    def test_get_unit(self):
+        response = self.client.get(
+            reverse(
+                'api:unit-detail',
+                kwargs={'pk': Unit.objects.all()[0].pk}
+            )
+        )
+        self.assertIn(
+            'translation',
+            response.data,
+        )
+
+
+class ChangeAPITest(APIBaseTest):
+    def test_list_changes(self):
+        response = self.client.get(
+            reverse('api:change-list')
+        )
+        self.assertEqual(response.data['count'], 8)
+
+    def test_get_change(self):
+        response = self.client.get(
+            reverse(
+                'api:change-detail',
+                kwargs={'pk': Change.objects.all()[0].pk}
+            )
+        )
+        self.assertIn(
+            'translation',
+            response.data,
         )

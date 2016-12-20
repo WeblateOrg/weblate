@@ -403,15 +403,35 @@ if (os.environ.get('DJANGO_IS_MANAGEMENT_COMMAND', False) and
 if not HAVE_SYSLOG:
     del LOGGING['handlers']['syslog']
 
+# List of machine translations
+# MACHINE_TRANSLATION_SERVICES = (
+#     'weblate.trans.machine.apertium.ApertiumAPYTranslation',
+#     'weblate.trans.machine.glosbe.GlosbeTranslation',
+#     'weblate.trans.machine.google.GoogleTranslation',
+#     'weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation',
+#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
+#     'weblate.trans.machine.tmserver.AmagamaTranslation',
+#     'weblate.trans.machine.tmserver.TMServerTranslation',
+#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
+#     'weblate.trans.machine.weblatetm.WeblateTranslation',
+# )
+
 # Machine translation API keys
 
 # Apertium Web Service, register at http://api.apertium.org/register.jsp
 MT_APERTIUM_KEY = None
 
+# URL of the Apertium APy server
+MT_APERTIUM_APY = None
+
 # Microsoft Translator service, register at
 # https://datamarket.azure.com/developer/applications/
 MT_MICROSOFT_ID = None
 MT_MICROSOFT_SECRET = None
+
+# Microsoft Cognitive Services Translator API, register at
+# https://portal.azure.com/
+MT_MICROSOFT_COGNITIVE_KEY = None
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
@@ -510,25 +530,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
 #     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
 #     'weblate.trans.autofixes.chars.RemoveZeroSpace',
+#     'weblate.trans.autofixes.chars.RemoveControlChars',
 # )
 
 # List of scripts to use in custom processing
 # POST_UPDATE_SCRIPTS = (
 # )
 # PRE_COMMIT_SCRIPTS = (
-# )
-
-# List of machine translations
-# MACHINE_TRANSLATION_SERVICES = (
-#     'weblate.trans.machine.apertium.ApertiumTranslation',
-#     'weblate.trans.machine.glosbe.GlosbeTranslation',
-#     'weblate.trans.machine.google.GoogleTranslation',
-#     'weblate.trans.machine.microsoft.MicrosoftTranslation',
-#     'weblate.trans.machine.mymemory.MyMemoryTranslation',
-#     'weblate.trans.machine.tmserver.AmagamaTranslation',
-#     'weblate.trans.machine.tmserver.TMServerTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
-#     'weblate.trans.machine.weblatetm.WeblateTranslation',
 # )
 
 # E-mail address that error messages come from.

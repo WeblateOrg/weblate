@@ -29,33 +29,40 @@ def run_post_push_script(component):
     run_hook(component, None, component.post_push_script)
 
 
-def run_post_update_script(component):
+def run_post_update_script(component, previous_head):
     """Run post update hook"""
-    run_hook(component, None, component.post_update_script)
+    run_hook(
+        component, None, component.post_update_script,
+        env={'WL_PREVIOUS_HEAD': previous_head}
+    )
 
 
 def run_pre_commit_script(component, translation, filename):
     """
     Pre commit hook
     """
-    run_hook(component, translation, component.pre_commit_script, filename)
+    run_hook(
+        component, translation, component.pre_commit_script, None, filename
+    )
 
 
 def run_post_commit_script(component, translation, filename):
     """
     Post commit hook
     """
-    run_hook(component, translation, component.post_commit_script, filename)
+    run_hook(
+        component, translation, component.post_commit_script, None, filename
+    )
 
 
 def run_post_add_script(component, translation, filename):
     """
     Post add hook
     """
-    run_hook(component, translation, component.post_add_script, filename)
+    run_hook(component, translation, component.post_add_script, None, filename)
 
 
-def run_hook(component, translation, script, *args):
+def run_hook(component, translation, script, env=None, *args):
     """
     Generic script hook executor.
     """
@@ -77,6 +84,8 @@ def run_hook(component, translation, script, *args):
         }
         if translation:
             environment['WL_LANGUAGE'] = translation.language_code
+        if env is not None:
+            environment.update(env)
         try:
             subprocess.check_call(
                 command,

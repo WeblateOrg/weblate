@@ -32,9 +32,13 @@ from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
 from weblate.trans.machine.glosbe import GlosbeTranslation
 from weblate.trans.machine.mymemory import MyMemoryTranslation
-from weblate.trans.machine.apertium import ApertiumTranslation
+from weblate.trans.machine.apertium import (
+    ApertiumTranslation, ApertiumAPYTranslation,
+)
 from weblate.trans.machine.tmserver import AmagamaTranslation
-from weblate.trans.machine.microsoft import MicrosoftTranslation
+from weblate.trans.machine.microsoft import (
+    MicrosoftTranslation, MicrosoftCognitiveTranslation,
+)
 from weblate.trans.machine.google import GoogleTranslation
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
@@ -117,6 +121,26 @@ class MachineTranslationTest(TestCase):
             2
         )
 
+    def test_translate_fallback(self):
+        machine_translation = DummyTranslation()
+        self.assertEqual(
+            len(
+                machine_translation.translate(
+                    'cs_CZ', 'Hello, world!', MockUnit(), None
+                )
+            ),
+            2
+        )
+
+    def test_translate_fallback_missing(self):
+        machine_translation = DummyTranslation()
+        self.assertEqual(
+            machine_translation.translate(
+                'de_CZ', 'Hello, world!', MockUnit(), None
+            ),
+            []
+        )
+
     def assertTranslate(self, machine, lang='cs', word='world', empty=False):
         translation = machine.translate(lang, word, MockUnit(), None)
         self.assertIsInstance(translation, list)
@@ -161,6 +185,24 @@ class MachineTranslationTest(TestCase):
         machine = ApertiumTranslation()
         self.assertTranslate(machine, 'es')
 
+    @OverrideSettings(MT_APERTIUM_APY='http://apertium.example.com/')
+    @httpretty.activate
+    def test_apertium_apy(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://apertium.example.com/listPairs',
+            body='{"responseStatus": 200, "responseData":'
+            '[{"sourceLanguage": "en","targetLanguage": "es"}]}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://apertium.example.com/translate',
+            body='{"responseData":{"translatedText":"Mundial"},'
+            '"responseDetails":null,"responseStatus":200}'
+        )
+        machine = ApertiumAPYTranslation()
+        self.assertTranslate(machine, 'es')
+
     @OverrideSettings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
     @httpretty.activate
     def test_microsoft(self):
@@ -182,6 +224,30 @@ class MachineTranslationTest(TestCase):
         )
 
         machine = MicrosoftTranslation()
+        self.assertTranslate(machine)
+
+    @OverrideSettings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
+    @httpretty.activate
+    def test_microsoft_cognitive(self):
+        httpretty.register_uri(
+            httpretty.POST,
+            'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'
+            '?Subscription-Key=KEY',
+            body='TOKEN'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.microsofttranslator.com/V2/Ajax.svc/'
+            'GetLanguagesForTranslate',
+            body='["en","cs"]'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'http://api.microsofttranslator.com/V2/Ajax.svc/Translate',
+            body='"svět"'.encode('utf-8')
+        )
+
+        machine = MicrosoftCognitiveTranslation()
         self.assertTranslate(machine)
 
     @OverrideSettings(MT_GOOGLE_KEY='KEY')
@@ -234,10 +300,31 @@ class MachineTranslationTest(TestCase):
         self.assertTranslate(machine, empty=True)
 
     @httpretty.activate
+    def test_amagama_nolang(self):
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/languages/',
+            body='',
+            status=404,
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
+            body=AMAGAMA_JSON
+        )
+        machine = AmagamaTranslation()
+        self.assertTranslate(machine)
+
+    @httpretty.activate
     def test_amagama(self):
         httpretty.register_uri(
             httpretty.GET,
-            'http://amagama.locamotion.org/tmserver/en/cs/unit/world',
+            'https://amagama-live.translatehouse.org/api/v1/languages/',
+            body='{"sourceLanguages": ["en"], "targetLanguages": ["cs"]}',
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://amagama-live.translatehouse.org/api/v1/en/cs/unit/world',
             body=AMAGAMA_JSON
         )
         machine = AmagamaTranslation()
