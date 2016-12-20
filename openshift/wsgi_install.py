@@ -90,7 +90,7 @@ pre {
     <h1>$action1 Weblate</h1>
 
     <p>
-    Weblate is beeing $action2.
+    Weblate is being $action2.
     Please wait a few minutes and refresh this page.
     </p>
 
