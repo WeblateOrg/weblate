@@ -13,6 +13,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Projects" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' lang=object.code %}" data-monthly="{% url 'monthly_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
   <li><a href="#dicts" data-toggle="tab">{% trans "Glossaries" %}</a></li>
@@ -31,6 +32,33 @@
 
 <div class="tab-pane active" id="overview">
 {% include "list-projects.html" %}
+</div>
+
+<div class="tab-pane" id="information">
+
+<table class="table">
+<tr>
+<th>{% trans "Number of plurals" %}</th>
+<td>{{ object.nplurals }}</td>
+</tr>
+<tr>
+<th>{% trans "Plural type" %}</th>
+<td>{{ object.get_plural_type_display }}</td>
+</tr>
+<tr>
+<th>{% trans "Plural equation" %}</th>
+<td><code>{{ object.pluralequation }}</code></td>
+</tr>
+<tr>
+<th>{% trans "Text direction" %}</th>
+<td>{{ object.get_direction_display }}</td>
+</tr>
+<tr>
+<th>{% trans "Language code" %}</th>
+<td>{{ object.code }}</td>
+</tr>
+</table>
+
 </div>
 
 <div class="tab-pane" id="history">

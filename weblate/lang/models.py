@@ -26,7 +26,9 @@ import io
 from django.db import models, transaction
 from django.db.utils import OperationalError
 from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.translation import (
+    ugettext as _, ugettext_lazy, pgettext_lazy,
+)
 from django.utils.safestring import mark_safe
 from django.dispatch import receiver
 from django.db.models.signals import post_migrate
@@ -367,32 +369,89 @@ def setup_lang(sender, **kwargs):
 @python_2_unicode_compatible
 class Language(models.Model, PercentMixin):
     PLURAL_CHOICES = (
-        (data.PLURAL_NONE, 'None'),
-        (data.PLURAL_ONE_OTHER, 'One/other (classic plural)'),
-        (data.PLURAL_ONE_FEW_OTHER, 'One/few/other (Slavic languages)'),
-        (data.PLURAL_ARABIC, 'Arabic languages'),
-        (data.PLURAL_ZERO_ONE_OTHER, 'Zero/one/other'),
-        (data.PLURAL_ONE_TWO_OTHER, 'One/two/other'),
-        (data.PLURAL_ONE_TWO_FEW_OTHER, 'One/two/few/other'),
-        (data.PLURAL_ONE_TWO_THREE_OTHER, 'One/two/three/other'),
-        (data.PLURAL_ONE_OTHER_ZERO, 'One/other/zero'),
-        (data.PLURAL_ONE_FEW_MANY_OTHER, 'One/few/many/other'),
-        (data.PLURAL_TWO_OTHER, 'Two/other'),
-        (data.PLURAL_ONE_TWO_FEW_MANY_OTHER, 'One/two/few/many/other'),
-        (data.PLURAL_UNKNOWN, 'Unknown'),
+        (
+            data.PLURAL_NONE,
+            pgettext_lazy('Plural type', 'None')
+        ),
+        (
+            data.PLURAL_ONE_OTHER,
+            pgettext_lazy('Plural type', 'One/other (classic plural)')
+        ),
+        (
+            data.PLURAL_ONE_FEW_OTHER,
+            pgettext_lazy('Plural type', 'One/few/other (Slavic languages)')
+        ),
+        (
+            data.PLURAL_ARABIC,
+            pgettext_lazy('Plural type', 'Arabic languages')
+        ),
+        (
+            data.PLURAL_ZERO_ONE_OTHER,
+            pgettext_lazy('Plural type', 'Zero/one/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_OTHER,
+            pgettext_lazy('Plural type', 'One/two/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_FEW_OTHER,
+            pgettext_lazy('Plural type', 'One/two/few/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_THREE_OTHER,
+            pgettext_lazy('Plural type', 'One/two/three/other')
+        ),
+        (
+            data.PLURAL_ONE_OTHER_ZERO,
+            pgettext_lazy('Plural type', 'One/other/zero')
+        ),
+        (
+            data.PLURAL_ONE_FEW_MANY_OTHER,
+            pgettext_lazy('Plural type', 'One/few/many/other')
+        ),
+        (
+            data.PLURAL_TWO_OTHER,
+            pgettext_lazy('Plural type', 'Two/other')
+        ),
+        (
+            data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
+            pgettext_lazy('Plural type', 'One/two/few/many/other')
+        ),
+        (
+            data.PLURAL_UNKNOWN,
+            pgettext_lazy('Plural type', 'Unknown')
+        ),
     )
-    code = models.SlugField(unique=True)
-    name = models.CharField(max_length=100)
-    nplurals = models.SmallIntegerField(default=2)
-    pluralequation = models.CharField(max_length=255, blank=True)
+    code = models.SlugField(
+        unique=True,
+        verbose_name=ugettext_lazy('Language code'),
+    )
+    name = models.CharField(
+        max_length=100,
+        verbose_name=ugettext_lazy('Language name'),
+    )
+    nplurals = models.SmallIntegerField(
+        default=2,
+        verbose_name=ugettext_lazy('Number of plurals'),
+    )
+    pluralequation = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name=ugettext_lazy('Plural equation'),
+    )
     direction = models.CharField(
+        verbose_name=ugettext_lazy('Text direction'),
         max_length=3,
         default='ltr',
-        choices=(('ltr', 'ltr'), ('rtl', 'rtl')),
+        choices=(
+            ('ltr', ugettext_lazy('Left to right')),
+            ('rtl', ugettext_lazy('Right to left'))
+        ),
     )
     plural_type = models.IntegerField(
         choices=PLURAL_CHOICES,
-        default=data.PLURAL_ONE_OTHER
+        default=data.PLURAL_ONE_OTHER,
+        verbose_name=ugettext_lazy('Plural type'),
     )
 
     objects = LanguageManager()

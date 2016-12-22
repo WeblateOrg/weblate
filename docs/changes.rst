@@ -1,6 +1,13 @@
 Changes
 =======
 
+weblate 2.11
+-----------
+
+Released on ? 2016.
+
+* Include language detailed information on language page.
+
 weblate 2.10
 ------------
 
