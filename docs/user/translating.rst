@@ -87,7 +87,7 @@ While translating you can use following keyboard shortcuts:
 :kbd:`Alt+Enter` or :kbd:`Ctrl+Enter` or :kbd:`Command+Enter`
     Saves current translation.
 :kbd:`Ctrl+Shift+Enter` or :kbd:`Command+Shift+Enter`
-    Umarks translation as fuzzy and submits it.
+    Unmarks translation as fuzzy and submits it.
 :kbd:`Alt+E`
     Focus translation editor.
 :kbd:`Alt+C`
