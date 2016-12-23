@@ -45,6 +45,9 @@ matrix:
   include:
     - python: "3.5"
       env: CI_PIP_DEPS="Django>=1.10,<1.11"
+  include:
+    - python: "3.6"
+      env: CI_PIP_DEPS="Django>=1.10,<1.11"
 addons:
   apt:
     packages:
