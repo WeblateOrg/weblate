@@ -39,7 +39,7 @@ Git (>= 1.6)
     https://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
-python-social-auth (>= 0.2.0)
+python-social-auth (>= 0.2.0, < 0.3.0)
     http://psa.matiasaguirre.net/
 Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
     https://bitbucket.org/mchaput/whoosh/wiki/Home
