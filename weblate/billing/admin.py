@@ -55,7 +55,7 @@ class BillingAdmin(admin.ModelAdmin):
             invoice = obj.invoice_set.order_by('-start')[0]
             return '{0} - {1}'.format(invoice.start, invoice.end)
         except IndexError:
-            return __('N/A')
+            return _('N/A')
     last_invoice.short_description = _('Last invoice')
 
     def in_display_limits(self, obj):
