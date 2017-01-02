@@ -32,6 +32,14 @@ class Command(BaseCommand):
     """
     help = 'checks billing limits'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--grace',
+            type=int,
+            default=30,
+            help='grace period'
+        )
+
     def handle(self, *args, **options):
         header = False
         for bill in Billing.objects.all():
@@ -43,7 +51,7 @@ class Command(BaseCommand):
                     ' * {0}'.format(bill)
                 )
         header = False
-        due_date = timezone.now() - timedelta(days=30)
+        due_date = timezone.now() - timedelta(days=options['grace'])
         for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
             if not bill.invoice_set.filter(end__gt=due_date).exists():
                 if not header:
