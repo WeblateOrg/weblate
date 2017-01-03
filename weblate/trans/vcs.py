@@ -1060,7 +1060,7 @@ class HgRepository(Repository):
         Resets working copy to match remote branch.
         """
         self.set_config('extensions.strip', '')
-        self.execute(['revert', '-a', '--no-backup'])
+        self.execute(['update', '--clean', 'remote(.)'])
         if self.needs_push():
             self.execute(['strip', 'roots(outgoing())'])
         self._last_revision = None
@@ -1083,7 +1083,7 @@ class HgRepository(Repository):
                 # Mercurial 3.8 changed error code and output
                 if (error.retcode in (1, 255) and
                         'nothing to rebase' in message):
-                    self.execute(['update'])
+                    self.execute(['update', '--clean', 'remote(.)'])
                     return
                 raise
 
