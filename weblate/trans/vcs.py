@@ -394,6 +394,21 @@ class Repository(object):
         """
         raise NotImplementedError()
 
+    @staticmethod
+    def get_merge_driver(file_format):
+        merge_driver = None
+        if file_format == 'po':
+            merge_driver = os.path.abspath(
+                os.path.join(
+                    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                    'examples',
+                    'git-merge-gettext-po'
+                )
+            )
+        if merge_driver is None or not os.path.exists(merge_driver):
+            return None
+        return merge_driver
+
 
 @register_vcs
 class GitRepository(Repository):
@@ -716,14 +731,8 @@ class GitRepository(Repository):
     @classmethod
     def global_setup(cls):
         """Performs global settings"""
-        merge_driver = os.path.abspath(
-            os.path.join(
-                os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-                'examples',
-                'git-merge-gettext-po'
-            )
-        )
-        if os.path.exists(merge_driver):
+        merge_driver = cls.get_merge_driver('po')
+        if merge_driver is not None:
             cls._popen([
                 'config', '--global',
                 'merge.weblate-merge-gettext-po.name',
