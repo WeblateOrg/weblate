@@ -1065,6 +1065,12 @@ class HgRepository(Repository):
             self.execute(['strip', 'roots(outgoing())'])
         self._last_revision = None
 
+    def configure_merge(self):
+        """
+        Select the correct merge tool
+        """
+        self.set_config('ui.merge', 'internal:merge')
+
     def rebase(self, abort=False):
         """
         Rebases working copy on top of remote branch.
@@ -1073,8 +1079,9 @@ class HgRepository(Repository):
         if abort:
             self.execute(['rebase', '--abort'])
         else:
+            self.configure_merge()
             try:
-                self.execute(['rebase', '--tool', 'internal:merge'])
+                self.execute(['rebase'])
             except RepositoryException as error:
                 if error.stdout:
                     message = error.stdout
@@ -1094,6 +1101,7 @@ class HgRepository(Repository):
         if abort:
             self.execute(['update', '--clean', '.'])
         else:
+            self.configure_merge()
             try:
                 # First try update
                 self.execute(['update'])
@@ -1107,7 +1115,7 @@ class HgRepository(Repository):
             except RepositoryException as error:
                 # Fallback to merge
                 try:
-                    self.execute(['merge', '--tool', 'internal:merge'])
+                    self.execute(['merge'])
                 except RepositoryException as error:
                     if error.retcode == 255:
                         # Nothing to merge
