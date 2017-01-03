@@ -23,6 +23,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.billing.models import Plan, Billing, Invoice
+from weblate.trans.models import Unit
 
 
 class PlanAdmin(admin.ModelAdmin):
@@ -39,6 +40,7 @@ class BillingAdmin(admin.ModelAdmin):
         'user', 'plan', 'state',
         'list_projects',
         'count_changes_1m', 'count_changes_1q', 'count_changes_1y',
+        'unit_count',
         'display_projects', 'display_repositories', 'display_strings',
         'display_words', 'display_languages',
         'in_limits', 'in_display_limits', 'last_invoice'
@@ -79,6 +81,12 @@ class BillingAdmin(admin.ModelAdmin):
         )
     in_display_limits.boolean = True
     in_display_limits.short_description = _('In display limits')
+
+    def unit_count(self, obj):
+        return Unit.objects.filter(
+            translation__subproject__project__in=obj.projects.all()
+        ).count()
+    unit_count.short_description = _('Number of units')
 
 
 class InvoiceAdmin(admin.ModelAdmin):
