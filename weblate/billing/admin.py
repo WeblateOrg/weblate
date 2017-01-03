@@ -52,42 +52,6 @@ class BillingAdmin(admin.ModelAdmin):
         return ','.join(obj.projects.values_list('name', flat=True))
     list_projects.short_description = _('Projects')
 
-    def last_invoice(self, obj):
-        try:
-            invoice = obj.invoice_set.order_by('-start')[0]
-            return '{0} - {1}'.format(invoice.start, invoice.end)
-        except IndexError:
-            return _('N/A')
-    last_invoice.short_description = _('Last invoice')
-
-    def in_display_limits(self, obj):
-        return (
-            (
-                obj.plan.display_limit_repositories == 0 or
-                obj.count_repositories() <= obj.plan.display_limit_repositories
-            ) and
-            (
-                obj.plan.display_limit_projects == 0 or
-                obj.count_projects() <= obj.plan.display_limit_projects
-            ) and
-            (
-                obj.plan.display_limit_strings == 0 or
-                obj.count_strings() <= obj.plan.display_limit_strings
-            ) and
-            (
-                obj.plan.display_limit_languages == 0 or
-                obj.count_languages() <= obj.plan.display_limit_languages
-            )
-        )
-    in_display_limits.boolean = True
-    in_display_limits.short_description = _('In display limits')
-
-    def unit_count(self, obj):
-        return Unit.objects.filter(
-            translation__subproject__project__in=obj.projects.all()
-        ).count()
-    unit_count.short_description = _('Number of units')
-
 
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = (
