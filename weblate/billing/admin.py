@@ -23,7 +23,6 @@ from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.billing.models import Plan, Billing, Invoice
-from weblate.trans.models import Unit
 
 
 class PlanAdmin(admin.ModelAdmin):
