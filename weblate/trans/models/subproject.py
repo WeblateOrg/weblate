@@ -28,6 +28,7 @@ import fnmatch
 import re
 
 from django.db import models, transaction
+from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.core.mail import mail_admins
@@ -1588,3 +1589,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if not self.edit_template or not self.has_template():
             return None
         return self.translation_set.get(filename=self.template)
+
+    def get_total_words(self):
+        return self.translation_set.aggregate(
+            Sum('total_words'),
+        )['total_words__sum']

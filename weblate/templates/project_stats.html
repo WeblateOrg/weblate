@@ -1,8 +1,13 @@
 {% load i18n %}
 
 <tr>
-<th>{% trans "Number of units" %}</th>
+<th>{% trans "Number of strings" %}</th>
 <td colspan="2">{{ unit_count }}</td>
+</tr>
+
+<tr>
+<th>{% trans "Number of words" %}</th>
+<td colspan="2">{{ words_count }}</td>
 </tr>
 
 <tr>
@@ -17,5 +22,5 @@
 
 <tr>
 <th>{% trans "Number of source words" %}</th>
-<td colspan="2">{{ words_count }}</td>
+<td colspan="2">{{ source_words_count }}</td>
 </tr>

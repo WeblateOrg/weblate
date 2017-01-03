@@ -379,11 +379,12 @@ def show_project(request, project):
             'unit_count': Unit.objects.filter(
                 translation__subproject__project=obj
             ).count(),
+            'words_count': obj.get_total_words(),
             'language_count': Language.objects.filter(
                 translation__subproject__project=obj
             ).distinct().count(),
             'strings_count': obj.get_total(),
-            'words_count': obj.get_total_words(),
+            'source_words_count': obj.get_source_words(),
         }
     )
 
@@ -412,10 +413,10 @@ def show_subproject(request, project, subproject):
 
     try:
         sample = obj.translation_set.all()[0]
-        total_words = sample.total_words
+        source_words = sample.total_words
         total_strings = sample.total
     except IndexError:
-        total_words = 0
+        source_words = 0
         total_strings = 0
 
     return render(
@@ -436,11 +437,12 @@ def show_subproject(request, project, subproject):
             'unit_count': Unit.objects.filter(
                 translation__subproject=obj
             ).count(),
+            'words_count': obj.get_total_words(),
             'language_count': Language.objects.filter(
                 translation__subproject=obj
             ).distinct().count(),
             'strings_count': total_strings,
-            'words_count': total_words,
+            'source_words_count': source_words,
         }
     )
 
