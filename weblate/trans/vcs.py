@@ -1070,6 +1070,16 @@ class HgRepository(Repository):
         Select the correct merge tool
         """
         self.set_config('ui.merge', 'internal:merge')
+        merge_driver = self.get_merge_driver('po')
+        if merge_driver is not None:
+            self.set_config(
+                'merge-tools.weblate-merge-gettext-po.executable',
+                merge_driver
+            )
+            self.set_config(
+                'merge-patterns.**.po',
+                'weblate-merge-gettext-po'
+            )
 
     def rebase(self, abort=False):
         """
