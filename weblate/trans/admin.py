@@ -32,7 +32,7 @@ from weblate.trans.util import WeblateAdmin, sort_choices
 class ProjectAdmin(WeblateAdmin):
     list_display = (
         'name', 'slug', 'web', 'list_owners', 'enable_acl', 'enable_hooks',
-        'num_vcs', 'num_strings', 'num_words', 'num_langs',
+        'num_vcs', 'get_total', 'get_source_words', 'get_language_count',
     )
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
@@ -45,18 +45,6 @@ class ProjectAdmin(WeblateAdmin):
     def num_vcs(self, obj):
         return obj.subproject_set.exclude(repo__startswith='weblate:/').count()
     num_vcs.short_description = _('VCS repositories')
-
-    def num_strings(self, obj):
-        return obj.get_total()
-    num_strings.short_description = _('Source strings')
-
-    def num_words(self, obj):
-        return obj.get_total_words()
-    num_words.short_description = _('Source words')
-
-    def num_langs(self, obj):
-        return obj.get_language_count()
-    num_langs.short_description = _('Languages')
 
     def update_from_git(self, request, queryset):
         """

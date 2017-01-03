@@ -328,8 +328,15 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             except IndexError:
                 pass
         return sum(totals)
+    get_total.short_description = _('Source strings')
 
     def get_total_words(self):
+        return sum([
+            c.translation_set.aggregate(Sum('total_words'))['total_words__sum']
+            for c in self.subproject_set.all()
+        ])
+
+    def get_source_words(self):
         """Calculates total number of words to translate.
 
         This is done based on assumption that all languages have same number
@@ -346,6 +353,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             except IndexError:
                 pass
         return sum(totals)
+    get_source_words.short_description = _('Source words')
 
     def get_languages(self):
         """Returns list of all languages used in project."""
@@ -356,6 +364,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_language_count(self):
         """Returns number of languages used in this project."""
         return self.get_languages().count()
+    get_language_count.short_description = _('Languages')
 
     def repo_needs_commit(self):
         """Checks whether there are some not committed changes."""
