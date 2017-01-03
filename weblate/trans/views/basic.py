@@ -376,6 +376,14 @@ def show_project(request, project):
             'add_user_form': UserManageForm(),
             'settings_form': settings_form,
             'language_stats': language_stats,
+            'unit_count': Unit.objects.filter(
+                translation__subproject__project=obj
+            ).count(),
+            'language_count': Language.objects.filter(
+                translation__subproject__project=obj
+            ).distinct().count(),
+            'strings_count': obj.get_total(),
+            'words_count': obj.get_total_words(),
         }
     )
 
@@ -402,6 +410,14 @@ def show_subproject(request, project, subproject):
     else:
         settings_form = SubprojectSettingsForm(instance=obj)
 
+    try:
+        sample = obj.translation_set.all()[0]
+        total_words = sample.total_words
+        total_strings = sample.total
+    except IndexError:
+        total_words = 0
+        total_strings = 0
+
     return render(
         request,
         'subproject.html',
@@ -417,6 +433,14 @@ def show_subproject(request, project, subproject):
             ),
             'new_lang_form': new_lang_form,
             'settings_form': settings_form,
+            'unit_count': Unit.objects.filter(
+                translation__subproject=obj
+            ).count(),
+            'language_count': Language.objects.filter(
+                translation__subproject=obj
+            ).distinct().count(),
+            'strings_count': total_strings,
+            'words_count': total_words,
         }
     )
 
