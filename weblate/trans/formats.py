@@ -349,6 +349,7 @@ class PoUnit(FileUnit):
         super(PoUnit, self).mark_fuzzy(fuzzy)
         if not fuzzy:
             self.unit.prev_source = ''
+            self.unit.prev_msgctxt = []
 
 
 class XliffUnit(FileUnit):
