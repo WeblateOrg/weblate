@@ -400,7 +400,9 @@ class Repository(object):
         if file_format == 'po':
             merge_driver = os.path.abspath(
                 os.path.join(
-                    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+                    os.path.dirname(
+                        os.path.dirname(os.path.dirname(__file__))
+                    ),
                     'examples',
                     'git-merge-gettext-po'
                 )
