@@ -129,6 +129,8 @@ def render_widget(request, project, widget='287x66', color=None, lang=None,
         if 'native' not in request.GET:
             try_set_language(lang)
         lang = Language.objects.try_get(code=lang)
+    else:
+        try_set_language('en')
 
     # Get widget class
     try:
