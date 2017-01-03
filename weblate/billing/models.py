@@ -177,37 +177,37 @@ class Billing(models.Model):
         )
     in_limits.boolean = True
 
-    def unit_count(self, obj):
+    def unit_count(self):
         return Unit.objects.filter(
-            translation__subproject__project__in=obj.projects.all()
+            translation__subproject__project__in=self.projects.all()
         ).count()
     unit_count.short_description = _('Number of units')
 
-    def last_invoice(self, obj):
+    def last_invoice(self):
         try:
-            invoice = obj.invoice_set.order_by('-start')[0]
+            invoice = self.invoice_set.order_by('-start')[0]
             return '{0} - {1}'.format(invoice.start, invoice.end)
         except IndexError:
             return _('N/A')
     last_invoice.short_description = _('Last invoice')
 
-    def in_display_limits(self, obj):
+    def in_display_limits(self):
         return (
             (
-                obj.plan.display_limit_repositories == 0 or
-                obj.count_repositories() <= obj.plan.display_limit_repositories
+                self.plan.display_limit_repositories == 0 or
+                self.count_repositories() <= self.plan.display_limit_repositories
             ) and
             (
-                obj.plan.display_limit_projects == 0 or
-                obj.count_projects() <= obj.plan.display_limit_projects
+                self.plan.display_limit_projects == 0 or
+                self.count_projects() <= self.plan.display_limit_projects
             ) and
             (
-                obj.plan.display_limit_strings == 0 or
-                obj.count_strings() <= obj.plan.display_limit_strings
+                self.plan.display_limit_strings == 0 or
+                self.count_strings() <= self.plan.display_limit_strings
             ) and
             (
-                obj.plan.display_limit_languages == 0 or
-                obj.count_languages() <= obj.plan.display_limit_languages
+                self.plan.display_limit_languages == 0 or
+                self.count_languages() <= self.plan.display_limit_languages
             )
         )
     in_display_limits.boolean = True
