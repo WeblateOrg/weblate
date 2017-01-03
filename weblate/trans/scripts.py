@@ -80,7 +80,7 @@ def run_hook(component, translation, script, env=None, *args):
             'WL_PATH': target.get_path(),
             'WL_FILEMASK': component.filemask,
             'WL_TEMPLATE': component.template,
-            'WL_FILE_FORMAT': component.file_format,
+            'WL_BRANCH': component.branch,
         }
         if translation:
             environment['WL_LANGUAGE'] = translation.language_code

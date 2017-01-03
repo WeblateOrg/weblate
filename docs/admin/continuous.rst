@@ -290,6 +290,10 @@ Additionally following environment variables are available:
 
     Absolute path to VCS repository.
 
+.. envvar:: WL_BRANCH
+
+    Repository branch configured in the current component.
+
 .. envvar:: WL_FILEMASK
 
     File mask for current component.
