@@ -30,6 +30,23 @@ functionality and verify that it works. You can see current test results on
 Travis <https://travis-ci.org/WeblateOrg/weblate> and coverage on Codecov
 <https://codecov.io/github/WeblateOrg/weblate>.
 
+To run testsuite locally use:
+
+.. code-block:: sh
+
+    ./manage.py test --settings weblate.settings_test
+
+You can also specify individual tests to run:
+
+.. code-block:: sh
+
+    ./manage.py test --settings weblate.settings_test weblate.gitexport
+
+.. seealso::
+
+    See `Testing in Django <https://docs.djangoproject.com/en/stable/topics/testing/>`_ 
+    for more information on running and writing tests for Django.
+
 Issue tracking
 ++++++++++++++
 
