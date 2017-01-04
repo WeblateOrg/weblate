@@ -429,7 +429,7 @@ class GitRepository(Repository):
     _cmd_update_remote = ['fetch', 'origin']
     _cmd_push = ['push', 'origin']
     name = 'Git'
-    req_version = '1.6'
+    req_version = '1.8.5'
     default_branch = 'master'
 
     def is_valid(self):
