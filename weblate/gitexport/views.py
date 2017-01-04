@@ -115,7 +115,6 @@ def git_export(request, project, subproject, path):
             permanent=False
         )
 
-
     # HTTP authentication
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
 

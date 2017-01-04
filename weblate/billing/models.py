@@ -195,7 +195,8 @@ class Billing(models.Model):
         return (
             (
                 self.plan.display_limit_repositories == 0 or
-                self.count_repositories() <= self.plan.display_limit_repositories
+                self.count_repositories() <=
+                self.plan.display_limit_repositories
             ) and
             (
                 self.plan.display_limit_projects == 0 or

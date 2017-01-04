@@ -36,8 +36,6 @@ class ProfileAdmin(admin.ModelAdmin):
     ]
     list_filter = ['language']
 
-admin.site.register(Profile, ProfileAdmin)
-
 
 class VerifiedEmailAdmin(admin.ModelAdmin):
     list_display = ('social', 'email')
@@ -46,13 +44,9 @@ class VerifiedEmailAdmin(admin.ModelAdmin):
     )
     raw_id_fields = ('social',)
 
-admin.site.register(VerifiedEmail, VerifiedEmailAdmin)
-
 
 class AutoGroupAdmin(admin.ModelAdmin):
     list_display = ('group', 'match')
-
-admin.site.register(AutoGroup, AutoGroupAdmin)
 
 
 class WeblateUserChangeForm(UserChangeForm):
@@ -92,7 +86,12 @@ class WeblateUserAdmin(UserAdmin):
         """
         return ','.join([g.name for g in obj.groups.all()])
 
+
 # Need to unregister orignal Django UserAdmin
 admin.site.unregister(User)
 # Set WeblateUserAdmin to handle User in admin interface
 admin.site.register(User, WeblateUserAdmin)
+# Register other admin
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(VerifiedEmail, VerifiedEmailAdmin)
+admin.site.register(AutoGroup, AutoGroupAdmin)

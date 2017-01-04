@@ -11,12 +11,27 @@ Code and development
 
 Weblate is being developed on GitHub <https://github.com/WeblateOrg/weblate>. You
 are welcome to fork the code and open pull requests. Patches in any other form
-are welcome as well. The code should follow PEP-8 coding guidelines.
+are welcome as well. 
+
+Coding standard
++++++++++++++++
+
+The code should follow PEP-8 coding guidelines.
+
+It is good idea to check your contributions using :program:`pep8`,
+:program:`pylint` and :program:`pyflages`. You can execute all checks
+by script :file:`ci/run-lint`.
+
+Testsuite
++++++++++
 
 We do write testsuite for our code, so please add testcases for any new
 functionality and verify that it works. You can see current test results on
 Travis <https://travis-ci.org/WeblateOrg/weblate> and coverage on Codecov
 <https://codecov.io/github/WeblateOrg/weblate>.
+
+Issue tracking
+++++++++++++++
 
 The issue tracker is hosted on GitHub as well:
 <https://github.com/WeblateOrg/weblate/issues>
