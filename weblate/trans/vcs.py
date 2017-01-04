@@ -112,7 +112,7 @@ class Repository(object):
         self.component = component
         self.last_output = ''
         self.lock = FileLock(
-            self.path.rstrip('/') + '.lock',
+            self.path.rstrip('/').rstrip('\\') + '.lock',
             timeout=30
         )
         if not self.is_valid():
