@@ -66,8 +66,8 @@ def get_per_language_stats(project):
 
         # Insert sort
         pos = None
-        for i in range(len(result)):
-            if translated >= result[i][1]:
+        for i, data in enumerate(result):
+            if translated >= data[1]:
                 pos = i
                 break
         value = (language, translated, total, translated_words, total_words)
