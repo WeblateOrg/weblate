@@ -21,10 +21,6 @@
 import os.path
 from io import BytesIO
 
-from PIL import Image, ImageDraw
-
-from six.moves.urllib.parse import quote
-
 try:
     from bidi.algorithm import get_display
 except ImportError:
@@ -33,6 +29,10 @@ except ImportError:
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
+
+from PIL import Image, ImageDraw
+
+from six.moves.urllib.parse import quote
 
 from weblate.trans.fonts import is_base, get_font
 from weblate.trans.site import get_site_url

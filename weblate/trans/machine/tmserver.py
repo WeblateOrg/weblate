@@ -20,9 +20,7 @@
 
 from __future__ import unicode_literals
 
-from weblate.trans.machine.base import (
-    MachineTranslation, MissingConfiguration
-)
+from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
 from weblate import appsettings
 
 from six.moves.urllib.parse import quote

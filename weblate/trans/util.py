@@ -25,8 +25,12 @@ import os
 import sys
 import unicodedata
 
-import six
-from six.moves.urllib.parse import urlparse
+from django.contrib.admin import ModelAdmin
+from django.core.cache import cache
+from django.http import HttpResponseRedirect
+from django.shortcuts import resolve_url, render as django_render
+from django.utils.encoding import force_text
+from django.utils.translation import ugettext as _
 
 try:
     import pyuca  # pylint: disable=import-error
@@ -34,12 +38,8 @@ try:
 except ImportError:
     HAS_PYUCA = False
 
-from django.contrib.admin import ModelAdmin
-from django.core.cache import cache
-from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url, render as django_render
-from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+import six
+from six.moves.urllib.parse import urlparse
 
 from weblate.trans.data import data_dir
 

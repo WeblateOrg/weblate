@@ -27,13 +27,13 @@ import json
 import httpretty
 from six.moves.urllib.parse import parse_qs, urlparse
 
-import social.apps.django_app.utils
-
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.test import TestCase
 from django.test.utils import override_settings
+
+import social.apps.django_app.utils
 
 from weblate.accounts.models import VerifiedEmail
 from weblate.trans.tests.test_views import RegistrationTestMixin
