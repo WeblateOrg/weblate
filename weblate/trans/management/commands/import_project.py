@@ -190,7 +190,7 @@ class Command(BaseCommand):
         self.logger.info('Cloning git repository...')
         gitrepo = GitRepository.clone(repo, workdir)
         self.logger.info('Updating working copy in git repository...')
-        with gitrepo.lock():
+        with gitrepo.lock:
             gitrepo.configure_branch(branch)
 
         return workdir

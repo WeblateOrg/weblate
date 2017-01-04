@@ -102,7 +102,6 @@ class Repository(object):
 
     _is_supported = None
     _version = None
-    _lock = None
 
     def __init__(self, path, branch=None, component=None):
         self.path = path
@@ -112,17 +111,12 @@ class Repository(object):
             self.branch = branch
         self.component = component
         self.last_output = ''
+        self.lock = FileLock(
+            self.path.rstrip('/') + '.lock',
+            timeout=30
+        )
         if not self.is_valid():
             self.init()
-
-    def lock(self):
-        """Returns lock object for the repository"""
-        if self._lock is None:
-            self._lock = FileLock(
-                self.path.rstrip('/') + '.lock',
-                timeout=30
-            )
-        return self._lock
 
     def check_config(self):
         """

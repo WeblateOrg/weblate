@@ -760,7 +760,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         sync updates git hash stored within the translation (otherwise
         translation rescan will be needed)
         """
-        with self.subproject.repository.lock():
+        with self.subproject.repository.lock:
             # Is there something for commit?
             if not force_new and not self.repo_needs_commit():
                 return False
@@ -799,7 +799,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if user is None:
             user = request.user
         # Save with lock acquired
-        with self.subproject.repository.lock():
+        with self.subproject.repository.lock:
 
             src = unit.get_source_plurals()[0]
             add = False
@@ -1032,7 +1032,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     add_fuzzy, fuzzy, merge_comments):
         """Merges translate-toolkit store into current translation."""
         # Merge with lock acquired
-        with self.subproject.repository.lock():
+        with self.subproject.repository.lock:
 
             store1 = self.store.store
             store1.require_index()
@@ -1238,7 +1238,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Remove file from VCS
         self.commit_message = '__delete__'
-        with self.subproject.repository.lock():
+        with self.subproject.repository.lock:
             self.subproject.repository.remove(
                 [self.filename],
                 self.get_commit_message(),
