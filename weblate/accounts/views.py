@@ -209,7 +209,7 @@ def user_profile(request):
         license=''
     )
 
-    response = render(
+    result = render(
         request,
         'accounts/profile.html',
         {
@@ -226,11 +226,11 @@ def user_profile(request):
             'new_backends': new_backends,
         }
     )
-    response.set_cookie(
+    result.set_cookie(
         settings.LANGUAGE_COOKIE_NAME,
         profile.language
     )
-    return response
+    return result
 
 
 @login_required
