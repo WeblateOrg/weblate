@@ -172,6 +172,7 @@ class Repository(object):
             env=cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            stdin=subprocess.PIPE,
         )
         output, output_err = process.communicate()
         retcode = process.poll()
