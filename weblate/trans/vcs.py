@@ -189,7 +189,7 @@ class Repository(object):
         '''
         Executes command and caches its output.
         '''
-        if needs_lock and (self._lock is None or not self._lock.is_locked):
+        if needs_lock and not self.lock.is_locked:
             raise RuntimeWarning('Repository operation without lock held!')
         self.last_output = self._popen(args, self.path)
         return self.last_output
