@@ -225,12 +225,20 @@ class Repository(object):
         return self._last_remote_revision
 
     @classmethod
+    def _clone(cls, source, target, branch=None):
+        """
+        Clones repository.
+        """
+        raise NotImplementedError()
+
+    @classmethod
     def clone(cls, source, target, branch=None):
         """
         Clones repository and returns Repository object for cloned
         repository.
         """
-        raise NotImplementedError()
+        cls._clone(source, target, branch)
+        return cls(target, branch)
 
     def update_remote(self):
         """
@@ -453,13 +461,12 @@ class GitRepository(Repository):
         self.set_config('push.default', 'current')
 
     @classmethod
-    def clone(cls, source, target, branch=None):
+    def _clone(cls, source, target, branch=None):
         """
         Clones repository and returns Repository object for cloned
         repository.
         """
         cls._popen(['clone', source, target])
-        return cls(target, branch)
 
     def get_config(self, path):
         """
@@ -805,7 +812,7 @@ class SubversionRepository(GitRepository):
             self.set_config('svn-remote.svn.url', pull_url)
 
     @classmethod
-    def clone(cls, source, target, branch=None):
+    def _clone(cls, source, target, branch=None):
         """
         Clones svn repository with git-svn and returns
         Repository object for cloned repository.
@@ -813,7 +820,6 @@ class SubversionRepository(GitRepository):
         cls._popen([
             'svn', 'clone', '-s', '--prefix=origin/', source, target
         ])
-        return cls(target, branch)
 
     def merge(self, abort=False):
         """
@@ -1004,13 +1010,12 @@ class HgRepository(Repository):
         self.set_config('ui.ssh', ssh_file(SSH_WRAPPER))
 
     @classmethod
-    def clone(cls, source, target, branch=None):
+    def _clone(cls, source, target, branch=None):
         """
         Clones repository and returns Repository object for cloned
         repository.
         """
         cls._popen(['clone', source, target])
-        return cls(target, branch)
 
     def get_config(self, path):
         """
