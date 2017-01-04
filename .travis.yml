@@ -26,6 +26,7 @@ env:
 # commands to install dependencies
 install:
   - ./ci/install
+  - ./manage.py list_versions
 # create databases
 before_script:
   - ./ci/setup-env
