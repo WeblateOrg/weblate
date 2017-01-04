@@ -332,10 +332,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     get_total.short_description = _('Source strings')
 
     def get_total_words(self):
-        return sum([
-            c.translation_set.aggregate(Sum('total_words'))['total_words__sum']
-            for c in self.subproject_set.all()
-        ])
+        totals = []
+        for component in self.subproject_set.all():
+            result = component.translation_set.aggregate(
+                Sum('total_words')
+            )['total_words__sum']
+            if result is not None:
+                totals.append(result)
+        return sum(totals)
 
     def get_source_words(self):
         """Calculates total number of words to translate.
