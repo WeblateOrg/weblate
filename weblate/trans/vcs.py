@@ -1088,21 +1088,24 @@ class HgRepository(Repository):
         self.set_config('extensions.rebase', '')
         if abort:
             self.execute(['rebase', '--abort'])
-        else:
-            self.configure_merge()
-            try:
-                self.execute(['rebase', '-d', 'remote(.)'])
-            except RepositoryException as error:
-                if error.stdout:
-                    message = error.stdout
-                else:
-                    message = error.stderr
-                # Mercurial 3.8 changed error code and output
-                if (error.retcode in (1, 255) and
-                        'nothing to rebase' in message):
-                    self.execute(['update', '--clean', 'remote(.)'])
-                    return
-                raise
+        elif self.needs_merge():
+            if self.needs_ff():
+                self.execute(['update', '--clean', 'remote(.)'])
+            else:
+                self.configure_merge()
+                try:
+                    self.execute(['rebase', '-d', 'remote(.)'])
+                except RepositoryException as error:
+                    if error.stdout:
+                        message = error.stdout
+                    else:
+                        message = error.stderr
+                    # Mercurial 3.8 changed error code and output
+                    if (error.retcode in (1, 255) and
+                            'nothing to rebase' in message):
+                        self.execute(['update', '--clean', 'remote(.)'])
+                        return
+                    raise
 
     def merge(self, abort=False):
         """
@@ -1110,19 +1113,11 @@ class HgRepository(Repository):
         """
         if abort:
             self.execute(['update', '--clean', '.'])
-        else:
-            self.configure_merge()
-            try:
-                # First try update
-                self.execute(['update'])
-
-                # Figure out if we did not create multiple heads
-                heads = self.execute(['heads', '-T', '{node}\n']).split()
-                if len(heads) > 1:
-                    # Fall back to merge
-                    raise RepositoryException(0, 'multiple heads', '')
-
-            except RepositoryException as error:
+        elif self.needs_merge():
+            if self.needs_ff():
+                self.execute(['update', '--clean', 'remote(.)'])
+            else:
+                self.configure_merge()
                 # Fallback to merge
                 try:
                     self.execute(['merge', '-r', 'remote(.)'])
