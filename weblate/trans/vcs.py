@@ -1201,6 +1201,16 @@ class HgRepository(Repository):
 
         return result
 
+    def needs_ff(self):
+        """
+        Checks whether repository needs a fast-forward to upstream
+        (the path to the upstream is linear).
+        """
+        return self.execute(
+            ['log', '-r', '.::remote(.) - .'],
+            needs_lock=False
+        ) != ''
+
     def needs_merge(self):
         """
         Checks whether repository needs merge with upstream
