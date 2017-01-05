@@ -976,9 +976,9 @@ class HgRepository(Repository):
         'log', '--limit', '1', '--template', '{node}'
     ]
     _cmd_last_remote_revision = [
-        'log', '--limit', '1', '--template', '{node}', '--branch', 'tip'
+        'log', '--limit', '1', '--template', '{node}', '--branch', '.'
     ]
-    _cmd_update_remote = ['pull']
+    _cmd_update_remote = ['pull', '--branch', '.']
     name = 'Mercurial'
     req_version = '2.8'
     default_branch = 'default'
@@ -1062,10 +1062,26 @@ class HgRepository(Repository):
         Resets working copy to match remote branch.
         """
         self.set_config('extensions.strip', '')
-        self.execute(['revert', '-a', '--no-backup'])
+        self.execute(['update', '--clean', 'remote(.)'])
         if self.needs_push():
             self.execute(['strip', 'roots(outgoing())'])
         self._last_revision = None
+
+    def configure_merge(self):
+        """
+        Select the correct merge tool
+        """
+        self.set_config('ui.merge', 'internal:merge')
+        merge_driver = self.get_merge_driver('po')
+        if merge_driver is not None:
+            self.set_config(
+                'merge-tools.weblate-merge-gettext-po.executable',
+                merge_driver
+            )
+            self.set_config(
+                'merge-patterns.**.po',
+                'weblate-merge-gettext-po'
+            )
 
     def rebase(self, abort=False):
         """
@@ -1074,20 +1090,24 @@ class HgRepository(Repository):
         self.set_config('extensions.rebase', '')
         if abort:
             self.execute(['rebase', '--abort'])
-        else:
-            try:
-                self.execute(['rebase', '--tool', 'internal:merge'])
-            except RepositoryException as error:
-                if error.stdout:
-                    message = error.stdout
-                else:
-                    message = error.stderr
-                # Mercurial 3.8 changed error code and output
-                if (error.retcode in (1, 255) and
-                        'nothing to rebase' in message):
-                    self.execute(['update'])
-                    return
-                raise
+        elif self.needs_merge():
+            if self.needs_ff():
+                self.execute(['update', '--clean', 'remote(.)'])
+            else:
+                self.configure_merge()
+                try:
+                    self.execute(['rebase', '-d', 'remote(.)'])
+                except RepositoryException as error:
+                    if error.stdout:
+                        message = error.stdout
+                    else:
+                        message = error.stderr
+                    # Mercurial 3.8 changed error code and output
+                    if (error.retcode in (1, 255) and
+                            'nothing to rebase' in message):
+                        self.execute(['update', '--clean', 'remote(.)'])
+                        return
+                    raise
 
     def merge(self, abort=False):
         """
@@ -1095,21 +1115,14 @@ class HgRepository(Repository):
         """
         if abort:
             self.execute(['update', '--clean', '.'])
-        else:
-            try:
-                # First try update
-                self.execute(['update'])
-
-                # Figure out if we did not create multiple heads
-                heads = self.execute(['heads', '-T', '{node}\n']).split()
-                if len(heads) > 1:
-                    # Fall back to merge
-                    raise RepositoryException(0, 'multiple heads', '')
-
-            except RepositoryException as error:
+        elif self.needs_merge():
+            if self.needs_ff():
+                self.execute(['update', '--clean', 'remote(.)'])
+            else:
+                self.configure_merge()
                 # Fallback to merge
                 try:
-                    self.execute(['merge', '--tool', 'internal:merge'])
+                    self.execute(['merge', '-r', 'remote(.)'])
                 except RepositoryException as error:
                     if error.retcode == 255:
                         # Nothing to merge
@@ -1185,13 +1198,23 @@ class HgRepository(Repository):
 
         return result
 
+    def needs_ff(self):
+        """
+        Checks whether repository needs a fast-forward to upstream
+        (the path to the upstream is linear).
+        """
+        return self.execute(
+            ['log', '-r', '.::remote(.) - .'],
+            needs_lock=False
+        ) != ''
+
     def needs_merge(self):
         """
         Checks whether repository needs merge with upstream
-        (is missing some revisions).
+        (has multiple heads or not up-to-date).
         """
         return self.execute(
-            ['log', '-r', 'only(tip,.)'],
+            ['log', '-r', 'heads(branch(.)) - .'],
             needs_lock=False
         ) != ''
 
@@ -1297,7 +1320,7 @@ class HgRepository(Repository):
         Pushes given branch to remote repository.
         """
         try:
-            self.execute(['push'])
+            self.execute(['push', '-r', '.'])
         except RepositoryException as error:
             if error.retcode == 1:
                 # No changes found
