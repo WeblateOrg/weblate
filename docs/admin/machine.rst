@@ -18,7 +18,7 @@ Amagama
 
 Special installation of :ref:`tmserver` run by Virtaal authors.
 
-To enable this service, add ``trans.machine.tmserver.AmagamaTranslation`` to
+To enable this service, add ``weblate.trans.machine.tmserver.AmagamaTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso:: 
@@ -38,7 +38,7 @@ The recommended way how to use Apertium is to run own Apertium APy server.
 Alternatively you can use Apertium server, but you should get API key from
 them, otherwise number of requests is rate limited.
 
-To enable this service, add ``trans.machine.apertium.ApertiumAPYTranslation`` to
+To enable this service, add ``weblate.trans.machine.apertium.ApertiumAPYTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
@@ -55,7 +55,7 @@ API is free to use, regarding indicated data source license. There is a limit
 of call that may be done from one IP in fixed period of time, to prevent from
 abuse.
 
-To enable this service, add ``trans.machine.glosbe.GlosbeTranslation`` to
+To enable this service, add ``weblate.trans.machine.glosbe.GlosbeTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
@@ -72,7 +72,7 @@ Machine translation service provided by Google.
 This service uses Translation API and you need to obtain API key and enable
 billing on Google API console.
 
-To enable this service, add ``trans.machine.google.GoogleTranslation`` to
+To enable this service, add ``weblate.trans.machine.google.GoogleTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
@@ -96,7 +96,7 @@ Machine translation service provided by Microsoft, it's known as Bing Translator
 
 You need to register at Azure market and use Client ID and secret from there.
 
-To enable this service, add ``trans.machine.microsoft.MicrosoftTranslation`` to
+To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
@@ -121,7 +121,7 @@ Cognitive Services.
 
 You need to register at Azure portal and use key you obtain there.
 
-To enable this service, add ``trans.machine.microsoft.MicrosoftCognitiveTranslation`` to
+To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftCognitiveTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
@@ -141,7 +141,7 @@ Free, anonymous usage is currently limited to 100 requests/day, or to 1000
 requests/day when you provide contact email in :setting:`MT_MYMEMORY_EMAIL`.
 you can also ask them for more.
 
-To enable this service, add ``trans.machine.mymemory.MyMemoryTranslation`` to
+To enable this service, add ``weblate.trans.machine.mymemory.MyMemoryTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. seealso::
@@ -162,7 +162,7 @@ amaGama server, which is enhanced version of tmserver.
 
 First you will want to import some data to the translation memory:
 
-To enable this service, add ``trans.machine.tmserver.TMServerTranslation`` to
+To enable this service, add ``weblate.trans.machine.tmserver.TMServerTranslation`` to
 :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. code-block:: sh
@@ -200,8 +200,8 @@ First one is useful for full string translations, the second one for finding
 individual phrases or words to keep the translation consistent.
 
 To enable these services, add
-``trans.machine.weblatetm.WeblateSimilarTranslation`` (for similar string
-matching) and/or ``trans.machine.weblatetm.WeblateTranslation`` (for exact
+``weblate.trans.machine.weblatetm.WeblateSimilarTranslation`` (for similar string
+matching) and/or ``weblate.trans.machine.weblatetm.WeblateTranslation`` (for exact
 string matching) to :setting:`MACHINE_TRANSLATION_SERVICES`.
 
 .. note::
