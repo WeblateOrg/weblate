@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2016-12-22 15:04+0000\n"
-"PO-Revision-Date: 2017-01-01 08:42+0000\n"
-"Last-Translator: Igor <f2404@yandex.ru>\n"
+"PO-Revision-Date: 2017-01-05 00:34+0000\n"
+"Last-Translator: Игорь Поляков (ihoru) <ihor.polyakov@gmail.com>\n"
 "Language-Team: Russian "
 "<https://hosted.weblate.org/projects/weblate/master/ru/>\n"
 "Language: ru\n"
@@ -543,12 +543,12 @@ msgstr "Нет"
 #: weblate/lang/models.py:378
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
-msgstr ""
+msgstr "Один/другое (классическое множественное число)"
 
 #: weblate/lang/models.py:382
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
-msgstr ""
+msgstr "Один/несколько/другое (славянские языки)"
 
 #: weblate/lang/models.py:386
 msgctxt "Plural type"
@@ -578,22 +578,22 @@ msgstr "Один/два/три/другое"
 #: weblate/lang/models.py:406
 msgctxt "Plural type"
 msgid "One/other/zero"
-msgstr ""
+msgstr "Один/другое/ноль"
 
 #: weblate/lang/models.py:410
 msgctxt "Plural type"
 msgid "One/few/many/other"
-msgstr ""
+msgstr "Один/несколько/много/другое"
 
 #: weblate/lang/models.py:414
 msgctxt "Plural type"
 msgid "Two/other"
-msgstr ""
+msgstr "Два/другое"
 
 #: weblate/lang/models.py:418
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
-msgstr ""
+msgstr "Один/два/несколько/много/другое"
 
 #: weblate/lang/models.py:422
 msgctxt "Plural type"
@@ -1172,9 +1172,8 @@ msgid "Regenerate"
 msgstr "Создать заново"
 
 #: weblate/templates/accounts/profile.html:313
-#, fuzzy
 msgid "API root URL:"
-msgstr "Адрес корневой папки API:"
+msgstr "Корневой URL-адрес API:"
 
 #: weblate/templates/accounts/profile.html:317
 msgid "API usage example:"
@@ -1905,6 +1904,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
+"После активации аккаунта перейдите к <a href=\"%(url)s\">разделу для "
+"перевода</a>."
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3112,6 +3113,8 @@ msgstr "Настроить колонки"
 #: weblate/templates/translation.html:90
 msgid "This translation is being used as source strings within this component."
 msgstr ""
+"Этот перевод используется в качестве исходных строк в рамках этого "
+"компонента."
 
 #: weblate/templates/list-translations.html:36
 msgid "source"
@@ -3164,14 +3167,12 @@ msgid "Translate"
 msgstr "Перевод"
 
 #: weblate/templates/list-translations.html:74
-#, fuzzy, python-format
-#| msgid "There is %(count)s not translated string."
-#| msgid_plural "There are %(count)s not translated strings."
+#, python-format
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "Есть %(count)s непереведённая строка."
-msgstr[1] "Есть %(count)s непереведённые строки."
-msgstr[2] "Есть %(count)s непереведённых строк."
+msgstr[0] "Есть %(count)s переведённая строка."
+msgstr[1] "Есть %(count)s переведённые строки."
+msgstr[2] "Есть %(count)s переведённых строк."
 
 #: weblate/templates/mail/activation.html:7
 #: weblate/templates/mail/activation.txt:1
@@ -3576,7 +3577,7 @@ msgstr "Отправить в Tweeter!"
 #: weblate/templates/project.html:64 weblate/templates/subproject.html:73
 #: weblate/templates/translation.html:70
 msgid "Engage page"
-msgstr ""
+msgstr "Страница участников"
 
 #: weblate/templates/project.html:65 weblate/templates/subproject.html:74
 #: weblate/templates/translation.html:71
@@ -3656,6 +3657,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
+"Вы также можете продвигать этот проект для переводов, используя различные <a "
+"href=\"%(widgets_url)s\">другие возможности</a>."
 
 #: weblate/templates/share.html:32
 #, python-format
@@ -3663,6 +3666,8 @@ msgid ""
 "Various <a href=\"%(data_url)s\">data exports</a> are available in machine "
 "readable formats."
 msgstr ""
+"Различные виды <a href=\"%(data_url)s\">экспорта данных</a> доступны в "
+"машиночитаемых форматах."
 
 #: weblate/templates/show-lock.html:6
 msgid "This translation is currently locked for updates!"
@@ -3767,6 +3772,8 @@ msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
+"Если ваш язык будет отсутствует, пожалуйста, следуйте <a href=\"%(url)s\">"
+"инструкциям переводчика</a>."
 
 #: weblate/templates/subproject.html:113
 msgid "Please choose the language into which you would like to translate."
@@ -3798,6 +3805,9 @@ msgid ""
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
+"В сведениях об авторах перечислены все переводчики, которые способствовали "
+"этому компоненту в данный период времени. Это может быть полезно для "
+"включения в документацию или приложение, чтобы поблагодарить переводчиков."
 
 #: weblate/templates/subproject.html:179
 msgid "Contributor stats"
@@ -4216,6 +4226,10 @@ msgid ""
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
 msgstr ""
+"Автоматический перевод берет существующие переводы в этом проекте и "
+"применяет их к текущему компоненту. Это может использоваться для применения "
+"переводов в другой ветке, чтобы исправить несовместимые переводы или "
+"перевести новый компонент, используя память переводов."
 
 #: weblate/templates/translation.html:196
 #: weblate/templates/translation.html:214
@@ -4223,10 +4237,13 @@ msgid "Process"
 msgstr "Процесс"
 
 #: weblate/templates/translation.html:209
+#, fuzzy
 msgid ""
 "You can replace string in all units at once. The search is simple substring "
 "case sensitive search."
 msgstr ""
+"Вы можете заменить строки во всех упоминаниях единоразово. Поиск прост и "
+"зависит от регистра."
 
 #: weblate/templates/translation.html:225
 #: weblate/templates/translation.html:236
@@ -4339,6 +4356,8 @@ msgid ""
 "Weblate provides various widgets to promote your translation projects. Open "
 "one of the project pages below."
 msgstr ""
+"Weblate предоставляет различные виджеты для продвижения переводов ваших "
+"проектов. Откройте одну из страниц проекта ниже."
 
 #: weblate/templates/widgets.html:14
 #, python-format
