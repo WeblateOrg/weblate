@@ -123,6 +123,8 @@ class MicrosoftTranslation(MachineTranslation):
     def download_languages(self):
         '''
         Downloads list of supported languages from a service.
+
+        Example of the response: ['af', 'ar', 'bs-Latn', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'yue', 'hr', 'cs', 'da', 'nl', 'en', 'et', 'fj', 'fil', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww', 'h', 'id', 'it', 'ja', 'sw', 'tlh', 'tlh-Qaak', 'ko', 'lv', 'lt', 'mg', 'ms', 'mt', 'yua', 'no', 'otq', 'fa', 'pl', 'pt', 'ro', 'r', 'sm', 'sr-Cyrl', 'sr-Latn', 'sk', 'sl', 'es', 'sv', 'ty', 'th', 'to', 'tr', 'uk', 'ur', 'vi', 'cy']
         '''
         return self.json_req(LIST_URL)
 
@@ -147,6 +149,16 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
     '''
     name = 'Microsoft Translator'
 
+    LANGUAGE_CONVERTER = {
+        'zh-tw': 'zh-CHT',
+        'zh-cn': 'zh-CHS',
+        'tlh-qaak': 'tlh-Qaak',
+        'nb': 'no',
+        'bs-latn': 'bs-Latn',
+        'sr-latn': 'sr-Latn',
+        'sr-cyrl': 'sr-Cyrl',
+    }
+
     def ms_supported(self):
         '''
         Checks whether service is supported.
@@ -169,3 +181,12 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
             self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
         return self._access_token
+
+    def convert_language(self, language):
+        '''
+        Converts language to service specific code. Remove second part of locale in most of cases.
+        '''
+        language = language.replace('_', '-').lower()
+        if language in self.LANGUAGE_CONVERTER:
+            return self.LANGUAGE_CONVERTER[language]
+        return language.split('-')[0]
