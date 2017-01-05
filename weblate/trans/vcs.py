@@ -1091,7 +1091,7 @@ class HgRepository(Repository):
         else:
             self.configure_merge()
             try:
-                self.execute(['rebase'])
+                self.execute(['rebase', '-d', 'remote(.)'])
             except RepositoryException as error:
                 if error.stdout:
                     message = error.stdout
@@ -1125,7 +1125,7 @@ class HgRepository(Repository):
             except RepositoryException as error:
                 # Fallback to merge
                 try:
-                    self.execute(['merge'])
+                    self.execute(['merge', '-r', 'remote(.)'])
                 except RepositoryException as error:
                     if error.retcode == 255:
                         # Nothing to merge
