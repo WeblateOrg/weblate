@@ -1204,10 +1204,10 @@ class HgRepository(Repository):
     def needs_merge(self):
         """
         Checks whether repository needs merge with upstream
-        (is missing some revisions).
+        (has multiple heads or not up-to-date).
         """
         return self.execute(
-            ['log', '-r', 'only(tip,.)'],
+            ['log', '-r', 'heads(branch(.)) - .'],
             needs_lock=False
         ) != ''
 
