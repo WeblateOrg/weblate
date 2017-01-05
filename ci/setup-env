@@ -8,7 +8,7 @@ psql -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
 psql -c 'CREATE DATABASE weblate;' -U postgres
 if [ "$CI_MODE" = selenium -a -n "$SAUCE_USERNAME" -a -n "$SAUCE_ACCESS_KEY" ] ; then
     mkdir -p ~/.cache/sauce
-    NAME=sc-4.4.1-linux.tar.gz
+    NAME=sc-4.4.2-linux.tar.gz
     if [ ! -f ~/.cache/sauce/$NAME ] ; then
         wget -O ~/.cache/sauce/$NAME https://saucelabs.com/downloads/$NAME
     fi
