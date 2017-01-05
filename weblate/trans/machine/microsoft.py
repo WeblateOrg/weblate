@@ -156,6 +156,8 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
     name = 'Microsoft Translator'
 
     LANGUAGE_CONVERTER = {
+        'zh-hant': 'zh-CHT',
+        'zh-hans': 'zh-CHS',
         'zh-tw': 'zh-CHT',
         'zh-cn': 'zh-CHS',
         'tlh-qaak': 'tlh-Qaak',
