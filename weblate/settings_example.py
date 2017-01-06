@@ -74,6 +74,7 @@ LANGUAGES = (
     ('az', 'Azərbaycan'),
     ('be', 'Беларуская'),
     ('be@latin', 'Biełaruskaja'),
+    ('bg', 'Български'),
     ('br', 'Brezhoneg'),
     ('ca', 'Català'),
     ('cs', 'Čeština'),
