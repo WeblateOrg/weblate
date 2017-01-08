@@ -181,7 +181,7 @@ class Billing(models.Model):
         return Unit.objects.filter(
             translation__subproject__project__in=self.projects.all()
         ).count()
-    unit_count.short_description = _('Number of units')
+    unit_count.short_description = _('Number of strings')
 
     def last_invoice(self):
         try:
