@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-01-08 16:51+0000\n"
-"PO-Revision-Date: 2017-01-10 10:39+0000\n"
+"PO-Revision-Date: 2017-01-10 10:49+0000\n"
 "Last-Translator: Stanisław Krukowski <ack0079@riseup.net>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
@@ -254,7 +254,7 @@ msgstr "Dodatkowe tłumaczenia w trybie zen"
 
 #: weblate/accounts/models.py:548
 msgid "Hide source if there is secondary language"
-msgstr "Ukrycie ciągu źródłowego przy obecności drugorzędnego języka"
+msgstr "Ukrycie napisu źródłowego, gdy brak języka drugorzędnego"
 
 #: weblate/accounts/models.py:558 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -1844,7 +1844,7 @@ msgstr "Źródło"
 #: weblate/templates/translate.html:300 weblate/templates/translate.html:385
 #: weblate/trans/forms.py:234 weblate/trans/forms.py:712
 msgid "Translation"
-msgstr "Ciąg tłumaczenia"
+msgstr "Tłumaczenie"
 
 #: weblate/templates/dictionary.html:62 weblate/templates/js/detail.html:18
 #: weblate/templates/js/detail.html:27 weblate/templates/zen-units.html:19
@@ -4379,11 +4379,11 @@ msgstr "Ostatni autor"
 
 #: weblate/templates/unit-details.html:5
 msgid "Source string location"
-msgstr "Położenie ciągu źródłowego"
+msgstr "Położenie napisu źródłowego"
 
 #: weblate/templates/unit-details.html:20
 msgid "Source string age"
-msgstr "Wiek ciągu źródłowego"
+msgstr "Wiek napisu źródłowego"
 
 #: weblate/templates/unit-details.html:30
 #, python-format
@@ -4620,7 +4620,7 @@ msgstr "Końcowy i początkowy biały znak"
 
 #: weblate/trans/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
-msgstr "Szukaj w ciągach lokalizacji"
+msgstr "Ciąg znaków interpolacji AngularJS"
 
 #: weblate/trans/checks/angularjs.py:46
 msgid "AngularJS interpolation strings do not match source"
@@ -4749,7 +4749,7 @@ msgstr "Niespójność"
 
 #: weblate/trans/checks/consistency.py:82
 msgid "This message has more than one translation in this project"
-msgstr "Ciąg źródłowy ma więcej niż jedno tłumaczenie w projekcie"
+msgstr "Ten komunikat ma więcej niż jedno tłumaczenie w tym projekcie"
 
 #: weblate/trans/checks/format.py:223
 msgid "Python format"
@@ -6637,7 +6637,7 @@ msgstr "Pomiń flagę przeglądu podczas importowania"
 
 #: weblate/trans/validators.py:36
 msgid "Add review flag for new source strings"
-msgstr "Dodaj flagę przegąadu dla nowych napisów źródłowych"
+msgstr "Dodaj flagę przeglądu dla nowych napisów źródłowych"
 
 #: weblate/trans/validators.py:50 weblate/trans/validators.py:60
 #: weblate/trans/validators.py:80
@@ -6717,9 +6717,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">Tłumaczenie projektu dla %(project)s</a> z angielskiego "
-"zawiera obecnie %(total)s ciągów dla tłumaczenia i jest %(percent)s%% "
-"kompletny."
+"<a href=\"%(url)s\">Tłumaczenie projektu dla %(project)s</a> na język "
+"angielski zawiera obecnie %(total)s napisów do tłumaczenia i jest "
+"%(percent)s%% kompletne."
 
 #: weblate/trans/views/basic.py:328 weblate/trans/views/basic.py:404
 msgid "Settings saved"
