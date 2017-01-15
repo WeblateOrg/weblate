@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-01-08 16:51+0000\n"
-"PO-Revision-Date: 2017-01-13 05:30+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2017-01-15 15:56+0000\n"
+"Last-Translator: Wivi Reinholdtsen <rrrein@frisurf.no>\n"
 "Language-Team: Norwegian Bokmål "
 "<https://hosted.weblate.org/projects/weblate/master/nb/>\n"
 "Language: nb\n"
@@ -66,13 +66,14 @@ msgstr "Varsler for alle komponenter"
 #| "projects."
 msgid ""
 "You will receive notification on every such event in your watched projects."
-msgstr "Du vil automatisk motta viktige meldinger på administrerte prosjekter."
+msgstr ""
+"Du vil motta meldinger for hver slik hendelse i prosjektet du følger med på."
 
 #: weblate/accounts/forms.py:217
 #, fuzzy
 #| msgid "Translation instructions"
 msgid "Translation notifications"
-msgstr "Oversettelsesinstruksjoner"
+msgstr "Oversettelsesmeldinger"
 
 #: weblate/accounts/forms.py:219
 #, fuzzy
@@ -81,7 +82,9 @@ msgstr "Oversettelsesinstruksjoner"
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr "Du vil motta valgte varsler via e-post for alle dine språk."
+msgstr ""
+"Du vil motta disse meldingene kun for språkene du oversetter til, i "
+"prosjektene du følger med på."
 
 #: weblate/accounts/forms.py:263
 msgid "Component list must be selected when used as default."
@@ -489,7 +492,7 @@ msgstr "Språk"
 #, fuzzy
 #| msgid "Same plurals"
 msgid "Number of strings"
-msgstr "Samme flertallsform"
+msgstr "Antall strenger"
 
 #: weblate/billing/models.py:191
 msgid "N/A"
@@ -499,7 +502,7 @@ msgstr "I/T"
 #, fuzzy
 #| msgid "Download invoice"
 msgid "Last invoice"
-msgstr "Last ned faktura"
+msgstr "Siste faktura"
 
 #: weblate/billing/models.py:215
 #, fuzzy
@@ -577,35 +580,33 @@ msgid "One/few/other (Slavic languages)"
 msgstr "Én/noen/andre (Slaviske språk)"
 
 #: weblate/lang/models.py:386
-#, fuzzy
-#| msgid "All languages"
 msgctxt "Plural type"
 msgid "Arabic languages"
-msgstr "Alle språk"
+msgstr "Arabiske språk"
 
 #: weblate/lang/models.py:390
 #, fuzzy
 msgctxt "Plural type"
 msgid "Zero/one/other"
-msgstr "Ingen/ett/annet"
+msgstr "Ingen/en/annet"
 
 #: weblate/lang/models.py:394
 #, fuzzy
 msgctxt "Plural type"
 msgid "One/two/other"
-msgstr "Ett/to/andre"
+msgstr "En/to/andre"
 
 #: weblate/lang/models.py:398
 #, fuzzy
 msgctxt "Plural type"
 msgid "One/two/few/other"
-msgstr "Ett/to/noen/andre"
+msgstr "En/to/noen/andre"
 
 #: weblate/lang/models.py:402
 #, fuzzy
 msgctxt "Plural type"
 msgid "One/two/three/other"
-msgstr "Ett/to/tre/andre"
+msgstr "En/to/tre/andre"
 
 #: weblate/lang/models.py:406
 msgctxt "Plural type"
@@ -639,19 +640,19 @@ msgstr "Ukjent"
 #, fuzzy
 #| msgid "Language"
 msgid "Language code"
-msgstr "Språk"
+msgstr "Språkkode"
 
 #: weblate/lang/models.py:431
 #, fuzzy
 #| msgid "Language"
 msgid "Language name"
-msgstr "Språk"
+msgstr "Språknavn"
 
 #: weblate/lang/models.py:435 weblate/templates/language.html:41
 #, fuzzy
 #| msgid "Same plurals"
 msgid "Number of plurals"
-msgstr "Samme flertallsform"
+msgstr "Antall flertallsformer"
 
 #: weblate/lang/models.py:440 weblate/templates/language.html:49
 #: weblate/trans/forms.py:257
@@ -662,7 +663,7 @@ msgstr "Flertallsfaktoren"
 #, fuzzy
 #| msgid "Toggle text direction"
 msgid "Text direction"
-msgstr "Bytt tekstretning"
+msgstr "Tekstretning"
 
 #: weblate/lang/models.py:447
 msgid "Left to right"
@@ -676,7 +677,7 @@ msgstr "Høyre til venstre"
 #, fuzzy
 #| msgid "Plural"
 msgid "Plural type"
-msgstr "Flertall"
+msgstr "Flertalltype"
 
 #: weblate/lang/models.py:461 weblate/templates/dictionaries.html:14
 #: weblate/templates/js/detail.html:15 weblate/templates/languages.html:14
@@ -3217,8 +3218,8 @@ msgstr "Oversette"
 #| msgid_plural "There are %(count)s not translated strings."
 msgid "There is %(count)s translated string."
 msgid_plural "There are %(count)s translated strings."
-msgstr[0] "Det er %(count)s ikke-oversatt streng."
-msgstr[1] "Det er %(count)s ikke oversatte strenger."
+msgstr[0] "Det er %(count)s oversatt streng."
+msgstr[1] "Det er %(count)s oversatte strenger."
 
 #: weblate/templates/mail/activation.html:7
 #: weblate/templates/mail/activation.txt:1
@@ -3573,7 +3574,7 @@ msgstr "matrise"
 #, fuzzy
 #| msgid "Name to display"
 msgid "Select languages to display"
-msgstr "Visningsnavn"
+msgstr "Velg språk som skal vises"
 
 #: weblate/templates/matrix.html:39
 msgid "Select"
@@ -3593,7 +3594,7 @@ msgstr "Eksport av data"
 #, fuzzy
 #| msgid "Download all changes as CSV"
 msgid "Download statistics (CSV)"
-msgstr "Last ned endringer som CSV"
+msgstr "Last ned statistikken (CSV)"
 
 #: weblate/templates/project.html:38 weblate/templates/subproject.html:41
 msgid "Download statistics (JSON)"
@@ -3707,25 +3708,25 @@ msgstr "Instruksjoner for oversettere"
 #, fuzzy
 #| msgid "Same plurals"
 msgid "Number of words"
-msgstr "Samme flertallsform"
+msgstr "Antall ord"
 
 #: weblate/templates/project_stats.html:14
 #, fuzzy
 #| msgid "Same plurals"
 msgid "Number of languages"
-msgstr "Samme flertallsform"
+msgstr "Antall språk"
 
 #: weblate/templates/project_stats.html:19
 #, fuzzy
 #| msgid "New source string"
 msgid "Number of source strings"
-msgstr "Ny kildestreng"
+msgstr "Antall kildestrenger"
 
 #: weblate/templates/project_stats.html:24
 #, fuzzy
 #| msgid "Same plurals"
 msgid "Number of source words"
-msgstr "Samme flertallsform"
+msgstr "Antall kildeord"
 
 #: weblate/templates/search.html:33
 msgid "No matching strings found!"
@@ -3925,7 +3926,7 @@ msgstr "Kodelager med Weblate-oversettelser"
 #, fuzzy
 #| msgid "Download all changes as CSV"
 msgid "Download latest changes as CSV"
-msgstr "Last ned endringer som CSV"
+msgstr "Last ned siste endringer som CSV"
 
 #: weblate/templates/trans/change_list.html:37
 msgid "Follow using RSS"
@@ -4238,7 +4239,7 @@ msgstr "Last ned oversettelse som Gettext MO"
 #, fuzzy
 #| msgid "Download translation as XLIFF"
 msgid "Download translation as CSV"
-msgstr "Last ned oversettelse som XLIFF"
+msgstr "Last ned oversettelse som CSV"
 
 #: weblate/templates/translation-download.html:13
 msgid "Download for using within an application."
