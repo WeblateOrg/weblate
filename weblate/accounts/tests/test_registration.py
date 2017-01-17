@@ -210,6 +210,23 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
 
         self.assert_registration('[Weblate] Password reset on Weblate')
 
+    def test_reset_nonexisting(self):
+        '''
+        Test for password reset.
+        '''
+        response = self.client.get(
+            reverse('password_reset'),
+        )
+        self.assertContains(response, 'Reset my password')
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'email': 'test@example.com'
+            }
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+        self.assertEqual(len(mail.outbox), 0)
+
     def test_reset_twice(self):
         '''
         Test for password reset.
