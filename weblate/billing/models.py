@@ -176,6 +176,8 @@ class Billing(models.Model):
             )
         )
     in_limits.boolean = True
+    # Translators: Whether the package is inside actual (hard) limits
+    in_limits.short_description = _('In limits')
 
     def unit_count(self):
         return Unit.objects.filter(
@@ -212,6 +214,7 @@ class Billing(models.Model):
             )
         )
     in_display_limits.boolean = True
+    # Translators: Whether the package is inside displayed (soft) limits
     in_display_limits.short_description = _('In display limits')
 
 
