@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-01-08 16:51+0000\n"
-"PO-Revision-Date: 2017-01-13 14:32+0000\n"
+"PO-Revision-Date: 2017-01-17 14:53+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian "
 "<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
@@ -5660,50 +5660,57 @@ msgstr "Използвайте формуляра за връзка"
 
 #: weblate/trans/models/subproject.py:90
 msgid "Point to translation instructions URL"
-msgstr ""
+msgstr "Задайте адреса на инструкциите за превод"
 
 #: weblate/trans/models/subproject.py:91
 msgid "Automatically add language file"
-msgstr ""
+msgstr "Автоматично добавяне на файл за езика"
 
 #: weblate/trans/models/subproject.py:92
 msgid "No adding of language"
-msgstr ""
+msgstr "Без добавяне на език"
 
 #: weblate/trans/models/subproject.py:95
 msgid "Merge"
-msgstr ""
+msgstr "Сливане"
 
 #: weblate/trans/models/subproject.py:119
 msgid "Component name"
-msgstr ""
+msgstr "Име на компонента"
 
 #: weblate/trans/models/subproject.py:134
 msgid "Version control system"
-msgstr ""
+msgstr "Система за контрол на версиите"
 
 #: weblate/trans/models/subproject.py:137
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
+"Система за контрол на версиите, която да бъде използвана за достъп до Вашето "
+"хранилище с преводи."
 
 #: weblate/trans/models/subproject.py:147
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
+"Адрес на хранилището, ако искате да използвате хранилището на друг "
+"компонент, въведете адрес от вида: „weblate://проект/компонент“ (без "
+"кавичките)."
 
 #: weblate/trans/models/subproject.py:152
 msgid "Repository push URL"
-msgstr ""
+msgstr "Адрес за изпращане към отд. хранилище"
 
 #: weblate/trans/models/subproject.py:155
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr ""
+"Адрес за изпращане към отдалечено хранилище. Ако е празно, изпращането ще "
+"бъде забранено."
 
 #: weblate/trans/models/subproject.py:160
 msgid "Repository browser"
-msgstr ""
+msgstr "Адрес за разглеждане на хранилището"
 
 #: weblate/trans/models/subproject.py:162
 #, python-format
@@ -5711,14 +5718,19 @@ msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
 "as filename and line placeholders."
 msgstr ""
+"Връзка към уеб сайт за разглеждане на хранилището. Можете да използвате "
+"стойностите %(branch)s (клон), %(file)s (файл) и %(line)s (ред) като "
+"променливи, които да бъдат заместени."
 
 #: weblate/trans/models/subproject.py:169
 msgid "Exported repository URL"
-msgstr ""
+msgstr "Адрес на изнесеното хранилище"
 
 #: weblate/trans/models/subproject.py:172
 msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
+"Адрес на хранилището, от където потребителите могат да изтеглят промените от "
+"Weblate"
 
 #: weblate/trans/models/subproject.py:177
 msgid "Source string bug report address"
@@ -5735,161 +5747,188 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:188
 msgid "Repository branch to translate"
-msgstr ""
+msgstr "Клон за превод от хранилището"
 
 #: weblate/trans/models/subproject.py:197
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
+"Път до файловете за превод, спрямо основната папка на хранилището. "
+"Използвайте * вместо код на езика, например така: po/*.po или "
+"locale/*/LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:203
 msgid "Monolingual base language file"
-msgstr ""
+msgstr "Едноезичен базов езиков файл"
 
 #: weblate/trans/models/subproject.py:207
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
 msgstr ""
+"Името на базовия файл за превод, който съдържа всички текстове и източниците "
+"им; препоръчително е това да се използва за едноезичните формати за превод."
 
 #: weblate/trans/models/subproject.py:213
 msgid "Edit base file"
-msgstr ""
+msgstr "Редактиране на базовия файл"
 
 #: weblate/trans/models/subproject.py:216
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
+"Дали потребителите да могат да редактират базовия файл за едноезичните "
+"преводи."
 
 #: weblate/trans/models/subproject.py:221
 msgid "Base file for new translations"
-msgstr ""
+msgstr "Базов файл за новите преводи"
 
 #: weblate/trans/models/subproject.py:225
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
 msgstr ""
+"Име на файл, който да се използва при създаването на нови преводи. За "
+"„Gettext“ изберете файл с разширение „.pot“."
 
 #: weblate/trans/models/subproject.py:230
 msgid "File format"
-msgstr ""
+msgstr "Формат на файла"
 
 #: weblate/trans/models/subproject.py:235
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
+"Автоматичното разпознаване може да не сработи за някои формати, а и е малко "
+"по-бавно."
 
 #: weblate/trans/models/subproject.py:240
 msgid "Additional commit files"
-msgstr ""
+msgstr "Допълнителни файлове за подаване"
 
 #: weblate/trans/models/subproject.py:245
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
 msgstr ""
+"Допълнителни файлове за включване в подаването, по един на ред. Моля, "
+"прегледайте документацията за повече подробности."
 
 #: weblate/trans/models/subproject.py:250
 msgid "Post-update script"
-msgstr ""
+msgstr "Скрипт след обновяване"
 
 #: weblate/trans/models/subproject.py:256
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
 msgstr ""
+"Скрипт, който да бъде изпълняван след обновяване на хранилището. Моля, "
+"прегледайте документацията за повече подробности."
 
 #: weblate/trans/models/subproject.py:261
 msgid "Pre-commit script"
-msgstr ""
+msgstr "Скрипт преди подаване"
 
 #: weblate/trans/models/subproject.py:267
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
+"Скрипт, който да бъде изпълняван преди подаване на превода. Моля, "
+"прегледайте документацията за повече подробности."
 
 #: weblate/trans/models/subproject.py:272
 msgid "Post-commit script"
-msgstr ""
+msgstr "Скрипт след подаване"
 
 #: weblate/trans/models/subproject.py:278
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
 msgstr ""
+"Скрипт, който да бъде изпълняван след подаване на превода. Моля, прегледайте "
+"документацията за повече подробности."
 
 #: weblate/trans/models/subproject.py:283
 msgid "Post-push script"
-msgstr ""
+msgstr "Скрипт след изпращане"
 
 #: weblate/trans/models/subproject.py:289
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
 msgstr ""
+"Скрипт, който да бъде изпълняван след изпращане на превода към отдалеченото "
+"хранилище. Моля, прегледайте документацията за повече подробности."
 
 #: weblate/trans/models/subproject.py:294
 msgid "Post-add script"
-msgstr ""
+msgstr "Скрипт след добавяне"
 
 #: weblate/trans/models/subproject.py:300
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
 msgstr ""
+"Скрипт, който да бъде изпълняван след добавяне на нов превод. Моля, "
+"прегледайте документацията за повече подробности."
 
 #: weblate/trans/models/subproject.py:306
 msgid "Locked"
-msgstr ""
+msgstr "Заключен"
 
 #: weblate/trans/models/subproject.py:309
 msgid "Whether component is locked for translation updates."
-msgstr ""
+msgstr "Дали компонентът е заключен за промени на превода."
 
 #: weblate/trans/models/subproject.py:313
 msgid "Allow translation propagation"
-msgstr ""
+msgstr "Разрешаване на разпространението на превода"
 
 #: weblate/trans/models/subproject.py:317
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
+"Дали промените в превода на другите компоненти да предизвикват автоматичен "
+"превод в този"
 
 #: weblate/trans/models/subproject.py:322
 msgid "Save translation history"
-msgstr ""
+msgstr "Пазене на история на превода"
 
 #: weblate/trans/models/subproject.py:325
 msgid "Whether Weblate should keep history of translations"
-msgstr ""
+msgstr "Дали Weblate да пази история на преводите"
 
 #: weblate/trans/models/subproject.py:329
 msgid "Enable suggestions"
-msgstr ""
+msgstr "Позволяване на предложенията"
 
 #: weblate/trans/models/subproject.py:332
 msgid "Whether to allow translation suggestions at all."
-msgstr ""
+msgstr "Дали изобщо да бъде разрешено правенето на предложения за превод."
 
 #: weblate/trans/models/subproject.py:336
 msgid "Suggestion voting"
-msgstr ""
+msgstr "Гласуване за предложения"
 
 #: weblate/trans/models/subproject.py:339
 msgid "Whether users can vote for suggestions."
-msgstr ""
+msgstr "Дали потребителите могат да гласуват за предложенията."
 
 #: weblate/trans/models/subproject.py:343
 msgid "Autoaccept suggestions"
-msgstr ""
+msgstr "Автоматично приемане на предложенията"
 
 #: weblate/trans/models/subproject.py:346
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
+"Предложенията с посочения брой положителни гласове ще бъдат приемани "
+"автоматично. 0 = изключено."
 
 #: weblate/trans/models/subproject.py:352
 msgid "Quality checks flags"
@@ -5903,45 +5942,51 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:369
 msgid "Optional short summary of license used for translations."
-msgstr ""
+msgstr "Незадължително кратко описание на лиценза за преводите."
 
 #: weblate/trans/models/subproject.py:373
 msgid "License URL"
-msgstr ""
+msgstr "Адрес на лиценза"
 
 #: weblate/trans/models/subproject.py:376
 msgid "Optional URL with license details."
-msgstr ""
+msgstr "Незадължителен адрес с подробностите на лиценза."
 
 #: weblate/trans/models/subproject.py:379
 msgid "Contributor agreement"
-msgstr ""
+msgstr "Споразумение за принос"
 
 #: weblate/trans/models/subproject.py:383
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
 msgstr ""
+"Споразумение, което трябва да бъде прието, преди потребителят да може да "
+"превежда този компонент."
 
 #: weblate/trans/models/subproject.py:395
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
 msgstr ""
+"Какво да прави системата при заявка за създаване на нов превод. Имайте "
+"предвид, че възможностите за избор зависят от формата на файловете."
 
 #: weblate/trans/models/subproject.py:403
 msgid "Merge style"
-msgstr ""
+msgstr "Стил на сливане"
 
 #: weblate/trans/models/subproject.py:408
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
+"Дали Weblate да слива отдалеченото хранилище или да пребазира промените "
+"върху него."
 
 #: weblate/trans/models/subproject.py:413
 msgid "Commit message when translating"
-msgstr ""
+msgstr "Съобщение за подаване по време на превод"
 
 #: weblate/trans/models/subproject.py:415
 #: weblate/trans/models/subproject.py:424
@@ -5950,18 +5995,20 @@ msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
 msgstr ""
+"Можете да използвате форматиращи низове. Моля, прегледайте документацията за "
+"повече подробности."
 
 #: weblate/trans/models/subproject.py:422
 msgid "Commit message when adding translation"
-msgstr ""
+msgstr "Съобщение за подаване при добавяне на превод"
 
 #: weblate/trans/models/subproject.py:431
 msgid "Commit message when removing translation"
-msgstr ""
+msgstr "Съобщение за подаване при премахване на превод"
 
 #: weblate/trans/models/subproject.py:440
 msgid "Committer name"
-msgstr ""
+msgstr "Име на подаващия"
 
 #: weblate/trans/models/subproject.py:445
 msgid "Committer email"
@@ -5969,84 +6016,95 @@ msgstr "Е-поща на качващия"
 
 #: weblate/trans/models/subproject.py:451
 msgid "Language filter"
-msgstr ""
+msgstr "Филтър за езика"
 
 #: weblate/trans/models/subproject.py:455
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
 msgstr ""
+"Регулярен израз, който се използва за филтриране на превода при сканиране за "
+"файлова маска."
 
 #: weblate/trans/models/subproject.py:653
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
+"Неуспешна проверка на SSH-ключа на хоста. Моля, добавете го в страницата за "
+"SSH в интерфейса за администриране."
 
 #: weblate/trans/models/subproject.py:657
 #, python-format
 msgid "Failed to fetch repository: %s"
-msgstr ""
+msgstr "Неуспешно получаване на данните от хранилището: %s"
 
 #: weblate/trans/models/subproject.py:754
 #, python-format
 msgid "Push is disabled for %s."
-msgstr ""
+msgstr "Изпращането е изключено за %s."
 
 #: weblate/trans/models/subproject.py:803
 #, python-format
 msgid "Failed to push to remote branch on %s."
-msgstr ""
+msgstr "Неуспешно изпращане на промените към отдалечения клон на %s."
 
 #: weblate/trans/models/subproject.py:837
 #, python-format
 msgid "Failed to reset to remote branch on %s."
-msgstr ""
+msgstr "Неуспешно нулиране на отдалечения клон на %s."
 
 #: weblate/trans/models/subproject.py:910
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
-msgstr ""
+msgstr "Неуспешно пребазиране на клона върху отдалечения клон %s."
 
 #: weblate/trans/models/subproject.py:915
 #, python-format
 msgid "Failed to merge remote branch into %s."
-msgstr ""
+msgstr "Неуспешно сливане на отдалечения клон в %s."
 
 #: weblate/trans/models/subproject.py:1101
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
+"Грешна връзка към проект в Weblate. Не може да се създаде връзка към "
+"свързаното хранилище!"
 
 #: weblate/trans/models/subproject.py:1108
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
+"Грешна връзка към проект в Weblate. Не може да се създаде връзка към себе си!"
 
 #: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
+"Грешна връзка към проект в Weblate. Използвайте адрес от вида: "
+"weblate://проект/компонент."
 
 #: weblate/trans/models/subproject.py:1121
 msgid "Push URL is not used when repository is linked!"
-msgstr ""
+msgstr "Адресът за изпращане не се използва, когато има свързано хранилище!"
 
 #: weblate/trans/models/subproject.py:1127
 msgid "Export URL is not used when repository is linked!"
-msgstr ""
+msgstr "Адресът за изнасяне не се използва, когато има свързано хранилище!"
 
 #: weblate/trans/models/subproject.py:1135
 msgid "The mask did not match any files!"
-msgstr ""
+msgstr "Няма файлове, отговарящи на зададената маска!"
 
 #: weblate/trans/models/subproject.py:1143
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
-msgstr ""
+msgstr "Получи се празен код на език за %s. Моля, проверете файловата маска!"
 
 #: weblate/trans/models/subproject.py:1148
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
 msgstr ""
+"Има повече файлове за език. Моля, настройте маската и използвайте компоненти "
+"за превеждане на различни материали."
 
 #: weblate/trans/models/subproject.py:1154
 #, python-format
@@ -6055,73 +6113,86 @@ msgid ""
 "disable SIMPLIFY_LANGUAGES to prevent Weblate mapping similar languages to "
 "one."
 msgstr ""
+"Множество преводи бяха свързани с един единствен код на език (%s). Трябва да "
+"изключите „SIMPLIFY_LANGUAGES to“, за да избегнете възможността Weblate да "
+"свързва подобните езици с един единствен."
 
 #: weblate/trans/models/subproject.py:1173
 msgid "File does not seem to be valid!"
-msgstr ""
+msgstr "Файлът изглежда неправилен!"
 
 #: weblate/trans/models/subproject.py:1181
 #, python-format
 msgid "Format of %d matched files could not be recognized."
-msgstr ""
+msgstr "Форматът на %d отговарящи файла не може да бъде разпознат."
 
 #: weblate/trans/models/subproject.py:1190
 #, python-format
 msgid "Failed to parse %d matched files!"
-msgstr ""
+msgstr "Неуспешен анализ на %d отговарящи файла!"
 
 #: weblate/trans/models/subproject.py:1199
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
 msgstr ""
+"Избраният файлов формат не поддържа добавянето на нови преводи, както е "
+"избрано в настройките на проекта."
 
 #: weblate/trans/models/subproject.py:1207
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
 msgstr ""
+"Вие сте настроили Weblate така, че да може да добавя нови файлове за превод, "
+"но не сте подсигурили базов файл за целта!"
 
 #: weblate/trans/models/subproject.py:1211
 msgid "Format of base file for new translations was not recognized!"
-msgstr ""
+msgstr "Форматът на базовия файл за нови преводи не беше разпознат!"
 
 #: weblate/trans/models/subproject.py:1216
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
 msgstr ""
+"Базовият файл за нови преводи не се използва поради настройките на "
+"компонента. Вероятно трябва да разрешите автоматичното добавяне на нови "
+"преводи."
 
 #: weblate/trans/models/subproject.py:1227
 msgid "You can not use base file with bilingual translation!"
-msgstr ""
+msgstr "Не може да използвате базов файл с двуезично съдържание!"
 
 #: weblate/trans/models/subproject.py:1232
 msgid "Using .pot file as base file is not supported!"
-msgstr ""
+msgstr "Използването на файлове с формат „.pot“ като базови не се поддържа!"
 
 #: weblate/trans/models/subproject.py:1239
 msgid "Template file not found!"
-msgstr ""
+msgstr "Не е открит файл с шаблон!"
 
 #: weblate/trans/models/subproject.py:1245
 #, python-format
 msgid "Failed to parse translation base file: %s"
-msgstr ""
+msgstr "Неуспешен анализ на базовия файл за преводи: %s"
 
 #: weblate/trans/models/subproject.py:1250
 msgid "You can not use monolingual translation without base file!"
-msgstr ""
+msgstr "Не можете да използвате едноезичен превод без базов файл!"
 
 #: weblate/trans/models/subproject.py:1261
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
 msgstr ""
+"Моля, или попълнете адреса с инструкции, или изберете различен вариант за "
+"добавяне на нов език."
 
 #: weblate/trans/models/subproject.py:1268
 msgid "License URL can not be used without license summary."
 msgstr ""
+"Не можете да зададете адрес на лиценза без да има негово кратко описание."
 
 #: weblate/trans/models/subproject.py:1288
 msgid "Changing version control system is not supported!"
