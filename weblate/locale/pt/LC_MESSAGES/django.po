@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-01-08 16:51+0000\n"
+"POT-Creation-Date: 2017-01-17 15:55+0000\n"
 "PO-Revision-Date: 2017-01-16 00:42+0000\n"
 "Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
-"Language-Team: Portuguese "
-"<https://hosted.weblate.org/projects/weblate/master/pt/>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
+"master/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,8 +45,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"O nome de utilizador só pode conter letras, números e os seguintes carateres:"
-" @ . + - _"
+"O nome de utilizador só pode conter letras, números e os seguintes "
+"carateres: @ . + - _"
 
 #: weblate/accounts/forms.py:79 weblate/templates/project.html:176
 msgid "Username"
@@ -487,19 +487,27 @@ msgstr "Palavras fonte"
 msgid "Languages"
 msgstr "Idiomas"
 
-#: weblate/billing/models.py:184 weblate/templates/project_stats.html:4
+#. Translators: Whether the package is inside actual (hard) limits
+#: weblate/billing/models.py:180
+#, fuzzy
+#| msgid "Strings limit"
+msgid "In limits"
+msgstr "Limite de linhas"
+
+#: weblate/billing/models.py:186 weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Número de linhas"
 
-#: weblate/billing/models.py:191
+#: weblate/billing/models.py:193
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:192
+#: weblate/billing/models.py:194
 msgid "Last invoice"
 msgstr "Transferir fatura"
 
-#: weblate/billing/models.py:215
+#. Translators: Whether the package is inside displayed (soft) limits
+#: weblate/billing/models.py:218
 msgid "In display limits"
 msgstr ""
 
@@ -858,8 +866,8 @@ msgid ""
 "subject=Registration problems\">contact us</a>."
 msgstr ""
 "Se não a receber em breve, por favor, verifique a sua pasta de spam, ou "
-"tente registar-se novamente. Se o problema presistir, por favor, <a href=\""
-"%(contact_url)s?subject=Registration problems\">contacte-nos</a>."
+"tente registar-se novamente. Se o problema presistir, por favor, <a href="
+"\"%(contact_url)s?subject=Registration problems\">contacte-nos</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -899,8 +907,8 @@ msgid ""
 "Translated content has to be released under <a href=\"http://en.wikipedia."
 "org/wiki/Free_software_license\">free license</a>."
 msgstr ""
-"O conteúdo traduzido tem que ser disponibilizado nos termos de uma <a href=\""
-"http://en.wikipedia.org/wiki/Free_software_license\">licença de software "
+"O conteúdo traduzido tem que ser disponibilizado nos termos de uma <a href="
+"\"http://en.wikipedia.org/wiki/Free_software_license\">licença de software "
 "livre</a>."
 
 #: weblate/templates/accounts/hosting.html:37
@@ -929,8 +937,8 @@ msgid ""
 "To test Weblate, you can login as <code>demo</code> user with password "
 "<code>demo</code>."
 msgstr ""
-"Para testar o Weblate, pode iniciar a sessão como o utilizador "
-"<code>demo</code>, e palavra-passe <code>demo</code>."
+"Para testar o Weblate, pode iniciar a sessão como o utilizador <code>demo</"
+"code>, e palavra-passe <code>demo</code>."
 
 #: weblate/templates/accounts/login.html:27
 msgid "Password login"
@@ -1306,8 +1314,8 @@ msgid ""
 "Sorry, but registrations on this site are disabled. You can <a href="
 "\"%(contact_url)s\">contact us</a> for more details."
 msgstr ""
-"Desculpe, mas os registos neste site estão desativados. Pode <a href=\""
-"%(contact_url)s\">contactar-nos</a> para mais detalhes."
+"Desculpe, mas os registos neste site estão desativados. Pode <a href="
+"\"%(contact_url)s\">contactar-nos</a> para mais detalhes."
 
 #: weblate/templates/accounts/removal.html:15
 msgid "Account removal"
@@ -1501,7 +1509,8 @@ msgstr ""
 
 #: weblate/templates/admin/trans/change_form.html:18
 msgid "Do not change this object here, please use Weblate interface instead."
-msgstr "Não altere este objeto aqui, por favor, utilize a interface do Weblate."
+msgstr ""
+"Não altere este objeto aqui, por favor, utilize a interface do Weblate."
 
 #: weblate/templates/admin/trans/change_form.html:22
 #, python-format
@@ -1509,8 +1518,8 @@ msgid ""
 "Importing a new translation can take some time, please check <a href="
 "\"%(url)s\">our documentation</a> for information on how to improve this."
 msgstr ""
-"Importar uma nova tradução pode demorar algum tempo, por favor, consulte a <"
-"a href=\"%(url)s\">nossa documentação</a> para saber como melhorar isto."
+"Importar uma nova tradução pode demorar algum tempo, por favor, consulte a "
+"<a href=\"%(url)s\">nossa documentação</a> para saber como melhorar isto."
 
 #: weblate/templates/base.html:92
 msgid "Toggle navigation"
@@ -1539,8 +1548,8 @@ msgid ""
 "\">Firefox</a>."
 msgstr ""
 "O Weblate não suporta o Microsoft Internet Explorer 8 ou anterior, por "
-"favor, utilize um navegador mais recente, tal como o <a href=\""
-"https://www.mozilla.org/firefox/\">Firefox</a>."
+"favor, utilize um navegador mais recente, tal como o <a href=\"https://www."
+"mozilla.org/firefox/\">Firefox</a>."
 
 #: weblate/templates/base.html:169 weblate/templates/base.html:176
 msgid "Close"
@@ -1666,8 +1675,8 @@ msgid ""
 "More information about exported RSS feeds is available in <a href="
 "\"%(rss_docs)s\">the documentation</a>."
 msgstr ""
-"Mais informação sobre as feeds RSS exportadas estão disponíveis na <a href=\""
-"%(rss_docs)s\">documentação</a>."
+"Mais informação sobre as feeds RSS exportadas estão disponíveis na <a href="
+"\"%(rss_docs)s\">documentação</a>."
 
 #: weblate/templates/data-root.html:24 weblate/templates/data.html:27
 #: weblate/templates/data.html:58 weblate/templates/data.html:96
@@ -1710,8 +1719,8 @@ msgid ""
 msgstr ""
 "Com ganchos de notificação, o Weblate irá importar automaticamente as "
 "alterações efetuadas pelos seus programadores e irá permitir a tradução "
-"contínua. Está disponível mais informação na <a href=\"%(hooks_docs)s\""
-">documentação</a>."
+"contínua. Está disponível mais informação na <a href=\"%(hooks_docs)s"
+"\">documentação</a>."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -1913,8 +1922,8 @@ msgid ""
 "a>, a web tool designed to ease translating for both developers and "
 "translators."
 msgstr ""
-"O %(project)s está a ser traduzido, utilizando o <a href=\"%(weblate_url)s\""
-">Weblate</a>, uma ferramenta da Web criada para uma tradução fácil, para "
+"O %(project)s está a ser traduzido, utilizando o <a href=\"%(weblate_url)s"
+"\">Weblate</a>, uma ferramenta da Web criada para uma tradução fácil, para "
 "programadores e tradutores."
 
 #: weblate/templates/engage.html:50
@@ -1923,8 +1932,8 @@ msgid ""
 "If you would like to contribute to translation of %(project)s, you need to "
 "<a href=\"%(reg_url)s\">register on this server</a>."
 msgstr ""
-"Se pretender contribuir para a tradução de %(project)s, precisa de <a href=\""
-"%(reg_url)s\">registar-se neste servidor</a>."
+"Se pretender contribuir para a tradução de %(project)s, precisa de <a href="
+"\"%(reg_url)s\">registar-se neste servidor</a>."
 
 #: weblate/templates/engage.html:54
 msgid ""
@@ -6353,8 +6362,8 @@ msgstr ""
 #: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
-"Hiperligação inválida para um projeto Weblate, utilize "
-"weblate://project/componente."
+"Hiperligação inválida para um projeto Weblate, utilize weblate://project/"
+"componente."
 
 #: weblate/trans/models/subproject.py:1121
 msgid "Push URL is not used when repository is linked!"
@@ -6425,7 +6434,8 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:1211
 msgid "Format of base file for new translations was not recognized!"
-msgstr "O formato do ficheiro base para as novas traduções não foi reconhecido!"
+msgstr ""
+"O formato do ficheiro base para as novas traduções não foi reconhecido!"
 
 #: weblate/trans/models/subproject.py:1216
 msgid ""

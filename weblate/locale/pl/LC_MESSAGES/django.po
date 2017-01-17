@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-01-08 16:51+0000\n"
+"POT-Creation-Date: 2017-01-17 15:55+0000\n"
 "PO-Revision-Date: 2017-01-10 10:49+0000\n"
 "Last-Translator: Stanisław Krukowski <ack0079@riseup.net>\n"
-"Language-Team: Polish "
-"<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
+"Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
+">\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -480,19 +480,27 @@ msgstr "Wyrazy źródłowe"
 msgid "Languages"
 msgstr "Języki"
 
-#: weblate/billing/models.py:184 weblate/templates/project_stats.html:4
+#. Translators: Whether the package is inside actual (hard) limits
+#: weblate/billing/models.py:180
+#, fuzzy
+#| msgid "In display limits"
+msgid "In limits"
+msgstr "W granicach wyświetlania"
+
+#: weblate/billing/models.py:186 weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Liczba napisów"
 
-#: weblate/billing/models.py:191
+#: weblate/billing/models.py:193
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:192
+#: weblate/billing/models.py:194
 msgid "Last invoice"
 msgstr "Ostatnia faktura"
 
-#: weblate/billing/models.py:215
+#. Translators: Whether the package is inside displayed (soft) limits
+#: weblate/billing/models.py:218
 msgid "In display limits"
 msgstr "W granicach wyświetlania"
 
@@ -5761,8 +5769,8 @@ msgid ""
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 "Ścieżka plików do tłumaczenia, odnośna do \"korzenia\" (ang. root) "
-"repozytorium. Użyj * zamiast kodu jezyka, na przykład: po/*.po lub "
-"locale/*/LC_MESSAGES/django.po."
+"repozytorium. Użyj * zamiast kodu jezyka, na przykład: po/*.po lub locale/*/"
+"LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:203
 msgid "Monolingual base language file"
@@ -6718,8 +6726,8 @@ msgid ""
 "complete."
 msgstr ""
 "<a href=\"%(url)s\">Tłumaczenie projektu dla %(project)s</a> na język "
-"angielski zawiera obecnie %(total)s napisów do tłumaczenia i jest "
-"%(percent)s%% kompletne."
+"angielski zawiera obecnie %(total)s napisów do tłumaczenia i jest %(percent)s"
+"%% kompletne."
 
 #: weblate/trans/views/basic.py:328 weblate/trans/views/basic.py:404
 msgid "Settings saved"

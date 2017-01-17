@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-01-08 16:51+0000\n"
+"POT-Creation-Date: 2017-01-17 15:55+0000\n"
 "PO-Revision-Date: 2017-01-17 14:53+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian "
-"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
+"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
+"bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -482,19 +482,27 @@ msgstr "Оригинални думи"
 msgid "Languages"
 msgstr "Езици"
 
-#: weblate/billing/models.py:184 weblate/templates/project_stats.html:4
+#. Translators: Whether the package is inside actual (hard) limits
+#: weblate/billing/models.py:180
+#, fuzzy
+#| msgid "In display limits"
+msgid "In limits"
+msgstr "В рамките на екрана"
+
+#: weblate/billing/models.py:186 weblate/templates/project_stats.html:4
 msgid "Number of strings"
 msgstr "Брой текстове"
 
-#: weblate/billing/models.py:191
+#: weblate/billing/models.py:193
 msgid "N/A"
 msgstr "Няма"
 
-#: weblate/billing/models.py:192
+#: weblate/billing/models.py:194
 msgid "Last invoice"
 msgstr "Последна фактура"
 
-#: weblate/billing/models.py:215
+#. Translators: Whether the package is inside displayed (soft) limits
+#: weblate/billing/models.py:218
 msgid "In display limits"
 msgstr "В рамките на екрана"
 
@@ -2797,8 +2805,8 @@ msgstr "Зулу"
 #, python-format
 msgid "This site runs <a href=\"%(weblate_url)s\">Weblate</a> demo server."
 msgstr ""
-"Този уеб сайт работи с демонстрационния сървър на <a href=\"%(weblate_url)s\""
-">Weblate</a>."
+"Този уеб сайт работи с демонстрационния сървър на <a href=\"%(weblate_url)s"
+"\">Weblate</a>."
 
 #: weblate/templates/index.html:13
 #, python-format
@@ -3339,8 +3347,8 @@ msgstr "Текстове, отбелязани за одобрение:"
 msgid ""
 "You can translate at <a href=\"%(translation_url)s\">%(translation_url)s</a>"
 msgstr ""
-"Можете да превеждате тук: <a href=\"%(translation_url)s\""
-">%(translation_url)s</a>"
+"Можете да превеждате тук: <a href=\"%(translation_url)s\">"
+"%(translation_url)s</a>"
 
 #: weblate/templates/mail/footer.txt:8
 #, python-format
@@ -3400,8 +3408,8 @@ msgid ""
 "User %(username)s has just made a first contribution on %(translation)s at "
 "%(site_title)s."
 msgstr ""
-"Потребителят %(username)s току-що направи първия си принос към %(translation)"
-"s в %(site_title)s."
+"Потребителят %(username)s току-що направи първия си принос към "
+"%(translation)s в %(site_title)s."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -3703,8 +3711,8 @@ msgid ""
 "You can also promote this translation project using various <a href="
 "\"%(widgets_url)s\">other possibilities</a>."
 msgstr ""
-"Можете да популяризирате този проект за превод и по различни <a href=\""
-"%(widgets_url)s\">други начини</a>."
+"Можете да популяризирате този проект за превод и по различни <a href="
+"\"%(widgets_url)s\">други начини</a>."
 
 #: weblate/templates/share.html:32
 #, python-format
@@ -3818,8 +3826,8 @@ msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
 "\">translator instructions</a>."
 msgstr ""
-"Ако езикът, който търсите, липсва, прегледайте <a href=\"%(url)s\">"
-"инструкциите за преводачите</a>."
+"Ако езикът, който търсите, липсва, прегледайте <a href=\"%(url)s"
+"\">инструкциите за преводачите</a>."
 
 #: weblate/templates/subproject.html:114
 msgid "Please choose the language into which you would like to translate."
@@ -4405,8 +4413,8 @@ msgid ""
 "You can point newcomers to the introduction page at <a href=\"%(engage_url)s"
 "\">%(engage_url)s</a>."
 msgstr ""
-"Можете да насочвате новите хора към следната въвеждаща страница: <a href=\""
-"%(engage_url)s\">%(engage_url)s</a>."
+"Можете да насочвате новите хора към следната въвеждаща страница: <a href="
+"\"%(engage_url)s\">%(engage_url)s</a>."
 
 #: weblate/templates/widgets.html:17
 msgid "Promoting specific translations"
@@ -4636,7 +4644,8 @@ msgstr "Интервал в края"
 
 #: weblate/trans/checks/chars.py:95
 msgid "Source and translation do not both end with a space"
-msgstr "Един от текстовете — оригиналният или преводът — не завършва с интервал"
+msgstr ""
+"Един от текстовете — оригиналният или преводът — не завършва с интервал"
 
 #: weblate/trans/checks/chars.py:128
 msgid "Trailing stop"
@@ -4689,15 +4698,12 @@ msgstr ""
 
 #: weblate/trans/checks/chars.py:352
 msgid "Mismatched \\n"
-msgstr ""
-"Несъответствие на знака „\\n"
-"“"
+msgstr "Несъответствие на знака „\\n“"
 
 #: weblate/trans/checks/chars.py:353
 msgid "Number of \\n in translation does not match source"
 msgstr ""
-"Броят на знаците „\\n"
-"“ в превода не е същият като този в оригиналния текст"
+"Броят на знаците „\\n“ в превода не е същият като този в оригиналния текст"
 
 #: weblate/trans/checks/chars.py:363
 msgid "Translation contains extra zero-width space character"
@@ -5755,8 +5761,8 @@ msgid ""
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
 "Път до файловете за превод, спрямо основната папка на хранилището. "
-"Използвайте * вместо код на езика, например така: po/*.po или "
-"locale/*/LC_MESSAGES/django.po."
+"Използвайте * вместо код на езика, например така: po/*.po или locale/*/"
+"LC_MESSAGES/django.po."
 
 #: weblate/trans/models/subproject.py:203
 msgid "Monolingual base language file"
@@ -6078,8 +6084,8 @@ msgstr ""
 #: weblate/trans/models/subproject.py:1115
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
-"Грешна връзка към проект в Weblate. Използвайте адрес от вида: "
-"weblate://проект/компонент."
+"Грешна връзка към проект в Weblate. Използвайте адрес от вида: weblate://"
+"проект/компонент."
 
 #: weblate/trans/models/subproject.py:1121
 msgid "Push URL is not used when repository is linked!"
