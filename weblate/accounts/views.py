@@ -572,6 +572,8 @@ def reset_password(request):
 
             request.session['password_reset'] = True
             return complete(request, 'email')
+        else:
+            return redirect('email-sent')
     else:
         form = ResetForm()
 
