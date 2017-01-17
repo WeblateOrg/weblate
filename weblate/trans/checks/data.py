@@ -153,6 +153,7 @@ SAME_BLACKLIST = frozenset((
     'destination',
     'detail',
     'details',
+    'developer',
     'devscripts',
     'dialog',
     'ding',
