@@ -507,6 +507,12 @@ EXTRALANGS = (
         2,
         'n != 1',
     ),
+    (
+        'bar',
+        'Bavarian',
+        2,
+        'n != 1',
+    ),
 )
 
 NO_CODE_LANGUAGES = frozenset((
