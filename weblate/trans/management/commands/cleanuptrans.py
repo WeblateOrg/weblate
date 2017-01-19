@@ -24,10 +24,13 @@ from django.core.files.storage import DefaultStorage
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
+from whoosh.index import EmptyIndexError
+
 from weblate.trans.models import (
     Suggestion, Comment, Check, Unit, Project, Source
 )
 from weblate.lang.models import Language
+from weblate.trans.search import get_target_index, clean_search_unit
 
 
 class Command(BaseCommand):
@@ -38,6 +41,7 @@ class Command(BaseCommand):
         Perfoms cleanup of Weblate database.
         '''
         self.cleanup_database()
+        self.cleanup_fulltext()
         self.cleanup_files()
 
     def cleanup_files(self):
@@ -51,6 +55,23 @@ class Command(BaseCommand):
             fullname = os.path.join('screenshots', name)
             if not Source.objects.filter(screenshot=fullname).exists():
                 storage.delete(fullname)
+
+    def cleanup_fulltext(self):
+        """Removes stale units from fulltext"""
+        languages = Language.objects.have_translation().values_list(
+            'code', flat=True
+        )
+        # We operate only on target indexes as they will have all IDs anyway
+        for lang in languages:
+            index = get_target_index(lang)
+            try:
+                fields = index.reader().all_stored_fields()
+            except EmptyIndexError:
+                continue
+            for item in fields:
+                if Unit.objects.filter(pk=item['pk']).exists():
+                    continue
+                clean_search_unit(item['pk'], lang)
 
     def cleanup_database(self):
         """Cleanups the database"""
