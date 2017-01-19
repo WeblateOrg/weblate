@@ -31,7 +31,6 @@ from weblate.trans.formats import ParseError
 from weblate.trans.models import (
     Project, SubProject, Unit, Suggestion, IndexUpdate,
 )
-from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -312,23 +311,6 @@ class SubProjectDeleteTest(RepoTestCase):
         project.delete()
         self.assertFalse(os.path.exists(project.get_path()))
         self.assertEqual(0, SubProject.objects.count())
-
-    @OverrideSettings(OFFLOAD_INDEXING=False)
-    def test_delete_no_offload(self):
-        project = self.create_subproject()
-        project.delete()
-        self.assertEqual(0, IndexUpdate.objects.count())
-
-    @OverrideSettings(OFFLOAD_INDEXING=True)
-    def test_delete_offload(self):
-        project = self.create_subproject()
-        project.delete()
-        self.assertEqual(
-            12, IndexUpdate.objects.count()
-        )
-        self.assertEqual(
-            12, IndexUpdate.objects.filter(to_delete=True).count()
-        )
 
     def test_delete_link(self):
         project = self.create_link()
