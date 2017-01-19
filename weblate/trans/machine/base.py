@@ -36,6 +36,7 @@ from django.core.exceptions import ImproperlyConfigured
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
+from weblate.trans.site import get_site_url
 
 
 class MachineTranslationError(Exception):
@@ -99,6 +100,7 @@ class MachineTranslation(object):
         request = Request(url)
         request.timeout = 0.5
         request.add_header('User-Agent', USER_AGENT)
+        request.add_header('Referer', get_site_url())
         # Optional authentication
         if not skip_auth:
             self.authenticate(request)
