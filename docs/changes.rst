@@ -1,6 +1,13 @@
 Changes
 =======
 
+weblate 2.10.1
+--------------
+
+Released on Jan 20th 2017.
+
+* Do not leak account existence on password reset form (CVE-2017-5537).
+
 weblate 2.10
 ------------
 

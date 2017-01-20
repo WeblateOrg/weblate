@@ -33,7 +33,7 @@ with open('requirements.txt') as requirements:
 
 setup(
     name='Weblate',
-    version='2.10',
+    version='2.10.1',
     packages=[
         'weblate',
         'weblate.api',
