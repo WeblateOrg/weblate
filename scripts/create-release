@@ -35,14 +35,15 @@ fi
 
 if [ "x$1" = "x--tag" ] ; then
     # PyPi archive
-    fakeroot ./setup.py sdist --formats bztar,gztar,zip upload
+    fakeroot ./setup.py sdist upload
 else
     # Create tarball
-    fakeroot ./setup.py sdist --formats bztar,gztar,zip
+    fakeroot ./setup.py sdist
 fi
 
 # Build tarballs
 zcat dist/$tarver.tar.gz | xz > dist/$tarver.tar.xz
+zcat dist/$tarver.tar.gz | bz2 > dist/$tarver.tar.bz2
 
 if [ "x$1" = "x--tag" ] ; then
     # Download server
