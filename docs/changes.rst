@@ -7,8 +7,14 @@ weblate 2.11
 Released on ? 2016.
 
 * Include language detailed information on language page.
-* Do not leak account existence on password reset form (CVE-2017-5537).
 * Mercurial backend improvements.
+
+weblate 2.10.1
+--------------
+
+Released on Jan 20th 2017.
+
+* Do not leak account existence on password reset form (CVE-2017-5537).
 
 weblate 2.10
 ------------
