@@ -4,7 +4,7 @@ Changes
 weblate 2.11
 ------------
 
-Released on ? 2016.
+Released on ? 2017.
 
 * Include language detailed information on language page.
 * Mercurial backend improvements.
