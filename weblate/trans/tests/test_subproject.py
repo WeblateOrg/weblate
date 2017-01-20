@@ -29,7 +29,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.trans.formats import ParseError
 from weblate.trans.models import (
-    Project, SubProject, Unit, Suggestion, IndexUpdate,
+    Project, SubProject, Unit, Suggestion,
 )
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
