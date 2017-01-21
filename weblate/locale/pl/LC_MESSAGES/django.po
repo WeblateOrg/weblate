@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-01-19 16:52+0000\n"
-"PO-Revision-Date: 2017-01-19 17:33+0000\n"
-"Last-Translator: Robert Korulczyk <robert@korulczyk.pl>\n"
+"PO-Revision-Date: 2017-01-21 11:50+0000\n"
+"Last-Translator: Stanisław Krukowski <ack0079@riseup.net>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/weblate/master/pl/>\n"
 "Language: pl\n"
@@ -62,8 +62,8 @@ msgstr "Powiadomienia dotyczące komponentów"
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
-"Będziesz otrzymywał/otrzymywała ważne powiadomienia o każdym takim zdarzeniu "
-"w obserwowanych projektach."
+"Będziesz otrzymywał /otrzymywała powiadomienia o każdym takim zdarzeniu w "
+"obserwowanych projektach."
 
 #: weblate/accounts/forms.py:217
 msgid "Translation notifications"
@@ -869,8 +869,8 @@ msgid ""
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Poprzez rejestrację zgadzasz się na używanie twojego imienia i nazwiska oraz "
-"adresu e-mail w zmianach plików (ang. commits) oraz na licencjonowanie "
-"twojej pracy na warunkach określonych przez każdy z tłumaczonych projektów."
+"adresu e-mail w poleceniach commits oraz na licencjonowanie twojej pracy na "
+"warunkach określonych przez każdy z tłumaczonych projektów."
 
 #: weblate/templates/accounts/email.html:26
 #: weblate/templates/accounts/register.html:36 weblate/templates/base.html:127
@@ -2956,7 +2956,7 @@ msgstr "Lokalne repozytorium jest aktualne."
 
 #: weblate/templates/js/git-status.html:45
 msgid "Last remote commit:"
-msgstr "Ostatni commit:"
+msgstr "Ostatni zdalny commit:"
 
 #: weblate/templates/js/git-status.html:52
 msgid "Git repository with Weblate translations:"
@@ -3006,7 +3006,7 @@ msgstr "Rebase"
 
 #: weblate/templates/js/git-status.html:158
 msgid "Rebase local changes onto the remote repository"
-msgstr "Wykonaj rebase względem zdalnego repozytorium"
+msgstr "Wykonaj rebase zmian lokalnych do zdalnego repozytorium"
 
 #: weblate/templates/js/git-status.html:168
 msgid "Reset"
@@ -3365,12 +3365,12 @@ msgstr "Możesz tłumaczyć na %(translation_url)s"
 #: weblate/templates/mail/merge_failure.txt:3
 #, python-format
 msgid "There has been a merge failure on %(subproject)s at %(site_title)s."
-msgstr "Pojawiło się nowe tłumaczenie do %(subproject)s w %(site_title)s."
+msgstr "Wystąpiło nieudane scalanie w %(subproject)s na %(site_title)s."
 
 #: weblate/templates/mail/merge_failure.html:15
 #: weblate/templates/mail/parse_error.html:15
 msgid "Error message"
-msgstr "Treść błędu"
+msgstr "Komunikat błędu"
 
 #: weblate/templates/mail/merge_failure.html:30
 #: weblate/templates/mail/merge_failure.txt:13
@@ -4030,7 +4030,7 @@ msgstr "Brak uprawnień, aby dodawać sugestie!"
 
 #: weblate/templates/translate.html:175
 msgid "Commit message:"
-msgstr "Komentarz:"
+msgstr "Komunikat polecenia commit:"
 
 #: weblate/templates/translate.html:178
 msgid "Additional text to include in the commit message."
@@ -4042,7 +4042,7 @@ msgid ""
 "messages automatically."
 msgstr ""
 "W większości wypadków można pozostawić puste, ponieważ Weblate automatycznie "
-"generuje komentarz do commita."
+"generuje komentarz do polecenia commit."
 
 #: weblate/templates/translate.html:190
 msgid "Messages placed around this one"
@@ -5323,7 +5323,7 @@ msgstr "Data końcowa"
 
 #: weblate/trans/forms.py:990
 msgid "Commit messages"
-msgstr "Komentarze"
+msgstr "Komunikaty commit"
 
 #: weblate/trans/forms.py:996
 msgid "Languages processing"
@@ -5499,7 +5499,7 @@ msgstr "Połączono repozytorium"
 
 #: weblate/trans/models/change.py:222
 msgid "Rebased repository"
-msgstr "Wykonano rebase"
+msgstr "Wykonano polecenie rebase repozytorium"
 
 #: weblate/trans/models/change.py:223
 msgid "Failed merge on repository"
@@ -5507,7 +5507,7 @@ msgstr "Nieudane łączenie repozytorium"
 
 #: weblate/trans/models/change.py:224
 msgid "Failed rebase on repository"
-msgstr "Nieudany rebase repozytorium"
+msgstr "Nieudane wykonanie polecenia rebase na repozytorium"
 
 #: weblate/trans/models/change.py:225
 msgid "Parse error"
@@ -5538,7 +5538,7 @@ msgstr "Wyświetlana nazwa"
 #: weblate/trans/models/componentlist.py:39 weblate/trans/models/project.py:73
 #: weblate/trans/models/subproject.py:124
 msgid "URL slug"
-msgstr "URL slug"
+msgstr "Ślimak URL (ang. URL slug)"
 
 #: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:76
 #: weblate/trans/models/subproject.py:127
@@ -5633,7 +5633,7 @@ msgstr "Język źródłowy"
 
 #: weblate/trans/models/project.py:138
 msgid "Language used for source strings in all components"
-msgstr "Język ciągów źródłowych we wszystkich komponentach"
+msgstr "Język, używany dla napisów źródłowych we wszystkich komponentach"
 
 #: weblate/trans/models/project.py:177
 #, python-format
@@ -5953,7 +5953,7 @@ msgid ""
 "documentation for possible values."
 msgstr ""
 "Dodatkowe flagi rozdzielone przecinkami, wpływające na testy jakości. "
-"Sprawdź dokumentację aby uzyskać więcej szczegółów."
+"Sprawdź dokumentację, aby uzyskać więcej szczegółów."
 
 #: weblate/trans/models/subproject.py:369
 msgid "Optional short summary of license used for translations."
@@ -5996,12 +5996,12 @@ msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
 msgstr ""
-"Określ czy Weblate powinien używać scalania (ang. \"merge\") zmian z "
-"zdalnego repozytorium czy wykonywać rebase."
+"Określ, czy Weblate powinien używać polecenia merge dla repozytorium "
+"upstream, czy też polecenia rebase dla zmian w tym repozytorium."
 
 #: weblate/trans/models/subproject.py:413
 msgid "Commit message when translating"
-msgstr "Komentarze na temat tego tłumaczenia"
+msgstr "Komunikat commit podczas tłumaczenia"
 
 #: weblate/trans/models/subproject.py:415
 #: weblate/trans/models/subproject.py:424
@@ -7031,8 +7031,7 @@ msgstr "Komponent jest obecnie gotowy do aktualizacji tłumaczenia."
 
 #: weblate/trans/views/lock.py:134
 msgid "All components are now locked for translation updates!"
-msgstr ""
-"Aktualizacje tłumaczeń są teraz zablokowane dla wszystkich komponentów!"
+msgstr "Wszystkie składniki są teraz zablokowane dla aktualizacji tłumaczeń!"
 
 #: weblate/trans/views/lock.py:152
 msgid "Project is now open for translation updates."
