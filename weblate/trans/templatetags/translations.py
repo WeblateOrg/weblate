@@ -140,7 +140,7 @@ def format_translation(value, language, diff=None, search_match=None,
 
     # Show plurals?
     if int(num_plurals) <= 1:
-        plurals = plurals[:1]
+        plurals = plurals[-1:]
 
     # Newline concatenator
     newline = SPACE_NL.format(_('New line'))
