@@ -226,7 +226,7 @@ def get_versions():
             'Git',
             'https://git-scm.com/',
             GitRepository.get_version(),
-            '1.8.5',
+            '1.6',
         ))
     except OSError:
         raise Exception('Failed to run git, please install it.')

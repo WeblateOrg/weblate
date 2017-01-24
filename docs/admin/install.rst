@@ -35,7 +35,7 @@ Translate-toolkit (>= 1.14.0)
     http://toolkit.translatehouse.org/
 Six (>= 1.7.0)
     https://pypi.python.org/pypi/six
-Git (>= 1.8.5)
+Git (>= 1.6)
     https://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
