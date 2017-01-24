@@ -55,7 +55,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertBackend(1)
+        self.assert_backend(1)
 
         # Test that second edit with no change does not break anything
         response = self.edit_unit(
@@ -69,7 +69,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertBackend(1)
+        self.assert_backend(1)
 
         # Test that third edit still works
         response = self.edit_unit(
@@ -83,7 +83,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertBackend(1)
+        self.assert_backend(1)
 
     def test_edit_locked(self):
         self.subproject.locked = True
@@ -97,7 +97,7 @@ class EditTest(ViewTestCase):
             response,
             'This translation is currently locked for updates!'
         )
-        self.assertBackend(0)
+        self.assert_backend(0)
 
     def test_plurals(self):
         '''
@@ -143,7 +143,7 @@ class EditTest(ViewTestCase):
             self.translate_url,
             {'checksum': unit.checksum, 'merge': unit.id}
         )
-        self.assertBackend(1)
+        self.assert_backend(1)
         # We should stay on same message
         self.assert_redirects_offset(
             response, self.translate_url, unit.position
@@ -177,7 +177,7 @@ class EditTest(ViewTestCase):
         changes = Change.objects.content().filter(unit=unit)
         self.assertEqual(changes[1].target, target)
         self.assertEqual(changes[0].target, target_2)
-        self.assertBackend(1)
+        self.assert_backend(1)
         # revert it
         self.client.get(
             self.translate_url,
@@ -199,7 +199,7 @@ class EditTest(ViewTestCase):
             {'checksum': unit.checksum, 'revert': change.id}
         )
         self.assertContains(response, "Can not revert to different unit")
-        self.assertBackend(2)
+        self.assert_backend(2)
 
     def test_edit_message(self):
         # Save with failing check
@@ -235,7 +235,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
-        self.assertBackend(1)
+        self.assert_backend(1)
 
     def test_edit_check(self):
         # Save with failing check
@@ -277,7 +277,7 @@ class EditTest(ViewTestCase):
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.translation.failing_checks, 0)
-        self.assertBackend(1)
+        self.assert_backend(1)
 
     def test_commit_push(self):
         response = self.edit_unit(
@@ -424,7 +424,7 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
-        self.assertBackend(4)
+        self.assert_backend(4)
 
     def get_translation(self):
         return self.subproject.translation_set.get(

@@ -87,7 +87,7 @@ class AvatarTest(ViewTestCase):
                 kwargs={'user': self.user.username, 'size': 32}
             )
         )
-        self.assertPNG(response)
+        self.assert_png(response)
         self.assertEqual(response.content, imagedata)
         # Test caching
         response = self.client.get(
@@ -96,7 +96,7 @@ class AvatarTest(ViewTestCase):
                 kwargs={'user': self.user.username, 'size': 32}
             )
         )
-        self.assertPNG(response)
+        self.assert_png(response)
         self.assertEqual(response.content, imagedata)
 
     @httpretty.activate
@@ -115,7 +115,7 @@ class AvatarTest(ViewTestCase):
                 kwargs={'user': self.user.username, 'size': 32}
             )
         )
-        self.assertPNG(response)
+        self.assert_png(response)
 
     def test_anonymous_avatar(self):
         anonymous = User.objects.get(username='anonymous')
@@ -132,6 +132,6 @@ class AvatarTest(ViewTestCase):
         )
 
     def test_fallback_avatar(self):
-        self.assertPNGData(
+        self.assert_png_data(
             avatar.get_fallback_avatar(32)
         )

@@ -172,21 +172,21 @@ class ViewTestCase(RepoTestCase):
             'Offset %s not in %s' % (exp_offset, query)
         )
 
-    def assertPNG(self, response):
+    def assert_png(self, response):
         '''
         Checks whether response contains valid PNG image.
         '''
         # Check response status code
         self.assertEqual(response.status_code, 200)
-        self.assertPNGData(response.content)
+        self.assert_png_data(response.content)
 
-    def assertPNGData(self, content):
+    def assert_png_data(self, content):
         """Checks whether data is PNG image"""
         # Try to load PNG with PIL
         image = Image.open(BytesIO(content))
         self.assertEqual(image.format, 'PNG')
 
-    def assertSVG(self, response):
+    def assert_svg(self, response):
         """
         Checks whether response is a SVG image.
         """
@@ -195,7 +195,7 @@ class ViewTestCase(RepoTestCase):
         dom = minidom.parseString(response.content)
         self.assertEqual(dom.firstChild.nodeName, 'svg')
 
-    def assertBackend(self, expected_translated):
+    def assert_backend(self, expected_translated):
         '''
         Checks that backend has correct data.
         '''
