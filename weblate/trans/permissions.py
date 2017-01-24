@@ -165,8 +165,13 @@ def can_edit(user, translation, permission):
 def can_upload_translation(user, translation):
     """
     Checks whether user can translate given translation.
+
+    This also requires either translate or suggest permission to be able to
+    actually store the uploaded translations.
     """
-    return can_edit(user, translation, 'trans.upload_translation')
+    return can_edit(user, translation, 'trans.upload_translation') and (
+        can_translate(user, translation) or can_suggest(user, translation)
+    )
 
 
 @cache_permission
