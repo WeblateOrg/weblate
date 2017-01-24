@@ -47,6 +47,7 @@ from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
     can_author_translation, can_overwrite_translation, can_translate,
+    can_suggest,
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
@@ -386,11 +387,10 @@ class SimpleUploadForm(forms.Form):
     method = forms.ChoiceField(
         label=_('Merge method'),
         choices=(
-            ('', _('Add as translation')),
+            ('translate', _('Add as translation')),
             ('suggest', _('Add as a suggestion')),
             ('fuzzy', _('Add as translation needing review')),
         ),
-        required=False
     )
     fuzzy = forms.ChoiceField(
         label=_('Processing of strings needing review'),
@@ -414,11 +414,11 @@ class SimpleUploadForm(forms.Form):
         initial=True,
     )
 
-    def remove_translation_choice(self):
+    def remove_translation_choice(self, value):
         """Remove add as translation choice."""
         choices = self.fields['method'].choices
         self.fields['method'].choices = [
-            choice for choice in choices if choice[0]
+            choice for choice in choices if choice[0] == value
         ]
 
 
@@ -466,7 +466,10 @@ def get_upload_form(user, translation, *args):
         form = SimpleUploadForm
     result = form(*args)
     if not can_translate(user, translation):
-        result.remove_translation_choice()
+        result.remove_translation_choice('translate')
+        result.remove_translation_choice('fuzzy')
+    if not can_suggest(user, translation):
+        result.remove_translation_choice('suggest')
     return result
 
 

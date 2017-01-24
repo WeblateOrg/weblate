@@ -156,3 +156,20 @@ def download_translation_file(translation, fmt=None):
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
 
     return response
+
+
+def show_form_errors(request, form):
+    '''
+    Shows all form errors as a message.
+    '''
+    for error in form.non_field_errors():
+        messages.error(request, error)
+    for field in form:
+        for error in field.errors:
+            messages.error(
+                request,
+                _('Error in parameter %(field)s: %(error)s') % {
+                    'field': field.name,
+                    'error': error
+                }
+            )

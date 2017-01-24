@@ -44,7 +44,9 @@ from weblate.trans.forms import (
     MergeForm, AutoForm, ReviewForm, ReplaceForm,
     AntispamForm, CommentForm, RevertForm
 )
-from weblate.trans.views.helper import get_translation, import_message
+from weblate.trans.views.helper import (
+    get_translation, import_message, show_form_errors,
+)
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render
 from weblate.trans.autotranslate import auto_translate
@@ -67,23 +69,6 @@ def cleanup_session(session):
         value = session[key]
         if not isinstance(value, dict) or value['ttl'] < now:
             del session[key]
-
-
-def show_form_errors(request, form):
-    '''
-    Shows all form errors as a message.
-    '''
-    for error in form.non_field_errors():
-        messages.error(request, error)
-    for field in form:
-        for error in field.errors:
-            messages.error(
-                request,
-                _('Error in parameter %(field)s: %(error)s') % {
-                    'field': field.name,
-                    'error': error
-                }
-            )
 
 
 def search(translation, request):

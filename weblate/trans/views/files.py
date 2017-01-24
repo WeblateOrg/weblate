@@ -31,7 +31,8 @@ from weblate.trans import messages
 from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import (
-    get_translation, import_message, download_translation_file
+    get_translation, import_message, download_translation_file,
+    show_form_errors,
 )
 from weblate.trans.permissions import (
     can_author_translation, can_overwrite_translation,
@@ -87,6 +88,7 @@ def upload_translation(request, project, subproject, lang):
     # Check form validity
     if not form.is_valid():
         messages.error(request, _('Please fix errors in the form.'))
+        show_form_errors(request, form)
         return redirect(obj)
 
     # Create author name
