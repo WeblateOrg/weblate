@@ -788,9 +788,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.repository.push()
 
             Change.objects.create(
-                action=Change.ACTION_PUSH,
+                action=Change.ACTION_PUSH, subproject=self,
                 user=request.user if request else None,
-                subproject=self,
             )
 
             vcs_post_push.send(sender=self.__class__, component=self)
@@ -830,9 +829,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 self.repository.reset()
 
             Change.objects.create(
-                action=Change.ACTION_RESET,
+                action=Change.ACTION_RESET, subproject=self,
                 user=request.user if request else None,
-                subproject=self,
             )
         except RepositoryException as error:
             self.log_error('failed to reset on repo')
@@ -900,8 +898,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         )
         if self.id:
             Change.objects.create(
-                subproject=self,
-                translation=translation,
+                subproject=self, translation=translation,
                 action=Change.ACTION_PARSE_ERROR,
             )
         raise ParseError(str(error))
@@ -937,9 +934,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 )
                 if self.id:
                     Change.objects.create(
-                        subproject=self,
+                        subproject=self, action=action,
                         user=request.user if request else None,
-                        action=action,
                     )
 
                     # run post update hook
@@ -968,10 +964,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 )
                 if self.id:
                     Change.objects.create(
-                        subproject=self,
+                        subproject=self, action=action_failed, target=error,
                         user=request.user if request else None,
-                        action=action_failed,
-                        target=error,
                     )
 
                 # Notify subscribers and admins
@@ -1579,9 +1573,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.save()
         if self.translation_set.exists():
             Change.objects.create(
-                subproject=self,
-                user=user,
-                action=Change.ACTION_LOCK,
+                subproject=self, user=user, action=Change.ACTION_LOCK,
             )
 
     def do_unlock(self, user):
@@ -1590,9 +1582,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         self.save()
         if self.translation_set.exists():
             Change.objects.create(
-                subproject=self,
-                user=user,
-                action=Change.ACTION_UNLOCK,
+                subproject=self, user=user, action=Change.ACTION_UNLOCK,
             )
 
     def get_editable_template(self):
