@@ -19,6 +19,7 @@
 
 {% can_see_repository_status user object.subproject.project as user_can_see_repository_status %}
 {% can_commit_translation user object.subproject.project as user_can_commit_translation %}
+{% can_lock_translation user object.subproject.project as user_can_lock_translation %}
 {% can_upload_translation user object as user_can_upload_translation %}
 
 {% include "show-lock.html" %}
@@ -258,7 +259,7 @@
 {% else %}
 <p>{% trans "Translation is currently not locked." %}</p>
 {% endif %}
-{% if perms.trans.lock_translation %}
+{% if user_can_lock_translation %}
 {% if object.lock_user == request.user %}
 <a class="btn btn-default" href="{% url 'unlock_translation' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Unlock" %}</a>
 {% elif not object.is_user_locked %}
