@@ -988,15 +988,6 @@ use that for following paths:
     `Deploying Django <https://docs.djangoproject.com/en/stable/howto/deployment/>`_,
     `Deploying static files <https://docs.djangoproject.com/en/stable/howto/static-files/deployment/>`_
 
-Sample configuration for Lighttpd
-+++++++++++++++++++++++++++++++++
-
-The configuration for Lighttpd web server might look like following (available
-as :file:`examples/lighttpd.conf`):
-
-.. literalinclude:: ../../examples/lighttpd.conf
-    :language: lighttpd
-
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 
@@ -1009,8 +1000,25 @@ mod_wsgi (available as :file:`examples/apache.conf`):
 This configuration is for Apache 2.4 and later. For earlier versions of Apache,
 replace `Require all granted` with `Allow from all`.
 
-Sample configuration for nginx
-++++++++++++++++++++++++++++++
+.. seealso::
+
+    `How to use Django with Apache and mod_wsgi <https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/modwsgi/>`_
+
+Sample configuration for Apache and gunicorn
+++++++++++++++++++++++++++++++++++++++++++++
+
+Following configuration runs Weblate in gunicorn and Apache 2.4
+(available as :file:`examples/apache.gunicorn.conf`):
+
+.. literalinclude:: ../../examples/apache.gunicorn.conf
+    :language: apache
+
+.. seealso::
+
+    `How to use Django with Gunicorn <https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/gunicorn/>`_
+
+Sample configuration for nginx and uwsgi
+++++++++++++++++++++++++++++++++++++++++
 
 Following configuration runs Weblate as uwsgi under nginx webserver.
 
@@ -1023,6 +1031,10 @@ Configuration for uwsgi (also available as :file:`examples/weblate.uwsgi.ini`):
 
 .. literalinclude:: ../../examples/weblate.uwsgi.ini
     :language: ini
+
+.. seealso::
+
+    `How to use Django with uWSGI <https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/uwsgi/>`_
 
 Running Weblate under path
 ++++++++++++++++++++++++++
