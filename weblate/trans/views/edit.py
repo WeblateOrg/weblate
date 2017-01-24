@@ -51,6 +51,7 @@ from weblate.trans.autotranslate import auto_translate
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
+    can_add_comment,
 )
 
 
@@ -650,8 +651,11 @@ def comment(request, pk):
     '''
     Adds new comment.
     '''
-    translation = get_object_or_404(Unit, pk=pk)
-    translation.check_acl(request)
+    unit = get_object_or_404(Unit, pk=pk)
+    unit.check_acl(request)
+
+    if not can_add_comment(request.user, unit.translation.subproject.project):
+        raise PermissionDenied()
 
     form = CommentForm(request.POST)
 
@@ -659,9 +663,9 @@ def comment(request, pk):
         if form.cleaned_data['scope'] == 'global':
             lang = None
         else:
-            lang = translation.translation.language
+            lang = unit.translation.language
         Comment.objects.add(
-            translation,
+            unit,
             request.user,
             lang,
             form.cleaned_data['comment']
@@ -670,7 +674,7 @@ def comment(request, pk):
     else:
         messages.error(request, _('Failed to add comment!'))
 
-    return redirect(request.POST.get('next', translation))
+    return redirect(request.POST.get('next', unit))
 
 
 @login_required

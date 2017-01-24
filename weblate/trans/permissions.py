@@ -450,3 +450,11 @@ def can_add_dictionary(user, project):
     Checks whether user can add dictionary for given project.
     """
     return check_permission(user, project, 'trans.add_dictionary')
+
+
+@cache_permission
+def can_add_comment(user, project):
+    """
+    Checks whether user can add comment for given project.
+    """
+    return check_permission(user, project, 'trans.add_comment')

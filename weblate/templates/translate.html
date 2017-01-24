@@ -27,6 +27,7 @@
 {% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
 {% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
 {% can_upload_screenshot user project as user_can_upload_screenshot %}
+{% can_add_comment user project as user_can_add_comment %}
 
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug lang=unit.translation.language.code %}?sid={{ search_id }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-default pull-right flip"><i class="fa fa-arrows-alt"></i> {% trans "Zen" %}</a>
@@ -194,7 +195,7 @@
 {% if others %}
 <li><a href="#others" data-toggle="tab">{% trans "Other translations" %} <span class="badge">{{ others.count }}</span></a></li>
 {% endif %}
-{% if comments or perms.trans.add_comment %}
+{% if comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments.count }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_mt %}
@@ -311,7 +312,7 @@
 </div>
 {% endif %}
 
-{% if comments or perms.trans.add_comment %}
+{% if comments or user_can_add_comment %}
 <div class="tab-pane" id="comments">
 
 {% if comments %}
@@ -320,7 +321,7 @@
   {% endwith %}
 {% endif %}
 
-{% if perms.trans.add_comment %}
+{% if user_can_add_comment %}
 <form method="post" action="{% url 'comment' pk=unit.id %}">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />

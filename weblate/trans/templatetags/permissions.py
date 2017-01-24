@@ -178,3 +178,8 @@ def can_change_dictionary(user, project):
 @register.assignment_tag
 def can_add_dictionary(user, project):
     return weblate.trans.permissions.can_add_dictionary(user, project)
+
+
+@register.assignment_tag
+def can_add_comment(user, project):
+    return weblate.trans.permissions.can_add_comment(user, project)
