@@ -328,18 +328,20 @@ with the following command:
 
 .. code-block:: sh
 
+    # Install Git HEAD
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
+    # Install Weblate 2.10
+    rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-2.10 --no-git
 
 The ``-a`` option defines the name of your weblate installation, ``weblate`` in
 this instance. You are free to specify a different name.
 
-Optionally you can specify tag identifier right of the ``#`` sign to identify
-the version of Weblate to install (for example specify
-``https://github.com/WeblateOrg/weblate.git#weblate-2.0`` to install Weblate 2.0).
-For a list of available versions see here:
-https://github.com/WeblateOrg/weblate/tags. Please note that only version 2.0 and
-newer can be installed on OpenShift, as older versions don't include the
-necessary configuration files. The ``--no-git`` option skips the creation of a
+The above example installs latest development version, you can optionally
+specify tag identifier right of the ``#`` sign to identify the version of
+Weblate to install. For a list of available versions see here:
+https://github.com/WeblateOrg/weblate/tags. 
+
+The ``--no-git`` option skips the creation of a
 local git repository.
 
 You can also specify which database you want to use:
