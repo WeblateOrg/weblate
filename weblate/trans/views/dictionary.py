@@ -25,7 +25,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _, ungettext
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 
@@ -40,6 +40,10 @@ from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
+from weblate.trans.permissions import (
+    can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
+    can_change_dictionary,
+)
 from weblate.trans.views.helper import get_project, import_message
 
 
@@ -70,9 +74,10 @@ def show_dictionaries(request, project):
     )
 
 
-@permission_required('trans.change_dictionary')
 def edit_dictionary(request, project, lang):
     prj = get_project(request, project)
+    if not can_change_dictionary(request.user, prj):
+        raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
         Dictionary,
@@ -121,9 +126,11 @@ def edit_dictionary(request, project, lang):
     )
 
 
-@permission_required('trans.delete_dictionary')
 def delete_dictionary(request, project, lang):
     prj = get_project(request, project)
+    if not can_delete_dictionary(request.user, prj):
+        raise PermissionDenied()
+
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(
         Dictionary,
@@ -141,9 +148,10 @@ def delete_dictionary(request, project, lang):
     )
 
 
-@permission_required('trans.upload_dictionary')
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
+    if not can_upload_dictionary(request.user, prj):
+        raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
 
     form = DictUploadForm(request.POST, request.FILES)
@@ -252,8 +260,7 @@ def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
-    if (request.method == 'POST' and
-            request.user.has_perm('trans.add_dictionary')):
+    if request.method == 'POST' and can_add_dictionary(request.user, prj):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(

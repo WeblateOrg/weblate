@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -11,12 +12,17 @@
 
 {% block content %}
 
+{% can_delete_dictionary user project as user_can_delete_dictionary %}
+{% can_change_dictionary user project as user_can_change_dictionary %}
+{% can_upload_dictionary user project as user_can_upload_dictionary %}
+{% can_add_dictionary user project as user_can_add_dictionary %}
+
 <ul class="nav nav-pills">
 <li class="active"><a href="#browse" data-toggle="tab">{% trans "Browse" %}</a></li>
-{% if perms.trans.add_dictionary %}
+{% if user_can_add_dictionary %}
 <li><a href="#add" data-toggle="tab">{% trans "Add new word" %}</a></li>
 {% endif %}
-{% if perms.trans.upload_dictionary %}
+{% if user_can_upload_dictionary %}
 <li><a href="#import" data-toggle="tab">{% trans "Import glossary" %}</a></li>
 {% endif %}
 <li>
@@ -56,13 +62,13 @@
 <td>{% format_translation word.source project.source_language simple=True %}</td>
 <td>{% format_translation word.target language simple=True %}</td>
 <td>
-{% if perms.trans.change_dictionary %}
+{% if user_can_change_dictionary %}
 <form action="{% url 'edit_dictionary' project=project.slug lang=language.code %}" method="get" class="inlineform">
 <input type="hidden" name="id" value="{{ word.id }}" />
 <button type="submit" class="btn btn-xs btn-info"><i class="fa fa-pencil"></i> {% trans "Edit" %}</button>
 </form>
 {% endif %}
-{% if perms.trans.delete_dictionary %}
+{% if user_can_delete_dictionary %}
 <form action="{% url 'delete_dictionary' project=project.slug lang=language.code %}" method="post" class="inlineform">
 {% csrf_token %}
 <input type="hidden" name="id" value="{{ word.id }}" />
@@ -79,7 +85,7 @@
 {% endif %}
 </div>
 
-{% if perms.trans.add_dictionary %}
+{% if user_can_add_dictionary %}
 <div class="tab-pane" id="add">
 
 <form action="{% url 'show_dictionary' project=project.slug lang=language.code %}" method="POST">
@@ -91,7 +97,7 @@
 </div>
 {% endif %}
 
-{% if perms.trans.upload_dictionary %}
+{% if user_can_upload_dictionary %}
 <div class="tab-pane" id="import">
 <form action="{% url 'upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 

@@ -418,3 +418,35 @@ def can_upload_screenshot(user, project):
     Checks whether user can upload screenshot for given project.
     """
     return check_permission(user, project, 'trans.upload_screenshot')
+
+
+@cache_permission
+def can_upload_dictionary(user, project):
+    """
+    Checks whether user can upload dictionary for given project.
+    """
+    return check_permission(user, project, 'trans.upload_dictionary')
+
+
+@cache_permission
+def can_delete_dictionary(user, project):
+    """
+    Checks whether user can delete dictionary for given project.
+    """
+    return check_permission(user, project, 'trans.delete_dictionary')
+
+
+@cache_permission
+def can_change_dictionary(user, project):
+    """
+    Checks whether user can change dictionary for given project.
+    """
+    return check_permission(user, project, 'trans.change_dictionary')
+
+
+@cache_permission
+def can_add_dictionary(user, project):
+    """
+    Checks whether user can add dictionary for given project.
+    """
+    return check_permission(user, project, 'trans.add_dictionary')

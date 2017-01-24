@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -10,7 +11,9 @@
 
 {% block content %}
 
-{% if perms.trans.add_dictionary %}
+{% can_change_dictionary user project as user_can_change_dictionary %}
+
+{% if user_can_change_dictionary %}
 
 <form method="POST">
 <div class="panel panel-primary">
