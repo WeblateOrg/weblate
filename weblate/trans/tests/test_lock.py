@@ -50,7 +50,7 @@ class LockTest(ViewTestCase):
             'This translation is currently locked for updates!'
         )
 
-    def assertComponentNotLocked(self):
+    def assert_component_not_locked(self):
         subproject = SubProject.objects.get(
             slug=self.subproject.slug,
             project__slug=self.project.slug,
@@ -81,7 +81,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertComponentNotLocked()
+        self.assert_component_not_locked()
 
     def test_project(self):
         response = self.client.get(
@@ -108,7 +108,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertComponentNotLocked()
+        self.assert_component_not_locked()
 
     def test_translation(self):
         response = self.client.get(
