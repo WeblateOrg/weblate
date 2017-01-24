@@ -855,13 +855,17 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_repo_link_url(self):
         return 'weblate://%s/%s' % (self.project.slug, self.slug)
 
+    def set_linked_cache(self, linked):
+        """Store linked component cache"""
+        child._linked_subproject = linked
+
     def get_linked_childs(self):
         """Returns list of subprojects which link repository to us."""
         result = SubProject.objects.prefetch().filter(
             repo=self.get_repo_link_url()
         )
         for child in result:
-            child._linked_subproject = self
+            child.set_linked_cache(self)
         return result
 
     def commit_pending(self, request, from_link=False, skip_push=False):
