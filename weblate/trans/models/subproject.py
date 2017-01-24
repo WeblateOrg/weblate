@@ -857,7 +857,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def set_linked_cache(self, linked):
         """Store linked component cache"""
-        child._linked_subproject = linked
+        self._linked_subproject = linked
 
     def get_linked_childs(self):
         """Returns list of subprojects which link repository to us."""
