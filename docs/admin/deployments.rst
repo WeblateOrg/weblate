@@ -330,6 +330,7 @@ with the following command:
 
     # Install Git HEAD
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git --no-git
+
     # Install Weblate 2.10
     rhc -aweblate app create -t python-2.7 --from-code https://github.com/WeblateOrg/weblate.git#weblate-2.10 --no-git
 
