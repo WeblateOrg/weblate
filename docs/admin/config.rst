@@ -58,6 +58,9 @@ AUTOFIX_LIST
 
 List of automatic fixups to apply when saving the message.
 
+You need to provide fully-qualified path to Python class implementing the
+autofixer interface.
+
 Available fixes:
 
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
@@ -96,6 +99,9 @@ CHECK_LIST
 ----------
 
 List of quality checks to perform on translation.
+
+You need to provide fully-qualified path to Python class implementing the check
+interface.
 
 Some of the checks are not useful for all projects, so you are welcome to
 adjust list of performed on your installation.
