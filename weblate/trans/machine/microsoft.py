@@ -192,7 +192,8 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
 
     def convert_language(self, language):
         '''
-        Converts language to service specific code. Remove second part of locale in most of cases.
+        Converts language to service specific code. Remove second part of
+        locale in most of cases.
         '''
         language = language.replace('_', '-').lower()
         if language in self.LANGUAGE_CONVERTER:
