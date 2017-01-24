@@ -36,7 +36,7 @@ class LockTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-    def assertComponentLocked(self):
+    def assert_component_locked(self):
         subproject = SubProject.objects.get(
             slug=self.subproject.slug,
             project__slug=self.project.slug,
@@ -72,7 +72,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('subproject', kwargs=self.kw_subproject)
         )
-        self.assertComponentLocked()
+        self.assert_component_locked()
 
         response = self.client.get(
             reverse('unlock_subproject', kwargs=self.kw_subproject)
@@ -91,7 +91,7 @@ class LockTest(ViewTestCase):
             response,
             reverse('project', kwargs=self.kw_project)
         )
-        self.assertComponentLocked()
+        self.assert_component_locked()
 
         response = self.client.get(
             reverse('subproject', kwargs=self.kw_subproject)

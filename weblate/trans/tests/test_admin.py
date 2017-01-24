@@ -113,7 +113,7 @@ class AdminTest(ViewTestCase):
         '''
         Test for custom subproject actions.
         '''
-        self.assertCustomAdmin(
+        self.assert_custom_admin(
             reverse('admin:trans_subproject_changelist')
         )
 
@@ -121,11 +121,11 @@ class AdminTest(ViewTestCase):
         '''
         Test for custom project actions.
         '''
-        self.assertCustomAdmin(
+        self.assert_custom_admin(
             reverse('admin:trans_project_changelist')
         )
 
-    def assertCustomAdmin(self, url):
+    def assert_custom_admin(self, url):
         '''
         Test for (sub)project custom admin.
         '''

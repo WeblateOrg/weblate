@@ -141,7 +141,7 @@ class MachineTranslationTest(TestCase):
             []
         )
 
-    def assertTranslate(self, machine, lang='cs', word='world', empty=False):
+    def assert_translate(self, machine, lang='cs', word='world', empty=False):
         translation = machine.translate(lang, word, MockUnit(), None)
         self.assertIsInstance(translation, list)
         if not empty:
@@ -155,7 +155,7 @@ class MachineTranslationTest(TestCase):
             body=GLOSBE_JSON
         )
         machine = GlosbeTranslation()
-        self.assertTranslate(machine)
+        self.assert_translate(machine)
 
     @OverrideSettings(MT_MYMEMORY_EMAIL='test@weblate.org')
     @httpretty.activate
@@ -166,7 +166,7 @@ class MachineTranslationTest(TestCase):
             body=MYMEMORY_JSON
         )
         machine = MyMemoryTranslation()
-        self.assertTranslate(machine)
+        self.assert_translate(machine)
 
     @httpretty.activate
     def test_apertium(self):
@@ -183,7 +183,7 @@ class MachineTranslationTest(TestCase):
             '"responseDetails":null,"responseStatus":200}'
         )
         machine = ApertiumTranslation()
-        self.assertTranslate(machine, 'es')
+        self.assert_translate(machine, 'es')
 
     @OverrideSettings(MT_APERTIUM_APY='http://apertium.example.com/')
     @httpretty.activate
@@ -201,7 +201,7 @@ class MachineTranslationTest(TestCase):
             '"responseDetails":null,"responseStatus":200}'
         )
         machine = ApertiumAPYTranslation()
-        self.assertTranslate(machine, 'es')
+        self.assert_translate(machine, 'es')
 
     @OverrideSettings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
     @httpretty.activate
@@ -224,7 +224,7 @@ class MachineTranslationTest(TestCase):
         )
 
         machine = MicrosoftTranslation()
-        self.assertTranslate(machine)
+        self.assert_translate(machine)
 
     @OverrideSettings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
     @httpretty.activate
@@ -248,7 +248,7 @@ class MachineTranslationTest(TestCase):
         )
 
         machine = MicrosoftCognitiveTranslation()
-        self.assertTranslate(machine)
+        self.assert_translate(machine)
 
     @OverrideSettings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
@@ -275,8 +275,8 @@ class MachineTranslationTest(TestCase):
             body=b'{"data":{"translations":[{"translatedText":"svet"}]}}'
         )
         machine = GoogleTranslation()
-        self.assertTranslate(machine)
-        self.assertTranslate(machine, lang='he')
+        self.assert_translate(machine)
+        self.assert_translate(machine, lang='he')
 
     @OverrideSettings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
@@ -297,7 +297,7 @@ class MachineTranslationTest(TestCase):
         )
         machine = GoogleTranslation()
         self.assertEqual(machine.supported_languages, [])
-        self.assertTranslate(machine, empty=True)
+        self.assert_translate(machine, empty=True)
 
     @httpretty.activate
     def test_amagama_nolang(self):
@@ -313,7 +313,7 @@ class MachineTranslationTest(TestCase):
             body=AMAGAMA_JSON
         )
         machine = AmagamaTranslation()
-        self.assertTranslate(machine)
+        self.assert_translate(machine)
 
     @httpretty.activate
     def test_amagama(self):
@@ -328,7 +328,7 @@ class MachineTranslationTest(TestCase):
             body=AMAGAMA_JSON
         )
         machine = AmagamaTranslation()
-        self.assertTranslate(machine)
+        self.assert_translate(machine)
 
 
 class WeblateTranslationTest(ViewTestCase):

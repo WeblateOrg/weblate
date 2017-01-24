@@ -49,7 +49,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -63,7 +63,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -77,7 +77,7 @@ class EditTest(ViewTestCase):
             'Ahoj svete!\n'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Ahoj svete!\n')
         self.assertEqual(len(unit.checks()), 0)
@@ -113,7 +113,7 @@ class EditTest(ViewTestCase):
             target_2='Opice má %d banánů.\n',
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         # Check translations
         unit = self.get_unit('Orangutan')
         plurals = unit.get_target_plurals()
@@ -145,7 +145,7 @@ class EditTest(ViewTestCase):
         )
         self.assertBackend(1)
         # We should stay on same message
-        self.assertRedirectsOffset(response, self.translate_url, unit.position)
+        self.assert_redirects_offset(response, self.translate_url, unit.position)
 
         # Test error handling
         unit2 = self.translation.unit_set.get(
@@ -207,7 +207,7 @@ class EditTest(ViewTestCase):
             commit_message='Fixing issue #666',
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
 
         # Did the commit message got stored?
         translation = self.get_translation()
@@ -226,7 +226,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
@@ -242,7 +242,7 @@ class EditTest(ViewTestCase):
             'Hello, world!\n',
         )
         # We should stay on current message
-        self.assertRedirectsOffset(response, self.translate_url, 0)
+        self.assert_redirects_offset(response, self.translate_url, 0)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Hello, world!\n')
         self.assertTrue(unit.has_failing_check)
@@ -269,7 +269,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should stay on current message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertFalse(unit.has_failing_check)
@@ -283,7 +283,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         self.assertTrue(self.translation.repo_needs_commit())
         self.assertTrue(self.subproject.repo_needs_commit())
         self.assertTrue(self.subproject.project.repo_needs_commit())
@@ -369,7 +369,7 @@ class EditTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, self.translate_url, 1)
+        self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Nazdar svete!\n')
 
@@ -416,7 +416,7 @@ class EditResourceSourceTest(ViewTestCase):
             'Nazdar svete!\n'
         )
         # We should get to second message
-        self.assertRedirectsOffset(response, translate_url, 1)
+        self.assert_redirects_offset(response, translate_url, 1)
         unit = self.get_unit('Nazdar svete!\n')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)

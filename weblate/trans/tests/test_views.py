@@ -154,7 +154,7 @@ class ViewTestCase(RepoTestCase):
             params
         )
 
-    def assertRedirectsOffset(self, response, exp_path, exp_offset):
+    def assert_redirects_offset(self, response, exp_path, exp_offset):
         '''
         Asserts that offset in response matches expected one.
         '''
