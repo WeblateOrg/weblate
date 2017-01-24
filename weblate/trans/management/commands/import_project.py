@@ -274,7 +274,8 @@ class Command(BaseCommand):
             )
 
         # Do we have correct mask?
-        if '**' not in self.filemask:
+        if ('**' not in self.filemask
+                or '*' not in self.filemask.replace('**', '')):
             raise CommandError(
                 'You need to specify double wildcard '
                 'for subproject part of the match!'
