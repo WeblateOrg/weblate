@@ -20,6 +20,7 @@
 {% can_see_repository_status user object.subproject.project as user_can_see_repository_status %}
 {% can_commit_translation user object.subproject.project as user_can_commit_translation %}
 {% can_lock_translation user object.subproject.project as user_can_lock_translation %}
+{% can_overwrite_translation user object.subproject.project as user_can_overwrite_translation %}
 {% can_upload_translation user object as user_can_upload_translation %}
 
 {% include "show-lock.html" %}
@@ -225,7 +226,7 @@
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
 <div class="panel-body">
-{% if perms.trans.overwrite_translation %}
+{% if user_can_overwrite_translation %}
 <p>{% trans "Uploaded file will be merged with current translation. In case you want to overwrite already translated strings, don't forget to enable it." %}</p>
 {% else %}
 <p>{% trans "Uploaded file will be merged with current translation." %}</p>
