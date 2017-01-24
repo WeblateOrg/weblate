@@ -79,7 +79,8 @@ def upload_translation(request, project, subproject, lang):
         return redirect(obj)
 
     # Get correct form handler based on permissions
-    form = get_upload_form(request.user, obj.subproject.project)(
+    form = get_upload_form(
+        request.user, obj,
         request.POST, request.FILES
     )
 

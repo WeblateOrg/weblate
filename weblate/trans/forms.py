@@ -46,7 +46,7 @@ from weblate.trans.models.unit import SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
-    can_author_translation, can_overwrite_translation
+    can_author_translation, can_overwrite_translation, can_translate,
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
@@ -414,6 +414,13 @@ class SimpleUploadForm(forms.Form):
         initial=True,
     )
 
+    def remove_translation_choice(self):
+        """Remove add as translation choice."""
+        choices = self.fields['method'].choices
+        self.fields['method'].choices = [
+            choice for choice in choices if choice[0]
+        ]
+
 
 class UploadForm(SimpleUploadForm):
     '''
@@ -446,16 +453,21 @@ class ExtraUploadForm(UploadForm):
     )
 
 
-def get_upload_form(user, project):
+def get_upload_form(user, translation, *args):
     '''
     Returns correct upload form based on user permissions.
     '''
+    project = translation.subproject.project
     if can_author_translation(user, project):
-        return ExtraUploadForm
+        form = ExtraUploadForm
     elif can_overwrite_translation(user, project):
-        return UploadForm
+        form = UploadForm
     else:
-        return SimpleUploadForm
+        form = SimpleUploadForm
+    result = form(*args)
+    if not can_translate(user, translation):
+        result.remove_translation_choice()
+    return result
 
 
 class FilterField(forms.ChoiceField):

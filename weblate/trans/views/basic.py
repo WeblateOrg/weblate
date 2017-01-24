@@ -457,7 +457,7 @@ def show_translation(request, project, subproject, lang):
     obj.is_locked(request.user)
 
     # Get form
-    form = get_upload_form(request.user, obj.subproject.project)()
+    form = get_upload_form(request.user, obj)
 
     # Is user allowed to do automatic translation?
     if can_automatic_translation(request.user, obj.subproject.project):
