@@ -9,6 +9,14 @@ Released on ? 2017.
 * Include language detailed information on language page.
 * Mercurial backend improvements.
 * Added option to specify translation component priority.
+* More consistent usage of Group ACL even with less used permissions.
+* Added WL_BRANCH variable to hook scripts.
+* Improved developer documentation.
+* Better compatibility with various Git versions in Git exporter addon.
+* Included per project and component stats.
+* Added language code mapping for better support of Microsoft Translate API.
+* Moved fulltext cleanup to background job to make translation removal faster.
+* Fixed displaying of plural source for languages with single plural form.
 
 weblate 2.10.1
 --------------
