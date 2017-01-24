@@ -145,7 +145,9 @@ class EditTest(ViewTestCase):
         )
         self.assertBackend(1)
         # We should stay on same message
-        self.assert_redirects_offset(response, self.translate_url, unit.position)
+        self.assert_redirects_offset(
+            response, self.translate_url, unit.position
+        )
 
         # Test error handling
         unit2 = self.translation.unit_set.get(
