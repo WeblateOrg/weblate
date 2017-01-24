@@ -24,14 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.trans.fields import ScreenshotField
 from weblate.trans.validators import validate_check_flags
-
-PRIORITY_CHOICES = (
-    (60, _('Very high')),
-    (80, _('High')),
-    (100, _('Medium')),
-    (120, _('Low')),
-    (140, _('Very low')),
-)
+from weblate.trans.util import PRIORITY_CHOICES
 
 
 @python_2_unicode_compatible

@@ -45,6 +45,7 @@ from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import (
     is_repo_link, cleanup_repo_url, cleanup_path, path_separator,
+    PRIORITY_CHOICES,
 )
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, translation_post_add
@@ -457,12 +458,21 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         ),
     )
 
+    priority = models.IntegerField(
+        default=100,
+        choices=PRIORITY_CHOICES,
+        verbose_name=_('Priority'),
+        help_text=_(
+            'Components with higher priority are offered first to translators.'
+        ),
+    )
+
     objects = SubProjectManager()
 
     is_lockable = True
 
     class Meta(object):
-        ordering = ['project__name', 'name']
+        ordering = ['priority', 'project__name', 'name']
         unique_together = (
             ('project', 'name'),
             ('project', 'slug'),

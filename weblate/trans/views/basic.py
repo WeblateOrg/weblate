@@ -167,7 +167,9 @@ def home(request):
         components_by_language = Translation.objects.prefetch().filter(
             language__in=request.user.profile.languages.all(),
         ).order_by(
-            'subproject__project__name', 'subproject__name'
+            'subproject__priority',
+            'subproject__project__name',
+            'subproject__name'
         )
 
         usersubscriptions = components_by_language.filter(

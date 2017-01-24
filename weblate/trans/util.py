@@ -30,7 +30,7 @@ from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.shortcuts import resolve_url, render as django_render
 from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ugettext_lazy
 
 try:
     import pyuca  # pylint: disable=import-error
@@ -47,6 +47,14 @@ PLURAL_SEPARATOR = '\x1e\x1e'
 
 # List of default domain names on which warn user
 DEFAULT_DOMAINS = ('example.net', 'example.com')
+
+PRIORITY_CHOICES = (
+    (60, ugettext_lazy('Very high')),
+    (80, ugettext_lazy('High')),
+    (100, ugettext_lazy('Medium')),
+    (120, ugettext_lazy('Low')),
+    (140, ugettext_lazy('Very low')),
+)
 
 
 def calculate_checksum(source, context):

@@ -8,6 +8,7 @@ Released on ? 2017.
 
 * Include language detailed information on language page.
 * Mercurial backend improvements.
+* Added option to specify translation component priority.
 
 weblate 2.10.1
 --------------
