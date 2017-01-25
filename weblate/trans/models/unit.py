@@ -655,7 +655,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update related source strings if working on a template
         if self.translation.is_template():
-            self.update_source_units()
+            self.update_source_units(oldunit.source)
 
         # Propagate to other projects
         if propagate:
@@ -663,7 +663,7 @@ class Unit(models.Model, LoggerMixin):
 
         return True
 
-    def update_source_units(self):
+    def update_source_units(self, previous_source):
         """Updates source for units withing same component.
 
         This is needed when editing template translation for monolingual
@@ -673,25 +673,40 @@ class Unit(models.Model, LoggerMixin):
         same_source = Unit.objects.filter(
             translation__subproject=self.translation.subproject,
             context=self.context,
+        ).exclude(
+            id=self.id
         )
         # Update source and contentsum
-        previous_source = same_source[0].source
         same_source.update(
             source=self.target,
             contentsum=self.contentsum
         )
+        # Find reverted units
+        reverted = same_source.filter(
+            translated=False,
+            fuzzy=True,
+            previous_source=self.source
+        )
+        reverted_ids = set(reverted.values_list('id', flat=True))
+        reverted.update(
+            translated=True,
+            fuzzy=False,
+            previous_source=''
+        )
+        # Set fuzzy on changed
         same_source.filter(
             translated=True
         ).exclude(
-            id=self.id
+            id__in=reverted_ids
         ).update(
             translated=False,
             fuzzy=True,
             previous_source=previous_source,
         )
-        # Update source index
+        # Update source index and stats
         for unit in same_source.iterator():
             update_index_unit(unit, True)
+            unit.translation.update_stats()
 
     def generate_change(self, request, author, oldunit, change_action):
         """
