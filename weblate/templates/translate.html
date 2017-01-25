@@ -246,7 +246,7 @@
 </p>
 {% endif %}
 <div class="pull-right flip">
-{% if user_can_vote_suggestion %}
+{% if user.is_authenticated and user_can_vote_suggestion %}
 <button type="submit" class="btn btn-success btn-xs" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
 <button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}
