@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseServerError, HttpResponse
 from django.shortcuts import redirect
+from django.utils.encoding import force_text
 from django.utils.six import text_type
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
@@ -156,10 +157,7 @@ def git_export(request, project, subproject, path):
 
     # Log error
     if output_err:
-        try:
-            obj.log_error('git: {0}'.format(output_err.decode('utf-8')))
-        except UnicodeDecodeError:
-            obj.log_error('git: {0}'.format(repr(output_err)))
+        obj.log_error('git: {0}'.format(force_text(output_err)))
 
     # Handle failure
     if retcode:
