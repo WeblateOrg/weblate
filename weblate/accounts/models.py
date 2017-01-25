@@ -1044,17 +1044,35 @@ def sync_create_groups(sender, **kwargs):
         create_groups(False)
 
 
+def auto_assign_group(user):
+    """Automatic group assignment based on user email"""
+    # Add user to automatic groups
+    for auto in AutoGroup.objects.all():
+        if re.match(auto.match, user.email):
+            user.groups.add(auto.group)
+
+
 @receiver(post_save, sender=User)
 def create_profile_callback(sender, instance, created=False, **kwargs):
     '''
     Automatically adds user to Users group.
     '''
     if created:
-        # Add user to automatic groups
-        for auto in AutoGroup.objects.all():
-            if re.match(auto.match, instance.email):
-                instance.groups.add(auto.group)
+        auto_assign_group(instance)
         # Create API token
         Token.objects.create(user=instance)
         # Create profile
         Profile.objects.get_or_create(user=instance)
+
+
+# Special hook for LDAP as it does create user without email and updates it
+# later. This can lead to group assignment on every login with
+# AUTH_LDAP_ALWAYS_UPDATE_USER enabled.
+if 'django_auth_ldap.backend.LDAPBackend' in settings.AUTHENTICATION_BACKENDS:
+    # pylint: disable=C0413,E0401
+    from django_auth_ldap.backend import populate_user
+    from django_auth_ldap.backend import LDAPBackend
+
+    @receiver(populate_user, sender=LDAPBackend)
+    def auto_groups_upon_ldap(sender, user, **kwargs):
+        auto_assign_group(user)
