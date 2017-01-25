@@ -106,8 +106,7 @@ def check_permission(user, project, permission):
     """
     return (
         has_group_perm(user, permission, project=project) or
-        check_owner(user, project, permission) or
-        user.has_perm(permission)
+        check_owner(user, project, permission)
     )
 
 
