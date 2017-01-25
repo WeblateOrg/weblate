@@ -71,7 +71,7 @@ class SuggestionsTest(ViewTestCase):
         )
         # Check number of suggestions
         self.assertEqual(translation.have_suggestion, 1)
-        self.assertBackend(0)
+        self.assert_backend(0)
 
         # Unit should not be translated
         self.assertEqual(len(unit.checks()), 0)
@@ -104,7 +104,7 @@ class SuggestionsTest(ViewTestCase):
         )
         # Check number of suggestions
         self.assertEqual(translation.have_suggestion, 1)
-        self.assertBackend(0)
+        self.assert_backend(0)
 
         # Unit should not be translated
         self.assertEqual(len(unit.checks()), 0)
@@ -159,7 +159,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Ahoj svete!\n')
-        self.assertBackend(1)
+        self.assert_backend(1)
         self.assertEqual(len(self.get_unit().suggestions()), 1)
 
     def test_accept_anonymous(self):
@@ -261,4 +261,4 @@ class SuggestionsTest(ViewTestCase):
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, 'Nazdar svete!\n')
-        self.assertBackend(1)
+        self.assert_backend(1)
