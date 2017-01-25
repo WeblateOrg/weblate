@@ -61,7 +61,7 @@ class ImportBaseTest(ViewTestCase):
             test_file = self.test_file
 
         with open(test_file, 'rb') as handle:
-            params = {'file': handle}
+            params = {'file': handle, 'method': 'translate'}
             params.update(kwargs)
             return self.client.post(
                 reverse(
@@ -316,7 +316,7 @@ class AndroidImportTest(ViewTestCase):
                     'upload_translation',
                     kwargs=self.kw_translation
                 ),
-                {'file': handle}
+                {'file': handle, 'method': 'translate'}
             )
         # Verify stats
         translation = self.get_translation()
@@ -336,7 +336,7 @@ class CSVImportTest(ViewTestCase):
                     'upload_translation',
                     kwargs=self.kw_translation
                 ),
-                {'file': handle}
+                {'file': handle, 'method': 'translate'}
             )
         # Verify stats
         translation = self.get_translation()
