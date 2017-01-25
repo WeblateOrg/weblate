@@ -435,11 +435,17 @@ class Unit(models.Model, LoggerMixin):
         # Monolingual files handling (without target change)
         if unit.template is not None and target == self.target:
             if source != self.source and translated:
-                # Store previous source and fuzzy flag for monolingual files
-                if previous_source == '':
-                    previous_source = self.source
-                fuzzy = True
-                translated = False
+                if self.previous_source == self.source and self.fuzzy:
+                    # Source change was reverted
+                    previous_source = ''
+                    fuzzy = False
+                    translated = True
+                else:
+                    # Store previous source and fuzzy flag for monolingual files
+                    if previous_source == '':
+                        previous_source = self.source
+                    fuzzy = True
+                    translated = False
             else:
                 # We should keep calculated flags if translation was
                 # not changed outside
