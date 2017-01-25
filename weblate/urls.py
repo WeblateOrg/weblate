@@ -927,3 +927,10 @@ if settings.DEBUG:
             {'document_root': settings.MEDIA_ROOT}
         ),
     ]
+
+if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
+    # pylint: disable=C0413
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]
