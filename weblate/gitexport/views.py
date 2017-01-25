@@ -28,7 +28,6 @@ from django.core.exceptions import PermissionDenied
 from django.http.response import HttpResponseServerError, HttpResponse
 from django.shortcuts import redirect
 from django.utils.encoding import force_text
-from django.utils.six import text_type
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
@@ -75,8 +74,7 @@ def authenticate(request, auth):
     """
     Performs authentication with HTTP Basic auth
     """
-    if not isinstance(auth, text_type):
-        auth = auth.decode('iso-8859-1')
+    auth = force_text(auth, encoding='iso-8859-1')
     try:
         method, data = auth.split(None, 1)
         if method.lower() == 'basic':
