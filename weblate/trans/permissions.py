@@ -77,7 +77,7 @@ def has_group_perm(user, permission, translation=None, project=None):
             ))
         acls = user.acl_permissions_groups[key]
     else:
-        return False
+        return user.has_perm(permission)
 
     if not acls:
         return user.has_perm(permission)
