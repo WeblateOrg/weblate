@@ -441,7 +441,7 @@ class Unit(models.Model, LoggerMixin):
                     fuzzy = False
                     translated = True
                 else:
-                    # Store previous source and fuzzy flag for monolingual files
+                    # Store previous source and fuzzy flag for monolingual
                     if previous_source == '':
                         previous_source = self.source
                     fuzzy = True
