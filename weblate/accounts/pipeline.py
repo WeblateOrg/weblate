@@ -21,10 +21,13 @@
 from __future__ import unicode_literals
 
 import json
+import re
+import unicodedata
 
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 
 from six.moves.urllib.request import Request, urlopen
@@ -37,6 +40,11 @@ from social.exceptions import (
 from weblate.accounts.models import send_notification_email, VerifiedEmail
 from weblate import appsettings
 from weblate import USER_AGENT
+
+USERNAME_RE = r'^[\w.@+-]+$'
+USERNAME_MATCHER = re.compile(USERNAME_RE)
+STRIP_MATCHER = re.compile(r'[^\w\s.@+-]')
+CLEANUP_MATCHER = re.compile(r'[-\s]+')
 
 
 def get_github_email(access_token):
@@ -191,3 +199,26 @@ def user_full_name(strategy, details, user=None, **kwargs):
         if full_name and full_name != user.first_name:
             user.first_name = full_name
             strategy.storage.user.changed(user)
+
+
+def slugify_username(value):
+    """Clean up username
+
+    This is based on Django slugify with exception of lowercasing
+
+    - Converts to ascii
+    - Removes not wanted chars
+    - Merges whitespaces and - into single -
+    """
+    value = unicodedata.normalize(
+        'NFKD', force_text(value)
+    ).encode(
+        'ascii', 'ignore'
+    ).decode('ascii')
+
+    # Return username if it matches our standards
+    if USERNAME_MATCHER.match(value):
+        return value
+
+    value = STRIP_MATCHER.sub('', value).strip()
+    return CLEANUP_MATCHER.sub('-', value)

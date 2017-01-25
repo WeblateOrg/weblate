@@ -254,6 +254,7 @@ SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = \
     '%s/accounts/profile/#auth' % URL_PREFIX
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
+SOCIAL_AUTH_SLUGIFY_FUNCTION= 'weblate.accounts.pipeline.slugify_username'
 
 # Middleware
 MIDDLEWARE_CLASSES = (

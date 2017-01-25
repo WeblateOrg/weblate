@@ -33,6 +33,7 @@ from django.utils.encoding import force_text
 
 from weblate.accounts.models import Profile, VerifiedEmail
 from weblate.accounts.captcha import MathCaptcha
+from weblate.accounts.pipeline import USERNAME_RE
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.util import sort_choices
@@ -74,7 +75,7 @@ class UsernameField(forms.RegexField):
             'numbers or the following characters: @ . + - _'
         )
         kwargs['max_length'] = 30
-        kwargs['regex'] = r'^[\w.@+-]+$'
+        kwargs['regex'] = USERNAME_RE
         kwargs['help_text'] = help_text
         kwargs['label'] = _('Username')
         kwargs['error_messages'] = {
