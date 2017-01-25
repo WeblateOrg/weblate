@@ -46,7 +46,6 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
-    calculate_checksum,
 )
 
 
@@ -679,7 +678,7 @@ class Unit(models.Model, LoggerMixin):
         previous_source = same_source[0].source
         same_source.update(
             source=self.target,
-            contentsum=calculate_checksum(self.source, self.context),
+            contentsum=self.contentsum
         )
         same_source.filter(
             translated=True
