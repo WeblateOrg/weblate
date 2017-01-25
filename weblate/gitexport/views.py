@@ -118,9 +118,8 @@ def git_export(request, project, subproject, path):
     # HTTP authentication
     auth = request.META.get('HTTP_AUTHORIZATION', b'')
 
-    if auth:
-        if not authenticate(request, auth):
-            return response_authenticate()
+    if auth and not authenticate(request, auth):
+        return response_authenticate()
 
     # Permissions
     try:
