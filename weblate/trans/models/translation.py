@@ -1103,7 +1103,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     merge_header=True, method='', fuzzy='',
+                     merge_header=True, method='translate', fuzzy='',
                      merge_comments=False):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
@@ -1148,7 +1148,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         ret = False
 
-        if method in ('', 'fuzzy'):
+        if method in ('translate', 'fuzzy'):
             # Do actual merge
             if self.subproject.has_template():
                 # Merge on units level
