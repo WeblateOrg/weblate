@@ -319,10 +319,8 @@ def show_engage(request, project, lang=None):
 def show_project(request, project):
     obj = get_project(request, project)
 
-    dict_langs = Dictionary.objects.filter(
-        project=obj
-    ).values_list(
-        'language', flat=True
+    dict_langs = Language.objects.filter(
+        dictionary__project=obj
     ).distinct()
 
     if request.method == 'POST' and can_edit_project(request.user, obj):
@@ -340,7 +338,7 @@ def show_project(request, project):
         settings_form = ProjectSettingsForm(instance=obj)
 
     dicts = []
-    for language in Language.objects.filter(id__in=dict_langs):
+    for language in dict_langs:
         dicts.append(
             {
                 'language': language,
