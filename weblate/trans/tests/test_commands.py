@@ -22,6 +22,8 @@
 Tests for management commands.
 """
 
+from unittest import SkipTest
+
 from six import StringIO
 
 from django.test import TestCase
