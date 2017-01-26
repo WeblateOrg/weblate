@@ -52,6 +52,8 @@ matrix:
   allow_failures:
     - python: "3.6"
       env: CI_PIP_DEPS="Django>=1.10,<1.11"
+    - python: "2.7"
+      env: CI_PIP_DEPS="--pre Django"
 addons:
   apt:
     packages:
