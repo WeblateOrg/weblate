@@ -45,6 +45,7 @@ from translate.storage.poheader import default_header
 from translate.storage.properties import propunit, propfile
 from translate.storage.ts2 import tsfile
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
+from translate.storage.poxliff import PoXliffFile
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
@@ -1048,6 +1049,13 @@ class XliffFormat(FileFormat):
             loc = search_unit.source
             if loc == context:
                 return search_unit
+
+
+@register_fileformat
+class PoXliffFormat(XliffFormat):
+    name = _('XLIFF Translation File with PO extensions')
+    format_id = 'poxliff'
+    loader = PoXliffFile
 
 
 @register_fileformat
