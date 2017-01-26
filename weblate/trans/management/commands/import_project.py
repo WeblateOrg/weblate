@@ -33,7 +33,7 @@ from django.utils.text import slugify
 from weblate.trans.models import SubProject, Project
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.util import is_repo_link, path_separator
-from weblate.trans.vcs import GitRepository
+from weblate.trans.vcs import VCS_REGISTRY
 from weblate.logger import LOGGER
 
 
@@ -188,7 +188,7 @@ class Command(BaseCommand):
 
         # Initialize git repository
         self.logger.info('Cloning git repository...')
-        gitrepo = GitRepository.clone(repo, workdir)
+        gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir)
         self.logger.info('Updating working copy in git repository...')
         with gitrepo.lock:
             gitrepo.configure_branch(branch)
@@ -271,6 +271,12 @@ class Command(BaseCommand):
         if self.file_format not in FILE_FORMATS:
             raise CommandError(
                 'Invalid file format: %s' % options['file_format']
+            )
+
+        # Is vcs supported?
+        if self.vcs not in VCS_REGISTRY:
+            raise CommandError(
+                'Invalid vcs: %s' % options['vcs']
             )
 
         # Do we have correct mask?

@@ -403,6 +403,10 @@ class EditResourceSourceTest(ViewTestCase):
     """Source strings (template) editing."""
     has_plurals = False
 
+    def __init__(self, *args, **kwargs):
+        self._language_code = 'en'
+        super(EditResourceSourceTest, self).__init__(*args, **kwargs)
+
     def test_edit(self):
         translate_url = reverse(
             'translate',
@@ -426,9 +430,46 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assert_backend(4)
 
+    def test_edit_revert(self):
+        self._language_code = 'cs'
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+        # Edit translation
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+
+        self._language_code = 'en'
+
+        unit = translation.unit_set.get(context='hello')
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
+        # Edit source
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Hello, universe!\n'
+        )
+
+        unit = translation.unit_set.get(context='hello')
+        self.assertFalse(unit.translated)
+        self.assertTrue(unit.fuzzy)
+
+        # Revert source
+        response = self.edit_unit(
+            'Hello, universe!\n',
+            'Hello, world!\n'
+        )
+
+        unit = translation.unit_set.get(context='hello')
+        self.assertTrue(unit.translated)
+        self.assertFalse(unit.fuzzy)
+
     def get_translation(self):
         return self.subproject.translation_set.get(
-            language_code='en'
+            language_code=self._language_code
         )
 
     def create_subproject(self):
