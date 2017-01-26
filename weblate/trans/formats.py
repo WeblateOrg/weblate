@@ -754,8 +754,8 @@ class FileFormat(object):
         '''
         return cls.new_translation is not None
 
-    @staticmethod
-    def is_valid_base_for_new(base):
+    @classmethod
+    def is_valid_base_for_new(cls, base):
         '''
         Checks whether base is valid.
         '''
@@ -891,13 +891,13 @@ class PoFormat(FileFormat):
         '''
         return True
 
-    @staticmethod
-    def is_valid_base_for_new(base):
+    @classmethod
+    def is_valid_base_for_new(cls, base):
         '''
         Checks whether base is valid.
         '''
         try:
-            pofile.parsefile(base)
+            cls.loader.parsefile(base)
             return True
         except Exception:
             return False
@@ -979,13 +979,13 @@ class TSFormat(FileFormat):
 
         store.savefile(filename)
 
-    @staticmethod
-    def is_valid_base_for_new(base):
+    @classmethod
+    def is_valid_base_for_new(cls, base):
         '''
         Checks whether base is valid.
         '''
         try:
-            tsfile.parsefile(base)
+            cls.loader.parsefile(base)
             return True
         except Exception:
             return False
@@ -1024,13 +1024,13 @@ class XliffFormat(FileFormat):
         '''
         return True
 
-    @staticmethod
-    def is_valid_base_for_new(base):
+    @classmethod
+    def is_valid_base_for_new(cls, base):
         '''
         Checks whether base is valid.
         '''
         try:
-            xlifffile.parsefile(base)
+            cls.loader.parsefile(base)
             return True
         except Exception:
             return False
@@ -1038,7 +1038,7 @@ class XliffFormat(FileFormat):
     @classmethod
     def create_new_file(cls, filename, language, base):
         """Handles creation of new translation file."""
-        content = xlifffile.parsefile(base)
+        content = cls.loader.parsefile(base)
         content.settargetlanguage(language.code)
         content.savefile(filename)
 
