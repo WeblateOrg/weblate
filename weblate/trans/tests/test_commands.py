@@ -35,6 +35,7 @@ from weblate.trans.models import (
 )
 from weblate.runner import main
 from weblate.trans.tests.utils import get_test_file
+from weblate.trans.vcs import HgRepository
 from weblate.accounts.models import Profile
 
 TEST_PO = get_test_file('cs.po')
@@ -300,6 +301,22 @@ class ImportProjectTest(RepoTestCase):
             'master',
             '*/*.po',
         )
+
+    def test_import_mercurial(self):
+        """Test importing Mercurial project"""
+        if not HgRepository.is_supported():
+            raise SkipTest('Mercurial not available!')
+        project = self.create_project()
+        call_command(
+            'import_project',
+            'test',
+            self.hg_repo_path,
+            'default',
+            '**/*.po',
+            vcs='mercurial'
+        )
+        # We should have loaded four subprojects
+        self.assertEqual(project.subproject_set.count(), 2)
 
 
 class BasicCommandTest(TestCase):
