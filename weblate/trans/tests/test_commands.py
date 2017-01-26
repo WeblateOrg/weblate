@@ -635,12 +635,12 @@ class BenchmarkCommandTest(RepoTestCase):
         self.assertIn('function calls', output.getvalue())
 
 
-class SuggesionCommandTest(RepoTestCase):
+class SuggestionCommandTest(RepoTestCase):
     '''
     Test suggestion addding.
     '''
     def setUp(self):
-        super(SuggesionCommandTest, self).setUp()
+        super(SuggestionCommandTest, self).setUp()
         self.subproject = self.create_subproject()
 
     def test_add_suggestions(self):
