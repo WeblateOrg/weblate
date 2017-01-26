@@ -34,6 +34,7 @@ def get_user(request):
 
     Adds handling of anonymous user which is stored in database.
     """
+    # pylint: disable=W0212
     if not hasattr(request, '_cached_user'):
         request._cached_user = auth.get_user(request)
         if request._cached_user.is_anonymous():
