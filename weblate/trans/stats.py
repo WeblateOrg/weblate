@@ -33,12 +33,12 @@ def get_per_language_stats(project):
     result = []
 
     # List languages
-    languages = Translation.objects.filter(
+    languages = set(Translation.objects.filter(
         subproject__project=project
     ).values_list(
         'language',
         flat=True
-    ).distinct()
+    ))
 
     # Calculates total strings in project
     total = 0
@@ -52,17 +52,20 @@ def get_per_language_stats(project):
             pass
 
     # Translated strings in language
-    for language in Language.objects.filter(pk__in=languages):
-        data = Translation.objects.filter(
-            language=language,
-            subproject__project=project
-        ).aggregate(
-            Sum('translated'),
-            Sum('translated_words'),
-        )
-
-        translated = data['translated__sum']
-        translated_words = data['translated_words__sum']
+    data = Translation.objects.filter(
+        language__pk__in=languages,
+        subproject__project=project
+    ).values(
+        'language'
+    ).annotate(
+        Sum('translated'),
+        Sum('translated_words'),
+    )
+    languages = {l.pk: l for l in Language.objects.filter(pk__in=languages)}
+    for item in data:
+        language = languages[item['language']]
+        translated = item['translated__sum']
+        translated_words = item['translated_words__sum']
 
         # Insert sort
         pos = None
