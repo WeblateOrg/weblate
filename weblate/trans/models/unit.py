@@ -46,6 +46,7 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
+    calculate_checksum,
 )
 
 
@@ -630,6 +631,10 @@ class Unit(models.Model, LoggerMixin):
         # removed)
         self.flags = pounit.get_flags()
 
+        if self.translation.is_template():
+            self.source = self.target
+            self.contentsum = calculate_checksum(self.source, self.context)
+
         # Save updated unit to database
         self.save(backend=True)
 
@@ -684,7 +689,7 @@ class Unit(models.Model, LoggerMixin):
         )
         # Update source and contentsum
         same_source.update(
-            source=self.target,
+            source=self.source,
             contentsum=self.contentsum
         )
         # Find reverted units
