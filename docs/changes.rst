@@ -18,6 +18,7 @@ Released on ? 2017.
 * Moved fulltext cleanup to background job to make translation removal faster.
 * Fixed displaying of plural source for languages with single plural form.
 * Improved error handling in import_project.
+* Various performance improvements.
 
 weblate 2.10.1
 --------------

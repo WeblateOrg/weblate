@@ -371,6 +371,7 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * There is new recommended value for ``SOCIAL_AUTH_SLUGIFY_FUNCTION``.
+* There is change in ``MIDDLEWARE_CLASSES`` setting.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

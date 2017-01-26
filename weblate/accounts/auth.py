@@ -64,23 +64,6 @@ class WeblateUserBackend(ModelBackend):
     Authentication backend which allows to control anonymous user
     permissions and to login using email.
     '''
-
-    def get_all_permissions(self, user_obj, obj=None):
-        '''
-        Overrides get_all_permissions for anonymous users
-        to pass permissions of defined user.
-        '''
-        if user_obj.is_anonymous():
-            # Need to access private attribute, pylint: disable=W0212
-            if not hasattr(user_obj, '_perm_cache'):
-                anon_user = User.objects.get(username=ANONYMOUS_USER_NAME)
-                anon_user.is_active = True
-                user_obj._perm_cache = self.get_all_permissions(anon_user, obj)
-            return user_obj._perm_cache
-        return super(WeblateUserBackend, self).get_all_permissions(
-            user_obj, obj
-        )
-
     def _get_group_permissions(self, user_obj):
         """Wrapper around _get_group_permissions to exclude groupacl
 
@@ -111,7 +94,8 @@ class WeblateUserBackend(ModelBackend):
         '''
         Allows checking permissions for anonymous user as well.
         '''
-        if not user_obj.is_active and not user_obj.is_anonymous():
+        if (not user_obj.is_active
+                and not user_obj.username == ANONYMOUS_USER_NAME):
             return False
         return perm in self.get_all_permissions(user_obj, obj)
 

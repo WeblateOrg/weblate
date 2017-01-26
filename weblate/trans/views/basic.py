@@ -36,6 +36,7 @@ import django.views.defaults
 from six import string_types
 from six.moves.urllib.parse import urlencode
 
+from weblate import appsettings
 from weblate.trans import messages
 from weblate.trans.models import (
     Project, SubProject, Translation, Check, ComponentList,
@@ -128,7 +129,8 @@ def home(request):
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if not request.user.is_anonymous() and request.user.first_name == '':
+    if (request.user.username != appsettings.ANONYMOUS_USER_NAME
+            and request.user.first_name == ''):
         messages.warning(
             request,
             _('Please set your full name in your profile.')
@@ -469,7 +471,7 @@ def show_translation(request, project, subproject, lang):
     search_form = SearchForm()
 
     # Review form for logged in users
-    if request.user.is_anonymous():
+    if request.user.username == appsettings.ANONYMOUS_USER_NAME:
         review_form = None
     else:
         review_form = ReviewForm(

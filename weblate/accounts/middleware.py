@@ -21,7 +21,32 @@
 import re
 
 from django.conf import settings
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.utils.functional import SimpleLazyObject
+
+from weblate import appsettings
+
+
+def get_user(request):
+    """Based on django.contrib.auth.middleware.get_user
+
+    Adds handling of anonymous user which is stored in database.
+    """
+    if not hasattr(request, '_cached_user'):
+        request._cached_user = auth.get_user(request)
+        if request._cached_user.is_anonymous():
+            request._cached_user = User.objects.get(
+                username=appsettings.ANONYMOUS_USER_NAME,
+            )
+    return request._cached_user
+
+
+class AuthenticationMiddleware(object):
+    """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
+    def process_request(self, request):
+        request.user = SimpleLazyObject(lambda: get_user(request))
 
 
 class RequireLoginMiddleware(object):
