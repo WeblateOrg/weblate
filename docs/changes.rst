@@ -17,6 +17,7 @@ Released on ? 2017.
 * Added language code mapping for better support of Microsoft Translate API.
 * Moved fulltext cleanup to background job to make translation removal faster.
 * Fixed displaying of plural source for languages with single plural form.
+* Improved error handling in import_project.
 
 weblate 2.10.1
 --------------
