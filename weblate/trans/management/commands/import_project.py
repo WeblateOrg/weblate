@@ -276,9 +276,11 @@ class Command(BaseCommand):
                         options['component_regexp'], error
                     )
                 )
-            if 'name' not in self.component_re.groupindex:
+            if ('name' not in self.component_re.groupindex or
+                    'language' not in self.component_re.groupindex):
                 raise CommandError(
                     'Component regular expression lacks named group "name"'
+                    ' and/or "language"'
                 )
 
         # Is file format supported?

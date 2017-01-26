@@ -136,7 +136,7 @@ class ImportProjectTest(RepoTestCase):
             self.git_repo_path,
             'master',
             '**/*.po',
-            component_regexp=r'(?P<name>[^/-]*)/.*\.po'
+            component_regexp=r'(?P<name>[^/-]*)/(?P<language>.*)\.po'
         )
         self.assertEqual(project.subproject_set.count(), 1)
 
@@ -148,7 +148,7 @@ class ImportProjectTest(RepoTestCase):
             self.git_repo_path,
             'master',
             '**/*.po',
-            component_regexp=r'(?P<name>[^/-]*)/.*\.po',
+            component_regexp=r'(?P<name>[^/-]*)/(?P<language>.*)\.po',
             name_template='Test name'
         )
         self.assertEqual(project.subproject_set.count(), 1)

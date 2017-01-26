@@ -349,9 +349,9 @@ Existing components will be skipped.
 
     You can override parsing of component name from matched files here. This is
     a regular expression which will be matched against file name (as matched by
-    `<filemask>`) and has to contain named group `name`. This can be also used
-    for excluding files in case they do not match this expression. For example:
-    ``.*/(?P<name>[^-]*)\.po``
+    `<filemask>`) and has to contain named groups `name` and `language`. This
+    can be also used for excluding files in case they do not match this
+    expression. For example: ``(?P<language>.*)/(?P<name>[^-]*)\.po``
 
 .. django-admin-option:: --no-skip-duplicates
 
