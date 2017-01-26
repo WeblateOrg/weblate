@@ -340,7 +340,7 @@ class ImportProjectTest(RepoTestCase):
         """Test importing Mercurial project with mixed component/lang"""
         if not HgRepository.is_supported():
             raise SkipTest('Mercurial not available!')
-        project = self.create_project()
+        self.create_project()
         self.assertRaises(
             CommandError,
             call_command,
