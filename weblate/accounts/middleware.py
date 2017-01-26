@@ -25,9 +25,16 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
 from django.utils.functional import SimpleLazyObject
-from django.utils.deprecation import (
-    CallableFalse, CallableTrue, MiddlewareMixin,
-)
+
+# Remove this once we support Django 1.10+ (can return just true)
+try:
+    from django.utils.deprecation import (
+        CallableFalse, CallableTrue, MiddlewareMixin,
+    )
+except ImportError:
+    CallableFalse = lambda: False
+    CallableTrue = lambda: True
+    MiddlewareMixin = object
 
 from weblate import appsettings
 
