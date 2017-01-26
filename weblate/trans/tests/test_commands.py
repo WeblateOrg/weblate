@@ -334,6 +334,22 @@ class ImportProjectTest(RepoTestCase):
         # We should have loaded four subprojects
         self.assertEqual(project.subproject_set.count(), 3)
 
+    def test_import_mercurial_mixed(self):
+        """Test importing Mercurial project with mixed component/lang"""
+        if not HgRepository.is_supported():
+            raise SkipTest('Mercurial not available!')
+        project = self.create_project()
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_project',
+            'test',
+            self.hg_repo_path,
+            'default',
+            '*/**.po',
+            vcs='mercurial'
+        )
+
 
 class BasicCommandTest(TestCase):
     def test_versions(self):

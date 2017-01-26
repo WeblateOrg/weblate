@@ -30,6 +30,7 @@ from django.utils.encoding import force_text
 from django.db.models import Q
 from django.utils.text import slugify
 
+from weblate.lang.models import Language
 from weblate.trans.models import SubProject, Project
 from weblate.trans.formats import FILE_FORMATS
 from weblate.trans.util import is_repo_link, path_separator
@@ -161,8 +162,8 @@ class Command(BaseCommand):
         matches = self.match_regexp.match(path)
         if matches is None:
             self.logger.warning('Skipping %s', path)
-            return None
-        return matches.group('name')
+            return None, None
+        return matches.group('name'), matches.group('language')
 
     @property
     def match_regexp(self):
@@ -173,7 +174,9 @@ class Command(BaseCommand):
             return self.component_re
         if self._mask_regexp is None:
             match = fnmatch.translate(self.filemask)
-            match = match.replace('.*.*', '(?P<name>.*)')
+            match = match.replace('.*.*', '[[NAME_WILDCARD]]')
+            match = match.replace('.*', '(?P<language>.*)')
+            match = match.replace('[[NAME_WILDCARD]]', '(?P<name>.*)')
             self._mask_regexp = re.compile(match)
         return self._mask_regexp
 
@@ -217,11 +220,22 @@ class Command(BaseCommand):
 
         # Parse subproject names out of them
         names = set()
+        langs = set()
         for match in matches:
-            name = self.get_name(match)
+            name, lang = self.get_name(match)
             if name:
                 names.add(name)
+                langs.add(lang)
         self.logger.info('Found %d subprojects', len(names))
+        self.logger.info('Found %d languages', len(langs))
+
+        # Do some basic sanity check on languages
+        if Language.objects.filter(code__in=langs).count() == 0:
+            raise CommandError(
+                'None of matched languages exists, maybe you have '
+                'mixed * and ** in the mask?'
+            )
+
         return sorted(names)
 
     def find_usable_slug(self, name, slug_len, project):
