@@ -35,7 +35,9 @@ def get_per_language_stats(project):
     # List languages
     languages = {
         language.pk: language for language in
-        Language.objects.filter(translation__subproject__project=project)
+        Language.objects.filter(
+            translation__subproject__project=project
+        ).distinct()
     }
 
     # Calculates total strings in project
