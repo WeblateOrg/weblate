@@ -25,7 +25,7 @@ from django.http import Http404
 from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
-from weblate.trans.models import Project, Dictionary, Change
+from weblate.trans.models import Project, Change
 from weblate.trans.util import sort_objects
 from weblate.trans.views.helper import get_project
 
