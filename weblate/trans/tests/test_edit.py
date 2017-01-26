@@ -436,7 +436,7 @@ class EditResourceSourceTest(ViewTestCase):
             language_code='cs'
         )
         # Edit translation
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Nazdar svete!\n'
         )
@@ -448,7 +448,7 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
 
         # Edit source
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, world!\n',
             'Hello, universe!\n'
         )
@@ -458,7 +458,7 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertTrue(unit.fuzzy)
 
         # Revert source
-        response = self.edit_unit(
+        self.edit_unit(
             'Hello, universe!\n',
             'Hello, world!\n'
         )
