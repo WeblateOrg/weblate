@@ -25,9 +25,23 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
 from django.utils.functional import SimpleLazyObject
-from django.utils.deprecation import CallableFalse, CallableTrue
+from django.utils.deprecation import (
+    CallableFalse, CallableTrue, MiddlewareMixin,
+)
 
 from weblate import appsettings
+
+
+def is_authenticated(user):
+    if user.username == appsettings.ANONYMOUS_USER_NAME:
+        return CallableFalse
+    return CallableTrue
+
+
+def is_anonymous(user):
+    if user.username == appsettings.ANONYMOUS_USER_NAME:
+        return CallableTrue
+    return CallableFalse
 
 
 def get_user(request):
@@ -43,18 +57,14 @@ def get_user(request):
                 username=appsettings.ANONYMOUS_USER_NAME,
             )
             # Monkey patch methods
-            user.__class__.is_authenticated = property(
-                lambda self: CallableFalse
-            )
-            user.__class__.is_anonymous = property(
-                lambda self: CallableTrue
-            )
+            user.__class__.is_authenticated = property(is_authenticated)
+            user.__class__.is_anonymous = property(is_anonymous)
 
         request._cached_user = user
     return request._cached_user
 
 
-class AuthenticationMiddleware(object):
+class AuthenticationMiddleware(MiddlewareMixin):
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
     def process_request(self, request):
         request.user = SimpleLazyObject(lambda: get_user(request))
