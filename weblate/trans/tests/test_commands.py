@@ -302,6 +302,22 @@ class ImportProjectTest(RepoTestCase):
             '*/*.po',
         )
 
+    def test_import_wrong_vcs(self):
+        '''
+        Test of correct handling of wrong vcs.
+        '''
+        self.create_project()
+        self.assertRaises(
+            CommandError,
+            call_command,
+            'import_project',
+            'test',
+            self.git_repo_path,
+            'master',
+            '**/*.po',
+            vcs='nonexisting',
+        )
+
     def test_import_mercurial(self):
         """Test importing Mercurial project"""
         if not HgRepository.is_supported():
