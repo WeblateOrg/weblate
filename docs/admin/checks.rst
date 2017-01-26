@@ -40,6 +40,9 @@ flags`), here is current list of flags accepted:
     Whether to mark all new string in source language for review. This can
     be useful if you want to proofread the source language. This flag has no
     meaning for bilingual translations.
+``add-review``
+    Whether to mark all new string for review. This can be useful if you want
+    to proofread the translations done by developers.
 ``rst-text``
     Treat text as RST document, affects :ref:`check-same`.
 ``max-length:N``

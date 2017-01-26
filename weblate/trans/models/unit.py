@@ -428,6 +428,10 @@ class Unit(models.Model, LoggerMixin):
               'add-source-review' in all_flags and
               self.translation.is_template()):
             fuzzy = True
+        elif (translated and created and
+              'add-review' in all_flags and
+              not self.translation.is_template()):
+            fuzzy = True
         else:
             fuzzy = unit.is_fuzzy()
         previous_source = unit.get_previous_source()

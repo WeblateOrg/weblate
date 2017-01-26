@@ -35,6 +35,9 @@ EXTRA_FLAGS['skip-review-flag'] = ugettext_lazy(
 EXTRA_FLAGS['add-source-review'] = ugettext_lazy(
     'Add review flag for new source strings'
 )
+EXTRA_FLAGS['add-review'] = ugettext_lazy(
+    'Add review flag for new translated strings'
+)
 
 IGNORE_CHECK_FLAGS = set([CHECKS[x].ignore_string for x in CHECKS])
 
