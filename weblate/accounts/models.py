@@ -971,23 +971,19 @@ def create_groups(update):
         group.permissions.add(*owner_permissions)
 
     created = True
-    try:
-        anon_user = User.objects.get(
-            username=ANONYMOUS_USER_NAME,
-        )
-        created = False
-        if anon_user.is_active:
-            raise ValueError(
-                'Anonymous user ({}) already exists and enabled, '
-                'please change ANONYMOUS_USER_NAME setting.'.format(
-                    ANONYMOUS_USER_NAME,
-                )
+    anon_user, created = User.objects.get_or_create(
+        username=ANONYMOUS_USER_NAME,
+        defaults={
+            'email': 'noreply@weblate.org',
+            'is_active': False,
+        }
+    )
+    if anon_user.is_active:
+        raise ValueError(
+            'Anonymous user ({}) already exists and enabled, '
+            'please change ANONYMOUS_USER_NAME setting.'.format(
+                ANONYMOUS_USER_NAME,
             )
-    except User.DoesNotExist:
-        anon_user = User.objects.create(
-            username=ANONYMOUS_USER_NAME,
-            email='noreply@weblate.org',
-            is_active=False,
         )
 
     if created or update:
