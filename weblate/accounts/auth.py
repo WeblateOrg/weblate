@@ -94,8 +94,7 @@ class WeblateUserBackend(ModelBackend):
         '''
         Allows checking permissions for anonymous user as well.
         '''
-        if (not user_obj.is_active
-                and not user_obj.username == ANONYMOUS_USER_NAME):
+        if not user_obj.is_active and not user_obj.is_anonymous():
             return False
         return perm in self.get_all_permissions(user_obj, obj)
 

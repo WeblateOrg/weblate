@@ -197,7 +197,7 @@ class UnitManager(models.Manager):
         """
         Returns units touched by other users since given time.
         """
-        if user.username == appsettings.ANONYMOUS_USER_NAME:
+        if user.is_anonymous():
             return self.none()
         try:
             sample = self.all()[0]

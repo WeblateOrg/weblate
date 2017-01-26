@@ -23,8 +23,9 @@ import re
 from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser, User
 from django.utils.functional import SimpleLazyObject
+from django.utils.deprecation import CallableFalse, CallableTrue
 
 from weblate import appsettings
 
@@ -36,11 +37,20 @@ def get_user(request):
     """
     # pylint: disable=W0212
     if not hasattr(request, '_cached_user'):
-        request._cached_user = auth.get_user(request)
-        if request._cached_user.is_anonymous():
-            request._cached_user = User.objects.get(
+        user = auth.get_user(request)
+        if isinstance(user, AnonymousUser):
+            user = User.objects.get(
                 username=appsettings.ANONYMOUS_USER_NAME,
             )
+            # Monkey patch methods
+            user.__class__.is_authenticated = property(
+                lambda self: CallableFalse
+            )
+            user.__class__.is_anonymous = property(
+                lambda self: CallableTrue
+            )
+
+        request._cached_user = user
     return request._cached_user
 
 
