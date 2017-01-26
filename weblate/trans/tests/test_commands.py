@@ -332,7 +332,7 @@ class ImportProjectTest(RepoTestCase):
             vcs='mercurial'
         )
         # We should have loaded four subprojects
-        self.assertEqual(project.subproject_set.count(), 2)
+        self.assertEqual(project.subproject_set.count(), 3)
 
 
 class BasicCommandTest(TestCase):
