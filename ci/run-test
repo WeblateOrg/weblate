@@ -3,12 +3,8 @@
 
 . ci/lib
 
-export TEST_MIGRATIONS=1
-
 run_coverage ./manage.py migrate --noinput --traceback
 check
-
-unset TEST_MIGRATIONS
 
 run_coverage ./manage.py collectstatic --noinput
 check
