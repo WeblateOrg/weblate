@@ -124,7 +124,7 @@ def git_export(request, project, subproject, path):
     try:
         obj = get_subproject(request, project, subproject)
     except PermissionDenied:
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return response_authenticate()
         raise
 

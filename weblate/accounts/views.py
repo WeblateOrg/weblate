@@ -261,7 +261,7 @@ def get_initial_contact(request):
     Fills in initial contact form fields from request.
     '''
     initial = {}
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         initial['name'] = request.user.first_name
         initial['email'] = request.user.email
     return initial
@@ -391,7 +391,7 @@ def weblate_login(request):
     '''
 
     # Redirect logged in users to profile
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect_profile()
 
     # Redirect if there is only one backend
@@ -567,7 +567,7 @@ def reset_password(request):
         if form.is_valid():
             # Force creating new session
             request.session.create()
-            if request.user.is_authenticated():
+            if request.user.is_authenticated:
                 logout(request)
 
             request.session['password_reset'] = True
