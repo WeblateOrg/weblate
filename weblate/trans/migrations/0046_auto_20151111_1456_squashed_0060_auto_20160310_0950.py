@@ -49,6 +49,7 @@ class Migration(migrations.Migration):
         ('accounts', '0001_initial'),
         ('lang', '0002_auto_20150630_1208'),
         ('trans', '0045_auto_20150916_1007'),
+        ('auth', '0001_initial'),
     ]
 
     operations = [
