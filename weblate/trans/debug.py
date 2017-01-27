@@ -29,8 +29,7 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
     def get_post_parameters(self, request):
         if hasattr(request, 'META'):
             meta = request.META
-            if (hasattr(request, 'user') and
-                    request.user.is_authenticated()):
+            if hasattr(request, 'user'):
                 meta['WEBLATE_USER'] = repr(request.user.username)
             else:
                 meta['WEBLATE_USER'] = ''
