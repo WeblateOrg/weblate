@@ -84,7 +84,6 @@ SESSION_COOKIE_HTTPONLY = False
 
 # Test optional apps as well
 INSTALLED_APPS += (
-    'social_django',
     'weblate.billing',
     'weblate.gitexport',
 )
@@ -92,7 +91,7 @@ INSTALLED_APPS += (
 # Test GitHub auth
 AUTHENTICATION_BACKENDS = (
     'weblate.accounts.auth.EmailAuth',
-    'social.backends.github.GithubOAuth2',
+    'social_core.backends.github.GithubOAuth2',
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
