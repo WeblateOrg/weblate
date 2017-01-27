@@ -125,7 +125,7 @@ class Repository(object):
 
     @classmethod
     def log(cls, message):
-        return LOGGER.debug('weblate: {0}: {1}'.format(cls._cmd, message))
+        return LOGGER.debug('weblate: %s: %s', cls._cmd, message)
 
     def check_config(self):
         """
@@ -187,7 +187,7 @@ class Repository(object):
         retcode = process.poll()
         cls.log(
             '{0} [retcode={1}]'.format(
-                ' '.join(map(force_text, args)),
+                ' '.join([force_text(arg) for arg in args]),
                 retcode,
             )
         )
