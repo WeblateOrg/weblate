@@ -84,6 +84,7 @@ SESSION_COOKIE_HTTPONLY = False
 
 # Test optional apps as well
 INSTALLED_APPS += (
+    'social_django',
     'weblate.billing',
     'weblate.gitexport',
 )

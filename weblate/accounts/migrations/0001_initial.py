@@ -8,6 +8,8 @@ from django.conf import settings
 # App label has been changed in python-social-auth 0.2.20
 if 'social_auth' in apps.app_configs:
     SOCIAL_AUTH = 'social_auth'
+elif 'social_django' in apps.app_configs:
+    SOCIAL_AUTH = 'social_django'
 else:
     SOCIAL_AUTH = 'default'
 

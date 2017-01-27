@@ -28,15 +28,15 @@ from django.dispatch.dispatcher import receiver
 from django.utils.translation import ugettext as _
 from django.contrib.auth.backends import ModelBackend
 
-import social.backends.email
-from social.exceptions import AuthMissingParameter
+import social_core.backends.email
+from social_core.exceptions import AuthMissingParameter
 
 from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.trans import messages
 from weblate.utils.errors import report_error
 
 
-class EmailAuth(social.backends.email.EmailAuth):
+class EmailAuth(social_core.backends.email.EmailAuth):
     """Social auth handler to better report errors."""
     def auth_complete(self, *args, **kwargs):
         try:

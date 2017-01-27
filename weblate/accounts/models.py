@@ -40,7 +40,7 @@ from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from rest_framework.authtoken.models import Token
 
-from social.apps.django_app.default.models import UserSocialAuth
+from social_django.models import UserSocialAuth
 
 from weblate.lang.models import Language
 from weblate.trans import messages
