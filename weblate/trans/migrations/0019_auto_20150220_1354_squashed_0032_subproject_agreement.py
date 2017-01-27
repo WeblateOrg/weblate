@@ -26,7 +26,7 @@ def fill_in_subproject(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [(b'trans', '0019_auto_20150220_1354'), (b'trans', '0020_auto_20150220_1356'), (b'trans', '0021_auto_20150306_1605'), (b'trans', '0022_auto_20150309_0932'), (b'trans', '0023_project_owner'), (b'trans', '0024_subproject_edit_template'), (b'trans', '0025_subproject_post_update_script'), (b'trans', '0026_auto_20150401_1029'), (b'trans', '0027_auto_20150401_1030'), (b'trans', '0028_auto_20150402_1430'), (b'trans', '0029_auto_20150415_1318'), (b'trans', '0030_change_subproject'), (b'trans', '0031_auto_20150415_1339'), (b'trans', '0032_subproject_agreement')]
+    replaces = [('trans', '0019_auto_20150220_1354'), ('trans', '0020_auto_20150220_1356'), ('trans', '0021_auto_20150306_1605'), ('trans', '0022_auto_20150309_0932'), ('trans', '0023_project_owner'), ('trans', '0024_subproject_edit_template'), ('trans', '0025_subproject_post_update_script'), ('trans', '0026_auto_20150401_1029'), ('trans', '0027_auto_20150401_1030'), ('trans', '0028_auto_20150402_1430'), ('trans', '0029_auto_20150415_1318'), ('trans', '0030_change_subproject'), ('trans', '0031_auto_20150415_1339'), ('trans', '0032_subproject_agreement')]
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),

@@ -8,7 +8,7 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [(b'billing', '0005_billing_trial'), (b'billing', '0006_auto_20160106_1834'), (b'billing', '0007_invoice'), (b'billing', '0008_billing_state'), (b'billing', '0009_remove_billing_trial'), (b'billing', '0010_auto_20160210_1407'), (b'billing', '0011_auto_20160210_1522')]
+    replaces = [('billing', '0005_billing_trial'), ('billing', '0006_auto_20160106_1834'), ('billing', '0007_invoice'), ('billing', '0008_billing_state'), ('billing', '0009_remove_billing_trial'), ('billing', '0010_auto_20160210_1407'), ('billing', '0011_auto_20160210_1522')]
 
     dependencies = [
         ('billing', '0004_auto_20150917_1521'),

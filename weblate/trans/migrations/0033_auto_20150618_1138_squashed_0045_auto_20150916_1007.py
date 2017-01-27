@@ -28,7 +28,7 @@ def fill_in_owner(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [(b'trans', '0033_auto_20150618_1138'), (b'trans', '0034_auto_20150618_1140'), (b'trans', '0035_auto_20150630_1208'), (b'trans', '0036_auto_20150709_1005'), (b'trans', '0037_auto_20150810_1348'), (b'trans', '0038_auto_20150810_1354'), (b'trans', '0039_remove_project_owner'), (b'trans', '0040_auto_20150818_1643'), (b'trans', '0041_auto_20150819_1457'), (b'trans', '0042_auto_20150910_0854'), (b'trans', '0043_auto_20150910_0909'), (b'trans', '0044_auto_20150916_0952'), (b'trans', '0045_auto_20150916_1007')]
+    replaces = [('trans', '0033_auto_20150618_1138'), ('trans', '0034_auto_20150618_1140'), ('trans', '0035_auto_20150630_1208'), ('trans', '0036_auto_20150709_1005'), ('trans', '0037_auto_20150810_1348'), ('trans', '0038_auto_20150810_1354'), ('trans', '0039_remove_project_owner'), ('trans', '0040_auto_20150818_1643'), ('trans', '0041_auto_20150819_1457'), ('trans', '0042_auto_20150910_0854'), ('trans', '0043_auto_20150910_0909'), ('trans', '0044_auto_20150916_0952'), ('trans', '0045_auto_20150916_1007')]
 
     dependencies = [
         ('trans', '0032_subproject_agreement'),

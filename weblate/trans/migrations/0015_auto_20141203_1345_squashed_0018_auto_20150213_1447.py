@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [(b'trans', '0015_auto_20141203_1345'), (b'trans', '0016_auto_20141208_1029'), (b'trans', '0017_auto_20150108_1424'), (b'trans', '0018_auto_20150213_1447')]
+    replaces = [('trans', '0015_auto_20141203_1345'), ('trans', '0016_auto_20141208_1029'), ('trans', '0017_auto_20150108_1424'), ('trans', '0018_auto_20150213_1447')]
 
     dependencies = [
         ('trans', '0014_auto_20141202_1101'),

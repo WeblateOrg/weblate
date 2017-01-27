@@ -9,7 +9,7 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [(b'billing', '0001_initial'), (b'billing', '0002_auto_20150917_1445'), (b'billing', '0003_auto_20150917_1457'), (b'billing', '0004_auto_20150917_1521')]
+    replaces = [('billing', '0001_initial'), ('billing', '0002_auto_20150917_1445'), ('billing', '0003_auto_20150917_1457'), ('billing', '0004_auto_20150917_1521')]
 
     initial = True
 
