@@ -30,8 +30,11 @@ import os
 import os.path
 import re
 import subprocess
+import logging
 
 from dateutil import parser
+
+from django.utils.encoding import force_text
 
 import six
 from six.moves.configparser import RawConfigParser
@@ -42,6 +45,8 @@ from weblate.trans.util import (
 from weblate.trans.filelock import FileLock
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
 from weblate import appsettings
+
+LOGGER = logging.getLogger('weblate-vcs')
 
 VCS_REGISTRY = {}
 VCS_CHOICES = []
@@ -118,6 +123,10 @@ class Repository(object):
         if not self.is_valid():
             self.init()
 
+    @classmethod
+    def log(cls, message):
+        return LOGGER.debug('weblate: {0}: {1}'.format(cls._cmd, message))
+
     def check_config(self):
         """
         Checks VCS configuration.
@@ -176,6 +185,12 @@ class Repository(object):
         )
         output, output_err = process.communicate()
         retcode = process.poll()
+        cls.log(
+            '{0} [retcode={1}]'.format(
+                ' '.join(map(force_text, args)),
+                retcode,
+            )
+        )
         if retcode:
             raise RepositoryException(
                 retcode,
