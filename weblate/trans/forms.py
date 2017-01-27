@@ -199,10 +199,11 @@ class PluralTextarea(forms.Textarea):
 
         return TOOLBAR_TEMPLATE.format('\n'.join(groups))
 
-    def render(self, name, unit, attrs=None):
+    def render(self, name, value, attrs=None):
         '''
         Renders all textareas with correct plural labels.
         '''
+        unit = value
         values = unit.get_target_plurals()
         lang = unit.translation.language
         tabindex = self.attrs['tabindex']
