@@ -663,8 +663,6 @@ class SuggestionCommandTest(RepoTestCase):
             'add_suggestions', 'test', 'test', 'cs', TEST_PO,
         )
         profile = Profile.objects.get(user__email='noreply@weblate.org')
-        for p in Profile.objects.all():
-            print(p, p.user.username, p.user.email, p.suggested)
         self.assertEqual(profile.suggested, 1)
 
     def test_missing_user(self):

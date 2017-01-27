@@ -38,11 +38,7 @@ class SuggestionManager(models.Manager):
         '''
         Creates new suggestion for this unit.
         '''
-
-        if not request.user.is_authenticated():
-            user = None
-        else:
-            user = request.user
+        user = request.user
 
         # Create the suggestion
         suggestion = self.create(
