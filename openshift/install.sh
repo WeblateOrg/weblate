@@ -51,10 +51,10 @@ source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
 
 cd ${OPENSHIFT_REPO_DIR}
 
-# Pin Django version to 1.9 to avoid surprises when 1.10 comes out.
+# Pin Django version to 1.10 to avoid surprises when 1.11 comes out.
 # Prevent lxml 3.5 or later to be used on OpenShift because its compilation
 # needs more memory than small gears can provide.
-sed -e 's/Django[<>=]\+.*/Django>=1.9,<1.10/' \
+sed -e 's/Django[<>=]\+.*/Django>=1.10,<1.11/' \
   -e 's/lxml[<>=]\+.*/\0,<3.5/' \
   $OPENSHIFT_REPO_DIR/requirements.txt \
   >/tmp/requirements.txt
