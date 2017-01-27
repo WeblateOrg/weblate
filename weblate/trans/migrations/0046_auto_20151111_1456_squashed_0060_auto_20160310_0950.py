@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
             name='GroupACL',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('groups', models.ManyToManyField(to=b'auth.Group')),
+                ('groups', models.ManyToManyField(to='auth.Group')),
                 ('language', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='lang.Language')),
                 ('project', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.Project')),
                 ('subproject', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='trans.SubProject')),
@@ -180,7 +180,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(help_text='Name to display', max_length=100, unique=True, verbose_name='Component list name')),
                 ('slug', models.SlugField(help_text='Name used in URLs and file names.', max_length=100, unique=True, verbose_name='URL slug')),
-                ('components', models.ManyToManyField(to=b'trans.SubProject')),
+                ('components', models.ManyToManyField(to='trans.SubProject')),
             ],
             options={
                 'verbose_name': 'Component list',

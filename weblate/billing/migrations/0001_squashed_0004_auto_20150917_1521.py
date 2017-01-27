@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='billing',
             name='projects',
-            field=models.ManyToManyField(blank=True, to=b'trans.Project'),
+            field=models.ManyToManyField(blank=True, to='trans.Project'),
         ),
         migrations.AddField(
             model_name='billing',

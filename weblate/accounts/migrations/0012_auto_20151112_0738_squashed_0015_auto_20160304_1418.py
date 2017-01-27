@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='secondary_languages',
-            field=models.ManyToManyField(blank=True, help_text='Choose languages you can understand, strings in those languages will be shown in addition to the source string.', related_name='secondary_profile_set', to=b'lang.Language', verbose_name='Secondary languages'),
+            field=models.ManyToManyField(blank=True, help_text='Choose languages you can understand, strings in those languages will be shown in addition to the source string.', related_name='secondary_profile_set', to='lang.Language', verbose_name='Secondary languages'),
         ),
         migrations.CreateModel(
             name='AutoGroup',
@@ -64,6 +64,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='subscriptions',
-            field=models.ManyToManyField(blank=True, help_text='You can receive notifications for subscribed projects and they are shown on dashboard by default.', to=b'trans.Project', verbose_name='Subscribed projects'),
+            field=models.ManyToManyField(blank=True, help_text='You can receive notifications for subscribed projects and they are shown on dashboard by default.', to='trans.Project', verbose_name='Subscribed projects'),
         ),
     ]

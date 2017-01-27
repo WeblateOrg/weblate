@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='languages',
-            field=models.ManyToManyField(blank=True, help_text='Choose languages to which you can translate.', to=b'lang.Language', verbose_name='Translated languages'),
+            field=models.ManyToManyField(blank=True, help_text='Choose languages to which you can translate.', to='lang.Language', verbose_name='Translated languages'),
         ),
         migrations.AddField(
             model_name='profile',
