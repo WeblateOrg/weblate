@@ -26,8 +26,8 @@ BuildRequires:  python-django-crispy-forms >= 1.4.0
 BuildRequires:  python-django_compressor >= 2.1
 BuildRequires:  python-djangorestframework >= 3.3
 BuildRequires:  python-httpretty
-BuildRequires:  python-python-social-auth >= 0.2
-BuildRequires:  python-python-social-auth < 0.3
+BuildRequires:  python-social-auth-app-django >= 1.0.0
+BuildRequires:  python-social-auth-core >= 1.0.0
 BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
 BuildRequires:  python-Whoosh >= 2.6.1
@@ -46,8 +46,8 @@ Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
 Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
-Requires:       python-python-social-auth >= 0.2
-Requires:       python-python-social-auth < 0.3
+Requires:       python-social-auth-app-django >= 1.0.0
+Requires:       python-social-auth-core >= 1.0.0
 Requires:       python-Whoosh >= 2.6.1
 Requires:       translate-toolkit >= 1.14.0
 Recommends:     git-review

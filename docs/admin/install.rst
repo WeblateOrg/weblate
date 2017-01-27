@@ -39,8 +39,10 @@ Git (>= 1.6)
     https://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
-python-social-auth (>= 0.2.0, < 0.3.0)
-    http://psa.matiasaguirre.net/
+social-auth-core (>= 1.0.0)
+    http://python-social-auth.readthedocs.io/
+social-auth-app-django (>= 1.0.0)
+    http://python-social-auth.readthedocs.io/
 Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
     https://bitbucket.org/mchaput/whoosh/wiki/Home
 PIL or Pillow library
@@ -89,7 +91,7 @@ install them you can use apt-get:
 
     apt-get install python-pip python-django translate-toolkit \
         python-whoosh python-pil python-libravatar \
-        python-babel git mercurial python-social-auth \
+        python-babel git mercurial \
         python-django-compressor python-django-crispy-forms \
         python-djangorestframework python-dateutil
 
@@ -110,8 +112,9 @@ need to install several Python modules manually using pip:
     # Dependencies for python-social-auth
     apt-get install python-requests-oauthlib python-six python-openid
 
-    # In case python-social-auth package is missing
-    pip install python-social-auth
+    # Social auth
+    pip install social-auth-core
+    pip install social-auth-app-django
 
     # In case your distribution has python-django older than 1.9
     pip install Django
@@ -172,7 +175,8 @@ Most of requirements are available either directly in openSUSE or in
 .. code-block:: sh
 
     zypper install python-Django translate-toolkit \
-        python-Whoosh python-Pillow python-python-social-auth \
+        python-Whoosh python-Pillow \
+        python-social-auth-core python-social-auth-app-django \
         python-babel Git mercurial python-pyuca \
         python-dateutil
 
