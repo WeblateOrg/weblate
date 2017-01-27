@@ -46,6 +46,7 @@ class Migration(migrations.Migration):
     replaces = [(b'trans', '0046_auto_20151111_1456'), (b'trans', '0047_project_source_language'), (b'trans', '0048_auto_20151120_1306'), (b'trans', '0049_auto_20151222_0949'), (b'trans', '0050_auto_20151222_1006'), (b'trans', '0051_auto_20151222_1059'), (b'trans', '0052_install_group_acl'), (b'trans', '0053_auto_20160202_1145'), (b'trans', '0054_auto_20160202_1219'), (b'trans', '0055_auto_20160202_1221'), (b'trans', '0056_auto_20160202_1224'), (b'trans', '0057_indexupdate_language_code'), (b'trans', '0058_componentlist'), (b'trans', '0059_auto_20160303_0934'), (b'trans', '0060_auto_20160310_0950')]
 
     dependencies = [
+        ('accounts', '0001_initial'),
         ('lang', '0002_auto_20150630_1208'),
         ('trans', '0045_auto_20150916_1007'),
     ]
