@@ -101,7 +101,7 @@ class RequireLoginMiddleware(object):
             return None
 
         # No need to process URLs if user already logged in
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return None
 
         # An exception match should immediately return None

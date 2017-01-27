@@ -53,29 +53,13 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
-# Remove this once we support Django 1.10+ (can return just true)
-try:
-    # pylint: disable=C0412
-    from django.utils.deprecation import CallableFalse, CallableTrue
-except ImportError:
-    # pylint: disable=C0103
-    def CallableFalse():
-        return False
-
-    def CallableTrue():
-        return True
-
 
 def is_authenticated(user):
-    if user.username == ANONYMOUS_USER_NAME:
-        return CallableFalse
-    return CallableTrue
+    return user.username != ANONYMOUS_USER_NAME
 
 
 def is_anonymous(user):
-    if user.username == ANONYMOUS_USER_NAME:
-        return CallableTrue
-    return CallableFalse
+    return user.username == ANONYMOUS_USER_NAME
 
 
 # Monkey patch methods to handle in database anonymous user
@@ -506,7 +490,7 @@ class ProfileManager(models.Manager):
             languages=language
         )
         # We don't want to filter out anonymous user
-        if user is not None and user.is_authenticated():
+        if user is not None and user.is_authenticated:
             ret = ret.exclude(user=user)
         return ret
 
