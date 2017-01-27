@@ -26,29 +26,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
 from django.utils.functional import SimpleLazyObject
 
-# Remove this once we support Django 1.10+ (can return just true)
-try:
-    from django.utils.deprecation import (
-        CallableFalse, CallableTrue, MiddlewareMixin,
-    )
-except ImportError:
-    CallableFalse = lambda: False
-    CallableTrue = lambda: True
-    MiddlewareMixin = object
-
 from weblate import appsettings
 
-
-def is_authenticated(user):
-    if user.username == appsettings.ANONYMOUS_USER_NAME:
-        return CallableFalse
-    return CallableTrue
-
-
-def is_anonymous(user):
-    if user.username == appsettings.ANONYMOUS_USER_NAME:
-        return CallableTrue
-    return CallableFalse
+# Remove this once we support Django 1.10+ (can return just true)
+try:
+    # pylint: disable=C0412
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
 
 
 def get_user(request):
@@ -63,9 +48,6 @@ def get_user(request):
             user = User.objects.get(
                 username=appsettings.ANONYMOUS_USER_NAME,
             )
-            # Monkey patch methods
-            user.__class__.is_authenticated = property(is_authenticated)
-            user.__class__.is_anonymous = property(is_anonymous)
 
         request._cached_user = user
     return request._cached_user

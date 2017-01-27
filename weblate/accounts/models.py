@@ -53,6 +53,35 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
+# Remove this once we support Django 1.10+ (can return just true)
+try:
+    # pylint: disable=C0412
+    from django.utils.deprecation import CallableFalse, CallableTrue
+except ImportError:
+    # pylint: disable=C0103
+    def CallableFalse():
+        return False
+
+    def CallableTrue():
+        return True
+
+
+def is_authenticated(user):
+    if user.username == ANONYMOUS_USER_NAME:
+        return CallableFalse
+    return CallableTrue
+
+
+def is_anonymous(user):
+    if user.username == ANONYMOUS_USER_NAME:
+        return CallableTrue
+    return CallableFalse
+
+
+# Monkey patch methods to handle in database anonymous user
+User().__class__.is_authenticated = property(is_authenticated)
+User().__class__.is_anonymous = property(is_anonymous)
+
 
 def send_mails(mails):
     """Sends multiple mails in single connection."""
