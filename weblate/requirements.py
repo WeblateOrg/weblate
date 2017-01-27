@@ -180,7 +180,7 @@ def get_versions():
         'Django',
         'https://www.djangoproject.com/',
         'django',
-        '1.9',
+        '1.10',
         'get_version'
     ))
 

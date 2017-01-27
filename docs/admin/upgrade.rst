@@ -53,6 +53,13 @@ To upgrade default set of language definitions (optional), run:
     Since version 2.3, Weblate supports only Django native migrations, South is
     no longer supported, please check :ref:`django-17` for more information.
 
+.. versionchanged:: 2.11
+
+    Since version 2.11, there is reduced support for migrating from
+    older not released versions. In case you hit problem in this, please 
+    upgrade first to closest released version and then continue in 
+    upgrading to latest one.
+
 .. _version-specific-instructions:
 
 Version specific instructions
