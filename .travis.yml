@@ -17,7 +17,6 @@ env:
     - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=mysql
     - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
     - CI_PIP_DEPS="Django>=1.9,<1.10"
-    - CI_PIP_DEPS="--pre Django"
     - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql CI_MODE=selenium
     - CI_PIP_DEPS="sphinxcontrib-httpdomain docutils!=0.13.1" CI_MODE=docs
   global:
@@ -52,8 +51,6 @@ matrix:
   allow_failures:
     - python: "3.6"
       env: CI_PIP_DEPS="Django>=1.10,<1.11"
-    - python: "2.7"
-      env: CI_PIP_DEPS="--pre Django"
 addons:
   apt:
     packages:
