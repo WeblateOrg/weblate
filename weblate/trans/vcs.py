@@ -125,7 +125,7 @@ class Repository(object):
 
     @classmethod
     def log(cls, message):
-        return LOGGER.debug('weblate: {0}: {1}'.format(cls._cmd, message))
+        return LOGGER.debug('weblate: %s: %s', cls._cmd, message)
 
     def check_config(self):
         """
