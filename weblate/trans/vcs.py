@@ -187,7 +187,7 @@ class Repository(object):
         retcode = process.poll()
         cls.log(
             '{0} [retcode={1}]'.format(
-                ' '.join(map(force_text, args)),
+                ' '.join([force_text(arg) for arg in args]),
                 retcode,
             )
         )
