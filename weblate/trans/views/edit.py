@@ -550,7 +550,7 @@ def translate(request, project, subproject, lang):
         return redirect(translation)
 
     # Show secondary languages for logged in users
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         secondary = unit.get_secondary_units(request.user)
     else:
         secondary = None
@@ -715,7 +715,7 @@ def get_zen_unitdata(translation, request):
             'unit': unit,
             'secondary': (
                 unit.get_secondary_units(request.user)
-                if request.user.is_authenticated() and
+                if request.user.is_authenticated and
                 request.user.profile.secondary_in_zen
                 else None
             ),

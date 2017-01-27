@@ -65,7 +65,7 @@ class WeblateUserBackend(ModelBackend):
     permissions and to login using email.
     '''
     def get_all_permissions(self, user_obj, obj=None):
-        if ((not user_obj.is_active and not user_obj.is_anonymous())
+        if ((not user_obj.is_active and not user_obj.is_anonymous)
                 or obj is not None):
             return set()
         if not hasattr(user_obj, '_perm_cache'):
@@ -79,7 +79,7 @@ class WeblateUserBackend(ModelBackend):
         be either "group" or "user" to return permissions from
         `_get_group_permissions` or `_get_user_permissions` respectively.
         """
-        if not user_obj.is_active and not user_obj.is_anonymous():
+        if not user_obj.is_active and not user_obj.is_anonymous:
             return set()
 
         perm_cache_name = '_%s_perm_cache' % from_name
@@ -130,7 +130,7 @@ class WeblateUserBackend(ModelBackend):
         '''
         Allows checking permissions for anonymous user as well.
         '''
-        if not user_obj.is_active and not user_obj.is_anonymous():
+        if not user_obj.is_active and not user_obj.is_anonymous:
             return False
         return perm in self.get_all_permissions(user_obj, obj)
 

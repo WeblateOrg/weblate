@@ -166,7 +166,7 @@ class Suggestion(models.Model):
         '''
         Adds (or updates) vote for a suggestion.
         '''
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return
 
         vote, created = Vote.objects.get_or_create(

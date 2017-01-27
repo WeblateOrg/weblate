@@ -45,7 +45,7 @@ def weblate_context(request):
 
     # Load user translations if user is authenticated
     subscribed_projects = None
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         subscribed_projects = request.user.profile.subscriptions.all()
 
     if appsettings.OFFER_HOSTING:

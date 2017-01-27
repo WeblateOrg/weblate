@@ -79,7 +79,7 @@ def get_suggestions(request, user, project_ids):
     )
     all_matching = base.none()
 
-    if user.is_authenticated() and user.profile.languages.exists():
+    if user.is_authenticated and user.profile.languages.exists():
         # Find other translations for user language
         all_matching = base.filter(
             language__in=user.profile.languages.all(),
@@ -128,7 +128,7 @@ def home(request):
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if not request.user.is_anonymous() and request.user.first_name == '':
+    if not request.user.is_anonymous and request.user.first_name == '':
         messages.warning(
             request,
             _('Please set your full name in your profile.')
@@ -146,7 +146,7 @@ def home(request):
     active_tab_id = Profile.DASHBOARD_SUGGESTIONS
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         active_tab_id = request.user.profile.dashboard_view
         active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
         if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
@@ -467,7 +467,7 @@ def show_translation(request, project, subproject, lang):
     search_form = SearchForm()
 
     # Review form for logged in users
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         review_form = None
     else:
         review_form = ReviewForm(
