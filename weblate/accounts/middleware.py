@@ -28,13 +28,6 @@ from django.utils.functional import SimpleLazyObject
 
 from weblate import appsettings
 
-# Remove this once we support Django 1.10+ (can return just true)
-try:
-    # pylint: disable=C0412
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-    MiddlewareMixin = object
-
 
 def get_user(request):
     """Based on django.contrib.auth.middleware.get_user
@@ -53,7 +46,7 @@ def get_user(request):
     return request._cached_user
 
 
-class AuthenticationMiddleware(MiddlewareMixin):
+class AuthenticationMiddleware(object):
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
     def process_request(self, request):
         request.user = SimpleLazyObject(lambda: get_user(request))
