@@ -24,6 +24,18 @@ from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
 from weblate import appsettings
 
 
+LANGUAGE_MAP = {
+    'ca': 'cat',
+    'cy': 'cym',
+    'en': 'eng',
+    'eo': 'epo',
+    'gl': 'glg',
+    'bs': 'hbs_BS',
+    'is': 'isl',
+    'es': 'spa',
+}
+
+
 class ApertiumAPYTranslation(MachineTranslation):
     '''
     Apertium machine translation support.
@@ -48,11 +60,24 @@ class ApertiumAPYTranslation(MachineTranslation):
 
         return appsettings.MT_APERTIUM_APY.rstrip('/')
 
+    @property
+    def all_langs(self):
+        """Return all language codes known to service"""
+        langs = self.supported_languages
+        return set(
+            [l[0] for l in langs] +
+            [l[1] for l in langs]
+        )
+
     def convert_language(self, language):
         '''
         Converts language to service specific code.
         '''
-        return language.replace('_', '-').lower()
+        # Force download of supported languages
+        language = language.replace('-', '_')
+        if language not in self.all_langs and language in LANGUAGE_MAP:
+            return LANGUAGE_MAP[language]
+        return language
 
     def download_languages(self):
         '''

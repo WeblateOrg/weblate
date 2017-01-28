@@ -192,7 +192,7 @@ class MachineTranslationTest(TestCase):
             httpretty.GET,
             'http://apertium.example.com/listPairs',
             body='{"responseStatus": 200, "responseData":'
-            '[{"sourceLanguage": "en","targetLanguage": "es"}]}'
+            '[{"sourceLanguage": "eng","targetLanguage": "spa"}]}'
         )
         httpretty.register_uri(
             httpretty.GET,
