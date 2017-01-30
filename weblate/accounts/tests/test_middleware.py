@@ -46,7 +46,7 @@ class MiddlewareTest(TestCase):
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
         request.user = User()
-        request.META['SERVER_NAME'] = 'server'
+        request.META['SERVER_NAME'] = 'testserver'
         request.META['SERVER_PORT'] = '80'
         # No protection for not protected path
         self.assertIsNone(
