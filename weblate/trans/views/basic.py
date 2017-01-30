@@ -319,7 +319,7 @@ def show_project(request, project):
 
     dict_langs = Language.objects.filter(
         dictionary__project=obj
-    ).distinct()
+    ).annotate(Count('dictionary'))
 
     if request.method == 'POST' and can_edit_project(request.user, obj):
         settings_form = ProjectSettingsForm(request.POST, instance=obj)
@@ -334,18 +334,6 @@ def show_project(request, project):
             )
     else:
         settings_form = ProjectSettingsForm(instance=obj)
-
-    dicts = []
-    for language in dict_langs:
-        dicts.append(
-            {
-                'language': language,
-                'count': Dictionary.objects.filter(
-                    language=language,
-                    project=obj
-                ).count(),
-            }
-        )
 
     last_changes = Change.objects.for_project(obj)[:10]
 
@@ -368,7 +356,7 @@ def show_project(request, project):
         {
             'object': obj,
             'project': obj,
-            'dicts': dicts,
+            'dicts': dict_langs,
             'last_changes': last_changes,
             'last_changes_url': urlencode(
                 {'project': obj.slug}

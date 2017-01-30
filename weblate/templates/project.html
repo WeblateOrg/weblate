@@ -136,8 +136,8 @@
 
 {% if dicts %}
 <div class="list-group">
-{% for dict in dicts %}
-<a class="list-group-item" href="{% url 'show_dictionary' project=object.slug lang=dict.language.code %}"><span class="badge">{{ dict.count }}</span>{{ dict.language }}</a>
+{% for language in dicts %}
+<a class="list-group-item" href="{% url 'show_dictionary' project=object.slug lang=language.code %}"><span class="badge">{{ language.dictionary__count }}</span>{{ language }}</a>
 {% endfor %}
 </div>
 {% else %}
