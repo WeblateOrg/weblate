@@ -39,7 +39,7 @@ http://psa.matiasaguirre.net/docs/configuration/django.html
     By default, Weblate relies on third-party authentication services to
     provide validated email address, in case some of services you want to use
     do not support this, please remove
-    ``social.pipeline.social_auth.associate_by_email`` from
+    ``social_core.pipeline.social_auth.associate_by_email`` from
     ``SOCIAL_AUTH_PIPELINE`` settings.
 
 Enabling individual backends is quite easy, it's just a matter of adding entry to
@@ -58,10 +58,10 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social.backends.email.EmailAuth',
-        'social.backends.suse.OpenSUSEOpenId',
-        'social.backends.ubuntu.UbuntuOpenId',
-        'social.backends.fedora.FedoraOpenId',
+        'social_core.backends.email.EmailAuth',
+        'social_core.backends.suse.OpenSUSEOpenId',
+        'social_core.backends.ubuntu.UbuntuOpenId',
+        'social_core.backends.fedora.FedoraOpenId',
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
@@ -76,8 +76,8 @@ You need to register application on GitHub and then tell Weblate all the secrets
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social.backends.github.GithubOAuth2',
-        'social.backends.email.EmailAuth',
+        'social_core.backends.github.GithubOAuth2',
+        'social_core.backends.email.EmailAuth',
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
@@ -101,8 +101,8 @@ You need to register application on Bitbucket and then tell Weblate all the secr
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social.backends.bitbucket.BitbucketOAuth',
-        'social.backends.email.EmailAuth',
+        'social_core.backends.bitbucket.BitbucketOAuth',
+        'social_core.backends.email.EmailAuth',
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
@@ -129,8 +129,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social.backends.google.GoogleOAuth2',
-        'social.backends.email.EmailAuth',
+        'social_core.backends.google.GoogleOAuth2',
+        'social_core.backends.email.EmailAuth',
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
@@ -150,8 +150,8 @@ Facebook. Once this is done, you can configure Weblate to use it:
 
     # Authentication configuration
     AUTHENTICATION_BACKENDS = (
-        'social.backends.facebook.FacebookOAuth2',
-        'social.backends.email.EmailAuth',
+        'social_core.backends.facebook.FacebookOAuth2',
+        'social_core.backends.email.EmailAuth',
         'weblate.accounts.auth.WeblateUserBackend',
     )
 

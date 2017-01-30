@@ -41,9 +41,9 @@ from rest_framework.authtoken.models import Token
 
 from six.moves.urllib.parse import urlencode
 
-from social.backends.utils import load_backends
-from social.apps.django_app.utils import BACKENDS
-from social.apps.django_app.views import complete
+from social_core.backends.utils import load_backends
+from social_django.utils import BACKENDS
+from social_django.views import complete
 
 from weblate.accounts.forms import (
     RegistrationForm, PasswordForm, PasswordChangeForm, EmailForm, ResetForm,

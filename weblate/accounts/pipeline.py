@@ -32,8 +32,8 @@ from django.utils.translation import ugettext as _
 
 from six.moves.urllib.request import Request, urlopen
 
-from social.pipeline.partial import partial
-from social.exceptions import (
+from social_core.pipeline.partial import partial
+from social_core.exceptions import (
     AuthException, AuthMissingParameter, AuthAlreadyAssociated
 )
 

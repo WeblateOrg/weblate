@@ -33,7 +33,7 @@ from django.core import mail
 from django.test import TestCase
 from django.test.utils import override_settings
 
-import social.apps.django_app.utils
+import social_django.utils
 
 from weblate.accounts.models import VerifiedEmail
 from weblate.trans.tests.test_views import RegistrationTestMixin
@@ -49,7 +49,7 @@ REGISTRATION_DATA = {
 
 GH_BACKENDS = (
     'weblate.accounts.auth.EmailAuth',
-    'social.backends.github.GithubOAuth2',
+    'social_core.backends.github.GithubOAuth2',
     'weblate.accounts.auth.WeblateUserBackend',
 )
 
@@ -338,8 +338,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         """Test GitHub integration"""
         try:
             # psa creates copy of settings...
-            orig_backends = social.apps.django_app.utils.BACKENDS
-            social.apps.django_app.utils.BACKENDS = GH_BACKENDS
+            orig_backends = social_django.utils.BACKENDS
+            social_django.utils.BACKENDS = GH_BACKENDS
 
             httpretty.register_uri(
                 httpretty.POST,
@@ -398,7 +398,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             self.assertEqual(user.first_name, 'Weblate')
             self.assertEqual(user.email, 'noreply-weblate@example.org')
         finally:
-            social.apps.django_app.utils.BACKENDS = orig_backends
+            social_django.utils.BACKENDS = orig_backends
 
 
 class NoCookieRegistrationTest(RegistrationTest):
