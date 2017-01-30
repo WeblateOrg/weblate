@@ -321,6 +321,12 @@ class Command(BaseCommand):
                 options['project']
             )
 
+        # We need to limit slug length to avoid problems with MySQL
+        # silent truncation
+        # pylint: disable=W0212
+        slug_len = SubProject._meta.get_field('slug').max_length
+        name_len = SubProject._meta.get_field('name').max_length
+
         if is_repo_link(repo):
             sharedrepo = repo
             try:
@@ -334,16 +340,13 @@ class Command(BaseCommand):
                 sub_project.get_path(),
             )
         else:
-            matches, sharedrepo = self.import_initial(project, repo, branch)
-
-        # We need to limit slug length to avoid problems with MySQL
-        # silent truncation
-        # pylint: disable=W0212
-        slug_len = SubProject._meta.get_field('slug').max_length
+            matches, sharedrepo = self.import_initial(
+                project, repo, branch, slug_len, name_len
+            )
 
         # Create remaining subprojects sharing git repository
         for match in matches:
-            name = self.format_string(self.name_template, match)
+            name = self.format_string(self.name_template, match)[:name_len]
             template = self.format_string(self.base_file_template, match)
             slug = slugify(name)[:slug_len]
             subprojects = SubProject.objects.filter(
@@ -391,7 +394,7 @@ class Command(BaseCommand):
                 result[key] = value
         return result
 
-    def import_initial(self, project, repo, branch):
+    def import_initial(self, project, repo, branch, slug_len, name_len):
         '''
         Import the first repository of a project
         '''
@@ -409,9 +412,9 @@ class Command(BaseCommand):
             matches.remove(self.main_component)
         else:
             match = matches.pop()
-        name = self.format_string(self.name_template, match)
+        name = self.format_string(self.name_template, match)[:name_len]
         template = self.format_string(self.base_file_template, match)
-        slug = slugify(name)
+        slug = slugify(name)[:slug_len]
 
         if SubProject.objects.filter(project=project, slug=slug).exists():
             self.logger.warning(
