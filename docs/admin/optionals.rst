@@ -26,6 +26,13 @@ To install, simply add ``weblate.gitexport`` to installed applications in
         'weblate.gitexport',
     )
 
+After installing you need to migrate your database, so that existing
+repositories are properly exported:
+
+.. code-block:: sh
+
+    ./manage.py migrate
+
 Usage
 +++++
 
