@@ -41,15 +41,8 @@ def get_per_language_stats(project):
     }
 
     # Calculates total strings in project
-    total = 0
-    total_words = 0
-    for component in project.subproject_set.all():
-        try:
-            translation = component.translation_set.all()[0]
-            total += translation.total
-            total_words += translation.total_words
-        except IndexError:
-            pass
+    total = project.get_total()
+    total_words = project.get_source_words()
 
     # Translated strings in language
     data = Translation.objects.filter(

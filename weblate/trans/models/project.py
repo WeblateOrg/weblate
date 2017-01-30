@@ -153,6 +153,10 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')
 
+    def __init__(self, *args, **kwargs):
+        super(Project, self).__init__(*args, **kwargs)
+        self._totals_cache = None
+
     def get_full_slug(self):
         return self.slug
 
@@ -312,23 +316,30 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
 
+    def _get_totals(self):
+        """Backend for calculating totals"""
+        if self._totals_cache is None:
+            totals = []
+            words = []
+            for component in self.subproject_set.all():
+                try:
+                    data = component.translation_set.values_list(
+                        'total', 'total_words'
+                    )[0]
+                    totals.append(data[0])
+                    words.append(data[1])
+                except IndexError:
+                    pass
+            self._totals_cache = (sum(totals), sum(words))
+        return self._totals_cache
+
     def get_total(self):
         """Calculates total number of strings to translate.
 
         This is done based on assumption that all languages have same number
         of strings.
         """
-        totals = []
-        for component in self.subproject_set.all():
-            try:
-                totals.append(
-                    component.translation_set.values_list(
-                        'total', flat=True
-                    )[0]
-                )
-            except IndexError:
-                pass
-        return sum(totals)
+        return self._get_totals()[0]
     get_total.short_description = _('Source strings')
 
     def get_total_words(self):
@@ -347,17 +358,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         This is done based on assumption that all languages have same number
         of strings.
         """
-        totals = []
-        for component in self.subproject_set.all():
-            try:
-                totals.append(
-                    component.translation_set.values_list(
-                        'total_words', flat=True
-                    )[0]
-                )
-            except IndexError:
-                pass
-        return sum(totals)
+        return self._get_totals()[1]
     get_source_words.short_description = _('Source words')
 
     def get_languages(self):

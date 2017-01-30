@@ -567,13 +567,9 @@ def stats(request):
     )
     total_strings = []
     total_words = []
-    for project in SubProject.objects.iterator():
-        try:
-            translation_obj = project.translation_set.all()[0]
-            total_strings.append(translation_obj.total)
-            total_words.append(translation_obj.total_words)
-        except IndexError:
-            pass
+    for project in Project.objects.iterator():
+        total_strings.append(project.get_total())
+        total_words.append(project.get_source_words())
 
     context['total_translations'] = totals['translated__sum']
     context['total_suggestions'] = totals['suggested__sum']
