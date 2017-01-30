@@ -161,6 +161,29 @@ Facebook. Once this is done, you can configure Weblate to use it:
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
 
+Gitlab OAuth2
+~~~~~~~~~~~~~
+
+For using Gitlab OAuth2, you need to register application on
+<https://gitlab.com/profile/applications>.
+
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and 
+ensure to mark the `read_user` scope.
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social_core.backends.gitlab.GitLabOAuth2',
+        'social_core.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_GITLAB_KEY = 'Application ID'
+    SOCIAL_AUTH_GITLAB_SECRET = 'Secret'
+
+
 LDAP authentication
 -------------------
 
