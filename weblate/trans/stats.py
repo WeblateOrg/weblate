@@ -37,7 +37,7 @@ def get_per_language_stats(project):
         language.pk: language for language in
         Language.objects.filter(
             translation__subproject__project=project
-        ).distinct()
+        ).distinct().order_by()
     }
 
     # Calculates total strings in project
@@ -53,7 +53,7 @@ def get_per_language_stats(project):
     ).annotate(
         Sum('translated'),
         Sum('translated_words'),
-    )
+    ).order_by()
     for item in data:
         language = languages[item['language']]
         translated = item['translated__sum']
