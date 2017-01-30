@@ -320,7 +320,7 @@ class VerifyPluralsTest(TestCase):
         """Validates that all equations can be parsed by gettext"""
         # Verify we get an error on invalid syntax
         self.assertRaises(
-            SyntaxError,
+            (SyntaxError, ValueError),
             gettext.c2py,
             'n==0 ? 1 2'
         )
