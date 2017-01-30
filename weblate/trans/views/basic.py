@@ -38,8 +38,7 @@ from six.moves.urllib.parse import urlencode
 
 from weblate.trans import messages
 from weblate.trans.models import (
-    Project, SubProject, Translation, Check, ComponentList,
-    Dictionary, Change, Unit,
+    Project, Translation, Check, ComponentList, Change, Unit,
 )
 from weblate.requirements import get_versions, get_optional_versions
 from weblate.lang.models import Language
