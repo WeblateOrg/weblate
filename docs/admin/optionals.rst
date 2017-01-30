@@ -38,7 +38,6 @@ Usage
 
 The module automatically hooks into Weblate and sets exported repository URL in
 the :ref:`component`.
-
 The repositories are accessible under ``/git/`` path of the Weblate, for example
 ``https://example.org/git/weblate/master/``:
 
@@ -73,6 +72,13 @@ To install, simply add ``weblate.billing`` to installed applications in
     INSTALLED_APPS += (
         'weblate.billing',
     )
+
+This module includes additional database structures, to have them installed you
+should run the database migration:
+
+.. code-block:: sh
+
+    ./manage.py migrate
 
 Usage
 +++++
