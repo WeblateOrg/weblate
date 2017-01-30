@@ -124,13 +124,13 @@ def send_validation(strategy, backend, code):
     )
 
 
-def password_reset(strategy, details, user=None, request=None, **kwargs):
+def password_reset(strategy, details, user=None, **kwargs):
     """
     Sets unusable password on reset.
     """
-    if (request is not None and
+    if (strategy.request is not None and
             user is not None and
-            request.get('type', '') == 'reset'):
+            strategy.request.GET.get('type', '') == 'reset'):
         user.set_unusable_password()
         user.save()
 
