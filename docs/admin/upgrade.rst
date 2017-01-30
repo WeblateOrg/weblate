@@ -379,6 +379,8 @@ Notable configuration or dependencies changes:
 
 * There is new recommended value for ``SOCIAL_AUTH_SLUGIFY_FUNCTION``.
 * There is change in ``MIDDLEWARE_CLASSES`` setting.
+* The `python-social-auth` module has been deprecated upstream, Weblate
+  now uses `social-auth-core` and `social-auth-app-django` instead.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
