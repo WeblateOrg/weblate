@@ -54,25 +54,27 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
+from django.contrib.auth.models import User
 
-# Remove this once we and djangp-rest-framework support Django 1.10+ (can
-# return just true)
 
-def is_authenticated(user):
-    if user.username == ANONYMOUS_USER_NAME:
+class WeblateAnonymousUser(User):
+    """
+    Proxy model to customize User behavior.
+
+    TODO: Remove Callable* return values and replace them with booleans once
+    djangp-rest-framework supports this (changed in Django 1.10).
+    """
+
+    class Meta:
+        proxy = True
+
+    @property
+    def is_authenticated(self):
         return CallableFalse
-    return CallableTrue
 
-
-def is_anonymous(user):
-    if user.username == ANONYMOUS_USER_NAME:
-        return CallableTrue
-    return CallableFalse
-
-
-# Monkey patch methods to handle in database anonymous user
-User().__class__.is_authenticated = property(is_authenticated)
-User().__class__.is_anonymous = property(is_anonymous)
+    @property
+    def is_anonymous(self):
+        return CallableFalse
 
 
 def send_mails(mails):
