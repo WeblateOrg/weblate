@@ -21,6 +21,7 @@
 Tests for changes done in remote repository.
 '''
 
+from multiprocessing import Process
 import shutil
 import os
 from unittest import SkipTest
@@ -182,6 +183,19 @@ class MultiRepoTest(ViewTestCase):
         self.subproject2.merge_style = 'rebase'
         self.subproject2.save()
         self.test_update()
+
+    def test_process(self):
+        self.push_first(False)
+        self.subproject2.merge_style = 'rebase'
+        self.subproject2.save()
+        process = Process(target=self.subproject2.do_update, args=(self.request,))
+        process2 = Process(target=self.subproject2.do_update, args=(self.request,))
+        process.start()
+        process2.start()
+        process.join()
+        process2.join()
+        self.assertEqual(process.exitcode, 0)
+        self.assertEqual(process2.exitcode, 0)
 
     def test_conflict(self):
         '''
