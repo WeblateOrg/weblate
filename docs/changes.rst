@@ -6,6 +6,8 @@ weblate 2.12
 
 Released on ? 2017.
 
+* Improved admin interface for groups.
+
 weblate 2.11
 ------------
 
