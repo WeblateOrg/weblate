@@ -37,7 +37,7 @@ from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, Check, ComponentList,
     get_related_units,
 )
-from weblate import appsettings
+import weblate.trans.models.subproject
 from weblate.lang.models import Language
 from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
@@ -145,11 +145,11 @@ class TranslationTest(RepoTestCase):
         """
         subproject = self.create_subproject()
         subproject.pre_commit_script = get_test_file('hook-generate-mo')
-        appsettings.PRE_COMMIT_SCRIPT_CHOICES.append(
+        weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-generate-mo')
         )
         subproject.pre_commit_script = get_test_file('hook-update-linguas')
-        appsettings.PRE_COMMIT_SCRIPT_CHOICES.append(
+        weblate.trans.models.subproject.PRE_COMMIT_SCRIPT_CHOICES.append(
             (subproject.pre_commit_script, 'hook-update-linguas')
         )
         subproject.extra_commit_file = 'po/%(language)s.mo\npo/LINGUAS'
