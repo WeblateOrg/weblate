@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import os.path
 
+from django.conf import settings
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
@@ -34,7 +35,6 @@ import six
 
 from weblate.trans.models import SubProject, IndexUpdate
 from weblate import settings_example
-from weblate import appsettings
 from weblate.accounts.avatar import HAS_LIBRAVATAR
 from weblate.trans.util import (
     get_configuration_errors, HAS_PYUCA, check_domain
@@ -126,11 +126,11 @@ def performance(request):
     checks.append((
         # Translators: Indexing is postponed to cron job
         _('Indexing offloading'),
-        appsettings.OFFLOAD_INDEXING,
+        settings.OFFLOAD_INDEXING,
         'production-indexing',
-        appsettings.OFFLOAD_INDEXING
+        settings.OFFLOAD_INDEXING
     ))
-    if appsettings.OFFLOAD_INDEXING:
+    if settings.OFFLOAD_INDEXING:
         if IndexUpdate.objects.count() < 20:
             index_updates = True
         elif IndexUpdate.objects.count() < 200:

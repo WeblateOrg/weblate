@@ -20,12 +20,15 @@
 
 import os
 import shutil
+
+from django.conf import settings
 from django.test import TestCase
+from django.test.utils import override_settings
+
 from weblate.trans.ssh import get_host_keys, create_ssh_wrapper, ssh_file
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.tests import OverrideSettings
 from weblate.trans.data import check_data_writable
-from weblate import appsettings
+from weblate.utils.unittest import tempdir_setting
 
 
 TEST_HOSTS = get_test_file('known_hosts')
@@ -35,25 +38,25 @@ class SSHTest(TestCase):
     '''
     Tests for customized admin interface.
     '''
-    @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
+    @tempdir_setting('DATA_DIR')
     def test_parse(self):
         check_data_writable()
-        shutil.copy(TEST_HOSTS, os.path.join(appsettings.DATA_DIR, 'ssh'))
+        shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, 'ssh'))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
 
-    @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
+    @tempdir_setting('DATA_DIR')
     def test_create_ssh_wrapper(self):
         check_data_writable()
         filename = os.path.join(
-            appsettings.DATA_DIR, 'ssh', 'ssh-weblate-wrapper'
+            settings.DATA_DIR, 'ssh', 'ssh-weblate-wrapper'
         )
         create_ssh_wrapper()
         with open(filename, 'r') as handle:
             data = handle.read()
             self.assertTrue(ssh_file('known_hosts') in data)
             self.assertTrue(ssh_file('id_rsa') in data)
-            self.assertTrue(appsettings.DATA_DIR in data)
+            self.assertTrue(settings.DATA_DIR in data)
         self.assertTrue(
             os.access(filename, os.X_OK)
         )

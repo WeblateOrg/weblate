@@ -27,6 +27,7 @@ import os.path
 from six.moves.urllib.request import Request, urlopen
 from six.moves.urllib.parse import quote
 
+from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.cache import caches, InvalidCacheBackendError
 from django.utils.html import escape
@@ -43,7 +44,6 @@ except ImportError:
 
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
-from weblate import appsettings
 from weblate.utils.errors import report_error
 
 
@@ -74,16 +74,16 @@ def avatar_for_email(email, size=80, skip_cache=False):
         url = libravatar.libravatar_url(
             email=email,
             https=True,
-            default=appsettings.AVATAR_DEFAULT_IMAGE,
+            default=settings.AVATAR_DEFAULT_IMAGE,
             size=size
         )
 
     else:
         # Fallback to standard method
         url = "{0}avatar/{1}?d={2}&s={3}".format(
-            appsettings.AVATAR_URL_PREFIX,
+            settings.AVATAR_URL_PREFIX,
             mail_hash,
-            quote(appsettings.AVATAR_DEFAULT_IMAGE),
+            quote(settings.AVATAR_DEFAULT_IMAGE),
             str(size),
         )
 
@@ -186,7 +186,7 @@ def get_user_display(user, icon=True, link=False):
     full_name = escape(full_name)
 
     # Icon requested?
-    if icon and appsettings.ENABLE_AVATARS:
+    if icon and settings.ENABLE_AVATARS:
         if user is None or user.email == 'noreply@weblate.org':
             avatar = get_fallback_avatar_url(32)
         else:

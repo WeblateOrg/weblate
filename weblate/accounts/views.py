@@ -59,7 +59,6 @@ from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
     SubscriptionSettingsForm, UserSettingsForm, DashboardSettingsForm
 )
-from weblate import appsettings
 
 CONTACT_TEMPLATE = '''
 Message from %(name)s <%(email)s>:
@@ -170,7 +169,7 @@ def user_profile(request):
         forms = [form(request.POST, instance=profile) for form in form_classes]
         forms.append(UserForm(request.POST, instance=request.user))
 
-        if appsettings.DEMO_SERVER and request.user.username == 'demo':
+        if settings.DEMO_SERVER and request.user.username == 'demo':
             return deny_demo(request)
 
         if all([form.is_valid() for form in forms]):
@@ -235,7 +234,7 @@ def user_profile(request):
 
 @login_required
 def user_remove(request):
-    if appsettings.DEMO_SERVER and request.user.username == 'demo':
+    if settings.DEMO_SERVER and request.user.username == 'demo':
         return deny_demo(request)
 
     if request.method == 'POST':
@@ -300,7 +299,7 @@ def hosting(request):
     '''
     Form for hosting request.
     '''
-    if not appsettings.OFFER_HOSTING:
+    if not settings.OFFER_HOSTING:
         return redirect('home')
 
     if request.method == 'POST':
@@ -430,14 +429,14 @@ def register(request):
     '''
     Registration form.
     '''
-    if appsettings.REGISTRATION_CAPTCHA:
+    if settings.REGISTRATION_CAPTCHA:
         form_class = CaptchaRegistrationForm
     else:
         form_class = RegistrationForm
 
     if request.method == 'POST':
         form = form_class(request.POST)
-        if form.is_valid() and appsettings.REGISTRATION_OPEN:
+        if form.is_valid() and settings.REGISTRATION_OPEN:
             # Ensure we do registration in separate session
             # not sent to client
             request.session.create()
@@ -493,7 +492,7 @@ def password(request):
     '''
     Password change / set form.
     '''
-    if appsettings.DEMO_SERVER and request.user.username == 'demo':
+    if settings.DEMO_SERVER and request.user.username == 'demo':
         return deny_demo(request)
 
     do_change = False

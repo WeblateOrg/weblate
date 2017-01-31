@@ -20,9 +20,8 @@
 
 from importlib import import_module
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-
-from weblate import appsettings
 
 
 def load_class(name, setting):
@@ -64,7 +63,7 @@ class ClassLoader(object):
     def data(self):
         if self._data is None:
             self._data = {}
-            for path in getattr(appsettings, self.name):
+            for path in getattr(settings, self.name):
                 obj = load_class(path, self.name)()
                 self._data[obj.get_identifier()] = obj
         return self._data

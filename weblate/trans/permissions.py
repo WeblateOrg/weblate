@@ -20,10 +20,10 @@
 """
 Permissions abstract layer for Weblate.
 """
+from django.conf import settings
 from django.db.models import Q
 from django.contrib.auth.models import Group, User, Permission
 
-from weblate import appsettings
 from weblate.trans.models.group_acl import GroupACL
 
 
@@ -118,7 +118,7 @@ def cache_permission(func):
     def wrapper(user, target_object):
         if user is None:
             user = User.objects.get(
-                username=appsettings.ANONYMOUS_USER_NAME,
+                username=settings.ANONYMOUS_USER_NAME,
             )
         if target_object is None:
             obj_key = None
@@ -236,7 +236,7 @@ def can_use_mt(user, translation):
     """
     Checks whether user can use machine translation.
     """
-    if not appsettings.MACHINE_TRANSLATION_ENABLED:
+    if not settings.MACHINE_TRANSLATION_ENABLED:
         return False
     if not has_group_perm(user, 'trans.use_mt', translation):
         return False

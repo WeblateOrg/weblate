@@ -21,11 +21,13 @@
 from __future__ import unicode_literals
 
 from datetime import timedelta
+
+from django.conf import settings
 from django.utils import timezone
+
 from weblate.trans.machine.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
-from weblate import appsettings
 
 COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
 COGNITIVE_TOKEN = COGNITIVE_BASE_URL + '/issueToken?Subscription-Key={0}'
@@ -59,8 +61,8 @@ class MicrosoftTranslation(MachineTranslation):
         Checks whether service is supported.
         '''
         return (
-            appsettings.MT_MICROSOFT_ID is not None and
-            appsettings.MT_MICROSOFT_SECRET is not None
+            settings.MT_MICROSOFT_ID is not None and
+            settings.MT_MICROSOFT_SECRET is not None
         )
 
     def is_token_expired(self):
@@ -79,8 +81,8 @@ class MicrosoftTranslation(MachineTranslation):
                 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
                 skip_auth=True,
                 http_post=True,
-                client_id=appsettings.MT_MICROSOFT_ID,
-                client_secret=appsettings.MT_MICROSOFT_SECRET,
+                client_id=settings.MT_MICROSOFT_ID,
+                client_secret=settings.MT_MICROSOFT_SECRET,
                 scope='http://api.microsofttranslator.com',
                 grant_type='client_credentials',
             )
@@ -171,7 +173,7 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
         '''
         Checks whether service is supported.
         '''
-        return appsettings.MT_MICROSOFT_COGNITIVE_KEY is not None
+        return settings.MT_MICROSOFT_COGNITIVE_KEY is not None
 
     @property
     def access_token(self):
@@ -180,7 +182,7 @@ class MicrosoftCognitiveTranslation(MicrosoftTranslation):
         '''
         if self._access_token is None or self.is_token_expired():
             self._access_token = self.json_req(
-                COGNITIVE_TOKEN.format(appsettings.MT_MICROSOFT_COGNITIVE_KEY),
+                COGNITIVE_TOKEN.format(settings.MT_MICROSOFT_COGNITIVE_KEY),
                 skip_auth=True,
                 http_post=True,
                 raw=True,

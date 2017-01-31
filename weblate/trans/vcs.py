@@ -34,6 +34,7 @@ import logging
 
 from dateutil import parser
 
+from django.conf import settings
 from django.utils.encoding import force_text
 
 import six
@@ -44,7 +45,6 @@ from weblate.trans.util import (
 )
 from weblate.trans.filelock import FileLock
 from weblate.trans.ssh import ssh_file, SSH_WRAPPER
-from weblate import appsettings
 
 LOGGER = logging.getLogger('weblate-vcs')
 
@@ -905,7 +905,7 @@ class GithubRepository(GitRepository):
 
     _cmd = 'hub'
 
-    _hub_user = appsettings.GITHUB_USERNAME
+    _hub_user = settings.GITHUB_USERNAME
 
     _cmd_push = ['push', '--force', _hub_user] if _hub_user \
         else ['push', 'origin']

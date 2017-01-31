@@ -32,8 +32,8 @@ from unittest import TestCase
 from whoosh.filedb.filestore import FileStorage
 from whoosh.fields import Schema, ID, TEXT
 from django.core.urlresolvers import reverse
+from django.test.utils import override_settings
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests import OverrideSettings
 from weblate.trans.search import update_index_unit, fulltext_search
 import weblate.trans.search
 from weblate.trans.models import IndexUpdate
@@ -403,12 +403,12 @@ class SearchBackendTest(ViewTestCase):
         update_index_unit(unit, True)
         update_index_unit(unit, True)
 
-    @OverrideSettings(OFFLOAD_INDEXING=False)
+    @override_settings(OFFLOAD_INDEXING=False)
     def test_add(self):
         self.do_index_update()
         self.assertEqual(IndexUpdate.objects.count(), 0)
 
-    @OverrideSettings(OFFLOAD_INDEXING=True)
+    @override_settings(OFFLOAD_INDEXING=True)
     def test_add_offload(self):
         self.do_index_update()
         self.assertEqual(IndexUpdate.objects.count(), 1)

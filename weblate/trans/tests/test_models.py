@@ -28,6 +28,7 @@ import shutil
 import os
 
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.utils import timezone
 from django.contrib.auth.models import Permission, User
 from django.core.exceptions import ValidationError
@@ -38,7 +39,6 @@ from weblate.trans.models import (
 )
 from weblate import appsettings
 from weblate.lang.models import Language
-from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
 
@@ -86,7 +86,7 @@ class ProjectTest(RepoTestCase):
     def test_wrong_path(self):
         project = self.create_project()
 
-        with OverrideSettings(DATA_DIR='/weblate-nonexisting-path'):
+        with override_setings(DATA_DIR='/weblate-nonexisting-path'):
             # Invalidate cache, pylint: disable=W0212
             project._dir_path = None
 
@@ -239,19 +239,19 @@ class SourceTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
-    @OverrideSettings(MT_WEBLATE_LIMIT=15)
+    @override_settings(MT_WEBLATE_LIMIT=15)
     def test_more_like(self):
         unit = Unit.objects.all()[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
 
-    @OverrideSettings(MT_WEBLATE_LIMIT=0)
+    @override_settings(MT_WEBLATE_LIMIT=0)
     def test_more_like_timeout(self):
         unit = Unit.objects.all()[0]
         self.assertRaisesMessage(
             Exception, 'Request timed out.', Unit.objects.more_like_this, unit
         )
 
-    @OverrideSettings(MT_WEBLATE_LIMIT=-1)
+    @override_settings(MT_WEBLATE_LIMIT=-1)
     def test_more_like_no_fork(self):
         unit = Unit.objects.all()[0]
         self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)

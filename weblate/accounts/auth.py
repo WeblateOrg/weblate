@@ -20,6 +20,7 @@
 
 import sys
 
+from django.conf import settings
 from django.contrib.auth.models import User, Permission
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
@@ -31,7 +32,6 @@ from django.contrib.auth.backends import ModelBackend
 import social_core.backends.email
 from social_core.exceptions import AuthMissingParameter
 
-from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.trans import messages
 from weblate.utils.errors import report_error
 
@@ -112,7 +112,7 @@ class WeblateUserBackend(ModelBackend):
         '''
         Prohibits login for anonymous user and allows to login by email.
         '''
-        if username == ANONYMOUS_USER_NAME or username is None:
+        if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None
 
         if '@' in username:
@@ -141,6 +141,6 @@ def disable_anon_user_password_save(sender, **kwargs):
     Blocks setting password for anonymous user.
     '''
     instance = kwargs['instance']
-    if (instance.username == ANONYMOUS_USER_NAME and
+    if (instance.username == settings.ANONYMOUS_USER_NAME and
             instance.has_usable_password()):
         raise ValueError('Anonymous user can not have usable password!')

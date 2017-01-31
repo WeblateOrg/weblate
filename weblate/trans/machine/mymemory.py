@@ -20,8 +20,9 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from weblate.trans.machine.base import MachineTranslation
-from weblate import appsettings
 
 
 class MyMemoryTranslation(MachineTranslation):
@@ -85,12 +86,12 @@ class MyMemoryTranslation(MachineTranslation):
             'q': text.split('. ')[0][:500],
             'langpair': '%s|%s' % (source, language),
         }
-        if appsettings.MT_MYMEMORY_EMAIL is not None:
-            args['de'] = appsettings.MT_MYMEMORY_EMAIL
-        if appsettings.MT_MYMEMORY_USER is not None:
-            args['user'] = appsettings.MT_MYMEMORY_USER
-        if appsettings.MT_MYMEMORY_KEY is not None:
-            args['key'] = appsettings.MT_MYMEMORY_KEY
+        if settings.MT_MYMEMORY_EMAIL is not None:
+            args['de'] = settings.MT_MYMEMORY_EMAIL
+        if settings.MT_MYMEMORY_USER is not None:
+            args['user'] = settings.MT_MYMEMORY_USER
+        if settings.MT_MYMEMORY_KEY is not None:
+            args['key'] = settings.MT_MYMEMORY_KEY
 
         response = self.json_status_req(
             'http://mymemory.translated.net/api/get',

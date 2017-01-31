@@ -22,11 +22,11 @@ from __future__ import unicode_literals
 import json
 
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.core.cache import cache
 
 import httpretty
 
-from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models.unit import Unit
 from weblate.trans.machine.dummy import DummyTranslation
@@ -157,7 +157,7 @@ class MachineTranslationTest(TestCase):
         machine = GlosbeTranslation()
         self.assert_translate(machine)
 
-    @OverrideSettings(MT_MYMEMORY_EMAIL='test@weblate.org')
+    @override_settings(MT_MYMEMORY_EMAIL='test@weblate.org')
     @httpretty.activate
     def test_mymemory(self):
         httpretty.register_uri(
@@ -185,7 +185,7 @@ class MachineTranslationTest(TestCase):
         machine = ApertiumTranslation()
         self.assert_translate(machine, 'es')
 
-    @OverrideSettings(MT_APERTIUM_APY='http://apertium.example.com/')
+    @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
     @httpretty.activate
     def test_apertium_apy(self):
         httpretty.register_uri(
@@ -203,7 +203,7 @@ class MachineTranslationTest(TestCase):
         machine = ApertiumAPYTranslation()
         self.assert_translate(machine, 'es')
 
-    @OverrideSettings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
+    @override_settings(MT_MICROSOFT_ID='ID', MT_MICROSOFT_SECRET='SECRET')
     @httpretty.activate
     def test_microsoft(self):
         httpretty.register_uri(
@@ -226,7 +226,7 @@ class MachineTranslationTest(TestCase):
         machine = MicrosoftTranslation()
         self.assert_translate(machine)
 
-    @OverrideSettings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
+    @override_settings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
     @httpretty.activate
     def test_microsoft_cognitive(self):
         httpretty.register_uri(
@@ -250,7 +250,7 @@ class MachineTranslationTest(TestCase):
         machine = MicrosoftCognitiveTranslation()
         self.assert_translate(machine)
 
-    @OverrideSettings(MT_GOOGLE_KEY='KEY')
+    @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
     def test_google(self):
         cache.delete('%s-languages' % GoogleTranslation().mtid)
@@ -278,7 +278,7 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine)
         self.assert_translate(machine, lang='he')
 
-    @OverrideSettings(MT_GOOGLE_KEY='KEY')
+    @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
     def test_google_invalid(self):
         """Test handling of server failure."""

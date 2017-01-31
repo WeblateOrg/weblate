@@ -20,10 +20,11 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from weblate.trans.machine.base import (
     MachineTranslation, MachineTranslationError, MissingConfiguration
 )
-from weblate import appsettings
 
 
 # Map old codes used by Google to new ones used by Weblate
@@ -44,7 +45,7 @@ class GoogleTranslation(MachineTranslation):
         Checks configuration.
         '''
         super(GoogleTranslation, self).__init__()
-        if appsettings.MT_GOOGLE_KEY is None:
+        if settings.MT_GOOGLE_KEY is None:
             raise MissingConfiguration(
                 'Google Translate requires API key'
             )
@@ -66,7 +67,7 @@ class GoogleTranslation(MachineTranslation):
         '''
         response = self.json_req(
             'https://www.googleapis.com/language/translate/v2/languages',
-            key=appsettings.MT_GOOGLE_KEY
+            key=settings.MT_GOOGLE_KEY
         )
 
         if 'error' in response:
@@ -80,7 +81,7 @@ class GoogleTranslation(MachineTranslation):
         '''
         response = self.json_req(
             'https://www.googleapis.com/language/translate/v2/',
-            key=appsettings.MT_GOOGLE_KEY,
+            key=settings.MT_GOOGLE_KEY,
             q=text,
             source=source,
             target=language,

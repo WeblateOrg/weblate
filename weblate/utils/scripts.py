@@ -18,21 +18,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
-from django.contrib.sites.models import Site
+import os
 
 
-def get_site_domain():
-    """Returns current site domain."""
-    return Site.objects.get_current().domain
-
-
-def get_site_url(url=''):
+def get_script_name(name):
     '''
-    Returns root url of current site with domain.
+    Returns script name from string possibly containing full path and
+    parameters.
     '''
-    return '{0}://{1}{2}'.format(
-        'https' if settings.ENABLE_HTTPS else 'http',
-        get_site_domain(),
-        url
-    )
+    return os.path.basename(name).split()[0]
+
+
+def get_script_choices(choices):
+    """Generates list of script choice in the Admin interface."""
+    return [
+        (script, get_script_name(script)) for script in choices
+    ] + [('', '')]

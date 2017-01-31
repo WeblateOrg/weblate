@@ -24,13 +24,13 @@ import functools
 import traceback
 import multiprocessing
 
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.cache import cache
 
-from weblate import appsettings
 from weblate.trans import messages
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.source import Source
@@ -280,14 +280,14 @@ class UnitManager(models.Manager):
         """
         Finds closely similar units.
         """
-        if appsettings.MT_WEBLATE_LIMIT >= 0:
+        if settings.MT_WEBLATE_LIMIT >= 0:
             queue = multiprocessing.Queue()
             proc = multiprocessing.Process(
                 target=more_like_queue,
                 args=(unit.pk, unit.source, top, queue)
             )
             proc.start()
-            proc.join(appsettings.MT_WEBLATE_LIMIT)
+            proc.join(settings.MT_WEBLATE_LIMIT)
             if proc.is_alive():
                 proc.terminate()
 
@@ -1057,8 +1057,8 @@ class Unit(models.Model, LoggerMixin):
         """
         return Unit.objects.filter(
             translation=self.translation,
-            position__gte=self.position - appsettings.NEARBY_MESSAGES,
-            position__lte=self.position + appsettings.NEARBY_MESSAGES,
+            position__gte=self.position - settings.NEARBY_MESSAGES,
+            position__lte=self.position + settings.NEARBY_MESSAGES,
         ).select_related()
 
     def translate(self, request, new_target, new_fuzzy):

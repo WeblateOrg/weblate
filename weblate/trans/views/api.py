@@ -25,6 +25,7 @@ import threading
 
 import six
 
+from django.conf import settings
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -33,7 +34,6 @@ from django.http import (
     JsonResponse,
 )
 
-from weblate import appsettings
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
 from weblate.trans.stats import get_project_stats
@@ -93,7 +93,7 @@ def perform_update(obj):
     '''
     Triggers update of given object.
     '''
-    if appsettings.BACKGROUND_HOOKS:
+    if settings.BACKGROUND_HOOKS:
         thread = threading.Thread(target=obj.do_update)
         thread.start()
     else:
@@ -105,7 +105,7 @@ def update_subproject(request, project, subproject):
     '''
     API hook for updating git repos.
     '''
-    if not appsettings.ENABLE_HOOKS:
+    if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_subproject(request, project, subproject, True)
     if not obj.project.enable_hooks:
@@ -119,7 +119,7 @@ def update_project(request, project):
     '''
     API hook for updating git repos.
     '''
-    if not appsettings.ENABLE_HOOKS:
+    if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed([])
     obj = get_project(request, project, True)
     if not obj.enable_hooks:
@@ -149,7 +149,7 @@ def vcs_service_hook(request, service):
     too.
     '''
     # We support only post methods
-    if not appsettings.ENABLE_HOOKS:
+    if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed(())
 
     # Check if we got payload

@@ -24,6 +24,7 @@ import os
 import codecs
 from datetime import timedelta
 
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q, Sum, Count
@@ -35,7 +36,6 @@ from django.core.cache import cache
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 
-from weblate import appsettings
 from weblate.lang.models import Language
 from weblate.trans.formats import AutoFormat, StringIOMode, ParseError
 from weblate.trans.checks import CHECKS
@@ -314,9 +314,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def update_lock_time(self, explicit=False, is_new=True):
         """Sets lock timestamp."""
         if explicit:
-            seconds = appsettings.LOCK_TIME
+            seconds = settings.LOCK_TIME
         else:
-            seconds = appsettings.AUTO_LOCK_TIME
+            seconds = settings.AUTO_LOCK_TIME
 
         new_lock_time = timezone.now() + timedelta(seconds=seconds)
 
@@ -337,7 +337,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             return True
 
         # Auto lock if we should
-        if appsettings.AUTO_LOCK and create:
+        if settings.AUTO_LOCK and create:
             self.create_lock(user)
             return True
 
@@ -766,7 +766,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 return False
 
             # Can we delay commit?
-            if not force_commit and appsettings.LAZY_COMMITS:
+            if not force_commit and settings.LAZY_COMMITS:
                 self.log_info(
                     'delaying commiting %s as %s',
                     self.filename,

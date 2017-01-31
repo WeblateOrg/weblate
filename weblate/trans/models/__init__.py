@@ -25,6 +25,7 @@ from django.db.models.signals import post_delete, post_save, m2m_changed
 from django.dispatch import receiver
 
 from weblate.accounts.models import Profile
+from weblate.trans.models.conf import WeblateConf
 from weblate.trans.models.project import Project
 from weblate.trans.models.subproject import SubProject
 from weblate.trans.models.translation import Translation
@@ -53,6 +54,7 @@ __all__ = [
     'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
     'Advertisement', 'WhiteboardMessage', 'GroupACL', 'ComponentList',
+    'WeblateConf',
 ]
 
 

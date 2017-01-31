@@ -206,6 +206,13 @@ def get_versions():
     ))
 
     result.append(get_single(
+        'django-appconf',
+        'https://github.com/django-compressor/django-appconf',
+        'appconf',
+        '1.0'
+    ))
+
+    result.append(get_single(
         'Translate Toolkit',
         'http://toolkit.translatehouse.org/',
         'translate.__version__',

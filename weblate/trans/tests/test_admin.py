@@ -20,14 +20,15 @@
 
 import os
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.test.utils import override_settings
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import add_configuration_error
-from weblate import appsettings
-from weblate.trans.tests import OverrideSettings
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.data import check_data_writable
+from weblate.utils.unittest import tempdir_setting
 
 
 class AdminTest(ViewTestCase):
@@ -48,7 +49,7 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse('admin-ssh'))
         self.assertContains(response, 'SSH keys')
 
-    @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
+    @tempdir_setting('DATA_DIR')
     def test_ssh_generate(self):
         check_data_writable()
         response = self.client.get(reverse('admin-ssh'))
@@ -60,7 +61,7 @@ class AdminTest(ViewTestCase):
         )
         self.assertContains(response, 'Created new SSH key')
 
-    @OverrideSettings(DATA_DIR=OverrideSettings.TEMP_DIR)
+    @tempdir_setting('DATA_DIR')
     def test_ssh_add(self):
         check_data_writable()
         try:
@@ -82,7 +83,7 @@ class AdminTest(ViewTestCase):
             os.environ['PATH'] = oldpath
 
         # Check the file contains it
-        hostsfile = os.path.join(appsettings.DATA_DIR, 'ssh', 'known_hosts')
+        hostsfile = os.path.join(settings.DATA_DIR, 'ssh', 'known_hosts')
         with open(hostsfile) as handle:
             self.assertIn('github.com', handle.read())
 

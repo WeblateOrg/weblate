@@ -22,7 +22,7 @@ Data files helpers.
 """
 import os
 
-from weblate import appsettings
+from django.conf import settings
 
 
 def create_and_check_dir(path):
@@ -40,7 +40,7 @@ def check_data_writable():
     """
     Check we can write to data dir.
     """
-    create_and_check_dir(appsettings.DATA_DIR)
+    create_and_check_dir(settings.DATA_DIR)
     create_and_check_dir(data_dir('home'))
     create_and_check_dir(data_dir('whoosh'))
     create_and_check_dir(data_dir('ssh'))
@@ -51,4 +51,4 @@ def data_dir(component):
     """
     Returns path to data dir for given component.
     """
-    return os.path.join(appsettings.DATA_DIR, component)
+    return os.path.join(settings.DATA_DIR, component)

@@ -23,6 +23,7 @@ Tests for user handling.
 """
 
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core import mail
@@ -30,7 +31,6 @@ from django.core import mail
 from weblate.accounts.models import Profile
 
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests import OverrideSettings
 from weblate.lang.models import Language
 
 
@@ -77,7 +77,7 @@ class ViewTest(TestCase):
             '[Weblate] Message from dark side'
         )
 
-    @OverrideSettings(OFFER_HOSTING=False)
+    @override_settings(OFFER_HOSTING=False)
     def test_hosting_disabled(self):
         '''
         Test for hosting form with disabled hosting
@@ -87,7 +87,7 @@ class ViewTest(TestCase):
         response = self.client.get(reverse('hosting'))
         self.assertRedirects(response, reverse('home'))
 
-    @OverrideSettings(OFFER_HOSTING=True)
+    @override_settings(OFFER_HOSTING=True)
     def test_hosting(self):
         '''
         Test for hosting form with enabled hosting.

@@ -22,9 +22,9 @@
 Tests for sugestion views.
 """
 
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from weblate.appsettings import ANONYMOUS_USER_NAME
 from weblate.trans.models import Suggestion
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -175,7 +175,10 @@ class SuggestionsTest(ViewTestCase):
         suggestions = list(self.get_unit().suggestions())
         self.assertEqual(len(suggestions), 1)
 
-        self.assertEqual(suggestions[0].user.username, ANONYMOUS_USER_NAME)
+        self.assertEqual(
+            suggestions[0].user.username,
+            settings.ANONYMOUS_USER_NAME
+        )
 
         # Accept one of suggestions
         response = self.edit_unit(

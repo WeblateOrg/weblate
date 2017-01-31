@@ -27,6 +27,7 @@ import time
 import fnmatch
 import re
 
+from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Sum
 from django.utils.translation import ugettext as _, ugettext_lazy
@@ -59,9 +60,6 @@ from weblate.trans.validators import (
 )
 from weblate.lang.models import Language
 from weblate.appsettings import (
-    PRE_COMMIT_SCRIPT_CHOICES, POST_UPDATE_SCRIPT_CHOICES,
-    POST_COMMIT_SCRIPT_CHOICES, POST_PUSH_SCRIPT_CHOICES,
-    POST_ADD_SCRIPT_CHOICES,
     HIDE_REPO_CREDENTIALS,
     DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
     DEFAULT_TRANSLATION_PROPAGATION,
@@ -70,7 +68,16 @@ from weblate.accounts.models import (
     notify_parse_error, notify_merge_failure, get_author_name
 )
 from weblate.trans.models.change import Change
+from weblate.utils.scripts import get_script_choices
 
+POST_UPDATE_SCRIPT_CHOICES = get_script_choices(settings.POST_UPDATE_SCRIPTS)
+PRE_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.PRE_COMMIT_SCRIPTS)
+
+POST_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.POST_COMMIT_SCRIPTS)
+
+POST_PUSH_SCRIPT_CHOICES = get_script_choices(settings.POST_PUSH_SCRIPTS)
+
+POST_ADD_SCRIPT_CHOICES = get_script_choices(settings.POST_ADD_SCRIPTS)
 
 DEFAULT_COMMIT_MESSAGE = (
     'Translated using Weblate (%(language_name)s)\n\n'

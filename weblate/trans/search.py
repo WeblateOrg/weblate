@@ -24,16 +24,19 @@ Whoosh based full text search.
 
 import functools
 import shutil
+
 from whoosh.fields import SchemaClass, TEXT, NUMERIC
 from whoosh.filedb.filestore import FileStorage
 from whoosh.writing import AsyncWriter, BufferedWriter
 from whoosh import qparser
+
+from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_migrate
 from django.db.utils import IntegrityError
 from django.utils.encoding import force_text
 from django.db import transaction
-from weblate import appsettings
+
 from weblate.lang.models import Language
 from weblate.trans.data import data_dir
 
@@ -227,7 +230,7 @@ def update_index_unit(unit, source=True):
     Adds single unit to index.
     '''
     # Should this happen in background?
-    if appsettings.OFFLOAD_INDEXING:
+    if settings.OFFLOAD_INDEXING:
         add_index_update(unit.id, source, False)
         return
 
@@ -317,7 +320,7 @@ def more_like(pk, source, top=5):
 
 def clean_search_unit(pk, lang):
     """Cleanups search index on unit deletion."""
-    if appsettings.OFFLOAD_INDEXING:
+    if settings.OFFLOAD_INDEXING:
         add_index_update(pk, False, True, lang)
     else:
         delete_search_unit(pk, lang)

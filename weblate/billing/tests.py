@@ -22,6 +22,7 @@ from datetime import timedelta
 import os.path
 
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.management import call_command
@@ -32,7 +33,6 @@ from six import StringIO
 
 from weblate.billing.models import Plan, Billing, Invoice
 from weblate.trans.models import Project
-from weblate.trans.tests import OverrideSettings
 
 
 TEST_DATA = os.path.join(
@@ -165,7 +165,7 @@ class BillingTest(TestCase):
         # Validation of existing
         self.invoice.clean()
 
-    @OverrideSettings(INVOICE_PATH=TEST_DATA)
+    @override_settings(INVOICE_PATH=TEST_DATA)
     def test_download(self):
         # Unauthenticated
         response = self.client.get(

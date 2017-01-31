@@ -18,21 +18,27 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.conf import settings
-from django.contrib.sites.models import Site
+import tempfile
+
+import shutil
+
+from django.test.utils import override_settings
 
 
-def get_site_domain():
-    """Returns current site domain."""
-    return Site.objects.get_current().domain
+class tempdir_setting(override_settings):
+    def __init__(self, setting):
+        kwargs = {setting: None}
+        super(tempdir_setting, self).__init__(**kwargs)
+        self._tempdir = None
+        self._setting = setting
 
+    def enable(self):
+        self._tempdir = tempfile.mkdtemp()
+        self.options[self._setting] = self._tempdir
+        super(tempdir_setting, self).enable()
 
-def get_site_url(url=''):
-    '''
-    Returns root url of current site with domain.
-    '''
-    return '{0}://{1}{2}'.format(
-        'https' if settings.ENABLE_HTTPS else 'http',
-        get_site_domain(),
-        url
-    )
+    def disable(self):
+        super(tempdir_setting, self).disable()
+        if self._tempdir is not None:
+            shutil.rmtree(self._tempdir)
+            self._tempdir = None

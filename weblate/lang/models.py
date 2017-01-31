@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import gettext
 import io
 
+from django.conf import settings
 from django.db import models, transaction
 from django.db.utils import OperationalError
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -37,7 +38,6 @@ from translate.lang.data import languages
 
 from weblate.lang import data
 from weblate.trans.mixins import PercentMixin
-from weblate.appsettings import SIMPLIFY_LANGUAGES
 from weblate.logger import LOGGER
 
 
@@ -200,7 +200,7 @@ class LanguageManager(models.Manager):
             return ret
 
         # Try canonical variant
-        if SIMPLIFY_LANGUAGES and newcode in data.DEFAULT_LANGS:
+        if settings.SIMPLIFY_LANGUAGES and newcode in data.DEFAULT_LANGS:
             ret = self.try_get(code=lang.lower())
             if ret is not None:
                 return ret

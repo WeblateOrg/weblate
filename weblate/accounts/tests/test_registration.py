@@ -37,7 +37,6 @@ import social_django.utils
 
 from weblate.accounts.models import VerifiedEmail
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests import OverrideSettings
 
 REGISTRATION_DATA = {
     'username': 'username',
@@ -70,7 +69,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             reverse('password')
         )
 
-    @OverrideSettings(REGISTRATION_CAPTCHA=True)
+    @override_settings(REGISTRATION_CAPTCHA=True)
     def test_register_captcha(self):
         # Enable captcha
 
@@ -83,7 +82,7 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Please check your math and try again.'
         )
 
-    @OverrideSettings(REGISTRATION_OPEN=False)
+    @override_settings(REGISTRATION_OPEN=False)
     def test_register_closed(self):
         # Disable registration
         response = self.client.post(
@@ -95,8 +94,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             'Sorry, but registrations on this site are disabled.'
         )
 
-    @OverrideSettings(REGISTRATION_OPEN=True)
-    @OverrideSettings(REGISTRATION_CAPTCHA=False)
+    @override_settings(REGISTRATION_OPEN=True)
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_register(self):
         # Disable captcha
         response = self.client.post(
@@ -129,8 +128,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         # Verify stored first/last name
         self.assertEqual(user.first_name, 'First Last')
 
-    @OverrideSettings(REGISTRATION_OPEN=True)
-    @OverrideSettings(REGISTRATION_CAPTCHA=False)
+    @override_settings(REGISTRATION_OPEN=True)
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_double_register(self):
         """Test double registration from single browser"""
 
@@ -168,8 +167,8 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
             reverse('password')
         )
 
-    @OverrideSettings(REGISTRATION_OPEN=True)
-    @OverrideSettings(REGISTRATION_CAPTCHA=False)
+    @override_settings(REGISTRATION_OPEN=True)
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_register_missing(self):
         # Disable captcha
         response = self.client.post(

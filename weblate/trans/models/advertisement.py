@@ -19,12 +19,14 @@
 #
 
 from __future__ import unicode_literals
+
 import random
+
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from django.utils import timezone
-from weblate import appsettings
 
 DONATE = 'https://weblate.org/donate/'
 BOUNTYSOURCE = 'https://salt.bountysource.com/teams/weblate'
@@ -68,7 +70,7 @@ class AdvertisementManager(models.Manager):
         '''
         Returns fallback advertisement.
         '''
-        if not appsettings.SELF_ADVERTISEMENT:
+        if not settings.SELF_ADVERTISEMENT:
             return None
 
         now = timezone.now()

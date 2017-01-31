@@ -18,12 +18,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 
-from weblate import appsettings
 from weblate.trans.models import Change
 from weblate.lang.models import Language
 from weblate.trans.views.helper import (
@@ -39,11 +39,11 @@ class ChangesFeed(Feed):
         return request.user
 
     def title(self):
-        return _('Recent changes in %s') % appsettings.SITE_TITLE
+        return _('Recent changes in %s') % settings.SITE_TITLE
 
     def description(self):
         return _('All recent changes made using Weblate in %s.') % (
-            appsettings.SITE_TITLE
+            settings.SITE_TITLE
         )
 
     def link(self):

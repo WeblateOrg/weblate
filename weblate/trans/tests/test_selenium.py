@@ -27,6 +27,7 @@ from base64 import b64encode
 from six.moves.http_client import HTTPConnection
 import django
 from django.test import LiveServerTestCase
+from django.test.utils import override_settings
 from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import User
@@ -40,7 +41,6 @@ except ImportError:
     HAS_SELENIUM = False
 
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests import OverrideSettings
 
 # Check whether we should run Selenium tests
 DO_SELENIUM = (
@@ -248,7 +248,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             (self.live_server_url, self.assert_registration_mailbox())
         )
 
-    @OverrideSettings(REGISTRATION_CAPTCHA=False)
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_register(self, clear=False):
         """
         Test registration.

@@ -24,6 +24,7 @@ import json
 import re
 import unicodedata
 
+from django.conf import settings
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -38,7 +39,6 @@ from social_core.exceptions import (
 )
 
 from weblate.accounts.models import send_notification_email, VerifiedEmail
-from weblate import appsettings
 from weblate import USER_AGENT
 
 USERNAME_RE = r'^[\w.@+-]+$'
@@ -140,7 +140,7 @@ def verify_open(strategy, backend, user=None, **kwargs):
     Checks whether it is possible to create new user.
     '''
 
-    if not user and not appsettings.REGISTRATION_OPEN:
+    if not user and not settings.REGISTRATION_OPEN:
         raise AuthException(backend, _('New registrations are disabled!'))
 
 

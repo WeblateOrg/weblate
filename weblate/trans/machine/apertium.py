@@ -20,8 +20,9 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
-from weblate import appsettings
 
 
 LANGUAGE_MAP = {
@@ -53,12 +54,12 @@ class ApertiumAPYTranslation(MachineTranslation):
         '''
         Returns URL of a server.
         '''
-        if appsettings.MT_APERTIUM_APY is None:
+        if settings.MT_APERTIUM_APY is None:
             raise MissingConfiguration(
                 'Not configured Apertium APy URL'
             )
 
-        return appsettings.MT_APERTIUM_APY.rstrip('/')
+        return settings.MT_APERTIUM_APY.rstrip('/')
 
     @property
     def all_langs(self):
@@ -103,8 +104,8 @@ class ApertiumAPYTranslation(MachineTranslation):
             'langpair': '%s|%s' % (source, language),
             'q': text,
         }
-        if appsettings.MT_APERTIUM_KEY is not None:
-            args['key'] = appsettings.MT_APERTIUM_KEY
+        if settings.MT_APERTIUM_KEY is not None:
+            args['key'] = settings.MT_APERTIUM_KEY
         response = self.json_status_req(
             '%s/translate' % self.url,
             **args

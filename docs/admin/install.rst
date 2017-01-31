@@ -43,6 +43,8 @@ social-auth-core (>= 1.1.0)
     http://python-social-auth.readthedocs.io/
 social-auth-app-django (>= 1.0.1)
     http://python-social-auth.readthedocs.io/
+django-appconf (>= 1.0)
+    https://github.com/django-compressor/django-appconf
 Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
     https://bitbucket.org/mchaput/whoosh/wiki/Home
 PIL or Pillow library

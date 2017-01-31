@@ -22,9 +22,10 @@ Font handling wrapper.
 '''
 import os.path
 
+from django.conf import settings
+
 from PIL import ImageFont
 
-from weblate import appsettings
 
 # List of chars in base DejaVu font, otherwise we use DroidSansFallback
 BASE_CHARS = frozenset((
@@ -693,7 +694,7 @@ def get_font(size, bold=False, base_font=True):
             name = 'DroidSansFallback.ttf'
 
         FONT_CACHE[cache_key] = ImageFont.truetype(
-            os.path.join(appsettings.TTF_PATH, name),
+            os.path.join(settings.TTF_PATH, name),
             size
         )
     return FONT_CACHE[cache_key]

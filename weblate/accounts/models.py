@@ -52,7 +52,6 @@ from weblate.utils.errors import report_error
 from weblate.trans.signals import user_pre_delete
 from weblate import VERSION
 from weblate.logger import LOGGER
-from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
 from django.contrib.auth.models import User
 
@@ -383,7 +382,7 @@ def get_notification_email(language, email, notification,
             context['translation_url'] = get_site_url(
                 translation_obj.get_absolute_url()
             )
-        context['site_title'] = SITE_TITLE
+        context['site_title'] = settings.SITE_TITLE
 
         # Render subject
         subject = render_to_string(
@@ -995,7 +994,7 @@ def create_groups(update):
 
     created = True
     anon_user, created = User.objects.get_or_create(
-        username=ANONYMOUS_USER_NAME,
+        username=settings.ANONYMOUS_USER_NAME,
         defaults={
             'email': 'noreply@weblate.org',
             'is_active': False,
@@ -1005,7 +1004,7 @@ def create_groups(update):
         raise ValueError(
             'Anonymous user ({}) already exists and enabled, '
             'please change ANONYMOUS_USER_NAME setting.'.format(
-                ANONYMOUS_USER_NAME,
+                settings.ANONYMOUS_USER_NAME,
             )
         )
 

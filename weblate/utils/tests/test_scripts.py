@@ -19,38 +19,24 @@
 #
 
 from unittest import TestCase
-from weblate.trans.util import cleanup_repo_url
+from weblate.utils.scripts import get_script_name
 
 
-class HideCredentialsTest(TestCase):
-    def test_http(self):
+class ScriptTest(TestCase):
+    def test_full_path(self):
         self.assertEqual(
-            cleanup_repo_url('http://foo:bar@example.com'),
-            'http://example.com',
+            get_script_name('/foo/bar/baz'),
+            'baz'
         )
 
-    def test_http_user(self):
+    def test_full_path_ext(self):
         self.assertEqual(
-            cleanup_repo_url('http://foo@example.com'),
-            'http://example.com',
+            get_script_name('/foo/bar/baz.sh'),
+            'baz.sh'
         )
 
-    def test_git(self):
+    def test_no_path(self):
         self.assertEqual(
-            cleanup_repo_url('git://git.weblate.org/weblate.git'),
-            'git://git.weblate.org/weblate.git',
-        )
-
-    def test_github(self):
-        self.assertEqual(
-            cleanup_repo_url('git@github.com:WeblateOrg/weblate.git'),
-            'git@github.com:WeblateOrg/weblate.git',
-        )
-
-    def test_git_hg(self):
-        self.assertEqual(
-            cleanup_repo_url(
-                'hg::https://bitbucket.org/sumwars/sumwars-code'
-            ),
-            'hg::https://bitbucket.org/sumwars/sumwars-code'
+            get_script_name('baz-script'),
+            'baz-script'
         )

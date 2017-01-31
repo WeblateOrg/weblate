@@ -20,8 +20,9 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
+
 from weblate.trans.machine.base import MachineTranslation, MissingConfiguration
-from weblate import appsettings
 
 from six.moves.urllib.parse import quote
 
@@ -43,12 +44,12 @@ class TMServerTranslation(MachineTranslation):
         '''
         Returns URL of a server.
         '''
-        if appsettings.MT_TMSERVER is None:
+        if settings.MT_TMSERVER is None:
             raise MissingConfiguration(
                 'Not configured tmserver URL'
             )
 
-        return appsettings.MT_TMSERVER.rstrip('/')
+        return settings.MT_TMSERVER.rstrip('/')
 
     def convert_language(self, language):
         '''
