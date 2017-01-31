@@ -98,17 +98,16 @@ class FileLockBase(object):
         while True:
             try:
                 self.try_lock(self.handle)
-                break
+                self.is_locked = True
+                return
             except IOError as error:
                 if error.errno not in [errno.EACCES, errno.EAGAIN]:
                     raise
 
-                if (time.time() - start_time) >= self.timeout:
-                    raise FileLockException("Timeout occured.")
+            if (time.time() - start_time) >= self.timeout:
+                raise FileLockException("Timeout occured.")
 
-                time.sleep(self.delay)
-
-        self.is_locked = True
+            time.sleep(self.delay)
 
     def check_lock(self):
         '''
