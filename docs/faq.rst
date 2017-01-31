@@ -119,6 +119,31 @@ Here are examples of workflows used with Weblate:
 
 Of course your are free to mix all of these as you wish.
 
+How can I limit Weblate access to translations only without exposing source code to it?
+---------------------------------------------------------------------------------------
+
+You can use `git submodule`_ for separating translations from source code
+while still having them under version control.
+
+1. Create repository with your translation files.
+2. Add this as submodule to your code:
+
+   .. code-block:: sh
+
+        git submodule add git@example.com:project-translations.git path/to/translations
+
+3. Link Weblate to this repository, it no longer needs access to repository
+   with your source code.
+4. You can update the main repository by translations from Weblate by:
+
+   .. code-block:: sh
+
+        git submodule update --remote path/to/translations
+
+Please consult `git submodule`_ documentation for more details.
+
+.. _`git submodule`: https://git-scm.com/docs/git-submodule
+
 How can I check if my Weblate is configured properly?
 -----------------------------------------------------
 
