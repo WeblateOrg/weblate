@@ -53,7 +53,8 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
-# Remove this once we support Django 1.10+ (can return just true)
+# Remove this once we and djangp-rest-framework support Django 1.10+ (can
+# return just true)
 try:
     # pylint: disable=C0412
     from django.utils.deprecation import CallableFalse, CallableTrue
