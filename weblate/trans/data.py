@@ -52,28 +52,3 @@ def data_dir(component):
     Returns path to data dir for given component.
     """
     return os.path.join(appsettings.DATA_DIR, component)
-
-
-def migrate_data_dirs():
-    """
-    Migrate data directory from old locations to new consolidated data
-    directory.
-    """
-    check_data_writable()
-
-    vcs = data_dir('vcs')
-    if os.path.exists(appsettings.GIT_ROOT) and not os.path.exists(vcs):
-        shutil.move(appsettings.GIT_ROOT, vcs)
-
-    whoosh = data_dir('whoosh')
-    if os.path.exists(appsettings.WHOOSH_INDEX) and not os.path.exists(whoosh):
-        shutil.move(appsettings.WHOOSH_INDEX, whoosh)
-
-    ssh_home = os.path.expanduser('~/.ssh')
-    ssh = data_dir('ssh')
-    for name in ('known_hosts', 'id_rsa', 'id_rsa.pub'):
-        source = os.path.join(ssh_home, name)
-        target = os.path.join(ssh, name)
-
-        if os.path.exists(source) and not os.path.exists(target):
-            shutil.copy(source, target)

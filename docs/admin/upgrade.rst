@@ -60,6 +60,12 @@ To upgrade default set of language definitions (optional), run:
     upgrade first to closest released version and then continue in 
     upgrading to latest one.
 
+.. versionchanged:: 2.12
+
+    Since version 2.12 upgrade is not supported for versions prior to 2.2. In
+    case you are upgrading from such old version, please upgrade to 2.2 first
+    and then continue in upgrading to current release.
+
 .. _version-specific-instructions:
 
 Version specific instructions
