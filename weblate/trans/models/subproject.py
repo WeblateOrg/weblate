@@ -59,11 +59,6 @@ from weblate.trans.validators import (
     validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
-from weblate.appsettings import (
-    HIDE_REPO_CREDENTIALS,
-    DEFAULT_COMMITER_EMAIL, DEFAULT_COMMITER_NAME,
-    DEFAULT_TRANSLATION_PROPAGATION,
-)
 from weblate.accounts.models import (
     notify_parse_error, notify_merge_failure, get_author_name
 )
@@ -319,7 +314,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     )
     allow_translation_propagation = models.BooleanField(
         verbose_name=ugettext_lazy('Allow translation propagation'),
-        default=DEFAULT_TRANSLATION_PROPAGATION,
+        default=settings.DEFAULT_TRANSLATION_PROPAGATION,
         db_index=True,
         help_text=ugettext_lazy(
             'Whether translation updates in other components '
@@ -447,12 +442,12 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     committer_name = models.CharField(
         verbose_name=ugettext_lazy('Committer name'),
         max_length=200,
-        default=DEFAULT_COMMITER_NAME,
+        default=settings.DEFAULT_COMMITER_NAME,
     )
     committer_email = models.EmailField(
         verbose_name=ugettext_lazy('Committer email'),
         max_length=254,
-        default=DEFAULT_COMMITER_EMAIL,
+        default=settings.DEFAULT_COMMITER_EMAIL,
     )
 
     language_regex = RegexField(
@@ -612,7 +607,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         """Returns link to repository."""
         if self.is_repo_link:
             return self.linked_subproject.get_repo_url()
-        if not HIDE_REPO_CREDENTIALS:
+        if not settings.HIDE_REPO_CREDENTIALS:
             return self.repo
         return cleanup_repo_url(self.repo)
 
