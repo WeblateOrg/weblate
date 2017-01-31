@@ -73,7 +73,7 @@ class WeblateAnonymousUser(User):
 
     @property
     def is_anonymous(self):
-        return CallableFalse
+        return CallableTrue
 
 
 def send_mails(mails):
