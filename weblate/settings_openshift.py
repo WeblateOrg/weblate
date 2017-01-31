@@ -91,17 +91,12 @@ CACHES = {
     }
 }
 
-GIT_ROOT = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'repos')
-
 # Offload indexing: if the cron cartridge is installed the preconfigured job
 # in .openshift/cron/minutely/update_index updates the index.
 if os.environ.get('OPENSHIFT_CRON_DIR', False):
     OFFLOAD_INDEXING = True
 else:
     OFFLOAD_INDEXING = False
-
-# Where to put Whoosh index
-WHOOSH_INDEX = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'whoosh-index')
 
 # List of machine translations
 MACHINE_TRANSLATION_SERVICES = (
