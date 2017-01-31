@@ -12,7 +12,7 @@ import weblate.trans.validators
 
 class Migration(migrations.Migration):
 
-    replaces = [(b'trans', '0001_initial'), (b'trans', '0002_auto_20141021_1347'), (b'trans', '0003_auto_20141021_1348'), (b'trans', '0004_auto_20141021_1550'), (b'trans', '0005_auto_20141021_1550'), (b'trans', '0006_auto_20141021_1609'), (b'trans', '0007_auto_20141022_1159'), (b'trans', '0008_auto_20141104_1200'), (b'trans', '0009_auto_20141110_1501'), (b'trans', '0010_source_check_flags'), (b'trans', '0011_auto_20141114_1008'), (b'trans', '0012_translation_have_comment'), (b'trans', '0013_auto_20141124_1036'), (b'trans', '0014_auto_20141202_1101'), (b'trans', '0015_auto_20141203_1345'), (b'trans', '0016_auto_20141208_1029'), (b'trans', '0017_auto_20150108_1424'), (b'trans', '0018_auto_20150213_1447')]
+    replaces = [('trans', '0001_initial'), ('trans', '0002_auto_20141021_1347'), ('trans', '0003_auto_20141021_1348'), ('trans', '0004_auto_20141021_1550'), ('trans', '0005_auto_20141021_1550'), ('trans', '0006_auto_20141021_1609'), ('trans', '0007_auto_20141022_1159'), ('trans', '0008_auto_20141104_1200'), ('trans', '0009_auto_20141110_1501'), ('trans', '0010_source_check_flags'), ('trans', '0011_auto_20141114_1008'), ('trans', '0012_translation_have_comment'), ('trans', '0013_auto_20141124_1036'), ('trans', '0014_auto_20141202_1101'), ('trans', '0015_auto_20141203_1345'), ('trans', '0016_auto_20141208_1029'), ('trans', '0017_auto_20150108_1424'), ('trans', '0018_auto_20150213_1447')]
 
     initial = True
 
