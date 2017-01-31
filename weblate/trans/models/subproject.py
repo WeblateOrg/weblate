@@ -695,23 +695,23 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         if self.is_repo_link:
             return self.linked_subproject.do_update(request, method=method)
 
-        # pull remote
-        if not self.update_remote_branch():
-            return False
-
-        # do we have something to merge?
-        try:
-            needs_merge = self.repo_needs_merge()
-        except RepositoryException:
-            # Not yet configured repository
-            needs_merge = True
-
-        if not needs_merge and method != 'rebase':
-            return True
-
         # Hold lock all time here to avoid somebody writing between commit
         # and merge/rebase.
         with self.repository.lock:
+            # pull remote
+            if not self.update_remote_branch():
+                return False
+
+            # do we have something to merge?
+            try:
+                needs_merge = self.repo_needs_merge()
+            except RepositoryException:
+                # Not yet configured repository
+                needs_merge = True
+
+            if not needs_merge and method != 'rebase':
+                return True
+
             # commit possible pending changes
             self.commit_pending(request, skip_push=True)
 
