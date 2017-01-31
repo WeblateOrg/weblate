@@ -36,6 +36,7 @@ from django.contrib.auth.models import Group, User, Permission
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, get_connection
+from django.utils.deprecation import CallableFalse, CallableTrue
 from django.utils.translation import LANGUAGE_SESSION_KEY
 
 from rest_framework.authtoken.models import Token
@@ -53,19 +54,9 @@ from weblate import VERSION
 from weblate.logger import LOGGER
 from weblate.appsettings import ANONYMOUS_USER_NAME, SITE_TITLE
 
+
 # Remove this once we and djangp-rest-framework support Django 1.10+ (can
 # return just true)
-try:
-    # pylint: disable=C0412
-    from django.utils.deprecation import CallableFalse, CallableTrue
-except ImportError:
-    # pylint: disable=C0103
-    def CallableFalse():
-        return False
-
-    def CallableTrue():
-        return True
-
 
 def is_authenticated(user):
     if user.username == ANONYMOUS_USER_NAME:
