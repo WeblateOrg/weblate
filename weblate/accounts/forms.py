@@ -118,7 +118,7 @@ class SortedSelectMixin(object):
         output = []
 
         # Actually sort values
-        all_choices = sort_choices(list(self.choices)))
+        all_choices = sort_choices(list(self.choices))
 
         # Stolen from Select.render_options
         for option_value, option_label in all_choices:
