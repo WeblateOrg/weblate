@@ -20,8 +20,8 @@
 """
 Data files helpers.
 """
-import shutil
 import os
+
 from weblate import appsettings
 
 
