@@ -43,7 +43,7 @@ fi
 
 # Build tarballs
 zcat dist/$tarver.tar.gz | xz > dist/$tarver.tar.xz
-zcat dist/$tarver.tar.gz | bz2 > dist/$tarver.tar.bz2
+zcat dist/$tarver.tar.gz | bzip2 > dist/$tarver.tar.bz2
 
 if [ "x$1" = "x--tag" ] ; then
     # Download server
