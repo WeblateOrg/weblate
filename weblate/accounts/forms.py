@@ -109,21 +109,16 @@ class SortedSelectMixin(object):
     '''
     Mixin for Select widgets to sort choices alphabetically.
     '''
-    def render_options(self, choices, selected_choices=None):
+    def render_options(self, selected_choices):
         '''
         Renders sorted options.
         '''
-        # Django 1.10 compatibility:
-        # the choices parameter was removed there
-        if selected_choices is None:
-            selected_choices = choices
-            choices = []
         # Normalize to strings.
         selected_choices = set(force_text(v) for v in selected_choices)
         output = []
 
         # Actually sort values
-        all_choices = sort_choices(list(chain(self.choices, choices)))
+        all_choices = sort_choices(list(self.choices)))
 
         # Stolen from Select.render_options
         for option_value, option_label in all_choices:
