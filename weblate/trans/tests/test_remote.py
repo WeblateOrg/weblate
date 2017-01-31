@@ -188,8 +188,14 @@ class MultiRepoTest(ViewTestCase):
         self.push_first(False)
         self.subproject2.merge_style = 'rebase'
         self.subproject2.save()
-        process = Process(target=self.subproject2.do_update, args=(self.request,))
-        process2 = Process(target=self.subproject2.do_update, args=(self.request,))
+        process = Process(
+            target=self.subproject2.do_update,
+            args=(self.request,)
+        )
+        process2 = Process(
+            target=self.subproject2.do_update,
+            args=(self.request,)
+        )
         process.start()
         process2.start()
         process.join()
