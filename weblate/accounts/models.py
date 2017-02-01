@@ -76,6 +76,13 @@ class WeblateAnonymousUser(User):
         return CallableTrue
 
 
+def get_anonymous():
+    """Return anonymous user"""
+    return WeblateAnonymousUser.objects.get(
+        username=settings.ANONYMOUS_USER_NAME,
+    )
+
+
 def send_mails(mails):
     """Sends multiple mails in single connection."""
     try:

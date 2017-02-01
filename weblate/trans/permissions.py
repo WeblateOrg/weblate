@@ -24,7 +24,7 @@ from django.conf import settings
 from django.db.models import Q
 from django.contrib.auth.models import Group, Permission
 
-from weblate.accounts.models import WeblateAnonymousUser
+from weblate.accounts.models import get_anonymous
 from weblate.trans.models.group_acl import GroupACL
 
 
@@ -118,9 +118,7 @@ def cache_permission(func):
 
     def wrapper(user, target_object):
         if user is None:
-            user = WeblateAnonymousUser.objects.get(
-                username=settings.ANONYMOUS_USER_NAME,
-            )
+            user = get_anonymous()
         if target_object is None:
             obj_key = None
         else:

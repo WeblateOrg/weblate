@@ -400,6 +400,8 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * There is new dependency on `django-appconf`.
+* The setting for `UNAUTHENTICATED_USER` for `REST_FRAMEWORK` has been changed
+  to properly handle anonymous user permissions in REST API.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

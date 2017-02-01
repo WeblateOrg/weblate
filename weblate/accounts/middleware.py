@@ -26,7 +26,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
 from django.utils.functional import SimpleLazyObject
 
-from weblate.accounts.models import WeblateAnonymousUser
+from weblate.accounts.models import get_anonymous
 
 
 def get_user(request):
@@ -38,9 +38,7 @@ def get_user(request):
     if not hasattr(request, '_cached_user'):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
-            user = WeblateAnonymousUser.objects.get(
-                username=settings.ANONYMOUS_USER_NAME,
-            )
+            user = get_anonymous()
 
         request._cached_user = user
     return request._cached_user
