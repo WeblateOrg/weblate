@@ -193,3 +193,8 @@ def can_add_comment(user, project):
 @register.assignment_tag
 def can_overwrite_translation(user, project):
     return weblate.trans.permissions.can_overwrite_translation(user, project)
+
+
+@register.assignment_tag
+def can_see_git_repository(user, project):
+    return weblate.trans.permissions.can_see_git_repository(user, project)

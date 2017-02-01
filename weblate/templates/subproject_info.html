@@ -1,4 +1,7 @@
 {% load i18n %}
+{% load permissions %}
+
+{% can_see_git_repository user object.project as user_can_see_git_repository %}
 
 {% with object.project as object %}
 {% include "project_info.html" %}
@@ -17,7 +20,7 @@
 </tr>
 {% endif %}
 
-{% if perms.trans.can_see_git_repository %}
+{% if user_can_see_git_repository %}
 <tr>
 <th>{% trans "Repository" %}</th>
 <td colspan="2">

@@ -461,3 +461,11 @@ def can_add_comment(user, project):
     Checks whether user can add comment for given project.
     """
     return check_permission(user, project, 'trans.add_comment')
+
+
+@cache_permission
+def can_see_git_repository(user, project):
+    """
+    Checks whether user can add comment for given project.
+    """
+    return check_permission(user, project, 'trans.can_see_git_repository')
