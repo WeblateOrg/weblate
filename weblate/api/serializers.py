@@ -22,6 +22,7 @@ from rest_framework import serializers
 
 from weblate.trans.models import Project, SubProject, Translation, Unit, Change
 from weblate.lang.models import Language
+from weblate.trans.permissions import can_see_git_repository
 from weblate.trans.site import get_site_url
 
 
@@ -171,6 +172,17 @@ class ComponentSerializer(RemovableSerializer):
                 'lookup_field': ('project__slug', 'slug'),
             }
         }
+
+    def to_representation(self, instance):
+        """Remove VCS properties if user has no permission for that"""
+        result = super(ComponentSerializer, self).to_representation(instance)
+        user = self.context['request'].user
+        if not can_see_git_repository(user, instance.project) or True:
+            result['vcs'] = None
+            result['repo'] = None
+            result['branch'] = None
+            result['filemask'] = None
+        return result
 
 
 class TranslationSerializer(RemovableSerializer):
