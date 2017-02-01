@@ -756,11 +756,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
         if not self.can_push():
-            if request is not None:
-                messages.error(
-                    request,
-                    _('Push is disabled for %s.') % force_text(self)
-                )
+            messages.error(
+                request,
+                _('Push is disabled for %s.') % force_text(self)
+            )
             return False
 
         # Commit any pending changes
@@ -804,12 +803,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 'failed push on repo %s' % force_text(self),
                 msg
             )
-            if request is not None:
-                messages.error(
-                    request,
-                    _('Failed to push to remote branch on %s.') %
-                    force_text(self)
-                )
+            messages.error(
+                request,
+                _('Failed to push to remote branch on %s.') %
+                force_text(self)
+            )
             return False
 
     @perform_on_link
@@ -835,12 +833,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 'failed reset on repo %s' % force_text(self),
                 msg
             )
-            if request is not None:
-                messages.error(
-                    request,
-                    _('Failed to reset to remote branch on %s.') %
-                    force_text(self)
-                )
+            messages.error(
+                request,
+                _('Failed to reset to remote branch on %s.') %
+                force_text(self)
+            )
             return False
 
         # create translation objects for all files
@@ -973,11 +970,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 method(abort=True)
 
                 # Tell user (if there is any)
-                if request is not None:
-                    messages.error(
-                        request,
-                        error_msg % force_text(self)
-                    )
+                messages.error(
+                    request,
+                    error_msg % force_text(self)
+                )
 
                 return False
 

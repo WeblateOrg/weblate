@@ -19,7 +19,7 @@
 #
 """
 Wrapper around django.contrib.messages to work with Django REST Framework as
-well.
+well. And ignoring messages without request object (eg. from CLI).
 """
 
 from __future__ import unicode_literals
@@ -40,32 +40,37 @@ def debug(request, message):
     """
     Adds a message with the ``DEBUG`` level.
     """
-    add_message(get_request(request), constants.DEBUG, message)
+    if request is not None:
+        add_message(get_request(request), constants.DEBUG, message)
 
 
 def info(request, message):
     """
     Adds a message with the ``INFO`` level.
     """
-    add_message(get_request(request), constants.INFO, message)
+    if request is not None:
+        add_message(get_request(request), constants.INFO, message)
 
 
 def success(request, message):
     """
     Adds a message with the ``SUCCESS`` level.
     """
-    add_message(get_request(request), constants.SUCCESS, message)
+    if request is not None:
+        add_message(get_request(request), constants.SUCCESS, message)
 
 
 def warning(request, message):
     """
     Adds a message with the ``WARNING`` level.
     """
-    add_message(get_request(request), constants.WARNING, message)
+    if request is not None:
+        add_message(get_request(request), constants.WARNING, message)
 
 
 def error(request, message):
     """
     Adds a message with the ``ERROR`` level.
     """
-    add_message(get_request(request), constants.ERROR, message)
+    if request is not None:
+        add_message(get_request(request), constants.ERROR, message)
