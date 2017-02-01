@@ -213,4 +213,3 @@ class WeblateConf(AppConf):
 
     class Meta(object):
         prefix = ''
-

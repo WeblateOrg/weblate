@@ -23,7 +23,6 @@ import shutil
 
 from django.conf import settings
 from django.test import TestCase
-from django.test.utils import override_settings
 
 from weblate.trans.ssh import get_host_keys, create_ssh_wrapper, ssh_file
 from weblate.trans.tests.utils import get_test_file

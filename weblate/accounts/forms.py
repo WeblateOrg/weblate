@@ -19,7 +19,6 @@
 #
 
 from __future__ import unicode_literals
-from itertools import chain
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, HTML

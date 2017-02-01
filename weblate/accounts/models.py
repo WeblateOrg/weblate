@@ -53,8 +53,6 @@ from weblate.trans.signals import user_pre_delete
 from weblate import VERSION
 from weblate.logger import LOGGER
 
-from django.contrib.auth.models import User
-
 
 class WeblateAnonymousUser(User):
     """

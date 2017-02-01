@@ -28,7 +28,6 @@ from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import admin
 from django.utils.translation import ugettext as _
-from django.conf import settings
 import django
 
 import six

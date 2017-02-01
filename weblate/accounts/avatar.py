@@ -34,7 +34,6 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
 from django.core.urlresolvers import reverse
-from django.conf import settings
 
 try:
     import libravatar  # pylint: disable=import-error
