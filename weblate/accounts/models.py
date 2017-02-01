@@ -1093,8 +1093,7 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
 # AUTH_LDAP_ALWAYS_UPDATE_USER enabled.
 if 'django_auth_ldap.backend.LDAPBackend' in settings.AUTHENTICATION_BACKENDS:
     # pylint: disable=C0413,E0401
-    from django_auth_ldap.backend import populate_user
-    from django_auth_ldap.backend import LDAPBackend
+    from django_auth_ldap.backend import populate_user, LDAPBackend
 
     @receiver(populate_user, sender=LDAPBackend)
     def auto_groups_upon_ldap(sender, user, **kwargs):
