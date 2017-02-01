@@ -32,7 +32,7 @@ from django.core.urlresolvers import reverse
 import six
 from six.moves.urllib.parse import urlencode
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Translation, Dictionary, Change
 from weblate.lang.models import Language

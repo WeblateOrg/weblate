@@ -34,7 +34,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir

@@ -31,7 +31,7 @@ from django.views.decorators.http import require_POST
 from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (

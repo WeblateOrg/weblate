@@ -38,7 +38,7 @@ from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.utils import timezone
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.formats import FILE_FORMAT_CHOICES, FILE_FORMATS, ParseError
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.fields import RegexField

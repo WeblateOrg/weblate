@@ -36,7 +36,7 @@ import django.views.defaults
 from six import string_types
 from six.moves.urllib.parse import urlencode
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.models import (
     Project, Translation, Check, ComponentList, Change, Unit,
 )

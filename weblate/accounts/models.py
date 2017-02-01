@@ -44,7 +44,7 @@ from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
 
 from weblate.lang.models import Language
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.site import get_site_url, get_site_domain
 from weblate.trans.fields import RegexField
 from weblate.accounts.avatar import get_user_display

@@ -25,7 +25,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )

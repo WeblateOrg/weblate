@@ -26,7 +26,7 @@ from django.shortcuts import get_object_or_404
 import django.utils.translation
 from django.utils.translation import trans_real, ugettext as _
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Project, SubProject, Translation
 

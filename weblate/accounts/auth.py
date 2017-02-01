@@ -32,7 +32,7 @@ from django.contrib.auth.backends import ModelBackend
 import social_core.backends.email
 from social_core.exceptions import AuthMissingParameter
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.utils.errors import report_error
 
 

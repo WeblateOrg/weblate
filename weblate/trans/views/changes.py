@@ -30,7 +30,7 @@ from django.core.exceptions import PermissionDenied
 
 from six.moves.urllib.parse import urlencode
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.models.change import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language

@@ -33,7 +33,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import formats
 from django.core.exceptions import PermissionDenied
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.models import (
     Unit, Change, Comment, Suggestion, Dictionary,
     get_related_units,

@@ -24,7 +24,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )

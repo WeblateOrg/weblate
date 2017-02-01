@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.trans.util import redirect_param
 from weblate.trans.forms import UserManageForm
 from weblate.trans.views.helper import get_project

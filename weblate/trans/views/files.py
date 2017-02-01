@@ -27,7 +27,7 @@ from django.shortcuts import redirect
 from django.http import Http404
 from django.views.decorators.http import require_POST
 
-from weblate.trans import messages
+from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import (
