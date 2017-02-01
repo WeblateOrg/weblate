@@ -395,7 +395,7 @@ Notable configuration or dependencies changes:
 
     If you were using python-social-auth 0.2.19 or older on Weblate 2.10, then
     please first upgrade Weblate 2.10 to python-social-auth 0.2.21 and then
-    perform upgrade to Weblate 2.10.
+    perform upgrade to Weblate 2.11.
 
     See <https://github.com/WeblateOrg/weblate/issues/1344> and
     <https://github.com/python-social-auth/social-app-django/issues/28> for
