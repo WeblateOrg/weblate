@@ -96,6 +96,18 @@ MERGE_CHOICES = (
 )
 
 
+def perform_on_link(func):
+    """Decorator to handle repository link"""
+    def wrapper(self, *args, **kwargs):
+        if self.is_repo_link:
+            # Call same method on linked component
+            return getattr(self.linked_subproject, func.__name__)(
+                *args, **kwargs
+            )
+        return func(self, *args, **kwargs)
+    return wrapper
+
+
 class SubProjectManager(models.Manager):
     # pylint: disable=W0232
 
@@ -540,17 +552,14 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_full_slug(self):
         return '__'.join((self.project.slug, self.slug))
 
+    @perform_on_link
     def _get_path(self):
         """Returns full path to subproject VCS repository."""
-        if self.is_repo_link:
-            return self.linked_subproject.get_path()
-        else:
-            return os.path.join(self.project.get_path(), self.slug)
+        return os.path.join(self.project.get_path(), self.slug)
 
+    @perform_on_link
     def can_push(self):
         """Returns true if push is possible for this subproject."""
-        if self.is_repo_link:
-            return self.linked_subproject.can_push()
         return self.push != '' and self.push is not None
 
     @property
@@ -569,12 +578,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             self._linked_subproject = SubProject.objects.get_linked(self.repo)
         return self._linked_subproject
 
-    @property
-    def repository(self):
-        """VCS repository object."""
-        if self.is_repo_link:
-            return self.linked_subproject.repository
-
+    @perform_on_link
+    def _get_repository(self):
+        """Get VCS repository object."""
         if self._repository is None:
             self._repository = VCS_REGISTRY[self.vcs](
                 self.get_path(), self.branch, self
@@ -585,6 +591,11 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 cache.set(cache_key, True)
 
         return self._repository
+
+    @property
+    def repository(self):
+        """VCS repository object."""
+        return self._get_repository()
 
     def get_last_remote_commit(self):
         """Returns latest remote commit we know."""
@@ -599,24 +610,21 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             cache.set(cache_key, result)
         return result
 
+    @perform_on_link
     def get_repo_url(self):
         """Returns link to repository."""
-        if self.is_repo_link:
-            return self.linked_subproject.get_repo_url()
         if not settings.HIDE_REPO_CREDENTIALS:
             return self.repo
         return cleanup_repo_url(self.repo)
 
+    @perform_on_link
     def get_repo_branch(self):
         """Returns branch in repository."""
-        if self.is_repo_link:
-            return self.linked_subproject.branch
         return self.branch
 
+    @perform_on_link
     def get_export_url(self):
         """Returns URL of exported VCS repository."""
-        if self.is_repo_link:
-            return self.linked_subproject.git_export
         return self.git_export
 
     def get_repoweb_link(self, filename, line):
@@ -636,11 +644,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             'branch': self.branch
         }
 
+    @perform_on_link
     def update_remote_branch(self, validate=False):
         """Pulls from remote repository."""
-        if self.is_repo_link:
-            return self.linked_subproject.update_remote_branch(validate)
-
         # Update
         self.log_info('updating repository')
         try:
@@ -688,11 +694,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         with self.repository.lock:
             self.repository.configure_branch(self.branch)
 
+    @perform_on_link
     def do_update(self, request=None, method=None):
         """Wrapper for doing repository update"""
-        if self.is_repo_link:
-            return self.linked_subproject.do_update(request, method=method)
-
         # Hold lock all time here to avoid somebody writing between commit
         # and merge/rebase.
         with self.repository.lock:
@@ -747,13 +751,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             request, force_commit=False, do_update=do_update
         )
 
+    @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True):
         """Wrapper for pushing changes to remote repo."""
-        if self.is_repo_link:
-            return self.linked_subproject.do_push(
-                request, force_commit=force_commit, do_update=do_update
-            )
-
         # Do we have push configured
         if not self.can_push():
             if request is not None:
@@ -812,11 +812,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 )
             return False
 
+    @perform_on_link
     def do_reset(self, request=None):
         """Wrapper for reseting repo to same sources as remote."""
-        if self.is_repo_link:
-            return self.linked_subproject.do_reset(request)
-
         # First check we're up to date
         self.update_remote_branch()
 
@@ -905,11 +903,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
         raise ParseError(str(error))
 
+    @perform_on_link
     def update_branch(self, request=None, method=None):
         """Updates current branch to match remote (if possible)."""
-        if self.is_repo_link:
-            return self.linked_subproject.update_branch(request, method=method)
-
         if method is None:
             method = self.merge_style
 
