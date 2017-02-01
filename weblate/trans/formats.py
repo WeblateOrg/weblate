@@ -487,12 +487,7 @@ class FileFormat(object):
     @staticmethod
     def serialize(store):
         """Serialize given ttkit store"""
-        if hasattr(store, 'serialize'):
-            # ttkit API since 1.14.0
-            return bytes(store)
-        else:
-            # ttkit API 1.13.0 and older
-            return str(store)
+        return bytes(store)
 
     @classmethod
     def parse(cls, storefile, template_store=None, language_code=None):
@@ -722,12 +717,7 @@ class FileFormat(object):
         Returns most common file extension for format.
         '''
         if self.store.Extensions is None:
-            # Typo in translate-toolkit 1.9, see
-            # https://github.com/translate/translate/pull/10
-            if hasattr(self.store, 'Exensions'):
-                return self.store.Exensions[0]
-            else:
-                return 'txt'
+            return 'txt'
         else:
             return self.store.Extensions[0]
 

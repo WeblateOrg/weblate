@@ -216,7 +216,7 @@ def get_versions():
         'Translate Toolkit',
         'http://toolkit.translatehouse.org/',
         'translate.__version__',
-        '1.14.0-rc1',
+        '2.0.0',
         'sver',
     ))
 
