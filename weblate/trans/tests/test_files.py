@@ -31,6 +31,8 @@ from weblate.trans.tests.utils import get_test_file
 
 TEST_PO = get_test_file('cs.po')
 TEST_CSV = get_test_file('cs.csv')
+TEST_CSV_QUOTES = get_test_file('cs-quotes.csv')
+TEST_CSV_QUOTES_ESCAPED = get_test_file('cs-quotes-escaped.csv')
 TEST_PO_BOM = get_test_file('cs-bom.po')
 TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
 TEST_BADPLURALS = get_test_file('cs-badplurals.po')
@@ -326,11 +328,13 @@ class AndroidImportTest(ViewTestCase):
 
 
 class CSVImportTest(ViewTestCase):
+    test_file = TEST_CSV
+
     def test_import(self):
         translation = self.get_translation()
         self.assertEqual(translation.translated, 0)
         self.assertEqual(translation.fuzzy, 0)
-        with open(TEST_CSV, 'rb') as handle:
+        with open(self.test_file, 'rb') as handle:
             self.client.post(
                 reverse(
                     'upload_translation',
@@ -342,6 +346,14 @@ class CSVImportTest(ViewTestCase):
         translation = self.get_translation()
         self.assertEqual(translation.translated, 1)
         self.assertEqual(translation.fuzzy, 0)
+
+
+class CSVQuotesImportTest(CSVImportTest):
+    test_file = TEST_CSV_QUOTES
+
+
+class CSVQuotesEscapedImportTest(CSVImportTest):
+    test_file = TEST_CSV_QUOTES_ESCAPED
 
 
 class ExportTest(ViewTestCase):
