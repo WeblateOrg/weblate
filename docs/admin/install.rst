@@ -64,6 +64,9 @@ django-crispy-forms (>=1.4.0)
 Django REST Framework (>=3.3)
     http://www.django-rest-framework.org/
 libravatar (optional for federated avatar support)
+    You need to additionally install pydns (on Python 2) or py3dns (on Python 3)
+    to make libravatar work.
+
     https://pypi.python.org/pypi/pyLibravatar
 pyuca (>= 1.1) (optional for proper sorting of strings)
     https://github.com/jtauber/pyuca
