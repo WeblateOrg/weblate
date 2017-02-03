@@ -422,9 +422,9 @@ URL of the Apertium APy server, see http://wiki.apertium.org/wiki/Apertium-apy
 MT_APERTIUM_KEY
 ---------------
 
-API key for Apertium Web Service, you can register at http://api.apertium.org/register.jsp
+API key for Apertium Web Service, currently not used.
 
-Not needed when running own Apertium APy server.
+Not needed at all when running own Apertium APy server.
 
 .. seealso::
    
