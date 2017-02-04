@@ -424,9 +424,6 @@ if not HAVE_SYSLOG:
 
 # Machine translation API keys
 
-# Apertium Web Service, register at http://api.apertium.org/register.jsp
-MT_APERTIUM_KEY = None
-
 # URL of the Apertium APy server
 MT_APERTIUM_APY = None
 
