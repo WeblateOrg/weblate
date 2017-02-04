@@ -393,13 +393,13 @@ Notable configuration or dependencies changes:
 
 .. warning::
 
-    If you were using python-social-auth 0.2.19 or older on Weblate 2.10, then
-    please first upgrade Weblate 2.10 to python-social-auth 0.2.21 and then
-    perform upgrade to Weblate 2.11.
+    If you were using python-social-auth 0.2.19 or older with Weblate 2.10, you
+    should first upgrade Weblate 2.10 to python-social-auth 0.2.21 and then
+    perform upgrade to Weblate 2.11. Otherwise you end up with non applicable
+    database migrations.
 
-    See <https://github.com/WeblateOrg/weblate/issues/1344> and
-    <https://github.com/python-social-auth/social-app-django/issues/28> for
-    more information.
+    See `Migrating from python-social-auth to split social <https://github.com/omab/python-social-auth/blob/master/MIGRATING_TO_SOCIAL.md#migrations>`_
+    for more information.
 
 
 .. seealso:: :ref:`generic-upgrade-instructions`
