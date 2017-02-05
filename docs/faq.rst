@@ -52,7 +52,7 @@ actions.
 .. code-block:: sh
 
     # Add remote
-    git remote add weblate git://git.weblate.org/debian-handbook.git
+    git remote add weblate https://hosted.weblate.org/git/weblate/master/
 
     # Update remotes
     git remote update

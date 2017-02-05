@@ -262,7 +262,7 @@ You can also let wlc know current project and it will then operate on it:
     branch: master
     file_format: po
     filemask: weblate/locale/*/LC_MESSAGES/django.po
-    git_export: git://git.weblate.org/weblate.git
+    git_export: https://hosted.weblate.org/git/weblate/master/
     license: GPL-3.0+
     license_url: https://spdx.org/licenses/GPL-3.0+
     name: master
