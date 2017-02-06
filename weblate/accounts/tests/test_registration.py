@@ -226,6 +226,23 @@ class RegistrationTest(TestCase, RegistrationTestMixin):
         self.assertRedirects(response, reverse('email-sent'))
         self.assertEqual(len(mail.outbox), 0)
 
+    def test_reset_anonymous(self):
+        '''
+        Test for password reset of anonymous user.
+        '''
+        response = self.client.get(
+            reverse('password_reset'),
+        )
+        self.assertContains(response, 'Reset my password')
+        response = self.client.post(
+            reverse('password_reset'),
+            {
+                'email': 'noreply@weblate.org'
+            }
+        )
+        self.assertRedirects(response, reverse('email-sent'))
+        self.assertEqual(len(mail.outbox), 0)
+
     def test_reset_twice(self):
         '''
         Test for password reset.

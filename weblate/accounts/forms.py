@@ -483,6 +483,10 @@ class ResetForm(EmailForm):
             raise forms.ValidationError(
                 _('User with this email address was not found.')
             )
+        if self.cleaned_data['email'] == 'noreply@weblate.org':
+            raise forms.ValidationError(
+                'No password reset for deleted or anonymous user.'
+            )
         return users[0]
 
 
