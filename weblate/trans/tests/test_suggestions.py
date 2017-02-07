@@ -80,6 +80,33 @@ class SuggestionsTest(ViewTestCase):
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions()), 2)
 
+    def test_add_same(self):
+        translate_url = reverse('translate', kwargs=self.kw_translation)
+        # Add first suggestion
+        response = self.add_suggestion_1()
+        # We should get to second message
+        self.assert_redirects_offset(response, translate_url, 1)
+        # Add first suggestion
+        response = self.add_suggestion_1()
+        # We should stay on same message
+        self.assert_redirects_offset(response, translate_url, 0)
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.subproject.translation_set.get(
+            language_code='cs'
+        )
+
+        # Check number of suggestions
+        self.assertEqual(translation.have_suggestion, 1)
+        self.assert_backend(0)
+
+        # Unit should not be translated
+        self.assertEqual(len(unit.checks()), 0)
+        self.assertFalse(unit.translated)
+        self.assertFalse(unit.fuzzy)
+        self.assertEqual(len(self.get_unit().suggestions()), 1)
+
     def test_delete(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
         # Create two suggestions

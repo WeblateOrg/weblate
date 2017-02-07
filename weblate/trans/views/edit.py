@@ -204,12 +204,14 @@ def perform_suggestion(unit, form, request):
             'as your suggestion might otherwise remain unreviewed.'
         ))
     # Create the suggestion
-    Suggestion.objects.add(
+    result = Suggestion.objects.add(
         unit,
         join_plural(form.cleaned_data['target']),
         request,
     )
-    return True
+    if not result:
+        messages.error(request, _('Your suggestion already exists!'))
+    return result
 
 
 def perform_translation(unit, form, request):

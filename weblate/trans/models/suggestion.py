@@ -40,6 +40,16 @@ class SuggestionManager(models.Manager):
         '''
         user = request.user
 
+        same = self.filter(
+            target=target,
+            contentsum=unit.contentsum,
+            language=unit.translation.language,
+            project=unit.translation.subproject.project,
+        )
+
+        if same.exists():
+            return False
+
         # Create the suggestion
         suggestion = self.create(
             target=target,
@@ -73,6 +83,8 @@ class SuggestionManager(models.Manager):
         if user is not None:
             user.profile.suggested += 1
             user.profile.save()
+
+        return True
 
     def copy(self, project):
         """Copies suggestions to new project
