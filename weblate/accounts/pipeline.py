@@ -117,7 +117,7 @@ def send_validation(strategy, backend, code):
         None,
         code.email,
         template,
-        info=code.code,
+        info=url,
         context={
             'url': url
         }
