@@ -231,8 +231,6 @@ def search(request):
             search_form.cleaned_data,
         ).filter(
             translation__subproject__project_id__in=acl_projects
-        ).select_related(
-            'translation',
         )
 
         limit = request.GET.get('limit', 50)
