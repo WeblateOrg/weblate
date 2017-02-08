@@ -207,6 +207,16 @@ Generic settings
 
     Configures ID for Google Analytics, see :setting:`GOOGLE_ANALYTICS_ID`.
 
+.. envvar:: WEBLATE_GITHUB_USERNAME
+
+    Configures github username for GitHub pull requests, see
+    :setting:`GITHUB_USERNAME`.
+
+    .. seealso::
+
+       :ref:`github-push`,
+       :ref:`hub-setup`
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

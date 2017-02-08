@@ -292,9 +292,10 @@ GITHUB_USERNAME
 GitHub username that will be used to send pull requests for translation
 updates.
 
-.. seealso:: 
-   
-   :ref:`github-push`
+.. seealso::
+
+   :ref:`github-push`,
+   :ref:`hub-setup`
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
