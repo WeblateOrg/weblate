@@ -210,7 +210,7 @@ class UnitManager(models.Manager):
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
     def prefetch(self):
-        return self.select_related(
+        return self.prefetch_related(
             'translation', 'translation__language',
             'translation__subproject',
             'translation__subproject__project',
