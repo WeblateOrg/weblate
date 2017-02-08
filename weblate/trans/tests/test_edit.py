@@ -415,6 +415,31 @@ class EditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Ahoj svete!\n')
 
+    def test_replace_component(self):
+        response = self.edit_unit(
+            'Hello, world!\n',
+            'Nazdar svete!\n'
+        )
+        # We should get to second message
+        self.assert_redirects_offset(response, self.translate_url, 1)
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Nazdar svete!\n')
+
+        response = self.client.post(
+            reverse('replace', kwargs=self.kw_subproject),
+            {
+                'search': 'Nazdar',
+                'replacement': 'Ahoj',
+            },
+            follow=True
+        )
+        self.assertContains(
+            response,
+            'Search and replace completed, 1 string was updated.'
+        )
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Ahoj svete!\n')
+
 
 class EditResourceTest(EditTest):
     has_plurals = False

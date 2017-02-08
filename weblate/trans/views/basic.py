@@ -419,6 +419,11 @@ def show_subproject(request, project, subproject):
         source_words = 0
         total_strings = 0
 
+    if can_translate(request.user, project=obj.project):
+        replace_form = ReplaceForm()
+    else:
+        replace_form = None
+
     return render(
         request,
         'subproject.html',
@@ -443,6 +448,7 @@ def show_subproject(request, project, subproject):
             ).distinct().count(),
             'strings_count': total_strings,
             'source_words_count': source_words,
+            'replace_form': replace_form,
         }
     )
 

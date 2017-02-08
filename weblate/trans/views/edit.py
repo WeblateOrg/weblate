@@ -45,7 +45,8 @@ from weblate.trans.forms import (
     AntispamForm, CommentForm, RevertForm
 )
 from weblate.trans.views.helper import (
-    get_translation, get_project, import_message, show_form_errors,
+    get_translation, get_subproject, get_project, import_message,
+    show_form_errors,
 )
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render
@@ -820,10 +821,14 @@ def save_zen(request, project, subproject, lang):
 @login_required
 @require_POST
 def search_replace(request, project, subproject=None, lang=None):
-    if lang is None:
+    if subproject is None:
         obj = get_project(request, project)
         perms = {'project': obj}
         unit_set = Unit.objects.filter(translation__subproject__project=obj)
+    elif lang is None:
+        obj = get_subproject(request, project, subproject)
+        perms = {'project': obj.project}
+        unit_set = Unit.objects.filter(translation__subproject=obj)
     else:
         obj = get_translation(request, project, subproject, lang)
         perms = {'translation': obj}

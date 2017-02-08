@@ -10,7 +10,7 @@ Released on ? 2017.
 * Added support for Yandex Translate API.
 * Improved speed of sitewide search.
 * Added project wide search.
-* Added project wide search and replace.
+* Added project and component wide search and replace.
 
 weblate 2.11
 ------------

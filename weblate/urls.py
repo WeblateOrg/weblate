@@ -233,6 +233,11 @@ urlpatterns = [
         name='replace',
     ),
     url(
+        r'^replace/' + SUBPROJECT + '$',
+        weblate.trans.views.edit.search_replace,
+        name='replace',
+    ),
+    url(
         r'^replace/' + TRANSLATION + '$',
         weblate.trans.views.edit.search_replace,
         name='replace',
