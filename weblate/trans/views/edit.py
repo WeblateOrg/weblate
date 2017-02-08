@@ -832,7 +832,7 @@ def search_replace(request, project, subproject=None, lang=None):
     else:
         obj = get_translation(request, project, subproject, lang)
         perms = {'translation': obj}
-        unit_set = translation.unit_set
+        unit_set = obj.unit_set
 
     if not can_translate(request.user, **perms):
         raise PermissionDenied()
