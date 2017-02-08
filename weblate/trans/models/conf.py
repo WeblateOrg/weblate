@@ -60,6 +60,9 @@ class WeblateConf(AppConf):
     # Google API key for Google Translate API
     MT_GOOGLE_KEY = None
 
+    # API key for Yandex Translate API
+    MT_YANDEX_KEY = None
+
     # tmserver URL
     MT_TMSERVER = None
 

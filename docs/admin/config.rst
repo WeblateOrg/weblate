@@ -525,6 +525,17 @@ URL where tmserver is running.
    :ref:`tmserver`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
    `tmserver, a Translation Memory service <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html>`_
 
+.. setting:: MT_YANDEX_KEY
+
+MT_YANDEX_KEY
+-------------
+
+API key for Yandex Translate API, you can register at https://tech.yandex.com/translate/
+
+.. seealso::
+
+   :ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: NEARBY_MESSAGES
 
 NEARBY_MESSAGES

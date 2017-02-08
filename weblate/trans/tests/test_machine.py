@@ -40,6 +40,7 @@ from weblate.trans.machine.microsoft import (
     MicrosoftTranslation, MicrosoftCognitiveTranslation,
 )
 from weblate.trans.machine.google import GoogleTranslation
+from weblate.trans.machine.yandex import YandexTranslation
 from weblate.trans.machine.weblatetm import (
     WeblateSimilarTranslation, WeblateTranslation
 )
@@ -328,6 +329,58 @@ class MachineTranslationTest(TestCase):
             body=AMAGAMA_JSON
         )
         machine = AmagamaTranslation()
+        self.assert_translate(machine)
+
+    @override_settings(MT_YANDEX_KEY='KEY')
+    @httpretty.activate
+    def test_yandex(self):
+        cache.delete('%s-languages' % YandexTranslation().mtid)
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
+            body=b'{"dirs": ["en-cs"]}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://translate.yandex.net/api/v1.5/tr.json/translate',
+            body=b'{"code": 200, "lang": "en-cs", "text": ["svet"]}'
+        )
+        machine = YandexTranslation()
+        self.assert_translate(machine)
+
+    @override_settings(MT_YANDEX_KEY='KEY')
+    @httpretty.activate
+    def test_yandex_error(self):
+        cache.delete('%s-languages' % YandexTranslation().mtid)
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
+            body=b'{"code": 401}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://translate.yandex.net/api/v1.5/tr.json/translate',
+            body=b'{"code": 401, "message": "Invalid request"}'
+        )
+        machine = YandexTranslation()
+        self.assertEqual(machine.supported_languages, [])
+        self.assert_translate(machine, empty=True)
+
+    @override_settings(MT_YANDEX_KEY='KEY')
+    @httpretty.activate
+    def test_yandex(self):
+        cache.delete('%s-languages' % YandexTranslation().mtid)
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
+            body=b'{"dirs": ["en-cs"]}'
+        )
+        httpretty.register_uri(
+            httpretty.GET,
+            'https://translate.yandex.net/api/v1.5/tr.json/translate',
+            body=b'{"code": 200, "lang": "en-cs", "text": ["svet"]}'
+        )
+        machine = YandexTranslation()
         self.assert_translate(machine)
 
 
