@@ -209,11 +209,19 @@ class UnitManager(models.Manager):
         ).exclude(user=user)
         return self.filter(id__in=changes.values_list('unit__id', flat=True))
 
+    def prefetch(self):
+        return self.select_related(
+            'translation', 'translation__language',
+            'translation__subproject',
+            'translation__subproject__project',
+            'translation__subproject__project__source_language',
+        )
+
     def search(self, translation, params):
         """
         High level wrapper for searching.
         """
-        base = self.all()
+        base = self.prefetch()
         if params['type'] != 'all':
             base = self.filter_type(
                 params['type'],
@@ -1055,11 +1063,11 @@ class Unit(models.Model, LoggerMixin):
         """
         Returns list of nearby messages based on location.
         """
-        return Unit.objects.filter(
+        return Unit.objects.prefetch().filter(
             translation=self.translation,
             position__gte=self.position - settings.NEARBY_MESSAGES,
             position__lte=self.position + settings.NEARBY_MESSAGES,
-        ).select_related()
+        )
 
     def translate(self, request, new_target, new_fuzzy):
         """
