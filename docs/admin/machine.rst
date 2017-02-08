@@ -189,6 +189,23 @@ And configure Weblate to talk to it:
     `tmserver, a Translation Memory service <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/commands/tmserver.html>`_,
     `Amagama Translation Memory <http://amagama.translatehouse.org/>`_
 
+.. _yandex-translate:
+
+Yandex Translate
+++++++++++++++++
+
+Machine translation service provided by Yandex.
+
+This service uses Translation API and you need to obtain API key from Yandex.
+
+To enable this service, add ``weblate.trans.machine.yandex.YandexTranslation`` to
+:setting:`MACHINE_TRANSLATION_SERVICES`.
+
+.. seealso::
+
+    :setting:`MT_YANDEX_KEY`,
+    `Yandex Translate API <https://tech.yandex.com/translate/>`_
+
 Weblate
 +++++++
 

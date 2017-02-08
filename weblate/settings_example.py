@@ -418,6 +418,7 @@ if not HAVE_SYSLOG:
 #     'weblate.trans.machine.mymemory.MyMemoryTranslation',
 #     'weblate.trans.machine.tmserver.AmagamaTranslation',
 #     'weblate.trans.machine.tmserver.TMServerTranslation',
+#     'weblate.trans.machine.yandex.YandexTranslation',
 #     'weblate.trans.machine.weblatetm.WeblateSimilarTranslation',
 #     'weblate.trans.machine.weblatetm.WeblateTranslation',
 # )
@@ -446,6 +447,9 @@ MT_MYMEMORY_KEY = None
 
 # Google API key for Google Translate API
 MT_GOOGLE_KEY = None
+
+# API key for Yandex Translate API
+MT_YANDEX_KEY = None
 
 # tmserver URL
 MT_TMSERVER = None

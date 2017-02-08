@@ -7,6 +7,7 @@ weblate 2.12
 Released on ? 2017.
 
 * Improved admin interface for groups.
+* Added support for Yandex Translate API.
 
 weblate 2.11
 ------------
