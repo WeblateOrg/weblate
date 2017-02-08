@@ -355,6 +355,11 @@ def show_project(request, project):
         for tup in language_stats
     ]
 
+    if can_translate(request.user, project=obj):
+        replace_form = ReplaceForm()
+    else:
+        replace_form = None
+
     return render(
         request,
         'project.html',
@@ -379,6 +384,7 @@ def show_project(request, project):
             'strings_count': obj.get_total(),
             'source_words_count': obj.get_source_words(),
             'search_form': SearchForm(),
+            'replace_form': replace_form,
         }
     )
 

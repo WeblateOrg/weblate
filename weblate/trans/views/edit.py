@@ -45,7 +45,7 @@ from weblate.trans.forms import (
     AntispamForm, CommentForm, RevertForm
 )
 from weblate.trans.views.helper import (
-    get_translation, import_message, show_form_errors,
+    get_translation, get_project, import_message, show_form_errors,
 )
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render
@@ -819,21 +819,29 @@ def save_zen(request, project, subproject, lang):
 
 @login_required
 @require_POST
-def search_replace(request, project, subproject, lang):
-    translation = get_translation(request, project, subproject, lang)
-    if not can_translate(request.user, translation):
+def search_replace(request, project, subproject=None, lang=None):
+    if lang is None:
+        obj = get_project(request, project)
+        perms = {'project': obj}
+        unit_set = Unit.objects.filter(translation__subproject__project=obj)
+    else:
+        obj = get_translation(request, project, subproject, lang)
+        perms = {'translation': obj}
+        unit_set = translation.unit_set
+
+    if not can_translate(request.user, **perms):
         raise PermissionDenied()
 
     form = ReplaceForm(request.POST)
 
     if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
-        return redirect(translation)
+        return redirect(obj)
 
     search_text = form.cleaned_data['search']
     replacement = form.cleaned_data['replacement']
 
-    matching = translation.unit_set.filter(target__contains=search_text)
+    matching = unit_set.filter(target__contains=search_text)
     updated = matching.count()
 
     for unit in matching.iterator():
@@ -850,4 +858,4 @@ def search_replace(request, project, subproject, lang):
         )
     )
 
-    return redirect(translation)
+    return redirect(obj)

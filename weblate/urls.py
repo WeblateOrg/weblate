@@ -228,6 +228,11 @@ urlpatterns = [
         name='auto_translation',
     ),
     url(
+        r'^replace/' + PROJECT + '$',
+        weblate.trans.views.edit.search_replace,
+        name='replace',
+    ),
+    url(
         r'^replace/' + TRANSLATION + '$',
         weblate.trans.views.edit.search_replace,
         name='replace',
