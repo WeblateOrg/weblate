@@ -187,7 +187,7 @@ class SearchViewTest(ViewTestCase):
         # Default
         self.do_search(
             {'q': 'hello'},
-            'Fulltext search for'
+            'Substring search for'
         )
         # Fulltext
         self.do_search(
