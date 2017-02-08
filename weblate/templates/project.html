@@ -33,6 +33,7 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
+      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
       <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
@@ -154,6 +155,15 @@
 </div>
 
 {% include "activity-tab.html" %}
+
+<div class="tab-pane" id="search">
+
+<form action="{% url 'search' project=object.slug %}" method="GET">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+
+</div>
 
 {% if user_can_see_repository_status %}
 <div class="tab-pane" id="repository">

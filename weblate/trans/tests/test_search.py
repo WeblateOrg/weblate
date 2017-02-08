@@ -171,6 +171,20 @@ class SearchViewTest(ViewTestCase):
         Searching within project.
         '''
         # Default
+        response = self.client.get(
+            reverse('search', kwargs=self.kw_project),
+            {'q': 'hello'}
+        )
+        self.assertContains(
+            response,
+            '<span class="hlmatch">Hello</span>, world'
+        )
+
+    def test_translation_search(self):
+        '''
+        Searching within translation.
+        '''
+        # Default
         self.do_search(
             {'q': 'hello'},
             'Fulltext search for'

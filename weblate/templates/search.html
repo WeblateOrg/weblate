@@ -3,6 +3,9 @@
 {% load translations %}
 
 {% block breadcrumbs %}
+{% if project %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+{% endif %}
 <li><a href="{% url 'search' %}">{% trans "Search" %}</a></li>
 {% endblock %}
 

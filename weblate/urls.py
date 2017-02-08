@@ -883,6 +883,11 @@ urlpatterns = [
         weblate.trans.views.basic.search,
         name="search"
     ),
+    url(
+        r'^search/' + PROJECT + '$',
+        weblate.trans.views.basic.search,
+        name="search"
+    ),
 
     # Health check
     url(

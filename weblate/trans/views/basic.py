@@ -213,18 +213,26 @@ def list_projects(request):
     )
 
 
-def search(request):
+def search(request, project=None):
     """
     Performs site-wide search on units.
     """
+    if project:
+        obj = get_project(request, project)
+    else:
+        obj = None
     search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
+        'project': obj,
     }
 
     if search_form.is_valid():
         # Filter results by ACL
-        acl_projects = Project.objects.get_acl_ids(request.user)
+        if obj:
+            acl_projects = (obj.pk,)
+        else:
+            acl_projects = Project.objects.get_acl_ids(request.user)
 
         units = Unit.objects.search(
             None,
@@ -370,6 +378,7 @@ def show_project(request, project):
             ).distinct().count(),
             'strings_count': obj.get_total(),
             'source_words_count': obj.get_source_words(),
+            'search_form': SearchForm(),
         }
     )
 
