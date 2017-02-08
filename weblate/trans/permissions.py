@@ -116,9 +116,14 @@ def cache_permission(func):
     Caching for permissions check.
     """
 
-    def wrapper(user, target_object):
+    def wrapper(user, *args, **kwargs):
         if user is None:
             user = get_anonymous()
+        target_object = None
+        if args:
+            target_object = args[0]
+        elif kwargs:
+            target_object = list(kwargs.values())[0]
         if target_object is None:
             obj_key = None
         else:
@@ -130,7 +135,7 @@ def cache_permission(func):
         key = (func.__name__, obj_key)
 
         if key not in user.acl_permissions_cache:
-            user.acl_permissions_cache[key] = func(user, target_object)
+            user.acl_permissions_cache[key] = func(user, *args, **kwargs)
 
         return user.acl_permissions_cache[key]
 
