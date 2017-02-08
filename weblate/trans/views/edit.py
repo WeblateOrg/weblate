@@ -826,7 +826,7 @@ def search_replace(request, project, subproject, lang):
 
     form = ReplaceForm(request.POST)
 
-    if translation.subproject.locked or not form.is_valid():
+    if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
         return redirect(translation)
 
