@@ -173,10 +173,12 @@ def can_upload_translation(user, translation):
 
 
 @cache_permission
-def can_translate(user, translation):
+def can_translate(user, translation=None, project=None):
     """
     Checks whether user can translate given translation.
     """
+    if project is not None:
+        return check_permission(user, project, 'trans.save_translation')
     return can_edit(user, translation, 'trans.save_translation')
 
 
