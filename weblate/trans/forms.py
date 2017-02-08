@@ -560,7 +560,7 @@ class SearchForm(forms.Form):
 
         # Default to fulltext / all strings
         if 'search' not in cleaned_data or cleaned_data['search'] == '':
-            cleaned_data['search'] = 'ftx'
+            cleaned_data['search'] = 'substring'
         if 'type' not in cleaned_data or cleaned_data['type'] == '':
             cleaned_data['type'] = 'all'
 
