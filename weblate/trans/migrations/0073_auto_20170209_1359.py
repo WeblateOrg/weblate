@@ -25,7 +25,7 @@ def calculate_id_hash(apps, schema_editor):
     for unit in units:
         unit.content_hash = calculate_hash(unit.source, unit.context)
         if unit.translation.subproject.template:
-            unit.id_hash = calculate_hash('', unit.context)
+            unit.id_hash = calculate_hash(None, unit.context)
         else:
             unit.id_hash = unit.content_hash
         unit.save()
