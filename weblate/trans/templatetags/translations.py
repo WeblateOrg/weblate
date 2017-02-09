@@ -69,6 +69,7 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<i title="{0}" class="fa fa-{1}"></i>'
+BADGE_TEMPLATE = '<span class="badge pull-right flip {1}">{0}</span>'
 
 
 def fmt_whitespace(value):
@@ -523,6 +524,35 @@ def words_progress(translation):
     checks = translation.get_failing_checks_words_percent()
 
     return translation_progress_data(translated, fuzzy, checks)
+
+
+@register.simple_tag
+def get_state_badge(unit):
+    """
+    Returns state badge.
+    """
+    flag = None
+
+    if unit.fuzzy:
+        flag = (
+            _('Needs review'),
+            'text-danger'
+        )
+    elif not unit.translated:
+        flag = (
+            _('Not translated'),
+            'text-danger'
+        )
+    elif unit.translated:
+        flag = (
+            _('Translated'),
+            'text-success'
+        )
+
+    if flag is None:
+        return ''
+
+    return mark_safe(BADGE_TEMPLATE.format(*flag))
 
 
 @register.simple_tag

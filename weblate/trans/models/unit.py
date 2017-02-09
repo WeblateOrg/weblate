@@ -320,18 +320,21 @@ class UnitManager(models.Manager):
             pk=unit.id
         )
 
-    def same(self, unit):
+    def same(self, unit, exclude=True):
         """
         Units with same source within same project.
         """
         project = unit.translation.subproject.project
-        return self.filter(
+        result = self.filter(
             contentsum=unit.contentsum,
             translation__subproject__project=project,
             translation__language=unit.translation.language
-        ).exclude(
-            pk=unit.id
         )
+        if exclude:
+            result = result.exclude(
+                pk=unit.id
+            )
+        return result
 
 
 @python_2_unicode_compatible

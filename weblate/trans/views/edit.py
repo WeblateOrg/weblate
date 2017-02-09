@@ -576,7 +576,7 @@ def translate(request, project, subproject, lang):
             'object': translation,
             'project': translation.subproject.project,
             'unit': unit,
-            'others': Unit.objects.same(unit).exclude(target=unit.target),
+            'others': Unit.objects.same(unit, False),
             'total': translation.unit_set.all().count(),
             'search_id': search_result['search_id'],
             'search_query': search_result['query'],

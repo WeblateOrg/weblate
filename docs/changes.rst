@@ -11,6 +11,7 @@ Released on ? 2017.
 * Improved speed of sitewide search.
 * Added project wide search.
 * Added project and component wide search and replace.
+* Improved rendering of inconsistent translations.
 
 weblate 2.11
 ------------
