@@ -283,7 +283,7 @@
     </td>
     <td rowspan="2">
     {% if user_can_translate and item.translated %}
-    <a class="mergebutton small-button btn btn-default" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}">{% trans "Use this translation" %}</a>
+    <a class="mergebutton small-button btn btn-success" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
     {% endif %}
     </td>
     </tr>
