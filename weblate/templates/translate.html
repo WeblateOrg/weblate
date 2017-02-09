@@ -360,15 +360,15 @@
 <div class="col-sm-3 small">
 
 {% with unit.active_checks as checks %}
-{% if checks or unit.suggestions or others%}
+{% if checks or unit.suggestions or others_count %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
   <div class="panel-body">
   {% if unit.suggestions %}
   <div class="alert alert-warning check"><a href="#suggestions" data-toggle="tab" class="alert-link">{% trans "Suggestions" %}</a> <span class="badge pull-right flip">{{ unit.suggestions.count }}</span></div>
   {% endif %}
-  {% if others %}
-  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others.count }}</span></div>
+  {% if others_count %}
+  <div class="alert alert-warning check"><a href="#others" data-toggle="tab" class="alert-link">{% trans "Other translations" %}</a> <span class="badge pull-right flip">{{ others_count }}</span></div>
   {% endif %}
   {% show_checks unit.translation.subproject.project checks user %}
   {% if comments %}

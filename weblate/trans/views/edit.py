@@ -564,6 +564,8 @@ def translate(request, project, subproject, lang):
     # Prepare form
     form = TranslationForm(translation, unit)
 
+    others = Unit.objects.same(unit, False)
+
     return render(
         request,
         'translate.html',
@@ -576,7 +578,8 @@ def translate(request, project, subproject, lang):
             'object': translation,
             'project': translation.subproject.project,
             'unit': unit,
-            'others': Unit.objects.same(unit, False),
+            'others': others,
+            'others_count': others.exclude(target=unit.target).count(),
             'total': translation.unit_set.all().count(),
             'search_id': search_result['search_id'],
             'search_query': search_result['query'],
