@@ -247,15 +247,15 @@
 {% endif %}
 <div class="pull-right flip">
 {% if user.is_authenticated and user_can_vote_suggestion %}
-<button type="submit" class="btn btn-success btn-xs" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
-<button type="submit" class="btn btn-danger btn-xs" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
+<button type="submit" class="btn btn-success" name="upvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-up"></i> {% trans "Vote for" %}</button>
+<button type="submit" class="btn btn-danger" name="downvote" value="{{ suggestion.id }}"><i class="fa fa-thumbs-down"></i> {% trans "Vote against" %}</button>
 {% endif %}
 {% if user_can_accept_suggestion %}
-<button type="submit" class="btn btn-success btn-xs" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
-<button type="submit" class="btn btn-warning btn-xs" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
+<button type="submit" class="btn btn-success" name="accept" value="{{ suggestion.id }}"><i class="fa fa-check"></i> {% trans "Accept" %}</button>
+<button type="submit" class="btn btn-warning" name="accept_edit" value="{{ suggestion.id }}"><i class="fa fa-pencil"></i> {% trans "Accept and edit" %}</button>
 {% endif %}
 {% if user_can_delete_suggestion %}
-<button type="submit" class="btn btn-danger btn-xs" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+<button type="submit" class="btn btn-danger" name="delete" value="{{ suggestion.id }}"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
 {% endif %}
 </div>
 <div class="clearfix"></div>
