@@ -37,7 +37,7 @@ try:
 except ImportError:
     HAS_PYUCA = False
 
-import siphashc
+from siphashc import siphash
 
 import six
 from six.moves.urllib.parse import urlparse
@@ -60,12 +60,12 @@ PRIORITY_CHOICES = (
 
 def calculate_hash(source, context):
     """Calculates checksum identifying translation."""
-    data = []
     if source is not None:
-        data.append(source.encode('utf-8'))
-    data.append(context.encode('utf-8'))
+        data = source.encode('utf-8') + context.encode('utf-8')
+    else:
+        data = context.encode('utf-8')
     # Need to convert it from unsigned 64-bit int to signed 64-bit int
-    return siphashc.siphash('Weblate Sip Hash', b''.join(data)) - 2**63
+    return siphash('Weblate Sip Hash', data) - 2**63
 
 
 def is_plural(text):
