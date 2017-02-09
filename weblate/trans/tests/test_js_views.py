@@ -51,7 +51,7 @@ class JSViewsTest(ViewTestCase):
         unit = self.get_unit()
         response = self.client.get(
             reverse('js-detail', kwargs={
-                'checksum': unit.checksum,
+                'id_hash': unit.id_hash,
                 'subproject': unit.translation.subproject.slug,
                 'project': unit.translation.subproject.project.slug,
             }),

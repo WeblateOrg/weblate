@@ -679,7 +679,7 @@ urlpatterns = [
         name='js-unit-changes',
     ),
     url(
-        r'^js/detail/' + SUBPROJECT + '(?P<checksum>[^/]+)/$',
+        r'^js/detail/' + SUBPROJECT + '(?P<id_hash>[^/]+)/$',
         weblate.trans.views.js.get_detail,
         name='js-detail',
     ),

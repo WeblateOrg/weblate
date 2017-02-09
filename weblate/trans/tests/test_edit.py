@@ -141,7 +141,7 @@ class EditTest(ViewTestCase):
         # Try the merge
         response = self.client.get(
             self.translate_url,
-            {'checksum': unit.checksum, 'merge': unit.id}
+            {'id_hash': unit.id_hash, 'merge': unit.id}
         )
         self.assert_backend(1)
         # We should stay on same message
@@ -155,7 +155,7 @@ class EditTest(ViewTestCase):
         )
         response = self.client.get(
             self.translate_url,
-            {'checksum': unit.checksum, 'merge': unit2.id}
+            {'id_hash': unit.id_hash, 'merge': unit2.id}
         )
         self.assertContains(response, 'Can not merge different messages!')
 
@@ -181,7 +181,7 @@ class EditTest(ViewTestCase):
         # revert it
         self.client.get(
             self.translate_url,
-            {'checksum': unit.checksum, 'revert': changes[1].id}
+            {'id_hash': unit.id_hash, 'revert': changes[1].id}
         )
         unit = self.get_unit()
         self.assertEqual(unit.target, target)
@@ -196,7 +196,7 @@ class EditTest(ViewTestCase):
         change = Change.objects.filter(unit=unit2)[0]
         response = self.client.get(
             self.translate_url,
-            {'checksum': unit.checksum, 'revert': change.id}
+            {'id_hash': unit.id_hash, 'revert': change.id}
         )
         self.assertContains(response, "Can not revert to different unit")
         self.assert_backend(2)
@@ -694,7 +694,7 @@ class ZenViewTest(ViewTestCase):
     def test_save_zen(self):
         unit = self.get_unit()
         params = {
-            'checksum': unit.checksum,
+            'id_hash': unit.id_hash,
             'target_0': 'Zen translation'
         }
         response = self.client.post(
@@ -712,7 +712,7 @@ class ZenViewTest(ViewTestCase):
         self.subproject.save()
         unit = self.get_unit()
         params = {
-            'checksum': unit.checksum,
+            'id_hash': unit.id_hash,
             'target_0': 'Zen translation'
         }
         response = self.client.post(

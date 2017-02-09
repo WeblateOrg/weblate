@@ -146,11 +146,11 @@ def search(translation, request):
 
     # Checksum unit access
     offset = 0
-    if 'checksum' in request.GET:
+    if 'id_hash' in request.GET:
         try:
-            unit = allunits.filter(checksum=request.GET['checksum'])[0]
+            unit = allunits.filter(id_hash=request.GET['id_hash'])[0]
             offset = unit_ids.index(unit.id)
-        except (Unit.DoesNotExist, IndexError):
+        except (Unit.DoesNotExist, IndexError, ValueError):
             messages.warning(request, _('No string matched your search!'))
             return redirect(translation)
 
@@ -342,7 +342,7 @@ def handle_merge(translation, request, next_unit_url):
         pk=mergeform.cleaned_data['merge']
     )
 
-    if unit.checksum != merged.checksum:
+    if unit.id_hash != merged.id_hash:
         messages.error(
             request,
             _('Can not merge different messages!')
@@ -378,7 +378,7 @@ def handle_revert(translation, request, next_unit_url):
         pk=revertform.cleaned_data['revert']
     )
 
-    if unit.checksum != change.unit.checksum:
+    if unit.id_hash != change.unit.id_hash:
         messages.error(
             request,
             _('Can not revert to different unit!')

@@ -173,7 +173,7 @@ class TranslationAdmin(WeblateAdmin):
 
 class UnitAdmin(admin.ModelAdmin):
     list_display = ['source', 'target', 'position', 'fuzzy', 'translated']
-    search_fields = ['source', 'target', 'checksum']
+    search_fields = ['source', 'target', 'id_hash']
     list_filter = [
         'translation__subproject',
         'translation__language',
@@ -183,22 +183,22 @@ class UnitAdmin(admin.ModelAdmin):
 
 
 class SuggestionAdmin(admin.ModelAdmin):
-    list_display = ['contentsum', 'target', 'project', 'language', 'user']
+    list_display = ['content_hash', 'target', 'project', 'language', 'user']
     list_filter = ['project', 'language']
-    search_fields = ['contentsum', 'target']
+    search_fields = ['content_hash', 'target']
 
 
 class CommentAdmin(admin.ModelAdmin):
     list_display = [
-        'contentsum', 'comment', 'user', 'project', 'language', 'user'
+        'content_hash', 'comment', 'user', 'project', 'language', 'user'
     ]
     list_filter = ['project', 'language']
-    search_fields = ['contentsum', 'comment']
+    search_fields = ['content_hash', 'comment']
 
 
 class CheckAdmin(admin.ModelAdmin):
-    list_display = ['contentsum', 'check', 'project', 'language', 'ignore']
-    search_fields = ['contentsum', 'check']
+    list_display = ['content_hash', 'check', 'project', 'language', 'ignore']
+    search_fields = ['content_hash', 'check']
     list_filter = ['check', 'project', 'ignore']
 
 
@@ -237,7 +237,7 @@ class AdvertisementAdmin(admin.ModelAdmin):
 
 
 class SourceAdmin(admin.ModelAdmin):
-    list_display = ['checksum', 'priority', 'timestamp']
+    list_display = ['id_hash', 'priority', 'timestamp']
     date_hierarchy = 'timestamp'
 
 

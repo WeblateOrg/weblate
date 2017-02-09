@@ -98,7 +98,6 @@ class SuggestionManager(models.Manager):
             Suggestion.objects.create(
                 project=project,
                 target=suggestion.target,
-                contentsum=suggestion.contentsum,
                 content_hash=suggestion.content_hash,
                 user=suggestion.user,
                 language=suggestion.language,
@@ -107,7 +106,6 @@ class SuggestionManager(models.Manager):
 
 @python_2_unicode_compatible
 class Suggestion(models.Model):
-    contentsum = models.CharField(max_length=40, db_index=True)
     content_hash = models.BigIntegerField(db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)

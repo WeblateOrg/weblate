@@ -161,9 +161,9 @@ def show_check_project(request, name, project):
         for lang in langs:
             checks = allchecks.filter(
                 language=lang,
-            ).values_list('contentsum', flat=True)
+            ).values_list('content_hash', flat=True)
             res = Unit.objects.filter(
-                contentsum__in=checks,
+                content_hash__in=checks,
                 translation__language=lang,
                 translation__subproject__project=prj,
                 translated=True
@@ -176,7 +176,7 @@ def show_check_project(request, name, project):
         checks = allchecks.filter(
             language=None,
         ).values_list(
-            'contentsum', flat=True
+            'content_hash', flat=True
         )
         for subproject in prj.subproject_set.all():
             try:
@@ -186,7 +186,7 @@ def show_check_project(request, name, project):
             except IndexError:
                 continue
             res = Unit.objects.filter(
-                contentsum__in=checks,
+                content_hash__in=checks,
                 translation__language_id=lang_id,
                 translation__subproject=subproject
             ).values(
@@ -277,10 +277,10 @@ def show_check_subproject(request, name, project, subproject):
         for lang in langs:
             checks = allchecks.filter(
                 language=lang,
-            ).values_list('contentsum', flat=True)
+            ).values_list('content_hash', flat=True)
             res = Unit.objects.filter(
                 translation__subproject=subprj,
-                contentsum__in=checks,
+                content_hash__in=checks,
                 translation__language=lang,
                 translated=True
             ).values(

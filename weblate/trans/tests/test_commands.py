@@ -371,7 +371,7 @@ class PeriodicCommandTest(RepoTestCase):
     def test_cleanup(self):
         Suggestion.objects.create(
             project=self.subproject.project,
-            contentsum='x',
+            content_hash=1,
             language=self.subproject.translation_set.all()[0].language,
         )
         call_command(

@@ -31,7 +31,6 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 
 @python_2_unicode_compatible
 class Check(models.Model):
-    contentsum = models.CharField(max_length=40, db_index=True)
     content_hash = models.BigIntegerField(db_index=True)
     project = models.ForeignKey('Project')
     language = models.ForeignKey(Language, null=True, blank=True)
@@ -65,7 +64,7 @@ class Check(models.Model):
             ('ignore_check', "Can ignore check results"),
         )
         app_label = 'trans'
-        unique_together = ('contentsum', 'project', 'language', 'check')
+        unique_together = ('content_hash', 'project', 'language', 'check')
 
     def __str__(self):
         return '{0}/{1}: {2}'.format(

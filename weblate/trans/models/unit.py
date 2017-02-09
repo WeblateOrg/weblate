@@ -46,7 +46,7 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
-    calculate_checksum,
+    calculate_hash,
 )
 
 
@@ -81,7 +81,6 @@ class UnitManager(models.Manager):
         # Get basic unit data
         src = unit.get_source()
         ctx = unit.get_context()
-        checksum = unit.get_checksum()
         id_hash = unit.get_id_hash()
         content_hash = unit.get_content_hash()
         created = False
@@ -89,10 +88,10 @@ class UnitManager(models.Manager):
         # Try getting existing unit
         created = False
         try:
-            dbunit = translation.unit_set.get(checksum=checksum)
+            dbunit = translation.unit_set.get(id_hash=id_hash)
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
-            translation.unit_set.filter(checksum=checksum).delete()
+            translation.unit_set.filter(id_hash=id_hash).delete()
             dbunit = None
         except Unit.DoesNotExist:
             dbunit = None
@@ -101,7 +100,6 @@ class UnitManager(models.Manager):
         if dbunit is None:
             dbunit = Unit(
                 translation=translation,
-                checksum=checksum,
                 id_hash=id_hash,
                 content_hash=content_hash,
                 source=src,
@@ -344,8 +342,6 @@ class UnitManager(models.Manager):
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey('Translation')
-    checksum = models.CharField(max_length=40, db_index=True)
-    contentsum = models.CharField(max_length=40, db_index=True)
     id_hash = models.BigIntegerField(db_index=True)
     content_hash = models.BigIntegerField(db_index=True)
     location = models.TextField(default='', blank=True)
@@ -376,7 +372,7 @@ class Unit(models.Model, LoggerMixin):
         )
         ordering = ['priority', 'position']
         app_label = 'trans'
-        unique_together = ('translation', 'checksum')
+        unique_together = ('translation', 'id_hash')
 
     def __init__(self, *args, **kwargs):
         """
@@ -404,7 +400,7 @@ class Unit(models.Model, LoggerMixin):
 
     def __str__(self):
         return '%s on %s' % (
-            self.checksum,
+            self.id_hash,
             self.translation,
         )
 
@@ -418,8 +414,8 @@ class Unit(models.Model, LoggerMixin):
         ))
 
     def get_absolute_url(self):
-        return '%s?checksum=%s' % (
-            self.translation.get_translate_url(), self.checksum
+        return '%s?id_hash=%s' % (
+            self.translation.get_translate_url(), self.id_hash
         )
 
     def update_from_unit(self, unit, pos, created):
@@ -452,7 +448,6 @@ class Unit(models.Model, LoggerMixin):
         else:
             fuzzy = unit.is_fuzzy()
         previous_source = unit.get_previous_source()
-        contentsum = unit.get_contentsum()
         content_hash = unit.get_content_hash()
 
         # Monolingual files handling (without target change)
@@ -495,17 +490,16 @@ class Unit(models.Model, LoggerMixin):
                 translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
-                contentsum == self.contentsum and
                 content_hash == self.content_hash and
                 previous_source == self.previous_source):
             return
 
         # Ensure we track source string
         source_info, source_created = Source.objects.get_or_create(
-            checksum=self.checksum,
+            id_hash=self.id_hash,
             subproject=self.translation.subproject
         )
-        contentsum_changed = self.contentsum != contentsum or self.content_hash != content_hash
+        contentsum_changed = self.content_hash != content_hash
 
         # Store updated values
         self.position = pos
@@ -516,7 +510,6 @@ class Unit(models.Model, LoggerMixin):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
-        self.contentsum = contentsum
         self.content_hash = content_hash
         self.previous_source = previous_source
         self.priority = source_info.priority
@@ -657,7 +650,6 @@ class Unit(models.Model, LoggerMixin):
 
         if self.translation.is_template():
             self.source = self.target
-            self.contentsum = calculate_checksum(self.source, self.context)
             self.content_hash = calculate_hash(self.source, self.context)
 
         # Save updated unit to database
@@ -987,7 +979,6 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     Check.objects.create(
-                        contentsum=self.contentsum,
                         content_hash=self.content_hash,
                         project=self.translation.subproject.project,
                         language=self.translation.language,
@@ -1005,7 +996,6 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     Check.objects.create(
-                        contentsum=self.contentsum,
                         content_hash=self.content_hash,
                         project=self.translation.subproject.project,
                         language=None,
@@ -1116,7 +1106,7 @@ class Unit(models.Model, LoggerMixin):
         """
         if self._source_info is None:
             self._source_info = Source.objects.get(
-                checksum=self.checksum,
+                id_hash=self.id_hash,
                 subproject=self.translation.subproject
             )
         return self._source_info
@@ -1130,7 +1120,7 @@ class Unit(models.Model, LoggerMixin):
         )
         return get_distinct_translations(
             Unit.objects.filter(
-                checksum=self.checksum,
+                id_hash=self.id_hash,
                 translated=True,
                 translation__subproject=self.translation.subproject,
                 translation__language__in=secondary_langs,

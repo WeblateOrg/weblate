@@ -345,7 +345,6 @@ class SubProjectChangeTest(RepoTestCase):
         # Create and verify suggestion
         Suggestion.objects.create(
             project=subproject.project,
-            contentsum='x',
             content_hash=1,
             language=subproject.translation_set.all()[0].language,
         )

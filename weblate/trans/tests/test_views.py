@@ -145,7 +145,7 @@ class ViewTestCase(RepoTestCase):
         '''
         unit = self.get_unit(source)
         params = {
-            'checksum': unit.checksum,
+            'id_hash': unit.id_hash,
             'target_0': target,
         }
         params.update(kwargs)
@@ -210,9 +210,9 @@ class ViewTestCase(RepoTestCase):
         for unit in store.all_units():
             if not unit.is_translatable():
                 continue
-            checksum = unit.get_checksum()
+            id_hash = unit.get_id_hash()
             self.assertFalse(
-                checksum in messages,
+                id_hash in messages,
                 'Duplicate string in in backend file!'
             )
             if unit.is_translated():
@@ -634,9 +634,9 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit()
         response = self.client.get(
             reverse('review_source', kwargs=self.kw_subproject),
-            {'checksum': unit.checksum}
+            {'id_hash': unit.id_hash}
         )
-        self.assertContains(response, unit.checksum)
+        self.assertContains(response, unit.id_hash)
 
     def test_view_source(self):
         response = self.client.get(

@@ -49,7 +49,7 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
-from weblate.trans.util import calculate_checksum, calculate_hash
+from weblate.trans.util import calculate_hash
 import weblate
 
 
@@ -118,8 +118,6 @@ class FileUnit(object):
             self.mainunit = template
         else:
             self.mainunit = unit
-        self.checksum = None
-        self.contentsum = None
         self.id_hash = None
         self.content_hash = None
 
@@ -276,40 +274,6 @@ class FileUnit(object):
                 )
 
         return self.id_hash
-
-    def get_checksum(self):
-        '''
-        Returns checksum of source string, used for quick lookup.
-
-        We use MD5 as it is faster than SHA1.
-        '''
-        if self.checksum is None:
-            if self.template is None:
-                self.checksum = calculate_checksum(
-                    self.get_source(), self.get_context()
-                )
-            else:
-                self.checksum = calculate_checksum(
-                    None, self.get_context()
-                )
-
-        return self.checksum
-
-    def get_contentsum(self):
-        '''
-        Returns checksum of source string and context, used for quick lookup.
-
-        We use MD5 as it is faster than SHA1.
-        '''
-        if self.template is None:
-            return self.get_checksum()
-
-        if self.contentsum is None:
-            self.contentsum = calculate_checksum(
-                self.get_source(), self.get_context()
-            )
-
-        return self.contentsum
 
     def get_content_hash(self):
         '''

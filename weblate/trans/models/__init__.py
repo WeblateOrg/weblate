@@ -81,7 +81,7 @@ def update_source(sender, instance, **kwargs):
     Updates unit priority or checks based on source change.
     """
     related_units = Unit.objects.filter(
-        checksum=instance.checksum,
+        id_hash=instance.id_hash,
         translation__subproject=instance.subproject,
     )
     if instance.priority_modified:
@@ -100,7 +100,7 @@ def get_related_units(unitdata):
     Returns queryset with related units.
     '''
     related_units = Unit.objects.filter(
-        contentsum=unitdata.contentsum,
+        content_hash=unitdata.content_hash,
         translation__subproject__project=unitdata.project,
     )
     if unitdata.language is not None:

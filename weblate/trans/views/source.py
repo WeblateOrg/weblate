@@ -66,7 +66,7 @@ def review_source(request, project, subproject):
     rqtype = request.GET.get('type', 'all')
     limit = request.GET.get('limit', 50)
     page = request.GET.get('page', 1)
-    checksum = request.GET.get('checksum', '')
+    id_hash = request.GET.get('id_hash', '')
     ignored = 'ignored' in request.GET
     expand = False
     query_string = {'type': rqtype}
@@ -74,8 +74,8 @@ def review_source(request, project, subproject):
         query_string['ignored'] = 'true'
 
     # Filter units:
-    if checksum:
-        sources = source.unit_set.filter(checksum=checksum)
+    if id_hash:
+        sources = source.unit_set.filter(id_hash=id_hash)
         expand = True
     else:
         sources = source.unit_set.filter_type(rqtype, source, ignored)
@@ -245,7 +245,7 @@ def matrix_load(request, project, subproject):
         units = []
         for translation in translations:
             try:
-                units.append(translation.unit_set.get(checksum=unit.checksum))
+                units.append(translation.unit_set.get(id_hash=unit.id_hash))
             except Unit.DoesNotExist:
                 units.append(None)
 

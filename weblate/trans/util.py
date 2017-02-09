@@ -59,15 +59,6 @@ PRIORITY_CHOICES = (
 )
 
 
-def calculate_checksum(source, context):
-    """Calculates checksum identifying translation."""
-    md5 = hashlib.md5()
-    if source is not None:
-        md5.update(source.encode('utf-8'))
-    md5.update(context.encode('utf-8'))
-    return md5.hexdigest()
-
-
 def calculate_hash(source, context):
     """Calculates checksum identifying translation."""
     data = []

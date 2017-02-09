@@ -31,19 +31,19 @@ class Command(BaseCommand):
         results = Check.objects.filter(
             check='same'
         ).values(
-            'contentsum'
+            'content_hash'
         ).annotate(
-            Count('contentsum')
+            Count('content_hash')
         ).filter(
-            contentsum__count__gt=1
+            content_hash__count__gt=1
         ).order_by(
-            '-contentsum__count'
+            '-content_hash__count'
         )
 
         for item in results:
             check = Check.objects.filter(
                 check='same',
-                contentsum=item['contentsum']
+                content_hash=item['content_hash']
             )[0]
 
             units = get_related_units(check)
@@ -52,7 +52,7 @@ class Command(BaseCommand):
 
             self.stdout.write(
                 '{0:5d} {1}'.format(
-                    item['contentsum__count'],
+                    item['content_hash__count'],
                     units[0].source,
                 )
             )

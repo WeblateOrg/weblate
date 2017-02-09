@@ -334,8 +334,8 @@ class UnitSerializer(RemovableSerializer):
     class Meta(object):
         model = Unit
         fields = (
-            'translation', 'source', 'previous_source', 'target', 'checksum',
-            'contentsum', 'location', 'context', 'comment', 'flags', 'fuzzy',
+            'translation', 'source', 'previous_source', 'target', 'id_hash',
+            'content_hash', 'location', 'context', 'comment', 'flags', 'fuzzy',
             'translated', 'position', 'has_suggestion', 'has_comment',
             'has_failing_check', 'num_words', 'priority', 'id', 'web_url',
             'url',

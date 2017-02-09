@@ -88,7 +88,7 @@ PLURALS_TEMPLATE = '''
 <p class="help-block">{2}</p>
 '''
 COPY_TEMPLATE = '''
-data-loading-text="{0}" data-checksum="{1}" data-content="{2}"
+data-loading-text="{0}" data-id_hash="{1}" data-content="{2}"
 '''
 
 
@@ -139,7 +139,7 @@ class PluralTextarea(forms.Textarea):
         # Copy button
         extra_params = COPY_TEMPLATE.format(
             escape(ugettext('Loading…')),
-            unit.checksum,
+            unit.id_hash,
             escape(json.dumps(source))
         )
         groups.append(
@@ -217,7 +217,7 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
-        base_id = 'id_{0}'.format(unit.checksum)
+        base_id = 'id_{0}'.format(unit.id_hash)
         for idx, val in enumerate(values):
             # Generate ID
             fieldname = '{0}_{1}'.format(name, idx)
@@ -302,31 +302,31 @@ class PluralField(forms.CharField):
 
 class ChecksumForm(forms.Form):
     '''
-    Form for handling checksum ids for translation.
+    Form for handling id_hash ids for translation.
     '''
-    checksum = forms.CharField(widget=forms.HiddenInput)
+    id_hash = forms.CharField(widget=forms.HiddenInput)
 
     def __init__(self, translation, *args, **kwargs):
         self.translation = translation
         super(ChecksumForm, self).__init__(*args, **kwargs)
 
-    def clean_checksum(self):
+    def clean_id_hash(self):
         '''
-        Validates whether checksum is valid and fetches unit for it.
+        Validates whether id_hash is valid and fetches unit for it.
         '''
-        if 'checksum' not in self.cleaned_data:
+        if 'id_hash' not in self.cleaned_data:
             return
 
         unit_set = self.translation.unit_set
 
         try:
             self.cleaned_data['unit'] = unit_set.filter(
-                checksum=self.cleaned_data['checksum'],
+                id_hash=self.cleaned_data['id_hash'],
             )[0]
         except (Unit.DoesNotExist, IndexError):
             LOGGER.error(
                 'message %s disappeared!',
-                self.cleaned_data['checksum']
+                self.cleaned_data['id_hash']
             )
             raise ValidationError(
                 _('Message you wanted to translate is no longer available!')
@@ -352,11 +352,11 @@ class TranslationForm(ChecksumForm):
                  *args, **kwargs):
         if unit is not None:
             kwargs['initial'] = {
-                'checksum': unit.checksum,
+                'id_hash': unit.id_hash,
                 'target': unit,
                 'fuzzy': unit.fuzzy,
             }
-            kwargs['auto_id'] = 'id_{0}_%s'.format(unit.checksum)
+            kwargs['auto_id'] = 'id_{0}_%s'.format(unit.id_hash)
         tabindex = kwargs.pop('tabindex', 100)
         super(TranslationForm, self).__init__(
             translation, *args, **kwargs

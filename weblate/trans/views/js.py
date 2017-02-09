@@ -207,13 +207,13 @@ def mt_services(request):
     )
 
 
-def get_detail(request, project, subproject, checksum):
+def get_detail(request, project, subproject, id_hash):
     '''
     Returns source translation detail in all languages.
     '''
     subproject = get_subproject(request, project, subproject)
     units = Unit.objects.filter(
-        checksum=checksum,
+        id_hash=id_hash,
         translation__subproject=subproject
     )
     try:

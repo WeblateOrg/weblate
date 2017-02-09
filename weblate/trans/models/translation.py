@@ -1080,12 +1080,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         """Merges content of translate-toolkit store as a suggestions."""
         ret = False
         for dummy, unit in store.iterate_merge(fuzzy):
-            # Calculate unit checksum
-            checksum = unit.get_checksum()
+            # Calculate unit id_hash
+            id_hash = unit.get_id_hash()
 
             # Grab database unit
             try:
-                dbunit = self.unit_set.filter(checksum=checksum)[0]
+                dbunit = self.unit_set.filter(id_hash=id_hash)[0]
             except IndexError:
                 continue
 
