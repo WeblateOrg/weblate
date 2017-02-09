@@ -66,7 +66,10 @@ def review_source(request, project, subproject):
     rqtype = request.GET.get('type', 'all')
     limit = request.GET.get('limit', 50)
     page = request.GET.get('page', 1)
-    id_hash = request.GET.get('id_hash', '')
+    try:
+        id_hash = int(request.GET.get('checksum', ''), 16) - 2**63
+    except ValueError:
+        id_hash = None
     ignored = 'ignored' in request.GET
     expand = False
     query_string = {'type': rqtype}

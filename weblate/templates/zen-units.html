@@ -4,7 +4,7 @@
 
 {% for item in unitdata %}
 <tbody class="zen-unit">
-<tr id="row-status-{{ item.unit.id_hash }}">
+<tr id="row-status-{{ item.unit.checksum }}">
 <td>{{ item.unit.position }}</td>
 <td>
 {% if item.unit.context %}
@@ -20,7 +20,7 @@
 </td>
 </tr>
 {% if item.unit.comment %}
-<tr id="row-comment-{{ item.unit.id_hash }}">
+<tr id="row-comment-{{ item.unit.checksum }}">
 <td></td>
 <td colspan="2" class="translatetext">
     <label>{% trans "Source string comment" %}</label>
@@ -28,7 +28,7 @@
 </td>
 </tr>
 {% endif %}
-<tr id="row-source-{{ item.unit.id_hash }}">
+<tr id="row-source-{{ item.unit.checksum }}">
 <td></td>
 <td colspan="2" class="translatetext">
 
@@ -54,17 +54,17 @@
 
 </td>
 </tr>
-<tr id="row-edit-{{ item.unit.id_hash }}">
+<tr id="row-edit-{{ item.unit.checksum }}">
 <td>
-<i id="loading-{{ item.unit.id_hash }}" class="fa fa-spinner fa-spin" style="display: none"></i>
-<i id="status-{{ item.unit.id_hash }}"></i>
+<i id="loading-{{ item.unit.checksum }}" class="fa fa-spinner fa-spin" style="display: none"></i>
+<i id="status-{{ item.unit.checksum }}"></i>
 </td>
 <td colspan="2" class="translator">
 <form action="{% url 'save_zen' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" method="post">
 {% csrf_token %}
-{{ item.form.id_hash }}
+{{ item.form.checksum }}
 {{ item.form.target }}
-{{ item.form.fuzzy }} <label for="id_{{ item.unit.id_hash }}_fuzzy">{% trans "Review" context "Message needs review" %}</label>
+{{ item.form.fuzzy }} <label for="id_{{ item.unit.checksum }}_fuzzy">{% trans "Review" context "Message needs review" %}</label>
 </form>
 </td>
 </tr>

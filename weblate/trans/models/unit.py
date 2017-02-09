@@ -400,7 +400,7 @@ class Unit(models.Model, LoggerMixin):
 
     def __str__(self):
         return '%s on %s' % (
-            self.id_hash,
+            self.checksum,
             self.translation,
         )
 
@@ -414,8 +414,8 @@ class Unit(models.Model, LoggerMixin):
         ))
 
     def get_absolute_url(self):
-        return '%s?id_hash=%s' % (
-            self.translation.get_translate_url(), self.id_hash
+        return '%s?checksum=%s' % (
+            self.translation.get_translate_url(), self.checksum
         )
 
     def update_from_unit(self, unit, pos, created):
@@ -1126,3 +1126,11 @@ class Unit(models.Model, LoggerMixin):
                 translation__language__in=secondary_langs,
             )
         )
+
+    @property
+    def checksum(self):
+        """Return unique hex identifier
+
+        It's unsigned representation of id_hash in hex.
+        """
+        return format(self.id_hash + 2**63, 'x')

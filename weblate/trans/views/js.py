@@ -207,15 +207,18 @@ def mt_services(request):
     )
 
 
-def get_detail(request, project, subproject, id_hash):
+def get_detail(request, project, subproject, checksum):
     '''
     Returns source translation detail in all languages.
     '''
     subproject = get_subproject(request, project, subproject)
-    units = Unit.objects.filter(
-        id_hash=id_hash,
-        translation__subproject=subproject
-    )
+    try:
+        units = Unit.objects.filter(
+            id_hash=int(checksum, 16) - 2**63,
+            translation__subproject=subproject
+        )
+    except ValueError:
+        raise Http404('Non existing unit!')
     try:
         source = units[0].source_info
     except IndexError:

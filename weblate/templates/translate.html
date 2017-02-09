@@ -143,7 +143,7 @@
     {% if edit_template %}
     {% can_translate user edit_template as user_can_edit_template %}
     {% if user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?id_hash={{ unit.id_hash }}"><i class="fa fa-pencil"></i></a>
+    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>
     {% endif %}
     {% endif %}
     {% endwith %}
@@ -283,7 +283,7 @@
     </td>
     <td rowspan="2">
     {% if user_can_translate and item.translated %}
-    <a class="mergebutton small-button btn btn-success" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;id_hash={{ unit.id_hash }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
+    <a class="mergebutton small-button btn btn-success" href="{{ unit.translation.get_translate_url}}?sid={{ search_id }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}&amp;merge={{ item.id }}" title="{% trans "Use this translation for all components" %}"><i class="fa fa-check"></i> {% trans "Use this translation" %}</a>
     {% endif %}
     </td>
     </tr>
@@ -443,7 +443,7 @@
     {% if unit.source_info.screenshot or user_can_upload_screenshot %}
     <tr>
     <th>
-    {% if user_can_upload_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?id_hash={{ unit.id_hash }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_upload_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>
@@ -468,7 +468,7 @@
     {% if unit.all_flags or user_can_edit_flags %}
     <tr>
     <th>
-    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?id_hash={{ unit.id_hash }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_flags %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Flags" %}
     </th>
     </tr>
@@ -485,7 +485,7 @@
     {% include "unit-details.html" %}
     <tr>
     <th>
-    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?id_hash={{ unit.id_hash }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_edit_priority %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "String priority" %}
     </th>
     </tr>

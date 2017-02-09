@@ -322,12 +322,12 @@ class SearchViewTest(ViewTestCase):
             self.translation.get_absolute_url()
         )
 
-    def test_search_id_hash(self):
+    def test_search_checksum(self):
         unit = self.translation.unit_set.get(
             source='Try Weblate at <http://demo.weblate.org/>!\n'
         )
         response = self.do_search(
-            {'id_hash': unit.id_hash},
+            {'checksum': unit.checksum},
             '3 / 4'
         )
         # Extract search ID
@@ -395,8 +395,8 @@ class SearchViewTest(ViewTestCase):
         self.assertContains(response, 'Other')
         self.assertNotContains(response, 'Plural form ')
 
-    def test_id_hash(self):
-        response = self.do_search({'id_hash': 'invalid'}, None)
+    def test_checksum(self):
+        response = self.do_search({'checksum': 'invalid'}, None)
         self.assertRedirects(
             response,
             self.get_translation().get_absolute_url()

@@ -140,7 +140,7 @@ function initEditor() {
             $.parseJSON($this.data('content'))
         );
         autosize.update($('.translation-editor'));
-        $('#id_' + $this.data('id_hash') + '_fuzzy').prop('checked', true);
+        $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
         $this.button('reset');
         e.preventDefault();
     });
@@ -368,13 +368,13 @@ function loadTableSorting() {
 function zenEditor(e) {
     var $this = $(this);
     var $row = $this.parents('tr');
-    var id_hash = $row.find('[name=id_hash]').val();
+    var checksum = $row.find('[name=checksum]').val();
 
     $row.addClass('translation-modified');
 
     var form = $row.find('form');
-    var statusdiv = $('#status-' + id_hash).hide();
-    var loadingdiv = $('#loading-' + id_hash).show();
+    var statusdiv = $('#status-' + checksum).hide();
+    var loadingdiv = $('#loading-' + checksum).show();
     $.post(
         form.attr('action'),
         form.serialize(),

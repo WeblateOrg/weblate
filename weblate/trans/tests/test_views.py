@@ -145,7 +145,7 @@ class ViewTestCase(RepoTestCase):
         '''
         unit = self.get_unit(source)
         params = {
-            'id_hash': unit.id_hash,
+            'checksum': unit.checksum,
             'target_0': target,
         }
         params.update(kwargs)
@@ -634,9 +634,9 @@ class SourceStringsTest(ViewTestCase):
         unit = self.get_unit()
         response = self.client.get(
             reverse('review_source', kwargs=self.kw_subproject),
-            {'id_hash': unit.id_hash}
+            {'checksum': unit.checksum}
         )
-        self.assertContains(response, unit.id_hash)
+        self.assertContains(response, unit.checksum)
 
     def test_view_source(self):
         response = self.client.get(

@@ -146,9 +146,9 @@ def search(translation, request):
 
     # Checksum unit access
     offset = 0
-    if 'id_hash' in request.GET:
+    if 'checksum' in request.GET:
         try:
-            unit = allunits.filter(id_hash=request.GET['id_hash'])[0]
+            unit = allunits.filter(id_hash=int(request.GET['checksum'], 16) - 2**63)[0]
             offset = unit_ids.index(unit.id)
         except (Unit.DoesNotExist, IndexError, ValueError):
             messages.warning(request, _('No string matched your search!'))
