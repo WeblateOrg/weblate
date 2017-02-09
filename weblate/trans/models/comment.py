@@ -39,6 +39,7 @@ class CommentManager(models.Manager):
         new_comment = self.create(
             user=user,
             contentsum=unit.contentsum,
+            content_hash=unit.content_hash,
             project=unit.translation.subproject.project,
             comment=text,
             language=lang
@@ -63,6 +64,7 @@ class CommentManager(models.Manager):
 @python_2_unicode_compatible
 class Comment(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
+    content_hash = models.BigIntegerField(db_index=True)
     comment = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey('Project')
@@ -77,7 +79,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'comment for {0} by {1}'.format(
-            self.contentsum,
+            self.content_hash,
             self.user.username if self.user else 'unknown',
         )
 

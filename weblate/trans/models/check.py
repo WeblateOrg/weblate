@@ -32,6 +32,7 @@ CHECK_CHOICES = [(x, CHECKS[x].name) for x in CHECKS]
 @python_2_unicode_compatible
 class Check(models.Model):
     contentsum = models.CharField(max_length=40, db_index=True)
+    content_hash = models.BigIntegerField(db_index=True)
     project = models.ForeignKey('Project')
     language = models.ForeignKey(Language, null=True, blank=True)
     check = models.CharField(max_length=20, choices=CHECK_CHOICES)
