@@ -157,7 +157,7 @@
   </div>
   <div class="panel-footer">
     {% if user_can_translate %}
-    <input class="btn btn-default" type="submit" value="{% trans "Save" %}" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} />
+    <button class="btn btn-success" type="submit" name="save" tabindex="150" {% if locked %}disabled="disabled"{% endif %} ><i class="fa fa-check"></i> {% trans "Save" %}</button>
     {% elif not user.is_authenticated %}
     {% url 'login' as login_url %}
     {% with unit.translation.get_translate_url as translate_url %}
@@ -166,7 +166,7 @@
     {% endif %}
 
     {% if user_can_suggest %}
-    <input class="btn btn-default" type="submit" value="{% trans "Suggest" %}" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %} />
+    <button class="btn btn-warning" type="submit" name="suggest" tabindex="151" {% if project_locked %}disabled="disabled"{% endif %}><i class="fa fa-comment"></i> {% trans "Suggest" %}</button>
     {% else %}
     {% trans "No privileges for adding suggestions!" %}
     {% endif %}
