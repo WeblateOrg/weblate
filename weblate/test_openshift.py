@@ -22,7 +22,7 @@
 from unittest import TestCase
 import os
 
-from django.conf import BaseSettings
+from django.conf import Settings
 
 from weblate.openshiftlib import get_openshift_secret_key, import_env_vars
 
@@ -55,26 +55,26 @@ class OpenShiftTest(TestCase):
         del os.environ['OPENSHIFT_APP_UUID']
 
     def test_import_env_string(self):
-        storage = BaseSettings()
+        storage = Settings('weblate.settings_example')
         import_env_vars({'WEBLATE_FOO': '"bar"'}, storage)
         self.assertEqual(storage.FOO, 'bar')
 
     def test_import_env_int(self):
-        storage = BaseSettings()
+        storage = Settings('weblate.settings_example')
         import_env_vars({'WEBLATE_FOO': '1234'}, storage)
         self.assertEqual(storage.FOO, 1234)
 
     def test_import_env_tuple(self):
-        storage = BaseSettings()
+        storage = Settings('weblate.settings_example')
         import_env_vars({'WEBLATE_FOO': '(1, 2)'}, storage)
         self.assertEqual(storage.FOO, (1, 2))
 
     def test_import_env_env(self):
-        storage = BaseSettings()
+        storage = Settings('weblate.settings_example')
         import_env_vars({'WEBLATE_FOO': '"$BAR"', 'BAR': 'baz'}, storage)
         self.assertEqual(storage.FOO, 'baz')
 
     def test_import_env_raw(self):
-        storage = BaseSettings()
+        storage = Settings('weblate.settings_example')
         import_env_vars({'WEBLATE_FOO': '(r"/project/(.*)$$",)'}, storage)
         self.assertEqual(storage.FOO, ('/project/(.*)$',))
