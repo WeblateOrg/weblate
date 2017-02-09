@@ -288,7 +288,23 @@ To make outgoing email work, you need to provide mail server.
 
     Email authentication password, do NOT use quotes here.
 
+Hub setup
++++++++++
 
+In order to use the Github pull requests feature, you must initialize hub configuration by entering the weblate container and executing an arbitrary hub command. For example:
+
+.. code-block:: sh
+
+    docker-compose exec weblate bash
+    cd
+    HOME=/app/data/home hub clone octocat/Spoon-Knife
+
+The username passed for credentials must be the same than :setting:`GITHUB_USERNAME`.
+
+.. seealso::
+
+    :ref:`github-push`,
+    :ref:`hub-setup`
 
 Select your machine - local or cloud providers
 ++++++++++++++++++++++++++++++++++++++++++++++
@@ -350,7 +366,7 @@ this instance. You are free to specify a different name.
 The above example installs latest development version, you can optionally
 specify tag identifier right of the ``#`` sign to identify the version of
 Weblate to install. For a list of available versions see here:
-https://github.com/WeblateOrg/weblate/tags. 
+https://github.com/WeblateOrg/weblate/tags.
 
 The ``--no-git`` option skips the creation of a
 local git repository.
