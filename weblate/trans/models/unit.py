@@ -213,7 +213,8 @@ class UnitManager(models.Manager):
 
     def prefetch(self):
         return self.prefetch_related(
-            'translation', 'translation__language',
+            'translation',
+            'translation__language',
             'translation__subproject',
             'translation__subproject__project',
             'translation__subproject__project__source_language',
@@ -327,7 +328,7 @@ class UnitManager(models.Manager):
         Units with same source within same project.
         """
         project = unit.translation.subproject.project
-        result = self.filter(
+        result = self.prefetch().filter(
             content_hash=unit.content_hash,
             translation__subproject__project=project,
             translation__language=unit.translation.language
