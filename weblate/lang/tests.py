@@ -159,6 +159,20 @@ class LanguagesTest(TestCase):
             'Chinese (Simplified)',
         ),
         (
+            'zh_HANT',
+            'zh_Hant',
+            'ltr',
+            '0',
+            'Chinese (Traditional)',
+        ),
+        (
+            'zh-HANT',
+            'zh_Hant',
+            'ltr',
+            '0',
+            'Chinese (Traditional)',
+        ),
+        (
             'zh-CN@test',
             'zh_CN@test',
             'ltr',

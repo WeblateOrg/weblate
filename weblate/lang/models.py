@@ -163,7 +163,12 @@ class LanguageManager(models.Manager):
         code = self.sanitize_code(code)
 
         # First try getting langauge as is
-        ret = self.try_get(code=code)
+        ret = self.try_get(code__iexact=code)
+        if ret is not None:
+            return ret
+
+        # Replace dash with underscore (for things as zh_Hant)
+        ret = self.try_get(code__iexact=code.replace('-', '_'))
         if ret is not None:
             return ret
 
