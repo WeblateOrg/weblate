@@ -41,9 +41,9 @@ Git (>= 1.6)
     https://git-scm.com/
 Mercurial (>= 2.8) (optional for Mercurial repositories support)
     https://www.mercurial-scm.org/
-social-auth-core (>= 1.1.0)
+social-auth-core (>= 1.2.0)
     http://python-social-auth.readthedocs.io/
-social-auth-app-django (>= 1.0.1)
+social-auth-app-django (>= 1.1.0)
     http://python-social-auth.readthedocs.io/
 django-appconf (>= 1.0)
     https://github.com/django-compressor/django-appconf
