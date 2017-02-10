@@ -46,7 +46,7 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
-    calculate_hash,
+    calculate_hash, hash_to_checksum,
 )
 
 
@@ -1134,4 +1134,4 @@ class Unit(models.Model, LoggerMixin):
 
         It's unsigned representation of id_hash in hex.
         """
-        return format(self.id_hash + 2**63, 'x')
+        return hash_to_checksum(self.id_hash)

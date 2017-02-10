@@ -51,7 +51,7 @@ from weblate.trans.permissions import (
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
-from weblate.trans.util import sort_choices
+from weblate.trans.util import sort_choices, checksum_to_hash
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 
@@ -321,7 +321,7 @@ class ChecksumForm(forms.Form):
 
         try:
             self.cleaned_data['unit'] = unit_set.filter(
-                id_hash=int(self.cleaned_data['checksum'], 16) - 2**63,
+                id_hash=checksum_to_hash(self.cleaned_data['checksum'])
             )[0]
         except (Unit.DoesNotExist, IndexError, ValueError):
             LOGGER.error(

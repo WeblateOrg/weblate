@@ -38,6 +38,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
+from weblate.trans.util import checksum_to_hash
 
 from six.moves.urllib.parse import urlencode
 
@@ -214,7 +215,7 @@ def get_detail(request, project, subproject, checksum):
     subproject = get_subproject(request, project, subproject)
     try:
         units = Unit.objects.filter(
-            id_hash=int(checksum, 16) - 2**63,
+            id_hash=checksum_to_hash(checksum),
             translation__subproject=subproject
         )
     except ValueError:

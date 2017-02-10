@@ -41,7 +41,7 @@ from weblate.trans.forms import (
 from weblate.trans.permissions import (
     can_edit_flags, can_edit_priority, can_upload_screenshot,
 )
-from weblate.trans.util import render
+from weblate.trans.util import render, checksum_to_hash
 
 
 def get_source(request, project, subproject):
@@ -67,7 +67,7 @@ def review_source(request, project, subproject):
     limit = request.GET.get('limit', 50)
     page = request.GET.get('page', 1)
     try:
-        id_hash = int(request.GET.get('checksum', ''), 16) - 2**63
+        id_hash = checksum_to_hash(request.GET.get('checksum', ''))
     except ValueError:
         id_hash = None
     ignored = 'ignored' in request.GET

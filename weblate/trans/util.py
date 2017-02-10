@@ -68,6 +68,16 @@ def calculate_hash(source, context):
     return siphash('Weblate Sip Hash', data) - 2**63
 
 
+def checksum_to_hash(checksum):
+    """Convert hex to id_hash (signed 64-bit int)"""
+    return int(checksum, 16) - 2**63
+
+
+def hash_to_checksum(id_hash):
+    """Convert id_hash (signed 64-bit int) to unsigned hex"""
+    return format(id_hash + 2**63, 'x')
+
+
 def is_plural(text):
     '''
     Checks whether string is plural form.

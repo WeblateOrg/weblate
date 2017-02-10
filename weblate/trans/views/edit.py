@@ -49,7 +49,7 @@ from weblate.trans.views.helper import (
     show_form_errors,
 )
 from weblate.trans.checks import CHECKS
-from weblate.trans.util import join_plural, render
+from weblate.trans.util import join_plural, render, checksum_to_hash
 from weblate.trans.autotranslate import auto_translate
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
@@ -148,7 +148,9 @@ def search(translation, request):
     offset = 0
     if 'checksum' in request.GET:
         try:
-            unit = allunits.filter(id_hash=int(request.GET['checksum'], 16) - 2**63)[0]
+            unit = allunits.filter(
+                id_hash=checksum_to_hash(request.GET['checksum'])
+            )[0]
             offset = unit_ids.index(unit.id)
         except (Unit.DoesNotExist, IndexError, ValueError):
             messages.warning(request, _('No string matched your search!'))
