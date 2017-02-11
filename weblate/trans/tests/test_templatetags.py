@@ -149,5 +149,6 @@ class LocationLinksTest(TestCase):
         self.unit.location = 'foo.bar:123'
         self.assertEqual(
             get_location_links(self.profile, self.unit),
-            '<a href="editor://open/?file=foo.bar&amp;line=123">foo.bar:123</a>'
+            '<a href="editor://open/?file=foo.bar&amp;line=123">'
+            'foo.bar:123</a>'
         )

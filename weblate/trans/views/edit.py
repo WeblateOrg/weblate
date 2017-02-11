@@ -284,7 +284,9 @@ def handle_translate(translation, request, user_locked,
     # Check whether translation is not outdated
     translation.check_sync()
 
-    form = TranslationForm(request.user.profile, translation, None, request.POST)
+    form = TranslationForm(
+        request.user.profile, translation, None, request.POST
+    )
     if not form.is_valid():
         return
 
@@ -802,7 +804,9 @@ def save_zen(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
     user_locked = translation.is_user_locked(request.user)
 
-    form = TranslationForm(request.user.profile, translation, None, request.POST)
+    form = TranslationForm(
+        request.user.profile, translation, None, request.POST
+    )
     if not can_translate(request.user, translation):
         messages.error(
             request,
