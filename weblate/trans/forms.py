@@ -135,6 +135,7 @@ class PluralTextarea(forms.Textarea):
         """
         Returns toolbar HTML code.
         """
+        profile = self.profile
         groups = []
         plurals = unit.get_source_plurals()
         if idx and len(plurals) > 1:
@@ -161,7 +162,7 @@ class PluralTextarea(forms.Textarea):
 
         # Special chars
         chars = []
-        for name, char in get_special_chars(language, self.profile.special_chars):
+        for name, char in get_special_chars(language, profile.special_chars):
             chars.append(
                 BUTTON_TEMPLATE.format(
                     'specialchar',

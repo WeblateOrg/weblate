@@ -440,7 +440,7 @@ def get_char_description(char):
         return _('Insert character {0}').format(char)
 
 
-def get_special_chars(language, additional):
+def get_special_chars(language, additional=''):
     """
     Returns list of special characters.
     """

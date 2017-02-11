@@ -39,3 +39,7 @@ class SpecialCharsTest(TestCase):
     def test_brx(self):
         chars = list(get_special_chars(Language(code='brx')))
         self.assertEqual(len(chars), 9)
+
+    def test_brx_add(self):
+        chars = list(get_special_chars(Language(code='brx'), 'ahoj'))
+        self.assertEqual(len(chars), 13)
