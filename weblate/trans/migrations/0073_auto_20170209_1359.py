@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
-from weblate.trans.util import calculate_hash
+from weblate.utils.hash import calculate_hash
 
 
 def calculate_id_hash(apps, schema_editor):

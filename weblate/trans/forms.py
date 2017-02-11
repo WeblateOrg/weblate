@@ -51,7 +51,8 @@ from weblate.trans.permissions import (
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
-from weblate.trans.util import sort_choices, checksum_to_hash
+from weblate.trans.util import sort_choices
+from weblate.utils.hash import checksum_to_hash
 from weblate.logger import LOGGER
 from weblate import get_doc_url
 

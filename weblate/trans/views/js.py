@@ -38,7 +38,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
-from weblate.trans.util import checksum_to_hash
+from weblate.utils.hash import checksum_to_hash
 
 from six.moves.urllib.parse import urlencode
 

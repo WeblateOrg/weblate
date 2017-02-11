@@ -49,13 +49,14 @@ from weblate.trans.views.helper import (
     show_form_errors,
 )
 from weblate.trans.checks import CHECKS
-from weblate.trans.util import join_plural, render, checksum_to_hash
+from weblate.trans.util import join_plural, render
 from weblate.trans.autotranslate import auto_translate
 from weblate.trans.permissions import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
     can_add_comment,
 )
+from weblate.utils.hash import checksum_to_hash
 
 
 def cleanup_session(session):

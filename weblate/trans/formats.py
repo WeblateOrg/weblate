@@ -49,7 +49,9 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
-from weblate.trans.util import calculate_hash
+
+from weblate.utils.hash import calculate_hash
+
 import weblate
 
 

@@ -46,8 +46,8 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
-    calculate_hash, hash_to_checksum,
 )
+from weblate.utils.hash import calculate_hash, hash_to_checksum
 
 
 SIMPLE_FILTERS = {

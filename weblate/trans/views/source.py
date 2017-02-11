@@ -41,7 +41,8 @@ from weblate.trans.forms import (
 from weblate.trans.permissions import (
     can_edit_flags, can_edit_priority, can_upload_screenshot,
 )
-from weblate.trans.util import render, checksum_to_hash
+from weblate.trans.util import render
+from weblate.utils.hash import checksum_to_hash
 
 
 def get_source(request, project, subproject):
