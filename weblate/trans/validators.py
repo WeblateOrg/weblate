@@ -42,17 +42,6 @@ EXTRA_FLAGS['add-review'] = ugettext_lazy(
 IGNORE_CHECK_FLAGS = set([CHECKS[x].ignore_string for x in CHECKS])
 
 
-def validate_repoweb(val):
-    '''
-    Validates whether URL for repository browser is valid and
-    can be filled in using format string.
-    '''
-    try:
-        val % {'file': 'file.po', 'line': '9', 'branch': 'master'}
-    except Exception as error:
-        raise ValidationError(_('Bad format string (%s)') % str(error))
-
-
 def validate_extra_file(val):
     '''
     Validates extra file to commit.

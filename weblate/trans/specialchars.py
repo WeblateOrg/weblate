@@ -440,7 +440,7 @@ def get_char_description(char):
         return _('Insert character {0}').format(char)
 
 
-def get_special_chars(language):
+def get_special_chars(language, additional):
     """
     Returns list of special characters.
     """
@@ -465,3 +465,6 @@ def get_special_chars(language):
 
     if code in EM_DASH_LANGS:
         yield _('Em dash'), '—'
+
+    for char in additional:
+        yield _('User configured character: {}').format(char), char

@@ -138,7 +138,7 @@ class Migration(migrations.Migration):
                 ('slug', models.SlugField(help_text='Name used in URLs and file names.', verbose_name='URL slug')),
                 ('repo', models.CharField(help_text='URL of Git repository, use weblate://project/subproject for sharing with other subproject.', max_length=200, verbose_name='Git repository')),
                 ('push', models.CharField(blank=True, help_text='URL of push Git repository, pushing is disabled if empty.', max_length=200, verbose_name='Git push URL')),
-                ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', validators=[weblate.trans.validators.validate_repoweb], verbose_name='Repository browser')),
+                ('repoweb', models.URLField(blank=True, help_text='Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s as filename and line placeholders.', validators=[weblate.utils.validators.validate_repoweb], verbose_name='Repository browser')),
                 ('git_export', models.CharField(blank=True, help_text='URL of Git repository where users can fetch changes from Weblate', max_length=200, verbose_name='Exported Git URL')),
                 ('report_source_bugs', models.EmailField(blank=True, help_text='Email address where errors in source string will be reported, keep empty for no emails.', max_length=75, verbose_name='Source string bug report address')),
                 ('branch', models.CharField(default=b'master', help_text='Git branch to translate', max_length=50, verbose_name='Git branch')),

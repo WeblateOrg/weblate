@@ -12,6 +12,8 @@ Released on ? 2017.
 * Added project wide search.
 * Added project and component wide search and replace.
 * Improved rendering of inconsistent translations.
+* Added support for opening source files in local editor.
+* Added support for condiguring visual keyboard with special characters.
 
 weblate 2.11
 ------------

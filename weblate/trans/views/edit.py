@@ -287,7 +287,7 @@ def handle_translate(translation, request, user_locked,
     # Check whether translation is not outdated
     translation.check_sync()
 
-    form = TranslationForm(translation, None, request.POST)
+    form = TranslationForm(request.user.profile, translation, None, request.POST)
     if not form.is_valid():
         return
 
@@ -565,7 +565,7 @@ def translate(request, project, subproject, lang):
     antispam = AntispamForm()
 
     # Prepare form
-    form = TranslationForm(translation, unit)
+    form = TranslationForm(request.user.profile, translation, unit)
 
     others = Unit.objects.same(unit, False)
 
@@ -729,6 +729,7 @@ def get_zen_unitdata(translation, request):
                 else None
             ),
             'form': TranslationForm(
+                request.user.profile,
                 translation,
                 unit,
                 tabindex=100 + (unit.position * 10),
@@ -804,7 +805,7 @@ def save_zen(request, project, subproject, lang):
     translation = get_translation(request, project, subproject, lang)
     user_locked = translation.is_user_locked(request.user)
 
-    form = TranslationForm(translation, None, request.POST)
+    form = TranslationForm(request.user.profile, translation, None, request.POST)
     if not can_translate(request.user, translation):
         messages.error(
             request,

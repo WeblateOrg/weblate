@@ -234,6 +234,8 @@ class UserSettingsForm(forms.ModelForm):
             'hide_completed',
             'secondary_in_zen',
             'hide_source_secondary',
+            'editor_link',
+            'special_chars',
         )
 
 
