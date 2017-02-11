@@ -589,6 +589,16 @@ class Profile(models.Model):
         ),
         validators=[validate_repoweb],
     )
+    special_chars = models.CharField(
+        default='', blank=True,
+        max_length=30,
+        verbose_name=_('Special characters'),
+        help_text=_(
+            'You can specify additional special characters to be show in '
+            'visual keyboard while translating. It can be useful for chars '
+            'you use frequently but are hard to type on your keyboard.'
+        )
+    )
 
     DASHBOARD_WATCHED = 1
     DASHBOARD_LANGUAGES = 2

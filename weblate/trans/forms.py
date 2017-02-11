@@ -126,6 +126,10 @@ class PluralTextarea(forms.Textarea):
     '''
     Text area extension which possibly handles plurals.
     '''
+    def __init__(self, *args, **kwargs):
+        self.profile = None
+        super(PluralTextarea, self).__init__(*args, **kwargs)
+
     def get_toolbar(self, language, fieldname, unit, idx):
         """
         Returns toolbar HTML code.
@@ -156,7 +160,7 @@ class PluralTextarea(forms.Textarea):
 
         # Special chars
         chars = []
-        for name, char in get_special_chars(language):
+        for name, char in get_special_chars(language, self.profile.special_chars):
             chars.append(
                 BUTTON_TEMPLATE.format(
                     'specialchar',
@@ -165,6 +169,7 @@ class PluralTextarea(forms.Textarea):
                     char
                 )
             )
+
         groups.append(
             GROUP_TEMPLATE.format('', '\n'.join(chars))
         )
@@ -348,7 +353,7 @@ class TranslationForm(ChecksumForm):
         required=False
     )
 
-    def __init__(self, translation, unit,
+    def __init__(self, profile, translation, unit,
                  *args, **kwargs):
         if unit is not None:
             kwargs['initial'] = {
@@ -363,6 +368,7 @@ class TranslationForm(ChecksumForm):
         )
         self.fields['fuzzy'].widget.attrs['class'] = 'fuzzy_checkbox'
         self.fields['target'].widget.attrs['tabindex'] = tabindex
+        self.fields['target'].widget.profile = profile
 
 
 class AntispamForm(forms.Form):
