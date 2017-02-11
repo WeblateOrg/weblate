@@ -595,7 +595,7 @@ def get_state_flags(unit):
 
 
 @register.simple_tag
-def get_location_links(unit):
+def get_location_links(profile, unit):
     """
     Generates links to source files where translation was used.
     """
@@ -620,7 +620,14 @@ def get_location_links(unit):
         else:
             filename = location_parts[0]
             line = 0
-        link = unit.translation.subproject.get_repoweb_link(filename, line)
+        if profile.editor_link:
+            link = profile.editor_link % {
+                'file': filename,
+                'line': line,
+                'branch': unit.translation.subproject.branch
+            }
+        else:
+            link = unit.translation.subproject.get_repoweb_link(filename, line)
         if link is None:
             ret.append(escape(location))
         else:

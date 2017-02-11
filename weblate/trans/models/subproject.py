@@ -54,7 +54,7 @@ from weblate.trans.signals import (
 from weblate.trans.vcs import RepositoryException, VCS_REGISTRY, VCS_CHOICES
 from weblate.trans.models.translation import Translation
 from weblate.trans.validators import (
-    validate_repoweb, validate_filemask, validate_extra_file,
+    validate_filemask, validate_extra_file,
     validate_autoaccept, validate_check_flags, validate_commit_message,
 )
 from weblate.lang.models import Language
@@ -63,6 +63,7 @@ from weblate.accounts.models import (
 )
 from weblate.trans.models.change import Change
 from weblate.utils.scripts import get_script_choices
+from weblate.utils.validators import validate_repoweb
 
 POST_UPDATE_SCRIPT_CHOICES = get_script_choices(settings.POST_UPDATE_SCRIPTS)
 PRE_COMMIT_SCRIPT_CHOICES = get_script_choices(settings.PRE_COMMIT_SCRIPTS)

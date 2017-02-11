@@ -50,6 +50,7 @@ from weblate.trans.fields import RegexField
 from weblate.accounts.avatar import get_user_display
 from weblate.utils.errors import report_error
 from weblate.trans.signals import user_pre_delete
+from weblate.utils.validators import validate_repoweb
 from weblate import VERSION
 from weblate.logger import LOGGER
 
@@ -574,6 +575,19 @@ class Profile(models.Model):
     hide_source_secondary = models.BooleanField(
         verbose_name=_('Hide source if there is secondary language'),
         default=False
+    )
+    editor_link = models.CharField(
+        default='', blank=True,
+        max_length=200,
+        verbose_name=_('Editor link'),
+        help_text=_(
+            'Enter custom URL to be used as link to open source code. '
+            'You can use %(branch)s for branch, '
+            '%(file)s and %(line)s as filename and line placeholders. '
+            'Usually something like editor://open/?file=%(file)s&line=%(line)s'
+            ' is good option.'
+        ),
+        validators=[validate_repoweb],
     )
 
     DASHBOARD_WATCHED = 1

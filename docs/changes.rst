@@ -12,6 +12,7 @@ Released on ? 2017.
 * Added project wide search.
 * Added project and component wide search and replace.
 * Improved rendering of inconsistent translations.
+* Added support for opening source files in local editor.
 
 weblate 2.11
 ------------
