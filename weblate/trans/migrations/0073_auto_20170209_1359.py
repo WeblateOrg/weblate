@@ -45,6 +45,11 @@ def calculate_id_hash(apps, schema_editor):
             id_hash=unit.id_hash
         )
 
+    # Remove stale instances
+    for model in content_models:
+        model.objects.filter(content_hash=0).delete()
+    Source.objects.filter(id_hash=0).delete()
+
 
 class Migration(migrations.Migration):
 
