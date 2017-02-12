@@ -78,17 +78,17 @@ class Command(BaseCommand):
         for prj in Project.objects.all():
             with transaction.atomic():
 
-                # List all current unit contentsums
+                # List all current unit content_hashs
                 units = Unit.objects.filter(
                     translation__subproject__project=prj
-                ).values('contentsum').distinct()
+                ).values('content_hash').distinct()
 
                 # Remove source comments referring to deleted units
                 Comment.objects.filter(
                     language=None,
                     project=prj
                 ).exclude(
-                    contentsum__in=units
+                    content_hash__in=units
                 ).delete()
 
                 # Remove source checks referring to deleted units
@@ -96,7 +96,7 @@ class Command(BaseCommand):
                     language=None,
                     project=prj
                 ).exclude(
-                    contentsum__in=units
+                    content_hash__in=units
                 ).delete()
 
                 for lang in Language.objects.all():
@@ -107,25 +107,25 @@ class Command(BaseCommand):
                         translation__language=lang,
                         translated=True,
                         translation__subproject__project=prj
-                    ).values('contentsum').distinct()
+                    ).values('content_hash').distinct()
                     Check.objects.filter(
                         language=lang, project=prj
                     ).exclude(
-                        contentsum__in=translatedunits
+                        content_hash__in=translatedunits
                     ).delete()
 
-                    # List current unit contentsums
+                    # List current unit content_hashs
                     units = Unit.objects.filter(
                         translation__language=lang,
                         translation__subproject__project=prj
-                    ).values('contentsum').distinct()
+                    ).values('content_hash').distinct()
 
                     # Remove suggestions referring to deleted units
                     Suggestion.objects.filter(
                         language=lang,
                         project=prj
                     ).exclude(
-                        contentsum__in=units
+                        content_hash__in=units
                     ).delete()
 
                     # Remove translation comments referring to deleted units
@@ -133,7 +133,7 @@ class Command(BaseCommand):
                         language=lang,
                         project=prj
                     ).exclude(
-                        contentsum__in=units
+                        content_hash__in=units
                     ).delete()
 
                     # Process suggestions
@@ -144,7 +144,7 @@ class Command(BaseCommand):
                     for sug in all_suggestions.iterator():
                         # Remove suggestions with same text as real translation
                         units = Unit.objects.filter(
-                            contentsum=sug.contentsum,
+                            content_hash=sug.content_hash,
                             translation__language=lang,
                             translation__subproject__project=prj,
                             target=sug.target
@@ -156,7 +156,7 @@ class Command(BaseCommand):
 
                         # Remove duplicate suggestions
                         sugs = Suggestion.objects.filter(
-                            contentsum=sug.contentsum,
+                            content_hash=sug.content_hash,
                             language=lang,
                             project=prj,
                             target=sug.target

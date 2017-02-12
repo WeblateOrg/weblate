@@ -29,7 +29,7 @@ from weblate.trans.util import PRIORITY_CHOICES
 
 @python_2_unicode_compatible
 class Source(models.Model):
-    checksum = models.CharField(max_length=40)
+    id_hash = models.BigIntegerField(db_index=True)
     subproject = models.ForeignKey('SubProject')
     timestamp = models.DateTimeField(auto_now_add=True)
     priority = models.IntegerField(
@@ -55,7 +55,7 @@ class Source(models.Model):
             ('upload_screenshot', 'Can upload screenshot'),
         )
         app_label = 'trans'
-        unique_together = ('checksum', 'subproject')
+        unique_together = ('id_hash', 'subproject')
 
     def __init__(self, *args, **kwargs):
         super(Source, self).__init__(*args, **kwargs)
@@ -63,7 +63,7 @@ class Source(models.Model):
         self.check_flags_modified = False
 
     def __str__(self):
-        return 'src:{0}'.format(self.checksum)
+        return 'src:{0}'.format(self.id_hash)
 
     def save(self, force_insert=False, **kwargs):
         """

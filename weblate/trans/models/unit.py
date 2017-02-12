@@ -46,8 +46,8 @@ from weblate.trans.filelock import FileLockException
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.util import (
     is_plural, split_plural, join_plural, get_distinct_translations,
-    calculate_checksum,
 )
+from weblate.utils.hash import calculate_hash, hash_to_checksum
 
 
 SIMPLE_FILTERS = {
@@ -81,16 +81,17 @@ class UnitManager(models.Manager):
         # Get basic unit data
         src = unit.get_source()
         ctx = unit.get_context()
-        checksum = unit.get_checksum()
+        id_hash = unit.get_id_hash()
+        content_hash = unit.get_content_hash()
         created = False
 
         # Try getting existing unit
         created = False
         try:
-            dbunit = translation.unit_set.get(checksum=checksum)
+            dbunit = translation.unit_set.get(id_hash=id_hash)
         except Unit.MultipleObjectsReturned:
             # Some inconsistency (possibly race condition), try to recover
-            translation.unit_set.filter(checksum=checksum).delete()
+            translation.unit_set.filter(id_hash=id_hash).delete()
             dbunit = None
         except Unit.DoesNotExist:
             dbunit = None
@@ -99,7 +100,8 @@ class UnitManager(models.Manager):
         if dbunit is None:
             dbunit = Unit(
                 translation=translation,
-                checksum=checksum,
+                id_hash=id_hash,
+                content_hash=content_hash,
                 source=src,
                 context=ctx
             )
@@ -144,8 +146,8 @@ class UnitManager(models.Manager):
         if rqtype not in ('allchecks', 'sourcechecks'):
             checks = checks.filter(check=rqtype)
 
-        checks = checks.values_list('contentsum', flat=True)
-        ret = self.filter(contentsum__in=checks)
+        checks = checks.values_list('content_hash', flat=True)
+        ret = self.filter(content_hash__in=checks)
         if filter_translated:
             ret = ret.filter(translated=True)
         return ret
@@ -164,8 +166,8 @@ class UnitManager(models.Manager):
                 coms = coms.filter(
                     project=translation.subproject.project
                 )
-            coms = coms.values_list('contentsum', flat=True)
-            return self.filter(contentsum__in=coms)
+            coms = coms.values_list('content_hash', flat=True)
+            return self.filter(content_hash__in=coms)
         elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)
         else:
@@ -211,7 +213,8 @@ class UnitManager(models.Manager):
 
     def prefetch(self):
         return self.prefetch_related(
-            'translation', 'translation__language',
+            'translation',
+            'translation__language',
             'translation__subproject',
             'translation__subproject__project',
             'translation__subproject__project__source_language',
@@ -325,8 +328,8 @@ class UnitManager(models.Manager):
         Units with same source within same project.
         """
         project = unit.translation.subproject.project
-        result = self.filter(
-            contentsum=unit.contentsum,
+        result = self.prefetch().filter(
+            content_hash=unit.content_hash,
             translation__subproject__project=project,
             translation__language=unit.translation.language
         )
@@ -340,8 +343,8 @@ class UnitManager(models.Manager):
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):
     translation = models.ForeignKey('Translation')
-    checksum = models.CharField(max_length=40, db_index=True)
-    contentsum = models.CharField(max_length=40, db_index=True)
+    id_hash = models.BigIntegerField(db_index=True)
+    content_hash = models.BigIntegerField(db_index=True)
     location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
     comment = models.TextField(default='', blank=True)
@@ -370,7 +373,7 @@ class Unit(models.Model, LoggerMixin):
         )
         ordering = ['priority', 'position']
         app_label = 'trans'
-        unique_together = ('translation', 'checksum')
+        unique_together = ('translation', 'id_hash')
 
     def __init__(self, *args, **kwargs):
         """
@@ -446,7 +449,7 @@ class Unit(models.Model, LoggerMixin):
         else:
             fuzzy = unit.is_fuzzy()
         previous_source = unit.get_previous_source()
-        contentsum = unit.get_contentsum()
+        content_hash = unit.get_content_hash()
 
         # Monolingual files handling (without target change)
         if unit.template is not None and target == self.target:
@@ -488,16 +491,16 @@ class Unit(models.Model, LoggerMixin):
                 translated == self.translated and
                 comment == self.comment and
                 pos == self.position and
-                contentsum == self.contentsum and
+                content_hash == self.content_hash and
                 previous_source == self.previous_source):
             return
 
         # Ensure we track source string
         source_info, source_created = Source.objects.get_or_create(
-            checksum=self.checksum,
+            id_hash=self.id_hash,
             subproject=self.translation.subproject
         )
-        contentsum_changed = self.contentsum != contentsum
+        contentsum_changed = self.content_hash != content_hash
 
         # Store updated values
         self.position = pos
@@ -508,7 +511,7 @@ class Unit(models.Model, LoggerMixin):
         self.fuzzy = fuzzy
         self.translated = translated
         self.comment = comment
-        self.contentsum = contentsum
+        self.content_hash = content_hash
         self.previous_source = previous_source
         self.priority = source_info.priority
         self.save(
@@ -648,7 +651,7 @@ class Unit(models.Model, LoggerMixin):
 
         if self.translation.is_template():
             self.source = self.target
-            self.contentsum = calculate_checksum(self.source, self.context)
+            self.content_hash = calculate_hash(self.source, self.context)
 
         # Save updated unit to database
         self.save(backend=True)
@@ -702,10 +705,10 @@ class Unit(models.Model, LoggerMixin):
         ).exclude(
             id=self.id
         )
-        # Update source and contentsum
+        # Update source and content_hash
         same_source.update(
             source=self.source,
-            contentsum=self.contentsum
+            content_hash=self.content_hash
         )
         # Find reverted units
         reverted = same_source.filter(
@@ -812,7 +815,7 @@ class Unit(models.Model, LoggerMixin):
         """
         if self._suggestions is None:
             self._suggestions = Suggestion.objects.filter(
-                contentsum=self.contentsum,
+                content_hash=self.content_hash,
                 project=self.translation.subproject.project,
                 language=self.translation.language
             )
@@ -825,7 +828,7 @@ class Unit(models.Model, LoggerMixin):
         if len(source) == 0 and len(target) == 0:
             return False
         todelete = Check.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project
         ).filter(
             (Q(language=self.translation.language) & Q(check__in=target)) |
@@ -841,7 +844,7 @@ class Unit(models.Model, LoggerMixin):
         Returns all checks for this unit (even ignored).
         """
         return Check.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project,
             language=self.translation.language
         )
@@ -851,7 +854,7 @@ class Unit(models.Model, LoggerMixin):
         Returns all source checks for this unit (even ignored).
         """
         return Check.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project,
             language=None
         )
@@ -861,7 +864,7 @@ class Unit(models.Model, LoggerMixin):
         Returns all active (not ignored) checks for this unit.
         """
         return Check.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project,
             language=self.translation.language,
             ignore=False
@@ -872,7 +875,7 @@ class Unit(models.Model, LoggerMixin):
         Returns all active (not ignored) source checks for this unit.
         """
         return Check.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project,
             language=None,
             ignore=False
@@ -883,7 +886,7 @@ class Unit(models.Model, LoggerMixin):
         Returns list of target comments.
         """
         return Comment.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project,
         ).filter(
             Q(language=self.translation.language) | Q(language=None),
@@ -894,7 +897,7 @@ class Unit(models.Model, LoggerMixin):
         Returns list of target comments.
         """
         return Comment.objects.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
             project=self.translation.subproject.project,
             language=None,
         )
@@ -917,7 +920,7 @@ class Unit(models.Model, LoggerMixin):
             same_source = Unit.objects.filter(
                 translation__language=self.translation.language,
                 translation__subproject__project=project,
-                contentsum=self.contentsum,
+                content_hash=self.content_hash,
                 translated=True,
             ).exclude(
                 id=self.id,
@@ -977,7 +980,7 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     Check.objects.create(
-                        contentsum=self.contentsum,
+                        content_hash=self.content_hash,
                         project=self.translation.subproject.project,
                         language=self.translation.language,
                         ignore=False,
@@ -994,7 +997,7 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     Check.objects.create(
-                        contentsum=self.contentsum,
+                        content_hash=self.content_hash,
                         project=self.translation.subproject.project,
                         language=None,
                         ignore=False,
@@ -1104,7 +1107,7 @@ class Unit(models.Model, LoggerMixin):
         """
         if self._source_info is None:
             self._source_info = Source.objects.get(
-                checksum=self.checksum,
+                id_hash=self.id_hash,
                 subproject=self.translation.subproject
             )
         return self._source_info
@@ -1118,9 +1121,17 @@ class Unit(models.Model, LoggerMixin):
         )
         return get_distinct_translations(
             Unit.objects.filter(
-                checksum=self.checksum,
+                id_hash=self.id_hash,
                 translated=True,
                 translation__subproject=self.translation.subproject,
                 translation__language__in=secondary_langs,
             )
         )
+
+    @property
+    def checksum(self):
+        """Return unique hex identifier
+
+        It's unsigned representation of id_hash in hex.
+        """
+        return hash_to_checksum(self.id_hash)

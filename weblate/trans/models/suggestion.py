@@ -42,7 +42,7 @@ class SuggestionManager(models.Manager):
 
         same = self.filter(
             target=target,
-            contentsum=unit.contentsum,
+            content_hash=unit.content_hash,
             language=unit.translation.language,
             project=unit.translation.subproject.project,
         )
@@ -53,7 +53,7 @@ class SuggestionManager(models.Manager):
         # Create the suggestion
         suggestion = self.create(
             target=target,
-            contentsum=unit.contentsum,
+            content_hash=unit.content_hash,
             language=unit.translation.language,
             project=unit.translation.subproject.project,
             user=user
@@ -98,7 +98,7 @@ class SuggestionManager(models.Manager):
             Suggestion.objects.create(
                 project=project,
                 target=suggestion.target,
-                contentsum=suggestion.contentsum,
+                content_hash=suggestion.content_hash,
                 user=suggestion.user,
                 language=suggestion.language,
             )
@@ -106,7 +106,7 @@ class SuggestionManager(models.Manager):
 
 @python_2_unicode_compatible
 class Suggestion(models.Model):
-    contentsum = models.CharField(max_length=40, db_index=True)
+    content_hash = models.BigIntegerField(db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
     project = models.ForeignKey('Project')
@@ -130,13 +130,13 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return 'suggestion for {0} by {1}'.format(
-            self.contentsum,
+            self.content_hash,
             self.user.username if self.user else 'unknown',
         )
 
     def accept(self, translation, request):
         allunits = translation.unit_set.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
         )
         for unit in allunits:
             unit.target = self.target
@@ -150,7 +150,7 @@ class Suggestion(models.Model):
     def delete_log(self, translation, request):
         """Delete with logging change"""
         allunits = translation.unit_set.filter(
-            contentsum=self.contentsum,
+            content_hash=self.content_hash,
         )
         for unit in allunits:
             Change.objects.create(

@@ -210,9 +210,9 @@ class ViewTestCase(RepoTestCase):
         for unit in store.all_units():
             if not unit.is_translatable():
                 continue
-            checksum = unit.get_checksum()
+            id_hash = unit.get_id_hash()
             self.assertFalse(
-                checksum in messages,
+                id_hash in messages,
                 'Duplicate string in in backend file!'
             )
             if unit.is_translated():

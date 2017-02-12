@@ -20,7 +20,6 @@
 
 from __future__ import unicode_literals
 
-import hashlib
 import os
 import sys
 import unicodedata
@@ -37,6 +36,7 @@ try:
     HAS_PYUCA = True
 except ImportError:
     HAS_PYUCA = False
+
 
 import six
 from six.moves.urllib.parse import urlparse
@@ -55,15 +55,6 @@ PRIORITY_CHOICES = (
     (120, ugettext_lazy('Low')),
     (140, ugettext_lazy('Very low')),
 )
-
-
-def calculate_checksum(source, context):
-    """Calculates checksum identifying translation."""
-    md5 = hashlib.md5()
-    if source is not None:
-        md5.update(source.encode('utf-8'))
-    md5.update(context.encode('utf-8'))
-    return md5.hexdigest()
 
 
 def is_plural(text):

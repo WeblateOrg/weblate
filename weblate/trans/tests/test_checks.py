@@ -22,7 +22,7 @@
 Helpers for quality checks tests.
 """
 
-import uuid
+import random
 
 from django.test import TestCase
 
@@ -70,11 +70,11 @@ class MockUnit(object):
     '''
     Mock unit object.
     '''
-    def __init__(self, checksum=None, flags='', code='cs', source='',
+    def __init__(self, id_hash=None, flags='', code='cs', source='',
                  comment=''):
-        if checksum is None:
-            checksum = str(uuid.uuid1())
-        self.checksum = checksum
+        if id_hash is None:
+            id_hash = random.randint(0, 65536)
+        self.id_hash = id_hash
         self.flags = flags
         self.translation = MockTranslation(code)
         self.source = source

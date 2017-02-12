@@ -77,7 +77,7 @@ class MultipleFailingCheck(SourceCheck):
 
     def check_source(self, source, unit):
         related = Check.objects.filter(
-            contentsum=unit.contentsum,
+            content_hash=unit.content_hash,
             project=unit.translation.subproject.project
         ).exclude(
             language__isnull=True

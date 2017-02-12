@@ -922,8 +922,8 @@ Units
     :>json string source: source string
     :>json string previous_source: previous source string used for fuzzy matching
     :>json string target: target string
-    :>json string checksum: unique identifier of the unit
-    :>json string contentsum: unique identifier of the source string
+    :>json string id_hash: unique identifier of the unit
+    :>json string content_hash: unique identifier of the source string
     :>json string location: location of the unit in source code
     :>json string context: translation unit context
     :>json string comment: translation unit comment

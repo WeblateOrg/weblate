@@ -40,7 +40,7 @@ class UnitdataTestCase(TestCase):
             project=self.project,
             language=language,
             check=name,
-            contentsum='123456'
+            content_hash=123456
         )
 
     def test_check(self):

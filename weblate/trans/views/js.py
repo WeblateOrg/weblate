@@ -38,6 +38,7 @@ from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
     can_use_mt, can_see_repository_status, can_ignore_check,
 )
+from weblate.utils.hash import checksum_to_hash
 
 from six.moves.urllib.parse import urlencode
 
@@ -212,10 +213,13 @@ def get_detail(request, project, subproject, checksum):
     Returns source translation detail in all languages.
     '''
     subproject = get_subproject(request, project, subproject)
-    units = Unit.objects.filter(
-        checksum=checksum,
-        translation__subproject=subproject
-    )
+    try:
+        units = Unit.objects.filter(
+            id_hash=checksum_to_hash(checksum),
+            translation__subproject=subproject
+        )
+    except ValueError:
+        raise Http404('Non existing unit!')
     try:
         source = units[0].source_info
     except IndexError:

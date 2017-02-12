@@ -49,7 +49,9 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
-from weblate.trans.util import calculate_checksum
+
+from weblate.utils.hash import calculate_hash
+
 import weblate
 
 
@@ -118,8 +120,8 @@ class FileUnit(object):
             self.mainunit = template
         else:
             self.mainunit = unit
-        self.checksum = None
-        self.contentsum = None
+        self.id_hash = None
+        self.content_hash = None
 
     def get_locations(self):
         '''
@@ -257,39 +259,37 @@ class FileUnit(object):
             return ''
         return get_string(self.unit.prev_source)
 
-    def get_checksum(self):
+    def get_id_hash(self):
         '''
-        Returns checksum of source string, used for quick lookup.
+        Returns hash of source string, used for quick lookup.
 
         We use MD5 as it is faster than SHA1.
         '''
-        if self.checksum is None:
+        if self.id_hash is None:
             if self.template is None:
-                self.checksum = calculate_checksum(
+                self.id_hash = calculate_hash(
                     self.get_source(), self.get_context()
                 )
             else:
-                self.checksum = calculate_checksum(
+                self.id_hash = calculate_hash(
                     None, self.get_context()
                 )
 
-        return self.checksum
+        return self.id_hash
 
-    def get_contentsum(self):
+    def get_content_hash(self):
         '''
-        Returns checksum of source string and context, used for quick lookup.
-
-        We use MD5 as it is faster than SHA1.
+        Returns hash of source string and context, used for quick lookup.
         '''
         if self.template is None:
-            return self.get_checksum()
+            return self.get_id_hash()
 
-        if self.contentsum is None:
-            self.contentsum = calculate_checksum(
+        if self.content_hash is None:
+            self.content_hash = calculate_hash(
                 self.get_source(), self.get_context()
             )
 
-        return self.contentsum
+        return self.content_hash
 
     def is_translated(self):
         '''
