@@ -22,7 +22,7 @@ def calculate_id_hash(apps, schema_editor):
         'translation__subproject__project',
     )
 
-    for unit in units:
+    for unit in units.iterator():
         unit.content_hash = calculate_hash(unit.source, unit.context)
         if unit.translation.subproject.template:
             unit.id_hash = calculate_hash(None, unit.context)
