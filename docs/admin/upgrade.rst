@@ -412,7 +412,8 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * The database migration will take quite long on this update as all
-  translation units stored in database have to be updated.
+  translation units stored in database have to be updated. Expect about 1 hour
+  of migration for 500000 translation units (depends on hardware and database).
 * There is new dependency on ``django-appconf`` and ``siphashc3``.
 * The setting for ``UNAUTHENTICATED_USER`` for ``REST_FRAMEWORK`` has been
   changed to properly handle anonymous user permissions in REST API.
