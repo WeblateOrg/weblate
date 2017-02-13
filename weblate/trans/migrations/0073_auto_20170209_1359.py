@@ -28,7 +28,7 @@ def calculate_id_hash(apps, schema_editor):
             unit.id_hash = calculate_hash(None, unit.context)
         else:
             unit.id_hash = unit.content_hash
-        unit.save()
+        unit.save(update_fields=['content_hash', 'id_hash'])
 
         for model in content_models:
             model.objects.filter(
