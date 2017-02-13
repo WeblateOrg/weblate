@@ -139,6 +139,13 @@ For example you can enable only few of them:
         'weblate.trans.checks.source.MultipleFailingCheck',
     )
 
+.. note::
+    
+    Once you change this setting the existing checks will be still stored in
+    the database, only newly changed translation will be affected by the
+    change. To apply change to already stored translations, you need to run
+    :djadmin:`updatechecks`.
+
 .. seealso:: 
    
    :ref:`checks`, :ref:`custom-checks`
