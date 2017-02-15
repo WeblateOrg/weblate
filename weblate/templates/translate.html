@@ -442,7 +442,7 @@
   </div>
   <div class="panel-body">
   <table class="table table-striped table-condensed">
-    {% if unit.source_info.screenshot or user_can_upload_screenshot %}
+    {% if unit.source_info.screenshots.all or user_can_upload_screenshot %}
     <tr>
     <th>
     {% if user_can_upload_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
@@ -451,11 +451,11 @@
     </tr>
     <tr>
     <td>
-    {% if unit.source_info.screenshot %}
-    <a href="{{ unit.source_info.screenshot.url }}" class="thumbnail"><img class="img-responsive" src="{{ unit.source_info.screenshot.url }}" /></a>
-    {% else %}
+    {% for screenshot in unit.source_info.screenshots.all %}
+    <a href="{{ screenshot.image.url }}" class="thumbnail" alt="{{ screenshot.name }}" title="{{ screenshot.name }}"><img class="img-responsive" src="{{ screenshot.image.url }}" /></a>
+    {% empty %}
     {% trans "No screenshot currently associated!" %}
-    {% endif %}
+    {% endfor %}
     </td>
     </tr>
     {% endif %}
