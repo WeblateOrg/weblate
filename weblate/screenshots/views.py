@@ -29,7 +29,9 @@ from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Source
 from weblate.trans.views.helper import get_subproject
-from weblate.trans.permissions import can_delete_screenshot, can_add_screenshot
+from weblate.trans.permissions import (
+    can_delete_screenshot, can_add_screenshot, can_change_screenshot,
+)
 from weblate.utils import messages
 
 
@@ -117,3 +119,18 @@ def delete_screenshot(request, pk):
     messages.success(request, _('Screenshot %s has been deleted.') % obj.name)
 
     return redirect('screenshots', **kwargs)
+
+
+@require_POST
+@login_required
+def remove_source(request, pk):
+    obj = get_object_or_404(Screenshot, pk=pk)
+    obj.component.check_acl(request)
+    if not can_change_screenshot(request.user, obj.component.project):
+        raise PermissionDenied()
+
+    obj.sources.remove(request.POST['source'])
+
+    messages.success(request, _('Source has been removed.'))
+
+    return redirect(obj)
