@@ -26,7 +26,9 @@
 <tr>
 <th><a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a></th>
 <td>
+<div class="shot-list">
 {% include "screenshots/screenshot_show.html" %}
+</div>
 </td>
 <td>{{ screenshot.sources.count }}</td>
 <td>
