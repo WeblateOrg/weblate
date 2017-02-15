@@ -181,11 +181,6 @@ urlpatterns = [
         weblate.trans.views.source.edit_check_flags,
         name='edit_check_flags'
     ),
-    url(
-        r'^source/(?P<pk>[0-9]+)/screenshot/$',
-        weblate.trans.views.source.upload_screenshot,
-        name='upload_screenshot'
-    ),
 
     # Translation pages
     url(

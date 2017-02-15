@@ -41,7 +41,7 @@ from django.contrib.auth.models import User
 from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
-from weblate.trans.models import SubProject, Unit, Project, Source
+from weblate.trans.models import SubProject, Unit, Project
 from weblate.trans.models.unit import SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
@@ -1058,15 +1058,6 @@ class ReplaceForm(forms.Form):
         min_length=1,
         required=True,
     )
-
-
-class ScreenshotUploadForm(forms.ModelForm):
-    """Component settings form."""
-    class Meta(object):
-        model = Source
-        fields = (
-            'screenshot',
-        )
 
 
 class MatrixLanguageForm(forms.Form):
