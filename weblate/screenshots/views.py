@@ -81,7 +81,10 @@ class ScreenshotList(ListView):
                     pass
             messages.success(
                 request,
-                _('Uploaded screenshot, you can now assign it to source strings.')
+                _(
+                    'Screenshot has been uploaded, '
+                    'you can now assign it to source strings.'
+                )
             )
             return redirect(obj)
         else:
@@ -96,8 +99,8 @@ class ScreenshotDetail(DetailView):
     model = Screenshot
     _edit_form = None
 
-    def get_object(self):
-        obj = super(ScreenshotDetail, self).get_object()
+    def get_object(self, *args, **kwargs):
+        obj = super(ScreenshotDetail, self).get_object(*args, **kwargs)
         obj.component.check_acl(self.request)
         return obj
 
@@ -114,7 +117,9 @@ class ScreenshotDetail(DetailView):
     def post(self, request, **kwargs):
         obj = self.get_object()
         if can_change_screenshot(request.user, obj.component.project):
-            self._edit_form = ScreenshotForm(request.POST, request.FILES, instance=obj)
+            self._edit_form = ScreenshotForm(
+                request.POST, request.FILES, instance=obj
+            )
             if self._edit_form.is_valid():
                 self._edit_form.save()
             else:

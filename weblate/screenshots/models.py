@@ -45,7 +45,7 @@ class Screenshot(models.Model):
     sources = models.ManyToManyField(
         Source,
         blank=True,
-        related_name = 'screenshots',
+        related_name='screenshots',
     )
 
     class Meta(object):
