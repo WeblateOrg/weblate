@@ -290,6 +290,7 @@ INSTALLED_APPS = (
     'weblate.lang',
     'weblate.accounts',
     'weblate.utils',
+    'weblate.screenshots',
 
     # Optional: Git exporter
     # 'weblate.gitexport',
