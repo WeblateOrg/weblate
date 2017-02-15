@@ -35,7 +35,7 @@ class Screenshot(models.Model):
         max_length=200,
     )
     image = ScreenshotField(
-        verbose_name=_('Screenshot showing usage of this string'),
+        verbose_name=_('Image'),
         help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
         upload_to='screenshots/',
         blank=True,

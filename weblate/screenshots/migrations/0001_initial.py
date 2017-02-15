@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=200, verbose_name='Screenshot name')),
-                ('image', weblate.screenshots.fields.ScreenshotField(blank=True, help_text='Upload JPEG or PNG images up to 2000x2000 pixels.', upload_to='screenshots/', verbose_name='Screenshot showing usage of this string')),
+                ('image', weblate.screenshots.fields.ScreenshotField(blank=True, help_text='Upload JPEG or PNG images up to 2000x2000 pixels.', upload_to='screenshots/', verbose_name='Image')),
                 ('component', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='trans.SubProject')),
                 ('sources', models.ManyToManyField(blank=True, related_name='screenshots', to='trans.Source')),
             ],

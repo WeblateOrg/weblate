@@ -12,8 +12,9 @@
 <table class="sort table">
 <thead>
 <tr>
-<th>{% trans "Name" %}</th>
-<th>{% trans "Screenshot" %}</th>
+<th>{% trans "Screenshot name" %}</th>
+<th>{% trans "Image" %}</th>
+<th>{% trans "Strings" %}</th>
 </tr>
 <tbody>
 {% for screenshot in object_list %}
@@ -22,6 +23,7 @@
 <td>
 {% include "screenshots/screenshot_show.html" %}
 </td>
+<td>{{ screenshot.sources.count }}</td>
 </tr>
 {% endfor %}
 </tbody>
