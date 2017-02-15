@@ -19,11 +19,17 @@
 <tbody>
 {% for screenshot in object_list %}
 <tr>
-<th><a href="{{ screenshot.name }}">{{ screenshot.name }}</a></th>
+<th><a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a></th>
 <td>
 {% include "screenshots/screenshot_show.html" %}
 </td>
 <td>{{ screenshot.sources.count }}</td>
+<td>
+<a href="{{ screenshots.get_absolute_url }}" class="btn btn-info"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+</td>
+<td>
+<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</td>
 </tr>
 {% endfor %}
 </tbody>

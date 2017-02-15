@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.views.helper import get_subproject
@@ -26,6 +26,7 @@ from weblate.trans.views.helper import get_subproject
 
 class ScreenshotList(ListView):
     paginate_by = 25
+    model = Screenshot
 
     def get_queryset(self):
         self.kwargs['component'] = get_subproject(
@@ -40,3 +41,11 @@ class ScreenshotList(ListView):
         result['object'] = self.kwargs['component']
         return result
 
+
+class ScreenshotDetail(DetailView):
+    model = Screenshot
+
+    def get_object(self):
+        obj = super(ScreenshotDetail, self).get_object()
+        obj.component.check_acl(self.request)
+        return obj

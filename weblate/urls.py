@@ -478,6 +478,11 @@ urlpatterns = [
         weblate.screenshots.views.ScreenshotList.as_view(),
         name='screenshots',
     ),
+    url(
+        r'^screenshot/(?P<pk>[0-9]+)/$',
+        weblate.screenshots.views.ScreenshotDetail.as_view(),
+        name='screenshot',
+    ),
 
     # Languages browsing
     url(

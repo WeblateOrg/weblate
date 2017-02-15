@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
+<li><a href="{% url 'screenshots' project=object.component.project.slug subproject=object.component.slug %}">{% trans "Screenshots" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{% trans "Edit" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Source strings" %}</h4></div>
+  <div class="panel-body">
+
+<p class="helptext">{% trans "Select strings where the screenshot is shown to provide visual context to translators." %}</p>
+
+<table class="sort table">
+<thead>
+<tr>
+<th>{% trans "Source string" %}</th>
+</tr>
+<tbody>
+{% for source in object.sources.all %}
+<tr>
+{% with source.unit as unit %}
+<td class="translatetext">{% format_translation unit.source unit.translation.subproject.project.source_language %}</td>
+{% endwith %}
+<td>
+<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+</div>
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
+  <div class="panel-body">
+
+{% with object as screenshot %}
+{% include "screenshots/screenshot_show.html" %}
+{% endwith %}
+
+</div>
+</div>
+
+{% endblock %}

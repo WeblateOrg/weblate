@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -78,6 +79,17 @@ class Source(models.Model):
             self.priority_modified = (old.priority != self.priority)
             self.check_flags_modified = (old.check_flags != self.check_flags)
         super(Source, self).save(force_insert, **kwargs)
+
+    @property
+    def unit(self):
+        try:
+            translation = self.subproject.translation_set.all()[0]
+        except IndexError:
+            return None
+        try:
+            return translation.unit_set.get(id_hash=self.id_hash)
+        except ObjectDoesNotExist:
+            return None
 
     @models.permalink
     def get_absolute_url(self):
