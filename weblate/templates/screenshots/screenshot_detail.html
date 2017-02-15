@@ -21,7 +21,7 @@
 
 <p class="helptext">{% trans "Select strings where the screenshot is shown to provide visual context to translators." %}</p>
 
-<table class="sort table">
+<table class="sort table table-striped">
 <thead>
 <tr>
 <th>{% trans "Source string" %}</th>
@@ -32,11 +32,11 @@
 {% with source.unit as unit %}
 <td class="translatetext">{% format_translation unit.source unit.translation.subproject.project.source_language %}</td>
 {% endwith %}
-<td>
 {% if user_can_change_screenshot %}
+<td>
 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
-{% endif %}
 </td>
+{% endif %}
 </tr>
 {% endfor %}
 </tbody>
