@@ -137,7 +137,7 @@ need to install several Python modules manually using pip:
     apt-get install python-compressor
     pip install django_compressor
 
-For proper sorting of a unicode strings, it is recommended to install pyuca:
+For proper sorting of a Unicode strings, it is recommended to install pyuca:
 
 .. code-block:: sh
 
@@ -931,7 +931,7 @@ configure it using following snippet:
 Running maintenance tasks
 +++++++++++++++++++++++++
 
-For optimal performace, it is good idea to run some maintenance tasks in the
+For optimal performance, it is good idea to run some maintenance tasks in the
 background.
 
 On Unix system, this can be scheduled using cron:
