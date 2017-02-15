@@ -26,7 +26,7 @@
 {% can_use_mt user unit.translation as user_can_use_mt %}
 {% can_edit_flags user unit.translation.subproject.project as user_can_edit_flags %}
 {% can_edit_priority user unit.translation.subproject.project as user_can_edit_priority %}
-{% can_upload_screenshot user project as user_can_upload_screenshot %}
+{% can_add_screenshot user project as user_can_add_screenshot %}
 {% can_add_comment user project as user_can_add_comment %}
 
 {% if user_can_translate %}
@@ -442,10 +442,10 @@
   </div>
   <div class="panel-body">
   <table class="table table-striped table-condensed">
-    {% if unit.source_info.screenshots.all or user_can_upload_screenshot %}
+    {% if unit.source_info.screenshots.all or user_can_add_screenshot %}
     <tr>
     <th>
-    {% if user_can_upload_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
+    {% if user_can_add_screenshot %} <a class="button smallbutton pull-right flip" href="{% url 'review_source' project=unit.translation.subproject.project.slug subproject=unit.translation.subproject.slug  %}?checksum={{ unit.checksum }}"><i class="fa fa-pencil"></i></a>{% endif %}
     {% trans "Screenshot context" %}
     </th>
     </tr>

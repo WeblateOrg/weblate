@@ -39,7 +39,7 @@ from weblate.trans.forms import (
     MatrixLanguageForm,
 )
 from weblate.trans.permissions import (
-    can_edit_flags, can_edit_priority, can_upload_screenshot,
+    can_edit_flags, can_edit_priority, can_add_screenshot,
 )
 from weblate.trans.util import render
 from weblate.utils.hash import checksum_to_hash
@@ -177,7 +177,7 @@ def upload_screenshot(request, pk):
     """
     source = get_object_or_404(Source, pk=pk)
 
-    if not can_upload_screenshot(request.user, source.subproject.project):
+    if not can_add_screenshot(request.user, source.subproject.project):
         raise PermissionDenied()
 
     form = ScreenshotUploadForm(request.POST, request.FILES, instance=source)

@@ -161,11 +161,6 @@ def can_edit_project(user, project):
 
 
 @register.assignment_tag
-def can_upload_screenshot(user, project):
-    return weblate.trans.permissions.can_upload_screenshot(user, project)
-
-
-@register.assignment_tag
 def can_upload_dictionary(user, project):
     return weblate.trans.permissions.can_upload_dictionary(user, project)
 
@@ -198,3 +193,18 @@ def can_overwrite_translation(user, project):
 @register.assignment_tag
 def can_see_git_repository(user, project):
     return weblate.trans.permissions.can_see_git_repository(user, project)
+
+
+@register.assignment_tag
+def can_add_screenshot(user, project):
+    return weblate.trans.permissions.can_add_screenshot(user, project)
+
+
+@register.assignment_tag
+def can_change_screenshot(user, project):
+    return weblate.trans.permissions.can_change_screenshot(user, project)
+
+
+@register.assignment_tag
+def can_delete_screenshot(user, project):
+    return weblate.trans.permissions.can_delete_screenshot(user, project)

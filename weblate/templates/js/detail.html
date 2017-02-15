@@ -5,7 +5,7 @@
 
 {% can_edit_flags user project as user_can_edit_flags %}
 {% can_edit_priority user project as user_can_edit_priority %}
-{% can_upload_screenshot user project as user_can_upload_screenshot %}
+{% can_add_screenshot user project as user_can_add_screenshot %}
 
 <div class="row">
 <div class="col-lg-6">
@@ -84,7 +84,7 @@
 {% endfor %}
 </td>
 </tr>
-{% if user_can_upload_screenshot %}
+{% if user_can_add_screenshot %}
 <tr>
 <td>
 <form method="POST" action="{% url 'upload_screenshot' pk=source.pk %}" enctype="multipart/form-data">

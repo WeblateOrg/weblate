@@ -423,14 +423,6 @@ def can_edit_project(user, project):
 
 
 @cache_permission
-def can_upload_screenshot(user, project):
-    """
-    Checks whether user can upload screenshot for given project.
-    """
-    return check_permission(user, project, 'trans.upload_screenshot')
-
-
-@cache_permission
 def can_upload_dictionary(user, project):
     """
     Checks whether user can upload dictionary for given project.
@@ -476,3 +468,27 @@ def can_see_git_repository(user, project):
     Checks whether user can add comment for given project.
     """
     return check_permission(user, project, 'trans.can_see_git_repository')
+
+
+@cache_permission
+def can_add_screenshot(user, project):
+    """
+    Checks whether user can add screenshot for given project.
+    """
+    return check_permission(user, project, 'screenshots.add_screenshot')
+
+
+@cache_permission
+def can_change_screenshot(user, project):
+    """
+    Checks whether user can change screenshot for given project.
+    """
+    return check_permission(user, project, 'screenshots.change_screenshot')
+
+
+@cache_permission
+def can_delete_screenshot(user, project):
+    """
+    Checks whether user can delete screenshot for given project.
+    """
+    return check_permission(user, project, 'screenshots.delete_screenshot')
