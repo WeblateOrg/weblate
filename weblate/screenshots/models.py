@@ -38,7 +38,6 @@ class Screenshot(models.Model):
         verbose_name=_('Image'),
         help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
         upload_to='screenshots/',
-        blank=True,
     )
     component = models.ForeignKey(
         SubProject
