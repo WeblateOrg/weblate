@@ -38,7 +38,7 @@ def validate_re(value):
 
 def validate_bitmap(value):
     """Validates bitmap, based on django.forms.fields.ImageField"""
-    if value is None:
+    if value is None or not hasattr(value.file, 'content_type'):
         return
 
     # Check image type

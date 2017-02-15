@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
@@ -63,6 +64,20 @@
 </div>
 </div>
 
+{% if user_can_change_screenshot %}
+<form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Edit screenshot" %}</h4></div>
+  <div class="panel-body">
+  {{ edit_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" style="btn btb-success" value="{% trans "Save" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
 
 {% if user_can_delete_screenshot %}
 <div class="panel panel-danger">

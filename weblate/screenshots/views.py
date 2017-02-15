@@ -94,11 +94,32 @@ class ScreenshotList(ListView):
 
 class ScreenshotDetail(DetailView):
     model = Screenshot
+    _edit_form = None
 
     def get_object(self):
         obj = super(ScreenshotDetail, self).get_object()
         obj.component.check_acl(self.request)
         return obj
+
+    def get_context_data(self, **kwargs):
+        result = super(ScreenshotDetail, self).get_context_data(**kwargs)
+        component = result['object'].component
+        if can_change_screenshot(self.request.user, component.project):
+            if self._edit_form is not None:
+                result['edit_form'] = self._edit_form
+            else:
+                result['edit_form'] = ScreenshotForm(instance=result['object'])
+        return result
+
+    def post(self, request, **kwargs):
+        obj = self.get_object()
+        if can_change_screenshot(request.user, obj.component.project):
+            self._edit_form = ScreenshotForm(request.POST, request.FILES, instance=obj)
+            if self._edit_form.is_valid():
+                self._edit_form.save()
+            else:
+                return self.get(request, **kwargs)
+        return redirect(obj)
 
 
 @require_POST
