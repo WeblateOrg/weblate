@@ -38,7 +38,10 @@
 </td>
 <td>
 {% if user_can_delete_screenshot %}
+<form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="POST">
+{% csrf_token %}
 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</form>
 {% endif %}
 </td>
 </tr>

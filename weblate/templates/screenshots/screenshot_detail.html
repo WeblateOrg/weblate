@@ -56,4 +56,21 @@
 </div>
 </div>
 
+
+{% if user_can_delete_screenshot %}
+<div class="panel panel-danger">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Delete screenshot" %}</h4></div>
+  <div class="panel-body">
+
+<p class="helptext">{% trans "Deleting screenshot will remove it from all associated source strings." %}</p>
+
+<form action="{% url 'screenshot-delete' pk=object.pk %}" method="POST">
+{% csrf_token %}
+<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</form>
+
+</div>
+</div>
+{% endif %}
+
 {% endblock %}

@@ -483,6 +483,11 @@ urlpatterns = [
         weblate.screenshots.views.ScreenshotDetail.as_view(),
         name='screenshot',
     ),
+    url(
+        r'^screenshot/(?P<pk>[0-9]+)/delete/$',
+        weblate.screenshots.views.delete_screenshot,
+        name='screenshot-delete',
+    ),
 
     # Languages browsing
     url(
