@@ -22,7 +22,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.fields import ScreenshotField
+from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import PRIORITY_CHOICES
 

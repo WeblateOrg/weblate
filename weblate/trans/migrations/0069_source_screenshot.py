@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import weblate.trans.fields
+import weblate.screenshots.fields
 
 
 class Migration(migrations.Migration):
@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='source',
             name='screenshot',
-            field=weblate.trans.fields.ScreenshotField(blank=True, help_text='Upload JPEG or PNG images up to 2000x2000 pixels.', upload_to='screenshots/', verbose_name='Screenshot showing usage of this string'),
+            field=weblate.screenshots.fields.ScreenshotField(blank=True, help_text='Upload JPEG or PNG images up to 2000x2000 pixels.', upload_to='screenshots/', verbose_name='Screenshot showing usage of this string'),
         ),
     ]
