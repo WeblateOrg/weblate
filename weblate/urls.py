@@ -33,6 +33,7 @@ from weblate.trans.feeds import (
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
 import weblate.lang.views
+import weblate.screenshots.views
 import weblate.trans.admin_views
 import weblate.trans.views.acl
 import weblate.trans.views.api
@@ -469,6 +470,13 @@ urlpatterns = [
         r'^unlock/' + TRANSLATION + '$',
         weblate.trans.views.lock.unlock_translation,
         name='unlock_translation',
+    ),
+
+    # Screenshots
+    url(
+        r'^screenshots/' + SUBPROJECT + '$',
+        weblate.screenshots.views.ScreenshotList.as_view(),
+        name='screenshots',
     ),
 
     # Languages browsing
