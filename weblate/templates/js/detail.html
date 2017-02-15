@@ -77,11 +77,11 @@
 </tr>
 <tr>
 <td>
-{% if source.screenshot %}
-<a href="{{ source.screenshot.url }}" class="thumbnail"><img class="img-responsive" src="{{ source.screenshot.url }}" /></a>
-{% else %}
+{% for screenshot in source.screenshots.all %}
+{% include "screenshots/screenshot_show.html" %}
+{% empty %}
 {% trans "No screenshot currently associated!" %}
-{% endif %}
+{% endfor %}
 </td>
 </tr>
 {% if user_can_upload_screenshot %}

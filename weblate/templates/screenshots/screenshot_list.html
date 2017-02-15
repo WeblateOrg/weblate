@@ -19,7 +19,9 @@
 {% for screenshot in object_list %}
 <tr>
 <th><a href="{{ screenshot.name }}">{{ screenshot.name }}</a></th>
-<td><a href="{{ screenshot.image.url }}" class="thumbnail" alt="{{ screenshot.name }}" title="{{ screenshot.name }}"><img class="img-responsive" src="{{ screenshot.image.url }}" /></a></td>
+<td>
+{% include "screenshots/screenshot_show.html" %}
+</td>
 </tr>
 {% endfor %}
 </tbody>
