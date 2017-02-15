@@ -288,9 +288,9 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'weblate.trans',
     'weblate.lang',
+    'weblate.screenshots',
     'weblate.accounts',
     'weblate.utils',
-    'weblate.screenshots',
 
     # Optional: Git exporter
     # 'weblate.gitexport',
