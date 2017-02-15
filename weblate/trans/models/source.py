@@ -23,7 +23,6 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import PRIORITY_CHOICES
 
@@ -42,18 +41,11 @@ class Source(models.Model):
         validators=[validate_check_flags],
         blank=True,
     )
-    screenshot = ScreenshotField(
-        verbose_name=_('Screenshot showing usage of this string'),
-        help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
-        upload_to='screenshots/',
-        blank=True,
-    )
 
     class Meta(object):
         permissions = (
             ('edit_priority', "Can edit priority"),
             ('edit_flags', "Can edit check flags"),
-            ('upload_screenshot', 'Can upload screenshot'),
         )
         app_label = 'trans'
         unique_together = ('id_hash', 'subproject')
