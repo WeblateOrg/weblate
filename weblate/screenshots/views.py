@@ -27,6 +27,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
+from weblate.trans.models import Source
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.permissions import can_delete_screenshot, can_add_screenshot
 from weblate.utils import messages
@@ -69,6 +70,13 @@ class ScreenshotList(ListView):
                 component=component,
                 **self._add_form.cleaned_data
             )
+            if 'source' in request.POST and request.POST['source'].isdigit():
+                try:
+                    source = Source.objects.get(pk=request.POST['source'])
+                    if source.subproject == component:
+                        obj.sources.add(source)
+                except Source.DoesNotExist:
+                    pass
             messages.success(
                 request,
                 _('Uploaded screenshot, you can now assign it to source strings.')

@@ -87,9 +87,9 @@
 {% if user_can_add_screenshot %}
 <tr>
 <td>
-<form method="POST" action="{% url 'upload_screenshot' pk=source.pk %}" enctype="multipart/form-data">
+<form action="{% url 'screenshots' project=source.subproject.project.slug subproject=source.subproject.slug %}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
-<input type="hidden" name="next" value="{{ next }}" />
+<input type="hidden" name="source" value="{{ source.pk }}" />
 {{ screenshot_form|crispy }}
 <input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
 </form>
