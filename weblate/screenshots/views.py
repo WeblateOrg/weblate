@@ -23,7 +23,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
