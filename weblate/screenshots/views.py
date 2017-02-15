@@ -25,28 +25,61 @@ from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, get_object_or_404, redirect
 
+from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
 from weblate.trans.views.helper import get_subproject
-from weblate.trans.permissions import can_delete_screenshot
+from weblate.trans.permissions import can_delete_screenshot, can_add_screenshot
 from weblate.utils import messages
 
 
 class ScreenshotList(ListView):
     paginate_by = 25
     model = Screenshot
+    _add_form = None
+
+    def get_component(self, kwargs):
+        return get_subproject(
+            self.request,
+            kwargs['project'],
+            kwargs['subproject']
+        )
 
     def get_queryset(self):
-        self.kwargs['component'] = get_subproject(
-            self.request,
-            self.kwargs['project'],
-            self.kwargs['subproject']
-        )
+        self.kwargs['component'] = self.get_component(self.kwargs)
         return Screenshot.objects.filter(component=self.kwargs['component'])
 
     def get_context_data(self):
         result = super(ScreenshotList, self).get_context_data()
-        result['object'] = self.kwargs['component']
+        component = self.kwargs['component']
+        result['object'] = component
+        if can_add_screenshot(self.request.user, component.project):
+            if self._add_form is not None:
+                result['add_form'] = self._add_form
+            else:
+                result['add_form'] = ScreenshotForm()
         return result
+
+    def post(self, request, **kwargs):
+        component = self.get_component(kwargs)
+        if not can_add_screenshot(request.user, component.project):
+            raise PermissionDenied()
+        self._add_form = ScreenshotForm(request.POST, request.FILES)
+        if self._add_form.is_valid():
+            obj = Screenshot.objects.create(
+                component=component,
+                **self._add_form.cleaned_data
+            )
+            messages.success(
+                request,
+                _('Uploaded screenshot, you can now assign it to source strings.')
+            )
+            return redirect(obj)
+        else:
+            messages.error(
+                request,
+                _('Failed to upload screenshot, please fix errors below.')
+            )
+            return self.get(request, **kwargs)
 
 
 class ScreenshotDetail(DetailView):
@@ -73,6 +106,6 @@ def delete_screenshot(request, pk):
 
     obj.delete()
 
-    messages.info(request, _('Screenshot %s has been deleted.') % obj.name)
+    messages.success(request, _('Screenshot %s has been deleted.') % obj.name)
 
     return redirect('screenshots', **kwargs)

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load permissions %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -12,7 +13,6 @@
 
 {% can_delete_screenshot user object.project as user_can_delete_screenshot %}
 {% can_change_screenshot user object.project as user_can_change_screenshot %}
-{% can_add_screenshot user object.project as user_can_add_screenshot %}
 
 <table class="sort table">
 <thead>
@@ -51,7 +51,18 @@
 
 {% include "paginator.html" %}
 
-{% if user_can_add_screenshot %}
+{% if add_form %}
+<form action="" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
+  <div class="panel-body">
+  {{ add_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" style="btn btb-default" value="{% trans "Upload" %}" />
+  </div>
+</form>
 {% endif %}
 
 {% endblock %}
