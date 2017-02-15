@@ -1084,6 +1084,7 @@ $(function () {
     });
     $document.on('click', '.thumbnail', function() {
         $('#imagepreview').attr('src', $(this).attr('href'));
+        $('#myModalLabel').text($(this).attr('title'));
         $('#imagemodal').modal('show');
         return false;
     });
