@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -8,6 +9,10 @@
 {% endblock %}
 
 {% block content %}
+
+{% can_delete_screenshot user object.project as user_can_delete_screenshot %}
+{% can_change_screenshot user object.project as user_can_change_screenshot %}
+{% can_add_screenshot user object.project as user_can_add_screenshot %}
 
 <table class="sort table">
 <thead>
@@ -25,10 +30,14 @@
 </td>
 <td>{{ screenshot.sources.count }}</td>
 <td>
+{% if user_can_change_screenshot %}
 <a href="{{ screenshots.get_absolute_url }}" class="btn btn-info"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+{% endif %}
 </td>
 <td>
+{% if user_can_delete_screenshot %}
 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+{% endif %}
 </td>
 </tr>
 {% endfor %}
@@ -36,6 +45,9 @@
 </table>
 
 {% include "paginator.html" %}
+
+{% if user_can_add_screenshot %}
+{% endif %}
 
 {% endblock %}
 

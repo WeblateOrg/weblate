@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
@@ -10,6 +11,9 @@
 {% endblock %}
 
 {% block content %}
+
+{% can_delete_screenshot user object.component.project as user_can_delete_screenshot %}
+{% can_change_screenshot user object.component.project as user_can_change_screenshot %}
 
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Source strings" %}</h4></div>
@@ -29,7 +33,9 @@
 <td class="translatetext">{% format_translation unit.source unit.translation.subproject.project.source_language %}</td>
 {% endwith %}
 <td>
+{% if user_can_change_screenshot %}
 <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+{% endif %}
 </td>
 </tr>
 {% endfor %}
