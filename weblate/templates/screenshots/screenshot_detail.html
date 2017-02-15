@@ -7,7 +7,7 @@
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
 <li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
 <li><a href="{% url 'screenshots' project=object.component.project.slug subproject=object.component.slug %}">{% trans "Screenshots" %}</a></li>
-<li><a href="{{ object.get_absolute_url }}">{% trans "Edit" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
 {% endblock %}
 
 {% block content %}
