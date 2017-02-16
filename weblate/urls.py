@@ -498,6 +498,11 @@ urlpatterns = [
         weblate.screenshots.views.ocr_search,
         name='screenshot-js-ocr',
     ),
+    url(
+        r'^js/screenshot/(?P<pk>[0-9]+)/add/$',
+        weblate.screenshots.views.add_source,
+        name='screenshot-js-add',
+    ),
 
     # Languages browsing
     url(

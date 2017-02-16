@@ -154,11 +154,32 @@ function screenshotLoaded(data) {
     } else {
         $('#search-results').empty();
         $.each(data.results, function (idx, value) {
-            var row = $('<tr><td class="text"></td><td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' + gettext('Add to screenshot') + '</a></tr>');
+            var row = $('<tr><td class="text"></td><td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' + gettext('Add to screenshot') + '</a><i class="fa fa-spinner fa-spin"></i></tr>');
             row.find('.text').text(value.text);
             row.find('.add-string').data('pk', value.pk);
+            row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
             $('#search-results').append(row);
             console.log(value);
+        });
+        $('#search-results').find('.add-string').click(function () {
+            var pk = $(this).data('pk');
+            var loading_id = '#adding-' + pk;
+            $('#add-source').val(pk);
+            increaseLoading(loading_id);
+            var form = $('#screenshot-add-form');
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                success: function () {
+                    decreaseLoading(loading_id);
+                    $(loading_id).parents('tr').fadeOut();
+                },
+                error: function () {
+                    decreaseLoading(loading_id);
+                }
+            });
         });
     }
 }

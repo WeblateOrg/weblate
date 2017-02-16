@@ -36,6 +36,21 @@ from weblate.trans.permissions import (
 from weblate.utils import messages
 
 
+def try_add_source(request, obj):
+    if 'source' not in request.POST or not request.POST['source'].isdigit():
+        return False
+
+    try:
+        source = Source.objects.get(
+            pk=request.POST['source'],
+            subproject=obj.component
+        )
+        obj.sources.add(source)
+        return True
+    except Source.DoesNotExist:
+        return False
+
+
 class ScreenshotList(ListView):
     paginate_by = 25
     model = Screenshot
@@ -73,13 +88,7 @@ class ScreenshotList(ListView):
                 component=component,
                 **self._add_form.cleaned_data
             )
-            if 'source' in request.POST and request.POST['source'].isdigit():
-                try:
-                    source = Source.objects.get(pk=request.POST['source'])
-                    if source.subproject == component:
-                        obj.sources.add(source)
-                except Source.DoesNotExist:
-                    pass
+            try_add_source(request, obj)
             messages.success(
                 request,
                 _(
@@ -204,4 +213,14 @@ def ocr_search(request, pk):
 
     return JsonResponse(
         data=[]
+    )
+
+
+@login_required
+@require_POST
+def add_source(request, pk):
+    obj = get_screenshot(request, pk)
+    result = try_add_source(request, obj)
+    return JsonResponse(
+        data={'responseCode': 200, 'status': result}
     )

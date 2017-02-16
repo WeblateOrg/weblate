@@ -60,6 +60,10 @@
 {% endwith %}
 
 {% if user_can_change_screenshot %}
+<form id="screenshot-add-form" action="{% url 'screenshot-js-add' pk=object.pk %}">
+{% csrf_token %}
+<input type="hidden" name="source" id="add-source" />
+</form>
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Assign source strings" %}</h4></div>
   <div class="search-results">
