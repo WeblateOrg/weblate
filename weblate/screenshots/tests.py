@@ -130,7 +130,7 @@ class ViewTest(ViewTestCase):
         self.assertEqual(screenshot.sources.count(), 1)
 
         # Remove added string
-        response = self.client.post(
+        self.client.post(
             reverse('screenshot-delete', kwargs={'pk': screenshot.pk}),
             {'source': source_pk},
         )
