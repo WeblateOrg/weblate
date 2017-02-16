@@ -4,31 +4,33 @@ set -e
 set -x
 
 # Install tesseract
-# TODO: Use cached version if exists
-find $TESSERACT_INSTALL
-rm -rf $TESSERACT_INSTALL
+if [ -f $TESSERACT_PKG/tesseract.pc -a -f $TESSERACT_PKG/lept.pc ] ; then
+    echo "Using cached tesseract"
+else
+    rm -rf $TESSERACT_INSTALL
 
-TMPDIR=`mktemp -d`
-cd $TMPDIR
+    TMPDIR=`mktemp -d`
+    cd $TMPDIR
 
-wget http://www.leptonica.org/source/leptonica-1.74.1.tar.gz
-tar xzf leptonica-1.74.1.tar.gz
-cd leptonica-1.74.1
-./configure --prefix=$TESSERACT_INSTALL
-make install
-cd ..
+    wget http://www.leptonica.org/source/leptonica-1.74.1.tar.gz
+    tar xzf leptonica-1.74.1.tar.gz
+    cd leptonica-1.74.1
+    ./configure --prefix=$TESSERACT_INSTALL
+    make install
+    cd ..
 
-export LIBLEPT_HEADERSDIR="$TESSERACT_INSTALL/include"
-export LDFLAGS="-L$TESSERACT_INSTALL/lib"
-export CFLAGS="-I$TESSERACT_INSTALL/include"
+    export LIBLEPT_HEADERSDIR="$TESSERACT_INSTALL/include"
+    export LDFLAGS="-L$TESSERACT_INSTALL/lib"
+    export CFLAGS="-I$TESSERACT_INSTALL/include"
 
-wget https://github.com/tesseract-ocr/tesseract/archive/3.04.01.tar.gz
-tar xzf 3.04.01.tar.gz
-cd tesseract-3.04.01
-./configure --prefix=$TESSERACT_INSTALL
-make install
+    wget https://github.com/tesseract-ocr/tesseract/archive/3.04.01.tar.gz
+    tar xzf 3.04.01.tar.gz
+    cd tesseract-3.04.01
+    ./configure --prefix=$TESSERACT_INSTALL
+    make install
 
-cd
+    cd
+fi
 
 find $TESSERACT_INSTALL
 

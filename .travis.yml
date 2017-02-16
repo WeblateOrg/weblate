@@ -27,9 +27,10 @@ env:
 # commands to install dependencies
 install:
   - export TESSERACT_INSTALL=~/tesseract
+  - export TESSERACT_PKG=$TESSERACT_INSTALL/lib/pkgconfig
   - mkdir -p $TESSERACT_INSTALL
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
-  - export PKG_CONFIG_PATH=$TESSERACT_INSTALL/lib/pkgconfig:$PKG_CONFIG_PATH
+  - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
   - ./ci/install
 # create databases
 before_script:
