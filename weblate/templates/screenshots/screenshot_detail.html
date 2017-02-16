@@ -16,19 +16,21 @@
 {% can_delete_screenshot user object.component.project as user_can_delete_screenshot %}
 {% can_change_screenshot user object.component.project as user_can_change_screenshot %}
 
+{% with object.sources.all as sources %}
+
+{% if sources %}
 <div class="panel panel-primary">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Source strings" %}</h4></div>
-  <div class="panel-body">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
 
-<p class="helptext">{% trans "Select strings where the screenshot is shown to provide visual context to translators." %}</p>
-
-<table class="sort table table-striped">
+<table class="table table-striped">
 <thead>
 <tr>
 <th>{% trans "Source string" %}</th>
+<th colspan="2">{% trans "Actions" %}</th>
 </tr>
+</thead>
 <tbody>
-{% for source in object.sources.all %}
+{% for source in sources %}
 <tr>
 {% with source.unit as unit %}
 <td class="translatetext">{% format_translation unit.source unit.translation.subproject.project.source_language %}</td>
@@ -49,9 +51,41 @@
 {% endfor %}
 </tbody>
 </table>
+  <div class="panel-footer">
+    {% trans "Screenshot is shown to add visual context for all listed source strings." %}
+  </div>
 
 </div>
+{% endif %}
+{% endwith %}
+
+{% if user_can_change_screenshot %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Assign source strings" %}</h4></div>
+  <div class="search-results">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+    <th>{% trans "Source string" %}</th>
+    <th>{% trans "Actions" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="2">{% trans "Please search below to find matching source strings." %}</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="panel-footer">
+    <div class="pull-right flip">
+      <button class="btn btn-success"><i class="fa fa-cogs"></i> {% trans "Automatically recognize" %}</button>
+    </div>
+    <form class="form-inline">
+      <input type="text" required="yes" id="search" placeholder="{% trans "Source string search" %}" />
+      <button class="btn btn-success"><i class="fa fa-search"></i> {% trans "Search" %}</button>
+    </form>
+  </div>
 </div>
+{% endif %}
 
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
