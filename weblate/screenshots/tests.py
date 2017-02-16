@@ -52,31 +52,20 @@ class ViewTest(ViewTestCase):
         self.make_manager()
         response = self.do_upload()
         self.assertContains(response, 'Obrazek')
-        self.assertEqual(
-            Screenshot.objects.count(), 1
-        )
+        self.assertEqual(Screenshot.objects.count(), 1)
 
     def test_upload_fail(self):
         self.make_manager()
         response = self.do_upload(name='')
-        self.assertContains(
-            response,
-            'Failed to upload screenshot'
-        )
+        self.assertContains(response, 'Failed to upload screenshot')
         response = self.do_upload(image='')
-        self.assertContains(
-            response,
-            'Failed to upload screenshot'
-        )
+        self.assertContains(response, 'Failed to upload screenshot')
 
     def test_upload_source(self):
         self.make_manager()
         source = self.subproject.source_set.all()[0]
         response = self.do_upload(source=source.pk)
-        self.assertContains(
-            response,
-            'Obrazek'
-        )
+        self.assertContains(response, 'Obrazek')
         self.assertEqual(Screenshot.objects.count(), 1)
         screenshot = Screenshot.objects.all()[0]
         self.assertEqual(screenshot.name, 'Obrazek')
@@ -85,10 +74,7 @@ class ViewTest(ViewTestCase):
     def test_upload_source_invalid(self):
         self.make_manager()
         response = self.do_upload(source='wrong')
-        self.assertContains(
-            response,
-            'Obrazek'
-        )
+        self.assertContains(response, 'Obrazek')
 
     def test_edit(self):
         self.make_manager()
@@ -100,9 +86,7 @@ class ViewTest(ViewTestCase):
             follow=True
         )
         self.assertContains(response, 'Picture')
-        self.assertEqual(
-            Screenshot.objects.all()[0].name, 'Picture'
-        )
+        self.assertEqual(Screenshot.objects.all()[0].name, 'Picture')
 
     def test_source_manipulations(self):
         self.make_manager()
