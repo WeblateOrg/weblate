@@ -33,11 +33,13 @@ class ViewTest(ViewTestCase):
         )
         self.assertContains(response, 'Screenshots')
 
-    def do_upload(self):
+    def do_upload(self, **kwargs):
         with open(TEST_SCREENSHOT, 'rb') as handle:
+            data = {'image': handle, 'name': 'Obrazek'}
+            data.update(kwargs)
             return self.client.post(
                 reverse('screenshots', kwargs=self.kw_subproject),
-                {'image': handle, 'name': 'Obrazek'},
+                data,
                 follow=True
             )
 
@@ -51,6 +53,40 @@ class ViewTest(ViewTestCase):
         self.assertContains(response, 'Obrazek')
         self.assertEqual(
             Screenshot.objects.count(), 1
+        )
+
+    def test_upload_fail(self):
+        self.make_manager()
+        response = self.do_upload(name='')
+        self.assertContains(
+            response,
+            'Failed to upload screenshot'
+        )
+        response = self.do_upload(image='')
+        self.assertContains(
+            response,
+            'Failed to upload screenshot'
+        )
+
+    def test_upload_source(self):
+        self.make_manager()
+        source = self.subproject.source_set.all()[0]
+        response = self.do_upload(source=source.pk)
+        self.assertContains(
+            response,
+            'Obrazek'
+        )
+        self.assertEqual(Screenshot.objects.count(), 1)
+        screenshot = Screenshot.objects.all()[0]
+        self.assertEqual(screenshot.name, 'Obrazek')
+        self.assertEqual(screenshot.sources.count(), 1)
+
+    def test_upload_source_invalid(self):
+        self.make_manager()
+        response = self.do_upload(source='wrong')
+        self.assertContains(
+            response,
+            'Obrazek'
         )
 
     def test_edit(self):
