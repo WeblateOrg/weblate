@@ -29,6 +29,8 @@ install:
   - ./ci/install
 # create databases
 before_script:
+  - export LD_LIBRARY_PATH=~/tesseract/lib:$LD_LIBRARY_PATH
+  - export PKG_CONFIG_PATH=~/tesseract/lib/pkgconfig:$PKG_CONFIG_PATH
   - ./ci/setup-env
   - ./manage.py list_versions
 # commands to run tests
@@ -56,8 +58,8 @@ addons:
     - git-svn
     - graphviz
     - tesseract-ocr
-    - libtesseract-dev
-    - libleptonica-dev
 cache:
-  - pip
-  - ccache
+  pip: true
+  ccache: true
+  directories:
+    - tesseract
