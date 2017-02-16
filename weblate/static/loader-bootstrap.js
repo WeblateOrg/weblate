@@ -147,7 +147,7 @@ function screenshotAddString() {
     increaseLoading(loading_id);
     var form = $('#screenshot-add-form');
     $.ajax({
-        type: "POST",
+        type: 'POST',
         url: form.attr('action'),
         data: form.serialize(),
         dataType: 'json',
@@ -1157,7 +1157,7 @@ $(function () {
         screenshotStart();
         var $this = $(this);
         $.ajax({
-            type: "POST",
+            type: 'POST',
             url: $this.data('href'),
             data: $this.parent().serialize(),
             dataType: 'json',
