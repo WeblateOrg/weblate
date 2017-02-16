@@ -18,6 +18,10 @@ cd leptonica-1.74.1
 make install
 cd ..
 
+export LIBLEPT_HEADERSDIR="$TESSERACT_INSTALL/lib"
+export LDFLAGS="-L$TESSERACT_INSTALL/lib"
+export CFLAGS="-I$TESSERACT_INSTALL/include"
+
 env
 pkg-config --debug lept
 
