@@ -175,6 +175,10 @@ function screenshotLoaded(data) {
                 success: function () {
                     decreaseLoading(loading_id);
                     $(loading_id).parents('tr').fadeOut();
+                    var list = $('#sources-listing');
+                    $.get(list.data('href'), function (data) {
+                        list.html(data);
+                    });
                 },
                 error: function () {
                     decreaseLoading(loading_id);

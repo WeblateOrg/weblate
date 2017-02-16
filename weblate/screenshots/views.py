@@ -24,7 +24,7 @@ from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
@@ -225,4 +225,13 @@ def add_source(request, pk):
     result = try_add_source(request, obj)
     return JsonResponse(
         data={'responseCode': 200, 'status': result}
+    )
+
+
+@login_required
+def get_sources(request, pk):
+    obj = get_screenshot(request, pk)
+    return render(
+        request, 'screenshots/screenshot_sources_body.html',
+        {'sources': obj.sources.all(), 'object': obj}
     )

@@ -129,6 +129,12 @@ class ViewTest(ViewTestCase):
         self.assertEqual(data['status'], True)
         self.assertEqual(screenshot.sources.count(), 1)
 
+        # Updated listing
+        response = self.client.get(
+            reverse('screenshot-js-get', kwargs={'pk': screenshot.pk}),
+        )
+        self.assertContains(response, 'Hello')
+
         # Remove added string
         self.client.post(
             reverse('screenshot-delete', kwargs={'pk': screenshot.pk}),

@@ -489,6 +489,11 @@ urlpatterns = [
         name='screenshot-remove-source',
     ),
     url(
+        r'^js/screenshot/(?P<pk>[0-9]+)/get/$',
+        weblate.screenshots.views.get_sources,
+        name='screenshot-js-get',
+    ),
+    url(
         r'^js/screenshot/(?P<pk>[0-9]+)/search/$',
         weblate.screenshots.views.search_source,
         name='screenshot-js-search',
