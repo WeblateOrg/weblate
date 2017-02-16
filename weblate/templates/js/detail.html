@@ -6,6 +6,7 @@
 {% can_edit_flags user project as user_can_edit_flags %}
 {% can_edit_priority user project as user_can_edit_priority %}
 {% can_add_screenshot user project as user_can_add_screenshot %}
+{% can_change_screenshot user project as user_can_change_screenshot %}
 
 <div class="row">
 <div class="col-lg-6">
@@ -82,6 +83,9 @@
 {% empty %}
 {% trans "No screenshot currently associated!" %}
 {% endfor %}
+{% if user_can_change_screenshot %}
+<a href="{% url 'screenshots' project=source.subproject.project.slug subproject=source.subproject.slug %}" class="btn btn-default"><i class="fa fa-picture-o"></i> {% trans "Manage screenshots" %}</a>
+{% endif %}
 </td>
 </tr>
 {% if user_can_add_screenshot %}
@@ -89,9 +93,16 @@
 <td>
 <form action="{% url 'screenshots' project=source.subproject.project.slug subproject=source.subproject.slug %}" method="POST" enctype="multipart/form-data">
 {% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
+  <div class="panel-body">
 <input type="hidden" name="source" value="{{ source.pk }}" />
 {{ screenshot_form|crispy }}
-<input type="submit" value="{% trans "Save" %}" class="btn btn-default" />
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-success" value="{% trans "Upload" %}" />
+  </div>
+</div>
 </form>
 </td>
 </tr>
