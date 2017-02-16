@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-16 20:26+0000\n"
-"PO-Revision-Date: 2017-01-30 16:08+0000\n"
+"PO-Revision-Date: 2017-02-16 21:45+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
-"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
-"weblate/master/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<https://hosted.weblate.org/projects/weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -256,10 +256,8 @@ msgid "Hide source if there is secondary language"
 msgstr "Ocultar o fonte se houver idioma secundário"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Editar texto fonte"
+msgstr "Link do editor"
 
 #: weblate/accounts/models.py:584
 #, python-format
@@ -269,12 +267,14 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Digite a URL personalizada a ser usada como link para o código fonte. Você "
+"pode usar %(branch)s para os ramos, %(file)s e %(line)s como nome de arquivo "
+"e substituto de linha. Geralmente algo como "
+"editor://open/?file=%(file)s&line=%(line)s é uma boa opção."
 
 #: weblate/accounts/models.py:595
-#, fuzzy
-#| msgid "Special characters:"
 msgid "Special characters"
-msgstr "Caracteres especiais:"
+msgstr "Caracteres especiais"
 
 #: weblate/accounts/models.py:597
 msgid ""
@@ -282,6 +282,9 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Você pode especificar caracteres especiais adicionais para serem exibidos no "
+"teclado visual enquanto traduz. Pode ser útil para caracteres usados "
+"frequentemente mas difíceis de digitar em seu teclado."
 
 #: weblate/accounts/models.py:609 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -707,18 +710,14 @@ msgstr "{name} (por ex.: {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Contexto da captura de tela"
+msgstr "Nome da captura de tela"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:21
-#, fuzzy
-#| msgid "Image URL"
 msgid "Image"
-msgstr "URL da imagem"
+msgstr "Imagem"
 
 #: weblate/screenshots/models.py:39
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
@@ -727,22 +726,20 @@ msgstr "Envie imagens JPEG ou PNG de até 2000x2000 pixels."
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
+"A captura de tela foi enviada, você agora pode atribui-la a textos fontes."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "Falha ao enviar a captura de tela, corrija os erros abaixo."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "O comentário de tradução foi apagado."
+msgstr "A captura de tela %s foi apagada."
 
 #: weblate/screenshots/views.py:185
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Sua conta foi removida."
+msgstr "A fonte foi removida."
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:537
 msgid "Permission Denied"
@@ -2985,17 +2982,13 @@ msgid "No screenshot currently associated!"
 msgstr "Nenhuma captura de tela atualmente associada!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:53
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Gerenciar usuários"
+msgstr "Gerenciar capturas de tela"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Adicionar novo usuário"
+msgstr "Adicionar nova captura de tela"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3809,81 +3802,62 @@ msgstr "Número de palavras fonte"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Contexto da captura de tela"
+msgstr "Capturas de tela"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "textos fonte"
+msgstr "Textos fonte atribuídos"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
-msgstr "Textos fonte"
+msgstr "Texto fonte"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Ação"
+msgstr "Ações"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"A captura de tela é exibida para adicionar contexto visual para todos os "
+"textos fontes listados."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "textos fonte"
+msgstr "Atribuir textos fonte"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Carregando…"
+msgstr "Carregando resultados…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Pesquisar nos textos fonte"
+msgstr "Pesquise abaixo para encontrar os textos fonte correspondentes."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
-msgstr "Detecção automática"
+msgstr "Reconhecer automaticamente"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Textos fonte"
+msgstr "Pesquisa de textos fonte"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Editar texto fonte"
+msgstr "Editar captura de tela"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Apagar esta conta"
+msgstr "Apagar captura de tela"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Apagar a captura de tela irá removê-la de todos os textos fontes associados."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -3891,10 +3865,8 @@ msgid "Strings"
 msgstr "Textos"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "Nenhuma captura de tela atualmente associada!"
+msgstr "Nenhum texto fonte está atualmente associado!"
 
 #: weblate/templates/search.html:36
 msgid "No matching strings found!"
@@ -4302,10 +4274,8 @@ msgid "Accept and edit"
 msgstr "Aceitar e editar"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Utilizar esta tradução"
+msgstr "Esta tradução"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4316,10 +4286,8 @@ msgid "Use this translation"
 msgstr "Utilizar esta tradução"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Reverter para esta tradução"
+msgstr "Alteração comparado a esta tradução:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -6492,10 +6460,8 @@ msgid "Em dash"
 msgstr "Travessão"
 
 #: weblate/trans/specialchars.py:470
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "Inserir caractere {0}"
+msgstr "Caractere configurado pelo usuário: {}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
@@ -6713,17 +6679,12 @@ msgstr[0] "%(count)s hora a partir de agora"
 msgstr[1] "%(count)s horas a partir de agora"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "Necessita revisão"
 
 #: weblate/trans/templatetags/translations.py:543
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "traduzida"
+msgstr "Não traduzida"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
@@ -7022,10 +6983,8 @@ msgstr ""
 "tornar-se um tradutor já que suas sugestões poderiam não ser revisadas."
 
 #: weblate/trans/views/edit.py:217
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "Sua sugestão está vazia!"
+msgstr "Sua sugestão já existe!"
 
 #: weblate/trans/views/edit.py:248
 #, python-format
