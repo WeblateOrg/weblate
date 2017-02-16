@@ -102,3 +102,36 @@ class ViewTest(ViewTestCase):
         self.assertEqual(
             Screenshot.objects.all()[0].name, 'Picture'
         )
+
+    def test_source_manipulations(self):
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+
+        # Search for string
+        response = self.client.post(
+            reverse('screenshot-js-search', kwargs={'pk': screenshot.pk}),
+            {'q': 'hello'}
+        )
+        data = response.json()
+        self.assertEqual(data['responseCode'], 200)
+        self.assertEqual(len(data['results']), 1)
+
+        source_pk = data['results'][0]['pk']
+
+        # Add found string
+        response = self.client.post(
+            reverse('screenshot-js-add', kwargs={'pk': screenshot.pk}),
+            {'source': source_pk},
+        )
+        data = response.json()
+        self.assertEqual(data['responseCode'], 200)
+        self.assertEqual(data['status'], True)
+        self.assertEqual(screenshot.sources.count(), 1)
+
+        # Remove added string
+        response = self.client.post(
+            reverse('screenshot-delete', kwargs={'pk': screenshot.pk}),
+            {'source': source_pk},
+        )
+        self.assertEqual(screenshot.sources.count(), 0)
