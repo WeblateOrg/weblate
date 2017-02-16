@@ -59,6 +59,7 @@ Recommends:     python-psycopg2
 Recommends:     python-pyuca
 Recommends:     python-python-bidi
 Recommends:     python-python-memcached
+Recommends:     python-tesserocr
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 %py_requires
