@@ -26,7 +26,7 @@ env:
     - CI_MODE=test
 # commands to install dependencies
 install:
-  - export TESSERACT_INSTALL=~/tesseract
+  - export TESSERACT_INSTALL=`pwd`/.tesseract
   - export TESSERACT_PKG=$TESSERACT_INSTALL/lib/pkgconfig
   - mkdir -p $TESSERACT_INSTALL
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
@@ -66,4 +66,4 @@ cache:
   pip: true
   ccache: true
   directories:
-    - tesseract
+    - .tesseract
