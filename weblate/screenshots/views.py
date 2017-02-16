@@ -227,6 +227,20 @@ def search_source(request, pk):
     return search_results(200, obj, units)
 
 
+def ocr_extract(api, image, strings):
+    """Extract closes matches from an image"""
+    api.SetImage(image)
+    for item in api.GetComponentImages(RIL.TEXTLINE, True):
+        api.SetRectangle(
+            item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h']
+        )
+        ocr_result = api.GetUTF8Text()
+        parts = [ocr_result] + ocr_result.split('|') + ocr_result.split()
+        for part in parts:
+            for match in difflib.get_close_matches(part, strings):
+                yield match
+
+
 @login_required
 @require_POST
 def ocr_search(request, pk):
@@ -257,16 +271,8 @@ def ocr_search(request, pk):
     # Extract and match strings
     with PyTessBaseAPI() as api:
         for image in (original_image, scaled_image):
-            api.SetImage(image)
-            for item in api.GetComponentImages(RIL.TEXTLINE, True):
-                api.SetRectangle(
-                    item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h']
-                )
-                ocr_result = api.GetUTF8Text()
-                for match in ocr_result.split('|'):
-                    match = match.strip()
-                    for result in difflib.get_close_matches(match, strings):
-                        results.add(sources[result])
+            for match in ocr_extract(api, image, strings):
+                results.add(sources[match])
 
     return search_results(
         200,
