@@ -5,7 +5,9 @@ set -x
 
 # Install tesseract
 # TODO: Use cached version if exists
-find ~/tesseract
+if [ -d ~/tesseract ] ; then
+    find ~/tesseract
+fi
 rm -rf ~/tesseract
 
 TMPDIR=`mktemp -d`
