@@ -264,7 +264,11 @@ def ocr_search(request, pk):
                 for result in difflib.get_close_matches(match, strings):
                     results.add(sources[result])
 
-    return search_results(200, obj, translation.unit_set.filter(pk__in=results))
+    return search_results(
+        200,
+        obj,
+        translation.unit_set.filter(pk__in=results)
+    )
 
 
 @login_required
