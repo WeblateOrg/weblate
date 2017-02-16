@@ -107,3 +107,12 @@ it should be translated.
 Uploaded screenshot is shown in the translation context sidebar:
 
 .. image:: ../images/screenshot-context.png
+
+In addition to :ref:`source-review`, screenshots have separate management
+interface. You can find it under :guilabel:`Tools` menu. This allows you 
+to upload screenshots, assign them to source strings manually or using OCR.
+
+Once screenshot is uploaded, you will be presented following interface to
+manage it and assign to source strings:
+
+.. image:: ../images/screenshot-ocr.png
