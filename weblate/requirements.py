@@ -53,8 +53,6 @@ def get_version_module(module, name, url, optional=False):
 
 def get_optional_module(result, module, name, url, attr='__version__'):
     """Get metadata for optional dependency"""
-    name = 'pytz'
-    url = 'https://pypi.python.org/pypi/pytz/'
     mod = get_version_module(module, name, url, True)
     if mod is not None:
         result.append((
