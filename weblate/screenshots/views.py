@@ -20,6 +20,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
@@ -147,16 +148,60 @@ def delete_screenshot(request, pk):
     return redirect('screenshots', **kwargs)
 
 
-@require_POST
-@login_required
-def remove_source(request, pk):
+def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     obj.component.check_acl(request)
     if not can_change_screenshot(request.user, obj.component.project):
         raise PermissionDenied()
+    return obj
+
+
+@require_POST
+@login_required
+def remove_source(request, pk):
+    obj = get_screenshot(request, pk)
 
     obj.sources.remove(request.POST['source'])
 
     messages.success(request, _('Source has been removed.'))
 
     return redirect(obj)
+
+
+@login_required
+@require_POST
+def search_source(request, pk):
+    obj = get_screenshot(request, pk)
+    try:
+        translation = obj.component.translation_set.all()[0]
+    except IndexError:
+        return JsonResponse({'responseCode': 500, 'results': []})
+
+    units = translation.unit_set.search(
+        translation,
+        {
+            'search': 'substring',
+            'q': request.POST.get('q', ''),
+            'type': 'all',
+            'source': True,
+        }
+    )
+
+    results = [
+        {'text': unit.get_source_plurals()[0], 'pk': unit.source_info.pk}
+        for unit in units
+    ]
+
+    return JsonResponse(
+        data={'responseCode': 200, 'results': results}
+    )
+
+
+@login_required
+@require_POST
+def ocr_search(request, pk):
+    obj = get_screenshot(request, pk)
+
+    return JsonResponse(
+        data=[]
+    )

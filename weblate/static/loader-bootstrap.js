@@ -131,6 +131,38 @@ function loadActivityChart(element) {
     });
 }
 
+function screenshotStart() {
+    $('#search-results').empty();
+    increaseLoading('#screenshots-loading');
+}
+
+function screenshotFailure() {
+    screenshotLoaded({responseCode: 500});
+}
+
+function screenshotLoaded(data) {
+    decreaseLoading('#screenshots-loading');
+    console.log(data);
+    if (data.responseCode != 200) {
+        $('#search-results').html(
+            '<tr class="danger"><td colspan="2">' + gettext('Error loading search results!') + '</td></tr>'
+        );
+    } else if (data.results.length == 0) {
+        $('#search-results').html(
+            '<tr class="warning"><td colspan="2">' + gettext('No matching source strings found.') + '</td></tr>'
+        );
+    } else {
+        $('#search-results').empty();
+        $.each(data.results, function (idx, value) {
+            var row = $('<tr><td class="text"></td><td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' + gettext('Add to screenshot') + '</a></tr>');
+            row.find('.text').text(value.text);
+            row.find('.add-string').data('pk', value.pk);
+            $('#search-results').append(row);
+            console.log(value);
+        });
+    }
+}
+
 function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
@@ -1086,6 +1118,20 @@ $(function () {
         $('#imagepreview').attr('src', $(this).attr('href'));
         $('#myModalLabel').text($(this).attr('title'));
         $('#imagemodal').modal('show');
+        return false;
+    });
+    /* Screenshot management */
+    $('#screenshots-search,#screenshots-auto').click(function () {
+        screenshotStart();
+        var $this = $(this);
+        $.ajax({
+            type: "POST",
+            url: $this.data('href'),
+            data: $this.parent().serialize(),
+            dataType: 'json',
+            success: screenshotLoaded,
+            error: screenshotFailure,
+        });
         return false;
     });
 });

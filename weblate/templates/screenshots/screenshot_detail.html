@@ -70,18 +70,25 @@
     <th>{% trans "Actions" %}</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="screenshots-loading" style="display:none;">
+      <tr><td colspan="2"><i class="fa fa-spinner fa-spin"></i> {% trans "Loading results…" %}</td></tr>
+    </tbody>
+    <tbody id="search-results">
       <tr><td colspan="2">{% trans "Please search below to find matching source strings." %}</td></tr>
     </tbody>
   </table>
   </div>
   <div class="panel-footer">
     <div class="pull-right flip">
-      <button class="btn btn-success"><i class="fa fa-cogs"></i> {% trans "Automatically recognize" %}</button>
+    <form class="form-inline">
+      {% csrf_token %}
+      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-success" id="screenshots-auto"><i class="fa fa-cogs"></i> {% trans "Automatically recognize" %}</button>
+    </form>
     </div>
     <form class="form-inline">
-      <input type="text" required="yes" id="search" placeholder="{% trans "Source string search" %}" />
-      <button class="btn btn-success"><i class="fa fa-search"></i> {% trans "Search" %}</button>
+      {% csrf_token %}
+      <input type="text" required="yes" name="q" placeholder="{% trans "Source string search" %}" />
+      <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-success" id="screenshots-search"><i class="fa fa-search"></i> {% trans "Search" %}</button>
     </form>
   </div>
 </div>
