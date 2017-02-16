@@ -239,11 +239,14 @@ def ocr_search(request, pk):
         return search_results(500, obj)
 
     # Load image
-    image = Image.open(obj.image.path)
+    original_image = Image.open(obj.image.path)
     # Convert to greyscale
-    image = image.convert("L")
+    original_image = original_image.convert("L")
     # Resize image (tesseract works best around 300dpi)
-    image = image.resize((image.size[0] * 4, image.size[1] * 4), Image.BICUBIC)
+    scaled_image = original_image.copy().resize(
+        [size * 4 for size in original_image.size],
+        Image.BICUBIC
+    )
 
     # Find all our strings
     sources = dict(translation.unit_set.values_list('source', 'pk'))
@@ -253,16 +256,17 @@ def ocr_search(request, pk):
 
     # Extract and match strings
     with PyTessBaseAPI() as api:
-        api.SetImage(image)
-        for item in api.GetComponentImages(RIL.TEXTLINE, True):
-            api.SetRectangle(
-                item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h']
-            )
-            ocr_result = api.GetUTF8Text()
-            for match in ocr_result.split('|'):
-                match = match.strip()
-                for result in difflib.get_close_matches(match, strings):
-                    results.add(sources[result])
+        for image in (original_image, scaled_image):
+            api.SetImage(image)
+            for item in api.GetComponentImages(RIL.TEXTLINE, True):
+                api.SetRectangle(
+                    item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h']
+                )
+                ocr_result = api.GetUTF8Text()
+                for match in ocr_result.split('|'):
+                    match = match.strip()
+                    for result in difflib.get_close_matches(match, strings):
+                        results.add(sources[result])
 
     return search_results(
         200,
