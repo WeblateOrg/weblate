@@ -112,6 +112,17 @@ def get_optional_versions():
             None,
         ))
 
+    name = 'tesserocr'
+    url = 'https://github.com/sirfz/tesserocr'
+    mod = get_version_module('tesserocr', name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            mod.__version__,
+            None,
+        ))
+
     if HgRepository.is_supported():
         result.append((
             'Mercurial',
