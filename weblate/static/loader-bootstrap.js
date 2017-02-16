@@ -140,6 +140,31 @@ function screenshotFailure() {
     screenshotLoaded({responseCode: 500});
 }
 
+function screenshotAddString() {
+    var pk = $(this).data('pk');
+    var loading_id = '#adding-' + pk;
+    $('#add-source').val(pk);
+    increaseLoading(loading_id);
+    var form = $('#screenshot-add-form');
+    $.ajax({
+        type: "POST",
+        url: form.attr('action'),
+        data: form.serialize(),
+        dataType: 'json',
+        success: function () {
+            decreaseLoading(loading_id);
+            $(loading_id).parents('tr').fadeOut();
+            var list = $('#sources-listing');
+            $.get(list.data('href'), function (data) {
+                list.html(data);
+            });
+        },
+        error: function () {
+            decreaseLoading(loading_id);
+        }
+    });
+}
+
 function screenshotLoaded(data) {
     decreaseLoading('#screenshots-loading');
     console.log(data);
@@ -161,30 +186,7 @@ function screenshotLoaded(data) {
             $('#search-results').append(row);
             console.log(value);
         });
-        $('#search-results').find('.add-string').click(function () {
-            var pk = $(this).data('pk');
-            var loading_id = '#adding-' + pk;
-            $('#add-source').val(pk);
-            increaseLoading(loading_id);
-            var form = $('#screenshot-add-form');
-            $.ajax({
-                type: "POST",
-                url: form.attr('action'),
-                data: form.serialize(),
-                dataType: 'json',
-                success: function () {
-                    decreaseLoading(loading_id);
-                    $(loading_id).parents('tr').fadeOut();
-                    var list = $('#sources-listing');
-                    $.get(list.data('href'), function (data) {
-                        list.html(data);
-                    });
-                },
-                error: function () {
-                    decreaseLoading(loading_id);
-                }
-            });
-        });
+        $('#search-results').find('.add-string').click(screenshotAddString);
     }
 }
 
