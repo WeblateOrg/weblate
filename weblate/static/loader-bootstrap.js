@@ -143,11 +143,11 @@ function screenshotFailure() {
 function screenshotLoaded(data) {
     decreaseLoading('#screenshots-loading');
     console.log(data);
-    if (data.responseCode != 200) {
+    if (data.responseCode !== 200) {
         $('#search-results').html(
             '<tr class="danger"><td colspan="2">' + gettext('Error loading search results!') + '</td></tr>'
         );
-    } else if (data.results.length == 0) {
+    } else if (data.results.length === 0) {
         $('#search-results').html(
             '<tr class="warning"><td colspan="2">' + gettext('No matching source strings found.') + '</td></tr>'
         );
