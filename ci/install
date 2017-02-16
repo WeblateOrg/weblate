@@ -4,6 +4,7 @@ set -e
 set -x
 
 pip install $CI_PIP_DEPS
+pip install Cython
 pip install \
     -r requirements-optional.txt \
     -r ci/requirements-${CI_REQUIREMENTS}.txt \
