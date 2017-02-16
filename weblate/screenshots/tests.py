@@ -22,6 +22,7 @@ from django.core.urlresolvers import reverse
 from weblate.screenshots.models import Screenshot
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+import weblate.screenshots.views
 
 TEST_SCREENSHOT = get_test_file('screenshot.png')
 
@@ -141,3 +142,22 @@ class ViewTest(ViewTestCase):
             {'source': source_pk},
         )
         self.assertEqual(screenshot.sources.count(), 0)
+
+    def test_ocr(self):
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+
+        # Search for string
+        response = self.client.post(
+            reverse('screenshot-js-ocr', kwargs={'pk': screenshot.pk})
+        )
+        data = response.json()
+
+        if not weblate.screenshots.views.HAS_OCR:
+            self.assertEqual(data['responseCode'], 500)
+            return
+
+        self.assertEqual(data['responseCode'], 200)
+        # We should find at least one string
+        self.assertGreaterEqual(len(data['results']), 1)
