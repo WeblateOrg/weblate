@@ -87,7 +87,7 @@ git-review (optional for Gerrit support)
     https://pypi.python.org/pypi/git-review
 git-svn (>= 2.10.0) (optional for Subversion support)
     https://git-scm.com/docs/git-svn
-tesserocr (>= 2.1.0) (optional for screenshots OCR)
+tesserocr (>= 2.0.0) (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
 
 Requirements on Debian or Ubuntu
