@@ -149,7 +149,7 @@ function screenshotLoaded(data) {
         );
     } else if (data.results.length === 0) {
         $('#search-results').html(
-            '<tr class="warning"><td colspan="2">' + gettext('No matching source strings found.') + '</td></tr>'
+            '<tr class="warning"><td colspan="2">' + gettext('No new matching source strings found.') + '</td></tr>'
         );
     } else {
         $('#search-results').empty();

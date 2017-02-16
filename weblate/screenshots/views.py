@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import difflib
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
@@ -25,6 +27,14 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, redirect, render
+
+from PIL import Image
+
+try:
+    from tesserocr import PyTessBaseAPI, RIL
+    HAS_OCR = True
+except ImportError:
+    HAS_OCR = False
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
@@ -177,6 +187,24 @@ def remove_source(request, pk):
     return redirect(obj)
 
 
+def search_results(code, obj, units=None):
+    if units is None:
+        units = []
+    else:
+        units = units.exclude(
+            id_hash__in=obj.sources.values_list('id_hash', flat=True)
+        )
+
+    results = [
+        {'text': unit.get_source_plurals()[0], 'pk': unit.source_info.pk}
+        for unit in units
+    ]
+
+    return JsonResponse(
+        data={'responseCode': code, 'results': results}
+    )
+
+
 @login_required
 @require_POST
 def search_source(request, pk):
@@ -184,7 +212,7 @@ def search_source(request, pk):
     try:
         translation = obj.component.translation_set.all()[0]
     except IndexError:
-        return JsonResponse({'responseCode': 500, 'results': []})
+        return search_results(500, obj)
 
     units = translation.unit_set.search(
         translation,
@@ -194,28 +222,49 @@ def search_source(request, pk):
             'type': 'all',
             'source': True,
         }
-    ).exclude(
-        id_hash__in=obj.sources.values_list('id_hash', flat=True)
     )
 
-    results = [
-        {'text': unit.get_source_plurals()[0], 'pk': unit.source_info.pk}
-        for unit in units
-    ]
-
-    return JsonResponse(
-        data={'responseCode': 200, 'results': results}
-    )
+    return search_results(200, obj, units)
 
 
 @login_required
 @require_POST
 def ocr_search(request, pk):
     obj = get_screenshot(request, pk)
+    if not HAS_OCR:
+        return search_results(500, obj)
+    try:
+        translation = obj.component.translation_set.all()[0]
+    except IndexError:
+        return search_results(500, obj)
 
-    return JsonResponse(
-        data=[]
-    )
+    # Load image
+    image = Image.open(obj.image.path)
+    # Convert to greyscale
+    image = image.convert("L")
+    # Resize image (tesseract works best around 300dpi)
+    width, height = image.size
+    image = image.resize((width * 4, height * 4), Image.BICUBIC)
+
+    # Find all our strings
+    sources = dict(translation.unit_set.values_list('source', 'pk'))
+    strings = tuple(sources.keys())
+
+    results = set()
+
+    # Extract and match strings
+    with PyTessBaseAPI() as api:
+        api.SetImage(image)
+        boxes = api.GetComponentImages(RIL.TEXTLINE, True)
+        for i, (_, box, _, _) in enumerate(boxes):
+            api.SetRectangle(box['x'], box['y'], box['w'], box['h'])
+            ocr_result = api.GetUTF8Text()
+            for match in ocr_result.split('|'):
+                match = match.strip()
+                for result in difflib.get_close_matches(match, strings):
+                    results.add(sources[result])
+
+    return search_results(200, obj, translation.unit_set.filter(pk__in=results))
 
 
 @login_required

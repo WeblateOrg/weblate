@@ -22,5 +22,9 @@
 </td>
 {% endwith %}
 </tr>
+{% empty %}
+<tr class="warning">
+<td colspan="2">{% trans "No source strings are currently assigned!" %}</td>
+</tr>
 {% endfor %}
 
