@@ -165,33 +165,39 @@ function screenshotAddString() {
     });
 }
 
+function screnshotResultError(severity, message) {
+    $('#search-results').html(
+        '<tr class="' + severity + '"><td colspan="2">' + message + '</td></tr>'
+    );
+}
+
+function screenshotResultSet(results) {
+    $('#search-results').empty();
+    $.each(results, function (idx, value) {
+        var row = $(
+            '<tr><td class="text"></td>' +
+            '<td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' +
+            gettext('Add to screenshot') +
+            '</a><i class="fa fa-spinner fa-spin"></i></tr>'
+        );
+        row.find('.text').text(value.text);
+        row.find('.add-string').data('pk', value.pk);
+        row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
+        $('#search-results').append(row);
+        console.log(value);
+    });
+    $('#search-results').find('.add-string').click(screenshotAddString);
+}
+
 function screenshotLoaded(data) {
     decreaseLoading('#screenshots-loading');
     console.log(data);
     if (data.responseCode !== 200) {
-        $('#search-results').html(
-            '<tr class="danger"><td colspan="2">' + gettext('Error loading search results!') + '</td></tr>'
-        );
+        screnshotResultError('danger', gettext('Error loading search results!'));
     } else if (data.results.length === 0) {
-        $('#search-results').html(
-            '<tr class="warning"><td colspan="2">' + gettext('No new matching source strings found.') + '</td></tr>'
-        );
+        screnshotResultError('warning', gettext('No new matching source strings found.'));
     } else {
-        $('#search-results').empty();
-        $.each(data.results, function (idx, value) {
-            var row = $(
-                '<tr><td class="text"></td>' +
-                '<td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' +
-                gettext('Add to screenshot') +
-                '</a><i class="fa fa-spinner fa-spin"></i></tr>'
-            );
-            row.find('.text').text(value.text);
-            row.find('.add-string').data('pk', value.pk);
-            row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
-            $('#search-results').append(row);
-            console.log(value);
-        });
-        $('#search-results').find('.add-string').click(screenshotAddString);
+        screenshotResultSet(data.results);
     }
 }
 
