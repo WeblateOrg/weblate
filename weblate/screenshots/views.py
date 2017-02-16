@@ -255,8 +255,9 @@ def ocr_search(request, pk):
     with PyTessBaseAPI() as api:
         api.SetImage(image)
         for item in api.GetComponentImages(RIL.TEXTLINE, True):
-            box = item[1]
-            api.SetRectangle(box['x'], box['y'], box['w'], box['h'])
+            api.SetRectangle(
+                item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h']
+            )
             ocr_result = api.GetUTF8Text()
             for match in ocr_result.split('|'):
                 match = match.strip()
