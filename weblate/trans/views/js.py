@@ -25,14 +25,13 @@ from django.http import (
 from django.core.exceptions import PermissionDenied
 from django.utils.encoding import force_text
 
+from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-from weblate.trans.forms import (
-    PriorityForm, CheckFlagsForm, ScreenshotUploadForm,
-)
+from weblate.trans.forms import PriorityForm, CheckFlagsForm
 from weblate.trans.validators import EXTRA_FLAGS
 from weblate.trans.checks import CHECKS
 from weblate.trans.permissions import (
@@ -245,7 +244,7 @@ def get_detail(request, project, subproject, checksum):
             'check_flags_form': CheckFlagsForm(
                 initial={'flags': source.check_flags}
             ),
-            'screenshot_form': ScreenshotUploadForm(instance=source),
+            'screenshot_form': ScreenshotForm(),
             'extra_flags': extra_flags,
             'check_flags': check_flags,
         }

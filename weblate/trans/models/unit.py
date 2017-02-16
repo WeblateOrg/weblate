@@ -246,7 +246,7 @@ class UnitManager(models.Manager):
                 modifier = '__icontains'
 
             for param in SEARCH_FILTERS:
-                if params[param]:
+                if param in params and params[param]:
                     queries.append(param)
 
             query = functools.reduce(

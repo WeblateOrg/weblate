@@ -33,6 +33,7 @@ from weblate.trans.feeds import (
 from weblate.trans.views.changes import ChangesView, ChangesCSVView
 import weblate.accounts.views
 import weblate.lang.views
+import weblate.screenshots.views
 import weblate.trans.admin_views
 import weblate.trans.views.acl
 import weblate.trans.views.api
@@ -179,11 +180,6 @@ urlpatterns = [
         r'^source/(?P<pk>[0-9]+)/check_flags/$',
         weblate.trans.views.source.edit_check_flags,
         name='edit_check_flags'
-    ),
-    url(
-        r'^source/(?P<pk>[0-9]+)/screenshot/$',
-        weblate.trans.views.source.upload_screenshot,
-        name='upload_screenshot'
     ),
 
     # Translation pages
@@ -469,6 +465,48 @@ urlpatterns = [
         r'^unlock/' + TRANSLATION + '$',
         weblate.trans.views.lock.unlock_translation,
         name='unlock_translation',
+    ),
+
+    # Screenshots
+    url(
+        r'^screenshots/' + SUBPROJECT + '$',
+        weblate.screenshots.views.ScreenshotList.as_view(),
+        name='screenshots',
+    ),
+    url(
+        r'^screenshot/(?P<pk>[0-9]+)/$',
+        weblate.screenshots.views.ScreenshotDetail.as_view(),
+        name='screenshot',
+    ),
+    url(
+        r'^screenshot/(?P<pk>[0-9]+)/delete/$',
+        weblate.screenshots.views.delete_screenshot,
+        name='screenshot-delete',
+    ),
+    url(
+        r'^screenshot/(?P<pk>[0-9]+)/remove/$',
+        weblate.screenshots.views.remove_source,
+        name='screenshot-remove-source',
+    ),
+    url(
+        r'^js/screenshot/(?P<pk>[0-9]+)/get/$',
+        weblate.screenshots.views.get_sources,
+        name='screenshot-js-get',
+    ),
+    url(
+        r'^js/screenshot/(?P<pk>[0-9]+)/search/$',
+        weblate.screenshots.views.search_source,
+        name='screenshot-js-search',
+    ),
+    url(
+        r'^js/screenshot/(?P<pk>[0-9]+)/ocr/$',
+        weblate.screenshots.views.ocr_search,
+        name='screenshot-js-ocr',
+    ),
+    url(
+        r'^js/screenshot/(?P<pk>[0-9]+)/add/$',
+        weblate.screenshots.views.add_source,
+        name='screenshot-js-add',
     ),
 
     # Languages browsing

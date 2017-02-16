@@ -17,10 +17,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from django.contrib import admin
 
-from django.db.models import CharField
-from weblate.utils.validators import validate_re
+from weblate.screenshots.models import Screenshot
 
 
-class RegexField(CharField):
-    default_validators = [validate_re]
+class ScreenshotAdmin(admin.ModelAdmin):
+    list_display = ['name', 'component']
+    search_fields = ['name', 'image']
+    list_filter = [
+        'component',
+    ]
+    raw_id_fields = ('sources',)
+
+
+admin.site.register(Screenshot, ScreenshotAdmin)

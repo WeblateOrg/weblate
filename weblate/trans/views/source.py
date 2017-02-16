@@ -35,12 +35,9 @@ from weblate.utils import messages
 from weblate.trans.views.helper import get_subproject
 from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
-    PriorityForm, CheckFlagsForm, ScreenshotUploadForm,
-    MatrixLanguageForm,
+    PriorityForm, CheckFlagsForm, MatrixLanguageForm,
 )
-from weblate.trans.permissions import (
-    can_edit_flags, can_edit_priority, can_upload_screenshot,
-)
+from weblate.trans.permissions import can_edit_flags, can_edit_priority
 from weblate.trans.util import render
 from weblate.utils.hash import checksum_to_hash
 
@@ -166,27 +163,6 @@ def edit_check_flags(request, pk):
         source.save()
     else:
         messages.error(request, _('Failed to change check flags!'))
-    return redirect(request.POST.get('next', source.get_absolute_url()))
-
-
-@require_POST
-@login_required
-def upload_screenshot(request, pk):
-    """
-    Upload screenshot handler.
-    """
-    source = get_object_or_404(Source, pk=pk)
-
-    if not can_upload_screenshot(request.user, source.subproject.project):
-        raise PermissionDenied()
-
-    form = ScreenshotUploadForm(request.POST, request.FILES, instance=source)
-    if form.is_valid():
-        form.save()
-    else:
-        for error in form.errors:
-            for message in form.errors[error]:
-                messages.error(request, message)
     return redirect(request.POST.get('next', source.get_absolute_url()))
 
 

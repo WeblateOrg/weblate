@@ -26,10 +26,9 @@ from django.db import transaction
 
 from whoosh.index import EmptyIndexError
 
-from weblate.trans.models import (
-    Suggestion, Comment, Check, Unit, Project, Source
-)
+from weblate.trans.models import Suggestion, Comment, Check, Unit, Project
 from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.search import get_target_index, clean_search_unit
 
 
@@ -53,7 +52,7 @@ class Command(BaseCommand):
             return
         for name in files:
             fullname = os.path.join('screenshots', name)
-            if not Source.objects.filter(screenshot=fullname).exists():
+            if not Screenshot.objects.filter(image=fullname).exists():
                 storage.delete(fullname)
 
     def cleanup_fulltext(self):

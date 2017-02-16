@@ -127,7 +127,7 @@ var _rollbarConfig = {
         {% if registration_open %}
         <li><a class="button" id="register-button" href="{% url 'register' %}">{% trans "Register" %}</a></li>
         {% endif %}
-        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url }}{% endif %}">{% trans "Login" %}</a></li>
+        <li><a class="button" id="login-button" href="{% url 'login' %}{% if not skip_next %}?next={{ login_redirect_url|urlencode }}{% endif %}">{% trans "Login" %}</a></li>
         {% endif %}
       </ul>
     </div>
@@ -168,7 +168,7 @@ var _rollbarConfig = {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
-        <h4 class="modal-title" id="myModalLabel">{% trans "Screenshot context" %}</h4>
+        <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
         <img src="" id="imagepreview" class="img-responsive">

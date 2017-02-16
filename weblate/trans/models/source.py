@@ -18,11 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
 
-from weblate.trans.fields import ScreenshotField
 from weblate.trans.validators import validate_check_flags
 from weblate.trans.util import PRIORITY_CHOICES
 
@@ -41,18 +40,11 @@ class Source(models.Model):
         validators=[validate_check_flags],
         blank=True,
     )
-    screenshot = ScreenshotField(
-        verbose_name=_('Screenshot showing usage of this string'),
-        help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
-        upload_to='screenshots/',
-        blank=True,
-    )
 
     class Meta(object):
         permissions = (
             ('edit_priority', "Can edit priority"),
             ('edit_flags', "Can edit check flags"),
-            ('upload_screenshot', 'Can upload screenshot'),
         )
         app_label = 'trans'
         unique_together = ('id_hash', 'subproject')
@@ -78,6 +70,17 @@ class Source(models.Model):
             self.priority_modified = (old.priority != self.priority)
             self.check_flags_modified = (old.check_flags != self.check_flags)
         super(Source, self).save(force_insert, **kwargs)
+
+    @property
+    def unit(self):
+        try:
+            translation = self.subproject.translation_set.all()[0]
+        except IndexError:
+            return None
+        try:
+            return translation.unit_set.get(id_hash=self.id_hash)
+        except ObjectDoesNotExist:
+            return None
 
     @models.permalink
     def get_absolute_url(self):
