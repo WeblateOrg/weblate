@@ -142,9 +142,9 @@ function screenshotFailure() {
 
 function screenshotAddString() {
     var pk = $(this).data('pk');
-    var loading_id = '#adding-' + pk;
+    var addLoadId = '#adding-' + pk;
     $('#add-source').val(pk);
-    increaseLoading(loading_id);
+    increaseLoading(addLoadId);
     var form = $('#screenshot-add-form');
     $.ajax({
         type: 'POST',
@@ -152,15 +152,15 @@ function screenshotAddString() {
         data: form.serialize(),
         dataType: 'json',
         success: function () {
-            decreaseLoading(loading_id);
-            $(loading_id).parents('tr').fadeOut();
+            decreaseLoading(addLoadId);
+            $(addLoadId).parents('tr').fadeOut();
             var list = $('#sources-listing');
             $.get(list.data('href'), function (data) {
                 list.html(data);
             });
         },
         error: function () {
-            decreaseLoading(loading_id);
+            decreaseLoading(addLoadId);
         }
     });
 }
