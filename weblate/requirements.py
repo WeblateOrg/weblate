@@ -51,77 +51,51 @@ def get_version_module(module, name, url, optional=False):
     return mod
 
 
+def get_optional_module(result, module, name, url, attr='__version__'):
+    """Get metadata for optional dependency"""
+    name = 'pytz'
+    url = 'https://pypi.python.org/pypi/pytz/'
+    mod = get_version_module(module, name, url, True)
+    if mod is not None:
+        result.append((
+            name,
+            url,
+            getattr(mod, attr) if attr else 'N/A',
+            None,
+        ))
+
+
 def get_optional_versions():
     '''
     Returns versions of optional modules.
     '''
     result = []
 
-    name = 'pytz'
-    url = 'https://pypi.python.org/pypi/pytz/'
-    mod = get_version_module('pytz', name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            mod.__version__,
-            None,
-        ))
+    get_optional_module(
+        result, 'pytz', 'pytz', 'https://pypi.python.org/pypi/pytz/'
+    )
 
-    name = 'pyuca'
-    url = 'https://github.com/jtauber/pyuca'
-    mod = get_version_module('pyuca', name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            'N/A',
-            None,
-        ))
+    get_optional_module(
+        result, 'pyuca', 'pyuca', 'https://github.com/jtauber/pyuca', None
+    )
 
-    name = 'python-bidi'
-    url = 'https://github.com/MeirKriheli/python-bidi'
-    mod = get_version_module('bidi', name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            mod.VERSION,
-            None,
-        ))
+    get_optional_module(
+        result, 'bidi', 'python-bidi',
+        'https://github.com/MeirKriheli/python-bidi', 'VERSION'
+    )
 
-    name = 'pyLibravatar'
-    url = 'https://pypi.python.org/pypi/pyLibravatar'
-    mod = get_version_module('libravatar', name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            'N/A',
-            None,
-        ))
+    get_optional_module(
+        result, 'libravatar', 'pyLibravatar',
+        'https://pypi.python.org/pypi/pyLibravatar', None
+    )
 
-    name = 'PyYAML'
-    url = 'http://pyyaml.org/wiki/PyYAML'
-    mod = get_version_module('yaml', name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            mod.__version__,
-            None,
-        ))
+    get_optional_module(
+        result, 'yaml', 'PyYAML', 'http://pyyaml.org/wiki/PyYAML'
+    )
 
-    name = 'tesserocr'
-    url = 'https://github.com/sirfz/tesserocr'
-    mod = get_version_module('tesserocr', name, url, True)
-    if mod is not None:
-        result.append((
-            name,
-            url,
-            mod.__version__,
-            None,
-        ))
+    get_optional_module(
+        result, 'tesserocr', 'tesserocr', 'https://github.com/sirfz/tesserocr'
+    )
 
     if HgRepository.is_supported():
         result.append((
