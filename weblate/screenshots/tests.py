@@ -88,6 +88,15 @@ class ViewTest(ViewTestCase):
         self.assertContains(response, 'Picture')
         self.assertEqual(Screenshot.objects.all()[0].name, 'Picture')
 
+    def test_delete(self):
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        self.client.post(
+            reverse('screenshot-delete', kwargs={'pk': screenshot.pk})
+        )
+        self.assertEqual(Screenshot.objects.count(), 0)
+
     def test_source_manipulations(self):
         self.make_manager()
         self.do_upload()
@@ -122,7 +131,7 @@ class ViewTest(ViewTestCase):
 
         # Remove added string
         self.client.post(
-            reverse('screenshot-delete', kwargs={'pk': screenshot.pk}),
+            reverse('screenshot-remove-source', kwargs={'pk': screenshot.pk}),
             {'source': source_pk},
         )
         self.assertEqual(screenshot.sources.count(), 0)
