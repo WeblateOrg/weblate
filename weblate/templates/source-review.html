@@ -51,7 +51,7 @@
 <td>
 </td>
 <td colspan="3" class="details-content">
-<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}?next={{ request.get_full_path }}" class="load-details"></a>
+<a href="{% url 'js-detail' project=object.project.slug subproject=object.slug checksum=source.checksum %}?next={{ request.get_full_path|urlencode }}" class="load-details"></a>
 <i class="fa fa-spinner fa-spin"></i>
 </td>
 </tr>
