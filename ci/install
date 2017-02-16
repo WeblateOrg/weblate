@@ -10,6 +10,7 @@ else
     rm -rf $TESSERACT_INSTALL
 
     TMPDIR=`mktemp -d`
+    OLDDIR=`pwd`
     cd $TMPDIR
 
     wget http://www.leptonica.org/source/leptonica-1.74.1.tar.gz
@@ -29,7 +30,7 @@ else
     ./configure --prefix=$TESSERACT_INSTALL
     make install
 
-    cd
+    cd $OLDDIR
 fi
 
 find $TESSERACT_INSTALL
