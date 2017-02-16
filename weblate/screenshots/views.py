@@ -194,6 +194,8 @@ def search_source(request, pk):
             'type': 'all',
             'source': True,
         }
+    ).exclude(
+        id_hash__in=obj.sources.values_list('id_hash', flat=True)
     )
 
     results = [
