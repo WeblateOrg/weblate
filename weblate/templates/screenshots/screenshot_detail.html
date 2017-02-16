@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
+<li><a href="{% url 'screenshots' project=object.component.project.slug subproject=object.component.slug %}">{% trans "Screenshots" %}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% can_delete_screenshot user object.component.project as user_can_delete_screenshot %}
+{% can_change_screenshot user object.component.project as user_can_change_screenshot %}
+
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
+
+<table class="table table-striped">
+<thead>
+<tr>
+<th>{% trans "Source string" %}</th>
+<th colspan="2">{% trans "Actions" %}</th>
+</tr>
+</thead>
+<tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
+{% with object.sources.all as sources %}
+{% include "screenshots/screenshot_sources_body.html" %}
+{% endwith %}
+</tbody>
+</table>
+  <div class="panel-footer">
+    {% trans "Screenshot is shown to add visual context for all listed source strings." %}
+  </div>
+
+</div>
+
+{% if user_can_change_screenshot %}
+<form id="screenshot-add-form" action="{% url 'screenshot-js-add' pk=object.pk %}">
+{% csrf_token %}
+<input type="hidden" name="source" id="add-source" />
+</form>
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Assign source strings" %}</h4></div>
+  <div class="search-results">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+    <th>{% trans "Source string" %}</th>
+    <th>{% trans "Actions" %}</th>
+    </tr>
+    </thead>
+    <tbody id="screenshots-loading" style="display:none;">
+      <tr><td colspan="2"><i class="fa fa-spinner fa-spin"></i> {% trans "Loading results…" %}</td></tr>
+    </tbody>
+    <tbody id="search-results">
+      <tr><td colspan="2">{% trans "Please search below to find matching source strings." %}</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="panel-footer">
+    {% if has_ocr %}
+    <div class="pull-right flip">
+    <form class="form-inline">
+      {% csrf_token %}
+      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-success" id="screenshots-auto"><i class="fa fa-cogs"></i> {% trans "Automatically recognize" %}</button>
+    </form>
+    </div>
+    {% endif %}
+    <form class="form-inline">
+      {% csrf_token %}
+      <input type="text" required="yes" name="q" placeholder="{% trans "Source string search" %}" />
+      <button data-href="{% url 'screenshot-js-search' pk=object.pk %}" class="btn btn-success" id="screenshots-search"><i class="fa fa-search"></i> {% trans "Search" %}</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
+  <div class="panel-body">
+
+{% with object as screenshot %}
+{% include "screenshots/screenshot_show.html" %}
+{% endwith %}
+
+</div>
+</div>
+
+{% if user_can_change_screenshot %}
+<form action="{{ object.get_absolute_url }}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Edit screenshot" %}</h4></div>
+  <div class="panel-body">
+  {{ edit_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-success" value="{% trans "Save" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
+
+{% if user_can_delete_screenshot %}
+<div class="panel panel-danger">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Delete screenshot" %}</h4></div>
+  <div class="panel-body">
+
+<p class="helptext">{% trans "Deleting screenshot will remove it from all associated source strings." %}</p>
+
+<form action="{% url 'screenshot-delete' pk=object.pk %}" method="POST">
+{% csrf_token %}
+<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</form>
+
+</div>
+</div>
+{% endif %}
+
+{% endblock %}

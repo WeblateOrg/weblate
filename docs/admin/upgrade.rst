@@ -417,6 +417,8 @@ Notable configuration or dependencies changes:
 * There is new dependency on ``django-appconf`` and ``siphashc3``.
 * The setting for ``UNAUTHENTICATED_USER`` for ``REST_FRAMEWORK`` has been
   changed to properly handle anonymous user permissions in REST API.
+* The ``INSTALLED_APPS`` now should include ``weblate.screenshots``.
+* There is new optional dependency on tesserocr, see :ref:`requirements`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

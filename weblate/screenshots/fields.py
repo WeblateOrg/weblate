@@ -18,9 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db.models import CharField
-from weblate.utils.validators import validate_re
+from django.db.models import ImageField
+from weblate.utils.validators import validate_bitmap
 
 
-class RegexField(CharField):
-    default_validators = [validate_re]
+class ScreenshotField(ImageField):
+    """File field which forces certain image types"""
+    default_validators = [validate_bitmap]

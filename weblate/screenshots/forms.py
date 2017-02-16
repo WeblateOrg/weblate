@@ -18,9 +18,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.db.models import CharField
-from weblate.utils.validators import validate_re
+from __future__ import unicode_literals
+
+from django import forms
+
+from weblate.screenshots.models import Screenshot
 
 
-class RegexField(CharField):
-    default_validators = [validate_re]
+class ScreenshotForm(forms.ModelForm):
+    '''
+    User profile editing.
+    '''
+    class Meta(object):
+        model = Screenshot
+        fields = (
+            'name',
+            'image',
+        )

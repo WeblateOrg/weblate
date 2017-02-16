@@ -131,6 +131,76 @@ function loadActivityChart(element) {
     });
 }
 
+function screenshotStart() {
+    $('#search-results').empty();
+    increaseLoading('#screenshots-loading');
+}
+
+function screenshotFailure() {
+    screenshotLoaded({responseCode: 500});
+}
+
+function screenshotAddString() {
+    var pk = $(this).data('pk');
+    var addLoadId = '#adding-' + pk;
+    $('#add-source').val(pk);
+    increaseLoading(addLoadId);
+    var form = $('#screenshot-add-form');
+    $.ajax({
+        type: 'POST',
+        url: form.attr('action'),
+        data: form.serialize(),
+        dataType: 'json',
+        success: function () {
+            decreaseLoading(addLoadId);
+            $(addLoadId).parents('tr').fadeOut();
+            var list = $('#sources-listing');
+            $.get(list.data('href'), function (data) {
+                list.html(data);
+            });
+        },
+        error: function () {
+            decreaseLoading(addLoadId);
+        }
+    });
+}
+
+function screnshotResultError(severity, message) {
+    $('#search-results').html(
+        '<tr class="' + severity + '"><td colspan="2">' + message + '</td></tr>'
+    );
+}
+
+function screenshotResultSet(results) {
+    $('#search-results').empty();
+    $.each(results, function (idx, value) {
+        var row = $(
+            '<tr><td class="text"></td>' +
+            '<td><a class="add-string btn btn-success"><i class="fa fa-plus"></i> ' +
+            gettext('Add to screenshot') +
+            '</a><i class="fa fa-spinner fa-spin"></i></tr>'
+        );
+        row.find('.text').text(value.text);
+        row.find('.add-string').data('pk', value.pk);
+        row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
+        $('#search-results').append(row);
+        console.log(value);
+    });
+    $('#search-results').find('.add-string').click(screenshotAddString);
+}
+
+function screenshotLoaded(data) {
+    decreaseLoading('#screenshots-loading');
+    console.log(data);
+    if (data.responseCode !== 200) {
+        screnshotResultError('danger', gettext('Error loading search results!'));
+    } else if (data.results.length === 0) {
+        screnshotResultError('warning', gettext('No new matching source strings found.'));
+    } else {
+        screenshotResultSet(data.results);
+    }
+}
+
 function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
@@ -1084,7 +1154,22 @@ $(function () {
     });
     $document.on('click', '.thumbnail', function() {
         $('#imagepreview').attr('src', $(this).attr('href'));
+        $('#myModalLabel').text($(this).attr('title'));
         $('#imagemodal').modal('show');
+        return false;
+    });
+    /* Screenshot management */
+    $('#screenshots-search,#screenshots-auto').click(function () {
+        screenshotStart();
+        var $this = $(this);
+        $.ajax({
+            type: 'POST',
+            url: $this.data('href'),
+            data: $this.parent().serialize(),
+            dataType: 'json',
+            success: screenshotLoaded,
+            error: screenshotFailure,
+        });
         return false;
     });
 });

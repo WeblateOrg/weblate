@@ -24,6 +24,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 
 import weblate
+import weblate.screenshots.views
 from weblate.trans.site import get_site_url
 from weblate.trans.models.project import Project
 
@@ -91,6 +92,7 @@ def weblate_context(request):
         'login_redirect_url': login_redirect_url,
 
         'hooks_enabled': settings.ENABLE_HOOKS,
+        'has_ocr': weblate.screenshots.views.HAS_OCR,
 
         'registration_open': settings.REGISTRATION_OPEN,
         'acl_projects': projects,

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% url 'screenshots' project=object.project.slug subproject=object.slug %}">{% trans "Screenshots" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% can_delete_screenshot user object.project as user_can_delete_screenshot %}
+{% can_change_screenshot user object.project as user_can_change_screenshot %}
+
+<table class="sort table">
+<thead>
+<tr>
+<th>{% trans "Screenshot name" %}</th>
+<th>{% trans "Image" %}</th>
+<th>{% trans "Strings" %}</th>
+</tr>
+<tbody>
+{% for screenshot in object_list %}
+<tr>
+<th><a href="{{ screenshot.get_absolute_url }}">{{ screenshot.name }}</a></th>
+<td>
+<div class="shot-list">
+{% include "screenshots/screenshot_show.html" %}
+</div>
+</td>
+<td>{{ screenshot.sources.count }}</td>
+<td>
+{% if user_can_change_screenshot %}
+<a href="{{ screenshot.get_absolute_url }}" class="btn btn-info"><i class="fa fa-pencil"></i> {% trans "Edit" %}</a>
+{% endif %}
+</td>
+<td>
+{% if user_can_delete_screenshot %}
+<form action="{% url 'screenshot-delete' pk=screenshot.pk %}" method="POST">
+{% csrf_token %}
+<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> {% trans "Delete" %}</button>
+</form>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% include "paginator.html" %}
+
+{% if add_form %}
+<form action="{% url 'screenshots' project=object.project.slug subproject=object.slug %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="panel panel-primary">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new screenshot" %}</h4></div>
+  <div class="panel-body">
+  {{ add_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-success" value="{% trans "Upload" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
+
+{% endblock %}
+

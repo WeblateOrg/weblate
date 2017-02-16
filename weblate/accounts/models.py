@@ -1010,7 +1010,9 @@ def create_groups(update):
         Permission.objects.get(codename='delete_translation'),
         Permission.objects.get(codename='change_subproject'),
         Permission.objects.get(codename='change_project'),
-        Permission.objects.get(codename='upload_screenshot'),
+        Permission.objects.get(codename='add_screenshot'),
+        Permission.objects.get(codename='delete_screenshot'),
+        Permission.objects.get(codename='change_screenshot'),
     )
 
     group, created = Group.objects.get_or_create(name='Managers')
