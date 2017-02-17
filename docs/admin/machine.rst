@@ -1,10 +1,7 @@
-Machine translation
-===================
-
 .. _machine-translation-setup:
 
-Machine translation setup
--------------------------
+Machine translation
+===================
 
 Weblate has builtin support for several machine translation services and it's
 up to administrator to enable them. The services have different terms of use, so
@@ -14,7 +11,7 @@ The individual services are enabled using :setting:`MACHINE_TRANSLATION_SERVICES
 The source language can be configured at :ref:`project`.
 
 Amagama
-+++++++
+-------
 
 Special installation of :ref:`tmserver` run by Virtaal authors.
 
@@ -28,7 +25,7 @@ To enable this service, add ``weblate.trans.machine.tmserver.AmagamaTranslation`
 .. _apertium:
 
 Apertium
-++++++++
+--------
 
 A free/open-source machine translation platform providing translation to
 limited set of languages.
@@ -47,7 +44,7 @@ To enable this service, add ``weblate.trans.machine.apertium.ApertiumAPYTranslat
     `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_
 
 Glosbe
-++++++
+------
 
 Free dictionary and translation memory for almost every living language.
 
@@ -65,7 +62,7 @@ To enable this service, add ``weblate.trans.machine.glosbe.GlosbeTranslation`` t
 .. _google-translate:
 
 Google Translate
-++++++++++++++++
+----------------
 
 Machine translation service provided by Google.
 
@@ -83,7 +80,7 @@ To enable this service, add ``weblate.trans.machine.google.GoogleTranslation`` t
 .. _ms-translate:
 
 Microsoft Translator
-++++++++++++++++++++
+--------------------
 
 .. deprecated:: 2.10
 
@@ -108,7 +105,7 @@ To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftTranslati
 .. _ms-cognitive-translate:
 
 Microsoft Cognitive Services Translator
-+++++++++++++++++++++++++++++++++++++++
+---------------------------------------
 
 .. versionadded:: 2.10
 
@@ -133,7 +130,7 @@ To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftCognitive
 .. _mymemory:
 
 MyMemory
-++++++++
+--------
 
 Huge translation memory with machine translation.
 
@@ -154,7 +151,7 @@ To enable this service, add ``weblate.trans.machine.mymemory.MyMemoryTranslation
 .. _tmserver:
 
 tmserver
-++++++++
+--------
 
 You can run your own translation memory server which is bundled with
 Translate-toolkit and let Weblate talk to it. You can also use it with
@@ -192,7 +189,7 @@ And configure Weblate to talk to it:
 .. _yandex-translate:
 
 Yandex Translate
-++++++++++++++++
+----------------
 
 Machine translation service provided by Yandex.
 
@@ -207,7 +204,7 @@ To enable this service, add ``weblate.trans.machine.yandex.YandexTranslation`` t
     `Yandex Translate API <https://tech.yandex.com/translate/>`_
 
 Weblate
-+++++++
+-------
 
 Weblate can be source of machine translation as well. There are two services to
 provide you results - one does exact search for string, the other one finds all
