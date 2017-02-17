@@ -9,11 +9,11 @@ Released on ? 2017.
 * Improved admin interface for groups.
 * Added support for Yandex Translate API.
 * Improved speed of sitewide search.
-* Added project wide search.
+* Added project and component wide search.
 * Added project and component wide search and replace.
 * Improved rendering of inconsistent translations.
 * Added support for opening source files in local editor.
-* Added support for condiguring visual keyboard with special characters.
+* Added support for configuring visual keyboard with special characters.
 * Improved screenshot management with OCR support for matching source strings.
 * Default commit message now includes translation information and URL.
 

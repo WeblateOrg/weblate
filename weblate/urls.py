@@ -936,6 +936,11 @@ urlpatterns = [
         weblate.trans.views.basic.search,
         name="search"
     ),
+    url(
+        r'^search/' + SUBPROJECT + '$',
+        weblate.trans.views.basic.search,
+        name="search"
+    ),
 
     # Health check
     url(

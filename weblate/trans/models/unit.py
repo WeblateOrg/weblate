@@ -909,7 +909,7 @@ class Unit(models.Model, LoggerMixin):
         Returns tuple of checks to run and whether to do cleanup.
         """
         if self.translation.is_template():
-            return [], True
+            return {}, True
 
         checks_to_run = CHECKS.data
         cleanup_checks = True

@@ -36,6 +36,7 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
+      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
       {% if replace_form %}
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
@@ -135,6 +136,15 @@
 
 </div>
 {% endif %}
+
+<div class="tab-pane" id="search">
+
+<form action="{% url 'search' project=object.project.slug subproject=object.slug %}" method="GET">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+
+</div>
 
 {% if replace_form %}
 <div class="tab-pane" id="replace">
