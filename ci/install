@@ -4,8 +4,7 @@ set -e
 set -x
 
 # Download prebuilt Tesseract 3.04.01 + Leptonica 1.74.1
-wget --no-check-certificate https://dl.cihar.com/ci/tesseract.tar.xz
-tar xf tesseract.tar.xz
+wget --no-check-certificate -O - https://dl.cihar.com/ci/tesseract.tar.xz | tar xJ
 
 # Install tesseract
 if [ -f $TESSERACT_PKG/tesseract.pc -a -f $TESSERACT_PKG/lept.pc ] ; then
