@@ -3,6 +3,10 @@
 set -e
 set -x
 
+# Download prebuilt Tesseract 3.04.01 + Leptonica 1.74.1
+wget https://dl.cihar.com/ci/tesseract.tar.xz
+tar xf tesseract.tar.xz
+
 # Install tesseract
 if [ -f $TESSERACT_PKG/tesseract.pc -a -f $TESSERACT_PKG/lept.pc ] ; then
     echo "Using cached tesseract"
