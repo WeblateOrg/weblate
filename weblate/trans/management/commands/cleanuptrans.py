@@ -40,8 +40,10 @@ class Command(BaseCommand):
         Perfoms cleanup of Weblate database.
         '''
         self.cleanup_database()
-        self.cleanup_fulltext()
-        self.cleanup_files()
+        with transaction.atomic():
+            self.cleanup_fulltext()
+        with transaction.atomic():
+            self.cleanup_files()
 
     def cleanup_files(self):
         """Removes stale screenshots"""
