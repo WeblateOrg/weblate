@@ -4,7 +4,10 @@
 
 {% block breadcrumbs %}
 {% if project %}
-<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
+{% if subproject %}
+<li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
+{% endif %}
 {% endif %}
 <li><a href="{% url 'search' %}">{% trans "Search" %}</a></li>
 {% endblock %}

@@ -213,33 +213,39 @@ def list_projects(request):
     )
 
 
-def search(request, project=None):
+def search(request, project=None, subproject=None):
     """
     Performs site-wide search on units.
     """
-    if project:
-        obj = get_project(request, project)
-    else:
-        obj = None
     search_form = SiteSearchForm(request.GET)
     context = {
         'search_form': search_form,
-        'project': obj,
     }
+    if subproject:
+        obj = get_subproject(request, project, subproject)
+        context['subproject'] = obj
+        context['project'] = obj.project
+    elif project:
+        obj = get_project(request, project)
+        context['project'] = obj
+    else:
+        obj = None
 
     if search_form.is_valid():
-        # Filter results by ACL
-        if obj:
-            acl_projects = (obj.pk,)
-        else:
-            acl_projects = Project.objects.get_acl_ids(request.user)
-
         units = Unit.objects.search(
             None,
             search_form.cleaned_data,
-        ).filter(
-            translation__subproject__project_id__in=acl_projects
         )
+        # Filter results by ACL
+        if subproject:
+            units = units.filter(translation__subproject=obj)
+        elif project:
+            units = units.filter(translation__subproject__project=obj)
+        else:
+            units = units.filter(
+                translation__subproject__project_id__in=
+                Project.objects.get_acl_ids(request.user)
+            )
 
         limit = request.GET.get('limit', 50)
         page = request.GET.get('page', 1)
@@ -449,6 +455,7 @@ def show_subproject(request, project, subproject):
             'strings_count': total_strings,
             'source_words_count': source_words,
             'replace_form': replace_form,
+            'search_form': SearchForm(),
         }
     )
 

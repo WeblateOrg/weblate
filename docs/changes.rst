@@ -9,7 +9,7 @@ Released on ? 2017.
 * Improved admin interface for groups.
 * Added support for Yandex Translate API.
 * Improved speed of sitewide search.
-* Added project wide search.
+* Added project and component wide search.
 * Added project and component wide search and replace.
 * Improved rendering of inconsistent translations.
 * Added support for opening source files in local editor.
