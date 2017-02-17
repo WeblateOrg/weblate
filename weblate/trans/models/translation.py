@@ -693,6 +693,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'resource': self.subproject.name,
             'component': self.subproject.name,
             'project': self.subproject.project.name,
+            'url': get_site_url(self.get_absolute_url()),
             'total': self.total,
             'fuzzy': self.fuzzy,
             'fuzzy_percent': self.get_fuzzy_percent(),

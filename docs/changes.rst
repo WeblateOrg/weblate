@@ -15,6 +15,7 @@ Released on ? 2017.
 * Added support for opening source files in local editor.
 * Added support for condiguring visual keyboard with special characters.
 * Improved screenshot management with OCR support for matching source strings.
+* Default commit message now includes translation information and URL.
 
 weblate 2.11
 ------------

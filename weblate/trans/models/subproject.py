@@ -74,7 +74,9 @@ POST_ADD_SCRIPT_CHOICES = get_script_choices(settings.POST_ADD_SCRIPTS)
 DEFAULT_COMMIT_MESSAGE = (
     'Translated using Weblate (%(language_name)s)\n\n'
     'Currently translated at %(translated_percent)s%% '
-    '(%(translated)s of %(total)s strings)'
+    '(%(translated)s of %(total)s strings)\n\n'
+    'Translation: %(project)s/%(component)s\n'
+    'Translate-URL: %(url)s'
 )
 
 DEFAULT_ADD_MESSAGE = (

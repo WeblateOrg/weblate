@@ -309,6 +309,8 @@ strings in the message:
     Component name
 ``%(project)s``
     Project name
+``%(url)s``
+    Translation URL
 ``%(total)s``
     Total strings count
 ``%(fuzzy)s``
