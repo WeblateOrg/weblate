@@ -959,51 +959,50 @@ class Unit(models.Model, LoggerMixin):
             same_state, is_new
         )
 
-        if len(checks_to_run) == 0:
-            return
+        if len(checks_to_run) > 0:
 
-        src = self.get_source_plurals()
-        tgt = self.get_target_plurals()
-        old_target_checks = set(
-            self.checks().values_list('check', flat=True)
-        )
-        old_source_checks = set(
-            self.source_checks().values_list('check', flat=True)
-        )
+            src = self.get_source_plurals()
+            tgt = self.get_target_plurals()
+            old_target_checks = set(
+                self.checks().values_list('check', flat=True)
+            )
+            old_source_checks = set(
+                self.source_checks().values_list('check', flat=True)
+            )
 
-        # Run all source checks
-        for check, check_obj in checks_to_run.items():
-            if check_obj.target and check_obj.check_target(src, tgt, self):
-                if check in old_target_checks:
-                    # We already have this check
-                    old_target_checks.remove(check)
-                else:
-                    # Create new check
-                    Check.objects.create(
-                        content_hash=self.content_hash,
-                        project=self.translation.subproject.project,
-                        language=self.translation.language,
-                        ignore=False,
-                        check=check,
-                        for_unit=self.pk
-                    )
-                    was_change = True
-        # Run all source checks
-        for check, check_obj in checks_to_run.items():
-            if check_obj.source and check_obj.check_source(src, self):
-                if check in old_source_checks:
-                    # We already have this check
-                    old_source_checks.remove(check)
-                else:
-                    # Create new check
-                    Check.objects.create(
-                        content_hash=self.content_hash,
-                        project=self.translation.subproject.project,
-                        language=None,
-                        ignore=False,
-                        check=check
-                    )
-                    was_change = True
+            # Run all source checks
+            for check, check_obj in checks_to_run.items():
+                if check_obj.target and check_obj.check_target(src, tgt, self):
+                    if check in old_target_checks:
+                        # We already have this check
+                        old_target_checks.remove(check)
+                    else:
+                        # Create new check
+                        Check.objects.create(
+                            content_hash=self.content_hash,
+                            project=self.translation.subproject.project,
+                            language=self.translation.language,
+                            ignore=False,
+                            check=check,
+                            for_unit=self.pk
+                        )
+                        was_change = True
+            # Run all source checks
+            for check, check_obj in checks_to_run.items():
+                if check_obj.source and check_obj.check_source(src, self):
+                    if check in old_source_checks:
+                        # We already have this check
+                        old_source_checks.remove(check)
+                    else:
+                        # Create new check
+                        Check.objects.create(
+                            content_hash=self.content_hash,
+                            project=self.translation.subproject.project,
+                            language=None,
+                            ignore=False,
+                            check=check
+                        )
+                        was_change = True
 
         # Delete no longer failing checks
         if cleanup_checks:
