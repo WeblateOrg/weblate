@@ -237,7 +237,7 @@ def ocr_extract(api, image, strings):
         ocr_result = api.GetUTF8Text()
         parts = [ocr_result] + ocr_result.split('|') + ocr_result.split()
         for part in parts:
-            for match in difflib.get_close_matches(part, strings):
+            for match in difflib.get_close_matches(part, strings, cutoff=0.9):
                 yield match
 
 
