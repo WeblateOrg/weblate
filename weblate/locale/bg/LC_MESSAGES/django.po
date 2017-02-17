@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-16 20:26+0000\n"
-"PO-Revision-Date: 2017-02-09 11:59+0000\n"
+"PO-Revision-Date: 2017-02-17 06:44+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -259,10 +259,8 @@ msgid "Hide source if there is secondary language"
 msgstr "Скриване на оригиналния текст, ако има превод на второстепенен език"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Редактиране на оригиналния текст"
+msgstr "Връзка към редактора"
 
 #: weblate/accounts/models.py:584
 #, python-format
@@ -272,12 +270,15 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Въведете свой адрес, който да бъде използван като връзка за достъп до "
+"изходния код. Можете да използвате %(branch)s за клона, %(file)s за файла и "
+"%(line)s за името, а те ще бъдат заместени с истинските стойности.. "
+"Обикновено нещо като: editor://open/?file=%(file)s&line=%(line)s е добър "
+"вариант."
 
 #: weblate/accounts/models.py:595
-#, fuzzy
-#| msgid "Tab character"
 msgid "Special characters"
-msgstr "Знак за табулация"
+msgstr "Специални знаци"
 
 #: weblate/accounts/models.py:597
 msgid ""
@@ -285,6 +286,9 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Можете да посочите допълнителни специални знаци, които да бъдат показани във "
+"визуалната клавиатура при превода. Това може да бъде полезно за знаците, "
+"които често използвате, но са трудни за въвеждане чрез клавиатурата."
 
 #: weblate/accounts/models.py:609 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -709,18 +713,14 @@ msgstr "{name} (например: {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Снимка на екрана за контекст"
+msgstr "Име на екранната снимка"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:21
-#, fuzzy
-#| msgid "Image URL"
 msgid "Image"
-msgstr "Адрес на изображението"
+msgstr "Изображение"
 
 #: weblate/screenshots/models.py:39
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
@@ -730,22 +730,23 @@ msgstr ""
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
+"Екранната снимка беше качена. Вече можете да свържете оригинални текстове с "
+"нея."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
+"Екранната снимка не може да бъде качена. Моля, поправете грешките, описани "
+"по-долу."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Коментарът към превода беше изтрит."
+msgstr "Екранната снимка %s беше изтрита."
 
 #: weblate/screenshots/views.py:185
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Акаунтът Ви беше премахнат."
+msgstr "Оригиналният текст беше премахнат."
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:537
 msgid "Permission Denied"
@@ -2999,17 +3000,13 @@ msgid "No screenshot currently associated!"
 msgstr "В момента няма свързана екранна снимка!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:53
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Управление на потребителите"
+msgstr "Управление на екранните снимки"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Добавяне на нов потребител"
+msgstr "Добавяне на нова екранна снимка"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3821,81 +3818,64 @@ msgstr "Брой оригинални думи"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Снимка на екрана за контекст"
+msgstr "Екранни снимки"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "оригинални текстове"
+msgstr "Свързани оригинални текстове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
-msgstr "Оригинални текстове"
+msgstr "Оригинален текст"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Действие"
+msgstr "Действия"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Екранната снимка се показва, за да даде допълнителен визуален контекст за "
+"всички свързани с нея оригинални текстове."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "оригинални текстове"
+msgstr "Свързване на оригинални текстове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Зареждане…"
+msgstr "Зареждане на резултатите…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Търсене в оригиналните текстове"
+msgstr ""
+"Използвайте търсачката по-долу, за да намерите съвпадащи оригинални текстове."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
 msgstr "Автоматично разпознаване"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Оригинални текстове"
+msgstr "Търсене в оригиналните текстове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Редактиране на оригиналния текст"
+msgstr "Редактиране на екранната снимка"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Изтриване на този акаунт"
+msgstr "Изтриване на екранната снимка"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Изтриването на екранната снимка ще я премахне от всички свързани с нея "
+"текстове."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -3903,10 +3883,8 @@ msgid "Strings"
 msgstr "Текстове"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "В момента няма свързана екранна снимка!"
+msgstr "В момента няма свързани оригинални текстове!"
 
 #: weblate/templates/search.html:36
 msgid "No matching strings found!"
@@ -4316,10 +4294,8 @@ msgid "Accept and edit"
 msgstr "Приемане и редактиране"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Използване на този превод"
+msgstr "Този превод"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4330,10 +4306,8 @@ msgid "Use this translation"
 msgstr "Използване на този превод"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Връщане към този превод"
+msgstr "Промяна спрямо този превод:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -6522,10 +6496,8 @@ msgid "Em dash"
 msgstr "Дълго тире"
 
 #: weblate/trans/specialchars.py:470
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "Вмъкване на знак {0}"
+msgstr "Потребителски знак: {}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
@@ -6743,17 +6715,12 @@ msgstr[0] "след %(count)s час"
 msgstr[1] "след %(count)s часа"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "Нуждае се от одобрение"
 
 #: weblate/trans/templatetags/translations.py:543
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "преведени"
+msgstr "Непреведени"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
@@ -7053,10 +7020,8 @@ msgstr ""
 "неодобрено."
 
 #: weblate/trans/views/edit.py:217
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "Предложението Ви е празно!"
+msgstr "Вече има такова предложение!"
 
 #: weblate/trans/views/edit.py:248
 #, python-format
