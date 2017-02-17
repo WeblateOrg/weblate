@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-16 20:26+0000\n"
-"PO-Revision-Date: 2017-01-30 09:26+0000\n"
+"PO-Revision-Date: 2017-02-17 05:34+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
-"Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
-"tr/>\n"
+"Language-Team: Turkish "
+"<https://hosted.weblate.org/projects/weblate/master/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -257,10 +257,8 @@ msgid "Hide source if there is secondary language"
 msgstr "İkincil dil varsa kaynağı gizle"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Kaynak satırı düzenle"
+msgstr "Düzenleyici bağlantısı"
 
 #: weblate/accounts/models.py:584
 #, python-format
@@ -270,12 +268,14 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Kaynak kodunu açmada bağlantı olarak kullanmak için özel URL girin. Dal için "
+"%(branch)s, dosya adı ve satır yer tutucuları olarak %(file)s ve %(line)s "
+"kullanabilirsiniz. Genellikle editor://open/?file=%(file)s&line=%(line)s "
+"gibi birşey iyi seçenektir."
 
 #: weblate/accounts/models.py:595
-#, fuzzy
-#| msgid "Special characters:"
 msgid "Special characters"
-msgstr "Özel karakterler:"
+msgstr "Özel karakterler"
 
 #: weblate/accounts/models.py:597
 msgid ""
@@ -706,18 +706,14 @@ msgstr "{name} (örn. {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Ekran görüntüsü bağlamı"
+msgstr "Ekran görüntüsü adı"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:21
-#, fuzzy
-#| msgid "Image URL"
 msgid "Image"
-msgstr "Resim URL'si"
+msgstr "Resim"
 
 #: weblate/screenshots/models.py:39
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
@@ -725,23 +721,21 @@ msgstr "2000x2000 piksele kadar olan JPEG veya PNG resimleri gönderin."
 
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
+msgstr "Ekran görüntüsü gönderildi, şimdi kaynak satırlara atayabilirsiniz."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
+"Ekran görüntüsünü gönderme başarısız, lütfen aşağıdaki hataları düzeltin."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Çeviri yorumu silindi."
+msgstr "Ekran görüntüsü %s silindi."
 
 #: weblate/screenshots/views.py:185
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Hesabınız kaldırıldı."
+msgstr "Kaynak kaldırıldı."
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:537
 msgid "Permission Denied"
@@ -2979,17 +2973,13 @@ msgid "No screenshot currently associated!"
 msgstr "Şu an ilişkilendirilmiş ekran görüntüsü yok!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:53
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Kullanıcıları yönet"
+msgstr "Ekran görüntülerini yönet"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Yeni kullanıcı ekle"
+msgstr "Yeni ekran görüntüsü ekle"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3811,30 +3801,22 @@ msgstr "Kaynak kelime sayısı"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Ekran görüntüsü bağlamı"
+msgstr "Ekran görüntüleri"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "kaynak satırlar"
+msgstr "Atanan kaynak satır"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
 msgstr "Kaynak satır"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Eylem"
+msgstr "Eylemler"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
@@ -3842,50 +3824,37 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "kaynak satırlar"
+msgstr "Kaynak satırları ata"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Yükleniyor…"
+msgstr "Sonuçlar yükleniyor…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Kaynak satırlarında ara"
+msgstr "Lütfen eşleşen kaynak dizgilerini bulmak için aşağıda arayın."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
-msgstr "Otomatik algılama"
+msgstr "Otomatik olarak tanıma"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Kaynak satır"
+msgstr "Kaynak satır arama"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Kaynak satırı düzenle"
+msgstr "Ekran görüntüsünü düzenle"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Bu hesabı sil"
+msgstr "Ekran görüntüsünü sil"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Ekran görüntüsünü silmek tüm ilişkilendirilmiş kaynak dizgilerden kaldıracak."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -3893,10 +3862,8 @@ msgid "Strings"
 msgstr "Satır"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "Şu an ilişkilendirilmiş ekran görüntüsü yok!"
+msgstr "Şu anda atanmış kaynak satırlar yok!"
 
 #: weblate/templates/search.html:36
 msgid "No matching strings found!"
@@ -4306,10 +4273,8 @@ msgid "Accept and edit"
 msgstr "Kabul et ve düzenle"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Bu çeviriyi kullan"
+msgstr "Bu çeviri"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4320,10 +4285,8 @@ msgid "Use this translation"
 msgstr "Bu çeviriyi kullan"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Bu çeviriye geri al"
+msgstr "Karşılaştırılanı bu çeviriye değiştir:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -6483,10 +6446,8 @@ msgid "Em dash"
 msgstr "Uzun tire"
 
 #: weblate/trans/specialchars.py:470
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "{0} karakteri ekle"
+msgstr "Kullanıcı yapılandırmalı karakter: {}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
@@ -6704,17 +6665,12 @@ msgstr[0] "şu andan itibaren %(count)s saat"
 msgstr[1] "şu andan itibaren %(count)s saat"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
-msgstr "Gözden geçirme gerekli"
+msgstr "Gözden geçirme gerekir"
 
 #: weblate/trans/templatetags/translations.py:543
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "çevrildi"
+msgstr "Çevrilmedi"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
@@ -7010,10 +6966,8 @@ msgstr ""
 "düşünün aksi halde öneriniz gözden geçirilmeden kalabilir."
 
 #: weblate/trans/views/edit.py:217
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "Öneriniz boş!"
+msgstr "Zaten öneriniz var!"
 
 #: weblate/trans/views/edit.py:248
 #, python-format
