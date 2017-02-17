@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-16 20:26+0000\n"
-"PO-Revision-Date: 2017-02-08 06:10+0000\n"
+"PO-Revision-Date: 2017-02-17 14:40+0000\n"
 "Last-Translator: Андрій Бандура <andriykopanytsia@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
-"uk/>\n"
+"Language-Team: Ukrainian "
+"<https://hosted.weblate.org/projects/weblate/master/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.12-dev\n"
 
 #: weblate/accounts/auth.py:49
@@ -261,10 +261,8 @@ msgstr ""
 "Приховати джерельний текст, коли є переклад на будь-яку другорядну мову"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Змінити джерельний рядок"
+msgstr "Посилання на редактор"
 
 #: weblate/accounts/models.py:584
 #, python-format
@@ -274,12 +272,14 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Введіть URL, який використовується як посилання для відкриття джерельного "
+"коду. Можна застосовувати %(branch)s для вітки, %(file)s для назви файлу, "
+"%(line)s як номер рядка. Зазвичай щось на кшталт "
+"editor://open/?file=%(file)s&line=%(line)s буде хорошим варіантом."
 
 #: weblate/accounts/models.py:595
-#, fuzzy
-#| msgid "Special characters:"
 msgid "Special characters"
-msgstr "Спеціальні символи:"
+msgstr "Спеціальні символи"
 
 #: weblate/accounts/models.py:597
 msgid ""
@@ -287,6 +287,9 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Ви можете додати спеціальні символи, які будуть відображатися на візуальній "
+"клавіатурі при перекладі. Це корисне для символів, які ви часто вживаєте, "
+"але їх важко набирати на клавіатурі."
 
 #: weblate/accounts/models.py:609 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -712,18 +715,14 @@ msgstr "{name} (напр. {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Знімок контексту"
+msgstr "Назва знімка екрану"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:21
-#, fuzzy
-#| msgid "Image URL"
 msgid "Image"
-msgstr "URL малюнку"
+msgstr "Малюнок"
 
 #: weblate/screenshots/models.py:39
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
@@ -734,22 +733,23 @@ msgstr ""
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
+"Знімок екрану вивантажено і тепер ви можете зв'язати його із джерельними "
+"рядками."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
+"Не вдалося вивантажити знімок екрану. Будь ласка, виправте вказані нижче "
+"помилки."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Коментар до перекладу вилучено."
+msgstr "Знімок екрану %s вилучений."
 
 #: weblate/screenshots/views.py:185
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Ваш акаунт було видалено."
+msgstr "Ваш сирець вилучений."
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:537
 msgid "Permission Denied"
@@ -2987,17 +2987,13 @@ msgid "No screenshot currently associated!"
 msgstr "Немає наразі прив'язаного знімку!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:53
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Управління користувачами"
+msgstr "Управління знімками екрану"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Додати нового користувача"
+msgstr "Додати новий знімок"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3818,81 +3814,63 @@ msgstr "Число слів сирця"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Знімок контексту"
+msgstr "Знімки екрану"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "джерельні рядки"
+msgstr "Призначені джерельні рядки"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
-msgstr "Початкові рядки"
+msgstr "Джерельні рядки"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Дія"
+msgstr "Дії"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Знімок екрану показаний, щоби додати візуальний контекст для усіх "
+"перерахованих джерельних рядків."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "джерельні рядки"
+msgstr "Призначити джерельні рядки"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Завантаження…"
+msgstr "Завантаження результатів…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Шукати у вихідних рядках"
+msgstr "Будь ласка, шукайте нижче, щоб знайти відповідні джерельні рядки."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
-msgstr "Автоматичне виявлення"
+msgstr "Автоматичне розпізнавання"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Початкові рядки"
+msgstr "Пошук джерельного рядка"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Змінити джерельний рядок"
+msgstr "Змінити знімок"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Видалити цей обліковий запис"
+msgstr "Видалити знімок"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Вилучення знімка екрану призведе до його усунення з усіх пов'язаних "
+"джерельних рядків."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -3900,10 +3878,8 @@ msgid "Strings"
 msgstr "Рядки"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "Немає наразі прив'язаного знімку!"
+msgstr "Наразі не має прив'язаного джерельного рядка!"
 
 #: weblate/templates/search.html:36
 msgid "No matching strings found!"
@@ -4312,10 +4288,8 @@ msgid "Accept and edit"
 msgstr "Прийняти і змінити"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Використовувати цей переклад"
+msgstr "Цей переклад"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4326,10 +4300,8 @@ msgid "Use this translation"
 msgstr "Використовувати цей переклад"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Повернутися до цього перекладу"
+msgstr "Зміни стосовно цього перекладу:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -6494,10 +6466,8 @@ msgid "Em dash"
 msgstr "Довге тире"
 
 #: weblate/trans/specialchars.py:470
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "Вставити символ {0}"
+msgstr "Заданий користувачем символ: {}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
@@ -6729,17 +6699,12 @@ msgstr[1] "за %(count)s години"
 msgstr[2] "за %(count)s годин"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "Потребує перевірки"
 
 #: weblate/trans/templatetags/translations.py:543
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "перекладено"
+msgstr "Не перекладено"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
@@ -7038,10 +7003,8 @@ msgstr ""
 "не буде розглянута."
 
 #: weblate/trans/views/edit.py:217
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "Ваша пропозиція - порожня!"
+msgstr "Ваша пропозиція вже існує!"
 
 #: weblate/trans/views/edit.py:248
 #, python-format
