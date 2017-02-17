@@ -26,7 +26,9 @@ from django.db import transaction
 
 from whoosh.index import EmptyIndexError
 
-from weblate.trans.models import Suggestion, Comment, Check, Unit, Project
+from weblate.trans.models import (
+    Suggestion, Comment, Check, Unit, Project, Source, SubProject
+)
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.search import get_target_index, clean_search_unit
@@ -39,11 +41,24 @@ class Command(BaseCommand):
         '''
         Perfoms cleanup of Weblate database.
         '''
+        with transaction.atomic():
+            self.cleanup_sources()
         self.cleanup_database()
         with transaction.atomic():
             self.cleanup_fulltext()
         with transaction.atomic():
             self.cleanup_files()
+
+    def cleanup_sources(self):
+        for component in SubProject.objects.all():
+            source_ids = Unit.objects.filter(
+                translation__subproject=component
+            ).values('id_hash').distinct()
+            Source.objects.filter(
+                subproject=component
+            ).exclude(
+                id_hash__in=source_ids
+            ).delete()
 
     def cleanup_files(self):
         """Removes stale screenshots"""
