@@ -32,7 +32,13 @@ SSH repositories
 
 Most frequently used method to access private repositories is based on SSH. To
 have access to such repository, you generate SSH key for Weblate and authorize
-it to access the repository.
+it to access the repository. This all can be done in the Weblate administration
+interface:
+
+.. image:: images/ssh-keys.png
+
+Generating SSH keys
+~~~~~~~~~~~~~~~~~~~
 
 You can generate or display key currently used by Weblate in the admin
 interface (follow :guilabel:`SSH keys` link on main admin page). Once you've
@@ -43,13 +49,18 @@ done this, Weblate should be able to access your repository.
     The keys need to be without password to make it work, so be sure they are
     well protected against malicious usage.
 
-Before connecting to the repository, you also need to verify SSH host keys of
-servers you are going to access in the same section of the admin interface.
-
-.. note:: 
+.. warning::
    
     On GitHub, you can add the key to only one repository. See following
     sections for other solutions for GitHub.
+    
+Verifying SSH host keys
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Before connecting to the repository, you also need to verify SSH host keys of
+servers you are going to access in the same section of the admin interface.
+You can do this in the :guilabel:`Add host key` section. After adding it please
+verify that the fingerprint matches the server you're adding.
    
 HTTPS repositories
 ++++++++++++++++++

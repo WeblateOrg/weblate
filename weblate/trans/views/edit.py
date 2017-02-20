@@ -419,7 +419,7 @@ def check_suggestion_permissions(request, mode, translation):
                 _('You do not have privilege to delete suggestions!')
             )
             return False
-    elif mode in ('upvode', 'downvote'):
+    elif mode in ('upvote', 'downvote'):
         if not can_vote_suggestion(request.user, translation):
             messages.error(
                 request,
