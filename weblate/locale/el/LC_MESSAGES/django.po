@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-16 20:26+0000\n"
-"PO-Revision-Date: 2017-01-30 00:41+0000\n"
+"PO-Revision-Date: 2017-02-20 21:13+0000\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
-">\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.11-dev\n"
+"X-Generator: Weblate 2.12-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -259,10 +259,8 @@ msgid "Hide source if there is secondary language"
 msgstr "Απόκρυψη προέλευση αν υπάρχει δευτερεύουσα γλώσσα"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Επεξεργασία κειμένων προέλευσης"
+msgstr "Σύνδεσμος επεξεργαστή"
 
 #: weblate/accounts/models.py:584
 #, python-format
@@ -272,12 +270,14 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Εισάγετε προσαρμοσμένο URL για να χρησιμοποιηθεί ως σύνδεσμος για ανοιχτό "
+"κώδικα. Μπορείτε να χρησιμοποιήσετε το %(branch)s για κλάδο, το %(file)s και "
+"το %(line)s ως όνομα αρχείου και χωροθέτες γραμμής. Συνήθως κάτι σαν το "
+"editor://open/?file=%(file)s&line=%(line)s είναι καλή επιλογή."
 
 #: weblate/accounts/models.py:595
-#, fuzzy
-#| msgid "Special characters:"
 msgid "Special characters"
-msgstr "Ειδικοί χαρακτήρες:"
+msgstr "Ειδικοί χαρακτήρες"
 
 #: weblate/accounts/models.py:597
 msgid ""
@@ -285,6 +285,10 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Μπορείτε να ορίσετε πρόσθετους ειδικούς χαρακτήρες για να εμφανίζονται στο "
+"εικονικό πληκτρολόγιο κατά τη μετάφραση. Μπορεί να είναι χρήσιμο για "
+"χαρακτήρες που χρησιμοποιείτε συχνά αλλά είναι δύσκολο να γραφτούν στο "
+"πληκτρολόγιό σας."
 
 #: weblate/accounts/models.py:609 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -714,18 +718,14 @@ msgstr "{name} (π.χ. {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Περιεχόμενο στιγμιότυπου"
+msgstr "Όνομα στιγμιότυπου"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:21
-#, fuzzy
-#| msgid "Image URL"
 msgid "Image"
-msgstr "URL εικόνας"
+msgstr "Εικόνα"
 
 #: weblate/screenshots/models.py:39
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
@@ -734,22 +734,21 @@ msgstr "Αποστολή εικόνων JPEG ή PNG έως 2.000x2.000 εικο�
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr ""
+"Τα στιγμιότυτα ανέβηκαν, μπορείτε τώρα να τα συσχετίσετε με κείμενο "
+"προέλευσης."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "Αδύνατη η αποστολή στιγμιοτύπου, διορθώστε τα παρακάτω σφάλματα."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Το σχόλιο της μετάφρασης έχει διαγραφεί."
+msgstr "Το στιγμιότυπο %s έχει διαγραφεί."
 
 #: weblate/screenshots/views.py:185
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Ο λογαριασμός σας απομακρύνθηκε."
+msgstr "Η προέλευση απομακρύνθηκε."
 
 #: weblate/templates/403.html:5 weblate/trans/views/basic.py:537
 msgid "Permission Denied"
@@ -3012,17 +3011,13 @@ msgid "No screenshot currently associated!"
 msgstr "Κανένα στιγμιότυπο δεν έχει συσχετιστεί!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:53
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Διαχείριση χρηστών"
+msgstr "Διαχείριση στιγμιοτύπων"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Προσθήκη νέου χρήστη"
+msgstr "Προσθήκη νέου στιγμιοτύπου"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3841,81 +3836,63 @@ msgstr "Αριθμός λέξεων προέλευσης"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Περιεχόμενο στιγμιότυπου"
+msgstr "Στιγμιότυπα"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "κείμενα προέλευσης"
+msgstr "Συσχετισμένα κείμενα προέλευσης"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
 msgstr "Κείμενα προέλευσης"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Ενέργεια"
+msgstr "Ενέργειες"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Το στιγμιότυπο φαίνεται να προσθέτει εικονικό περιεχόμενο σε όλα τα "
+"εμφανιζόμενα κείμενα προέλευσης."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "κείμενα προέλευσης"
+msgstr "Συσχέτιση κειμένων προέλευσης"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Φόρτωση…"
+msgstr "Φόρτωση αποτελεσμάτων…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Αναζήτηση στα κείμενα προέλευσης"
+msgstr "Αναζήτηση παρακάτω για εύρεση κειμένων προέλευσης που ταιριάζουν."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
-msgstr "Αυτόματη ανίχνευση"
+msgstr "Αυτόματη αναγνώριση"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Κείμενα προέλευσης"
+msgstr "Αναζήτηση κειμένου προέλευσης"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Επεξεργασία κειμένων προέλευσης"
+msgstr "Επεξεργασία στιγμιοτύπου"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Διαγραφή αυτού του λογαριασμού"
+msgstr "Διαγραφή στιγμιοτύπου"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Η διαγραφή του στιγμιοτύπου θα το απομακρύνει από όλα τα συσχετισμένα "
+"κείμενα προέλευσης."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -3923,10 +3900,8 @@ msgid "Strings"
 msgstr "Κείμενα"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "Κανένα στιγμιότυπο δεν έχει συσχετιστεί!"
+msgstr "Κανένα κείμενο προέλευσης δεν έχει συσχετιστεί!"
 
 #: weblate/templates/search.html:36
 msgid "No matching strings found!"
@@ -4337,10 +4312,8 @@ msgid "Accept and edit"
 msgstr "Αποδοχή και επεξεργασία"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Χρήση αυτής της μετάφρασης"
+msgstr "Αυτή η μετάφραση"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4351,10 +4324,8 @@ msgid "Use this translation"
 msgstr "Χρήση αυτής της μετάφρασης"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Επαναφορά σε αυτή τη μετάφραση"
+msgstr "Αλλαγή σε σύγκριση με αυτή τη μετάφραση:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -6551,10 +6522,8 @@ msgid "Em dash"
 msgstr "Παύλα em"
 
 #: weblate/trans/specialchars.py:470
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "Εισαγωγή χαρακτήρα {0}"
+msgstr "Χαρακτήρας ορισμένος από το χρήστη {}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
@@ -6772,17 +6741,12 @@ msgstr[0] "%(count)s ώρα από τώρα"
 msgstr[1] "%(count)s ώρες από τώρα"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
-msgstr "Χρειάζεται έλεγχο"
+msgstr "Χρειάζεται επισκόπηση"
 
 #: weblate/trans/templatetags/translations.py:543
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "μεταφρασμένο"
+msgstr "Αμετάφραστο"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
@@ -7080,10 +7044,8 @@ msgstr ""
 "ένας μεταφραστής καθώς η πρότασή σας μπορεί να μην ελεγχθεί."
 
 #: weblate/trans/views/edit.py:217
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "Η πρότασή σας είναι άδεια!"
+msgstr "Η πρότασή σας υπάρχει ήδη!"
 
 #: weblate/trans/views/edit.py:248
 #, python-format
