@@ -48,9 +48,9 @@ class MathCaptcha(object):
     '''
     operators = ('+', '-', '*')
     operators_display = {
-        '+': '➕',
-        '-': '➖',
-        '*': '✖',
+        '+': '<i class="fa fa-plus"></i>',
+        '-': '<i class="fa fa-minus"></i>',
+        '*': '<i class="fa fa-times"></i>',
     }
     interval = (1, 10)
 
