@@ -1089,7 +1089,7 @@ def sync_create_groups(sender, **kwargs):
     '''
     Create groups on syncdb.
     '''
-    if sender.label == 'accounts':
+    if sender.label == 'weblate':
         create_groups(False)
 
 
