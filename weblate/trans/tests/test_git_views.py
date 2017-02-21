@@ -45,12 +45,12 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     def get_test_url(self, prefix):
         return reverse(
-            '%s_%s' % (prefix, self.TEST_TYPE),
-            kwargs=getattr(self, 'kw_%s' % self.TEST_TYPE)
+            '{0!s}_{1!s}'.format(prefix, self.TEST_TYPE),
+            kwargs=getattr(self, 'kw_{0!s}'.format(self.TEST_TYPE))
         )
 
     def get_expected_redirect(self):
-        return getattr(self, '%s_url' % self.TEST_TYPE) + '#repository'
+        return getattr(self, '{0!s}_url'.format(self.TEST_TYPE)) + '#repository'
 
     def test_commit(self):
         response = self.client.post(

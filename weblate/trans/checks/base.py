@@ -40,9 +40,9 @@ class Check(object):
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
-        self.doc_id = 'check-%s' % id_dash
+        self.doc_id = 'check-{0!s}'.format(id_dash)
         self.enable_string = id_dash
-        self.ignore_string = 'ignore-%s' % id_dash
+        self.ignore_string = 'ignore-{0!s}'.format(id_dash)
 
     def should_skip(self, unit):
         """Check whether we should skip processing this unit"""

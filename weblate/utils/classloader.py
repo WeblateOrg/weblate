@@ -32,22 +32,19 @@ def load_class(name, setting):
         module, attr = name.rsplit('.', 1)
     except ValueError as error:
         raise ImproperlyConfigured(
-            'Error importing class %s in %s: "%s"' %
-            (name, setting, error)
+            'Error importing class {0!s} in {1!s}: "{2!s}"'.format(name, setting, error)
         )
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
-            'Error importing module %s in %s: "%s"' %
-            (module, setting, error)
+            'Error importing module {0!s} in {1!s}: "{2!s}"'.format(module, setting, error)
         )
     try:
         cls = getattr(mod, attr)
     except AttributeError:
         raise ImproperlyConfigured(
-            'Module "%s" does not define a "%s" class in %s' %
-            (module, attr, setting)
+            'Module "{0!s}" does not define a "{1!s}" class in {2!s}'.format(module, attr, setting)
         )
     return cls
 

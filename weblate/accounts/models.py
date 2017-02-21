@@ -106,7 +106,7 @@ def get_author_name(user, email=True):
     # Add email if we are asked for it
     if not email:
         return full_name
-    return '%s <%s>' % (full_name, user.email)
+    return '{0!s} <{1!s}>'.format(full_name, user.email)
 
 
 def notify_merge_failure(subproject, error, status):

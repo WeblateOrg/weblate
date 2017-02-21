@@ -104,7 +104,7 @@ class MicrosoftTranslation(MachineTranslation):
         '''
         request.add_header(
             'Authorization',
-            'Bearer %s' % self.access_token
+            'Bearer {0!s}'.format(self.access_token)
         )
 
     def convert_language(self, language):

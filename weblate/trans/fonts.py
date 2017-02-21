@@ -683,7 +683,7 @@ def get_font(size, bold=False, base_font=True):
     '''
     Returns PIL font object matching parameters.
     '''
-    cache_key = '%d-%s-%s' % (size, bold, base_font)
+    cache_key = '{0:d}-{1!s}-{2!s}'.format(size, bold, base_font)
     if cache_key not in FONT_CACHE:
         if base_font:
             if bold:

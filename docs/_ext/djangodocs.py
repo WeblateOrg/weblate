@@ -28,6 +28,6 @@ def setup(app):
 def parse_django_admin_node(env, sig, signode):
     command = sig.split(' ')[0]
     env.ref_context['std:program'] = command
-    title = "manage.py %s" % sig
+    title = "manage.py {0!s}".format(sig)
     signode += addnodes.desc_name(title, title)
     return command

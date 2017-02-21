@@ -168,7 +168,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         if user is None:
             return False
 
-        if user.has_perm('trans.weblate_acl_%s' % self.slug):
+        if user.has_perm('trans.weblate_acl_{0!s}'.format(self.slug)):
             return True
 
         return self.owners.filter(id=user.id).exists()
@@ -276,8 +276,8 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
                 model='project'
             )
 
-            perm_code = 'weblate_acl_%s' % self.slug
-            perm_name = 'Can access project %s' % self.name
+            perm_code = 'weblate_acl_{0!s}'.format(self.slug)
+            perm_name = 'Can access project {0!s}'.format(self.name)
 
             try:
                 permission = Permission.objects.get(

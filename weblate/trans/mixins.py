@@ -102,7 +102,7 @@ class URLMixin(object):
         if name is None:
             urlname = self._reverse_url_name()
         else:
-            urlname = '%s_%s' % (
+            urlname = '{0!s}_{1!s}'.format(
                 name,
                 self._reverse_url_name()
             )

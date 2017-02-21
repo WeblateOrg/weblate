@@ -133,7 +133,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '%s/media/' % URL_PREFIX
+MEDIA_URL = '{0!s}/media/'.format(URL_PREFIX)
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -143,7 +143,7 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '%s/static/' % URL_PREFIX
+STATIC_URL = '{0!s}/static/'.format(URL_PREFIX)
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -247,11 +247,11 @@ SOCIAL_AUTH_STRATEGY = 'weblate.accounts.strategy.WeblateStrategy'
 
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = \
     'weblate.accounts.pipeline.send_validation'
-SOCIAL_AUTH_EMAIL_VALIDATION_URL = '%s/accounts/email-sent/' % URL_PREFIX
-SOCIAL_AUTH_LOGIN_ERROR_URL = '%s/accounts/login/' % URL_PREFIX
-SOCIAL_AUTH_EMAIL_FORM_URL = '%s/accounts/email/' % URL_PREFIX
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = '{0!s}/accounts/email-sent/'.format(URL_PREFIX)
+SOCIAL_AUTH_LOGIN_ERROR_URL = '{0!s}/accounts/login/'.format(URL_PREFIX)
+SOCIAL_AUTH_EMAIL_FORM_URL = '{0!s}/accounts/email/'.format(URL_PREFIX)
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = \
-    '%s/accounts/profile/#auth' % URL_PREFIX
+    '{0!s}/accounts/profile/#auth'.format(URL_PREFIX)
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)
 SOCIAL_AUTH_SLUGIFY_USERNAMES = True
 SOCIAL_AUTH_SLUGIFY_FUNCTION = 'weblate.accounts.pipeline.slugify_username'
@@ -463,13 +463,13 @@ SITE_TITLE = 'Weblate'
 ENABLE_HTTPS = False
 
 # URL of login
-LOGIN_URL = '%s/accounts/login/' % URL_PREFIX
+LOGIN_URL = '{0!s}/accounts/login/'.format(URL_PREFIX)
 
 # URL of logout
-LOGOUT_URL = '%s/accounts/logout/' % URL_PREFIX
+LOGOUT_URL = '{0!s}/accounts/logout/'.format(URL_PREFIX)
 
 # Default location for login
-LOGIN_REDIRECT_URL = '%s/' % URL_PREFIX
+LOGIN_REDIRECT_URL = '{0!s}/'.format(URL_PREFIX)
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = 'anonymous'

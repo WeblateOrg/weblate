@@ -268,7 +268,7 @@ class ImportProjectTest(RepoTestCase):
         call_command(
             'import_project',
             project.slug,
-            'weblate://%s/%s' % (project.slug, android.slug),
+            'weblate://{0!s}/{1!s}'.format(project.slug, android.slug),
             'master',
             '**/*.po',
         )

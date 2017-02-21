@@ -29,5 +29,5 @@ class Command(WeblateCommand):
         Shows status of git repository in given projects.
         '''
         for subproject in self.get_subprojects(*args, **options):
-            self.stdout.write('%s:' % subproject)
+            self.stdout.write('{0!s}:'.format(subproject))
             self.stdout.write(subproject.repository.status())

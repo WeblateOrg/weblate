@@ -286,13 +286,13 @@ class Command(BaseCommand):
         # Is file format supported?
         if self.file_format not in FILE_FORMATS:
             raise CommandError(
-                'Invalid file format: %s' % options['file_format']
+                'Invalid file format: {0!s}'.format(options['file_format'])
             )
 
         # Is vcs supported?
         if self.vcs not in VCS_REGISTRY:
             raise CommandError(
-                'Invalid vcs: %s' % options['vcs']
+                'Invalid vcs: {0!s}'.format(options['vcs'])
             )
 
         # Do we have correct mask?
@@ -317,8 +317,8 @@ class Command(BaseCommand):
             project = Project.objects.get(slug=options['project'])
         except Project.DoesNotExist:
             raise CommandError(
-                'Project %s does not exist, you need to create it first!' %
-                options['project']
+                'Project {0!s} does not exist, you need to create it first!'.format(
+                options['project'])
             )
 
         # We need to limit slug length to avoid problems with MySQL
@@ -423,7 +423,7 @@ class Command(BaseCommand):
                 name
             )
             shutil.rmtree(workdir)
-            return matches, 'weblate://%s/%s' % (project.slug, slug)
+            return matches, 'weblate://{0!s}/{1!s}'.format(project.slug, slug)
 
         self.logger.info('Creating component %s as main one', name)
 
@@ -444,6 +444,6 @@ class Command(BaseCommand):
             **self.get_project_attribs()
         )
 
-        sharedrepo = 'weblate://%s/%s' % (project.slug, slug)
+        sharedrepo = 'weblate://{0!s}/{1!s}'.format(project.slug, slug)
 
         return matches, sharedrepo

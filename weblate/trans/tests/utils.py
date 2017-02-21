@@ -358,7 +358,7 @@ class RepoTestMixin(object):
     def create_xliff(self, name='default'):
         return self._create_subproject(
             'xliff',
-            'xliff/*/%s.xlf' % name,
+            'xliff/*/{0!s}.xlf'.format(name),
         )
 
     def create_xliff_mono(self):

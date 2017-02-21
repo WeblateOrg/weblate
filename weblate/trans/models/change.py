@@ -337,7 +337,7 @@ class Change(models.Model):
         elif self.subproject is not None:
             return force_text(self.subproject)
         elif self.dictionary is not None:
-            return '%s/%s' % (
+            return '{0!s}/{1!s}'.format(
                 self.dictionary.project,
                 self.dictionary.language
             )

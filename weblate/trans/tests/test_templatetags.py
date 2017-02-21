@@ -78,8 +78,8 @@ class NaturalTimeTest(TestCase):
             )
             self.assertEqual(
                 expected, result,
-                'naturaltime(%s) "%s" != "%s"' % (
-                    testdate, result, expected,
+                'naturaltime({0!s}) "{1!s}" != "{2!s}"'.format(
+                    testdate, result, expected
                 )
             )
 

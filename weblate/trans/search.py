@@ -91,7 +91,7 @@ def create_target_index(lang):
     Creates traget string index for given language.
     '''
     create_index()
-    return STORAGE.create_index(TargetSchema(), 'target-%s' % lang)
+    return STORAGE.create_index(TargetSchema(), 'target-{0!s}'.format(lang))
 
 
 def update_source_unit_index(writer, unit):
@@ -142,7 +142,7 @@ def get_target_index(lang):
     '''
     Returns target index object.
     '''
-    name = 'target-%s' % lang
+    name = 'target-{0!s}'.format(lang)
     try:
         exists = STORAGE.index_exists(name)
     except OSError:

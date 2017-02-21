@@ -61,7 +61,7 @@ class TMServerTranslation(MachineTranslation):
         '''
         Downloads list of supported languages from a service.
         '''
-        data = self.json_req('%s/languages/' % self.url)
+        data = self.json_req('{0!s}/languages/'.format(self.url))
         return [
             (src, tgt)
             for src in data['sourceLanguages']
@@ -82,11 +82,11 @@ class TMServerTranslation(MachineTranslation):
         '''
         Downloads list of possible translations from a service.
         '''
-        url = '%s/%s/%s/unit/%s' % (
+        url = '{0!s}/{1!s}/{2!s}/unit/{3!s}'.format(
             self.url,
             quote(source),
             quote(language),
-            quote(text[:500].replace('\r', ' ').encode('utf-8')),
+            quote(text[:500].replace('\r', ' ').encode('utf-8'))
         )
         response = self.json_req(url)
 

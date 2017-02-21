@@ -68,7 +68,7 @@ class ReplaceTrailingDotsWithEllipsis(AutoFix):
 
     def fix_single_target(self, target, source, unit):
         if source and source[-1] == '…' and target.endswith('...'):
-            return '%s…' % target[:-3], True
+            return '{0!s}…'.format(target[:-3]), True
         return target, False
 
 
