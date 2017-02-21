@@ -448,9 +448,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         result = list(
             self.subproject_set.exclude(repo__startswith='weblate://')
         )
-        included = set(
-            [component.get_repo_link_url() for component in result]
-        )
+        included = {component.get_repo_link_url() for component in result}
 
         linked = self.subproject_set.filter(repo__startswith='weblate://')
         for other in linked:
