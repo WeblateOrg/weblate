@@ -199,7 +199,7 @@ def add_host_key(request):
                 )
             with open(ssh_file(KNOWN_HOSTS), 'a') as handle:
                 for key in keys:
-                    handle.write('%s\n' % key)
+                    handle.write('{0!s}\n'.format(key))
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request,

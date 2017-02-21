@@ -154,7 +154,7 @@ class DictionaryTest(ViewTestCase):
         self.assertEqual(Dictionary.objects.count(), 1)
 
         dict_id = Dictionary.objects.all()[0].id
-        dict_id_url = '?id=%d' % dict_id
+        dict_id_url = '?id={0:d}'.format(dict_id)
 
         # Check they are shown
         response = self.client.get(show_url)

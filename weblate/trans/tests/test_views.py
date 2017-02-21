@@ -166,10 +166,10 @@ class ViewTestCase(RepoTestCase):
 
         self.assertEqual(path, exp_path)
 
-        exp_offset = 'offset=%d' % exp_offset
+        exp_offset = 'offset={0:d}'.format(exp_offset)
         self.assertTrue(
             exp_offset in query,
-            'Offset %s not in %s' % (exp_offset, query)
+            'Offset {0!s} not in {1!s}'.format(exp_offset, query)
         )
 
     def assert_png(self, response):

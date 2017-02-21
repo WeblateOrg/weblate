@@ -169,14 +169,14 @@ class PoExporter(BaseExporter):
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator='Weblate %s' % weblate.VERSION,
-            project_id_version='%s (%s)' % (
+            x_generator='Weblate {0!s}'.format(weblate.VERSION),
+            project_id_version='{0!s} ({1!s})'.format(
                 self.language.name, self.project.name
             ),
             plural_forms=self.language.get_plural_form(),
-            language_team='%s <%s>' % (
+            language_team='{0!s} <{1!s}>'.format(
                 self.language.name,
-                self.url,
+                self.url
             )
         )
         return store
@@ -242,14 +242,14 @@ class MoExporter(BaseExporter):
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator='Weblate %s' % weblate.VERSION,
-            project_id_version='%s (%s)' % (
+            x_generator='Weblate {0!s}'.format(weblate.VERSION),
+            project_id_version='{0!s} ({1!s})'.format(
                 self.language.name, self.project.name
             ),
             plural_forms=self.language.get_plural_form(),
-            language_team='%s <%s>' % (
+            language_team='{0!s} <{1!s}>'.format(
                 self.language.name,
-                self.url,
+                self.url
             )
         )
         return store

@@ -665,4 +665,4 @@ def whiteboard_messages(project=None, subproject=None, language=None):
 @register.simple_tag(takes_context=True)
 def active_tab(context, slug):
     active = "active" if slug == context['active_tab_slug'] else ""
-    return mark_safe('class="tab-pane %s" id="%s"' % (active, slug))
+    return mark_safe('class="tab-pane {0!s}" id="{1!s}"'.format(active, slug))

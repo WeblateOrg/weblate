@@ -254,7 +254,7 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_GOOGLE_KEY='KEY')
     @httpretty.activate
     def test_google(self):
-        cache.delete('%s-languages' % GoogleTranslation().mtid)
+        cache.delete('{0!s}-languages'.format(GoogleTranslation().mtid))
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/languages',
@@ -283,7 +283,7 @@ class MachineTranslationTest(TestCase):
     @httpretty.activate
     def test_google_invalid(self):
         """Test handling of server failure."""
-        cache.delete('%s-languages' % GoogleTranslation().mtid)
+        cache.delete('{0!s}-languages'.format(GoogleTranslation().mtid))
         httpretty.register_uri(
             httpretty.GET,
             'https://www.googleapis.com/language/translate/v2/languages',
@@ -334,7 +334,7 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_YANDEX_KEY='KEY')
     @httpretty.activate
     def test_yandex(self):
-        cache.delete('%s-languages' % YandexTranslation().mtid)
+        cache.delete('{0!s}-languages'.format(YandexTranslation().mtid))
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
@@ -351,7 +351,7 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_YANDEX_KEY='KEY')
     @httpretty.activate
     def test_yandex_error(self):
-        cache.delete('%s-languages' % YandexTranslation().mtid)
+        cache.delete('{0!s}-languages'.format(YandexTranslation().mtid))
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',

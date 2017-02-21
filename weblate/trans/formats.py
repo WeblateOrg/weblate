@@ -652,7 +652,7 @@ class FileFormat(object):
         if not hasattr(self.store, 'updateheader'):
             return
 
-        kwargs['x_generator'] = 'Weblate %s' % weblate.VERSION
+        kwargs['x_generator'] = 'Weblate {0!s}'.format(weblate.VERSION)
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()

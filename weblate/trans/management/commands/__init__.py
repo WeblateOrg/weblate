@@ -130,7 +130,7 @@ class WeblateCommand(BaseCommand):
                 # warn on no match
                 if found.count() == 0:
                     self.stderr.write(
-                        '"%s" did not match any components' % arg
+                        '"{0!s}" did not match any components'.format(arg)
                     )
                     raise CommandError('Nothing to process!')
 

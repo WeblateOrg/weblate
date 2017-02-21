@@ -83,13 +83,13 @@ class WeblateUserBackend(ModelBackend):
         if not user_obj.is_active and not user_obj.is_anonymous:
             return set()
 
-        perm_cache_name = '_%s_perm_cache' % from_name
+        perm_cache_name = '_{0!s}_perm_cache'.format(from_name)
         if not hasattr(user_obj, perm_cache_name):
             if user_obj.is_superuser:
                 perms = Permission.objects.all()
             else:
                 perms = getattr(
-                    self, '_get_%s_permissions' % from_name
+                    self, '_get_{0!s}_permissions'.format(from_name)
                 )(user_obj)
             perms = perms.values_list(
                 'content_type__app_label', 'codename'
@@ -97,7 +97,7 @@ class WeblateUserBackend(ModelBackend):
             setattr(
                 user_obj,
                 perm_cache_name,
-                set("%s.%s" % (ct, name) for ct, name in perms)
+                set("{0!s}.{1!s}".format(ct, name) for ct, name in perms)
             )
         return getattr(user_obj, perm_cache_name)
 

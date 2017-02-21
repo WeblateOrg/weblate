@@ -139,10 +139,10 @@ class Widget(object):
         return os.path.join(
             os.path.dirname(__file__),
             'widget-images',
-            '%(widget)s-%(color)s.png' % {
+            '{widget!s}-{color!s}.png'.format(**{
                 'color': self.color,
                 'widget': self.name,
-            }
+            })
         )
 
     def render(self):
@@ -331,7 +331,7 @@ class BadgeWidget(Widget):
         return os.path.join(
             os.path.dirname(__file__),
             'widget-images',
-            'badge-%s.png' % mode
+            'badge-{0!s}.png'.format(mode)
         )
 
     def render_texts(self):

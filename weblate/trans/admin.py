@@ -52,7 +52,7 @@ class ProjectAdmin(WeblateAdmin):
         """
         for project in queryset:
             project.do_update(request)
-        self.message_user(request, "Updated %d git repos." % queryset.count())
+        self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
     update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
@@ -66,7 +66,7 @@ class ProjectAdmin(WeblateAdmin):
         for unit in units.iterator():
             unit.run_checks()
             cnt += 1
-        self.message_user(request, "Updated checks for %d units." % cnt)
+        self.message_user(request, "Updated checks for {0:d} units.".format(cnt))
     update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
@@ -77,7 +77,7 @@ class ProjectAdmin(WeblateAdmin):
             project.commit_pending(request)
         self.message_user(
             request,
-            "Flushed changes in %d git repos." % queryset.count()
+            "Flushed changes in {0:d} git repos.".format(queryset.count())
         )
     force_commit.short_description = _('Commit pending changes')
 
@@ -106,7 +106,7 @@ class SubProjectAdmin(WeblateAdmin):
         """
         for project in queryset:
             project.do_update(request)
-        self.message_user(request, "Updated %d git repos." % queryset.count())
+        self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
     update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
@@ -122,7 +122,7 @@ class SubProjectAdmin(WeblateAdmin):
             cnt += 1
         self.message_user(
             request,
-            "Updated checks for %d units." % cnt
+            "Updated checks for {0:d} units.".format(cnt)
         )
     update_checks.short_description = _('Update quality checks')
 
@@ -134,7 +134,7 @@ class SubProjectAdmin(WeblateAdmin):
             project.commit_pending(request)
         self.message_user(
             request,
-            "Flushed changes in %d git repos." % queryset.count()
+            "Flushed changes in {0:d} git repos.".format(queryset.count())
         )
     force_commit.short_description = _('Commit pending changes')
 
@@ -157,7 +157,7 @@ class TranslationAdmin(WeblateAdmin):
         queryset.update(enabled=True)
         self.message_user(
             request,
-            "Enabled %d translations." % queryset.count()
+            "Enabled {0:d} translations.".format(queryset.count())
         )
 
     def disable_translation(self, request, queryset):
@@ -167,7 +167,7 @@ class TranslationAdmin(WeblateAdmin):
         queryset.update(enabled=False)
         self.message_user(
             request,
-            "Disabled %d translations." % queryset.count()
+            "Disabled {0:d} translations.".format(queryset.count())
         )
 
 

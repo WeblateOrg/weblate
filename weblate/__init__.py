@@ -63,12 +63,12 @@ def get_doc_url(page, anchor=''):
     if '-dev' in VERSION:
         version = 'latest'
     else:
-        version = 'weblate-%s' % VERSION
+        version = 'weblate-{0!s}'.format(VERSION)
     # Generate URL
-    url = 'https://docs.weblate.org/en/%s/%s.html' % (version, page)
+    url = 'https://docs.weblate.org/en/{0!s}/{1!s}.html'.format(version, page)
     # Optionally append anchor
     if anchor != '':
-        url += '#%s' % anchor
+        url += '#{0!s}'.format(anchor)
 
     return url
 
@@ -91,9 +91,9 @@ def get_versions_string():
     result = []
     for version in get_versions_list():
         result.append(
-            ' * %s %s' % (
+            ' * {0!s} {1!s}'.format(
                 version[0],
-                version[2],
+                version[2]
             )
         )
     return '\n'.join(result)

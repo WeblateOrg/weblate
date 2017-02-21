@@ -180,7 +180,7 @@ class Dictionary(models.Model):
         app_label = 'trans'
 
     def __str__(self):
-        return '%s/%s: %s -> %s' % (
+        return '{0!s}/{1!s}: {2!s} -> {3!s}'.format(
             self.project,
             self.language,
             self.source,
@@ -188,7 +188,7 @@ class Dictionary(models.Model):
         )
 
     def get_absolute_url(self):
-        return '%s?id=%d' % (
+        return '{0!s}?id={1:d}'.format(
             reverse(
                 'edit_dictionary',
                 kwargs={

@@ -81,7 +81,7 @@ def search(translation, request):
     # Already performed search
     if 'sid' in request.GET:
         # Grab from session storage
-        search_id = 'search_%s' % request.GET['sid']
+        search_id = 'search_{0!s}'.format(request.GET['sid'])
 
         # Check if we know the search
         if search_id not in request.session:
@@ -172,7 +172,7 @@ def search(translation, request):
         'offset': offset,
     }
 
-    request.session['search_%s' % search_id] = search_result
+    request.session['search_{0!s}'.format(search_id)] = search_result
 
     search_result = copy.copy(search_result)
     search_result['form'] = search_form
@@ -501,14 +501,14 @@ def translate(request, project, subproject, lang):
     if offset < 0 or offset >= num_results:
         messages.info(request, _('You have reached end of translating.'))
         # Delete search
-        del request.session['search_%s' % search_result['search_id']]
+        del request.session['search_{0!s}'.format(search_result['search_id'])]
         # Redirect to translation
         return redirect(translation)
 
     # Some URLs we will most likely use
-    base_unit_url = '%s?sid=%s&offset=' % (
+    base_unit_url = '{0!s}?sid={1!s}&offset='.format(
         translation.get_translate_url(),
-        search_result['search_id'],
+        search_result['search_id']
     )
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)

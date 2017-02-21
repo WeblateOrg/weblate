@@ -64,7 +64,7 @@ class MyMemoryTranslation(MachineTranslation):
             quality = 0
 
         if match['last-updated-by'] != '':
-            source = '%s (%s)' % (
+            source = '{0!s} ({1!s})'.format(
                 self.name,
                 match['last-updated-by']
             )
@@ -84,7 +84,7 @@ class MyMemoryTranslation(MachineTranslation):
         '''
         args = {
             'q': text.split('. ')[0][:500],
-            'langpair': '%s|%s' % (source, language),
+            'langpair': '{0!s}|{1!s}'.format(source, language),
         }
         if settings.MT_MYMEMORY_EMAIL is not None:
             args['de'] = settings.MT_MYMEMORY_EMAIL

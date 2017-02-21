@@ -358,13 +358,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def get_widgets_url(self):
         """Returns absolute URL for widgets."""
         return get_site_url(
-            '%s?lang=%s' % (
+            '{0!s}?lang={1!s}'.format(
                 reverse(
                     'widgets', kwargs={
                         'project': self.subproject.project.slug,
                     }
                 ),
-                self.language.code,
+                self.language.code
             )
         )
 
@@ -389,7 +389,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         })
 
     def __str__(self):
-        return '%s - %s' % (
+        return '{0!s} - {1!s}'.format(
             force_text(self.subproject),
             force_text(self.language)
         )
@@ -701,7 +701,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'translated_percent': self.get_translated_percent(),
         }
         if self.commit_message:
-            msg = '%s\n\n%s' % (msg, self.commit_message)
+            msg = '{0!s}\n\n{1!s}'.format(msg, self.commit_message)
             self.commit_message = ''
             self.save()
 
@@ -849,9 +849,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             # Optionally store language team with link to website
             if self.subproject.project.set_translation_team:
-                headers['language_team'] = '%s <%s>' % (
+                headers['language_team'] = '{0!s} <{1!s}>'.format(
                     self.language.name,
-                    get_site_url(self.get_absolute_url()),
+                    get_site_url(self.get_absolute_url())
                 )
 
             # Optionally store email for reporting bugs in source
@@ -1193,7 +1193,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Actually delete the cache
         for rqtype in keys:
-            cache_key = 'counts-%s-%s-%s' % (slug, code, rqtype)
+            cache_key = 'counts-{0!s}-{1!s}-{2!s}'.format(slug, code, rqtype)
             cache.delete(cache_key)
 
     def get_kwargs(self):

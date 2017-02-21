@@ -57,5 +57,5 @@ class Command(WeblateLangCommand):
                 continue
 
             if int(options['verbosity']) >= 1:
-                self.stdout.write('Committing %s' % translation)
+                self.stdout.write('Committing {0!s}'.format(translation))
             translation.commit_pending(None)
