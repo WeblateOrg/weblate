@@ -1146,10 +1146,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             lang = Language.objects.auto_get_or_create(code=code)
             if code in langs:
                 raise ValidationError(_(
-                    'There are more files for single language, please '
+                    'There are more files for single language (%s), please '
                     'adjust the mask and use components for translating '
                     'different resources.'
-                ))
+                ) % code)
             if lang.code in translated_langs:
                 raise ValidationError(_(
                     'Multiple translations were mapped to a single language '
