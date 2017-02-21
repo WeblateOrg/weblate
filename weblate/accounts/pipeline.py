@@ -106,7 +106,7 @@ def send_validation(strategy, backend, code):
     if strategy.request.session.pop('password_reset', False):
         template = 'reset'
 
-    url = '{}?verification_code={}&id={}&type={}'.format(
+    url = '{0}?verification_code={1}&id={2}&type={3}'.format(
         reverse('social:complete', args=(backend.name,)),
         code.code,
         strategy.request.session.session_key,

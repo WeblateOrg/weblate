@@ -16,7 +16,7 @@ def copy_to_screenshots(apps, schema_editor):
         try:
             fileobj = source.screenshot.file
         except IOError:
-            print('Failed to load screenshot {}, skipping!'.format(
+            print('Failed to load screenshot {0}, skipping!'.format(
                 source.screenshot
             ))
             continue

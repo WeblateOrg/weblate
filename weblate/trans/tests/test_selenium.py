@@ -62,11 +62,11 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
         connection = HTTPConnection("saucelabs.com")
         connection.request(
             'PUT',
-            '/rest/v1/{}/jobs/{}'.format(
+            '/rest/v1/{0}/jobs/{1}'.format(
                 self.username, self.driver.session_id
             ),
             body_content,
-            headers={"Authorization": "Basic {}".format(self.sauce_auth)}
+            headers={"Authorization": "Basic {0}".format(self.sauce_auth)}
         )
         result = connection.getresponse()
         return result.status == 200
@@ -94,8 +94,8 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
                 cls.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
                 cls.caps['build'] = os.environ['TRAVIS_BUILD_NUMBER']
                 cls.caps['tags'] = [
-                    'python-{}'.format(os.environ['TRAVIS_PYTHON_VERSION']),
-                    'django-{}'.format(django.get_version()),
+                    'python-{0}'.format(os.environ['TRAVIS_PYTHON_VERSION']),
+                    'django-{0}'.format(django.get_version()),
                     'CI'
                 ]
 
@@ -117,7 +117,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
             cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
             print(
-                'Sauce Labs job: https://saucelabs.com/jobs/{}'.format(jobid)
+                'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(jobid)
             )
         super(SeleniumTests, cls).setUpClass()
 
@@ -149,7 +149,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
     def test_login(self):
         # open home page
-        self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
+        self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
 
         # login page
         self.expand_navbar()
@@ -208,7 +208,7 @@ class SeleniumTests(LiveServerTestCase, RegistrationTestMixin):
 
     def register_user(self):
         # open home page
-        self.driver.get('{}{}'.format(self.live_server_url, reverse('home')))
+        self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
 
         # registration page
         self.expand_navbar()
@@ -307,7 +307,7 @@ def create_extra_classes():
     '''
     classes = {}
     for platform, caps in EXTRA_PLATFORMS.items():
-        name = '{}_{}'.format(
+        name = '{0}_{1}'.format(
             platform,
             SeleniumTests.__name__,
         )
