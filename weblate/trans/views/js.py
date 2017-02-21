@@ -77,7 +77,7 @@ def translate(request, unit_id):
         )
         response['responseStatus'] = 200
     except Exception as exc:
-        response['responseDetails'] = '{0!s}: {1!s}'.format(
+        response['responseDetails'] = '{0}: {1}'.format(
             exc.__class__.__name__,
             str(exc)
         )

@@ -278,7 +278,7 @@ class PluralTextarea(forms.Textarea):
         '''
         ret = []
         for idx in range(0, 10):
-            fieldname = '{0!s}_{1:d}'.format(name, idx)
+            fieldname = '{0}_{1:d}'.format(name, idx)
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ''))

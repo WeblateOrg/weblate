@@ -115,7 +115,7 @@ def mail_admins_contact(request, subject, message, context, sender):
         return
 
     mail = EmailMultiAlternatives(
-        '{0!s}{1!s}'.format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        '{0}{1}'.format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
         message % context,
         to=[a[1] for a in settings.ADMINS],
         headers={'Reply-To': sender},

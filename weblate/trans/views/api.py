@@ -328,7 +328,7 @@ def export_stats_project(request, project):
     data = get_project_stats(obj)
     return export_response(
         request,
-        'stats-{0!s}.csv'.format(obj.slug),
+        'stats-{0}.csv'.format(obj.slug),
         (
             'language',
             'code',
@@ -354,7 +354,7 @@ def export_stats(request, project, subproject):
     ]
     return export_response(
         request,
-        'stats-{0!s}-{1!s}.csv'.format(subprj.project.slug, subprj.slug),
+        'stats-{0}-{1}.csv'.format(subprj.project.slug, subprj.slug),
         (
             'name',
             'code',
@@ -384,7 +384,7 @@ def export_response(request, filename, fields, data):
 
     if output == 'csv':
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename={0!s}'.format(filename)
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
 
         writer = csv.DictWriter(
             response, fields

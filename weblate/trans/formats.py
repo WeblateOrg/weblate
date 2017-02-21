@@ -554,7 +554,7 @@ class FileFormat(object):
         # Check store validity
         if not self.is_valid(self.store):
             raise ValueError(
-                'Invalid file format {0!r}'.format(self.store)
+                'Invalid file format {0}'.format(self.store)
             )
         # Remember template
         self.template_store = template_store
@@ -652,7 +652,7 @@ class FileFormat(object):
         if not hasattr(self.store, 'updateheader'):
             return
 
-        kwargs['x_generator'] = 'Weblate {0!s}'.format(weblate.VERSION)
+        kwargs['x_generator'] = 'Weblate {0}'.format(weblate.VERSION)
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()

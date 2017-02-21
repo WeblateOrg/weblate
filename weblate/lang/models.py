@@ -189,14 +189,14 @@ class LanguageManager(models.Manager):
         if country is not None:
             if '@' in country:
                 region, variant = country.split('@', 1)
-                country = '{0!s}@{1!s}'.format(region.upper(), variant.lower())
+                country = '{0}@{1}'.format(region.upper(), variant.lower())
             elif '_' in country:
                 # Xliff way of defining variants
                 region, variant = country.split('_', 1)
-                country = '{0!s}@{1!s}'.format(region.upper(), variant.lower())
+                country = '{0}@{1}'.format(region.upper(), variant.lower())
             else:
                 country = country.upper()
-            newcode = '{0!s}_{1!s}'.format(lang.lower(), country)
+            newcode = '{0}_{1}'.format(lang.lower(), country)
         else:
             newcode = lang.lower()
 
@@ -231,7 +231,7 @@ class LanguageManager(models.Manager):
         # Create standard language
         lang = self.create(
             code=code,
-            name='{0!s} (generated)'.format(code),
+            name='{0} (generated)'.format(code),
             nplurals=2,
             pluralequation='n != 1',
         )
@@ -495,7 +495,7 @@ class Language(models.Model, PercentMixin):
         '''
         Returns plural form like gettext understands it.
         '''
-        return 'nplurals={0:d}; plural={1!s};'.format(self.nplurals, self.pluralequation)
+        return 'nplurals={0:d}; plural={1};'.format(self.nplurals, self.pluralequation)
 
     def get_plural_name(self, idx):
         '''
@@ -557,7 +557,7 @@ class Language(models.Model, PercentMixin):
         Returns html attributes for markup in this language, includes
         language and direction.
         '''
-        return mark_safe('lang="{0!s}" dir="{1!s}"'.format(self.code, self.direction))
+        return mark_safe('lang="{0}" dir="{1}"'.format(self.code, self.direction))
 
     def fixup_name(self):
         '''

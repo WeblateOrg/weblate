@@ -153,7 +153,7 @@ def download_translation_file(translation, fmt=None):
         )
 
     # Fill in response headers
-    response['Content-Disposition'] = 'attachment; filename={0!s}'.format(filename)
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
 
     return response
 

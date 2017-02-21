@@ -63,7 +63,7 @@ def widgets(request, project):
             kwargs={'project': obj.slug, 'lang': lang.code}
         )
     engage_url = get_site_url(engage_base)
-    engage_url_track = '{0!s}?utm_source=widget'.format(engage_url)
+    engage_url_track = '{0}?utm_source=widget'.format(engage_url)
     widget_base_url = get_site_url(
         reverse('widgets', kwargs={'project': obj.slug})
     )

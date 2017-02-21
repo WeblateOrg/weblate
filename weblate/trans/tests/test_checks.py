@@ -123,12 +123,12 @@ class CheckTestCase(TestCase):
         if expected:
             self.assertTrue(
                 result,
-                'Check did not fire for "{0!s}"/"{1!s}" ({2!s})'.format(*data)
+                'Check did not fire for "{0}"/"{1}" ({2})'.format(*data)
             )
         else:
             self.assertFalse(
                 result,
-                'Check did fire for "{0!s}"/"{1!s}" ({2!s})'.format(*data)
+                'Check did fire for "{0}"/"{1}" ({2})'.format(*data)
             )
 
     def test_single_good_matching(self):

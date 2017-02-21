@@ -197,7 +197,7 @@ class MachineTranslation(object):
         '''
         Returns list of supported languages.
         '''
-        cache_key = '{0!s}-languages'.format(self.mtid)
+        cache_key = '{0}-languages'.format(self.mtid)
 
         # Try using list from cache
         languages = cache.get(cache_key)

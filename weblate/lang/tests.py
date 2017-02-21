@@ -230,13 +230,13 @@ class LanguagesTest(TestCase):
             self.assertEqual(
                 lang.code,
                 expected,
-                'Invalid code for {0!s}: {1!s}'.format(original, lang.code)
+                'Invalid code for {0}: {1}'.format(original, lang.code)
             )
             # Check direction
             self.assertEqual(
                 lang.direction,
                 direction,
-                'Invalid direction for {0!s}'.format(original)
+                'Invalid direction for {0}'.format(original)
             )
             # Check plurals
             self.assertEqual(

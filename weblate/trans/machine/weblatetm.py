@@ -32,7 +32,7 @@ def format_unit_match(unit, quality):
     return (
         unit.get_target_plurals()[0],
         quality,
-        'Weblate ({0!s})'.format(force_text(unit.translation.subproject)),
+        'Weblate ({0})'.format(force_text(unit.translation.subproject)),
         unit.get_source_plurals()[0],
     )
 

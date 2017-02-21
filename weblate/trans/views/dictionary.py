@@ -235,8 +235,8 @@ def download_dictionary(request, project, lang):
 
     # Manually create CSV file
     response = HttpResponse(content_type='text/csv; charset=utf-8')
-    filename = 'dictionary-{0!s}-{1!s}.csv'.format(prj.slug, lang.code)
-    response['Content-Disposition'] = 'attachment; filename={0!s}'.format(filename)
+    filename = 'dictionary-{0}-{1}.csv'.format(prj.slug, lang.code)
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
 
     writer = csv.writer(response)
 

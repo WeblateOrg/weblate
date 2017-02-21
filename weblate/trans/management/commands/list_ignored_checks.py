@@ -50,7 +50,7 @@ class Command(BaseCommand):
         else:
             checks = Check.objects.filter(ignore=True)
         for check in checks:
-            name = '{0!s}-{1!s}'.format(check.check, check.content_hash)
+            name = '{0}-{1}'.format(check.check, check.content_hash)
             units = get_related_units(check)
             if not units.exists():
                 continue
@@ -64,4 +64,4 @@ class Command(BaseCommand):
                 }
         results = sorted(results.values(), key=lambda x: -x['count'])
         for result in results[:options['count']]:
-            self.stdout.write('{count:5d} {check:20!s} {source!s}'.format(**result))
+            self.stdout.write('{count:5d} {check:20} {source}'.format(**result))

@@ -96,7 +96,7 @@ def upload_translation(request, project, subproject, lang):
     if (can_author_translation(request.user, obj.subproject.project) and
             form.cleaned_data['author_name'] != '' and
             form.cleaned_data['author_email'] != ''):
-        author = '{0!s} <{1!s}>'.format(
+        author = '{0} <{1}>'.format(
             form.cleaned_data['author_name'],
             form.cleaned_data['author_email']
         )

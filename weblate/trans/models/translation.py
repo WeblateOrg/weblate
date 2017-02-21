@@ -358,7 +358,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def get_widgets_url(self):
         """Returns absolute URL for widgets."""
         return get_site_url(
-            '{0!s}?lang={1!s}'.format(
+            '{0}?lang={1}'.format(
                 reverse(
                     'widgets', kwargs={
                         'project': self.subproject.project.slug,
@@ -389,7 +389,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         })
 
     def __str__(self):
-        return '{0!s} - {1!s}'.format(
+        return '{0} - {1}'.format(
             force_text(self.subproject),
             force_text(self.language)
         )
@@ -701,7 +701,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'translated_percent': self.get_translated_percent(),
         }
         if self.commit_message:
-            msg = '{0!s}\n\n{1!s}'.format(msg, self.commit_message)
+            msg = '{0}\n\n{1}'.format(msg, self.commit_message)
             self.commit_message = ''
             self.save()
 
@@ -849,7 +849,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
             # Optionally store language team with link to website
             if self.subproject.project.set_translation_team:
-                headers['language_team'] = '{0!s} <{1!s}>'.format(
+                headers['language_team'] = '{0} <{1}>'.format(
                     self.language.name,
                     get_site_url(self.get_absolute_url())
                 )
@@ -1193,7 +1193,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Actually delete the cache
         for rqtype in keys:
-            cache_key = 'counts-{0!s}-{1!s}-{2!s}'.format(slug, code, rqtype)
+            cache_key = 'counts-{0}-{1}-{2}'.format(slug, code, rqtype)
             cache.delete(cache_key)
 
     def get_kwargs(self):

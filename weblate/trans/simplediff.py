@@ -30,15 +30,15 @@ def html_diff(old, new):
     for tag, oldpos1, oldpos2, newpos1, newpos2 in diff.get_opcodes():
         if tag == 'replace':
             result.append(
-                '<del>{0!s}</del><ins>{1!s}</ins>'.format(old[oldpos1:oldpos2], new[newpos1:newpos2])
+                '<del>{0}</del><ins>{1}</ins>'.format(old[oldpos1:oldpos2], new[newpos1:newpos2])
             )
         elif tag == 'delete':
             result.append(
-                '<del>{0!s}</del>'.format(old[oldpos1:oldpos2])
+                '<del>{0}</del>'.format(old[oldpos1:oldpos2])
             )
         elif tag == 'insert':
             result.append(
-                '<ins>{0!s}</ins>'.format(new[newpos1:newpos2])
+                '<ins>{0}</ins>'.format(new[newpos1:newpos2])
             )
         elif tag == 'equal':
             result.append(new[newpos1:newpos2])

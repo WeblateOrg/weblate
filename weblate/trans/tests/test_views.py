@@ -169,7 +169,7 @@ class ViewTestCase(RepoTestCase):
         exp_offset = 'offset={0:d}'.format(exp_offset)
         self.assertTrue(
             exp_offset in query,
-            'Offset {0!s} not in {1!s}'.format(exp_offset, query)
+            'Offset {0} not in {1}'.format(exp_offset, query)
         )
 
     def assert_png(self, response):

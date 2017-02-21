@@ -179,7 +179,7 @@ class UnitManager(models.Manager):
         Cached counting of failing checks (and other stats).
         """
         # Try to get value from cache
-        cache_key = 'counts-{0!s}-{1!s}-{2!s}'.format(
+        cache_key = 'counts-{0}-{1}-{2}'.format(
             translation.subproject.get_full_slug(),
             translation.language.code,
             rqtype
@@ -251,7 +251,7 @@ class UnitManager(models.Manager):
 
             query = functools.reduce(
                 lambda q, value:
-                q | Q(**{'{0!s}{1!s}'.format(value, modifier): params['q']}),
+                q | Q(**{'{0}{1}'.format(value, modifier): params['q']}),
                 queries,
                 Q()
             )
@@ -400,7 +400,7 @@ class Unit(models.Model, LoggerMixin):
         self.translation.subproject.project.check_acl(request)
 
     def __str__(self):
-        return '{0!s} on {1!s}'.format(
+        return '{0} on {1}'.format(
             self.checksum,
             self.translation
         )
@@ -415,7 +415,7 @@ class Unit(models.Model, LoggerMixin):
         ))
 
     def get_absolute_url(self):
-        return '{0!s}?checksum={1!s}'.format(
+        return '{0}?checksum={1}'.format(
             self.translation.get_translate_url(), self.checksum
         )
 

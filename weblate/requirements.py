@@ -42,7 +42,7 @@ def get_version_module(module, name, url, optional=False):
         if optional:
             return None
         raise Exception(
-            'Failed to import {0!s}, please install {1!s} from {2!s}'.format(
+            'Failed to import {0}, please install {1} from {2}'.format(
                 module.replace('.__version__', ''),
                 name,
                 url

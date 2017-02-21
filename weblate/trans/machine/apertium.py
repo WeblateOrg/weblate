@@ -84,7 +84,7 @@ class ApertiumAPYTranslation(MachineTranslation):
         '''
         Downloads list of supported languages from a service.
         '''
-        data = self.json_status_req('{0!s}/listPairs'.format(self.url))
+        data = self.json_status_req('{0}/listPairs'.format(self.url))
         return [
             (item['sourceLanguage'], item['targetLanguage'])
             for item in data['responseData']
@@ -101,13 +101,13 @@ class ApertiumAPYTranslation(MachineTranslation):
         Downloads list of possible translations from Apertium.
         '''
         args = {
-            'langpair': '{0!s}|{1!s}'.format(source, language),
+            'langpair': '{0}|{1}'.format(source, language),
             'q': text,
         }
         if settings.MT_APERTIUM_KEY is not None:
             args['key'] = settings.MT_APERTIUM_KEY
         response = self.json_status_req(
-            '{0!s}/translate'.format(self.url),
+            '{0}/translate'.format(self.url),
             **args
         )
 

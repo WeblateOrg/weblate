@@ -63,6 +63,6 @@ def import_env_vars(environ, target):
             except ValueError as err:
                 if not err.args:
                     err.args = (
-                        "Error parsing {0!s} = '{1!s}': {2!s}".format(name, value, err),
+                        "Error parsing {0} = '{1}': {2}".format(name, value, err),
                     )
                 raise

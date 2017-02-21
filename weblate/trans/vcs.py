@@ -853,7 +853,7 @@ class SubversionRepository(GitRepository):
         (is missing some revisions).
         """
         return self._log_revisions(
-            '..{0!s}'.format(self.get_remote_branch_name())
+            '..{0}'.format(self.get_remote_branch_name())
         ) != ''
 
     def needs_push(self):
@@ -862,7 +862,7 @@ class SubversionRepository(GitRepository):
         (has additional revisions).
         """
         return self._log_revisions(
-            '{0!s}..'.format(self.get_remote_branch_name())
+            '{0}..'.format(self.get_remote_branch_name())
         ) != ''
 
     def reset(self):

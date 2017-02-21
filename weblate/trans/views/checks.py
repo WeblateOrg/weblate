@@ -219,7 +219,7 @@ def show_check_project(request, name, project):
         'check_project.html',
         {
             'checks': units,
-            'title': '{0!s}/{1!s}'.format(force_text(prj), check.name),
+            'title': '{0}/{1}'.format(force_text(prj), check.name),
             'check': check,
             'project': prj,
             'url_params': encode_optional(url_params),
@@ -308,7 +308,7 @@ def show_check_subproject(request, name, project, subproject):
         'check_subproject.html',
         {
             'checks': units,
-            'title': '{0!s}/{1!s}'.format(force_text(subprj), check.name),
+            'title': '{0}/{1}'.format(force_text(subprj), check.name),
             'check': check,
             'subproject': subprj,
             'url_params': encode_optional(url_params),

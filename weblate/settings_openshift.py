@@ -105,8 +105,8 @@ MACHINE_TRANSLATION_SERVICES = (
 )
 
 if os.environ.get('OPENSHIFT_CLOUD_DOMAIN', False):
-    SERVER_EMAIL = 'no-reply@{0!s}'.format(os.environ['OPENSHIFT_CLOUD_DOMAIN'])
-    DEFAULT_FROM_EMAIL = 'no-reply@{0!s}'.format(os.environ['OPENSHIFT_CLOUD_DOMAIN'])
+    SERVER_EMAIL = 'no-reply@{0}'.format(os.environ['OPENSHIFT_CLOUD_DOMAIN'])
+    DEFAULT_FROM_EMAIL = 'no-reply@{0}'.format(os.environ['OPENSHIFT_CLOUD_DOMAIN'])
 
 ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS']]
 

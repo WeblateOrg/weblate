@@ -801,9 +801,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             return True
         except RepositoryException as error:
             self.log_error('failed to push on repo: %s', error)
-            msg = 'Error:\n{0!s}'.format(str(error))
+            msg = 'Error:\n{0}'.format(str(error))
             mail_admins(
-                'failed push on repo {0!s}'.format(force_text(self)),
+                'failed push on repo {0}'.format(force_text(self)),
                 msg
             )
             messages.error(
@@ -831,9 +831,9 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
             )
         except RepositoryException as error:
             self.log_error('failed to reset on repo')
-            msg = 'Error:\n{0!s}'.format(str(error))
+            msg = 'Error:\n{0}'.format(str(error))
             mail_admins(
-                'failed reset on repo {0!s}'.format(force_text(self)),
+                'failed reset on repo {0}'.format(force_text(self)),
                 msg
             )
             messages.error(
@@ -849,7 +849,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         return True
 
     def get_repo_link_url(self):
-        return 'weblate://{0!s}/{1!s}'.format(self.project.slug, self.slug)
+        return 'weblate://{0}/{1}'.format(self.project.slug, self.slug)
 
     def set_linked_cache(self, linked):
         """Store linked component cache"""
@@ -1171,24 +1171,24 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     os.path.join(dir_path, match),
                 )
                 if not self.file_format_cls.is_valid(parsed.store):
-                    errors.append('{0!s}: {1!s}'.format(
+                    errors.append('{0}: {1}'.format(
                         match, _('File does not seem to be valid!')
                     ))
             except ValueError:
                 notrecognized.append(match)
             except Exception as error:
-                errors.append('{0!s}: {1!s}'.format(match, str(error)))
+                errors.append('{0}: {1}'.format(match, str(error)))
         if len(notrecognized) > 0:
             msg = (
                 _('Format of %d matched files could not be recognized.') %
                 len(notrecognized)
             )
-            raise ValidationError('{0!s}\n{1!s}'.format(
+            raise ValidationError('{0}\n{1}'.format(
                 msg,
                 '\n'.join(notrecognized)
             ))
         if len(errors) > 0:
-            raise ValidationError('{0!s}\n{1!s}'.format(
+            raise ValidationError('{0}\n{1}'.format(
                 (_('Failed to parse %d matched files!') % len(errors)),
                 '\n'.join(errors)
             ))
