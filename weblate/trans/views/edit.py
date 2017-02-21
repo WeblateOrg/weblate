@@ -498,7 +498,7 @@ def translate(request, project, subproject, lang):
         offset = 0
 
     # Check boundaries
-    if offset < 0 or offset >= num_results:
+    if not (0 <= offset < num_results):
         messages.info(request, _('You have reached end of translating.'))
         # Delete search
         del request.session['search_{0}'.format(search_result['search_id'])]
