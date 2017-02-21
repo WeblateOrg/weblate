@@ -308,7 +308,7 @@ class EndExclamationCheck(TargetCheck):
         if not source or not target:
             return False
         if (self.is_language(unit, ('eu', )) and source[-1] == '!' and
-                '¡' in target and '!' in target)
+                '¡' in target and '!' in target):
             return False
         if self.is_language(unit, ('hy', )):
             return False
