@@ -23,9 +23,9 @@ svn import -m 'Import po files' . file://$WD/test-base-repo.svn/trunk
 cd ..
 
 # Pack them
-tar cf $OUT/test-base-repo.hg.tar test-base-repo.hg
-tar cf $OUT/test-base-repo.git.tar test-base-repo.git
-tar cf $OUT/test-base-repo.svn.tar test-base-repo.svn
+tar cf $OUT/test-base-repo.hg.tar --owner=root --group=root --numeric-owner --sort=name test-base-repo.hg
+tar cf $OUT/test-base-repo.git.tar --owner=root --group=root --numeric-owner --sort=name test-base-repo.git
+tar cf $OUT/test-base-repo.svn.tar --owner=root --group=root --numeric-owner --sort=name test-base-repo.svn
 
 # Remove working dir
 rm -rf $WD
