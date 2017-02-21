@@ -177,6 +177,10 @@ class RepoTestMixin(object):
         """
         Creates real test subproject.
         """
+        if file_format not in FILE_FORMATS:
+            raise SkipTest(
+                'File format {0} is not supported!'.format(file_format)
+            )
         if 'project' not in kwargs:
             kwargs['project'] = self.create_project()
 
@@ -369,8 +373,6 @@ class RepoTestMixin(object):
         )
 
     def create_resx(self):
-        if 'resx' not in FILE_FORMATS:
-            raise SkipTest('resx not supported')
         return self._create_subproject(
             'resx',
             'resx/*.resx',
@@ -378,8 +380,6 @@ class RepoTestMixin(object):
         )
 
     def create_yaml(self):
-        if 'yaml' not in FILE_FORMATS:
-            raise SkipTest('yaml not supported')
         return self._create_subproject(
             'yaml',
             'yml/*.yml',
@@ -387,8 +387,6 @@ class RepoTestMixin(object):
         )
 
     def create_ruby_yaml(self):
-        if 'ruby-yaml' not in FILE_FORMATS:
-            raise SkipTest('yaml not supported')
         return self._create_subproject(
             'ruby-yaml',
             'ruby-yml/*.yml',

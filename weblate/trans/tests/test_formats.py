@@ -127,6 +127,15 @@ class AutoFormatTest(SimpleTestCase):
     # Show full diff on error
     maxDiff = None
 
+    def setUp(self):
+        super(AutoFormatTest, self).setUp()
+        if self.FORMAT.format_id not in FILE_FORMATS:
+            raise SkipTest(
+                'File format {0} is not supported!'.format(
+                    self.FORMAT.format_id
+                )
+            )
+
     def test_parse(self):
         storage = self.FORMAT(self.FILE)
         self.assertEqual(storage.count_units(), self.COUNT)
@@ -311,11 +320,6 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     FIND_MATCH = ''
     MATCH = '<root></root>'
 
-    def setUp(self):
-        super(RESXFormatTest, self).setUp()
-        if 'resx' not in FILE_FORMATS:
-            raise SkipTest('resx not supported!')
-
 
 class YAMLFormatTest(AutoFormatTest):
     FORMAT = YAMLFormat
@@ -329,11 +333,6 @@ class YAMLFormatTest(AutoFormatTest):
     FIND = 'weblate / hello'
     FIND_MATCH = ''
     MATCH = 'weblate:'
-
-    def setUp(self):
-        super(YAMLFormatTest, self).setUp()
-        if 'yaml' not in FILE_FORMATS:
-            raise SkipTest('yaml not supported!')
 
     def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave
