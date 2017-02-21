@@ -495,7 +495,9 @@ class Language(models.Model, PercentMixin):
         '''
         Returns plural form like gettext understands it.
         '''
-        return 'nplurals={0:d}; plural={1};'.format(self.nplurals, self.pluralequation)
+        return 'nplurals={0:d}; plural={1};'.format(
+            self.nplurals, self.pluralequation
+        )
 
     def get_plural_name(self, idx):
         '''
@@ -557,7 +559,9 @@ class Language(models.Model, PercentMixin):
         Returns html attributes for markup in this language, includes
         language and direction.
         '''
-        return mark_safe('lang="{0}" dir="{1}"'.format(self.code, self.direction))
+        return mark_safe(
+            'lang="{0}" dir="{1}"'.format(self.code, self.direction)
+        )
 
     def fixup_name(self):
         '''

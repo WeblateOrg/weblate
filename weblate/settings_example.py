@@ -247,9 +247,12 @@ SOCIAL_AUTH_STRATEGY = 'weblate.accounts.strategy.WeblateStrategy'
 
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = \
     'weblate.accounts.pipeline.send_validation'
-SOCIAL_AUTH_EMAIL_VALIDATION_URL = '{0}/accounts/email-sent/'.format(URL_PREFIX)
-SOCIAL_AUTH_LOGIN_ERROR_URL = '{0}/accounts/login/'.format(URL_PREFIX)
-SOCIAL_AUTH_EMAIL_FORM_URL = '{0}/accounts/email/'.format(URL_PREFIX)
+SOCIAL_AUTH_EMAIL_VALIDATION_URL = \
+    '{0}/accounts/email-sent/'.format(URL_PREFIX)
+SOCIAL_AUTH_LOGIN_ERROR_URL = \
+    '{0}/accounts/login/'.format(URL_PREFIX)
+SOCIAL_AUTH_EMAIL_FORM_URL = \
+    '{0}/accounts/email/'.format(URL_PREFIX)
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = \
     '{0}/accounts/profile/#auth'.format(URL_PREFIX)
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ('email',)

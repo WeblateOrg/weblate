@@ -52,7 +52,9 @@ class ProjectAdmin(WeblateAdmin):
         """
         for project in queryset:
             project.do_update(request)
-        self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
+        self.message_user(
+            request, "Updated {0:d} git repos.".format(queryset.count())
+        )
     update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):
@@ -66,7 +68,9 @@ class ProjectAdmin(WeblateAdmin):
         for unit in units.iterator():
             unit.run_checks()
             cnt += 1
-        self.message_user(request, "Updated checks for {0:d} units.".format(cnt))
+        self.message_user(
+            request, "Updated checks for {0:d} units.".format(cnt)
+        )
     update_checks.short_description = _('Update quality checks')
 
     def force_commit(self, request, queryset):
@@ -106,7 +110,9 @@ class SubProjectAdmin(WeblateAdmin):
         """
         for project in queryset:
             project.do_update(request)
-        self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
+        self.message_user(
+            request, "Updated {0:d} git repos.".format(queryset.count())
+        )
     update_from_git.short_description = _('Update VCS repository')
 
     def update_checks(self, request, queryset):

@@ -384,7 +384,9 @@ def export_response(request, filename, fields, data):
 
     if output == 'csv':
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(
+            filename
+        )
 
         writer = csv.DictWriter(
             response, fields

@@ -317,8 +317,9 @@ class Command(BaseCommand):
             project = Project.objects.get(slug=options['project'])
         except Project.DoesNotExist:
             raise CommandError(
-                'Project {0} does not exist, you need to create it first!'.format(
-                options['project'])
+                'Project {0} not found, you have to create it first!'.format(
+                    options['project']
+                )
             )
 
         # We need to limit slug length to avoid problems with MySQL
