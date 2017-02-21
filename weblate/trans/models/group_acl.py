@@ -68,7 +68,7 @@ class GroupACL(models.Model):
         if not params:
             # in case the object is not valid
             params.append("(unspecified)")
-        return "<GroupACL({}) for {}>".format(self.pk, ", ".join(params))
+        return "<GroupACL({0}) for {1}>".format(self.pk, ", ".join(params))
 
     class Meta(object):
         unique_together = ('project', 'subproject', 'language')

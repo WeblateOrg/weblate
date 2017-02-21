@@ -269,7 +269,7 @@ class MachineTranslation(object):
                 exc,
                 'Failed to fetch translations from %s',
             )
-            raise MachineTranslationError('{}: {}'.format(
+            raise MachineTranslationError('{0}: {1}'.format(
                 exc.__class__.__name__,
                 str(exc)
             ))

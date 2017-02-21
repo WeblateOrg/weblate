@@ -59,19 +59,19 @@ class Command(BaseCommand):
 
             if not line['email'] or not line['username']:
                 self.stderr.write(
-                    'Skipping {}, has blank username or email'.format(line)
+                    'Skipping {0}, has blank username or email'.format(line)
                 )
                 continue
 
             if User.objects.filter(username=line['username']).exists():
                 self.stderr.write(
-                    'Skipping {}, username exists'.format(line['username'])
+                    'Skipping {0}, username exists'.format(line['username'])
                 )
                 continue
 
             if User.objects.filter(email=line['email']).exists():
                 self.stderr.write(
-                    'Skipping {}, email exists'.format(line['email'])
+                    'Skipping {0}, email exists'.format(line['email'])
                 )
                 continue
 
