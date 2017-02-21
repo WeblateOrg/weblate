@@ -90,6 +90,71 @@ git-svn (>= 2.10.0) (optional for Subversion support)
 tesserocr (>= 2.0.0) (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
 
+.. _virtualenv:
+
+Installing in virtualenv
+++++++++++++++++++++++++
+
+This is recommended method if you don't want to dig into details. This will
+create separate Python environment for Weblate, possibly duplicating some
+system Python libraries.
+
+1. Install development files for libraries we will use during building
+   Python modules:
+
+   .. code-block:: sh
+
+        # Debian/Ubuntu:
+        apt install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev libz-dev libyaml-dev python-dev
+
+        # openSUSE/SLES:
+        zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+
+        # Fedora/RHEL/CentOS:
+        dnf install libxslt-devel libxml2-devel freetype-devel libjpeg-devel zlib-devel libyaml-devel python-devel
+
+2. Install pip and virtualenv. Usually they are shipped by your distribution or
+   with Python:
+
+   .. code-block:: sh
+
+        # Debian/Ubuntu:
+        apt-get install python-pip python-virtualenv
+
+        # openSUSE/SLES:
+        zypper install python-pip python-virtualenv
+
+        # Fedora/RHEL/CentOS:
+        dnf install python-pip python-virtualenv
+
+3. Create and activate virtualenv for Weblate (the path in ``/tmp`` is really
+   just an example, you rather want something permanent):
+
+   .. code-block:: sh
+
+        virtualenv /tmp/weblate
+        . /tmp/weblate/bin/activate
+
+4. Install Weblate including all dependencies, you can also use pip to install
+   optional dependecies:
+
+   .. code-block:: sh
+        
+        pip install Weblate
+        # Optional deps
+        pip install pytz python-bidi PyYaML Babel pyuca pylibravatar pydns
+
+5. Create your settings (in our example it would be in 
+   :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/settings.py`
+   based on the :file:`settings_example.py` in same directory).
+6. You can now run Weblate commands using :command:`weblate` command, see
+   :ref:`manage`.
+7. To run webserver, use the wsgi wrapper installed with Weblate (in our case 
+   it is :file:`/tmp/weblate/lib/python2.7/site-packages/weblate/wsgi.py`).
+   Don't forget to set Python search path to your virtualenv as well (for 
+   example using ``virtualenv = /tmp/weblate`` in uwsgi).
+
+
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
 
@@ -248,26 +313,14 @@ Most requirements can be also installed using pip installer:
 
     pip install -r requirements.txt
 
-Also you will need header files for ``python-dev``, ``libxml2``, ``libxslt``,
-``libjpeg`` and ``libfreetype6`` to compile some of the required Python modules.
+For building some of the extensions devel files for several libraries are required,
+see :ref:`virtualenv` for instructions how to install these.
 
 All optional dependencies (see above) can be installed using:
 
 .. code-block:: sh
 
     pip install -r requirements-optional.txt
-
-On Debian or Ubuntu you can install them using:
-
-.. code-block:: sh
-
-    apt-get install libxml2-dev libxslt-dev libfreetype6-dev libjpeg-dev python-dev
-
-On openSUSE or SLES you can install them using:
-
-.. code-block:: sh
-
-    zypper install libxslt-devel libxml2-devel freetype-devel libjpeg-devel python-devel
 
 .. _install-weblate:
 
