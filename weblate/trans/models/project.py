@@ -143,7 +143,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     objects = ProjectManager()
 
     is_lockable = True
-    _reverse_url_name= 'project'
+    _reverse_url_name = 'project'
 
     class Meta(object):
         ordering = ['name']
