@@ -292,7 +292,7 @@ class UserForm(forms.ModelForm):
         verified_mails = VerifiedEmail.objects.filter(
             social__user=self.instance
         )
-        emails = set([x.email for x in verified_mails])
+        emails = {x.email for x in verified_mails}
         emails.add(self.instance.email)
 
         self.fields['first_name'].required = True

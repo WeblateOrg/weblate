@@ -242,9 +242,9 @@ def search(request, project=None, subproject=None):
         elif project:
             units = units.filter(translation__subproject__project=obj)
         else:
+            projects = Project.objects.get_acl_ids(request.user)
             units = units.filter(
-                translation__subproject__project_id__in=
-                Project.objects.get_acl_ids(request.user)
+                translation__subproject__project_id__in=projects
             )
 
         limit = request.GET.get('limit', 50)

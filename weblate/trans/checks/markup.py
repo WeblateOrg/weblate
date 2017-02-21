@@ -66,8 +66,8 @@ class BBCodeCheck(TargetCheck):
         if len(src_match) != len(tgt_match):
             return True
 
-        src_tags = set([x[1] for x in src_match])
-        tgt_tags = set([x[1] for x in tgt_match])
+        src_tags = {x[1] for x in src_match}
+        tgt_tags = {x[1] for x in tgt_match}
 
         return src_tags != tgt_tags
 

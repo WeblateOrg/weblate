@@ -39,7 +39,7 @@ EXTRA_FLAGS['add-review'] = ugettext_lazy(
     'Add review flag for new translated strings'
 )
 
-IGNORE_CHECK_FLAGS = set([CHECKS[x].ignore_string for x in CHECKS])
+IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
 
 def validate_extra_file(val):

@@ -49,7 +49,7 @@ class YandexTranslation(MachineTranslation):
         if 'message' in response:
             raise MachineTranslationError(response['message'])
         raise MachineTranslationError(
-            'Error: {}'.format(response['code'])
+            'Error: {0}'.format(response['code'])
         )
 
     def download_languages(self):
@@ -77,7 +77,7 @@ class YandexTranslation(MachineTranslation):
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
             key=settings.MT_YANDEX_KEY,
             text=text,
-            lang='{}-{}'.format(source, language),
+            lang='{0}-{1}'.format(source, language),
             target=language,
         )
 

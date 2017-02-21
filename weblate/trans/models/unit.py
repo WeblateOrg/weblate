@@ -959,7 +959,6 @@ class Unit(models.Model, LoggerMixin):
             same_state, is_new
         )
 
-
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
         old_target_checks = set(

@@ -315,7 +315,7 @@ def more_like(pk, source, top=5):
 
         results = searcher.more_like(docnum, 'source', source, top)
 
-        return set([result['pk'] for result in results])
+        return {result['pk'] for result in results}
 
 
 def clean_search_unit(pk, lang):
