@@ -61,8 +61,8 @@ class AngularJSInterpolationCheck(TargetCheck):
             return True
 
         # Remove whitespace
-        src_tags = set([re.sub(WHITESPACE, '', x) for x in src_match])
-        tgt_tags = set([re.sub(WHITESPACE, '', x) for x in tgt_match])
+        src_tags = {re.sub(WHITESPACE, '', x) for x in src_match}
+        tgt_tags = {re.sub(WHITESPACE, '', x) for x in tgt_match}
 
         return src_tags != tgt_tags
 
