@@ -334,8 +334,10 @@ class Command(BaseCommand):
                 sub_project = SubProject.objects.get_linked(repo)
             except SubProject.DoesNotExist:
                 raise CommandError(
-                    'SubProject %s does not exist, '
-                    'you need to create it first!' % repo
+                    'SubProject {0} not found, '
+                    'you need to create it first!'.format(
+                        repo
+                    )
                 )
             matches = self.get_matching_subprojects(
                 sub_project.get_path(),
