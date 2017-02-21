@@ -54,10 +54,6 @@ after_script:
   - ./ci/report-coverage
 # use docker based faster build
 sudo: false
-# trigger Buildtime Trend Service to parse Travis CI log
-notifications:
-  webhooks:
-    - https://buildtimetrend.herokuapp.com/travis
 matrix:
   include:
     - python: "3.5"
