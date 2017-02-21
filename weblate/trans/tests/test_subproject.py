@@ -555,6 +555,18 @@ class SubProjectValidationTest(RepoTestCase):
             ]
         )
 
+    def test_lang_code_double(self):
+        subproject = SubProject()
+        subproject.filemask = 'path/*/resources/MessagesBundle_*.properties'
+        self.assertEqual(
+            subproject.get_lang_code('path/pt/resources/MessagesBundle_pt_BR.properties'),
+            'pt_BR'
+        )
+        self.assertEqual(
+            subproject.get_lang_code('path/el/resources/MessagesBundle_el.properties'),
+            'el'
+        )
+
 
 class SubProjectErrorTest(RepoTestCase):
     """Tests for error handling"""

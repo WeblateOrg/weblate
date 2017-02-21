@@ -1071,7 +1071,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 return self.project.source_language.code
             return ''
 
-        code = matches.group(1)
+        # Use longest matched code
+        code = max(matches.groups(), key=len)
 
         # Remove possible encoding part
         if '.' in code and ('.utf' in code.lower() or '.iso' in code.lower()):
