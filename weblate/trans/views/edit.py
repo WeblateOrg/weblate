@@ -305,7 +305,7 @@ def handle_translate(translation, request, user_locked,
         )
     elif not user_locked:
         # Custom commit message
-        message = request.POST.get('commit_message', None)
+        message = request.POST.get('commit_message')
         if message is not None and message != unit.translation.commit_message:
             # Commit pending changes so that they don't get new message
             unit.translation.commit_pending(request, request.user)

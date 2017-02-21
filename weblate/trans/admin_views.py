@@ -252,7 +252,7 @@ def ssh(request):
     can_generate = can_generate_key()
 
     # Grab action type
-    action = request.POST.get('action', None)
+    action = request.POST.get('action')
 
     # Generate key if it does not exist yet
     if can_generate and action == 'generate':

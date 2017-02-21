@@ -925,7 +925,7 @@ class PoFormat(FileFormat):
         for key in values:
             if key in skip_list:
                 continue
-            if values[key] == default_header.get(key, None):
+            if values[key] == default_header.get(key):
                 continue
             update[key] = values[key]
 

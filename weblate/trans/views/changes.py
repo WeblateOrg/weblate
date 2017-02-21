@@ -140,9 +140,9 @@ class ChangesView(ListView):
                 self.project, self.subproject, self.translation = \
                     get_project_translation(
                         self.request,
-                        self.request.GET.get('project', None),
-                        self.request.GET.get('subproject', None),
-                        self.request.GET.get('lang', None),
+                        self.request.GET.get('project'),
+                        self.request.GET.get('subproject'),
+                        self.request.GET.get('lang'),
                     )
             except Http404:
                 messages.error(

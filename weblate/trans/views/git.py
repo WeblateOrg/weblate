@@ -82,7 +82,7 @@ def perform_update(request, obj):
         _('All repositories were updated.'),
         obj.do_update,
         request,
-        method=request.GET.get('method', None),
+        method=request.GET.get('method'),
     )
 
 
