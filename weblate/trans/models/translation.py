@@ -154,6 +154,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     objects = TranslationManager()
 
     is_lockable = False
+    _reverse_url_name = 'translation'
 
     class Meta(object):
         ordering = ['language__name']
@@ -342,10 +343,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             return True
 
         return False
-
-    def _reverse_url_name(self):
-        """Returns base name for URL reversing."""
-        return 'translation'
 
     def _reverse_url_kwargs(self):
         """Returns kwargs for URL reversing."""

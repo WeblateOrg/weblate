@@ -483,6 +483,8 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     objects = SubProjectManager()
 
     is_lockable = True
+    _reverse_url_name = 'subproject'
+
 
     class Meta(object):
         ordering = ['priority', 'project__name', 'name']
@@ -525,10 +527,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def check_acl(self, request):
         """Raises an error if user is not allowed to access this project."""
         self.project.check_acl(request)
-
-    def _reverse_url_name(self):
-        """Returns base name for URL reversing."""
-        return 'subproject'
 
     def _reverse_url_kwargs(self):
         """Returns kwargs for URL reversing."""

@@ -83,11 +83,7 @@ class URLMixin(object):
     """
     Mixin providing standard shortcut API for few standard URLs
     """
-    def _reverse_url_name(self):
-        """
-        Returns base name for URL reversing.
-        """
-        raise NotImplementedError()
+    _reverse_url_name = None
 
     def _reverse_url_kwargs(self):
         """
@@ -100,11 +96,11 @@ class URLMixin(object):
         Generic reverser for URL.
         """
         if name is None:
-            urlname = self._reverse_url_name()
+            urlname = self._reverse_url_name
         else:
             urlname = '{0}_{1}'.format(
                 name,
-                self._reverse_url_name()
+                self._reverse_url_name
             )
         return reverse(
             urlname,

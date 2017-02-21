@@ -143,6 +143,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     objects = ProjectManager()
 
     is_lockable = True
+    _reverse_url_name= 'project'
 
     class Meta(object):
         ordering = ['name']
@@ -221,10 +222,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             raise ValidationError(
                 _('Could not create project directory: %s') % str(exc)
             )
-
-    def _reverse_url_name(self):
-        """Returns base name for URL reversing."""
-        return 'project'
 
     def _reverse_url_kwargs(self):
         """Returns kwargs for URL reversing."""
