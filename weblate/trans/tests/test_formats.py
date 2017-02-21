@@ -129,9 +129,6 @@ class AutoFormatTest(SimpleTestCase):
     FIND = 'Hello, world!\n'
     FIND_MATCH = 'Ahoj světe!\n'
 
-    # Show full diff on error
-    maxDiff = None
-
     def setUp(self):
         super(AutoFormatTest, self).setUp()
         if self.FORMAT.format_id not in FILE_FORMATS:
