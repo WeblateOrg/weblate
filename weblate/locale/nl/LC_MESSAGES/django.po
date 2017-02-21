@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-02-16 20:26+0000\n"
+"POT-Creation-Date: 2017-02-21 09:23+0000\n"
 "PO-Revision-Date: 2017-02-15 22:47+0000\n"
 "Last-Translator: Dieter Adriaenssens <dieter.adriaenssens@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
@@ -200,7 +200,7 @@ msgstr "Projectnaam"
 msgid "Project website"
 msgstr "Projectwebsite"
 
-#: weblate/accounts/forms.py:560 weblate/trans/models/subproject.py:156
+#: weblate/accounts/forms.py:560 weblate/trans/models/subproject.py:158
 msgid "Source code repository"
 msgstr "repository met broncode"
 
@@ -208,7 +208,7 @@ msgstr "repository met broncode"
 msgid "URL of source code repository for example Git or Mercurial."
 msgstr "URL van broncode archief bijvoorbeeld Git of Mercurial."
 
-#: weblate/accounts/forms.py:567 weblate/trans/models/subproject.py:205
+#: weblate/accounts/forms.py:567 weblate/trans/models/subproject.py:207
 msgid "File mask"
 msgstr "Bestandsmasker"
 
@@ -754,7 +754,7 @@ msgstr "Opmerking bij vertaling werd verwijderd."
 msgid "Source has been removed."
 msgstr "Uw account is verwijderd."
 
-#: weblate/templates/403.html:5 weblate/trans/views/basic.py:537
+#: weblate/templates/403.html:5 weblate/trans/views/basic.py:544
 msgid "Permission Denied"
 msgstr "Toegang geweigerd"
 
@@ -772,7 +772,7 @@ msgid ""
 msgstr ""
 "De volgende vertaalprojecten zijn echter wel beschikbaar op deze server:"
 
-#: weblate/templates/404.html:5 weblate/trans/views/basic.py:522
+#: weblate/templates/404.html:5 weblate/trans/views/basic.py:529
 msgid "Page Not Found"
 msgstr "Pagina niet gevonden"
 
@@ -780,7 +780,7 @@ msgstr "Pagina niet gevonden"
 msgid "The page you are looking for was not found."
 msgstr "De pagina die u zoekt is niet gevonden."
 
-#: weblate/templates/500.html:5 weblate/trans/views/basic.py:553
+#: weblate/templates/500.html:5 weblate/trans/views/basic.py:560
 msgid "Internal Server Error"
 msgstr "Interne serverfout"
 
@@ -797,7 +797,7 @@ msgstr ""
 "Onze afgerichte aapjes zijn meteen onderweg om het probleem op te lossen."
 
 #: weblate/templates/about.html:5 weblate/templates/about.html:13
-#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:566
+#: weblate/templates/footer.html:6 weblate/trans/views/basic.py:573
 msgid "About Weblate"
 msgstr "Over Weblate"
 
@@ -1096,7 +1096,7 @@ msgstr "Facturering"
 #: weblate/templates/js/detail.html:59 weblate/templates/js/detail.html:71
 #: weblate/templates/project.html:317
 #: weblate/templates/screenshots/screenshot_detail.html:102
-#: weblate/templates/subproject.html:235 weblate/templates/translate.html:160
+#: weblate/templates/subproject.html:245 weblate/templates/translate.html:160
 #: weblate/templates/translate.html:348
 msgid "Save"
 msgstr "Opslaan"
@@ -1311,7 +1311,7 @@ msgstr ""
 #: weblate/templates/data.html:57 weblate/templates/data.html:95
 #: weblate/templates/list-projects.html:8
 #: weblate/templates/list-translations.html:7
-#: weblate/trans/models/project.py:153 weblate/trans/models/subproject.py:143
+#: weblate/trans/models/project.py:153 weblate/trans/models/subproject.py:145
 #: weblate/trans/models/whiteboard.py:70
 msgid "Project"
 msgstr "Project"
@@ -1512,8 +1512,8 @@ msgstr ""
 "U lijkt geen bestaande SSH-sleutel te hebben. Door op onderstaande knop te "
 "duwen, zal Weblate er een genereren."
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:189
-#: weblate/templates/subproject.html:210
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:199
+#: weblate/templates/subproject.html:220
 msgid "Generate"
 msgstr "Genereer"
 
@@ -1812,7 +1812,7 @@ msgstr ""
 "data is beschreven in <a href=\"%(api_docs)s\">de documentatie</a>."
 
 #: weblate/templates/data.html:66
-#: weblate/templates/screenshots/screenshot_sources_body.html:12
+#: weblate/templates/screenshots/screenshot_sources_body.html:13
 msgid "View"
 msgstr "Weergave"
 
@@ -1906,7 +1906,7 @@ msgid "History"
 msgstr "Geschiedenis"
 
 #: weblate/templates/dictionary.html:54 weblate/templates/matrix.html:17
-#: weblate/templates/search.html:23 weblate/templates/source-review.html:25
+#: weblate/templates/search.html:26 weblate/templates/source-review.html:25
 #: weblate/templates/translate.html:141 weblate/templates/translate.html:212
 #: weblate/templates/translate.html:315 weblate/templates/translate.html:398
 #: weblate/trans/forms.py:735
@@ -2902,7 +2902,8 @@ msgstr ""
 #: weblate/templates/project.html:36 weblate/templates/project.html:166
 #: weblate/templates/screenshots/screenshot_detail.html:76
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
-#: weblate/templates/search.html:9 weblate/templates/translate.html:56
+#: weblate/templates/search.html:12 weblate/templates/subproject.html:39
+#: weblate/templates/subproject.html:144 weblate/templates/translate.html:56
 #: weblate/templates/translation.html:30 weblate/templates/translation.html:282
 #: weblate/templates/translation.html:287 weblate/templates/zen.html:35
 msgid "Search"
@@ -2983,7 +2984,7 @@ msgstr ""
 msgid "Browse all changes"
 msgstr "Alle wijzigingen doorbladeren"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:159
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:169
 msgid "Browse all component changes"
 msgstr "Alle wijzigingen aan onderdelen doorbladeren"
 
@@ -3000,7 +3001,7 @@ msgstr "Vertaalcontext bij schermafbeelding"
 msgid "No screenshot currently associated!"
 msgstr "Geen screenshot gekoppeld!"
 
-#: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:53
+#: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:54
 #, fuzzy
 #| msgid "Manage users"
 msgid "Manage screenshots"
@@ -3062,8 +3063,10 @@ msgid "Last remote commit:"
 msgstr "Laatste externe commit:"
 
 #: weblate/templates/js/git-status.html:52
-msgid "Git repository with Weblate translations:"
-msgstr "Git repository met Weblate-vertalingen:"
+#: weblate/templates/mail/merge_failure.html:30
+#: weblate/templates/mail/merge_failure.txt:13
+msgid "Repository with Weblate translations:"
+msgstr "Repository met Weblate-vertalingen:"
 
 #: weblate/templates/js/git-status.html:62
 msgid "Repository details"
@@ -3078,7 +3081,7 @@ msgid "Repository tools"
 msgstr "Repository hulpmiddelen"
 
 #: weblate/templates/js/git-status.html:112 weblate/templates/project.html:44
-#: weblate/templates/subproject.html:47 weblate/templates/translation.html:50
+#: weblate/templates/subproject.html:48 weblate/templates/translation.html:50
 msgid "Commit"
 msgstr "Committen"
 
@@ -3103,7 +3106,7 @@ msgid "Push changes to the remote repository"
 msgstr "Wijzigingen naar het extern repository pushen"
 
 #: weblate/templates/js/git-status.html:154
-#: weblate/trans/models/subproject.py:96
+#: weblate/trans/models/subproject.py:98
 msgid "Rebase"
 msgstr "Herbaseren"
 
@@ -3142,7 +3145,7 @@ msgid "Removes current translation from the repository."
 msgstr "Hiermee verwijdert u de huidige vertaling uit de bibliotheek."
 
 #: weblate/templates/language-project.html:15 weblate/templates/project.html:25
-#: weblate/trans/models/subproject.py:498
+#: weblate/trans/models/subproject.py:500
 msgid "Components"
 msgstr "Onderdelen"
 
@@ -3473,11 +3476,6 @@ msgstr ""
 msgid "Error message"
 msgstr "Foutmelding"
 
-#: weblate/templates/mail/merge_failure.html:30
-#: weblate/templates/mail/merge_failure.txt:13
-msgid "Repository with Weblate translations:"
-msgstr "Repository met Weblate-vertalingen:"
-
 #: weblate/templates/mail/merge_failure.txt:5
 #: weblate/templates/mail/parse_error.txt:5
 msgid "Error message:"
@@ -3681,72 +3679,72 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:38 weblate/templates/project.html:175
-#: weblate/templates/subproject.html:40 weblate/templates/subproject.html:143
+#: weblate/templates/subproject.html:41 weblate/templates/subproject.html:153
 #: weblate/templates/translation.html:59 weblate/templates/translation.html:209
 #: weblate/trans/models/change.py:228
 msgid "Search and replace"
 msgstr "Zoek en vervang"
 
-#: weblate/templates/project.html:40 weblate/templates/subproject.html:42
+#: weblate/templates/project.html:40 weblate/templates/subproject.html:43
 #: weblate/templates/translation.html:47
 msgid "Data exports"
 msgstr "Exports van gegevens"
 
-#: weblate/templates/project.html:41 weblate/templates/subproject.html:43
+#: weblate/templates/project.html:41 weblate/templates/subproject.html:44
 msgid "Download statistics (CSV)"
 msgstr "Downloaden statistieken (CSV)"
 
-#: weblate/templates/project.html:42 weblate/templates/subproject.html:44
+#: weblate/templates/project.html:42 weblate/templates/subproject.html:45
 msgid "Download statistics (JSON)"
 msgstr "Download statistieken (JSON formaat)"
 
-#: weblate/templates/project.html:47 weblate/templates/subproject.html:50
+#: weblate/templates/project.html:47 weblate/templates/subproject.html:51
 #: weblate/templates/translation.html:53
 msgid "Repository maintenance"
 msgstr "Onderhoud aan het repository"
 
-#: weblate/templates/project.html:52 weblate/templates/subproject.html:55
+#: weblate/templates/project.html:52 weblate/templates/subproject.html:56
 msgid "Manage users"
 msgstr "Gebruikers beheren"
 
 #: weblate/templates/project.html:55 weblate/templates/project.html:310
-#: weblate/templates/subproject.html:64 weblate/templates/subproject.html:228
+#: weblate/templates/subproject.html:65 weblate/templates/subproject.html:238
 msgid "Settings"
 msgstr "Instellingen"
 
-#: weblate/templates/project.html:62 weblate/templates/subproject.html:71
+#: weblate/templates/project.html:62 weblate/templates/subproject.html:72
 #: weblate/templates/translation.html:66
 msgid "Share"
 msgstr "Delen"
 
 #: weblate/templates/project.html:66 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:75 weblate/templates/translation.html:70
+#: weblate/templates/subproject.html:76 weblate/templates/translation.html:70
 msgid "Share on Facebook!"
 msgstr "Deel op Facebook!"
 
 #: weblate/templates/project.html:67 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:76 weblate/templates/translation.html:71
+#: weblate/templates/subproject.html:77 weblate/templates/translation.html:71
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Vertaal %(object)s met %%23Weblate op %(share_url)s!"
 
 #: weblate/templates/project.html:67 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:76 weblate/templates/translation.html:71
+#: weblate/templates/subproject.html:77 weblate/templates/translation.html:71
 msgid "Tweet this translation!"
 msgstr "Tweet deze vertaling!"
 
-#: weblate/templates/project.html:68 weblate/templates/subproject.html:77
+#: weblate/templates/project.html:68 weblate/templates/subproject.html:78
 #: weblate/templates/translation.html:72
 msgid "Engage page"
 msgstr "Wervingspagina"
 
-#: weblate/templates/project.html:69 weblate/templates/subproject.html:78
+#: weblate/templates/project.html:69 weblate/templates/subproject.html:79
 #: weblate/templates/translation.html:73
 msgid "Status widgets"
 msgstr "Statuswidgets"
 
 #: weblate/templates/project.html:85 weblate/templates/translate.html:271
-#: weblate/trans/models/subproject.py:497 weblate/trans/models/whiteboard.py:76
+#: weblate/trans/models/subproject.py:499 weblate/trans/models/whiteboard.py:76
 msgid "Component"
 msgstr "Onderdeel"
 
@@ -3762,7 +3760,7 @@ msgstr "Alle woordenlijsten beheren"
 msgid "Browse all project changes"
 msgstr "Alle projectwijzigingen doorbladeren"
 
-#: weblate/templates/project.html:177 weblate/templates/subproject.html:145
+#: weblate/templates/project.html:177 weblate/templates/subproject.html:155
 #: weblate/templates/translation.html:211
 msgid ""
 "You can replace string in all units at once. The search is simple substring "
@@ -3771,13 +3769,13 @@ msgstr ""
 "Je kan strings in alle units in een keer vervangen. Zoekmethode is middels "
 "'simpele substring, hoofdlettergevoelig'."
 
-#: weblate/templates/project.html:182 weblate/templates/subproject.html:150
+#: weblate/templates/project.html:182 weblate/templates/subproject.html:160
 #: weblate/templates/translation.html:198
 #: weblate/templates/translation.html:216
 msgid "Process"
 msgstr "Voortgang"
 
-#: weblate/templates/project.html:191 weblate/templates/subproject.html:166
+#: weblate/templates/project.html:191 weblate/templates/subproject.html:176
 #: weblate/templates/translate.html:305 weblate/templates/translation.html:248
 #: weblate/trans/forms.py:147
 msgid "Loading…"
@@ -3792,7 +3790,7 @@ msgid "Owner"
 msgstr "Eigenaar"
 
 #: weblate/templates/project.html:225 weblate/templates/project.html:254
-#: weblate/templates/screenshots/screenshot_sources_body.html:19
+#: weblate/templates/screenshots/screenshot_sources_body.html:20
 msgid "Remove"
 msgstr "Verwijderen"
 
@@ -3919,13 +3917,13 @@ msgstr ""
 msgid "Strings"
 msgstr "Tekenreeksen"
 
-#: weblate/templates/screenshots/screenshot_sources_body.html:27
+#: weblate/templates/screenshots/screenshot_sources_body.html:29
 #, fuzzy
 #| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
 msgstr "Geen screenshot gekoppeld!"
 
-#: weblate/templates/search.html:36
+#: weblate/templates/search.html:39
 msgid "No matching strings found!"
 msgstr "Geen overeenkomstige tekenreeksen gevonden!"
 
@@ -3964,7 +3962,7 @@ msgid "review"
 msgstr "beoordelen"
 
 #: weblate/templates/source-review.html:26 weblate/trans/forms.py:899
-#: weblate/trans/models/subproject.py:475
+#: weblate/trans/models/subproject.py:477
 msgid "Priority"
 msgstr "Prioriteit"
 
@@ -4032,24 +4030,24 @@ msgstr "Gefaalde controles gevonden"
 msgid "Translations"
 msgstr "Vertalingen"
 
-#: weblate/templates/subproject.html:45
+#: weblate/templates/subproject.html:46
 msgid "Matrix view"
 msgstr "Matrixweergave"
 
-#: weblate/templates/subproject.html:52
+#: weblate/templates/subproject.html:53
 msgid "Source strings review"
 msgstr "Beoordeling brontekenreeksen"
 
-#: weblate/templates/subproject.html:58
+#: weblate/templates/subproject.html:59
 msgid "Translation reports"
 msgstr "Vertalingsrapporten"
 
-#: weblate/templates/subproject.html:61 weblate/templates/subproject.html:113
-#: weblate/templates/subproject.html:129
+#: weblate/templates/subproject.html:62 weblate/templates/subproject.html:114
+#: weblate/templates/subproject.html:130
 msgid "Start new translation"
 msgstr "Start nieuwe vertaling"
 
-#: weblate/templates/subproject.html:116
+#: weblate/templates/subproject.html:117
 #, python-format
 msgid ""
 "Should your language be missing, please follow <a href=\"%(url)s"
@@ -4058,11 +4056,11 @@ msgstr ""
 "Mocht uw taal ontbreken, gelieve <a href=\"%(url)s\">instructies voor "
 "vertalers</a> te bekijken."
 
-#: weblate/templates/subproject.html:118
+#: weblate/templates/subproject.html:119
 msgid "Please choose the language into which you would like to translate."
 msgstr "Gelieve de taal te kiezen waarin u wilt vertalen."
 
-#: weblate/templates/subproject.html:120
+#: weblate/templates/subproject.html:121
 msgid ""
 "Project maintainers will get notified about this request and will add the "
 "language manually."
@@ -4070,19 +4068,19 @@ msgstr ""
 "De projectbeheerders krijgen een melding van dit verzoek en zullen de taal "
 "handmatig toevoegen."
 
-#: weblate/templates/subproject.html:123
+#: weblate/templates/subproject.html:124
 msgid "Can't find your language in the list above?"
 msgstr "Kan je je taal niet vinden in bovenstaande lijst?"
 
-#: weblate/templates/subproject.html:127
+#: weblate/templates/subproject.html:128
 msgid "Request new translation"
 msgstr "Vraag een nieuwe vertaling aan"
 
-#: weblate/templates/subproject.html:180
+#: weblate/templates/subproject.html:190
 msgid "Credits"
 msgstr "Naamsvermelding"
 
-#: weblate/templates/subproject.html:184
+#: weblate/templates/subproject.html:194
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
@@ -4092,18 +4090,18 @@ msgstr ""
 "tot dit onderdeel in een bepaalde periode. Dit kan handig zijn om te "
 "gebruiken in de documentatie of de applicatie, om vertalers te bedanken."
 
-#: weblate/templates/subproject.html:201
+#: weblate/templates/subproject.html:211
 msgid "Contributor stats"
 msgstr "medewerkerstatistieken"
 
-#: weblate/templates/subproject.html:205
+#: weblate/templates/subproject.html:215
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 "Geeft het aantal tekenreeksen en woorden weer die vertaald werden per "
 "vertaler."
 
 #: weblate/templates/subproject_info.html:12
-#: weblate/trans/models/subproject.py:376
+#: weblate/trans/models/subproject.py:378
 msgid "Translation license"
 msgstr "Licentie van de vertaling"
 
@@ -4112,7 +4110,7 @@ msgid "Repository"
 msgstr "Repository"
 
 #: weblate/templates/subproject_info.html:32
-#: weblate/trans/models/subproject.py:198
+#: weblate/trans/models/subproject.py:200
 msgid "Repository branch"
 msgstr "Repository branch"
 
@@ -5271,39 +5269,39 @@ msgstr "E-mail auteur"
 msgid "Search filter"
 msgstr "Zoekfilter"
 
-#: weblate/trans/forms.py:490 weblate/trans/models/translation.py:880
-#: weblate/trans/models/translation.py:922 weblate/trans/views/edit.py:122
+#: weblate/trans/forms.py:490 weblate/trans/models/translation.py:881
+#: weblate/trans/models/translation.py:923 weblate/trans/views/edit.py:122
 #: weblate/trans/views/edit.py:138
 msgid "All strings"
 msgstr "Alle tekenreeksen"
 
-#: weblate/trans/forms.py:491 weblate/trans/models/translation.py:949
+#: weblate/trans/forms.py:491 weblate/trans/models/translation.py:950
 msgid "Not translated strings"
 msgstr "Niet-vertaalde tekenreeksen"
 
-#: weblate/trans/forms.py:492 weblate/trans/models/translation.py:940
+#: weblate/trans/forms.py:492 weblate/trans/models/translation.py:941
 msgid "Strings needing action"
 msgstr "Te bekijken tekenreeks"
 
-#: weblate/trans/forms.py:493 weblate/trans/models/translation.py:931
+#: weblate/trans/forms.py:493 weblate/trans/models/translation.py:932
 msgid "Translated strings"
 msgstr "Vertaalde tekenreeksen"
 
-#: weblate/trans/forms.py:494 weblate/trans/models/translation.py:958
+#: weblate/trans/forms.py:494 weblate/trans/models/translation.py:959
 msgid "Strings marked for review"
 msgstr "Tekenreeksen om te beoordelen"
 
-#: weblate/trans/forms.py:495 weblate/trans/models/translation.py:967
+#: weblate/trans/forms.py:495 weblate/trans/models/translation.py:968
 msgid "Strings with suggestions"
 msgstr "Tekenreeksen met suggesties"
 
-#: weblate/trans/forms.py:496 weblate/trans/models/translation.py:908
-#: weblate/trans/models/translation.py:995
+#: weblate/trans/forms.py:496 weblate/trans/models/translation.py:909
+#: weblate/trans/models/translation.py:996
 msgid "Strings with comments"
 msgstr "Tekenreeksen met opmerkingen"
 
-#: weblate/trans/forms.py:497 weblate/trans/models/translation.py:888
-#: weblate/trans/models/translation.py:975
+#: weblate/trans/forms.py:497 weblate/trans/models/translation.py:889
+#: weblate/trans/models/translation.py:976
 msgid "Strings with any failing checks"
 msgstr "Tekenreeksen met gefaalde controles"
 
@@ -5627,7 +5625,7 @@ msgstr "Vertaling afgewerkt"
 msgid "Translation changed"
 msgstr "Vertaling aangepast"
 
-#: weblate/trans/models/change.py:204 weblate/trans/models/subproject.py:402
+#: weblate/trans/models/change.py:204 weblate/trans/models/subproject.py:404
 msgid "New translation"
 msgstr "Nieuwe vertaling"
 
@@ -5729,17 +5727,17 @@ msgid "Component list name"
 msgstr "Naam van de onderdelenlijst"
 
 #: weblate/trans/models/componentlist.py:35 weblate/trans/models/project.py:70
-#: weblate/trans/models/subproject.py:133
+#: weblate/trans/models/subproject.py:135
 msgid "Name to display"
 msgstr "Weer te geven naam"
 
 #: weblate/trans/models/componentlist.py:39 weblate/trans/models/project.py:73
-#: weblate/trans/models/subproject.py:136
+#: weblate/trans/models/subproject.py:138
 msgid "URL slug"
 msgstr "URL-slug"
 
 #: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:76
-#: weblate/trans/models/subproject.py:139
+#: weblate/trans/models/subproject.py:141
 msgid "Name used in URLs and file names."
 msgstr "Naam gebruikt in URL's en bestandsnamen."
 
@@ -5839,42 +5837,42 @@ msgstr "U hebt geen toegang tot project %s."
 msgid "Could not create project directory: %s"
 msgstr "Kon projectmap niet aanmaken: %s"
 
-#: weblate/trans/models/subproject.py:89
+#: weblate/trans/models/subproject.py:91
 msgid "Use contact form"
 msgstr "Gebruik het contactformulier"
 
-#: weblate/trans/models/subproject.py:90
+#: weblate/trans/models/subproject.py:92
 msgid "Point to translation instructions URL"
 msgstr "Verwijzen naar URL met vertaalinstructies"
 
-#: weblate/trans/models/subproject.py:91
+#: weblate/trans/models/subproject.py:93
 msgid "Automatically add language file"
 msgstr "Automatisch taalbestand toevoegen"
 
-#: weblate/trans/models/subproject.py:92
+#: weblate/trans/models/subproject.py:94
 msgid "No adding of language"
 msgstr "Geen toevoegen van taal"
 
-#: weblate/trans/models/subproject.py:95
+#: weblate/trans/models/subproject.py:97
 msgid "Merge"
 msgstr "Samenvoegen"
 
-#: weblate/trans/models/subproject.py:131
+#: weblate/trans/models/subproject.py:133
 msgid "Component name"
 msgstr "Naam van het onderdeel"
 
-#: weblate/trans/models/subproject.py:146
+#: weblate/trans/models/subproject.py:148
 msgid "Version control system"
 msgstr "Versiebeheersysteem"
 
-#: weblate/trans/models/subproject.py:149
+#: weblate/trans/models/subproject.py:151
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
 "Versiebeheersysteem dat gebruikt wordt om toegang te krijgen tot het "
 "repository met vertalingen."
 
-#: weblate/trans/models/subproject.py:159
+#: weblate/trans/models/subproject.py:161
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -5882,19 +5880,19 @@ msgstr ""
 "URL van een repository, gebruik weblate://project/onderdeel om te delen met "
 "een ander onderdeel."
 
-#: weblate/trans/models/subproject.py:164
+#: weblate/trans/models/subproject.py:166
 msgid "Repository push URL"
 msgstr "Push URL van het repository"
 
-#: weblate/trans/models/subproject.py:167
+#: weblate/trans/models/subproject.py:169
 msgid "URL of a push repository, pushing is disabled if empty."
 msgstr "URL van een push repository, push is uitgeschakeld indien leeg."
 
-#: weblate/trans/models/subproject.py:172
+#: weblate/trans/models/subproject.py:174
 msgid "Repository browser"
 msgstr "Repository browser"
 
-#: weblate/trans/models/subproject.py:174
+#: weblate/trans/models/subproject.py:176
 #, python-format
 msgid ""
 "Link to repository browser, use %(branch)s for branch, %(file)s and %(line)s "
@@ -5903,20 +5901,20 @@ msgstr ""
 "Koppeling naar repository browser, gebruik %(branch)s, %(file)s en %(line)s "
 "als plaatsvervangers voor branch, bestandsnaam en regelnummer."
 
-#: weblate/trans/models/subproject.py:181
+#: weblate/trans/models/subproject.py:183
 msgid "Exported repository URL"
 msgstr "Geëxporteerd repository URL"
 
-#: weblate/trans/models/subproject.py:184
+#: weblate/trans/models/subproject.py:186
 msgid "URL of a repository where users can fetch changes from Weblate"
 msgstr ""
 "URL van een repository waar gebruikers wijzigingen kunnen afhalen van Weblate"
 
-#: weblate/trans/models/subproject.py:189
+#: weblate/trans/models/subproject.py:191
 msgid "Source string bug report address"
 msgstr "Adres voor rapporteren foutieve brontekenreeksen"
 
-#: weblate/trans/models/subproject.py:191
+#: weblate/trans/models/subproject.py:193
 msgid ""
 "Email address where errors in source string will be reported, keep empty for "
 "no emails."
@@ -5924,11 +5922,11 @@ msgstr ""
 "E-mailadres waar fouten in brontekenreeksen gemeld kunnen worden, laat leeg "
 "voor geen e-mails."
 
-#: weblate/trans/models/subproject.py:200
+#: weblate/trans/models/subproject.py:202
 msgid "Repository branch to translate"
 msgstr "Repository branch om te vertalen"
 
-#: weblate/trans/models/subproject.py:209
+#: weblate/trans/models/subproject.py:211
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -5937,11 +5935,11 @@ msgstr ""
 "gebruik * in plaats van de taalcode, bijvoorbeeld : po/*.po of locale/*/"
 "LC_MESSAGES/django.po."
 
-#: weblate/trans/models/subproject.py:215
+#: weblate/trans/models/subproject.py:217
 msgid "Monolingual base language file"
 msgstr "Enkeltalig basistaalbestand"
 
-#: weblate/trans/models/subproject.py:219
+#: weblate/trans/models/subproject.py:221
 msgid ""
 "Filename of translations base file, which contains all strings and their "
 "source; this is recommended to use for monolingual translation formats."
@@ -5949,21 +5947,21 @@ msgstr ""
 "Bestandsnaam van vertaalbasisbestand die alle tekenreeksen en de bron bevat; "
 "dit wordt aangeraden voor enkeltalige vertaalformaten."
 
-#: weblate/trans/models/subproject.py:225
+#: weblate/trans/models/subproject.py:227
 msgid "Edit base file"
 msgstr "Basisbestand bewerken"
 
-#: weblate/trans/models/subproject.py:228
+#: weblate/trans/models/subproject.py:230
 msgid ""
 "Whether users will be able to edit base file for monolingual translations."
 msgstr ""
 "Of gebruikers het basisbestand voor enkeltalige vertalingen kunnen bewerken."
 
-#: weblate/trans/models/subproject.py:233
+#: weblate/trans/models/subproject.py:235
 msgid "Base file for new translations"
 msgstr "Basisbestand voor nieuwe vertalingen"
 
-#: weblate/trans/models/subproject.py:237
+#: weblate/trans/models/subproject.py:239
 msgid ""
 "Filename of file which is used for creating new translations. For Gettext "
 "choose .pot file."
@@ -5971,20 +5969,20 @@ msgstr ""
 "Bestandsnaam van bestand dat wordt gebruikt voor het aanmaken van nieuwe "
 "vertalingen. Voor Gettext, kies .pot-bestand."
 
-#: weblate/trans/models/subproject.py:242
+#: weblate/trans/models/subproject.py:244
 msgid "File format"
 msgstr "Bestandsformaat"
 
-#: weblate/trans/models/subproject.py:247
+#: weblate/trans/models/subproject.py:249
 msgid "Automatic detection might fail for some formats and is slightly slower."
 msgstr ""
 "Automatische detectie kan mislukken bij bepaalde formaten en is iets trager."
 
-#: weblate/trans/models/subproject.py:252
+#: weblate/trans/models/subproject.py:254
 msgid "Additional commit files"
 msgstr "Extra te committen bestanden"
 
-#: weblate/trans/models/subproject.py:257
+#: weblate/trans/models/subproject.py:259
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
@@ -5992,11 +5990,11 @@ msgstr ""
 "Bijkomende bestanden om te gebruiken bij commits, een per regel; gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: weblate/trans/models/subproject.py:262
+#: weblate/trans/models/subproject.py:264
 msgid "Post-update script"
 msgstr "Script na bijwerken"
 
-#: weblate/trans/models/subproject.py:268
+#: weblate/trans/models/subproject.py:270
 msgid ""
 "Script to be executed after receiving a repository update, please check "
 "documentation for more details."
@@ -6004,11 +6002,11 @@ msgstr ""
 "Script dat uitgevoerd wordt na het bijwerken van een repository, gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: weblate/trans/models/subproject.py:273
+#: weblate/trans/models/subproject.py:275
 msgid "Pre-commit script"
 msgstr "Pre-commit script"
 
-#: weblate/trans/models/subproject.py:279
+#: weblate/trans/models/subproject.py:281
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
@@ -6016,11 +6014,11 @@ msgstr ""
 "Script dat uitgevoerd wordt alvorens een vertaling te committen, gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: weblate/trans/models/subproject.py:284
+#: weblate/trans/models/subproject.py:286
 msgid "Post-commit script"
 msgstr "Script na commit"
 
-#: weblate/trans/models/subproject.py:290
+#: weblate/trans/models/subproject.py:292
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
@@ -6028,11 +6026,11 @@ msgstr ""
 "Script dat uitgevoerd wordt nadat een vertaling gecommit werd, gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: weblate/trans/models/subproject.py:295
+#: weblate/trans/models/subproject.py:297
 msgid "Post-push script"
 msgstr "Script na doorsturen"
 
-#: weblate/trans/models/subproject.py:301
+#: weblate/trans/models/subproject.py:303
 msgid ""
 "Script to be executed after pushing translation to remote, please check "
 "documentation for more details."
@@ -6041,11 +6039,11 @@ msgstr ""
 "centraal repo (push), gelieve de documentatie te bekijken voor verdere "
 "details."
 
-#: weblate/trans/models/subproject.py:306
+#: weblate/trans/models/subproject.py:308
 msgid "Post-add script"
 msgstr "Script na toevoegen"
 
-#: weblate/trans/models/subproject.py:312
+#: weblate/trans/models/subproject.py:314
 msgid ""
 "Script to be executed after adding new translation, please check "
 "documentation for more details."
@@ -6053,19 +6051,19 @@ msgstr ""
 "Script dat uitgevoerd wordt na toevoegen van een nieuwe vertaling, gelieve "
 "de documentatie te bekijken voor verdere details."
 
-#: weblate/trans/models/subproject.py:318
+#: weblate/trans/models/subproject.py:320
 msgid "Locked"
 msgstr "Vergrendeld"
 
-#: weblate/trans/models/subproject.py:321
+#: weblate/trans/models/subproject.py:323
 msgid "Whether component is locked for translation updates."
 msgstr "Of het onderdeel geblokkeerd is voor vertaalaanpassingen."
 
-#: weblate/trans/models/subproject.py:325
+#: weblate/trans/models/subproject.py:327
 msgid "Allow translation propagation"
 msgstr "Sta propageren van vertalingen toe"
 
-#: weblate/trans/models/subproject.py:329
+#: weblate/trans/models/subproject.py:331
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
@@ -6073,46 +6071,46 @@ msgstr ""
 "Of vertalingsaanpassingen in andere onderdelen resulteren in automatische "
 "vertaling in dit onderdeel"
 
-#: weblate/trans/models/subproject.py:334
+#: weblate/trans/models/subproject.py:336
 msgid "Save translation history"
 msgstr "Vertalingsgeschiedenis opslaan"
 
-#: weblate/trans/models/subproject.py:337
+#: weblate/trans/models/subproject.py:339
 msgid "Whether Weblate should keep history of translations"
 msgstr "Definieer of Weblate de geschiedenis van vertalingen moet bijhouden"
 
-#: weblate/trans/models/subproject.py:341
+#: weblate/trans/models/subproject.py:343
 msgid "Enable suggestions"
 msgstr "Suggesties inschakelen"
 
-#: weblate/trans/models/subproject.py:344
+#: weblate/trans/models/subproject.py:346
 msgid "Whether to allow translation suggestions at all."
 msgstr "Of vertaalsuggesties überhaupt toegelaten moeten worden."
 
-#: weblate/trans/models/subproject.py:348
+#: weblate/trans/models/subproject.py:350
 msgid "Suggestion voting"
 msgstr "Stemmen voor suggesties"
 
-#: weblate/trans/models/subproject.py:351
+#: weblate/trans/models/subproject.py:353
 msgid "Whether users can vote for suggestions."
 msgstr "Of gebruikers kunnen stemmen voor suggesties."
 
-#: weblate/trans/models/subproject.py:355
+#: weblate/trans/models/subproject.py:357
 msgid "Autoaccept suggestions"
 msgstr "Suggesties automatisch aanvaarden"
 
-#: weblate/trans/models/subproject.py:358
+#: weblate/trans/models/subproject.py:360
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to disable."
 msgstr ""
 "Aanvaard automatisch suggesties met dit aantal stemmen, gebruik 0 om uit te "
 "schakelen."
 
-#: weblate/trans/models/subproject.py:364
+#: weblate/trans/models/subproject.py:366
 msgid "Quality checks flags"
 msgstr "Kwaliteitscontrolevlaggen"
 
-#: weblate/trans/models/subproject.py:367
+#: weblate/trans/models/subproject.py:369
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
@@ -6120,24 +6118,24 @@ msgstr ""
 "Bijkomende door komma's gescheiden vlaggen om kwaliteitscontroles te "
 "beïnvloeden, gelieve de documentatie te bekijken voor mogelijke waarden."
 
-#: weblate/trans/models/subproject.py:381
+#: weblate/trans/models/subproject.py:383
 msgid "Optional short summary of license used for translations."
 msgstr ""
 "Korte samenvatting van licenties gebruikt voor vertalingen (optioneel)."
 
-#: weblate/trans/models/subproject.py:385
+#: weblate/trans/models/subproject.py:387
 msgid "License URL"
 msgstr "Licentie-URL"
 
-#: weblate/trans/models/subproject.py:388
+#: weblate/trans/models/subproject.py:390
 msgid "Optional URL with license details."
 msgstr "URL met details van de licentie (optioneel)."
 
-#: weblate/trans/models/subproject.py:391
+#: weblate/trans/models/subproject.py:393
 msgid "Contributor agreement"
 msgstr "Overeenkomst voor medewerkers"
 
-#: weblate/trans/models/subproject.py:395
+#: weblate/trans/models/subproject.py:397
 msgid ""
 "Agreement which needs to be approved before user can translate this "
 "component."
@@ -6145,7 +6143,7 @@ msgstr ""
 "Overeenkomst die goedgekeurd dient te worden voor een gebruiker dit "
 "onderdeel kan vertalen."
 
-#: weblate/trans/models/subproject.py:407
+#: weblate/trans/models/subproject.py:409
 msgid ""
 "How to handle requests for creating new translations. Please note that "
 "availability of choices depends on the file format."
@@ -6153,11 +6151,11 @@ msgstr ""
 "Hoe aanvragen voor nieuwe vertalingen behandeld worden. Merk op dat de "
 "beschikbaarheid van de opties afhankelijk is van het bestandsformaat."
 
-#: weblate/trans/models/subproject.py:415
+#: weblate/trans/models/subproject.py:417
 msgid "Merge style"
 msgstr "Samenvoegstijl"
 
-#: weblate/trans/models/subproject.py:420
+#: weblate/trans/models/subproject.py:422
 msgid ""
 "Define whether Weblate should merge upstream repository or rebase changes "
 "onto it."
@@ -6165,13 +6163,13 @@ msgstr ""
 "Definieer of Weblate wijzigingen moet samenvoegen (merge) met een upstream "
 "repository of deze erop moet herbaseren (rebase)."
 
-#: weblate/trans/models/subproject.py:425
+#: weblate/trans/models/subproject.py:427
 msgid "Commit message when translating"
 msgstr "Commit bericht bij het vertalen"
 
-#: weblate/trans/models/subproject.py:427
-#: weblate/trans/models/subproject.py:436
-#: weblate/trans/models/subproject.py:445
+#: weblate/trans/models/subproject.py:429
+#: weblate/trans/models/subproject.py:438
+#: weblate/trans/models/subproject.py:447
 msgid ""
 "You can use format strings for various information, please check "
 "documentation for more details."
@@ -6179,27 +6177,27 @@ msgstr ""
 "U kan formateertekenreeksen gebruiken voor diverse informatie, gelieve de "
 "documentatie te bekijken voor verdere details."
 
-#: weblate/trans/models/subproject.py:434
+#: weblate/trans/models/subproject.py:436
 msgid "Commit message when adding translation"
 msgstr "Commit bericht bij het toevoegen van een vertaling"
 
-#: weblate/trans/models/subproject.py:443
+#: weblate/trans/models/subproject.py:445
 msgid "Commit message when removing translation"
 msgstr "Commit bericht bij het verwijderen van een vertaling"
 
-#: weblate/trans/models/subproject.py:452
+#: weblate/trans/models/subproject.py:454
 msgid "Committer name"
 msgstr "Naam committer"
 
-#: weblate/trans/models/subproject.py:457
+#: weblate/trans/models/subproject.py:459
 msgid "Committer email"
 msgstr "E-mail committer"
 
-#: weblate/trans/models/subproject.py:463
+#: weblate/trans/models/subproject.py:465
 msgid "Language filter"
 msgstr "Taalfilter"
 
-#: weblate/trans/models/subproject.py:467
+#: weblate/trans/models/subproject.py:469
 msgid ""
 "Regular expression which is used to filter translation when scanning for "
 "file mask."
@@ -6207,12 +6205,12 @@ msgstr ""
 "Reguliere uitdrukking (regex) die wordt gebruikt voor het filteren van "
 "vertaling bij het scannen van bestandsmasker."
 
-#: weblate/trans/models/subproject.py:477
+#: weblate/trans/models/subproject.py:479
 msgid "Components with higher priority are offered first to translators."
 msgstr ""
 "Onderdelen met hogere prioriteit worden eerst aangeboden aan vertalers."
 
-#: weblate/trans/models/subproject.py:668
+#: weblate/trans/models/subproject.py:670
 msgid ""
 "Failed to verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -6220,72 +6218,72 @@ msgstr ""
 "Verificatie van de SSH-hostsleutel is mislukt, gelieve deze toe te voegen op "
 "de SSH-pagina in de beheersinterface."
 
-#: weblate/trans/models/subproject.py:672
+#: weblate/trans/models/subproject.py:674
 #, python-format
 msgid "Failed to fetch repository: %s"
 msgstr "Ophalen van repository is mislukt: %s"
 
-#: weblate/trans/models/subproject.py:762
+#: weblate/trans/models/subproject.py:764
 #, python-format
 msgid "Push is disabled for %s."
 msgstr "Push is uitgeschakeld voor %s."
 
-#: weblate/trans/models/subproject.py:809
+#: weblate/trans/models/subproject.py:811
 #, python-format
 msgid "Failed to push to remote branch on %s."
 msgstr "Push naar externe branch op %s is mislukt."
 
-#: weblate/trans/models/subproject.py:839
+#: weblate/trans/models/subproject.py:841
 #, python-format
 msgid "Failed to reset to remote branch on %s."
 msgstr "Opnieuw instellen van externe branch op %s is mislukt."
 
-#: weblate/trans/models/subproject.py:913
+#: weblate/trans/models/subproject.py:915
 #, python-format
 msgid "Failed to rebase our branch onto remote branch %s."
 msgstr "Herbaseren van onze branch op externe branch %s is mislukt."
 
-#: weblate/trans/models/subproject.py:918
+#: weblate/trans/models/subproject.py:920
 #, python-format
 msgid "Failed to merge remote branch into %s."
 msgstr "Samenvoegen van externe branch met %s is mislukt."
 
-#: weblate/trans/models/subproject.py:1100
+#: weblate/trans/models/subproject.py:1102
 msgid "Invalid link to a Weblate project, can not link to linked repository!"
 msgstr ""
 "Link naar het het Weblate project is ongeldig, kan geen verbinding maken met "
 "het gekoppelde repository!"
 
-#: weblate/trans/models/subproject.py:1107
+#: weblate/trans/models/subproject.py:1109
 msgid "Invalid link to a Weblate project, can not link to self!"
 msgstr ""
 "Link naar het het Weblate project is ongeldig, niet mogelijk naar zichzelf "
 "te linken!"
 
-#: weblate/trans/models/subproject.py:1114
+#: weblate/trans/models/subproject.py:1116
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Ongeldige link naar een Weblate project, gebruik weblate://project/onderdeel."
 
-#: weblate/trans/models/subproject.py:1120
+#: weblate/trans/models/subproject.py:1122
 msgid "Push URL is not used when repository is linked!"
 msgstr "De push-URL wordt niet gebruikt wanneer het repository gekoppeld is!"
 
-#: weblate/trans/models/subproject.py:1126
+#: weblate/trans/models/subproject.py:1128
 msgid "Export URL is not used when repository is linked!"
 msgstr "De export-URL wordt niet gebruikt wanneer het repository gekoppeld is!"
 
-#: weblate/trans/models/subproject.py:1134
+#: weblate/trans/models/subproject.py:1136
 msgid "The mask did not match any files!"
 msgstr "Het masker komt met geen enkel bestand overeen!"
 
-#: weblate/trans/models/subproject.py:1142
+#: weblate/trans/models/subproject.py:1144
 #, python-format
 msgid "Got empty language code for %s, please check filemask!"
 msgstr ""
 "Een lege taalcode ontvangen voor %s, gelieve het bestandsmasker na te kijken!"
 
-#: weblate/trans/models/subproject.py:1147
+#: weblate/trans/models/subproject.py:1149
 msgid ""
 "There are more files for single language, please adjust the mask and use "
 "components for translating different resources."
@@ -6293,7 +6291,7 @@ msgstr ""
 "Er is meer dan een bestand voor dezelfde taal, gelieve het masker aan te "
 "passen en onderdelen te gebruiken om verschillende onderdelen te vertalen."
 
-#: weblate/trans/models/subproject.py:1153
+#: weblate/trans/models/subproject.py:1155
 #, python-format
 msgid ""
 "Multiple translations were mapped to a single language code (%s). You should "
@@ -6304,21 +6302,21 @@ msgstr ""
 "schakelt SIMPLIFY_LANGUAGES best uit om te vermijden dat Weblate "
 "gelijkaardige talen probeert samen te voegen tot een enkele taal."
 
-#: weblate/trans/models/subproject.py:1172
+#: weblate/trans/models/subproject.py:1174
 msgid "File does not seem to be valid!"
 msgstr "Bestand lijkt ongeldig!"
 
-#: weblate/trans/models/subproject.py:1180
+#: weblate/trans/models/subproject.py:1182
 #, python-format
 msgid "Format of %d matched files could not be recognized."
 msgstr "Het formaat van %d overeenkomende bestanden werd niet herkend."
 
-#: weblate/trans/models/subproject.py:1189
+#: weblate/trans/models/subproject.py:1191
 #, python-format
 msgid "Failed to parse %d matched files!"
 msgstr "Verwerken van %d overeenkomende bestanden is mislukt!"
 
-#: weblate/trans/models/subproject.py:1198
+#: weblate/trans/models/subproject.py:1200
 msgid ""
 "Chosen file format does not support adding new translations as chosen in "
 "project settings."
@@ -6326,7 +6324,7 @@ msgstr ""
 "Gekozen bestandsformaat biedt geen ondersteuning voor het toevoegen van "
 "nieuwe vertalingen zoals gekozen in de projectinstellingen."
 
-#: weblate/trans/models/subproject.py:1206
+#: weblate/trans/models/subproject.py:1208
 msgid ""
 "You have configured Weblate to add new translation files, but did not "
 "provide base file to do that!"
@@ -6334,12 +6332,12 @@ msgstr ""
 "Je hebt Weblate geconfigureerd om nieuwe vertaalbestanden toe te voegen, "
 "maar hebt geen basisbestand aangegeven om dit te kunnen uitvoeren!"
 
-#: weblate/trans/models/subproject.py:1210
+#: weblate/trans/models/subproject.py:1212
 msgid "Format of base file for new translations was not recognized!"
 msgstr ""
 "Het formaat van het basisbestand voor nieuwe vertalingen werd niet herkend!"
 
-#: weblate/trans/models/subproject.py:1215
+#: weblate/trans/models/subproject.py:1217
 msgid ""
 "Base file for new translations is not used because of component settings. "
 "You probably want to enable automatic adding of new translations."
@@ -6348,28 +6346,28 @@ msgstr ""
 "instellingen van het onderdeel. Je schakelt best automatisch toevoegen van "
 "nieuwe vertalingen in."
 
-#: weblate/trans/models/subproject.py:1226
+#: weblate/trans/models/subproject.py:1228
 msgid "You can not use base file with bilingual translation!"
 msgstr "U kan geen basisbestand gebruiken voor tweetalige vertaling!"
 
-#: weblate/trans/models/subproject.py:1231
+#: weblate/trans/models/subproject.py:1233
 msgid "Using .pot file as base file is not supported!"
 msgstr ".pot bestandsformaat wordt niet ondersteund als basisbestand!"
 
-#: weblate/trans/models/subproject.py:1238
+#: weblate/trans/models/subproject.py:1240
 msgid "Template file not found!"
 msgstr "Bestand met sjabloon niet gevonden!"
 
-#: weblate/trans/models/subproject.py:1244
+#: weblate/trans/models/subproject.py:1246
 #, python-format
 msgid "Failed to parse translation base file: %s"
 msgstr "Verwerken van vertaalbasisbestand is mislukt: %s"
 
-#: weblate/trans/models/subproject.py:1249
+#: weblate/trans/models/subproject.py:1251
 msgid "You can not use monolingual translation without base file!"
 msgstr "U kan geen enkeltalige vertalingen gebruiken zonder basisbestand!"
 
-#: weblate/trans/models/subproject.py:1260
+#: weblate/trans/models/subproject.py:1262
 msgid ""
 "Please either fill in instructions URL or use different option for adding "
 "new language."
@@ -6377,43 +6375,43 @@ msgstr ""
 "Gelieve ofwel een URL met instructies op te geven of een andere optie om een "
 "taal toe te voegen te gebruiken."
 
-#: weblate/trans/models/subproject.py:1267
+#: weblate/trans/models/subproject.py:1269
 msgid "License URL can not be used without license summary."
 msgstr ""
 "Een licentie-URL kan niet gebruikt worden zonder een samenvatting van de "
 "licentie."
 
-#: weblate/trans/models/subproject.py:1287
+#: weblate/trans/models/subproject.py:1289
 msgid "Changing version control system is not supported!"
 msgstr "Wijzigen van het versiebeheersysteem wordt niet ondersteund!"
 
-#: weblate/trans/models/subproject.py:1292
+#: weblate/trans/models/subproject.py:1294
 #, python-brace-format
 msgid "Unsupported file format: {0}"
 msgstr "Niet ondersteund bestandsformaat: {0}"
 
-#: weblate/trans/models/subproject.py:1299
+#: weblate/trans/models/subproject.py:1301
 #, python-format
 msgid "Failed to update repository: %s"
 msgstr "Bijwerken van het repository is mislukt: %s"
 
-#: weblate/trans/models/subproject.py:1319
+#: weblate/trans/models/subproject.py:1321
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Controleren van overeenkomstige bestandsnamen is niet mogelijk omdat de "
 "reguliere expressie ongeldig is."
 
-#: weblate/trans/models/subproject.py:1329
+#: weblate/trans/models/subproject.py:1331
 msgid "Automatically accepting suggestions can work only with voting enabled!"
 msgstr ""
 "Automatisch aanvaarden van suggesties werkt enkel als stemmen ingeschakeld "
 "is!"
 
-#: weblate/trans/models/subproject.py:1508
+#: weblate/trans/models/subproject.py:1510
 msgid "Failed to add new translation file!"
 msgstr "Toevoegen van nieuw vertalingsbestand mislukt!"
 
-#: weblate/trans/models/subproject.py:1530
+#: weblate/trans/models/subproject.py:1532
 msgid "Translation file already exists!"
 msgstr "Vertalingsbestand bestaat reeds!"
 
@@ -6857,17 +6855,17 @@ msgstr "Zoeken in brontekenreeksen"
 msgid "Add review flag for new translated strings"
 msgstr "Zoeken in brontekenreeksen"
 
-#: weblate/trans/validators.py:52 weblate/trans/validators.py:72
+#: weblate/trans/validators.py:52 weblate/trans/validators.py:75
 #: weblate/utils/validators.py:66
 #, python-format
 msgid "Bad format string (%s)"
 msgstr "Verkeerd patroon (%s)"
 
-#: weblate/trans/validators.py:81
+#: weblate/trans/validators.py:84
 msgid "File mask does not contain * as a language placeholder!"
 msgstr "Bestandsmasker bevat geen * als een tijdelijke aanduiding van de taal!"
 
-#: weblate/trans/validators.py:91
+#: weblate/trans/validators.py:94
 msgid ""
 "Value of 1 is not allowed for autoaccept as every user gives vote to his "
 "suggestion."
@@ -6875,7 +6873,7 @@ msgstr ""
 "Waarde van 1 is niet toegestaan voor automatisch aanvaarden van vertalingen "
 "omdat elke gebruiker stemt voor zijn suggestie."
 
-#: weblate/trans/validators.py:106
+#: weblate/trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
 msgstr "Ongeldige controlevlag: \"%s\""
@@ -6904,16 +6902,16 @@ msgstr ""
 msgid "Please set your full name in your profile."
 msgstr "Gelieve uw volledige naam in te vullen in uw profiel."
 
-#: weblate/trans/views/basic.py:260
+#: weblate/trans/views/basic.py:266
 #, python-format
 msgid "Search for %s"
 msgstr "Zoek naar %s"
 
-#: weblate/trans/views/basic.py:266
+#: weblate/trans/views/basic.py:272
 msgid "Invalid search query!"
 msgstr "Ongeldige zoekopdracht!"
 
-#: weblate/trans/views/basic.py:298
+#: weblate/trans/views/basic.py:304
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> currently "
@@ -6928,7 +6926,7 @@ msgstr ""
 
 #. Translators: line of text in engagement widget, please use your
 #. language name instead of English
-#: weblate/trans/views/basic.py:306
+#: weblate/trans/views/basic.py:312
 #, python-format
 msgid ""
 "<a href=\"%(url)s\">Translation project for %(project)s</a> into English "
@@ -6939,25 +6937,25 @@ msgstr ""
 "bevat momenteel %(total)s te vertalen tekenreeksen en is %(percent)s%% "
 "volledig."
 
-#: weblate/trans/views/basic.py:333 weblate/trans/views/basic.py:404
+#: weblate/trans/views/basic.py:339 weblate/trans/views/basic.py:410
 msgid "Settings saved"
 msgstr "Instellingen opgeslagen"
 
-#: weblate/trans/views/basic.py:338 weblate/trans/views/basic.py:409
+#: weblate/trans/views/basic.py:344 weblate/trans/views/basic.py:415
 msgid "Invalid settings, please check the form for errors!"
 msgstr "Ongeldige instellingen, controleer het formulier op fouten!"
 
-#: weblate/trans/views/basic.py:581
+#: weblate/trans/views/basic.py:588
 msgid "Weblate statistics"
 msgstr "Weblate statistieken"
 
-#: weblate/trans/views/basic.py:663
+#: weblate/trans/views/basic.py:670
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""
 "Aanvraag voor een nieuwe vertaling werd doorgestuurd naar projectbeheerders."
 
-#: weblate/trans/views/basic.py:672
+#: weblate/trans/views/basic.py:679
 msgid "Invalid language chosen!"
 msgstr "Ongeldige gekozen taal!"
 
@@ -7330,6 +7328,9 @@ msgstr "Niet ondersteund afbeeldingstype: %s"
 #: weblate/utils/validators.py:54
 msgid "Image is too big, please scale it down or crop relevant part!"
 msgstr "Afbeelding is te groot, verklein deze naar enkel het relevante deel!"
+
+#~ msgid "Git repository with Weblate translations:"
+#~ msgstr "Git repository met Weblate-vertalingen:"
 
 #~ msgid "Screenshot showing usage of this string"
 #~ msgstr "Afbeelding toont gebruik van de vertaling"
