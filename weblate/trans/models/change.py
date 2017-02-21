@@ -46,7 +46,8 @@ class ChangeManager(models.Manager):
             user__isnull=False,
         )
 
-    def count_stats(self, days, step, dtstart, base):
+    @staticmethod
+    def count_stats(days, step, dtstart, base):
         '''
         Counts number of changes in given dataset and period grouped by
         step days.

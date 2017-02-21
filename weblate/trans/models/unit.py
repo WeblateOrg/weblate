@@ -74,7 +74,8 @@ def more_like_queue(pk, source, top, queue):
 class UnitManager(models.Manager):
     # pylint: disable=W0232
 
-    def update_from_unit(self, translation, unit, pos):
+    @staticmethod
+    def update_from_unit(translation, unit, pos):
         """
         Process translation toolkit unit and stores/updates database entry.
         """
