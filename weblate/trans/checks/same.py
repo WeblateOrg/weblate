@@ -147,9 +147,8 @@ class SameCheck(TargetCheck):
         Check whether given unit should be ignored.
         '''
         # Ignore some docbook tags
-        if unit.comment.startswith('Tag: '):
-            if unit.comment[5:] in DB_TAGS:
-                return True
+        if unit.comment.startswith('Tag: ') and unit.comment[5:] in DB_TAGS:
+            return True
 
         # Lower case source
         lower_source = source.lower()

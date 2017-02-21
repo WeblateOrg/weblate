@@ -110,10 +110,10 @@ class WhiteboardMessage(models.Model):
         return self.message
 
     def clean(self):
-        if self.project and self.subproject:
-            if self.subproject.project != self.project:
-                raise ValidationError(
-                    _('Do not specify both component and project!')
-                )
+        if (self.project and self.subproject
+                and self.subproject.project != self.project):
+            raise ValidationError(
+                _('Do not specify both component and project!')
+            )
         if not self.project and self.subproject:
             self.project = self.subproject.project
