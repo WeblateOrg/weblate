@@ -1103,6 +1103,16 @@ class PropertiesFormat(PropertiesUtf8Format):
 
 
 @register_fileformat
+class JoomlaFormat(FileFormat):
+    name = _('Joomla Language File')
+    format_id = 'joomla'
+    loader = ('properties', 'joomlafile')
+    monolingual = True
+    new_translation = '\n'
+    autoload = ('.ini',)
+
+
+@register_fileformat
 class PhpFormat(FileFormat):
     name = _('PHP strings')
     format_id = 'php'

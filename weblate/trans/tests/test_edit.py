@@ -559,6 +559,14 @@ class EditJSONTest(EditTest):
         return self.create_json()
 
 
+class EditJoomlaTest(EditTest):
+    has_plurals = False
+    monolingual = True
+
+    def create_subproject(self):
+        return self.create_joomla()
+
+
 class EditRubyYAMLTest(EditTest):
     has_plurals = False
     monolingual = True

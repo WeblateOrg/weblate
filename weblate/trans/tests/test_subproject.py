@@ -170,6 +170,10 @@ class SubProjectTest(RepoTestCase):
         project = self.create_json_mono()
         self.verify_subproject(project, 2, 'cs', 4)
 
+    def test_create_joomla(self):
+        project = self.create_joomla()
+        self.verify_subproject(project, 3, 'cs', 4)
+
     def test_create_tsv_simple(self):
         project = self._create_subproject(
             'csv-simple',

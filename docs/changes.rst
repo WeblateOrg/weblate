@@ -16,6 +16,7 @@ Released on ? 2017.
 * Added support for configuring visual keyboard with special characters.
 * Improved screenshot management with OCR support for matching source strings.
 * Default commit message now includes translation information and URL.
+* Added support for Joomla translation format.
 
 weblate 2.11
 ------------

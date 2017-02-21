@@ -35,7 +35,7 @@ from translate.storage.po import pofile
 
 from weblate.lang.models import Language
 from weblate.trans.formats import (
-    AutoFormat, PoFormat, AndroidFormat, PropertiesFormat,
+    AutoFormat, PoFormat, AndroidFormat, PropertiesFormat, JoomlaFormat,
     JSONFormat, RESXFormat, PhpFormat, XliffFormat, TSFormat,
     YAMLFormat, RubyYAMLFormat, FILE_FORMATS, detect_filename,
 )
@@ -45,6 +45,7 @@ from weblate.trans.tests.utils import get_test_file
 TEST_PO = get_test_file('cs.po')
 TEST_JSON = get_test_file('cs.json')
 TEST_PHP = get_test_file('cs.php')
+TEST_JOOMLA = get_test_file('cs.ini')
 TEST_PROPERTIES = get_test_file('swing.properties')
 TEST_ANDROID = get_test_file('strings.xml')
 TEST_XLIFF = get_test_file('cs.xliff')
@@ -81,6 +82,10 @@ class AutoLoadTest(TestCase):
 
     def test_properties(self):
         self.single_test(TEST_PROPERTIES, PropertiesFormat)
+
+    def test_joomla(self):
+        if 'joomla' in FILE_FORMATS:
+            self.single_test(TEST_JOOMLA, JoomlaFormat)
 
     def test_android(self):
         self.single_test(TEST_ANDROID, AndroidFormat)
@@ -254,6 +259,19 @@ class PropertiesFormatTest(AutoFormatTest):
             newdata.strip().splitlines(),
             testdata.strip().splitlines(),
         )
+
+
+class JoomlaFormatTest(AutoFormatTest):
+    FORMAT = JoomlaFormat
+    FILE = TEST_JOOMLA
+    MIME = 'text/plain'
+    COUNT = 4
+    EXT = 'ini'
+    MASK = 'joomla/*.ini'
+    EXPECTED_PATH = 'joomla/cs_CZ.ini'
+    MATCH = '\n'
+    FIND = 'HELLO'
+    FIND_MATCH = 'Ahoj "světe"!\n'
 
 
 class JSONFormatTest(AutoFormatTest):

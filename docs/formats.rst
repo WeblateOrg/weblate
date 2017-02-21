@@ -165,6 +165,32 @@ Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format.
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
     `Java properties in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html>`_
 
+Joomla translations
+-------------------
+
+.. index::
+    pair: Joomla translations; file format
+
+.. versionadded:: 2.12
+
+Native Joomla format for translations.
+
+Joomla translation are usually used as monolingual.
+
+This format supports creating new languages. When a new languages is created, a
+new empty file will be added to the repository. Only keys that are defined will
+be written to the newly created file. This should work fine since Joomla 3.0.
+
+.. note::
+
+    You need translate-toolkit newer than 2.0.0 (at time of writing this
+    documentation the support for Joomla has not yet been merged).
+
+.. seealso::
+
+    `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
+    `Properties in translate-toolkit documentation <http://docs.translatehouse.org/projects/translate-toolkit/en/latest/formats/properties.html>`_
+
 Qt Linguist .ts
 ---------------
 
