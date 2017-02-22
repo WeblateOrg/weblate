@@ -41,6 +41,12 @@ class DiffTest(TestCase):
             'first <ins>new </ins>text'
         )
 
+    def test_unicode(self):
+        self.assertEqual(
+            html_diff('zkouška text', 'zkouška nový text'),
+            'zkouška <ins>nový </ins>text'
+        )
+
     def test_remove(self):
         self.assertEqual(
             html_diff('first old text', 'first text'),
