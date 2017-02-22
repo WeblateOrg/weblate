@@ -119,7 +119,8 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(unit.target, TRANSLATION_PO)
 
         # Verify header
-        if self.test_file == TEST_PO:
+        if (self.test_file == TEST_PO and
+                hasattr(unit.translation.store.store, 'parseheader')):
             header = unit.translation.store.store.parseheader()
             self.assertEqual(
                 header['Language-Team'], 'Test Team <noreply@weblate.org>'
@@ -305,6 +306,20 @@ class ImportMoPoTest(ImportTest):
 
     def create_subproject(self):
         return self.create_po()
+
+
+class StringsImportTest(ImportTest):
+    '''
+    Testing of mo file imports.
+    '''
+    test_file = TEST_PO
+
+    def create_subproject(self):
+        return self.create_iphone()
+
+    def test_import_fuzzy(self):
+        # Does not make sense here
+        pass
 
 
 class AndroidImportTest(ViewTestCase):

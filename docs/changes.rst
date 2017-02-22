@@ -17,6 +17,7 @@ Released on ? 2017.
 * Improved screenshot management with OCR support for matching source strings.
 * Default commit message now includes translation information and URL.
 * Added support for Joomla translation format.
+* Improved reliability of import across file formats.
 
 weblate 2.11
 ------------

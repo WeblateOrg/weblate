@@ -37,7 +37,9 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.formats import AutoFormat, StringIOMode, ParseError
+from weblate.trans.formats import (
+    AutoFormat, StringIOMode, ParseError, try_load,
+)
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.suggestion import Suggestion
@@ -997,7 +999,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         return result
 
-    def merge_translations(self, request, store2, overwrite, add_fuzzy, fuzzy):
+    def merge_translations(self, request, store2, overwrite, add_fuzzy,
+                           fuzzy, merge_header):
         """Merges translation unit wise
 
         Needed for template based translations to add new strings.
@@ -1007,10 +1010,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         with self.subproject.repository.lock:
             for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
                 try:
-                    unit = self.unit_set.get(
-                        source=unit2.get_source(),
-                        context=unit2.get_context(),
-                    )
+                    unit = self.unit_set.get_unit(unit2)
                 except Unit.DoesNotExist:
                     continue
 
@@ -1025,53 +1025,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     add_fuzzy or set_fuzzy
                 )
 
-        return ret
-
-    def merge_store(self, request, author, store2, overwrite, merge_header,
-                    add_fuzzy, fuzzy, merge_comments):
-        """Merges translate-toolkit store into current translation."""
-        # Merge with lock acquired
-        with self.subproject.repository.lock:
-
-            store1 = self.store.store
-            store1.require_index()
-
-            if merge_header:
-                self.store.merge_header(store2)
-
-            for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
-
-                # Find unit by ID
-                unit1 = store1.findid(unit2.unit.getid())
-
-                # Fallback to finding by source
-                if unit1 is None:
-                    unit1 = store1.findunit(unit2.unit.source)
-
-                # Unit not found, nothing to do
-                if unit1 is None:
-                    continue
-
-                # Should we overwrite
-                if not overwrite and unit1.istranslated():
-                    continue
-
-                # Actually update translation
-                unit1.merge(
-                    unit2.unit,
-                    overwrite=True,
-                    comments=merge_comments
-                )
-
-                # Handle
-                if add_fuzzy or set_fuzzy:
-                    unit1.markfuzzy()
-
-            # Write to backend and commit
-            self.commit_pending(request, author)
-            store1.save()
-            ret = self.git_commit(request, author, timezone.now(), True)
-            self.check_sync(request=request, change=Change.ACTION_UPLOAD)
+        if ret and merge_header:
+            self.store.merge_header(store2)
+            self.store.save()
+            self.store_hash()
 
         return ret
 
@@ -1079,13 +1036,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         """Merges content of translate-toolkit store as a suggestions."""
         ret = False
         for dummy, unit in store.iterate_merge(fuzzy):
-            # Calculate unit id_hash
-            id_hash = unit.get_id_hash()
-
             # Grab database unit
             try:
-                dbunit = self.unit_set.filter(id_hash=id_hash)[0]
-            except IndexError:
+                dbunit = self.unit_set.get_unit(unit)
+            except Unit.DoesNotExist:
                 continue
 
             # Indicate something new
@@ -1113,17 +1067,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             filecopy = filecopy[3:]
 
         # Load backend file
-        try:
-            # First try using own loader
-            store = self.store.parse(
-                StringIOMode(fileobj.name, filecopy),
-                self.subproject.template_store
-            )
-        except Exception:
-            # Fallback to automatic detection
-            store = AutoFormat.parse(
-                StringIOMode(fileobj.name, filecopy),
-            )
+        store = try_load(
+            fileobj.name,
+            filecopy,
+            self.subproject.file_format_cls,
+            self.subproject.template_store
+        )
 
         # Optionally set authorship
         if author is None:
@@ -1148,29 +1097,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         ret = False
 
         if method in ('translate', 'fuzzy'):
-            # Do actual merge
-            if self.subproject.has_template():
-                # Merge on units level
-                ret = self.merge_translations(
-                    request,
-                    store,
-                    overwrite,
-                    (method == 'fuzzy'),
-                    fuzzy
-                )
-            else:
-                # Merge on file level
-                for translation in translations:
-                    ret |= translation.merge_store(
-                        request,
-                        author,
-                        store,
-                        overwrite,
-                        merge_header,
-                        (method == 'fuzzy'),
-                        fuzzy,
-                        merge_comments=merge_comments,
-                    )
+            # Merge on units level
+            ret = self.merge_translations(
+                request,
+                store,
+                overwrite,
+                (method == 'fuzzy'),
+                fuzzy,
+                merge_header,
+            )
         else:
             # Add as sugestions
             ret = self.merge_suggestions(request, store, fuzzy)

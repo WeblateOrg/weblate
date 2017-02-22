@@ -340,6 +340,14 @@ class UnitManager(models.Manager):
             )
         return result
 
+    def get_unit(self, ttunit):
+        """Find unit matching translate-toolkit unit"""
+        params = {'source': ttunit.get_source()}
+        context = ttunit.get_context()
+        if context:
+            params['context'] = context
+        return self.get(**params)
+
 
 @python_2_unicode_compatible
 class Unit(models.Model, LoggerMixin):

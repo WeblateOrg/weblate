@@ -104,6 +104,31 @@ def detect_filename(filename):
     return None
 
 
+def try_load(filename, content, original_format, template_store):
+    """Try to load file by guessing type"""
+    formats = [original_format, AutoFormat]
+    detected_format = detect_filename(filename)
+    if  detected_format is not None:
+        formats.insert(0, detected_format)
+    failure = None
+    for file_format in formats:
+        if file_format.monolingual in (True, None) and template_store:
+            try:
+                return file_format.parse(
+                    StringIOMode(filename, content),
+                    template_store
+                )
+            except Exception as error:
+                failure = error
+        if file_format.monolingual in (False, None):
+            try:
+                return file_format.parse(StringIOMode(filename, content))
+            except Exception as error:
+                failure = error
+
+    raise failure
+
+
 class FileUnit(object):
     '''
     Wrapper for translate-toolkit unit to cope with ID/template based
