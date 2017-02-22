@@ -1060,8 +1060,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         return ret
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
-                     merge_header=True, method='translate', fuzzy='',
-                     merge_comments=False):
+                     merge_header=True, method='translate', fuzzy=''):
         """Top level handler for file uploads."""
         filecopy = fileobj.read()
         fileobj.close()
