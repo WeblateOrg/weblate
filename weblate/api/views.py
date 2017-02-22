@@ -439,13 +439,21 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet):
         if 'file' not in request.data:
             raise ParseError('Missing file parameter')
 
-        ret, count = obj.merge_upload(
+        not_found, skipped, accepted, total = obj.merge_upload(
             request,
             request.data['file'],
             False
         )
 
-        return Response(data={'result': ret, 'count': count})
+        return Response(data={
+            'not_found': not_found,
+            'skipped': skipped,
+            'accepted': accepted,
+            'total': total,
+            # Compatibility with older less detailed API
+            'result': accepted > 0,
+            'count': total,
+        })
 
     @detail_route(methods=['get'])
     def statistics(self, request, **kwargs):
