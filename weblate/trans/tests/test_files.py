@@ -24,6 +24,7 @@ Tests for import and export.
 
 from __future__ import unicode_literals
 
+from django.contrib.messages import ERROR
 from django.core.urlresolvers import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
@@ -225,7 +226,6 @@ class ImportErrorTest(ImportBaseTest):
         Test importing a file with different number of plural forms.
         In response to issue #900
         '''
-        from django.contrib.messages import ERROR
         response = self.do_import(test_file=TEST_BADPLURALS, follow=True)
         self.assertRedirects(response, self.translation_url)
         messages = list(response.context["messages"])
