@@ -429,7 +429,7 @@ class UploadForm(SimpleUploadForm):
     '''
     Upload form with option to overwrite current messages.
     '''
-    overwrite = forms.BooleanField(
+    upload_overwrite = forms.BooleanField(
         label=_('Overwrite existing translations'),
         help_text=_(
             'Whether to overwrite existing translations if the string is '

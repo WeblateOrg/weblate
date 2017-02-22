@@ -104,7 +104,7 @@ def upload_translation(request, project, subproject, lang):
     # Check for overwriting
     overwrite = False
     if can_overwrite_translation(request.user, obj.subproject.project):
-        overwrite = form.cleaned_data['overwrite']
+        overwrite = form.cleaned_data['upload_overwrite']
 
     # Do actual import
     try:
