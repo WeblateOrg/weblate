@@ -245,6 +245,7 @@ class Change(models.Model):
         ACTION_ACCEPT,
         ACTION_REVERT,
         ACTION_CHANGE,
+        ACTION_UPLOAD,
         ACTION_NEW,
         ACTION_REPLACE,
     ))
