@@ -31,8 +31,7 @@ from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import (
-    get_translation, import_message, download_translation_file,
-    show_form_errors,
+    get_translation, download_translation_file, show_form_errors,
 )
 from weblate.trans.permissions import (
     can_author_translation, can_overwrite_translation,
@@ -108,7 +107,7 @@ def upload_translation(request, project, subproject, lang):
 
     # Do actual import
     try:
-        ret, count = obj.merge_upload(
+        not_found, skipped, accepted, total = obj.merge_upload(
             request,
             request.FILES['file'],
             overwrite,
@@ -117,20 +116,18 @@ def upload_translation(request, project, subproject, lang):
             method=form.cleaned_data['method'],
             fuzzy=form.cleaned_data['fuzzy'],
         )
-        import_message(
-            request, count,
-            _('No strings were imported from the uploaded file.'),
-            ungettext(
-                'Processed %d string from the uploaded files.',
-                'Processed %d strings from the uploaded files.',
-                count
-            )
-        )
-        if not ret:
-            messages.warning(
-                request,
-                _('There were no new strings in uploaded file!')
-            )
+        if total == 0:
+            message = _('No strings were imported from the uploaded file.')
+        else:
+            message = ungettext(
+                'Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, updated: {3}).',
+                'Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, updated: {3}).',
+                total
+            ).format(total, skipped, not_found, accepted)
+        if accepted == 0:
+            messages.warning(request, message)
+        else:
+            messages.success(request, message)
     except Exception as error:
         messages.error(
             request, _('File content merge failed: %s') % force_text(error)

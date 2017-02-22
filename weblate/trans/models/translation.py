@@ -1005,18 +1005,22 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         Needed for template based translations to add new strings.
         """
-        ret = False
+        not_found = 0
+        skipped = 0
+        accepted = 0
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
                 unit = self.unit_set.get_unit(unit2)
             except Unit.DoesNotExist:
+                not_found += 1
                 continue
 
             if unit.translated and not overwrite:
+                skipped += 1
                 continue
 
-            ret = True
+            accepted += 1
 
             unit.translate(
                 request,
@@ -1025,7 +1029,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 change_action=Change.ACTION_UPLOAD
             )
 
-        if ret:
+        if accepted > 0:
             self.update_stats()
 
             if merge_header:
@@ -1033,30 +1037,34 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 self.store.save()
                 self.store_hash()
 
-        return ret
+        return (not_found, skipped, accepted, store2.count_units())
 
     def merge_suggestions(self, request, store, fuzzy):
         """Merges content of translate-toolkit store as a suggestions."""
-        ret = False
+        not_found = 0
+        skipped = 0
+        accepted = 0
+
         for dummy, unit in store.iterate_merge(fuzzy):
             # Grab database unit
             try:
                 dbunit = self.unit_set.get_unit(unit)
             except Unit.DoesNotExist:
+                not_found += 1
                 continue
-
-            # Indicate something new
-            ret = True
 
             # Add suggestion
             if dbunit.target != unit.get_target():
                 Suggestion.objects.add(dbunit, unit.get_target(), request)
+                accepted += 1
+            else:
+                skipped += 1
 
         # Update suggestion count
-        if ret:
+        if accepted > 0:
             self.update_stats()
 
-        return ret
+        return (not_found, skipped, accepted, store.count_units())
 
     def merge_upload(self, request, fileobj, overwrite, author=None,
                      merge_header=True, method='translate', fuzzy=''):
@@ -1096,12 +1104,10 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             Q(pk=self.pk) | Q(subproject__allow_translation_propagation=True)
         )
 
-        ret = False
-
         if method in ('translate', 'fuzzy'):
             # Merge on units level
             with self.subproject.repository.lock:
-                ret = self.merge_translations(
+                return self.merge_translations(
                     request,
                     store,
                     overwrite,
@@ -1109,11 +1115,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     fuzzy,
                     merge_header,
                 )
-        else:
-            # Add as sugestions
-            ret = self.merge_suggestions(request, store, fuzzy)
 
-        return ret, store.count_units()
+        # Add as sugestions
+        return self.merge_suggestions(request, store, fuzzy)
 
     def invalidate_cache(self, cache_type=None):
         """Invalidates any cached stats."""
