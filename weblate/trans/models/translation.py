@@ -1007,6 +1007,17 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         skipped = 0
         accepted = 0
 
+        # Are there any translations to propagate?
+        # This is just an optimalization to avoid doing that for every unit.
+        propagate = Translation.objects.filter(
+            language=self.language,
+            subproject__project=self.subproject.project
+        ).filter(
+            subproject__allow_translation_propagation=True
+        ).exclude(
+            pk=self.pk
+        ).exists()
+
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
                 unit = self.unit_set.get_unit(unit2)
@@ -1024,7 +1035,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 request,
                 split_plural(unit2.get_target()),
                 add_fuzzy or set_fuzzy,
-                change_action=Change.ACTION_UPLOAD
+                change_action=Change.ACTION_UPLOAD,
+                propagate=propagate
             )
 
         if accepted > 0:
