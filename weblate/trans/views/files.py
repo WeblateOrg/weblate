@@ -120,8 +120,10 @@ def upload_translation(request, project, subproject, lang):
             message = _('No strings were imported from the uploaded file.')
         else:
             message = ungettext(
-                'Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, updated: {3}).',
-                'Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, updated: {3}).',
+                'Processed {0} string from the uploaded files '
+                '(skipped: {1}, not found: {2}, updated: {3}).',
+                'Processed {0} strings from the uploaded files '
+                '(skipped: {1}, not found: {2}, updated: {3}).',
                 total
             ).format(total, skipped, not_found, accepted)
         if accepted == 0:

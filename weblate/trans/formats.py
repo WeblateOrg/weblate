@@ -108,9 +108,9 @@ def try_load(filename, content, original_format, template_store):
     """Try to load file by guessing type"""
     formats = [original_format, AutoFormat]
     detected_format = detect_filename(filename)
-    if  detected_format is not None:
+    if detected_format is not None:
         formats.insert(0, detected_format)
-    failure = None
+    failure = Exception('Bug!')
     for file_format in formats:
         if file_format.monolingual in (True, None) and template_store:
             try:

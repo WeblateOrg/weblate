@@ -27,7 +27,7 @@ from datetime import timedelta
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Q, Sum, Count
+from django.db.models import Sum, Count
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -37,9 +37,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.formats import (
-    AutoFormat, StringIOMode, ParseError, try_load,
-)
+from weblate.trans.formats import ParseError, try_load
 from weblate.trans.checks import CHECKS
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.suggestion import Suggestion
@@ -1094,15 +1092,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if 'Plural-Forms' in header and \
                     self.language.get_plural_form() != header['Plural-Forms']:
                 raise Exception('Plural forms do not match the language.')
-
-        # List translations we should process
-        # Filter out those who don't want automatic update, but keep ourselves
-        translations = Translation.objects.filter(
-            language=self.language,
-            subproject__project=self.subproject.project
-        ).filter(
-            Q(pk=self.pk) | Q(subproject__allow_translation_propagation=True)
-        )
 
         if method in ('translate', 'fuzzy'):
             # Merge on units level
