@@ -432,7 +432,14 @@ class TranslationAPITest(APIBaseTest):
         )
         self.assertEqual(
             response.data,
-            {'count': 5, 'result': True}
+            {
+                'accepted': 1,
+                'count': 5,
+                'not_found': 0,
+                'result': True,
+                'skipped': 0,
+                'total': 5
+            }
         )
 
     def test_upload_invalid(self):
