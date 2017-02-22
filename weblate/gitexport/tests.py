@@ -56,7 +56,7 @@ class GitExportTest(ViewTestCase):
         request = HttpRequest()
         self.assertFalse(authenticate(request, 'digest fdsafds'))
 
-    def test_authenticate_basic_wrong(self):
+    def test_authenticate_wrong(self):
         request = HttpRequest()
         self.assertFalse(authenticate(
             request,
@@ -70,7 +70,7 @@ class GitExportTest(ViewTestCase):
             self.get_auth_string(self.user.auth_token.key)
         ))
 
-    def test_authenticate_basic_inactive(self):
+    def test_authenticate_inactive(self):
         self.user.is_active = False
         self.user.save()
         request = HttpRequest()
@@ -100,7 +100,7 @@ class GitExportTest(ViewTestCase):
             **kwargs
         )
 
-    def test_git_receive_wrong_auth(self):
+    def test_wrong_auth(self):
         response = self.git_receive(HTTP_AUTHORIZATION='foo')
         self.assertEqual(401, response.status_code)
 
