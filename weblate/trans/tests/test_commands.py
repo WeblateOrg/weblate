@@ -728,18 +728,30 @@ class ImportCommandTest(RepoTestCase):
         )
 
     def test_import_ignore(self):
+        output = StringIO()
         call_command(
             'import_json',
             '--main-component', 'test',
             '--project', 'test',
             TEST_COMPONENTS,
+            stdout=output
         )
+        self.assertIn(
+            'Imported Test/Gettext PO with 3 translations',
+            output.getvalue()
+        )
+        output.truncate()
         call_command(
             'import_json',
             '--main-component', 'test',
             '--project', 'test',
             '--ignore',
             TEST_COMPONENTS,
+            stderr=output
+        )
+        self.assertIn(
+            'Component Test/Gettext PO already exists',
+            output.getvalue()
         )
 
     def test_import_update(self):
