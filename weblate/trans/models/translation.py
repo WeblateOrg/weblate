@@ -1007,24 +1007,23 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         """
         ret = False
 
-        with self.subproject.repository.lock:
-            for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
-                try:
-                    unit = self.unit_set.get_unit(unit2)
-                except Unit.DoesNotExist:
-                    continue
+        for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
+            try:
+                unit = self.unit_set.get_unit(unit2)
+            except Unit.DoesNotExist:
+                continue
 
-                if unit.translated and not overwrite:
-                    continue
+            if unit.translated and not overwrite:
+                continue
 
-                ret = True
+            ret = True
 
-                unit.translate(
-                    request,
-                    split_plural(unit2.get_target()),
-                    add_fuzzy or set_fuzzy,
-                    change_action=Change.ACTION_UPLOAD
-                )
+            unit.translate(
+                request,
+                split_plural(unit2.get_target()),
+                add_fuzzy or set_fuzzy,
+                change_action=Change.ACTION_UPLOAD
+            )
 
         if ret:
             self.update_stats()
@@ -1101,14 +1100,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         if method in ('translate', 'fuzzy'):
             # Merge on units level
-            ret = self.merge_translations(
-                request,
-                store,
-                overwrite,
-                (method == 'fuzzy'),
-                fuzzy,
-                merge_header,
-            )
+            with self.subproject.repository.lock:
+                ret = self.merge_translations(
+                    request,
+                    store,
+                    overwrite,
+                    (method == 'fuzzy'),
+                    fuzzy,
+                    merge_header,
+                )
         else:
             # Add as sugestions
             ret = self.merge_suggestions(request, store, fuzzy)
