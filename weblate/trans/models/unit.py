@@ -428,6 +428,22 @@ class Unit(models.Model, LoggerMixin):
             self.translation.get_translate_url(), self.checksum
         )
 
+    def get_unit_status(self, unit, target, created):
+        """Calculate translated and fuzzy status"""
+        all_flags = self.translation.subproject.all_flags
+
+        if 'skip-review-flag' in all_flags:
+            return bool(target), False
+
+        translated = unit.is_translated()
+        if translated and created:
+            is_template = self.translation.is_template()
+            if is_template and 'add-source-review' in all_flags:
+                return translated, True
+            elif not is_template and 'add-review' in all_flags:
+                return translated, True
+        return translated, unit.is_fuzzy()
+
     def update_from_unit(self, unit, pos, created):
         """
         Updates Unit from ttkit unit.
@@ -438,21 +454,7 @@ class Unit(models.Model, LoggerMixin):
         target = unit.get_target()
         source = unit.get_source()
         comment = unit.get_comments()
-        all_flags = self.translation.subproject.all_flags
-        translated = unit.is_translated()
-        if 'skip-review-flag' in all_flags:
-            fuzzy = False
-            translated = bool(target)
-        elif (translated and created and
-              'add-source-review' in all_flags and
-              self.translation.is_template()):
-            fuzzy = True
-        elif (translated and created and
-              'add-review' in all_flags and
-              not self.translation.is_template()):
-            fuzzy = True
-        else:
-            fuzzy = unit.is_fuzzy()
+        translated, fuzzy = self.get_unit_status(unit, target, created)
         previous_source = unit.get_previous_source()
         content_hash = unit.get_content_hash()
 
