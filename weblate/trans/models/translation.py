@@ -1026,10 +1026,13 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                     change_action=Change.ACTION_UPLOAD
                 )
 
-        if ret and merge_header:
-            self.store.merge_header(store2)
-            self.store.save()
-            self.store_hash()
+        if ret:
+            self.update_stats()
+
+            if merge_header:
+                self.store.merge_header(store2)
+                self.store.save()
+                self.store_hash()
 
         return ret
 

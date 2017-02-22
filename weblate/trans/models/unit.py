@@ -667,7 +667,8 @@ class Unit(models.Model, LoggerMixin):
 
         # Update translation stats
         old_translated = self.translation.translated
-        self.translation.update_stats()
+        if change_action != Change.ACTION_UPLOAD:
+            self.translation.update_stats()
 
         # Notify subscribed users about new translation
         notify_new_translation(self, oldunit, user)
