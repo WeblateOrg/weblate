@@ -38,6 +38,7 @@ TEST_PO_BOM = get_test_file('cs-bom.po')
 TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
 TEST_BADPLURALS = get_test_file('cs-badplurals.po')
 TEST_MO = get_test_file('cs.mo')
+TEST_XLIFF = get_test_file('cs.poxliff')
 TEST_ANDROID = get_test_file('strings-cs.xml')
 
 TRANSLATION_OURS = 'Nazdar světe!\n'
@@ -237,6 +238,10 @@ class ImportErrorTest(ImportBaseTest):
 
 class BOMImportTest(ImportTest):
     test_file = TEST_PO_BOM
+
+
+class XliffImportTest(ImportTest):
+    test_file = TEST_XLIFF
 
 
 class ImportFuzzyTest(ImportBaseTest):

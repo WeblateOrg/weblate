@@ -1069,6 +1069,7 @@ class XliffFormat(FileFormat):
 class PoXliffFormat(XliffFormat):
     name = _('XLIFF Translation File with PO extensions')
     format_id = 'poxliff'
+    autoload = ('.poxliff',)
     loader = PoXliffFile
 
 

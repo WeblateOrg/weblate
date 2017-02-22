@@ -342,12 +342,22 @@ class UnitManager(models.Manager):
         return result
 
     def get_unit(self, ttunit):
-        """Find unit matching translate-toolkit unit"""
-        params = {'source': ttunit.get_source()}
+        """Find unit matching translate-toolkit unit
+
+        This is used for import, so kind of fuzzy matching is expected.
+        """
+        source = ttunit.get_source()
         context = ttunit.get_context()
         if context:
-            params['context'] = context
-        return self.get(**params)
+            try:
+                return self.get(
+                    context=context,
+                    source=source
+                )
+            except Unit.DoesNotExist:
+                pass
+        # Ignore context
+        return self.get(source=source)
 
 
 @python_2_unicode_compatible
