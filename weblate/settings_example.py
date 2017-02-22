@@ -49,6 +49,11 @@ DATABASES = {
         'HOST': '127.0.0.1',
         # Set to empty string for default. Not used with sqlite3.
         'PORT': '',
+        # Customizations for databases
+        'OPTIONS': {
+            # Uncomment for MySQL older than 5.7:
+            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        },
     }
 }
 
