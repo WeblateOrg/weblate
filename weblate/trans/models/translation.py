@@ -1022,7 +1022,8 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 unit.translate(
                     request,
                     split_plural(unit2.get_target()),
-                    add_fuzzy or set_fuzzy
+                    add_fuzzy or set_fuzzy,
+                    change_action=Change.ACTION_UPLOAD
                 )
 
         if ret and merge_header:
