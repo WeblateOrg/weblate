@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from copy import copy
 import functools
 import traceback
 import multiprocessing
@@ -392,8 +393,7 @@ class Unit(models.Model, LoggerMixin):
         self._all_flags = None
         self._source_info = None
         self._suggestions = None
-        self.old_translated = self.translated
-        self.old_fuzzy = self.fuzzy
+        self.old_unit = copy(self)
 
     def has_acl(self, user):
         """
@@ -432,10 +432,6 @@ class Unit(models.Model, LoggerMixin):
         """
         Updates Unit from ttkit unit.
         """
-        # Store current values for use in Translation.check_sync
-        self.old_fuzzy = self.fuzzy
-        self.old_translated = self.translated
-
         # Get unit attributes
         location = unit.get_locations()
         flags = unit.get_flags()
@@ -638,15 +634,12 @@ class Unit(models.Model, LoggerMixin):
             self.translation.check_sync(True)
             return False
 
-        # Get old unit from database (for notifications)
-        oldunit = Unit.objects.get(id=self.id)
-
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
         # files, where we handle it ourselves without storing to backend
         if (not saved and
-                oldunit.fuzzy == self.fuzzy and
-                oldunit.target == self.target):
+                self.old_unit.fuzzy == self.fuzzy and
+                self.old_unit.target == self.target):
             # Propagate if we should
             if propagate:
                 self.propagate(request, change_action)
@@ -672,7 +665,7 @@ class Unit(models.Model, LoggerMixin):
             self.translation.update_stats()
 
         # Notify subscribed users about new translation
-        notify_new_translation(self, oldunit, user)
+        notify_new_translation(self, self.old_unit, user)
 
         # Update user stats
         user.profile.translated += 1
@@ -680,7 +673,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Generate Change object for this change
         if gen_change:
-            self.generate_change(request, user, oldunit, change_action)
+            self.generate_change(request, user, self.old_unit, change_action)
 
         # Force commiting on completing translation
         if (old_translated < self.translation.translated and
@@ -695,7 +688,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update related source strings if working on a template
         if self.translation.is_template():
-            self.update_source_units(oldunit.source)
+            self.update_source_units(self.old_unit.source)
 
         # Propagate to other projects
         if propagate:

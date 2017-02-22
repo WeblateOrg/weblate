@@ -467,9 +467,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 (is_new and not newunit.translated) or
                 (
                     not newunit.translated and
-                    newunit.translated != newunit.old_translated
+                    newunit.translated != newunit.old_unit.translated
                 ) or
-                (newunit.fuzzy and newunit.fuzzy != newunit.old_fuzzy)
+                (newunit.fuzzy and newunit.fuzzy != newunit.old_unit.fuzzy)
             )
 
             # Update position
