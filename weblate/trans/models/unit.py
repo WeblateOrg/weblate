@@ -588,6 +588,14 @@ class Unit(models.Model, LoggerMixin):
             unit.fuzzy = self.fuzzy
             unit.save_backend(request, False, change_action=change_action)
 
+    def update_lock(self, request, user, change_action):
+        """Lock updating wrapper"""
+        if change_action != Change.ACTION_UPLOAD:
+            if request is not None:
+                self.translation.update_lock(request.user)
+            else:
+                self.translation.update_lock(user)
+
     def save_backend(self, request, propagate=True, gen_change=True,
                      change_action=None, user=None):
         """
@@ -600,11 +608,7 @@ class Unit(models.Model, LoggerMixin):
             user = request.user
 
         # Update lock timestamp
-        if change_action != Change.ACTION_UPLOAD:
-            if request is not None:
-                self.translation.update_lock(request.user)
-            else:
-                self.translation.update_lock(user)
+        self.update_lock(request, user, change_action)
 
         # Store to backend
         try:
