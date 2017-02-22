@@ -1004,25 +1004,26 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         """
         ret = False
 
-        for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
-            try:
-                unit = self.unit_set.get(
-                    source=unit2.get_source(),
-                    context=unit2.get_context(),
+        with self.subproject.repository.lock:
+            for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
+                try:
+                    unit = self.unit_set.get(
+                        source=unit2.get_source(),
+                        context=unit2.get_context(),
+                    )
+                except Unit.DoesNotExist:
+                    continue
+
+                if unit.translated and not overwrite:
+                    continue
+
+                ret = True
+
+                unit.translate(
+                    request,
+                    split_plural(unit2.get_target()),
+                    add_fuzzy or set_fuzzy
                 )
-            except Unit.DoesNotExist:
-                continue
-
-            if unit.translated and not overwrite:
-                continue
-
-            ret = True
-
-            unit.translate(
-                request,
-                split_plural(unit2.get_target()),
-                add_fuzzy or set_fuzzy
-            )
 
         return ret
 
