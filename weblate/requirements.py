@@ -254,7 +254,7 @@ def get_versions():
         'django-crispy-forms',
         'http://django-crispy-forms.readthedocs.io/',
         'crispy_forms',
-        '1.4.0',
+        '1.6.1',
     ))
 
     result.append(get_single(

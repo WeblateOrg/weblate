@@ -61,7 +61,7 @@ dateutil
     http://labix.org/python-dateutil
 django_compressor
     https://github.com/django-compressor/django-compressor
-django-crispy-forms (>=1.4.0)
+django-crispy-forms (>= 1.6.1)
     http://django-crispy-forms.readthedocs.io/
 Django REST Framework (>=3.4)
     http://www.django-rest-framework.org/
