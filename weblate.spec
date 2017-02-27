@@ -23,7 +23,7 @@ BuildRequires:  python-Sphinx
 BuildRequires:  python-dateutil
 BuildRequires:  python-defusedxml
 BuildRequires:  python-django-crispy-forms >= 1.6.1
-BuildRequires:  python-django_compressor >= 2.1
+BuildRequires:  python-django_compressor >= 2.1.1
 BuildRequires:  python-djangorestframework >= 3.3
 BuildRequires:  python-httpretty
 BuildRequires:  python-social-auth-app-django >= 1.0.1
@@ -41,7 +41,7 @@ Requires:       git
 Requires:       python-Babel
 Requires:       python-defusedxml
 Requires:       python-Django >= 1.10
-Requires:       python-django_compressor >= 2.1
+Requires:       python-django_compressor >= 2.1.1
 Requires:       python-djangorestframework >= 3.3
 Requires:       python-Pillow
 Requires:       python-dateutil

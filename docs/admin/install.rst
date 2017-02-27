@@ -59,7 +59,7 @@ defusedxml (>= 0.4)
     https://bitbucket.org/tiran/defusedxml
 dateutil
     http://labix.org/python-dateutil
-django_compressor
+django_compressor (>= 2.1.1)
     https://github.com/django-compressor/django-compressor
 django-crispy-forms (>= 1.6.1)
     http://django-crispy-forms.readthedocs.io/

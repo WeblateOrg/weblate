@@ -261,7 +261,7 @@ def get_versions():
         'compressor',
         'https://github.com/django-compressor/django-compressor',
         'compressor',
-        '1.5',
+        '2.1.1',
     ))
 
     result.append(get_single(
