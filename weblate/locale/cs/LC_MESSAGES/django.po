@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-27 09:20+0000\n"
-"PO-Revision-Date: 2017-02-16 20:56+0000\n"
+"PO-Revision-Date: 2017-02-27 09:36+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -268,6 +268,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Zadejte vlastní URL, které se použije pro otevírání zdrojového kódu. Můžete "
+"použít %(branch)s jako větev, %(file)s a %(line)s jako jméno a řádek v "
+"souboru. Obvykle můžete použít něco jako "
+"editor://open/?file=%(file)s&line=%(line)s."
 
 #: weblate/accounts/models.py:595
 msgid "Special characters"
@@ -279,6 +283,9 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Zadejte další zvláštní znaky, které se zobrazí v grafické klávesnici při "
+"překladu. Toto může být užitečné pro znaky, které často používáte, ale jsou "
+"složitě dostupné na vaší klávesnici."
 
 #: weblate/accounts/models.py:609 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -5017,10 +5024,8 @@ msgid "Java Properties (ISO-8859-1)"
 msgstr "Vlastnosti Javy (ISO-8859-1)"
 
 #: weblate/trans/formats.py:1132
-#, fuzzy
-#| msgid "Language filter"
 msgid "Joomla Language File"
-msgstr "Filtr jazyků"
+msgstr "Jazykový soubor Joomla"
 
 #: weblate/trans/formats.py:1142
 msgid "PHP strings"
@@ -6157,16 +6162,13 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Nepodařilo se zjistit jazyk pro %s, prosím zkontrolujte masku!"
 
 #: weblate/trans/models/subproject.py:1148
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "components for translating different resources."
+#, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
 msgstr ""
-"Bylo nalezeno více souborů pro jeden jazyk. Prosím opravte masku a použijte "
-"komponenty pro překládání různých souborů."
+"Bylo nalezeno více souborů pro jeden jazyk (%s). Prosím opravte masku a "
+"použijte komponenty pro překládání různých souborů."
 
 #: weblate/trans/models/subproject.py:1154
 #, python-format
@@ -7041,18 +7043,22 @@ msgid "No strings were imported from the uploaded file."
 msgstr "Ze souboru nebylo importováno žádné slovo."
 
 #: weblate/trans/views/files.py:123
-#, fuzzy, python-brace-format
-#| msgid "Processed %d string from the uploaded files."
-#| msgid_plural "Processed %d strings from the uploaded files."
+#, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "Ze souboru byl zpracován %d řetězec."
-msgstr[1] "Ze souboru byly zpracovány %d řetězce."
-msgstr[2] "Ze souboru bylo zpracováno %d řetězců."
+msgstr[0] ""
+"Ze souboru byl zpracován {0} řetězec (přeskočeno: {1}, nenalezeno: {2}, "
+"použito: {3})."
+msgstr[1] ""
+"Ze souboru byly zpracovány {0} řetězce (přeskočeno: {1}, nenalezeno: {2}, "
+"použito: {3})."
+msgstr[2] ""
+"Ze souboru bylo zpracováno {0} řetězců (přeskočeno: {1}, nenalezeno: {2}, "
+"použito: {3})."
 
 #: weblate/trans/views/files.py:135
 #, python-format
