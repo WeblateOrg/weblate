@@ -348,16 +348,20 @@ class UnitManager(models.Manager):
         """
         source = ttunit.get_source()
         context = ttunit.get_context()
-        if context:
+
+        params = [{'source': source, 'context': context}, {'source': source}]
+        if context != '':
+            params.insert(1, {'source': source, 'context': ''})
+
+        print params
+
+        for param in params:
             try:
-                return self.get(
-                    context=context,
-                    source=source
-                )
-            except Unit.DoesNotExist:
-                pass
-        # Ignore context
-        return self.get(source=source)
+                return self.get(**param)
+            except (Unit.DoesNotExist, Unit.MultipleObjectsReturned):
+                continue
+
+        raise Unit.DoesNotExist('No matching unit found!')
 
 
 @python_2_unicode_compatible

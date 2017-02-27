@@ -1033,7 +1033,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
                 unit = self.unit_set.get_unit(unit2)
-            except (Unit.DoesNotExist, Unit.MultipleObjectsReturned):
+            except Unit.DoesNotExist:
                 not_found += 1
                 continue
 
