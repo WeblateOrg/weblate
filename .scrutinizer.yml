@@ -10,13 +10,13 @@ filter:
     excluded_paths:
         - '*/migrations/*'
 before_commands:
-    - sudo pip3 install -r ci/requirements-scrutinizer.txt
+    - sudo pip3 install -r requirements-optional.txt
 build:
     environment:
             python: 3.5.0
     dependencies:
         override:
-            - pip install -r ci/requirements-scrutinizer.txt
+            - pip install -r requirements-optional.txt
     tests:
         override:
             -
