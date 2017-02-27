@@ -134,7 +134,7 @@ class LanguageManager(models.Manager):
         if code.startswith('b+'):
             code = code[2:]
         code = code.replace(' ', '').replace('(', '').replace(')', '')
-        while code[-1].isdigit():
+        while len(code) and code[-1].isdigit():
             code = code[:-1]
         return code
 
