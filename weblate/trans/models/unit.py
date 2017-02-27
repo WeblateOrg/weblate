@@ -353,8 +353,6 @@ class UnitManager(models.Manager):
         if context != '':
             params.insert(1, {'source': source, 'context': ''})
 
-        print params
-
         for param in params:
             try:
                 return self.get(**param)
