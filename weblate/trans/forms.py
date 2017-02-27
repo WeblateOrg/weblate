@@ -983,6 +983,7 @@ class SubprojectSettingsForm(forms.ModelForm):
             'license',
             'license_url',
             'new_lang',
+            'new_base',
             'commit_message',
             'add_message',
             'delete_message',
@@ -1015,6 +1016,7 @@ class SubprojectSettingsForm(forms.ModelForm):
                 'language_regex',
                 'edit_template',
                 'new_lang',
+                'new_base',
             ),
             Fieldset(
                 _('Upstream links'),
