@@ -51,7 +51,13 @@ script:
   - ./ci/run-$CI_MODE
 # upload coverage
 after_script:
-  - ./ci/report-coverage
+  # Combine partial reports
+  - coverage combine
+  - coverage xml
+  # CodeCov
+  - codecov
+  # Codacy
+  - python-codacy-coverage -r coverage.xml
 # use docker based faster build
 sudo: false
 matrix:

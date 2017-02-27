@@ -203,7 +203,7 @@ def performance(request):
         _('Secret key'),
         settings.SECRET_KEY != settings_example.SECRET_KEY,
         'production-secret',
-        settings.SECRET_KEY,
+        '',
     ))
     # Allowed hosts
     checks.append((
