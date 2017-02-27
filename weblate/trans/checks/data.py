@@ -769,6 +769,11 @@ SAME_BLACKLIST = frozenset((
     'zoo',
     'zoom',
 
+    # Currencies
+    'btc',
+    'eur',
+    'usd',
+
     # Months are same in some languages
     'january',
     'february',

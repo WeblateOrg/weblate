@@ -274,7 +274,7 @@ admin.site.register(GroupACL, GroupACLAdmin)
 admin.site.register(ComponentList, ComponentListAdmin)
 
 # Show some controls only in debug mode
-if settings.DEBUG:
+if settings.DEBUG and False:
     admin.site.register(Translation, TranslationAdmin)
     admin.site.register(Unit, UnitAdmin)
     admin.site.register(Suggestion, SuggestionAdmin)
