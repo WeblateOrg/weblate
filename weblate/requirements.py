@@ -207,7 +207,7 @@ def get_versions():
         'Whoosh',
         'http://bitbucket.org/mchaput/whoosh/',
         'whoosh',
-        '2.5',
+        '2.7',
         'versionstring',
     ))
 

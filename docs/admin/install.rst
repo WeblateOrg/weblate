@@ -47,7 +47,7 @@ social-auth-app-django (>= 1.1.0)
     http://python-social-auth.readthedocs.io/
 django-appconf (>= 1.0)
     https://github.com/django-compressor/django-appconf
-Whoosh (>= 2.5, 2.5.7 is recommended, 2.6.0 is broken)
+Whoosh (>= 2.7.0)
     https://bitbucket.org/mchaput/whoosh/wiki/Home
 PIL or Pillow library
     http://python-pillow.org/
@@ -196,7 +196,7 @@ need to install several Python modules manually using pip:
     # In case python-django-crispy-forms package is missing
     pip install django-crispy-forms
 
-    # In case python-whoosh package is misssing or older than 2.5
+    # In case python-whoosh package is misssing or older than 2.7
     pip install Whoosh
 
     # In case your python-django-compressor package is missing,

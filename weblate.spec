@@ -30,7 +30,7 @@ BuildRequires:  python-social-auth-app-django >= 1.0.1
 BuildRequires:  python-social-auth-core >= 1.1.0
 BuildRequires:  python-selenium
 BuildRequires:  python-sphinxcontrib-httpdomain
-BuildRequires:  python-Whoosh >= 2.6.1
+BuildRequires:  python-Whoosh >= 2.7.0
 BuildRequires:  git-review
 BuildRequires:  git-svn
 BuildRequires:  python-PyYAML
@@ -48,7 +48,7 @@ Requires:       python-dateutil
 Requires:       python-django-crispy-forms >= 1.4.0
 Requires:       python-social-auth-app-django >= 1.0.1
 Requires:       python-social-auth-core >= 1.1.0
-Requires:       python-Whoosh >= 2.6.1
+Requires:       python-Whoosh >= 2.7.0
 Requires:       translate-toolkit >= 2.0.0
 Recommends:     git-review
 Recommends:     git-svn
