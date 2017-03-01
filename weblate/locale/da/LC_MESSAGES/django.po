@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-02-27 09:20+0000\n"
-"PO-Revision-Date: 2017-02-27 10:02+0000\n"
+"PO-Revision-Date: 2017-03-01 18:41+0000\n"
 "Last-Translator: jan madsen <jsm@janz.dk>\n"
 "Language-Team: Danish "
 "<https://hosted.weblate.org/projects/weblate/master/da/>\n"
@@ -53,10 +53,8 @@ msgid "This username is already taken. Please choose another."
 msgstr "Brugernavnet er allerede i brug. Vælg et andet."
 
 #: weblate/accounts/forms.py:204
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component wide notifications"
-msgstr "Komponentlister"
+msgstr "Underretninger for alle komponenter"
 
 #: weblate/accounts/forms.py:206
 msgid ""
@@ -68,14 +66,10 @@ msgid "Translation notifications"
 msgstr "Oversættelsesunderretninger"
 
 #: weblate/accounts/forms.py:215
-#, fuzzy
-#| msgid ""
-#| "You will receive chosen notifications via email for all your languages."
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
-msgstr ""
-"Modtag kun disse underretninger for oversatte sprog i overvågede projekter."
+msgstr "Modtag underretninger for kun oversatte sprog i overvågede projekter."
 
 #: weblate/accounts/forms.py:261
 msgid "Component list must be selected when used as default."
@@ -258,10 +252,8 @@ msgid "Hide source if there is secondary language"
 msgstr "Skjule kilden, hvis der er et sekundært sprog"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Rediger kildestreng"
+msgstr "Link til editor"
 
 #: weblate/accounts/models.py:584
 #, fuzzy, python-format
@@ -271,10 +263,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
-"Angiv brugerdefineret URL skal bruges som link til open source-kode. Du kan "
-"bruge %(branch)s for gren, %(file)s og %(line)s som filnavn og linje "
-"pladsholdere. Som regel noget i retning af editor://open/?file="
-"%(file)s&linje=%s (line)s er en god mulighed."
+"Angiv brugerdefineret URL som skal bruges som link til open source-kode. Du "
+"kan bruge %(branch)s for gren, %(file)s og %(line)s som filnavn og linje "
+"pladsholdere. Som regel noget i retning af "
+"editor://open/?file=%(file)s&linje=%s (line)s er en god mulighed."
 
 #: weblate/accounts/models.py:595
 msgid "Special characters"
@@ -516,9 +508,8 @@ msgstr "Sprog"
 
 #. Translators: Whether the package is inside actual (hard) limits
 #: weblate/billing/models.py:180
-#, fuzzy
 msgid "In limits"
-msgstr "I skærm begrænsninger"
+msgstr "Indenfor grænserne"
 
 #: weblate/billing/models.py:186 weblate/templates/project_stats.html:4
 msgid "Number of strings"
@@ -534,9 +525,8 @@ msgstr "Sidste faktura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:218
-#, fuzzy
 msgid "In display limits"
-msgstr "I skærm begrænsninger"
+msgstr "I skærmgrænser"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -715,10 +705,8 @@ msgstr "{name} (fx {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Kontekst for skærmbillede"
+msgstr "Navn på skærmbillede"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
@@ -731,24 +719,19 @@ msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr "Overfør JPEG eller PNG-billeder på op til 2000x2000 pixels."
 
 #: weblate/screenshots/views.py:105
-#, fuzzy
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "Skærmbilled er blevet overført, kan nu tildeles til kildestrenge."
 
 #: weblate/screenshots/views.py:113
-#, fuzzy
 msgid "Failed to upload screenshot, please fix errors below."
 msgstr "Kunne ikke overføre skærmbillede, ret fejlen nedenfor."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation comment has been deleted."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Oversættelseskommentar er blevet slettet."
+msgstr "Skærmbilled %s er blevet slettet."
 
 #: weblate/screenshots/views.py:185
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
 msgstr "Kilde er blevet fjernet."
 
@@ -2988,15 +2971,11 @@ msgid "No screenshot currently associated!"
 msgstr "Intet skærmbillede tilknyttet!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:54
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Administrer brugere"
+msgstr "Administrer skærmbilleder"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
 msgstr "Tilføj nyt skærmbillede"
 
@@ -3738,12 +3717,11 @@ msgstr "Gennemse alle projektændringer"
 
 #: weblate/templates/project.html:177 weblate/templates/subproject.html:155
 #: weblate/templates/translation.html:211
-#, fuzzy
 msgid ""
 "You can replace string in all units at once. The search is simple substring "
 "case sensitive search."
 msgstr ""
-"Erstat strengen i alle enheder på én gang. Søgningen er en enkel substring "
+"Erstat strengen i alle enheder på én gang. Søgningen er en enkel delstreng "
 "versalfølsom søgning."
 
 #: weblate/templates/project.html:182 weblate/templates/subproject.html:160
@@ -3827,13 +3805,10 @@ msgstr "Kildestreng"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
 msgstr "Handlinger"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
-#, fuzzy
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
@@ -3845,16 +3820,14 @@ msgid "Assign source strings"
 msgstr "Tildelte kildestrenge"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Indlæser…"
+msgstr "Indlæser resultater…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
 #, fuzzy
 #| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Søg i kildestrenge"
+msgstr "Søg nedenfor for at finde matchende kildestrenge."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
 #, fuzzy
@@ -3863,10 +3836,8 @@ msgid "Automatically recognize"
 msgstr "Automatisk genkendelse"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Kildestrenge"
+msgstr "Søgning efter kildestreng"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
 msgid "Edit screenshot"
@@ -3874,7 +3845,7 @@ msgstr "Rediger skærmbilled"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
 msgid "Delete screenshot"
-msgstr "Slet kærmbilled"
+msgstr "Slet skærmbilled"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 #, fuzzy
@@ -4301,7 +4272,7 @@ msgstr "Accepter og rediger"
 #, fuzzy
 #| msgid "Use this translation"
 msgid "This translation"
-msgstr "Benyt oversættelsen"
+msgstr "Denne oversættelse"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4312,10 +4283,8 @@ msgid "Use this translation"
 msgstr "Benyt oversættelsen"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Rul oversættelsen tilbage"
+msgstr "Ændring i forhold til denne oversættelse:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -6245,8 +6214,8 @@ msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
 msgstr ""
-"Der er flere filer til et enkelt sprog. Juster masken og brug komponenter "
-"til at oversættelse forskellige ressourcer."
+"Der er flere filer til et enkelt sprog (%s). Juster masken og brug "
+"komponenter til at oversættelse forskellige ressourcer."
 
 #: weblate/trans/models/subproject.py:1154
 #, python-format
@@ -6709,9 +6678,6 @@ msgstr[0] "en time fra nu"
 msgstr[1] "%(count)s timer fra nu"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "Behøver revision"
 
@@ -7019,8 +6985,6 @@ msgstr ""
 "blive oversætter da dit forslag ellers muligvis ikke vil blive gennemlæst."
 
 #: weblate/trans/views/edit.py:217
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
 msgstr "Forslag findes  allerede!"
 
@@ -7118,17 +7082,19 @@ msgid "No strings were imported from the uploaded file."
 msgstr "Ingen strenge blev importeret fra den overførte fil."
 
 #: weblate/trans/views/files.py:123
-#, fuzzy, python-brace-format
-#| msgid "Processed %d string from the uploaded files."
-#| msgid_plural "Processed %d strings from the uploaded files."
+#, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "Behandlede %d streng fra de overførte filer."
-msgstr[1] "Behandlede %d strenge fra de overførte filer."
+msgstr[0] ""
+"Behandlede {0} streng fra de overførte filer (springes over: {1}, blev ikke "
+"fundet: {2}, opdateret: {3})."
+msgstr[1] ""
+"Behandlede {0} strenge fra de overførte filer (springes over: {1}, blev ikke "
+"fundet: {2}, opdateret: {3})."
 
 #: weblate/trans/views/files.py:135
 #, python-format
