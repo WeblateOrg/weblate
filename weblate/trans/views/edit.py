@@ -447,7 +447,11 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
 
     # Fetch suggestion
     try:
-        suggestion = Suggestion.objects.get(pk=int(sugid))
+        suggestion = Suggestion.objects.get(
+            pk=int(sugid),
+            project=translation.subproject.project,
+            language=translation.language
+        )
     except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
         return HttpResponseRedirect(this_unit_url)
