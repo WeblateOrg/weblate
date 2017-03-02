@@ -445,27 +445,28 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
             mode = param
             break
 
+    # Fetch suggestion
+    try:
+        suggestion = Suggestion.objects.get(pk=int(sugid))
+    except (Suggestion.DoesNotExist, ValueError):
+        messages.error(request, _('Invalid suggestion!'))
+        return HttpResponseRedirect(this_unit_url)
+
     # Permissions check
     if not check_suggestion_permissions(request, mode, translation):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation
-    try:
-        suggestion = Suggestion.objects.get(pk=int(sugid))
-
-        if 'accept' in request.POST or 'accept_edit' in request.POST:
-            suggestion.accept(translation, request)
-            if 'accept' in request.POST:
-                redirect_url = next_unit_url
-        elif 'delete' in request.POST:
-            suggestion.delete_log(translation, request)
-        elif 'upvote' in request.POST:
-            suggestion.add_vote(translation, request, True)
-        elif 'downvote' in request.POST:
-            suggestion.add_vote(translation, request, False)
-
-    except (Suggestion.DoesNotExist, ValueError):
-        messages.error(request, _('Invalid suggestion!'))
+    if 'accept' in request.POST or 'accept_edit' in request.POST:
+        suggestion.accept(translation, request)
+        if 'accept' in request.POST:
+            redirect_url = next_unit_url
+    elif 'delete' in request.POST:
+        suggestion.delete_log(translation, request)
+    elif 'upvote' in request.POST:
+        suggestion.add_vote(translation, request, True)
+    elif 'downvote' in request.POST:
+        suggestion.add_vote(translation, request, False)
 
     return HttpResponseRedirect(redirect_url)
 
