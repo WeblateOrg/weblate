@@ -303,8 +303,7 @@ INSTALLED_APPS = (
     # Optional: Git exporter
     # 'weblate.gitexport',
 
-    # Needed for javascript localization,
-    # has to be placed last
+    # This application has to be placed last!
     'weblate',
 )
 
