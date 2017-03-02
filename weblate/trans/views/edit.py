@@ -401,7 +401,7 @@ def handle_revert(translation, request, next_unit_url):
         return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggestion_permissions(request, mode, translation):
+def check_suggestion_permissions(request, mode, translation, suggestion):
     """
     Checks permission for suggestion handling.
     """
@@ -413,7 +413,7 @@ def check_suggestion_permissions(request, mode, translation):
             )
             return False
     elif mode == 'delete':
-        if not can_delete_suggestion(request.user, translation):
+        if not can_delete_suggestion(request.user, translation, suggestion):
             messages.error(
                 request,
                 _('You do not have privilege to delete suggestions!')
@@ -457,7 +457,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         return HttpResponseRedirect(this_unit_url)
 
     # Permissions check
-    if not check_suggestion_permissions(request, mode, translation):
+    if not check_suggestion_permissions(request, mode, translation, suggestion):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation

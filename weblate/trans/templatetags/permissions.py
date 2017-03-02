@@ -52,9 +52,9 @@ def can_accept_suggestion(user, translation):
 
 
 @register.assignment_tag
-def can_delete_suggestion(user, translation):
+def can_delete_suggestion(user, translation, suggestion):
     return weblate.trans.permissions.can_delete_suggestion(
-        user, translation
+        user, translation, suggestion
     )
 
 
