@@ -114,7 +114,9 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_2()
 
         # Get ids of created suggestions
-        suggestions = [sug.pk for sug in self.get_unit().suggestions()]
+        suggestions = self.get_unit().suggestions().values_list(
+            'pk', flat=True
+        )
         self.assertEqual(len(suggestions), 2)
 
         # Delete one of suggestions
@@ -125,20 +127,11 @@ class SuggestionsTest(ViewTestCase):
         )
         self.assert_redirects_offset(response, translate_url, 0)
 
-        # Reload from database
-        unit = self.get_unit()
-        translation = self.subproject.translation_set.get(
-            language_code='cs'
+        # Ensure we have just one
+        suggestions = self.get_unit().suggestions().values_list(
+            'pk', flat=True
         )
-        # Check number of suggestions
-        self.assertEqual(translation.have_suggestion, 1)
-        self.assert_backend(0)
-
-        # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertFalse(unit.translated)
-        self.assertFalse(unit.fuzzy)
-        self.assertEqual(len(self.get_unit().suggestions()), 1)
+        self.assertEqual(len(suggestions), 1)
 
     def test_accept_edit(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
