@@ -18,7 +18,7 @@ env:
     - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
     - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql CI_MODE=selenium
     - CI_PIP_DEPS="--pre Django"
-    - CI_PIP_DEPS="sphinxcontrib-httpdomain docutils!=0.13.1" CI_MODE=docs
+    - CI_PIP_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_REQUIREMENTS=travis
