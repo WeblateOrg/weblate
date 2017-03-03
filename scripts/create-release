@@ -36,6 +36,7 @@ fi
 if [ "x$1" = "x--tag" ] ; then
     # PyPi archive
     fakeroot ./setup.py sdist upload
+    fakeroot ./setup.py bdist_wheel --universal upload
 else
     # Create tarball
     fakeroot ./setup.py sdist
