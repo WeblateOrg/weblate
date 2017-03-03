@@ -4,7 +4,7 @@ Changes
 weblate 2.12
 ------------
 
-Released on ? 2017.
+Released on Mar 3rd 2017.
 
 * Improved admin interface for groups.
 * Added support for Yandex Translate API.
