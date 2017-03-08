@@ -26,7 +26,7 @@ import sys
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import python_2_unicode_compatible
 
 from whoosh.analysis import (
     LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer,
@@ -143,7 +143,7 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
                 words.update(new_words)
-                # Add combined string to allow match against multiple word entries
+                # Add combined string to allow match against multi word entries
                 if combine:
                     words.update(
                         [
