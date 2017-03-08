@@ -64,7 +64,7 @@ sh "pip install --no-cache-dir --disable-pip-version-check -U -r /tmp/requiremen
 # Install optional dependencies without failing if some can't be installed.
 while read line; do
   if [[ $line != -r* ]] && [[ $line != \#* ]]; then
-    sh "pip install --no-cache-dir --disable-pip-version-check '$line'" || true
+    sh "pip install --no-cache-dir --disable-pip-version-check \"$line\"" || true
   fi
 done < $OPENSHIFT_REPO_DIR/requirements-optional.txt
 
