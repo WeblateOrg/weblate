@@ -89,8 +89,6 @@ sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py compilemessages"
 
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py rebuild_index --all"
 
-sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py loaddata $OPENSHIFT_REPO_DIR/weblate/fixtures/site_data"
-
 sh "python ${OPENSHIFT_REPO_DIR}/openshift/manage.py collectstatic --noinput"
 
 if [ ! -s $OPENSHIFT_DATA_DIR/.credentials ]; then
