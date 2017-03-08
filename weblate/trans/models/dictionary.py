@@ -93,7 +93,7 @@ class DictionaryManager(models.Manager):
 
         return ret
 
-    def create(self, request, **kwargs):
+    def create(self, user, **kwargs):
         '''
         Creates new dictionary object.
         '''
@@ -103,7 +103,7 @@ class DictionaryManager(models.Manager):
         Change.objects.create(
             action=action,
             dictionary=created,
-            user=request.user,
+            user=user,
             target=created.target,
         )
         return created
