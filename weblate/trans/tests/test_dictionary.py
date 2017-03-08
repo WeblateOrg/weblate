@@ -291,7 +291,14 @@ class DictionaryTest(ViewTestCase):
             source='hello',
             target='ahoj',
         )
-        unit = self.get_unit()
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='thank',
+            target='děkujeme',
+        )
+        unit = self.get_unit('Thank you for using Weblate.')
         self.assertEqual(
             Dictionary.objects.get_words(unit).count(),
             1
@@ -300,10 +307,21 @@ class DictionaryTest(ViewTestCase):
             self.user,
             project=self.project,
             language=translation.language,
-            source='hello',
-            target='nazdar',
+            source='thank',
+            target='díky',
         )
         self.assertEqual(
             Dictionary.objects.get_words(unit).count(),
             2
+        )
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='thank you',
+            target='děkujeme vám',
+        )
+        self.assertEqual(
+            Dictionary.objects.get_words(unit).count(),
+            3
         )
