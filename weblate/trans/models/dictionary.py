@@ -29,7 +29,8 @@ from django.db.models import Q
 from django.utils.encoding import force_text, python_2_unicode_compatible
 
 from whoosh.analysis import (
-    LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer
+    LanguageAnalyzer, StandardAnalyzer, StemmingAnalyzer, NgramAnalyzer,
+    SimpleAnalyzer,
 )
 from whoosh.lang import has_stemmer
 
@@ -119,6 +120,7 @@ class DictionaryManager(models.Manager):
         # - standard analyzer simply splits words
         # - stemming extracts stems, to catch things like plurals
         analyzers = [
+            SimpleAnalyzer(),
             StandardAnalyzer(),
             StemmingAnalyzer(),
         ]
