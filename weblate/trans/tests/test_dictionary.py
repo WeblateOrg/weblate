@@ -281,3 +281,29 @@ class DictionaryTest(ViewTestCase):
         self.assertContains(response, 'Czech')
         self.assertContains(response, '1 / 1')
         self.assertContains(response, 'datový tok')
+
+    def test_get_words(self):
+        translation = self.get_translation()
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='hello',
+            target='ahoj',
+        )
+        unit = self.get_unit()
+        self.assertEqual(
+            Dictionary.objects.get_words(unit).count(),
+            1
+        )
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='hello',
+            target='nazdar',
+        )
+        self.assertEqual(
+            Dictionary.objects.get_words(unit).count(),
+            2
+        )

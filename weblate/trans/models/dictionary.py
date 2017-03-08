@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import functools
 import sys
 
 from django.core.urlresolvers import reverse
@@ -153,12 +154,12 @@ class DictionaryManager(models.Manager):
         else:
             # Build the query for fetching the words
             # Can not use __in as we want case insensitive lookup
-            query = Q()
-            for word in words:
-                query |= Q(source__iexact=word)
-
-            # Filter dictionary
-            dictionary = dictionary.filter(query)
+            dictionary = dictionary.filter(
+                functools.reduce(
+                    lambda x, y: x | y,
+                    [Q(source__icontains=word) for word in words]
+                )
+            )
 
         return dictionary
 
