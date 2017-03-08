@@ -120,29 +120,39 @@ class DictionaryManager(models.Manager):
         # - standard analyzer simply splits words
         # - stemming extracts stems, to catch things like plurals
         analyzers = [
-            SimpleAnalyzer(),
-            StandardAnalyzer(),
-            StemmingAnalyzer(),
+            (SimpleAnalyzer(), True),
+            (StandardAnalyzer(), False),
+            (StemmingAnalyzer(), False),
         ]
         source_language = unit.translation.subproject.project.source_language
         lang_code = source_language.base_code()
         # Add per language analyzer if Whoosh has it
         if has_stemmer(lang_code):
-            analyzers.append(LanguageAnalyzer(lang_code))
+            analyzers.append((LanguageAnalyzer(lang_code), False))
         # Add ngram analyzer for languages like Chinese or Japanese
         if source_language.uses_ngram():
-            analyzers.append(NgramAnalyzer(4))
+            analyzers.append((NgramAnalyzer(4), False))
 
         # Extract words from all plurals and from context
         for text in unit.get_source_plurals() + [unit.context]:
-            for analyzer in analyzers:
+            for analyzer, combine in analyzers:
                 # Some Whoosh analyzers break on unicode
+                new_words = []
                 try:
-                    words.update(
-                        [token.text for token in analyzer(force_text(text))]
-                    )
+                    new_words = [token.text for token in analyzer(text)]
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
+                words.update(new_words)
+                # Add combined string to allow match against multiple word entries
+                if combine:
+                    words.update(
+                        [
+                            ' '.join(new_words[x:y])
+                            for x in range(len(new_words) - 1)
+                            for y in range(1, len(new_words))
+                            if x != y
+                        ]
+                    )
 
         # Grab all words in the dictionary
         dictionary = self.filter(
@@ -159,7 +169,7 @@ class DictionaryManager(models.Manager):
             dictionary = dictionary.filter(
                 functools.reduce(
                     lambda x, y: x | y,
-                    [Q(source__icontains=word) for word in words]
+                    [Q(source__iexact=word) for word in words]
                 )
             )
 
