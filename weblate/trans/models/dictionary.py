@@ -143,13 +143,14 @@ class DictionaryManager(models.Manager):
                 except (UnicodeDecodeError, IndexError) as error:
                     report_error(error, sys.exc_info())
                 words.update(new_words)
-                # Add combined string to allow match against multi word entries
+                # Add combined string to allow match against multiple word
+                # entries allowing to combine up to 5 words
                 if combine:
                     words.update(
                         [
                             ' '.join(new_words[x:y])
                             for x in range(len(new_words) - 1)
-                            for y in range(1, len(new_words))
+                            for y in range(1, min(x + 5, len(new_words)))
                             if x != y
                         ]
                     )
