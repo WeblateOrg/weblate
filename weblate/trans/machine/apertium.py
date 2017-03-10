@@ -38,6 +38,7 @@ LANGUAGE_MAP = {
     'en_UK': 'eng',
     'nl': 'nld',
     'ro': 'ron',
+    'de': 'deu',
 }
 
 
