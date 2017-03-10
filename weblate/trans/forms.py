@@ -987,6 +987,8 @@ class SubprojectSettingsForm(forms.ModelForm):
             'license_url',
             'new_lang',
             'new_base',
+            'filemask',
+            'template',
             'commit_message',
             'add_message',
             'delete_message',
@@ -1016,6 +1018,8 @@ class SubprojectSettingsForm(forms.ModelForm):
             ),
             Fieldset(
                 _('Languages processing'),
+                'filemask',
+                'template',
                 'language_regex',
                 'edit_template',
                 'new_lang',
