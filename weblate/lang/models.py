@@ -143,7 +143,8 @@ class LanguageManager(models.Manager):
         codes = (
             code,
             code.replace('-', '_'),
-            code.replace('-r', '_')
+            code.replace('-r', '_'),
+            code.replace('_r', '_')
         )
         for newcode in codes:
             if newcode in data.LOCALE_ALIASES:
