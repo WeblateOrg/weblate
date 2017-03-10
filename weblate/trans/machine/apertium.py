@@ -34,6 +34,10 @@ LANGUAGE_MAP = {
     'bs': 'hbs_BS',
     'is': 'isl',
     'es': 'spa',
+    'en_US': 'eng',
+    'en_UK': 'eng',
+    'nl': 'nld',
+    'ro': 'ron',
 }
 
 
