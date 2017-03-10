@@ -118,7 +118,7 @@ class Repository(object):
         self.last_output = ''
         self.lock = FileLock(
             self.path.rstrip('/').rstrip('\\') + '.lock',
-            timeout=60
+            timeout=120
         )
         if not self.is_valid():
             self.init()
