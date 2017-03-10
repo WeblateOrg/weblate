@@ -20,6 +20,7 @@
 #
 
 import os
+import sys
 from setuptools import setup
 
 # allow setup.py to be run from any path
@@ -79,9 +80,14 @@ setup(
     install_requires=REQUIRES,
     extras_require={
         'Mercurial': ['Mercurial>=2.8'],
-        'Unicode': ['pyuca>=1.1'],
-        'Avatars': ['pyLibravatar', 'pydns'],
-        'Android': ['babel'],
+        'Unicode': ['pyuca>=1.1', 'python-bidi>=0.4.0', 'chardet'],
+        'Avatars': [
+            'pyLibravatar',
+            'pydns' if sys.version_info[0] == 2 else 'py3dns'
+        ],
+        'Android': ['Babel'],
+        'YAML': ['PyYAML>=3.0'],
+        'OCR': ['tesserocr>=1.2'],
     },
     classifiers=[
         'Environment :: Web Environment',
