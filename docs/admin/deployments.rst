@@ -65,6 +65,26 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the web container.
 
 .. seealso:: :ref:`invoke-manage`
 
+Upgrading Docker container
+++++++++++++++++++++++++++
+
+Usually it is good idea to update weblate container only and keep PostgreSQL
+one at version you have as upgrading PostgreSQL is quite painful and in most
+cases it does not bring much benefits.
+
+You can do this by sticking with existing docker-compose and just pulling
+latest images and restarting:
+
+.. code-block:: sh
+
+    docker-compose down
+    docker-compose pull
+    docker-compose build --pull
+    docker-compose up
+
+The Weblate database should be automatically migrated on first start and there
+should be no need for additional manual actions.
+
 Maintenance tasks
 +++++++++++++++++
 
