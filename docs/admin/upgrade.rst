@@ -38,6 +38,13 @@ To upgrade default set of language definitions (optional), run:
 
     ./manage.py setuplang
 
+If you are running version from Git, you should also regenerate locale files
+every time you are upgrading. You can do this by invoking:
+
+.. code-block:: sh
+
+    ./manage.py compilemessages
+
 .. versionchanged:: 1.2
 
     Since version 1.2 the migration is done using South module, to upgrade to 1.2,
