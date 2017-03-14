@@ -182,15 +182,16 @@ class SameCheck(TargetCheck):
         if translation.is_template():
             return True
 
-        # English variants will have most things not translated
-        # Interlingua is also quite often similar to English
-        if (translation.subproject.project.source_language.code == 'en' and
-                self.is_language(unit, ('en', 'ia'))):
-            return True
+        source_language = translation.subproject.project.\
+            source_language.code.split('_')[0]
 
         # Ignore the check for source language
-        if (translation.language ==
-                translation.subproject.project.source_language):
+        if self.is_language(unit, source_language):
+            return True
+
+        # English variants will have most things not translated
+        # Interlingua is also quite often similar to English
+        elif source_language == 'en' and self.is_language(unit, ('en', 'ia')):
             return True
 
         return super(SameCheck, self).should_skip(unit)
