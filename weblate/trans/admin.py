@@ -234,6 +234,7 @@ class WhiteboardAdmin(admin.ModelAdmin):
 
 class ComponentListAdmin(admin.ModelAdmin):
     list_display = ['name']
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class AdvertisementAdmin(admin.ModelAdmin):
