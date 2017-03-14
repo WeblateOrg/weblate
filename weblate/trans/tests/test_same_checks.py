@@ -39,12 +39,17 @@ class SameCheckTest(CheckTestCase):
         self.test_good_ignore = ('alarm', 'alarm', '')
         self.test_failure_1 = ('retezec', 'retezec', '')
 
-    def test_same_english(self):
-        self.assertFalse(self.check.check_single(
-            'source',
-            'source',
-            MockUnit(code='en'),
-        ))
+    def test_same_source_language(self):
+        unit = MockUnit(code='en')
+        # Is template
+        unit.translation.template = True
+        self.assertTrue(self.check.should_skip(unit))
+        # Is same as source
+        unit.translation.template = False
+        self.assertTrue(self.check.should_skip(unit))
+        # Interlingua special case
+        unit.translation.language.code = 'ia'
+        self.assertTrue(self.check.should_skip(unit))
 
     def test_same_db_screen(self):
         self.assertTrue(self.check.check_single(

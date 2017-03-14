@@ -61,10 +61,10 @@ class MockTranslation(object):
     def __init__(self, code='cs'):
         self.language = MockLanguage(code)
         self.subproject = MockSubProject()
+        self.template = False
 
-    @staticmethod
-    def is_template():
-        return False
+    def is_template(self):
+        return self.template
 
 
 class MockUnit(object):
