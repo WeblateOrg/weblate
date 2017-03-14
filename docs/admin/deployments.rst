@@ -8,8 +8,8 @@ section brings overview of them.
 
 .. _docker:
 
-Weblate and Docker
-------------------
+Running Weblate in the Docker
+-----------------------------
 
 With dockerized weblate deployment you can get your personal weblate instance
 up an running in seconds. All of Weblate's dependencies are already included.
@@ -335,8 +335,8 @@ Digitalocean and many more providers.
 
 .. _openshift:
 
-Weblate on OpenShift
---------------------
+Running Weblate on OpenShift
+----------------------------
 
 This repository contains a configuration for the OpenShift platform as a
 service product, which facilitates easy installation of Weblate on OpenShift
@@ -562,8 +562,8 @@ documentation.
 
 .. _appliance:
 
-SUSE Studio appliance
----------------------
+Weblate as a SUSE Studio appliance
+----------------------------------
 
 Weblate appliance provides preconfigured Weblate running with PostgreSQL
 database as backend and Apache as web server. It is provided in many formats

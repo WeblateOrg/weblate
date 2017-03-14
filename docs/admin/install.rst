@@ -90,6 +90,38 @@ git-svn (>= 2.10.0) (optional for Subversion support)
 tesserocr (>= 2.0.0) (optional for screenshots OCR)
     https://github.com/sirfz/tesserocr
 
+
+.. _install-weblate:
+
+Installing Weblate
+------------------
+
+Choose installation method that best fits your environment.
+
+First choices include complete setup without relying on your system libraries:
+
+* :ref:`virtualenv`
+* :ref:`docker`
+* :ref:`openshift`
+* :ref:`appliance`
+
+You can also install Weblate directly on your system either fully using
+distribution packages (as of now available for openSUSE only) or mixed setup.
+
+Choose installation method:
+
+* :ref:`install-pip`
+* :ref:`install-git` (if you want to run bleeding edge version)
+* Alternatively you can use released archives. You can download them from our
+  website <https://weblate.org/>.
+
+And install dependencies according your platform:
+
+* :ref:`deps-debian`
+* :ref:`deps-suse`
+* :ref:`deps-osx`
+* :ref:`deps-pip`
+
 .. _virtualenv:
 
 Installing in virtualenv
@@ -154,6 +186,46 @@ system Python libraries.
    Don't forget to set Python search path to your virtualenv as well (for 
    example using ``virtualenv = /tmp/weblate`` in uwsgi).
 
+.. _install-git:
+
+Installing Weblate from Git
++++++++++++++++++++++++++++
+
+You can also run latest version from Git. It is maintained stable and
+production ready. You can usually find it running on 
+`Hosted Weblate <https://weblate.org/hosting/>`_.
+
+To get latest sources using Git use:
+
+.. code-block:: sh
+
+    git clone https://github.com/WeblateOrg/weblate.git
+
+.. note::
+
+    If you are running version from Git, you should also regenerate locale
+    files every time you are upgrading. You can do this by invoking script
+    :file:`./scripts/generate-locales`.
+
+.. _install-pip:
+
+Installing Weblate by pip
++++++++++++++++++++++++++
+
+If you decide to install Weblate using pip installer, you will notice some
+differences. Most importantly the command line interface is installed  to the
+system path as :command:`weblate` instead of :command:`./manage.py` as used in
+this documentation. Also when invoking this command, you will have to specify
+settings, either by environment variable `DJANGO_SETTINGS` or on the command
+line, for example:
+
+.. code-block:: sh
+
+    weblate --settings=yourproject.settings migrate
+
+.. seealso:: :ref:`invoke-manage`
+
+.. _deps-debian:
 
 Requirements on Debian or Ubuntu
 ++++++++++++++++++++++++++++++++
@@ -243,6 +315,7 @@ you might need additional components:
     # GitHub PR support: hub
     # See https://hub.github.com/
 
+.. _deps-suse:
 
 Requirements on openSUSE
 ++++++++++++++++++++++++
@@ -291,6 +364,8 @@ you might need additional components:
     # GitHub PR support: hub
     # See https://hub.github.com/
 
+.. _deps-osx:
+
 Requirements on OSX
 +++++++++++++++++++
 
@@ -303,6 +378,7 @@ your :file:`.bash_profile` file or executed somehow:
 
 This configuration makes the installed libraries available to Python.
 
+.. _deps-pip:
 
 Requirements using pip installer
 ++++++++++++++++++++++++++++++++
@@ -321,41 +397,6 @@ All optional dependencies (see above) can be installed using:
 .. code-block:: sh
 
     pip install -r requirements-optional.txt
-
-.. _install-weblate:
-
-Installing Weblate
-------------------
-
-It is recommended to run latest version from Git. It is maintained stable and
-production ready.
-
-To get latest sources using Git use:
-
-.. code-block:: sh
-
-    git clone https://github.com/WeblateOrg/weblate.git
-
-Alternatively you can use released archives. You can either download them from our
-website <https://weblate.org/> or use pip installer.
-
-.. _install-pip:
-
-Installing Weblate by pip
-+++++++++++++++++++++++++
-
-If you decide to install Weblate using pip installer, you will notice some
-differences. Most importantly the command line interface is installed  to the
-system path as :command:`weblate` instead of :command:`./manage.py` as used in
-this documentation. Also when invoking this command, you will have to specify
-settings, either by environment variable `DJANGO_SETTINGS` or on the command
-line, for example:
-
-.. code-block:: sh
-
-    weblate --settings=yourproject.settings migrate
-
-.. seealso:: :ref:`invoke-manage`
 
 .. _file-permissions:
 
@@ -676,12 +717,6 @@ changing the :samp:`example.com` record to match your real domain name.
 Once you are done, you should also check :guilabel:`Performance report` in the
 admin interface which will give you hints for non optimal configuration on your
 site.
-
-.. note::
-
-    If you are running version from Git, you should also regenerate locale
-    files every time you are upgrading. You can do this by invoking script
-    :file:`./scripts/generate-locales`.
 
 .. seealso::
 
