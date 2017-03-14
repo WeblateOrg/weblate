@@ -437,7 +437,7 @@ class GitRepository(Repository):
     """
     _cmd = 'git'
     _cmd_last_revision = [
-        'log', '-n', '1', '--format=format:%H', '@'
+        'log', '-n', '1', '--format=format:%H', 'HEAD'
     ]
     _cmd_last_remote_revision = [
         'log', '-n', '1', '--format=format:%H', '@{upstream}'
