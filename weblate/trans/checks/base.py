@@ -49,9 +49,15 @@ class Check(object):
         # Is this disabled by default
         if self.default_disabled and self.enable_string not in unit.all_flags:
             return True
+
         # Is this check ignored
         if self.ignore_string in unit.all_flags:
             return True
+
+        # Ignore target checks on templates
+        if unit.translation.is_template():
+            return True
+
         return False
 
     def check_target(self, sources, targets, unit):

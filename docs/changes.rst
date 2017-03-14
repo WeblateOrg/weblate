@@ -6,6 +6,8 @@ weblate 2.13
 
 Released on ? 2017.
 
+* Fixed quality checks on translation templates.
+
 weblate 2.12
 ------------
 
