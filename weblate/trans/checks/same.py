@@ -177,12 +177,10 @@ class SameCheck(TargetCheck):
         return result
 
     def should_skip(self, unit):
-        translation = unit.translation
-        # Ignore this on templates
-        if translation.is_template():
+        if super(SameCheck, self).should_skip(unit):
             return True
 
-        source_language = translation.subproject.project.\
+        source_language = unit.translation.subproject.project.\
             source_language.code.split('_')[0]
 
         # Ignore the check for source language
@@ -194,7 +192,7 @@ class SameCheck(TargetCheck):
         elif source_language == 'en' and self.is_language(unit, ('en', 'ia')):
             return True
 
-        return super(SameCheck, self).should_skip(unit)
+        return False
 
     def check_single(self, source, target, unit):
         # One letter things are usually labels or decimal/thousand separators
