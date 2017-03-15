@@ -411,7 +411,13 @@ class PluralsCompareTest(TestCase):
             language.same_plural('nplurals=2; plural=(n != 1);')
         )
 
-    def test_different(self):
+    def test_different_formula(self):
+        language = Language.objects.get(code='pt')
+        self.assertFalse(
+            language.same_plural('nplurals=2; plural=(n > 1);')
+        )
+
+    def test_different_count(self):
         language = Language.objects.get(code='lt')
         self.assertFalse(
             language.same_plural(
