@@ -346,10 +346,7 @@ class LanguageManager(models.Manager):
                         )
                     )
                     continue
-                nplurals, pluralform = plurals.strip(';').split(';')
-                nplurals = int(nplurals.split('=', 1)[1])
-                pluralform = pluralform.split('=', 1)[1]
-                if nplurals != language.nplurals:
+                if not language.same_plural(plurals):
                     errors.append(
                         'different number of plurals {0}: {1} ({2})'.format(
                             lang, name, plurals
@@ -618,3 +615,13 @@ class Language(models.Model, PercentMixin):
     def uses_ngram(self):
         code = self.base_code()
         return code in ('ja', 'zh', 'ko')
+
+    def same_plural(self, plurals):
+        """Compares whether given plurals formula matches"""
+        try:
+            nplurals, pluralform = plurals.strip(';').split(';')
+            nplurals = int(nplurals.split('=', 1)[1])
+            pluralform = pluralform.split('=', 1)[1]
+        except (IndexError, ValueError):
+            return False
+        return nplurals == self.nplurals

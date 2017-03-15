@@ -396,3 +396,32 @@ class LanguagesViewTest(ViewTestCase):
             kwargs={'lang': 'nonexisting'}
         ))
         self.assertEqual(response.status_code, 404)
+
+
+class PluralsCompareTest(TestCase):
+    def test_match(self):
+        language = Language.objects.get(code='cs')
+        self.assertTrue(
+            language.same_plural(language.get_plural_form())
+        )
+
+    def test_formula(self):
+        language = Language.objects.get(code='pt')
+        self.assertTrue(
+            language.same_plural('nplurals=2; plural=(n != 1);')
+        )
+
+    def test_different(self):
+        language = Language.objects.get(code='lt')
+        self.assertFalse(
+            language.same_plural(
+                'nplurals=4; plural=(n%10==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n'
+                '%10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);'
+            )
+        )
+
+    def test_invalid(self):
+        language = Language.objects.get(code='lt')
+        self.assertFalse(
+            language.same_plural('bogus')
+        )
