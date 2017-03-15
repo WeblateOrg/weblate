@@ -42,7 +42,7 @@ from weblate.trans.mixins import PercentMixin
 from weblate.logger import LOGGER
 
 PLURAL_RE = re.compile(
-    r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s-]+)'
+    r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)'
 )
 
 
