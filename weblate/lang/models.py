@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 
 import gettext
 import io
+import re
 
 from django.conf import settings
 from django.db import models, transaction
@@ -39,6 +40,10 @@ from translate.lang.data import languages
 from weblate.lang import data
 from weblate.trans.mixins import PercentMixin
 from weblate.logger import LOGGER
+
+PLURAL_RE = re.compile(
+    r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s-]+)'
+)
 
 
 def get_plural_type(code, pluralequation):
@@ -618,10 +623,7 @@ class Language(models.Model, PercentMixin):
 
     def same_plural(self, plurals):
         """Compares whether given plurals formula matches"""
-        try:
-            nplurals, pluralform = plurals.strip(';').split(';')
-            nplurals = int(nplurals.split('=', 1)[1])
-            pluralform = pluralform.split('=', 1)[1]
-        except (IndexError, ValueError):
+        matches = PLURAL_RE.match(plurals)
+        if matches is None:
             return False
-        return nplurals == self.nplurals
+        return int(matches.group(1)) == self.nplurals
