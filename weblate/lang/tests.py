@@ -421,8 +421,8 @@ class PluralsCompareTest(TestCase):
         language = Language.objects.get(code='lt')
         self.assertFalse(
             language.same_plural(
-                'nplurals=4; plural=(n%10==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n'
-                '%10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);'
+                'nplurals=4; plural=(n%10==1 ? 0 : n%10==1 && n%100!=11 ?'
+                ' 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);'
             )
         )
 
