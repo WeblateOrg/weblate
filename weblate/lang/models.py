@@ -337,9 +337,6 @@ class LanguageManager(models.Manager):
                 if len(parts) != 3:
                     continue
                 lang, name, plurals = parts
-                nplurals, pluralform = plurals.strip(';').split(';')
-                nplurals = int(nplurals.split('=', 1)[1])
-                pluralform = pluralform.split('=', 1)[1]
                 try:
                     language = self.get(code=lang)
                 except Language.DoesNotExist:
@@ -349,6 +346,9 @@ class LanguageManager(models.Manager):
                         )
                     )
                     continue
+                nplurals, pluralform = plurals.strip(';').split(';')
+                nplurals = int(nplurals.split('=', 1)[1])
+                pluralform = pluralform.split('=', 1)[1]
                 if nplurals != language.nplurals:
                     errors.append(
                         'different number of plurals {0}: {1} ({2})'.format(
