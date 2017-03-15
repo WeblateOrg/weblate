@@ -1118,7 +1118,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if hasattr(store.store, 'parseheader'):
             header = store.store.parseheader()
             if 'Plural-Forms' in header and \
-                    self.language.get_plural_form() != header['Plural-Forms']:
+                    not self.language.same_plural(header['Plural-Forms']):
                 raise Exception('Plural forms do not match the language.')
 
         if method in ('translate', 'fuzzy'):
