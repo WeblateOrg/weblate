@@ -353,7 +353,7 @@ class LanguageManager(models.Manager):
                     continue
                 if not language.same_plural(plurals):
                     errors.append(
-                        'different number of plurals {0}: {1} ({2})'.format(
+                        'different plurals {0}: {1} ({2})'.format(
                             lang, name, plurals
                         )
                     )
