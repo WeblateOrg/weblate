@@ -599,12 +599,14 @@ class Language(models.Model, PercentMixin):
             self.pluralequation = self.pluralequation[1:-1]
 
         # Fixes for broken plurals
-        if self.code in ['kk', 'fa', 'ky']:
+        if self.code in ['kk', 'ky']:
             # These languages should have plurals, ttkit says it does
             # not have
             self.nplurals = 2
             self.pluralequation = 'n != 1'
-        elif self.code == 'pt_BR':
+        elif self.code in ('fa', 'pt_BR'):
+            # These languages should have plurals, ttkit says it does
+            # not have
             self.nplurals = 2
             self.pluralequation = 'n > 1'
         elif self.code == 'sl':
