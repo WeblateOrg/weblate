@@ -224,11 +224,21 @@ def bitbucket_webhook_helper(data):
         for repo in BITBUCKET_REPOS
     ]
 
+    branch = None
+
+    changes = data['push']['changes']
+
+    if changes:
+        if changes[-1]['new']:
+            branch = changes[-1]['new']['name']
+        elif changes[-1]['old']:
+            branch = changes[-1]['old']['name']
+
     return {
         'service_long_name': 'Bitbucket',
         'repo_url': data['repository']['links']['html']['href'],
         'repos': repos,
-        'branch': data['push']['changes'][-1]['new']['name']
+        'branch': branch,
     }
 
 
