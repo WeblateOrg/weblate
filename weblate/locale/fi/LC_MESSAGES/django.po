@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-03-10 15:18+0000\n"
-"PO-Revision-Date: 2017-03-17 14:43+0000\n"
+"PO-Revision-Date: 2017-03-17 15:06+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
@@ -3460,10 +3460,9 @@ msgstr "Yhdistäminen epäonnistui %(subproject)s"
 
 #: weblate/templates/mail/new_comment.html:11
 #: weblate/templates/mail/new_comment.txt:3
-#, fuzzy, python-format
-#| msgid "there has been a new comment on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a new comment on %(subproject)s at %(site_title)s."
-msgstr "Täällä on ollut uusi kommentti %(subproject)s %(site_title)s."
+msgstr "Sivustolla %(site_title)s on uusi kommentti projektissa %(subproject)s."
 
 #: weblate/templates/mail/new_comment.html:28
 #: weblate/templates/mail/new_comment.txt:9
@@ -3578,9 +3577,7 @@ msgstr "Uusi ehdotus %(translation)s"
 
 #: weblate/templates/mail/new_translation.html:11
 #: weblate/templates/mail/new_translation.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "there has been a new translation on %(translation)s at %(site_title)s."
+#, python-format
 msgid "There has been a new translation on %(translation)s at %(site_title)s."
 msgstr "Täällä on ollut uusi käännös %(translation)s %(site_title)s."
 
@@ -3595,28 +3592,22 @@ msgstr "Uusi käännös %(translation)s"
 
 #: weblate/templates/mail/parse_error.html:11
 #: weblate/templates/mail/parse_error.txt:3
-#, fuzzy, python-format
-#| msgid "there has been a merge failure on %(subproject)s at %(site_title)s."
+#, python-format
 msgid "There has been a parse error on %(subproject)s at %(site_title)s."
-msgstr "Yhdistämisen epäonnistuminen %(subproject)s %(site_title)s."
+msgstr "Jäsennysvirhe projektissa %(subproject)s %(site_title)s."
 
 #: weblate/templates/mail/parse_error.html:21
-#, fuzzy
-#| msgid "Failing check"
 msgid "Failing file"
-msgstr "Epäonnistunut tarkistus"
+msgstr "Epäonnistunut tiedosto"
 
 #: weblate/templates/mail/parse_error.txt:9
-#, fuzzy
-#| msgid "Failing check"
 msgid "Failing file:"
-msgstr "Epäonnistunut tarkistus"
+msgstr "Epäonnistunut tiedosto:"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Merge failure in %(subproject)s"
+#, python-format
 msgid "Parse error in %(subproject)s"
-msgstr "Yhdistäminen epäonnistui %(subproject)s"
+msgstr "Jäsennysvirhe projektissa %(subproject)s"
 
 #: weblate/templates/mail/reset.html:11 weblate/templates/mail/reset.txt:3
 #, python-format
@@ -3637,10 +3628,8 @@ msgid "matrix"
 msgstr "matriisi"
 
 #: weblate/templates/matrix.html:34
-#, fuzzy
-#| msgid "Name to display"
 msgid "Select languages to display"
-msgstr "Näytettävä nimi"
+msgstr "Valitse näytettävät kielet"
 
 #: weblate/templates/matrix.html:39
 msgid "Select"
@@ -3655,10 +3644,8 @@ msgstr "%(position)s / %(total)s"
 #: weblate/templates/subproject.html:41 weblate/templates/subproject.html:153
 #: weblate/templates/translation.html:59 weblate/templates/translation.html:209
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Search type"
 msgid "Search and replace"
-msgstr "Hakutyyppi"
+msgstr "Etsi ja korvaa"
 
 #: weblate/templates/project.html:40 weblate/templates/subproject.html:43
 #: weblate/templates/translation.html:47
@@ -3684,10 +3671,8 @@ msgstr "Hallitse käyttäjiä"
 
 #: weblate/templates/project.html:55 weblate/templates/project.html:310
 #: weblate/templates/subproject.html:65 weblate/templates/subproject.html:238
-#, fuzzy
-#| msgid "Strings"
 msgid "Settings"
-msgstr "Merkkijonot"
+msgstr "Asetukset"
 
 #: weblate/templates/project.html:62 weblate/templates/subproject.html:72
 #: weblate/templates/translation.html:66
@@ -3734,10 +3719,8 @@ msgid "Manage all glossaries"
 msgstr "Hallitse kaikkia sanastoja"
 
 #: weblate/templates/project.html:157
-#, fuzzy
-#| msgid "Browse changes"
 msgid "Browse all project changes"
-msgstr "Selaa muutoksia"
+msgstr "Selaa projektin muutoksia"
 
 #: weblate/templates/project.html:177 weblate/templates/subproject.html:155
 #: weblate/templates/translation.html:211
@@ -3787,10 +3770,8 @@ msgid "Add new user"
 msgstr "Lisää uusi käyttäjä"
 
 #: weblate/templates/project.html:285
-#, fuzzy
-#| msgid "Add new word"
 msgid "Add new owner"
-msgstr "Lisää uusi sana"
+msgstr "Lisää uusi omistaja"
 
 #: weblate/templates/project_info.html:9
 msgid "Mailing list for translators"
@@ -3801,26 +3782,20 @@ msgid "Instructions for translators"
 msgstr "Käännösohjeet"
 
 #: weblate/templates/project_stats.html:9
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of words"
-msgstr "Monikkojen määrä"
+msgstr "Sanojen määrä"
 
 #: weblate/templates/project_stats.html:14
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of languages"
-msgstr "Monikkojen määrä"
+msgstr "Kielten määrä"
 
 #: weblate/templates/project_stats.html:19
 msgid "Number of source strings"
 msgstr "Lähdetekstien määrä"
 
 #: weblate/templates/project_stats.html:24
-#, fuzzy
-#| msgid "Number of plurals"
 msgid "Number of source words"
-msgstr "Monikkojen määrä"
+msgstr "Lähdesanojen määrä"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
@@ -3838,10 +3813,8 @@ msgstr "Lähdeteksti"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Toiminta"
+msgstr "Toiminnot"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
@@ -3855,18 +3828,14 @@ msgid "Assign source strings"
 msgstr "Liitä lähdetekstit"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Ladataan…"
+msgstr "Ladataan tuloksia…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
 msgid "Please search below to find matching source strings."
 msgstr "Etsi alta löytääksesi täsmäävät lähdetekstit."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
 msgstr "Automaattinen tunnistus"
 
@@ -3973,10 +3942,8 @@ msgid "Strings to translate"
 msgstr "Käännettävät tekstit"
 
 #: weblate/templates/stats.html:75
-#, fuzzy
-#| msgid "Strings to translate"
 msgid "Units to translate"
-msgstr "Merkkijonot käännettäväksi"
+msgstr "Käännettävät yksiköt"
 
 #: weblate/templates/stats.html:79
 msgid "Words to translate"
@@ -4007,20 +3974,16 @@ msgid "Translations"
 msgstr "Käännökset"
 
 #: weblate/templates/subproject.html:46
-#, fuzzy
-#| msgid "Start review"
 msgid "Matrix view"
-msgstr "Aloita tarkistus"
+msgstr "Matriisinäkymä"
 
 #: weblate/templates/subproject.html:53
 msgid "Source strings review"
 msgstr "Arvostele lähdetekstiä"
 
 #: weblate/templates/subproject.html:59
-#, fuzzy
-#| msgid "Translation reverted"
 msgid "Translation reports"
-msgstr "Käännös palautunut"
+msgstr "Käännösraportit"
 
 #: weblate/templates/subproject.html:62 weblate/templates/subproject.html:114
 #: weblate/templates/subproject.html:130
@@ -4049,16 +4012,12 @@ msgstr ""
 "projektiin."
 
 #: weblate/templates/subproject.html:124
-#, fuzzy
-#| msgid "Can not find your language in above list?"
 msgid "Can't find your language in the list above?"
-msgstr "Etkö voi löytää kieltäsi ylemmästä listasta?"
+msgstr "Etkö löydä kieltäsi listasta?"
 
 #: weblate/templates/subproject.html:128
-#, fuzzy
-#| msgid "Start new translation"
 msgid "Request new translation"
-msgstr "Aloita uusi käännös"
+msgstr "Pyydä uutta käännöstä"
 
 #: weblate/templates/subproject.html:190
 msgid "Credits"
@@ -4075,10 +4034,8 @@ msgstr ""
 "kiittää kääntäjiä myös mussa dokumnetaatiossasi."
 
 #: weblate/templates/subproject.html:211
-#, fuzzy
-#| msgid "Repository status"
 msgid "Contributor stats"
-msgstr "Arkiston tila"
+msgstr "Kääntäjän tilastot"
 
 #: weblate/templates/subproject.html:215
 msgid "Reports number of strings and words translated by each translator."
@@ -4160,20 +4117,16 @@ msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
 msgstr "Alt+PageUp/PageDown/Home/End - Käännösten välillä navigointi"
 
 #: weblate/templates/translate.html:80
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Alt+E - Focus translation editor"
-msgstr "Tallenna käännös historia"
+msgstr "Alt+E - Siirry käännöseditoriin"
 
 #: weblate/templates/translate.html:81
 msgid "Alt+C - Focus comment editor"
 msgstr "Alt+C - Uusi kommentti"
 
 #: weblate/templates/translate.html:82
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Alt+M - Shows machine translation tab"
-msgstr "Konekäännös"
+msgstr "Alt + M - Näytä konekäännös -välilehti"
 
 #: weblate/templates/translate.html:83
 msgid "Alt+N - Shows nearby strings tab"
@@ -4204,10 +4157,8 @@ msgid "Context"
 msgstr "Asiayhteys"
 
 #: weblate/templates/translate.html:136 weblate/templates/zen-units.html:12
-#, fuzzy
-#| msgid "Context"
 msgid "Context:"
-msgstr "Asiayhteys"
+msgstr "Asiayhteys:"
 
 #: weblate/templates/translate.html:145
 msgid "Edit source string"
@@ -4294,10 +4245,8 @@ msgid "Anonymous user has suggested"
 msgstr "Nimetön käyttäjä on ehdottanut"
 
 #: weblate/templates/translate.html:240
-#, fuzzy
-#| msgid "Browse changes"
 msgid "Suggested change:"
-msgstr "Selaa muutoksia"
+msgstr "Ehdotettu muutos:"
 
 #: weblate/templates/translate.html:244
 #, python-format
@@ -4323,10 +4272,8 @@ msgid "Accept and edit"
 msgstr "Hyväksy ja muokkaa"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Käytä tätä käännöstä"
+msgstr "Tämä käännös"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4337,10 +4284,8 @@ msgid "Use this translation"
 msgstr "Käytä tätä käännöstä"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Palauta tämä käännös"
+msgstr "Muutos verrattuna tähän käännökseen:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -4383,10 +4328,8 @@ msgid "No related strings were found in the glossary."
 msgstr "Käännökseen liittyviä tekstejä ei löydetty sanastosta."
 
 #: weblate/templates/translate.html:427
-#, fuzzy
-#| msgid "Import glossary"
 msgid "Add word to glossary"
-msgstr "tuo sanasto"
+msgstr "Lisää sana sanastoon"
 
 #: weblate/templates/translate.html:440
 msgid "Source information"
@@ -4397,10 +4340,8 @@ msgid "Flags"
 msgstr "Liput"
 
 #: weblate/templates/translate.html:482
-#, fuzzy
-#| msgid "Currently associated:"
 msgid "No flags currently set!"
-msgstr "Tällä hetkellä liitettynä:"
+msgstr "Automaattitarkistuksia ei ole asetettu!"
 
 #: weblate/templates/translate.html:491
 msgid "String priority"
@@ -4476,13 +4417,11 @@ msgid "Translation status"
 msgstr "Käännöksen tila"
 
 #: weblate/templates/translation.html:125
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] "%(count)s annettu ääni"
-msgstr[1] "%(count)s annettua ääntä"
+msgstr[0] "%(count)s sana"
+msgstr[1] "%(count)s sanaa"
 
 #: weblate/templates/translation.html:144
 #: weblate/templates/unit-details.html:26
@@ -4498,10 +4437,8 @@ msgid "Other components"
 msgstr "Muut komponentit"
 
 #: weblate/templates/translation.html:183
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Browse all translation changes"
-msgstr "Käännöksen muutos:"
+msgstr "Selaa käännösten muutoksia"
 
 #: weblate/templates/translation.html:193
 msgid ""
@@ -4695,11 +4632,9 @@ msgid "Open in full editor"
 msgstr "Avaa täysmuokkaimessa"
 
 #: weblate/templates/zen-units.html:67
-#, fuzzy
-#| msgid "Review"
 msgctxt "Message needs review"
 msgid "Review"
-msgstr "Tarkastele"
+msgstr "Katselmoitava"
 
 #: weblate/templates/zen-units.html:77 weblate/trans/views/edit.py:507
 msgid "You have reached end of translating."
@@ -4710,20 +4645,17 @@ msgid "zen"
 msgstr "zen"
 
 #: weblate/templates/zen.html:21
-#, fuzzy
-#| msgid "Edit in Zen mode"
 msgid "Edit in single unit mode"
-msgstr "Muokkaa Zen-tilassa"
+msgstr "Muokkaa yhden käännösyksikön tilassa"
 
 #: weblate/templates/zen.html:21
 msgid "Exit Zen"
 msgstr "Poistu Zen -tilasta"
 
 #: weblate/templates/zen.html:27
-#, fuzzy, python-format
-#| msgid "Current filter: %(filter_name)s (%(filter_count)s)"
+#, python-format
 msgid "%(filter_name)s (%(filter_count)s)"
-msgstr "Nykyinen suodatin: %(filter_name)s (%(filter_count)s)"
+msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:43 weblate/trans/models/project.py:128
 msgid "Owners"
@@ -4734,22 +4666,16 @@ msgid "Update VCS repository"
 msgstr "Päivitä versionhallinta-arkisto"
 
 #: weblate/trans/admin.py:74 weblate/trans/admin.py:133
-#, fuzzy
-#| msgid "Quality checks flags"
 msgid "Update quality checks"
-msgstr "Laatutarkastus liput"
+msgstr "Päivitä automaattitarkistuksen ehdot"
 
 #: weblate/trans/admin.py:86 weblate/trans/admin.py:145
-#, fuzzy
-#| msgid "Commit pending changes"
 msgid "Commit pending changes"
-msgstr "Commitilla on odottavia muutoksia"
+msgstr "Commitoi odottavat muutokset"
 
 #: weblate/trans/admin.py:265
-#, fuzzy
-#| msgid "Subproject"
 msgid "Project / Component"
-msgstr "Aliprojekti"
+msgstr "Projekti / Komponentti"
 
 #: weblate/trans/admin_views.py:96
 msgid "Debug mode"
@@ -4769,16 +4695,13 @@ msgstr "Sivuston ylläpitäjä"
 
 #. Translators: Indexing is postponed to cron job
 #: weblate/trans/admin_views.py:127
-#, fuzzy
 msgid "Indexing offloading"
-msgstr "Indeksointi purkamista"
+msgstr "Indeksoinnin tausta-ajo"
 
 #. Translators: Indexing is postponed to cron job
 #: weblate/trans/admin_views.py:142
-#, fuzzy
-#| msgid "Indexing offloading"
 msgid "Indexing offloading processing"
-msgstr "Indeksointi purkamista"
+msgstr "Indeksoinnin tausta-ajo päällä"
 
 #: weblate/trans/admin_views.py:159
 msgid "Django caching"
@@ -4817,10 +4740,8 @@ msgid "Admin static files"
 msgstr "Ylläpitäjän staattiset tiedostot"
 
 #: weblate/trans/apps.py:34
-#, fuzzy
-#| msgid "Other translations"
 msgid "Weblate translations"
-msgstr "Muut käännökset"
+msgstr "Weblate -käännökset"
 
 #: weblate/trans/autofixes/chars.py:67 weblate/trans/checks/chars.py:332
 msgid "Trailing ellipsis"
@@ -4831,10 +4752,8 @@ msgid "Zero-width space"
 msgstr "Ei yhtään tilaa"
 
 #: weblate/trans/autofixes/chars.py:97
-#, fuzzy
-#| msgid "Repository status"
 msgid "Control chars"
-msgstr "Arkiston tila"
+msgstr "Ohjausmerkit"
 
 #: weblate/trans/autofixes/whitespace.py:37
 msgid "Trailing and leading whitespace"
@@ -4938,10 +4857,8 @@ msgid "Translation contains extra zero-width space character"
 msgstr "Käännös sisältää liikaa tyhjää tilaa"
 
 #: weblate/trans/checks/chars.py:376
-#, fuzzy
-#| msgid "Manage your translations"
 msgid "Maximum length of translation"
-msgstr "Hallitse käännöksiäsi"
+msgstr "Käännöstekstin maksimi pituus"
 
 #: weblate/trans/checks/chars.py:377
 msgid "Translation should not exceed given length"
@@ -4960,10 +4877,8 @@ msgid "Same plurals"
 msgstr "Samat monikot"
 
 #: weblate/trans/checks/consistency.py:57
-#, fuzzy
-#| msgid "Some plural forms are not translated"
 msgid "Some plural forms are translated in the same way"
-msgstr "Joitakin monikkomuotoja ei ole käännetty"
+msgstr "Jotkin monikkomuodot on käännetty samalla tavalla"
 
 #: weblate/trans/checks/consistency.py:80
 msgid "Inconsistent"
@@ -5035,10 +4950,8 @@ msgid "Invalid XML markup"
 msgstr "Epäkelpo XML -merkintä"
 
 #: weblate/trans/checks/markup.py:122
-#, fuzzy
-#| msgid "Translation is now locked for you."
 msgid "The translaton is not valid XML"
-msgstr "Käännös on nyt lukittu sinulle."
+msgstr "Käännöstiedosto ei ole kelvollista XML -muotoa"
 
 #: weblate/trans/checks/markup.py:151
 msgid "XML tags mismatch"
