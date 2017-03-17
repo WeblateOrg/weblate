@@ -26,7 +26,6 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.permissions.helpers import can_vote_suggestion
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import notify_new_suggestion
 
@@ -34,7 +33,7 @@ from weblate.accounts.models import notify_new_suggestion
 class SuggestionManager(models.Manager):
     # pylint: disable=W0232
 
-    def add(self, unit, target, request):
+    def add(self, unit, target, request, vote=False):
         '''
         Creates new suggestion for this unit.
         '''
@@ -69,7 +68,7 @@ class SuggestionManager(models.Manager):
         )
 
         # Add unit vote
-        if can_vote_suggestion(user, unit.translation):
+        if vote:
             suggestion.add_vote(
                 unit.translation,
                 request,

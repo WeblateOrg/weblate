@@ -212,6 +212,7 @@ def perform_suggestion(unit, form, request):
         unit,
         join_plural(form.cleaned_data['target']),
         request,
+        can_vote_suggestion(request.user, unit.translation)
     )
     if not result:
         messages.error(request, _('Your suggestion already exists!'))
