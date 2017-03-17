@@ -115,6 +115,7 @@ def create_groups(update):
         guest_group.permissions.add(
             Permission.objects.get(codename='can_see_git_repository'),
             Permission.objects.get(codename='add_suggestion'),
+            Permission.objects.get(codename='access_vcs'),
         )
 
     group, created = Group.objects.get_or_create(name='Users')
@@ -139,6 +140,7 @@ def create_groups(update):
             Permission.objects.get(codename='use_mt'),
             Permission.objects.get(codename='add_translation'),
             Permission.objects.get(codename='delete_translation'),
+            Permission.objects.get(codename='access_vcs'),
         )
 
     owner_permissions = (
@@ -181,6 +183,7 @@ def create_groups(update):
         Permission.objects.get(codename='add_screenshot'),
         Permission.objects.get(codename='delete_screenshot'),
         Permission.objects.get(codename='change_screenshot'),
+        Permission.objects.get(codename='access_vcs'),
     )
 
     group, created = Group.objects.get_or_create(name='Managers')

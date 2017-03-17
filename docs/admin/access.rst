@@ -60,6 +60,8 @@ Can lock whole translation project [Managers, Owners]
     in the project.
 Can reset translations to match remote VCS [Managers, Owners]
     Can reset VCS repository to match remote VCS.
+Can access VCS repository [Users, Managers, Owners, Guests]
+    Can access the underlying VCS repository (see :ref:`git-exporter`).
 Can save translation [Users, Managers, Owners]
     Can save translation (might be disabled with :ref:`voting`).
 Can save template [Users, Managers, Owners]

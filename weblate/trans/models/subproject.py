@@ -494,6 +494,7 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
         permissions = (
             ('lock_subproject', "Can lock translation for translating"),
             ('can_see_git_repository', "Can see VCS repository URL"),
+            ('access_vcs', 'Can access VCS repository'),
             ('view_reports', "Can display reports"),
         )
         app_label = 'trans'

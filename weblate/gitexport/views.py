@@ -32,6 +32,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 
 from weblate.trans.views.helper import get_subproject
+from weblate.permissions.helpers import can_access_vcs
 
 
 GIT_HTTP_BACKEND = None
@@ -123,6 +124,8 @@ def git_export(request, project, subproject, path):
     # Permissions
     try:
         obj = get_subproject(request, project, subproject)
+        if not can_access_vcs(request.user, obj.project):
+            raise PermissionDenied('No VCS permissions')
     except PermissionDenied:
         if not request.user.is_authenticated:
             return response_authenticate()
