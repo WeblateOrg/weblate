@@ -34,12 +34,12 @@ from weblate.lang.models import Language
 @python_2_unicode_compatible
 class GroupACL(models.Model):
 
-    groups = models.ManyToManyField(Group)
+    groups = models.ManyToManyField(Group, related_name='old_groupacl')
 
     # avoid importing Project and SubProject because of circular dependency
-    project = models.ForeignKey('Project', null=True, blank=True)
-    subproject = models.ForeignKey('SubProject', null=True, blank=True)
-    language = models.ForeignKey(Language, null=True, blank=True)
+    project = models.ForeignKey('Project', null=True, blank=True, related_name='old_groupacl')
+    subproject = models.ForeignKey('SubProject', null=True, blank=True, related_name='old_groupacl')
+    language = models.ForeignKey(Language, null=True, blank=True, related_name='old_groupacl')
 
     def clean(self):
         if not self.project and not self.subproject and not self.language:
