@@ -20,8 +20,14 @@
 
 from __future__ import unicode_literals
 
-from django.db import models
+import re
+
+from django.conf import settings
+from django.contrib.auth.models import Group, User, Permission
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.signals import post_save, post_migrate
+from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
@@ -99,3 +105,32 @@ class AutoGroup(models.Model):
 
     def __str__(self):
         return 'Automatic rule for {0}'.format(self.group)
+
+
+def auto_assign_group(user):
+    """Automatic group assignment based on user email"""
+    # Add user to automatic groups
+    for auto in AutoGroup.objects.all():
+        if re.match(auto.match, user.email):
+            user.groups.add(auto.group)
+
+
+@receiver(post_save, sender=User)
+def create_profile_callback(sender, instance, created=False, **kwargs):
+    '''
+    Automatically adds user to Users group.
+    '''
+    if created:
+        auto_assign_group(instance)
+
+
+# Special hook for LDAP as it does create user without email and updates it
+# later. This can lead to group assignment on every login with
+# AUTH_LDAP_ALWAYS_UPDATE_USER enabled.
+if 'django_auth_ldap.backend.LDAPBackend' in settings.AUTHENTICATION_BACKENDS:
+    # pylint: disable=C0413,E0401
+    from django_auth_ldap.backend import populate_user, LDAPBackend
+
+    @receiver(populate_user, sender=LDAPBackend)
+    def auto_groups_upon_ldap(sender, user, **kwargs):
+        auto_assign_group(user)
