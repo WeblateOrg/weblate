@@ -25,7 +25,7 @@ from django.db.models import Q
 from django.contrib.auth.models import Group, Permission
 
 from weblate.accounts.models import get_anonymous
-from weblate.trans.models.group_acl import GroupACL
+from weblate.permissions.models import GroupACL
 
 
 def check_owner(user, project, permission):

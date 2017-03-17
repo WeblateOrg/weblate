@@ -24,9 +24,8 @@ from django.test import TestCase
 from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
-from weblate.trans.models import (
-    GroupACL, Project, Translation
-)
+from weblate.trans.models import Project, Translation
+from weblate.permissions.models import GroupACL
 from weblate.permissions.helpers import (
     check_owner, check_permission, can_delete_comment, can_edit,
     can_author_translation,
