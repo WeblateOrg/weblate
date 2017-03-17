@@ -25,7 +25,7 @@ from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Translation
-from weblate.permissions.models import GroupACL
+from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.permissions.helpers import (
     check_owner, check_permission, can_delete_comment, can_edit,
     can_author_translation,
@@ -356,3 +356,34 @@ class GroupACLTest(ModelTestCase):
         self.assertTrue(check_permission(
             self.privileged, self.project, 'trans.author_translation'
         ))
+
+
+class AutoGroupTest(TestCase):
+    @staticmethod
+    def create_user():
+        return User.objects.create_user('test1', 'noreply@weblate.org', 'pass')
+
+    def test_default(self):
+        user = self.create_user()
+        self.assertEqual(user.groups.count(), 1)
+
+    def test_none(self):
+        AutoGroup.objects.all().delete()
+        user = self.create_user()
+        self.assertEqual(user.groups.count(), 0)
+
+    def test_matching(self):
+        AutoGroup.objects.create(
+            match='^.*@weblate.org',
+            group=Group.objects.get(name='Guests')
+        )
+        user = self.create_user()
+        self.assertEqual(user.groups.count(), 2)
+
+    def test_nonmatching(self):
+        AutoGroup.objects.create(
+            match='^.*@example.net',
+            group=Group.objects.get(name='Guests')
+        )
+        user = self.create_user()
+        self.assertEqual(user.groups.count(), 1)
