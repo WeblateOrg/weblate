@@ -119,11 +119,10 @@ class TranslatedCheck(TargetCheck):
     severity = 'warning'
 
     def check_target_unit(self, sources, targets, unit):
-        from weblate.trans.models import Change
         if unit.translated:
             return False
 
-        return unit.change_set.filter(action__in=Change.ACTIONS_CONTENT).exists()
+        return unit.change_set.content().exists()
 
     def check_single(self, source, target, unit):
         '''
