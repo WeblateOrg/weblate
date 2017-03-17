@@ -18,8 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-"""Group ACL."""
-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -30,10 +28,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject
+from weblate.trans.fields import RegexField
 
 
 @python_2_unicode_compatible
 class GroupACL(models.Model):
+    """Group ACL."""
 
     groups = models.ManyToManyField(Group)
 
@@ -75,3 +75,27 @@ class GroupACL(models.Model):
         unique_together = ('project', 'subproject', 'language')
         verbose_name = _('Group ACL')
         verbose_name_plural = _('Group ACLs')
+
+
+@python_2_unicode_compatible
+class AutoGroup(models.Model):
+    match = RegexField(
+        verbose_name=_('Email regular expression'),
+        max_length=200,
+        default='^.*$',
+        help_text=_(
+            'Regular expression which is used to match user email.'
+        ),
+    )
+    group = models.ForeignKey(
+        Group,
+        verbose_name=_('Group to assign'),
+    )
+
+    class Meta(object):
+        verbose_name = _('Automatic group assignment')
+        verbose_name_plural = _('Automatic group assignments')
+        ordering = ('group__name', )
+
+    def __str__(self):
+        return 'Automatic rule for {0}'.format(self.group)

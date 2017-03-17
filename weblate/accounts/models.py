@@ -871,6 +871,7 @@ class AutoGroup(models.Model):
     group = models.ForeignKey(
         Group,
         verbose_name=_('Group to assign'),
+        related_name='old_autogroup'
     )
 
     class Meta(object):
