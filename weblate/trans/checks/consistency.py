@@ -85,13 +85,10 @@ class ConsistencyCheck(TargetCheck):
     severity = 'warning'
 
     def check_target_unit(self, sources, targets, unit):
-        from weblate.trans.models import Unit
         # Do not check consistency if user asked not to have it
         if not unit.translation.subproject.allow_translation_propagation:
             return False
-        related = Unit.objects.same(
-            unit
-        ).exclude(
+        related = unit.same_units().exclude(
             target=unit.target
         ).filter(
             translation__subproject__allow_translation_propagation=True

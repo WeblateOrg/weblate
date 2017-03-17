@@ -1159,3 +1159,6 @@ class Unit(models.Model, LoggerMixin):
         It's unsigned representation of id_hash in hex.
         """
         return hash_to_checksum(self.id_hash)
+
+    def same_units(self):
+        return Unit.objects.same(self)
