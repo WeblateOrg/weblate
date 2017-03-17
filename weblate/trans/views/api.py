@@ -164,7 +164,7 @@ def vcs_service_hook(request, service):
     # Send the request data to the service handler.
     try:
         service_data = hook_helper(data)
-    except KeyError:
+    except (TypeError, KeyError, IndexError):
         LOGGER.error('failed to parse service %s data', service)
         return HttpResponseBadRequest('Invalid data in json payload!')
 
