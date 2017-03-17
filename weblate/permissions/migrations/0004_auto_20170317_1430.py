@@ -10,7 +10,7 @@ def copy_autogroup(apps, schema_editor):
     AutoGroup = apps.get_model('permissions', 'AutoGroup')
 
     for item in existing.iterator():
-        created = AutoGroup.objects.create(
+        AutoGroup.objects.create(
             group=item.group,
             match=item.match,
         )
