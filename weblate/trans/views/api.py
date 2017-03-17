@@ -21,6 +21,7 @@
 import csv
 import json
 import re
+import sys
 import threading
 
 import six
@@ -37,6 +38,7 @@ from django.http import (
 from weblate.trans.models import SubProject
 from weblate.trans.views.helper import get_project, get_subproject
 from weblate.trans.stats import get_project_stats
+from weblate.utils.errors import report_error
 from weblate.logger import LOGGER
 
 
@@ -164,8 +166,9 @@ def vcs_service_hook(request, service):
     # Send the request data to the service handler.
     try:
         service_data = hook_helper(data)
-    except (TypeError, KeyError, IndexError):
+    except Exception as error:
         LOGGER.error('failed to parse service %s data', service)
+        report_error(error, sys.exc_info())
         return HttpResponseBadRequest('Invalid data in json payload!')
 
     # Log data
