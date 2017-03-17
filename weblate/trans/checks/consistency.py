@@ -107,3 +107,29 @@ class ConsistencyCheck(TargetCheck):
         We don't check target strings here.
         '''
         return False
+
+
+class TranslatedCheck(TargetCheck):
+    '''
+    Check for inconsistent translations
+    '''
+    check_id = 'translated'
+    name = _('Has been translated')
+    description = _(
+        'This string has been translated in the past'
+    )
+    ignore_untranslated = False
+    severity = 'warning'
+
+    def check_target_unit(self, sources, targets, unit):
+        from weblate.trans.models import Change
+        if unit.translated:
+            return False
+
+        return unit.change_set.filter(action__in=Change.ACTIONS_CONTENT).exists()
+
+    def check_single(self, source, target, unit):
+        '''
+        We don't check target strings here.
+        '''
+        return False

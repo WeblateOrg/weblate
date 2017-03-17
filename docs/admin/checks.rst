@@ -57,6 +57,8 @@ flags`), here is current list of flags accepted:
     Skip the "Trailing space" quality check.
 ``ignore-inconsistent``
     Skip the "Inconsistent" quality check.
+``ignore-translated``
+    Skip the "Has been translated" quality check.
 ``ignore-begin-newline``
     Skip the "Starting newline" quality check.
 ``ignore-zero-width-space``

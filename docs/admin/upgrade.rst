@@ -429,6 +429,17 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 2.12 to 2.13
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow generic upgrade instructions, there is no special change.
+
+Notable configuration or dependencies changes:
+
+* there is new quality check: :ref:`check-translated`
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _django-17:
 
 Upgrading to Django 1.7

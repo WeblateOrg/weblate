@@ -531,6 +531,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #     'weblate.trans.checks.consistency.PluralsCheck',
 #     'weblate.trans.checks.consistency.SamePluralsCheck',
 #     'weblate.trans.checks.consistency.ConsistencyCheck',
+#     'weblate.trans.checks.consistency.TranslatedCheck',
 #     'weblate.trans.checks.chars.NewlineCountingCheck',
 #     'weblate.trans.checks.markup.BBCodeCheck',
 #     'weblate.trans.checks.chars.ZeroWidthSpaceCheck',

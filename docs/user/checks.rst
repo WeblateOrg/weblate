@@ -225,6 +225,14 @@ string on :guilabel:`All locations` tab.
 Weblate checks translations of the same string across all translation within a
 project to help you keep consistent translations.
 
+.. _check-translated:
+
+Has been translated
+~~~~~~~~~~~~~~~~~~~
+
+This string has been translated in the past. This can happen when the
+translations have been reverted in VCS or otherwise lost.
+
 .. _check-escaped-newline:
 
 Mismatched \\n
