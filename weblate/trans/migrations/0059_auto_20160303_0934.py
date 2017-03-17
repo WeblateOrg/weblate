@@ -34,6 +34,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('trans', '0058_componentlist'),
+        ('accounts', '0014_auto_20160302_1025'),
     ]
 
     operations = [
