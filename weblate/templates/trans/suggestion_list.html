@@ -23,7 +23,7 @@
 {% matching_cotentsum suggestion as units %}
 <ul>
 {% for unit in units %}
-<li><a href="{{ unit.get_absolute_url }}">{{ unit.translation }}</a></li>
+<li><a href="{{ unit.get_absolute_url }}#suggestions">{{ unit.translation }}</a></li>
 {% empty %}
 <li>{% trans "No matching translations found!" %}</li>
 {% endfor %}
