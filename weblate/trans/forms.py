@@ -45,7 +45,7 @@ from weblate.trans.models import SubProject, Unit, Project
 from weblate.trans.models.unit import SEARCH_FILTERS
 from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
     can_suggest,
 )

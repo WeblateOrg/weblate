@@ -34,7 +34,7 @@ from weblate.utils import messages
 from weblate.trans.models.change import Change
 from weblate.trans.views.helper import get_project_translation
 from weblate.lang.models import Language
-from weblate.trans.permissions import can_download_changes
+from weblate.permissions.helpers import can_download_changes
 
 
 class ChangesView(ListView):

@@ -31,7 +31,7 @@ from weblate.trans.views.helper import (
 )
 from weblate.trans.filelock import FileLockException
 from weblate.trans.util import redirect_param
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_commit_translation, can_update_translation, can_reset_translation,
     can_push_translation, can_remove_translation,
 )

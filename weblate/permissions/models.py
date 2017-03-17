@@ -29,6 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib.auth.models import Group
 from weblate.lang.models import Language
+from weblate.trans.models import Project, SubProject
 
 
 @python_2_unicode_compatible
@@ -37,8 +38,8 @@ class GroupACL(models.Model):
     groups = models.ManyToManyField(Group)
 
     # avoid importing Project and SubProject because of circular dependency
-    project = models.ForeignKey('Project', null=True, blank=True)
-    subproject = models.ForeignKey('SubProject', null=True, blank=True)
+    project = models.ForeignKey(Project, null=True, blank=True)
+    subproject = models.ForeignKey(SubProject, null=True, blank=True)
     language = models.ForeignKey(Language, null=True, blank=True)
 
     def clean(self):

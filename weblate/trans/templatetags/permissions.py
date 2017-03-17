@@ -18,193 +18,193 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 from django import template
-import weblate.trans.permissions
+import weblate.permissions.helpers
 
 register = template.Library()
 
 
 @register.assignment_tag
 def can_upload_translation(user, translation):
-    return weblate.trans.permissions.can_upload_translation(
+    return weblate.permissions.helpers.can_upload_translation(
         user, translation
     )
 
 
 @register.assignment_tag
 def can_translate(user, translation):
-    return weblate.trans.permissions.can_translate(
+    return weblate.permissions.helpers.can_translate(
         user, translation
     )
 
 
 @register.assignment_tag
 def can_suggest(user, translation):
-    return weblate.trans.permissions.can_suggest(
+    return weblate.permissions.helpers.can_suggest(
         user, translation
     )
 
 
 @register.assignment_tag
 def can_accept_suggestion(user, translation):
-    return weblate.trans.permissions.can_accept_suggestion(
+    return weblate.permissions.helpers.can_accept_suggestion(
         user, translation
     )
 
 
 @register.assignment_tag
 def can_delete_suggestion(user, translation, suggestion):
-    return weblate.trans.permissions.can_delete_suggestion(
+    return weblate.permissions.helpers.can_delete_suggestion(
         user, translation, suggestion
     )
 
 
 @register.assignment_tag
 def can_vote_suggestion(user, translation):
-    return weblate.trans.permissions.can_vote_suggestion(
+    return weblate.permissions.helpers.can_vote_suggestion(
         user, translation
     )
 
 
 @register.assignment_tag
 def can_use_mt(user, translation):
-    return weblate.trans.permissions.can_use_mt(user, translation)
+    return weblate.permissions.helpers.can_use_mt(user, translation)
 
 
 @register.assignment_tag
 def can_see_repository_status(user, project):
-    return weblate.trans.permissions.can_see_repository_status(user, project)
+    return weblate.permissions.helpers.can_see_repository_status(user, project)
 
 
 @register.assignment_tag
 def can_commit_translation(user, project):
-    return weblate.trans.permissions.can_commit_translation(user, project)
+    return weblate.permissions.helpers.can_commit_translation(user, project)
 
 
 @register.assignment_tag
 def can_update_translation(user, project):
-    return weblate.trans.permissions.can_update_translation(user, project)
+    return weblate.permissions.helpers.can_update_translation(user, project)
 
 
 @register.assignment_tag
 def can_push_translation(user, project):
-    return weblate.trans.permissions.can_push_translation(user, project)
+    return weblate.permissions.helpers.can_push_translation(user, project)
 
 
 @register.assignment_tag
 def can_reset_translation(user, project):
-    return weblate.trans.permissions.can_reset_translation(user, project)
+    return weblate.permissions.helpers.can_reset_translation(user, project)
 
 
 @register.assignment_tag
 def can_lock_translation(user, project):
-    return weblate.trans.permissions.can_lock_translation(user, project)
+    return weblate.permissions.helpers.can_lock_translation(user, project)
 
 
 @register.assignment_tag
 def can_lock_subproject(user, project):
-    return weblate.trans.permissions.can_lock_subproject(user, project)
+    return weblate.permissions.helpers.can_lock_subproject(user, project)
 
 
 @register.assignment_tag
 def can_edit_flags(user, project):
-    return weblate.trans.permissions.can_edit_flags(user, project)
+    return weblate.permissions.helpers.can_edit_flags(user, project)
 
 
 @register.assignment_tag
 def can_edit_priority(user, project):
-    return weblate.trans.permissions.can_edit_priority(user, project)
+    return weblate.permissions.helpers.can_edit_priority(user, project)
 
 
 @register.assignment_tag
 def can_ignore_check(user, project):
-    return weblate.trans.permissions.can_ignore_check(user, project)
+    return weblate.permissions.helpers.can_ignore_check(user, project)
 
 
 @register.assignment_tag
 def can_delete_comment(user, project):
-    return weblate.trans.permissions.can_delete_comment(user, project)
+    return weblate.permissions.helpers.can_delete_comment(user, project)
 
 
 @register.assignment_tag
 def can_manage_acl(user, project):
-    return weblate.trans.permissions.can_manage_acl(user, project)
+    return weblate.permissions.helpers.can_manage_acl(user, project)
 
 
 @register.assignment_tag
 def can_download_changes(user, project):
-    return weblate.trans.permissions.can_download_changes(user, project)
+    return weblate.permissions.helpers.can_download_changes(user, project)
 
 
 @register.assignment_tag
 def can_view_reports(user, project):
-    return weblate.trans.permissions.can_view_reports(user, project)
+    return weblate.permissions.helpers.can_view_reports(user, project)
 
 
 @register.assignment_tag
 def can_add_translation(user, project):
-    return weblate.trans.permissions.can_add_translation(user, project)
+    return weblate.permissions.helpers.can_add_translation(user, project)
 
 
 @register.assignment_tag
 def can_remove_translation(user, project):
-    return weblate.trans.permissions.can_remove_translation(user, project)
+    return weblate.permissions.helpers.can_remove_translation(user, project)
 
 
 @register.assignment_tag
 def can_edit_subproject(user, project):
-    return weblate.trans.permissions.can_edit_subproject(user, project)
+    return weblate.permissions.helpers.can_edit_subproject(user, project)
 
 
 @register.assignment_tag
 def can_edit_project(user, project):
-    return weblate.trans.permissions.can_edit_project(user, project)
+    return weblate.permissions.helpers.can_edit_project(user, project)
 
 
 @register.assignment_tag
 def can_upload_dictionary(user, project):
-    return weblate.trans.permissions.can_upload_dictionary(user, project)
+    return weblate.permissions.helpers.can_upload_dictionary(user, project)
 
 
 @register.assignment_tag
 def can_delete_dictionary(user, project):
-    return weblate.trans.permissions.can_delete_dictionary(user, project)
+    return weblate.permissions.helpers.can_delete_dictionary(user, project)
 
 
 @register.assignment_tag
 def can_change_dictionary(user, project):
-    return weblate.trans.permissions.can_change_dictionary(user, project)
+    return weblate.permissions.helpers.can_change_dictionary(user, project)
 
 
 @register.assignment_tag
 def can_add_dictionary(user, project):
-    return weblate.trans.permissions.can_add_dictionary(user, project)
+    return weblate.permissions.helpers.can_add_dictionary(user, project)
 
 
 @register.assignment_tag
 def can_add_comment(user, project):
-    return weblate.trans.permissions.can_add_comment(user, project)
+    return weblate.permissions.helpers.can_add_comment(user, project)
 
 
 @register.assignment_tag
 def can_overwrite_translation(user, project):
-    return weblate.trans.permissions.can_overwrite_translation(user, project)
+    return weblate.permissions.helpers.can_overwrite_translation(user, project)
 
 
 @register.assignment_tag
 def can_see_git_repository(user, project):
-    return weblate.trans.permissions.can_see_git_repository(user, project)
+    return weblate.permissions.helpers.can_see_git_repository(user, project)
 
 
 @register.assignment_tag
 def can_add_screenshot(user, project):
-    return weblate.trans.permissions.can_add_screenshot(user, project)
+    return weblate.permissions.helpers.can_add_screenshot(user, project)
 
 
 @register.assignment_tag
 def can_change_screenshot(user, project):
-    return weblate.trans.permissions.can_change_screenshot(user, project)
+    return weblate.permissions.helpers.can_change_screenshot(user, project)
 
 
 @register.assignment_tag
 def can_delete_screenshot(user, project):
-    return weblate.trans.permissions.can_delete_screenshot(user, project)
+    return weblate.permissions.helpers.can_delete_screenshot(user, project)

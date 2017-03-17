@@ -27,7 +27,7 @@ from weblate.utils import messages
 from weblate.trans.util import redirect_param
 from weblate.trans.forms import UserManageForm
 from weblate.trans.views.helper import get_project
-from weblate.trans.permissions import can_manage_acl
+from weblate.permissions.helpers import can_manage_acl
 
 
 def check_user_form(request, project):

@@ -36,7 +36,6 @@ from weblate.trans.models.check import Check
 from weblate.trans.models.search import IndexUpdate
 from weblate.trans.models.change import Change
 from weblate.trans.models.dictionary import Dictionary
-from weblate.trans.models.group_acl import GroupACL
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
@@ -53,7 +52,7 @@ from weblate.trans.scripts import (
 __all__ = [
     'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
     'Comment', 'Vote', 'IndexUpdate', 'Change', 'Dictionary', 'Source',
-    'Advertisement', 'WhiteboardMessage', 'GroupACL', 'ComponentList',
+    'Advertisement', 'WhiteboardMessage', 'ComponentList',
     'WeblateConf',
 ]
 

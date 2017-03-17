@@ -485,7 +485,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     is_lockable = True
     _reverse_url_name = 'subproject'
 
-
     class Meta(object):
         ordering = ['priority', 'project__name', 'name']
         unique_together = (

@@ -51,7 +51,7 @@ from weblate.trans.views.helper import (
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render
 from weblate.trans.autotranslate import auto_translate
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
     can_add_comment,
@@ -212,6 +212,7 @@ def perform_suggestion(unit, form, request):
         unit,
         join_plural(form.cleaned_data['target']),
         request,
+        can_vote_suggestion(request.user, unit.translation)
     )
     if not result:
         messages.error(request, _('Your suggestion already exists!'))
@@ -401,7 +402,7 @@ def handle_revert(translation, request, next_unit_url):
         return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggestion_permissions(request, mode, translation, suggestion):
+def check_suggest_permissions(request, mode, translation, suggestion):
     """
     Checks permission for suggestion handling.
     """
@@ -457,7 +458,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         return HttpResponseRedirect(this_unit_url)
 
     # Permissions check
-    if not check_suggestion_permissions(request, mode, translation, suggestion):
+    if not check_suggest_permissions(request, mode, translation, suggestion):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation

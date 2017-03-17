@@ -43,7 +43,7 @@ from weblate.trans.exporters import EXPORTERS
 from weblate.trans.models import (
     Project, SubProject, Translation, Change, Unit,
 )
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_upload_translation, can_lock_subproject, can_see_repository_status,
     can_commit_translation, can_update_translation, can_reset_translation,
     can_push_translation,

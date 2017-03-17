@@ -296,6 +296,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'weblate.trans',
     'weblate.lang',
+    'weblate.permissions',
     'weblate.screenshots',
     'weblate.accounts',
     'weblate.utils',

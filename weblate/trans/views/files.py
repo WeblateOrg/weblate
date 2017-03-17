@@ -34,7 +34,7 @@ from weblate.trans.forms import get_upload_form
 from weblate.trans.views.helper import (
     get_translation, download_translation_file, show_form_errors,
 )
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation,
     can_upload_translation,
 )

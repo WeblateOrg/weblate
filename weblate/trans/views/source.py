@@ -37,7 +37,7 @@ from weblate.trans.models import Translation, Source, Unit
 from weblate.trans.forms import (
     PriorityForm, CheckFlagsForm, MatrixLanguageForm,
 )
-from weblate.trans.permissions import can_edit_flags, can_edit_priority
+from weblate.permissions.helpers import can_edit_flags, can_edit_priority
 from weblate.trans.util import render
 from weblate.utils.hash import checksum_to_hash
 
