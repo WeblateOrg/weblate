@@ -20,7 +20,7 @@
 
 from django.core.management.base import BaseCommand
 
-from weblate.accounts.models import create_groups, move_users
+from weblate.permissions.models import create_groups, move_users
 
 
 class Command(BaseCommand):

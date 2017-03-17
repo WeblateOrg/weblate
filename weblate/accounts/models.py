@@ -28,10 +28,10 @@ from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in, user_logged_out
-from django.db.models.signals import post_save, post_migrate
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import User
 from django.utils import translation as django_translation
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, get_connection
@@ -45,7 +45,6 @@ from social_django.models import UserSocialAuth
 from weblate.lang.models import Language
 from weblate.utils import messages
 from weblate.trans.site import get_site_url, get_site_domain
-from weblate.trans.fields import RegexField
 from weblate.accounts.avatar import get_user_display
 from weblate.utils.errors import report_error
 from weblate.trans.signals import user_pre_delete
@@ -865,6 +864,35 @@ def set_lang(request, profile):
         request.session[LANGUAGE_SESSION_KEY] = profile.language
 
 
+def remove_user(user):
+    '''
+    Removes user account.
+    '''
+    # Send signal (to commit any pending changes)
+    user_pre_delete.send(instance=user, sender=user.__class__)
+
+    # Change username
+    user.username = 'deleted-{0}'.format(user.pk)
+    while User.objects.filter(username=user.username).exists():
+        user.username = 'deleted-{0}-{1}'.format(
+            user.pk,
+            binascii.b2a_hex(os.urandom(5))
+        )
+
+    # Remove user information
+    user.first_name = 'Deleted User'
+    user.last_name = ''
+    user.email = 'noreply@weblate.org'
+
+    # Disable the user
+    user.is_active = False
+    user.set_unusable_password()
+    user.save()
+
+    # Remove all social auth associations
+    user.social_auth.all().delete()
+
+
 @receiver(user_logged_in)
 def post_login_handler(sender, request, user, **kwargs):
     '''
@@ -911,161 +939,6 @@ def post_logout_handler(sender, request, user, **kwargs):
     # Unlock translations on logout
     for translation in user.translation_set.all():
         translation.create_lock(None)
-
-
-def create_groups(update):
-    '''
-    Creates standard groups and gives them permissions.
-    '''
-    guest_group, created = Group.objects.get_or_create(name='Guests')
-    if created or update or guest_group.permissions.count() == 0:
-        guest_group.permissions.add(
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_suggestion'),
-        )
-
-    group, created = Group.objects.get_or_create(name='Users')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(
-            Permission.objects.get(codename='upload_translation'),
-            Permission.objects.get(codename='overwrite_translation'),
-            Permission.objects.get(codename='save_translation'),
-            Permission.objects.get(codename='save_template'),
-            Permission.objects.get(codename='accept_suggestion'),
-            Permission.objects.get(codename='delete_suggestion'),
-            Permission.objects.get(codename='vote_suggestion'),
-            Permission.objects.get(codename='ignore_check'),
-            Permission.objects.get(codename='upload_dictionary'),
-            Permission.objects.get(codename='add_dictionary'),
-            Permission.objects.get(codename='change_dictionary'),
-            Permission.objects.get(codename='delete_dictionary'),
-            Permission.objects.get(codename='lock_translation'),
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_comment'),
-            Permission.objects.get(codename='add_suggestion'),
-            Permission.objects.get(codename='use_mt'),
-            Permission.objects.get(codename='add_translation'),
-            Permission.objects.get(codename='delete_translation'),
-        )
-
-    owner_permissions = (
-        Permission.objects.get(codename='author_translation'),
-        Permission.objects.get(codename='upload_translation'),
-        Permission.objects.get(codename='overwrite_translation'),
-        Permission.objects.get(codename='commit_translation'),
-        Permission.objects.get(codename='update_translation'),
-        Permission.objects.get(codename='push_translation'),
-        Permission.objects.get(codename='automatic_translation'),
-        Permission.objects.get(codename='save_translation'),
-        Permission.objects.get(codename='save_template'),
-        Permission.objects.get(codename='accept_suggestion'),
-        Permission.objects.get(codename='vote_suggestion'),
-        Permission.objects.get(codename='override_suggestion'),
-        Permission.objects.get(codename='delete_comment'),
-        Permission.objects.get(codename='delete_suggestion'),
-        Permission.objects.get(codename='ignore_check'),
-        Permission.objects.get(codename='upload_dictionary'),
-        Permission.objects.get(codename='add_dictionary'),
-        Permission.objects.get(codename='change_dictionary'),
-        Permission.objects.get(codename='delete_dictionary'),
-        Permission.objects.get(codename='lock_subproject'),
-        Permission.objects.get(codename='reset_translation'),
-        Permission.objects.get(codename='lock_translation'),
-        Permission.objects.get(codename='can_see_git_repository'),
-        Permission.objects.get(codename='add_comment'),
-        Permission.objects.get(codename='delete_comment'),
-        Permission.objects.get(codename='add_suggestion'),
-        Permission.objects.get(codename='use_mt'),
-        Permission.objects.get(codename='edit_priority'),
-        Permission.objects.get(codename='edit_flags'),
-        Permission.objects.get(codename='manage_acl'),
-        Permission.objects.get(codename='download_changes'),
-        Permission.objects.get(codename='view_reports'),
-        Permission.objects.get(codename='add_translation'),
-        Permission.objects.get(codename='delete_translation'),
-        Permission.objects.get(codename='change_subproject'),
-        Permission.objects.get(codename='change_project'),
-        Permission.objects.get(codename='add_screenshot'),
-        Permission.objects.get(codename='delete_screenshot'),
-        Permission.objects.get(codename='change_screenshot'),
-    )
-
-    group, created = Group.objects.get_or_create(name='Managers')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(*owner_permissions)
-
-    group, created = Group.objects.get_or_create(name='Owners')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(*owner_permissions)
-
-    created = True
-    anon_user, created = User.objects.get_or_create(
-        username=settings.ANONYMOUS_USER_NAME,
-        defaults={
-            'email': 'noreply@weblate.org',
-            'is_active': False,
-        }
-    )
-    if anon_user.is_active:
-        raise ValueError(
-            'Anonymous user ({}) already exists and enabled, '
-            'please change ANONYMOUS_USER_NAME setting.'.format(
-                settings.ANONYMOUS_USER_NAME,
-            )
-        )
-
-    if created or update:
-        anon_user.set_unusable_password()
-        anon_user.groups.clear()
-        anon_user.groups.add(guest_group)
-
-
-def move_users():
-    '''
-    Moves users to default group.
-    '''
-    group = Group.objects.get(name='Users')
-
-    for user in User.objects.all():
-        user.groups.add(group)
-
-
-def remove_user(user):
-    '''
-    Removes user account.
-    '''
-    # Send signal (to commit any pending changes)
-    user_pre_delete.send(instance=user, sender=user.__class__)
-
-    # Change username
-    user.username = 'deleted-{0}'.format(user.pk)
-    while User.objects.filter(username=user.username).exists():
-        user.username = 'deleted-{0}-{1}'.format(
-            user.pk,
-            binascii.b2a_hex(os.urandom(5))
-        )
-
-    # Remove user information
-    user.first_name = 'Deleted User'
-    user.last_name = ''
-    user.email = 'noreply@weblate.org'
-
-    # Disable the user
-    user.is_active = False
-    user.set_unusable_password()
-    user.save()
-
-    # Remove all social auth associations
-    user.social_auth.all().delete()
-
-
-@receiver(post_migrate)
-def sync_create_groups(sender, **kwargs):
-    '''
-    Create groups on syncdb.
-    '''
-    if sender.label == 'weblate':
-        create_groups(False)
 
 
 @receiver(post_save, sender=User)

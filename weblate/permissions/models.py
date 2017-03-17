@@ -31,7 +31,6 @@ from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
-from django.contrib.auth.models import Group
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject
 from weblate.trans.fields import RegexField
@@ -105,6 +104,132 @@ class AutoGroup(models.Model):
 
     def __str__(self):
         return 'Automatic rule for {0}'.format(self.group)
+
+
+def create_groups(update):
+    '''
+    Creates standard groups and gives them permissions.
+    '''
+    guest_group, created = Group.objects.get_or_create(name='Guests')
+    if created or update or guest_group.permissions.count() == 0:
+        guest_group.permissions.add(
+            Permission.objects.get(codename='can_see_git_repository'),
+            Permission.objects.get(codename='add_suggestion'),
+        )
+
+    group, created = Group.objects.get_or_create(name='Users')
+    if created or update or group.permissions.count() == 0:
+        group.permissions.add(
+            Permission.objects.get(codename='upload_translation'),
+            Permission.objects.get(codename='overwrite_translation'),
+            Permission.objects.get(codename='save_translation'),
+            Permission.objects.get(codename='save_template'),
+            Permission.objects.get(codename='accept_suggestion'),
+            Permission.objects.get(codename='delete_suggestion'),
+            Permission.objects.get(codename='vote_suggestion'),
+            Permission.objects.get(codename='ignore_check'),
+            Permission.objects.get(codename='upload_dictionary'),
+            Permission.objects.get(codename='add_dictionary'),
+            Permission.objects.get(codename='change_dictionary'),
+            Permission.objects.get(codename='delete_dictionary'),
+            Permission.objects.get(codename='lock_translation'),
+            Permission.objects.get(codename='can_see_git_repository'),
+            Permission.objects.get(codename='add_comment'),
+            Permission.objects.get(codename='add_suggestion'),
+            Permission.objects.get(codename='use_mt'),
+            Permission.objects.get(codename='add_translation'),
+            Permission.objects.get(codename='delete_translation'),
+        )
+
+    owner_permissions = (
+        Permission.objects.get(codename='author_translation'),
+        Permission.objects.get(codename='upload_translation'),
+        Permission.objects.get(codename='overwrite_translation'),
+        Permission.objects.get(codename='commit_translation'),
+        Permission.objects.get(codename='update_translation'),
+        Permission.objects.get(codename='push_translation'),
+        Permission.objects.get(codename='automatic_translation'),
+        Permission.objects.get(codename='save_translation'),
+        Permission.objects.get(codename='save_template'),
+        Permission.objects.get(codename='accept_suggestion'),
+        Permission.objects.get(codename='vote_suggestion'),
+        Permission.objects.get(codename='override_suggestion'),
+        Permission.objects.get(codename='delete_comment'),
+        Permission.objects.get(codename='delete_suggestion'),
+        Permission.objects.get(codename='ignore_check'),
+        Permission.objects.get(codename='upload_dictionary'),
+        Permission.objects.get(codename='add_dictionary'),
+        Permission.objects.get(codename='change_dictionary'),
+        Permission.objects.get(codename='delete_dictionary'),
+        Permission.objects.get(codename='lock_subproject'),
+        Permission.objects.get(codename='reset_translation'),
+        Permission.objects.get(codename='lock_translation'),
+        Permission.objects.get(codename='can_see_git_repository'),
+        Permission.objects.get(codename='add_comment'),
+        Permission.objects.get(codename='delete_comment'),
+        Permission.objects.get(codename='add_suggestion'),
+        Permission.objects.get(codename='use_mt'),
+        Permission.objects.get(codename='edit_priority'),
+        Permission.objects.get(codename='edit_flags'),
+        Permission.objects.get(codename='manage_acl'),
+        Permission.objects.get(codename='download_changes'),
+        Permission.objects.get(codename='view_reports'),
+        Permission.objects.get(codename='add_translation'),
+        Permission.objects.get(codename='delete_translation'),
+        Permission.objects.get(codename='change_subproject'),
+        Permission.objects.get(codename='change_project'),
+        Permission.objects.get(codename='add_screenshot'),
+        Permission.objects.get(codename='delete_screenshot'),
+        Permission.objects.get(codename='change_screenshot'),
+    )
+
+    group, created = Group.objects.get_or_create(name='Managers')
+    if created or update or group.permissions.count() == 0:
+        group.permissions.add(*owner_permissions)
+
+    group, created = Group.objects.get_or_create(name='Owners')
+    if created or update or group.permissions.count() == 0:
+        group.permissions.add(*owner_permissions)
+
+    created = True
+    anon_user, created = User.objects.get_or_create(
+        username=settings.ANONYMOUS_USER_NAME,
+        defaults={
+            'email': 'noreply@weblate.org',
+            'is_active': False,
+        }
+    )
+    if anon_user.is_active:
+        raise ValueError(
+            'Anonymous user ({}) already exists and enabled, '
+            'please change ANONYMOUS_USER_NAME setting.'.format(
+                settings.ANONYMOUS_USER_NAME,
+            )
+        )
+
+    if created or update:
+        anon_user.set_unusable_password()
+        anon_user.groups.clear()
+        anon_user.groups.add(guest_group)
+
+
+def move_users():
+    '''
+    Moves users to default group.
+    '''
+    group = Group.objects.get(name='Users')
+
+    for user in User.objects.all():
+        user.groups.add(group)
+
+
+@receiver(post_migrate)
+def sync_create_groups(sender, **kwargs):
+    '''
+    Create groups on syncdb.
+    '''
+    if sender.label == 'weblate':
+        create_groups(False)
 
 
 def auto_assign_group(user):
