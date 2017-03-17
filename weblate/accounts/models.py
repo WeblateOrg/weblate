@@ -857,31 +857,6 @@ class Profile(models.Model):
         return self.user.first_name
 
 
-@python_2_unicode_compatible
-class AutoGroup(models.Model):
-    match = RegexField(
-        verbose_name=_('Email regular expression'),
-        max_length=200,
-        default='^.*$',
-        help_text=_(
-            'Regular expression which is used to match user email.'
-        ),
-    )
-    group = models.ForeignKey(
-        Group,
-        verbose_name=_('Group to assign'),
-        related_name='old_autogroup'
-    )
-
-    class Meta(object):
-        verbose_name = _('Automatic group assignment')
-        verbose_name_plural = _('Automatic group assignments')
-        ordering = ('group__name', )
-
-    def __str__(self):
-        return 'Automatic rule for {0}'.format(self.group)
-
-
 def set_lang(request, profile):
     """
     Sets session language based on user preferences.
