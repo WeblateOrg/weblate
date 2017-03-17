@@ -28,7 +28,7 @@ from weblate.utils import messages
 from weblate.trans.views.helper import (
     get_project, get_subproject, get_translation
 )
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_lock_subproject, can_lock_translation
 )
 

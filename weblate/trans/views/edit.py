@@ -51,7 +51,7 @@ from weblate.trans.views.helper import (
 from weblate.trans.checks import CHECKS
 from weblate.trans.util import join_plural, render
 from weblate.trans.autotranslate import auto_translate
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_translate, can_suggest, can_accept_suggestion, can_delete_suggestion,
     can_vote_suggestion, can_delete_comment, can_automatic_translation,
     can_add_comment,

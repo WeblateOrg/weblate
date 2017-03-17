@@ -29,7 +29,7 @@ from django.core.exceptions import PermissionDenied
 from weblate.trans.models.change import Change
 from weblate.trans.forms import ReportsForm
 from weblate.trans.views.helper import get_subproject
-from weblate.trans.permissions import can_view_reports
+from weblate.permissions.helpers import can_view_reports
 
 
 def generate_credits(component, start_date, end_date):

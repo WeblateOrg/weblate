@@ -40,7 +40,7 @@ from weblate.trans.site import get_site_url
 from weblate.utils.errors import report_error
 from weblate.trans.util import render
 from weblate.trans.forms import WordForm, DictUploadForm, LetterForm
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_add_dictionary, can_upload_dictionary, can_delete_dictionary,
     can_change_dictionary,
 )

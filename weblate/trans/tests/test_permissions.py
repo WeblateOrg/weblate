@@ -27,7 +27,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import (
     GroupACL, Project, Translation
 )
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     check_owner, check_permission, can_delete_comment, can_edit,
     can_author_translation,
 )

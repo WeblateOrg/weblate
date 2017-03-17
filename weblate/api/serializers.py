@@ -22,7 +22,7 @@ from rest_framework import serializers
 
 from weblate.trans.models import Project, SubProject, Translation, Unit, Change
 from weblate.lang.models import Language
-from weblate.trans.permissions import can_see_git_repository
+from weblate.permissions.helpers import can_see_git_repository
 from weblate.trans.site import get_site_url
 
 

@@ -48,7 +48,7 @@ from weblate.trans.forms import (
     UserManageForm, ReportsForm, ReplaceForm,
     SubprojectSettingsForm, ProjectSettingsForm,
 )
-from weblate.trans.permissions import (
+from weblate.permissions.helpers import (
     can_automatic_translation, can_add_translation,
     can_edit_subproject, can_edit_project,
     can_translate,

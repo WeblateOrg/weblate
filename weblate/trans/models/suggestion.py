@@ -26,7 +26,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.trans.permissions import can_vote_suggestion
+from weblate.permissions.helpers import can_vote_suggestion
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import notify_new_suggestion
 
