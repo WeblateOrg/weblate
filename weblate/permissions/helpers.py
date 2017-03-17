@@ -494,3 +494,11 @@ def can_delete_screenshot(user, project):
     Checks whether user can delete screenshot for given project.
     """
     return check_permission(user, project, 'screenshots.delete_screenshot')
+
+
+@cache_permission
+def can_access_vcs(user, project):
+    """
+    Checks whether user can delete screenshot for given project.
+    """
+    return check_permission(user, project, 'trans.access_vcs')
