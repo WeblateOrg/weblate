@@ -24,7 +24,7 @@ Tests for user handling.
 
 import tempfile
 from django.test import TestCase
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -76,16 +76,6 @@ class CommandTest(TestCase):
         call_command('createadmin', update=True, password='123456')
         user = User.objects.get(username='admin')
         self.assertTrue(user.check_password('123456'))
-
-    def test_setupgroups(self):
-        call_command('setupgroups')
-        group = Group.objects.get(name='Users')
-        self.assertTrue(
-            group.permissions.filter(
-                codename='save_translation'
-            ).exists()
-        )
-        call_command('setupgroups', move=True)
 
     def test_importusers(self):
         # First import

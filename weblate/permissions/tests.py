@@ -20,6 +20,7 @@
 
 from django.contrib.auth.models import User, Group, Permission
 from django.core.exceptions import ValidationError
+from django.core.management import call_command
 from django.test import TestCase
 from django.utils.encoding import force_text
 
@@ -387,3 +388,18 @@ class AutoGroupTest(TestCase):
         )
         user = self.create_user()
         self.assertEqual(user.groups.count(), 1)
+
+
+class CommandTest(TestCase):
+    '''
+    Tests for management commands.
+    '''
+    def test_setupgroups(self):
+        call_command('setupgroups')
+        group = Group.objects.get(name='Users')
+        self.assertTrue(
+            group.permissions.filter(
+                codename='save_translation'
+            ).exists()
+        )
+        call_command('setupgroups', move=True)
