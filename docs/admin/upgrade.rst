@@ -437,6 +437,7 @@ Follow generic upgrade instructions, there is no special change.
 Notable configuration or dependencies changes:
 
 * there is new quality check: :ref:`check-translated`
+* The ``INSTALLED_APPS`` now should include ``weblate.permissions``.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
