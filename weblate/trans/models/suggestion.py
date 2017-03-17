@@ -20,14 +20,15 @@
 
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Count
-from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
+
+from weblate.accounts.models import notify_new_suggestion
 from weblate.lang.models import Language
 from weblate.trans.models.change import Change
-from weblate.accounts.avatar import get_user_display
-from weblate.accounts.models import notify_new_suggestion
+from weblate.trans.mixins import UserDisplayMixin
 
 
 class SuggestionManager(models.Manager):
@@ -104,7 +105,7 @@ class SuggestionManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Suggestion(models.Model):
+class Suggestion(models.Model, UserDisplayMixin):
     content_hash = models.BigIntegerField(db_index=True)
     target = models.TextField()
     user = models.ForeignKey(User, null=True, blank=True)
@@ -160,9 +161,6 @@ class Suggestion(models.Model):
                 author=request.user
             )
         self.delete()
-
-    def get_user_display(self):
-        return get_user_display(self.user, link=True)
 
     def get_num_votes(self):
         '''

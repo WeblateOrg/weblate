@@ -25,6 +25,7 @@ import os
 from django.core.urlresolvers import reverse
 
 from weblate.logger import LOGGER
+from weblate.accounts.avatar import get_user_display
 
 
 class PercentMixin(object):
@@ -217,3 +218,8 @@ class PathMixin(LoggerMixin):
         path = self.get_path()
         if not os.path.exists(path):
             os.makedirs(path)
+
+
+class UserDisplayMixin(object):
+    def get_user_display(self, icon=True):
+        return get_user_display(self.user, icon, link=True)

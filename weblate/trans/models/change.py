@@ -19,16 +19,16 @@
 #
 
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models import Count, Q
+from django.contrib.auth.models import User
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext as _, ugettext_lazy
-from django.utils import timezone
 
 import six.moves
 
+from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.project import Project
-from weblate.accounts.avatar import get_user_display
 
 
 class ChangeManager(models.Manager):
@@ -168,7 +168,7 @@ class ChangeManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Change(models.Model):
+class Change(models.Model, UserDisplayMixin):
     ACTION_UPDATE = 0
     ACTION_COMPLETE = 1
     ACTION_CHANGE = 2
@@ -306,9 +306,6 @@ class Change(models.Model):
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE
-
-    def get_user_display(self, icon=True):
-        return get_user_display(self.user, icon, link=True)
 
     def get_absolute_url(self):
         '''
