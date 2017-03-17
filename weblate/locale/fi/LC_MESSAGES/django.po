@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-03-10 15:18+0000\n"
-"PO-Revision-Date: 2017-03-17 09:32+0000\n"
+"PO-Revision-Date: 2017-03-17 11:38+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
@@ -80,7 +80,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:261
 msgid "Component list must be selected when used as default."
-msgstr ""
+msgstr "Komponenttilista pitää olla valittuna jos on käytetty oletuksena."
 
 #: weblate/accounts/forms.py:270 weblate/accounts/forms.py:340
 #: weblate/templates/project.html:207
@@ -259,10 +259,8 @@ msgid "Hide source if there is secondary language"
 msgstr "Piilota lähdeteksti jos on olemassa käännös toissijaisella kielellä"
 
 #: weblate/accounts/models.py:582
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Muokkaa lähdemerkkijonoa"
+msgstr "Muokkaimen linkki"
 
 #: weblate/accounts/models.py:584
 #, python-format
@@ -272,12 +270,14 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Kirjoita itse URL jota käytetään linkkinä lähdekoodiin. Voit käyttää "
+"%(branch)s haaralle, %(file)s ja %(line)s tiedostolle ja tiedoston riville. "
+"Yleensä muoto editor://open/?file=%(file)s 4&line=%(line)s 5 on hyvä "
+"vaihtoehto."
 
 #: weblate/accounts/models.py:595
-#, fuzzy
-#| msgid "Special characters:"
 msgid "Special characters"
-msgstr "Erikoismerkit:"
+msgstr "Erikoismerkit"
 
 #: weblate/accounts/models.py:597
 msgid ""
@@ -285,6 +285,9 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Voit määritellä erikoismerkkejä näytettäväksi muokkamessa käännöstyön "
+"aikana. Käyttökelpoinen ominaisuus jos käytät sellaisia erikoismerkkejä "
+"paljon, jotka on hankala kirjoittaa näppäimistölläsi."
 
 #: weblate/accounts/models.py:609 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -330,7 +333,7 @@ msgstr "Ilmoitus jokaisesta käännoksestä"
 
 #: weblate/accounts/models.py:654
 msgid "Notification on new string to translate"
-msgstr "Ilmoitus uusista käännettävistä merkkijonoista"
+msgstr "Ilmoitus uusista lähdeteksteistä jotka pitää kääntää"
 
 #: weblate/accounts/models.py:658
 msgid "Notification on new suggestion"
@@ -512,13 +515,12 @@ msgstr "Kielet"
 
 #. Translators: Whether the package is inside actual (hard) limits
 #: weblate/billing/models.py:180
-#, fuzzy
 msgid "In limits"
-msgstr "Näytön rajoituksissa"
+msgstr "Rajojen sisällä"
 
 #: weblate/billing/models.py:186 weblate/templates/project_stats.html:4
 msgid "Number of strings"
-msgstr "Merkkijonojen määrä"
+msgstr "Tekstien määrä"
 
 #: weblate/billing/models.py:193
 msgid "N/A"
@@ -530,9 +532,8 @@ msgstr "Viimeisin lasku"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:218
-#, fuzzy
 msgid "In display limits"
-msgstr "Näytön rajoituksissa"
+msgstr "Rajojen sisällä"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -590,14 +591,15 @@ msgid "None"
 msgstr "Ei yhtään"
 
 #: weblate/lang/models.py:384
+#, fuzzy
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
-msgstr ""
+msgstr "Yksi/muu (klassinen monikko)"
 
 #: weblate/lang/models.py:388
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
-msgstr ""
+msgstr "Yksi/joitain/muu (Slaavilaiset kielet)"
 
 #: weblate/lang/models.py:392
 msgctxt "Plural type"
@@ -607,42 +609,42 @@ msgstr "Arabiset kielet"
 #: weblate/lang/models.py:396
 msgctxt "Plural type"
 msgid "Zero/one/other"
-msgstr ""
+msgstr "Nolla/yksi/muu"
 
 #: weblate/lang/models.py:400
 msgctxt "Plural type"
 msgid "One/two/other"
-msgstr ""
+msgstr "Yksi/kaksi/muu"
 
 #: weblate/lang/models.py:404
 msgctxt "Plural type"
 msgid "One/two/few/other"
-msgstr ""
+msgstr "Yksi/kaksi/joitain/muu"
 
 #: weblate/lang/models.py:408
 msgctxt "Plural type"
 msgid "One/two/three/other"
-msgstr ""
+msgstr "Yksi/kaksi/kolme/muu"
 
 #: weblate/lang/models.py:412
 msgctxt "Plural type"
 msgid "One/other/zero"
-msgstr ""
+msgstr "Yksi/muu/nolla"
 
 #: weblate/lang/models.py:416
 msgctxt "Plural type"
 msgid "One/few/many/other"
-msgstr ""
+msgstr "Yksi/joitain/useita/muu"
 
 #: weblate/lang/models.py:420
 msgctxt "Plural type"
 msgid "Two/other"
-msgstr ""
+msgstr "Kaksi/muu"
 
 #: weblate/lang/models.py:424
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
-msgstr ""
+msgstr "Yksi/kaksi/joitain/useita/muu"
 
 #: weblate/lang/models.py:428
 msgctxt "Plural type"
@@ -711,16 +713,14 @@ msgstr "{name} (esim. {examples})"
 
 #: weblate/screenshots/models.py:34
 #: weblate/templates/screenshots/screenshot_list.html:20
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshot name"
-msgstr "Kuvankaappaus"
+msgstr "Ruudunkaappauskuvan nimi"
 
 #: weblate/screenshots/models.py:38
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:21
 msgid "Image"
-msgstr ""
+msgstr "Kuva"
 
 #: weblate/screenshots/models.py:39
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
@@ -728,17 +728,16 @@ msgstr ""
 
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
+msgstr "Ruudunkaappauskuva on tallennettu, voit liittää sen nyt lähdetekstiin."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "Ruudunkaappauskuvan lataaminen ei onnistu, korjaa alla näkyvät virheet."
 
 #: weblate/screenshots/views.py:165
-#, fuzzy, python-format
-#| msgid "Translation has been saved!"
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Käännös on tallennettu!"
+msgstr "Ruudunkaappauskuva %s on poistettu."
 
 #: weblate/screenshots/views.py:185
 #, fuzzy
@@ -1116,8 +1115,7 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:57
 msgid ""
 "The secondary languages are shown next to the source string when translating."
-msgstr ""
-"Toissijaiset kielet näytetään lähdemerkkijonon vieressä kun käännetään."
+msgstr "Toissijaiset kielet näytetään lähdetekstin vieressä kun käännetään."
 
 #: weblate/templates/accounts/profile.html:60
 msgid ""
@@ -1631,7 +1629,7 @@ msgstr "Vuosihinta"
 
 #: weblate/templates/billing/detail.html:12
 msgid "Strings limit"
-msgstr "Merkkijonojen rajoitus"
+msgstr "Tekstien rajoitus"
 
 #: weblate/templates/billing/detail.html:17
 msgid "Languages limit"
@@ -2983,24 +2981,20 @@ msgstr "Jätä huomioitta: %(check)s"
 
 #: weblate/templates/js/detail.html:77 weblate/templates/translate.html:449
 msgid "Screenshot context"
-msgstr "Kuvankaappaus"
+msgstr "Ruudunkaappauskuvan konteksti"
 
 #: weblate/templates/js/detail.html:84 weblate/templates/translate.html:457
 msgid "No screenshot currently associated!"
-msgstr "Yhtään ruudunkaappauskuvaa ei ole tällä hetkellä liitetty!"
+msgstr "Yhtään ruudunkaappauskuvaa ei ole liitetty!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:54
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Hallitse käyttäjiä"
+msgstr "Hallitse ruudunkaappauskuvia"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Lisää uusi käyttäjä"
+msgstr "Lisää uusi ruudunkaappauskuva"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3433,7 +3427,7 @@ msgstr "Kääntämättömät merkkijonot:"
 
 #: weblate/templates/mail/footer.html:16 weblate/templates/mail/footer.txt:6
 msgid "Strings marked for review:"
-msgstr "Tarkistuksen vaativat merkkijonot:"
+msgstr "Tarkistettavat tekstit:"
 
 #: weblate/templates/mail/footer.html:20
 #, python-format
@@ -3840,10 +3834,8 @@ msgstr "Monikkojen määrä"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Kuvankaappaus"
+msgstr "Ruudunkaappauskuva"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
 #, fuzzy
@@ -3869,6 +3861,8 @@ msgstr "Toiminta"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Ruudunkaappauskuva näytetään visuaalisen kontekstin lisäämiseksi kaikkien "
+"listattujen lähdetekstien yhteydessä."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
 #, fuzzy
@@ -3901,20 +3895,18 @@ msgid "Source string search"
 msgstr "Lähdeteksti"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Muokkaa lähdemerkkijonoa"
+msgstr "Muokkaa ruudunkaappauskuvaa"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Poista tämä tili"
+msgstr "Poista ruudunkaappauskuva"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Ruudunkaappauskuvan poistaminen poistaa sen kaikista liitetyistä "
+"lähdeteksteistä."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -5388,10 +5380,8 @@ msgid "Translated strings"
 msgstr "Käännetyt merkkijonot"
 
 #: weblate/trans/forms.py:491 weblate/trans/models/translation.py:961
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Strings marked for review"
-msgstr "Arvostele lähdemerkkijonoja"
+msgstr "Tarkistettavat tekstit"
 
 #: weblate/trans/forms.py:492 weblate/trans/models/translation.py:970
 msgid "Strings with suggestions"
