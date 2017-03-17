@@ -39,7 +39,7 @@ from weblate.trans.simplediff import html_diff
 from weblate.trans.util import split_plural
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    Project, SubProject, Dictionary, Advertisement, WhiteboardMessage
+    Project, SubProject, Dictionary, Advertisement, WhiteboardMessage, Unit,
 )
 from weblate.trans.checks import CHECKS, highlight_string
 
@@ -666,3 +666,13 @@ def whiteboard_messages(project=None, subproject=None, language=None):
 def active_tab(context, slug):
     active = "active" if slug == context['active_tab_slug'] else ""
     return mark_safe('class="tab-pane {0}" id="{1}"'.format(active, slug))
+
+
+@register.assignment_tag
+def matching_cotentsum(item):
+    """Find matching objects to suggestion, comment or check"""
+    return Unit.objects.prefetch().filter(
+        translation__subproject__project=item.project,
+        translation__language=item.language,
+        content_hash=item.content_hash,
+    )

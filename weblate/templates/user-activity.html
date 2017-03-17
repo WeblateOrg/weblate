@@ -1,7 +1,10 @@
 {% load i18n %}
 <tr>
 <th>{% trans "Suggestions made" %}</th>
-<td>{{ profile.suggested }}</td>
+<td>
+<a href="{% url 'user_suggestions' user=user %}" class="pull-right flip btn btn-sm btn-default">{% trans "Browse pending" %}</a>
+{{ profile.suggested }}
+</td>
 </tr>
 <tr>
 <th>{% trans "Translations made" %}</th>

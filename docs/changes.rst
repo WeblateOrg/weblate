@@ -8,6 +8,7 @@ Released on ? 2017.
 
 * Fixed quality checks on translation templates.
 * Added quality check to trigger on losing translation.
+* Add option to view pending suggestions from user.
 
 weblate 2.12
 ------------

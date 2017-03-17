@@ -33,7 +33,7 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import get_language
 from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth import update_session_auth_hash
 from django.core.urlresolvers import reverse
 
@@ -53,7 +53,7 @@ from weblate.logger import LOGGER
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.models import set_lang, remove_user, Profile
 from weblate.utils import messages
-from weblate.trans.models import Change, Project, SubProject
+from weblate.trans.models import Change, Project, SubProject, Suggestion
 from weblate.trans.views.helper import get_project
 from weblate.accounts.forms import (
     ProfileForm, SubscriptionForm, UserForm, ContactForm,
@@ -610,3 +610,20 @@ def unwatch(request, project):
     obj = get_project(request, project)
     request.user.profile.subscriptions.remove(obj)
     return redirect(obj)
+
+
+class SuggestionView(ListView):
+    paginate_by = 25
+    model = Suggestion
+
+    def get_queryset(self):
+        return Suggestion.objects.filter(
+            user=get_object_or_404(User, username=self.kwargs['user'])
+        )
+
+    def get_context_data(self):
+        result = super(SuggestionView, self).get_context_data()
+        user = get_object_or_404(User, username=self.kwargs['user'])
+        result['page_user'] = user
+        result['page_profile'] = user.profile
+        return result

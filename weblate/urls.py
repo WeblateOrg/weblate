@@ -784,6 +784,11 @@ urlpatterns = [
         weblate.accounts.views.user_page,
         name='user_page',
     ),
+    url(
+        r'^user/(?P<user>[^/]+)/suggestions/$',
+        weblate.accounts.views.SuggestionView.as_view(),
+        name='user_suggestions',
+    ),
 
     # Avatars
     # Compatibility URL, remove for 2.6

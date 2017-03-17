@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a></li>
+<li><a href="{% url 'user_suggestions' user=page_user.username %}">{% trans "Suggestions" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<table class="sort table">
+<thead>
+<tr>
+<th>{% trans "Suggestion" %}</th>
+<th>{% trans "Translations" %}</th>
+</tr>
+<tbody>
+{% for suggestion in object_list %}
+<tr>
+<td class="translatetext">{% format_translation suggestion.target suggestion.language %}</td>
+<td>
+{% matching_cotentsum suggestion as units %}
+<ul>
+{% for unit in units %}
+<li><a href="{{ unit.get_absolute_url }}">{{ unit.translation }}</a></li>
+{% empty %}
+<li>{% trans "No matching translations found!" %}</li>
+{% endfor %}
+</ul>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% include "paginator.html" %}
+
+{% endblock %}
