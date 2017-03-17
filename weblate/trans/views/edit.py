@@ -401,7 +401,7 @@ def handle_revert(translation, request, next_unit_url):
         return HttpResponseRedirect(next_unit_url)
 
 
-def check_suggestion_permissions(request, mode, translation, suggestion):
+def check_suggest_permissions(request, mode, translation, suggestion):
     """
     Checks permission for suggestion handling.
     """
@@ -457,7 +457,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
         return HttpResponseRedirect(this_unit_url)
 
     # Permissions check
-    if not check_suggestion_permissions(request, mode, translation, suggestion):
+    if not check_suggest_permissions(request, mode, translation, suggestion):
         return HttpResponseRedirect(this_unit_url)
 
     # Perform operation
