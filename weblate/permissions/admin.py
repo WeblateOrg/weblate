@@ -21,7 +21,7 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.permissions.models import  GroupACL
+from weblate.permissions.models import AutoGroup, GroupACL
 
 
 class GroupACLAdmin(admin.ModelAdmin):
@@ -42,4 +42,9 @@ class GroupACLAdmin(admin.ModelAdmin):
     project_subproject.short_description = _('Project / Component')
 
 
+class AutoGroupAdmin(admin.ModelAdmin):
+    list_display = ('group', 'match')
+
+
 admin.site.register(GroupACL, GroupACLAdmin)
+admin.site.register(AutoGroup, AutoGroupAdmin)

@@ -24,7 +24,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User, Group
 
 from weblate.accounts.forms import UniqueEmailMixin
-from weblate.accounts.models import Profile, VerifiedEmail, AutoGroup
+from weblate.accounts.models import Profile, VerifiedEmail
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -43,10 +43,6 @@ class VerifiedEmailAdmin(admin.ModelAdmin):
         'email', 'social__user__username', 'social__user__email'
     )
     raw_id_fields = ('social',)
-
-
-class AutoGroupAdmin(admin.ModelAdmin):
-    list_display = ('group', 'match')
 
 
 class WeblateUserChangeForm(UserChangeForm):
@@ -100,4 +96,3 @@ admin.site.register(Group, WeblateGroupAdmin)
 # Register other admin
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(VerifiedEmail, VerifiedEmailAdmin)
-admin.site.register(AutoGroup, AutoGroupAdmin)
