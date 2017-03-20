@@ -1221,9 +1221,9 @@ class AndroidFormat(FileFormat):
         """
         # Android doesn't use Hans/Hant, but rahter TW/CN variants
         if code == 'zh_Hans':
-            return 'zh_rCN'
+            return 'zh-rCN'
         elif code == 'zh_Hant':
-            return 'zh_rTW'
+            return 'zh-rTW'
         return code.replace('_', '-r')
 
 
