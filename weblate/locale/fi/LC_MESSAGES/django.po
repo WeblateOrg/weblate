@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-03-17 15:41+0000\n"
-"PO-Revision-Date: 2017-03-17 16:20+0000\n"
+"PO-Revision-Date: 2017-03-20 10:40+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
@@ -955,7 +955,8 @@ msgid ""
 "provide your contribution under license defined by each translated project."
 msgstr ""
 "Rekisteröitymällä sitoudut käyttämään nimeäsi ja sähköpostiosoitettasi "
-"commiteissa ja osallistut lisenssillä määriteltyihin käännösprojekteihin."
+"versionhallinnan commiteissa, sekä hyväksyt että työsi tulokset julkaistaan "
+"kussakin käännösprojektissa määritellyn lisenssin alaisesti."
 
 #: weblate/templates/accounts/email.html:26
 #: weblate/templates/accounts/register.html:36 weblate/templates/base.html:128
@@ -1158,7 +1159,7 @@ msgstr "Ohjeet"
 
 #: weblate/templates/accounts/profile.html:89
 msgid "Customize Weblate behavior to match your personal preferences."
-msgstr "Muokkaa Weblaten toiminta omien tarpeidesi mukaiseksi."
+msgstr "Muokkaa Weblaten toimintoja omien tarpeidesi mukaiseksi."
 
 #: weblate/templates/accounts/profile.html:105
 msgid "Managed projects"
@@ -1189,7 +1190,9 @@ msgstr "Tilauksen asetukset"
 
 #: weblate/templates/accounts/profile.html:167
 msgid "Your name and email will appear as author on the commits."
-msgstr "Nimesi ja sähköpostiosoitteesi ilmestyvät tekijänä committeissa."
+msgstr ""
+"Nimesi ja sähköpostiosoitteesi näytetään tekijänä versionhallinnan "
+"committeissa."
 
 #: weblate/templates/accounts/profile.html:180
 msgid "User identities"
@@ -1363,8 +1366,8 @@ msgid ""
 "translated project."
 msgstr ""
 "Rekisteröitymällä sitoudut käyttämään nimeäsi ja sähköpostiosoitettasi "
-"versionhallinta järjestelmän commiteissa ja osallistut lisenssillä "
-"määritteltyihin käännös projekteihin."
+"versionhallinnan commiteissa, sekä hyväksyt että työsi tulokset julkaistaan "
+"kussakin käännösprojektissa määritellyn lisenssin alaisesti."
 
 #: weblate/templates/accounts/register.html:29
 msgid "Register using email"
@@ -1491,8 +1494,8 @@ msgid ""
 "Not showing status of linked repository. Check <a href=\"#%(slug)s\">"
 "%(repo)s</a> instead."
 msgstr ""
-"Ei näytetä linkitetyn arkiston tilaa. Tarkista <a href=\"#%(slug)s\">"
-"%(repo)s</a> sen sijasta."
+"Ei näytetä liitetyn arkiston tilaa. Tarkista <a href=\"#%(slug)s\""
+">%(repo)s</a> sen sijaan."
 
 #: weblate/templates/admin/ssh.html:14
 msgid "Public SSH key"
@@ -2028,7 +2031,7 @@ msgstr "Ota meihin yhteyttä"
 #: weblate/templates/git-commit-info.html:3
 #, python-format
 msgid "Commit %(hash)s"
-msgstr "Vahvista %(hash)s"
+msgstr "Commit %(hash)s"
 
 #: weblate/templates/git-commit-info.html:4
 #, python-format
@@ -2912,7 +2915,7 @@ msgstr "Etsi"
 #: weblate/templates/language.html:18 weblate/templates/project.html:30
 #: weblate/templates/subproject.html:33 weblate/templates/translation.html:32
 msgid "Activity"
-msgstr "Toiminta"
+msgstr "Aktiivisuus"
 
 #: weblate/templates/index.html:43 weblate/templates/language-project.html:20
 #: weblate/templates/language.html:22 weblate/templates/project.html:33
@@ -3026,7 +3029,7 @@ msgstr "Arkiston tila"
 
 #: weblate/templates/js/git-status.html:21
 msgid "There are some not committed changes!"
-msgstr "Joitakin committamattomia muutoksia!"
+msgstr "Palvelussa on joitakin commitoimattomia muutoksia!"
 
 #: weblate/templates/js/git-status.html:25
 msgid "There has been a merge failure on the repository:"
@@ -3044,7 +3047,7 @@ msgstr "Etäarkiston muutokset pitää yhdistää paikalliseen arkistoon!"
 
 #: weblate/templates/js/git-status.html:34
 msgid "There are some new commits in the local repository!"
-msgstr "Joitakin uusia muutoksia on lisätty paikalliseen arkistoon!"
+msgstr "Palvelussa on uusia committeja paikallisessa arkistossa!"
 
 #: weblate/templates/js/git-status.html:37
 msgid "The local repository is up to date."
@@ -3052,7 +3055,7 @@ msgstr "Paikallinen arkisto on ajantasalla."
 
 #: weblate/templates/js/git-status.html:45
 msgid "Last remote commit:"
-msgstr "Viime etäsuoritus:"
+msgstr "Viimeisin commit etäarkistoon:"
 
 #: weblate/templates/js/git-status.html:52
 #: weblate/templates/mail/merge_failure.html:30
@@ -3075,11 +3078,11 @@ msgstr "Arkistotyökalut"
 #: weblate/templates/js/git-status.html:112 weblate/templates/project.html:44
 #: weblate/templates/subproject.html:48 weblate/templates/translation.html:50
 msgid "Commit"
-msgstr "Suorita"
+msgstr "Commitoi"
 
 #: weblate/templates/js/git-status.html:116
 msgid "Commit pending changes to the local repository"
-msgstr "Lisää kaikki muutokset paikalliseen arkistoon"
+msgstr "Commitoi kaikki muutokset paikalliseen arkistoon"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Pull"
@@ -3194,7 +3197,7 @@ msgstr "Palauta"
 
 #: weblate/templates/last-changes-content.html:41
 msgid "No matching activity has been found."
-msgstr "Vastaavaa toimintaa ei ole havaittu."
+msgstr "Haetun kaltaisia toimintoja ei löytynyt."
 
 #: weblate/templates/legend.html:5 weblate/templates/progress.html:5
 msgid "Good translations"
@@ -3419,7 +3422,7 @@ msgstr "Edellinen käännös:"
 #: weblate/templates/mail/changed_translation_subject.txt:3
 #, python-format
 msgid "Changed translation in %(translation)s"
-msgstr "Käännös muuttunut %(translation)s"
+msgstr "Muokattu käännös %(translation)s"
 
 #: weblate/templates/mail/footer.html:3 weblate/templates/mail/footer.txt:1
 msgid "Translation summary:"
@@ -3945,7 +3948,7 @@ msgstr "Tarkistettavat tekstit"
 
 #: weblate/templates/source.html:36 weblate/templates/translation.html:136
 msgid "Project Information"
-msgstr "Projektitiedot"
+msgstr "Tietoja projektista"
 
 #: weblate/templates/stats.html:15
 msgid "Most active translators"
@@ -4220,11 +4223,11 @@ msgstr "Sinulla ei ole oikeuksia lisätä ehdotuksia!"
 
 #: weblate/templates/translate.html:175
 msgid "Commit message:"
-msgstr "Ilmoitusviesti:"
+msgstr "Commit -viesti:"
 
 #: weblate/templates/translate.html:178
 msgid "Additional text to include in the commit message."
-msgstr "Tämä teksti sisältää ilmoitusviestin."
+msgstr "Commit -viestiin lisättävä teksti."
 
 #: weblate/templates/translate.html:181
 msgid ""
@@ -4232,7 +4235,7 @@ msgid ""
 "messages automatically."
 msgstr ""
 "Voit jättää tämän useimmissa tapauksissa tyhjäksi, sillä Weblate luo "
-"yksinkertaiset suoritusviestit automaattisesti."
+"yksinkertaiset commit -viestit automaattisesti."
 
 #: weblate/templates/translate.html:190
 msgid "Messages placed around this one"
@@ -4440,7 +4443,7 @@ msgstr "Lukitus"
 #: weblate/templates/translation.html:56 weblate/templates/translation.html:191
 #: weblate/trans/models/change.py:208
 msgid "Automatic translation"
-msgstr "Automaattinen käännös"
+msgstr "Automaattinen kääntäminen"
 
 #: weblate/templates/translation.html:88 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
@@ -4470,7 +4473,7 @@ msgstr "Muut komponentit"
 
 #: weblate/templates/translation.html:183
 msgid "Browse all translation changes"
-msgstr "Selaa käännösten muutoksia"
+msgstr "Selaa kaikkia tapahtumia"
 
 #: weblate/templates/translation.html:193
 msgid ""
@@ -4541,7 +4544,7 @@ msgstr "Epäonnistunut tarkistus"
 
 #: weblate/templates/translation.html:368
 msgid "Last activity"
-msgstr "Viime toiminta"
+msgstr "Viimeiset tapahtumat"
 
 #: weblate/templates/translation.html:373
 msgid "Last change"
@@ -5591,7 +5594,7 @@ msgstr "Käännös valmistunut"
 
 #: weblate/trans/models/change.py:204
 msgid "Translation changed"
-msgstr "Käännös muuttunut"
+msgstr "Käännöstä muokattu"
 
 #: weblate/trans/models/change.py:205 weblate/trans/models/subproject.py:404
 msgid "New translation"
@@ -5647,7 +5650,7 @@ msgstr "Sama teksti kahteen kertaan"
 
 #: weblate/trans/models/change.py:219
 msgid "Commited changes"
-msgstr "Commitoidut muutokset"
+msgstr "Muutosten commitointi"
 
 #: weblate/trans/models/change.py:220
 msgid "Pushed changes"
@@ -5735,13 +5738,13 @@ msgstr "URL kääntäjien käännösohjeeseen."
 
 #: weblate/trans/models/project.py:95
 msgid "Push on commit"
-msgstr "Pakota sitoutuminen"
+msgstr "Commitin yhteydessä pushaa commitit myös remote -arkistoon"
 
 #: weblate/trans/models/project.py:98
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
-"Pitääkö paikallinen arkisto päivittää etäarkistoon (push) jokaisen lisätyn "
-"muutoksen (commit) jälkeen."
+"Pitääkö jokaisen commitoidun muutoksen jälkeen viedä (push) commitit myös "
+"etäarkistoon."
 
 #: weblate/trans/models/project.py:103
 msgid "Set Translation-Team header"
@@ -5941,14 +5944,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:254
 msgid "Additional commit files"
-msgstr "Kielitiedoston lisäksi commitoitavat tiedostot"
+msgstr "Varsinaisen kielitiedoston lisäksi commitoitavat tiedostot"
 
 #: weblate/trans/models/subproject.py:259
 msgid ""
 "Additional files to include in commits, one per line; please check "
 "documentation for more details."
 msgstr ""
-"Ylimääräisenä committiin lisättävät tiedostot; tarkista ohjeesta lisätietoja."
+"Varsinaisen kielitiedoston lisäksi committiin ylimääräisenä lisättävät "
+"tiedostot; tarkista ohjeesta lisätietoja."
 
 #: weblate/trans/models/subproject.py:264
 msgid "Post-update script"
@@ -5964,27 +5968,27 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:275
 msgid "Pre-commit script"
-msgstr "Pre-commit merkkijono"
+msgstr "Ennen commitia suoritettava skripti"
 
 #: weblate/trans/models/subproject.py:281
 msgid ""
 "Script to be executed before committing translation, please check "
 "documentation for more details."
 msgstr ""
-"Merkkijono suoritetaan ennen sitoutumistaan käännökseen, katso lisätietoja "
-"ohjeesta."
+"Skripti joka suoritetaan juuri ennen kuin muutokset commitoidaan "
+"paikalliseen arkistoon, lisätietoja ohjeesta."
 
 #: weblate/trans/models/subproject.py:286
 msgid "Post-commit script"
-msgstr "Commitin jälkeen ajettava skripti"
+msgstr "Commitin jälkeen suoritettava skripti"
 
 #: weblate/trans/models/subproject.py:292
 msgid ""
 "Script to be executed after committing translation, please check "
 "documentation for more details."
 msgstr ""
-"Skripti joka suoritetaan käännöksen commitoinnin jälkeen, katso lisätietoja "
-"ohjeesta."
+"Skripti joka suoritetaan käännöksen muutosten commitoinnin jälkeen, katso "
+"lisätietoja ohjeesta."
 
 #: weblate/trans/models/subproject.py:297
 msgid "Post-push script"
@@ -6136,19 +6140,19 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:436
 msgid "Commit message when adding translation"
-msgstr "Uusien kielitiedostojen lisäyksen commit -viesti"
+msgstr "Commit -viesti uuden kielen lisäyksen yhteydessä"
 
 #: weblate/trans/models/subproject.py:445
 msgid "Commit message when removing translation"
-msgstr "Kielitiedostojen poistamisen commit -viesti"
+msgstr "Commit -viesti kielen poistamisen yhteydessä"
 
 #: weblate/trans/models/subproject.py:454
 msgid "Committer name"
-msgstr "Ilmoittajan nimi"
+msgstr "Commitoijan nimi"
 
 #: weblate/trans/models/subproject.py:459
 msgid "Committer email"
-msgstr "Ilmoittajan sähköpostiosoitte"
+msgstr "Commitoijan sähköpostiosoite"
 
 #: weblate/trans/models/subproject.py:465
 msgid "Language filter"
@@ -7058,7 +7062,7 @@ msgstr "Sopimaton ehdotus!"
 
 #: weblate/trans/views/edit.py:643
 msgid "Automatic translation completed, no strings were updated."
-msgstr "Automaattinen käännös on valmis, yhtään tekstimuutosta ei tehty."
+msgstr "Automaattinen kääntäminen suoritettu. Yhtään tekstimuutosta ei tehty."
 
 #: weblate/trans/views/edit.py:645
 #, python-format
@@ -7129,7 +7133,7 @@ msgstr ""
 
 #: weblate/trans/views/git.py:69
 msgid "All pending translations were committed."
-msgstr "Kaikki odottavat käännökset on suoritettu."
+msgstr "Kaikki käännösmuutokset on commitoitu."
 
 #: weblate/trans/views/git.py:82
 msgid "All repositories were updated."
