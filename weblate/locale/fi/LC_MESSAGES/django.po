@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-03-17 15:41+0000\n"
-"PO-Revision-Date: 2017-03-20 10:40+0000\n"
+"PO-Revision-Date: 2017-03-20 21:19+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish "
 "<https://hosted.weblate.org/projects/weblate/master/fi/>\n"
@@ -58,25 +58,26 @@ msgstr ""
 
 #: weblate/accounts/forms.py:204
 msgid "Component wide notifications"
-msgstr "Komponentin ilmoitukset"
+msgstr "Komponenttikohtaiset ilmoitukset"
 
 #: weblate/accounts/forms.py:206
 msgid ""
 "You will receive notification on every such event in your watched projects."
 msgstr ""
-"Saat ilmoituksen jokaisesta samantyyppisestä tapahtumasta seuratuissa "
-"projekteissasi."
+"Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat seuraamiani "
+"projekteja."
 
 #: weblate/accounts/forms.py:213
 msgid "Translation notifications"
-msgstr "Käännösilmoitukset"
+msgstr "Käännöskohtaiset ilmoitukset"
 
 #: weblate/accounts/forms.py:215
 msgid ""
 "You will receive these notifications only for your translated languages in "
 "your watched projects."
 msgstr ""
-"Saat ilmoitukset vain käännetyillä kielilläsi seuraamissasi projekteissa."
+"Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat seuraamissani "
+"projekteissa kääntämiäni kieliä."
 
 #: weblate/accounts/forms.py:261
 msgid "Component list must be selected when used as default."
@@ -228,7 +229,7 @@ msgstr "Käyttöliittymän kieli"
 
 #: weblate/accounts/models.py:548
 msgid "Translated languages"
-msgstr "Käännetyt kielet"
+msgstr "Kääntämäni kielet"
 
 #: weblate/accounts/models.py:550
 msgid "Choose languages to which you can translate."
@@ -316,7 +317,7 @@ msgstr "Oletuskomponenttilista"
 #: weblate/accounts/models.py:639 weblate/templates/accounts/profile.html:118
 #: weblate/templates/base.html:107
 msgid "Watched projects"
-msgstr "Seuratut projekti"
+msgstr "Seuraamani projektit"
 
 #: weblate/accounts/models.py:641 weblate/templates/watch-dropdown.html:5
 #: weblate/templates/watch-dropdown.html:9
@@ -324,12 +325,12 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on "
 "dashboard by default."
 msgstr ""
-"Voit vastaanottaa seurattujen projektien ilmoituksia ja tilatut projektit "
-"näkyvät oletuksena ohjausnäkymässä."
+"Voit vastaanottaa ilmoituksia seuraamiesi projektien tapahtumista, ja "
+"seuraamasi projektit näkyvät oletuksena myös kojelaudalla."
 
 #: weblate/accounts/models.py:648
 msgid "Notification on any translation"
-msgstr "Ilmoitus jokaisesta käännoksestä"
+msgstr "Ilmoitus jokaisesta käännöksestä"
 
 #: weblate/accounts/models.py:652
 msgid "Notification on new string to translate"
@@ -337,11 +338,11 @@ msgstr "Ilmoitus uusista lähdeteksteistä jotka pitää kääntää"
 
 #: weblate/accounts/models.py:656
 msgid "Notification on new suggestion"
-msgstr "Ilmoitus uudesta ehdotuksesta"
+msgstr "Ilmoitus uudesta käännösehdotuksesta"
 
 #: weblate/accounts/models.py:660
 msgid "Notification on new contributor"
-msgstr "Ilmoitus uudesta osallistujasta"
+msgstr "Ilmoitus uudesta kääntäjästä"
 
 #: weblate/accounts/models.py:664
 msgid "Notification on new comment"
@@ -349,11 +350,11 @@ msgstr "Ilmoitus uudesta kommentista"
 
 #: weblate/accounts/models.py:668
 msgid "Notification on merge failure"
-msgstr "Yhdistämisen vika ilmoitus"
+msgstr "Ilmoitus käännösten yhdistämisvirheestä (merge)"
 
 #: weblate/accounts/models.py:672
 msgid "Notification on new language request"
-msgstr "Ilmoitus uudesta kielen pyynnöstä"
+msgstr "Ilmoitus uuden kielen lisäyspyynnöstä"
 
 #: weblate/accounts/models.py:931
 msgid ""
@@ -381,7 +382,7 @@ msgstr "Viesti ylläpitäjälle on lähetetty."
 
 #: weblate/accounts/views.py:138
 msgid "You cannot change demo account on the demo server."
-msgstr "Et voi vaihtaa demo-tiliä demo-serverillä."
+msgstr "Et voi vaihtaa demo -tiliä demo -serverillä."
 
 #: weblate/accounts/views.py:191
 msgid "Your profile has been updated."
@@ -956,7 +957,7 @@ msgid ""
 msgstr ""
 "Rekisteröitymällä sitoudut käyttämään nimeäsi ja sähköpostiosoitettasi "
 "versionhallinnan commiteissa, sekä hyväksyt että työsi tulokset julkaistaan "
-"kussakin käännösprojektissa määritellyn lisenssin alaisesti."
+"kussakin käännösprojektissa määritellyn lisenssin ehtojen mukaisesti."
 
 #: weblate/templates/accounts/email.html:26
 #: weblate/templates/accounts/register.html:36 weblate/templates/base.html:128
@@ -1032,8 +1033,8 @@ msgid ""
 "Do not have an account yet? You can <a href=\"%(register_url)s\">register</"
 "a>."
 msgstr ""
-"Eikö sinulla ole vielä tunnusta? Voit <a href=\"%(register_url)s"
-"\">rekisteröityä</a>."
+"Eikö sinulla ole vielä käyttäjätunnusta? Voit rekisteröityä <a href=\""
+"%(register_url)s\">täällä</a>."
 
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:8
@@ -1125,8 +1126,9 @@ msgid ""
 "Choose which languages you prefer to translate. These will be offered to you "
 "on the dashboard to have easier access to chosen translations."
 msgstr ""
-"Valitse kielet jotka haluat kääntää. Nämä tarjotaan sinulle kojelaudassa "
-"saadaksesi helpomman pääsyn valittuihin käännöksiin."
+"Valitse ne kielet joita haluat kääntää. Kojelaudassa näytetään suorat linkit "
+"vain valitsemiesi kielten käännöksiin jotta sivustolla navigoiminen olisi "
+"nopeaa ja helppoa."
 
 #: weblate/templates/accounts/profile.html:57
 msgid ""
@@ -1169,20 +1171,22 @@ msgstr "Käsitellyt projektit"
 msgid ""
 "You will automatically receive important notifications on managed projects."
 msgstr ""
-"Sinulle tulee automaattisesti tärkeät ilmoitukset hallitsemistasi "
-"projekteista."
+"Sinulle tulee automaattisesti kaikki tärkeät ilmoitukset koskien "
+"hallitsemiasi projekteja."
 
 #: weblate/templates/accounts/profile.html:131
 msgid "You will receive chosen notifications via email for all your languages."
-msgstr "Saat valittuja ilmoituksia sähköpostitse kaikilla kielillä."
+msgstr ""
+"Saat valitsemasi ilmoitukset sähköpostitse koskien kaikkia kääntämiäsi "
+"kieliä."
 
 #: weblate/templates/accounts/profile.html:132
 msgid ""
 "Watched projects are also shown on dashboard, so choose all projects you "
 "want to translate."
 msgstr ""
-"Seuratut projektit näkyvät automaattisesti myös ohjausnäkymässä, joten "
-"valitse kaikki projektit joita haluat kääntää."
+"Seuraamasi projektit näytetään myös kojelaudassa, joten valitse kaikki ne "
+"projektit joita haluat kääntää."
 
 #: weblate/templates/accounts/profile.html:139
 msgid "Subscription settings"
@@ -1203,8 +1207,8 @@ msgid ""
 "You can manage identities which are associated to this account and which can "
 "be used to log in."
 msgstr ""
-"Voit hallita tunnisteita jotka on liitetty tähän tiliin ja joita voi käyttää "
-"sisäänkirjautumiseen."
+"Voit hallita tunnisteita jotka on liitetty käyttäjätiliisi ja joita voi "
+"käyttää sisäänkirjautumiseen."
 
 #: weblate/templates/accounts/profile.html:183
 msgid "Currently associated:"
@@ -1242,11 +1246,11 @@ msgstr "Poistaminen"
 #: weblate/templates/accounts/profile.html:228
 #: weblate/templates/accounts/removal.html:11
 msgid "Removal of the account deletes all your private data."
-msgstr "Tilin poistaminen tuhoaa kaikki yksityiset tietosi."
+msgstr "Käyttäjätilisi poistaminen tuhoaa kaikki yksityiset tietosi."
 
 #: weblate/templates/accounts/profile.html:231
 msgid "Remove my account"
-msgstr "Poista tilini"
+msgstr "Poista käyttäjätilini"
 
 #: weblate/templates/accounts/profile.html:240
 msgid "You can configure how you will log in on this site."
@@ -1367,7 +1371,7 @@ msgid ""
 msgstr ""
 "Rekisteröitymällä sitoudut käyttämään nimeäsi ja sähköpostiosoitettasi "
 "versionhallinnan commiteissa, sekä hyväksyt että työsi tulokset julkaistaan "
-"kussakin käännösprojektissa määritellyn lisenssin alaisesti."
+"kussakin käännösprojektissa määritellyn lisenssin ehtojen mukaisesti."
 
 #: weblate/templates/accounts/register.html:29
 msgid "Register using email"
@@ -1394,11 +1398,12 @@ msgstr "Käyttäjätilin poistaminen"
 msgid ""
 "By pressing following button, your will no longer be able to use this "
 "account."
-msgstr "Painamalla seuraavaa painiketta, et enää pysty käyttämään tätä tiliä."
+msgstr ""
+"Painamalla seuraavaa painiketta, et enää pysty käyttämään tätä käyttäjätiliä."
 
 #: weblate/templates/accounts/removal.html:21
 msgid "Delete this account"
-msgstr "Poista tämä tili"
+msgstr "Poista tämä käyttäjätili"
 
 #: weblate/templates/accounts/reset.html:13
 msgid ""
@@ -1456,16 +1461,16 @@ msgstr "SSH-avaimet"
 #: weblate/templates/admin/performance.html:5
 #: weblate/templates/admin/performance.html:14
 msgid "Performance report"
-msgstr "Tehokkuusraportti"
+msgstr "Suorituskykyraportti"
 
 #: weblate/templates/admin/performance.html:9
 #: weblate/templates/admin/report.html:8 weblate/templates/admin/ssh.html:8
 msgid "Home"
-msgstr "Koti"
+msgstr "Etusivu"
 
 #: weblate/templates/admin/performance.html:9
 msgid "Performance"
-msgstr "Tehokkuus"
+msgstr "Suorituskyky"
 
 #: weblate/templates/admin/performance.html:20
 msgid "Check"
@@ -2017,7 +2022,8 @@ msgid ""
 "Once you have activated your account just proceed to the <a href=\"%(url)s"
 "\">translation section</a>."
 msgstr ""
-"Kun olet aktivoinut tilisi, siirry <a href=\"%(url)s\">käännökset osioon</a>."
+"Kun olet aktivoinut käyttäjätilisi, siirry <a href=\"%(url)s\">käännökset "
+"osioon</a>."
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -3201,11 +3207,11 @@ msgstr "Haetun kaltaisia toimintoja ei löytynyt."
 
 #: weblate/templates/legend.html:5 weblate/templates/progress.html:5
 msgid "Good translations"
-msgstr "Hyvät käännökset"
+msgstr "Valmiit käännökset"
 
 #: weblate/templates/legend.html:8 weblate/templates/progress.html:8
 msgid "Translations with failing checks"
-msgstr "Käännöksistä löydetty virheitä"
+msgstr "Virheelliset käännökset"
 
 #: weblate/templates/legend.html:11 weblate/templates/progress.html:11
 msgid "Fuzzy translations"
@@ -3593,7 +3599,7 @@ msgstr "Ehdotus:"
 #: weblate/templates/mail/new_suggestion.html:50
 #: weblate/templates/mail/new_suggestion.txt:13
 msgid "You can review it at:"
-msgstr "Voit arvostella:"
+msgstr "Voit tarkistaa sen osoitteessa:"
 
 #: weblate/templates/mail/new_suggestion_subject.txt:3
 #, python-format
@@ -3927,7 +3933,7 @@ msgstr "lähdetekstit"
 
 #: weblate/templates/source-review.html:11
 msgid "review"
-msgstr "arvostelu"
+msgstr "Yhteenveto"
 
 #: weblate/templates/source-review.html:26 weblate/trans/forms.py:896
 #: weblate/trans/models/subproject.py:477
@@ -4005,7 +4011,7 @@ msgstr "Matriisinäkymä"
 
 #: weblate/templates/subproject.html:53
 msgid "Source strings review"
-msgstr "Arvostele lähdetekstiä"
+msgstr "Lähdetekstien yhteenveto"
 
 #: weblate/templates/subproject.html:59
 msgid "Translation reports"
@@ -4150,7 +4156,7 @@ msgstr "Ctrl+Enter - Tallenna"
 
 #: weblate/templates/translate.html:78
 msgid "Ctrl+Shift+Enter - Unmark review needed flag and save"
-msgstr "Ctrl+Shift+Enter - Poista vaatii katselmoinnin ja tallenna"
+msgstr "Ctrl+Shift+Enter - Poista Tarkistettava -ehto ja tallenna käännnös"
 
 #: weblate/templates/translate.html:79
 msgid "Alt+PageUp/PageDown/Home/End - Translation units navigation"
@@ -4182,7 +4188,7 @@ msgstr "Alt+V - Kopioi lähdeteksti"
 
 #: weblate/templates/translate.html:86
 msgid "Alt+F - Toggle review needed flag"
-msgstr "Alt+F - Muuta vaatii katselmoinnin -valinnan tilaa"
+msgstr "Alt+F - Muuta Tarkistettava -valinnan tilaa"
 
 #: weblate/templates/translate.html:88
 msgid "Editing source string"
@@ -4239,11 +4245,11 @@ msgstr ""
 
 #: weblate/templates/translate.html:190
 msgid "Messages placed around this one"
-msgstr "Viestit, jotka ovat tämän ympärillä"
+msgstr "Tekstit, jotka ovat tämän tekstin ympärillä"
 
 #: weblate/templates/translate.html:190
 msgid "Nearby messages"
-msgstr "Läheiset viestit"
+msgstr "Viereiset tekstit"
 
 #: weblate/templates/translate.html:195 weblate/templates/translate.html:373
 msgid "Other translations"
@@ -4368,11 +4374,11 @@ msgstr "Lisää sana sanastoon"
 
 #: weblate/templates/translate.html:440
 msgid "Source information"
-msgstr "Lähdetietoja"
+msgstr "Lähdetekstin tietoja"
 
 #: weblate/templates/translate.html:474
 msgid "Flags"
-msgstr "Liput"
+msgstr "Automaattitarkistukset"
 
 #: weblate/templates/translate.html:482
 msgid "No flags currently set!"
@@ -4520,11 +4526,11 @@ msgstr "Käännös ei tällä hetkellä ole lukittu."
 #: weblate/templates/translation.html:298
 #: weblate/templates/translation.html:346
 msgid "Review"
-msgstr "Tarkastele"
+msgstr "Tarkistettava"
 
 #: weblate/templates/translation.html:300
 msgid "Review translations touched by other users."
-msgstr "Katselmoi muiden tekemiä käännöksiä."
+msgstr "Tarkista muiden tekemiä käännöksiä."
 
 #: weblate/templates/translation.html:304
 msgid "Start review"
@@ -4673,7 +4679,7 @@ msgstr "Avaa täysmuokkaimessa"
 #: weblate/templates/zen-units.html:67
 msgctxt "Message needs review"
 msgid "Review"
-msgstr "Katselmoitava"
+msgstr "Tarkista"
 
 #: weblate/templates/zen-units.html:77 weblate/trans/views/edit.py:508
 msgid "You have reached end of translating."
@@ -4744,7 +4750,7 @@ msgstr "Django välimuistia"
 
 #: weblate/trans/admin_views.py:166
 msgid "Avatar caching"
-msgstr "Käyttäjäkuvan välimuisti"
+msgstr "Avatar -välimuisti"
 
 #: weblate/trans/admin_views.py:179
 msgid "Email addresses"
@@ -4764,7 +4770,7 @@ msgstr "Salainen avain"
 
 #: weblate/trans/admin_views.py:210
 msgid "Allowed hosts"
-msgstr "Sallitut isännät"
+msgstr "Sallitut verkkotunnukset"
 
 #: weblate/trans/admin_views.py:219
 msgid "Cached template loader"
@@ -5071,7 +5077,7 @@ msgstr "Gettext PO tiedosto (yksikielinen)"
 
 #: weblate/trans/formats.py:976
 msgid "Qt Linguist Translation File"
-msgstr "Qt Linguist käännöstiedosto"
+msgstr "Qt Linguist"
 
 #: weblate/trans/formats.py:1011
 msgid "XLIFF Translation File"
@@ -5168,7 +5174,7 @@ msgstr "Viesti jonka halusit kääntää ei ole enää olemassa!"
 #: weblate/trans/forms.py:356
 msgctxt "Checkbox for marking translation needing review"
 msgid "Needs review"
-msgstr "Vaatii katselmoinnin"
+msgstr "Tarkistettava"
 
 #: weblate/trans/forms.py:398 weblate/trans/forms.py:751
 msgid "File"
@@ -5188,11 +5194,11 @@ msgstr "Lisää ehdotus"
 
 #: weblate/trans/forms.py:404
 msgid "Add as translation needing review"
-msgstr "Lisää käännöksenä joka vaatii katselmoinnin"
+msgstr "Lisää käännöksenä joka on tarkistettava myöhemmin"
 
 #: weblate/trans/forms.py:408
 msgid "Processing of strings needing review"
-msgstr "Käsitellään katselmointia vaativia käännöstekstejä"
+msgstr "Käsitellään tarkistusta vaativia käännöstekstejä"
 
 #: weblate/trans/forms.py:410
 msgid "Do not import"
@@ -5200,7 +5206,7 @@ msgstr "Älä tuo"
 
 #: weblate/trans/forms.py:411
 msgid "Import as string needing review"
-msgstr "Tuo katselmoinnin vaativana käännöstekstinä"
+msgstr "Tuo tarkistuksen vaativana käännöstekstinä"
 
 #: weblate/trans/forms.py:412
 msgid "Import as translated"
@@ -5441,8 +5447,8 @@ msgid ""
 "Please enter a comma separated list of check flags, see <a href="
 "\"{url}\">documentation</a> for more details."
 msgstr ""
-"Anna pilkulla erotettu lista tarkistuslipuista, katso <a href="
-"\"{url}\">ohjeista</a> lisätietoja."
+"Anna pilkulla erotettu lista automaattitarkistusehdoista, katso <a href=\""
+"{url}\">ohjeista</a> lisätietoja."
 
 #: weblate/trans/forms.py:933
 msgid "User to add"
@@ -5453,8 +5459,8 @@ msgid ""
 "Please provide username or email. User needs to already have an active "
 "account in Weblate."
 msgstr ""
-"Anna käyttäjätunnus tai sähköpostiosoite. Käyttäjällä pitää olla olemassa "
-"aktiivinen käyttäjätili Weblatessa."
+"Anna joko käyttäjän käyttäjätunnus tai sähköpostiosoite. Huomaa: Käyttäjällä "
+"pitää olla olemassa aktiivinen käyttäjätili Weblatessa."
 
 #: weblate/trans/forms.py:947
 msgid "No matching user found!"
@@ -6070,15 +6076,15 @@ msgstr ""
 
 #: weblate/trans/models/subproject.py:366
 msgid "Quality checks flags"
-msgstr "Laatutarkastus liput"
+msgstr "Automaattitarkistukset"
 
 #: weblate/trans/models/subproject.py:369
 msgid ""
 "Additional comma-separated flags to influence quality checks, check "
 "documentation for possible values."
 msgstr ""
-"Pilkulla erotetut liput vaikeuttavat automaattista tarkistusta. Tarkista "
-"käyttöoppaasta mahdolliset arvot."
+"Pilkulla erotetut automaattitarkistusehdot, Tarkista käyttöoppaasta "
+"mahdolliset arvot."
 
 #: weblate/trans/models/subproject.py:383
 msgid "Optional short summary of license used for translations."
@@ -6709,7 +6715,7 @@ msgstr[1] "%(count)s tunnin kuluttua"
 
 #: weblate/trans/templatetags/translations.py:538
 msgid "Needs review"
-msgstr "Vaatii katselmoinnin"
+msgstr "Tarkistettava"
 
 #: weblate/trans/templatetags/translations.py:543
 msgid "Not translated"
@@ -6717,7 +6723,7 @@ msgstr "Kääntämättä"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
-msgstr "Vaatii katselmoinnin"
+msgstr "Tarkistettava"
 
 #: weblate/trans/templatetags/translations.py:572
 msgid "Message is not translated"
@@ -6783,15 +6789,15 @@ msgstr "XML -teksti"
 
 #: weblate/trans/validators.py:33
 msgid "Skip review flag when importing"
-msgstr "Ohita vaatii katselmoinnin -valinta tietoja tuotaessa"
+msgstr "Ohita Tarkistettava -ehto tietoja tuotaessa"
 
 #: weblate/trans/validators.py:36
 msgid "Add review flag for new source strings"
-msgstr "Aseta katselmoitava -ehto uusille lähdeteksteille"
+msgstr "Aseta Tarkistettava -ehto uusille lähdeteksteille"
 
 #: weblate/trans/validators.py:39
 msgid "Add review flag for new translated strings"
-msgstr "Aseta katselmoitava -ehto uusille käännösteksteille"
+msgstr "Aseta Tarkistettava -ehto uusille käännösteksteille"
 
 #: weblate/trans/validators.py:52 weblate/trans/validators.py:75
 #: weblate/utils/validators.py:66
@@ -6814,7 +6820,7 @@ msgstr ""
 #: weblate/trans/validators.py:109
 #, python-format
 msgid "Invalid check flag: \"%s\""
-msgstr "Virheellinen tarkistus lippu: \"%s\""
+msgstr "Automaattitarkistusvirhe: \"%s\""
 
 #: weblate/trans/views/acl.py:72 weblate/trans/views/acl.py:115
 msgid "You can not remove last owner!"
@@ -6833,8 +6839,8 @@ msgid ""
 "You have activated your account, now you should set the password to be able "
 "to login next time."
 msgstr ""
-"Olet aktivoinut tunnuksesi, ja nyt sinun pitäisi asettaa salasana, jotta "
-"pystyt kirjautumaan seuraavan kerran."
+"Olet nyt aktivoinut käyttäjätunnuksesi ja sinun pitäisi asettaa salasana "
+"jotta pystyisit kirjautumaan seuraavalla kerralla."
 
 #: weblate/trans/views/basic.py:133
 msgid "Please set your full name in your profile."
@@ -7006,8 +7012,9 @@ msgid ""
 "consider becoming a translator as your suggestion might otherwise remain "
 "unreviewed."
 msgstr ""
-"Tällä hetkellä tällä käännöksellä ei ole aktiivisia kääntäjiä, ota huomioon "
-"jos et ole kääntäjä niin ehdotuksesi voi jäädä tarkastamatta."
+"Tällä hetkellä tällä käännöksellä ei ole aktiivisia kääntäjiä. Otathan "
+"huomioon, että jos et halua ryhtyä kääntäjäksi niin ehdotuksesi voi jäädä "
+"pitkäksi ajaksi tarkastamatta."
 
 #: weblate/trans/views/edit.py:218
 msgid "Your suggestion already exists!"
@@ -7034,7 +7041,7 @@ msgstr "Virheellinen liitäntäpyyntö!"
 
 #: weblate/trans/views/edit.py:354
 msgid "Can not merge different messages!"
-msgstr "Et voi liittää toisia viestejä!"
+msgstr "Et voi yhdistää toisia tekstejä!"
 
 #: weblate/trans/views/edit.py:390
 msgid "Can not revert to different unit!"
@@ -7189,7 +7196,7 @@ msgstr "Projekti on nyt avoinna käännös päivityksille."
 #: weblate/trans/views/source.py:106
 #, python-format
 msgid "Review source strings in %s"
-msgstr "Katselmoi lähdetekstejä käännöksessä %s"
+msgstr "Tarkista lähdetekstejä käännöksessä %s"
 
 #: weblate/trans/views/source.py:124
 #, python-format
