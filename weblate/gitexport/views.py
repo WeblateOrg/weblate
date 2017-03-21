@@ -67,7 +67,7 @@ def response_authenticate():
     Returns 401 response with authenticate header.
     """
     response = HttpResponse(status=401)
-    response['WWW-Authenticate'] = 'Basic realm="Git"'
+    response['WWW-Authenticate'] = 'Basic realm="Weblate Git access"'
     return response
 
 
