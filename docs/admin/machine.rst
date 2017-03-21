@@ -125,7 +125,7 @@ To enable this service, add ``weblate.trans.machine.microsoft.MicrosoftCognitive
     
     :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
     `Cognitive Services - Text Translation API <http://docs.microsofttranslator.com/text-translate.html>`_,
-    `Microsfot Azure Portal <https://portal.azure.com/>`_
+    `Microsoft Azure Portal <https://portal.azure.com/>`_
 
 .. _mymemory:
 
