@@ -183,8 +183,7 @@ be written to the newly created file. This should work fine since Joomla 3.0.
 
 .. note::
 
-    You need translate-toolkit newer than 2.0.0 (at time of writing this
-    documentation the support for Joomla has not yet been merged).
+    You need translate-toolkit 2.1.0 or newer for Joomla support.
 
 .. seealso::
 
