@@ -977,7 +977,8 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
     urlpatterns += [
         # Redirect clone from the Weblate project URL
         url(
-            r'^projects/' + SUBPROJECT + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
+            r'^projects/' + SUBPROJECT +
+            '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(subproject)s/%(path)s',
                 permanent=True,
@@ -985,7 +986,8 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
             )
         ),
         url(
-            r'^projects/' + SUBPROJECT[:-1] + r'\.git/' + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
+            r'^projects/' + SUBPROJECT[:-1] +
+            r'\.git/' + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(subproject)s/%(path)s',
                 permanent=True,
