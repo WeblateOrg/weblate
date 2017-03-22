@@ -1143,6 +1143,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                     'Got empty language code for %s, please check filemask!'
                 ) % match})
             lang = Language.objects.auto_get_or_create(code=code)
+            if len(code) > 20:
+                raise ValidationError({'filemask': _(
+                    'Language code %s is too long, please check filemask!'
+                ) % match})
             if code in langs:
                 raise ValidationError(_(
                     'There are more files for single language (%s), please '
