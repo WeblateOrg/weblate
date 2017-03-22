@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Weblate website\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-03-17 15:41+0000\n"
-"PO-Revision-Date: 2017-03-07 17:00+0000\n"
-"Last-Translator: Manu Soft <manusoftok@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
-"es/>\n"
+"PO-Revision-Date: 2017-03-22 18:47+0000\n"
+"Last-Translator: Franco <fulanodetal.github1@openaliasbox.org>\n"
+"Language-Team: Spanish "
+"<https://hosted.weblate.org/projects/weblate/master/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -698,10 +698,8 @@ msgid "Project / Component"
 msgstr "Proyecto / Componente"
 
 #: weblate/permissions/apps.py:30
-#, fuzzy
-#| msgid "Versions"
 msgid "Permissions"
-msgstr "Versiones"
+msgstr "Permisos"
 
 #: weblate/permissions/models.py:53
 msgid "Project, component or language must be specified"
@@ -4119,16 +4117,12 @@ msgid "Suggestions"
 msgstr "Sugerencias"
 
 #: weblate/templates/trans/suggestion_list.html:15
-#, fuzzy
-#| msgid "Suggestion:"
 msgid "Suggestion"
-msgstr "Sugerencia:"
+msgstr "Sugerencia"
 
 #: weblate/templates/trans/suggestion_list.html:28
-#, fuzzy
-#| msgid "No matching strings found!"
 msgid "No matching translations found!"
-msgstr "¡No se encontraron cadenas que coincidan!"
+msgstr "¡No se encontraron traducciones que coincidan!"
 
 #: weblate/templates/translate.html:16
 msgid "translate"
@@ -4589,10 +4583,8 @@ msgid "%(filename)s, translation unit %(position)s"
 msgstr "%(filename)s, unidad de traducción %(position)s"
 
 #: weblate/templates/user-activity.html:5
-#, fuzzy
-#| msgid "Browse"
 msgid "Browse pending"
-msgstr "Explorar"
+msgstr "Ver pendientes"
 
 #: weblate/templates/user-activity.html:14
 msgid "Last login"
@@ -4955,17 +4947,12 @@ msgid "This message has more than one translation in this project"
 msgstr "Este mensaje tiene más de una traducción en este proyecto"
 
 #: weblate/trans/checks/consistency.py:114
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Has been translated"
-msgstr "Sin traducir"
+msgstr "Ha sido traducido"
 
 #: weblate/trans/checks/consistency.py:116
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has been translated in the past"
-msgstr "Este mensaje tiene más de una traducción en este proyecto"
+msgstr "Esta cadena se ha traducido en el pasado"
 
 #: weblate/trans/checks/format.py:223
 msgid "Python format"
@@ -6273,16 +6260,13 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "¡Código de lenguaje vacío para %s, compruebe la mascara del archivo!"
 
 #: weblate/trans/models/subproject.py:1148
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "components for translating different resources."
+#, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
 msgstr ""
-"Existen más archivos por idioma, ajuste la máscara y utilice componentes "
-"para traducir diferentes recursos."
+"Existen más archivos por idioma (%s), ajuste la máscara y utilice "
+"componentes para traducir diferentes recursos."
 
 #: weblate/trans/models/subproject.py:1154
 #, python-format
@@ -7154,17 +7138,19 @@ msgid "No strings were imported from the uploaded file."
 msgstr "No se importaron cadenas del archivo subido."
 
 #: weblate/trans/views/files.py:124
-#, fuzzy, python-brace-format
-#| msgid "Processed %d string from the uploaded files."
-#| msgid_plural "Processed %d strings from the uploaded files."
+#, python-brace-format
 msgid ""
 "Processed {0} string from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "Se procesó %d palabra del archivo subido."
-msgstr[1] "Se procesaron %d palabras de los archivos subidos."
+msgstr[0] ""
+"Se procesó {0} palabra del archivo subido (omitidas: {1}, no encontradas: {2}"
+", actualizadas: {3})."
+msgstr[1] ""
+"Se procesaron {0} palabras de los archivos subidos. (omitidas: {1}, no "
+"encontradas: {2}, actualizadas: {3})."
 
 #: weblate/trans/views/files.py:136
 #, python-format
