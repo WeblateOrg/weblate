@@ -28,6 +28,7 @@ from django.utils.translation import ugettext_lazy as _
 class FooCheck(TargetCheck):
 
     # Used as identifier for check, should be unique
+    # Has to be shorter than 50 chars
     check_id = 'foo'
 
     # Short name used to display failing check

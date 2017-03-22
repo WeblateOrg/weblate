@@ -34,7 +34,7 @@ class Check(models.Model):
     content_hash = models.BigIntegerField(db_index=True)
     project = models.ForeignKey('Project')
     language = models.ForeignKey(Language, null=True, blank=True)
-    check = models.CharField(max_length=20, choices=CHECK_CHOICES)
+    check = models.CharField(max_length=50, choices=CHECK_CHOICES)
     ignore = models.BooleanField(db_index=True, default=False)
 
     _for_unit = None
