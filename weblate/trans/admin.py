@@ -24,7 +24,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.trans.models import (
     Project, SubProject, Translation, Advertisement,
     Unit, Suggestion, Comment, Check, Dictionary, Change,
-    Source, WhiteboardMessage, ComponentList,
+    Source, WhiteboardMessage, ComponentList, AutoComponentList,
 )
 from weblate.trans.util import WeblateAdmin, sort_choices
 
@@ -237,6 +237,10 @@ class ComponentListAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class AutoComponentListAdmin(admin.ModelAdmin):
+    list_display = ('componentlist', 'project_match', 'component_match')
+
+
 class AdvertisementAdmin(admin.ModelAdmin):
     list_display = ['placement', 'date_start', 'date_end', 'text']
     search_fields = ['text', 'note']
@@ -254,6 +258,7 @@ admin.site.register(SubProject, SubProjectAdmin)
 admin.site.register(Advertisement, AdvertisementAdmin)
 admin.site.register(WhiteboardMessage, WhiteboardAdmin)
 admin.site.register(ComponentList, ComponentListAdmin)
+admin.site.register(AutoComponentList, AutoComponentListAdmin)
 
 # Show some controls only in debug mode
 if settings.DEBUG and False:

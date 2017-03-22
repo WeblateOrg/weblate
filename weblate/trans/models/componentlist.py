@@ -20,9 +20,13 @@
 
 """Components list."""
 
+import re
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+
+from weblate.trans.fields import RegexField
 
 
 @python_2_unicode_compatible
@@ -53,3 +57,41 @@ class ComponentList(models.Model):
     class Meta(object):
         verbose_name = _('Component list')
         verbose_name_plural = _('Component lists')
+
+
+@python_2_unicode_compatible
+class AutoComponentList(models.Model):
+    project_match = RegexField(
+        verbose_name=_('Project regular expression'),
+        max_length=200,
+        default='^.*$',
+        help_text=_(
+            'Regular expression which is used to match project slug.'
+        ),
+    )
+    component_match = RegexField(
+        verbose_name=_('Component regular expression'),
+        max_length=200,
+        default='^.*$',
+        help_text=_(
+            'Regular expression which is used to match component slug.'
+        ),
+    )
+    componentlist = models.ForeignKey(
+        ComponentList,
+        verbose_name=_('Component list to assign'),
+    )
+
+    def __str__(self):
+        return self.componentlist.name
+
+    def check_match(self, component):
+        if not re.match(self.project_match, component.project.slug):
+            return
+        if not re.match(self.component_match, component.slug):
+            return
+        self.componentlist.components.add(component)
+
+    class Meta(object):
+        verbose_name = _('Automatic component list')
+        verbose_name_plural = _('Automatic component lists')

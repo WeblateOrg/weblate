@@ -39,7 +39,9 @@ from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.source import Source
 from weblate.trans.models.advertisement import Advertisement
 from weblate.trans.models.whiteboard import WhiteboardMessage
-from weblate.trans.models.componentlist import ComponentList
+from weblate.trans.models.componentlist import (
+    ComponentList, AutoComponentList,
+)
 from weblate.trans.signals import (
     vcs_post_push, vcs_post_update, vcs_pre_commit, vcs_post_commit,
     user_pre_delete, translation_post_add,
@@ -220,3 +222,21 @@ def add_user_subscription(sender, instance, action, reverse, model, pk_set,
     else:
         for target in targets:
             target.add_subscription(instance.user)
+
+
+@receiver(post_save, sender=AutoComponentList)
+def auto_componentlist(sender, instance, **kwargs):
+    for component in SubProject.objects.all():
+        instance.check_match(component)
+
+
+@receiver(post_save, sender=Project)
+def auto_project_componentlist(sender, instance, **kwargs):
+    for component in instance.subproject_set.all():
+        auto_component_list(sender, component)
+
+
+@receiver(post_save, sender=SubProject)
+def auto_component_list(sender, instance, **kwargs):
+    for auto in AutoComponentList.objects.all():
+        auto.check_match(instance)

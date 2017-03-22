@@ -35,7 +35,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.trans.models import (
     Project, Source, Unit, WhiteboardMessage, Check, ComponentList,
-    get_related_units,
+    AutoComponentList, get_related_units,
 )
 import weblate.trans.models.subproject
 from weblate.lang.models import Language
@@ -189,7 +189,7 @@ class TranslationTest(RepoTestCase):
         translation.update_stats()
 
 
-class ComponentListTest(TestCase):
+class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
 
     def test_slug(self):
@@ -197,6 +197,54 @@ class ComponentListTest(TestCase):
         clist = ComponentList()
         clist.slug = 'slug'
         self.assertEqual(clist.tab_slug(), 'list-slug')
+
+    def test_auto(self):
+        self.create_subproject()
+        clist = ComponentList.objects.create(
+            name='Name',
+            slug='slug'
+        )
+        AutoComponentList.objects.create(
+            project_match='^.*$',
+            component_match='^.*$',
+            componentlist=clist
+        )
+        self.assertEqual(
+            clist.components.count(), 1
+        )
+
+    def test_auto_create(self):
+        clist = ComponentList.objects.create(
+            name='Name',
+            slug='slug'
+        )
+        AutoComponentList.objects.create(
+            project_match='^.*$',
+            component_match='^.*$',
+            componentlist=clist
+        )
+        self.assertEqual(
+            clist.components.count(), 0
+        )
+        self.create_subproject()
+        self.assertEqual(
+            clist.components.count(), 1
+        )
+
+    def test_auto_nomatch(self):
+        self.create_subproject()
+        clist = ComponentList.objects.create(
+            name='Name',
+            slug='slug'
+        )
+        AutoComponentList.objects.create(
+            project_match='^none$',
+            component_match='^.*$',
+            componentlist=clist
+        )
+        self.assertEqual(
+            clist.components.count(), 0
+        )
 
 
 class ModelTestCase(RepoTestCase):
