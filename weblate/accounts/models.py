@@ -28,6 +28,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in, user_logged_out
+from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -541,6 +542,7 @@ class Profile(models.Model):
     language = models.CharField(
         verbose_name=_('Interface Language'),
         max_length=10,
+        blank=True,
         choices=settings.LANGUAGES
     )
     languages = models.ManyToManyField(
@@ -854,6 +856,21 @@ class Profile(models.Model):
         Returns user's full name.
         '''
         return self.user.first_name
+
+    def clean(self):
+        '''
+        Check if component list is selected when required.
+        '''
+        if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST and
+                self.dashboard_component_list is None):
+            raise ValidationError(
+                {'dashboard_component_list': _("Component list must be selected when used as default.")}
+            )
+        if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST and
+                self.dashboard_component_list is not None):
+            raise ValidationError(
+                {'dashboard_component_list': _("Component list must not be selected when not used as default.")}
+            )
 
 
 def set_lang(request, profile):
