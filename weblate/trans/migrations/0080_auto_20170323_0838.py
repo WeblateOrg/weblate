@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterModelOptions(
             name='autocomponentlist',
-            options={'verbose_name': 'Automatic component list assignment', 'verbose_name_plural': 'Automatic component lists assignments'},
+            options={'verbose_name': 'Automatic component list assignment', 'verbose_name_plural': 'Automatic component list assignments'},
         ),
     ]
