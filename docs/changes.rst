@@ -10,6 +10,7 @@ Released on ? 2017.
 * Added quality check to trigger on losing translation.
 * Add option to view pending suggestions from user.
 * Add option to automatically build component lists.
+* Default dashboard for unauthenticated users can be configured.
 
 weblate 2.12
 ------------

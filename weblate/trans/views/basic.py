@@ -149,8 +149,6 @@ def home(request):
     # dashboard_choices is dict with labels of choices as a keys
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
-    active_tab_id = Profile.DASHBOARD_SUGGESTIONS
-    active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
 
     components_by_language = translations_base.order_by(
         'subproject__priority',
@@ -168,14 +166,14 @@ def home(request):
             subproject__in=componentlist.components.all()
         )
 
-    if request.user.is_authenticated:
-        active_tab_id = user.profile.dashboard_view
-        active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
-        if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
-            clist = user.profile.dashboard_component_list
-            active_tab_slug = clist.tab_slug()
-            dashboard_choices[active_tab_id] = clist.name
+    active_tab_id = user.profile.dashboard_view
+    active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
+    if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
+        clist = user.profile.dashboard_component_list
+        active_tab_slug = clist.tab_slug()
+        dashboard_choices[active_tab_id] = clist.name
 
+    if request.user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
         subscribed_projects = user.profile.subscriptions.filter(
