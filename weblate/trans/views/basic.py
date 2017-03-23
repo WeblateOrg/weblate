@@ -65,42 +65,50 @@ from weblate.trans.util import (
 import weblate
 
 
-def get_suggestions(request, user, project_ids):
+def get_suggestions(request, user, base):
     """Returns suggested translations for user"""
 
     # Grab all untranslated translations
-    base = Translation.objects.prefetch().filter(
-        subproject__project_id__in=project_ids,
-    ).exclude(
+    result = base.exclude(
         total=F('translated'),
     ).order_by(
         '-translated'
     )
-    all_matching = base.none()
 
     if user.is_authenticated and user.profile.languages.exists():
         # Find other translations for user language
-        all_matching = base.filter(
-            language__in=user.profile.languages.all(),
-        ).exclude(
+        result = result.exclude(
             subproject__project__in=user.profile.subscriptions.all()
         )
 
+    return result[:10]
+
+
+def get_user_translations(user, project_ids):
+    """Get list of translations in user languages
+
+    Works also for anonymous users based on current UI language.
+    """
+    result = Translation.objects.prefetch().filter(
+        subproject__project_id__in=project_ids
+    )
+    if user.is_authenticated and user.profile.languages.exists():
+        result = result.filter(
+            language__in=user.profile.languages.all(),
+        )
     else:
         # Filter based on session language
         session_lang = translation.get_language()
         if session_lang and session_lang != 'en':
-            all_matching = base.filter(
+            result = result.filter(
                 language__code=session_lang
             )
 
-        # Fall back to all
-        if not all_matching:
-            all_matching = base.exclude(
+        if not result:
+            result = result.exclude(
                 language__code='en'
             )
-
-    return all_matching[:10]
+    return result
 
 
 def home(request):
@@ -119,69 +127,67 @@ def home(request):
         )
         return redirect('password')
 
-    project_ids = Project.objects.get_acl_ids(request.user)
+    user = request.user
 
-    suggestions = get_suggestions(
-        request, request.user, project_ids
-    )
+    project_ids = Project.objects.get_acl_ids(user)
+
+    translations_base = get_user_translations(user, project_ids)
+
+    suggestions = get_suggestions(request, user, translations_base)
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
-    if not request.user.is_anonymous and request.user.first_name == '':
+    if not user.is_anonymous and user.first_name == '':
         messages.warning(
             request,
             _('Please set your full name in your profile.')
         )
 
     # Some stats
-    last_changes = Change.objects.last_changes(request.user)
+    last_changes = Change.objects.last_changes(user)
 
-    # Dashboard project/subproject view
-    componentlists = ComponentList.objects.all()
     # dashboard_choices is dict with labels of choices as a keys
     dashboard_choices = dict(Profile.DASHBOARD_CHOICES)
     usersubscriptions = None
-    userlanguages = None
     active_tab_id = Profile.DASHBOARD_SUGGESTIONS
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
 
+    components_by_language = translations_base.order_by(
+        'subproject__priority',
+        'subproject__project__name',
+        'subproject__name'
+    )
+
+    userlanguages = components_by_language.filter(
+        subproject__project_id__in=project_ids
+    )
+
+    componentlists = list(ComponentList.objects.all())
+    for componentlist in componentlists:
+        componentlist.translations = components_by_language.filter(
+            subproject__in=componentlist.components.all()
+        )
+
     if request.user.is_authenticated:
-        active_tab_id = request.user.profile.dashboard_view
+        active_tab_id = user.profile.dashboard_view
         active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
         if active_tab_id == Profile.DASHBOARD_COMPONENT_LIST:
-            clist = request.user.profile.dashboard_component_list
+            clist = user.profile.dashboard_component_list
             active_tab_slug = clist.tab_slug()
             dashboard_choices[active_tab_id] = clist.name
 
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        subscribed_projects = request.user.profile.subscriptions.filter(
+        subscribed_projects = user.profile.subscriptions.filter(
             id__in=project_ids
         )
 
         last_changes = last_changes.filter(
             subproject__project__in=subscribed_projects
         )
-
-        components_by_language = Translation.objects.prefetch().filter(
-            language__in=request.user.profile.languages.all(),
-        ).order_by(
-            'subproject__priority',
-            'subproject__project__name',
-            'subproject__name'
-        )
-
         usersubscriptions = components_by_language.filter(
             subproject__project__in=subscribed_projects
         )
-        userlanguages = components_by_language.filter(
-            subproject__project_id__in=project_ids
-        )
-
-        for componentlist in componentlists:
-            componentlist.translations = components_by_language.filter(
-                subproject__in=componentlist.components.all()
-            )
 
     return render(
         request,
