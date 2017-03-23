@@ -863,14 +863,16 @@ class Profile(models.Model):
         '''
         if (self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST and
                 self.dashboard_component_list is None):
-            raise ValidationError(
-                {'dashboard_component_list': _("Component list must be selected when used as default.")}
-            )
+            raise ValidationError({
+                'dashboard_component_list':
+                _("Component list must be selected when used as default.")
+            })
         if (self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST and
                 self.dashboard_component_list is not None):
-            raise ValidationError(
-                {'dashboard_component_list': _("Component list must not be selected when not used as default.")}
-            )
+            raise ValidationError({
+                'dashboard_component_list':
+                _("Component list must not be selected when not used.")
+            })
 
 
 def set_lang(request, profile):
