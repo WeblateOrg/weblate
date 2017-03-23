@@ -241,7 +241,7 @@ class AutoComponentListAdmin(admin.TabularInline):
 class ComponentListAdmin(admin.ModelAdmin):
     list_display = ['name']
     prepopulated_fields = {'slug': ('name',)}
-    inlines = [ AutoComponentListAdmin, ]
+    inlines = [AutoComponentListAdmin]
 
 
 class AdvertisementAdmin(admin.ModelAdmin):
