@@ -22,7 +22,7 @@ URL.
 Automatic component lists
 -------------------------
 
-.. version-added:: 2.13
+.. versionadded:: 2.13
 
 Additionally you can create :guilabel:`Automatic component list assignment`
 rules to automatically add components to the list based on their slug. This can
