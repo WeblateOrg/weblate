@@ -64,7 +64,7 @@ class AutoComponentList(models.Model):
     project_match = RegexField(
         verbose_name=_('Project regular expression'),
         max_length=200,
-        default='^.*$',
+        default='^$',
         help_text=_(
             'Regular expression which is used to match project slug.'
         ),
@@ -72,7 +72,7 @@ class AutoComponentList(models.Model):
     component_match = RegexField(
         verbose_name=_('Component regular expression'),
         max_length=200,
-        default='^.*$',
+        default='^$',
         help_text=_(
             'Regular expression which is used to match component slug.'
         ),
