@@ -232,13 +232,16 @@ class WhiteboardAdmin(admin.ModelAdmin):
     list_filter = ['project', 'language']
 
 
+#class AutoComponentListAdmin(admin.StackedInline):
+class AutoComponentListAdmin(admin.TabularInline):
+    model = AutoComponentList
+    extra = 0
+
+
 class ComponentListAdmin(admin.ModelAdmin):
     list_display = ['name']
     prepopulated_fields = {'slug': ('name',)}
-
-
-class AutoComponentListAdmin(admin.ModelAdmin):
-    list_display = ('componentlist', 'project_match', 'component_match')
+    inlines = [ AutoComponentListAdmin, ]
 
 
 class AdvertisementAdmin(admin.ModelAdmin):
@@ -258,7 +261,6 @@ admin.site.register(SubProject, SubProjectAdmin)
 admin.site.register(Advertisement, AdvertisementAdmin)
 admin.site.register(WhiteboardMessage, WhiteboardAdmin)
 admin.site.register(ComponentList, ComponentListAdmin)
-admin.site.register(AutoComponentList, AutoComponentListAdmin)
 
 # Show some controls only in debug mode
 if settings.DEBUG and False:

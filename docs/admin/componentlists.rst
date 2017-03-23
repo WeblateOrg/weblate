@@ -19,7 +19,8 @@ interface, in :guilabel:`Component lists` section. Each component list must
 have a name that is displayed to the user, and a slug that represents it in the
 URL.
 
-Additionally you can create :guilabel:`Automatic component list` rule to
-automatically add components to the list based on their slug. This can be
-useful for maintaining component lists for large installations or in case you
-want to have component list with all components on your Weblate installation.
+Additionally you can create :guilabel:`Automatic component list assignment`
+rules to automatically add components to the list based on their slug. This can
+be useful for maintaining component lists for large installations or in case
+you want to have component list with all components on your Weblate
+installation.

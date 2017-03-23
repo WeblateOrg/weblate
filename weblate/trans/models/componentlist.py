@@ -93,5 +93,5 @@ class AutoComponentList(models.Model):
         self.componentlist.components.add(component)
 
     class Meta(object):
-        verbose_name = _('Automatic component list')
-        verbose_name_plural = _('Automatic component lists')
+        verbose_name = _('Automatic component list assignment')
+        verbose_name_plural = _('Automatic component lists assignments')
