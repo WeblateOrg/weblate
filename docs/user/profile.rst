@@ -40,7 +40,8 @@ The drop-down will have several options:
   projects you are watching, filtered by your primary languages.
 
 In addition, the drop-down can also show any number of *component lists*, sets
-of project components preconfigured by the Weblate administrator.
+of project components preconfigured by the Weblate administrator, see
+:ref:`_componentlists`.
 
 You can configure your preferred view in the :guilabel:`Preferences` section of
 your user profile settings.
