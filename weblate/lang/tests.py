@@ -187,6 +187,13 @@ class LanguagesTest(TestCase):
             'Chinese (Simplified)',
         ),
         (
+            'zh_rCN',
+            'zh_Hans',
+            'ltr',
+            '0',
+            'Chinese (Simplified)',
+        ),
+        (
             'ar',
             'ar',
             'rtl',
