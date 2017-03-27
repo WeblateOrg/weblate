@@ -34,6 +34,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.lang.models import Language
 from weblate.trans.models import Project, SubProject
 from weblate.trans.fields import RegexField
+from weblate.utils.decorators import disable_for_loaddata
 
 
 @python_2_unicode_compatible
@@ -244,7 +245,8 @@ def auto_assign_group(user):
 
 
 @receiver(post_save, sender=User)
-def create_profile_callback(sender, instance, created=False, **kwargs):
+@disable_for_loaddata
+def auto_group_upon_save(sender, instance, created=False, **kwargs):
     '''
     Automatically adds user to Users group.
     '''

@@ -24,6 +24,7 @@ from django.db.models.signals import post_save, pre_save
 
 from weblate.trans.models import SubProject, Project
 from weblate.trans.site import get_site_url
+from weblate.utils.decorators import disable_for_loaddata
 
 
 SUPPORTED_VCS = frozenset(('git', 'gerrit', 'github', 'subversion'))

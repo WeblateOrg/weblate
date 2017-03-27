@@ -50,6 +50,7 @@ from weblate.trans.scripts import (
     run_post_push_script, run_post_update_script, run_pre_commit_script,
     run_post_commit_script, run_post_add_script,
 )
+from weblate.utils.decorators import disable_for_loaddata
 
 __all__ = [
     'Project', 'SubProject', 'Translation', 'Unit', 'Check', 'Suggestion',
@@ -77,6 +78,7 @@ def delete_object_dir(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Source)
+@disable_for_loaddata
 def update_source(sender, instance, **kwargs):
     """
     Updates unit priority or checks based on source change.
@@ -116,6 +118,7 @@ def get_related_units(unitdata):
 
 
 @receiver(post_save, sender=Check)
+@disable_for_loaddata
 def update_failed_check_flag(sender, instance, **kwargs):
     """
     Update related unit failed check flag.
@@ -131,6 +134,7 @@ def update_failed_check_flag(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Comment)
 @receiver(post_save, sender=Comment)
+@disable_for_loaddata
 def update_comment_flag(sender, instance, **kwargs):
     """
     Update related unit comment flags
@@ -146,6 +150,7 @@ def update_comment_flag(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Suggestion)
 @receiver(post_save, sender=Suggestion)
+@disable_for_loaddata
 def update_suggestion_flag(sender, instance, **kwargs):
     """
     Update related unit suggestion flags
@@ -225,18 +230,21 @@ def add_user_subscription(sender, instance, action, reverse, model, pk_set,
 
 
 @receiver(post_save, sender=AutoComponentList)
+@disable_for_loaddata
 def auto_componentlist(sender, instance, **kwargs):
     for component in SubProject.objects.all():
         instance.check_match(component)
 
 
 @receiver(post_save, sender=Project)
+@disable_for_loaddata
 def auto_project_componentlist(sender, instance, **kwargs):
     for component in instance.subproject_set.all():
         auto_component_list(sender, component)
 
 
 @receiver(post_save, sender=SubProject)
+@disable_for_loaddata
 def auto_component_list(sender, instance, **kwargs):
     for auto in AutoComponentList.objects.all():
         auto.check_match(instance)

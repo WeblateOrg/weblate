@@ -50,6 +50,7 @@ from weblate.accounts.avatar import get_user_display
 from weblate.utils.errors import report_error
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.validators import validate_repoweb
+from weblate.utils.decorators import disable_for_loaddata
 from weblate import VERSION
 from weblate.logger import LOGGER
 
@@ -961,6 +962,7 @@ def post_logout_handler(sender, request, user, **kwargs):
 
 
 @receiver(post_save, sender=User)
+@disable_for_loaddata
 def create_profile_callback(sender, instance, created=False, **kwargs):
     '''
     Automatically adds user to Users group.
