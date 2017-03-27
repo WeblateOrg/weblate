@@ -51,6 +51,7 @@ def save_component(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Project)
+@disable_for_loaddata
 def save_project(sender, instance, **kwargs):
     for component in instance.subproject_set.all():
         if not component.is_repo_link and component.vcs in SUPPORTED_VCS:
