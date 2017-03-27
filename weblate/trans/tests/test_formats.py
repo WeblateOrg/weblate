@@ -333,7 +333,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = 'resx/cs_CZ.resx'
     FIND = 'Hello'
     FIND_MATCH = ''
-    MATCH = '<root></root>'
+    MATCH = 'text/microsoft-resx'
 
 
 class YAMLFormatTest(AutoFormatTest):

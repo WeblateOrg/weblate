@@ -46,6 +46,7 @@ from translate.storage.properties import propunit, propfile
 from translate.storage.ts2 import tsfile
 from translate.storage.xliff import xlifffile, ID_SEPARATOR
 from translate.storage.poxliff import PoXliffFile
+from translate.storage.resx import RESXFile
 from translate.storage import factory
 
 from weblate.trans.util import get_string, join_plural, add_configuration_error
@@ -1186,12 +1187,10 @@ class PhpFormat(FileFormat):
 class RESXFormat(FileFormat):
     name = _('.Net resource file')
     format_id = 'resx'
-    loader = ('resx', 'RESXFile')
+    loader = RESXFile
     monolingual = True
     unit_class = RESXUnit
-    new_translation = (
-        '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
-    )
+    new_translation = RESXFile.XMLskeleton
     autoload = ('.resx',)
 
 
