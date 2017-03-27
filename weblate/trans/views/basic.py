@@ -292,14 +292,17 @@ def show_engage(request, project, lang=None):
         try_set_language(lang)
         language = Language.objects.try_get(code=lang)
 
+    languages = obj.get_language_count()
+
     context = {
         'object': obj,
         'project': obj,
-        'languages': obj.get_language_count(),
+        'languages': languages,
         'total': obj.get_total(),
         'percent': obj.get_translated_percent(language),
         'url': obj.get_absolute_url(),
         'language': language,
+        'title': _('Get involved in {0}!').format(obj),
     }
 
     # Render text

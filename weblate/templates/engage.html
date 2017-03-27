@@ -1,38 +1,19 @@
+{% extends "base.html" %}
 {% load i18n %}
 {% load static %}
-<!DOCTYPE html>
 
-<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
- <head>
-  <meta name="author" content="Michal Čihař" />
-  <meta name="copyright" content="Copyright &copy; 2003 - {{ current_year }} Michal Čihař" />
+{% block breadcrumbs_container %}
+{% endblock %}
 
-  <title>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</title>
-  <meta name="description" content="{% blocktrans %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
-  <meta property="og:description" content="{% blocktrans %}Get involved in {{ project }}, which is currently being translated into {{ languages }} languages using Weblate.{% endblocktrans %}" />
-  <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
+{% block content %}
 
-  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}"/>
-  <link rel="apple-touch-icon" href="{% static 'weblate-128.png' %}"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="robots" content="index, follow" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<div class="row">
 
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
-{% if LANGUAGE_BIDI %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-rtl.min.css' %}" />
-{% endif %}
-  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}" />
-  <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}" />
-
- </head>
-
- <body {% if LANGUAGE_BIDI %}class="dir-rtl"{% endif %}>
-
+<div class="col-sm-3">
 <img class="engage-icon" src="{% static 'weblate-128.png' %}" width="128" height="128" />
+</div>
 
-<div class="engage content ui-widget-content ui-corner-all">
+<div class="col-sm-9 engage">
 
 <h1>{% blocktrans %}Get involved in {{ project }}!{% endblocktrans %}</h1>
 
@@ -59,6 +40,5 @@
 </p>
 
 </div>
-{% include 'footer.html' %}
- </body>
-</html>
+</div>
+{% endblock %}
