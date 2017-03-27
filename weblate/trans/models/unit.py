@@ -781,12 +781,12 @@ class Unit(models.Model, LoggerMixin):
         else:
             action = Change.ACTION_NEW
 
+        kwargs = {}
+
         # Should we store history of edits?
-        # pylint: disable=R0204
         if self.translation.subproject.save_history:
-            history_target = self.target
-        else:
-            history_target = ''
+            kwargs['target'] = self.target
+            kwargs['old'] = self.old_unit.target
 
         # Create change object
         Change.objects.create(
@@ -795,7 +795,7 @@ class Unit(models.Model, LoggerMixin):
             action=action,
             user=request.user,
             author=author,
-            target=history_target
+            **kwargs
         )
 
     def save(self, *args, **kwargs):

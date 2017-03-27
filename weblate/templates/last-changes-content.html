@@ -22,7 +22,11 @@
 </tr>
 {% if c.can_revert %}
 <tr>
+{% if c.old %}
+<td colspan="4">{% format_translation c.target c.unit.translation.language diff=c.old %}</td>
+{% else %}
 <td colspan="4">{% format_translation c.target c.unit.translation.language %}</td>
+{% endif %}
 <td>
 {% can_translate request.user c.translation as user_can_translate %}
 {% if user_can_translate %}

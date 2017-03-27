@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from __future__ import unicode_literals
 
 from django.db import models
 from django.db.models import Count, Q
@@ -286,6 +287,7 @@ class Change(models.Model, UserDisplayMixin):
         default=ACTION_CHANGE
     )
     target = models.TextField(default='', blank=True)
+    old = models.TextField(default='', blank=True)
 
     objects = ChangeManager()
 
