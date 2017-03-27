@@ -1000,6 +1000,15 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             'info',
         )
 
+        # Random
+        if self.translated:
+            result.add_if(
+                'random',
+                _('Random strings for review'),
+                min(25, self.translated),
+                'info',
+            )
+
         return result
 
     def merge_translations(self, request, store2, overwrite, add_fuzzy,

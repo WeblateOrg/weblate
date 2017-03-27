@@ -11,6 +11,7 @@ Released on ? 2017.
 * Add option to view pending suggestions from user.
 * Add option to automatically build component lists.
 * Default dashboard for unauthenticated users can be configured.
+* Add option to browse 25 random strings for review.
 
 weblate 2.12
 ------------

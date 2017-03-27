@@ -160,6 +160,8 @@ class UnitManager(models.Manager):
         """
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
+        elif rqtype == 'random':
+            return self.filter(translated=True).order_by('?')[:25]
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
