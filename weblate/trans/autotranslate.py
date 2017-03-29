@@ -29,7 +29,7 @@ def auto_translate(user, translation, source, inconsistent, overwrite):
 
     if inconsistent:
         units = translation.unit_set.filter_type(
-            'inconsistent', translation
+            'check:inconsistent', translation
         )
     elif overwrite:
         units = translation.unit_set.all()

@@ -899,9 +899,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if not check_obj.source:
                 continue
             result.add_if(
-                check,
+                check_obj.url_id,
                 check_obj.description,
-                self.unit_set.count_type(check, self),
+                self.unit_set.count_type(check_obj.url_id, self),
                 check_obj.severity,
             )
 
@@ -986,9 +986,9 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             if not check_obj.target:
                 continue
             result.add_if(
-                check,
+                check_obj.url_id,
                 check_obj.description,
-                self.unit_set.count_type(check, self),
+                self.unit_set.count_type(check_obj.url_id, self),
                 check_obj.severity,
             )
 

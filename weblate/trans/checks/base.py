@@ -40,6 +40,7 @@ class Check(object):
 
     def __init__(self):
         id_dash = self.check_id.replace('_', '-')
+        self.url_id = 'check:{0}'.format(self.check_id)
         self.doc_id = 'check-{0}'.format(id_dash)
         self.enable_string = id_dash
         self.ignore_string = 'ignore-{0}'.format(id_dash)

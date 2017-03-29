@@ -494,7 +494,7 @@ class FilterField(forms.ChoiceField):
             ('allchecks', _('Strings with any failing checks')),
             ('random', _('Random strings for review')),
         ] + [
-            (check, CHECKS[check].description)
+            (CHECKS[check].url_id, CHECKS[check].description)
             for check in CHECKS if CHECKS[check].target
         ]
         super(FilterField, self).__init__(*args, **kwargs)

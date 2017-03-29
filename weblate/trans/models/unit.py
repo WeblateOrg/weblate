@@ -138,15 +138,17 @@ class UnitManager(models.Manager):
         elif rqtype == 'sourcechecks':
             checks = checks.filter(language=None)
             filter_translated = False
-        elif CHECKS[rqtype].source:
-            checks = checks.filter(language=None)
-            filter_translated = False
-        elif CHECKS[rqtype].target and translation is not None:
-            checks = checks.filter(language=translation.language)
-
-        # Filter by check type
-        if rqtype not in ('allchecks', 'sourcechecks'):
-            checks = checks.filter(check=rqtype)
+        elif rqtype.startswith('check:'):
+            check_id = rqtype[6:]
+            if check_id not in CHECKS:
+                return self.all()
+            if CHECKS[check_id].source:
+                checks = checks.filter(language=None)
+                filter_translated = False
+            elif CHECKS[check_id].target and translation is not None:
+                checks = checks.filter(language=translation.language)
+            # Filter by check type
+            checks = checks.filter(check=check_id)
 
         checks = checks.values_list('content_hash', flat=True)
         ret = self.filter(content_hash__in=checks)
@@ -172,7 +174,7 @@ class UnitManager(models.Manager):
                 )
             coms = coms.values_list('content_hash', flat=True)
             return self.filter(content_hash__in=coms)
-        elif rqtype in CHECKS or rqtype in ['allchecks', 'sourcechecks']:
+        elif rqtype.startswith('check:') or rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)
         else:
             # Catch anything not matching including 'all'
