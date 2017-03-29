@@ -141,7 +141,7 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            '{0}?type=ellipsis'.format(
+            '{0}?type=check%3Aellipsis'.format(
                 reverse('review_source', kwargs={
                     'project': self.project.slug,
                     'subproject': self.subproject.slug,
