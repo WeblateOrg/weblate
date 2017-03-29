@@ -367,7 +367,7 @@ class SearchViewTest(ViewTestCase):
             None
         )
         self.do_search(
-            {'type': 'plurals'},
+            {'type': 'check:plurals'},
             None
         )
         self.do_search(
