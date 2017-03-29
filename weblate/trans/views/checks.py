@@ -251,7 +251,7 @@ def show_check_subproject(request, name, project, subproject):
         url_params['ignored'] = 'true'
 
     if check.source:
-        url_params['type'] = check.check_id
+        url_params['type'] = check.url_id
         return redirect_param(
             'review_source',
             encode_optional(url_params),
@@ -260,7 +260,7 @@ def show_check_subproject(request, name, project, subproject):
         )
 
     if 'language' in request.GET:
-        url_params['type'] = check.check_id
+        url_params['type'] = check.url_id
         return redirect_param(
             'translate',
             encode_optional(url_params),
