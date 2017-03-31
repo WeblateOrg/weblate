@@ -159,7 +159,6 @@ correct values).
 The migration of database structure to 1.5 might take quite long, it is
 recommended to put your site offline, while the migration is going on.
 
-
 .. note::
 
     If you have update in same directory, stale :file:`*.pyc` files might be
@@ -438,6 +437,13 @@ Notable configuration or dependencies changes:
 
 * there is new quality check: :ref:`check-translated`
 * The ``INSTALLED_APPS`` now should include ``weblate.permissions``.
+
+.. note::
+
+    If you have update in same directory, stale :file:`*.pyc` files might be
+    left around and cause various import errors. To recover from this, delete
+    all of them in Weblate's directory, for example by
+    ``find . -name '*.pyc' -delete``.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
