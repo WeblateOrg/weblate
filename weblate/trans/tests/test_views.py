@@ -392,7 +392,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Invalid language chosen'
+            'Please fix errors in the form'
         )
 
         # Existing language
@@ -403,7 +403,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Invalid language chosen'
+            'Please fix errors in the form'
         )
 
     def test_add_owner(self):
@@ -415,7 +415,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Invalid language chosen'
+            'Please fix errors in the form'
         )
         # One chosen
         response = self.client.post(
@@ -425,7 +425,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertNotContains(
             response,
-            'Invalid language chosen'
+            'Please fix errors in the form'
         )
         # More chosen
         response = self.client.post(
@@ -435,7 +435,7 @@ class NewLangTest(ViewTestCase):
         )
         self.assertNotContains(
             response,
-            'Invalid language chosen'
+            'Please fix errors in the form'
         )
         self.assertEqual(
             self.subproject.translation_set.filter(
