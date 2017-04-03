@@ -232,7 +232,6 @@ class WhiteboardAdmin(admin.ModelAdmin):
     list_filter = ['project', 'language']
 
 
-#class AutoComponentListAdmin(admin.StackedInline):
 class AutoComponentListAdmin(admin.TabularInline):
     model = AutoComponentList
     extra = 0
