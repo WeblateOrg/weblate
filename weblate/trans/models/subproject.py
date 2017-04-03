@@ -1249,13 +1249,15 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
                 msg = _('Failed to parse translation base file: %s') % str(exc)
                 raise ValidationError({'template': msg})
 
-            code = self.get_lang_code(self.template).lower()
-            if code and (code != self.project.source_language.code.lower()):
-                msg = _(
-                    'Template language (%s) does not '
-                    'match project source language (%s)!'
-                ) % (code, self.project.source_language.code)
-                raise ValidationError({'template': msg})
+            code = self.get_lang_code(self.template)
+            if code:
+                lang = Language.objects.auto_get_or_create(code=code)
+                if lang != self.project.source_language:
+                    msg = _(
+                        'Template language (%s) does not '
+                        'match project source language (%s)!'
+                    ) % (code, self.project.source_language.code)
+                    raise ValidationError({'template': msg})
 
         elif self.file_format_cls.monolingual:
             msg = _(
