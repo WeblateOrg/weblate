@@ -33,7 +33,6 @@ from django.utils import timezone
 from django.utils.encoding import force_text
 import django.views.defaults
 
-from six import string_types
 from six.moves.urllib.parse import urlencode
 
 from weblate.utils import messages
