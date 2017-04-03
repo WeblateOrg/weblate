@@ -878,7 +878,8 @@ class NewLanguageOwnerForm(forms.Form):
             if existing.filter(code=LOCALE_ALIASES[code]).exists():
                 raise ValidationError(
                     _(
-                        'Similar translation already exists in the project ({0})!'
+                        'Similar translation '
+                        'already exists in the project ({0})!'
                     ).format(
                         LOCALE_ALIASES[code]
                     )
