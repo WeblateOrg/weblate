@@ -665,8 +665,6 @@ def new_language(request, project, subproject):
 
         if form.is_valid():
             langs = form.cleaned_data['lang']
-            if isinstance(langs, string_types):
-                langs = [langs]
             for language in Language.objects.filter(code__in=langs):
                 if obj.new_lang == 'contact':
                     notify_new_language(obj, language, request.user)

@@ -40,6 +40,7 @@ from django.contrib.auth.models import User
 
 from six.moves.urllib.parse import urlencode
 
+from weblate.lang.data import LOCALE_ALIASES
 from weblate.lang.models import Language
 from weblate.trans.models import SubProject, Unit, Project
 from weblate.trans.models.unit import SEARCH_FILTERS
@@ -867,6 +868,23 @@ class NewLanguageOwnerForm(forms.Form):
             for l in languages
         ])
 
+    def clean_lang(self):
+        existing = Language.objects.filter(
+            translation__subproject=self.component
+        )
+        for code in self.cleaned_data['lang']:
+            if code not in LOCALE_ALIASES:
+                continue
+            if existing.filter(code=LOCALE_ALIASES[code]).exists():
+                raise ValidationError(
+                    _(
+                        'Similar translation already exists in the project ({0})!'
+                    ).format(
+                        LOCALE_ALIASES[code]
+                    )
+                )
+        return self.cleaned_data['lang']
+
 
 class NewLanguageForm(NewLanguageOwnerForm):
     '''
@@ -882,6 +900,10 @@ class NewLanguageForm(NewLanguageOwnerForm):
         self.fields['lang'].choices = (
             [('', _('Please select'))] + self.fields['lang'].choices
         )
+
+    def clean_lang(self):
+        self.cleaned_data['lang'] = [self.cleaned_data['lang']]
+        return super(NewLanguageForm, self).clean_lang()
 
 
 def get_new_language_form(request, component):
