@@ -59,7 +59,7 @@
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
       {% endif %}
       {% if object.can_add_language and user_can_add_translation %}
-      <li><a href="#newlang" data-toggle="tab">{% trans "Start new translation" %}</a></li>
+      <li><a href="{% url "new-language" project=object.project.slug subproject=object.slug %}">{% trans "Start new translation" %}</a></li>
       {% endif %}
       {% if user_can_edit_subproject %}
       <li><a href="#settings" data-toggle="tab">{% trans "Settings" %}</a></li>
@@ -92,6 +92,12 @@
 
 {% include "list-translations.html" %}
 
+{% if object.can_add_language and user_can_add_translation %}
+<p>
+<a class="btn btn-default" href="{% url "new-language" project=object.project.slug subproject=object.slug %}">{% trans "Start new translation" %}</a>
+</p>
+{% endif %}
+
 </div>
 
 <div class="tab-pane" id="information">
@@ -103,39 +109,6 @@
 
 </div>
 
-
-{% if object.can_add_language and user_can_add_translation %}
-
-<div class="tab-pane" id="newlang">
-
-<form action="{% url 'new-language' project=object.project.slug subproject=object.slug %}" method="post">
-{% csrf_token %}
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Start new translation" %}</h4></div>
-  <div class="panel-body">
-{% if object.new_lang == 'url' %}
-<p>{% blocktrans with object.project.instructions as url %}Should your language be missing, please follow <a href="{{ url }}">translator instructions</a>.{% endblocktrans %}</p>
-{% else %}
-<p>{% trans "Please choose the language into which you would like to translate." %}</p>
-{% if object.new_lang == 'contact' %}
-<p>{% trans "Project maintainers will get notified about this request and will add the language manually." %}</p>
-{% endif %}
-{{ new_lang_form|crispy }}
-<p class="help-block"><a href="{% url 'contact' %}?subject=New+language+request+for+{{ object }}">{% trans "Can't find your language in the list above?" %}</a></p>
-</div>
-<div class="panel-footer">
-{% if object.new_lang == 'contact' %}
-<input class="btn btn-default" type="submit" value="{% trans "Request new translation" %}" />
-{% else %}
-<input class="btn btn-default" type="submit" value="{% trans "Start new translation" %}" />
-{% endif %}
-{% endif %}
-</div>
-</div>
-</form>
-
-</div>
-{% endif %}
 
 <div class="tab-pane" id="search">
 
@@ -258,4 +231,3 @@
 </div>
 
 {% endblock %}
-

@@ -13,6 +13,7 @@ Released on ? 2017.
 * Default dashboard for unauthenticated users can be configured.
 * Add option to browse 25 random strings for review.
 * History now indicates string change.
+* Better error reporting when adding new translation.
 
 weblate 2.12
 ------------

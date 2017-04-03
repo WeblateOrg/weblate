@@ -407,8 +407,6 @@ def show_subproject(request, project, subproject):
 
     last_changes = Change.objects.for_component(obj)[:10]
 
-    new_lang_form = get_new_language_form(request, obj)(obj)
-
     if (request.method == 'POST' and
             can_edit_subproject(request.user, obj.project)):
         settings_form = SubprojectSettingsForm(request.POST, instance=obj)
@@ -450,7 +448,6 @@ def show_subproject(request, project, subproject):
             'last_changes_url': urlencode(
                 {'subproject': obj.slug, 'project': obj.project.slug}
             ),
-            'new_lang_form': new_lang_form,
             'settings_form': settings_form,
             'unit_count': Unit.objects.filter(
                 translation__subproject=obj
@@ -658,35 +655,48 @@ def data_project(request, project):
 @login_required
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
+    form_class = get_new_language_form(request, obj)
 
     if not can_add_translation(request.user, obj.project):
         raise PermissionDenied()
 
-    form = get_new_language_form(request, obj)(obj, request.POST)
+    if request.method == 'POST':
+        form = form_class(obj, request.POST)
 
-    if form.is_valid():
-        langs = form.cleaned_data['lang']
-        if isinstance(langs, string_types):
-            langs = [langs]
-        for language in Language.objects.filter(code__in=langs):
-            if obj.new_lang == 'contact':
-                notify_new_language(obj, language, request.user)
-                messages.success(
-                    request,
-                    _(
-                        "A request for a new translation has been "
-                        "sent to the project's maintainers."
+        if form.is_valid():
+            langs = form.cleaned_data['lang']
+            if isinstance(langs, string_types):
+                langs = [langs]
+            for language in Language.objects.filter(code__in=langs):
+                if obj.new_lang == 'contact':
+                    notify_new_language(obj, language, request.user)
+                    messages.success(
+                        request,
+                        _(
+                            "A request for a new translation has been "
+                            "sent to the project's maintainers."
+                        )
                     )
-                )
-            elif obj.new_lang == 'add':
-                obj.add_new_language(language, request)
+                elif obj.new_lang == 'add':
+                    obj.add_new_language(language, request)
+            return redirect(obj)
+        else:
+            messages.error(
+                request,
+                _('Please fix errors in the form.')
+            )
     else:
-        messages.error(
-            request,
-            _('Invalid language chosen!')
-        )
+        form = form_class(obj)
 
-    return redirect(obj)
+    return render(
+        request,
+        'new-language.html',
+        {
+            'object': obj,
+            'project': obj.project,
+            'form': form,
+        }
+    )
 
 
 def healthz(request):
