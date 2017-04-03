@@ -20,6 +20,7 @@
 
 from unittest import TestCase
 import shutil
+import sys
 import tempfile
 import os.path
 from multiprocessing import Process
@@ -103,7 +104,10 @@ class LockTest(TestCase):
 
     def second_lock(self):
         lock = FileLock(self.testfile, timeout=0)
-        lock.acquire()
+        try:
+            lock.acquire()
+        except FileLockException:
+            sys.exit(1)
         lock.release()
 
     def test_process(self):
