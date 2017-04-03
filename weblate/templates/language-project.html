@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -20,6 +21,7 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
+      <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
       <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
     </ul>
@@ -38,6 +40,16 @@
 </div>
 
 {% include "activity-tab.html" %}
+
+<div class="tab-pane" id="search">
+
+<form action="{% url 'search' project=project.slug lang=language.code %}" method="GET">
+{{ search_form|crispy }}
+<input type="submit" value="{% trans "Search" %}" class="btn btn-default" />
+</form>
+
+</div>
+
 
 </div>
 

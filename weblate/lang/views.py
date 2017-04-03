@@ -25,6 +25,7 @@ from django.http import Http404
 from six.moves.urllib.parse import urlencode
 
 from weblate.lang.models import Language
+from weblate.trans.forms import SiteSearchForm
 from weblate.trans.models import Project, Change
 from weblate.trans.util import sort_objects
 from weblate.trans.views.helper import get_project
@@ -111,5 +112,6 @@ def show_project(request, lang, project):
             'translations': translations,
             'title': '{0} - {1}'.format(pobj, obj),
             'show_only_component': True,
+            'search_form': SiteSearchForm(),
         }
     )

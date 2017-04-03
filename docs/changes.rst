@@ -14,6 +14,7 @@ Released on ? 2017.
 * Add option to browse 25 random strings for review.
 * History now indicates string change.
 * Better error reporting when adding new translation.
+* Added per language search within project.
 
 weblate 2.12
 ------------

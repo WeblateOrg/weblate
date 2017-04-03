@@ -8,6 +8,9 @@
 {% if subproject %}
 <li><a href="{{ subproject.get_absolute_url }}">{{ subproject.name }}</a></li>
 {% endif %}
+{% if language %}
+<li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
+{% endif %}
 {% endif %}
 <li><a href="{% url 'search' %}">{% trans "Search" %}</a></li>
 {% endblock %}

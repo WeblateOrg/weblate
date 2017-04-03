@@ -20,7 +20,7 @@
 
 import datetime
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.core.exceptions import PermissionDenied
@@ -216,7 +216,7 @@ def list_projects(request):
     )
 
 
-def search(request, project=None, subproject=None):
+def search(request, project=None, subproject=None, lang=None):
     """
     Performs site-wide search on units.
     """
@@ -233,6 +233,8 @@ def search(request, project=None, subproject=None):
         context['project'] = obj
     else:
         obj = None
+    if lang:
+        context['language'] = get_object_or_404(Language, code=lang)
 
     if search_form.is_valid():
         units = Unit.objects.search(
@@ -248,6 +250,10 @@ def search(request, project=None, subproject=None):
             projects = Project.objects.get_acl_ids(request.user)
             units = units.filter(
                 translation__subproject__project_id__in=projects
+            )
+        if lang:
+            units = units.filter(
+                translation__language=context['language']
             )
 
         limit = request.GET.get('limit', 50)
