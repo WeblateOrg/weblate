@@ -520,9 +520,9 @@ class SearchForm(forms.Form):
         label=_('Search type'),
         required=False,
         choices=(
+            ('substring', _('Substring')),
             ('ftx', _('Fulltext')),
             ('exact', _('Exact match')),
-            ('substring', _('Substring')),
         ),
         initial='substring'
     )
