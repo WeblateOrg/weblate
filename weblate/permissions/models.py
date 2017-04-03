@@ -32,6 +32,7 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.lang.models import Language
+from weblate.permissions.data import DEFAULT_GROUPS
 from weblate.trans.models import Project, SubProject
 from weblate.trans.fields import RegexField
 from weblate.utils.decorators import disable_for_loaddata
@@ -122,91 +123,13 @@ def create_groups(update):
     '''
     Creates standard groups and gives them permissions.
     '''
-    guest_group, created = Group.objects.get_or_create(name='Guests')
-    if created or update or guest_group.permissions.count() == 0:
-        guest_group.permissions.add(
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_suggestion'),
-            Permission.objects.get(codename='access_vcs'),
-        )
+    for name in DEFAULT_GROUPS:
+        group, created = Group.objects.get_or_create(name=name)
+        if created or update or group.permissions.count() == 0:
+            group.permissions.set(
+                Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
+            )
 
-    group, created = Group.objects.get_or_create(name='Users')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(
-            Permission.objects.get(codename='upload_translation'),
-            Permission.objects.get(codename='overwrite_translation'),
-            Permission.objects.get(codename='save_translation'),
-            Permission.objects.get(codename='save_template'),
-            Permission.objects.get(codename='accept_suggestion'),
-            Permission.objects.get(codename='delete_suggestion'),
-            Permission.objects.get(codename='vote_suggestion'),
-            Permission.objects.get(codename='ignore_check'),
-            Permission.objects.get(codename='upload_dictionary'),
-            Permission.objects.get(codename='add_dictionary'),
-            Permission.objects.get(codename='change_dictionary'),
-            Permission.objects.get(codename='delete_dictionary'),
-            Permission.objects.get(codename='lock_translation'),
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_comment'),
-            Permission.objects.get(codename='add_suggestion'),
-            Permission.objects.get(codename='use_mt'),
-            Permission.objects.get(codename='add_translation'),
-            Permission.objects.get(codename='delete_translation'),
-            Permission.objects.get(codename='access_vcs'),
-        )
-
-    owner_permissions = (
-        Permission.objects.get(codename='author_translation'),
-        Permission.objects.get(codename='upload_translation'),
-        Permission.objects.get(codename='overwrite_translation'),
-        Permission.objects.get(codename='commit_translation'),
-        Permission.objects.get(codename='update_translation'),
-        Permission.objects.get(codename='push_translation'),
-        Permission.objects.get(codename='automatic_translation'),
-        Permission.objects.get(codename='save_translation'),
-        Permission.objects.get(codename='save_template'),
-        Permission.objects.get(codename='accept_suggestion'),
-        Permission.objects.get(codename='vote_suggestion'),
-        Permission.objects.get(codename='override_suggestion'),
-        Permission.objects.get(codename='delete_comment'),
-        Permission.objects.get(codename='delete_suggestion'),
-        Permission.objects.get(codename='ignore_check'),
-        Permission.objects.get(codename='upload_dictionary'),
-        Permission.objects.get(codename='add_dictionary'),
-        Permission.objects.get(codename='change_dictionary'),
-        Permission.objects.get(codename='delete_dictionary'),
-        Permission.objects.get(codename='lock_subproject'),
-        Permission.objects.get(codename='reset_translation'),
-        Permission.objects.get(codename='lock_translation'),
-        Permission.objects.get(codename='can_see_git_repository'),
-        Permission.objects.get(codename='add_comment'),
-        Permission.objects.get(codename='delete_comment'),
-        Permission.objects.get(codename='add_suggestion'),
-        Permission.objects.get(codename='use_mt'),
-        Permission.objects.get(codename='edit_priority'),
-        Permission.objects.get(codename='edit_flags'),
-        Permission.objects.get(codename='manage_acl'),
-        Permission.objects.get(codename='download_changes'),
-        Permission.objects.get(codename='view_reports'),
-        Permission.objects.get(codename='add_translation'),
-        Permission.objects.get(codename='delete_translation'),
-        Permission.objects.get(codename='change_subproject'),
-        Permission.objects.get(codename='change_project'),
-        Permission.objects.get(codename='add_screenshot'),
-        Permission.objects.get(codename='delete_screenshot'),
-        Permission.objects.get(codename='change_screenshot'),
-        Permission.objects.get(codename='access_vcs'),
-    )
-
-    group, created = Group.objects.get_or_create(name='Managers')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(*owner_permissions)
-
-    group, created = Group.objects.get_or_create(name='Owners')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(*owner_permissions)
-
-    created = True
     anon_user, created = User.objects.get_or_create(
         username=settings.ANONYMOUS_USER_NAME,
         defaults={
@@ -225,7 +148,7 @@ def create_groups(update):
     if created or update:
         anon_user.set_unusable_password()
         anon_user.groups.clear()
-        anon_user.groups.add(guest_group)
+        anon_user.groups.add(Group.objects.get(name='Guests'))
 
 
 def move_users():
