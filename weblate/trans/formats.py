@@ -693,7 +693,8 @@ class FileFormat(object):
         '''
         Saves underlaying store to disk.
         '''
-        self.store.save()
+        with open(self.storefile, 'rb') as handle:
+            self.store.serialize(handle)
 
     def find_matching(self, template_unit):
         """Finds matching store unit for template"""
