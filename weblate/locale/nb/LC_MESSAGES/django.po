@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-03-17 15:41+0000\n"
-"PO-Revision-Date: 2017-03-22 00:16+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2017-04-03 19:35+0000\n"
+"Last-Translator: Ole-Erik Yrvin <oeyrvin@gmail.com>\n"
 "Language-Team: Norwegian Bokmål "
 "<https://hosted.weblate.org/projects/weblate/master/nb/>\n"
 "Language: nb\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -257,10 +257,8 @@ msgid "Hide source if there is secondary language"
 msgstr "Skjul kilde hvis det finnes sekundærspråk"
 
 #: weblate/accounts/models.py:580
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Editor link"
-msgstr "Rediger kildestreng"
+msgstr "Link til redigerer"
 
 #: weblate/accounts/models.py:582
 #, python-format
@@ -270,6 +268,10 @@ msgid ""
 "placeholders. Usually something like editor://open/?file=%(file)s&line="
 "%(line)s is good option."
 msgstr ""
+"Angi egendefinert URL-adresse som skal brukes som link til åpen kildekode. "
+"Du kan bruke %(branch)s for gren, %(file)s og %(line)s som filnavn og "
+"plassholdere for linje. Vanligvis noe som "
+"redigerer://open/?file=%(file)s&line=%(line)s er et godt alternativ."
 
 #: weblate/accounts/models.py:593
 msgid "Special characters"
@@ -281,6 +283,9 @@ msgid ""
 "while translating. It can be useful for chars you use frequently but are "
 "hard to type on your keyboard."
 msgstr ""
+"Du kan i tillegg angi flere spesialtegn som kan vises i visuelle tastaturer "
+"under oversettelse. Det kan være nyttig for tegn du bruker ofte, men er "
+"vanskelig å skrive på tastaturet ditt."
 
 #: weblate/accounts/models.py:607 weblate/templates/index.html:31
 msgid "Watched translations"
@@ -505,7 +510,7 @@ msgstr "Siste faktura"
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:218
 msgid "In display limits"
-msgstr "Fremvisningsgrenser"
+msgstr "Innenfor skjermvisningsgrenser"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -687,10 +692,8 @@ msgid "Project / Component"
 msgstr "Prosjekt / Komponent"
 
 #: weblate/permissions/apps.py:30
-#, fuzzy
-#| msgid "Versions"
 msgid "Permissions"
-msgstr "Versjoner"
+msgstr "Tillatelser"
 
 #: weblate/permissions/models.py:53
 msgid "Project, component or language must be specified"
@@ -745,7 +748,7 @@ msgstr "Skjermbildet er lastet opp, nå kan du tilordne det til kildestrenger."
 
 #: weblate/screenshots/views.py:113
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "Kunne ikke laste opp skjermbilde, vennligst fiks feilene nedenfor."
 
 #: weblate/screenshots/views.py:165
 #, python-format
@@ -2992,17 +2995,13 @@ msgid "No screenshot currently associated!"
 msgstr "Ingen tilknyttede skjermbilder for tiden!"
 
 #: weblate/templates/js/detail.html:87 weblate/templates/subproject.html:54
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage screenshots"
-msgstr "Administere brukere"
+msgstr "Administrere skjermbilder"
 
 #: weblate/templates/js/detail.html:97
 #: weblate/templates/screenshots/screenshot_list.html:58
-#, fuzzy
-#| msgid "Add new user"
 msgid "Add new screenshot"
-msgstr "Legge til ny bruker"
+msgstr "Legge til nytt skjermbilde"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
@@ -3820,81 +3819,61 @@ msgstr "Antall kildeord"
 
 #: weblate/templates/screenshots/screenshot_detail.html:9
 #: weblate/templates/screenshots/screenshot_list.html:9
-#, fuzzy
-#| msgid "Screenshot context"
 msgid "Screenshots"
-msgstr "Skjermbildeomgivelse"
+msgstr "Skjermbilder"
 
 #: weblate/templates/screenshots/screenshot_detail.html:20
-#, fuzzy
-#| msgid "source strings"
 msgid "Assigned source strings"
-msgstr "Kildestrenger"
+msgstr "Tildelte kildestrenger"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
 #: weblate/templates/screenshots/screenshot_detail.html:52
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string"
-msgstr "Kildestrenger"
+msgstr "Kildestreng"
 
 #: weblate/templates/screenshots/screenshot_detail.html:26
 #: weblate/templates/screenshots/screenshot_detail.html:53
-#, fuzzy
-#| msgid "Action"
 msgid "Actions"
-msgstr "Handling"
+msgstr "Handlinger"
 
 #: weblate/templates/screenshots/screenshot_detail.html:36
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Skjermbildet vises for å legge til visuell kontekst for alle oppførte "
+"kildestrenger."
 
 #: weblate/templates/screenshots/screenshot_detail.html:47
-#, fuzzy
-#| msgid "source strings"
 msgid "Assign source strings"
-msgstr "Kildestrenger"
+msgstr "Tilordne kildestrenger"
 
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Loading…"
 msgid "Loading results…"
-msgstr "Laster …"
+msgstr "Laster inn resultater…"
 
 #: weblate/templates/screenshots/screenshot_detail.html:60
-#, fuzzy
-#| msgid "Search in source strings"
 msgid "Please search below to find matching source strings."
-msgstr "Søk i kildestrenger"
+msgstr "Vennligst søk nedenfor for å finne samsvarende kildestrenger."
 
 #: weblate/templates/screenshots/screenshot_detail.html:69
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically recognize"
-msgstr "Automatisk gjenkjenning"
+msgstr "Å gjenkjenne automatisk"
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
-#, fuzzy
-#| msgid "Source strings"
 msgid "Source string search"
-msgstr "Kildestrenger"
+msgstr "Å søke etter kildestrenger"
 
 #: weblate/templates/screenshots/screenshot_detail.html:97
-#, fuzzy
-#| msgid "Edit source string"
 msgid "Edit screenshot"
-msgstr "Rediger kildestreng"
+msgstr "Redigere skjermbilde"
 
 #: weblate/templates/screenshots/screenshot_detail.html:110
-#, fuzzy
-#| msgid "Delete this account"
 msgid "Delete screenshot"
-msgstr "Slett denne kontoen"
+msgstr "Slette skjermbilde"
 
 #: weblate/templates/screenshots/screenshot_detail.html:113
 msgid "Deleting screenshot will remove it from all associated source strings."
-msgstr ""
+msgstr "Slettes skjermbildet, fjernes det fra alle tilknyttede kildestrenger."
 
 #: weblate/templates/screenshots/screenshot_list.html:22
 #: weblate/templates/translation.html:97 weblate/templates/translation.html:328
@@ -3902,10 +3881,8 @@ msgid "Strings"
 msgstr "Strenger"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:29
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No source strings are currently assigned!"
-msgstr "Ingen tilknyttede skjermbilder for tiden!"
+msgstr "For tiden ingen tilknyttede skjermbilder!"
 
 #: weblate/templates/search.html:39
 msgid "No matching strings found!"
@@ -4116,14 +4093,10 @@ msgid "Suggestions"
 msgstr "Forslag"
 
 #: weblate/templates/trans/suggestion_list.html:15
-#, fuzzy
-#| msgid "Suggestion:"
 msgid "Suggestion"
-msgstr "Forslag:"
+msgstr "Forslag"
 
 #: weblate/templates/trans/suggestion_list.html:28
-#, fuzzy
-#| msgid "No matching strings found!"
 msgid "No matching translations found!"
 msgstr "Ingen sammenfallende strenger funnet!"
 
@@ -4327,10 +4300,8 @@ msgid "Accept and edit"
 msgstr "Aksepter og rediger"
 
 #: weblate/templates/translate.html:277
-#, fuzzy
-#| msgid "Use this translation"
 msgid "This translation"
-msgstr "Bruk denne oversettelsen"
+msgstr "Denne oversettelsen"
 
 #: weblate/templates/translate.html:286
 msgid "Use this translation for all components"
@@ -4341,10 +4312,8 @@ msgid "Use this translation"
 msgstr "Bruk denne oversettelsen"
 
 #: weblate/templates/translate.html:293
-#, fuzzy
-#| msgid "Revert to this translation"
 msgid "Change compared to this translation:"
-msgstr "Tilbakestill til denne oversettelsen"
+msgstr "Endring sammenlignet med denne oversettelsen:"
 
 #: weblate/templates/translate.html:316
 msgid "Service"
@@ -4589,10 +4558,8 @@ msgid "%(filename)s, translation unit %(position)s"
 msgstr "%(filename)s, oversettelsesenhet %(position)s"
 
 #: weblate/templates/user-activity.html:5
-#, fuzzy
-#| msgid "Browse"
 msgid "Browse pending"
-msgstr "Bla gjennom"
+msgstr "Bla igjennom ventende"
 
 #: weblate/templates/user-activity.html:14
 msgid "Last login"
@@ -4951,17 +4918,12 @@ msgid "This message has more than one translation in this project"
 msgstr "Denne meldingen har mer enn én oversettelse i dette prosjektet"
 
 #: weblate/trans/checks/consistency.py:114
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Has been translated"
-msgstr "Ikke oversatt"
+msgstr "Har blitt oversatt"
 
 #: weblate/trans/checks/consistency.py:116
-#, fuzzy
-#| msgid "This message has more than one translation in this project"
 msgid "This string has been translated in the past"
-msgstr "Denne meldingen har mer enn én oversettelse i dette prosjektet"
+msgstr "Denne strengen er oversatt tidligere"
 
 #: weblate/trans/checks/format.py:223
 msgid "Python format"
@@ -5100,10 +5062,8 @@ msgid "XLIFF Translation File"
 msgstr "XLIFF-oversettelsesfil"
 
 #: weblate/trans/formats.py:1070
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF Translation File with PO extensions"
-msgstr "XLIFF-oversettelsesfil"
+msgstr "XLIFF-oversettelsesfil med PO-forlengelser"
 
 #: weblate/trans/formats.py:1078
 msgid "OS X Strings"
@@ -5126,10 +5086,8 @@ msgid "Java Properties (ISO-8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
 #: weblate/trans/formats.py:1132
-#, fuzzy
-#| msgid "Language filter"
 msgid "Joomla Language File"
-msgstr "Språkfilter"
+msgstr "Joomla språkfil"
 
 #: weblate/trans/formats.py:1142
 msgid "PHP strings"
@@ -6187,10 +6145,8 @@ msgstr ""
 "filnavnsmaske."
 
 #: weblate/trans/models/subproject.py:479
-#, fuzzy
-#| msgid "Strings with higher priority are offered first to translators."
 msgid "Components with higher priority are offered first to translators."
-msgstr "Strenger med høyere prioritet tilbys først til oversettere."
+msgstr "Deler med høyere prioritet tilbys først til oversettere."
 
 #: weblate/trans/models/subproject.py:668
 msgid ""
@@ -6262,15 +6218,12 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Fikk tom språkkode for %s. Vennligst sjekk filmasken!"
 
 #: weblate/trans/models/subproject.py:1148
-#, fuzzy, python-format
-#| msgid ""
-#| "There are more files for single language, please adjust the mask and use "
-#| "components for translating different resources."
+#, python-format
 msgid ""
 "There are more files for single language (%s), please adjust the mask and "
 "use components for translating different resources."
 msgstr ""
-"Det er flere filer for ett språk. Vennligst juster masken, og bruk "
+"Det er flere filer for ett språk (%s), vennligst juster masken, og bruk "
 "komponenter for å oversette ulike ressurser."
 
 #: weblate/trans/models/subproject.py:1154
@@ -6513,10 +6466,8 @@ msgid "Em dash"
 msgstr "Lang tankestrek"
 
 #: weblate/trans/specialchars.py:470
-#, fuzzy
-#| msgid "Insert character {0}"
 msgid "User configured character: {}"
-msgstr "Sette inn tegn {0}"
+msgstr "Brukerkonfigurerte tegn: {}"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/trans/ssh.py:92
@@ -6734,17 +6685,12 @@ msgstr[0] "%(count)s time fra nå"
 msgstr[1] "%(count)s timer fra nå"
 
 #: weblate/trans/templatetags/translations.py:538
-#, fuzzy
-#| msgctxt "Checkbox for marking translation needing review"
-#| msgid "Needs review"
 msgid "Needs review"
 msgstr "Trenger gjennomgang"
 
 #: weblate/trans/templatetags/translations.py:543
-#, fuzzy
-#| msgid "translated"
 msgid "Not translated"
-msgstr "oversatt"
+msgstr "Ikke oversatt"
 
 #: weblate/trans/templatetags/translations.py:567
 msgid "Message needs review"
@@ -6821,10 +6767,8 @@ msgid "Add review flag for new source strings"
 msgstr "Legg til gjennomgangsflagg for nye kildekodestrenger"
 
 #: weblate/trans/validators.py:39
-#, fuzzy
-#| msgid "Add review flag for new source strings"
 msgid "Add review flag for new translated strings"
-msgstr "Legg til gjennomgangsflagg for nye kildekodestrenger"
+msgstr "Legg til utførtflagg for nyoversatte strenger"
 
 #: weblate/trans/validators.py:52 weblate/trans/validators.py:75
 #: weblate/utils/validators.py:66
@@ -6904,9 +6848,9 @@ msgid ""
 "currently contains %(total)s strings for translation and is %(percent)s%% "
 "complete."
 msgstr ""
-"<a href=\"%(url)s\">Oversettelsesprosjekt for %(project)s</a> til norsk "
-"inneholder for tiden %(total)s strenger for oversettelse, og er %(percent)s"
-"%% komplett."
+"<a href=\"%(url)s\">Oversettelsesprosjekt for %(project)s</a> til bokmål "
+"inneholder for tiden %(total)s strenger til oversettelse, og er %(percent)s%%"
+" komplett."
 
 #: weblate/trans/views/basic.py:339 weblate/trans/views/basic.py:410
 msgid "Settings saved"
@@ -7046,10 +6990,8 @@ msgstr ""
 "forslaget ditt."
 
 #: weblate/trans/views/edit.py:218
-#, fuzzy
-#| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
-msgstr "Forslaget ditt er tomt!"
+msgstr "Forslaget ditt eksisterer allerede!"
 
 #: weblate/trans/views/edit.py:249
 #, python-format
@@ -7154,8 +7096,12 @@ msgid ""
 msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
-msgstr[0] "Behandlet %d streng fra de opplastede filene."
-msgstr[1] "Behandlet %d strenger fra de opplastede filene."
+msgstr[0] ""
+"Behandlet {0} streng fra de opplastede filene (hoppes over: {1} ble ikke "
+"funnet: {2}, oppdatert: {3})."
+msgstr[1] ""
+"Behandlede {0} strenger fra de opplastede filene (hoppet over: {1} ikke "
+"funnet: {2}, oppdatert: {3})."
 
 #: weblate/trans/views/files.py:136
 #, python-format
