@@ -216,6 +216,29 @@ def change_acl_groups(sender, instance, action, reverse, model, pk_set,
             update.permissions.set(perms)
 
 
+@receiver(post_save, sender=Project)
+@disable_for_loaddata
+def setup_group_acl(sender, instance, **kwargs):
+    if not instance.enable_acl:
+        return
+
+    group_acl = GroupACL.objects.get_or_create(project=instance)[0]
+
+    for template_group in Group.objects.filter(name__startswith='@'):
+        name = '{0}{1}'.format(instance.name, template_group.name)
+        try:
+            group = group_acl.groups.get(name__endswith=template_group.name)
+            # Update exiting group (to hanle rename)
+            if group.name != name:
+                group.name = name
+                group.save()
+        except Group.DoesNotExist:
+            # Create new group
+            group = Group.objects.get_or_create(name=name)[0]
+            group.permissions.set(template_group.permissions.all())
+            group_acl.groups.add(group)
+
+
 # Special hook for LDAP as it does create user without email and updates it
 # later. This can lead to group assignment on every login with
 # AUTH_LDAP_ALWAYS_UPDATE_USER enabled.

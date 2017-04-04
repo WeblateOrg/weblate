@@ -267,33 +267,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         super(Project, self).save(*args, **kwargs)
 
-        # Create ACL permissions on save
-        if self.enable_acl:
-            content_type = ContentType.objects.get(
-                app_label='trans',
-                model='project'
-            )
-
-            perm_code = 'weblate_acl_{0}'.format(self.slug)
-            perm_name = 'Can access project {0}'.format(self.name)
-
-            try:
-                permission = Permission.objects.get(
-                    codename=perm_code,
-                    content_type=content_type
-                )
-                if permission.name != perm_name:
-                    permission.name = perm_name
-                    permission.save()
-            except Permission.DoesNotExist:
-                permission = Permission.objects.create(
-                    codename=perm_code,
-                    name=perm_name,
-                    content_type=content_type
-                )
-            group = Group.objects.get_or_create(name=self.name)[0]
-            group.permissions.add(permission)
-
     # Arguments number differs from overridden method
     # pylint: disable=W0221
 
