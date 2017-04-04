@@ -53,7 +53,7 @@ def make_owner(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        obj.add_owner(form.cleaned_data['user'])
+        obj.add_user(form.cleaned_data['user'], '@Administration')
 
     return redirect_param(
         'project',
@@ -73,7 +73,7 @@ def revoke_owner(request, project):
         else:
             # Ensure owner stays within project
             if obj.enable_acl:
-                obj.add_user(form.cleaned_data['user'])
+                obj.add_user(form.cleaned_data['user'], '@Translate')
 
             obj.owners.remove(form.cleaned_data['user'])
 
@@ -90,7 +90,7 @@ def add_user(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None and obj.enable_acl:
-        obj.add_user(form.cleaned_data['user'])
+        obj.add_user(form.cleaned_data['user'], '@Translate')
         messages.success(
             request, _('User has been added to this project.')
         )
@@ -116,7 +116,7 @@ def delete_user(request, project):
         else:
             if is_owner:
                 obj.owners.remove(form.cleaned_data['user'])
-            obj.remove_user(form.cleaned_data['user'])
+            obj.remove_user(form.cleaned_data['user'], '@Translate')
             messages.success(
                 request, _('User has been removed from this project.')
             )

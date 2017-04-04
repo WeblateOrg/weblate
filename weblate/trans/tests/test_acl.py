@@ -43,7 +43,7 @@ class ACLViewTest(ViewTestCase):
         """
         Adds user to ACL.
         """
-        self.project.add_user(self.user)
+        self.project.add_user(self.user, '@Translate')
 
     def test_acl_denied(self):
         """No access to the project without ACL.

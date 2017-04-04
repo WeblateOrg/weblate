@@ -191,9 +191,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             id__in=self.owners.values_list('id', flat=True)
         )
 
-    def add_user(self, user):
+    def add_user(self, user, group):
         """Adds user based on username of email."""
-        group = Group.objects.get(name=self.name)
+        group = Group.objects.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
         self.add_subscription(user)
 
@@ -206,14 +206,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         profile.subscriptions.add(self)
 
-    def add_owner(self, user):
-        """Adds owner to the project"""
-        self.owners.add(user)
-        self.add_subscription(user)
-
-    def remove_user(self, user):
+    def remove_user(self, user, group):
         """Adds user based on username of email."""
-        group = Group.objects.get(name=self.name)
+        group = Group.objects.get(name='{0}{1}'.format(self.name, group))
         user.groups.remove(group)
 
     def clean(self):
