@@ -136,3 +136,5 @@ DEFAULT_GROUPS = {
     ),
     '@Administration': ADMIN_PERMS,
 }
+
+ADMIN_ONLY_PERMS = set(ADMIN_PERMS) - set(DEFAULT_GROUPS['Users'])
