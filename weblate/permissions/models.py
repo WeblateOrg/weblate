@@ -26,7 +26,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group, User, Permission
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import post_save, post_migrate
+from django.db.models.signals import post_save, post_migrate, m2m_changed
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
@@ -186,6 +186,34 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
     '''
     if created:
         auto_assign_group(instance)
+
+
+@receiver(m2m_changed, sender=Group.permissions.through)
+def change_acl_groups(sender, instance, action, reverse, model, pk_set,
+                      **kwargs):
+    """Update per project ACL groups on master group change"""
+    # We care only about post update signals
+    if action.split('_')[0] != 'post':
+        return
+
+    # Figure out which groups are being changed
+    if reverse:
+        groups = model.objects.filter(pk__in=pk_set)
+    else:
+        groups = [instance]
+
+    # Process changed groups
+    for group in groups:
+        # Find related groups
+        related = Group.objects.filter(
+            name__endswith=group.name
+        ).exclude(
+            pk=group.pk
+        )
+        perms = group.permissions.all()
+        # Update their permissions
+        for update in related:
+            update.permissions.set(perms)
 
 
 # Special hook for LDAP as it does create user without email and updates it
