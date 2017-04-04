@@ -93,6 +93,8 @@ Can use machine translation [Users, Managers, Owners]
     Can use machine translations (see :ref:`machine-translation-setup`).
 Can manage ACL rules for a project [Managers, Owners]
     Can add users to ACL controlled projects (see :ref:`acl`)
+Can access project [Managers, Owners]
+    Can access ACL controlled projects (see :ref:`acl`)
 Can edit priority [Managers, Owners]
     Can adjust source string priority
 Can edit check flags [Managers, Owners]

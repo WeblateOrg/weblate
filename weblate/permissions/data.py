@@ -62,6 +62,7 @@ ADMIN_PERMS = (
     'delete_screenshot',
     'change_screenshot',
     'access_vcs',
+    'access_project',
 )
 
 
@@ -96,6 +97,7 @@ DEFAULT_GROUPS = {
     'Owners': ADMIN_PERMS,
     'Managers': ADMIN_PERMS,
     '@Translate': (
+        'access_project',
         'upload_translation',
         'overwrite_translation',
         'save_translation',
@@ -112,17 +114,20 @@ DEFAULT_GROUPS = {
         'delete_translation',
     ),
     '@Glossary': {
+        'access_project',
         'upload_dictionary',
         'add_dictionary',
         'change_dictionary',
         'delete_dictionary',
     },
     '@Screenshots': (
+        'access_project',
         'add_screenshot',
         'delete_screenshot',
         'change_screenshot',
     ),
     '@VCS': (
+        'access_project',
         'commit_translation',
         'update_translation',
         'push_translation',
