@@ -34,6 +34,7 @@ from django.utils import formats
 from django.core.exceptions import PermissionDenied
 
 from weblate.utils import messages
+from weblate.permissions.helpers import check_access
 from weblate.trans.models import (
     Unit, Change, Comment, Suggestion, Dictionary,
     get_related_units,
@@ -657,7 +658,7 @@ def comment(request, pk):
     Adds new comment.
     '''
     unit = get_object_or_404(Unit, pk=pk)
-    unit.check_acl(request)
+    check_access(request, unit.translation.subproject.project)
 
     if not can_add_comment(request.user, unit.translation.subproject.project):
         raise PermissionDenied()
@@ -689,7 +690,7 @@ def delete_comment(request, pk):
     Deletes comment.
     """
     comment_obj = get_object_or_404(Comment, pk=pk)
-    comment_obj.project.check_acl(request)
+    check_access(request, comment_obj.project)
 
     if not can_delete_comment(request.user, comment_obj.project):
         raise PermissionDenied()

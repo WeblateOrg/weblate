@@ -47,9 +47,10 @@ class ProjectManager(models.Manager):
         """Returns list of project IDs and status
         for current user filtered by ACL
         """
+        from weblate.permissions.helpers import can_access_project
         if not hasattr(user, 'acl_ids_cache'):
             user.acl_ids_cache = [
-                project.id for project in self.all() if project.has_acl(user)
+                project.id for project in self.all() if can_access_project(user, project)
             ]
 
         return user.acl_ids_cache
@@ -161,28 +162,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def get_full_slug(self):
         return self.slug
-
-    def has_acl(self, user):
-        """Checks whether current user is allowed to access this object"""
-        if not self.enable_acl:
-            return True
-
-        if user is None:
-            return False
-
-        if user.has_perm('trans.weblate_acl_{0}'.format(self.slug)):
-            return True
-
-        return self.owners.filter(id=user.id).exists()
-
-    def check_acl(self, request):
-        """Raises an error if user is not allowed to access this project."""
-        if not self.has_acl(request.user):
-            messages.error(
-                request,
-                _('You are not allowed to access project %s.') % self.name
-            )
-            raise PermissionDenied
 
     def all_users(self):
         """Returns all users having ACL on this project."""

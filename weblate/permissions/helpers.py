@@ -481,3 +481,21 @@ def can_access_vcs(user, project):
     Checks whether user can delete screenshot for given project.
     """
     return has_group_perm(user, 'trans.access_vcs', project=project)
+
+
+@cache_permission
+def can_access_project(user, project):
+    """
+    Checks whether user can delete screenshot for given project.
+    """
+    return has_group_perm(user, 'trans.access_project', project=project)
+
+
+def check_access(request, project):
+    """Raises an error if user is not allowed to access this project."""
+    if not can_access_project(request.user, project):
+        messages.error(
+            request,
+            _('You are not allowed to access project %s.') % project.name
+        )
+        raise PermissionDenied()

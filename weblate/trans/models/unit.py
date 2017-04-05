@@ -411,19 +411,6 @@ class Unit(models.Model, LoggerMixin):
         self._suggestions = None
         self.old_unit = copy(self)
 
-    def has_acl(self, user):
-        """
-        Checks whether current user is allowed to access this
-        subproject.
-        """
-        return self.translation.subproject.project.has_acl(user)
-
-    def check_acl(self, request):
-        """
-        Raises an error if user is not allowed to access this project.
-        """
-        self.translation.subproject.project.check_acl(request)
-
     def __str__(self):
         return '{0} on {1}'.format(
             self.checksum,

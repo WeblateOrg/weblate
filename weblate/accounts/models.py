@@ -723,24 +723,24 @@ class Profile(models.Model):
         '''
         Wrapper for sending notifications to user.
         '''
+        from weblate.permissions.helpers import can_access_project
         if context is None:
             context = {}
         if headers is None:
             headers = {}
 
         # Check whether user is still allowed to access this project
-        if not translation_obj.has_acl(self.user):
-            return
-        # Generate notification
-        return get_notification_email(
-            self.language,
-            self.user.email,
-            notification,
-            translation_obj,
-            context,
-            headers,
-            user=user
-        )
+        if can_access_project(self.user, translation_obj.subproject.project):
+            # Generate notification
+            return get_notification_email(
+                self.language,
+                self.user.email,
+                notification,
+                translation_obj,
+                context,
+                headers,
+                user=user
+            )
 
     def notify_any_translation(self, unit, oldunit):
         '''

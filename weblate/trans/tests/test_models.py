@@ -30,7 +30,7 @@ import os
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
-from django.contrib.auth.models import Permission, User
+from django.contrib.auth.models import User, Group
 from django.core.exceptions import ValidationError
 
 from weblate.trans.models import (
@@ -39,6 +39,7 @@ from weblate.trans.models import (
 )
 import weblate.trans.models.subproject
 from weblate.lang.models import Language
+from weblate.permissions.helpers import can_access_project
 from weblate.trans.tests.utils import get_test_file, RepoTestMixin
 
 
@@ -115,17 +116,16 @@ class ProjectTest(RepoTestCase):
         project.save()
 
         # Check user does not have access
-        self.assertFalse(project.has_acl(user))
+        self.assertFalse(can_access_project(user, project))
 
-        # Add ACL
-        permission = Permission.objects.get(codename='weblate_acl_test')
-        user.user_permissions.add(permission)
+        # Add to ACL group
+        user.groups.add(Group.objects.get(name='Test@Translate'))
 
         # Need to fetch user again to clear permission cache
         user = User.objects.get(username='testuser')
 
         # We now should have access
-        self.assertTrue(project.has_acl(user))
+        self.assertTrue(can_access_project(user, project))
 
 
 class TranslationTest(RepoTestCase):

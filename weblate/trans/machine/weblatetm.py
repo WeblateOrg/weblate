@@ -21,6 +21,8 @@
 from __future__ import unicode_literals
 
 from django.utils.encoding import force_text
+
+from weblate.permissions.helpers import can_access_project
 from weblate.trans.machine.base import MachineTranslation
 from weblate.trans.models.unit import Unit
 
@@ -63,7 +65,7 @@ class WeblateTranslation(WeblateBase):
         return [
             format_unit_match(munit, 100)
             for munit in matching_units
-            if munit.has_acl(user)
+            if can_access_project(user, munit.translation.subproject.project)
         ]
 
 
@@ -82,5 +84,5 @@ class WeblateSimilarTranslation(WeblateBase):
         return [
             format_unit_match(munit, 50)
             for munit in matching_units
-            if munit.has_acl(user)
+            if can_access_project(user, munit.translation.subproject.project)
         ]

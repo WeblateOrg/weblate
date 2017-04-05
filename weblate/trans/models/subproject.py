@@ -520,14 +520,6 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
     def log_prefix(self):
         return '/'.join((self.project.slug, self.slug))
 
-    def has_acl(self, user):
-        """Checks whether current user is allowed to access this object"""
-        return self.project.has_acl(user)
-
-    def check_acl(self, request):
-        """Raises an error if user is not allowed to access this project."""
-        self.project.check_acl(request)
-
     def _reverse_url_kwargs(self):
         """Returns kwargs for URL reversing."""
         return {
