@@ -62,37 +62,47 @@ def has_group_perm(user, permission, translation=None, project=None):
         user.acl_permissions_groups = {}
     if translation is not None:
         key = ('t', translation.pk)
-        if key not in user.acl_permissions_groups:
-            user.acl_permissions_groups[key] = list(GroupACL.objects.filter(
-                (Q(language=translation.language) | Q(language=None)) &
-                (Q(project=translation.subproject.project) | Q(project=None)) &
-                (Q(subproject=translation.subproject) | Q(subproject=None)) &
-                (~Q(language=None, project=None, subproject=None))
-            ))
-        acls = user.acl_permissions_groups[key]
+        groups = GroupACL.objects.filter(
+            (Q(language=translation.language) | Q(language=None)) &
+            (Q(project=translation.subproject.project) | Q(project=None)) &
+            (Q(subproject=translation.subproject) | Q(subproject=None)) &
+            (~Q(language=None, project=None, subproject=None))
+        )
     elif project is not None:
         key = ('p', project.pk)
-        if key not in user.acl_permissions_groups:
-            user.acl_permissions_groups[key] = list(GroupACL.objects.filter(
-                project=project, subproject=None, language=None
-            ))
-        acls = user.acl_permissions_groups[key]
+        groups = GroupACL.objects.filter(
+            project=project, subproject=None, language=None
+        )
     else:
         return user.has_perm(permission)
 
-    if not acls:
+    if key in user.acl_permissions_groups:
+        groupacl, membership = user.acl_permissions_groups[key]
+    else:
+        # Force fetching query
+        acls = list(groups)
+        if acls:
+            # more specific rules are more important: subproject > project > language
+            acls.sort(reverse=True, key=lambda a: (
+                a.subproject is not None,
+                a.project is not None,
+                a.language is not None))
+            groupacl = acls[0]
+            membership = list(groupacl.groups.all() & user.groups.all())
+        else:
+            groupacl = None
+            membership = None
+        user.acl_permissions_groups[key] = groupacl, membership
+
+    # No GroupACL in effect, fallback to standard permissions
+    if groupacl is None:
         return user.has_perm(permission)
 
-    # more specific rules are more important: subproject > project > language
-    acls.sort(reverse=True, key=lambda a: (
-        a.subproject is not None,
-        a.project is not None,
-        a.language is not None))
-
-    membership = acls[0].groups.all() & user.groups.all()
-    if not membership.exists():
+    # User is not member, no permission
+    if not membership:
         return False
 
+    # Check if group has asked permission
     app, perm = permission.split('.')
     return Permission.objects.filter(
         group__in=membership,
