@@ -192,10 +192,14 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         profile.subscriptions.add(self)
 
-    def remove_user(self, user, group):
+    def remove_user(self, user, group=None):
         """Add user based on username of email."""
-        group = Group.objects.get(name='{0}{1}'.format(self.name, group))
-        user.groups.remove(group)
+        if group is None:
+            groups = Group.objects.filter(name__startswith='{0}@'.format(self.name))
+            user.groups.remove(*groups)
+        else:
+            group = Group.objects.get(name='{0}{1}'.format(self.name, group))
+            user.groups.remove(group)
 
     def clean(self):
         try:
