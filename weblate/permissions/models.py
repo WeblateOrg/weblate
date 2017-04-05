@@ -62,11 +62,10 @@ class GroupACL(models.Model):
                 _('Project, component or language must be specified')
             )
 
+    def save(self, *args, **kwargs):
         # ignore project if subproject is set
         if self.project and self.subproject:
             self.project = None
-
-    def save(self, *args, **kwargs):
         super(GroupACL, self).save(*args, **kwargs)
         # Default to all permissions if none are chosen
         if self.permissions.count() == 0:

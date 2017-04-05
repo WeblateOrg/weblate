@@ -203,7 +203,7 @@ class GroupACLTest(ModelTestCase):
         )
         acl.project = self.project
         acl.subproject = self.subproject
-        acl.clean()
+        acl.save()
         self.assertIsNone(acl.project)
 
     def test_acl_project(self):
