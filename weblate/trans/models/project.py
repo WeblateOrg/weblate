@@ -170,9 +170,12 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_full_slug(self):
         return self.slug
 
-    def all_users(self):
+    def all_users(self, group=None):
         """Return all users having ACL on this project."""
-        return User.objects.filter(groups__groupacl__project=self).distinct()
+        groups = Group.objects.filter(groupacl__project=self)
+        if group is not None:
+            groups = groups.filter(name__endswith=group)
+        return User.objects.filter(groups__in=groups).distinct()
 
     def add_user(self, user, group):
         """Add user based on username of email."""

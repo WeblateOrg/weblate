@@ -68,7 +68,7 @@ def revoke_owner(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None:
-        if obj.owners.count() <= 1:
+        if obj.all_users('@Administration').count() <= 1:
             messages.error(request, _('You can not remove last owner!'))
         else:
             # Ensure owner stays within project
