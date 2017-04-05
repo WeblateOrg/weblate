@@ -152,7 +152,7 @@ class ScreenshotDetail(DetailView):
 @login_required
 def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    check_access(self.request, obj.component.project)
+    check_access(request, obj.component.project)
     if not can_delete_screenshot(request.user, obj.component.project):
         raise PermissionDenied()
 
@@ -170,7 +170,7 @@ def delete_screenshot(request, pk):
 
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    check_access(self.request, obj.component.project)
+    check_access(request, obj.component.project)
     if not can_change_screenshot(request.user, obj.component.project):
         raise PermissionDenied()
     return obj

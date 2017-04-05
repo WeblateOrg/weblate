@@ -1243,8 +1243,10 @@ class SubProject(models.Model, PercentMixin, URLMixin, PathMixin):
 
             code = self.get_lang_code(self.template)
             if code:
-                lang = Language.objects.auto_get_or_create(code=code)
-                if lang.base_code() != self.project.source_language.base_code():
+                lang = Language.objects.auto_get_or_create(
+                    code=code
+                ).base_code()
+                if lang != self.project.source_language.base_code():
                     msg = _(
                         'Template language (%s) does not '
                         'match project source language (%s)!'

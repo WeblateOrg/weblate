@@ -27,14 +27,12 @@ from django.db import models
 from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
-from django.core.exceptions import ValidationError, PermissionDenied
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Permission, User, Group
-from django.contrib.contenttypes.models import ContentType
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
-from weblate.utils import messages
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
@@ -51,10 +49,12 @@ class ProjectManager(models.Manager):
             permission = Permission.objects.get(codename='access_project')
             user.acl_ids_cache = set(
                 self.filter(
-                    (Q(groupacl__permissions=permission) &
-                    Q(groupacl__groups__permissions=permission) &
-                    Q(groupacl__groups__user=user)) |
-                    ~Q(groupacl__permissions=permission)
+                    ~Q(groupacl__permissions=permission) |
+                    (
+                        Q(groupacl__permissions=permission) &
+                        Q(groupacl__groups__permissions=permission) &
+                        Q(groupacl__groups__user=user)
+                    )
                 ).values_list(
                     'id', flat=True
                 )

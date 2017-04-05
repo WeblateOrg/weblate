@@ -174,7 +174,9 @@ class UnitManager(models.Manager):
                 )
             coms = coms.values_list('content_hash', flat=True)
             return self.filter(content_hash__in=coms)
-        elif rqtype.startswith('check:') or rqtype in ['allchecks', 'sourcechecks']:
+        elif rqtype.startswith('check:'):
+            return self.filter_checks(rqtype, translation, ignored)
+        elif rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)
         else:
             # Catch anything not matching including 'all'
