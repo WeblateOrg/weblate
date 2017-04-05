@@ -172,10 +172,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     def all_users(self):
         """Return all users having ACL on this project."""
-        group = Group.objects.get(name=self.name)
-        return group.user_set.exclude(
-            id__in=self.owners.values_list('id', flat=True)
-        )
+        return User.objects.filter(groups__groupacl__project=self).distinct()
 
     def add_user(self, user, group):
         """Add user based on username of email."""
