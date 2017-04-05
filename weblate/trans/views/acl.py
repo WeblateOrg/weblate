@@ -75,7 +75,7 @@ def revoke_owner(request, project):
             if obj.enable_acl:
                 obj.add_user(form.cleaned_data['user'], '@Translate')
 
-            obj.owners.remove(form.cleaned_data['user'])
+            obj.remove_user(form.cleaned_data['user'], '@Administration')
 
     return redirect_param(
         'project',
