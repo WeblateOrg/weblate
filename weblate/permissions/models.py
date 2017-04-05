@@ -221,9 +221,6 @@ def change_acl_groups(sender, instance, action, reverse, model, pk_set,
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_group_acl(sender, instance, **kwargs):
-    if not instance.enable_acl:
-        return
-
     group_acl = GroupACL.objects.get_or_create(project=instance)[0]
     if instance.enable_acl:
         group_acl.permissions.set(
