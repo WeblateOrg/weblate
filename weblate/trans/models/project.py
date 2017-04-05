@@ -195,7 +195,9 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def remove_user(self, user, group=None):
         """Add user based on username of email."""
         if group is None:
-            groups = Group.objects.filter(name__startswith='{0}@'.format(self.name))
+            groups = Group.objects.filter(
+                name__startswith='{0}@'.format(self.name)
+            )
             user.groups.remove(*groups)
         else:
             group = Group.objects.get(name='{0}{1}'.format(self.name, group))
