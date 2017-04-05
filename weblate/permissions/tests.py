@@ -43,9 +43,8 @@ class PermissionsTest(TestCase):
             'owner', 'owner@example.com', 'x'
         )
 
-        self.owner.groups.add(Group.objects.get(name='Owners'))
         self.project = Project.objects.create(slug='test')
-        self.project.owners.add(self.owner)
+        self.project.add_user(self.owner, '@Administration')
 
     def test_owner_owned(self):
         self.assertTrue(
