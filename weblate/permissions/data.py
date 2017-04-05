@@ -68,11 +68,13 @@ ADMIN_PERMS = {
 
 DEFAULT_GROUPS = {
     'Guests': {
+        'access_project',
         'can_see_git_repository',
         'add_suggestion',
         'access_vcs',
     },
     'Users': {
+        'access_project',
         'upload_translation',
         'overwrite_translation',
         'save_translation',
