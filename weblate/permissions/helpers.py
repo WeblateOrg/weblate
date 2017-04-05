@@ -59,14 +59,17 @@ def has_group_perm(user, permission, translation=None, project=None):
         # Force fetching query
         acls = list(groups)
         if acls:
-            # more specific rules are more important: subproject > project > language
+            # more specific rules are more important:
+            # subproject > project > language
             acls.sort(reverse=True, key=lambda a: (
                 a.subproject is not None,
                 a.project is not None,
                 a.language is not None))
             groupacl = acls[0]
             membership = groupacl.groups.all() & user.groups.all()
-            permissions = set(groupacl.permissions.values_list('id', flat=True))
+            permissions = set(
+                groupacl.permissions.values_list('id', flat=True)
+            )
         else:
             # this should not happen in normal operation
             membership = Group.objects.none()
@@ -171,7 +174,9 @@ def can_suggest(user, translation):
         return False
     if has_group_perm(user, 'trans.add_suggestion', translation):
         return True
-    return has_group_perm(user, 'trans.add_suggestion', project=translation.subproject.project)
+    return has_group_perm(
+        user, 'trans.add_suggestion', project=translation.subproject.project
+    )
 
 
 @cache_permission
@@ -437,7 +442,9 @@ def can_see_git_repository(user, project):
     """
     Checks whether user can add comment for given project.
     """
-    return has_group_perm(user, 'trans.can_see_git_repository', project=project)
+    return has_group_perm(
+        user, 'trans.can_see_git_repository', project=project
+    )
 
 
 @cache_permission
@@ -453,7 +460,9 @@ def can_change_screenshot(user, project):
     """
     Checks whether user can change screenshot for given project.
     """
-    return has_group_perm(user, 'screenshots.change_screenshot', project=project)
+    return has_group_perm(
+        user, 'screenshots.change_screenshot', project=project
+    )
 
 
 @cache_permission
@@ -461,7 +470,9 @@ def can_delete_screenshot(user, project):
     """
     Checks whether user can delete screenshot for given project.
     """
-    return has_group_perm(user, 'screenshots.delete_screenshot', project=project)
+    return has_group_perm(
+        user, 'screenshots.delete_screenshot', project=project
+    )
 
 
 @cache_permission
