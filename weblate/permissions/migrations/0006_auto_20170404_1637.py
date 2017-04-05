@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations
 
-from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_ONLY_PERMS
+from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_PERMS, ADMIN_ONLY_PERMS
 
 
 def migrate_acl(apps, schema_editor):
@@ -14,7 +14,7 @@ def migrate_acl(apps, schema_editor):
     GroupACL = apps.get_model('permissions', 'GroupACL')
 
     groups = {}
-    all_perms = Permission.objects.none()
+    all_perms = Permission.objects.filter(codename__in=ADMIN_PERMS)
     admin_perms = Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
 
     # Create default @ groups
@@ -23,10 +23,10 @@ def migrate_acl(apps, schema_editor):
         if name[0] != '@':
             continue
         group, created = Group.objects.get_or_create(name=name)
-        group_perms = Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
-        all_perms |= group_perms
         if created:
-            group.permissions.set(group_perms)
+            group.permissions.set(
+                Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
+            )
         groups[name] = group.permissions.all()
 
     # Create ACL groups for ACL enabled projects
