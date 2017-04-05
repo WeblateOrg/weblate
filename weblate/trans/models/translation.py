@@ -510,6 +510,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
 
         # Update revision and stats
         self.update_stats()
+        self.store_hash()
 
         # Cleanup checks cache if there were some deleted units
         if deleted_units:
@@ -617,14 +618,12 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
         if self.failing_checks_words is None:
             self.failing_checks_words = 0
 
-        # Store hash will save object
-        self.store_hash()
+        self.save()
 
     def store_hash(self):
         """Stores current hash in database."""
-        blob_hash = self.get_git_blob_hash()
-        self.revision = blob_hash
-        self.save()
+        self.revision = self.get_git_blob_hash()
+        self.save(pdate_fields=['revision'])
 
     def get_last_author(self, email=False):
         """Returns last autor of change done in Weblate."""
