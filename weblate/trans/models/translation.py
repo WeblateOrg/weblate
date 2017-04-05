@@ -623,7 +623,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
     def store_hash(self):
         """Stores current hash in database."""
         self.revision = self.get_git_blob_hash()
-        self.save(pdate_fields=['revision'])
+        self.save(update_fields=['revision'])
 
     def get_last_author(self, email=False):
         """Returns last autor of change done in Weblate."""
