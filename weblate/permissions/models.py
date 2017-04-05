@@ -68,7 +68,7 @@ class GroupACL(models.Model):
             self.project = None
         super(GroupACL, self).save(*args, **kwargs)
         # Default to all permissions if none are chosen
-        if self.permissions.count() == 0:
+        if not self.permissions.exists():
             self.permissions.set(Permission.objects.all())
 
     def __str__(self):
