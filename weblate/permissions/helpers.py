@@ -94,7 +94,7 @@ def has_group_perm(user, permission, translation=None, project=None):
             permissions = set(groupacl.permissions.values_list('id', flat=True))
         else:
             # this should not happen in normal operation
-            membership = None
+            membership = Group.objects.none()
             permissions = set()
         user.acl_permissions_groups[key] = membership, permissions
 
@@ -108,10 +108,6 @@ def has_group_perm(user, permission, translation=None, project=None):
     # Does this GroupACL affect this permission?
     if perm_obj.pk not in permissions:
         return user.has_perm(permission)
-
-    # User is not member, no permission
-    if not membership:
-        return False
 
     # Check if group has asked permission
     return membership.filter(permissions=perm_obj).exists()
