@@ -155,6 +155,7 @@ class GroupACLTest(ModelTestCase):
             can_edit(self.privileged, self.trans, self.PERMISSION))
 
         acl_sub.groups.add(self.group)
+        self.clear_permission_cache()
         self.assertTrue(
             can_edit(self.privileged, self.trans, self.PERMISSION))
 
