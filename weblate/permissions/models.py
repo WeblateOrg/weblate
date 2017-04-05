@@ -122,9 +122,7 @@ class AutoGroup(models.Model):
 
 
 def create_groups(update):
-    '''
-    Creates standard groups and gives them permissions.
-    '''
+    """Create standard groups and gives them permissions."""
     for name in DEFAULT_GROUPS:
         group, created = Group.objects.get_or_create(name=name)
         if created or update or group.permissions.count() == 0:
@@ -154,9 +152,7 @@ def create_groups(update):
 
 
 def move_users():
-    '''
-    Moves users to default group.
-    '''
+    """Move users to default group."""
     group = Group.objects.get(name='Users')
 
     for user in User.objects.all():
@@ -165,15 +161,13 @@ def move_users():
 
 @receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
-    '''
-    Create groups on syncdb.
-    '''
+    """Create groups on syncdb."""
     if sender.label == 'weblate':
         create_groups(False)
 
 
 def auto_assign_group(user):
-    """Automatic group assignment based on user email"""
+    """Automatic group assignment based on user email."""
     # Add user to automatic groups
     for auto in AutoGroup.objects.all():
         if re.match(auto.match, user.email):
@@ -183,9 +177,7 @@ def auto_assign_group(user):
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def auto_group_upon_save(sender, instance, created=False, **kwargs):
-    '''
-    Automatically adds user to Users group.
-    '''
+    """Automatically add user to Users group."""
     if created:
         auto_assign_group(instance)
 
@@ -193,7 +185,7 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
 @receiver(m2m_changed, sender=Group.permissions.through)
 def change_acl_groups(sender, instance, action, reverse, model, pk_set,
                       **kwargs):
-    """Update per project ACL groups on master group change"""
+    """Update per project ACL groups on master group change."""
     # We care only about post update signals
     if action.split('_')[0] != 'post':
         return
@@ -221,6 +213,7 @@ def change_acl_groups(sender, instance, action, reverse, model, pk_set,
 @receiver(post_save, sender=Project)
 @disable_for_loaddata
 def setup_group_acl(sender, instance, **kwargs):
+    """Setup Group and GroupACL objects on project save."""
     group_acl = GroupACL.objects.get_or_create(project=instance)[0]
     if instance.enable_acl:
         group_acl.permissions.set(
