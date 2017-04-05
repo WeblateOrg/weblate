@@ -42,7 +42,7 @@ class ProjectManager(models.Manager):
     # pylint: disable=W0232
 
     def get_acl_ids(self, user):
-        """Returns list of project IDs and status
+        """Return list of project IDs and status
         for current user filtered by ACL
         """
         if not hasattr(user, 'acl_ids_cache'):
@@ -63,7 +63,7 @@ class ProjectManager(models.Manager):
         return user.acl_ids_cache
 
     def all_acl(self, user):
-        """Returns list of projects user is allowed to access
+        """Return list of projects user is allowed to access
         and flag whether there is any filtering active.
         """
         return self.filter(id__in=self.get_acl_ids(user))
@@ -171,20 +171,20 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return self.slug
 
     def all_users(self):
-        """Returns all users having ACL on this project."""
+        """Return all users having ACL on this project."""
         group = Group.objects.get(name=self.name)
         return group.user_set.exclude(
             id__in=self.owners.values_list('id', flat=True)
         )
 
     def add_user(self, user, group):
-        """Adds user based on username of email."""
+        """Add user based on username of email."""
         group = Group.objects.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
         self.add_subscription(user)
 
     def add_subscription(self, user):
-        """Adds user subscription to current project"""
+        """Add user subscription to current project"""
         try:
             profile = user.profile
         except Profile.DoesNotExist:
@@ -193,7 +193,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         profile.subscriptions.add(self)
 
     def remove_user(self, user, group):
-        """Adds user based on username of email."""
+        """Add user based on username of email."""
         group = Group.objects.get(name='{0}{1}'.format(self.name, group))
         user.groups.remove(group)
 
@@ -206,19 +206,19 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def _reverse_url_kwargs(self):
-        """Returns kwargs for URL reversing."""
+        """Return kwargs for URL reversing."""
         return {
             'project': self.slug
         }
 
     def get_widgets_url(self):
-        """Returns absolute URL for widgets."""
+        """Return absolute URL for widgets."""
         return get_site_url(
             reverse('widgets', kwargs={'project': self.slug})
         )
 
     def get_share_url(self):
-        """Returns absolute URL usable for sharing."""
+        """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse('engage', kwargs={'project': self.slug})
         )
@@ -252,7 +252,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # pylint: disable=W0221
 
     def _get_percents(self, lang=None):
-        """Returns percentages of translation status."""
+        """Return percentages of translation status."""
         # Import translations
         from weblate.trans.models.translation import Translation
 
@@ -263,7 +263,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # pylint: disable=W0221
 
     def get_translated_percent(self, lang=None):
-        """Returns percent of translated strings."""
+        """Return percent of translated strings."""
         if lang is None:
             return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
@@ -286,7 +286,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return self._totals_cache
 
     def get_total(self):
-        """Calculates total number of strings to translate.
+        """Calculate total number of strings to translate.
 
         This is done based on assumption that all languages have same number
         of strings.
@@ -305,7 +305,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return sum(totals)
 
     def get_source_words(self):
-        """Calculates total number of words to translate.
+        """Calculate total number of words to translate.
 
         This is done based on assumption that all languages have same number
         of strings.
@@ -314,18 +314,18 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     get_source_words.short_description = _('Source words')
 
     def get_languages(self):
-        """Returns list of all languages used in project."""
+        """Return list of all languages used in project."""
         return Language.objects.filter(
             translation__subproject__project=self
         ).distinct()
 
     def get_language_count(self):
-        """Returns number of languages used in this project."""
+        """Return number of languages used in this project."""
         return self.get_languages().count()
     get_language_count.short_description = _('Languages')
 
     def repo_needs_commit(self):
-        """Checks whether there are some not committed changes."""
+        """Check whether there are some not committed changes."""
         for component in self.subproject_set.all():
             if component.repo_needs_commit():
                 return True
@@ -344,7 +344,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return False
 
     def commit_pending(self, request, on_commit=True):
-        """Commits any pending changes."""
+        """Commit any pending changes."""
         ret = False
 
         components = self.all_repo_components()
@@ -361,25 +361,25 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return ret
 
     def do_update(self, request=None, method=None):
-        """Updates all git repos."""
+        """Update all git repos."""
         ret = True
         for component in self.all_repo_components():
             ret &= component.do_update(request, method=method)
         return ret
 
     def do_push(self, request=None):
-        """Pushes all git repos."""
+        """Pushe all git repos."""
         return self.commit_pending(request, on_commit=False)
 
     def do_reset(self, request=None):
-        """Pushes all git repos."""
+        """Pushe all git repos."""
         ret = False
         for component in self.all_repo_components():
             ret |= component.do_reset(request)
         return ret
 
     def can_push(self):
-        """Checks whether any suprojects can push."""
+        """Check whether any suprojects can push."""
         ret = False
         for component in self.subproject_set.all():
             ret |= component.can_push()
@@ -387,7 +387,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @property
     def last_change(self):
-        """Returns date of last change done in Weblate."""
+        """Return date of last change done in Weblate."""
         components = self.subproject_set.all()
         changes = [component.last_change for component in components]
         changes = [c for c in changes if c is not None]
@@ -396,7 +396,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return max(changes)
 
     def all_repo_components(self):
-        """Returns list of all unique VCS components."""
+        """Return list of all unique VCS components."""
         result = list(
             self.subproject_set.exclude(repo__startswith='weblate://')
         )
