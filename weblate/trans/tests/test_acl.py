@@ -70,13 +70,13 @@ class ACLViewTest(ViewTestCase):
         """Owner should have access to user management.
         """
         self.add_acl()
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
         response = self.client.get(self.project_url)
         self.assertContains(response, 'Manage users')
 
     def add_user(self):
         self.add_acl()
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
 
         # Add user
         response = self.client.post(
@@ -118,7 +118,7 @@ class ACLViewTest(ViewTestCase):
             {'name': self.second_user.username}
         )
         self.assertTrue(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.second_user.username
             ).exists()
         )
@@ -127,7 +127,7 @@ class ACLViewTest(ViewTestCase):
             {'name': self.second_user.username}
         )
         self.assertFalse(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.second_user.username
             ).exists()
         )
@@ -143,20 +143,20 @@ class ACLViewTest(ViewTestCase):
         )
         self.remove_user()
         self.assertFalse(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.second_user.username
             ).exists()
         )
 
     def test_denied_owner_delete(self):
         """Test that deleting last owner does not work."""
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
         self.client.post(
             reverse('revoke-owner', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
         self.assertTrue(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.user.username
             ).exists()
         )
@@ -165,14 +165,14 @@ class ACLViewTest(ViewTestCase):
             {'name': self.second_user.username}
         )
         self.assertTrue(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.user.username
             ).exists()
         )
 
     def test_nonexisting_user(self):
         """Test adding non existing user."""
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
             {'name': 'nonexisging'},

@@ -112,6 +112,7 @@ class ViewTestCase(RepoTestCase):
         Makes user a Manager.
         """
         group = Group.objects.get(name='Managers')
+        self.project.groupacl_set.all()[0].groups.add(group)
         self.user.groups.add(group)
 
     def get_request(self, *args, **kwargs):
@@ -407,7 +408,7 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add_owner(self):
-        self.subproject.project.owners.add(self.user)
+        self.subproject.project.add_user(self.user, '@Administration')
         # None chosen
         response = self.client.post(
             reverse('new-language', kwargs=self.kw_subproject),
