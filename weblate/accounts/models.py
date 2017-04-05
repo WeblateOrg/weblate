@@ -124,7 +124,7 @@ def notify_merge_failure(subproject, error, status):
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.owners.all():
+    for owner in subproject.project.all_users('@Administration'):
         mails.append(
             owner.profile.notify_merge_failure(
                 subproject, error, status
@@ -165,7 +165,7 @@ def notify_parse_error(subproject, translation, error, filename):
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.owners.all():
+    for owner in subproject.project.all_users('@Administration'):
         mails.append(
             owner.profile.notify_parse_error(
                 subproject, translation, error, filename
@@ -222,7 +222,7 @@ def notify_new_language(subproject, language, user):
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.owners.all():
+    for owner in subproject.project.all_users('@Administration'):
         mails.append(
             owner.profile.notify_new_language(
                 subproject, language, user

@@ -108,10 +108,9 @@ def delete_user(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None and obj.enable_acl:
-        is_owner = obj.owners.filter(
-            id=form.cleaned_data['user'].id
-        ).exists()
-        if is_owner and obj.owners.count() <= 1:
+        owners = obj.all_users('@Administration')
+        is_owner = owners.filter(pk=form.cleaned_data['user'].pk).exists()
+        if is_owner and owners.count() <= 1:
             messages.error(request, _('You can not remove last owner!'))
         else:
             obj.remove_user(form.cleaned_data['user'])

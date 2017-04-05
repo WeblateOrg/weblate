@@ -84,7 +84,7 @@ class NotificationTest(ViewTestCase):
         )
 
         # Add project owner
-        self.subproject.project.owners.add(self.second_user())
+        self.subproject.project.add_user(self.second_user(), '@Administration')
         notify_merge_failure(
             self.subproject,
             'Failed merge',
@@ -110,7 +110,7 @@ class NotificationTest(ViewTestCase):
         )
 
         # Add project owner
-        self.subproject.project.owners.add(self.second_user())
+        self.subproject.project.add_user(self.second_user(), '@Administration')
         notify_parse_error(
             self.subproject,
             self.get_translation(),
@@ -165,7 +165,7 @@ class NotificationTest(ViewTestCase):
         )
 
         # Add project owner
-        self.subproject.project.owners.add(second_user)
+        self.subproject.project.add_user(second_user, '@Administration')
         notify_new_language(
             self.subproject,
             Language.objects.filter(code='de'),

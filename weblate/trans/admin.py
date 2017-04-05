@@ -39,7 +39,9 @@ class ProjectAdmin(WeblateAdmin):
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
     def list_owners(self, obj):
-        return ', '.join(obj.owners.values_list('username', flat=True))
+        return ', '.join(
+            obj.all_users('@Administration').values_list('username', flat=True)
+        )
     list_owners.short_description = _('Owners')
 
     def num_vcs(self, obj):
