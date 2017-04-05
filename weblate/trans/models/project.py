@@ -24,7 +24,7 @@ import os
 import os.path
 
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError, PermissionDenied
@@ -47,11 +47,18 @@ class ProjectManager(models.Manager):
         """Returns list of project IDs and status
         for current user filtered by ACL
         """
-        from weblate.permissions.helpers import can_access_project
         if not hasattr(user, 'acl_ids_cache'):
-            user.acl_ids_cache = [
-                project.id for project in self.all() if can_access_project(user, project)
-            ]
+            permission = Permission.objects.get(codename='access_project')
+            user.acl_ids_cache = set(
+                self.filter(
+                    (Q(groupacl__permissions=permission) &
+                    Q(groupacl__groups__permissions=permission) &
+                    Q(groupacl__groups__user=user)) |
+                    ~Q(groupacl__permissions=permission)
+                ).values_list(
+                    'id', flat=True
+                )
+            )
 
         return user.acl_ids_cache
 
