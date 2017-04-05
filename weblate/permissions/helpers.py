@@ -79,7 +79,7 @@ def has_group_perm(user, permission, translation=None, project=None):
         return user.has_perm(permission)
 
     if key in user.acl_permissions_groups:
-        groupacl, membership, permissions = user.acl_permissions_groups[key]
+        membership, permissions = user.acl_permissions_groups[key]
     else:
         # Force fetching query
         acls = list(groups)
@@ -93,14 +93,10 @@ def has_group_perm(user, permission, translation=None, project=None):
             membership = groupacl.groups.all() & user.groups.all()
             permissions = set(groupacl.permissions.values_list('id', flat=True))
         else:
-            groupacl = None
+            # this should not happen in normal operation
             membership = None
-            permissions = None
-        user.acl_permissions_groups[key] = groupacl, membership, permissions
-
-    # No GroupACL in effect, fallback to standard permissions
-    if groupacl is None:
-        return user.has_perm(permission)
+            permissions = set()
+        user.acl_permissions_groups[key] = membership, permissions
 
     # Get permission object
     app, perm = permission.split('.')
@@ -109,7 +105,7 @@ def has_group_perm(user, permission, translation=None, project=None):
         codename=perm
     )
 
-    # Does this GroupACL affect this permission
+    # Does this GroupACL affect this permission?
     if perm_obj.pk not in permissions:
         return user.has_perm(permission)
 
