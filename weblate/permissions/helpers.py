@@ -58,6 +58,8 @@ def has_group_perm(user, permission, translation=None, project=None):
     Checks whether GroupACL rules allow user to have
     given permission.
     """
+    if user.is_superuser:
+        return True
     if not hasattr(user, 'acl_permissions_groups'):
         user.acl_permissions_groups = {}
     if translation is not None:
