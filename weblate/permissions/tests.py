@@ -212,11 +212,12 @@ class GroupACLTest(ModelTestCase):
         When a Group ACL is set for a project, and only for a project,
         it should apply to project-level actions on that project.
         '''
-        acl = GroupACL.objects.create(project=self.project)
+        acl = GroupACL.objects.get(project=self.project)
         acl.groups.add(self.group)
         permission = Permission.objects.get(
             codename='author_translation', content_type__app_label='trans'
         )
+        acl.permissions.add(permission)
         self.group.permissions.add(permission)
         self.assertFalse(
             can_author_translation(self.user, self.project)
@@ -323,15 +324,17 @@ class GroupACLTest(ModelTestCase):
             filename="this/is/not/a.template"
         )
         perm_name = 'trans.author_translation'
+        permission = Permission.objects.get(
+            codename='author_translation', content_type__app_label='trans'
+        )
+        # Avoid conflict with automatic GroupACL
+        self.project.groupacl_set.all()[0].permissions.remove(permission)
 
         self.assertFalse(can_edit(self.user, trans_cs, perm_name))
         self.assertFalse(can_edit(self.privileged, trans_cs, perm_name))
         self.assertFalse(can_edit(self.privileged, trans_de, perm_name))
 
         self.clear_permission_cache()
-        permission = Permission.objects.get(
-            codename='author_translation', content_type__app_label='trans'
-        )
         self.group.permissions.add(permission)
 
         self.assertFalse(can_edit(self.user, trans_cs, perm_name))
@@ -368,7 +371,10 @@ class GroupACLTest(ModelTestCase):
             self.privileged, 'trans.author_translation', project=self.project
         ))
 
-        acl_project_only = GroupACL.objects.create(project=self.project)
+        acl_project_only = GroupACL.objects.get(
+            language=None,
+            project=self.project,
+        )
         acl_project_only.groups.add(self.group)
         self.clear_permission_cache()
 

@@ -57,8 +57,9 @@ def has_group_perm(user, permission, translation=None, project=None):
         return user.has_perm(permission)
 
     if key in user.acl_permissions_groups:
-        membership, permissions = user.acl_permissions_groups[key]
+        groupacls = user.acl_permissions_groups[key]
     else:
+        groupacls = []
         # Force fetching query
         acls = list(groups)
         if acls:
@@ -68,16 +69,12 @@ def has_group_perm(user, permission, translation=None, project=None):
                 a.subproject is not None,
                 a.project is not None,
                 a.language is not None))
-            groupacl = acls[0]
-            membership = groupacl.groups.all() & user.groups.all()
-            permissions = set(
-                groupacl.permissions.values_list('id', flat=True)
-            )
-        else:
-            # this should not happen in normal operation
-            membership = Group.objects.none()
-            permissions = set()
-        user.acl_permissions_groups[key] = membership, permissions
+            for acl in acls:
+                groupacls.append((
+                    acl.groups.all() & user.groups.all(),
+                    acl.permissions.values_list('id', flat=True)
+                ))
+        user.acl_permissions_groups[key] = groupacls
 
     # Get permission object
     app, perm = permission.split('.')
@@ -86,12 +83,15 @@ def has_group_perm(user, permission, translation=None, project=None):
         codename=perm
     )
 
-    # Does this GroupACL affect this permission?
-    if perm_obj.pk not in permissions:
-        return user.has_perm(permission)
+    for membership, permissions in groupacls:
+        # Does this GroupACL affect this permission?
+        if perm_obj.pk not in permissions:
+            continue
 
-    # Check if group has asked permission
-    return membership.filter(permissions=perm_obj).exists()
+        # Check if group has asked permission
+        return membership.filter(permissions=perm_obj).exists()
+
+    return user.has_perm(permission)
 
 
 def cache_permission(func):
