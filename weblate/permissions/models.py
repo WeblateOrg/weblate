@@ -47,6 +47,11 @@ class GroupACL(models.Model):
     project = models.ForeignKey(Project, null=True, blank=True)
     subproject = models.ForeignKey(SubProject, null=True, blank=True)
     language = models.ForeignKey(Language, null=True, blank=True)
+    permissions = models.ManyToManyField(
+        Permission,
+        verbose_name=_('Filtered permissions'),
+        blank=True,
+    )
 
     def clean(self):
         if not self.project and not self.subproject and not self.language:
@@ -57,6 +62,12 @@ class GroupACL(models.Model):
         # ignore project if subproject is set
         if self.project and self.subproject:
             self.project = None
+
+    def save(self, *args, **kwargs):
+        super(GroupACL, self).save(*args, **kwargs)
+        # Default to all permissions if none are chosen
+        if self.permissions.count() == 0:
+            self.permissions.set(Permission.objects.all())
 
     def __str__(self):
         params = []

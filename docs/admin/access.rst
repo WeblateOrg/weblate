@@ -194,11 +194,12 @@ is as follows:
 1. Create a new *group ACL* in the :guilabel:`Group ACL` section. Pick a project,
    subproject, language, or a combination, which will be locked to this group
    ACL.
-2. Use the ``+`` (plus sign) button to the right of :guilabel:`Groups` field
+2. Define permissions you want to limit by this *group ACL*.
+3. Use the ``+`` (plus sign) button to the right of :guilabel:`Groups` field
    to create a new group. In the pop-up window, fill out the group name and
    assign permissions.
-3. Save the newly created group ACL.
-4. In the :guilabel:`Users` section of the admin interface, assign users to the
+4. Save the newly created group ACL.
+5. In the :guilabel:`Users` section of the admin interface, assign users to the
    newly created group.
 
 For example, you could create a group called ``czech_translators``, assign it

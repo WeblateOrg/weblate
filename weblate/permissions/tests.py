@@ -359,6 +359,23 @@ class GroupACLTest(ModelTestCase):
             self.privileged, self.project, 'trans.author_translation'
         ))
 
+    def test_acl_not_filtered(self):
+        '''
+        Basic sanity check.
+        Group ACL set on a subproject should only allow members of
+        the marked group to edit it.
+        '''
+        self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
+        self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
+
+        acl = GroupACL.objects.create(subproject=self.subproject)
+        acl.groups.add(self.group)
+        acl.permissions.remove(self.permission)
+        self.clear_permission_cache()
+
+        self.assertTrue(can_edit(self.privileged, self.trans, self.PERMISSION))
+        self.assertTrue(can_edit(self.user, self.trans, self.PERMISSION))
+
 
 class AutoGroupTest(TestCase):
     @staticmethod

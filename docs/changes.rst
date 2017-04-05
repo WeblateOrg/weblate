@@ -15,6 +15,7 @@ Released on ? 2017.
 * History now indicates string change.
 * Better error reporting when adding new translation.
 * Added per language search within project.
+* Group ACLs can now be limited to certain permissions.
 
 weblate 2.12
 ------------

@@ -88,7 +88,7 @@ def has_group_perm(user, permission, translation=None, project=None):
                 a.project is not None,
                 a.language is not None))
             groupacl = acls[0]
-            membership = list(groupacl.groups.all() & user.groups.all())
+            membership = groupacl.groups.all() & user.groups.all()
         else:
             groupacl = None
             membership = None
@@ -98,17 +98,23 @@ def has_group_perm(user, permission, translation=None, project=None):
     if groupacl is None:
         return user.has_perm(permission)
 
+    # Get permission object
+    app, perm = permission.split('.')
+    perm_obj = Permission.objects.get(
+        content_type__app_label=app,
+        codename=perm
+    )
+
+    # Does this GroupACL affect this permission
+    if not groupacl.permissions.filter(pk=perm_obj.pk).exists():
+        return user.has_perm(permission)
+
     # User is not member, no permission
     if not membership:
         return False
 
     # Check if group has asked permission
-    app, perm = permission.split('.')
-    return Permission.objects.filter(
-        group__in=membership,
-        content_type__app_label=app,
-        codename=perm
-    ).exists()
+    return membership.filter(permissions=perm_obj).exists()
 
 
 def check_permission(user, project, permission):
