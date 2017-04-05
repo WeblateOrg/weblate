@@ -26,6 +26,7 @@ from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Translation
+from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_PERMS
 from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.permissions.helpers import (
     check_owner, check_permission, can_delete_comment, can_edit,
@@ -89,6 +90,18 @@ class PermissionsTest(TestCase):
         self.assertFalse(self.user.acl_permissions_cache[key])
         self.user.acl_permissions_cache[key] = True
         self.assertTrue(can_delete_comment(self.user, self.project))
+
+    def test_default_groups(self):
+        """
+        Check consistency of default permissions.
+
+        - The admin permissions have to contain all used permissions
+        """
+        for group in DEFAULT_GROUPS:
+            self.assertEqual(
+                DEFAULT_GROUPS[group] - ADMIN_PERMS,
+                set()
+            )
 
 
 class GroupACLTest(ModelTestCase):

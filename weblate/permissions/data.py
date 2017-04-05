@@ -21,7 +21,7 @@
 
 from __future__ import unicode_literals
 
-ADMIN_PERMS = (
+ADMIN_PERMS = {
     'author_translation',
     'upload_translation',
     'overwrite_translation',
@@ -63,16 +63,16 @@ ADMIN_PERMS = (
     'change_screenshot',
     'access_vcs',
     'access_project',
-)
+}
 
 
 DEFAULT_GROUPS = {
-    'Guests': (
+    'Guests': {
         'can_see_git_repository',
         'add_suggestion',
         'access_vcs',
-    ),
-    'Users': (
+    },
+    'Users': {
         'upload_translation',
         'overwrite_translation',
         'save_translation',
@@ -93,10 +93,10 @@ DEFAULT_GROUPS = {
         'add_translation',
         'delete_translation',
         'access_vcs',
-    ),
+    },
     'Owners': ADMIN_PERMS,
     'Managers': ADMIN_PERMS,
-    '@Translate': (
+    '@Translate': {
         'access_project',
         'upload_translation',
         'overwrite_translation',
@@ -112,7 +112,7 @@ DEFAULT_GROUPS = {
         'use_mt',
         'add_translation',
         'delete_translation',
-    ),
+    },
     '@Glossary': {
         'access_project',
         'upload_dictionary',
@@ -120,21 +120,21 @@ DEFAULT_GROUPS = {
         'change_dictionary',
         'delete_dictionary',
     },
-    '@Screenshots': (
+    '@Screenshots': {
         'access_project',
         'add_screenshot',
         'delete_screenshot',
         'change_screenshot',
-    ),
-    '@VCS': (
+    },
+    '@VCS': {
         'access_project',
         'commit_translation',
         'update_translation',
         'push_translation',
         'can_see_git_repository',
         'access_vcs',
-    ),
+    },
     '@Administration': ADMIN_PERMS,
 }
 
-ADMIN_ONLY_PERMS = set(ADMIN_PERMS) - set(DEFAULT_GROUPS['Users'])
+ADMIN_ONLY_PERMS = ADMIN_PERMS - DEFAULT_GROUPS['Users']
