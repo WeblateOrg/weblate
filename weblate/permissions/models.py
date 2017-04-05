@@ -32,7 +32,9 @@ from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.lang.models import Language
-from weblate.permissions.data import DEFAULT_GROUPS
+from weblate.permissions.data import (
+    DEFAULT_GROUPS, ADMIN_PERMS, ADMIN_ONLY_PERMS
+)
 from weblate.trans.models import Project, SubProject
 from weblate.trans.fields import RegexField
 from weblate.utils.decorators import disable_for_loaddata
@@ -223,6 +225,14 @@ def setup_group_acl(sender, instance, **kwargs):
         return
 
     group_acl = GroupACL.objects.get_or_create(project=instance)[0]
+    if instance.enable_acl:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=ADMIN_PERMS)
+        )
+    else:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
+        )
 
     for template_group in Group.objects.filter(name__startswith='@'):
         name = '{0}{1}'.format(instance.name, template_group.name)
