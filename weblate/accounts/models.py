@@ -718,7 +718,7 @@ class Profile(models.Model):
         except IndexError:
             return None
 
-    def notify_user(self, notification, translation_obj,
+    def notify_user(self, notification, subproject, display_obj,
                     context=None, headers=None, user=None):
         '''
         Wrapper for sending notifications to user.
@@ -730,13 +730,13 @@ class Profile(models.Model):
             headers = {}
 
         # Check whether user is still allowed to access this project
-        if can_access_project(self.user, translation_obj.subproject.project):
+        if can_access_project(self.user, subproject.project):
             # Generate notification
             return get_notification_email(
                 self.language,
                 self.user.email,
                 notification,
-                translation_obj,
+                display_obj,
                 context,
                 headers,
                 user=user
@@ -752,6 +752,7 @@ class Profile(models.Model):
             template = 'new_translation'
         return self.notify_user(
             template,
+            unit.translation.subproject,
             unit.translation,
             {
                 'unit': unit,
@@ -766,6 +767,7 @@ class Profile(models.Model):
         return self.notify_user(
             'new_language',
             subproject,
+            subproject,
             {
                 'language': language,
                 'user': user,
@@ -779,6 +781,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_string',
+            translation.subproject,
             translation,
         )
 
@@ -788,6 +791,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_suggestion',
+            translation.subproject,
             translation,
             {
                 'suggestion': suggestion,
@@ -801,6 +805,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_contributor',
+            translation.subproject,
             translation,
             {
                 'user': user,
@@ -813,6 +818,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_comment',
+            unit.translation.subproject,
             unit.translation,
             {
                 'unit': unit,
@@ -829,6 +835,7 @@ class Profile(models.Model):
         return self.notify_user(
             'merge_failure',
             subproject,
+            subproject,
             {
                 'subproject': subproject,
                 'error': error,
@@ -842,6 +849,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'parse_error',
+            subproject,
             translation if translation is not None else subproject,
             {
                 'subproject': subproject,
