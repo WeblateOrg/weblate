@@ -45,6 +45,8 @@ class ProjectManager(models.Manager):
         """Return list of project IDs and status
         for current user filtered by ACL
         """
+        if user.is_superuser:
+            return self.values_list('id', flat=True)
         if not hasattr(user, 'acl_ids_cache'):
             permission = Permission.objects.get(codename='access_project')
             user.acl_ids_cache = set(
@@ -66,6 +68,8 @@ class ProjectManager(models.Manager):
         """Return list of projects user is allowed to access
         and flag whether there is any filtering active.
         """
+        if user.is_superuser:
+            return self.all()
         return self.filter(id__in=self.get_acl_ids(user))
 
 
