@@ -23,39 +23,7 @@
   </tr>
   </thead>
   <tbody>
-{% with object.owners.count as owner_count %}
-  {% for user in object.owners.all %}
-  <tr>
-  <td>{{ user.username }} <span class="badge">{% trans "Owner" %}</span></td>
-  <td>{{ user.first_name }}</td>
-  <td>{{ user.email }}</td>
-  <td>
-{% if owner_count > 1 %}
-{% if object.enable_acl %}
-<form action="{% url "delete-user" project=object.slug %}" method="post">
-{% csrf_token %}
-<input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-danger btn-xs">
-<i class="fa fa-trash"></i>
-{% trans "Remove" %}
-</button>
-</form>
-{% endif %}
-<form action="{% url "revoke-owner" project=object.slug %}" method="post">
-{% csrf_token %}
-<input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-warning btn-xs">
-<i class="fa fa-user-times"></i>
-{% trans "Revoke ownership" %}
-</button>
-</form>
-{% endif %}
-  </td>
-  </tr>
-  {% endfor %}
-{% endwith %}
-{% if object.enable_acl %}
-  {% for user in object.all_users %}
+{% for user in object.all_users %}
   <tr>
   <td>{{ user.username }}</td>
   <td>{{ user.first_name }}</td>
@@ -79,8 +47,7 @@
 </form>
   </td>
   </tr>
-  {% endfor %}
-{% endif %}
+{% endfor %}
   </tbody>
   </table>
   </div>
