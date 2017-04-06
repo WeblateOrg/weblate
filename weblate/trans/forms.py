@@ -27,6 +27,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset
 
 from django import forms
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
@@ -48,7 +49,7 @@ from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
-    can_suggest,
+    can_suggest, can_add_translation,
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
@@ -909,6 +910,8 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
 def get_new_language_form(request, component):
     """Returns new language form for user"""
+    if not can_add_translation(request.user, component.project):
+        raise PermissionDenied()
     if request.user.is_superuser:
         return NewLanguageOwnerForm
     if component.project.owners.filter(id=request.user.id).exists():

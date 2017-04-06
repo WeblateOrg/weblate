@@ -48,8 +48,7 @@ from weblate.trans.forms import (
     SubprojectSettingsForm, ProjectSettingsForm,
 )
 from weblate.permissions.helpers import (
-    can_automatic_translation, can_add_translation,
-    can_edit_subproject, can_edit_project,
+    can_automatic_translation, can_edit_subproject, can_edit_project,
     can_translate,
 )
 from weblate.accounts.models import Profile, notify_new_language
@@ -660,10 +659,8 @@ def data_project(request, project):
 @login_required
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
-    form_class = get_new_language_form(request, obj)
 
-    if not can_add_translation(request.user, obj.project):
-        raise PermissionDenied()
+    form_class = get_new_language_form(request, obj)
 
     if request.method == 'POST':
         form = form_class(obj, request.POST)
