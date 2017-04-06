@@ -381,6 +381,9 @@
 {% endif %}
 {% endwith %}
 
+<form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="panel panel-primary">
   <div class="panel-heading">
   <h4 class="panel-title">
@@ -388,10 +391,6 @@
     {% trans "Glossary" %}
   </h4>
   </div>
-  <div class="panel-body">
-<form action="{% url 'show_dictionary' project=unit.translation.subproject.project.slug lang=unit.translation.language.code %}" method="POST">
-{% csrf_token %}
-<input type="hidden" name="next" value="{{ this_unit_url }}" />
     <table class="table table-condensed table-striped">
         <thead>
         <tr>
@@ -428,9 +427,8 @@
         <td>
         </tfoot>
     </table>
-</form>
-  </div>
 </div>
+</form>
 
 <div class="panel panel-primary">
   <div class="panel-heading">
@@ -440,7 +438,6 @@
   {% trans "Source information" %}
   </h4>
   </div>
-  <div class="panel-body">
   <table class="table table-striped table-condensed">
     {% if unit.source_info.screenshots.all or user_can_add_screenshot %}
     <tr>
@@ -507,7 +504,6 @@
     {% endif %}
     {% endwith %}
   </table>
-  </div>
 </div>
 
 </div>
