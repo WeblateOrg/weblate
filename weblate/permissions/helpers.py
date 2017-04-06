@@ -371,9 +371,17 @@ def can_overwrite_translation(user, project):
 @cache_permission
 def can_add_translation(user, project):
     """
-    Checks whether user can view reports on given project.
+    Checks whether user can add translations on given project.
     """
     return has_group_perm(user, 'trans.add_translation', project=project)
+
+
+@cache_permission
+def can_mass_add_translation(user, project):
+    """
+    Checks whether user can mass add translations on given project.
+    """
+    return has_group_perm(user, 'trans.mass_add_translation', project=project)
 
 
 @cache_permission

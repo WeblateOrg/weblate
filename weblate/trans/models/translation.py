@@ -169,6 +169,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 'reset_translation',
                 "Can reset translations to match remote VCS"
             ),
+            ('mass_add_translation', 'Can mass add translation'),
             ('automatic_translation', "Can do automatic translation"),
             ('lock_translation', "Can lock whole translation project"),
             ('use_mt', "Can use machine translation"),

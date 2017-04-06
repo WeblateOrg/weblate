@@ -55,6 +55,7 @@ ADMIN_PERMS = {
     'download_changes',
     'view_reports',
     'add_translation',
+    'mass_add_translation',
     'delete_translation',
     'change_subproject',
     'change_project',
