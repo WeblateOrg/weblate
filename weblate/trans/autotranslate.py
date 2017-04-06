@@ -27,6 +27,7 @@ from weblate.trans.models import Unit, Change, SubProject
 
 def auto_translate(user, translation, source, inconsistent, overwrite,
                    check_acl=True):
+    """Perform automatic translation based on other components."""
     updated = 0
 
     if inconsistent:
