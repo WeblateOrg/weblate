@@ -223,6 +223,9 @@ def user_profile(request):
             'licenses': license_projects,
             'associated': social,
             'new_backends': new_backends,
+            'managed_projects': Project.objects.filter(
+                groupacl__groups__name__endswith='@Administration'
+            ).distinct(),
         }
     )
     result.set_cookie(
