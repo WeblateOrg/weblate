@@ -1188,6 +1188,7 @@ $(function () {
         var $this = $(this);
         var $form = $('#set_groups_form');
         var action = 'add';
+
         $this.tooltip('hide');
         $this.prop('disabled', true);
         $this.data('error', '');
@@ -1207,7 +1208,7 @@ $(function () {
             },
             dataType: 'json',
             success: function (data) {
-                if (data.responseCode != 200) {
+                if (data.responseCode !== 200) {
                     $this.parent().addClass('load-error');
                     $this.data('error', data.message);
                     $this.tooltip('show');
