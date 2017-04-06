@@ -135,14 +135,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             'Whether to allow updating this repository by remote hooks.'
         )
     )
-    owners = models.ManyToManyField(
-        User,
-        verbose_name=ugettext_lazy('Owners'),
-        blank=True,
-        help_text=ugettext_lazy(
-            'Owners of the project.'
-        )
-    )
     source_language = models.ForeignKey(
         Language,
         verbose_name=ugettext_lazy('Source language'),
