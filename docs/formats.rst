@@ -138,6 +138,10 @@ XLIFF is usually used as bilingual, but Weblate supports it as monolingual as we
     see :ref:`component`, what will make Weblate ignore this and all strings
     will appear as approved.
 
+    Similarly on importing such files, you should choose
+    :guilabel:`Import as translated` under
+    :guilabel:`Processing of strings needing review`.
+
 .. seealso::
 
     `XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_,
