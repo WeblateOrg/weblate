@@ -25,7 +25,7 @@ import os.path
 
 from django.db import models
 from django.db.models import Sum, Q
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.translation import ugettext as _, ugettext_lazy, pgettext
 from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
@@ -172,6 +172,15 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         if group is not None:
             groups = groups.filter(name__endswith=group)
         return User.objects.filter(groups__in=groups).distinct()
+
+    def all_groups(self):
+        """Return list of applicable groups for project"""
+        return [
+            (g.pk, pgettext('Permissions group', g.name.split('@')[1])) for g in
+            Group.objects.filter(
+                groupacl__project=self, name__contains='@'
+            ).order_by('name')
+        ]
 
     def add_user(self, user, group):
         """Add user based on username of email."""

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load permissions %}
 {% load translations %}
 {% load crispy_forms_tags %}
 
@@ -13,13 +12,15 @@
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Users" %}</h4></div>
-  <div class="panel-body">
   <table class="table table-striped">
   <thead>
   <tr>
   <th>{% trans "Username" %}</th>
   <th>{% trans "Full name" %}</th>
   <th>{% trans "E-mail" %}</th>
+  {% for group in groups %}
+  <th>{{ group.1 }}</th>
+  {% endfor %}
   </tr>
   </thead>
   <tbody>
@@ -28,6 +29,7 @@
   <td>{{ user.username }}</td>
   <td>{{ user.first_name }}</td>
   <td>{{ user.email }}</td>
+  {% user_permissions user groups %}
   <td>
 <form action="{% url "delete-user" project=object.slug %}" method="post">
 {% csrf_token %}
@@ -50,6 +52,8 @@
 {% endfor %}
   </tbody>
   </table>
+  <div class="panel-body">
+  <p class="helptext">{% trans "Once you remove last user permission, he will be completely removed from the project." %}</p>
   </div>
 </div>
 

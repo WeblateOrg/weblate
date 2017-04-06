@@ -20,6 +20,8 @@
 """Definition of default groups."""
 
 from __future__ import unicode_literals
+from django.utils.translation import pgettext
+
 
 ADMIN_PERMS = {
     'author_translation',
@@ -140,3 +142,12 @@ DEFAULT_GROUPS = {
 }
 
 ADMIN_ONLY_PERMS = ADMIN_PERMS - DEFAULT_GROUPS['Users']
+
+
+def translate_groups():
+    """Dummy method to allow extraction of group names translation."""
+    pgettext('Permissions group', 'Administration')
+    pgettext('Permissions group', 'Glossary')
+    pgettext('Permissions group', 'Screenshots')
+    pgettext('Permissions group', 'Translate')
+    pgettext('Permissions group', 'VCS')

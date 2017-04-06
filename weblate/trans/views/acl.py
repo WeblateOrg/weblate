@@ -134,6 +134,7 @@ def manage_access(request, project):
         {
             'object': obj,
             'project': obj,
+            'groups': obj.all_groups(),
             'add_user_form': UserManageForm(),
         }
     )

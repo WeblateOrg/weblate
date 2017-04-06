@@ -71,6 +71,12 @@ NAME_MAPPING = {
 FLAG_TEMPLATE = '<i title="{0}" class="fa fa-{1}"></i>'
 BADGE_TEMPLATE = '<span class="badge pull-right flip {1}">{0}</span>'
 
+PERM_TEMPLATE = '''
+<td>
+<input type="checkbox" data-username="{0}" data-group="{1}" title="{2}" {3} />
+</td>
+'''
+
 
 def fmt_whitespace(value):
     '''
@@ -676,3 +682,22 @@ def matching_cotentsum(item):
         translation__language=item.language,
         content_hash=item.content_hash,
     )
+
+
+@register.simple_tag
+def user_permissions(user, groups):
+    """Render checksboxes for user permissions."""
+    result = []
+    for group in groups:
+        checked = ''
+        if user.groups.filter(pk=group[0]).exists():
+            checked = ' checked="checked"'
+        result.append(
+            PERM_TEMPLATE.format(
+                escape(user.username),
+                group[0],
+                escape(group[1]),
+                checked
+            )
+        )
+    return mark_safe(''.join(result))
