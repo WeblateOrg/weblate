@@ -32,7 +32,7 @@ class ACLViewTest(ViewTestCase):
         super(ACLViewTest, self).setUp()
         self.project.enable_acl = True
         self.project.save()
-        self.project_url = reverse('project', kwargs=self.kw_project)
+        self.access_url = reverse('manage-access', kwargs=self.kw_project)
         self.second_user = User.objects.create_user(
             'seconduser',
             'noreply@example.org',
@@ -48,22 +48,22 @@ class ACLViewTest(ViewTestCase):
     def test_acl_denied(self):
         """No access to the project without ACL.
         """
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
 
     def test_acl(self):
         """Regular user should not have access to user management.
         """
         self.add_acl()
-        response = self.client.get(self.project_url)
-        self.assertNotContains(response, 'Manage users')
+        response = self.client.get(self.access_url)
+        self.assertEqual(response.status_code, 403)
 
     def test_edit_acl(self):
         """Manager should have access to user management.
         """
         self.add_acl()
         self.make_manager()
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertContains(response, 'Manage users')
 
     def test_edit_acl_owner(self):
@@ -71,7 +71,7 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_acl()
         self.project.add_user(self.user, '@Administration')
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertContains(response, 'Manage users')
 
     def add_user(self):
@@ -83,10 +83,10 @@ class ACLViewTest(ViewTestCase):
             reverse('add-user', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
-        self.assertRedirects(response, '{0}#acl'.format(self.project_url))
+        self.assertRedirects(response, self.access_url)
 
         # Ensure user is now listed
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
         self.assertContains(response, self.second_user.email)
 
@@ -96,10 +96,10 @@ class ACLViewTest(ViewTestCase):
             reverse('delete-user', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
-        self.assertRedirects(response, '{0}#acl'.format(self.project_url))
+        self.assertRedirects(response, self.access_url)
 
         # Ensure user is now not listed
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertNotContains(response, self.second_user.username)
         self.assertNotContains(response, self.second_user.email)
 

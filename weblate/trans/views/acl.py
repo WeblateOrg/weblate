@@ -22,9 +22,10 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import redirect
 
 from weblate.utils import messages
-from weblate.trans.util import redirect_param
+from weblate.trans.util import render
 from weblate.trans.forms import UserManageForm
 from weblate.trans.views.helper import get_project
 from weblate.permissions.helpers import can_manage_acl
@@ -55,9 +56,8 @@ def make_owner(request, project):
     if form is not None:
         obj.add_user(form.cleaned_data['user'], '@Administration')
 
-    return redirect_param(
-        'project',
-        '#acl',
+    return redirect(
+        'manage-access',
         project=obj.slug,
     )
 
@@ -77,9 +77,8 @@ def revoke_owner(request, project):
 
             obj.remove_user(form.cleaned_data['user'], '@Administration')
 
-    return redirect_param(
-        'project',
-        '#acl',
+    return redirect(
+        'manage-access',
         project=obj.slug,
     )
 
@@ -95,9 +94,8 @@ def add_user(request, project):
             request, _('User has been added to this project.')
         )
 
-    return redirect_param(
-        'project',
-        '#acl',
+    return redirect(
+        'manage-access',
         project=obj.slug,
     )
 
@@ -118,8 +116,24 @@ def delete_user(request, project):
                 request, _('User has been removed from this project.')
             )
 
-    return redirect_param(
-        'project',
-        '#acl',
+    return redirect(
+        'manage-access',
         project=obj.slug,
+    )
+
+@login_required
+def manage_access(request, project):
+    obj = get_project(request, project)
+
+    if not can_manage_acl(request.user, obj):
+        raise PermissionDenied()
+
+    return render(
+        request,
+        'manage-access.html',
+        {
+            'object': obj,
+            'project': obj,
+            'add_user_form': UserManageForm(),
+        }
     )

@@ -43,7 +43,7 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    UserManageForm, ReportsForm, ReplaceForm,
+    ReportsForm, ReplaceForm,
     SubprojectSettingsForm, ProjectSettingsForm,
 )
 from weblate.permissions.helpers import (
@@ -387,7 +387,6 @@ def show_project(request, project):
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),
-            'add_user_form': UserManageForm(),
             'settings_form': settings_form,
             'language_stats': language_stats,
             'unit_count': Unit.objects.filter(

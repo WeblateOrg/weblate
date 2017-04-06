@@ -254,22 +254,27 @@ urlpatterns = [
         name='new-language',
     ),
     url(
-        r'^add-user/' + PROJECT + '$',
+        r'^access/' + PROJECT + '$',
+        weblate.trans.views.acl.manage_access,
+        name='manage-access',
+    ),
+    url(
+        r'^access/' + PROJECT + 'add/$',
         weblate.trans.views.acl.add_user,
         name='add-user',
     ),
     url(
-        r'^delete-user/' + PROJECT + '$',
+        r'^access/' + PROJECT + 'remove/$',
         weblate.trans.views.acl.delete_user,
         name='delete-user',
     ),
     url(
-        r'^make-owner/' + PROJECT + '$',
+        r'^access/' + PROJECT + 'make-owner/$',
         weblate.trans.views.acl.make_owner,
         name='make-owner',
     ),
     url(
-        r'^revoke-owner/' + PROJECT + '$',
+        r'^access/' + PROJECT + 'revoke-owner/$',
         weblate.trans.views.acl.revoke_owner,
         name='revoke-owner',
     ),
