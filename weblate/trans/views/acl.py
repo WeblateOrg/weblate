@@ -34,6 +34,10 @@ from weblate.permissions.helpers import can_manage_acl
 
 
 def check_user_form(request, project, verbose=False):
+    """Check project permission and UserManageForm.
+
+    This is simple helper to perform needed validation for all
+    user management views."""
     obj = get_project(request, project)
 
     if not can_manage_acl(request.user, obj):
@@ -53,6 +57,7 @@ def check_user_form(request, project, verbose=False):
 @require_POST
 @login_required
 def set_groups(request, project):
+    """Change group assignment for an user."""
     obj, form = check_user_form(request, project)
 
     try:
@@ -70,6 +75,7 @@ def set_groups(request, project):
     if group is None or form is None:
         code = 400
         message = _('Invalid parameters!')
+        status = None
     elif action == 'remove':
         if (group.name.endswith('@Administration') and
                 obj.all_users('@Administration').count() <= 1):
@@ -79,16 +85,18 @@ def set_groups(request, project):
             code = 200
             message = ''
             user.groups.remove(group)
+        status = user.groups.filter(pk=group.pk).exists()
     else:
         user.groups.add(group)
         code = 200
         message = ''
+        status = user.groups.filter(pk=group.pk).exists()
 
     return JsonResponse(
         data={
             'responseCode': code,
             'message': message,
-            'state': user.groups.filter(pk=group.pk).exists() if user and group else None,
+            'state': status,
         }
     )
 
@@ -96,6 +104,7 @@ def set_groups(request, project):
 @require_POST
 @login_required
 def add_user(request, project):
+    """Add user to a project."""
     obj, form = check_user_form(request, project, True)
 
     if form is not None:
@@ -113,6 +122,7 @@ def add_user(request, project):
 @require_POST
 @login_required
 def delete_user(request, project):
+    """Remove user from a project."""
     obj, form = check_user_form(request, project, True)
 
     if form is not None:
@@ -134,6 +144,7 @@ def delete_user(request, project):
 
 @login_required
 def manage_access(request, project):
+    """User management view."""
     obj = get_project(request, project)
 
     if not can_manage_acl(request.user, obj):
