@@ -121,6 +121,7 @@ def delete_user(request, project):
         project=obj.slug,
     )
 
+
 @login_required
 def manage_access(request, project):
     obj = get_project(request, project)

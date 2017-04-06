@@ -174,10 +174,10 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return User.objects.filter(groups__in=groups).distinct()
 
     def all_groups(self):
-        """Return list of applicable groups for project"""
+        """Return list of applicable groups for project."""
         return [
-            (g.pk, pgettext('Permissions group', g.name.split('@')[1])) for g in
-            Group.objects.filter(
+            (g.pk, pgettext('Permissions group', g.name.split('@')[1]))
+            for g in Group.objects.filter(
                 groupacl__project=self, name__contains='@'
             ).order_by('name')
         ]
