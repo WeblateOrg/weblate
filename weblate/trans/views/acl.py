@@ -89,7 +89,7 @@ def add_user(request, project):
     obj, form = check_user_form(request, project)
 
     if form is not None and obj.enable_acl:
-        obj.add_user(form.cleaned_data['user'], '@Translate')
+        obj.add_user(form.cleaned_data['user'])
         messages.success(
             request, _('User has been added to this project.')
         )

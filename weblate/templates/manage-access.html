@@ -49,19 +49,11 @@
   </div>
 </div>
 
-{% if object.enable_acl %}
 <form action="{% url "add-user" project=object.slug %}" method="post">
-{% else %}
-<form action="{% url "make-owner" project=object.slug %}" method="post">
-{% endif %}
 {% csrf_token %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">
-{% if object.enable_acl %}
   {% trans "Add new user" %}
-{% else %}
-  {% trans "Add new owner" %}
-{% endif %}
   </h4></div>
   <div class="panel-body">
     {{ add_user_form|crispy }}

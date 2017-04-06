@@ -182,8 +182,13 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             ).order_by('name')
         ]
 
-    def add_user(self, user, group):
+    def add_user(self, user, group=None):
         """Add user based on username of email."""
+        if group is None:
+            if self.enable_acl:
+                group = '@Translate'
+            else:
+                group = '@Administration'
         group = Group.objects.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
         self.add_subscription(user)
