@@ -19,7 +19,9 @@
 #
 
 from django.utils.translation import ugettext as _
+from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
@@ -31,7 +33,7 @@ from weblate.trans.views.helper import get_project
 from weblate.permissions.helpers import can_manage_acl
 
 
-def check_user_form(request, project):
+def check_user_form(request, project, verbose=False):
     obj = get_project(request, project)
 
     if not can_manage_acl(request.user, obj):
@@ -41,54 +43,62 @@ def check_user_form(request, project):
 
     if form.is_valid():
         return obj, form
-    else:
+    elif verbose:
         for error in form.errors:
             for message in form.errors[error]:
                 messages.error(request, message)
-        return obj, None
+    return obj, None
 
 
 @require_POST
 @login_required
-def make_owner(request, project):
+def set_groups(request, project):
     obj, form = check_user_form(request, project)
 
-    if form is not None:
-        obj.add_user(form.cleaned_data['user'], '@Administration')
+    try:
+        group = Group.objects.get(
+            groupacl__project=obj,
+            pk=int(request.POST.get('group', '')),
+        )
+    except (Group.DoesNotExist, ValueError):
+        group = None
 
-    return redirect(
-        'manage-access',
-        project=obj.slug,
-    )
+    action = request.POST.get('action')
 
+    user = form.cleaned_data['user'] if form else None
 
-@require_POST
-@login_required
-def revoke_owner(request, project):
-    obj, form = check_user_form(request, project)
-
-    if form is not None:
-        if obj.all_users('@Administration').count() <= 1:
-            messages.error(request, _('You can not remove last owner!'))
+    if group is None or form is None:
+        code = 400
+        message = _('Invalid parameters!')
+    elif action == 'remove':
+        if (group.name.endswith('@Administration') and
+                obj.all_users('@Administration').count() <= 1):
+            code = 400
+            message = _('You can not remove last owner!')
         else:
-            # Ensure owner stays within project
-            if obj.enable_acl:
-                obj.add_user(form.cleaned_data['user'], '@Translate')
+            code = 200
+            message = ''
+            user.groups.remove(group)
+    else:
+        user.groups.add(group)
+        code = 200
+        message = ''
 
-            obj.remove_user(form.cleaned_data['user'], '@Administration')
-
-    return redirect(
-        'manage-access',
-        project=obj.slug,
+    return JsonResponse(
+        data={
+            'responseCode': code,
+            'message': message,
+            'state': user.groups.filter(pk=group.pk).exists() if user and group else None,
+        }
     )
 
 
 @require_POST
 @login_required
 def add_user(request, project):
-    obj, form = check_user_form(request, project)
+    obj, form = check_user_form(request, project, True)
 
-    if form is not None and obj.enable_acl:
+    if form is not None:
         obj.add_user(form.cleaned_data['user'])
         messages.success(
             request, _('User has been added to this project.')
@@ -103,9 +113,9 @@ def add_user(request, project):
 @require_POST
 @login_required
 def delete_user(request, project):
-    obj, form = check_user_form(request, project)
+    obj, form = check_user_form(request, project, True)
 
-    if form is not None and obj.enable_acl:
+    if form is not None:
         owners = obj.all_users('@Administration')
         is_owner = owners.filter(pk=form.cleaned_data['user'].pk).exists()
         if is_owner and owners.count() <= 1:

@@ -269,14 +269,9 @@ urlpatterns = [
         name='delete-user',
     ),
     url(
-        r'^access/' + PROJECT + 'make-owner/$',
-        weblate.trans.views.acl.make_owner,
-        name='make-owner',
-    ),
-    url(
-        r'^access/' + PROJECT + 'revoke-owner/$',
-        weblate.trans.views.acl.revoke_owner,
-        name='revoke-owner',
+        r'^access/' + PROJECT + 'set/$',
+        weblate.trans.views.acl.set_groups,
+        name='set-groups',
     ),
 
     # Monthly activity

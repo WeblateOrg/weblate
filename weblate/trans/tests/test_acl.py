@@ -23,7 +23,7 @@ Tests for ACL management.
 """
 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -37,6 +37,10 @@ class ACLViewTest(ViewTestCase):
             'seconduser',
             'noreply@example.org',
             'testpassword'
+        )
+        self.admin_group = Group.objects.get(
+            groupacl__project=self.project,
+            name__endswith='@Administration'
         )
 
     def add_acl(self):
@@ -114,8 +118,12 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_user()
         self.client.post(
-            reverse('make-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'add',
+            }
         )
         self.assertTrue(
             self.project.all_users('@Administration').filter(
@@ -123,8 +131,12 @@ class ACLViewTest(ViewTestCase):
             ).exists()
         )
         self.client.post(
-            reverse('revoke-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'remove',
+            }
         )
         self.assertFalse(
             self.project.all_users('@Administration').filter(
@@ -138,8 +150,12 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_user()
         self.client.post(
-            reverse('make-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'add',
+            }
         )
         self.remove_user()
         self.assertFalse(
@@ -152,8 +168,12 @@ class ACLViewTest(ViewTestCase):
         """Test that deleting last owner does not work."""
         self.project.add_user(self.user, '@Administration')
         self.client.post(
-            reverse('revoke-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'remove',
+            }
         )
         self.assertTrue(
             self.project.all_users('@Administration').filter(
@@ -161,8 +181,12 @@ class ACLViewTest(ViewTestCase):
             ).exists()
         )
         self.client.post(
-            reverse('delete-user', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.user.username,
+                'group': self.admin_group.pk,
+                'action': 'remove',
+            }
         )
         self.assertTrue(
             self.project.all_users('@Administration').filter(
@@ -175,7 +199,7 @@ class ACLViewTest(ViewTestCase):
         self.project.add_user(self.user, '@Administration')
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
-            {'name': 'nonexisging'},
+            {'name': 'nonexisting'},
             follow=True
         )
         self.assertContains(response, 'No matching user found!')

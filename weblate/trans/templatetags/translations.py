@@ -73,7 +73,13 @@ BADGE_TEMPLATE = '<span class="badge pull-right flip {1}">{0}</span>'
 
 PERM_TEMPLATE = '''
 <td>
-<input type="checkbox" data-username="{0}" data-group="{1}" title="{2}" {3} />
+<input type="checkbox"
+    class="set-group"
+    data-placement="bottom"
+    data-username="{0}"
+    data-group="{1}"
+    data-name="{2}"
+    {3} />
 </td>
 '''
 

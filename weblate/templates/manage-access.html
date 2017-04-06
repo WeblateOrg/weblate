@@ -49,6 +49,10 @@
   </div>
 </div>
 
+<form action="{% url "set-groups" project=object.slug %}" method="post" id="set_groups_form">
+{% csrf_token %}
+</form>
+
 <form action="{% url "add-user" project=object.slug %}" method="post">
 {% csrf_token %}
 <div class="panel panel-primary">
