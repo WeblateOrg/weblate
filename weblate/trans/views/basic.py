@@ -23,7 +23,6 @@ import datetime
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
 from django.utils.translation import ugettext as _
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
