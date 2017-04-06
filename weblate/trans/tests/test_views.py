@@ -111,9 +111,12 @@ class ViewTestCase(RepoTestCase):
         """
         Makes user a Manager.
         """
-        group = Group.objects.get(name='Managers')
-        self.project.groupacl_set.all()[0].groups.add(group)
-        self.user.groups.add(group)
+        # Sitewide privileges
+        self.user.groups.add(
+            Group.objects.get(name='Managers')
+        )
+        # Project privileges
+        self.project.add_user(self.user, '@Administration')
 
     def get_request(self, *args, **kwargs):
         '''
