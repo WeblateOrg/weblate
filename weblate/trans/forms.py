@@ -712,15 +712,16 @@ class AutoForm(forms.Form):
         )
         choices = [(s.id, force_text(s)) for s in other_subprojects]
 
-        # Add other owned projects
-        owned_projects = user.project_set.all().exclude(
-            pk=obj.subproject.project.id
-        )
-        for project in owned_projects:
-            for component in project.subproject_set.all():
-                choices.append(
-                    (component.id, force_text(component))
-                )
+        # Add components from other owned projects
+        owned_components = SubProject.objects.filter(
+            project__groupacl__groups__name__endswith='@Administration'
+        ).exclude(
+            project=obj.subproject.project
+        ).distinct()
+        for component in owned_components:
+            choices.append(
+                (component.id, force_text(component))
+            )
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
