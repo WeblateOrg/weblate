@@ -14,7 +14,6 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
-  <div class="panel-body">
 
 {% if checks %}
 <div class="list-group">
@@ -23,10 +22,11 @@
 {% endfor %}
 </div>
 {% else %}
+<div class="panel-body">
 {% show_message "warning" _("No matching checks found!") %}
+</div>
 {% endif %}
 
-</div>
 </div>
 </div>
 
