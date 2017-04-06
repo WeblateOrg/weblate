@@ -97,7 +97,6 @@ DEFAULT_GROUPS = {
         'delete_translation',
         'access_vcs',
     },
-    'Owners': ADMIN_PERMS,
     'Managers': ADMIN_PERMS,
     '@Translate': {
         'access_project',

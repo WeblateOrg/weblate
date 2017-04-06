@@ -4,11 +4,10 @@ Access control
 ==============
 
 Weblate uses privileges system based on Django.  The default setup (after you
-run :djadmin:`setupgroups`) consists of three groups `Guests`, `Users`,
-`Owners` and `Managers` which have privileges as described above.  All new
+run :djadmin:`setupgroups`) consists of three groups `Guests`, `Users`
+and `Managers` which have privileges as described above.  All new
 users are automatically added to `Users` group. The `Guests` groups is used for
-not logged in users. The `Owners` groups adds special privileges to users
-owning a project.
+not logged in users.
 
 Basically `Users` are meant as regular translators and `Managers` for
 developers who need more control over the translation - they can force
@@ -30,8 +29,8 @@ For more fine-grained access control, see :ref:`acl` and :ref:`groupacl`.
 
 .. warning::
 
-    Never remove Weblate predefined groups (`Guests`, `Users`,
-    `Owners` and `Managers`). If you do not want to use these features, just
+    Never remove Weblate predefined groups (`Guests`, `Users`
+    and `Managers`). If you do not want to use these features, just
     remove all privileges from them.
 
 Extra privileges
@@ -39,81 +38,81 @@ Extra privileges
 
 Weblate defines following extra privileges:
 
-Can upload translation [Users, Managers, Owners]
+Can upload translation [Users, Managers]
     Uploading of translation files.
-Can overwrite with translation upload [Users, Managers, Owners]
+Can overwrite with translation upload [Users, Managers]
     Overwriting existing translations by uploading translation file.
-Can define author of translation upload [Managers, Owners]
+Can define author of translation upload [Managers]
     Allows to define custom authorship when uploading translation file.
-Can force committing of translation [Managers, Owners]
+Can force committing of translation [Managers]
     Can force VCS commit in the web interface.
-Can see VCS repository URL [Users, Managers, Owners, Guests]
+Can see VCS repository URL [Users, Managers, Guests]
     Can see VCS repository URL inside Weblate
-Can update translation from VCS [Managers, Owners]
+Can update translation from VCS [Managers]
     Can force VCS pull in the web interface.
-Can push translations to remote VCS [Managers, Owners]
+Can push translations to remote VCS [Managers]
     Can force VCS push in the web interface.
-Can do automatic translation using other project strings [Managers, Owners]
+Can do automatic translation using other project strings [Managers]
     Can do automatic translation based on strings from other components
-Can lock whole translation project [Managers, Owners]
+Can lock whole translation project [Managers]
     Can lock translation for updates, useful while doing some major changes
     in the project.
-Can reset translations to match remote VCS [Managers, Owners]
+Can reset translations to match remote VCS [Managers]
     Can reset VCS repository to match remote VCS.
-Can access VCS repository [Users, Managers, Owners, Guests]
+Can access VCS repository [Users, Managers, Guests]
     Can access the underlying VCS repository (see :ref:`git-exporter`).
-Can save translation [Users, Managers, Owners]
+Can save translation [Users, Managers]
     Can save translation (might be disabled with :ref:`voting`).
-Can save template [Users, Managers, Owners]
+Can save template [Users, Managers]
     Can edit source strings (usually English)
-Can accept suggestion [Users, Managers, Owners]
+Can accept suggestion [Users, Managers]
     Can accept suggestion (might be disabled with :ref:`voting`).
-Can delete suggestion [Users, Managers, Owners]
+Can delete suggestion [Users, Managers]
     Can delete suggestion (might be disabled with :ref:`voting`).
-Can delete comment [Managers, Owners]
+Can delete comment [Managers]
     Can delete comment.
-Can vote for suggestion [Users, Managers, Owners]
+Can vote for suggestion [Users, Managers]
     Can vote for suggestion (see :ref:`voting`).
-Can override suggestion state [Managers, Owners]
+Can override suggestion state [Managers]
     Can save translation, accept or delete suggestion when automatic accepting
     by voting for suggestions is enabled (see :ref:`voting`).
-Can import dictionary [Users, Managers, Owners]
+Can import dictionary [Users, Managers]
     Can import dictionary from translation file.
-Can add dictionary [Users, Managers, Owners]
+Can add dictionary [Users, Managers]
     Can add dictionary entries.
-Can change dictionary [Users, Managers, Owners]
+Can change dictionary [Users, Managers]
     Can change dictionary entries.
-Can delete dictionary [Users, Managers, Owners]
+Can delete dictionary [Users, Managers]
     Can delete dictionary entries.
-Can lock translation for translating [Users, Managers, Owners]
+Can lock translation for translating [Users, Managers]
     Can lock translation while translating (see :ref:`locking`).
-Can add suggestion [Users, Managers, Owners, Guests]
+Can add suggestion [Users, Managers, Guests]
     Can add new suggestions.
-Can use machine translation [Users, Managers, Owners]
+Can use machine translation [Users, Managers]
     Can use machine translations (see :ref:`machine-translation-setup`).
-Can manage ACL rules for a project [Managers, Owners]
+Can manage ACL rules for a project [Managers]
     Can add users to ACL controlled projects (see :ref:`acl`)
-Can access project [Managers, Owners]
+Can access project [Managers]
     Can access ACL controlled projects (see :ref:`acl`)
-Can edit priority [Managers, Owners]
+Can edit priority [Managers]
     Can adjust source string priority
-Can edit check flags [Managers, Owners]
+Can edit check flags [Managers]
     Can adjust source string check flags
-Can download changes [Managers, Owners]
+Can download changes [Managers]
     Can download changes in a CSV format.
-Can display reports [Managers, Owners]
+Can display reports [Managers]
     Can display detailed translation reports.
-Can add translation [Users, Managers, Owners]
+Can add translation [Users, Managers]
     Can start translations in new language.
-Can mass add translation [Managers, Owners]
+Can mass add translation [Managers]
     Can start translations in several languages at once.
-Can delete translation [Managers, Owners]
+Can delete translation [Managers]
     Can remove translation.
-Can change sub project [Managers, Owners]
+Can change sub project [Managers]
     Can edit component settings.
-Can change project [Managers, Owners]
+Can change project [Managers]
     Can edit project settings.
-Can upload screenshot [Managers, Owners]
+Can upload screenshot [Managers]
     Can upload source string screenshot context.
 
 .. _acl:
