@@ -26,6 +26,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group, User, Permission
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save, post_migrate, m2m_changed
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible, force_text
@@ -218,12 +219,14 @@ def setup_group_acl(sender, instance, **kwargs):
         group_acl.permissions.set(
             Permission.objects.filter(codename__in=ADMIN_PERMS)
         )
+        lookup = Q(name__startswith='@')
     else:
         group_acl.permissions.set(
             Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
         )
+        lookup = Q(name='@Administration')
 
-    for template_group in Group.objects.filter(name__startswith='@'):
+    for template_group in Group.objects.filter(lookup):
         name = '{0}{1}'.format(instance.name, template_group.name)
         try:
             group = group_acl.groups.get(name__endswith=template_group.name)

@@ -36,12 +36,14 @@ def migrate_acl(apps, schema_editor):
         if project.enable_acl:
             group_acl.permissions.set(all_perms)
             old_group = Group.objects.get(name=project.name)
+            project_groups = groups.keys()
         else:
             group_acl.permissions.set(admin_perms)
             old_group = None
+            project_groups = ['@Administration']
 
         # Create groups
-        for name in groups:
+        for name in project_groups:
             groupname = '{0}{1}'.format(project.name, name)
             group = Group.objects.get_or_create(name=groupname)[0]
             group.permissions.set(groups[name])
