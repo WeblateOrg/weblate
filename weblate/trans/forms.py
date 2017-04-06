@@ -964,6 +964,8 @@ class UserManageForm(forms.Form):
     )
 
     def clean(self):
+        if 'name' not in self.cleaned_data:
+            return
         try:
             self.cleaned_data['user'] = User.objects.get(
                 Q(username=self.cleaned_data['name']) |
