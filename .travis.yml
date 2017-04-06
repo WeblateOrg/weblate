@@ -12,12 +12,12 @@ python:
 # build matrix configuration
 env:
   matrix:
+    - CI_PIP_DEPS="Django>=1.11,<1.12"
+    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_MODE=setup
+    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=mysql
+    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql
+    - CI_PIP_DEPS="Django>=1.11,<1.12" CI_DATABASE=postgresql CI_MODE=selenium
     - CI_PIP_DEPS="Django>=1.10,<1.11"
-    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_MODE=setup
-    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=mysql
-    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql
-    - CI_PIP_DEPS="Django>=1.10,<1.11" CI_DATABASE=postgresql CI_MODE=selenium
-    - CI_PIP_DEPS="--pre Django"
     - CI_PIP_DEPS="sphinxcontrib-httpdomain" CI_MODE=docs
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
@@ -63,10 +63,7 @@ sudo: false
 matrix:
   include:
     - python: "3.5"
-      env: CI_PIP_DEPS="Django>=1.10,<1.11"
-  allow_failures:
-    - python: "2.7"
-      env: CI_PIP_DEPS="--pre Django"
+      env: CI_PIP_DEPS="Django>=1.11,<1.12"
 addons:
   apt:
     packages:
