@@ -3,17 +3,14 @@
 Access control
 ==============
 
-Weblate uses privileges system based on Django.  The default setup (after you
-run :djadmin:`setupgroups`) consists of three groups `Guests`, `Users`
-and `Managers` which have privileges as described above.  All new
-users are automatically added to `Users` group. The `Guests` groups is used for
-not logged in users.
+Weblate uses privileges system based on Django, but is extended in several ways
+to allow managing access at more fine grained level. See :ref:`acl` and
+:ref:`groupacl` for more detailed information on those extensions.
 
-Basically `Users` are meant as regular translators and `Managers` for
-developers who need more control over the translation - they can force
-committing changes to VCS, push changes upstream (if Weblate is configured to do
-so) or disable translation (eg. when there are some major changes happening
-upstream).
+The default setup (after you run :djadmin:`setupgroups`) consists of three
+groups `Guests`, `Users` and `Managers` which have privileges as described
+above.  All new users are automatically added to `Users` group (thanks to
+:ref:`autogroup`). The `Guests` groups is used for not logged in users.
 
 To customize this setup, it is recommended to remove privileges from `Users`
 group and create additional groups with finer privileges (eg. `Translators`
@@ -25,13 +22,11 @@ To completely lock down your Weblate installation you can use
 :setting:`LOGIN_REQUIRED_URLS` for forcing users to login and
 :setting:`REGISTRATION_OPEN` for disallowing new registrations.
 
-For more fine-grained access control, see :ref:`acl` and :ref:`groupacl`.
-
 .. warning::
 
-    Never remove Weblate predefined groups (`Guests`, `Users`
-    and `Managers`). If you do not want to use these features, just
-    remove all privileges from them.
+    Never remove Weblate predefined groups (`Guests`, `Users` and `Managers`).
+    If you do not want to use these features, just remove all privileges from
+    them.
 
 Extra privileges
 ----------------
@@ -124,17 +119,20 @@ Per project access control
 
     This feature is available since Weblate 1.4.
 
+.. versionchanged:: 2.13
+
+    Since Weblate 2.13 the per project access control uses :ref:`groupacl`
+    under the hood. You might need some adjustments to your setup if you were
+    using both features.
+
 .. note::
 
     By enabling ACL, all users are prohibited to access anything within given
     project unless you add them the permission to do that.
 
 Additionally you can limit users access to individual projects. This feature is
-enabled by :guilabel:`Enable ACL` at Project configuration. Once you enable
-this, users without specific privilege
-(:guilabel:`trans | project | Can access project NAME`) can not access this
-project. An user group with same name as a project is also automatically
-created to ease you management of the privilege.
+enabled by :guilabel:`Enable ACL` at Project configuration. This automatically
+creates :ref:`groupacl` for this project
 
 To allow access to this project, you have to add the privilege to do so either
 directly to given user or group of users in Django admin interface. Or using
@@ -174,15 +172,16 @@ Group-based access control
     This feature is available since Weblate 2.5.
 
 You can designate groups that have exclusive access to a particular language,
-project or component, or a combination thereof. For example, you can use this
-feature to designate a language-specific translator team with full privileges
-for their own language.
+project or component, or a combination thereof. This feature is also used to
+implement :ref:`acl` by automatically created groups for each project.  For
+example, you can use this feature to designate a language-specific translator
+team with full privileges for their own language.
 
-This works by "locking" the group(s) in question to the object, the effect of
-which is twofold.
+This works by "locking" given permission for the group(s) in question to the
+object, the effect of which is twofold.
 
 Firstly, groups that are locked for some object are the *only* groups that have
-any privileges on that object. If a user is not a member of the locked group,
+given privileges on that object. If a user is not a member of the locked group,
 they cannot edit the object, even if their privileges or group membership
 allows them to edit other (unlocked) objects.
 
