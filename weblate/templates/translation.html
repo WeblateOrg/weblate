@@ -86,10 +86,11 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translation status" %}</h4></div>
-  <div class="panel-body">
 
 {% if object.is_template %}
+  <div class="panel-body">
 {% show_message "warning" _("This translation is being used as source strings within this component.") %}
+  </div>
 {% endif %}
 
 <table class="table">
@@ -106,6 +107,7 @@
 </tr>
 </table>
 
+  <div class="panel-body">
 {% include "legend.html" %}
 
 </div>
@@ -119,12 +121,10 @@
 {% trans "Strings to check" %}
 </h4>
 </div>
-  <div class="panel-body">
 <div class="list-group">
 {% for c in object.get_translation_checks %}
 <a class="list-group-item list-group-item-{{ c.3 }}" href="{{ object.get_translate_url }}?type={{ c.0 }}">{% if c.4 %}<span class="badge">{% blocktrans count c.4 as count %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}</span>{% endif %}<span class="badge">{{ c.2 }}</span>{{ c.1 }}</a>
 {% endfor %}
-</div>
 </div>
 </div>
 
@@ -134,7 +134,6 @@
 
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
-  <div class="panel-body">
 
 <table class="table">
 {% with object.subproject as object %}
@@ -156,7 +155,6 @@
 </td>
 </tr>
 </table>
-</div>
 </div>
 
 {% if other_translations %}
@@ -319,7 +317,6 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
-<div class="panel-body">
 <table class="table">
 <thead>
 <tr>
@@ -356,7 +353,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 
 </div>
 
@@ -366,7 +362,6 @@
 <div class="col-lg-6">
 <div class="panel panel-primary">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Last activity" %}</h4></div>
-<div class="panel-body">
 <table class="table">
 <tbody>
 <tr>
@@ -379,7 +374,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 
