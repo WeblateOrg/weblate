@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-07 10:22+0000\n"
-"PO-Revision-Date: 2017-03-17 21:07+0000\n"
+"PO-Revision-Date: 2017-04-07 12:03+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
-"Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
-"bg/>\n"
+"Language-Team: Bulgarian "
+"<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -357,12 +357,8 @@ msgstr ""
 "подразбиране."
 
 #: weblate/accounts/models.py:883
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr ""
-"Списъкът с компоненти трябва да бъде избран, когато се използва по "
-"подразбиране."
+msgstr "Списъкът с компоненти не трябва да бъде избран, когато не се използва."
 
 #: weblate/accounts/models.py:959
 msgid ""
@@ -707,29 +703,21 @@ msgid "Permissions"
 msgstr "Разрешения"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Администриране"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Речник"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Екранни снимки"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "Превод"
@@ -737,7 +725,7 @@ msgstr "Превод"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "Система за контрол на версиите"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -745,10 +733,8 @@ msgid "You are not allowed to access project %s."
 msgstr "Нямате право на достъп до проекта „%s“."
 
 #: weblate/permissions/models.py:56
-#, fuzzy
-#| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "Разрешения"
+msgstr "Филтрирани разрешения"
 
 #: weblate/permissions/models.py:63
 msgid "Project, component or language must be specified"
@@ -3042,6 +3028,8 @@ msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
+"В този списък от компоненти няма подходящ превод, може би той не се превежда "
+"на Вашите езици."
 
 #: weblate/templates/index.html:132
 msgid "Browse all changes"
@@ -3724,6 +3712,8 @@ msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
+"Потребителят ще бъде премахнат от проекта след като премахнете последното му "
+"потребителско разрешение."
 
 #: weblate/templates/manage-access.html:60
 msgid "Add new user"
@@ -4745,10 +4735,8 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "Администриране"
+msgstr "Администратори"
 
 #: weblate/trans/admin.py:60 weblate/trans/admin.py:118
 msgid "Update VCS repository"
