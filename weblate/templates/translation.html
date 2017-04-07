@@ -27,6 +27,7 @@
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
+  <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}" data-monthly="{% url 'monthly_activity' project=object.subproject.project.slug subproject=object.subproject.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
@@ -81,9 +82,6 @@
 <div class="tab-content">
 <div class="tab-pane active" id="overview">
 
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-6">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translation status" %}</h4></div>
 
@@ -128,10 +126,19 @@
 </div>
 </div>
 
+{% if other_translations %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
+{% with other_translations as translations %}
+{% include "list-translations.html" %}
+{% endwith %}
+    <div class="panel-body">{% include "legend.html" %}</div>
+</div>
+{% endif %}
+
 </div>
 
-<div class="col-lg-6">
-
+<div class="tab-pane" id="information">
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Project Information" %}</h4></div>
 
@@ -156,24 +163,8 @@
 </tr>
 </table>
 </div>
-
-{% if other_translations %}
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Other components" %}</h4></div>
-{% with other_translations as translations %}
-{% include "list-translations.html" %}
-{% endwith %}
-    <div class="panel-body">{% include "legend.html" %}</div>
-</div>
-{% endif %}
-
 </div>
 
-</div>
-</div>
-
-
-</div>
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
