@@ -4,16 +4,16 @@ msgstr ""
 "Project-Id-Version: French (Weblate)\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-07 10:22+0000\n"
-"PO-Revision-Date: 2017-03-17 16:17+0000\n"
+"PO-Revision-Date: 2017-04-07 11:11+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
-">\n"
+"Language-Team: French "
+"<https://hosted.weblate.org/projects/weblate/master/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -356,12 +356,10 @@ msgstr ""
 "comme valeur par défaut."
 
 #: weblate/accounts/models.py:883
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
 msgstr ""
-"La liste des composants doit être sélectionnée lorsqu’elle est utilisée "
-"comme valeur par défaut."
+"La liste des composants ne doit pas être sélectionnée si elle n'est pas "
+"utilisée."
 
 #: weblate/accounts/models.py:959
 msgid ""
@@ -713,29 +711,21 @@ msgid "Permissions"
 msgstr "Droits"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Administration"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Glossaire"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Captures écran"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "Traduire"
@@ -743,7 +733,7 @@ msgstr "Traduire"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -3055,6 +3045,8 @@ msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
+"Aucune traduction trouvée dans la liste de ces composants, la traduction ne "
+"doit pas exister pour vos langues."
 
 #: weblate/templates/index.html:132
 msgid "Browse all changes"
@@ -3749,6 +3741,8 @@ msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
+"L'utilisateur sera supprimé du projet dès que vous lui aurez retiré tous ses "
+"droits."
 
 #: weblate/templates/manage-access.html:60
 msgid "Add new user"
@@ -4776,10 +4770,8 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "Administration"
+msgstr "Administrateurs"
 
 #: weblate/trans/admin.py:60 weblate/trans/admin.py:118
 msgid "Update VCS repository"
@@ -5370,10 +5362,8 @@ msgid "Strings with any failing checks"
 msgstr "Chaînes avec des vérifications ayant échoué"
 
 #: weblate/trans/forms.py:497 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "Revue des chaînes sources"
+msgstr "Chaînes à vérifier aléatoires"
 
 #: weblate/trans/forms.py:516
 msgid "Query"
@@ -5525,10 +5515,9 @@ msgid "Whole project"
 msgstr "Ensemble du projet"
 
 #: weblate/trans/forms.py:883
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "La langue choisie existe déjà dans le projet !"
+msgstr "Une traduction similaire existe déjà dans le projet {0} !"
 
 #: weblate/trans/forms.py:904
 msgid "Please select"
@@ -5826,32 +5815,24 @@ msgid "Component lists"
 msgstr "Listes de composants"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "Expression régulière de courriel"
+msgstr "Expression régulière de projet"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Expression régulière qui est utilisée pour la correspondance du courriel "
-"utilisateur."
+"Expression régulière qui est utilisée pour la correspondance du chemin "
+"projet."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Expression régulière de courriel"
+msgstr "Expression régulière de composant"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Expression régulière qui est utilisée pour la correspondance du courriel "
-"utilisateur."
+"Expression régulière qui est utilisée pour la correspondance de chemin du "
+"composant."
 
 #: weblate/trans/models/componentlist.py:82
 #, fuzzy
@@ -6394,12 +6375,10 @@ msgstr ""
 "fichier !"
 
 #: weblate/trans/models/subproject.py:1140
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
 msgstr ""
-"Un code de langue vide a été obtenu pour %s, veuillez vérifier le masque de "
-"fichier !"
+"Le code langue %s est trop long, veuillez vérifier le masque de fichier !"
 
 #: weblate/trans/models/subproject.py:1144
 #, python-format
@@ -6995,10 +6974,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "Drapeau de vérification « %s » incorrect"
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "Requête de fusion invalide !"
+msgstr "Paramètres non valides !"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -7034,10 +7011,9 @@ msgid "Invalid search query!"
 msgstr "Requête de recherche invalide !"
 
 #: weblate/trans/views/basic.py:308
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Impliquez-vous dans %(project)s !"
+msgstr "Participez à {0} !"
 
 #: weblate/trans/views/basic.py:314
 #, python-format
