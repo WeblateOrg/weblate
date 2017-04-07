@@ -18,6 +18,7 @@ Released on ? 2017.
 * Group ACLs can now be limited to certain permissions.
 * The per project ALCs are now implemented using Group ACL.
 * Added more fine grained privileges control.
+* Various minor UI improvements.
 
 weblate 2.12
 ------------
