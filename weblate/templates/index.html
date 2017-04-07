@@ -61,6 +61,7 @@
         {% with usersubscriptions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
         {% include "list-translations.html" %}
         {% endwith %}
+        <p>{% include "legend.html" %}</p>
     {% else %}
         {% with subscribed_projects as projects %}
         {% include "list-projects.html" %}
@@ -80,6 +81,7 @@
 {% with userlanguages as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
 {% endwith %}
+<p>{% include "legend.html" %}</p>
 {% else %}
 <p class="help-block">{% trans "Choose your languages in preferences and you will get an overview here of available translations for those languages in all projects." %}</p>
 {% endif %} {# userlanguages #}
@@ -93,6 +95,7 @@
 {% with suggestions as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
 {% include "list-translations.html" %}
 {% endwith %}
+<p>{% include "legend.html" %}</p>
 {% else %}
 <p class="help-block">{% trans "Could not find any suggestions for you, please choose your languages in preferences to get more suggestions." %}</p>
 {% endif %}
@@ -109,6 +112,7 @@
     {% with componentlist.translations as translations and 2 as show_language and user.profile.hide_completed as hide_completed %}
     {% if translations %}
     {% include "list-translations.html" %}
+    <p>{% include "legend.html" %}</p>
     {% else %}
     <p class="help-block">{% trans "Could not find any matching translation in this component list, probably not translated to your languages." %}</p>
     {% endif %}
