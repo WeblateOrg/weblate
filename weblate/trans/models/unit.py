@@ -163,7 +163,7 @@ class UnitManager(models.Manager):
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
         elif rqtype == 'random':
-            return self.filter(translated=True).order_by('?')[:25]
+            return self.filter(translated=True).order_by('?')
         elif rqtype == 'sourcecomments':
             coms = Comment.objects.filter(
                 language=None,
@@ -244,9 +244,9 @@ class UnitManager(models.Manager):
             base = base.filter(translation__language__code=params['lang'])
 
         if not params['q']:
-            return base
+            result = base
 
-        if params['search'] in ('exact', 'substring'):
+        elif params['search'] in ('exact', 'substring'):
             queries = []
 
             modifier = ''
@@ -264,18 +264,21 @@ class UnitManager(models.Manager):
                 Q()
             )
 
-            return base.filter(query)
+            result = base.filter(query)
         else:
             lang = self.values_list(
                 'translation__language__code', flat=True
             )[0]
-            return base.filter(
+            result = base.filter(
                 pk__in=fulltext_search(
                     params['q'],
                     lang,
                     params
                 )
             )
+        if params['type'] == 'random':
+            return result[:25]
+        return result
 
     def same_source(self, unit):
         """
