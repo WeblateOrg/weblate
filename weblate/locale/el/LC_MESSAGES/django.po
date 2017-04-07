@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: Weblate 1.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-07 15:17+0000\n"
-"PO-Revision-Date: 2017-03-18 00:30+0000\n"
+"PO-Revision-Date: 2017-04-07 18:52+0000\n"
 "Last-Translator: Παναγιώτης Παπάζογλου <papaz_p@yahoo.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
-">\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
+"\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.12\n"
+"X-Generator: Weblate 2.13-dev\n"
 
 #: weblate/accounts/auth.py:49
 msgid ""
@@ -357,11 +357,8 @@ msgstr ""
 "Η λίστα περιεχομένων πρέπει να επιλέγεται όταν χρησιμοποιείται ως προεπιλογή."
 
 #: weblate/accounts/models.py:883
-#, fuzzy
-#| msgid "Component list must be selected when used as default."
 msgid "Component list must not be selected when not used."
-msgstr ""
-"Η λίστα περιεχομένων πρέπει να επιλέγεται όταν χρησιμοποιείται ως προεπιλογή."
+msgstr "Η λίστα περιεχομένων δεν πρέπει να επιλέγεται όταν δεν χρησιμοποιείται."
 
 #: weblate/accounts/models.py:959
 msgid ""
@@ -710,29 +707,21 @@ msgid "Permissions"
 msgstr "Αδειοδοτήσεις"
 
 #: weblate/permissions/data.py:149
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Permissions group"
 msgid "Administration"
 msgstr "Διαχείριση"
 
 #: weblate/permissions/data.py:150
-#, fuzzy
-#| msgid "Glossary"
 msgctxt "Permissions group"
 msgid "Glossary"
 msgstr "Γλωσσάρι"
 
 #: weblate/permissions/data.py:151
-#, fuzzy
-#| msgid "Screenshots"
 msgctxt "Permissions group"
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
 #: weblate/permissions/data.py:152
-#, fuzzy
-#| msgid "Translate"
 msgctxt "Permissions group"
 msgid "Translate"
 msgstr "Μετάφραση"
@@ -740,7 +729,7 @@ msgstr "Μετάφραση"
 #: weblate/permissions/data.py:153
 msgctxt "Permissions group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/permissions/helpers.py:424
 #, python-format
@@ -748,14 +737,12 @@ msgid "You are not allowed to access project %s."
 msgstr "Δεν σας επιτρέπεται η πρόσβαση στο έργο %s."
 
 #: weblate/permissions/models.py:56
-#, fuzzy
-#| msgid "Permissions"
 msgid "Filtered permissions"
-msgstr "Αδειοδοτήσεις"
+msgstr "Φιλτραρισμένες αδειοδοτήσεις"
 
 #: weblate/permissions/models.py:57
 msgid "The GroupACL will affect only selected permissions."
-msgstr ""
+msgstr "Το GroupACL θα επηρεάσει μόνο επιλεγμένες αδειοδοτήσεις."
 
 #: weblate/permissions/models.py:64
 msgid "Project, component or language must be specified"
@@ -3057,6 +3044,8 @@ msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
+"Αδύνατη η εύρεση κάποιας μετάφρασης που να ταιριάζει σε αυτή τη λίστα "
+"περιεχομένου, πιθανόν δεν έχει μεταφραστεί στις γλώσσες σας."
 
 #: weblate/templates/index.html:136
 msgid "Browse all changes"
@@ -3745,6 +3734,8 @@ msgid ""
 "The user will be removed from the project once you remove last user "
 "permission."
 msgstr ""
+"Ο χρήστης θα απομακρυνθεί από το έργο μόλις απομακρύνεται την τελευταία "
+"αδειοδότητα χρήστη."
 
 #: weblate/templates/manage-access.html:60
 msgid "Add new user"
@@ -4771,10 +4762,8 @@ msgid "%(filter_name)s (%(filter_count)s)"
 msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:45
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "Διαχείριση"
+msgstr "Διαχειριστές"
 
 #: weblate/trans/admin.py:60 weblate/trans/admin.py:118
 msgid "Update VCS repository"
@@ -5359,10 +5348,8 @@ msgid "Strings with any failing checks"
 msgstr "Κείμενα με οποιαδήποτε αποτυχία ελέγχων"
 
 #: weblate/trans/forms.py:497 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "Έλεγχος κειμένων προέλευσης"
+msgstr "Τυχαία κείμενα για επισκόπηση"
 
 #: weblate/trans/forms.py:516
 msgid "Query"
@@ -5509,10 +5496,9 @@ msgid "Whole project"
 msgstr "Ολόκληρο έργο"
 
 #: weblate/trans/forms.py:883
-#, fuzzy, python-brace-format
-#| msgid "Chosen translation already exists in this project!"
+#, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr "Η επιλεγμένη μετάφραση υπάρχει ήδη στο έργο!"
+msgstr "Παρόμοια μετάφραση υπάρχει ήδη στο έργο ({0})!"
 
 #: weblate/trans/forms.py:904
 msgid "Please select"
@@ -5811,50 +5797,32 @@ msgid "Component lists"
 msgstr "Λίστες περιεχομένου"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "Κανονική έκφραση ηλεκτρονικής αλληλογραφίας"
+msgstr "Κανονική έκφραση έργου"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
-msgstr ""
-"Κανονική έκφραση που χρησιμοποιείται για ταίριασμα ηλεκτρονικής "
-"αλληλογραφίας χρήστη."
+msgstr "Κανονική έκφραση που χρησιμοποιείται για ταίριασμα έργου."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Κανονική έκφραση ηλεκτρονικής αλληλογραφίας"
+msgstr "Κανονική έκφραση περιεχομένου"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
-msgstr ""
-"Κανονική έκφραση που χρησιμοποιείται για ταίριασμα ηλεκτρονικής "
-"αλληλογραφίας χρήστη."
+msgstr "Κανονική έκφραση που χρησιμοποιείται για ταίριασμα περιεχομένου."
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "Λίστες περιεχομένου"
+msgstr "Λίστα περιεχομένου για συσχέτιση"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Αυτόματη συσχέτιση ομάδας"
+msgstr "Αυτόματη συσχέτιση λίστας περιεχομένου"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Αυτόματες συσχετίσεις ομάδας"
+msgstr "Αυτόματες συσχετίσεις λίστας περιεχομένου"
 
 #: weblate/trans/models/project.py:92
 msgid "Main website of translated project."
@@ -6383,10 +6351,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Λήψη άδειου κώδικα γλώσσας για %s, δείτε τη μάσκα αρχείου!"
 
 #: weblate/trans/models/subproject.py:1140
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "Λήψη άδειου κώδικα γλώσσας για %s, δείτε τη μάσκα αρχείου!"
+msgstr "Ο κώδικας γλώσσας %s, δείτε τη μάσκα αρχείου!"
 
 #: weblate/trans/models/subproject.py:1144
 #, python-format
@@ -6472,6 +6439,7 @@ msgstr "Απέτυχε η ανάλυση του αρχείου βάσης μετ
 #, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
 msgstr ""
+"Η γλώσσα προτύπου (%s) δεν ταιριάζει με τη γλώσσα προέλευσης του έργου (%s)!"
 
 #: weblate/trans/models/subproject.py:1258
 msgid "You can not use monolingual translation without base file!"
@@ -6973,10 +6941,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "Μη έγκυρη σημαία ελέγχου: «%s»"
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "Μη έγκυρο αίτημα ένωσης!"
+msgstr "Μη έγκυρες παράμετροι!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -7012,10 +6978,9 @@ msgid "Invalid search query!"
 msgstr "Μη έγκυρο ερώτηση αναζήτησης!"
 
 #: weblate/trans/views/basic.py:308
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Συμμετέχετε στο %(project)s!"
+msgstr "Συμμετέχετε στο {0}!"
 
 #: weblate/trans/views/basic.py:314
 #, python-format
