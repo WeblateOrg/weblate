@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2017-04-07 10:22+0000\n"
+"POT-Creation-Date: 2017-04-07 15:17+0000\n"
 "PO-Revision-Date: 2016-07-07 21:36+0000\n"
 "Last-Translator: Kyeong Su Shin <cdac1234@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -765,35 +765,39 @@ msgstr "프로젝트 %s를 접근할 수 없습니다."
 msgid "Filtered permissions"
 msgstr "버전"
 
-#: weblate/permissions/models.py:63
+#: weblate/permissions/models.py:57
+msgid "The GroupACL will affect only selected permissions."
+msgstr ""
+
+#: weblate/permissions/models.py:64
 msgid "Project, component or language must be specified"
 msgstr ""
 
-#: weblate/permissions/models.py:96
+#: weblate/permissions/models.py:97
 msgid "Group ACL"
 msgstr ""
 
-#: weblate/permissions/models.py:97
+#: weblate/permissions/models.py:98
 msgid "Group ACLs"
 msgstr ""
 
-#: weblate/permissions/models.py:103
+#: weblate/permissions/models.py:104
 msgid "Email regular expression"
 msgstr "이메일 정규표현식"
 
-#: weblate/permissions/models.py:107
+#: weblate/permissions/models.py:108
 msgid "Regular expression which is used to match user email."
 msgstr ""
 
-#: weblate/permissions/models.py:112
+#: weblate/permissions/models.py:113
 msgid "Group to assign"
 msgstr ""
 
-#: weblate/permissions/models.py:116
+#: weblate/permissions/models.py:117
 msgid "Automatic group assignment"
 msgstr "자동 그룹 지정"
 
-#: weblate/permissions/models.py:117
+#: weblate/permissions/models.py:118
 msgid "Automatic group assignments"
 msgstr "자동 번역 할당"
 
@@ -1175,7 +1179,7 @@ msgstr ""
 #: weblate/templates/js/detail.html:59 weblate/templates/js/detail.html:71
 #: weblate/templates/project.html:211
 #: weblate/templates/screenshots/screenshot_detail.html:102
-#: weblate/templates/subproject.html:218 weblate/templates/translate.html:159
+#: weblate/templates/subproject.html:219 weblate/templates/translate.html:159
 #: weblate/templates/translate.html:348
 msgid "Save"
 msgstr "저장"
@@ -1589,8 +1593,8 @@ msgstr ""
 "기존의 SSH키를 가지고 있지 않은 것 같습니다. 아래 버튼을 누름으로서 Weblate"
 "가 SSH키를 생성합니다."
 
-#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:172
-#: weblate/templates/subproject.html:193
+#: weblate/templates/admin/ssh.html:27 weblate/templates/subproject.html:173
+#: weblate/templates/subproject.html:194
 msgid "Generate"
 msgstr "생성하기"
 
@@ -1669,7 +1673,7 @@ msgstr "네비게이션 토글"
 msgid "Dashboard"
 msgstr "대시보드"
 
-#: weblate/templates/base.html:113 weblate/templates/index.html:74
+#: weblate/templates/base.html:113 weblate/templates/index.html:75
 #, fuzzy
 #| msgid "Hosting site"
 msgid "Manage watched projects"
@@ -1782,6 +1786,7 @@ msgstr "검사 (교정) 세부 과정"
 
 #: weblate/templates/checks.html:28 weblate/templates/language.html:16
 #: weblate/templates/project.html:27 weblate/templates/subproject.html:31
+#: weblate/templates/translation.html:30
 msgid "Information"
 msgstr "정보"
 
@@ -1888,7 +1893,7 @@ msgstr ""
 
 #: weblate/templates/data.html:48 weblate/templates/index.html:51
 #: weblate/templates/stats.html:5 weblate/templates/stats.html:66
-#: weblate/templates/translation.html:33 weblate/templates/translation.html:319
+#: weblate/templates/translation.html:34 weblate/templates/translation.html:309
 msgid "Statistics"
 msgstr "통계"
 
@@ -1950,8 +1955,8 @@ msgstr "용어집"
 
 #: weblate/templates/dictionaries.html:15 weblate/templates/languages.html:16
 #: weblate/templates/list-projects.html:10 weblate/templates/project.html:87
-#: weblate/templates/project.html:121 weblate/templates/translation.html:104
-#: weblate/templates/translation.html:326
+#: weblate/templates/project.html:121 weblate/templates/translation.html:102
+#: weblate/templates/translation.html:316
 msgid "Words"
 msgstr "단어"
 
@@ -1992,7 +1997,7 @@ msgstr "텀베이스 익스체인지 형식 (TBX)"
 #: weblate/templates/language-project.html:17
 #: weblate/templates/language.html:17 weblate/templates/project.html:29
 #: weblate/templates/subproject.html:32 weblate/templates/translate.html:203
-#: weblate/templates/translation.html:31
+#: weblate/templates/translation.html:32
 msgid "History"
 msgstr "역사"
 
@@ -2990,28 +2995,28 @@ msgid ""
 "suggestions."
 msgstr "번역을 위해서는 로그인 해야 합니다, 그렇지 않으면 제안만 가능합니다."
 
-#: weblate/templates/index.html:38 weblate/templates/index.html:123
+#: weblate/templates/index.html:38 weblate/templates/index.html:127
 #: weblate/templates/language-project.html:24
-#: weblate/templates/language-project.html:48 weblate/templates/project.html:36
+#: weblate/templates/language-project.html:49 weblate/templates/project.html:36
 #: weblate/templates/project.html:166
 #: weblate/templates/screenshots/screenshot_detail.html:76
 #: weblate/templates/search-form.html:6 weblate/templates/search-form.html:11
 #: weblate/templates/search.html:15 weblate/templates/subproject.html:39
-#: weblate/templates/subproject.html:117 weblate/templates/translate.html:55
-#: weblate/templates/translation.html:30 weblate/templates/translation.html:280
-#: weblate/templates/translation.html:285 weblate/templates/zen.html:35
+#: weblate/templates/subproject.html:118 weblate/templates/translate.html:55
+#: weblate/templates/translation.html:31 weblate/templates/translation.html:270
+#: weblate/templates/translation.html:275 weblate/templates/zen.html:35
 msgid "Search"
 msgstr "검색"
 
 #: weblate/templates/index.html:40 weblate/templates/language-project.html:18
 #: weblate/templates/language.html:18 weblate/templates/project.html:30
-#: weblate/templates/subproject.html:33 weblate/templates/translation.html:32
+#: weblate/templates/subproject.html:33 weblate/templates/translation.html:33
 msgid "Activity"
 msgstr "활동"
 
 #: weblate/templates/index.html:43 weblate/templates/language-project.html:21
 #: weblate/templates/language.html:22 weblate/templates/project.html:33
-#: weblate/templates/subproject.html:36 weblate/templates/translation.html:44
+#: weblate/templates/subproject.html:36 weblate/templates/translation.html:45
 msgid "Tools"
 msgstr "도구"
 
@@ -3032,7 +3037,7 @@ msgstr "검사(교정) 현황"
 msgid "Widgets"
 msgstr "위젯"
 
-#: weblate/templates/index.html:70
+#: weblate/templates/index.html:71
 #, fuzzy
 #| msgid ""
 #| "Choose your languages in preferences and you will get an overview here of "
@@ -3044,14 +3049,14 @@ msgstr ""
 "설정에서 구사하실 수 있는 언어를 선택하시면 해당 언어에 대한 번역의 개요가 여"
 "기에 나타납니다."
 
-#: weblate/templates/index.html:73 weblate/templates/index.html:86
-#: weblate/templates/index.html:100 weblate/templates/index.html:116
+#: weblate/templates/index.html:74 weblate/templates/index.html:88
+#: weblate/templates/index.html:103 weblate/templates/index.html:120
 #, fuzzy
 #| msgid "Manage your translations"
 msgid "Manage your languages"
 msgstr "내 번역 관리"
 
-#: weblate/templates/index.html:84
+#: weblate/templates/index.html:86
 #, fuzzy
 #| msgid ""
 #| "Choose your languages in preferences and you will get an overview here of "
@@ -3063,31 +3068,31 @@ msgstr ""
 "설정에서 구사하실 수 있는 언어를 선택하시면 해당 언어에 대한 번역의 개요가 여"
 "기에 나타납니다."
 
-#: weblate/templates/index.html:97
+#: weblate/templates/index.html:100
 msgid ""
 "Could not find any suggestions for you, please choose your languages in "
 "preferences to get more suggestions."
 msgstr ""
 
-#: weblate/templates/index.html:102
+#: weblate/templates/index.html:105
 #, fuzzy
 #| msgid "Manage your translations"
 msgid "Register to manage your languages"
 msgstr "내 번역 관리"
 
-#: weblate/templates/index.html:113
+#: weblate/templates/index.html:117
 msgid ""
 "Could not find any matching translation in this component list, probably not "
 "translated to your languages."
 msgstr ""
 
-#: weblate/templates/index.html:132
+#: weblate/templates/index.html:136
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all changes"
 msgstr "변경 사항 찾아보기"
 
-#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:142
+#: weblate/templates/js/changes.html:5 weblate/templates/subproject.html:143
 #, fuzzy
 #| msgid "Browse changes"
 msgid "Browse all component changes"
@@ -3125,8 +3130,8 @@ msgstr "새로운 사용자 추가"
 
 #: weblate/templates/js/detail.html:103
 #: weblate/templates/screenshots/screenshot_list.html:63
-#: weblate/templates/translation.html:225
-#: weblate/templates/translation.html:236
+#: weblate/templates/translation.html:215
+#: weblate/templates/translation.html:226
 msgid "Upload"
 msgstr "업로드"
 
@@ -3192,7 +3197,7 @@ msgid "Repository tools"
 msgstr "저장소 도구"
 
 #: weblate/templates/js/git-status.html:112 weblate/templates/project.html:44
-#: weblate/templates/subproject.html:48 weblate/templates/translation.html:50
+#: weblate/templates/subproject.html:48 weblate/templates/translation.html:51
 msgid "Commit"
 msgstr "커밋"
 
@@ -3234,7 +3239,7 @@ msgid "Reset all changes in the local repository"
 msgstr "지역 저장소의 모든 변경 사항을 재설정"
 
 #: weblate/templates/js/git-status.html:184
-#: weblate/templates/translation.html:263
+#: weblate/templates/translation.html:253
 msgid "Unlock"
 msgstr "잠금 해제"
 
@@ -3243,7 +3248,7 @@ msgid "Allow changes in the local repository"
 msgstr "로컬 저장소에서 변경사항을 허용"
 
 #: weblate/templates/js/git-status.html:196
-#: weblate/templates/translation.html:265
+#: weblate/templates/translation.html:255
 msgid "Lock"
 msgstr "잠금"
 
@@ -3273,7 +3278,7 @@ msgstr "검사 실패"
 msgid "Ignored checks"
 msgstr "무시된 검사들"
 
-#: weblate/templates/language-project.html:39
+#: weblate/templates/language-project.html:40
 #: weblate/templates/language.html:66
 #, fuzzy
 #| msgid "Browse changes"
@@ -3291,7 +3296,7 @@ msgstr "이 언어에 대해 정의된 용어집이 존재하지 않습니다."
 #: weblate/templates/languages.html:15 weblate/templates/list-projects.html:9
 #: weblate/templates/list-translations.html:9 weblate/templates/project.html:86
 #: weblate/templates/project.html:120 weblate/templates/stats.html:21
-#: weblate/templates/translation.html:337
+#: weblate/templates/translation.html:327
 #: weblate/trans/templatetags/translations.py:560
 msgid "Translated"
 msgstr "번역됨"
@@ -3377,7 +3382,7 @@ msgid "Configure columns"
 msgstr "열 구성"
 
 #: weblate/templates/list-translations.html:36
-#: weblate/templates/translation.html:92
+#: weblate/templates/translation.html:90
 msgid "This translation is being used as source strings within this component."
 msgstr "이 번역은 이 컴포넌트 내부의 소스 코드 문자열에서 사용되었습니다."
 
@@ -3828,7 +3833,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38 weblate/templates/subproject.html:62
-#: weblate/templates/subproject.html:97
+#: weblate/templates/subproject.html:98
 msgid "Start new translation"
 msgstr "새로운 번역 시작하기"
 
@@ -3864,8 +3869,8 @@ msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/project.html:38 weblate/templates/project.html:175
-#: weblate/templates/subproject.html:41 weblate/templates/subproject.html:126
-#: weblate/templates/translation.html:59 weblate/templates/translation.html:207
+#: weblate/templates/subproject.html:41 weblate/templates/subproject.html:127
+#: weblate/templates/translation.html:60 weblate/templates/translation.html:197
 #: weblate/trans/models/change.py:230
 #, fuzzy
 #| msgid "Search type"
@@ -3873,7 +3878,7 @@ msgid "Search and replace"
 msgstr "검색 유형"
 
 #: weblate/templates/project.html:40 weblate/templates/subproject.html:43
-#: weblate/templates/translation.html:47
+#: weblate/templates/translation.html:48
 msgid "Data exports"
 msgstr "데이터 내보내기"
 
@@ -3888,45 +3893,45 @@ msgid "Download statistics (JSON)"
 msgstr ""
 
 #: weblate/templates/project.html:47 weblate/templates/subproject.html:51
-#: weblate/templates/translation.html:53
+#: weblate/templates/translation.html:54
 msgid "Repository maintenance"
 msgstr "저장소 유지 보수"
 
 #: weblate/templates/project.html:55 weblate/templates/project.html:204
-#: weblate/templates/subproject.html:65 weblate/templates/subproject.html:211
+#: weblate/templates/subproject.html:65 weblate/templates/subproject.html:212
 #, fuzzy
 #| msgid "Strings"
 msgid "Settings"
 msgstr "문자열"
 
 #: weblate/templates/project.html:62 weblate/templates/subproject.html:72
-#: weblate/templates/translation.html:66
+#: weblate/templates/translation.html:67
 msgid "Share"
 msgstr "공유"
 
 #: weblate/templates/project.html:66 weblate/templates/share.html:9
-#: weblate/templates/subproject.html:76 weblate/templates/translation.html:70
+#: weblate/templates/subproject.html:76 weblate/templates/translation.html:71
 msgid "Share on Facebook!"
 msgstr "페이스북에서 공유하기!"
 
 #: weblate/templates/project.html:67 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:77 weblate/templates/translation.html:71
+#: weblate/templates/subproject.html:77 weblate/templates/translation.html:72
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "%(share_url)s의 %%23Weblate를 이용해 %(object)s 를 번역하세요!"
 
 #: weblate/templates/project.html:67 weblate/templates/share.html:10
-#: weblate/templates/subproject.html:77 weblate/templates/translation.html:71
+#: weblate/templates/subproject.html:77 weblate/templates/translation.html:72
 msgid "Tweet this translation!"
 msgstr "이 번역을 트윗하기!"
 
 #: weblate/templates/project.html:68 weblate/templates/subproject.html:78
-#: weblate/templates/translation.html:72
+#: weblate/templates/translation.html:73
 msgid "Engage page"
 msgstr ""
 
 #: weblate/templates/project.html:69 weblate/templates/subproject.html:79
-#: weblate/templates/translation.html:73
+#: weblate/templates/translation.html:74
 msgid "Status widgets"
 msgstr "상태 위젯"
 
@@ -3949,21 +3954,21 @@ msgstr "모든 용어집 관리"
 msgid "Browse all project changes"
 msgstr "변경 사항 찾아보기"
 
-#: weblate/templates/project.html:177 weblate/templates/subproject.html:128
-#: weblate/templates/translation.html:209
+#: weblate/templates/project.html:177 weblate/templates/subproject.html:129
+#: weblate/templates/translation.html:199
 msgid ""
 "You can replace string in all units at once. The search is simple substring "
 "case sensitive search."
 msgstr ""
 
-#: weblate/templates/project.html:182 weblate/templates/subproject.html:133
-#: weblate/templates/translation.html:196
-#: weblate/templates/translation.html:214
+#: weblate/templates/project.html:182 weblate/templates/subproject.html:134
+#: weblate/templates/translation.html:186
+#: weblate/templates/translation.html:204
 msgid "Process"
 msgstr "처리"
 
-#: weblate/templates/project.html:191 weblate/templates/subproject.html:149
-#: weblate/templates/translate.html:305 weblate/templates/translation.html:246
+#: weblate/templates/project.html:191 weblate/templates/subproject.html:150
+#: weblate/templates/translate.html:305 weblate/templates/translation.html:236
 #: weblate/trans/forms.py:149
 msgid "Loading…"
 msgstr "로드 중…"
@@ -4079,7 +4084,7 @@ msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
 
 #: weblate/templates/screenshots/screenshot_list.html:22
-#: weblate/templates/translation.html:98 weblate/templates/translation.html:325
+#: weblate/templates/translation.html:96 weblate/templates/translation.html:315
 msgid "Strings"
 msgstr "문자열"
 
@@ -4140,11 +4145,11 @@ msgstr "댓글"
 msgid "No matching source strings found!"
 msgstr "일치하는 원본 문자열을 찾을 수 없습니다!"
 
-#: weblate/templates/source.html:19 weblate/templates/translation.html:121
+#: weblate/templates/source.html:19 weblate/templates/translation.html:119
 msgid "Strings to check"
 msgstr "검사할 문자열"
 
-#: weblate/templates/source.html:34 weblate/templates/translation.html:136
+#: weblate/templates/source.html:34 weblate/templates/translation.html:143
 msgid "Project Information"
 msgstr "프로젝트 정보"
 
@@ -4215,22 +4220,22 @@ msgstr "원본 문자열 검토"
 msgid "Translation reports"
 msgstr "되돌린 번역"
 
-#: weblate/templates/subproject.html:163
+#: weblate/templates/subproject.html:164
 msgid "Credits"
 msgstr ""
 
-#: weblate/templates/subproject.html:167
+#: weblate/templates/subproject.html:168
 msgid ""
 "Credits list all translators who have contributed to this component in a "
 "given time period. It can be useful for including in your documentation or "
 "application to thank translators."
 msgstr ""
 
-#: weblate/templates/subproject.html:184
+#: weblate/templates/subproject.html:185
 msgid "Contributor stats"
 msgstr "참여자 통계"
 
-#: weblate/templates/subproject.html:188
+#: weblate/templates/subproject.html:189
 msgid "Reports number of strings and words translated by each translator."
 msgstr ""
 
@@ -4633,26 +4638,26 @@ msgstr "번역 업로드"
 msgid "Overview"
 msgstr "개요"
 
-#: weblate/templates/translation.html:36
+#: weblate/templates/translation.html:37
 msgid "Files"
 msgstr "파일"
 
-#: weblate/templates/translation.html:48 weblate/templates/translation.html:252
+#: weblate/templates/translation.html:49 weblate/templates/translation.html:242
 msgid "Locking"
 msgstr "잠금"
 
-#: weblate/templates/translation.html:56 weblate/templates/translation.html:189
+#: weblate/templates/translation.html:57 weblate/templates/translation.html:179
 #: weblate/trans/models/change.py:209
 msgid "Automatic translation"
 msgstr "자동 번역"
 
-#: weblate/templates/translation.html:88 weblate/templates/widgets.html:56
+#: weblate/templates/translation.html:86 weblate/templates/widgets.html:56
 #: weblate/templates/widgets.html:64 weblate/templates/widgets.html:71
 #: weblate/templates/widgets.html:79
 msgid "Translation status"
 msgstr "번역 현황"
 
-#: weblate/templates/translation.html:126
+#: weblate/templates/translation.html:124
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
@@ -4660,26 +4665,26 @@ msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s개의 투표"
 
-#: weblate/templates/translation.html:143
+#: weblate/templates/translation.html:131
+msgid "Other components"
+msgstr "다른 컴포넌트"
+
+#: weblate/templates/translation.html:150
 #: weblate/templates/unit-details.html:26
 msgid "Translation file"
 msgstr "번역 파일"
 
-#: weblate/templates/translation.html:147
+#: weblate/templates/translation.html:154
 msgid "Download"
 msgstr "다운로드"
 
-#: weblate/templates/translation.html:162
-msgid "Other components"
-msgstr "다른 컴포넌트"
-
-#: weblate/templates/translation.html:181
+#: weblate/templates/translation.html:171
 #, fuzzy
 #| msgid "Translation change:"
 msgid "Browse all translation changes"
 msgstr "번역 변경 사항:"
 
-#: weblate/templates/translation.html:191
+#: weblate/templates/translation.html:181
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -4690,7 +4695,7 @@ msgstr ""
 "것은 번역을 다른 분기와 밀어넣거나 일관성 없는 번역을 고치거나 번역 메모리를 "
 "사용하는 새로운 하위 프로젝트를 번역하기 위해 사용됩니다."
 
-#: weblate/templates/translation.html:228
+#: weblate/templates/translation.html:218
 msgid ""
 "Uploaded file will be merged with current translation. In case you want to "
 "overwrite already translated strings, don't forget to enable it."
@@ -4698,60 +4703,60 @@ msgstr ""
 "업로드된 파일은 현재 번역과 병합됩니다. 이미 번역 된 문자열을 덮어 쓰기 할 경"
 "우에, 그것을 가능하게 하는 것을 잊지 마세요."
 
-#: weblate/templates/translation.html:230
+#: weblate/templates/translation.html:220
 msgid "Uploaded file will be merged with current translation."
 msgstr "업로드된 파일은 현재 번역과 병합됩니다."
 
-#: weblate/templates/translation.html:254
+#: weblate/templates/translation.html:244
 msgid "Locking the translation will prevent others to work on translation."
 msgstr "번역을 잠그는 것은 번역을 작업하는 다른 사람을 막을 것입니다."
 
-#: weblate/templates/translation.html:256
+#: weblate/templates/translation.html:246
 msgid "Locked by:"
 msgstr "이 사람에 의해 잠겨짐:"
 
-#: weblate/templates/translation.html:257
+#: weblate/templates/translation.html:247
 msgid "Lock expires:"
 msgstr "잠금 만료:"
 
-#: weblate/templates/translation.html:259
+#: weblate/templates/translation.html:249
 msgid "Translation is currently not locked."
 msgstr "번역은 현재 잠겨 있지 않습니다."
 
-#: weblate/templates/translation.html:296
-#: weblate/templates/translation.html:343
+#: weblate/templates/translation.html:286
+#: weblate/templates/translation.html:333
 msgid "Review"
 msgstr "검토"
 
-#: weblate/templates/translation.html:298
+#: weblate/templates/translation.html:288
 msgid "Review translations touched by other users."
 msgstr "다른 사용자에 의해 작업된 번역을 검토하기."
 
-#: weblate/templates/translation.html:302
+#: weblate/templates/translation.html:292
 msgid "Start review"
 msgstr "검토 시작"
 
-#: weblate/templates/translation.html:324
+#: weblate/templates/translation.html:314
 msgid "Percent"
 msgstr "퍼센트"
 
-#: weblate/templates/translation.html:331
+#: weblate/templates/translation.html:321
 msgid "Total"
 msgstr "전체"
 
-#: weblate/templates/translation.html:349
+#: weblate/templates/translation.html:339
 msgid "Failing check"
 msgstr "검사 실패됨"
 
-#: weblate/templates/translation.html:364
+#: weblate/templates/translation.html:354
 msgid "Last activity"
 msgstr "마지막 활동"
 
-#: weblate/templates/translation.html:368
+#: weblate/templates/translation.html:358
 msgid "Last change"
 msgstr "최종 변경 사항"
 
-#: weblate/templates/translation.html:372
+#: weblate/templates/translation.html:362
 msgid "Last author"
 msgstr "최종 저자"
 
