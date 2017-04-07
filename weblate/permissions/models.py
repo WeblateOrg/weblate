@@ -54,6 +54,7 @@ class GroupACL(models.Model):
     permissions = models.ManyToManyField(
         Permission,
         verbose_name=_('Filtered permissions'),
+        help_text=_('The GroupACL will affect only selected permissions.'),
         blank=True,
     )
 
