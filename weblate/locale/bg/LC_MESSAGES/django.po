@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2017-04-07 10:22+0000\n"
-"PO-Revision-Date: 2017-04-07 12:03+0000\n"
+"PO-Revision-Date: 2017-04-07 12:20+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@abv.bg>\n"
 "Language-Team: Bulgarian "
 "<https://hosted.weblate.org/projects/weblate/master/bg/>\n"
@@ -5317,10 +5317,8 @@ msgid "Strings with any failing checks"
 msgstr "Текстове с различни неуспешни проверки"
 
 #: weblate/trans/forms.py:497 weblate/trans/models/translation.py:999
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Random strings for review"
-msgstr "Преглед на оригиналните текстове"
+msgstr "Преглед на случайни текстове"
 
 #: weblate/trans/forms.py:516
 msgid "Query"
@@ -5468,7 +5466,7 @@ msgstr "Целият проект"
 #: weblate/trans/forms.py:883
 #, python-brace-format
 msgid "Similar translation already exists in the project ({0})!"
-msgstr ""
+msgstr "Вече съществува подобен превод в проекта ({0})!"
 
 #: weblate/trans/forms.py:904
 msgid "Please select"
@@ -5767,48 +5765,34 @@ msgid "Component lists"
 msgstr "Списъци от компоненти"
 
 #: weblate/trans/models/componentlist.py:65
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Project regular expression"
-msgstr "Регулярен израз за е-поща"
+msgstr "Регулярен израз за проект"
 
 #: weblate/trans/models/componentlist.py:69
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match project slug."
 msgstr ""
-"Регулярен израз, който се използва за проверка на потребителска е-поща."
+"Регулярен израз, който се използва за съвпадение с краткото име на проекта."
 
 #: weblate/trans/models/componentlist.py:73
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Component regular expression"
-msgstr "Регулярен израз за е-поща"
+msgstr "Регулярен израз за компонент"
 
 #: weblate/trans/models/componentlist.py:77
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression which is used to match component slug."
 msgstr ""
-"Регулярен израз, който се използва за проверка на потребителска е-поща."
+"Регулярен израз, който се използва за съвпадение с краткото име на компонент."
 
 #: weblate/trans/models/componentlist.py:82
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component list to assign"
-msgstr "Списъци от компоненти"
+msgstr "Списък от компоненти за назначаване"
 
 #: weblate/trans/models/componentlist.py:96
-#, fuzzy
-#| msgid "Automatic group assignment"
 msgid "Automatic component list assignment"
-msgstr "Автоматично назначаване на група"
+msgstr "Автоматично назначаване на списък от компоненти"
 
 #: weblate/trans/models/componentlist.py:97
-#, fuzzy
-#| msgid "Automatic group assignments"
 msgid "Automatic component list assignments"
-msgstr "Автоматични назначения на групи"
+msgstr "Автоматични назначения на списъци от компоненти"
 
 #: weblate/trans/models/project.py:92
 msgid "Main website of translated project."
@@ -6336,10 +6320,9 @@ msgid "Got empty language code for %s, please check filemask!"
 msgstr "Получи се празен код на език за %s. Моля, проверете файловата маска!"
 
 #: weblate/trans/models/subproject.py:1140
-#, fuzzy, python-format
-#| msgid "Got empty language code for %s, please check filemask!"
+#, python-format
 msgid "Language code %s is too long, please check filemask!"
-msgstr "Получи се празен код на език за %s. Моля, проверете файловата маска!"
+msgstr "Кодът на езика „%s“ е твърде дълъг. Моля, проверете файловата маска!"
 
 #: weblate/trans/models/subproject.py:1144
 #, python-format
@@ -6425,6 +6408,7 @@ msgstr "Неуспешен анализ на базовия файл за пре
 #, python-format
 msgid "Template language (%s) does not match project source language (%s)!"
 msgstr ""
+"Езикът на шаблона (%s) не съответства на оригиналния език на проекта (%s)!"
 
 #: weblate/trans/models/subproject.py:1258
 msgid "You can not use monolingual translation without base file!"
@@ -6932,10 +6916,8 @@ msgid "Invalid check flag: \"%s\""
 msgstr "Грешен ключ за проверка: „%s“"
 
 #: weblate/trans/views/acl.py:78
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid parameters!"
-msgstr "Грешна заявка за сливане!"
+msgstr "Неправилни параметри!"
 
 #: weblate/trans/views/acl.py:84 weblate/trans/views/acl.py:133
 msgid "You can not remove last owner!"
@@ -6971,10 +6953,9 @@ msgid "Invalid search query!"
 msgstr "Грешна заявка за търсене!"
 
 #: weblate/trans/views/basic.py:308
-#, fuzzy, python-brace-format
-#| msgid "Get involved in %(project)s!"
+#, python-brace-format
 msgid "Get involved in {0}!"
-msgstr "Включете се в „%(project)s“!"
+msgstr "Включете се в „{0}“!"
 
 #: weblate/trans/views/basic.py:314
 #, python-format
