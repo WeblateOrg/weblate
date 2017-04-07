@@ -31,16 +31,18 @@ from weblate.trans.util import WeblateAdmin, sort_choices
 
 class ProjectAdmin(WeblateAdmin):
     list_display = (
-        'name', 'slug', 'web', 'list_owners', 'enable_acl', 'enable_hooks',
+        'name', 'slug', 'web', 'list_admins', 'enable_acl', 'enable_hooks',
         'num_vcs', 'get_total', 'get_source_words', 'get_language_count',
     )
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name', 'slug', 'web']
     actions = ['update_from_git', 'update_checks', 'force_commit']
 
-    def list_owners(self, obj):
-        return ', '.join(obj.owners.values_list('username', flat=True))
-    list_owners.short_description = _('Owners')
+    def list_admins(self, obj):
+        return ', '.join(
+            obj.all_users('@Administration').values_list('username', flat=True)
+        )
+    list_admins.short_description = _('Administrators')
 
     def num_vcs(self, obj):
         return obj.subproject_set.exclude(repo__startswith='weblate:/').count()

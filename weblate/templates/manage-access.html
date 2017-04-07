@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Manage users" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Users" %}</h4></div>
+  <table class="table table-striped">
+  <thead>
+  <tr>
+  <th>{% trans "Username" %}</th>
+  <th>{% trans "Full name" %}</th>
+  <th>{% trans "E-mail" %}</th>
+  {% for group in groups %}
+  <th>{{ group.1 }}</th>
+  {% endfor %}
+  </tr>
+  </thead>
+  <tbody>
+{% for user in object.all_users %}
+  <tr>
+  <td>{{ user.username }}</td>
+  <td>{{ user.first_name }}</td>
+  <td>{{ user.email }}</td>
+  {% user_permissions user groups %}
+  <td>
+<form action="{% url "delete-user" project=object.slug %}" method="post">
+{% csrf_token %}
+<input type="hidden" name="name" value="{{ user.username }}" />
+<button type="submit" class="btn btn-danger">
+<i class="fa fa-trash"></i>
+{% trans "Remove" %}
+</button>
+</form>
+  </td>
+  </tr>
+{% endfor %}
+  </tbody>
+  </table>
+  <div class="panel-body">
+  <p class="helptext">{% trans "The user will be removed from the project once you remove last user permission." %}</p>
+  </div>
+</div>
+
+<form action="{% url "set-groups" project=object.slug %}" method="post" id="set_groups_form">
+{% csrf_token %}
+</form>
+
+<form action="{% url "add-user" project=object.slug %}" method="post">
+{% csrf_token %}
+<div class="panel panel-primary">
+  <div class="panel-heading"><h4 class="panel-title">
+  {% trans "Add new user" %}
+  </h4></div>
+  <div class="panel-body">
+    {{ add_user_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-default" value="{% trans "Add" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

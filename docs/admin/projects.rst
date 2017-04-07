@@ -125,10 +125,6 @@ Enable ACL
     Enable per project access control, see :ref:`acl` for more details.
 Enable hooks
     Whether unauthenticated :ref:`hooks` will be enabled for this repository.
-Owners
-    You can also configure project owners, who will always get important
-    notifications about project and will have additional privileges to control
-    translations within this project (see :ref:`privileges`).
 Source language
     Language used for source strings in all components. Change this if you are 
     translating from something else than English.

@@ -30,7 +30,7 @@ from six.moves.urllib.parse import urlsplit
 from PIL import Image
 
 from django.test.client import RequestFactory
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, Permission
 from django.core.urlresolvers import reverse
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -111,8 +111,12 @@ class ViewTestCase(RepoTestCase):
         """
         Makes user a Manager.
         """
-        group = Group.objects.get(name='Managers')
-        self.user.groups.add(group)
+        # Sitewide privileges
+        self.user.groups.add(
+            Group.objects.get(name='Managers')
+        )
+        # Project privileges
+        self.project.add_user(self.user, '@Administration')
 
     def get_request(self, *args, **kwargs):
         '''
@@ -290,7 +294,10 @@ class NewLangTest(ViewTestCase):
         return self.create_po_new_base()
 
     def test_no_permission(self):
-        self.user.groups.clear()
+        # Remove permission to add translations
+        Group.objects.get(name='Users').permissions.remove(
+            Permission.objects.get(codename='add_translation')
+        )
 
         # Test there is no add form
         response = self.client.get(
@@ -407,7 +414,7 @@ class NewLangTest(ViewTestCase):
         )
 
     def test_add_owner(self):
-        self.subproject.project.owners.add(self.user)
+        self.subproject.project.add_user(self.user, '@Administration')
         # None chosen
         response = self.client.post(
             reverse('new-language', kwargs=self.kw_subproject),

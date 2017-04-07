@@ -104,6 +104,7 @@ class Command(WeblateTranslationCommand):
 
         result = auto_translate(
             user, translation, source,
-            options['inconsistent'], options['overwrite']
+            options['inconsistent'], options['overwrite'],
+            check_acl=False
         )
         self.stdout.write('Updated {0} units'.format(result))

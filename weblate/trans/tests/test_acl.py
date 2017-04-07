@@ -23,7 +23,7 @@ Tests for ACL management.
 """
 
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -32,61 +32,65 @@ class ACLViewTest(ViewTestCase):
         super(ACLViewTest, self).setUp()
         self.project.enable_acl = True
         self.project.save()
-        self.project_url = reverse('project', kwargs=self.kw_project)
+        self.access_url = reverse('manage-access', kwargs=self.kw_project)
         self.second_user = User.objects.create_user(
             'seconduser',
             'noreply@example.org',
             'testpassword'
+        )
+        self.admin_group = Group.objects.get(
+            groupacl__project=self.project,
+            name__endswith='@Administration'
         )
 
     def add_acl(self):
         """
         Adds user to ACL.
         """
-        self.project.add_user(self.user)
+        self.project.add_user(self.user, '@Translate')
 
     def test_acl_denied(self):
         """No access to the project without ACL.
         """
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
 
     def test_acl(self):
         """Regular user should not have access to user management.
         """
         self.add_acl()
-        response = self.client.get(self.project_url)
-        self.assertNotContains(response, 'Manage users')
+        response = self.client.get(self.access_url)
+        self.assertEqual(response.status_code, 403)
 
     def test_edit_acl(self):
         """Manager should have access to user management.
         """
         self.add_acl()
         self.make_manager()
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertContains(response, 'Manage users')
 
     def test_edit_acl_owner(self):
         """Owner should have access to user management.
         """
         self.add_acl()
-        self.project.owners.add(self.user)
-        response = self.client.get(self.project_url)
+        self.project.add_user(self.user, '@Administration')
+        response = self.client.get(self.access_url)
         self.assertContains(response, 'Manage users')
 
     def add_user(self):
         self.add_acl()
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
 
         # Add user
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
-        self.assertRedirects(response, '{0}#acl'.format(self.project_url))
+        self.assertRedirects(response, self.access_url)
 
         # Ensure user is now listed
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
         self.assertContains(response, self.second_user.email)
 
@@ -96,10 +100,10 @@ class ACLViewTest(ViewTestCase):
             reverse('delete-user', kwargs=self.kw_project),
             {'name': self.second_user.username}
         )
-        self.assertRedirects(response, '{0}#acl'.format(self.project_url))
+        self.assertRedirects(response, self.access_url)
 
         # Ensure user is now not listed
-        response = self.client.get(self.project_url)
+        response = self.client.get(self.access_url)
         self.assertNotContains(response, self.second_user.username)
         self.assertNotContains(response, self.second_user.email)
 
@@ -114,20 +118,28 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_user()
         self.client.post(
-            reverse('make-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'add',
+            }
         )
         self.assertTrue(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.second_user.username
             ).exists()
         )
         self.client.post(
-            reverse('revoke-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'remove',
+            }
         )
         self.assertFalse(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.second_user.username
             ).exists()
         )
@@ -138,44 +150,56 @@ class ACLViewTest(ViewTestCase):
         """
         self.add_user()
         self.client.post(
-            reverse('make-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'add',
+            }
         )
         self.remove_user()
         self.assertFalse(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.second_user.username
             ).exists()
         )
 
     def test_denied_owner_delete(self):
         """Test that deleting last owner does not work."""
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
         self.client.post(
-            reverse('revoke-owner', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.second_user.username,
+                'group': self.admin_group.pk,
+                'action': 'remove',
+            }
         )
         self.assertTrue(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.user.username
             ).exists()
         )
         self.client.post(
-            reverse('delete-user', kwargs=self.kw_project),
-            {'name': self.second_user.username}
+            reverse('set-groups', kwargs=self.kw_project),
+            {
+                'name': self.user.username,
+                'group': self.admin_group.pk,
+                'action': 'remove',
+            }
         )
         self.assertTrue(
-            self.project.owners.filter(
+            self.project.all_users('@Administration').filter(
                 username=self.user.username
             ).exists()
         )
 
     def test_nonexisting_user(self):
         """Test adding non existing user."""
-        self.project.owners.add(self.user)
+        self.project.add_user(self.user, '@Administration')
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
-            {'name': 'nonexisging'},
+            {'name': 'nonexisting'},
             follow=True
         )
         self.assertContains(response, 'No matching user found!')

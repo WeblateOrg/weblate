@@ -26,10 +26,10 @@ from django.utils.encoding import force_text
 
 from weblate.lang.models import Language
 from weblate.trans.models import Project, Translation
+from weblate.permissions.data import DEFAULT_GROUPS, ADMIN_PERMS
 from weblate.permissions.models import AutoGroup, GroupACL
 from weblate.permissions.helpers import (
-    check_owner, check_permission, can_delete_comment, can_edit,
-    can_author_translation,
+    has_group_perm, can_delete_comment, can_edit, can_author_translation,
 )
 from weblate.trans.tests.test_models import ModelTestCase
 
@@ -43,36 +43,41 @@ class PermissionsTest(TestCase):
             'owner', 'owner@example.com', 'x'
         )
 
-        self.owner.groups.add(Group.objects.get(name='Owners'))
         self.project = Project.objects.create(slug='test')
-        self.project.owners.add(self.owner)
+        self.project.add_user(self.owner, '@Administration')
 
     def test_owner_owned(self):
         self.assertTrue(
-            check_owner(self.owner, self.project, 'trans.author_translation')
+            has_group_perm(
+                self.owner, 'trans.author_translation', project=self.project
+            )
         )
 
     def test_owner_no_perm(self):
         self.assertFalse(
-            check_owner(self.owner, self.project, 'trans.delete_project')
+            has_group_perm(
+                self.owner, 'trans.delete_project', project=self.project
+            )
         )
 
     def test_owner_user(self):
         self.assertFalse(
-            check_owner(self.user, self.project, 'trans.author_translation')
+            has_group_perm(
+                self.user, 'trans.author_translation', project=self.project
+            )
         )
 
     def test_check_owner(self):
         self.assertTrue(
-            check_permission(
-                self.owner, self.project, 'trans.author_translation'
+            has_group_perm(
+                self.owner, 'trans.author_translation', project=self.project
             )
         )
 
     def test_check_user(self):
         self.assertFalse(
-            check_permission(
-                self.user, self.project, 'trans.author_translation'
+            has_group_perm(
+                self.user, 'trans.author_translation', project=self.project
             )
         )
 
@@ -84,11 +89,23 @@ class PermissionsTest(TestCase):
 
     def test_cache(self):
         key = ('can_delete_comment', self.project.get_full_slug())
-        self.assertTrue(not hasattr(self.user, 'alc_permissions_cache'))
+        self.assertTrue(not hasattr(self.user, 'acl_permissions_cache'))
         self.assertFalse(can_delete_comment(self.user, self.project))
         self.assertFalse(self.user.acl_permissions_cache[key])
         self.user.acl_permissions_cache[key] = True
         self.assertTrue(can_delete_comment(self.user, self.project))
+
+    def test_default_groups(self):
+        """
+        Check consistency of default permissions.
+
+        - The admin permissions have to contain all used permissions
+        """
+        for group in DEFAULT_GROUPS:
+            self.assertEqual(
+                DEFAULT_GROUPS[group] - ADMIN_PERMS,
+                set()
+            )
 
 
 class GroupACLTest(ModelTestCase):
@@ -186,7 +203,7 @@ class GroupACLTest(ModelTestCase):
         )
         acl.project = self.project
         acl.subproject = self.subproject
-        acl.clean()
+        acl.save()
         self.assertIsNone(acl.project)
 
     def test_acl_project(self):
@@ -195,11 +212,12 @@ class GroupACLTest(ModelTestCase):
         When a Group ACL is set for a project, and only for a project,
         it should apply to project-level actions on that project.
         '''
-        acl = GroupACL.objects.create(project=self.project)
+        acl = GroupACL.objects.get(project=self.project)
         acl.groups.add(self.group)
         permission = Permission.objects.get(
             codename='author_translation', content_type__app_label='trans'
         )
+        acl.permissions.add(permission)
         self.group.permissions.add(permission)
         self.assertFalse(
             can_author_translation(self.user, self.project)
@@ -306,15 +324,17 @@ class GroupACLTest(ModelTestCase):
             filename="this/is/not/a.template"
         )
         perm_name = 'trans.author_translation'
+        permission = Permission.objects.get(
+            codename='author_translation', content_type__app_label='trans'
+        )
+        # Avoid conflict with automatic GroupACL
+        self.project.groupacl_set.all()[0].permissions.remove(permission)
 
         self.assertFalse(can_edit(self.user, trans_cs, perm_name))
         self.assertFalse(can_edit(self.privileged, trans_cs, perm_name))
         self.assertFalse(can_edit(self.privileged, trans_de, perm_name))
 
         self.clear_permission_cache()
-        permission = Permission.objects.get(
-            codename='author_translation', content_type__app_label='trans'
-        )
         self.group.permissions.add(permission)
 
         self.assertFalse(can_edit(self.user, trans_cs, perm_name))
@@ -347,16 +367,19 @@ class GroupACLTest(ModelTestCase):
         )
         acl_project_lang.groups.add(self.group)
 
-        self.assertFalse(check_permission(
-            self.privileged, self.project, 'trans.author_translation'
+        self.assertFalse(has_group_perm(
+            self.privileged, 'trans.author_translation', project=self.project
         ))
 
-        acl_project_only = GroupACL.objects.create(project=self.project)
+        acl_project_only = GroupACL.objects.get(
+            language=None,
+            project=self.project,
+        )
         acl_project_only.groups.add(self.group)
         self.clear_permission_cache()
 
-        self.assertTrue(check_permission(
-            self.privileged, self.project, 'trans.author_translation'
+        self.assertTrue(has_group_perm(
+            self.privileged, 'trans.author_translation', project=self.project
         ))
 
     def test_acl_not_filtered(self):

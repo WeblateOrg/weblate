@@ -26,12 +26,16 @@ from django.conf import settings
 from django.contrib.auth.models import Group, User, Permission
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import post_save, post_migrate
+from django.db.models import Q
+from django.db.models.signals import post_save, post_migrate, m2m_changed
 from django.dispatch import receiver
 from django.utils.encoding import python_2_unicode_compatible, force_text
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.lang.models import Language
+from weblate.permissions.data import (
+    DEFAULT_GROUPS, ADMIN_PERMS, ADMIN_ONLY_PERMS
+)
 from weblate.trans.models import Project, SubProject
 from weblate.trans.fields import RegexField
 from weblate.utils.decorators import disable_for_loaddata
@@ -59,14 +63,13 @@ class GroupACL(models.Model):
                 _('Project, component or language must be specified')
             )
 
+    def save(self, *args, **kwargs):
         # ignore project if subproject is set
         if self.project and self.subproject:
             self.project = None
-
-    def save(self, *args, **kwargs):
         super(GroupACL, self).save(*args, **kwargs)
         # Default to all permissions if none are chosen
-        if self.permissions.count() == 0:
+        if not self.permissions.exists():
             self.permissions.set(Permission.objects.all())
 
     def __str__(self):
@@ -119,94 +122,14 @@ class AutoGroup(models.Model):
 
 
 def create_groups(update):
-    '''
-    Creates standard groups and gives them permissions.
-    '''
-    guest_group, created = Group.objects.get_or_create(name='Guests')
-    if created or update or guest_group.permissions.count() == 0:
-        guest_group.permissions.add(
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_suggestion'),
-            Permission.objects.get(codename='access_vcs'),
-        )
+    """Create standard groups and gives them permissions."""
+    for name in DEFAULT_GROUPS:
+        group, created = Group.objects.get_or_create(name=name)
+        if created or update or group.permissions.count() == 0:
+            group.permissions.set(
+                Permission.objects.filter(codename__in=DEFAULT_GROUPS[name])
+            )
 
-    group, created = Group.objects.get_or_create(name='Users')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(
-            Permission.objects.get(codename='upload_translation'),
-            Permission.objects.get(codename='overwrite_translation'),
-            Permission.objects.get(codename='save_translation'),
-            Permission.objects.get(codename='save_template'),
-            Permission.objects.get(codename='accept_suggestion'),
-            Permission.objects.get(codename='delete_suggestion'),
-            Permission.objects.get(codename='vote_suggestion'),
-            Permission.objects.get(codename='ignore_check'),
-            Permission.objects.get(codename='upload_dictionary'),
-            Permission.objects.get(codename='add_dictionary'),
-            Permission.objects.get(codename='change_dictionary'),
-            Permission.objects.get(codename='delete_dictionary'),
-            Permission.objects.get(codename='lock_translation'),
-            Permission.objects.get(codename='can_see_git_repository'),
-            Permission.objects.get(codename='add_comment'),
-            Permission.objects.get(codename='add_suggestion'),
-            Permission.objects.get(codename='use_mt'),
-            Permission.objects.get(codename='add_translation'),
-            Permission.objects.get(codename='delete_translation'),
-            Permission.objects.get(codename='access_vcs'),
-        )
-
-    owner_permissions = (
-        Permission.objects.get(codename='author_translation'),
-        Permission.objects.get(codename='upload_translation'),
-        Permission.objects.get(codename='overwrite_translation'),
-        Permission.objects.get(codename='commit_translation'),
-        Permission.objects.get(codename='update_translation'),
-        Permission.objects.get(codename='push_translation'),
-        Permission.objects.get(codename='automatic_translation'),
-        Permission.objects.get(codename='save_translation'),
-        Permission.objects.get(codename='save_template'),
-        Permission.objects.get(codename='accept_suggestion'),
-        Permission.objects.get(codename='vote_suggestion'),
-        Permission.objects.get(codename='override_suggestion'),
-        Permission.objects.get(codename='delete_comment'),
-        Permission.objects.get(codename='delete_suggestion'),
-        Permission.objects.get(codename='ignore_check'),
-        Permission.objects.get(codename='upload_dictionary'),
-        Permission.objects.get(codename='add_dictionary'),
-        Permission.objects.get(codename='change_dictionary'),
-        Permission.objects.get(codename='delete_dictionary'),
-        Permission.objects.get(codename='lock_subproject'),
-        Permission.objects.get(codename='reset_translation'),
-        Permission.objects.get(codename='lock_translation'),
-        Permission.objects.get(codename='can_see_git_repository'),
-        Permission.objects.get(codename='add_comment'),
-        Permission.objects.get(codename='delete_comment'),
-        Permission.objects.get(codename='add_suggestion'),
-        Permission.objects.get(codename='use_mt'),
-        Permission.objects.get(codename='edit_priority'),
-        Permission.objects.get(codename='edit_flags'),
-        Permission.objects.get(codename='manage_acl'),
-        Permission.objects.get(codename='download_changes'),
-        Permission.objects.get(codename='view_reports'),
-        Permission.objects.get(codename='add_translation'),
-        Permission.objects.get(codename='delete_translation'),
-        Permission.objects.get(codename='change_subproject'),
-        Permission.objects.get(codename='change_project'),
-        Permission.objects.get(codename='add_screenshot'),
-        Permission.objects.get(codename='delete_screenshot'),
-        Permission.objects.get(codename='change_screenshot'),
-        Permission.objects.get(codename='access_vcs'),
-    )
-
-    group, created = Group.objects.get_or_create(name='Managers')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(*owner_permissions)
-
-    group, created = Group.objects.get_or_create(name='Owners')
-    if created or update or group.permissions.count() == 0:
-        group.permissions.add(*owner_permissions)
-
-    created = True
     anon_user, created = User.objects.get_or_create(
         username=settings.ANONYMOUS_USER_NAME,
         defaults={
@@ -225,13 +148,11 @@ def create_groups(update):
     if created or update:
         anon_user.set_unusable_password()
         anon_user.groups.clear()
-        anon_user.groups.add(guest_group)
+        anon_user.groups.add(Group.objects.get(name='Guests'))
 
 
 def move_users():
-    '''
-    Moves users to default group.
-    '''
+    """Move users to default group."""
     group = Group.objects.get(name='Users')
 
     for user in User.objects.all():
@@ -240,15 +161,13 @@ def move_users():
 
 @receiver(post_migrate)
 def sync_create_groups(sender, **kwargs):
-    '''
-    Create groups on syncdb.
-    '''
+    """Create groups on syncdb."""
     if sender.label == 'weblate':
         create_groups(False)
 
 
 def auto_assign_group(user):
-    """Automatic group assignment based on user email"""
+    """Automatic group assignment based on user email."""
     # Add user to automatic groups
     for auto in AutoGroup.objects.all():
         if re.match(auto.match, user.email):
@@ -258,11 +177,68 @@ def auto_assign_group(user):
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def auto_group_upon_save(sender, instance, created=False, **kwargs):
-    '''
-    Automatically adds user to Users group.
-    '''
+    """Automatically add user to Users group."""
     if created:
         auto_assign_group(instance)
+
+
+@receiver(m2m_changed, sender=Group.permissions.through)
+def change_acl_groups(sender, instance, action, reverse, model, pk_set,
+                      **kwargs):
+    """Update per project ACL groups on master group change."""
+    # We care only about post update signals
+    if action.split('_')[0] != 'post':
+        return
+
+    # Figure out which groups are being changed
+    if reverse:
+        groups = model.objects.filter(pk__in=pk_set)
+    else:
+        groups = [instance]
+
+    # Process changed groups
+    for group in groups:
+        # Find related groups
+        related = Group.objects.filter(
+            name__endswith=group.name
+        ).exclude(
+            pk=group.pk
+        )
+        perms = group.permissions.all()
+        # Update their permissions
+        for update in related:
+            update.permissions.set(perms)
+
+
+@receiver(post_save, sender=Project)
+@disable_for_loaddata
+def setup_group_acl(sender, instance, **kwargs):
+    """Setup Group and GroupACL objects on project save."""
+    group_acl = GroupACL.objects.get_or_create(project=instance)[0]
+    if instance.enable_acl:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=ADMIN_PERMS)
+        )
+        lookup = Q(name__startswith='@')
+    else:
+        group_acl.permissions.set(
+            Permission.objects.filter(codename__in=ADMIN_ONLY_PERMS)
+        )
+        lookup = Q(name='@Administration')
+
+    for template_group in Group.objects.filter(lookup):
+        name = '{0}{1}'.format(instance.name, template_group.name)
+        try:
+            group = group_acl.groups.get(name__endswith=template_group.name)
+            # Update exiting group (to hanle rename)
+            if group.name != name:
+                group.name = name
+                group.save()
+        except Group.DoesNotExist:
+            # Create new group
+            group = Group.objects.get_or_create(name=name)[0]
+            group.permissions.set(template_group.permissions.all())
+            group_acl.groups.add(group)
 
 
 # Special hook for LDAP as it does create user without email and updates it

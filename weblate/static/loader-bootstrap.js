@@ -1172,4 +1172,52 @@ $(function () {
         });
         return false;
     });
+
+    /* Access management */
+    $('.set-group').tooltip({
+        title: function() {
+            var $this = $(this);
+            if ($this.data('error')) {
+                return $this.data('error');
+            }
+            return $this.data('name');
+        },
+        animation: false
+    });
+    $('.set-group').click(function () {
+        var $this = $(this);
+        var $form = $('#set_groups_form');
+
+        $this.tooltip('hide');
+        $this.prop('disabled', true);
+        $this.data('error', '');
+        $this.parent().removeClass('load-error');
+
+        $.ajax({
+            type: 'POST',
+            url: $form.attr('action'),
+            data: {
+                csrfmiddlewaretoken: $form.find('input').val(),
+                action: ($this.prop('checked') ? 'add' : 'remove'),
+                name: $this.data('username'),
+                group: $this.data('group'),
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.responseCode !== 200) {
+                    $this.parent().addClass('load-error');
+                    $this.data('error', data.message);
+                    $this.tooltip('show');
+                }
+                $this.prop('checked', data.state);
+                $this.prop('disabled', false);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $this.parent().addClass('load-error');
+                $this.data('error', errorThrown);
+                $this.tooltip('show');
+                $this.prop('disabled', false);
+            },
+        });
+    });
 });

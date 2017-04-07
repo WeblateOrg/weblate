@@ -124,7 +124,7 @@ def notify_merge_failure(subproject, error, status):
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.owners.all():
+    for owner in subproject.project.all_users('@Administration'):
         mails.append(
             owner.profile.notify_merge_failure(
                 subproject, error, status
@@ -165,7 +165,7 @@ def notify_parse_error(subproject, translation, error, filename):
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.owners.all():
+    for owner in subproject.project.all_users('@Administration'):
         mails.append(
             owner.profile.notify_parse_error(
                 subproject, translation, error, filename
@@ -222,7 +222,7 @@ def notify_new_language(subproject, language, user):
         )
         users.add(subscription.user_id)
 
-    for owner in subproject.project.owners.all():
+    for owner in subproject.project.all_users('@Administration'):
         mails.append(
             owner.profile.notify_new_language(
                 subproject, language, user
@@ -718,29 +718,29 @@ class Profile(models.Model):
         except IndexError:
             return None
 
-    def notify_user(self, notification, translation_obj,
+    def notify_user(self, notification, subproject, display_obj,
                     context=None, headers=None, user=None):
         '''
         Wrapper for sending notifications to user.
         '''
+        from weblate.permissions.helpers import can_access_project
         if context is None:
             context = {}
         if headers is None:
             headers = {}
 
         # Check whether user is still allowed to access this project
-        if not translation_obj.has_acl(self.user):
-            return
-        # Generate notification
-        return get_notification_email(
-            self.language,
-            self.user.email,
-            notification,
-            translation_obj,
-            context,
-            headers,
-            user=user
-        )
+        if can_access_project(self.user, subproject.project):
+            # Generate notification
+            return get_notification_email(
+                self.language,
+                self.user.email,
+                notification,
+                display_obj,
+                context,
+                headers,
+                user=user
+            )
 
     def notify_any_translation(self, unit, oldunit):
         '''
@@ -752,6 +752,7 @@ class Profile(models.Model):
             template = 'new_translation'
         return self.notify_user(
             template,
+            unit.translation.subproject,
             unit.translation,
             {
                 'unit': unit,
@@ -766,6 +767,7 @@ class Profile(models.Model):
         return self.notify_user(
             'new_language',
             subproject,
+            subproject,
             {
                 'language': language,
                 'user': user,
@@ -779,6 +781,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_string',
+            translation.subproject,
             translation,
         )
 
@@ -788,6 +791,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_suggestion',
+            translation.subproject,
             translation,
             {
                 'suggestion': suggestion,
@@ -801,6 +805,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_contributor',
+            translation.subproject,
             translation,
             {
                 'user': user,
@@ -813,6 +818,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'new_comment',
+            unit.translation.subproject,
             unit.translation,
             {
                 'unit': unit,
@@ -829,6 +835,7 @@ class Profile(models.Model):
         return self.notify_user(
             'merge_failure',
             subproject,
+            subproject,
             {
                 'subproject': subproject,
                 'error': error,
@@ -842,6 +849,7 @@ class Profile(models.Model):
         '''
         return self.notify_user(
             'parse_error',
+            subproject,
             translation if translation is not None else subproject,
             {
                 'subproject': subproject,

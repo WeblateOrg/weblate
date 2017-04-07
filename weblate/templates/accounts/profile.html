@@ -99,7 +99,6 @@
 <div class="tab-pane" id="subscriptions">
 <div class="row">
 <div class="col-lg-6">
-{% with user.project_set.all as managed_projects %}
 {% if managed_projects %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Managed projects" %}</h4></div>
@@ -113,7 +112,6 @@
   </div>
 </div>
 {% endif %}
-{% endwith %}
 <div class="panel panel-primary">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Watched projects" %}</h4></div>
   <div class="panel-body">

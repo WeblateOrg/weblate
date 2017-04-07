@@ -38,6 +38,7 @@ except ImportError:
 
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.screenshots.models import Screenshot
+from weblate.permissions.helpers import check_access
 from weblate.trans.models import Source
 from weblate.trans.views.helper import get_subproject
 from weblate.permissions.helpers import (
@@ -121,7 +122,7 @@ class ScreenshotDetail(DetailView):
 
     def get_object(self, *args, **kwargs):
         obj = super(ScreenshotDetail, self).get_object(*args, **kwargs)
-        obj.component.check_acl(self.request)
+        check_access(self.request, obj.component.project)
         return obj
 
     def get_context_data(self, **kwargs):
@@ -151,7 +152,7 @@ class ScreenshotDetail(DetailView):
 @login_required
 def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    obj.component.check_acl(request)
+    check_access(request, obj.component.project)
     if not can_delete_screenshot(request.user, obj.component.project):
         raise PermissionDenied()
 
@@ -169,7 +170,7 @@ def delete_screenshot(request, pk):
 
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    obj.component.check_acl(request)
+    check_access(request, obj.component.project)
     if not can_change_screenshot(request.user, obj.component.project):
         raise PermissionDenied()
     return obj

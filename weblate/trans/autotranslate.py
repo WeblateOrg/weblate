@@ -21,10 +21,13 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
+from weblate.permissions.helpers import can_access_project
 from weblate.trans.models import Unit, Change, SubProject
 
 
-def auto_translate(user, translation, source, inconsistent, overwrite):
+def auto_translate(user, translation, source, inconsistent, overwrite,
+                   check_acl=True):
+    """Perform automatic translation based on other components."""
     updated = 0
 
     if inconsistent:
@@ -42,7 +45,8 @@ def auto_translate(user, translation, source, inconsistent, overwrite):
     )
     if source:
         subprj = SubProject.objects.get(id=source)
-        if not subprj.has_acl(user):
+
+        if check_acl and not can_access_project(user, subprj.project):
             raise PermissionDenied()
         sources = sources.filter(translation__subproject=subprj)
     else:

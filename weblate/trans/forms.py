@@ -27,6 +27,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset
 
 from django import forms
+from django.core.exceptions import PermissionDenied
 from django.utils.translation import (
     ugettext_lazy as _, ugettext, pgettext_lazy, pgettext
 )
@@ -48,7 +49,7 @@ from weblate.trans.models.source import PRIORITY_CHOICES
 from weblate.trans.checks import CHECKS
 from weblate.permissions.helpers import (
     can_author_translation, can_overwrite_translation, can_translate,
-    can_suggest,
+    can_suggest, can_add_translation, can_mass_add_translation,
 )
 from weblate.trans.specialchars import get_special_chars
 from weblate.trans.validators import validate_check_flags
@@ -711,15 +712,16 @@ class AutoForm(forms.Form):
         )
         choices = [(s.id, force_text(s)) for s in other_subprojects]
 
-        # Add other owned projects
-        owned_projects = user.project_set.all().exclude(
-            pk=obj.subproject.project.id
-        )
-        for project in owned_projects:
-            for component in project.subproject_set.all():
-                choices.append(
-                    (component.id, force_text(component))
-                )
+        # Add components from other owned projects
+        owned_components = SubProject.objects.filter(
+            project__groupacl__groups__name__endswith='@Administration'
+        ).exclude(
+            project=obj.subproject.project
+        ).distinct()
+        for component in owned_components:
+            choices.append(
+                (component.id, force_text(component))
+            )
 
         super(AutoForm, self).__init__(*args, **kwargs)
 
@@ -909,9 +911,9 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
 def get_new_language_form(request, component):
     """Returns new language form for user"""
-    if request.user.is_superuser:
-        return NewLanguageOwnerForm
-    if component.project.owners.filter(id=request.user.id).exists():
+    if not can_add_translation(request.user, component.project):
+        raise PermissionDenied()
+    if can_mass_add_translation(request.user, component.project):
         return NewLanguageOwnerForm
     return NewLanguageForm
 
@@ -963,6 +965,8 @@ class UserManageForm(forms.Form):
     )
 
     def clean(self):
+        if 'name' not in self.cleaned_data:
+            return
         try:
             self.cleaned_data['user'] = User.objects.get(
                 Q(username=self.cleaned_data['name']) |

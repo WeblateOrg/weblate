@@ -25,6 +25,7 @@ from django.http import (
 from django.core.exceptions import PermissionDenied
 from django.utils.encoding import force_text
 
+from weblate.permissions.helpers import check_access
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.models import Unit, Check, Change
 from weblate.trans.machine import MACHINE_TRANSLATION_SERVICES
@@ -47,7 +48,7 @@ def translate(request, unit_id):
     AJAX handler for translating.
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
+    check_access(request, unit.translation.subproject.project)
     if not can_use_mt(request.user, unit.translation):
         raise PermissionDenied()
 
@@ -92,7 +93,7 @@ def get_unit_changes(request, unit_id):
     Returns unit's recent changes.
     '''
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    unit.check_acl(request)
+    check_access(request, unit.translation.subproject.project)
 
     return render(
         request,
@@ -106,11 +107,11 @@ def get_unit_changes(request, unit_id):
 
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
+    check_access(request, obj.project)
 
     if not can_ignore_check(request.user, obj.project):
         raise PermissionDenied()
 
-    obj.project.check_acl(request)
     # Mark check for ignoring
     obj.set_ignore()
     # response for AJAX

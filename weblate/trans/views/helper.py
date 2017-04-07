@@ -27,6 +27,7 @@ import django.utils.translation
 from django.utils.translation import trans_real, ugettext as _
 
 from weblate.utils import messages
+from weblate.permissions.helpers import check_access
 from weblate.trans.exporters import get_exporter
 from weblate.trans.models import Project, SubProject, Translation
 
@@ -43,7 +44,7 @@ def get_translation(request, project, subproject, lang, skip_acl=False):
         enabled=True
     )
     if not skip_acl:
-        translation.check_acl(request)
+        check_access(request, translation.subproject.project)
     return translation
 
 
@@ -57,7 +58,7 @@ def get_subproject(request, project, subproject, skip_acl=False):
         slug=subproject
     )
     if not skip_acl:
-        subproject.check_acl(request)
+        check_access(request, subproject.project)
     return subproject
 
 
@@ -70,7 +71,7 @@ def get_project(request, project, skip_acl=False):
         slug=project,
     )
     if not skip_acl:
-        project.check_acl(request)
+        check_access(request, project)
     return project
 
 

@@ -174,7 +174,9 @@ class UnitManager(models.Manager):
                 )
             coms = coms.values_list('content_hash', flat=True)
             return self.filter(content_hash__in=coms)
-        elif rqtype.startswith('check:') or rqtype in ['allchecks', 'sourcechecks']:
+        elif rqtype.startswith('check:'):
+            return self.filter_checks(rqtype, translation, ignored)
+        elif rqtype in ['allchecks', 'sourcechecks']:
             return self.filter_checks(rqtype, translation, ignored)
         else:
             # Catch anything not matching including 'all'
@@ -410,19 +412,6 @@ class Unit(models.Model, LoggerMixin):
         self._source_info = None
         self._suggestions = None
         self.old_unit = copy(self)
-
-    def has_acl(self, user):
-        """
-        Checks whether current user is allowed to access this
-        subproject.
-        """
-        return self.translation.subproject.project.has_acl(user)
-
-    def check_acl(self, request):
-        """
-        Raises an error if user is not allowed to access this project.
-        """
-        self.translation.subproject.project.check_acl(request)
 
     def __str__(self):
         return '{0} on {1}'.format(

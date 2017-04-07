@@ -21,43 +21,18 @@
 Permissions abstract layer for Weblate.
 """
 from django.conf import settings
+from django.contrib.auth.models import Permission
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.contrib.auth.models import Group, Permission
+from django.utils.translation import ugettext as _
 
 from weblate.accounts.models import get_anonymous
 from weblate.permissions.models import GroupACL
-
-
-def check_owner(user, project, permission):
-    """
-    Checks whether owner group has given permission.
-    """
-    if project is None:
-        return False
-
-    if not hasattr(user, 'acl_permissions_owner'):
-        user.acl_permissions_owner = {}
-
-    if project.pk not in user.acl_permissions_owner:
-        user.acl_permissions_owner[project.pk] = project.owners.filter(
-            id=user.id
-        ).exists()
-
-    if not user.acl_permissions_owner[project.pk]:
-        return False
-
-    group = Group.objects.get(name='Owners')
-    app, perm = permission.split('.')
-    return group.permissions.filter(
-        content_type__app_label=app, codename=perm
-    ).exists()
+from weblate.utils import messages
 
 
 def has_group_perm(user, permission, translation=None, project=None):
-    """
-    Checks whether GroupACL rules allow user to have
-    given permission.
-    """
+    """Check whether GroupACL rules allow user to have given permission."""
     if user.is_superuser:
         return True
     if not hasattr(user, 'acl_permissions_groups'):
@@ -79,28 +54,24 @@ def has_group_perm(user, permission, translation=None, project=None):
         return user.has_perm(permission)
 
     if key in user.acl_permissions_groups:
-        groupacl, membership, permissions = user.acl_permissions_groups[key]
+        groupacls = user.acl_permissions_groups[key]
     else:
+        groupacls = []
         # Force fetching query
         acls = list(groups)
         if acls:
-            # more specific rules are more important: subproject > project > language
+            # more specific rules are more important:
+            # subproject > project > language
             acls.sort(reverse=True, key=lambda a: (
                 a.subproject is not None,
                 a.project is not None,
                 a.language is not None))
-            groupacl = acls[0]
-            membership = groupacl.groups.all() & user.groups.all()
-            permissions = set(groupacl.permissions.values_list('id', flat=True))
-        else:
-            groupacl = None
-            membership = None
-            permissions = None
-        user.acl_permissions_groups[key] = groupacl, membership, permissions
-
-    # No GroupACL in effect, fallback to standard permissions
-    if groupacl is None:
-        return user.has_perm(permission)
+            for acl in acls:
+                groupacls.append((
+                    acl.groups.all() & user.groups.all(),
+                    acl.permissions.values_list('id', flat=True)
+                ))
+        user.acl_permissions_groups[key] = groupacls
 
     # Get permission object
     app, perm = permission.split('.')
@@ -109,32 +80,19 @@ def has_group_perm(user, permission, translation=None, project=None):
         codename=perm
     )
 
-    # Does this GroupACL affect this permission
-    if perm_obj.pk not in permissions:
-        return user.has_perm(permission)
+    for membership, permissions in groupacls:
+        # Does this GroupACL affect this permission?
+        if perm_obj.pk not in permissions:
+            continue
 
-    # User is not member, no permission
-    if not membership:
-        return False
+        # Check if group has asked permission
+        return membership.filter(permissions=perm_obj).exists()
 
-    # Check if group has asked permission
-    return membership.filter(permissions=perm_obj).exists()
-
-
-def check_permission(user, project, permission):
-    """
-    Generic check for permission with owner fallback.
-    """
-    return (
-        has_group_perm(user, permission, project=project) or
-        check_owner(user, project, permission)
-    )
+    return user.has_perm(permission)
 
 
 def cache_permission(func):
-    """
-    Caching for permissions check.
-    """
+    """Caching for permissions check."""
 
     def wrapper(user, *args, **kwargs):
         if user is None:
@@ -163,15 +121,11 @@ def cache_permission(func):
 
 
 def can_edit(user, translation, permission):
-    """
-    Generic checker for changing translation.
-    """
+    """Generic checker for changing translation."""
     if translation.subproject.locked:
         return False
     if user.is_authenticated and not user.email:
         return False
-    if check_owner(user, translation.subproject.project, permission):
-        return True
     if not has_group_perm(user, permission, translation):
         return False
     if translation.is_template() \
@@ -186,8 +140,7 @@ def can_edit(user, translation, permission):
 
 @cache_permission
 def can_upload_translation(user, translation):
-    """
-    Checks whether user can translate given translation.
+    """Check whether user can translate given translation.
 
     This also requires either translate or suggest permission to be able to
     actually store the uploaded translations.
@@ -199,41 +152,33 @@ def can_upload_translation(user, translation):
 
 @cache_permission
 def can_translate(user, translation=None, project=None):
-    """
-    Checks whether user can translate given translation.
-    """
+    """Check whether user can translate given translation."""
     if project is not None:
-        return check_permission(user, project, 'trans.save_translation')
+        return has_group_perm(user, 'trans.save_translation', project=project)
     return can_edit(user, translation, 'trans.save_translation')
 
 
 @cache_permission
 def can_suggest(user, translation):
-    """
-    Checks whether user can add suggestions to given translation.
-    """
+    """Check whether user can add suggestions to given translation."""
     if not translation.subproject.enable_suggestions:
         return False
     if has_group_perm(user, 'trans.add_suggestion', translation):
         return True
-    return check_permission(
-        user, translation.subproject.project, 'trans.add_suggestion'
+    return has_group_perm(
+        user, 'trans.add_suggestion', project=translation.subproject.project
     )
 
 
 @cache_permission
 def can_accept_suggestion(user, translation):
-    """
-    Checks whether user can accept suggestions to given translation.
-    """
+    """Check whether user can accept suggestions to given translation."""
     return can_edit(user, translation, 'trans.accept_suggestion')
 
 
 @cache_permission
 def can_delete_suggestion(user, translation, suggestion):
-    """
-    Checks whether user can delete suggestions to given translation.
-    """
+    """Check whether user can delete suggestions to given translation."""
     if user.is_authenticated and suggestion.user == user:
         return True
     return can_edit(user, translation, 'trans.delete_suggestion')
@@ -241,16 +186,11 @@ def can_delete_suggestion(user, translation, suggestion):
 
 @cache_permission
 def can_vote_suggestion(user, translation):
-    """
-    Checks whether user can vote suggestions on given translation.
-    """
+    """Check whether user can vote suggestions on given translation."""
     if not translation.subproject.suggestion_voting:
         return False
     if translation.subproject.locked:
         return False
-    project = translation.subproject.project
-    if check_owner(user, project, 'trans.vote_suggestion'):
-        return True
     if not has_group_perm(user, 'trans.vote_suggestion', translation):
         return False
     if translation.is_template() \
@@ -261,23 +201,17 @@ def can_vote_suggestion(user, translation):
 
 @cache_permission
 def can_use_mt(user, translation):
-    """
-    Checks whether user can use machine translation.
-    """
+    """Check whether user can use machine translation."""
     if not settings.MACHINE_TRANSLATION_ENABLED:
         return False
     if not has_group_perm(user, 'trans.use_mt', translation):
         return False
-    if check_owner(user, translation.subproject.project, 'trans.use_mt'):
-        return True
     return can_translate(user, translation) or can_suggest(user, translation)
 
 
 @cache_permission
 def can_see_repository_status(user, project):
-    """
-    Checks whether user can view repository status.
-    """
+    """Check whether user can view repository status."""
     return (
         can_commit_translation(user, project) or
         can_update_translation(user, project)
@@ -286,239 +220,207 @@ def can_see_repository_status(user, project):
 
 @cache_permission
 def can_commit_translation(user, project):
-    """
-    Checks whether user can commit to translation repository.
-    """
-    return check_permission(user, project, 'trans.commit_translation')
+    """Check whether user can commit to translation repository."""
+    return has_group_perm(user, 'trans.commit_translation', project=project)
 
 
 @cache_permission
 def can_update_translation(user, project):
-    """
-    Checks whether user can update translation repository.
-    """
-    return check_permission(user, project, 'trans.update_translation')
+    """Check whether user can update translation repository."""
+    return has_group_perm(user, 'trans.update_translation', project=project)
 
 
 @cache_permission
 def can_push_translation(user, project):
-    """
-    Checks whether user can push translation repository.
-    """
-    return check_permission(user, project, 'trans.push_translation')
+    """Check whether user can push translation repository."""
+    return has_group_perm(user, 'trans.push_translation', project=project)
 
 
 @cache_permission
 def can_reset_translation(user, project):
-    """
-    Checks whether user can reset translation repository.
-    """
-    return check_permission(user, project, 'trans.reset_translation')
+    """Check whether user can reset translation repository."""
+    return has_group_perm(user, 'trans.reset_translation', project=project)
 
 
 @cache_permission
 def can_lock_translation(user, project):
-    """
-    Checks whether user can lock translation.
-    """
-    return check_permission(user, project, 'trans.lock_translation')
+    """Check whether user can lock translation."""
+    return has_group_perm(user, 'trans.lock_translation', project=project)
 
 
 @cache_permission
 def can_lock_subproject(user, project):
-    """
-    Checks whether user can lock translation subproject.
-    """
-    return check_permission(user, project, 'trans.lock_subproject')
+    """Check whether user can lock translation subproject."""
+    return has_group_perm(user, 'trans.lock_subproject', project=project)
 
 
 @cache_permission
 def can_edit_flags(user, project):
-    """
-    Checks whether user can edit translation flags.
-    """
-    return check_permission(user, project, 'trans.edit_flags')
+    """Check whether user can edit translation flags."""
+    return has_group_perm(user, 'trans.edit_flags', project=project)
 
 
 @cache_permission
 def can_edit_priority(user, project):
-    """
-    Checks whether user can edit translation priority.
-    """
-    return check_permission(user, project, 'trans.edit_priority')
+    """Check whether user can edit translation priority."""
+    return has_group_perm(user, 'trans.edit_priority', project=project)
 
 
 @cache_permission
 def can_ignore_check(user, project):
-    """
-    Checks whether user can ignore check.
-    """
-    return check_permission(user, project, 'trans.ignore_check')
+    """Check whether user can ignore check."""
+    return has_group_perm(user, 'trans.ignore_check', project=project)
 
 
 @cache_permission
 def can_delete_comment(user, project):
-    """
-    Checks whether user can delete comment on given project.
-    """
-    return check_permission(user, project, 'trans.delete_comment')
+    """Check whether user can delete comment on given project."""
+    return has_group_perm(user, 'trans.delete_comment', project=project)
 
 
 @cache_permission
 def can_manage_acl(user, project):
-    """
-    Checks whether user can manage ACL on given project.
-    """
-    return check_permission(user, project, 'trans.manage_acl')
+    """Check whether user can manage ACL on given project."""
+    return has_group_perm(user, 'trans.manage_acl', project=project)
 
 
 @cache_permission
 def can_download_changes(user, project):
-    """
-    Checks whether user can download CSV for changes on given project.
-    """
-    return check_permission(user, project, 'trans.download_changes')
+    """Check whether user can download CSV for changes on given project."""
+    return has_group_perm(user, 'trans.download_changes', project=project)
 
 
 @cache_permission
 def can_automatic_translation(user, project):
-    """
-    Checks whether user can do automatic translation on given project.
-    """
-    return check_permission(user, project, 'trans.automatic_translation')
+    """Check whether user can do automatic translation on given project."""
+    return has_group_perm(user, 'trans.automatic_translation', project=project)
 
 
 @cache_permission
 def can_view_reports(user, project):
-    """
-    Checks whether user can view reports on given project.
-    """
-    return check_permission(user, project, 'trans.view_reports')
+    """Check whether user can view reports on given project."""
+    return has_group_perm(user, 'trans.view_reports', project=project)
 
 
 @cache_permission
 def can_author_translation(user, project):
-    """
-    Checks whether user can author translation on given project.
-    """
-    return check_permission(user, project, 'trans.author_translation')
+    """Check whether user can author translation on given project."""
+    return has_group_perm(user, 'trans.author_translation', project=project)
 
 
 @cache_permission
 def can_overwrite_translation(user, project):
-    """
-    Checks whether user can overwrite translation on given project.
-    """
-    return check_permission(user, project, 'trans.overwrite_translation')
+    """Check whether user can overwrite translation on given project."""
+    return has_group_perm(user, 'trans.overwrite_translation', project=project)
 
 
 @cache_permission
 def can_add_translation(user, project):
-    """
-    Checks whether user can view reports on given project.
-    """
-    return check_permission(user, project, 'trans.add_translation')
+    """Check whether user can add translations on given project."""
+    return has_group_perm(user, 'trans.add_translation', project=project)
+
+
+@cache_permission
+def can_mass_add_translation(user, project):
+    """Check whether user can mass add translations on given project."""
+    return has_group_perm(user, 'trans.mass_add_translation', project=project)
 
 
 @cache_permission
 def can_remove_translation(user, project):
-    """
-    Checks whether user can view reports on given project.
-    """
-    return check_permission(user, project, 'trans.delete_translation')
+    """Check whether user can view reports on given project."""
+    return has_group_perm(user, 'trans.delete_translation', project=project)
 
 
 @cache_permission
 def can_edit_subproject(user, project):
-    """
-    Checks whether user can edit subprojects on given project.
-    """
-    return check_permission(user, project, 'trans.change_subproject')
+    """Check whether user can edit subprojects on given project."""
+    return has_group_perm(user, 'trans.change_subproject', project=project)
 
 
 @cache_permission
 def can_edit_project(user, project):
-    """
-    Checks whether user can edit given project.
-    """
-    return check_permission(user, project, 'trans.change_project')
+    """Check whether user can edit given project."""
+    return has_group_perm(user, 'trans.change_project', project=project)
 
 
 @cache_permission
 def can_upload_dictionary(user, project):
-    """
-    Checks whether user can upload dictionary for given project.
-    """
-    return check_permission(user, project, 'trans.upload_dictionary')
+    """Check whether user can upload dictionary for given project."""
+    return has_group_perm(user, 'trans.upload_dictionary', project=project)
 
 
 @cache_permission
 def can_delete_dictionary(user, project):
-    """
-    Checks whether user can delete dictionary for given project.
-    """
-    return check_permission(user, project, 'trans.delete_dictionary')
+    """Check whether user can delete dictionary for given project."""
+    return has_group_perm(user, 'trans.delete_dictionary', project=project)
 
 
 @cache_permission
 def can_change_dictionary(user, project):
-    """
-    Checks whether user can change dictionary for given project.
-    """
-    return check_permission(user, project, 'trans.change_dictionary')
+    """Check whether user can change dictionary for given project."""
+    return has_group_perm(user, 'trans.change_dictionary', project=project)
 
 
 @cache_permission
 def can_add_dictionary(user, project):
-    """
-    Checks whether user can add dictionary for given project.
-    """
-    return check_permission(user, project, 'trans.add_dictionary')
+    """Check whether user can add dictionary for given project."""
+    return has_group_perm(user, 'trans.add_dictionary', project=project)
 
 
 @cache_permission
 def can_add_comment(user, project):
-    """
-    Checks whether user can add comment for given project.
-    """
-    return check_permission(user, project, 'trans.add_comment')
+    """Check whether user can add comment for given project."""
+    return has_group_perm(user, 'trans.add_comment', project=project)
 
 
 @cache_permission
 def can_see_git_repository(user, project):
-    """
-    Checks whether user can add comment for given project.
-    """
-    return check_permission(user, project, 'trans.can_see_git_repository')
+    """Check whether user can add comment for given project."""
+    return has_group_perm(
+        user, 'trans.can_see_git_repository', project=project
+    )
 
 
 @cache_permission
 def can_add_screenshot(user, project):
-    """
-    Checks whether user can add screenshot for given project.
-    """
-    return check_permission(user, project, 'screenshots.add_screenshot')
+    """Check whether user can add screenshot for given project."""
+    return has_group_perm(user, 'screenshots.add_screenshot', project=project)
 
 
 @cache_permission
 def can_change_screenshot(user, project):
-    """
-    Checks whether user can change screenshot for given project.
-    """
-    return check_permission(user, project, 'screenshots.change_screenshot')
+    """Check whether user can change screenshot for given project."""
+    return has_group_perm(
+        user, 'screenshots.change_screenshot', project=project
+    )
 
 
 @cache_permission
 def can_delete_screenshot(user, project):
-    """
-    Checks whether user can delete screenshot for given project.
-    """
-    return check_permission(user, project, 'screenshots.delete_screenshot')
+    """Check whether user can delete screenshot for given project."""
+    return has_group_perm(
+        user, 'screenshots.delete_screenshot', project=project
+    )
 
 
 @cache_permission
 def can_access_vcs(user, project):
-    """
-    Checks whether user can delete screenshot for given project.
-    """
-    return check_permission(user, project, 'trans.access_vcs')
+    """Check whether user can delete screenshot for given project."""
+    return has_group_perm(user, 'trans.access_vcs', project=project)
+
+
+@cache_permission
+def can_access_project(user, project):
+    """Check whether user can delete screenshot for given project."""
+    return has_group_perm(user, 'trans.access_project', project=project)
+
+
+def check_access(request, project):
+    """Raise an error if user is not allowed to access this project."""
+    if not can_access_project(request.user, project):
+        messages.error(
+            request,
+            _('You are not allowed to access project %s.') % project.name
+        )
+        raise PermissionDenied()

@@ -23,7 +23,6 @@ import datetime
 from django.shortcuts import redirect, get_object_or_404
 from django.utils import translation
 from django.utils.translation import ugettext as _
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count, F
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -44,12 +43,11 @@ from weblate.lang.models import Language
 from weblate.trans.forms import (
     get_upload_form, SearchForm, SiteSearchForm,
     AutoForm, ReviewForm, get_new_language_form,
-    UserManageForm, ReportsForm, ReplaceForm,
+    ReportsForm, ReplaceForm,
     SubprojectSettingsForm, ProjectSettingsForm,
 )
 from weblate.permissions.helpers import (
-    can_automatic_translation, can_add_translation,
-    can_edit_subproject, can_edit_project,
+    can_automatic_translation, can_edit_subproject, can_edit_project,
     can_translate,
 )
 from weblate.accounts.models import Profile, notify_new_language
@@ -389,7 +387,6 @@ def show_project(request, project):
             'last_changes_url': urlencode(
                 {'project': obj.slug}
             ),
-            'add_user_form': UserManageForm(),
             'settings_form': settings_form,
             'language_stats': language_stats,
             'unit_count': Unit.objects.filter(
@@ -660,10 +657,8 @@ def data_project(request, project):
 @login_required
 def new_language(request, project, subproject):
     obj = get_subproject(request, project, subproject)
-    form_class = get_new_language_form(request, obj)
 
-    if not can_add_translation(request.user, obj.project):
-        raise PermissionDenied()
+    form_class = get_new_language_form(request, obj)
 
     if request.method == 'POST':
         form = form_class(obj, request.POST)

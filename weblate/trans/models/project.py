@@ -24,17 +24,15 @@ import os
 import os.path
 
 from django.db import models
-from django.db.models import Sum
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.db.models import Sum, Q
+from django.utils.translation import ugettext as _, ugettext_lazy, pgettext
 from django.utils.encoding import python_2_unicode_compatible
-from django.core.exceptions import ValidationError, PermissionDenied
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Permission, User, Group
-from django.contrib.contenttypes.models import ContentType
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language, get_english_lang
-from weblate.utils import messages
 from weblate.trans.mixins import PercentMixin, URLMixin, PathMixin
 from weblate.trans.site import get_site_url
 from weblate.trans.data import data_dir
@@ -44,20 +42,34 @@ class ProjectManager(models.Manager):
     # pylint: disable=W0232
 
     def get_acl_ids(self, user):
-        """Returns list of project IDs and status
+        """Return list of project IDs and status
         for current user filtered by ACL
         """
+        if user.is_superuser:
+            return self.values_list('id', flat=True)
         if not hasattr(user, 'acl_ids_cache'):
-            user.acl_ids_cache = [
-                project.id for project in self.all() if project.has_acl(user)
-            ]
+            permission = Permission.objects.get(codename='access_project')
+            user.acl_ids_cache = set(
+                self.filter(
+                    ~Q(groupacl__permissions=permission) |
+                    (
+                        Q(groupacl__permissions=permission) &
+                        Q(groupacl__groups__permissions=permission) &
+                        Q(groupacl__groups__user=user)
+                    )
+                ).values_list(
+                    'id', flat=True
+                )
+            )
 
         return user.acl_ids_cache
 
     def all_acl(self, user):
-        """Returns list of projects user is allowed to access
+        """Return list of projects user is allowed to access
         and flag whether there is any filtering active.
         """
+        if user.is_superuser:
+            return self.all()
         return self.filter(id__in=self.get_acl_ids(user))
 
 
@@ -123,14 +135,6 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             'Whether to allow updating this repository by remote hooks.'
         )
     )
-    owners = models.ManyToManyField(
-        User,
-        verbose_name=ugettext_lazy('Owners'),
-        blank=True,
-        help_text=ugettext_lazy(
-            'Owners of the project.'
-        )
-    )
     source_language = models.ForeignKey(
         Language,
         verbose_name=ugettext_lazy('Source language'),
@@ -150,6 +154,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         app_label = 'trans'
         permissions = (
             ('manage_acl', 'Can manage ACL rules for a project'),
+            ('access_project', 'Can access project'),
         )
         verbose_name = ugettext_lazy('Project')
         verbose_name_plural = ugettext_lazy('Projects')
@@ -161,43 +166,35 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     def get_full_slug(self):
         return self.slug
 
-    def has_acl(self, user):
-        """Checks whether current user is allowed to access this object"""
-        if not self.enable_acl:
-            return True
+    def all_users(self, group=None):
+        """Return all users having ACL on this project."""
+        groups = Group.objects.filter(groupacl__project=self)
+        if group is not None:
+            groups = groups.filter(name__endswith=group)
+        return User.objects.filter(groups__in=groups).distinct()
 
-        if user is None:
-            return False
+    def all_groups(self):
+        """Return list of applicable groups for project."""
+        return [
+            (g.pk, pgettext('Permissions group', g.name.split('@')[1]))
+            for g in Group.objects.filter(
+                groupacl__project=self, name__contains='@'
+            ).order_by('name')
+        ]
 
-        if user.has_perm('trans.weblate_acl_{0}'.format(self.slug)):
-            return True
-
-        return self.owners.filter(id=user.id).exists()
-
-    def check_acl(self, request):
-        """Raises an error if user is not allowed to access this project."""
-        if not self.has_acl(request.user):
-            messages.error(
-                request,
-                _('You are not allowed to access project %s.') % self.name
-            )
-            raise PermissionDenied
-
-    def all_users(self):
-        """Returns all users having ACL on this project."""
-        group = Group.objects.get(name=self.name)
-        return group.user_set.exclude(
-            id__in=self.owners.values_list('id', flat=True)
-        )
-
-    def add_user(self, user):
-        """Adds user based on username of email."""
-        group = Group.objects.get(name=self.name)
+    def add_user(self, user, group=None):
+        """Add user based on username of email."""
+        if group is None:
+            if self.enable_acl:
+                group = '@Translate'
+            else:
+                group = '@Administration'
+        group = Group.objects.get(name='{0}{1}'.format(self.name, group))
         user.groups.add(group)
         self.add_subscription(user)
 
     def add_subscription(self, user):
-        """Adds user subscription to current project"""
+        """Add user subscription to current project"""
         try:
             profile = user.profile
         except Profile.DoesNotExist:
@@ -205,15 +202,16 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         profile.subscriptions.add(self)
 
-    def add_owner(self, user):
-        """Adds owner to the project"""
-        self.owners.add(user)
-        self.add_subscription(user)
-
-    def remove_user(self, user):
-        """Adds user based on username of email."""
-        group = Group.objects.get(name=self.name)
-        user.groups.remove(group)
+    def remove_user(self, user, group=None):
+        """Add user based on username of email."""
+        if group is None:
+            groups = Group.objects.filter(
+                name__startswith='{0}@'.format(self.name)
+            )
+            user.groups.remove(*groups)
+        else:
+            group = Group.objects.get(name='{0}{1}'.format(self.name, group))
+            user.groups.remove(group)
 
     def clean(self):
         try:
@@ -224,19 +222,19 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
             )
 
     def _reverse_url_kwargs(self):
-        """Returns kwargs for URL reversing."""
+        """Return kwargs for URL reversing."""
         return {
             'project': self.slug
         }
 
     def get_widgets_url(self):
-        """Returns absolute URL for widgets."""
+        """Return absolute URL for widgets."""
         return get_site_url(
             reverse('widgets', kwargs={'project': self.slug})
         )
 
     def get_share_url(self):
-        """Returns absolute URL usable for sharing."""
+        """Return absolute URL usable for sharing."""
         return get_site_url(
             reverse('engage', kwargs={'project': self.slug})
         )
@@ -266,38 +264,11 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
         super(Project, self).save(*args, **kwargs)
 
-        # Create ACL permissions on save
-        if self.enable_acl:
-            content_type = ContentType.objects.get(
-                app_label='trans',
-                model='project'
-            )
-
-            perm_code = 'weblate_acl_{0}'.format(self.slug)
-            perm_name = 'Can access project {0}'.format(self.name)
-
-            try:
-                permission = Permission.objects.get(
-                    codename=perm_code,
-                    content_type=content_type
-                )
-                if permission.name != perm_name:
-                    permission.name = perm_name
-                    permission.save()
-            except Permission.DoesNotExist:
-                permission = Permission.objects.create(
-                    codename=perm_code,
-                    name=perm_name,
-                    content_type=content_type
-                )
-            group = Group.objects.get_or_create(name=self.name)[0]
-            group.permissions.add(permission)
-
     # Arguments number differs from overridden method
     # pylint: disable=W0221
 
     def _get_percents(self, lang=None):
-        """Returns percentages of translation status."""
+        """Return percentages of translation status."""
         # Import translations
         from weblate.trans.models.translation import Translation
 
@@ -308,7 +279,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     # pylint: disable=W0221
 
     def get_translated_percent(self, lang=None):
-        """Returns percent of translated strings."""
+        """Return percent of translated strings."""
         if lang is None:
             return super(Project, self).get_translated_percent()
         return self._get_percents(lang)[0]
@@ -331,7 +302,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return self._totals_cache
 
     def get_total(self):
-        """Calculates total number of strings to translate.
+        """Calculate total number of strings to translate.
 
         This is done based on assumption that all languages have same number
         of strings.
@@ -350,7 +321,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return sum(totals)
 
     def get_source_words(self):
-        """Calculates total number of words to translate.
+        """Calculate total number of words to translate.
 
         This is done based on assumption that all languages have same number
         of strings.
@@ -359,18 +330,18 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
     get_source_words.short_description = _('Source words')
 
     def get_languages(self):
-        """Returns list of all languages used in project."""
+        """Return list of all languages used in project."""
         return Language.objects.filter(
             translation__subproject__project=self
         ).distinct()
 
     def get_language_count(self):
-        """Returns number of languages used in this project."""
+        """Return number of languages used in this project."""
         return self.get_languages().count()
     get_language_count.short_description = _('Languages')
 
     def repo_needs_commit(self):
-        """Checks whether there are some not committed changes."""
+        """Check whether there are some not committed changes."""
         for component in self.subproject_set.all():
             if component.repo_needs_commit():
                 return True
@@ -389,7 +360,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return False
 
     def commit_pending(self, request, on_commit=True):
-        """Commits any pending changes."""
+        """Commit any pending changes."""
         ret = False
 
         components = self.all_repo_components()
@@ -406,25 +377,25 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return ret
 
     def do_update(self, request=None, method=None):
-        """Updates all git repos."""
+        """Update all git repos."""
         ret = True
         for component in self.all_repo_components():
             ret &= component.do_update(request, method=method)
         return ret
 
     def do_push(self, request=None):
-        """Pushes all git repos."""
+        """Pushe all git repos."""
         return self.commit_pending(request, on_commit=False)
 
     def do_reset(self, request=None):
-        """Pushes all git repos."""
+        """Pushe all git repos."""
         ret = False
         for component in self.all_repo_components():
             ret |= component.do_reset(request)
         return ret
 
     def can_push(self):
-        """Checks whether any suprojects can push."""
+        """Check whether any suprojects can push."""
         ret = False
         for component in self.subproject_set.all():
             ret |= component.can_push()
@@ -432,7 +403,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
 
     @property
     def last_change(self):
-        """Returns date of last change done in Weblate."""
+        """Return date of last change done in Weblate."""
         components = self.subproject_set.all()
         changes = [component.last_change for component in components]
         changes = [c for c in changes if c is not None]
@@ -441,7 +412,7 @@ class Project(models.Model, PercentMixin, URLMixin, PathMixin):
         return max(changes)
 
     def all_repo_components(self):
-        """Returns list of all unique VCS components."""
+        """Return list of all unique VCS components."""
         result = list(
             self.subproject_set.exclude(repo__startswith='weblate://')
         )

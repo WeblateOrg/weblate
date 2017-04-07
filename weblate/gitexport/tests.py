@@ -119,7 +119,7 @@ class GitExportTest(ViewTestCase):
 
     def test_git_receive_acl_auth(self):
         self.enable_acl()
-        self.project.add_user(self.user)
+        self.project.add_user(self.user, '@VCS')
         response = self.git_receive(
             HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )

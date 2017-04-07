@@ -169,6 +169,7 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
                 'reset_translation',
                 "Can reset translations to match remote VCS"
             ),
+            ('mass_add_translation', 'Can mass add translation'),
             ('automatic_translation', "Can do automatic translation"),
             ('lock_translation', "Can lock whole translation project"),
             ('use_mt', "Can use machine translation"),
@@ -198,14 +199,6 @@ class Translation(models.Model, URLMixin, PercentMixin, LoggerMixin):
             self.subproject.slug,
             self.language.code,
         ))
-
-    def has_acl(self, user):
-        """Checks whether current user is allowed to access this object"""
-        return self.subproject.project.has_acl(user)
-
-    def check_acl(self, request):
-        """Raises an error if user is not allowed to access this project."""
-        self.subproject.project.check_acl(request)
 
     def is_template(self):
         """Checks whether this is template translation

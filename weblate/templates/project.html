@@ -49,7 +49,7 @@
       <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
       {% if user_can_manage_acl %}
-      <li><a href="#acl" data-toggle="tab">{% trans "Manage users" %}</a></li>
+      <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Manage users" %}</a></li>
       {% endif %}
       {% if user_can_edit_project %}
       <li><a href="#settings" data-toggle="tab">{% trans "Settings" %}</a></li>
@@ -189,112 +189,6 @@
 {% if user_can_see_repository_status %}
 <div class="tab-pane" id="repository">
 <p>{% trans "Loading…" %}</p>
-</div>
-{% endif %}
-
-{% if user_can_manage_acl %}
-<div class="tab-pane" id="acl">
-<div class="container-fluid">
-
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Users" %}</h4></div>
-  <div class="panel-body">
-  <table class="table table-striped">
-  <thead>
-  <tr>
-  <th>{% trans "Username" %}</th>
-  <th>{% trans "Full name" %}</th>
-  <th>{% trans "E-mail" %}</th>
-  </tr>
-  </thead>
-  <tbody>
-{% with object.owners.count as owner_count %}
-  {% for user in object.owners.all %}
-  <tr>
-  <td>{{ user.username }} <span class="badge">{% trans "Owner" %}</span></td>
-  <td>{{ user.first_name }}</td>
-  <td>{{ user.email }}</td>
-  <td>
-{% if owner_count > 1 %}
-{% if object.enable_acl %}
-<form action="{% url "delete-user" project=object.slug %}" method="post">
-{% csrf_token %}
-<input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-danger btn-xs">
-<i class="fa fa-trash"></i>
-{% trans "Remove" %}
-</button>
-</form>
-{% endif %}
-<form action="{% url "revoke-owner" project=object.slug %}" method="post">
-{% csrf_token %}
-<input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-warning btn-xs">
-<i class="fa fa-user-times"></i>
-{% trans "Revoke ownership" %}
-</button>
-</form>
-{% endif %}
-  </td>
-  </tr>
-  {% endfor %}
-{% endwith %}
-{% if object.enable_acl %}
-  {% for user in object.all_users %}
-  <tr>
-  <td>{{ user.username }}</td>
-  <td>{{ user.first_name }}</td>
-  <td>{{ user.email }}</td>
-  <td>
-<form action="{% url "delete-user" project=object.slug %}" method="post">
-{% csrf_token %}
-<input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-danger btn-xs">
-<i class="fa fa-trash"></i>
-{% trans "Remove" %}
-</button>
-</form>
-<form action="{% url "make-owner" project=object.slug %}" method="post">
-{% csrf_token %}
-<input type="hidden" name="name" value="{{ user.username }}" />
-<button type="submit" class="btn btn-success btn-xs">
-<i class="fa fa-user-plus"></i>
-{% trans "Make owner" %}
-</button>
-</form>
-  </td>
-  </tr>
-  {% endfor %}
-{% endif %}
-  </tbody>
-  </table>
-  </div>
-</div>
-
-{% if object.enable_acl %}
-<form action="{% url "add-user" project=object.slug %}" method="post">
-{% else %}
-<form action="{% url "make-owner" project=object.slug %}" method="post">
-{% endif %}
-{% csrf_token %}
-<div class="panel panel-primary">
-  <div class="panel-heading"><h4 class="panel-title">
-{% if object.enable_acl %}
-  {% trans "Add new user" %}
-{% else %}
-  {% trans "Add new owner" %}
-{% endif %}
-  </h4></div>
-  <div class="panel-body">
-    {{ add_user_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-default" value="{% trans "Add" %}" />
-  </div>
-</div>
-</form>
-
-</div>
 </div>
 {% endif %}
 
