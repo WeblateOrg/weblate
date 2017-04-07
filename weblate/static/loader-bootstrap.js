@@ -1187,22 +1187,18 @@ $(function () {
     $('.set-group').click(function () {
         var $this = $(this);
         var $form = $('#set_groups_form');
-        var action = 'add';
 
         $this.tooltip('hide');
         $this.prop('disabled', true);
         $this.data('error', '');
         $this.parent().removeClass('load-error');
 
-        if (! $this.prop('checked')) {
-            action = 'remove';
-        }
         $.ajax({
             type: 'POST',
             url: $form.attr('action'),
             data: {
                 csrfmiddlewaretoken: $form.find('input').val(),
-                action: action,
+                action: ($this.prop('checked') ? 'add' : 'remove'),
                 name: $this.data('username'),
                 group: $this.data('group'),
             },
